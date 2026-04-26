@@ -27,7 +27,12 @@ from article_draft_publisher import (
     publish_one_blogger_post,
     publish_one_blogger_draft,
 )
-from article_queue import add_articles_to_queue, load_article_queue, load_sources
+from article_queue import (
+    add_articles_to_queue,
+    load_article_queue,
+    load_sources,
+    maintain_article_queue,
+)
 from article_enricher import enrich_ready_articles
 from article_processor import prepare_selected_articles_for_ai
 from article_scorer import score_new_articles
@@ -435,9 +440,13 @@ def run_health_only():
     last_failure = next((record for record in reversed(records) if not record.get("success")), None)
 
     queue = load_article_queue()
+    articles = queue.get("articles", [])
+    archived_count = sum(1 for article in articles if article.get("archived"))
+    active_count = len(articles) - archived_count
     status_counts = Counter(
         article.get("status", "unknown") or "unknown"
-        for article in queue.get("articles", [])
+        for article in articles
+        if not article.get("archived")
     )
 
     print("\n" + "=" * 60)
@@ -459,6 +468,8 @@ def run_health_only():
     print(f"Failure count:       {failure_count}")
     print(f"Last success time:   {last_success.get('finished_at', '') if last_success else ''}")
     print(f"Last failure reason: {last_failure.get('stopped_reason', '') if last_failure else ''}")
+    print(f"Active queue count:  {active_count}")
+    print(f"Archived count:      {archived_count}")
     print("Queue counts by status:")
     for status, count in sorted(status_counts.items()):
         print(f"  - {status}: {count}")
@@ -470,8 +481,34 @@ def run_health_only():
         "failure_count": failure_count,
         "last_success_time": last_success.get("finished_at", "") if last_success else "",
         "last_failure_reason": last_failure.get("stopped_reason", "") if last_failure else "",
+        "active_queue_count": active_count,
+        "archived_count": archived_count,
         "queue_counts": dict(status_counts),
     }
+
+
+def run_queue_maintenance_only():
+    """
+    Archive stale skipped/failed queue records and duplicate URLs.
+    Records are not permanently deleted.
+    """
+    stats = maintain_article_queue(days=7)
+
+    print("\n" + "=" * 60)
+    print("QUEUE MAINTENANCE SUMMARY")
+    print("=" * 60)
+    print(f"Articles checked:           {stats['checked']}")
+    print(f"Archived old skipped:       {stats['archived_old_skipped']}")
+    print(f"Archived old failed:        {stats['archived_old_failed']}")
+    print(f"Archived duplicate URLs:    {stats['archived_duplicate_urls']}")
+    print(f"Already archived:           {stats['already_archived']}")
+    print(f"Active queue count:         {stats['active_count']}")
+    print(f"Archived count:             {stats['archived_count']}")
+    print(f"Total queued records:       {stats['total_queued']}")
+    print("Permanent deletion:         disabled")
+    print("=" * 60)
+
+    return stats
 
 
 def print_safe_cycle_status(status):
@@ -1515,6 +1552,10 @@ def main():
 
     if len(sys.argv) > 1 and sys.argv[1] == "health":
         run_health_only()
+        return
+
+    if len(sys.argv) > 1 and sys.argv[1] == "queue-maintenance":
+        run_queue_maintenance_only()
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "safe-cycle":

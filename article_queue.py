@@ -6,7 +6,7 @@ import hashlib
 import json
 import re
 from collections import Counter
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from config import ARTICLE_QUEUE_PATH, SOURCES_CONFIG_PATH
 
@@ -15,6 +15,38 @@ ALLOWED_STATUSES = {"new", "skipped", "ready", "selected", "published", "failed"
 
 def _now_iso():
     return datetime.now().isoformat(timespec="seconds")
+
+
+def _parse_iso(value):
+    if not value:
+        return None
+    try:
+        return datetime.fromisoformat(str(value))
+    except ValueError:
+        return None
+
+
+def _article_age_anchor(article):
+    for field in (
+        "updated_at",
+        "scored_at",
+        "content_fetched_at",
+        "discovered_at",
+        "selected_at",
+    ):
+        parsed = _parse_iso(article.get(field))
+        if parsed:
+            return parsed
+    return None
+
+
+def _archive_article(article, reason, archived_at):
+    if article.get("archived"):
+        return False
+    article["archived"] = True
+    article["archived_at"] = archived_at
+    article["archive_reason"] = reason
+    return True
 
 
 def normalize_title(title):
@@ -87,11 +119,15 @@ def add_articles_to_queue(discovered_articles):
     queue = load_article_queue()
     articles = queue["articles"]
 
-    existing_urls = {item.get("url") for item in articles if item.get("url")}
+    existing_urls = {
+        item.get("url")
+        for item in articles
+        if item.get("url") and not item.get("archived")
+    }
     existing_titles = {
         normalize_title(item.get("title", ""))
         for item in articles
-        if normalize_title(item.get("title", ""))
+        if normalize_title(item.get("title", "")) and not item.get("archived")
     }
 
     added = 0
@@ -146,3 +182,64 @@ def add_articles_to_queue(discovered_articles):
         "duplicate_by_category": dict(duplicate_by_category),
         "total_queued": len(articles),
     }
+
+
+def maintain_article_queue(days=7):
+    """
+    Non-destructive queue cleanup. Records are archived, not deleted.
+    """
+    queue = load_article_queue()
+    articles = queue.get("articles", [])
+    now = datetime.now()
+    archived_at = _now_iso()
+    cutoff = now - timedelta(days=days)
+    seen_urls = {}
+
+    stats = {
+        "checked": len(articles),
+        "archived_old_skipped": 0,
+        "archived_old_failed": 0,
+        "archived_duplicate_urls": 0,
+        "already_archived": 0,
+        "active_count": 0,
+        "archived_count": 0,
+        "total_queued": len(articles),
+    }
+
+    for article in articles:
+        if article.get("archived"):
+            stats["already_archived"] += 1
+            continue
+
+        url = str(article.get("url") or "").strip()
+        if url:
+            if url in seen_urls:
+                if _archive_article(article, "duplicate_url", archived_at):
+                    stats["archived_duplicate_urls"] += 1
+                continue
+            seen_urls[url] = article
+
+        status = article.get("status")
+        if status not in {"skipped", "failed"}:
+            continue
+
+        anchor = _article_age_anchor(article)
+        if anchor and anchor < cutoff:
+            reason = f"{status}_older_than_{days}_days"
+            if _archive_article(article, reason, archived_at):
+                if status == "skipped":
+                    stats["archived_old_skipped"] += 1
+                else:
+                    stats["archived_old_failed"] += 1
+
+    stats["archived_count"] = sum(1 for article in articles if article.get("archived"))
+    stats["active_count"] = len(articles) - stats["archived_count"]
+
+    if (
+        stats["archived_old_skipped"]
+        or stats["archived_old_failed"]
+        or stats["archived_duplicate_urls"]
+    ):
+        save_article_queue(queue)
+
+    return stats
