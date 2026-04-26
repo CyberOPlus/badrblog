@@ -72,7 +72,7 @@ from publishing_planner import plan_next_article
 from published_db import filter_new_articles, load_published_ids, mark_many_as_published
 from scraper import discover_latest_article_links, get_latest_articles
 from source_validator import check_sources_config
-from notifier import send_telegram_message, telegram_alert_status
+from notifier import send_telegram_message, telegram_alert_status, telegram_debug_probe
 
 
 PROBLEM_SOURCE_NAMES = {
@@ -786,6 +786,20 @@ def run_test_alert_only():
         print("Telegram alert test skipped: Telegram alerts are not fully configured.")
     else:
         print(f"Telegram alert test failed: {result.get('reason', 'unknown error')}")
+    return result
+
+
+def run_telegram_debug_only():
+    result = telegram_debug_probe()
+    print("\n" + "=" * 60)
+    print("TELEGRAM DEBUG")
+    print("=" * 60)
+    print(f"getMe HTTP status:       {result.get('get_me_status') or ''}")
+    print(f"sendMessage HTTP status: {result.get('send_message_status') or ''}")
+    print(f"Telegram working:        {'yes' if result.get('working') else 'no'}")
+    if result.get("reason"):
+        print(f"Reason:                  {result['reason']}")
+    print("=" * 60)
     return result
 
 
@@ -1860,6 +1874,10 @@ def main():
 
     if len(sys.argv) > 1 and sys.argv[1] == "test-alert":
         run_test_alert_only()
+        return
+
+    if len(sys.argv) > 1 and sys.argv[1] == "telegram-debug":
+        run_telegram_debug_only()
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "facebook-preview":
