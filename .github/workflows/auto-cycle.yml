@@ -95,3 +95,7 @@ jobs:
 
       - name: Run safe auto cycle
         run: python main.py auto-cycle
+
+      - name: Health summary
+        if: always()
+        run: python main.py health

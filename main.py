@@ -42,6 +42,7 @@ from config import (
     ARTICLE_SELECTION_POOL_MIN,
     CHECK_INTERVAL,
     FACEBOOK_AUTO_POST,
+    LOGS_DIR,
     MAX_ARTICLES_PER_RUN,
     MAX_DRAFTS_PER_DAY,
     MAX_LIVE_POSTS_PER_DAY,
@@ -339,6 +340,138 @@ def get_safe_cycle_schedule_status(now=None):
 
 def _format_datetime(value):
     return value.isoformat(timespec="seconds") if value else ""
+
+
+AUTO_CYCLE_RUN_LOG = LOGS_DIR / "auto_cycle_runs.jsonl"
+
+
+def _new_run_id():
+    return datetime.now().strftime("%Y%m%d%H%M%S%f")
+
+
+def _append_auto_cycle_run_log(record):
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    safe_record = {
+        "run_id": record.get("run_id", ""),
+        "started_at": record.get("started_at", ""),
+        "finished_at": record.get("finished_at", ""),
+        "mode": record.get("mode", ""),
+        "facebook_auto_post": bool(record.get("facebook_auto_post")),
+        "selected_article_title": record.get("selected_article_title", ""),
+        "selected_category": record.get("selected_category", ""),
+        "blogger_status": record.get("blogger_status", ""),
+        "blogger_post_url": record.get("blogger_post_url", ""),
+        "facebook_status": record.get("facebook_status", ""),
+        "stopped_reason": record.get("stopped_reason", ""),
+        "success": bool(record.get("success")),
+    }
+    with open(AUTO_CYCLE_RUN_LOG, "a", encoding="utf-8") as handle:
+        handle.write(json.dumps(safe_record, ensure_ascii=False) + "\n")
+
+
+def _load_auto_cycle_run_logs(limit=None):
+    if not AUTO_CYCLE_RUN_LOG.exists():
+        return []
+    records = []
+    with open(AUTO_CYCLE_RUN_LOG, "r", encoding="utf-8-sig") as handle:
+        for line in handle:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                records.append(json.loads(line))
+            except json.JSONDecodeError:
+                continue
+    return records[-limit:] if limit else records
+
+
+def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
+    finished_at = datetime.now().isoformat(timespec="seconds")
+    article = (result or {}).get("article") or {}
+    draft = (result or {}).get("draft") or {}
+    facebook = (result or {}).get("facebook") or {}
+    stopped_reason = str(error or (result or {}).get("reason") or draft.get("error") or "")
+    success = bool((result or {}).get("completed")) and not error
+
+    return {
+        "run_id": run_id,
+        "started_at": started_at,
+        "finished_at": finished_at,
+        "mode": _effective_publish_mode(),
+        "facebook_auto_post": FACEBOOK_AUTO_POST,
+        "selected_article_title": article.get("title") or article.get("seo_title") or "",
+        "selected_category": article.get("suggested_category", ""),
+        "blogger_status": article.get("publish_status") or draft.get("publishing_mode") or "",
+        "blogger_post_url": article.get("blogger_post_url") or article.get("blogger_draft_url") or "",
+        "facebook_status": article.get("facebook_status") or (facebook.get("article") or {}).get("facebook_status", ""),
+        "stopped_reason": stopped_reason,
+        "success": success,
+    }
+
+
+def run_auto_cycle_logged():
+    run_id = _new_run_id()
+    started_at = datetime.now().isoformat(timespec="seconds")
+    result = None
+    error = None
+    try:
+        result = run_safe_cycle_only()
+        return result
+    except Exception as exc:
+        error = str(exc)
+        raise
+    finally:
+        _append_auto_cycle_run_log(
+            _auto_cycle_record_from_result(run_id, started_at, result or {}, error=error)
+        )
+
+
+def run_health_only():
+    records = _load_auto_cycle_run_logs()
+    last_10 = records[-10:]
+    success_count = sum(1 for record in records if record.get("success"))
+    failure_count = sum(1 for record in records if not record.get("success"))
+    last_success = next((record for record in reversed(records) if record.get("success")), None)
+    last_failure = next((record for record in reversed(records) if not record.get("success")), None)
+
+    queue = load_article_queue()
+    status_counts = Counter(
+        article.get("status", "unknown") or "unknown"
+        for article in queue.get("articles", [])
+    )
+
+    print("\n" + "=" * 60)
+    print("AUTO-CYCLE HEALTH")
+    print("=" * 60)
+    print("Last 10 runs:")
+    if not last_10:
+        print("  No auto-cycle runs logged yet.")
+    for record in last_10:
+        print(
+            f"  - {record.get('started_at', '')} | "
+            f"success={record.get('success')} | "
+            f"mode={record.get('mode', '')} | "
+            f"blogger={record.get('blogger_status', '')} | "
+            f"facebook={record.get('facebook_status', '')} | "
+            f"reason={record.get('stopped_reason', '')}"
+        )
+    print(f"Success count:       {success_count}")
+    print(f"Failure count:       {failure_count}")
+    print(f"Last success time:   {last_success.get('finished_at', '') if last_success else ''}")
+    print(f"Last failure reason: {last_failure.get('stopped_reason', '') if last_failure else ''}")
+    print("Queue counts by status:")
+    for status, count in sorted(status_counts.items()):
+        print(f"  - {status}: {count}")
+    print("=" * 60)
+
+    return {
+        "last_10": last_10,
+        "success_count": success_count,
+        "failure_count": failure_count,
+        "last_success_time": last_success.get("finished_at", "") if last_success else "",
+        "last_failure_reason": last_failure.get("stopped_reason", "") if last_failure else "",
+        "queue_counts": dict(status_counts),
+    }
 
 
 def print_safe_cycle_status(status):
@@ -1373,11 +1506,15 @@ def main():
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "auto-cycle":
-        run_safe_cycle_only()
+        run_auto_cycle_logged()
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "deployment-check":
         run_deployment_check_only()
+        return
+
+    if len(sys.argv) > 1 and sys.argv[1] == "health":
+        run_health_only()
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "safe-cycle":
