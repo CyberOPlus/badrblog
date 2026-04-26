@@ -100,6 +100,7 @@ def load_article_queue():
     return {
         "updated_at": data.get("updated_at", ""),
         "articles": articles,
+        "notifications": data.get("notifications", {}) if isinstance(data.get("notifications", {}), dict) else {},
     }
 
 
@@ -107,6 +108,7 @@ def save_article_queue(queue):
     data = {
         "updated_at": _now_iso(),
         "articles": queue.get("articles", []),
+        "notifications": queue.get("notifications", {}),
     }
     with open(ARTICLE_QUEUE_PATH, "w", encoding="utf-8") as handle:
         json.dump(data, handle, ensure_ascii=False, indent=2)

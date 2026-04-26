@@ -9,6 +9,7 @@ from googleapiclient.errors import HttpError
 from article_queue import load_article_queue, save_article_queue
 from blogger_client import create_blogger_service, get_credentials, is_local_publisher
 from config import BLOG_ID, PUBLISH_MODE
+from notifier import notify_blogger_result
 
 
 def _now_iso():
@@ -163,11 +164,15 @@ def _apply_success(article, post, mode):
         article["publish_status"] = "draft_created"
 
     article.pop("publish_error", None)
+    article.pop("telegram_blogger_notified", None)
+    article.pop("telegram_blogger_event_key", None)
 
 
 def _apply_failure(article, error):
     article["publish_status"] = "failed"
     article["publish_error"] = str(error)
+    article.pop("telegram_blogger_notified", None)
+    article.pop("telegram_blogger_event_key", None)
 
 
 def _custom_slug_warning(article):
@@ -225,12 +230,14 @@ def publish_one_blogger_draft(target_article_id=None):
         post = _ensure_returned_post_url(service, post)
         _apply_success(article, post, "draft")
         save_article_queue(queue)
-        return {
+        result = {
             "checked": 1,
             "created": True,
             "article": article,
             "error": "",
         }
+        notify_blogger_result(queue, article, result, stage="create draft")
+        return result
 
     except HttpError as error:
         details = error._get_reason().strip()
@@ -239,12 +246,14 @@ def publish_one_blogger_draft(target_article_id=None):
         _apply_failure(article, error)
 
     save_article_queue(queue)
-    return {
+    result = {
         "checked": 1,
         "created": False,
         "article": article,
         "error": article.get("publish_error", ""),
     }
+    notify_blogger_result(queue, article, result, stage="create draft")
+    return result
 
 
 def fix_or_update_current_blogger_draft(target_article_id=None):
@@ -297,7 +306,7 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
             _apply_success(article, post, "draft")
             article["draft_update_status"] = "updated_existing"
             save_article_queue(queue)
-            return {
+            result = {
                 "checked": 1,
                 "duplicate_count": 1,
                 "updated_existing": True,
@@ -306,6 +315,8 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
                 "error": "",
                 "slug_warning": slug_warning,
             }
+            notify_blogger_result(queue, article, result, stage="update draft")
+            return result
 
         matches = _find_matching_blogger_posts(service, article)
         duplicate_count = len(matches)
@@ -323,7 +334,7 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
             _apply_success(article, post, "draft")
             article["draft_update_status"] = "updated_existing"
             save_article_queue(queue)
-            return {
+            result = {
                 "checked": 1,
                 "duplicate_count": duplicate_count,
                 "updated_existing": True,
@@ -332,6 +343,8 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
                 "error": "",
                 "slug_warning": slug_warning,
             }
+            notify_blogger_result(queue, article, result, stage="update draft")
+            return result
 
         post = (
             service.posts()
@@ -342,7 +355,7 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
         _apply_success(article, post, "draft")
         article["draft_update_status"] = "created_new"
         save_article_queue(queue)
-        return {
+        result = {
             "checked": 1,
             "duplicate_count": 0,
             "updated_existing": False,
@@ -351,6 +364,8 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
             "error": "",
             "slug_warning": slug_warning,
         }
+        notify_blogger_result(queue, article, result, stage="create draft")
+        return result
 
     except HttpError as error:
         details = error._get_reason().strip()
@@ -359,7 +374,7 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
         _apply_failure(article, error)
 
     save_article_queue(queue)
-    return {
+    result = {
         "checked": 1,
         "duplicate_count": 0,
         "updated_existing": False,
@@ -368,6 +383,8 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
         "error": article.get("publish_error", ""),
         "slug_warning": slug_warning,
     }
+    notify_blogger_result(queue, article, result, stage="update draft")
+    return result
 
 
 def publish_one_blogger_post(target_article_id=None, mode=None):
@@ -422,7 +439,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             _apply_success(article, post, publish_mode)
             article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "updated_existing"
             save_article_queue(queue)
-            return {
+            result = {
                 "checked": 1,
                 "duplicate_count": 1,
                 "updated_existing": True,
@@ -431,6 +448,8 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
                 "error": "",
                 "publishing_mode": publish_mode,
             }
+            notify_blogger_result(queue, article, result, stage=f"update {publish_mode}")
+            return result
 
         matches = _find_matching_blogger_posts(service, article)
         duplicate_count = len(matches)
@@ -448,7 +467,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             _apply_success(article, post, publish_mode)
             article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "updated_existing"
             save_article_queue(queue)
-            return {
+            result = {
                 "checked": 1,
                 "duplicate_count": duplicate_count,
                 "updated_existing": True,
@@ -457,6 +476,8 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
                 "error": "",
                 "publishing_mode": publish_mode,
             }
+            notify_blogger_result(queue, article, result, stage=f"update {publish_mode}")
+            return result
 
         post = (
             service.posts()
@@ -467,7 +488,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
         _apply_success(article, post, publish_mode)
         article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "created_new"
         save_article_queue(queue)
-        return {
+        result = {
             "checked": 1,
             "duplicate_count": 0,
             "updated_existing": False,
@@ -476,6 +497,8 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             "error": "",
             "publishing_mode": publish_mode,
         }
+        notify_blogger_result(queue, article, result, stage=f"create {publish_mode}")
+        return result
 
     except HttpError as error:
         details = error._get_reason().strip()
@@ -484,7 +507,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
         _apply_failure(article, error)
 
     save_article_queue(queue)
-    return {
+    result = {
         "checked": 1,
         "duplicate_count": 0,
         "updated_existing": False,
@@ -493,3 +516,5 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
         "error": article.get("publish_error", ""),
         "publishing_mode": publish_mode,
     }
+    notify_blogger_result(queue, article, result, stage=f"publish {publish_mode}")
+    return result

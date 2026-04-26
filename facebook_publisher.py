@@ -17,6 +17,7 @@ from config import (
     FACEBOOK_PAGE_ACCESS_TOKEN,
     FACEBOOK_PAGE_ID,
 )
+from notifier import notify_facebook_result
 
 
 CAPTION_STYLES = (
@@ -327,6 +328,8 @@ def _first_comment_text(blogger_post_url):
 def _apply_failure(article, error):
     article["facebook_status"] = "failed"
     article["facebook_error"] = str(error)
+    article.pop("telegram_facebook_notified", None)
+    article.pop("telegram_facebook_event_key", None)
 
 
 def get_facebook_limits_status(now=None):
@@ -430,22 +433,26 @@ def post_one_article_to_facebook(target_article_id=None):
         }
 
     if not _has_blogger_live_publish(article):
-        return {
+        result = {
             "checked": 1,
             "posted": False,
             "article": article,
             "error": "Article is not a successful live Blogger publish with blogger_post_url.",
         }
+        notify_facebook_result(queue, article, result)
+        return result
 
     limits = get_facebook_limits_status()
     if not limits["allowed_now"]:
-        return {
+        result = {
             "checked": 1,
             "posted": False,
             "article": article,
             "error": "; ".join(limits["reasons"]) or "Facebook posting limits blocked this run.",
             "limits": limits,
         }
+        notify_facebook_result(queue, article, result)
+        return result
 
     try:
         caption_pattern = _choose_caption_pattern(article, articles)
@@ -459,6 +466,8 @@ def post_one_article_to_facebook(target_article_id=None):
         article["facebook_post_type"] = post_type
         article["facebook_caption_pattern"] = caption_pattern
         article.pop("facebook_error", None)
+        article.pop("telegram_facebook_notified", None)
+        article.pop("telegram_facebook_event_key", None)
 
         try:
             comment_id = _post_first_comment(facebook_post_id, article["blogger_post_url"])
@@ -468,22 +477,26 @@ def post_one_article_to_facebook(target_article_id=None):
             article["facebook_error"] = f"First comment failed: {comment_error}"
 
         save_article_queue(queue)
-        return {
+        result = {
             "checked": 1,
             "posted": True,
             "article": article,
             "error": article.get("facebook_error", ""),
         }
+        notify_facebook_result(queue, article, result)
+        return result
 
     except Exception as error:
         _apply_failure(article, error)
         save_article_queue(queue)
-        return {
+        result = {
             "checked": 1,
             "posted": False,
             "article": article,
             "error": article.get("facebook_error", ""),
         }
+        notify_facebook_result(queue, article, result)
+        return result
 
 
 def preview_next_facebook_post(target_article_id=None, include_drafts=False):

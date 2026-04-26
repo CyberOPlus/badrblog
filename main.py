@@ -72,7 +72,14 @@ from publishing_planner import plan_next_article
 from published_db import filter_new_articles, load_published_ids, mark_many_as_published
 from scraper import discover_latest_article_links, get_latest_articles
 from source_validator import check_sources_config
-from notifier import send_telegram_message, telegram_alert_status, telegram_debug_probe
+from notifier import (
+    get_notification_status,
+    notify_auto_cycle_blocked,
+    notify_auto_cycle_summary,
+    send_telegram_message,
+    telegram_alert_status,
+    telegram_debug_probe,
+)
 
 
 PROBLEM_SOURCE_NAMES = {
@@ -532,11 +539,16 @@ def _send_named_telegram_alert(label, message):
     return alert_result
 
 
-def _send_auto_cycle_alert(result, error=None):
-    return _send_named_telegram_alert(
-        "final",
-        _auto_cycle_alert_message(result, error=error),
-    )
+def _send_auto_cycle_alert(result, error=None, run_id=""):
+    alert_result = notify_auto_cycle_summary(result, error=error, run_id=run_id)
+    if alert_result.get("sent"):
+        print("Telegram final alert: sent")
+    elif alert_result.get("skipped"):
+        _print_telegram_config_warning()
+        print("Telegram final alert: skipped")
+    else:
+        print(f"Telegram final alert: failed ({alert_result.get('reason', 'unknown error')})")
+    return alert_result
 
 
 def _print_telegram_config_warning(status=None):
@@ -557,7 +569,7 @@ def run_auto_cycle_logged():
         error = str(exc)
         raise
     finally:
-        _send_auto_cycle_alert(result or {}, error=error)
+        _send_auto_cycle_alert(result or {}, error=error, run_id=run_id)
         _append_auto_cycle_run_log(
             _auto_cycle_record_from_result(run_id, started_at, result or {}, error=error)
         )
@@ -754,6 +766,20 @@ def run_alert_status_only():
     print(f"Chat ID configured:   {'yes' if status['chat_id_configured'] else 'no'}")
     print(f"Ready to send alerts: {'yes' if status['ready'] else 'no'}")
     _print_telegram_config_warning(status)
+    print("=" * 60)
+    return status
+
+
+def run_notification_status_only():
+    status = get_notification_status()
+    print("\n" + "=" * 60)
+    print("TELEGRAM NOTIFICATION STATUS")
+    print("=" * 60)
+    print(f"Telegram enabled:              {'yes' if status['telegram_enabled'] else 'no'}")
+    print(f"Telegram ready:                {'yes' if status['telegram_ready'] else 'no'}")
+    print(f"Last notification time:        {status['last_notification_time']}")
+    print(f"Published articles not notified:{status['published_articles_not_notified']}")
+    print(f"Facebook posts not notified:   {status['facebook_posts_not_notified']}")
     print("=" * 60)
     return status
 
@@ -1083,6 +1109,7 @@ def run_safe_cycle_only():
         print("SAFE_CYCLE_MAX_ARTICLES must be 1. Refusing to process more than one article.")
         reason = "SAFE_CYCLE_MAX_ARTICLES must be 1"
         _print_safe_cycle_final_report(None, stopped_reason=reason)
+        notify_auto_cycle_blocked(reason, "")
         return {"completed": False, "reason": reason, "step_reached": "safety-check"}
 
     schedule_status = get_publish_schedule_status(mode=publish_mode)
@@ -1091,6 +1118,7 @@ def run_safe_cycle_only():
         reason = "; ".join(schedule_status["reasons"]) or "safe-cycle schedule blocked"
         print(f"Safe-cycle stopping cleanly before article selection: {reason}.")
         _print_safe_cycle_final_report(None, draft_result={"error": reason}, stopped_reason=reason)
+        notify_auto_cycle_blocked(reason, _format_datetime(schedule_status.get("next_allowed_time")))
         return {
             "completed": False,
             "reason": reason,
@@ -1124,6 +1152,7 @@ def run_safe_cycle_only():
             source_warnings_count=source_warnings_count,
             enrichment_failed_count=enrichment_failed_count,
         )
+        notify_auto_cycle_blocked("no eligible article", "")
         return {
             "completed": False,
             "reason": "no eligible article",
@@ -1226,14 +1255,8 @@ def run_safe_cycle_only():
     print(f"Publishing mode:           {publish_mode.upper()}")
     print("=" * 60)
 
-    blogger_alert_result = _send_named_telegram_alert(
-        "Blogger draft",
-        _blogger_draft_alert_message(article, draft_action, draft_result),
-    )
-
     facebook_result = None
     facebook_preview = None
-    facebook_preview_alert_result = None
     if (
         FACEBOOK_AUTO_POST
         and publish_mode == "live"
@@ -1253,10 +1276,6 @@ def run_safe_cycle_only():
     print("\n[8/8] facebook-preview")
     facebook_preview = preview_next_facebook_post(target_article_id=selected_id, include_drafts=True)
     print_facebook_preview(facebook_preview)
-    facebook_preview_alert_result = _send_named_telegram_alert(
-        "Facebook preview",
-        _facebook_preview_alert_message(facebook_preview),
-    )
 
     stopped_reason = ""
     if draft_action not in {"created", "updated"}:
@@ -1280,10 +1299,6 @@ def run_safe_cycle_only():
         "draft_action": draft_action,
         "facebook": facebook_result,
         "facebook_preview": facebook_preview,
-        "telegram": {
-            "blogger_draft": blogger_alert_result,
-            "facebook_preview": facebook_preview_alert_result,
-        },
         "source_warnings_count": source_warnings_count,
         "enrichment_failed_count": enrichment_failed_count,
         "target_article_id": selected_id,
@@ -1866,6 +1881,10 @@ def main():
 
     if len(sys.argv) > 1 and sys.argv[1] == "alert-status":
         run_alert_status_only()
+        return
+
+    if len(sys.argv) > 1 and sys.argv[1] == "notification-status":
+        run_notification_status_only()
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "telegram-config-check":
