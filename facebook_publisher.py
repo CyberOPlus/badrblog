@@ -338,6 +338,32 @@ def _apply_failure(article, error):
     article.pop("telegram_facebook_event_key", None)
 
 
+def _failure_result(queue, article, error, checked=1, extra=None):
+    if article:
+        _apply_failure(article, error)
+        save_article_queue(queue)
+        result = {
+            "checked": checked,
+            "posted": False,
+            "article": article,
+            "error": article.get("facebook_error", ""),
+        }
+        if extra:
+            result.update(extra)
+        _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
+        return result
+
+    result = {
+        "checked": checked,
+        "posted": False,
+        "article": None,
+        "error": str(error),
+    }
+    if extra:
+        result.update(extra)
+    return result
+
+
 def get_facebook_limits_status(now=None):
     now = now or datetime.now()
     queue = load_article_queue()
@@ -389,7 +415,7 @@ def get_facebook_limits_status(now=None):
     }
 
 
-def post_one_article_to_facebook(target_article_id=None):
+def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
     """
     Post exactly one live Blogger article to a Facebook Page.
     This is a no-op unless Facebook auto-posting is explicitly enabled.
@@ -399,28 +425,13 @@ def post_one_article_to_facebook(target_article_id=None):
     article = _target_article(articles, target_article_id=target_article_id)
 
     if not FACEBOOK_AUTO_POST:
-        return {
-            "checked": 0,
-            "posted": False,
-            "article": article,
-            "error": "FACEBOOK_AUTO_POST is disabled.",
-        }
+        return _failure_result(queue, article, "FACEBOOK_AUTO_POST is disabled.", checked=0)
 
     if not FACEBOOK_PAGE_ID:
-        return {
-            "checked": 0,
-            "posted": False,
-            "article": article,
-            "error": "FACEBOOK_PAGE_ID is not configured.",
-        }
+        return _failure_result(queue, article, "FACEBOOK_PAGE_ID is not configured.", checked=0)
 
     if not FACEBOOK_PAGE_ACCESS_TOKEN:
-        return {
-            "checked": 0,
-            "posted": False,
-            "article": article,
-            "error": "FACEBOOK_PAGE_ACCESS_TOKEN is not configured.",
-        }
+        return _failure_result(queue, article, "FACEBOOK_PAGE_ACCESS_TOKEN is not configured.", checked=0)
 
     if not article:
         return {
@@ -439,26 +450,21 @@ def post_one_article_to_facebook(target_article_id=None):
         }
 
     if not _has_blogger_live_publish(article):
-        result = {
-            "checked": 1,
-            "posted": False,
-            "article": article,
-            "error": "Article is not a successful live Blogger publish with blogger_post_url.",
-        }
-        _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
-        return result
+        return _failure_result(
+            queue,
+            article,
+            "Article is not a successful live Blogger publish with blogger_post_url.",
+        )
 
-    limits = get_facebook_limits_status()
-    if not limits["allowed_now"]:
-        result = {
-            "checked": 1,
-            "posted": False,
-            "article": article,
-            "error": "; ".join(limits["reasons"]) or "Facebook posting limits blocked this run.",
-            "limits": limits,
-        }
-        _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
-        return result
+    if respect_limits:
+        limits = get_facebook_limits_status()
+        if not limits["allowed_now"]:
+            return _failure_result(
+                queue,
+                article,
+                "; ".join(limits["reasons"]) or "Facebook posting limits blocked this run.",
+                extra={"limits": limits},
+            )
 
     try:
         caption_pattern = _choose_caption_pattern(article, articles)
@@ -485,7 +491,7 @@ def post_one_article_to_facebook(target_article_id=None):
         save_article_queue(queue)
         result = {
             "checked": 1,
-            "posted": True,
+            "posted": article.get("facebook_status") == "posted",
             "article": article,
             "error": article.get("facebook_error", ""),
         }
@@ -503,6 +509,133 @@ def post_one_article_to_facebook(target_article_id=None):
         }
         _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
         return result
+
+
+def _facebook_backfill_candidates(articles):
+    new_post_candidates = [
+        article
+        for article in articles
+        if _has_blogger_live_publish(article)
+        and not article.get("facebook_post_id")
+        and article.get("facebook_status") in {None, "", "failed"}
+    ]
+    comment_retry_candidates = [
+        article
+        for article in articles
+        if _has_blogger_live_publish(article)
+        and article.get("facebook_post_id")
+        and not article.get("facebook_comment_id")
+        and article.get("facebook_status") == "posted_comment_failed"
+    ]
+    sort_key = lambda article: (
+        article.get("published_at", ""),
+        article.get("selected_at", ""),
+        article.get("discovered_at", ""),
+    )
+    return sorted(new_post_candidates, key=sort_key), sorted(comment_retry_candidates, key=sort_key)
+
+
+def retry_facebook_first_comment(target_article_id):
+    queue = load_article_queue()
+    articles = queue.get("articles", [])
+    article = _target_article(articles, target_article_id=target_article_id)
+    if not article:
+        return {
+            "checked": 0,
+            "posted": False,
+            "article": None,
+            "error": "No matching article found for Facebook comment retry.",
+        }
+    if not article.get("facebook_post_id"):
+        return _failure_result(queue, article, "Article has no Facebook post ID for comment retry.")
+    if not article.get("blogger_post_url"):
+        return _failure_result(queue, article, "Article has no real Blogger URL for comment retry.")
+
+    try:
+        comment_id = _post_first_comment(article["facebook_post_id"], article["blogger_post_url"])
+        article["facebook_comment_id"] = comment_id
+        article["facebook_status"] = "posted"
+        article.pop("facebook_error", None)
+        article.pop("telegram_facebook_notified", None)
+        article.pop("telegram_facebook_event_key", None)
+        save_article_queue(queue)
+        result = {
+            "checked": 1,
+            "posted": True,
+            "article": article,
+            "error": "",
+            "comment_retry": True,
+        }
+    except Exception as error:
+        article["facebook_status"] = "posted_comment_failed"
+        article["facebook_error"] = f"First comment failed: {error}"
+        article.pop("telegram_facebook_notified", None)
+        article.pop("telegram_facebook_event_key", None)
+        save_article_queue(queue)
+        result = {
+            "checked": 1,
+            "posted": False,
+            "article": article,
+            "error": article.get("facebook_error", ""),
+            "comment_retry": True,
+        }
+
+    _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
+    return result
+
+
+def backfill_facebook_posts():
+    """
+    Post every live Blogger article that is still missing a Facebook post.
+    This intentionally bypasses spacing limits because each Blogger publish is
+    expected to have a matching Facebook post as soon as possible.
+    """
+    queue = load_article_queue()
+    new_post_candidates, comment_retry_candidates = _facebook_backfill_candidates(
+        queue.get("articles", [])
+    )
+    stats = {
+        "checked": len(new_post_candidates) + len(comment_retry_candidates),
+        "created": 0,
+        "failed": 0,
+        "skipped": 0,
+        "comments_created": 0,
+        "latest_facebook_post_id": "",
+        "latest_facebook_comment_id": "",
+        "results": [],
+    }
+
+    for article in new_post_candidates:
+        target_article_id = article.get("id") or article.get("url")
+        result = post_one_article_to_facebook(
+            target_article_id=target_article_id,
+            respect_limits=False,
+        )
+        result_article = result.get("article") or {}
+        stats["results"].append(result)
+        if result_article.get("facebook_post_id"):
+            stats["created"] += 1
+            stats["latest_facebook_post_id"] = result_article.get("facebook_post_id", "")
+            stats["latest_facebook_comment_id"] = result_article.get("facebook_comment_id", "")
+        if result_article.get("facebook_comment_id"):
+            stats["comments_created"] += 1
+        if not result.get("posted"):
+            stats["failed"] += 1
+
+    for article in comment_retry_candidates:
+        target_article_id = article.get("id") or article.get("url")
+        result = retry_facebook_first_comment(target_article_id=target_article_id)
+        result_article = result.get("article") or {}
+        stats["results"].append(result)
+        if result_article.get("facebook_post_id"):
+            stats["latest_facebook_post_id"] = result_article.get("facebook_post_id", "")
+        if result_article.get("facebook_comment_id"):
+            stats["comments_created"] += 1
+            stats["latest_facebook_comment_id"] = result_article.get("facebook_comment_id", "")
+        if not result.get("posted"):
+            stats["failed"] += 1
+
+    return stats
 
 
 def preview_next_facebook_post(target_article_id=None, include_drafts=False):

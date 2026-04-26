@@ -158,7 +158,7 @@ def notify_blogger_result(queue, article, result=None, stage="publish"):
 
 def notify_facebook_result(queue, article, result=None):
     result = result or {}
-    success = bool(result.get("posted"))
+    success = bool(result.get("posted")) and article.get("facebook_status") == "posted"
     blogger_url = _blogger_url(article)
     event_key = "|".join(
         [

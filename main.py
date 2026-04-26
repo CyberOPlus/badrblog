@@ -62,6 +62,7 @@ from config import (
     validate_config,
 )
 from facebook_publisher import (
+    backfill_facebook_posts,
     get_facebook_limits_status,
     get_facebook_status,
     preview_next_facebook_post,
@@ -1120,6 +1121,43 @@ def run_post_facebook_only():
     return result
 
 
+def print_facebook_backfill_summary(stats):
+    print("\n" + "=" * 60)
+    print("FACEBOOK BACKFILL SUMMARY")
+    print("=" * 60)
+    print(f"Backfill checked:             {stats.get('checked', 0)}")
+    print(f"Facebook posts created:       {stats.get('created', 0)}")
+    print(f"Facebook failures:            {stats.get('failed', 0)}")
+    print(f"First comments created:       {stats.get('comments_created', 0)}")
+    print(f"Latest Facebook post ID:      {stats.get('latest_facebook_post_id', '')}")
+    print(f"Latest Facebook comment ID:   {stats.get('latest_facebook_comment_id', '')}")
+    print(
+        "First comment created:        "
+        f"{'yes' if stats.get('latest_facebook_comment_id') else 'no'}"
+    )
+    for result in stats.get("results", []):
+        article = result.get("article") or {}
+        status = article.get("facebook_status") or ("posted" if result.get("posted") else "failed")
+        print("-" * 60)
+        print(f"Title:     {article.get('title', '')}")
+        print(f"Status:    {status}")
+        print(f"Post ID:   {article.get('facebook_post_id', '')}")
+        print(f"Comment ID:{article.get('facebook_comment_id', '')}")
+        if result.get("error"):
+            print(f"Error:     {result.get('error')}")
+    print("=" * 60)
+
+
+def run_facebook_backfill_only():
+    """
+    Post live Blogger articles that are missing Facebook posts.
+    Skips articles that already have a Facebook post ID.
+    """
+    stats = backfill_facebook_posts()
+    print_facebook_backfill_summary(stats)
+    return stats
+
+
 def _print_safe_cycle_final_report(
     article,
     draft_action="",
@@ -1345,7 +1383,10 @@ def run_safe_cycle_only():
         and article.get("blogger_post_url")
     ):
         print("\n[8/8] post-facebook")
-        facebook_result = post_one_article_to_facebook(target_article_id=selected_id)
+        facebook_result = post_one_article_to_facebook(
+            target_article_id=selected_id,
+            respect_limits=False,
+        )
         print_facebook_post_summary(facebook_result)
         article = _find_article_by_id(selected_id)
     elif publish_mode == "draft":
@@ -1989,6 +2030,10 @@ def main():
 
     if len(sys.argv) > 1 and sys.argv[1] == "post-facebook":
         run_post_facebook_only()
+        return
+
+    if len(sys.argv) > 1 and sys.argv[1] == "facebook-backfill":
+        run_facebook_backfill_only()
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "score":
