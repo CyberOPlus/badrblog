@@ -397,30 +397,59 @@ def _generate_with_openai(prompt):
     return text, f"openai:{OPENAI_MODEL}"
 
 
-def _resolve_provider():
+def _is_quota_or_rate_limit_error(error):
+    message = str(error).casefold()
+    return any(
+        hint in message
+        for hint in (
+            "429",
+            "quota",
+            "rate limit",
+            "rate-limit",
+            "rate_limited",
+            "resource_exhausted",
+            "too many requests",
+        )
+    )
+
+
+def _resolve_providers():
     provider = (AI_PROVIDER or "").strip().lower()
     if provider == "auto":
+        providers = []
         if _has_real_key(GEMINI_API_KEY, "your_gemini_api_key_here"):
-            return "gemini"
+            providers.append("gemini")
         if _has_real_key(OPENROUTER_API_KEY, "your_new_key_here"):
-            return "openrouter"
+            providers.append("openrouter")
         if _has_real_key(OPENAI_API_KEY, "your_openai_api_key_here"):
-            return "openai"
+            providers.append("openai")
+        if providers:
+            return providers
         raise RuntimeError("No AI provider key configured.")
     if provider in {"gemini", "openrouter", "openai"}:
-        return provider
+        return [provider]
     raise RuntimeError("AI_PROVIDER must be one of: gemini, openrouter, openai, auto")
 
 
 def _generate_ai_article(prompt):
-    provider = _resolve_provider()
-    if provider == "gemini":
-        return _generate_with_gemini(prompt)
-    if provider == "openrouter":
-        return _generate_with_openrouter(prompt)
-    if provider == "openai":
-        return _generate_with_openai(prompt)
-    raise RuntimeError(f"Unsupported AI provider: {provider}")
+    providers = _resolve_providers()
+    last_error = None
+    for index, provider in enumerate(providers):
+        try:
+            if provider == "gemini":
+                return _generate_with_gemini(prompt)
+            if provider == "openrouter":
+                return _generate_with_openrouter(prompt)
+            if provider == "openai":
+                return _generate_with_openai(prompt)
+        except Exception as error:
+            last_error = error
+            has_next_provider = index < len(providers) - 1
+            if has_next_provider and _is_quota_or_rate_limit_error(error):
+                print(f"  AI provider {provider} quota/rate limit reached. Trying next provider...")
+                continue
+            raise
+    raise last_error or RuntimeError("No AI provider returned a response.")
 
 
 def _apply_success(article, data, provider_used):

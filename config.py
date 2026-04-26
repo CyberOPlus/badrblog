@@ -227,7 +227,7 @@ GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 # OpenRouter fallback settings.
 # OPENROUTER_API_KEY should be kept in .env only.
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
-OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openrouter/free")
+OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openrouter/auto")
 OPENROUTER_API_URL = os.getenv(
     "OPENROUTER_API_URL",
     "https://openrouter.ai/api/v1/chat/completions",
