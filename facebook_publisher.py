@@ -93,6 +93,41 @@ def _target_article(articles, target_article_id=None):
     return _find_latest_eligible_article(articles)
 
 
+def _has_blogger_draft(article):
+    return (
+        article.get("status") == "draft_created"
+        and article.get("publish_status") == "draft_created"
+        and bool(article.get("blogger_draft_url") or article.get("blogger_post_url"))
+    )
+
+
+def _eligible_for_preview(article, include_drafts=False):
+    if _has_blogger_live_publish(article):
+        return True
+    return bool(include_drafts and _has_blogger_draft(article))
+
+
+def _find_latest_preview_article(articles, include_drafts=False):
+    eligible = [
+        article
+        for article in articles
+        if _eligible_for_preview(article, include_drafts=include_drafts)
+        and not article.get("facebook_post_id")
+        and article.get("facebook_status") in {None, "", "failed"}
+    ]
+    if not eligible:
+        return None
+    return max(
+        eligible,
+        key=lambda article: (
+            article.get("published_at", ""),
+            article.get("draft_created_at", ""),
+            article.get("selected_at", ""),
+            article.get("discovered_at", ""),
+        ),
+    )
+
+
 def _short_summary(article):
     description = str(article.get("seo_description") or article.get("meta_description") or "").strip()
     if description:
@@ -451,19 +486,25 @@ def post_one_article_to_facebook(target_article_id=None):
         }
 
 
-def preview_next_facebook_post():
+def preview_next_facebook_post(target_article_id=None, include_drafts=False):
     """
-    Build a read-only preview for the latest eligible Facebook article.
+    Build a read-only preview for an eligible Facebook article.
     This never calls Facebook, Blogger, or any publishing API.
     """
     queue = load_article_queue()
     articles = queue.get("articles", [])
-    article = _find_latest_eligible_article(articles)
+    if target_article_id:
+        article = _target_article(articles, target_article_id=target_article_id)
+        if article and not _eligible_for_preview(article, include_drafts=include_drafts):
+            article = None
+    else:
+        article = _find_latest_preview_article(articles, include_drafts=include_drafts)
+
     if not article:
         return {
             "available": False,
             "article": None,
-            "error": "No eligible published article without Facebook post found.",
+            "error": "No eligible Blogger article for Facebook preview found.",
         }
 
     caption_pattern = _choose_caption_pattern(article, articles)
@@ -471,6 +512,7 @@ def preview_next_facebook_post():
     lines = [line for line in caption.splitlines() if line.strip()]
     hashtags = lines[-1] if lines and lines[-1].startswith("#") else ""
     post_text = "\n".join(lines[:-1]) if hashtags else caption
+    blogger_url = article.get("blogger_post_url") or article.get("blogger_draft_url")
 
     return {
         "available": True,
@@ -478,7 +520,7 @@ def preview_next_facebook_post():
         "selected_style": caption_pattern,
         "post_text": post_text,
         "hashtags": hashtags,
-        "first_comment_text": _first_comment_text(article["blogger_post_url"]),
+        "first_comment_text": _first_comment_text(blogger_url),
         "image_url": _main_image_url(article),
         "error": "",
     }

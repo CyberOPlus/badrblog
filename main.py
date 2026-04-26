@@ -436,7 +436,7 @@ def _auto_cycle_alert_message(result, error=None):
     if error:
         return "\n".join(
             [
-                "❌ Auto-cycle failed",
+                "\u274c Auto-cycle failed",
                 f"Step: {step}",
                 f"Reason: {error}",
             ]
@@ -447,7 +447,7 @@ def _auto_cycle_alert_message(result, error=None):
         post_url = article.get("blogger_post_url") or article.get("blogger_draft_url") or ""
         return "\n".join(
             [
-                "✅ Auto-cycle success",
+                "\u2705 Auto-cycle success",
                 f"Mode: {_effective_publish_mode()}",
                 f"Article: {article.get('title') or article.get('seo_title') or ''}",
                 f"Category: {article.get('suggested_category', '')}",
@@ -461,7 +461,7 @@ def _auto_cycle_alert_message(result, error=None):
         next_allowed = _format_datetime(schedule.get("next_allowed_time"))
         return "\n".join(
             [
-                "⏸ Auto-cycle blocked",
+                "\u23f8 Auto-cycle blocked",
                 f"Reason: {reason}",
                 f"Next allowed time: {next_allowed}",
             ]
@@ -469,22 +469,73 @@ def _auto_cycle_alert_message(result, error=None):
 
     return "\n".join(
         [
-            "❌ Auto-cycle failed",
+            "\u274c Auto-cycle failed",
             f"Step: {step}",
             f"Reason: {reason}",
         ]
     )
 
 
-def _send_auto_cycle_alert(result, error=None):
-    alert_result = send_telegram_message(_auto_cycle_alert_message(result, error=error))
+def _blogger_draft_alert_message(article, draft_action, draft_result):
+    article = article or {}
+    draft_result = draft_result or {}
+    draft_url = article.get("blogger_draft_url") or article.get("blogger_post_url") or ""
+    if draft_action in {"created", "updated"}:
+        return "\n".join(
+            [
+                "\u2705 Blogger draft saved",
+                f"Action: {draft_action}",
+                f"Article: {article.get('title') or article.get('seo_title') or ''}",
+                f"URL: {draft_url}",
+            ]
+        )
+
+    return "\n".join(
+        [
+            "\u274c Blogger draft failed",
+            f"Article: {article.get('title') or article.get('seo_title') or ''}",
+            f"Reason: {draft_result.get('error') or 'unknown'}",
+        ]
+    )
+
+
+def _facebook_preview_alert_message(preview):
+    preview = preview or {}
+    if not preview.get("available"):
+        return "\n".join(
+            [
+                "\u23f8 Facebook preview unavailable",
+                f"Reason: {preview.get('error') or 'unknown'}",
+            ]
+        )
+
+    return "\n".join(
+        [
+            "\u2139 Facebook preview only",
+            f"Post text:\n{preview.get('post_text', '')}",
+            f"Hashtags: {preview.get('hashtags', '')}",
+            f"First comment: {preview.get('first_comment_text', '')}",
+            f"Image URL: {preview.get('image_url', '')}",
+        ]
+    )
+
+
+def _send_named_telegram_alert(label, message):
+    alert_result = send_telegram_message(message)
     if alert_result.get("sent"):
-        print("Telegram alert: sent")
+        print(f"Telegram {label} alert: sent")
     elif alert_result.get("skipped"):
-        print("Telegram alert: skipped")
+        print(f"Telegram {label} alert: skipped")
     else:
-        print(f"Telegram alert: failed ({alert_result.get('reason', 'unknown error')})")
+        print(f"Telegram {label} alert: failed ({alert_result.get('reason', 'unknown error')})")
     return alert_result
+
+
+def _send_auto_cycle_alert(result, error=None):
+    return _send_named_telegram_alert(
+        "final",
+        _auto_cycle_alert_message(result, error=error),
+    )
 
 
 def run_auto_cycle_logged():
@@ -739,7 +790,7 @@ def run_facebook_preview_only():
     """
     Preview the next Facebook post without calling Facebook, Blogger, or publishing.
     """
-    preview = preview_next_facebook_post()
+    preview = preview_next_facebook_post(include_drafts=True)
     print_facebook_preview(preview)
     return preview
 
@@ -1102,7 +1153,14 @@ def run_safe_cycle_only():
     print(f"Publishing mode:           {publish_mode.upper()}")
     print("=" * 60)
 
+    blogger_alert_result = _send_named_telegram_alert(
+        "Blogger draft",
+        _blogger_draft_alert_message(article, draft_action, draft_result),
+    )
+
     facebook_result = None
+    facebook_preview = None
+    facebook_preview_alert_result = None
     if (
         FACEBOOK_AUTO_POST
         and publish_mode == "live"
@@ -1118,6 +1176,14 @@ def run_safe_cycle_only():
         print("Facebook: skipped because publishing mode is DRAFT.")
     elif not FACEBOOK_AUTO_POST:
         print("Facebook: skipped because FACEBOOK_AUTO_POST is disabled.")
+
+    print("\n[8/8] facebook-preview")
+    facebook_preview = preview_next_facebook_post(target_article_id=selected_id, include_drafts=True)
+    print_facebook_preview(facebook_preview)
+    facebook_preview_alert_result = _send_named_telegram_alert(
+        "Facebook preview",
+        _facebook_preview_alert_message(facebook_preview),
+    )
 
     stopped_reason = ""
     if draft_action not in {"created", "updated"}:
@@ -1136,6 +1202,11 @@ def run_safe_cycle_only():
         "draft": draft_result,
         "draft_action": draft_action,
         "facebook": facebook_result,
+        "facebook_preview": facebook_preview,
+        "telegram": {
+            "blogger_draft": blogger_alert_result,
+            "facebook_preview": facebook_preview_alert_result,
+        },
         "target_article_id": selected_id,
         "step_reached": "publish",
         "reason": stopped_reason,
