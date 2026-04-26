@@ -47,7 +47,6 @@ jobs:
           for name in (
               "GEMINI_API_KEY",
               "OPENROUTER_API_KEY",
-              "OPENAI_API_KEY",
               "BLOGGER_BLOG_ID",
               "BLOGGER_CLIENT_SECRET_JSON",
               "BLOGGER_TOKEN_JSON",
@@ -65,7 +64,7 @@ jobs:
           env_lines = {
               "GEMINI_API_KEY": os.environ["GEMINI_API_KEY"],
               "OPENROUTER_API_KEY": os.environ["OPENROUTER_API_KEY"],
-              "OPENAI_API_KEY": os.environ["OPENAI_API_KEY"],
+              "OPENAI_API_KEY": os.environ.get("OPENAI_API_KEY", ""),
               "BLOG_ID": os.environ["BLOGGER_BLOG_ID"],
               "PUBLISH_MODE": "draft",
               "FACEBOOK_AUTO_POST": "false",

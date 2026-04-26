@@ -509,19 +509,42 @@ def run_deployment_check_only():
     print("DEPLOYMENT CHECK")
     print("=" * 60)
 
+    ai_provider = str(os.getenv("AI_PROVIDER", "auto")).strip().lower()
     required_env = [
-        "GEMINI_API_KEY",
-        "OPENROUTER_API_KEY",
-        "OPENAI_API_KEY",
         "BLOG_ID",
         "FACEBOOK_PAGE_ID",
         "FACEBOOK_PAGE_ACCESS_TOKEN",
     ]
+    if ai_provider == "gemini":
+        required_env.append("GEMINI_API_KEY")
+    elif ai_provider == "openrouter":
+        required_env.append("OPENROUTER_API_KEY")
+    elif ai_provider == "openai":
+        required_env.append("OPENAI_API_KEY")
+    else:
+        required_env.extend(["GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY"])
     missing = [name for name in required_env if not _env_present(name)]
+    if ai_provider == "auto":
+        has_any_ai_key = any(
+            _env_present(name)
+            for name in ("GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY")
+        )
+        missing = [
+            name
+            for name in missing
+            if name not in {"GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY"}
+        ]
+        if not has_any_ai_key:
+            missing.append("GEMINI_API_KEY or OPENROUTER_API_KEY or OPENAI_API_KEY")
 
     print("Required environment variables:")
     for name in required_env:
-        print(f"  - {name}: {'present' if name not in missing else 'MISSING'}")
+        if ai_provider == "auto" and name in {"GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY"}:
+            status = "present" if _env_present(name) else "optional-missing"
+        else:
+            status = "present" if name not in missing else "MISSING"
+        print(f"  - {name}: {status}")
+    print(f"AI_PROVIDER: {ai_provider}")
 
     print(f".env required in GitHub Actions: no")
     print(f".env file currently present: {'yes' if Path('.env').exists() else 'no'}")
