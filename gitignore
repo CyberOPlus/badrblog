@@ -1,0 +1,52 @@
+# Kept for compatibility. The canonical ignore file is .gitignore.
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+dist/
+build/
+venv/
+.venv/
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+client_secret.json
+client_secret*.json
+credentials.json
+credentials*.json
+*secret*.json
+*credentials*.json
+token.json
+token*.json
+data/token.json
+data/token*.json
+data/*token*.json
+data/*.json
+
+# Runtime state and generated data
+article_queue.json
+data/published_ids.json
+data/article_backlog.json
+output/
+
+# Caches and logs
+.cache/
+logs/
+*.log
+*.err
+*.out
+
+# OS and IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db

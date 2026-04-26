@@ -1,0 +1,33 @@
+# ============================================================
+# requirements.txt - Python Dependencies
+# ============================================================
+# Install all of these by running:
+#   pip install -r requirements.txt
+#
+# These are the ONLY external libraries the bot needs.
+# Everything else (json, os, sys, time, etc.) is built into Python.
+# ============================================================
+
+# --- Web Scraping ---
+# beautifulsoup4: Parses HTML pages so we can extract article text
+# requests: Makes HTTP requests to download web pages
+# scrapling: Adaptive scraping framework with stealthy fetchers
+beautifulsoup4>=4.12.0
+requests>=2.31.0
+scrapling>=0.4.7
+
+# --- Google Gemini AI ---
+# google-generativeai: Official Python client for Gemini AI
+google-generativeai>=0.4.0
+
+# --- Google Blogger API ---
+# google-api-python-client: Official Google API client library
+# google-auth-httplib2: HTTP transport for Google Auth
+# google-auth-oauthlib: OAuth2 flow for user authentication
+google-api-python-client>=2.110.0
+google-auth-httplib2>=0.2.0
+google-auth-oauthlib>=1.2.0
+
+# --- Environment Variables ---
+# python-dotenv: Loads API keys from the .env file
+python-dotenv>=1.0.0

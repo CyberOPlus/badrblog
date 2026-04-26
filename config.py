@@ -1,0 +1,637 @@
+# ============================================================
+# config.py - Central Configuration Manager
+# ============================================================
+# This file loads all settings from the .env file and provides
+# them to every other module in the project. You only need to
+# edit the .env file - never edit this file directly.
+# ============================================================
+
+import os
+import sys
+from pathlib import Path
+
+from dotenv import load_dotenv
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8")
+
+# --------------------------------------------------
+# 1) Figure out where the project folder is located
+# --------------------------------------------------
+# BASE_DIR = the folder that contains this config.py file.
+# This makes paths work correctly no matter where you
+# run the script from (desktop, terminal, cron job, etc.)
+BASE_DIR = Path(__file__).resolve().parent
+
+# --------------------------------------------------
+# 2) Load environment variables from the .env file
+# --------------------------------------------------
+# load_dotenv() reads the .env file and puts all values
+# into os.environ so we can access them with os.getenv()
+dotenv_path = BASE_DIR / ".env"
+load_dotenv(dotenv_path=dotenv_path)
+
+
+# ============================================================
+# 3) API Keys & Credentials (loaded from .env)
+# ============================================================
+
+# Your Google Gemini AI API key
+# This is used to translate English articles to Arabic
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
+
+# AI provider mode:
+# - auto: use Gemini first, then OpenRouter only when Gemini quota/rate limits fail
+# - gemini: use Gemini only
+# - openrouter: use OpenRouter only
+AI_PROVIDER = os.getenv("AI_PROVIDER", "auto").strip().lower()
+
+# Your Blogger Blog ID (looks like a long number)
+# This tells Blogger which blog to publish to
+BLOG_ID = os.getenv("BLOG_ID", "")
+
+# Optional OAuth client ID for Blogger desktop authentication.
+# If you prefer environment variables, set both the client ID
+# and client secret in .env.
+BLOGGER_CLIENT_ID = os.getenv("BLOGGER_CLIENT_ID", "")
+BLOGGER_CLIENT_SECRET = os.getenv("BLOGGER_CLIENT_SECRET", "")
+
+# The website URL we scrape articles from
+SOURCE_URL = os.getenv("SOURCE_URL", "https://darkwebinformer.com/tag/tools/")
+
+# Allow the automation to finish by saving posts locally when
+# Blogger OAuth credentials are not available.
+LOCAL_PUBLISH_FALLBACK = os.getenv("LOCAL_PUBLISH_FALLBACK", "true").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+
+
+def _env_int(name, default):
+    """
+    Read an integer environment variable with a safe fallback.
+    """
+    value = os.getenv(name, str(default)).strip()
+    try:
+        return int(value)
+    except ValueError:
+        return default
+
+
+def _env_csv(name, default=""):
+    """
+    Read a comma-separated environment variable into a de-duplicated list.
+    """
+    raw_value = os.getenv(name, default)
+    items = []
+    seen = set()
+
+    for part in raw_value.split(","):
+        item = part.strip()
+        if not item or item in seen:
+            continue
+        seen.add(item)
+        items.append(item)
+
+    return items
+
+
+SOURCE_URLS = _env_csv("SOURCES")
+if not SOURCE_URLS:
+    SOURCE_URLS = [SOURCE_URL]
+
+
+# ============================================================
+# 4) Timing & Retry Settings (with safe defaults)
+# ============================================================
+
+# How long (in seconds) to wait before checking for new articles again
+# Default: 3600 seconds = 1 hour
+CHECK_INTERVAL = _env_int("CHECK_INTERVAL", 3600)
+
+# How long (in seconds) to wait before retrying a failed API call
+# Default: 30 seconds
+RETRY_DELAY = _env_int("RETRY_DELAY", 30)
+
+# Maximum number of times to retry a failed operation before giving up
+# Default: 3 attempts
+MAX_RETRIES = _env_int("MAX_RETRIES", 3)
+
+# Optional limits and pacing controls
+# 0 means "no limit"
+MAX_ARTICLES_PER_RUN = _env_int("MAX_ARTICLES_PER_RUN", 0)
+SCRAPE_DELAY_SECONDS = _env_int("SCRAPE_DELAY_SECONDS", 2)
+TRANSLATION_DELAY_SECONDS = _env_int("TRANSLATION_DELAY_SECONDS", 3)
+PUBLISH_DELAY_SECONDS = _env_int("PUBLISH_DELAY_SECONDS", 5)
+PUBLISH_MODE = os.getenv("PUBLISH_MODE", "draft").strip().lower()
+
+# Facebook Page auto-posting is disabled by default and only runs after a
+# successful live Blogger publish.
+FACEBOOK_AUTO_POST = os.getenv("FACEBOOK_AUTO_POST", "false").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+FACEBOOK_PAGE_ID = os.getenv("FACEBOOK_PAGE_ID", "").strip()
+FACEBOOK_PAGE_ACCESS_TOKEN = os.getenv("FACEBOOK_PAGE_ACCESS_TOKEN", "").strip()
+FACEBOOK_GRAPH_API_URL = os.getenv("FACEBOOK_GRAPH_API_URL", "https://graph.facebook.com/v20.0").strip()
+MAX_FACEBOOK_POSTS_PER_DAY = _env_int("MAX_FACEBOOK_POSTS_PER_DAY", 5)
+MIN_MINUTES_BETWEEN_FACEBOOK_POSTS = _env_int("MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", 60)
+
+# Phase 9 safe-cycle controls. The safe cycle is intentionally constrained to
+# one draft-only article per run.
+SAFE_CYCLE_MAX_ARTICLES = _env_int("SAFE_CYCLE_MAX_ARTICLES", 1)
+SAFE_CYCLE_DRAFT_ONLY = os.getenv("SAFE_CYCLE_DRAFT_ONLY", "true").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+
+# Phase 10 safe-cycle schedule controls.
+MAX_DRAFTS_PER_DAY = _env_int("MAX_DRAFTS_PER_DAY", 10)
+MIN_MINUTES_BETWEEN_DRAFTS = _env_int("MIN_MINUTES_BETWEEN_DRAFTS", 30)
+MAX_LIVE_POSTS_PER_DAY = _env_int("MAX_LIVE_POSTS_PER_DAY", 5)
+MIN_MINUTES_BETWEEN_LIVE_POSTS = _env_int("MIN_MINUTES_BETWEEN_LIVE_POSTS", 60)
+
+# Quality-first publishing controls. The bot fetches a larger candidate pool,
+# saves every usable article to a backlog, then publishes a balanced batch.
+ARTICLE_SELECTION_MULTIPLIER = _env_int("ARTICLE_SELECTION_MULTIPLIER", 4)
+ARTICLE_SELECTION_POOL_MIN = _env_int("ARTICLE_SELECTION_POOL_MIN", 20)
+MIN_ARTICLE_BODY_CHARS = _env_int("MIN_ARTICLE_BODY_CHARS", 900)
+MIN_ARTICLE_WORDS = _env_int("MIN_ARTICLE_WORDS", 140)
+MAX_ARTICLES_PER_SOURCE_PER_RUN = _env_int("MAX_ARTICLES_PER_SOURCE_PER_RUN", 2)
+
+
+# ============================================================
+# 5) File Paths (auto-calculated, no editing needed)
+# ============================================================
+
+# The JSON file that tracks which articles have already been published.
+# This prevents the bot from posting the same article twice.
+PUBLISHED_DB_PATH = BASE_DIR / "data" / "published_ids.json"
+
+# The JSON file that stores fetched-but-not-yet-published articles.
+# This keeps daily articles from being forgotten when only 5 are published/hour.
+ARTICLE_BACKLOG_PATH = BASE_DIR / "data" / "article_backlog.json"
+
+# Phase 1 ingestion source configuration and safe article queue.
+SOURCES_CONFIG_PATH = BASE_DIR / "sources.json"
+ARTICLE_QUEUE_PATH = BASE_DIR / "article_queue.json"
+
+# The folder where log files are stored
+LOGS_DIR = BASE_DIR / "logs"
+
+# Fallback output folder for locally saved posts
+LOCAL_PUBLISH_DIR = BASE_DIR / "output" / "published_posts"
+
+# The path to your Google OAuth2 credentials file
+# You must download this from the Google Cloud Console
+CREDENTIALS_FILE = BASE_DIR / "client_secret.json"
+
+# The path where the OAuth2 refresh token is saved after first login
+# This file is created automatically - you don't need to create it
+TOKEN_FILE = BASE_DIR / "data" / "token.json"
+
+
+# ============================================================
+# 6) Blogger API Scopes & Settings
+# ============================================================
+
+# The OAuth2 "scope" tells Google what permissions we need.
+# We need permission to read the user's profile and manage their blog.
+SCOPES = [
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "https://www.googleapis.com/auth/blogger",
+]
+
+# The Gemini model we'll use for translation.
+# You can override it from .env if needed.
+GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+
+# OpenRouter fallback settings.
+# OPENROUTER_API_KEY should be kept in .env only.
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
+OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openrouter/free")
+OPENROUTER_API_URL = os.getenv(
+    "OPENROUTER_API_URL",
+    "https://openrouter.ai/api/v1/chat/completions",
+)
+OPENROUTER_MAX_TOKENS = _env_int("OPENROUTER_MAX_TOKENS", 4096)
+OPENROUTER_TIMEOUT_SECONDS = _env_int("OPENROUTER_TIMEOUT_SECONDS", 90)
+OPENROUTER_REFERER = os.getenv("OPENROUTER_REFERER", "")
+OPENROUTER_APP_NAME = os.getenv("OPENROUTER_APP_NAME", "Blogger Automation Bot")
+
+# OpenAI settings for Phase 6 AI processing.
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+OPENAI_API_URL = os.getenv(
+    "OPENAI_API_URL",
+    "https://api.openai.com/v1/chat/completions",
+)
+OPENAI_MAX_TOKENS = _env_int("OPENAI_MAX_TOKENS", 4096)
+OPENAI_TIMEOUT_SECONDS = _env_int("OPENAI_TIMEOUT_SECONDS", 90)
+
+
+# ============================================================
+# 7) HTTP Headers for Web Scraping
+# ============================================================
+# These headers make our scraper look like a real web browser.
+# Without them, many websites will block us automatically.
+
+HEADERS = {
+    "User-Agent": (
+        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+        "AppleWebKit/537.36 (KHTML, like Gecko) "
+        "Chrome/125.0.0.0 Safari/537.36"
+    ),
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Accept-Language": "en-US,en;q=0.5",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Upgrade-Insecure-Requests": "1",
+}
+
+
+# ============================================================
+# 8) Gemini Translation Prompt (the instruction sent to the AI)
+# ============================================================
+# This prompt is carefully written to produce professional Arabic
+# blog posts with HTML that matches the user's Blogger template.
+
+BLOG_CATEGORIES = [
+    "أدوات الذكاء الاصطناعي",
+    "الأمن السيبراني",
+    "أخبار التقنية",
+    "برامج وتطبيقات",
+]
+
+BLOG_CATEGORY_RULES = """
+   - أدوات الذكاء الاصطناعي:
+     Reviews and explainers for tools such as ChatGPT, Gemini, Midjourney, Sora,
+     and practical AI uses at work and in daily life.
+   - الأمن السيبراني:
+     Account protection, fraud detection, phone security, simple vulnerability
+     explainers, and practical security advice.
+   - أخبار التقنية:
+     Latest technology news, platform updates, company announcements, and simple
+     fast analysis.
+   - برامج وتطبيقات:
+     App reviews, best free apps, and alternatives to paid software.
+"""
+
+TRANSLATION_PROMPT = """
+You are a professional Arabic technology and cybersecurity editor preparing Blogger posts.
+Translate the following English article into polished Arabic.
+
+STRICT RULES - Follow these exactly:
+
+1. Title:
+   - Create an attractive Arabic title under 80 characters.
+   - Return ONLY the title on the first line, prefixed with "TITLE: "
+
+2. Content:
+   - Read and understand the full article before writing.
+   - Write the title and the full body in Arabic. English is allowed only for
+     product names, malware names, company names, commands, CVE IDs, and short
+     technical terms that are normally written in English.
+   - Rewrite the article in fluent, professional Arabic; do not translate literally.
+   - Use a natural human editorial voice: clear, confident, engaging, and free
+     from robotic repetition, generic filler, and awkward AI-like phrasing.
+   - Explain the context, why the story matters, and the practical takeaway for
+     the reader when the source material supports it.
+   - If the source article is short or thin, do not produce a thin translation.
+     Build a useful article from the available facts: clarify the event, explain
+     the background, highlight what readers should watch for, and keep the piece
+     honest about what is known.
+   - Keep every technical detail accurate. Do not invent facts, numbers, quotes,
+     dates, product claims, or security details.
+   - The final article must be polished and free of language, grammar, and
+     technical mistakes.
+   - Format the body as clean HTML only (NOT markdown).
+   - Organize the article with meaningful <h2> and <h3> headings when useful.
+
+3. Blogger template components:
+   - The user's Blogger template already contains all CSS.
+   - DO NOT add any CSS, <style> tags, inline styles, <script> tags, or custom classes.
+   - Use the template-compatible components below when they fit naturally:
+     - Normal paragraph:
+       <!--[ Paragraph ]-->
+       <p>text_here</p>
+     - Intro paragraph with drop cap (use for the opening paragraph when it reads naturally):
+       <!--[ Drop Cap paragraph ]-->
+       <p><span class='dropCap'>A</span>rabic text_here</p>
+     - Important information:
+       <div class='alert info'><b>معلومة مهمة!</b> text_here</div>
+     - Warning or risk:
+       <div class='alert warning'><b>تحذير!</b> text_here</div>
+     - Quotation from the original article:
+       <blockquote class='s1'><p>quote_here</p><span>speaker_here</span></blockquote>
+     - Sequential steps:
+       <ol class='steps'><li>step_1</li><li>step_2</li></ol>
+     - Simple expandable explanation only when the article genuinely needs it:
+       <details class='ac'><summary>question_here</summary><div><p>answer_here</p></div></details>
+   - Prefer a clean article structure: short intro, clear sections, useful alerts when relevant, and a concise conclusion.
+   - Do NOT invent images, tables, download boxes, buttons, YouTube embeds, or any component unsupported by the source material.
+
+4. References and links:
+   - Do NOT add any source/reference block yourself.
+   - Do NOT mention that the article was copied, translated, or sourced from another article.
+   - Do NOT add a "Source:" or "المصدر:" section.
+   - The application will insert the article image, trusted official links, and internal related links automatically.
+
+5. Classification and labels:
+   - Classify the article automatically based on its content into exactly ONE
+     main Blogger category from the following fixed categories:
+""" + BLOG_CATEGORY_RULES + """
+   - The first label MUST be exactly one of the category names above.
+   - Do not invent, translate differently, shorten, or add emoji to the main category name.
+   - After the HTML content, add one final line starting with "LABELS: "
+   - Provide 3-5 relevant Arabic labels separated by commas.
+   - Format the labels as: main category first, then 2-4 specific supporting labels.
+   - The application will publish the article to Blogger using these labels, so
+     the first label is the article's blog section.
+
+6. Output discipline:
+   - Output ONLY:
+     1) the title line,
+     2) the HTML article body,
+     3) the labels line.
+   - Do not add explanations, notes, markdown fences, or extra text.
+
+Here is the article to translate:
+
+---
+TITLE: {title}
+URL: {url}
+BODY:
+{body}
+
+EDITORIAL NOTES:
+{editorial_notes}
+---
+"""
+
+TRANSLATION_PROMPT = """
+You are a senior Arabic editor and content translation architect for a Blogger
+automation pipeline. Your job is to turn the fetched article into a polished,
+human-written Arabic article with zero avoidable errors.
+
+Never mention translation, rewriting, AI, prompts, the pipeline, or the original
+source. The reader must feel the article was written naturally in Arabic.
+
+MANDATORY INTERNAL WORKFLOW:
+
+1. Content analysis:
+   - Understand the entire article before writing.
+   - Detect the content type: cybersecurity, tool review, tech news, tutorial,
+     breach report, malware analysis, product update, or general technology.
+   - Estimate the language complexity and technical level.
+   - Notice links, tools, product names, CVE IDs, commands, images, and named
+     entities that must remain accurate.
+
+2. Strategy selection:
+   - Use direct human-style Arabic rewriting when the source is clean.
+   - Use multi-step reasoning when the source is dense, technical, or security-heavy.
+   - Simplify the meaning internally before writing when the source is messy,
+     fragmented, repetitive, or unclear.
+   - Do not translate word for word. Preserve meaning, not sentence shape.
+
+3. Error prevention:
+   - Fix grammar, weak phrasing, awkward literal structures, and robotic patterns.
+   - Remove repeated ideas unless repetition is necessary for clarity.
+   - Keep technical facts, numbers, dates, names, versions, CVE IDs, commands,
+     URLs, malware names, company names, and tool names accurate.
+   - Do not invent facts, claims, quotes, statistics, links, image URLs, or
+     security details.
+   - If the source is incomplete, write a coherent article from the available
+     facts only. You may clarify context and practical meaning, but do not add
+     unsupported facts.
+
+4. Arabic writing style:
+   - Write like a professional Arabic technology blogger.
+   - Use a strong intro, then a clear first paragraph.
+   - Make the body structured, readable, and engaging.
+   - Prefer short paragraphs, useful headings, and practical takeaways.
+   - Use bullet points only when they improve clarity.
+   - End naturally with a concise conclusion or takeaway.
+   - English is allowed only for product names, malware names, company names,
+     commands, CVE IDs, code terms, URLs, and technical terms normally kept in
+     English.
+
+5. Human Arabic rewrite discipline:
+   - Rewrite every Arabic sentence so it sounds fully natural, fluent, and
+     human-written.
+   - Preserve the exact meaning and content. Do not add, remove, summarize, or
+     expand information beyond what the source supports.
+   - Improve sentence structure, transitions, and paragraph flow without changing
+     the facts.
+   - Remove literal translation traces, robotic phrasing, repetition, and awkward
+     wording.
+   - Use clear, simple, professional Modern Standard Arabic.
+   - Keep technical terms in English when they are normally written in English,
+     such as Malware, API, SQL, CVE, GitHub, Docker, and command names.
+   - Preserve links exactly and keep the intended paragraph/list structure.
+
+6. Links and media:
+   - Keep every original URL exactly as provided when you use it.
+   - Do not alter, shorten, translate, or decorate URLs.
+   - Use links only when they are relevant inside the article body.
+   - Do not create a source/reference section.
+   - Do not add images or <img> tags. The application inserts the main image
+     automatically after the first paragraph when an image exists.
+
+7. SEO metadata:
+   - Generate a unique SEO title, meta description, and URL slug from the final
+     article.
+   - The SEO title must be 50-65 characters, include the main keyword naturally,
+     and feel click-worthy without exaggeration.
+   - Vary the SEO title style every time: question, warning, guide, news angle,
+     number/list, or discovery angle. Do not repeat predictable templates.
+   - The meta description must be 120-160 characters, clear, engaging, and include
+     the main keyword without stuffing.
+   - Avoid generic phrases like "في هذا المقال سنتحدث".
+   - The slug must use Latin characters only, 3-6 words, lowercase, hyphenated,
+     short, and based on the main keyword.
+   - Slug must not include stop words such as and, the, of, a, an, in, on, for,
+     to, with.
+
+8. Output format:
+   - First line: TITLE: followed by an attractive Arabic article title under 80 characters.
+   - Then output the article body as clean HTML only, not markdown.
+   - After the HTML body, output exactly these metadata lines:
+     SEO_TITLE: optimized Arabic SEO title
+     META_DESCRIPTION: optimized Arabic meta description
+     SLUG: latin-url-slug
+     LABELS: 3-5 Arabic labels separated by commas
+   - Output nothing else.
+
+PLUS UI HTML RULES:
+   - Output clean HTML ready for direct Blogger publishing.
+   - Do not add CSS, <style>, inline styles, <script>, custom classes outside
+     the Plus UI classes listed here, tables, YouTube embeds, or unsupported
+     components.
+   - Wrap every paragraph in <p> tags.
+   - Use <p class='pIndent'> for some body paragraphs to improve readability.
+   - Use <h2> and <h3> for logical sections.
+   - Convert feature groups, key points, and benefits into <ul><li> lists when
+     this improves scanning.
+   - Important notes must use:
+     <p class='note'><b>معلومة:</b><br/>text_here</p>
+   - Warnings and risks must use:
+     <p class='note wr'><b>تحذير:</b><br/>text_here</p>
+   - Short alerts may use:
+     <div class='alert info'><b>مهم:</b> text_here</div>
+   - External links must always use:
+     <a class='extL' href='exact_url_here' target='_blank'>link_title</a>
+   - Buttons for official tools, downloads, GitHub repositories, or product pages
+     may use only when the source provides a relevant URL:
+     <a class='button' href='exact_url_here'>اسم الأداة</a>
+   - Code blocks must use escaped code inside:
+     <pre><code>escaped_code_here</code></pre>
+   - Inline commands, filenames, and short technical tokens may use <code>.
+   - Do not add <img> tags. The application inserts the first image as:
+     <img class='full' alt='image_description' src='image_link'/>
+     immediately after the first paragraph when an image exists.
+   - Do not add a reference/source block. The application appends trusted links
+     automatically using Plus UI-compatible external links.
+
+CLASSIFICATION:
+   - Analyze the article meaning and classify it into exactly ONE main Blogger
+     category from this fixed list only:
+""" + BLOG_CATEGORY_RULES + """
+   - The first label MUST be exactly one of the category names above.
+   - Do not create new categories.
+   - Do not use the original source category.
+   - Do not rename, translate differently, shorten, or add emoji to the main category.
+   - Choose based on the main topic, not minor mentions:
+     1) أدوات الذكاء الاصطناعي: AI tools, ChatGPT, Gemini, Midjourney, AI work
+        uses, daily-life AI uses, AI tutorials, and AI guides.
+     2) الأمن السيبراني: hacking, breaches, leaks, Malware, phishing, exploits,
+        vulnerabilities, privacy, protection tips, and security risks.
+     3) أخبار التقنية: announcements, product or platform updates, company news,
+        industry updates, and general tech events.
+     4) برامج وتطبيقات: mobile/PC apps, software reviews, non-AI tools,
+        alternatives, and downloads.
+   - Priority rule: if the article includes hacking or security as a meaningful
+     topic, choose الأمن السيبراني. If it is clearly about AI tools, choose
+     أدوات الذكاء الاصطناعي. If the main angle is an announcement/update/news
+     story, choose أخبار التقنية. If it is mainly a non-AI software/tool review,
+     choose برامج وتطبيقات.
+   - Add 2-4 specific supporting Arabic labels after the main category.
+
+FINAL QUALITY CHECK BEFORE ANSWERING:
+   - Human Arabic sound: yes.
+   - Meaning preserved: 100%.
+   - No added, removed, summarized, or expanded information.
+   - AI-like or literal phrasing removed.
+   - Weak sentences improved.
+   - Links kept exact.
+   - Technical terms kept in their proper English form when appropriate.
+   - SEO title, meta description, and slug are unique in style and wording.
+   - No invented information.
+
+ARTICLE INPUT:
+---
+TITLE: {title}
+URL: {url}
+
+BODY:
+{body}
+
+ORIGINAL ARTICLE LINKS:
+{original_links}
+
+EDITORIAL NOTES:
+{editorial_notes}
+---
+"""
+
+
+# ============================================================
+# 9) Validation Function
+# ============================================================
+
+def validate_config():
+    """
+    Check that all required settings are present in the .env file.
+    Call this at startup to catch missing configuration early.
+    Returns True if everything is OK, False if something is missing.
+    """
+    errors = []
+    warnings = []
+
+    supported_ai_providers = {"auto", "gemini", "openrouter", "openai"}
+    supported_publish_modes = {"draft", "live"}
+    has_gemini_key = bool(GEMINI_API_KEY and GEMINI_API_KEY != "your_gemini_api_key_here")
+    has_openrouter_key = bool(
+        OPENROUTER_API_KEY and OPENROUTER_API_KEY != "your_new_key_here"
+    )
+    has_openai_key = bool(
+        OPENAI_API_KEY and OPENAI_API_KEY != "your_openai_api_key_here"
+    )
+
+    if AI_PROVIDER not in supported_ai_providers:
+        errors.append(
+            "  ❌ AI_PROVIDER must be one of: auto, gemini, openrouter, openai"
+        )
+
+    if PUBLISH_MODE not in supported_publish_modes:
+        warnings.append("  WARNING: PUBLISH_MODE is not draft or live; draft mode will be used.")
+
+    if AI_PROVIDER == "gemini" and not has_gemini_key:
+        errors.append("  ❌ GEMINI_API_KEY is missing or not set in .env")
+
+    if AI_PROVIDER == "openrouter" and not has_openrouter_key:
+        errors.append("  ❌ OPENROUTER_API_KEY is missing or still set to a placeholder in .env")
+
+    if AI_PROVIDER == "openai" and not has_openai_key:
+        errors.append("  ❌ OPENAI_API_KEY is missing or still set to a placeholder in .env")
+
+    if AI_PROVIDER == "auto":
+        if not has_gemini_key and not has_openrouter_key and not has_openai_key:
+            errors.append("  ❌ Set GEMINI_API_KEY, OPENROUTER_API_KEY, or OPENAI_API_KEY in .env")
+        elif has_gemini_key and not has_openrouter_key:
+            warnings.append("  ⚠️  OpenRouter fallback is disabled until OPENROUTER_API_KEY is set.")
+
+    if not BLOG_ID or BLOG_ID == "your_blog_id_here":
+        errors.append("  ❌ BLOG_ID is missing or not set in .env")
+
+    has_env_oauth = bool(BLOGGER_CLIENT_ID and BLOGGER_CLIENT_SECRET)
+    has_blogger_auth = CREDENTIALS_FILE.exists() or has_env_oauth
+
+    if not has_blogger_auth and not LOCAL_PUBLISH_FALLBACK:
+        errors.append(f"  ❌ client_secret.json not found at: {CREDENTIALS_FILE}")
+        errors.append("     → Add client_secret.json or set BLOGGER_CLIENT_ID and BLOGGER_CLIENT_SECRET in .env")
+
+    if errors:
+        print("\n" + "=" * 60)
+        print("⚠️  CONFIGURATION ERRORS FOUND:")
+        print("=" * 60)
+        for err in errors:
+            print(err)
+        print("=" * 60)
+        print("Please fix the errors above and run the bot again.\n")
+        return False
+
+    if warnings:
+        print("\n" + "=" * 60)
+        print("⚠️  CONFIGURATION WARNINGS:")
+        print("=" * 60)
+        for warning in warnings:
+            print(warning)
+        print("=" * 60)
+
+    # Ensure required directories exist
+    PUBLISHED_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+    ARTICLE_BACKLOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    LOGS_DIR.mkdir(parents=True, exist_ok=True)
+    LOCAL_PUBLISH_DIR.mkdir(parents=True, exist_ok=True)
+
+    print("✅ Configuration validated successfully!")
+    return True
