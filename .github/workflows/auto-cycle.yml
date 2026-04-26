@@ -39,6 +39,9 @@ jobs:
           BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
           FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
           FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+          TELEGRAM_ALERTS_ENABLED: ${{ secrets.TELEGRAM_ALERTS_ENABLED }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           python - <<'PY'
           import os
@@ -52,6 +55,8 @@ jobs:
               "BLOGGER_TOKEN_JSON",
               "FACEBOOK_PAGE_ID",
               "FACEBOOK_PAGE_ACCESS_TOKEN",
+              "TELEGRAM_BOT_TOKEN",
+              "TELEGRAM_CHAT_ID",
           ):
               value = os.environ.get(name, "")
               if value:
@@ -70,6 +75,9 @@ jobs:
               "FACEBOOK_AUTO_POST": "false",
               "FACEBOOK_PAGE_ID": os.environ["FACEBOOK_PAGE_ID"],
               "FACEBOOK_PAGE_ACCESS_TOKEN": os.environ["FACEBOOK_PAGE_ACCESS_TOKEN"],
+              "TELEGRAM_ALERTS_ENABLED": os.environ.get("TELEGRAM_ALERTS_ENABLED", "false"),
+              "TELEGRAM_BOT_TOKEN": os.environ.get("TELEGRAM_BOT_TOKEN", ""),
+              "TELEGRAM_CHAT_ID": os.environ.get("TELEGRAM_CHAT_ID", ""),
               "SAFE_CYCLE_MAX_ARTICLES": "1",
               "SAFE_CYCLE_DRAFT_ONLY": "true",
               "MAX_DRAFTS_PER_DAY": "10",

@@ -8,7 +8,7 @@ In your private repository, open:
 
 `Settings` -> `Secrets and variables` -> `Actions` -> `New repository secret`
 
-Add these secrets:
+Add these required secrets:
 
 - `GEMINI_API_KEY`
 - `OPENROUTER_API_KEY`
@@ -18,6 +18,12 @@ Add these secrets:
 - `BLOGGER_TOKEN_JSON`
 - `FACEBOOK_PAGE_ID`
 - `FACEBOOK_PAGE_ACCESS_TOKEN`
+
+Optional Telegram alert secrets:
+
+- `TELEGRAM_ALERTS_ENABLED`
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_CHAT_ID`
 
 Do not paste these values into workflow logs, issues, commits, or README files.
 
@@ -53,9 +59,34 @@ MAX_LIVE_POSTS_PER_DAY=5
 MIN_MINUTES_BETWEEN_LIVE_POSTS=60
 MAX_FACEBOOK_POSTS_PER_DAY=5
 MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=60
+TELEGRAM_ALERTS_ENABLED=false
 ```
 
 In this mode the bot creates or updates Blogger drafts only. It does not publish live and does not post to Facebook.
+
+## Enable Telegram Alerts Safely
+
+Telegram alerts are disabled by default. To enable auto-cycle success, blocked, and failure notifications, add these GitHub Actions secrets:
+
+```env
+TELEGRAM_ALERTS_ENABLED=true
+TELEGRAM_BOT_TOKEN=your_bot_token
+TELEGRAM_CHAT_ID=your_chat_id
+```
+
+Check local configuration without sending a message:
+
+```bash
+python main.py alert-status
+```
+
+Send a test alert only after `TELEGRAM_ALERTS_ENABLED=true` is configured:
+
+```bash
+python main.py test-alert
+```
+
+Never paste the bot token into logs, issues, commits, or chat messages.
 
 ## Switch To Live Blogger Safely
 

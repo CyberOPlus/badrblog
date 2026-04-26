@@ -56,6 +56,9 @@ from config import (
     PUBLISH_MODE,
     SAFE_CYCLE_DRAFT_ONLY,
     SAFE_CYCLE_MAX_ARTICLES,
+    TELEGRAM_ALERTS_ENABLED,
+    TELEGRAM_BOT_TOKEN,
+    TELEGRAM_CHAT_ID,
     validate_config,
 )
 from facebook_publisher import (
@@ -69,6 +72,7 @@ from publishing_planner import plan_next_article
 from published_db import filter_new_articles, load_published_ids, mark_many_as_published
 from scraper import discover_latest_article_links, get_latest_articles
 from source_validator import check_sources_config
+from notifier import send_telegram_message, telegram_alert_status
 
 
 PROBLEM_SOURCE_NAMES = {
@@ -362,6 +366,8 @@ def _append_auto_cycle_run_log(record):
         "finished_at": record.get("finished_at", ""),
         "mode": record.get("mode", ""),
         "facebook_auto_post": bool(record.get("facebook_auto_post")),
+        "target_article_id": record.get("target_article_id", ""),
+        "step_reached": record.get("step_reached", ""),
         "selected_article_title": record.get("selected_article_title", ""),
         "selected_category": record.get("selected_category", ""),
         "blogger_status": record.get("blogger_status", ""),
@@ -395,7 +401,10 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
     article = (result or {}).get("article") or {}
     draft = (result or {}).get("draft") or {}
     facebook = (result or {}).get("facebook") or {}
-    stopped_reason = str(error or (result or {}).get("reason") or draft.get("error") or "")
+    draft_action = (result or {}).get("draft_action", "")
+    stopped_reason = "" if draft_action in {"created", "updated"} else str(
+        error or (result or {}).get("reason") or draft.get("error") or ""
+    )
     success = bool((result or {}).get("completed")) and not error
 
     return {
@@ -404,6 +413,8 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
         "finished_at": finished_at,
         "mode": _effective_publish_mode(),
         "facebook_auto_post": FACEBOOK_AUTO_POST,
+        "target_article_id": (result or {}).get("target_article_id") or article.get("id") or "",
+        "step_reached": (result or {}).get("step_reached", ""),
         "selected_article_title": article.get("title") or article.get("seo_title") or "",
         "selected_category": article.get("suggested_category", ""),
         "blogger_status": article.get("publish_status") or draft.get("publishing_mode") or "",
@@ -412,6 +423,68 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
         "stopped_reason": stopped_reason,
         "success": success,
     }
+
+
+def _auto_cycle_alert_message(result, error=None):
+    result = result or {}
+    article = result.get("article") or {}
+    draft = result.get("draft") or {}
+    schedule = result.get("schedule") or {}
+    step = result.get("step_reached") or "unknown"
+    draft_action = result.get("draft_action", "")
+
+    if error:
+        return "\n".join(
+            [
+                "❌ Auto-cycle failed",
+                f"Step: {step}",
+                f"Reason: {error}",
+            ]
+        )
+
+    if result.get("completed"):
+        blogger_status = article.get("publish_status") or draft.get("publishing_mode") or draft_action or ""
+        post_url = article.get("blogger_post_url") or article.get("blogger_draft_url") or ""
+        return "\n".join(
+            [
+                "✅ Auto-cycle success",
+                f"Mode: {_effective_publish_mode()}",
+                f"Article: {article.get('title') or article.get('seo_title') or ''}",
+                f"Category: {article.get('suggested_category', '')}",
+                f"Blogger: {blogger_status}",
+                f"URL: {post_url}",
+            ]
+        )
+
+    reason = result.get("reason") or draft.get("error") or "unknown"
+    if schedule:
+        next_allowed = _format_datetime(schedule.get("next_allowed_time"))
+        return "\n".join(
+            [
+                "⏸ Auto-cycle blocked",
+                f"Reason: {reason}",
+                f"Next allowed time: {next_allowed}",
+            ]
+        )
+
+    return "\n".join(
+        [
+            "❌ Auto-cycle failed",
+            f"Step: {step}",
+            f"Reason: {reason}",
+        ]
+    )
+
+
+def _send_auto_cycle_alert(result, error=None):
+    alert_result = send_telegram_message(_auto_cycle_alert_message(result, error=error))
+    if alert_result.get("sent"):
+        print("Telegram alert: sent")
+    elif alert_result.get("skipped"):
+        print("Telegram alert: skipped")
+    else:
+        print(f"Telegram alert: failed ({alert_result.get('reason', 'unknown error')})")
+    return alert_result
 
 
 def run_auto_cycle_logged():
@@ -426,6 +499,7 @@ def run_auto_cycle_logged():
         error = str(exc)
         raise
     finally:
+        _send_auto_cycle_alert(result or {}, error=error)
         _append_auto_cycle_run_log(
             _auto_cycle_record_from_result(run_id, started_at, result or {}, error=error)
         )
@@ -460,6 +534,8 @@ def run_health_only():
             f"  - {record.get('started_at', '')} | "
             f"success={record.get('success')} | "
             f"mode={record.get('mode', '')} | "
+            f"target={record.get('target_article_id', '')} | "
+            f"step={record.get('step_reached', '')} | "
             f"blogger={record.get('blogger_status', '')} | "
             f"facebook={record.get('facebook_status', '')} | "
             f"reason={record.get('stopped_reason', '')}"
@@ -610,6 +686,34 @@ def run_facebook_limits_status_only():
     return status
 
 
+def run_alert_status_only():
+    status = telegram_alert_status()
+    print("\n" + "=" * 60)
+    print("PHASE 17 TELEGRAM ALERT STATUS")
+    print("=" * 60)
+    print(f"Alerts enabled:       {'yes' if status['enabled'] else 'no'}")
+    print(f"Bot token configured: {'yes' if status['bot_token_configured'] else 'no'}")
+    print(f"Chat ID configured:   {'yes' if status['chat_id_configured'] else 'no'}")
+    print("=" * 60)
+    return status
+
+
+def run_test_alert_only():
+    status = telegram_alert_status()
+    if not status["enabled"]:
+        print("Telegram alert test skipped: TELEGRAM_ALERTS_ENABLED is not true.")
+        return {"sent": False, "skipped": True, "reason": "TELEGRAM_ALERTS_ENABLED is not true"}
+
+    result = send_telegram_message("✅ Telegram alerts are working.")
+    if result.get("sent"):
+        print("Telegram alert test sent.")
+    elif result.get("skipped"):
+        print("Telegram alert test skipped: Telegram alerts are not fully configured.")
+    else:
+        print(f"Telegram alert test failed: {result.get('reason', 'unknown error')}")
+    return result
+
+
 def print_facebook_preview(preview):
     print("\n" + "=" * 60)
     print("PHASE 13 FACEBOOK PREVIEW")
@@ -737,6 +841,10 @@ def run_deployment_check_only():
     print(f"PUBLISH_MODE value safe: {'yes' if publish_mode_safe else 'no'}")
     print(f"FACEBOOK_AUTO_POST: {'true' if facebook_auto_post else 'false'}")
     print("FACEBOOK_AUTO_POST value safe: yes")
+    print("Telegram alerts:")
+    print(f"  - TELEGRAM_ALERTS_ENABLED: {'true' if TELEGRAM_ALERTS_ENABLED else 'false'}")
+    print(f"  - TELEGRAM_BOT_TOKEN: {'present' if TELEGRAM_BOT_TOKEN else 'missing'}")
+    print(f"  - TELEGRAM_CHAT_ID: {'present' if TELEGRAM_CHAT_ID else 'missing'}")
 
     limit_names = [
         "SAFE_CYCLE_MAX_ARTICLES",
@@ -817,12 +925,13 @@ def run_post_facebook_only():
     return result
 
 
-def _print_safe_cycle_final_report(article, draft_action="", draft_result=None):
+def _print_safe_cycle_final_report(article, draft_action="", draft_result=None, target_article_id="", stopped_reason=""):
     draft_result = draft_result or {}
     publish_mode = draft_result.get("publishing_mode") or _effective_publish_mode()
     print("\n" + "=" * 60)
     print("PHASE 9 SAFE-CYCLE FINAL REPORT")
     print("=" * 60)
+    print(f"Target article ID:      {target_article_id or (article.get('id', '') if article else '')}")
     print(f"Selected article title: {article.get('title', '') if article else ''}")
     print(f"Category:               {article.get('suggested_category', '') if article else ''}")
     print(f"Score:                  {article.get('score', '') if article else ''}")
@@ -843,6 +952,8 @@ def _print_safe_cycle_final_report(article, draft_action="", draft_result=None):
     )
     if draft_result.get("error"):
         print(f"Draft error:            {draft_result['error']}")
+    if stopped_reason:
+        print(f"Stopped reason:         {stopped_reason}")
     print(f"Publishing mode:        {publish_mode.upper()}")
     print("=" * 60)
 
@@ -865,24 +976,27 @@ def run_safe_cycle_only():
 
     if publish_mode != "live" and not SAFE_CYCLE_DRAFT_ONLY:
         print("SAFE_CYCLE_DRAFT_ONLY is false. Refusing to run safe-cycle.")
-        _print_safe_cycle_final_report(None)
-        return {"completed": False, "reason": "SAFE_CYCLE_DRAFT_ONLY is false"}
+        reason = "SAFE_CYCLE_DRAFT_ONLY is false"
+        _print_safe_cycle_final_report(None, stopped_reason=reason)
+        return {"completed": False, "reason": reason, "step_reached": "safety-check"}
 
     if SAFE_CYCLE_MAX_ARTICLES != 1:
         print("SAFE_CYCLE_MAX_ARTICLES must be 1. Refusing to process more than one article.")
-        _print_safe_cycle_final_report(None)
-        return {"completed": False, "reason": "SAFE_CYCLE_MAX_ARTICLES must be 1"}
+        reason = "SAFE_CYCLE_MAX_ARTICLES must be 1"
+        _print_safe_cycle_final_report(None, stopped_reason=reason)
+        return {"completed": False, "reason": reason, "step_reached": "safety-check"}
 
     schedule_status = get_publish_schedule_status(mode=publish_mode)
     print_safe_cycle_status(schedule_status)
     if not schedule_status["allowed_now"]:
         reason = "; ".join(schedule_status["reasons"]) or "safe-cycle schedule blocked"
-        print(f"Safe-cycle stopping cleanly: {reason}.")
-        _print_safe_cycle_final_report(None, draft_result={"error": reason})
+        print(f"Safe-cycle stopping cleanly before article selection: {reason}.")
+        _print_safe_cycle_final_report(None, draft_result={"error": reason}, stopped_reason=reason)
         return {
             "completed": False,
             "reason": reason,
             "schedule": schedule_status,
+            "step_reached": "publish-limit-check",
         }
 
     print("\n[1/7] fetch")
@@ -899,7 +1013,7 @@ def run_safe_cycle_only():
     selected = plan_result.get("selected")
     if not selected:
         print("Safe-cycle stopping cleanly: no eligible article exists.")
-        _print_safe_cycle_final_report(None)
+        _print_safe_cycle_final_report(None, stopped_reason="no eligible article")
         return {
             "completed": False,
             "reason": "no eligible article",
@@ -907,9 +1021,11 @@ def run_safe_cycle_only():
             "score": score_stats,
             "enrich": enrich_stats,
             "plan": plan_result,
+            "step_reached": "plan-next",
         }
 
     selected_id = selected.get("id") or selected.get("url")
+    print(f"Target article ID: {selected_id}")
 
     print("\n[5/7] prepare-ai")
     prepare_stats = prepare_selected_articles_for_ai(target_article_id=selected_id)
@@ -923,8 +1039,18 @@ def run_safe_cycle_only():
     print("=" * 60)
     if not article or article.get("processing_status") != "ready_for_ai":
         print("Safe-cycle stopping cleanly: selected article could not be prepared for AI.")
-        _print_safe_cycle_final_report(article)
-        return {"completed": False, "reason": "prepare-ai failed", "article": article}
+        _print_safe_cycle_final_report(
+            article,
+            target_article_id=selected_id,
+            stopped_reason="prepare-ai failed",
+        )
+        return {
+            "completed": False,
+            "reason": "prepare-ai failed",
+            "article": article,
+            "target_article_id": selected_id,
+            "step_reached": "prepare-ai",
+        }
 
     print("\n[6/7] run-ai")
     ai_stats = process_one_selected_article_with_ai(target_article_id=selected_id)
@@ -941,21 +1067,18 @@ def run_safe_cycle_only():
 
     if not article or article.get("ai_status") != "completed" or not article.get("final_html"):
         print("Safe-cycle stopping cleanly: AI failed or no completed AI output is available.")
-        _print_safe_cycle_final_report(article)
-        return {"completed": False, "reason": "AI failed", "article": article, "ai": ai_stats}
-
-    schedule_status = get_publish_schedule_status(mode=publish_mode)
-    if not schedule_status["allowed_now"]:
-        reason = "; ".join(schedule_status["reasons"]) or "safe-cycle schedule blocked"
-        print_safe_cycle_status(schedule_status)
-        print(f"Safe-cycle stopping cleanly before Blogger create/update: {reason}.")
-        _print_safe_cycle_final_report(article, draft_result={"error": reason})
+        _print_safe_cycle_final_report(
+            article,
+            target_article_id=selected_id,
+            stopped_reason="AI failed",
+        )
         return {
             "completed": False,
-            "reason": reason,
+            "reason": "AI failed",
             "article": article,
             "ai": ai_stats,
-            "schedule": schedule_status,
+            "target_article_id": selected_id,
+            "step_reached": "run-ai",
         }
 
     print("\n[7/7] publish")
@@ -996,13 +1119,26 @@ def run_safe_cycle_only():
     elif not FACEBOOK_AUTO_POST:
         print("Facebook: skipped because FACEBOOK_AUTO_POST is disabled.")
 
-    _print_safe_cycle_final_report(article, draft_action=draft_action, draft_result=draft_result)
+    stopped_reason = ""
+    if draft_action not in {"created", "updated"}:
+        stopped_reason = draft_result.get("error", "")
+
+    _print_safe_cycle_final_report(
+        article,
+        draft_action=draft_action,
+        draft_result=draft_result,
+        target_article_id=selected_id,
+        stopped_reason=stopped_reason,
+    )
     return {
         "completed": draft_action in {"created", "updated"},
         "article": article,
         "draft": draft_result,
         "draft_action": draft_action,
         "facebook": facebook_result,
+        "target_article_id": selected_id,
+        "step_reached": "publish",
+        "reason": stopped_reason,
     }
 
 
@@ -1576,6 +1712,14 @@ def main():
 
     if len(sys.argv) > 1 and sys.argv[1] == "facebook-limits-status":
         run_facebook_limits_status_only()
+        return
+
+    if len(sys.argv) > 1 and sys.argv[1] == "alert-status":
+        run_alert_status_only()
+        return
+
+    if len(sys.argv) > 1 and sys.argv[1] == "test-alert":
+        run_test_alert_only()
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "facebook-preview":
