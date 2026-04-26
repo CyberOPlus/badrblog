@@ -18,6 +18,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Restore auto-cycle state
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            article_queue.json
+            logs/auto_cycle_runs.jsonl
+          key: auto-cycle-state-${{ github.run_id }}
+          restore-keys: |
+            auto-cycle-state-
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -110,3 +120,12 @@ jobs:
       - name: Health summary
         if: always()
         run: python main.py health
+
+      - name: Save auto-cycle state
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            article_queue.json
+            logs/auto_cycle_runs.jsonl
+          key: auto-cycle-state-${{ github.run_id }}
