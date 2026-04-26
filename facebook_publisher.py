@@ -42,6 +42,12 @@ def _now_iso():
     return datetime.now().isoformat(timespec="seconds")
 
 
+def _log_notification_result(label, result):
+    if result.get("sent") or result.get("skipped"):
+        return
+    print(f"Telegram {label} notification failed: {result.get('reason', 'unknown error')}")
+
+
 def _parse_local_datetime(value):
     if not value:
         return None
@@ -439,7 +445,7 @@ def post_one_article_to_facebook(target_article_id=None):
             "article": article,
             "error": "Article is not a successful live Blogger publish with blogger_post_url.",
         }
-        notify_facebook_result(queue, article, result)
+        _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
         return result
 
     limits = get_facebook_limits_status()
@@ -451,7 +457,7 @@ def post_one_article_to_facebook(target_article_id=None):
             "error": "; ".join(limits["reasons"]) or "Facebook posting limits blocked this run.",
             "limits": limits,
         }
-        notify_facebook_result(queue, article, result)
+        _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
         return result
 
     try:
@@ -483,7 +489,7 @@ def post_one_article_to_facebook(target_article_id=None):
             "article": article,
             "error": article.get("facebook_error", ""),
         }
-        notify_facebook_result(queue, article, result)
+        _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
         return result
 
     except Exception as error:
@@ -495,7 +501,7 @@ def post_one_article_to_facebook(target_article_id=None):
             "article": article,
             "error": article.get("facebook_error", ""),
         }
-        notify_facebook_result(queue, article, result)
+        _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
         return result
 
 

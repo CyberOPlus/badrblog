@@ -225,8 +225,11 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
     article = result.get("article") or {}
     draft = result.get("draft") or {}
     facebook = result.get("facebook") or {}
-    reason = _sanitize_reason(error or result.get("reason") or draft.get("error") or "")
+    facebook_error = facebook.get("error") if facebook and not facebook.get("posted") else ""
+    reason = _sanitize_reason(error or facebook_error or result.get("reason") or draft.get("error") or "")
     if error:
+        status = "failed"
+    elif facebook_error:
         status = "failed"
     elif result.get("completed"):
         status = "success"

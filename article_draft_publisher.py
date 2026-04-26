@@ -16,6 +16,12 @@ def _now_iso():
     return datetime.now().isoformat(timespec="seconds")
 
 
+def _log_notification_result(label, result):
+    if result.get("sent") or result.get("skipped"):
+        return
+    print(f"Telegram {label} notification failed: {result.get('reason', 'unknown error')}")
+
+
 def _effective_publish_mode(mode=None):
     requested_mode = mode or PUBLISH_MODE
     return "live" if PUBLISH_MODE == "live" and requested_mode == "live" else "draft"
@@ -236,7 +242,7 @@ def publish_one_blogger_draft(target_article_id=None):
             "article": article,
             "error": "",
         }
-        notify_blogger_result(queue, article, result, stage="create draft")
+        _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="create draft"))
         return result
 
     except HttpError as error:
@@ -252,7 +258,7 @@ def publish_one_blogger_draft(target_article_id=None):
         "article": article,
         "error": article.get("publish_error", ""),
     }
-    notify_blogger_result(queue, article, result, stage="create draft")
+    _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="create draft"))
     return result
 
 
@@ -315,7 +321,7 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
                 "error": "",
                 "slug_warning": slug_warning,
             }
-            notify_blogger_result(queue, article, result, stage="update draft")
+            _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="update draft"))
             return result
 
         matches = _find_matching_blogger_posts(service, article)
@@ -343,7 +349,7 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
                 "error": "",
                 "slug_warning": slug_warning,
             }
-            notify_blogger_result(queue, article, result, stage="update draft")
+            _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="update draft"))
             return result
 
         post = (
@@ -364,7 +370,7 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
             "error": "",
             "slug_warning": slug_warning,
         }
-        notify_blogger_result(queue, article, result, stage="create draft")
+        _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="create draft"))
         return result
 
     except HttpError as error:
@@ -383,7 +389,7 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
         "error": article.get("publish_error", ""),
         "slug_warning": slug_warning,
     }
-    notify_blogger_result(queue, article, result, stage="update draft")
+    _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="update draft"))
     return result
 
 
@@ -448,7 +454,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
                 "error": "",
                 "publishing_mode": publish_mode,
             }
-            notify_blogger_result(queue, article, result, stage=f"update {publish_mode}")
+            _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage=f"update {publish_mode}"))
             return result
 
         matches = _find_matching_blogger_posts(service, article)
@@ -476,7 +482,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
                 "error": "",
                 "publishing_mode": publish_mode,
             }
-            notify_blogger_result(queue, article, result, stage=f"update {publish_mode}")
+            _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage=f"update {publish_mode}"))
             return result
 
         post = (
@@ -497,7 +503,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             "error": "",
             "publishing_mode": publish_mode,
         }
-        notify_blogger_result(queue, article, result, stage=f"create {publish_mode}")
+        _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage=f"create {publish_mode}"))
         return result
 
     except HttpError as error:
@@ -516,5 +522,5 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
         "error": article.get("publish_error", ""),
         "publishing_mode": publish_mode,
     }
-    notify_blogger_result(queue, article, result, stage=f"publish {publish_mode}")
+    _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage=f"publish {publish_mode}"))
     return result

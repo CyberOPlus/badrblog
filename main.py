@@ -359,6 +359,19 @@ def _format_datetime(value):
 
 
 AUTO_CYCLE_RUN_LOG = LOGS_DIR / "auto_cycle_runs.jsonl"
+AUTO_CYCLE_WORKFLOW_PATH = Path(".github") / "workflows" / "auto-cycle.yml"
+
+
+def _workflow_schedule():
+    try:
+        lines = AUTO_CYCLE_WORKFLOW_PATH.read_text(encoding="utf-8-sig").splitlines()
+    except OSError:
+        return ""
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith("- cron:"):
+            return stripped.split("cron:", 1)[1].strip().strip('"').strip("'")
+    return ""
 
 
 def _new_run_id():
@@ -409,10 +422,13 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
     draft = (result or {}).get("draft") or {}
     facebook = (result or {}).get("facebook") or {}
     draft_action = (result or {}).get("draft_action", "")
+    facebook_error = facebook.get("error") if facebook and not facebook.get("posted") else ""
     stopped_reason = "" if draft_action in {"created", "updated"} else str(
         error or (result or {}).get("reason") or draft.get("error") or ""
     )
-    success = bool((result or {}).get("completed")) and not error
+    if facebook_error:
+        stopped_reason = facebook_error
+    success = bool((result or {}).get("completed")) and not error and not facebook_error
 
     return {
         "run_id": run_id,
@@ -630,6 +646,70 @@ def run_health_only():
         "active_queue_count": active_count,
         "archived_count": archived_count,
         "queue_counts": dict(status_counts),
+    }
+
+
+def run_24h_status_only():
+    publish_status = get_publish_schedule_status(mode="live")
+    facebook_limits = get_facebook_limits_status()
+    telegram_status = telegram_alert_status()
+    records = _load_auto_cycle_run_logs()
+    last_success = next((record for record in reversed(records) if record.get("success")), None)
+    last_failure = next((record for record in reversed(records) if not record.get("success")), None)
+
+    queue = load_article_queue()
+    active_articles = [
+        article for article in queue.get("articles", []) if not article.get("archived")
+    ]
+    ready_articles = [
+        article
+        for article in active_articles
+        if article.get("status") in {"ready", "selected"}
+        and article.get("content_fetch_status") == "success"
+    ]
+    plan = plan_next_article(lock=False)
+    next_article = plan.get("selected")
+    publish_next = publish_status.get("next_allowed_time")
+    facebook_next = facebook_limits.get("next_allowed_time")
+    next_allowed = max(
+        [value for value in (publish_next, facebook_next) if value],
+        default=None,
+    )
+
+    print("\n" + "=" * 60)
+    print("24H UNATTENDED STATUS")
+    print("=" * 60)
+    print(f"Workflow schedule:          {_workflow_schedule()}")
+    print(f"PUBLISH_MODE:               {PUBLISH_MODE}")
+    print(f"FACEBOOK_AUTO_POST:         {'true' if FACEBOOK_AUTO_POST else 'false'}")
+    print(f"Telegram ready:             {'yes' if telegram_status['ready'] else 'no'}")
+    print(f"Live posts today:           {publish_status['live_posts_created_today']}")
+    print(f"Facebook posts today:       {facebook_limits['facebook_posts_today']}")
+    print(f"Last successful run:        {last_success.get('finished_at', '') if last_success else ''}")
+    print(f"Last failure reason:        {last_failure.get('stopped_reason', '') if last_failure else ''}")
+    print(f"Active queue count:         {len(active_articles)}")
+    print(f"Ready queue count:          {len(ready_articles)}")
+    if next_article:
+        print(f"Next eligible article:      {next_article.get('title') or next_article.get('seo_title') or ''}")
+        print(f"Next eligible score:        {next_article.get('score', '')}")
+    else:
+        print("Next eligible article:      ")
+    print(f"Next allowed publish time:  {_format_datetime(next_allowed)}")
+    print("=" * 60)
+
+    return {
+        "workflow_schedule": _workflow_schedule(),
+        "publish_mode": PUBLISH_MODE,
+        "facebook_auto_post": FACEBOOK_AUTO_POST,
+        "telegram_ready": telegram_status["ready"],
+        "live_posts_today": publish_status["live_posts_created_today"],
+        "facebook_posts_today": facebook_limits["facebook_posts_today"],
+        "last_successful_run": last_success.get("finished_at", "") if last_success else "",
+        "last_failure_reason": last_failure.get("stopped_reason", "") if last_failure else "",
+        "active_queue_count": len(active_articles),
+        "ready_queue_count": len(ready_articles),
+        "next_eligible_article": next_article,
+        "next_allowed_publish_time": _format_datetime(next_allowed),
     }
 
 
@@ -1853,6 +1933,10 @@ def main():
 
     if len(sys.argv) > 1 and sys.argv[1] == "health":
         run_health_only()
+        return
+
+    if len(sys.argv) > 1 and sys.argv[1] == "24h-status":
+        run_24h_status_only()
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "queue-maintenance":

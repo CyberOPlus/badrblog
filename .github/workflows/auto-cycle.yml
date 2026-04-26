@@ -2,7 +2,7 @@ name: Safe Auto Cycle
 
 on:
   schedule:
-    - cron: "0 * * * *"
+    - cron: "*/10 * * * *"
   workflow_dispatch:
 
 concurrency:
@@ -12,7 +12,7 @@ concurrency:
 jobs:
   auto-cycle:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
@@ -75,17 +75,17 @@ jobs:
               "FACEBOOK_AUTO_POST": "true",
               "FACEBOOK_PAGE_ID": os.environ["FACEBOOK_PAGE_ID"],
               "FACEBOOK_PAGE_ACCESS_TOKEN": os.environ["FACEBOOK_PAGE_ACCESS_TOKEN"],
-              "TELEGRAM_ALERTS_ENABLED": os.environ.get("TELEGRAM_ALERTS_ENABLED", "false"),
+              "TELEGRAM_ALERTS_ENABLED": "true",
               "TELEGRAM_BOT_TOKEN": os.environ.get("TELEGRAM_BOT_TOKEN", ""),
               "TELEGRAM_CHAT_ID": os.environ.get("TELEGRAM_CHAT_ID", ""),
               "SAFE_CYCLE_MAX_ARTICLES": "1",
               "SAFE_CYCLE_DRAFT_ONLY": "false",
               "MAX_DRAFTS_PER_DAY": "10",
               "MIN_MINUTES_BETWEEN_DRAFTS": "30",
-              "MAX_LIVE_POSTS_PER_DAY": "5",
-              "MIN_MINUTES_BETWEEN_LIVE_POSTS": "60",
-              "MAX_FACEBOOK_POSTS_PER_DAY": "5",
-              "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": "60",
+              "MAX_LIVE_POSTS_PER_DAY": "120",
+              "MIN_MINUTES_BETWEEN_LIVE_POSTS": "10",
+              "MAX_FACEBOOK_POSTS_PER_DAY": "120",
+              "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": "10",
               "AI_PROVIDER": "auto",
               "LOCAL_PUBLISH_FALLBACK": "false",
           }
