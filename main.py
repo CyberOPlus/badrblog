@@ -525,6 +525,7 @@ def _send_named_telegram_alert(label, message):
     if alert_result.get("sent"):
         print(f"Telegram {label} alert: sent")
     elif alert_result.get("skipped"):
+        _print_telegram_config_warning()
         print(f"Telegram {label} alert: skipped")
     else:
         print(f"Telegram {label} alert: failed ({alert_result.get('reason', 'unknown error')})")
@@ -536,6 +537,12 @@ def _send_auto_cycle_alert(result, error=None):
         "final",
         _auto_cycle_alert_message(result, error=error),
     )
+
+
+def _print_telegram_config_warning(status=None):
+    status = status or telegram_alert_status()
+    if status["enabled"] and not status["ready"]:
+        print("Telegram alerts enabled but TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is missing.")
 
 
 def run_auto_cycle_logged():
@@ -745,6 +752,22 @@ def run_alert_status_only():
     print(f"Alerts enabled:       {'yes' if status['enabled'] else 'no'}")
     print(f"Bot token configured: {'yes' if status['bot_token_configured'] else 'no'}")
     print(f"Chat ID configured:   {'yes' if status['chat_id_configured'] else 'no'}")
+    print(f"Ready to send alerts: {'yes' if status['ready'] else 'no'}")
+    _print_telegram_config_warning(status)
+    print("=" * 60)
+    return status
+
+
+def run_telegram_config_check_only():
+    status = telegram_alert_status()
+    print("\n" + "=" * 60)
+    print("TELEGRAM CONFIG CHECK")
+    print("=" * 60)
+    print(f"TELEGRAM_ALERTS_ENABLED: {'yes' if status['enabled'] else 'no'}")
+    print(f"TELEGRAM_BOT_TOKEN configured: {'yes' if status['bot_token_configured'] else 'no'}")
+    print(f"TELEGRAM_CHAT_ID configured: {'yes' if status['chat_id_configured'] else 'no'}")
+    print(f"Ready to send alerts: {'yes' if status['ready'] else 'no'}")
+    _print_telegram_config_warning(status)
     print("=" * 60)
     return status
 
@@ -754,6 +777,7 @@ def run_test_alert_only():
     if not status["enabled"]:
         print("Telegram alert test skipped: TELEGRAM_ALERTS_ENABLED is not true.")
         return {"sent": False, "skipped": True, "reason": "TELEGRAM_ALERTS_ENABLED is not true"}
+    _print_telegram_config_warning(status)
 
     result = send_telegram_message("✅ Telegram alerts are working.")
     if result.get("sent"):
@@ -976,7 +1000,15 @@ def run_post_facebook_only():
     return result
 
 
-def _print_safe_cycle_final_report(article, draft_action="", draft_result=None, target_article_id="", stopped_reason=""):
+def _print_safe_cycle_final_report(
+    article,
+    draft_action="",
+    draft_result=None,
+    target_article_id="",
+    stopped_reason="",
+    source_warnings_count=0,
+    enrichment_failed_count=0,
+):
     draft_result = draft_result or {}
     publish_mode = draft_result.get("publishing_mode") or _effective_publish_mode()
     print("\n" + "=" * 60)
@@ -1005,6 +1037,8 @@ def _print_safe_cycle_final_report(article, draft_action="", draft_result=None, 
         print(f"Draft error:            {draft_result['error']}")
     if stopped_reason:
         print(f"Stopped reason:         {stopped_reason}")
+    print(f"Source warnings:        {source_warnings_count}")
+    print(f"Enrichment failures:    {enrichment_failed_count}")
     print(f"Publishing mode:        {publish_mode.upper()}")
     print("=" * 60)
 
@@ -1052,19 +1086,30 @@ def run_safe_cycle_only():
 
     print("\n[1/7] fetch")
     fetch_stats = run_fetch_only()
+    source_warnings_count = len(fetch_stats.get("failed_sources") or [])
+    if source_warnings_count:
+        print(f"Source warnings recorded: {source_warnings_count}")
 
     print("\n[2/7] score")
     score_stats = run_score_only()
 
     print("\n[3/7] enrich")
     enrich_stats = run_enrich_only(force=False)
+    enrichment_failed_count = int(enrich_stats.get("failed") or 0)
+    if enrichment_failed_count:
+        print(f"Enrichment warnings recorded: {enrichment_failed_count}")
 
     print("\n[4/7] plan-next --lock")
     plan_result = run_plan_next_only(lock=True)
     selected = plan_result.get("selected")
     if not selected:
         print("Safe-cycle stopping cleanly: no eligible article exists.")
-        _print_safe_cycle_final_report(None, stopped_reason="no eligible article")
+        _print_safe_cycle_final_report(
+            None,
+            stopped_reason="no eligible article",
+            source_warnings_count=source_warnings_count,
+            enrichment_failed_count=enrichment_failed_count,
+        )
         return {
             "completed": False,
             "reason": "no eligible article",
@@ -1072,6 +1117,8 @@ def run_safe_cycle_only():
             "score": score_stats,
             "enrich": enrich_stats,
             "plan": plan_result,
+            "source_warnings_count": source_warnings_count,
+            "enrichment_failed_count": enrichment_failed_count,
             "step_reached": "plan-next",
         }
 
@@ -1094,11 +1141,17 @@ def run_safe_cycle_only():
             article,
             target_article_id=selected_id,
             stopped_reason="prepare-ai failed",
+            source_warnings_count=source_warnings_count,
+            enrichment_failed_count=enrichment_failed_count,
         )
         return {
             "completed": False,
             "reason": "prepare-ai failed",
             "article": article,
+            "fetch": fetch_stats,
+            "enrich": enrich_stats,
+            "source_warnings_count": source_warnings_count,
+            "enrichment_failed_count": enrichment_failed_count,
             "target_article_id": selected_id,
             "step_reached": "prepare-ai",
         }
@@ -1122,12 +1175,18 @@ def run_safe_cycle_only():
             article,
             target_article_id=selected_id,
             stopped_reason="AI failed",
+            source_warnings_count=source_warnings_count,
+            enrichment_failed_count=enrichment_failed_count,
         )
         return {
             "completed": False,
             "reason": "AI failed",
             "article": article,
             "ai": ai_stats,
+            "fetch": fetch_stats,
+            "enrich": enrich_stats,
+            "source_warnings_count": source_warnings_count,
+            "enrichment_failed_count": enrichment_failed_count,
             "target_article_id": selected_id,
             "step_reached": "run-ai",
         }
@@ -1195,10 +1254,14 @@ def run_safe_cycle_only():
         draft_result=draft_result,
         target_article_id=selected_id,
         stopped_reason=stopped_reason,
+        source_warnings_count=source_warnings_count,
+        enrichment_failed_count=enrichment_failed_count,
     )
     return {
         "completed": draft_action in {"created", "updated"},
         "article": article,
+        "fetch": fetch_stats,
+        "enrich": enrich_stats,
         "draft": draft_result,
         "draft_action": draft_action,
         "facebook": facebook_result,
@@ -1207,6 +1270,8 @@ def run_safe_cycle_only():
             "blogger_draft": blogger_alert_result,
             "facebook_preview": facebook_preview_alert_result,
         },
+        "source_warnings_count": source_warnings_count,
+        "enrichment_failed_count": enrichment_failed_count,
         "target_article_id": selected_id,
         "step_reached": "publish",
         "reason": stopped_reason,
@@ -1787,6 +1852,10 @@ def main():
 
     if len(sys.argv) > 1 and sys.argv[1] == "alert-status":
         run_alert_status_only()
+        return
+
+    if len(sys.argv) > 1 and sys.argv[1] == "telegram-config-check":
+        run_telegram_config_check_only()
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "test-alert":
