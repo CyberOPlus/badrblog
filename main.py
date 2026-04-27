@@ -1386,8 +1386,8 @@ def run_deployment_check_only():
             errors.append("Live automation requires FRESHNESS_SAFETY_MARGIN_MINUTES=10.")
         if max_sources_raw != "3":
             errors.append("Live automation requires MAX_SOURCES_PER_RUN=3.")
-        if first_run_lookback_raw != "2":
-            errors.append("Live automation requires FALLBACK_FIRST_RUN_LOOKBACK_HOURS=2.")
+        if first_run_lookback_raw != "6":
+            errors.append("Live automation requires FALLBACK_FIRST_RUN_LOOKBACK_HOURS=6.")
         if crawl_interval_raw != "5":
             errors.append("Live automation requires CRAWL_INTERVAL_MINUTES=5.")
         if crawl_overlap_raw != "10":

@@ -130,7 +130,7 @@
       "extractor_type": "auto"
     },
     {
-      "name": "CISA Advisories",
+      "name": "CISA Cybersecurity Advisories",
       "base_url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
       "enabled": true,
       "category_hint": "الأمن السيبراني",
@@ -139,18 +139,9 @@
     },
     {
       "name": "Mandiant Blog",
-      "base_url": "https://cloud.google.com/blog/topics/threat-intelligence",
-      "enabled": true,
-      "category_hint": "الأمن السيبراني",
-      "fetch_limit_per_run": 3,
-      "feed_url": "https://feeds.feedburner.com/threatintelligence/pvexyqv7v0v",
-      "extractor_type": "feed_fallback"
-    },
-    {
-      "name": "Mandiant Resources Blog",
       "base_url": "https://www.mandiant.com/resources/blog",
       "enabled": true,
-      "category_hint": "Ø§Ù„Ø£Ù…Ù† Ø§Ù„Ø³ÙŠØ¨Ø±Ø§Ù†ÙŠ",
+      "category_hint": "الأمن السيبراني",
       "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
@@ -171,14 +162,6 @@
       "extractor_type": "auto"
     },
     {
-      "name": "Dark Web Informer",
-      "base_url": "https://darkwebinformer.com",
-      "enabled": true,
-      "category_hint": "الأمن السيبراني",
-      "fetch_limit_per_run": 3,
-      "extractor_type": "auto"
-    },
-    {
       "name": "Artificial Intelligence News",
       "base_url": "https://www.artificialintelligence-news.com",
       "enabled": true,
@@ -191,7 +174,7 @@
       "base_url": "https://venturebeat.com/ai",
       "enabled": true,
       "category_hint": "أدوات الذكاء الاصطناعي",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "feed_url": "https://venturebeat.com/category/ai/feed/",
       "extractor_type": "feed_fallback"
     },
@@ -208,7 +191,7 @@
       "base_url": "https://aimagazine.com",
       "enabled": true,
       "category_hint": "أدوات الذكاء الاصطناعي",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -216,7 +199,7 @@
       "base_url": "https://www.marktechpost.com",
       "enabled": true,
       "category_hint": "أدوات الذكاء الاصطناعي",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -224,7 +207,7 @@
       "base_url": "https://analyticsindiamag.com",
       "enabled": true,
       "category_hint": "أدوات الذكاء الاصطناعي",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "feed_url": "https://analyticsindiamag.com/feed/",
       "extractor_type": "feed_fallback"
     },
@@ -233,7 +216,7 @@
       "base_url": "https://www.aitrends.com",
       "enabled": true,
       "category_hint": "أدوات الذكاء الاصطناعي",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "feed_url": "https://www.aitrends.com/feed",
       "extractor_type": "feed_fallback"
     },
@@ -255,52 +238,18 @@
     },
     {
       "name": "Anthropic News",
-      "base_url": "https://www.anthropic.com/news",
-      "enabled": true,
-      "category_hint": "أدوات الذكاء الاصطناعي",
-      "fetch_limit_per_run": 3,
-      "extractor_type": "auto"
-    },
-    {
-      "name": "Anthropic News Direct",
       "base_url": "https://anthropic.com/news",
       "enabled": true,
-      "category_hint": "Ø£Ø¯ÙˆØ§Øª Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ",
-      "fetch_limit_per_run": 3,
-      "extractor_type": "auto"
-    },
-    {
-      "name": "The Decoder",
-      "base_url": "https://www.the-decoder.com",
-      "enabled": true,
       "category_hint": "أدوات الذكاء الاصطناعي",
       "fetch_limit_per_run": 3,
       "extractor_type": "auto"
-    },
-    {
-      "name": "Perplexity Blog",
-      "base_url": "https://www.perplexity.ai/hub/blog",
-      "enabled": true,
-      "category_hint": "أدوات الذكاء الاصطناعي",
-      "fetch_limit_per_run": 3,
-      "feed_url": "https://www.perplexity.ai/hub/blog/rss.xml",
-      "extractor_type": "feed_fallback"
-    },
-    {
-      "name": "Google DeepMind Blog",
-      "base_url": "https://deepmind.google/blog",
-      "enabled": true,
-      "category_hint": "أدوات الذكاء الاصطناعي",
-      "fetch_limit_per_run": 3,
-      "feed_url": "https://deepmind.google/blog/rss.xml",
-      "extractor_type": "feed_fallback"
     },
     {
       "name": "TechCrunch",
       "base_url": "https://techcrunch.com",
       "enabled": true,
       "category_hint": "أخبار التقنية",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -308,7 +257,7 @@
       "base_url": "https://www.theverge.com",
       "enabled": true,
       "category_hint": "أخبار التقنية",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -316,7 +265,7 @@
       "base_url": "https://www.wired.com",
       "enabled": true,
       "category_hint": "أخبار التقنية",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -324,7 +273,7 @@
       "base_url": "https://arstechnica.com",
       "enabled": true,
       "category_hint": "أخبار التقنية",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -332,7 +281,7 @@
       "base_url": "https://www.engadget.com",
       "enabled": true,
       "category_hint": "أخبار التقنية",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -340,7 +289,7 @@
       "base_url": "https://9to5mac.com",
       "enabled": true,
       "category_hint": "أخبار التقنية",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -348,7 +297,7 @@
       "base_url": "https://www.androidauthority.com",
       "enabled": true,
       "category_hint": "أخبار التقنية",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -356,7 +305,7 @@
       "base_url": "https://www.zdnet.com",
       "enabled": true,
       "category_hint": "أخبار التقنية",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -364,7 +313,7 @@
       "base_url": "https://www.tomshardware.com",
       "enabled": true,
       "category_hint": "أخبار التقنية",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -372,32 +321,7 @@
       "base_url": "https://www.digitaltrends.com",
       "enabled": true,
       "category_hint": "أخبار التقنية",
-      "fetch_limit_per_run": 2,
-      "extractor_type": "auto"
-    },
-    {
-      "name": "BBC Technology",
-      "base_url": "https://www.bbc.com/news/technology",
-      "enabled": true,
-      "category_hint": "أخبار التقنية",
-      "fetch_limit_per_run": 2,
-      "feed_url": "https://feeds.bbci.co.uk/news/technology/rss.xml",
-      "extractor_type": "feed_fallback"
-    },
-    {
-      "name": "CNET Tech",
-      "base_url": "https://www.cnet.com/tech",
-      "enabled": true,
-      "category_hint": "أخبار التقنية",
-      "fetch_limit_per_run": 2,
-      "extractor_type": "auto"
-    },
-    {
-      "name": "Windows Central",
-      "base_url": "https://www.windowscentral.com",
-      "enabled": true,
-      "category_hint": "أخبار التقنية",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -405,7 +329,7 @@
       "base_url": "https://www.makeuseof.com",
       "enabled": true,
       "category_hint": "برامج وتطبيقات",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -413,7 +337,7 @@
       "base_url": "https://www.howtogeek.com",
       "enabled": true,
       "category_hint": "برامج وتطبيقات",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -421,7 +345,7 @@
       "base_url": "https://lifehacker.com",
       "enabled": true,
       "category_hint": "برامج وتطبيقات",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -437,7 +361,7 @@
       "base_url": "https://alternativeto.net/news",
       "enabled": true,
       "category_hint": "برامج وتطبيقات",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "feed_url": "https://alternativeto.net/news/feed",
       "extractor_type": "feed_fallback"
     },
@@ -446,7 +370,7 @@
       "base_url": "https://www.neowin.net",
       "enabled": true,
       "category_hint": "برامج وتطبيقات",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -454,7 +378,7 @@
       "base_url": "https://www.betanews.com",
       "enabled": true,
       "category_hint": "برامج وتطبيقات",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -462,7 +386,7 @@
       "base_url": "https://www.softpedia.com/news",
       "enabled": true,
       "category_hint": "برامج وتطبيقات",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "feed_url": "https://news.softpedia.com/newsRSS/Global-0.xml",
       "extractor_type": "feed_fallback"
     },
@@ -471,7 +395,7 @@
       "base_url": "https://9to5google.com",
       "enabled": true,
       "category_hint": "برامج وتطبيقات",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },
     {
@@ -479,33 +403,8 @@
       "base_url": "https://appleinsider.com",
       "enabled": true,
       "category_hint": "برامج وتطبيقات",
-      "fetch_limit_per_run": 2,
+      "fetch_limit_per_run": 3,
       "extractor_type": "auto"
-    },
-    {
-      "name": "XDA Developers",
-      "base_url": "https://www.xda-developers.com",
-      "enabled": true,
-      "category_hint": "برامج وتطبيقات",
-      "fetch_limit_per_run": 2,
-      "extractor_type": "auto"
-    },
-    {
-      "name": "Android Police",
-      "base_url": "https://www.androidpolice.com",
-      "enabled": true,
-      "category_hint": "برامج وتطبيقات",
-      "fetch_limit_per_run": 2,
-      "extractor_type": "auto"
-    },
-    {
-      "name": "APKMirror",
-      "base_url": "https://www.apkmirror.com/apk",
-      "enabled": true,
-      "category_hint": "برامج وتطبيقات",
-      "fetch_limit_per_run": 2,
-      "feed_url": "https://www.apkmirror.com/feed/",
-      "extractor_type": "feed_fallback"
     }
   ]
 }

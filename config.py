@@ -164,7 +164,7 @@ SOURCE_RETRY_DELAY_SECONDS = _env_int("SOURCE_RETRY_DELAY_SECONDS", 3)
 SOURCE_TIMEOUT_SECONDS = _env_int("SOURCE_TIMEOUT_SECONDS", 12)
 ARTICLE_TIMEOUT_SECONDS = _env_int("ARTICLE_TIMEOUT_SECONDS", 15)
 MAX_SOURCES_PER_RUN = _env_int("MAX_SOURCES_PER_RUN", 3)
-FALLBACK_FIRST_RUN_LOOKBACK_HOURS = _env_int("FALLBACK_FIRST_RUN_LOOKBACK_HOURS", 2)
+FALLBACK_FIRST_RUN_LOOKBACK_HOURS = _env_int("FALLBACK_FIRST_RUN_LOOKBACK_HOURS", 6)
 CRAWL_INTERVAL_MINUTES = _env_int("CRAWL_INTERVAL_MINUTES", 5)
 CRAWL_OVERLAP_MINUTES = _env_int("CRAWL_OVERLAP_MINUTES", 10)
 RECENT_NEWS_ONLY = _env_bool_any(["RECENT_ONLY", "RECENT_NEWS_ONLY"], True)
@@ -486,7 +486,10 @@ MANDATORY INTERNAL WORKFLOW:
    - Write like a professional Arabic technology blogger.
    - Use a strong intro, then a clear first paragraph.
    - Make the body structured, readable, and engaging.
-   - Write a complete long-form Blogger article of 800-1200 Arabic words.
+   - Write a compact fast-news Blogger article, usually 120-250 Arabic words.
+   - If the available source material is thin, a clean article of at least 80
+     Arabic words is acceptable when it honestly uses only the title, summary,
+     metadata, and known source context.
    - Include a required section with this exact heading:
      <h2>ماذا يعني هذا لك</h2>
    - End with a strong conclusion that summarizes the practical meaning.

@@ -26,6 +26,9 @@ on:
         default: "6"
         type: choice
         options:
+          - "2"
+          - "3"
+          - "4"
           - "6"
 
 concurrency:
@@ -151,7 +154,7 @@ jobs:
           if fast_news not in {"true", "false"}:
               fast_news = "true"
           recent_hours = os.environ.get("REQUESTED_RECENT_HOURS", "6").strip()
-          if recent_hours != "6":
+          if recent_hours not in {"2", "3", "4", "6"}:
               recent_hours = "6"
 
           Path("client_secret.json").write_text(os.environ.get("BLOGGER_CLIENT_SECRET_JSON", ""), encoding="utf-8")
@@ -178,7 +181,7 @@ jobs:
               "RECENT_NEWS_MAX_AGE_HOURS": recent_hours,
               "RECENT_HOURS": recent_hours,
               "FRESHNESS_SAFETY_MARGIN_MINUTES": "10",
-              "FALLBACK_FIRST_RUN_LOOKBACK_HOURS": "2",
+              "FALLBACK_FIRST_RUN_LOOKBACK_HOURS": "6",
               "CRAWL_INTERVAL_MINUTES": "5",
               "CRAWL_OVERLAP_MINUTES": "10",
               "ALLOW_UNKNOWN_DATE_IN_FAST_MODE": "false",
@@ -230,7 +233,7 @@ jobs:
           print("FIRST_VALID_ARTICLE_MODE: true")
           print(f"RECENT_NEWS_MAX_AGE_HOURS: {recent_hours}")
           print("FRESHNESS_SAFETY_MARGIN_MINUTES: 10")
-          print("FALLBACK_FIRST_RUN_LOOKBACK_HOURS: 2")
+          print("FALLBACK_FIRST_RUN_LOOKBACK_HOURS: 6")
           print("CRAWL_INTERVAL_MINUTES: 5")
           print("CRAWL_OVERLAP_MINUTES: 10")
           print("Effective action: LIVE_FAST_RECENT_NEWS")
