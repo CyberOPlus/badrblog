@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-27T21:20:17",
+  "updated_at": "2026-04-27T21:25:14",
   "articles": [
     {
       "id": "a7a11e65e86e7bcc",
@@ -3719,7 +3719,7 @@
       "category_label": "Tech-News",
       "category_hint": "Tech-News",
       "discovered_at": "2026-04-27T21:04:33",
-      "status": "ready",
+      "status": "published",
       "score": 0,
       "priority": "low",
       "fetched_title": "Open source package with 1 million monthly downloads stole user credentials",
@@ -3746,13 +3746,115 @@
       "content_preview_chars": 4114,
       "content_fetched_at": "2026-04-27T21:04:34",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-04-27T21:24:57",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-04-27T21:24:57",
+      "ai_input_package": {
+        "title": "Open source package with 1 million monthly downloads stole user credentials",
+        "url": "https://arstechnica.com/security/2026/04/open-source-package-with-1-million-monthly-downloads-stole-user-credentials",
+        "source_name": "Ars Technica",
+        "suggested_category": "Tech-News",
+        "main_image": "",
+        "article_images": [],
+        "meta_description": "If you're one of millions using element-data, it's time to check for compromise.",
+        "content_preview": "Open source software with more than 1 million monthly downloads was compromised after a threat actor exploited a vulnerability in the developers’ account workflow that gave access to its signing keys and other sensitive information. On Friday, unknown attackers exploited the vulnerability to push a new version of element-data , a command-line interface that helps users monitor performance and anomalies in machine-learning systems. When run, the malicious package scoured systems for sensitive data, including user profiles, warehouse credentials, cloud provider keys, API tokens, and SSH keys, developers said . The malicious version was tagged as 0.23.3 and was published to the developers’ Python Package Index and Docker image accounts. It was removed about 12 hours later, on Saturday. Elementary Cloud, the Elementary dbt package, and all other CLI versions weren’t affected. “Users who installed 0.23.3, or who pulled and ran the affected Docker image, should assume that any credentials accessible to the environment where it ran may have been exposed,” the developers wrote. The threat actor gained access to the developers’ account by exploiting a vulnerability in a GitHub action they created. By posting malicious code to a pull request, the attackers were able to run a bash script that ran inside the developer’s account. The bash script retrieved the sensitive data. With the account tokens and signing keys, the attacker went on to publish a malicious element-data package that was nearly indistinguishable from a legitimate one. The developers learned of the compromise from a third-party issue report . Within three hours, the package was removed. Element developers said they also rotated all credentials that the malicious code had access to. They have further fixed the vulnerability and audited all their other GitHub actions to ensure none contain the same flaw. The developers are urging all developers who installed version 0.23.3 to take the following steps immediately: 1. Check your installed version: pip show elementary-data | grep Version 2. If the version is 0.23.3, uninstall it and replace it with the safe version: pip install elementary-data==0.23.4 In your requirements and lockfiles, pin explicitly to elementary-data==0.23.4. 3. Delete your cache files to avoid any artifacts. 4. Check for the malware’s marker file on any machine where the CLI may have run: If this file is present, the payload executed on that machine. macOS / Linux: /tmp/.trinny-security-update Windows: %TEMP%\\\\.trinny-security-update 5. Rotate any credentials that were accessible from the environment where 0.23.3 ran – dbt profiles, warehouse credentials, cloud provider keys, API tokens, SSH keys, and the contents of any .env files. CI/CD runners are especially exposed because they typically have broad sets of secrets mounted at runtime. 6. Contact your security team to hunt for unauthorized usage of exposed credentials. The relevant IOCs are at the bottom of this post . Over the past decade, supply-chain attacks on open source repositories have become increasingly common. In some cases, they have achieved a chain of compromises as the malicious package leads to breaches of users and, from there, breaches resulting from the compromise of the users’ environments. HD Moore, a hacker with more than four decades of experience and the founder and CEO of runZero, said that user-developed repository workflows, such as GitHub actions, are notorious for hosting vulnerabilities. It’s a “a major problem for open source projects with open repos,” he said. “It’s really hard to not accidentally create dangerous workflows that can be exploited by an attacker’s pull request.” He said this package can be used to check for such vulnerabilities. 1. Meet the players who lost big money on Peter Molyneux’s failed Legacy 2. Palantir employees are talking about company's \"descent into fascism\" 3. Prime Video drops full trailer for Spider-Noir 4. National Science Board eviscerated; Trump admin fires all 22 members 5. Gateway manufacturer finally acknowledges issue, fails to mention \"corrosion\"",
+        "content_preview_chars": 4114,
+        "rss_summary": "",
+        "full_article_text": "Open source software with more than 1 million monthly downloads was compromised after a threat actor exploited a vulnerability in the developers’ account workflow that gave access to its signing keys and other sensitive information. On Friday, unknown attackers exploited the vulnerability to push a new version of element-data , a command-line interface that helps users monitor performance and anomalies in machine-learning systems. When run, the malicious package scoured systems for sensitive data, including user profiles, warehouse credentials, cloud provider keys, API tokens, and SSH keys, developers said . The malicious version was tagged as 0.23.3 and was published to the developers’ Python Package Index and Docker image accounts. It was removed about 12 hours later, on Saturday. Elementary Cloud, the Elementary dbt package, and all other CLI versions weren’t affected. “Users who installed 0.23.3, or who pulled and ran the affected Docker image, should assume that any credentials accessible to the environment where it ran may have been exposed,” the developers wrote. The threat actor gained access to the developers’ account by exploiting a vulnerability in a GitHub action they created. By posting malicious code to a pull request, the attackers were able to run a bash script that ran inside the developer’s account. The bash script retrieved the sensitive data. With the account tokens and signing keys, the attacker went on to publish a malicious element-data package that was nearly indistinguishable from a legitimate one. The developers learned of the compromise from a third-party issue report . Within three hours, the package was removed. Element developers said they also rotated all credentials that the malicious code had access to. They have further fixed the vulnerability and audited all their other GitHub actions to ensure none contain the same flaw. The developers are urging all developers who installed version 0.23.3 to take the following steps immediately: 1. Check your installed version: pip show elementary-data | grep Version 2. If the version is 0.23.3, uninstall it and replace it with the safe version: pip install elementary-data==0.23.4 In your requirements and lockfiles, pin explicitly to elementary-data==0.23.4. 3. Delete your cache files to avoid any artifacts. 4. Check for the malware’s marker file on any machine where the CLI may have run: If this file is present, the payload executed on that machine. macOS / Linux: /tmp/.trinny-security-update Windows: %TEMP%\\\\.trinny-security-update 5. Rotate any credentials that were accessible from the environment where 0.23.3 ran – dbt profiles, warehouse credentials, cloud provider keys, API tokens, SSH keys, and the contents of any .env files. CI/CD runners are especially exposed because they typically have broad sets of secrets mounted at runtime. 6. Contact your security team to hunt for unauthorized usage of exposed credentials. The relevant IOCs are at the bottom of this post . Over the past decade, supply-chain attacks on open source repositories have become increasingly common. In some cases, they have achieved a chain of compromises as the malicious package leads to breaches of users and, from there, breaches resulting from the compromise of the users’ environments. HD Moore, a hacker with more than four decades of experience and the founder and CEO of runZero, said that user-developed repository workflows, such as GitHub actions, are notorious for hosting vulnerabilities. It’s a “a major problem for open source projects with open repos,” he said. “It’s really hard to not accidentally create dangerous workflows that can be exploited by an attacker’s pull request.” He said this package can be used to check for such vulnerabilities. 1. Meet the players who lost big money on Peter Molyneux’s failed Legacy 2. Palantir employees are talking about company's \"descent into fascism\" 3. Prime Video drops full trailer for Spider-Noir 4. National Science Board eviscerated; Trump admin fires all 22 members 5. Gateway manufacturer finally acknowledges issue, fails to mention \"corrosion\"",
+        "full_article_text_chars": 4114,
+        "enrichment_status": "strong",
+        "source_url": "https://arstechnica.com",
+        "source_published_at": "2026-04-27T21:04:03Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.0,
+        "trusted_references": [
+          {
+            "title": "element-data",
+            "url": "https://github.com/elementary-data/elementary/pkgs/container/elementary"
+          },
+          {
+            "title": "issue report",
+            "url": "https://github.com/elementary-data/elementary/issues/2205"
+          },
+          {
+            "title": "this package",
+            "url": "https://github.com/zizmorcore/zizmor"
+          }
+        ],
+        "related_posts": [
+          {
+            "title": "Super ZSNES: محاكي SNES يُعيد إحياء ألعاب نينتندو بصوت محسّن",
+            "url": "https://arstechnica.com/gadgets/2026/04/super-zsnes-is-a-stab-at-a-modern-snes-emulator-from-the-original-developers"
+          },
+          {
+            "title": "آبل تُعلن عن iPhone Ultra وMacBook Ultra كأحدث منتجاتها الرائدة",
+            "url": "https://www.digitaltrends.com/phones/apple-has-apparently-locked-iphone-ultra-and-macbook-ultra-as-its-next-flagships"
+          },
+          {
+            "title": "NASA's SpaceX Crew-13 pays homage to Apollo 13 on mission patch",
+            "url": "https://arstechnica.com/space/2026/04/nasas-spacex-crew-13-pays-homage-to-apollo-13-on-mission-patch"
+          }
+        ]
+      },
+      "ai_status": "completed",
+      "ai_processed_at": "2026-04-27T21:25:01",
+      "seo_title": "Open source package with 1 million monthly downloads stole user credentials",
+      "seo_description": "ملخص سريع لخبر Open source package with 1 million monthly downloads stole user credentials: Open source software with more than 1 million monthly downloads was",
+      "seo_slug": "open-source-package-with-1-million-monthly",
+      "final_html": "<p>يتناول هذا الخبر تطورا جديدا بعنوان: Open source package with 1 million monthly downloads stole user credentials. نعرضه هنا بصياغة عربية مختصرة وسريعة اعتمادا على المعلومات المتاحة فقط، من دون إضافة تفاصيل غير مؤكدة.</p>\n<h2>ملخص الخبر</h2>\n<p>Open source software with more than 1 million monthly downloads was compromised after a threat actor exploited a vulnerability in the developers’ account workflow that gave access to its signing keys and other sensitive information. On Friday, unknown attackers exploited the vulnerability to push a new version of element-data , a command-line interface that helps users monitor performance and anomalies in machine-learning systems. When run, the malicious package scoured systems for sensitive data, including user profiles, warehouse credentials, cloud provider keys, API tokens, and SSH keys, developers said . The malicious version was tagged as 0.23.3 and was published to the developers’ Python Package Index and Docker image accounts. It was removed about 12 hours later, on Saturday. Elementary Cloud, the Elementary dbt package, and all other CLI versions weren’t affected. “Users who installed 0.23.3, or who pulled and ran the affected Docker image, should assume that any credentials accessible to the environment where it ran may have been exposed,” the developers wrote. The threat actor gained access to the developers’ account by exploiting a vulnerability in a GitHub action they created. By posting malicious code to a pull request, the attackers were able to run a bash script that ran inside the developer’s account. The bash script retrieved the sensitive data. With the account tokens and signing keys, the attacker went on to publish a malicious element-data package that was nearly indistinguishable from a legitimate one. The developers learned of the compromise from a third-party issue report . Within three hours, the package was removed. Element developers said they also rotated all credentials that the malicious code had access to. They have further fixed the vulnerability and audited all their other GitHub actions to ensure none contain the same flaw. The developers are urging all developers who installed version 0.23.3 to take the following steps immediately: 1. Check your installed version: pip show elementary-data | grep Version 2. If the version is 0.23.3, uninstall it and replace it with the safe version: pip install elementary-data==0.23.4 In your requirements and lockfiles, pin explicitly to elementary-data==0.23.4. 3. Delete your cache files to avoid any artifacts. 4. Check for the malware’s marker file on any machine where the CLI may have run: If this file is present, the payload executed on that machine. macOS / Linux: /tmp/.trinny-security-update Windows: %TEMP%\\\\.trinny-security-update 5. Rotate any credentials that were accessible from the environment where 0.23.3 ran – dbt profiles, warehouse credentials, cloud provider keys, API tokens, SSH keys, and the contents of any .env files. CI/CD runners are especially exposed because they typically have broad sets of secrets mounted at runtime. 6. Contact your security team to hunt for unauthorized usage of exposed credentials. The relevant IOCs are at the bottom of this post . Over the past decade, supply-chain attacks on open source repositories have become increasingly common. In some cases, they have achieved a chain of compromises as the malicious package leads to breaches of users and, from there, breaches resulting from the compromise of the users’ environments. HD Moore, a hacker with more than four decades of experience and the founder and CEO of runZero, said that user-developed repository workflows, such as GitHub actions, are notorious for hosting vulnerabilities. It’s a “a major problem for open source projects with open repos,” he said. “It’s really hard to not accidentally create dangerous workflows that can be exploited by an attacker’s pull request.” He said this package can be used to check for such vulnerabilities. 1. Meet the players who lost big money on Peter Molyneux’s failed Legacy 2. Palantir employees are talking about company&#x27;s &quot;descent into fascism&quot; 3. Prime Video drops full trailer for Spider-Noir 4. National Science Board eviscerated; Trump admin fires all 22 members 5. Gateway manufacturer finally acknowledges issue, fails to mention &quot;corrosion&quot;</p>\n<h2>لماذا يهم هذا الخبر؟</h2>\n<p>أهمية الخبر أنه يساعد القارئ على متابعة المستجدات التقنية بسرعة، خصوصا عندما يتعلق الأمر بتحديثات أمنية أو أدوات ذكاء اصطناعي أو تغييرات في التطبيقات والخدمات الرقمية.</p>\n<h2>الخلاصة</h2>\n<p>الخلاصة أن الخبر يستحق المتابعة لأنه يقدم معلومة حديثة ومباشرة. سنبقي التفاصيل في نطاق ما توفر من بيانات واضحة من Ars Technica.</p>\n<p class='pRef'>المراجع:<br><a class='extL' href='https://github.com/elementary-data/elementary/pkgs/container/elementary' target='_blank'>element-data</a><br><a class='extL' href='https://github.com/elementary-data/elementary/issues/2205' target='_blank'>issue report</a><br><a class='extL' href='https://github.com/zizmorcore/zizmor' target='_blank'>this package</a></p>\n<div class='pRelate'><b>قد يهمك أيضًا:</b><ul><li><a href='https://arstechnica.com/gadgets/2026/04/super-zsnes-is-a-stab-at-a-modern-snes-emulator-from-the-original-developers'>Super ZSNES: محاكي SNES يُعيد إحياء ألعاب نينتندو بصوت محسّن</a></li><li><a href='https://www.digitaltrends.com/phones/apple-has-apparently-locked-iphone-ultra-and-macbook-ultra-as-its-next-flagships'>آبل تُعلن عن iPhone Ultra وMacBook Ultra كأحدث منتجاتها الرائدة</a></li><li><a href='https://arstechnica.com/space/2026/04/nasas-spacex-crew-13-pays-homage-to-apollo-13-on-mission-patch'>NASA&#x27;s SpaceX Crew-13 pays homage to Apollo 13 on mission patch</a></li></ul></div>",
+      "blogger_article_html": "<p>يتناول هذا الخبر تطورا جديدا بعنوان: Open source package with 1 million monthly downloads stole user credentials. نعرضه هنا بصياغة عربية مختصرة وسريعة اعتمادا على المعلومات المتاحة فقط، من دون إضافة تفاصيل غير مؤكدة.</p>\n<h2>ملخص الخبر</h2>\n<p>Open source software with more than 1 million monthly downloads was compromised after a threat actor exploited a vulnerability in the developers’ account workflow that gave access to its signing keys and other sensitive information. On Friday, unknown attackers exploited the vulnerability to push a new version of element-data , a command-line interface that helps users monitor performance and anomalies in machine-learning systems. When run, the malicious package scoured systems for sensitive data, including user profiles, warehouse credentials, cloud provider keys, API tokens, and SSH keys, developers said . The malicious version was tagged as 0.23.3 and was published to the developers’ Python Package Index and Docker image accounts. It was removed about 12 hours later, on Saturday. Elementary Cloud, the Elementary dbt package, and all other CLI versions weren’t affected. “Users who installed 0.23.3, or who pulled and ran the affected Docker image, should assume that any credentials accessible to the environment where it ran may have been exposed,” the developers wrote. The threat actor gained access to the developers’ account by exploiting a vulnerability in a GitHub action they created. By posting malicious code to a pull request, the attackers were able to run a bash script that ran inside the developer’s account. The bash script retrieved the sensitive data. With the account tokens and signing keys, the attacker went on to publish a malicious element-data package that was nearly indistinguishable from a legitimate one. The developers learned of the compromise from a third-party issue report . Within three hours, the package was removed. Element developers said they also rotated all credentials that the malicious code had access to. They have further fixed the vulnerability and audited all their other GitHub actions to ensure none contain the same flaw. The developers are urging all developers who installed version 0.23.3 to take the following steps immediately: 1. Check your installed version: pip show elementary-data | grep Version 2. If the version is 0.23.3, uninstall it and replace it with the safe version: pip install elementary-data==0.23.4 In your requirements and lockfiles, pin explicitly to elementary-data==0.23.4. 3. Delete your cache files to avoid any artifacts. 4. Check for the malware’s marker file on any machine where the CLI may have run: If this file is present, the payload executed on that machine. macOS / Linux: /tmp/.trinny-security-update Windows: %TEMP%\\\\.trinny-security-update 5. Rotate any credentials that were accessible from the environment where 0.23.3 ran – dbt profiles, warehouse credentials, cloud provider keys, API tokens, SSH keys, and the contents of any .env files. CI/CD runners are especially exposed because they typically have broad sets of secrets mounted at runtime. 6. Contact your security team to hunt for unauthorized usage of exposed credentials. The relevant IOCs are at the bottom of this post . Over the past decade, supply-chain attacks on open source repositories have become increasingly common. In some cases, they have achieved a chain of compromises as the malicious package leads to breaches of users and, from there, breaches resulting from the compromise of the users’ environments. HD Moore, a hacker with more than four decades of experience and the founder and CEO of runZero, said that user-developed repository workflows, such as GitHub actions, are notorious for hosting vulnerabilities. It’s a “a major problem for open source projects with open repos,” he said. “It’s really hard to not accidentally create dangerous workflows that can be exploited by an attacker’s pull request.” He said this package can be used to check for such vulnerabilities. 1. Meet the players who lost big money on Peter Molyneux’s failed Legacy 2. Palantir employees are talking about company&#x27;s &quot;descent into fascism&quot; 3. Prime Video drops full trailer for Spider-Noir 4. National Science Board eviscerated; Trump admin fires all 22 members 5. Gateway manufacturer finally acknowledges issue, fails to mention &quot;corrosion&quot;</p>\n<h2>لماذا يهم هذا الخبر؟</h2>\n<p>أهمية الخبر أنه يساعد القارئ على متابعة المستجدات التقنية بسرعة، خصوصا عندما يتعلق الأمر بتحديثات أمنية أو أدوات ذكاء اصطناعي أو تغييرات في التطبيقات والخدمات الرقمية.</p>\n<h2>الخلاصة</h2>\n<p>الخلاصة أن الخبر يستحق المتابعة لأنه يقدم معلومة حديثة ومباشرة. سنبقي التفاصيل في نطاق ما توفر من بيانات واضحة من Ars Technica.</p>\n<p class='pRef'>المراجع:<br><a class='extL' href='https://github.com/elementary-data/elementary/pkgs/container/elementary' target='_blank'>element-data</a><br><a class='extL' href='https://github.com/elementary-data/elementary/issues/2205' target='_blank'>issue report</a><br><a class='extL' href='https://github.com/zizmorcore/zizmor' target='_blank'>this package</a></p>\n<div class='pRelate'><b>قد يهمك أيضًا:</b><ul><li><a href='https://arstechnica.com/gadgets/2026/04/super-zsnes-is-a-stab-at-a-modern-snes-emulator-from-the-original-developers'>Super ZSNES: محاكي SNES يُعيد إحياء ألعاب نينتندو بصوت محسّن</a></li><li><a href='https://www.digitaltrends.com/phones/apple-has-apparently-locked-iphone-ultra-and-macbook-ultra-as-its-next-flagships'>آبل تُعلن عن iPhone Ultra وMacBook Ultra كأحدث منتجاتها الرائدة</a></li><li><a href='https://arstechnica.com/space/2026/04/nasas-spacex-crew-13-pays-homage-to-apollo-13-on-mission-patch'>NASA&#x27;s SpaceX Crew-13 pays homage to Apollo 13 on mission patch</a></li></ul></div>",
+      "final_word_count": 799,
+      "final_html_chars": 5774,
+      "final_content_hash": "97b5fb62f529fba2c15e93ed",
+      "ai_provider_used": "basic-template-fallback",
+      "ai_fallback_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googlea",
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 799,
+        "warnings": [
+          "reader-impact section omitted in fast mode",
+          "missing article image"
+        ]
+      },
+      "pre_publish_warnings": [
+        "reader-impact section omitted in fast mode",
+        "missing article image"
+      ],
+      "blogger_post_id": "3290050930528343134",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/04/open-source-package-with-1-million.html",
+      "published_at": "2026-04-27T21:25:02",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|3290050930528343134|published|unknown",
+      "telegram_blogger_notified_at": "2026-04-27T21:25:03",
+      "telegram_last_notification_at": "2026-04-27T21:25:13",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_867444706364824",
+      "facebook_posted_at": "2026-04-27T21:25:05",
+      "facebook_post_type": "feed",
+      "facebook_caption_pattern": "breaking_alert",
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "🚨 تم اكتشاف تطور مهم في المشهد التقني.\nOpen source package with 1 million monthly downloads stole user credentials\nملخص سريع لخبر Open source package with 1 million monthly downloads stole user credentials: Open source software with more than 1 million monthly downloads was\nالتفاصيل الكاملة في أول تعليق.\n#CyberSecurity #AI #TechNews #Apps #API #Malware #Data",
+      "facebook_comment_id": "867444706364824_1841585503174948",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_867444706364824|867444706364824_1841585503174948|unknown",
+      "telegram_facebook_notified_at": "2026-04-27T21:25:13",
+      "archived": true,
+      "archived_at": "2026-04-27T21:25:13",
+      "archive_reason": "published_to_blogger",
+      "telegram_final_summary_notified_at": "2026-04-27T21:25:14"
     }
   ],
   "notifications": {
-    "telegram_final_summary_event_key": "20260427211831472983",
-    "telegram_final_summary_notified_at": "2026-04-27T21:20:17",
-    "last_notification_at": "2026-04-27T21:20:17",
+    "telegram_final_summary_event_key": "20260427212350682121",
+    "telegram_final_summary_notified_at": "2026-04-27T21:25:14",
+    "last_notification_at": "2026-04-27T21:25:14",
     "telegram_auto_cycle_blocked_event_key": "no fresh article safely inside the last 6 hours|",
     "telegram_auto_cycle_blocked_notified_at": "2026-04-27T20:59:54"
   }
