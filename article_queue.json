@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-27T20:12:05",
+  "updated_at": "2026-04-27T20:18:41",
   "articles": [
     {
       "id": "a7a11e65e86e7bcc",
@@ -574,7 +574,7 @@
       "category_label": "Cyber-Security",
       "category_hint": "Cyber-Security",
       "discovered_at": "2026-04-27T18:10:45",
-      "status": "ready",
+      "status": "published",
       "score": 6,
       "priority": "medium",
       "fetched_title": "Critical Gemini CLI Vulnerability Enables Remote Code Execution Attacks",
@@ -601,7 +601,109 @@
       "content_preview_chars": 3876,
       "content_fetched_at": "2026-04-27T18:10:47",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-04-27T20:17:34",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-04-27T20:17:34",
+      "ai_input_package": {
+        "title": "Critical Gemini CLI Vulnerability Enables Remote Code Execution Attacks",
+        "url": "https://cybersecuritynews.com/gemini-cli-rce-vulnerability",
+        "source_name": "Cyber Security News",
+        "suggested_category": "Cyber-Security",
+        "main_image": "",
+        "article_images": [],
+        "meta_description": "Google patched a critical Gemini CLI flaw that could enable remote code execution in automated workflows.",
+        "content_preview": "Google has fixed a critical security flaw in the Gemini CLI that could allow attackers to execute remote code in certain automated workflows. The issue affects the npm package @google/gemini-cli and the google-github-actions/run-gemini-cli GitHub Action, especially when they are used in headless environments such as CI/CD pipelines . According to the security advisory, the vulnerability comes from two related weaknesses: unsafe workspace trust handling and a bypass of tool allowlisting under –yolo mode. Together, these flaws could expose systems that process untrusted content, such as pull requests or issue submissions from external users. The first problem involves folder trust in headless mode. In earlier versions, Gemini CLI automatically trusted the current workspace when running in non-interactive environments. That meant the tool could load local configuration files and environment variables from the .gemini/ directory without explicit approval. If an attacker placed malicious content in that directory, the CLI could process it and potentially execute harmful commands. In practice, this created a path to remote code execution in CI workflows that handled untrusted repositories. The second issue affects tool allowlisting under –yolo mode. Previous releases did not properly enforce fine-grained tool restrictions defined in ~/.gemini/settings.json when –yolo was enabled. For example, if a workflow allowed run_shell_command, the policy could become too broad and permit dangerous commands instead of only approved ones. In environments that process untrusted prompts or user-controlled text, this weakness could be abused through prompt injection to trigger command execution . The advisory says the impact is limited to Gemini CLI deployments in headless mode, but that still includes many GitHub Actions workflows. Google warns that all users should review how Gemini CLI is configured in automation pipelines, especially where external contributors can influence files, prompts, or environment settings. Patched versions are now available. Users should upgrade @google/gemini-cli to or. The run-gemini-cli GitHub Action is patched in version. Workflows that pin older Gemini CLI versions should be updated immediately. Google also introduced a breaking security change. Headless mode will no longer automatically trust workspace folders. Organizations using trusted inputs must explicitly set GEMINI_TRUST_WORKSPACE: ‘true’. For workflows that process untrusted content, Google recommends following its hardening guidance and carefully reviewing allowed tools and command execution settings. The flaw was reported by Elad Meged (Novee Security) and Dan Lisichkin (Pillar Security) through Google’s Vulnerability Rewards Program. The case highlights a growing risk in AI-powered developer tools: when automation, prompt handling, and shell access meet untrusted input, small policy gaps can quickly become critical attack paths. Follow us on Google News , LinkedIn , and X for daily cybersecurity updates. Contact us to feature your stories. Microsoft Officially Shares Group Policy to Remove Windows 11 Copilot from Enterprise Devices Claude Mythos AI Model Uncovers 271 Zero-Day Vulnerabilities in Firefox 1,370+ Microsoft SharePoint Servers Vulnerable to Spoofing Attacks Exposed Online Bitwarden CLI Compromised in Supply Chain Attack via GitHub Actions Xiongmai IP Camera Vulnerability Let Attackers Bypass Authentication and have Remote Access ClickUp’s Hardcoded API Key Exposes 959 Emails from Fortune 500 Giants New Vidar Malware Campaign Uses Fake YouTube Software Downloads to Steal Corporate Credentials New Malware Uses Obfuscation and Staged Payload Delivery to Evade Detection Hackers Using Fake Income Tax Department’s Notice to Deploy Malware Researchers Warn macOS textutil and KeePassXC Can Become Attack Primitives in Automation",
+        "content_preview_chars": 3876,
+        "rss_summary": "",
+        "full_article_text": "Google has fixed a critical security flaw in the Gemini CLI that could allow attackers to execute remote code in certain automated workflows. The issue affects the npm package @google/gemini-cli and the google-github-actions/run-gemini-cli GitHub Action, especially when they are used in headless environments such as CI/CD pipelines . According to the security advisory, the vulnerability comes from two related weaknesses: unsafe workspace trust handling and a bypass of tool allowlisting under –yolo mode. Together, these flaws could expose systems that process untrusted content, such as pull requests or issue submissions from external users. The first problem involves folder trust in headless mode. In earlier versions, Gemini CLI automatically trusted the current workspace when running in non-interactive environments. That meant the tool could load local configuration files and environment variables from the .gemini/ directory without explicit approval. If an attacker placed malicious content in that directory, the CLI could process it and potentially execute harmful commands. In practice, this created a path to remote code execution in CI workflows that handled untrusted repositories. The second issue affects tool allowlisting under –yolo mode. Previous releases did not properly enforce fine-grained tool restrictions defined in ~/.gemini/settings.json when –yolo was enabled. For example, if a workflow allowed run_shell_command, the policy could become too broad and permit dangerous commands instead of only approved ones. In environments that process untrusted prompts or user-controlled text, this weakness could be abused through prompt injection to trigger command execution . The advisory says the impact is limited to Gemini CLI deployments in headless mode, but that still includes many GitHub Actions workflows. Google warns that all users should review how Gemini CLI is configured in automation pipelines, especially where external contributors can influence files, prompts, or environment settings. Patched versions are now available. Users should upgrade @google/gemini-cli to or. The run-gemini-cli GitHub Action is patched in version. Workflows that pin older Gemini CLI versions should be updated immediately. Google also introduced a breaking security change. Headless mode will no longer automatically trust workspace folders. Organizations using trusted inputs must explicitly set GEMINI_TRUST_WORKSPACE: ‘true’. For workflows that process untrusted content, Google recommends following its hardening guidance and carefully reviewing allowed tools and command execution settings. The flaw was reported by Elad Meged (Novee Security) and Dan Lisichkin (Pillar Security) through Google’s Vulnerability Rewards Program. The case highlights a growing risk in AI-powered developer tools: when automation, prompt handling, and shell access meet untrusted input, small policy gaps can quickly become critical attack paths. Follow us on Google News , LinkedIn , and X for daily cybersecurity updates. Contact us to feature your stories. Microsoft Officially Shares Group Policy to Remove Windows 11 Copilot from Enterprise Devices Claude Mythos AI Model Uncovers 271 Zero-Day Vulnerabilities in Firefox 1,370+ Microsoft SharePoint Servers Vulnerable to Spoofing Attacks Exposed Online Bitwarden CLI Compromised in Supply Chain Attack via GitHub Actions Xiongmai IP Camera Vulnerability Let Attackers Bypass Authentication and have Remote Access ClickUp’s Hardcoded API Key Exposes 959 Emails from Fortune 500 Giants New Vidar Malware Campaign Uses Fake YouTube Software Downloads to Steal Corporate Credentials New Malware Uses Obfuscation and Staged Payload Delivery to Evade Detection Hackers Using Fake Income Tax Department’s Notice to Deploy Malware Researchers Warn macOS textutil and KeePassXC Can Become Attack Primitives in Automation",
+        "full_article_text_chars": 3876,
+        "enrichment_status": "strong",
+        "source_url": "https://cybersecuritynews.com",
+        "source_published_at": "2026-04-27T15:13:39Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 2.94,
+        "trusted_references": [
+          {
+            "title": "accounts.google.com",
+            "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+          },
+          {
+            "title": "news.google.com",
+            "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN:en"
+          },
+          {
+            "title": "The flaw was reported by Elad Meged (Novee Security) and Dan Lisichkin (Pillar Security)",
+            "url": "https://github.com/advisories/GHSA-wpqr-6v78-jr5g"
+          }
+        ],
+        "related_posts": [
+          {
+            "title": "ملخص CISA الأسبوعي: ثغرات أمنية خطيرة تهدد ThinkPHP و ELBA5",
+            "url": "https://www.cisa.gov/news-events/bulletins/sb26-117"
+          },
+          {
+            "title": "ثغرة في Notepad++ تسمح للمهاجمين بإسقاط التطبيق وتسريب بيانات الذاكرة",
+            "url": "https://cybersecuritynews.com/notepad-vulnerability-crash"
+          },
+          {
+            "title": "مفتاح API ClickUp يفضح 959 بريدًا إلكترونيًا من شركات 500",
+            "url": "https://cybersecuritynews.com/clickup-hardcoded-api-key-expose"
+          }
+        ]
+      },
+      "ai_status": "completed",
+      "ai_processed_at": "2026-04-27T20:18:19",
+      "seo_title": "Critical Gemini CLI Vulnerability Enables Remote Code Execution Attacks",
+      "seo_description": "ملخص سريع لخبر Critical Gemini CLI Vulnerability Enables Remote Code Execution Attacks: Google has fixed a critical security flaw in the Gemini CLI that could allow",
+      "seo_slug": "critical-gemini-cli-vulnerability-enables-remote-code",
+      "final_html": "<p>يتناول هذا الخبر تطورا جديدا بعنوان: Critical Gemini CLI Vulnerability Enables Remote Code Execution Attacks. نعرضه هنا بصياغة عربية مختصرة وسريعة اعتمادا على المعلومات المتاحة فقط، من دون إضافة تفاصيل غير مؤكدة.</p>\n<h2>ملخص الخبر</h2>\n<p>Google has fixed a critical security flaw in the Gemini CLI that could allow attackers to execute remote code in certain automated workflows. The issue affects the npm package @google/gemini-cli and the google-github-actions/run-gemini-cli GitHub Action, especially when they are used in headless environments such as CI/CD pipelines . According to the security advisory, the vulnerability comes from two related weaknesses: unsafe workspace trust handling and a bypass of tool allowlisting under –yolo mode. Together, these flaws could expose systems that process untrusted content, such as pull requests or issue submissions from external users. The first problem involves folder trust in headless mode. In earlier versions, Gemini CLI automatically trusted the current workspace when running in non-interactive environments. That meant the tool could load local configuration files and environment variables from the .gemini/ directory without explicit approval. If an attacker placed malicious content in that directory, the CLI could process it and potentially execute harmful commands. In practice, this created a path to remote code execution in CI workflows that handled untrusted repositories. The second issue affects tool allowlisting under –yolo mode. Previous releases did not properly enforce fine-grained tool restrictions defined in ~/.gemini/settings.json when –yolo was enabled. For example, if a workflow allowed run_shell_command, the policy could become too broad and permit dangerous commands instead of only approved ones. In environments that process untrusted prompts or user-controlled text, this weakness could be abused through prompt injection to trigger command execution . The advisory says the impact is limited to Gemini CLI deployments in headless mode, but that still includes many GitHub Actions workflows. Google warns that all users should review how Gemini CLI is configured in automation pipelines, especially where external contributors can influence files, prompts, or environment settings. Patched versions are now available. Users should upgrade @google/gemini-cli to or. The run-gemini-cli GitHub Action is patched in version. Workflows that pin older Gemini CLI versions should be updated immediately. Google also introduced a breaking security change. Headless mode will no longer automatically trust workspace folders. Organizations using trusted inputs must explicitly set GEMINI_TRUST_WORKSPACE: ‘true’. For workflows that process untrusted content, Google recommends following its hardening guidance and carefully reviewing allowed tools and command execution settings. The flaw was reported by Elad Meged (Novee Security) and Dan Lisichkin (Pillar Security) through Google’s Vulnerability Rewards Program. The case highlights a growing risk in AI-powered developer tools: when automation, prompt handling, and shell access meet untrusted input, small policy gaps can quickly become critical attack paths. Follow us on Google News , LinkedIn , and X for daily cybersecurity updates. Contact us to feature your stories. Microsoft Officially Shares Group Policy to Remove Windows 11 Copilot from Enterprise Devices Claude Mythos AI Model Uncovers 271 Zero-Day Vulnerabilities in Firefox 1,370+ Microsoft SharePoint Servers Vulnerable to Spoofing Attacks Exposed Online Bitwarden CLI Compromised in Supply Chain Attack via GitHub Actions Xiongmai IP Camera Vulnerability Let Attackers Bypass Authentication and have Remote Access ClickUp’s Hardcoded API Key Exposes 959 Emails from Fortune 500 Giants New Vidar Malware Campaign Uses Fake YouTube Software Downloads to Steal Corporate Credentials New Malware Uses Obfuscation and Staged Payload Delivery to Evade Detection Hackers Using Fake Income Tax Department’s Notice to Deploy Malware Researchers Warn macOS textutil and KeePassXC Can Become Attack Primitives in Automation</p>\n<h2>لماذا يهم هذا الخبر؟</h2>\n<p>أهمية الخبر أنه يساعد القارئ على متابعة المستجدات التقنية بسرعة، خصوصا عندما يتعلق الأمر بتحديثات أمنية أو أدوات ذكاء اصطناعي أو تغييرات في التطبيقات والخدمات الرقمية.</p>\n<h2>الخلاصة</h2>\n<p>الخلاصة أن الخبر يستحق المتابعة لأنه يقدم معلومة حديثة ومباشرة. سنبقي التفاصيل في نطاق ما توفر من بيانات واضحة من Cyber Security News.</p>\n<p class='pRef'>المراجع:<br><a class='extL' href='https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&amp;dsh=S-1711039385%3A1777114446800583&amp;hl=en-IN&amp;rip=1&amp;sacu=1&amp;flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin&amp;ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt' target='_blank'>accounts.google.com</a><br><a class='extL' href='https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&amp;gl=IN&amp;ceid=IN:en' target='_blank'>news.google.com</a><br><a class='extL' href='https://github.com/advisories/GHSA-wpqr-6v78-jr5g' target='_blank'>The flaw was reported by Elad Meged (Novee Security) and Dan Lisichkin (Pillar Security)</a></p>\n<div class='pRelate'><b>قد يهمك أيضًا:</b><ul><li><a href='https://www.cisa.gov/news-events/bulletins/sb26-117'>ملخص CISA الأسبوعي: ثغرات أمنية خطيرة تهدد ThinkPHP و ELBA5</a></li><li><a href='https://cybersecuritynews.com/notepad-vulnerability-crash'>ثغرة في Notepad++ تسمح للمهاجمين بإسقاط التطبيق وتسريب بيانات الذاكرة</a></li><li><a href='https://cybersecuritynews.com/clickup-hardcoded-api-key-expose'>مفتاح API ClickUp يفضح 959 بريدًا إلكترونيًا من شركات 500</a></li></ul></div>",
+      "blogger_article_html": "<p>يتناول هذا الخبر تطورا جديدا بعنوان: Critical Gemini CLI Vulnerability Enables Remote Code Execution Attacks. نعرضه هنا بصياغة عربية مختصرة وسريعة اعتمادا على المعلومات المتاحة فقط، من دون إضافة تفاصيل غير مؤكدة.</p>\n<h2>ملخص الخبر</h2>\n<p>Google has fixed a critical security flaw in the Gemini CLI that could allow attackers to execute remote code in certain automated workflows. The issue affects the npm package @google/gemini-cli and the google-github-actions/run-gemini-cli GitHub Action, especially when they are used in headless environments such as CI/CD pipelines . According to the security advisory, the vulnerability comes from two related weaknesses: unsafe workspace trust handling and a bypass of tool allowlisting under –yolo mode. Together, these flaws could expose systems that process untrusted content, such as pull requests or issue submissions from external users. The first problem involves folder trust in headless mode. In earlier versions, Gemini CLI automatically trusted the current workspace when running in non-interactive environments. That meant the tool could load local configuration files and environment variables from the .gemini/ directory without explicit approval. If an attacker placed malicious content in that directory, the CLI could process it and potentially execute harmful commands. In practice, this created a path to remote code execution in CI workflows that handled untrusted repositories. The second issue affects tool allowlisting under –yolo mode. Previous releases did not properly enforce fine-grained tool restrictions defined in ~/.gemini/settings.json when –yolo was enabled. For example, if a workflow allowed run_shell_command, the policy could become too broad and permit dangerous commands instead of only approved ones. In environments that process untrusted prompts or user-controlled text, this weakness could be abused through prompt injection to trigger command execution . The advisory says the impact is limited to Gemini CLI deployments in headless mode, but that still includes many GitHub Actions workflows. Google warns that all users should review how Gemini CLI is configured in automation pipelines, especially where external contributors can influence files, prompts, or environment settings. Patched versions are now available. Users should upgrade @google/gemini-cli to or. The run-gemini-cli GitHub Action is patched in version. Workflows that pin older Gemini CLI versions should be updated immediately. Google also introduced a breaking security change. Headless mode will no longer automatically trust workspace folders. Organizations using trusted inputs must explicitly set GEMINI_TRUST_WORKSPACE: ‘true’. For workflows that process untrusted content, Google recommends following its hardening guidance and carefully reviewing allowed tools and command execution settings. The flaw was reported by Elad Meged (Novee Security) and Dan Lisichkin (Pillar Security) through Google’s Vulnerability Rewards Program. The case highlights a growing risk in AI-powered developer tools: when automation, prompt handling, and shell access meet untrusted input, small policy gaps can quickly become critical attack paths. Follow us on Google News , LinkedIn , and X for daily cybersecurity updates. Contact us to feature your stories. Microsoft Officially Shares Group Policy to Remove Windows 11 Copilot from Enterprise Devices Claude Mythos AI Model Uncovers 271 Zero-Day Vulnerabilities in Firefox 1,370+ Microsoft SharePoint Servers Vulnerable to Spoofing Attacks Exposed Online Bitwarden CLI Compromised in Supply Chain Attack via GitHub Actions Xiongmai IP Camera Vulnerability Let Attackers Bypass Authentication and have Remote Access ClickUp’s Hardcoded API Key Exposes 959 Emails from Fortune 500 Giants New Vidar Malware Campaign Uses Fake YouTube Software Downloads to Steal Corporate Credentials New Malware Uses Obfuscation and Staged Payload Delivery to Evade Detection Hackers Using Fake Income Tax Department’s Notice to Deploy Malware Researchers Warn macOS textutil and KeePassXC Can Become Attack Primitives in Automation</p>\n<h2>لماذا يهم هذا الخبر؟</h2>\n<p>أهمية الخبر أنه يساعد القارئ على متابعة المستجدات التقنية بسرعة، خصوصا عندما يتعلق الأمر بتحديثات أمنية أو أدوات ذكاء اصطناعي أو تغييرات في التطبيقات والخدمات الرقمية.</p>\n<h2>الخلاصة</h2>\n<p>الخلاصة أن الخبر يستحق المتابعة لأنه يقدم معلومة حديثة ومباشرة. سنبقي التفاصيل في نطاق ما توفر من بيانات واضحة من Cyber Security News.</p>\n<p class='pRef'>المراجع:<br><a class='extL' href='https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&amp;dsh=S-1711039385%3A1777114446800583&amp;hl=en-IN&amp;rip=1&amp;sacu=1&amp;flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin&amp;ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt' target='_blank'>accounts.google.com</a><br><a class='extL' href='https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&amp;gl=IN&amp;ceid=IN:en' target='_blank'>news.google.com</a><br><a class='extL' href='https://github.com/advisories/GHSA-wpqr-6v78-jr5g' target='_blank'>The flaw was reported by Elad Meged (Novee Security) and Dan Lisichkin (Pillar Security)</a></p>\n<div class='pRelate'><b>قد يهمك أيضًا:</b><ul><li><a href='https://www.cisa.gov/news-events/bulletins/sb26-117'>ملخص CISA الأسبوعي: ثغرات أمنية خطيرة تهدد ThinkPHP و ELBA5</a></li><li><a href='https://cybersecuritynews.com/notepad-vulnerability-crash'>ثغرة في Notepad++ تسمح للمهاجمين بإسقاط التطبيق وتسريب بيانات الذاكرة</a></li><li><a href='https://cybersecuritynews.com/clickup-hardcoded-api-key-expose'>مفتاح API ClickUp يفضح 959 بريدًا إلكترونيًا من شركات 500</a></li></ul></div>",
+      "final_word_count": 706,
+      "final_html_chars": 5810,
+      "final_content_hash": "4afecb1a116a2c37f22c10fc",
+      "ai_provider_used": "basic-template-fallback",
+      "ai_fallback_reason": "OpenRouter API error 402: {\"error\":{\"message\":\"This request requires more credits, or fewer max_tokens. You requested up to 8192 tokens, but can only afford 1895. To increase, visit https://openrouter.ai/settings/credits and upgrade to a paid account\",\"code\":402,\"metadata\":{\"provider_name\":null}},\"u",
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 706,
+        "warnings": [
+          "reader-impact section omitted in fast mode",
+          "missing article image"
+        ]
+      },
+      "pre_publish_warnings": [
+        "reader-impact section omitted in fast mode",
+        "missing article image"
+      ],
+      "blogger_post_id": "1749554004374172515",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/04/critical-gemini-cli-vulnerability.html",
+      "published_at": "2026-04-27T20:18:21",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|1749554004374172515|published|unknown",
+      "telegram_blogger_notified_at": "2026-04-27T20:18:22",
+      "telegram_last_notification_at": "2026-04-27T20:18:40",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_867410839701544",
+      "facebook_posted_at": "2026-04-27T20:18:29",
+      "facebook_post_type": "feed",
+      "facebook_caption_pattern": "question_hook",
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "هل تعلم أن Critical Gemini CLI Vulnerability Enables Remote Code Execution Attacks؟\nملخص سريع لخبر Critical Gemini CLI Vulnerability Enables Remote Code Execution Attacks: Google has fixed a critical security flaw in the Gemini CLI that could allow\nالتفاصيل الصغيرة هنا قد تغيّر طريقة فهمنا للمشهد.\nالتفاصيل الكاملة في أول تعليق.\n#CyberSecurity #AI #TechNews #Apps #MicrosoftTeams #API #Malware",
+      "facebook_comment_id": "867410839701544_1878782452782951",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_867410839701544|867410839701544_1878782452782951|unknown",
+      "telegram_facebook_notified_at": "2026-04-27T20:18:40",
+      "archived": true,
+      "archived_at": "2026-04-27T20:18:40",
+      "archive_reason": "published_to_blogger",
+      "telegram_final_summary_notified_at": "2026-04-27T20:18:41"
     },
     {
       "id": "3b7e6397287f6d14",
@@ -2642,9 +2744,9 @@
     }
   ],
   "notifications": {
-    "telegram_final_summary_event_key": "20260427201107867399",
-    "telegram_final_summary_notified_at": "2026-04-27T20:12:05",
-    "last_notification_at": "2026-04-27T20:12:05",
+    "telegram_final_summary_event_key": "20260427201620457500",
+    "telegram_final_summary_notified_at": "2026-04-27T20:18:41",
+    "last_notification_at": "2026-04-27T20:18:41",
     "telegram_auto_cycle_blocked_event_key": "minimum minutes between live posts has not elapsed|2026-04-27T18:16:20",
     "telegram_auto_cycle_blocked_notified_at": "2026-04-27T18:12:11"
   }
