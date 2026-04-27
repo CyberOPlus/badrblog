@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-27T20:03:04",
+  "updated_at": "2026-04-27T20:06:22",
   "articles": [
     {
       "id": "a7a11e65e86e7bcc",
@@ -945,7 +945,7 @@
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-27T19:45:24",
+      "processing_prepared_at": "2026-04-27T20:06:17",
       "ai_input_package": {
         "title": "China kills Meta’s acquisition of Manus as US-China AI rivalry deepens",
         "url": "https://arstechnica.com/ai/2026/04/china-kills-metas-acquisition-of-manus-as-us-china-ai-rivalry-deepens",
@@ -973,12 +973,16 @@
           {
             "title": "آبل تُعلن عن iPhone Ultra وMacBook Ultra كأحدث منتجاتها الرائدة",
             "url": "https://www.digitaltrends.com/phones/apple-has-apparently-locked-iphone-ultra-and-macbook-ultra-as-its-next-flagships"
+          },
+          {
+            "title": "NASA's SpaceX Crew-13 pays homage to Apollo 13 on mission patch",
+            "url": "https://arstechnica.com/space/2026/04/nasas-spacex-crew-13-pays-homage-to-apollo-13-on-mission-patch"
           }
         ]
       },
       "ai_status": "failed",
       "ai_error": "ad/affiliate/sponsored title or summary",
-      "telegram_final_summary_notified_at": "2026-04-27T19:47:15"
+      "telegram_final_summary_notified_at": "2026-04-27T20:06:22"
     },
     {
       "id": "95acaf26656675e4",
@@ -2374,12 +2378,149 @@
       "content_fetched_at": "2026-04-27T19:50:51",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
+    },
+    {
+      "id": "98b5978761f75d6e",
+      "source_url_hash": "98b5978761f75d6e",
+      "canonical_url": "https://arstechnica.com/ai/2026/04/europe-could-force-google-to-open-android-to-other-ai-assistants",
+      "title_hash": "4801155ad1970ef4",
+      "topic_signature": "f7e55113943f9dfdb7aa",
+      "title": "Europe could force Google to open Android to other AI assistants",
+      "url": "https://arstechnica.com/ai/2026/04/europe-could-force-google-to-open-android-to-other-ai-assistants",
+      "source_name": "Ars Technica",
+      "source_url": "https://arstechnica.com",
+      "source_published_at": "2026-04-27T20:03:49Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.04,
+      "rss_summary": "",
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-27T20:06:17",
+      "status": "ready",
+      "score": 6,
+      "priority": "medium",
+      "fetched_title": "Europe could force Google to open Android to other AI assistants",
+      "meta_description": "Gemini gets preferential treatment on Android, but maybe not for long (in Europe).",
+      "article_images": [],
+      "main_image": "",
+      "trusted_references": [],
+      "full_article_text": "Back in January, the European Commission began an initial investigation, known as a specification proceeding, into how Google has implemented AI in the Android operating system. The results are in, and the EU says Android needs to be more open, which is not surprising. Meanwhile, Google says this amounts to “unwarranted intervention,” which is equally unsurprising. Regardless of Google’s characterization of the investigation, the commission may force Google to make Android AI changes this summer. This action stems from the continent’s Digital Markets Act (DMA), a sweeping law that designates seven dominant technology companies as “gatekeepers” that are subject to greater regulation to ensure fair competition. Google has consistently spoken against the regulations imposed under the DMA, but it and the other gatekeepers have been subject to the law for several years now, and there’s little chance the commission backs away from it. The issue before the commission currently is the built-in advantage for Gemini on Android. When you turn on any Google-powered Android phone, Gemini is already there and gets special treatment at the system level. The European Commission is taking aim at the lack of features available to third-party AI services. The commission believes that there are too many experiences on Android that only work with Google’s Gemini AI, and as a gatekeeper, Google must change that. “As we navigate the rapidly evolving landscape of AI, it is clear that interoperability is key to unlocking the full potential of these technologies,” said Commission VP for Tech Sovereignty Henna Virkkunen in a statement . “These measures will open up Android devices to a wider range of AI services, so that users will have the freedom to choose the AI services that best meet their needs and values, without sacrificing functionality.” The commission does have a solid track record pushing for openness so far. Since the DMA came into force, Google has been required to make numerous changes to its business in Europe, like implementing search choice screens on Android, allowing alternative payment methods in the Play Store, and limiting data sharing across services. Now, the EU wants Google to make the Android platform more hospitable to third-party AI services. “This ​unwarranted intervention would strip away that autonomy, mandate access to sensitive hardware and device ​permissions; unnecessarily driving up costs while undermining critical privacy and security protections for European users,” said Google senior competition counsel Claire Kelly. EU rules could mean more AI, not less Just because Gemini is preinstalled on virtually every Android phone doesn’t mean you have to use it. You can easily install ChatGPT or Grok and turn to that chatbot when the need arises. However, these apps won’t have the same access to data and features as Gemini. The commission cites a few examples where Gemini is the only route, like sending an email in your default mail client or sharing a photo with friends. European regulators are proposing several broad changes to the way AI tools operate on Android phones. Some of this is straightforward, like allowing third-party AI tools to be invoked system-wide via hot words or button presses. This might also include allowing AI tools to view screen context when the user opens them. Context also extends to allowing alternative AI systems to access local data to generate proactive suggestions and summaries. The report actually describes something that sounds like Google’s Magic Cue, which relies on Gemini to offer suggestions based on your activity. Google has also started experimenting with allowing AI to control certain apps. As we saw when this feature debuted on the Galaxy S26 , Gemini is currently pretty bad at using apps on your behalf. The commission wants to explore allowing other AI services to autonomously control installed apps and system features on Android phones. Maybe someone else could do better? Many of the Gemini AI features in Android, including Magic Cue, rely on running local models, and Google has been slow to allow third parties the system access to make that work effectively. So the EU is also suggesting a mandate that would ensure developers have the necessary hardware access to run local models “with high levels of performance, availability and responsiveness.” Finally, Google may be required under the DMA to create new APIs and offer technical assistance to other AI makers who want to plug into Android. The commission also specifies these tools must be made available free of charge. So far, this is just a framework for how AI on Android might change. The European Commission is currently accepting feedback from interested parties. That part of the process will wrap up on May 13. A final decision on this investigation will be made no later than July 27 of this year. Failure to enact required changes could result in big fines. The DMA allows for penalties up to 10 percent of a company’s annual global revenue. Google probably won’t be required to fling the doors open right away, though. Creating avenues for third-party AI apps to access system tools and data would take time. Rushing the process could risk security or privacy issues. And naturally, there’s no guarantee any of these proposed changes would be seen outside of the EU. 1. How Legacy became a costly crypto bust for players and a business win for Peter Molyneux 2. Palantir employees are talking about company's \"descent into fascism\" 3. Prime Video drops full trailer for Spider-Noir 4. National Science Board eviscerated; Trump admin fires all 22 members 5. Strange New Worlds S4 teaser strikes a more serious tone",
+      "full_article_text_chars": 5707,
+      "content_preview": "Back in January, the European Commission began an initial investigation, known as a specification proceeding, into how Google has implemented AI in the Android operating system. The results are in, and the EU says Android needs to be more open, which is not surprising. Meanwhile, Google says this amounts to “unwarranted intervention,” which is equally unsurprising. Regardless of Google’s characterization of the investigation, the commission may force Google to make Android AI changes this summer. This action stems from the continent’s Digital Markets Act (DMA), a sweeping law that designates seven dominant technology companies as “gatekeepers” that are subject to greater regulation to ensure fair competition. Google has consistently spoken against the regulations imposed under the DMA, but it and the other gatekeepers have been subject to the law for several years now, and there’s little chance the commission backs away from it. The issue before the commission currently is the built-in advantage for Gemini on Android. When you turn on any Google-powered Android phone, Gemini is already there and gets special treatment at the system level. The European Commission is taking aim at the lack of features available to third-party AI services. The commission believes that there are too many experiences on Android that only work with Google’s Gemini AI, and as a gatekeeper, Google must change that. “As we navigate the rapidly evolving landscape of AI, it is clear that interoperability is key to unlocking the full potential of these technologies,” said Commission VP for Tech Sovereignty Henna Virkkunen in a statement . “These measures will open up Android devices to a wider range of AI services, so that users will have the freedom to choose the AI services that best meet their needs and values, without sacrificing functionality.” The commission does have a solid track record pushing for openness so far. Since the DMA came into force, Google has been required to make numerous changes to its business in Europe, like implementing search choice screens on Android, allowing alternative payment methods in the Play Store, and limiting data sharing across services. Now, the EU wants Google to make the Android platform more hospitable to third-party AI services. “This ​unwarranted intervention would strip away that autonomy, mandate access to sensitive hardware and device ​permissions; unnecessarily driving up costs while undermining critical privacy and security protections for European users,” said Google senior competition counsel Claire Kelly. EU rules could mean more AI, not less Just because Gemini is preinstalled on virtually every Android phone doesn’t mean you have to use it. You can easily install ChatGPT or Grok and turn to that chatbot when the need arises. However, these apps won’t have the same access to data and features as Gemini. The commission cites a few examples where Gemini is the only route, like sending an email in your default mail client or sharing a photo with friends. European regulators are proposing several broad changes to the way AI tools operate on Android phones. Some of this is straightforward, like allowing third-party AI tools to be invoked system-wide via hot words or button presses. This might also include allowing AI tools to view screen context when the user opens them. Context also extends to allowing alternative AI systems to access local data to generate proactive suggestions and summaries. The report actually describes something that sounds like Google’s Magic Cue, which relies on Gemini to offer suggestions based on your activity. Google has also started experimenting with allowing AI to control certain apps. As we saw when this feature debuted on the Galaxy S26 , Gemini is currently pretty bad at using apps on your behalf. The commission wants to explore allowing other AI services to autonomously control installed apps and system features on Android phones. Maybe someone else could do better? Many of the Gemini AI features in Android, including Magic Cue, rely on running local models, and Google has been slow to allow third parties the system access to make that work effectively. So the EU is also suggesting a mandate that would ensure developers have the necessary hardware access to run local models “with high levels of performance, availability and responsiveness.” Finally, Google may be required under the DMA to create new APIs and offer technical assistance to other AI makers who want to plug into Android. The commission also specifies these tools must be made available free of charge. So far, this is just a framework for how AI on Android might change. The European Commission is currently accepting feedback from interested parties. That part of the process will wrap up on May 13. A final decision on this investigation will be made no later than July 27 of this year. Failure to enact required changes could result in big fines. The DMA allows for penalties up to 10 percent of a company’s annual global revenue. Google probably won’t be required to fling the doors open right away, though. Creating avenues for third-party AI apps to access system tools and data would take time. Rushing the process could risk security or privacy issues. And naturally, there’s no guarantee any of these proposed changes would be seen outside of the EU. 1. How Legacy became a costly crypto bust for players and a business win for Peter Molyneux 2. Palantir employees are talking about company's \"descent into fascism\" 3. Prime Video drops full trailer for Spider-Noir 4. National Science Board eviscerated; Trump admin fires all 22 members 5. Strange New Worlds S4 teaser strikes a more serious tone",
+      "content_preview_chars": 5707,
+      "content_fetched_at": "2026-04-27T20:06:17",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "2935207a4f859f00",
+      "source_url_hash": "2935207a4f859f00",
+      "canonical_url": "https://www.digitaltrends.com/movies/the-house-of-the-dragon-season-3-trailer-is-here-and-it-is-every-bit-as-brutal-as-we-hoped",
+      "title_hash": "b3d29ca6a3c20391",
+      "topic_signature": "7cdb1fa477b0c4ea98af",
+      "title": "House of the Dragon season 3 trailer is here, and it is every bit as brutal as we hoped",
+      "url": "https://www.digitaltrends.com/movies/the-house-of-the-dragon-season-3-trailer-is-here-and-it-is-every-bit-as-brutal-as-we-hoped",
+      "source_name": "Digital Trends",
+      "source_url": "https://www.digitaltrends.com",
+      "source_published_at": "2026-04-27T20:00:54Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.09,
+      "rss_summary": "",
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-27T20:06:17",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "fetched_title": "House of the Dragon season 3 trailer is here, and it is every bit as brutal as we hoped",
+      "meta_description": "After two seasons of careful buildup, the House of the Dragon season 3 trailer has finally arrived. The Dance of the Dragons is in full swing, and the scale looks every bit as massive as fans were promised.",
+      "article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/04/rhaenyra-house-of-the-dragon-season-3-trailer.jpg?resize=1200%2C630",
+          "alt": "",
+          "source": "og:image"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/04/ewan-mitchell-aemond-house-of-the-dragon-season-3.jpg?resize=1584%2C1056",
+          "alt": "ewan-mitchell-aemond-house-of-the-dragon-season-3",
+          "source": "article/img"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/04/matt-smith-daemon-house-of-the-dragon-season-3.jpg?resize=1584%2C1056",
+          "alt": "matt-smith-daemon-house-of-the-dragon-season-3",
+          "source": "article/img"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/04/house-of-the-dragon-season-3-battle-of-gullet.jpg?resize=1584%2C891",
+          "alt": "house-of-the-dragon-season-3-battle-of-gullet",
+          "source": "article/img"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/04/emma-d-arcy-rhaenyra-house-of-the-dragon-season-3.jpg?resize=1584%2C891",
+          "alt": "emma-d-arcy-rhaenyra-house-of-the-dragon-season-3",
+          "source": "article/img"
+        }
+      ],
+      "main_image": "https://www.digitaltrends.com/tachyon/2026/04/rhaenyra-house-of-the-dragon-season-3-trailer.jpg?resize=1200%2C630",
+      "trusted_references": [],
+      "full_article_text": "Season 2 of House of the Dragon was a slow-motion tragedy. Seasons 1 and 2 were packed with misunderstandings, power plays, and a civil war that kept threatening to explode but never quite did. Eight episodes of carefully arranged chess pieces, and by the time the finale arrived, the most dramatic thing that happened was Alicent sneaking off to Dragonstone to strike a secret deal with Rhaenyra to put an end to the Targaryen civil war. It was a good scene, but it also meant the actual war everyone tuned in for was still waiting in the wings. The season ended with armies on the march and no way to avoid what was coming next. What does the House of the Dragon season 3 trailer reveal? The trailer opens with Daemon telling Rhaenyra, “ You now have the power no man has ever wielded. You will have an empire unassailable, and our children will rule it forever and a day. ” It hits differently, especially coming from a man who clearly wanted that power for himself. Meanwhile, Aegon II, heavily scarred after his dragon clash at Rook’s Rest , has fled the Red Keep for Braavos with Larys Strong. But do not mistake that for surrender. He makes his intentions clear in the trailer: “ I’m going to kill my brother ,” he says of Aemond, “ or die in the attempt .” That leaves Aemond running the show in King’s Landing, sitting on the Iron Throne like a man who has been waiting his whole life for exactly this moment. Alicent, for her part, is still trying to hold things together, warning whoever sits on the throne that ruling will require them to do things their heart would have once recoiled from. Daemon, who spent much of season 2 isolated at Harrenhal, caught in deeply unsettling visions, appears to be back in the thick of things. In true Daemon fashion, he is covered in blood and standing in the middle of a battlefield. Rhaenyra gets the final word, declaring, “ There will be no doubt who the gods have chosen to rule .” Is the Battle of the Gullet going to be everything fans have been waiting for? That is the big question, and the trailer makes a pretty convincing case for yes. The Battle of the Gullet was supposed to happen in season 2, but got bumped when the episode count was cut from ten to eight, a decision that did not exactly land well with fans. Ryan Condal acknowledged the frustration directly and promised that the wait would be worth it. He called the Gullet the second most anticipated action event in all of Fire and Blood, and said it deserved the time and space to be done properly. Season 3 is already being billed as the biggest they have ever made by any margin, and the trailer seems to back that up. We catch glimpses of the naval battle, Daemon in the middle of combat, and Rhaenyra on the verge of what looks like victory. Though, as anyone who follows this story knows, nothing in Westeros comes easy. Season 3 is the penultimate chapter in a planned four-season run, so the stakes have never been higher. When is House of the Dragon season 3 coming out? Season 3 premieres on June 21, 2026, on HBO and Max. New episodes will air weekly at 9 p.m. ET/PT, running for eight episodes until the season finale on August 9, 2026. It picks up directly after the season 2 finale and continues the Dance of the Dragons civil war. House of the Dragon season 3 cast: who is returning and who is new? Most of the core cast is back, with a few new faces thrown into the chaos. Here is the full breakdown: Emma D’Arcy as Rhaenyra Targaryen Matt Smith as Daemon Targaryen Olivia Cooke as Alicent Hightower Ewan Mitchell as Aemond Targaryen Tom Glynn-Carney as Aegon II Targaryen Steve Toussaint as Lord Corlys Velaryon Rhys Ifans as Ser Otto Hightower Fabien Frankel as Ser Criston Cole James Norton as Ormund Hightower Tommy Flanagan as Lord Roderick Dustin Dan Fogler as Ser Torrhen Manderly Ryan Condal returns as showrunner, with George R.R. Martin as executive producer.",
+      "full_article_text_chars": 3906,
+      "content_preview": "Season 2 of House of the Dragon was a slow-motion tragedy. Seasons 1 and 2 were packed with misunderstandings, power plays, and a civil war that kept threatening to explode but never quite did. Eight episodes of carefully arranged chess pieces, and by the time the finale arrived, the most dramatic thing that happened was Alicent sneaking off to Dragonstone to strike a secret deal with Rhaenyra to put an end to the Targaryen civil war. It was a good scene, but it also meant the actual war everyone tuned in for was still waiting in the wings. The season ended with armies on the march and no way to avoid what was coming next. What does the House of the Dragon season 3 trailer reveal? The trailer opens with Daemon telling Rhaenyra, “ You now have the power no man has ever wielded. You will have an empire unassailable, and our children will rule it forever and a day. ” It hits differently, especially coming from a man who clearly wanted that power for himself. Meanwhile, Aegon II, heavily scarred after his dragon clash at Rook’s Rest , has fled the Red Keep for Braavos with Larys Strong. But do not mistake that for surrender. He makes his intentions clear in the trailer: “ I’m going to kill my brother ,” he says of Aemond, “ or die in the attempt .” That leaves Aemond running the show in King’s Landing, sitting on the Iron Throne like a man who has been waiting his whole life for exactly this moment. Alicent, for her part, is still trying to hold things together, warning whoever sits on the throne that ruling will require them to do things their heart would have once recoiled from. Daemon, who spent much of season 2 isolated at Harrenhal, caught in deeply unsettling visions, appears to be back in the thick of things. In true Daemon fashion, he is covered in blood and standing in the middle of a battlefield. Rhaenyra gets the final word, declaring, “ There will be no doubt who the gods have chosen to rule .” Is the Battle of the Gullet going to be everything fans have been waiting for? That is the big question, and the trailer makes a pretty convincing case for yes. The Battle of the Gullet was supposed to happen in season 2, but got bumped when the episode count was cut from ten to eight, a decision that did not exactly land well with fans. Ryan Condal acknowledged the frustration directly and promised that the wait would be worth it. He called the Gullet the second most anticipated action event in all of Fire and Blood, and said it deserved the time and space to be done properly. Season 3 is already being billed as the biggest they have ever made by any margin, and the trailer seems to back that up. We catch glimpses of the naval battle, Daemon in the middle of combat, and Rhaenyra on the verge of what looks like victory. Though, as anyone who follows this story knows, nothing in Westeros comes easy. Season 3 is the penultimate chapter in a planned four-season run, so the stakes have never been higher. When is House of the Dragon season 3 coming out? Season 3 premieres on June 21, 2026, on HBO and Max. New episodes will air weekly at 9 p.m. ET/PT, running for eight episodes until the season finale on August 9, 2026. It picks up directly after the season 2 finale and continues the Dance of the Dragons civil war. House of the Dragon season 3 cast: who is returning and who is new? Most of the core cast is back, with a few new faces thrown into the chaos. Here is the full breakdown: Emma D’Arcy as Rhaenyra Targaryen Matt Smith as Daemon Targaryen Olivia Cooke as Alicent Hightower Ewan Mitchell as Aemond Targaryen Tom Glynn-Carney as Aegon II Targaryen Steve Toussaint as Lord Corlys Velaryon Rhys Ifans as Ser Otto Hightower Fabien Frankel as Ser Criston Cole James Norton as Ormund Hightower Tommy Flanagan as Lord Roderick Dustin Dan Fogler as Ser Torrhen Manderly Ryan Condal returns as showrunner, with George R.R. Martin as executive producer.",
+      "content_preview_chars": 3906,
+      "content_fetched_at": "2026-04-27T20:06:17",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "c4a0ee07e24d8472",
+      "source_url_hash": "c4a0ee07e24d8472",
+      "canonical_url": "https://www.digitaltrends.com/computing/ryzen-9-9950x3d-deal",
+      "title_hash": "cba80c469b90d659",
+      "topic_signature": "960c00f2a4ee9fdb0c38",
+      "title": "One of the most capable desktop processors available just got $125 cheaper: AMD Ryzen 9 9950X3D down to $573",
+      "url": "https://www.digitaltrends.com/computing/ryzen-9-9950x3d-deal",
+      "source_name": "Digital Trends",
+      "source_url": "https://www.digitaltrends.com",
+      "source_published_at": "2026-04-27T19:54:03Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.2,
+      "rss_summary": "",
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-27T20:06:17",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "fetched_title": "One of the most capable desktop processors available just got $125 cheaper: AMD Ryzen 9 9950X3D down to $573",
+      "meta_description": "The AMD Ryzen 9 9950X3D is down to $573.99 in a limited-time deal, a $125 saving off its $699 list price, and it represents something AMD hadn’t offered before: a 3D V-Cache processor with a high enough core count to handle demanding creative and professional workloads without sacrificing the gaming performance that cache stacking delivers. […]",
+      "article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/04/9950.jpg?resize=1200%2C630",
+          "alt": "",
+          "source": "og:image"
+        }
+      ],
+      "main_image": "https://www.digitaltrends.com/tachyon/2026/04/9950.jpg?resize=1200%2C630",
+      "trusted_references": [],
+      "full_article_text": "The AMD Ryzen 9 9950X3D is down to $573.99 in a limited-time deal, a $125 saving off its $699 list price, and it represents something AMD hadn’t offered before: a 3D V-Cache processor with a high enough core count to handle demanding creative and professional workloads without sacrificing the gaming performance that cache stacking delivers. For anyone running one machine for everything, this is the processor the 9000 series has been building toward. The distinction worth making upfront is what separates the 9950X3D from the 7800X3D and 9800X3D. Where the 7800X3D/9800X3D are focused gaming processors that trade core count for cache optimization, the Ryzen 9 9950X3D brings 16 cores and 32 threads to the same 3D V-Cache architecture, giving it the processing headroom for video rendering, 3D work, compilation, and heavy multitasking that the eight-core X3D chips don’t offer. The 144MB of total cache still delivers the gaming performance advantage that 3D V-Cache is known for, making this a processor that no longer asks you to pick a priority. The 4.3GHz base clock and AM5 socket keep the 9950X3D current on a platform with genuine longevity ahead of it. The 170W TDP reflects the demands of 16 cores under load, so a capable cooler is worth factoring into any build around this chip, but the efficiency of the process node means the power draw is well-managed relative to the performance on offer. 144MB of total cache is the number that shapes how the 9950X3D handles gaming workloads, keeping more game data closer to the cores and reducing the latency hit of reaching out to system RAM in the same way the 9800X3D does, just with significantly more processing capacity running alongside it. High core count processors with 3D V-Cache have historically forced a compromise somewhere in the spec sheet. The 9950X3D resolves that by combining both in a flagship package, and the $125 saving brings it to a price where the case for buying AMD’s most capable desktop processor becomes considerably more straightforward. The limited-time nature of the deal makes this worth acting on before it moves. The AMD Ryzen 9 9950X3D at $573.99 is the processor for anyone who wants gaming performance and professional workload capability from a single chip without compromise. The 16 cores, 144MB of cache, and AM5 platform longevity add up to a build foundation that holds up well into the future, and the $125 saving makes this the right moment to commit.",
+      "full_article_text_chars": 2459,
+      "content_preview": "The AMD Ryzen 9 9950X3D is down to $573.99 in a limited-time deal, a $125 saving off its $699 list price, and it represents something AMD hadn’t offered before: a 3D V-Cache processor with a high enough core count to handle demanding creative and professional workloads without sacrificing the gaming performance that cache stacking delivers. For anyone running one machine for everything, this is the processor the 9000 series has been building toward. The distinction worth making upfront is what separates the 9950X3D from the 7800X3D and 9800X3D. Where the 7800X3D/9800X3D are focused gaming processors that trade core count for cache optimization, the Ryzen 9 9950X3D brings 16 cores and 32 threads to the same 3D V-Cache architecture, giving it the processing headroom for video rendering, 3D work, compilation, and heavy multitasking that the eight-core X3D chips don’t offer. The 144MB of total cache still delivers the gaming performance advantage that 3D V-Cache is known for, making this a processor that no longer asks you to pick a priority. The 4.3GHz base clock and AM5 socket keep the 9950X3D current on a platform with genuine longevity ahead of it. The 170W TDP reflects the demands of 16 cores under load, so a capable cooler is worth factoring into any build around this chip, but the efficiency of the process node means the power draw is well-managed relative to the performance on offer. 144MB of total cache is the number that shapes how the 9950X3D handles gaming workloads, keeping more game data closer to the cores and reducing the latency hit of reaching out to system RAM in the same way the 9800X3D does, just with significantly more processing capacity running alongside it. High core count processors with 3D V-Cache have historically forced a compromise somewhere in the spec sheet. The 9950X3D resolves that by combining both in a flagship package, and the $125 saving brings it to a price where the case for buying AMD’s most capable desktop processor becomes considerably more straightforward. The limited-time nature of the deal makes this worth acting on before it moves. The AMD Ryzen 9 9950X3D at $573.99 is the processor for anyone who wants gaming performance and professional workload capability from a single chip without compromise. The 16 cores, 144MB of cache, and AM5 platform longevity add up to a build foundation that holds up well into the future, and the $125 saving makes this the right moment to commit.",
+      "content_preview_chars": 2459,
+      "content_fetched_at": "2026-04-27T20:06:17",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     }
   ],
   "notifications": {
-    "telegram_final_summary_event_key": "20260427200049197282",
-    "telegram_final_summary_notified_at": "2026-04-27T20:03:04",
-    "last_notification_at": "2026-04-27T20:03:04",
+    "telegram_final_summary_event_key": "20260427200600825300",
+    "telegram_final_summary_notified_at": "2026-04-27T20:06:22",
+    "last_notification_at": "2026-04-27T20:06:22",
     "telegram_auto_cycle_blocked_event_key": "minimum minutes between live posts has not elapsed|2026-04-27T18:16:20",
     "telegram_auto_cycle_blocked_notified_at": "2026-04-27T18:12:11"
   }
