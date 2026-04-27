@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-27T19:10:12",
+  "updated_at": "2026-04-27T19:16:02",
   "articles": [
     {
       "id": "a7a11e65e86e7bcc",
@@ -173,7 +173,7 @@
       "category_label": "Cyber-Security",
       "category_hint": "Cyber-Security",
       "discovered_at": "2026-04-27T18:10:45",
-      "status": "ready",
+      "status": "published",
       "score": 3,
       "priority": "low",
       "fetched_title": "Notepad++ Vulnerability Allows Attackers to Crash Application, Leak Memory Data",
@@ -200,7 +200,98 @@
       "content_preview_chars": 3622,
       "content_fetched_at": "2026-04-27T18:10:47",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-04-27T19:15:10",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-04-27T19:15:10",
+      "ai_input_package": {
+        "title": "Notepad++ Vulnerability Allows Attackers to Crash Application, Leak Memory Data",
+        "url": "https://cybersecuritynews.com/notepad-vulnerability-crash",
+        "source_name": "Cyber Security News",
+        "suggested_category": "Cyber-Security",
+        "main_image": "",
+        "article_images": [],
+        "meta_description": "A security vulnerability has been identified in Notepad++, one of the most widely used open-source text editors among developers and IT professionals.",
+        "content_preview": "A security vulnerability has been identified in Notepad++ , one of the most widely used open-source text editors among developers and IT professionals. The vulnerability CVE-2026-3008, which could allow a remote attacker to crash the application or extract sensitive memory address information from affected systems. The vulnerability is a string injection flaw located within the FindInFiles functionality of Notepad++. Specifically, the issue arises when the nativeLang.xml configuration file’s \"find-result-hits\" field contains a \"%s\" format specifier, triggering unexpected behavior during search operations. This type of vulnerability can lead to improper memory handling, enabling threat actors to either cause a denial-of-service (DoS) condition by crashing the application or gather memory address information that could be leveraged in further exploitation attempts. The second one, CVE-2026-6539, has also been linked to the same patch, suggesting additional related security concerns were addressed alongside the primary vulnerability. Successful exploitation could disrupt workflows for developers, system administrators, and security analysts who rely on Notepad++ for day-to-day operations. Memory disclosure vulnerabilities, while sometimes considered low-severity in isolation, are often chained with other exploits to bypass security mitigations such as Address Space Layout Randomization (ASLR). The vulnerability specifically affects: Users running earlier versions should assume they are equally at risk and apply the available patch without delay. The Notepad++ Product Owner Mr Hazley Samsudin, has responded promptly by releasing version 8.9.4 , which directly addresses both CVE-2026-3008 and CVE-2026-6539. The fix resolves the crash behavior in the FindInFiles feature when format strings are improperly parsed from the nativeLang.xml file. The patch details are publicly documented on the official Notepad++ GitHub repository under issue #17960 . CSA strongly advises all users and administrators running the affected version to take the following action immediately: Update to Notepad++ version 8.9.4 via the official Notepad++ website or the built-in update mechanism Verify the integrity of the downloaded installer using official checksums Monitor systems for any unusual application behavior that may indicate prior exploitation attempts Given the widespread deployment of Notepad++ across enterprise environments and developer workstations, organizations should prioritize this update within their standard patch management cycles. Users who rely on custom nativeLang.xml configurations are particularly urged to apply the fix without delay. Follow us on Google News , LinkedIn , and X for daily cybersecurity updates. Contact us to feature your stories. CISA Warns of Multiple SimpleHelp Vulnerabilities Exploited in Attack Hackers Leverage Microsoft Teams to Breach Organizations Posing as IT Helpdesk Staff New Auraboros RAT Exposes Live Audio Streaming, Keylogging, and Cookie Hijacking in Open C2 Panel North Korea-Linked UNC1069 Uses Fake Zoom and Teams Meetings to Hack Crypto Professionals Critical Pack2TheRoot Vulnerability Let Attackers Gain Root Access or Compromise the System Critical Gemini CLI Vulnerability Enables Remote Code Execution Attacks New Vidar Malware Campaign Uses Fake YouTube Software Downloads to Steal Corporate Credentials New Malware Uses Obfuscation and Staged Payload Delivery to Evade Detection Hackers Using Fake Income Tax Department’s Notice to Deploy Malware Researchers Warn macOS textutil and KeePassXC Can Become Attack Primitives in Automation",
+        "content_preview_chars": 3622,
+        "rss_summary": "",
+        "full_article_text": "A security vulnerability has been identified in Notepad++ , one of the most widely used open-source text editors among developers and IT professionals. The vulnerability CVE-2026-3008, which could allow a remote attacker to crash the application or extract sensitive memory address information from affected systems. The vulnerability is a string injection flaw located within the FindInFiles functionality of Notepad++. Specifically, the issue arises when the nativeLang.xml configuration file’s \"find-result-hits\" field contains a \"%s\" format specifier, triggering unexpected behavior during search operations. This type of vulnerability can lead to improper memory handling, enabling threat actors to either cause a denial-of-service (DoS) condition by crashing the application or gather memory address information that could be leveraged in further exploitation attempts. The second one, CVE-2026-6539, has also been linked to the same patch, suggesting additional related security concerns were addressed alongside the primary vulnerability. Successful exploitation could disrupt workflows for developers, system administrators, and security analysts who rely on Notepad++ for day-to-day operations. Memory disclosure vulnerabilities, while sometimes considered low-severity in isolation, are often chained with other exploits to bypass security mitigations such as Address Space Layout Randomization (ASLR). The vulnerability specifically affects: Users running earlier versions should assume they are equally at risk and apply the available patch without delay. The Notepad++ Product Owner Mr Hazley Samsudin, has responded promptly by releasing version 8.9.4 , which directly addresses both CVE-2026-3008 and CVE-2026-6539. The fix resolves the crash behavior in the FindInFiles feature when format strings are improperly parsed from the nativeLang.xml file. The patch details are publicly documented on the official Notepad++ GitHub repository under issue #17960 . CSA strongly advises all users and administrators running the affected version to take the following action immediately: Update to Notepad++ version 8.9.4 via the official Notepad++ website or the built-in update mechanism Verify the integrity of the downloaded installer using official checksums Monitor systems for any unusual application behavior that may indicate prior exploitation attempts Given the widespread deployment of Notepad++ across enterprise environments and developer workstations, organizations should prioritize this update within their standard patch management cycles. Users who rely on custom nativeLang.xml configurations are particularly urged to apply the fix without delay. Follow us on Google News , LinkedIn , and X for daily cybersecurity updates. Contact us to feature your stories. CISA Warns of Multiple SimpleHelp Vulnerabilities Exploited in Attack Hackers Leverage Microsoft Teams to Breach Organizations Posing as IT Helpdesk Staff New Auraboros RAT Exposes Live Audio Streaming, Keylogging, and Cookie Hijacking in Open C2 Panel North Korea-Linked UNC1069 Uses Fake Zoom and Teams Meetings to Hack Crypto Professionals Critical Pack2TheRoot Vulnerability Let Attackers Gain Root Access or Compromise the System Critical Gemini CLI Vulnerability Enables Remote Code Execution Attacks New Vidar Malware Campaign Uses Fake YouTube Software Downloads to Steal Corporate Credentials New Malware Uses Obfuscation and Staged Payload Delivery to Evade Detection Hackers Using Fake Income Tax Department’s Notice to Deploy Malware Researchers Warn macOS textutil and KeePassXC Can Become Attack Primitives in Automation",
+        "full_article_text_chars": 3622,
+        "enrichment_status": "strong",
+        "source_url": "https://cybersecuritynews.com",
+        "source_published_at": "2026-04-27T16:06:56Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 2.05,
+        "trusted_references": [
+          {
+            "title": "accounts.google.com",
+            "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+          },
+          {
+            "title": "news.google.com",
+            "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN:en"
+          },
+          {
+            "title": "Notepad++ GitHub repository under issue #17960",
+            "url": "https://github.com/notepad-plus-plus/notepad-plus-plus/issues/17960"
+          }
+        ],
+        "related_posts": [
+          {
+            "title": "ملخص CISA الأسبوعي: ثغرات أمنية خطيرة تهدد ThinkPHP و ELBA5",
+            "url": "https://www.cisa.gov/news-events/bulletins/sb26-117"
+          }
+        ]
+      },
+      "ai_status": "completed",
+      "ai_processed_at": "2026-04-27T19:15:51",
+      "seo_title": "ثغرة في Notepad++ تسمح للمهاجمين بإسقاط التطبيق وتسريب بيانات الذاكرة",
+      "seo_description": "تم اكتشاف ثغرتين بـ Notepad++ (CVE-2026-3008 وCVE-2026-6539) تؤديان لتعطل البرنامج أو كشف عناوين الذاكرة. صدر تصحيح في 8.9.4.",
+      "seo_slug": "notepad-plus-plus",
+      "final_html": "<h1>ثغرة في Notepad++ تسمح للمهاجمين بإسقاط التطبيق وتسريب بيانات الذاكرة</h1>\n<p>أعلن موقع <strong>Cyber Security News</strong> عن اكتشاف ثغرتين خطيرتين في محرر النصوص المفتوح Notepad++، وهو أحد أكثر الأدوات انتشاراً بين المطورين ومتخصصي تقنية المعلومات. الثغرة الأولى (CVE-2026-3008) تسمح لمهاجم بعيد بإسقاط البرنامج أو استخراج معلومات حساسة من الذاكرة، بينما الثغرة الثانية (CVE-2026-6539) مرتبطة بنفس التحديث وتضيف مخاطر إضافية.</p>\n<p>تتجلى الثغرة في وظيفة <em>FindInFiles</em> داخل البرنامج. عندما يحتوي ملف الإعداد <code>nativeLang.xml</code> على الحقل <code>find-result-hits</code> مع مُحدد الصيغة <code>%s</code>، يحدث حقن سلسلة نصية يؤدي إلى معالجة غير صحيحة للذاكرة. هذا الخطأ يمكن أن يسبب حالة إنكار الخدمة (DoS) عبر إيقاف البرنامج، أو يتيح للمهاجم جمع عناوين الذاكرة التي قد تُستغل لتجاوز آليات الحماية مثل ASLR.</p>\n<h2>ما هي الخطوات الموصى بها؟</h2>\n<p>أصدر مالك المنتج، السيد Hazley Samsudin، الإصدار 8.9.4 من Notepad++ الذي يعالج كلتا الثغرتين. يتضمن التصحيح تعديلًا يمنع تفسير سلاسل الصيغة الخاطئة في <code>nativeLang.xml</code>. يُنصح جميع المستخدمين والمسؤولين باتباع الإجراءات التالية فوراً:</p>\n<ul>\n  <li>تحديث البرنامج إلى الإصدار 8.9.4 عبر الموقع الرسمي أو آلية التحديث المدمجة.</li>\n  <li>التحقق من سلامة ملف التثبيت باستخدام القيم التجريبية (checksums) الرسمية.</li>\n  <li>مراقبة الأنظمة بحثًا عن سلوك غير طبيعي قد يدل على استغلال مسبق.</li>\n</ul>\n<h2>ماذا يعني هذا لك؟</h2>\n<p>إذا كنت تعتمد على Notepad++ في بيئة عملك—سواء كمطور، مدير نظام، أو محلل أمان—فإن عدم تطبيق التحديث قد يعرضك لانقطاع الخدمة أو تسريب بيانات حساسة قد تُستغل في هجمات متقدمة. المؤسسات التي تدير عددًا كبيرًا من الأجهزة يجب أن تُدرج هذا التحديث ضمن دورة إدارة التصحيحات القياسية لتقليل المخاطر.</p>\n<p>في الختام، تُظهر هذه الثغرة أهمية المتابعة المستمرة لتحديثات البرامج المفتوحة المصدر، خاصةً تلك التي تُستخدم على نطاق واسع. تطبيق الإصدار 8.9.4 الآن هو الخطوة الأكثر أمانًا لحماية بيئات التطوير والعمل اليومية.</p>\n<p class='pRef'>المراجع:<br><a class='extL' href='https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&amp;dsh=S-1711039385%3A1777114446800583&amp;hl=en-IN&amp;rip=1&amp;sacu=1&amp;flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin&amp;ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt' target='_blank'>accounts.google.com</a><br><a class='extL' href='https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&amp;gl=IN&amp;ceid=IN:en' target='_blank'>news.google.com</a><br><a class='extL' href='https://github.com/notepad-plus-plus/notepad-plus-plus/issues/17960' target='_blank'>Notepad++ GitHub repository under issue #17960</a></p>\n<div class='pRelate'><b>قد يهمك أيضًا:</b><ul><li><a href='https://www.cisa.gov/news-events/bulletins/sb26-117'>ملخص CISA الأسبوعي: ثغرات أمنية خطيرة تهدد ThinkPHP و ELBA5</a></li></ul></div>",
+      "blogger_article_html": "<h1>ثغرة في Notepad++ تسمح للمهاجمين بإسقاط التطبيق وتسريب بيانات الذاكرة</h1>\n<p>أعلن موقع <strong>Cyber Security News</strong> عن اكتشاف ثغرتين خطيرتين في محرر النصوص المفتوح Notepad++، وهو أحد أكثر الأدوات انتشاراً بين المطورين ومتخصصي تقنية المعلومات. الثغرة الأولى (CVE-2026-3008) تسمح لمهاجم بعيد بإسقاط البرنامج أو استخراج معلومات حساسة من الذاكرة، بينما الثغرة الثانية (CVE-2026-6539) مرتبطة بنفس التحديث وتضيف مخاطر إضافية.</p>\n<p>تتجلى الثغرة في وظيفة <em>FindInFiles</em> داخل البرنامج. عندما يحتوي ملف الإعداد <code>nativeLang.xml</code> على الحقل <code>find-result-hits</code> مع مُحدد الصيغة <code>%s</code>، يحدث حقن سلسلة نصية يؤدي إلى معالجة غير صحيحة للذاكرة. هذا الخطأ يمكن أن يسبب حالة إنكار الخدمة (DoS) عبر إيقاف البرنامج، أو يتيح للمهاجم جمع عناوين الذاكرة التي قد تُستغل لتجاوز آليات الحماية مثل ASLR.</p>\n<h2>ما هي الخطوات الموصى بها؟</h2>\n<p>أصدر مالك المنتج، السيد Hazley Samsudin، الإصدار 8.9.4 من Notepad++ الذي يعالج كلتا الثغرتين. يتضمن التصحيح تعديلًا يمنع تفسير سلاسل الصيغة الخاطئة في <code>nativeLang.xml</code>. يُنصح جميع المستخدمين والمسؤولين باتباع الإجراءات التالية فوراً:</p>\n<ul>\n  <li>تحديث البرنامج إلى الإصدار 8.9.4 عبر الموقع الرسمي أو آلية التحديث المدمجة.</li>\n  <li>التحقق من سلامة ملف التثبيت باستخدام القيم التجريبية (checksums) الرسمية.</li>\n  <li>مراقبة الأنظمة بحثًا عن سلوك غير طبيعي قد يدل على استغلال مسبق.</li>\n</ul>\n<h2>ماذا يعني هذا لك؟</h2>\n<p>إذا كنت تعتمد على Notepad++ في بيئة عملك—سواء كمطور، مدير نظام، أو محلل أمان—فإن عدم تطبيق التحديث قد يعرضك لانقطاع الخدمة أو تسريب بيانات حساسة قد تُستغل في هجمات متقدمة. المؤسسات التي تدير عددًا كبيرًا من الأجهزة يجب أن تُدرج هذا التحديث ضمن دورة إدارة التصحيحات القياسية لتقليل المخاطر.</p>\n<p>في الختام، تُظهر هذه الثغرة أهمية المتابعة المستمرة لتحديثات البرامج المفتوحة المصدر، خاصةً تلك التي تُستخدم على نطاق واسع. تطبيق الإصدار 8.9.4 الآن هو الخطوة الأكثر أمانًا لحماية بيئات التطوير والعمل اليومية.</p>\n<p class='pRef'>المراجع:<br><a class='extL' href='https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&amp;dsh=S-1711039385%3A1777114446800583&amp;hl=en-IN&amp;rip=1&amp;sacu=1&amp;flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin&amp;ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt' target='_blank'>accounts.google.com</a><br><a class='extL' href='https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&amp;gl=IN&amp;ceid=IN:en' target='_blank'>news.google.com</a><br><a class='extL' href='https://github.com/notepad-plus-plus/notepad-plus-plus/issues/17960' target='_blank'>Notepad++ GitHub repository under issue #17960</a></p>\n<div class='pRelate'><b>قد يهمك أيضًا:</b><ul><li><a href='https://www.cisa.gov/news-events/bulletins/sb26-117'>ملخص CISA الأسبوعي: ثغرات أمنية خطيرة تهدد ThinkPHP و ELBA5</a></li></ul></div>",
+      "final_word_count": 313,
+      "final_html_chars": 2921,
+      "final_content_hash": "03eacfcc40cc0da91e273297",
+      "ai_provider_used": "openrouter:openai/gpt-oss-120b",
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 313,
+        "warnings": [
+          "missing article image"
+        ]
+      },
+      "pre_publish_warnings": [
+        "missing article image"
+      ],
+      "blogger_post_id": "432382387330751500",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/04/notepad.html",
+      "published_at": "2026-04-27T19:15:53",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|432382387330751500|published|unknown",
+      "telegram_blogger_notified_at": "2026-04-27T19:15:54",
+      "telegram_last_notification_at": "2026-04-27T19:16:02",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_867377279704900",
+      "facebook_posted_at": "2026-04-27T19:15:56",
+      "facebook_post_type": "feed",
+      "facebook_caption_pattern": "insight_knowledge",
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "🧠 ثغرة في Notepad++ تسمح للمهاجمين بإسقاط التطبيق وتسريب بيانات الذاكرة\nالقيمة الحقيقية ليست في الخبر نفسه، بل في ما يكشفه عن الاتجاه القادم.\nتم اكتشاف ثغرتين بـ Notepad++ (CVE-2026-3008 وCVE-2026-6539) تؤديان لتعطل البرنامج أو كشف عناوين الذاكرة. صدر تصحيح في 8.9.4.\nالتفاصيل الكاملة في أول تعليق.\n#CyberSecurity #AI #TechNews #Apps #MicrosoftTeams #Malware #Data",
+      "facebook_comment_id": "867377279704900_1585949155825443",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_867377279704900|867377279704900_1585949155825443|unknown",
+      "telegram_facebook_notified_at": "2026-04-27T19:16:02",
+      "archived": true,
+      "archived_at": "2026-04-27T19:16:02",
+      "archive_reason": "published_to_blogger",
+      "telegram_final_summary_notified_at": "2026-04-27T19:16:02"
     },
     {
       "id": "18a250f824a505ea",
@@ -364,7 +455,10 @@
       "content_preview_chars": 109,
       "content_fetched_at": "2026-04-27T18:10:45",
       "enrichment_status": "rss_summary",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-04-27T19:13:59",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "ad0a275dcc4ac2ac",
@@ -1378,9 +1472,9 @@
     }
   ],
   "notifications": {
-    "telegram_final_summary_event_key": "20260427190855732223",
-    "telegram_final_summary_notified_at": "2026-04-27T19:10:12",
-    "last_notification_at": "2026-04-27T19:10:12",
+    "telegram_final_summary_event_key": "20260427191405458774",
+    "telegram_final_summary_notified_at": "2026-04-27T19:16:02",
+    "last_notification_at": "2026-04-27T19:16:02",
     "telegram_auto_cycle_blocked_event_key": "minimum minutes between live posts has not elapsed|2026-04-27T18:16:20",
     "telegram_auto_cycle_blocked_notified_at": "2026-04-27T18:12:11"
   }
