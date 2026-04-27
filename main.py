@@ -32,6 +32,7 @@ from article_queue import (
     load_article_queue,
     load_sources,
     maintain_article_queue,
+    save_article_queue,
 )
 from article_enricher import enrich_ready_articles
 from article_processor import prepare_selected_articles_for_ai

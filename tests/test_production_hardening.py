@@ -2,9 +2,12 @@ import unittest
 from contextlib import redirect_stdout
 from datetime import datetime, timedelta, timezone
 from io import StringIO
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 import article_draft_publisher
+import article_queue
 from article_draft_publisher import _ensure_post_url_for_mode
 from duplicate_utils import canonicalize_url
 from facebook_publisher import _build_caption, _eligible_for_facebook
@@ -302,6 +305,39 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(result["step_reached"], "plan-next")
         self.assertIn("not ready after enrichment", result["reason"])
         planner.assert_not_called()
+
+    def test_lock_specific_ready_article_persists_selection(self):
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "article-1",
+                        "url": "https://example.com/fresh",
+                        "status": "ready",
+                        "content_fetch_status": "success",
+                        "suggested_category": "",
+                    }
+                ],
+                "notifications": {},
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path):
+                article_queue.save_article_queue(queue)
+                with patch.object(main, "suggest_category", return_value="الأمن السيبراني"):
+                    locked = main._lock_specific_ready_article("https://example.com/fresh")
+
+                self.assertIsNotNone(locked)
+                self.assertEqual(locked["status"], "selected")
+                self.assertEqual(locked["selection_reason"], "first valid article fast mode")
+                self.assertEqual(locked["suggested_category"], "الأمن السيبراني")
+                self.assertTrue(locked.get("selected_at"))
+
+                reloaded = article_queue.load_article_queue()
+                persisted = reloaded["articles"][0]
+                self.assertEqual(persisted["status"], "selected")
+                self.assertEqual(persisted["selection_reason"], "first valid article fast mode")
+                self.assertEqual(persisted["suggested_category"], "الأمن السيبراني")
+                self.assertTrue(persisted.get("selected_at"))
 
     def test_facebook_default_caption_does_not_duplicate_comment_link(self):
         caption = _build_caption(
