@@ -978,6 +978,17 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn("Recent hours:", text)
         self.assertIn("Max sources:", text)
 
+    def test_workflow_self_trigger_loop_is_present_and_guarded(self):
+        text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
+        self.assertIn('cron: "*/5 * * * *"', text)
+        self.assertIn("self_trigger:", text)
+        self.assertIn("actions: write", text)
+        self.assertIn("Recent run guard", text)
+        self.assertIn("Self trigger next run", text)
+        self.assertIn("github.event_name == 'workflow_dispatch'", text)
+        self.assertIn("github.event.inputs.self_trigger == 'true'", text)
+        self.assertIn("/actions/workflows/auto-cycle.yml/dispatches", text)
+
     def test_no_env_or_secret_files_are_committed(self):
         tracked = subprocess.check_output(["git", "ls-files"], text=True).splitlines()
         self.assertNotIn(".env", tracked)

@@ -1555,8 +1555,10 @@ def run_deployment_check_only():
     print(f"GitHub Actions workflow: {'present' if AUTO_CYCLE_WORKFLOW_PATH.exists() else 'missing'}")
     print(f"GitHub Actions schedule: {workflow_schedule or 'MISSING'}")
     print(f"GitHub Actions concurrency: {'safe' if 'group: auto-cycle-${{ github.ref }}' in workflow_text and 'cancel-in-progress: false' in workflow_text else 'needs attention'}")
+    print(f"GitHub Actions permissions: {'actions+contents write' if 'actions: write' in workflow_text and 'contents: write' in workflow_text else 'needs attention'}")
     print(f"GitHub Actions job timeout: {'15 minutes' if 'timeout-minutes: 15' in workflow_text else 'needs attention'}")
     print(f"GitHub Actions auto-cycle timeout: {'10 minutes' if 'Run auto cycle' in workflow_text and 'timeout-minutes: 10' in workflow_text else 'needs attention'}")
+    print(f"GitHub Actions self-trigger: {'present' if 'Self trigger next run' in workflow_text and 'self_trigger' in workflow_text and '/dispatches' in workflow_text else 'missing'}")
     print(f"FACEBOOK_AUTO_POST: {'true' if facebook_auto_post else 'false'}")
     print("FACEBOOK_AUTO_POST value safe: yes")
     print("Telegram alerts:")
@@ -1652,10 +1654,14 @@ def run_deployment_check_only():
             errors.append("GitHub Actions concurrency group must be auto-cycle-${{ github.ref }}.")
         if "cancel-in-progress: false" not in workflow_text:
             errors.append("GitHub Actions cancel-in-progress must be false.")
+        if "actions: write" not in workflow_text or "contents: write" not in workflow_text:
+            errors.append("GitHub Actions permissions must include actions: write and contents: write.")
         if "timeout-minutes: 15" not in workflow_text:
             errors.append("GitHub Actions job timeout must be 15 minutes.")
         if "Run auto cycle" not in workflow_text or "timeout-minutes: 10" not in workflow_text:
             errors.append("GitHub Actions auto-cycle step timeout must be 10 minutes.")
+        if "Self trigger next run" not in workflow_text or "self_trigger" not in workflow_text or "/dispatches" not in workflow_text:
+            errors.append("GitHub Actions workflow must include the self-trigger dispatch step.")
         if "branches:" in workflow_text:
             errors.append("GitHub Actions workflow must not restrict scheduled runs away from main.")
     if facebook_auto_post:

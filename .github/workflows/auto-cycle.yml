@@ -30,6 +30,14 @@ on:
           - "3"
           - "4"
           - "6"
+      self_trigger:
+        description: "Keep chaining workflow_dispatch runs"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "false"
+          - "true"
 
 concurrency:
   group: auto-cycle-${{ github.ref }}
@@ -43,11 +51,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
+      actions: write
       contents: write
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Capture run start
+        run: echo "RUN_STARTED_EPOCH=$(date +%s)" >> "$GITHUB_ENV"
 
       - name: Restore auto-cycle state
         uses: actions/cache/restore@v4
@@ -64,18 +76,63 @@ jobs:
           restore-keys: |
             ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-
 
+      - name: Recent run guard
+        id: recent_run_guard
+        env:
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          skip_run = False
+          reason = "No recent-run skip."
+          log_path = Path("logs/auto_cycle_runs.jsonl")
+
+          if os.environ.get("GITHUB_EVENT_NAME") == "schedule" and log_path.exists():
+              lines = [line for line in log_path.read_text(encoding="utf-8").splitlines() if line.strip()]
+              if lines:
+                  try:
+                      last_record = json.loads(lines[-1])
+                      timestamp = str(last_record.get("timestamp", "")).strip()
+                      if timestamp:
+                          last_run = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+                          age_seconds = (datetime.now(timezone.utc) - last_run).total_seconds()
+                          if age_seconds < 270:
+                              skip_run = True
+                              reason = f"Skipping scheduled duplicate: last recorded run was {int(age_seconds)}s ago."
+                  except Exception as exc:
+                      reason = f"Recent-run guard ignored malformed log entry: {exc}"
+
+          output_path = os.environ["GITHUB_OUTPUT"]
+          with open(output_path, "a", encoding="utf-8") as handle:
+              handle.write(f"skip_run={'true' if skip_run else 'false'}\n")
+              handle.write(f"reason={reason}\n")
+
+          print(reason)
+          PY
+
+      - name: Skip duplicate scheduled run
+        if: steps.recent_run_guard.outputs.skip_run == 'true'
+        run: echo "${{ steps.recent_run_guard.outputs.reason }}"
+
       - name: Set up Python
+        if: steps.recent_run_guard.outputs.skip_run != 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: "pip"
 
       - name: Install dependencies
+        if: steps.recent_run_guard.outputs.skip_run != 'true'
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
       - name: Create runtime secrets and .env
+        if: steps.recent_run_guard.outputs.skip_run != 'true'
         env:
           REQUESTED_MODE: ${{ github.event.inputs.mode || 'live' }}
           REQUESTED_FAST_NEWS: ${{ github.event.inputs.fast_news || 'true' }}
@@ -246,15 +303,18 @@ jobs:
           PY
 
       - name: Run tests
+        if: steps.recent_run_guard.outputs.skip_run != 'true'
         run: python -m unittest discover -s tests
 
       - name: Deployment check
+        if: steps.recent_run_guard.outputs.skip_run != 'true'
         env:
           BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
           BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
         run: python main.py deployment-check
 
       - name: Safe runtime diagnostics
+        if: steps.recent_run_guard.outputs.skip_run != 'true'
         run: |
           python - <<'PY'
           from datetime import datetime, timezone
@@ -281,18 +341,20 @@ jobs:
           PY
 
       - name: Queue maintenance
+        if: steps.recent_run_guard.outputs.skip_run != 'true'
         run: python main.py queue-maintenance
 
       - name: Run auto cycle
+        if: steps.recent_run_guard.outputs.skip_run != 'true'
         timeout-minutes: 10
         run: python main.py auto-cycle
 
       - name: Health summary
-        if: always()
+        if: always() && steps.recent_run_guard.outputs.skip_run != 'true'
         run: python main.py health
 
       - name: Save auto-cycle state
-        if: always()
+        if: always() && steps.recent_run_guard.outputs.skip_run != 'true'
         uses: actions/cache/save@v4
         with:
           path: |
@@ -306,7 +368,7 @@ jobs:
           key: ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-${{ github.run_id }}
 
       - name: Persist runtime state fallback
-        if: always() && github.ref == 'refs/heads/main'
+        if: always() && github.ref == 'refs/heads/main' && steps.recent_run_guard.outputs.skip_run != 'true'
         run: |
           rm -f .env client_secret.json data/token.json
           git config user.name "github-actions[bot]"
@@ -334,3 +396,22 @@ jobs:
             git commit -m "Update bot runtime state [skip ci]"
             git push origin HEAD:main
           fi
+
+      - name: Self trigger next run
+        if: always() && github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && github.event.inputs.self_trigger == 'true' && steps.recent_run_guard.outputs.skip_run != 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          elapsed=$(( $(date +%s) - RUN_STARTED_EPOCH ))
+          delay=$(( 300 - elapsed ))
+          if [ "$delay" -lt 0 ]; then
+            delay=0
+          fi
+          echo "Waiting ${delay}s before dispatching the next run."
+          sleep "$delay"
+          curl --fail-with-body -L -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${GH_TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${{ github.repository }}/actions/workflows/auto-cycle.yml/dispatches \
+            -d '{"ref":"main","inputs":{"mode":"live","fast_news":"true","recent_hours":"6","self_trigger":"true"}}'
