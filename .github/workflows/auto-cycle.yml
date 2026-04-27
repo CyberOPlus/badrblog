@@ -159,7 +159,8 @@ jobs:
               "FACEBOOK_AUTO_POST": facebook_enabled,
               "FACEBOOK_LINK_MODE": "comment",
               "FAST_NEWS_MODE": fast_news,
-              "FIRST_VALID_ARTICLE_MODE": "true",
+              "FRESH_QUEUE_MODE": "true",
+              "FIRST_VALID_ARTICLE_MODE": "false",
               "RECENT_NEWS_ONLY": "true",
               "RECENT_NEWS_MAX_AGE_HOURS": recent_hours,
               "ALLOW_UNKNOWN_DATE_IN_FAST_MODE": "false",
@@ -181,8 +182,8 @@ jobs:
               "SAFE_CYCLE_DRAFT_ONLY": "false",
               "MAX_DRAFTS_PER_DAY": "10",
               "MIN_MINUTES_BETWEEN_DRAFTS": "30",
-              "MAX_LIVE_POSTS_PER_DAY": "144",
-              "MIN_MINUTES_BETWEEN_LIVE_POSTS": "10",
+              "MAX_LIVE_POSTS_PER_DAY": "288",
+              "MIN_MINUTES_BETWEEN_LIVE_POSTS": "5",
               "MAX_FACEBOOK_POSTS_PER_DAY": "144",
               "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": "10",
               "AI_PROVIDER": "auto",
@@ -195,8 +196,10 @@ jobs:
           print(f"Workflow mode: {mode}")
           print(f"SAFE_MODE: {safe_mode}")
           print(f"FAST_NEWS_MODE: {fast_news}")
+          print("FRESH_QUEUE_MODE: true")
+          print("FIRST_VALID_ARTICLE_MODE: false")
           print(f"RECENT_NEWS_MAX_AGE_HOURS: {recent_hours}")
-          print("Effective action: LIVE_FAST_RECENT_NEWS")
+          print("Effective action: LIVE_FRESH_QUEUE")
           PY
 
       - name: Deployment check

@@ -141,7 +141,13 @@ FAST_NEWS_MODE = os.getenv("FAST_NEWS_MODE", "true").strip().lower() in {
     "yes",
     "on",
 }
-FIRST_VALID_ARTICLE_MODE = os.getenv("FIRST_VALID_ARTICLE_MODE", "true").strip().lower() in {
+FRESH_QUEUE_MODE = os.getenv("FRESH_QUEUE_MODE", "true").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+FIRST_VALID_ARTICLE_MODE = os.getenv("FIRST_VALID_ARTICLE_MODE", "false").strip().lower() in {
     "1",
     "true",
     "yes",

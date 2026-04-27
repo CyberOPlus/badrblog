@@ -6,9 +6,9 @@ import hashlib
 import json
 import re
 from collections import Counter
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
-from config import ARTICLE_QUEUE_PATH, SOURCES_CONFIG_PATH
+from config import ARTICLE_QUEUE_PATH, RECENT_NEWS_MAX_AGE_HOURS, SOURCES_CONFIG_PATH
 from duplicate_utils import canonicalize_url, title_hash
 
 ALLOWED_STATUSES = {"new", "skipped", "ready", "selected", "draft_created", "published", "failed"}
@@ -21,8 +21,11 @@ def _now_iso():
 def _parse_iso(value):
     if not value:
         return None
+    text = str(value).strip()
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
     try:
-        return datetime.fromisoformat(str(value))
+        return datetime.fromisoformat(text)
     except ValueError:
         return None
 
@@ -113,6 +116,109 @@ def save_article_queue(queue):
     }
     with open(ARTICLE_QUEUE_PATH, "w", encoding="utf-8") as handle:
         json.dump(data, handle, ensure_ascii=False, indent=2)
+
+
+def _fresh_queue_cutoff(now=None, max_age_hours=None):
+    now = now or datetime.now(timezone.utc)
+    max_age_hours = RECENT_NEWS_MAX_AGE_HOURS if max_age_hours is None else max_age_hours
+    return now - timedelta(hours=max(0, max_age_hours))
+
+
+def _source_published_datetime(article):
+    published_at = _parse_iso(article.get("source_published_at"))
+    if not published_at:
+        return None
+    if published_at.tzinfo is None:
+        published_at = published_at.replace(tzinfo=timezone.utc)
+    return published_at.astimezone(timezone.utc)
+
+
+def _fresh_queue_sort_key(article):
+    published_at = _source_published_datetime(article)
+    discovered_at = _parse_iso(article.get("discovered_at")) or datetime.max.replace(tzinfo=None)
+    if discovered_at.tzinfo is not None:
+        discovered_at = discovered_at.astimezone(timezone.utc).replace(tzinfo=None)
+    return (
+        published_at or datetime.max.replace(tzinfo=timezone.utc),
+        discovered_at,
+        article.get("url", ""),
+    )
+
+
+def is_article_within_fresh_window(article, now=None, max_age_hours=None):
+    published_at = _source_published_datetime(article)
+    if not published_at:
+        return False
+    return published_at >= _fresh_queue_cutoff(now=now, max_age_hours=max_age_hours)
+
+
+def archive_expired_queue_articles(now=None, max_age_hours=None):
+    queue = load_article_queue()
+    articles = queue.get("articles", [])
+    archived_at = _now_iso()
+    changed = False
+    expired = 0
+    missing_date = 0
+
+    for article in articles:
+        if article.get("archived"):
+            continue
+        if article.get("status") in {"published", "draft_created"}:
+            continue
+
+        published_at = _source_published_datetime(article)
+        if not published_at:
+            if article.get("status") in {"new", "ready", "selected", "failed", "skipped"}:
+                if _archive_article(article, "missing_reliable_publish_date", archived_at):
+                    missing_date += 1
+                    changed = True
+            continue
+
+        if not is_article_within_fresh_window(article, now=now, max_age_hours=max_age_hours):
+            if _archive_article(article, "expired_recent_window", archived_at):
+                expired += 1
+                changed = True
+
+    if changed:
+        save_article_queue(queue)
+
+    return {
+        "expired_archived": expired,
+        "missing_date_archived": missing_date,
+        "changed": changed,
+        "total_queued": len(articles),
+    }
+
+
+def get_fresh_queue_candidates(statuses=None, now=None, max_age_hours=None):
+    queue = load_article_queue()
+    articles = queue.get("articles", [])
+    statuses = set(statuses or {"ready", "selected"})
+    candidates = [
+        article
+        for article in articles
+        if not article.get("archived")
+        and article.get("status") in statuses
+        and article.get("content_fetch_status") == "success"
+        and is_article_within_fresh_window(article, now=now, max_age_hours=max_age_hours)
+    ]
+    return sorted(candidates, key=_fresh_queue_sort_key)
+
+
+def archive_published_queue_article(article_id="", article_url="", reason="published_to_blogger"):
+    if not article_id and not article_url:
+        return False
+
+    queue = load_article_queue()
+    for article in queue.get("articles", []):
+        if article.get("id") == article_id or article.get("url") == article_url:
+            if article.get("archived"):
+                return False
+            changed = _archive_article(article, reason, _now_iso())
+            if changed:
+                save_article_queue(queue)
+            return changed
+    return False
 
 
 def add_articles_to_queue(discovered_articles):

@@ -117,9 +117,9 @@ class ProductionHardeningTests(unittest.TestCase):
         with patch.object(main, "SAFE_MODE", True), patch.object(main, "PUBLISH_MODE", "live"):
             self.assertEqual(main._effective_action(), "DRAFT")
 
-    def test_live_fast_recent_effective_action(self):
-        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True):
-            self.assertEqual(main._effective_action(), "LIVE_FAST_RECENT_NEWS")
+    def test_live_fresh_queue_effective_action(self):
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FRESH_QUEUE_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", False), patch.object(main, "RECENT_NEWS_ONLY", True):
+            self.assertEqual(main._effective_action(), "LIVE_FRESH_QUEUE")
 
     def test_first_valid_article_mode_stops_after_first_valid_source(self):
         calls = []
@@ -227,13 +227,14 @@ class ProductionHardeningTests(unittest.TestCase):
         with patch.object(article_draft_publisher, "SAFE_MODE", False), patch.object(article_draft_publisher, "PUBLISH_MODE", "live"):
             self.assertEqual(article_draft_publisher._effective_publish_mode("live"), "live")
 
-    def test_startup_config_logs_live_fast_recent_action(self):
+    def test_startup_config_logs_live_fresh_queue_action(self):
         output = StringIO()
-        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True), redirect_stdout(output):
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FRESH_QUEUE_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", False), patch.object(main, "RECENT_NEWS_ONLY", True), redirect_stdout(output):
             main.print_startup_config()
         text = output.getvalue()
+        self.assertIn("FRESH_QUEUE_MODE", text)
         self.assertIn("RECENT_NEWS_ONLY", text)
-        self.assertIn("LIVE_FAST_RECENT_NEWS", text)
+        self.assertIn("LIVE_FRESH_QUEUE", text)
 
     def test_telegram_reports_skipped_when_no_recent_article(self):
         with patch.object(notifier, "send_telegram_message", return_value={"sent": False, "skipped": True, "reason": "disabled"}) as send:
@@ -268,11 +269,132 @@ class ProductionHardeningTests(unittest.TestCase):
             "failed_sources": [],
             "zero_link_sources": [],
         }
-        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "run_score_only") as score, patch.object(main, "notify_auto_cycle_blocked"):
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FRESH_QUEUE_MODE", False), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "run_score_only") as score, patch.object(main, "notify_auto_cycle_blocked"):
             result = main.run_safe_cycle_only()
         self.assertFalse(result["completed"])
         self.assertEqual(result["step_reached"], "fetch")
         score.assert_not_called()
+
+    def test_multiple_fresh_articles_found_in_one_scan_are_queued(self):
+        def fake_collect(base_url, **_kwargs):
+            return [
+                {"title": f"{base_url} first", "url": f"{base_url}/first", "published_at": recent_iso(1.5)},
+                {"title": f"{base_url} second", "url": f"{base_url}/second", "published_at": recent_iso(1)},
+            ], "", 200, {"method_used": "feed"}
+
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "ALLOW_UNKNOWN_DATE_IN_FAST_MODE", False):
+                result = scraper.discover_fresh_article_links(
+                    [
+                        {"name": "A", "base_url": "https://a.example", "enabled": True},
+                        {"name": "B", "base_url": "https://b.example", "enabled": True},
+                    ],
+                    existing_articles=[],
+                    published_urls=set(),
+                )
+                queue_stats = article_queue.add_articles_to_queue(result["articles"])
+                reloaded = article_queue.load_article_queue()
+
+        self.assertEqual(len(result["articles"]), 4)
+        self.assertEqual(queue_stats["added"], 4)
+        self.assertEqual(len(reloaded["articles"]), 4)
+
+    def test_oldest_fresh_queue_article_selected_first_and_next_run_gets_next(self):
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "older",
+                        "url": "https://example.com/older",
+                        "status": "ready",
+                        "content_fetch_status": "success",
+                        "source_published_at": recent_iso(1.8),
+                    },
+                    {
+                        "id": "newer",
+                        "url": "https://example.com/newer",
+                        "status": "ready",
+                        "content_fetch_status": "success",
+                        "source_published_at": recent_iso(0.8),
+                    },
+                ],
+                "notifications": {},
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path):
+                article_queue.save_article_queue(queue)
+                with patch.object(main, "suggest_category", return_value="Tech"):
+                    first = main._select_oldest_fresh_ready_article()
+                article_queue.archive_published_queue_article(article_id=first["id"], article_url=first["url"])
+                with patch.object(main, "suggest_category", return_value="Tech"):
+                    second = main._select_oldest_fresh_ready_article()
+
+        self.assertEqual(first["id"], "older")
+        self.assertEqual(second["id"], "newer")
+
+    def test_expired_queued_articles_are_removed(self):
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "expired",
+                        "url": "https://example.com/expired",
+                        "status": "ready",
+                        "content_fetch_status": "success",
+                        "source_published_at": recent_iso(3),
+                    },
+                    {
+                        "id": "fresh",
+                        "url": "https://example.com/fresh",
+                        "status": "ready",
+                        "content_fetch_status": "success",
+                        "source_published_at": recent_iso(1),
+                    },
+                ],
+                "notifications": {},
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path):
+                article_queue.save_article_queue(queue)
+                stats = article_queue.archive_expired_queue_articles()
+                reloaded = article_queue.load_article_queue()
+
+        self.assertEqual(stats["expired_archived"], 1)
+        expired = next(article for article in reloaded["articles"] if article["id"] == "expired")
+        fresh = next(article for article in reloaded["articles"] if article["id"] == "fresh")
+        self.assertTrue(expired["archived"])
+        self.assertFalse(fresh.get("archived", False))
+
+    def test_unknown_date_articles_are_skipped_in_fresh_queue_discovery(self):
+        def fake_collect(base_url, **_kwargs):
+            return [{"title": "Undated story", "url": f"{base_url}/story"}], "", 200, {"method_used": "html"}
+
+        with patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "ALLOW_UNKNOWN_DATE_IN_FAST_MODE", False), patch.object(scraper, "_resolve_article_published_at", return_value=("", "")), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
+            result = scraper.discover_fresh_article_links(
+                [{"name": "A", "base_url": "https://a.example", "enabled": True}],
+                existing_articles=[],
+                published_urls=set(),
+            )
+
+        self.assertFalse(result["articles"])
+        self.assertEqual(result["source_results"][0]["missing_date_skipped"], 1)
+
+    def test_duplicate_urls_are_not_queued_twice(self):
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path):
+                queue_stats = article_queue.add_articles_to_queue(
+                    [
+                        {"title": "Story A", "url": "https://example.com/post?utm_source=x", "source_name": "A", "source_url": "https://example.com", "category_hint": "Tech"},
+                        {"title": "Story A Again", "url": "https://example.com/post", "source_name": "A", "source_url": "https://example.com", "category_hint": "Tech"},
+                    ]
+                )
+                reloaded = article_queue.load_article_queue()
+
+        self.assertEqual(queue_stats["added"], 1)
+        self.assertEqual(queue_stats["duplicate_url"], 1)
+        self.assertEqual(len(reloaded["articles"]), 1)
 
     def test_live_fast_recent_stops_when_fresh_article_is_not_ready(self):
         schedule = {
@@ -299,12 +421,44 @@ class ProductionHardeningTests(unittest.TestCase):
             "zero_link_sources": [],
         }
         enrich = {"failed": 0, "weak": 0}
-        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value=enrich), patch.object(main, "_lock_specific_ready_article", return_value=None), patch.object(main, "run_plan_next_only") as planner, patch.object(main, "notify_auto_cycle_blocked"):
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FRESH_QUEUE_MODE", False), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value=enrich), patch.object(main, "_lock_specific_ready_article", return_value=None), patch.object(main, "run_plan_next_only") as planner, patch.object(main, "notify_auto_cycle_blocked"):
             result = main.run_safe_cycle_only()
         self.assertFalse(result["completed"])
         self.assertEqual(result["step_reached"], "plan-next")
         self.assertIn("not ready after enrichment", result["reason"])
         planner.assert_not_called()
+
+    def test_fresh_queue_no_article_exits_successfully(self):
+        schedule = {
+            "configured_publish_mode": "live",
+            "publish_mode": "live",
+            "drafts_created_today": 0,
+            "live_posts_created_today": 0,
+            "max_drafts_per_day": 10,
+            "max_live_posts_per_day": 288,
+            "last_draft_time": None,
+            "last_live_publish_time": None,
+            "minutes_since_last_draft": None,
+            "minutes_since_last_live_publish": None,
+            "min_minutes_between_drafts": 30,
+            "min_minutes_between_live_posts": 5,
+            "allowed_now": True,
+            "next_allowed_time": None,
+            "reasons": [],
+        }
+        fetch = {
+            "first_valid_url": "",
+            "reason": "no fresh article in the last 2 hours",
+            "failed_sources": [],
+            "zero_link_sources": [],
+        }
+        cleanup = {"expired_archived": 0, "missing_date_archived": 0}
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FRESH_QUEUE_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", False), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "archive_expired_queue_articles", return_value=cleanup), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value={"failed": 0, "weak": 0}), patch.object(main, "_select_oldest_fresh_ready_article", return_value=None), patch.object(main, "notify_auto_cycle_blocked"):
+            result = main.run_safe_cycle_only()
+
+        self.assertFalse(result["completed"])
+        self.assertTrue(result["skipped"])
+        self.assertEqual(result["reason"], "no fresh article in the last 2 hours")
 
     def test_lock_specific_ready_article_persists_selection(self):
         with TemporaryDirectory() as temp_dir:

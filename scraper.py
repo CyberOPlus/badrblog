@@ -1300,6 +1300,163 @@ def discover_first_valid_article_link(sources, existing_articles=None):
     }
 
 
+def discover_fresh_article_links(sources, existing_articles=None, published_urls=None):
+    """
+    Scan all enabled sources and collect every fresh, non-duplicate article
+    within the recent-news window.
+    """
+    enabled_sources = [source for source in sources if source.get("enabled", True)]
+    existing_articles = existing_articles or []
+    published_urls = published_urls or set()
+    known_urls = {
+        item.get("canonical_url") or canonicalize_url(item.get("url"))
+        for item in existing_articles
+        if item.get("url") and not item.get("archived")
+    }
+    known_urls.update(canonicalize_url(url) for url in published_urls if url)
+    known_title_hashes = {
+        item.get("title_hash") or title_hash(item.get("title", ""))
+        for item in existing_articles
+        if item.get("title") and not item.get("archived")
+    }
+
+    discovered = []
+    source_results = []
+
+    for index, source in enumerate(enabled_sources, 1):
+        source_name = source.get("name", source.get("base_url", "Unknown source"))
+        base_url = source.get("base_url", "").strip()
+        if not base_url:
+            continue
+
+        started = time.perf_counter()
+        _log(f"\nChecking source {index}/{len(enabled_sources)}: {source_name}")
+        try:
+            links, error, status_code, details = _collect_article_links_for_source(
+                base_url,
+                per_source_limit=source.get("fetch_limit_per_run", 3),
+                feed_url=source.get("feed_url"),
+                extractor_type=source.get("extractor_type", "auto"),
+            )
+        except Exception as exc:
+            links = []
+            error = f"{type(exc).__name__}: {exc}"
+            status_code = None
+            details = {
+                "normal_links_found": 0,
+                "feed_links_found": 0,
+                "method_used": "failed",
+                "tried_feed_urls": [],
+            }
+
+        duplicate_count = 0
+        old_count = 0
+        missing_date_count = 0
+        recent_count = 0
+        selected_links = []
+
+        for link in links:
+            if isinstance(link, dict):
+                url = link.get("url", "")
+                link_title = link.get("title", "")
+                feed_published_at = link.get("published_at", "")
+            else:
+                link_title, url = link
+                feed_published_at = ""
+
+            canonical = canonicalize_url(url)
+            current_title_hash = title_hash(link_title)
+            if canonical in known_urls or current_title_hash in known_title_hashes:
+                duplicate_count += 1
+                _log(f"  Skipping duplicate: {link_title[:80]}")
+                continue
+
+            published_at = ""
+            published_at_source = ""
+            age_hours = None
+            if RECENT_NEWS_ONLY:
+                published_at, published_at_source = _resolve_article_published_at(url, feed_published_at)
+                if not published_at:
+                    missing_date_count += 1
+                    if ALLOW_UNKNOWN_DATE_IN_FAST_MODE:
+                        _log(f"  Article date missing; allowed by config: {link_title[:80]}")
+                    else:
+                        _log(f"  Skipping article: publish date missing: {link_title[:80]}")
+                        continue
+                if published_at:
+                    is_recent, age_hours = _is_recent_published_at(published_at)
+                    _log(
+                        f"  Article date found ({published_at_source or 'unknown'}): "
+                        f"{published_at}; age {age_hours:.2f}h"
+                    )
+                    if not is_recent:
+                        old_count += 1
+                        _log(
+                            f"  Skipping article older than {RECENT_NEWS_MAX_AGE_HOURS}h: "
+                            f"{link_title[:80]}"
+                        )
+                        continue
+                    recent_count += 1
+
+            selected = {
+                "title": link_title,
+                "url": url,
+                "source_name": source_name,
+                "source_url": base_url,
+                "category_hint": source.get("category_hint", ""),
+                "published_at_source": published_at_source,
+                "source_published_at": published_at,
+                "article_age_hours": round(age_hours, 2) if age_hours is not None else None,
+            }
+            selected_links.append(selected)
+            known_urls.add(canonical)
+            if current_title_hash:
+                known_title_hashes.add(current_title_hash)
+
+        elapsed = elapsed_ms(started)
+        status_text = "failed" if error else "success"
+        _log(
+            f"  Source result: {status_text}; links={len(links)}; "
+            f"duplicates={duplicate_count}; recent={recent_count}; old={old_count}; "
+            f"missing_date={missing_date_count}; queued={len(selected_links)}; "
+            f"elapsed={elapsed / 1000:.1f}s"
+        )
+        source_results.append(
+            {
+                "source_name": source_name,
+                "base_url": base_url,
+                "category_hint": source.get("category_hint", ""),
+                "links_found": len(links),
+                "duplicates_skipped": duplicate_count,
+                "recent_links": recent_count,
+                "old_links_skipped": old_count,
+                "missing_date_skipped": missing_date_count,
+                "queued_links": len(selected_links),
+                "status": "failed" if error else "success",
+                "listing_status_code": status_code,
+                "error": error,
+                "elapsed_ms": elapsed,
+                **details,
+            }
+        )
+        discovered.extend(selected_links)
+
+    reason = (
+        f"no fresh article in the last {RECENT_NEWS_MAX_AGE_HOURS} hours"
+        if RECENT_NEWS_ONLY and not discovered
+        else ""
+    )
+    if reason:
+        _log(f"Finished source scan: {reason}")
+
+    return {
+        "checked_sources": len(source_results),
+        "articles": discovered,
+        "source_results": source_results,
+        "reason": reason,
+    }
+
+
 def _round_robin_link_groups(link_groups, limit=None):
     merged = []
     seen = set()

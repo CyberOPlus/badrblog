@@ -29,6 +29,9 @@ from article_draft_publisher import (
 )
 from article_queue import (
     add_articles_to_queue,
+    archive_expired_queue_articles,
+    archive_published_queue_article,
+    get_fresh_queue_candidates,
     load_article_queue,
     load_sources,
     maintain_article_queue,
@@ -50,6 +53,7 @@ from config import (
     CHECK_INTERVAL,
     FACEBOOK_AUTO_POST,
     FAST_NEWS_MODE,
+    FRESH_QUEUE_MODE,
     FIRST_VALID_ARTICLE_MODE,
     LOGS_DIR,
     MAX_ARTICLES_PER_RUN,
@@ -80,7 +84,7 @@ from facebook_publisher import (
 from processor import initialize_gemini, process_articles
 from publishing_planner import plan_next_article
 from published_db import filter_new_articles, load_published_ids, mark_many_as_published
-from scraper import discover_first_valid_article_link, discover_latest_article_links, get_latest_articles
+from scraper import discover_first_valid_article_link, discover_fresh_article_links, discover_latest_article_links, get_latest_articles
 from source_validator import check_sources_config
 from notifier import (
     get_notification_status,
@@ -159,7 +163,15 @@ def run_fetch_only():
     if RECENT_NEWS_ONLY:
         print(f"Recent filter:      last {RECENT_NEWS_MAX_AGE_HOURS} hour(s)", flush=True)
 
-    if FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE:
+    published_set = load_published_ids()
+    if FAST_NEWS_MODE and FRESH_QUEUE_MODE:
+        existing_queue = load_article_queue()
+        discovery = discover_fresh_article_links(
+            enabled_sources,
+            existing_articles=existing_queue.get("articles", []),
+            published_urls=published_set,
+        )
+    elif FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE:
         existing_queue = load_article_queue()
         discovery = discover_first_valid_article_link(
             enabled_sources,
@@ -167,7 +179,7 @@ def run_fetch_only():
         )
     else:
         discovery = discover_latest_article_links(enabled_sources)
-    articles = discovery["articles"]
+    articles = filter_new_articles(discovery["articles"], published_set)
     queue_stats = add_articles_to_queue(articles)
     source_results = discovery.get("source_results", [])
     found_by_category = Counter(
@@ -321,6 +333,15 @@ def _effective_action():
         not SAFE_MODE
         and PUBLISH_MODE == "live"
         and FAST_NEWS_MODE
+        and FRESH_QUEUE_MODE
+        and not FIRST_VALID_ARTICLE_MODE
+        and RECENT_NEWS_ONLY
+    ):
+        return "LIVE_FRESH_QUEUE"
+    if (
+        not SAFE_MODE
+        and PUBLISH_MODE == "live"
+        and FAST_NEWS_MODE
         and FIRST_VALID_ARTICLE_MODE
         and RECENT_NEWS_ONLY
     ):
@@ -339,6 +360,7 @@ def print_startup_config():
     print(f"SAFE_MODE:                      {str(SAFE_MODE).lower()}", flush=True)
     print(f"PUBLISH_MODE:                   {PUBLISH_MODE}", flush=True)
     print(f"FAST_NEWS_MODE:                 {str(FAST_NEWS_MODE).lower()}", flush=True)
+    print(f"FRESH_QUEUE_MODE:               {str(FRESH_QUEUE_MODE).lower()}", flush=True)
     print(f"FIRST_VALID_ARTICLE_MODE:       {str(FIRST_VALID_ARTICLE_MODE).lower()}", flush=True)
     print(f"RECENT_NEWS_ONLY:               {str(RECENT_NEWS_ONLY).lower()}", flush=True)
     print(f"RECENT_NEWS_MAX_AGE_HOURS:      {RECENT_NEWS_MAX_AGE_HOURS}", flush=True)
@@ -347,6 +369,27 @@ def print_startup_config():
     print(f"SOURCE_TIMEOUT_SECONDS:         {SOURCE_TIMEOUT_SECONDS}", flush=True)
     print(f"Effective action:               {_effective_action()}", flush=True)
     print("=" * 60, flush=True)
+
+
+def _select_oldest_fresh_ready_article():
+    candidates = get_fresh_queue_candidates(statuses={"ready", "selected"})
+    if not candidates:
+        return None
+
+    candidate = candidates[0]
+    if candidate.get("status") != "selected":
+        queue = load_article_queue()
+        for article in queue.get("articles", []):
+            if article.get("id") != candidate.get("id"):
+                continue
+            article["status"] = "selected"
+            article["selected_at"] = datetime.now().isoformat(timespec="seconds")
+            article["suggested_category"] = article.get("suggested_category") or suggest_category(article)
+            article["selection_reason"] = "oldest fresh queued article"
+            candidate = article
+            break
+        save_article_queue(queue)
+    return candidate
 
 
 def get_publish_schedule_status(mode=None, now=None):
@@ -480,6 +523,7 @@ def _append_auto_cycle_run_log(record):
         "blogger_status": record.get("blogger_status", ""),
         "blogger_post_url": record.get("blogger_post_url", ""),
         "facebook_status": record.get("facebook_status", ""),
+        "warning": record.get("warning", ""),
         "stopped_reason": record.get("stopped_reason", ""),
         "execution_seconds": record.get("execution_seconds", 0),
         "success": bool(record.get("success")),
@@ -517,7 +561,8 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
     )
     if facebook_error and not blogger_succeeded:
         stopped_reason = facebook_error
-    success = bool((result or {}).get("completed")) and not error
+    skipped = bool((result or {}).get("skipped"))
+    success = (bool((result or {}).get("completed")) or skipped) and not error
 
     return {
         "run_id": run_id,
@@ -1092,6 +1137,7 @@ def run_deployment_check_only():
     publish_mode = str(os.getenv("PUBLISH_MODE", "draft")).strip().lower()
     facebook_auto_post = _safe_bool_env("FACEBOOK_AUTO_POST")
     fast_news_mode = _safe_bool_env("FAST_NEWS_MODE")
+    fresh_queue_mode = _safe_bool_env("FRESH_QUEUE_MODE")
     first_valid_mode = _safe_bool_env("FIRST_VALID_ARTICLE_MODE")
     recent_news_only = _safe_bool_env("RECENT_NEWS_ONLY")
     allow_unknown_date = _safe_bool_env("ALLOW_UNKNOWN_DATE_IN_FAST_MODE")
@@ -1155,6 +1201,7 @@ def run_deployment_check_only():
     safe_mode_env = str(os.getenv("SAFE_MODE", "true")).strip().lower() in {"1", "true", "yes", "on"}
     print(f"SAFE_MODE: {'true' if safe_mode_env else 'false'}")
     print(f"FAST_NEWS_MODE: {'true' if fast_news_mode else 'false'}")
+    print(f"FRESH_QUEUE_MODE: {'true' if fresh_queue_mode else 'false'}")
     print(f"FIRST_VALID_ARTICLE_MODE: {'true' if first_valid_mode else 'false'}")
     print(f"RECENT_NEWS_ONLY: {'true' if recent_news_only else 'false'}")
     print(f"RECENT_NEWS_MAX_AGE_HOURS: {recent_hours_raw or 'MISSING'}")
@@ -1206,8 +1253,10 @@ def run_deployment_check_only():
             errors.append("PUBLISH_MODE=live requires SAFE_MODE=false.")
         if not fast_news_mode:
             errors.append("Live automation requires FAST_NEWS_MODE=true.")
-        if not first_valid_mode:
-            errors.append("Live automation requires FIRST_VALID_ARTICLE_MODE=true.")
+        if not fresh_queue_mode:
+            errors.append("Live automation requires FRESH_QUEUE_MODE=true.")
+        if first_valid_mode:
+            errors.append("Live automation requires FIRST_VALID_ARTICLE_MODE=false.")
         if not recent_news_only:
             errors.append("Live automation requires RECENT_NEWS_ONLY=true.")
         if allow_unknown_date:
@@ -1356,7 +1405,12 @@ def run_safe_cycle_only():
     """
     publish_mode = _effective_publish_mode()
     action_label = _effective_action()
-    cycle_label = "LIVE FAST RECENT NEWS" if action_label == "LIVE_FAST_RECENT_NEWS" else "DRAFT/SAFE CYCLE"
+    if action_label == "LIVE_FRESH_QUEUE":
+        cycle_label = "LIVE FRESH QUEUE"
+    elif action_label == "LIVE_FAST_RECENT_NEWS":
+        cycle_label = "LIVE FAST RECENT NEWS"
+    else:
+        cycle_label = "DRAFT/SAFE CYCLE"
     print("\n" + "=" * 60)
     print(f"PHASE 9: {cycle_label}")
     print("=" * 60)
@@ -1411,6 +1465,13 @@ def run_safe_cycle_only():
         print(f"Source warnings recorded: {source_warnings_count}")
     if zero_link_warnings_count:
         print(f"Zero-link source warnings recorded: {zero_link_warnings_count}")
+    cleanup_stats = archive_expired_queue_articles()
+    if cleanup_stats["expired_archived"] or cleanup_stats["missing_date_archived"]:
+        print(
+            "Fresh queue cleanup: "
+            f"expired={cleanup_stats['expired_archived']} | "
+            f"missing_date={cleanup_stats['missing_date_archived']}"
+        )
     if FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE and RECENT_NEWS_ONLY and not fetch_stats.get("first_valid_url"):
         reason = fetch_stats.get("reason") or f"no article in last {RECENT_NEWS_MAX_AGE_HOURS} hours"
         print(f"Live fast recent mode stopping before old queue fallback: {reason}.")
@@ -1423,6 +1484,7 @@ def run_safe_cycle_only():
         notify_auto_cycle_blocked(reason, "")
         return {
             "completed": False,
+            "skipped": True,
             "reason": reason,
             "fetch": fetch_stats,
             "source_warnings_count": source_warnings_count,
@@ -1446,7 +1508,17 @@ def run_safe_cycle_only():
     print("\n[4/7] plan-next --lock")
     selected = None
     plan_result = {}
-    if FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE:
+    if FAST_NEWS_MODE and FRESH_QUEUE_MODE:
+        selected = _select_oldest_fresh_ready_article()
+        plan_result = {
+            "selected": selected,
+            "reason": "oldest fresh queued article" if selected else "no fresh queued article ready for publishing",
+            "lock": True,
+            "eligible_count": 1 if selected else 0,
+        }
+        if selected:
+            print("Oldest fresh queued article locked for publishing.")
+    elif FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE:
         selected = _lock_specific_ready_article(fetch_stats.get("first_valid_url", ""))
         plan_result = {
             "selected": selected,
@@ -1478,10 +1550,11 @@ def run_safe_cycle_only():
                 "step_reached": "plan-next",
             }
     if not selected:
-        plan_result = run_plan_next_only(lock=True)
-        selected = plan_result.get("selected")
+        if not (FAST_NEWS_MODE and FRESH_QUEUE_MODE):
+            plan_result = run_plan_next_only(lock=True)
+            selected = plan_result.get("selected")
     if not selected:
-        no_article_reason = fetch_stats.get("reason") or "no eligible article"
+        no_article_reason = fetch_stats.get("reason") or f"no fresh article in the last {RECENT_NEWS_MAX_AGE_HOURS} hours"
         print(f"Cycle stopping cleanly: {no_article_reason}.")
         _print_safe_cycle_final_report(
             None,
@@ -1492,6 +1565,7 @@ def run_safe_cycle_only():
         notify_auto_cycle_blocked(no_article_reason, "")
         return {
             "completed": False,
+            "skipped": True,
             "reason": no_article_reason,
             "fetch": fetch_stats,
             "score": score_stats,
@@ -1644,6 +1718,14 @@ def run_safe_cycle_only():
         source_warnings_count=source_warnings_count,
         enrichment_failed_count=enrichment_failed_count,
     )
+    if draft_action in {"created", "updated"} and article and article.get("publish_status") == "published":
+        published_set = load_published_ids()
+        mark_many_as_published([article.get("url") or article.get("canonical_url")], published_set)
+        archive_published_queue_article(
+            article_id=article.get("id", ""),
+            article_url=article.get("url", ""),
+        )
+        article = _find_article_by_id(selected_id)
     return {
         "completed": draft_action in {"created", "updated"},
         "article": article,

@@ -275,13 +275,15 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
     draft = result.get("draft") or {}
     facebook = result.get("facebook") or {}
     facebook_error = facebook.get("error") if facebook and not facebook.get("posted") else ""
-    reason = _sanitize_reason(error or facebook_error or result.get("reason") or draft.get("error") or "")
+    reason = _sanitize_reason(error or result.get("reason") or draft.get("error") or "")
+    warning_value = facebook_error or result.get("warning") or ""
+    warning = _sanitize_reason(warning_value) if warning_value else ""
     if error:
-        status = "failed"
-    elif facebook_error:
         status = "failed"
     elif result.get("completed"):
         status = "success"
+    elif result.get("skipped"):
+        status = "skipped"
     else:
         status = "blocked" if result.get("schedule") or result.get("reason") else "failed"
 
@@ -314,6 +316,8 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
         f"الرابط: {_blogger_url(article)}",
         f"السبب إن وجد: {reason}",
     ]
+    if warning:
+        lines.append(f"Warning: {warning}")
     source_warnings_count = int(result.get("source_warnings_count") or 0)
     enrichment_failed_count = int(result.get("enrichment_failed_count") or 0)
     article_warnings = _article_warnings(article)
