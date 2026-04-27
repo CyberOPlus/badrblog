@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-27T20:53:24",
+  "updated_at": "2026-04-27T20:59:54",
   "articles": [
     {
       "id": "a7a11e65e86e7bcc",
@@ -1843,7 +1843,10 @@
       "content_preview_chars": 1449,
       "content_fetched_at": "2026-04-27T19:09:35",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-04-27T20:59:53",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "34bf03bc83a4c08c",
@@ -1878,7 +1881,10 @@
       "content_preview_chars": 5321,
       "content_fetched_at": "2026-04-27T19:09:32",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-04-27T20:57:41",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "597521bea1f54740",
@@ -3361,10 +3367,10 @@
     }
   ],
   "notifications": {
-    "telegram_final_summary_event_key": "20260427205238716905",
-    "telegram_final_summary_notified_at": "2026-04-27T20:53:24",
-    "last_notification_at": "2026-04-27T20:53:24",
-    "telegram_auto_cycle_blocked_event_key": "minimum minutes between live posts has not elapsed|2026-04-27T18:16:20",
-    "telegram_auto_cycle_blocked_notified_at": "2026-04-27T18:12:11"
+    "telegram_final_summary_event_key": "20260427205747780375",
+    "telegram_final_summary_notified_at": "2026-04-27T20:59:54",
+    "last_notification_at": "2026-04-27T20:59:54",
+    "telegram_auto_cycle_blocked_event_key": "no fresh article safely inside the last 6 hours|",
+    "telegram_auto_cycle_blocked_notified_at": "2026-04-27T20:59:54"
   }
 }
