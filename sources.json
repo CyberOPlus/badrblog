@@ -147,6 +147,14 @@
       "extractor_type": "feed_fallback"
     },
     {
+      "name": "Mandiant Resources Blog",
+      "base_url": "https://www.mandiant.com/resources/blog",
+      "enabled": true,
+      "category_hint": "Ø§Ù„Ø£Ù…Ù† Ø§Ù„Ø³ÙŠØ¨Ø±Ø§Ù†ÙŠ",
+      "fetch_limit_per_run": 3,
+      "extractor_type": "auto"
+    },
+    {
       "name": "Heimdal Security",
       "base_url": "https://heimdalsecurity.com/blog",
       "enabled": true,
@@ -250,6 +258,14 @@
       "base_url": "https://www.anthropic.com/news",
       "enabled": true,
       "category_hint": "أدوات الذكاء الاصطناعي",
+      "fetch_limit_per_run": 3,
+      "extractor_type": "auto"
+    },
+    {
+      "name": "Anthropic News Direct",
+      "base_url": "https://anthropic.com/news",
+      "enabled": true,
+      "category_hint": "Ø£Ø¯ÙˆØ§Øª Ø§Ù„Ø°ÙƒØ§Ø¡ Ø§Ù„Ø§ØµØ·Ù†Ø§Ø¹ÙŠ",
       "fetch_limit_per_run": 3,
       "extractor_type": "auto"
     },

@@ -82,6 +82,26 @@ def _env_int(name, default):
         return default
 
 
+def _env_int_any(names, default):
+    for name in names:
+        value = os.getenv(name, "").strip()
+        if not value:
+            continue
+        try:
+            return int(value)
+        except ValueError:
+            continue
+    return default
+
+
+def _env_bool_any(names, default=False):
+    for name in names:
+        raw = os.getenv(name, "").strip()
+        if raw:
+            return raw.lower() in {"1", "true", "yes", "on"}
+    return bool(default)
+
+
 def _env_csv(name, default=""):
     """
     Read a comma-separated environment variable into a de-duplicated list.
@@ -128,68 +148,43 @@ MAX_ARTICLES_PER_RUN = _env_int("MAX_ARTICLES_PER_RUN", MAX_POSTS_PER_RUN)
 SCRAPE_DELAY_SECONDS = _env_int("SCRAPE_DELAY_SECONDS", 2)
 TRANSLATION_DELAY_SECONDS = _env_int("TRANSLATION_DELAY_SECONDS", 3)
 PUBLISH_DELAY_SECONDS = _env_int("PUBLISH_DELAY_SECONDS", 5)
-PUBLISH_MODE = os.getenv("PUBLISH_MODE", "live").strip().lower()
-SAFE_MODE = os.getenv("SAFE_MODE", "false").strip().lower() in {
-    "1",
-    "true",
-    "yes",
-    "on",
-}
-FAST_NEWS_MODE = os.getenv("FAST_NEWS_MODE", "true").strip().lower() in {
-    "1",
-    "true",
-    "yes",
-    "on",
-}
-FRESH_QUEUE_MODE = os.getenv("FRESH_QUEUE_MODE", "true").strip().lower() in {
-    "1",
-    "true",
-    "yes",
-    "on",
-}
-FIRST_VALID_ARTICLE_MODE = os.getenv("FIRST_VALID_ARTICLE_MODE", "false").strip().lower() in {
-    "1",
-    "true",
-    "yes",
-    "on",
-}
-MIN_ARTICLE_WORDS = _env_int("MIN_ARTICLE_WORDS", 120)
-TARGET_ARTICLE_WORDS = os.getenv("TARGET_ARTICLE_WORDS", "250-600").strip()
+BLOGGER_LIVE_ENABLED = _env_bool_any(["BLOGGER_LIVE_ENABLED"], True)
+PUBLISH_MODE = os.getenv("PUBLISH_MODE", "live" if BLOGGER_LIVE_ENABLED else "draft").strip().lower()
+SAFE_MODE = _env_bool_any(["SAFE_MODE"], False)
+FAST_NEWS_MODE = _env_bool_any(["FAST_NEWS_MODE"], True)
+FRESH_QUEUE_MODE = _env_bool_any(["FRESH_QUEUE_MODE"], False)
+FIRST_VALID_ARTICLE_MODE = _env_bool_any(["FIRST_VALID_ARTICLE_MODE"], True)
+MIN_ARTICLE_WORDS = _env_int("MIN_ARTICLE_WORDS", 150)
+TARGET_ARTICLE_WORDS = os.getenv("TARGET_ARTICLE_WORDS", "450").strip()
 MAX_SOURCE_RETRIES = _env_int("MAX_SOURCE_RETRIES", 1)
 SOURCE_RETRY_DELAY_SECONDS = _env_int("SOURCE_RETRY_DELAY_SECONDS", 3)
-SOURCE_TIMEOUT_SECONDS = _env_int("SOURCE_TIMEOUT_SECONDS", 10)
-MAX_SOURCES_PER_RUN = _env_int("MAX_SOURCES_PER_RUN", 10)
+SOURCE_TIMEOUT_SECONDS = _env_int("SOURCE_TIMEOUT_SECONDS", 12)
+ARTICLE_TIMEOUT_SECONDS = _env_int("ARTICLE_TIMEOUT_SECONDS", 15)
+MAX_SOURCES_PER_RUN = _env_int("MAX_SOURCES_PER_RUN", 1)
 FALLBACK_FIRST_RUN_LOOKBACK_HOURS = _env_int("FALLBACK_FIRST_RUN_LOOKBACK_HOURS", 2)
 CRAWL_INTERVAL_MINUTES = _env_int("CRAWL_INTERVAL_MINUTES", 5)
 CRAWL_OVERLAP_MINUTES = _env_int("CRAWL_OVERLAP_MINUTES", 10)
-RECENT_NEWS_ONLY = os.getenv("RECENT_NEWS_ONLY", "true").strip().lower() in {
-    "1",
-    "true",
-    "yes",
-    "on",
-}
-RECENT_NEWS_MAX_AGE_HOURS = _env_int("RECENT_NEWS_MAX_AGE_HOURS", 2)
-ALLOW_UNKNOWN_DATE_IN_FAST_MODE = os.getenv("ALLOW_UNKNOWN_DATE_IN_FAST_MODE", "false").strip().lower() in {
-    "1",
-    "true",
-    "yes",
-    "on",
-}
-ENABLE_SCRAPLING_FALLBACK = os.getenv("ENABLE_SCRAPLING_FALLBACK", "false").strip().lower() in {
-    "1",
-    "true",
-    "yes",
-    "on",
-}
+RECENT_NEWS_ONLY = _env_bool_any(["RECENT_ONLY", "RECENT_NEWS_ONLY"], True)
+RECENT_NEWS_MAX_AGE_HOURS = _env_int_any(["RECENT_HOURS", "RECENT_NEWS_MAX_AGE_HOURS"], 2)
+RECENT_HOURS = RECENT_NEWS_MAX_AGE_HOURS
+FRESHNESS_SAFETY_MARGIN_MINUTES = _env_int("FRESHNESS_SAFETY_MARGIN_MINUTES", 15)
+MAX_AI_ARTICLE_AGE_HOURS = max(
+    0.0,
+    RECENT_NEWS_MAX_AGE_HOURS - (max(0, FRESHNESS_SAFETY_MARGIN_MINUTES) / 60),
+)
+ALLOW_UNKNOWN_DATE_IN_FAST_MODE = _env_bool_any(["ALLOW_UNKNOWN_DATE_IN_FAST_MODE"], False)
+ENABLE_SCRAPLING_FALLBACK = _env_bool_any(["ENABLE_SCRAPLING_FALLBACK"], False)
+MAX_AI_RETRIES = _env_int("MAX_AI_RETRIES", 2)
+AI_TIMEOUT_SECONDS = _env_int("AI_TIMEOUT_SECONDS", 60)
+DUPLICATE_PROTECTION = _env_bool_any(["DUPLICATE_PROTECTION"], True)
+QUEUE_PERSIST = _env_bool_any(["QUEUE_PERSIST"], True)
+SOURCE_HEALTH_ENABLED = _env_bool_any(["SOURCE_HEALTH_ENABLED"], True)
+SOURCE_FAILURE_COOLDOWN_MINUTES = _env_int("SOURCE_FAILURE_COOLDOWN_MINUTES", 45)
+SOURCE_FAILURE_THRESHOLD = _env_int("SOURCE_FAILURE_THRESHOLD", 3)
 
 # Facebook Page auto-posting is disabled by default and only runs after a
 # successful live Blogger publish.
-FACEBOOK_AUTO_POST = os.getenv("FACEBOOK_AUTO_POST", "false").strip().lower() in {
-    "1",
-    "true",
-    "yes",
-    "on",
-}
+FACEBOOK_AUTO_POST = _env_bool_any(["FACEBOOK_AUTO_POST"], False)
 FACEBOOK_PAGE_ID = os.getenv("FACEBOOK_PAGE_ID", "").strip()
 FACEBOOK_PAGE_ACCESS_TOKEN = os.getenv("FACEBOOK_PAGE_ACCESS_TOKEN", "").strip()
 FACEBOOK_GRAPH_API_URL = os.getenv("FACEBOOK_GRAPH_API_URL", "https://graph.facebook.com/v20.0").strip()
@@ -200,12 +195,7 @@ MAX_FACEBOOK_POSTS_PER_DAY = _env_int("MAX_FACEBOOK_POSTS_PER_DAY", 5)
 MIN_MINUTES_BETWEEN_FACEBOOK_POSTS = _env_int("MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", 60)
 
 # Optional Telegram alerts. Disabled by default.
-TELEGRAM_ALERTS_ENABLED = os.getenv("TELEGRAM_ALERTS_ENABLED", "false").strip().lower() in {
-    "1",
-    "true",
-    "yes",
-    "on",
-}
+TELEGRAM_ALERTS_ENABLED = _env_bool_any(["TELEGRAM_ENABLED", "TELEGRAM_ALERTS_ENABLED"], False)
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "").strip()
 
@@ -229,8 +219,8 @@ MIN_MINUTES_BETWEEN_LIVE_POSTS = _env_int("MIN_MINUTES_BETWEEN_LIVE_POSTS", 60)
 # saves every usable article to a backlog, then publishes a balanced batch.
 ARTICLE_SELECTION_MULTIPLIER = _env_int("ARTICLE_SELECTION_MULTIPLIER", 4)
 ARTICLE_SELECTION_POOL_MIN = _env_int("ARTICLE_SELECTION_POOL_MIN", 20)
-MIN_ARTICLE_BODY_CHARS = _env_int("MIN_ARTICLE_BODY_CHARS", 900)
-MIN_ARTICLE_WORDS = _env_int("MIN_ARTICLE_WORDS", 140)
+MIN_ARTICLE_BODY_CHARS = _env_int("MIN_ARTICLE_BODY_CHARS", 300)
+MIN_ARTICLE_WORDS = _env_int("MIN_ARTICLE_WORDS", 150)
 MAX_ARTICLES_PER_SOURCE_PER_RUN = _env_int("MAX_ARTICLES_PER_SOURCE_PER_RUN", 2)
 
 
@@ -247,6 +237,7 @@ PUBLISHED_DB_PATH = BASE_DIR / "data" / "published_ids.json"
 ARTICLE_BACKLOG_PATH = BASE_DIR / "data" / "article_backlog.json"
 CRAWL_STATE_PATH = BASE_DIR / "data" / "crawl_state.json"
 TOPIC_FINGERPRINTS_PATH = BASE_DIR / "data" / "topic_fingerprints.json"
+SOURCE_HEALTH_PATH = BASE_DIR / "data" / "source_health.json"
 
 # Phase 1 ingestion source configuration and safe article queue.
 SOURCES_CONFIG_PATH = BASE_DIR / "sources.json"
@@ -291,7 +282,7 @@ OPENROUTER_API_URL = os.getenv(
     "https://openrouter.ai/api/v1/chat/completions",
 )
 OPENROUTER_MAX_TOKENS = _env_int("OPENROUTER_MAX_TOKENS", 8192)
-OPENROUTER_TIMEOUT_SECONDS = _env_int("OPENROUTER_TIMEOUT_SECONDS", 120)
+OPENROUTER_TIMEOUT_SECONDS = _env_int("OPENROUTER_TIMEOUT_SECONDS", AI_TIMEOUT_SECONDS)
 OPENROUTER_REFERER = os.getenv("OPENROUTER_REFERER", "")
 OPENROUTER_APP_NAME = os.getenv("OPENROUTER_APP_NAME", "Blogger Automation Bot")
 
@@ -303,7 +294,7 @@ OPENAI_API_URL = os.getenv(
     "https://api.openai.com/v1/chat/completions",
 )
 OPENAI_MAX_TOKENS = _env_int("OPENAI_MAX_TOKENS", 8192)
-OPENAI_TIMEOUT_SECONDS = _env_int("OPENAI_TIMEOUT_SECONDS", 120)
+OPENAI_TIMEOUT_SECONDS = _env_int("OPENAI_TIMEOUT_SECONDS", AI_TIMEOUT_SECONDS)
 
 
 # ============================================================

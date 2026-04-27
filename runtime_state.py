@@ -1,7 +1,14 @@
 import json
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
-from config import CRAWL_STATE_PATH, TOPIC_FINGERPRINTS_PATH
+from config import (
+    CRAWL_STATE_PATH,
+    SOURCE_FAILURE_COOLDOWN_MINUTES,
+    SOURCE_FAILURE_THRESHOLD,
+    SOURCE_HEALTH_ENABLED,
+    SOURCE_HEALTH_PATH,
+    TOPIC_FINGERPRINTS_PATH,
+)
 
 
 def _read_json(path, default):
@@ -78,3 +85,98 @@ def add_topic_fingerprint(fingerprint):
     fingerprints.add(str(fingerprint))
     save_topic_fingerprints(fingerprints)
     return len(fingerprints) != before
+
+
+def _utc_now():
+    return datetime.now(timezone.utc)
+
+
+def _parse_utc(value):
+    text = str(value or "").strip()
+    if not text:
+        return None
+    if text.endswith("Z"):
+        text = text[:-1] + "+00:00"
+    try:
+        parsed = datetime.fromisoformat(text)
+    except ValueError:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def _utc_iso(value=None):
+    return (value or _utc_now()).isoformat(timespec="seconds").replace("+00:00", "Z")
+
+
+def load_source_health():
+    data = _read_json(SOURCE_HEALTH_PATH, {})
+    if not isinstance(data, dict):
+        return {"sources": {}, "updated_at": ""}
+    sources = data.get("sources", {})
+    if not isinstance(sources, dict):
+        sources = {}
+    return {"sources": sources, "updated_at": str(data.get("updated_at", ""))}
+
+
+def save_source_health(state):
+    data = {
+        "sources": state.get("sources", {}),
+        "updated_at": _utc_iso(),
+    }
+    _write_json(SOURCE_HEALTH_PATH, data)
+
+
+def source_health_record(source_key):
+    state = load_source_health()
+    return state.get("sources", {}).get(source_key, {})
+
+
+def is_source_cooled_down(source_key, now=None):
+    if not SOURCE_HEALTH_ENABLED:
+        return False, ""
+    record = source_health_record(source_key)
+    cooldown_until = _parse_utc(record.get("cooldown_until"))
+    now = now or _utc_now()
+    if cooldown_until and cooldown_until > now:
+        return True, cooldown_until.isoformat(timespec="seconds").replace("+00:00", "Z")
+    return False, ""
+
+
+def record_source_success(source_key, source_name=""):
+    if not SOURCE_HEALTH_ENABLED or not source_key:
+        return
+    state = load_source_health()
+    record = state.setdefault("sources", {}).setdefault(source_key, {})
+    record.update(
+        {
+            "source_name": source_name or record.get("source_name", ""),
+            "failure_count": 0,
+            "last_success_at": _utc_iso(),
+            "cooldown_until": "",
+            "last_error": "",
+        }
+    )
+    save_source_health(state)
+
+
+def record_source_failure(source_key, source_name="", error=""):
+    if not SOURCE_HEALTH_ENABLED or not source_key:
+        return {}
+    state = load_source_health()
+    record = state.setdefault("sources", {}).setdefault(source_key, {})
+    failure_count = int(record.get("failure_count") or 0) + 1
+    record.update(
+        {
+            "source_name": source_name or record.get("source_name", ""),
+            "failure_count": failure_count,
+            "last_failure_at": _utc_iso(),
+            "last_error": str(error or "")[:300],
+        }
+    )
+    if failure_count >= SOURCE_FAILURE_THRESHOLD:
+        cooldown_until = _utc_now() + timedelta(minutes=max(1, SOURCE_FAILURE_COOLDOWN_MINUTES))
+        record["cooldown_until"] = _utc_iso(cooldown_until)
+    save_source_health(state)
+    return dict(record)

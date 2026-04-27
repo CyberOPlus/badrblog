@@ -8,7 +8,12 @@ import re
 from collections import Counter
 from datetime import datetime, timedelta, timezone
 
-from config import ARTICLE_QUEUE_PATH, RECENT_NEWS_MAX_AGE_HOURS, SOURCES_CONFIG_PATH
+from config import (
+    ARTICLE_QUEUE_PATH,
+    MAX_AI_ARTICLE_AGE_HOURS,
+    RECENT_NEWS_MAX_AGE_HOURS,
+    SOURCES_CONFIG_PATH,
+)
 from duplicate_utils import canonicalize_url, title_hash
 
 ALLOWED_STATUSES = {"new", "skipped", "ready", "selected", "draft_created", "published", "failed"}
@@ -152,6 +157,21 @@ def is_article_within_fresh_window(article, now=None, max_age_hours=None):
     return published_at >= _fresh_queue_cutoff(now=now, max_age_hours=max_age_hours)
 
 
+def article_age_hours(article, now=None):
+    published_at = _source_published_datetime(article)
+    if not published_at:
+        return None
+    now = now or datetime.now(timezone.utc)
+    return max(0.0, (now - published_at).total_seconds() / 3600)
+
+
+def is_article_safe_for_ai(article, now=None):
+    published_at = _source_published_datetime(article)
+    if not published_at:
+        return False
+    return published_at >= _fresh_queue_cutoff(now=now, max_age_hours=MAX_AI_ARTICLE_AGE_HOURS)
+
+
 def archive_expired_queue_articles(now=None, max_age_hours=None):
     queue = load_article_queue()
     articles = queue.get("articles", [])
@@ -201,6 +221,7 @@ def get_fresh_queue_candidates(statuses=None, now=None, max_age_hours=None):
         and article.get("status") in statuses
         and article.get("content_fetch_status") == "success"
         and is_article_within_fresh_window(article, now=now, max_age_hours=max_age_hours)
+        and is_article_safe_for_ai(article, now=now)
     ]
     return sorted(candidates, key=_fresh_queue_sort_key)
 
@@ -278,6 +299,7 @@ def add_articles_to_queue(discovered_articles):
                 "source_published_at": article.get("source_published_at", ""),
                 "published_at_source": article.get("published_at_source", ""),
                 "article_age_hours": article.get("article_age_hours"),
+                "rss_summary": article.get("rss_summary", ""),
                 "category_hint": category_hint,
                 "discovered_at": _now_iso(),
                 "status": "new",

@@ -1,6 +1,6 @@
 # GitHub Actions Deployment
 
-This bot is configured for permanent GitHub Actions operation. The production workflow runs every 5 minutes, scans all enabled sources, keeps per-source crawl state, queues every fresh article, and publishes only one live Blogger post per run.
+This bot is configured for permanent GitHub Actions operation. The production workflow runs every 5 minutes, rotates sources with persistent state, skips risky articles before AI, and publishes at most one live Blogger post per run.
 
 ## Required GitHub Secrets
 
@@ -52,10 +52,13 @@ The workflow creates a runtime `.env` with these production defaults:
 PUBLISH_MODE=live
 SAFE_MODE=false
 FAST_NEWS_MODE=true
-FRESH_QUEUE_MODE=true
-FIRST_VALID_ARTICLE_MODE=false
+FRESH_QUEUE_MODE=false
+FIRST_VALID_ARTICLE_MODE=true
 RECENT_NEWS_ONLY=true
+RECENT_ONLY=true
 RECENT_NEWS_MAX_AGE_HOURS=2
+RECENT_HOURS=2
+FRESHNESS_SAFETY_MARGIN_MINUTES=15
 FALLBACK_FIRST_RUN_LOOKBACK_HOURS=2
 CRAWL_INTERVAL_MINUTES=5
 CRAWL_OVERLAP_MINUTES=10
@@ -64,6 +67,15 @@ FACEBOOK_AUTO_POST=true
 LOCAL_PUBLISH_FALLBACK=false
 MAX_POSTS_PER_RUN=1
 MAX_ARTICLES_PER_RUN=1
+MAX_SOURCES_PER_RUN=1
+MIN_ARTICLE_WORDS=150
+TARGET_ARTICLE_WORDS=450
+SOURCE_TIMEOUT_SECONDS=12
+ARTICLE_TIMEOUT_SECONDS=15
+AI_TIMEOUT_SECONDS=60
+MAX_AI_RETRIES=2
+SOURCE_HEALTH_ENABLED=true
+SOURCE_FAILURE_COOLDOWN_MINUTES=45
 SAFE_CYCLE_MAX_ARTICLES=1
 SAFE_CYCLE_DRAFT_ONLY=false
 MAX_DRAFTS_PER_DAY=10
@@ -75,7 +87,9 @@ MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=10
 TELEGRAM_ALERTS_ENABLED=true
 ```
 
-In this mode the bot publishes live only, never creates drafts, rejects old or undated fast-news articles, and keeps the remaining queued articles for later scheduled runs.
+In this mode the bot publishes live only, never creates drafts, rejects old, undated, empty, or near-expiry fast-news articles, and stops after the first publishable candidate.
+
+With `RECENT_HOURS=2` and `FRESHNESS_SAFETY_MARGIN_MINUTES=15`, the bot sends articles to AI only when they are at most 1.75 hours old. This prevents the common case where a 1.98-hour article expires during AI processing.
 
 ## Enable Telegram Alerts Safely
 
@@ -140,7 +154,7 @@ Run:
 python main.py deployment-check
 ```
 
-The command verifies required environment variable names, safe publish settings, Blogger JSON availability, and Facebook safety flags. It never prints secret values.
+The command verifies required environment variable names, Blogger JSON availability, GitHub Actions workflow presence, the `*/5 * * * *` schedule, live publish settings, the freshness safety margin, and Facebook/Telegram safety flags. It never prints secret values.
 
 On GitHub Actions, `.env` is generated at runtime from GitHub Secrets. A committed `.env` file is not required and must not be committed.
 
@@ -152,7 +166,7 @@ Use the built-in reset command when you need a clean production restart:
 python main.py reset-state
 ```
 
-This clears the runtime queue, crawl timestamps, published-history files, topic fingerprints, failed queue state, and the cached auto-cycle run log without touching code, tests, workflows, or secrets.
+This clears the runtime queue, crawl timestamps, published-history files, topic fingerprints, source health cooldowns, failed queue state, and the cached auto-cycle run log without touching code, tests, workflows, or secrets.
 
 ## Security Warnings
 

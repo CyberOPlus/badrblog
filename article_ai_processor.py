@@ -26,6 +26,7 @@ from config import (
     FAST_NEWS_MODE,
     GEMINI_API_KEY,
     GEMINI_MODEL,
+    MAX_AI_RETRIES,
     MIN_ARTICLE_WORDS,
     OPENAI_API_KEY,
     OPENAI_API_URL,
@@ -50,7 +51,7 @@ from quality_gate import (
     validate_ai_article_output,
 )
 
-MAX_AI_ATTEMPTS = 2
+MAX_AI_ATTEMPTS = max(1, MAX_AI_RETRIES)
 
 
 def _now_iso():
@@ -565,8 +566,11 @@ def _resolve_providers():
     raise RuntimeError("AI_PROVIDER must be one of: gemini, openrouter, openai, auto")
 
 
-def _generate_ai_article(prompt):
-    providers = _resolve_providers()
+def _generate_ai_article(prompt, skip_providers=None):
+    skip_providers = set(skip_providers or [])
+    providers = [provider for provider in _resolve_providers() if provider not in skip_providers]
+    if not providers:
+        providers = _resolve_providers()
     last_error = None
     for index, provider in enumerate(providers):
         try:
@@ -579,8 +583,9 @@ def _generate_ai_article(prompt):
         except Exception as error:
             last_error = error
             has_next_provider = index < len(providers) - 1
-            if has_next_provider and _is_quota_or_rate_limit_error(error):
-                print(f"  AI provider {provider} quota/rate limit reached. Trying next provider...")
+            if has_next_provider:
+                reason = "quota/rate limit" if _is_quota_or_rate_limit_error(error) else "error"
+                print(f"  AI provider {provider} {reason}. Trying next provider...")
                 continue
             raise
     raise last_error or RuntimeError("No AI provider returned a response.")
@@ -654,6 +659,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     prompt = _build_prompt(package)
     last_error = None
     previous_data = None
+    skip_providers = set()
 
     log_event(
         "ai_article_start",
@@ -667,8 +673,9 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
 
     for attempt in range(1, MAX_AI_ATTEMPTS + 1):
         started = time.perf_counter()
+        provider_used = ""
         try:
-            raw_text, provider_used = _generate_ai_article(prompt)
+            raw_text, provider_used = _generate_ai_article(prompt, skip_providers=skip_providers)
             data = _parse_ai_json(raw_text)
             previous_data = data
             data = _shorten_metadata_once_if_needed(data)
@@ -694,6 +701,8 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             }
         except Exception as error:
             last_error = error
+            if provider_used:
+                skip_providers.add(provider_used.split(":", 1)[0])
             log_event(
                 "ai_article_attempt_failed",
                 article_id=article.get("id"),
@@ -702,6 +711,8 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 elapsed_ms=elapsed_ms(started),
             )
             prompt = _build_expansion_retry_prompt(package, previous_data, str(error))
+            if attempt < MAX_AI_ATTEMPTS:
+                time.sleep(min(2 ** (attempt - 1), 3))
 
     _apply_failure(article, last_error)
     save_article_queue(queue)

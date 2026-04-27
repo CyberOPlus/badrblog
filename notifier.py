@@ -299,23 +299,36 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
         facebook_article = facebook.get("article") or article
         facebook_status = facebook_article.get("facebook_status") or ("posted" if facebook.get("posted") else "failed")
 
-    lines = [
-        "📌 تقرير تشغيل البوت",
-        f"الحالة: {status}",
-        f"Mode: {'fast' if FAST_NEWS_MODE else 'long'}",
-        f"SAFE_MODE: {str(SAFE_MODE).lower()}",
-        f"Recent only: {str(RECENT_NEWS_ONLY).lower()} ({RECENT_NEWS_MAX_AGE_HOURS}h)",
-        f"Blogger: {blogger_status}",
-        f"Facebook: {facebook_status}",
-        f"Execution: {_execution_time(result)}",
-        f"Source: {_source_name(article)}",
-        f"Published at: {article.get('source_published_at', '')}",
-        f"Article age: {article.get('article_age_hours', '')}",
-        f"Words: {_article_word_count(article)}",
-        f"العنوان: {_article_title(article)}",
-        f"الرابط: {_blogger_url(article)}",
-        f"السبب إن وجد: {reason}",
-    ]
+    if status == "success":
+        clear_lines = [
+            "✅ تم نشر مقال جديد",
+            f"Title: {_article_title(article)}",
+            f"Blogger URL: {_blogger_url(article)}",
+            f"Facebook status: {facebook_status}",
+            f"Source: {_source_name(article)}",
+            f"Age: {article.get('article_age_hours', '')}",
+            f"Words: {_article_word_count(article)}",
+            f"Execution time: {_execution_time(result)}",
+        ]
+    elif status == "skipped":
+        clear_lines = [
+            "⚠️ تم تخطي مقال",
+            f"Title: {_article_title(article)}",
+            f"Source: {_source_name(article)}",
+            f"Age: {article.get('article_age_hours', '')}",
+            f"Reason: {reason or result.get('reason') or 'no publishable article'}",
+        ]
+    else:
+        clear_lines = [
+            "❌ تم منع النشر",
+            f"Reason: {reason or 'unknown'}",
+            f"AI status: {article.get('ai_status', '')}",
+            f"Words: {_article_word_count(article)}",
+            f"Article age: {article.get('article_age_hours', '')}",
+            f"Execution time: {_execution_time(result)}",
+        ]
+
+    lines = clear_lines
     if warning:
         lines.append(f"Warning: {warning}")
     source_warnings_count = int(result.get("source_warnings_count") or 0)

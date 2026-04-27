@@ -33,8 +33,10 @@ from config import (
     ENABLE_SCRAPLING_FALLBACK,
     FALLBACK_FIRST_RUN_LOOKBACK_HOURS,
     FAST_NEWS_MODE,
+    FRESHNESS_SAFETY_MARGIN_MINUTES,
     FIRST_VALID_ARTICLE_MODE,
     HEADERS,
+    MAX_AI_ARTICLE_AGE_HOURS,
     MAX_RETRIES,
     MAX_SOURCES_PER_RUN,
     MAX_SOURCE_RETRIES,
@@ -46,7 +48,13 @@ from config import (
     SOURCE_TIMEOUT_SECONDS,
     SOURCE_URLS,
 )
-from runtime_state import source_crawl_record, update_source_crawl
+from runtime_state import (
+    is_source_cooled_down,
+    record_source_failure,
+    record_source_success,
+    source_crawl_record,
+    update_source_crawl,
+)
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -226,6 +234,74 @@ def _prioritize_sources(sources):
         return len(SOURCE_PRIORITY_HINTS) + 1
 
     return sorted(sources, key=priority)
+
+
+def _source_last_crawled(source):
+    record = source_crawl_record(source.get("base_url", ""))
+    parsed = _parse_datetime_to_utc(record.get("last_crawled_at"))
+    return parsed or datetime.min.replace(tzinfo=timezone.utc)
+
+
+def _order_sources_for_fast_run(sources):
+    prioritized = _prioritize_sources(sources)
+    priority_index = {id(source): index for index, source in enumerate(prioritized)}
+    return sorted(
+        prioritized,
+        key=lambda source: (
+            _source_last_crawled(source),
+            priority_index.get(id(source), 9999),
+            source.get("base_url", ""),
+        ),
+    )
+
+
+def _filter_healthy_sources(sources):
+    healthy = []
+    skipped = []
+    for source in sources:
+        base_url = source.get("base_url", "").strip()
+        cooled_down, cooldown_until = is_source_cooled_down(base_url)
+        if cooled_down:
+            skipped.append(
+                {
+                    "source_name": source.get("name", base_url),
+                    "base_url": base_url,
+                    "status": "cooldown",
+                    "error": f"source cooling down until {cooldown_until}",
+                    "links_found": 0,
+                    "cooldown_until": cooldown_until,
+                }
+            )
+            continue
+        healthy.append(source)
+    return healthy, skipped
+
+
+def _record_source_result(base_url, source_name, error, links_found):
+    if error or links_found <= 0:
+        record_source_failure(base_url, source_name=source_name, error=error or "zero links")
+    else:
+        record_source_success(base_url, source_name=source_name)
+
+
+def _notify_freshness_skip(title, source_name, published_at, age_hours, reason):
+    try:
+        from notifier import send_telegram_message
+
+        send_telegram_message(
+            "\n".join(
+                [
+                    "⚠️ تم تخطي مقال",
+                    f"Title: {title}",
+                    f"Source: {source_name}",
+                    f"Published at: {published_at}",
+                    f"Age: {age_hours:.2f}h" if age_hours is not None else "Age: unknown",
+                    f"Reason: {reason}",
+                ]
+            )
+        )
+    except Exception as notify_error:
+        log_event("telegram_freshness_skip_failed", error=notify_error.__class__.__name__)
 
 
 def _is_scrapling_document(document):
@@ -545,6 +621,13 @@ def _is_recent_published_at(published_at, now=None):
     return age <= max(0, RECENT_NEWS_MAX_AGE_HOURS), age
 
 
+def _is_safe_for_ai_published_at(published_at, now=None):
+    age = _article_age_hours(published_at, now=now)
+    if age is None:
+        return False, None
+    return age <= MAX_AI_ARTICLE_AGE_HOURS, age
+
+
 def _source_crawl_window_start(source_key, now=None):
     now = now or datetime.now(timezone.utc)
     fallback = now - timedelta(hours=max(0, FALLBACK_FIRST_RUN_LOOKBACK_HOURS))
@@ -641,6 +724,7 @@ def _parse_feed_article_links(feed_text, source_url, feed_url=None):
         title = ""
         link = ""
         published_at = ""
+        summary = ""
 
         for child in list(node):
             child_name = _xml_local_name(child.tag)
@@ -652,10 +736,20 @@ def _parse_feed_article_links(feed_text, source_url, feed_url=None):
                     link = urljoin(source_url, href)
             elif child_name in {"published", "updated", "pubdate", "date"} and not published_at:
                 published_at = _datetime_iso_utc("".join(child.itertext()))
+            elif child_name in {"description", "summary", "content", "encoded"} and not summary:
+                summary = _normalize_text("".join(child.itertext()))
 
         if title and link and link not in seen:
             seen.add(link)
-            article_links.append({"title": title, "url": link, "published_at": published_at, "published_at_source": "feed" if published_at else ""})
+            article_links.append(
+                {
+                    "title": title,
+                    "url": link,
+                    "published_at": published_at,
+                    "published_at_source": "feed" if published_at else "",
+                    "rss_summary": summary,
+                }
+            )
 
     filtered = _filter_article_links(
         article_links,
@@ -1163,7 +1257,9 @@ def discover_first_valid_article_link(sources, existing_articles=None):
     Fast path: check sources in order and return as soon as one non-duplicate
     article link is found. This avoids scanning every source before publishing.
     """
-    enabled_sources = _prioritize_sources([source for source in sources if source.get("enabled", True)])
+    enabled_sources, cooldown_results = _filter_healthy_sources(
+        _order_sources_for_fast_run([source for source in sources if source.get("enabled", True)])
+    )
     if MAX_SOURCES_PER_RUN > 0:
         enabled_sources = enabled_sources[:MAX_SOURCES_PER_RUN]
 
@@ -1179,7 +1275,7 @@ def discover_first_valid_article_link(sources, existing_articles=None):
         if item.get("title") and not item.get("archived")
     }
 
-    source_results = []
+    source_results = list(cooldown_results)
     for index, source in enumerate(enabled_sources, 1):
         source_name = source.get("name", source.get("base_url", "Unknown source"))
         base_url = source.get("base_url", "").strip()
@@ -1208,6 +1304,7 @@ def discover_first_valid_article_link(sources, existing_articles=None):
         selected = None
         duplicate_count = 0
         old_count = 0
+        too_close_count = 0
         missing_date_count = 0
         recent_count = 0
         for link in links:
@@ -1215,9 +1312,11 @@ def discover_first_valid_article_link(sources, existing_articles=None):
                 url = link.get("url", "")
                 link_title = link.get("title", "")
                 feed_published_at = link.get("published_at", "")
+                rss_summary = link.get("rss_summary", "")
             else:
                 link_title, url = link
                 feed_published_at = ""
+                rss_summary = ""
             canonical = canonicalize_url(url)
             current_title_hash = title_hash(link_title)
             if canonical in known_urls or current_title_hash in known_title_hashes:
@@ -1250,6 +1349,17 @@ def discover_first_valid_article_link(sources, existing_articles=None):
                             f"{link_title[:80]}"
                         )
                         continue
+                    is_safe_for_ai, age_hours = _is_safe_for_ai_published_at(published_at)
+                    if not is_safe_for_ai:
+                        too_close_count += 1
+                        reason = (
+                            "article too close to freshness limit "
+                            f"(age {age_hours:.2f}h; AI cutoff {MAX_AI_ARTICLE_AGE_HOURS:.2f}h; "
+                            f"margin {FRESHNESS_SAFETY_MARGIN_MINUTES}m)"
+                        )
+                        _log(f"  Skipping article: {reason}: {link_title[:80]}")
+                        _notify_freshness_skip(link_title, source_name, published_at, age_hours, reason)
+                        continue
                     recent_count += 1
             selected = {
                 "title": link_title,
@@ -1260,6 +1370,7 @@ def discover_first_valid_article_link(sources, existing_articles=None):
                 "published_at_source": published_at_source,
                 "source_published_at": published_at,
                 "article_age_hours": round(age_hours, 2) if age_hours is not None else None,
+                "rss_summary": rss_summary,
             }
             break
 
@@ -1270,7 +1381,15 @@ def discover_first_valid_article_link(sources, existing_articles=None):
         _log(
             f"  Source result: {status_text}; links={len(links)}; "
             f"duplicates={duplicate_count}; recent={recent_count}; old={old_count}; "
+            f"too_close={too_close_count}; "
             f"missing_date={missing_date_count}; elapsed={elapsed / 1000:.1f}s"
+        )
+        _record_source_result(base_url, source_name, error, len(links))
+        update_source_crawl(
+            base_url,
+            source_name=source_name,
+            last_crawled_at=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            overlap_minutes=CRAWL_OVERLAP_MINUTES,
         )
         source_results.append(
             {
@@ -1281,6 +1400,7 @@ def discover_first_valid_article_link(sources, existing_articles=None):
                 "duplicates_skipped": duplicate_count,
                 "recent_links": recent_count,
                 "old_links_skipped": old_count,
+                "too_close_links_skipped": too_close_count,
                 "missing_date_skipped": missing_date_count,
                 "status": "failed" if error else "success",
                 "listing_status_code": status_code,
@@ -1299,7 +1419,7 @@ def discover_first_valid_article_link(sources, existing_articles=None):
             }
 
     reason = (
-        f"no article in last {RECENT_NEWS_MAX_AGE_HOURS} hours"
+        f"no article safely inside the last {RECENT_NEWS_MAX_AGE_HOURS} hours"
         if RECENT_NEWS_ONLY
         else "no valid non-duplicate article"
     )
@@ -1318,7 +1438,11 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
     Scan all enabled sources and collect every fresh, non-duplicate article
     within the recent-news window.
     """
-    enabled_sources = [source for source in sources if source.get("enabled", True)]
+    enabled_sources, cooldown_results = _filter_healthy_sources(
+        _order_sources_for_fast_run([source for source in sources if source.get("enabled", True)])
+    )
+    if MAX_SOURCES_PER_RUN > 0:
+        enabled_sources = enabled_sources[:MAX_SOURCES_PER_RUN]
     existing_articles = existing_articles or []
     published_urls = published_urls or set()
     published_topic_hashes = published_topic_hashes or set()
@@ -1335,7 +1459,7 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
     }
 
     discovered = []
-    source_results = []
+    source_results = list(cooldown_results)
 
     for index, source in enumerate(enabled_sources, 1):
         source_name = source.get("name", source.get("base_url", "Unknown source"))
@@ -1368,6 +1492,7 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
 
         duplicate_count = 0
         old_count = 0
+        too_close_count = 0
         missing_date_count = 0
         recent_count = 0
         selected_links = []
@@ -1377,9 +1502,11 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
                 url = link.get("url", "")
                 link_title = link.get("title", "")
                 feed_published_at = link.get("published_at", "")
+                rss_summary = link.get("rss_summary", "")
             else:
                 link_title, url = link
                 feed_published_at = ""
+                rss_summary = ""
 
             canonical = canonicalize_url(url)
             current_title_hash = title_hash(link_title)
@@ -1417,6 +1544,17 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
                             f"{link_title[:80]}"
                         )
                         continue
+                    is_safe_for_ai, age_hours = _is_safe_for_ai_published_at(published_at)
+                    if not is_safe_for_ai:
+                        too_close_count += 1
+                        reason = (
+                            "article too close to freshness limit "
+                            f"(age {age_hours:.2f}h; AI cutoff {MAX_AI_ARTICLE_AGE_HOURS:.2f}h; "
+                            f"margin {FRESHNESS_SAFETY_MARGIN_MINUTES}m)"
+                        )
+                        _log(f"  Skipping article: {reason}: {link_title[:80]}")
+                        _notify_freshness_skip(link_title, source_name, published_at, age_hours, reason)
+                        continue
                     published_dt = _parse_datetime_to_utc(published_at)
                     if published_dt and published_dt < crawl_window_start:
                         old_count += 1
@@ -1433,6 +1571,7 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
                 "published_at_source": published_at_source,
                 "source_published_at": published_at,
                 "article_age_hours": round(age_hours, 2) if age_hours is not None else None,
+                "rss_summary": rss_summary,
             }
             selected_links.append(selected)
             known_urls.add(canonical)
@@ -1444,9 +1583,11 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
         _log(
             f"  Source result: {status_text}; links={len(links)}; "
             f"duplicates={duplicate_count}; recent={recent_count}; old={old_count}; "
+            f"too_close={too_close_count}; "
             f"missing_date={missing_date_count}; queued={len(selected_links)}; "
             f"elapsed={elapsed / 1000:.1f}s"
         )
+        _record_source_result(base_url, source_name, error, len(links))
         source_results.append(
             {
                 "source_name": source_name,
@@ -1457,6 +1598,7 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
                 "duplicates_skipped": duplicate_count,
                 "recent_links": recent_count,
                 "old_links_skipped": old_count,
+                "too_close_links_skipped": too_close_count,
                 "missing_date_skipped": missing_date_count,
                 "queued_links": len(selected_links),
                 "status": "failed" if error else "success",
@@ -1475,7 +1617,7 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
         )
 
     reason = (
-        f"no fresh article in the last {RECENT_NEWS_MAX_AGE_HOURS} hours"
+        f"no fresh article safely inside the last {RECENT_NEWS_MAX_AGE_HOURS} hours"
         if RECENT_NEWS_ONLY and not discovered
         else ""
     )

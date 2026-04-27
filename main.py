@@ -29,9 +29,11 @@ from article_draft_publisher import (
 )
 from article_queue import (
     add_articles_to_queue,
+    article_age_hours,
     archive_expired_queue_articles,
     archive_published_queue_article,
     get_fresh_queue_candidates,
+    is_article_safe_for_ai,
     load_article_queue,
     load_sources,
     maintain_article_queue,
@@ -59,10 +61,12 @@ from config import (
     FALLBACK_FIRST_RUN_LOOKBACK_HOURS,
     FACEBOOK_AUTO_POST,
     FAST_NEWS_MODE,
+    FRESHNESS_SAFETY_MARGIN_MINUTES,
     FRESH_QUEUE_MODE,
     FIRST_VALID_ARTICLE_MODE,
     LOGS_DIR,
     MAX_ARTICLES_PER_RUN,
+    MAX_AI_ARTICLE_AGE_HOURS,
     MAX_DRAFTS_PER_DAY,
     MAX_LIVE_POSTS_PER_DAY,
     MAX_POSTS_PER_RUN,
@@ -78,6 +82,7 @@ from config import (
     SAFE_CYCLE_DRAFT_ONLY,
     SAFE_CYCLE_MAX_ARTICLES,
     SOURCE_TIMEOUT_SECONDS,
+    SOURCE_HEALTH_PATH,
     TELEGRAM_ALERTS_ENABLED,
     TELEGRAM_BOT_TOKEN,
     TELEGRAM_CHAT_ID,
@@ -173,6 +178,12 @@ def run_fetch_only():
     print("Fetch limit:        per-source fetch_limit_per_run")
     if RECENT_NEWS_ONLY:
         print(f"Recent filter:      last {RECENT_NEWS_MAX_AGE_HOURS} hour(s)", flush=True)
+        print(
+            "AI freshness cutoff:"
+            f" {MAX_AI_ARTICLE_AGE_HOURS:.2f} hour(s)"
+            f" (margin {FRESHNESS_SAFETY_MARGIN_MINUTES} min)",
+            flush=True,
+        )
 
     published_set = load_published_ids()
     topic_fingerprints = load_topic_fingerprints()
@@ -259,6 +270,7 @@ def reset_runtime_state():
         PUBLISHED_DB_PATH,
         CRAWL_STATE_PATH,
         TOPIC_FINGERPRINTS_PATH,
+        SOURCE_HEALTH_PATH,
         AUTO_CYCLE_RUN_LOG,
     ]
     removed = []
@@ -317,6 +329,15 @@ def _lock_specific_ready_article(article_url):
         if article.get("url") != article_url:
             continue
         if article.get("status") != "ready" or article.get("content_fetch_status") != "success":
+            return None
+        if not is_article_safe_for_ai(article):
+            age = article_age_hours(article)
+            article["status"] = "skipped"
+            article["skip_reason"] = (
+                "article too close to freshness limit before AI "
+                f"(age {age or 0:.2f}h; cutoff {MAX_AI_ARTICLE_AGE_HOURS:.2f}h)"
+            )
+            save_article_queue(queue)
             return None
         article["status"] = "selected"
         article["selected_at"] = datetime.now().isoformat(timespec="seconds")
@@ -424,6 +445,8 @@ def print_startup_config():
     print(f"FIRST_VALID_ARTICLE_MODE:       {str(FIRST_VALID_ARTICLE_MODE).lower()}", flush=True)
     print(f"RECENT_NEWS_ONLY:               {str(RECENT_NEWS_ONLY).lower()}", flush=True)
     print(f"RECENT_NEWS_MAX_AGE_HOURS:      {RECENT_NEWS_MAX_AGE_HOURS}", flush=True)
+    print(f"FRESHNESS_SAFETY_MARGIN_MINUTES:{FRESHNESS_SAFETY_MARGIN_MINUTES}", flush=True)
+    print(f"MAX_AI_ARTICLE_AGE_HOURS:       {MAX_AI_ARTICLE_AGE_HOURS:.2f}", flush=True)
     print(f"ALLOW_UNKNOWN_DATE_IN_FAST_MODE:{str(ALLOW_UNKNOWN_DATE_IN_FAST_MODE).lower()}", flush=True)
     print(f"MAX_SOURCES_PER_RUN:            {MAX_SOURCES_PER_RUN}", flush=True)
     print(f"SOURCE_TIMEOUT_SECONDS:         {SOURCE_TIMEOUT_SECONDS}", flush=True)
@@ -1217,8 +1240,10 @@ def run_deployment_check_only():
     crawl_interval_raw = _effective_raw_env("CRAWL_INTERVAL_MINUTES", CRAWL_INTERVAL_MINUTES)
     crawl_overlap_raw = _effective_raw_env("CRAWL_OVERLAP_MINUTES", CRAWL_OVERLAP_MINUTES)
     recent_hours_raw = _effective_raw_env("RECENT_NEWS_MAX_AGE_HOURS", RECENT_NEWS_MAX_AGE_HOURS)
+    freshness_margin_raw = _effective_raw_env("FRESHNESS_SAFETY_MARGIN_MINUTES", FRESHNESS_SAFETY_MARGIN_MINUTES)
     max_posts_raw = _effective_raw_env("MAX_POSTS_PER_RUN", MAX_POSTS_PER_RUN)
     max_articles_raw = _effective_raw_env("MAX_ARTICLES_PER_RUN", MAX_ARTICLES_PER_RUN)
+    max_sources_raw = _effective_raw_env("MAX_SOURCES_PER_RUN", MAX_SOURCES_PER_RUN)
     safe_cycle_max_raw = _effective_raw_env("SAFE_CYCLE_MAX_ARTICLES", SAFE_CYCLE_MAX_ARTICLES)
     required_env = [
         "BLOG_ID",
@@ -1280,13 +1305,19 @@ def run_deployment_check_only():
     print(f"FIRST_VALID_ARTICLE_MODE: {'true' if first_valid_mode else 'false'}")
     print(f"RECENT_NEWS_ONLY: {'true' if recent_news_only else 'false'}")
     print(f"RECENT_NEWS_MAX_AGE_HOURS: {recent_hours_raw or 'MISSING'}")
+    print(f"FRESHNESS_SAFETY_MARGIN_MINUTES: {freshness_margin_raw or 'MISSING'}")
+    print(f"MAX_AI_ARTICLE_AGE_HOURS: {MAX_AI_ARTICLE_AGE_HOURS:.2f}")
     print(f"FALLBACK_FIRST_RUN_LOOKBACK_HOURS: {first_run_lookback_raw or 'MISSING'}")
     print(f"CRAWL_INTERVAL_MINUTES: {crawl_interval_raw or 'MISSING'}")
     print(f"CRAWL_OVERLAP_MINUTES: {crawl_overlap_raw or 'MISSING'}")
     print(f"ALLOW_UNKNOWN_DATE_IN_FAST_MODE: {'true' if allow_unknown_date else 'false'}")
     print(f"MAX_POSTS_PER_RUN: {max_posts_raw or 'MISSING'}")
     print(f"MAX_ARTICLES_PER_RUN: {max_articles_raw or 'MISSING'}")
+    print(f"MAX_SOURCES_PER_RUN: {max_sources_raw or 'MISSING'}")
     print(f"SAFE_CYCLE_MAX_ARTICLES: {safe_cycle_max_raw or 'MISSING'}")
+    workflow_schedule = _workflow_schedule()
+    print(f"GitHub Actions workflow: {'present' if AUTO_CYCLE_WORKFLOW_PATH.exists() else 'missing'}")
+    print(f"GitHub Actions schedule: {workflow_schedule or 'MISSING'}")
     print(f"FACEBOOK_AUTO_POST: {'true' if facebook_auto_post else 'false'}")
     print("FACEBOOK_AUTO_POST value safe: yes")
     print("Telegram alerts:")
@@ -1340,16 +1371,20 @@ def run_deployment_check_only():
             errors.append("PUBLISH_MODE=live requires SAFE_MODE=false.")
         if not fast_news_mode:
             errors.append("Live automation requires FAST_NEWS_MODE=true.")
-        if not fresh_queue_mode:
-            errors.append("Live automation requires FRESH_QUEUE_MODE=true.")
-        if first_valid_mode:
-            errors.append("Live automation requires FIRST_VALID_ARTICLE_MODE=false.")
+        if fresh_queue_mode:
+            warnings.append("FRESH_QUEUE_MODE=true scans a queue; fastest live mode uses FIRST_VALID_ARTICLE_MODE=true.")
+        if not first_valid_mode:
+            errors.append("Live automation requires FIRST_VALID_ARTICLE_MODE=true.")
         if not recent_news_only:
             errors.append("Live automation requires RECENT_NEWS_ONLY=true.")
         if allow_unknown_date:
             errors.append("Live automation requires ALLOW_UNKNOWN_DATE_IN_FAST_MODE=false.")
         if recent_hours_raw != "2":
             errors.append("Live automation requires RECENT_NEWS_MAX_AGE_HOURS=2.")
+        if freshness_margin_raw != "15":
+            errors.append("Live automation requires FRESHNESS_SAFETY_MARGIN_MINUTES=15.")
+        if max_sources_raw not in {"1", "2"}:
+            errors.append("Live automation requires MAX_SOURCES_PER_RUN=1 or 2.")
         if first_run_lookback_raw != "2":
             errors.append("Live automation requires FALLBACK_FIRST_RUN_LOOKBACK_HOURS=2.")
         if crawl_interval_raw != "5":
@@ -1358,6 +1393,10 @@ def run_deployment_check_only():
             errors.append("Live automation requires CRAWL_OVERLAP_MINUTES=10.")
         if not effective_single_post:
             errors.append("Live automation requires a one-post limit via MAX_POSTS_PER_RUN=1, MAX_ARTICLES_PER_RUN=1, or SAFE_CYCLE_MAX_ARTICLES=1.")
+        if not AUTO_CYCLE_WORKFLOW_PATH.exists():
+            errors.append("Missing .github/workflows/auto-cycle.yml.")
+        elif workflow_schedule != "*/5 * * * *":
+            errors.append("GitHub Actions schedule must be */5 * * * *.")
     if facebook_auto_post:
         warnings.append("FACEBOOK_AUTO_POST is true. Confirm Facebook limits before scheduling.")
     if Path(".env").exists():

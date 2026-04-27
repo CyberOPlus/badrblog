@@ -12,7 +12,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from article_queue import load_article_queue, save_article_queue
-from config import FAST_NEWS_MODE, HEADERS, SOURCE_RETRY_DELAY_SECONDS, SOURCE_TIMEOUT_SECONDS, MAX_SOURCE_RETRIES
+from config import ARTICLE_TIMEOUT_SECONDS, FAST_NEWS_MODE, HEADERS, SOURCE_RETRY_DELAY_SECONDS, MAX_SOURCE_RETRIES
 from production_logging import elapsed_ms, log_event
 
 try:
@@ -21,7 +21,7 @@ except ImportError:
     aiohttp = None
 
 CONTENT_FETCH_STATUSES = {"success", "failed"}
-REQUEST_TIMEOUT_SECONDS = SOURCE_TIMEOUT_SECONDS
+REQUEST_TIMEOUT_SECONDS = ARTICLE_TIMEOUT_SECONDS
 PREVIEW_MIN_CHARS = 3500
 PREVIEW_MAX_CHARS = 9000
 STRONG_ARTICLE_MIN_CHARS = 3500
@@ -167,13 +167,15 @@ def _extract_main_image(soup, article_url):
         "meta[name='twitter:image']",
         "meta[name='twitter:image:src']",
     )
-    if image_url:
+    if image_url and _looks_useful_image(urljoin(article_url, image_url), ""):
         return urljoin(article_url, image_url)
 
     for selector in ("article img[src]", "main img[src]"):
         img = soup.select_one(selector)
         if img and img.get("src"):
-            return urljoin(article_url, img.get("src"))
+            candidate = urljoin(article_url, img.get("src"))
+            if _looks_useful_image(candidate, img.get("alt") or "", img=img):
+                return candidate
 
     return ""
 
@@ -467,6 +469,33 @@ def _apply_enrichment_from_html(article, html, url):
     return True, ""
 
 
+def _apply_rss_summary_fallback(article):
+    summary = _normalize_text(article.get("rss_summary", ""))
+    if len(summary) < 300:
+        return False, "missing article body"
+    article["fetched_title"] = article.get("title", "")
+    article["meta_description"] = summary[:240]
+    article["article_images"] = []
+    article["main_image"] = ""
+    article["trusted_references"] = []
+    article["full_article_text"] = summary
+    article["full_article_text_chars"] = len(summary)
+    article["content_preview"] = _trim_preview(summary)
+    article["content_preview_chars"] = len(article["content_preview"])
+    article["source_url"] = _source_url(article)
+    article["content_fetched_at"] = _now_iso()
+    article["enrichment_status"] = "rss_summary"
+    article["content_fetch_status"] = "success"
+    article.pop("content_fetch_error", None)
+    log_event(
+        "article_enriched_from_rss_summary",
+        title=article.get("title"),
+        source=article.get("source_name"),
+        chars=len(summary),
+    )
+    return True, ""
+
+
 def enrich_article(article):
     url = article.get("url", "").strip()
     if not url:
@@ -474,7 +503,7 @@ def enrich_article(article):
 
     html, error = _fetch_html_with_requests(url)
     if not html:
-        return False, error
+        return _apply_rss_summary_fallback(article) if article.get("rss_summary") else (False, error)
     return _apply_enrichment_from_html(article, html, url)
 
 
@@ -535,6 +564,9 @@ async def _enrich_article_async(article, session, semaphore):
         html, error = await _fetch_html_with_aiohttp(session, url)
 
     if not html:
+        if article.get("rss_summary"):
+            ok, fallback_error = _apply_rss_summary_fallback(article)
+            return article, ok, fallback_error or error
         return article, False, error
 
     ok, parse_error = _apply_enrichment_from_html(article, html, url)

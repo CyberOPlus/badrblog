@@ -7,6 +7,8 @@ from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 import article_draft_publisher
+import article_ai_processor
+import article_processor
 import article_queue
 import runtime_state
 from article_draft_publisher import _ensure_post_url_for_mode
@@ -129,7 +131,7 @@ class ProductionHardeningTests(unittest.TestCase):
             calls.append(base_url)
             return [("Fresh story", f"{base_url}/story")], "", 200, {"method_used": "html"}
 
-        with patch.object(scraper, "RECENT_NEWS_ONLY", False), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
+        with patch.object(scraper, "RECENT_NEWS_ONLY", False), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "source_crawl_record", return_value={}), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
             result = scraper.discover_first_valid_article_link(
                 [
                     {"name": "A", "base_url": "https://a.example", "enabled": True},
@@ -150,7 +152,7 @@ class ProductionHardeningTests(unittest.TestCase):
                 return [], "http 403", 403, {"method_used": "failed"}
             return [("Fresh story", f"{base_url}/story")], "", 200, {"method_used": "html"}
 
-        with patch.object(scraper, "RECENT_NEWS_ONLY", False), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
+        with patch.object(scraper, "RECENT_NEWS_ONLY", False), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "source_crawl_record", return_value={}), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
             result = scraper.discover_first_valid_article_link(
                 [
                     {"name": "Blocked", "base_url": "https://blocked.example", "enabled": True},
@@ -182,7 +184,7 @@ class ProductionHardeningTests(unittest.TestCase):
         def fake_collect(base_url, **_kwargs):
             return [{"title": "Old story", "url": f"{base_url}/story", "published_at": recent_iso(3)}], "", 200, {"method_used": "feed"}
 
-        with patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 2), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
+        with patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 2), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
             result = scraper.discover_first_valid_article_link(
                 [{"name": "A", "base_url": "https://a.example", "enabled": True}],
                 existing_articles=[],
@@ -212,7 +214,7 @@ class ProductionHardeningTests(unittest.TestCase):
             calls.append(base_url)
             return [{"title": "Recent story", "url": f"{base_url}/story", "published_at": recent_iso(1)}], "", 200, {"method_used": "feed"}
 
-        with patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 2), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
+        with patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 2), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "source_crawl_record", return_value={}), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
             result = scraper.discover_first_valid_article_link(
                 [
                     {"name": "The Hacker News", "base_url": "https://first.example", "enabled": True},
@@ -285,7 +287,7 @@ class ProductionHardeningTests(unittest.TestCase):
 
         with TemporaryDirectory() as temp_dir:
             queue_path = Path(temp_dir) / "article_queue.json"
-            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "ALLOW_UNKNOWN_DATE_IN_FAST_MODE", False), patch.object(scraper, "source_crawl_record", return_value={}):
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "ALLOW_UNKNOWN_DATE_IN_FAST_MODE", False), patch.object(scraper, "source_crawl_record", return_value={}):
                 result = scraper.discover_fresh_article_links(
                     [
                         {"name": "A", "base_url": "https://a.example", "enabled": True},
@@ -331,8 +333,8 @@ class ProductionHardeningTests(unittest.TestCase):
                 with patch.object(main, "suggest_category", return_value="Tech"):
                     second = main._select_oldest_fresh_ready_article()
 
-        self.assertEqual(first["id"], "older")
-        self.assertEqual(second["id"], "newer")
+        self.assertEqual(first["id"], "newer")
+        self.assertIsNone(second)
 
     def test_expired_queued_articles_are_removed(self):
         with TemporaryDirectory() as temp_dir:
@@ -495,6 +497,7 @@ class ProductionHardeningTests(unittest.TestCase):
                         "url": "https://example.com/fresh",
                         "status": "ready",
                         "content_fetch_status": "success",
+                        "source_published_at": recent_iso(1),
                         "suggested_category": "",
                     }
                 ],
@@ -578,6 +581,63 @@ class ProductionHardeningTests(unittest.TestCase):
             blogger_url="https://example.com/post",
         )
         self.assertNotIn("https://example.com/post", caption)
+
+    def test_freshness_safety_margin_skips_article_before_ai(self):
+        def fake_collect(base_url, **_kwargs):
+            return [{"title": "Almost expired", "url": f"{base_url}/story", "published_at": recent_iso(1.9)}], "", 200, {"method_used": "feed"}
+
+        with patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 2), patch.object(scraper, "MAX_AI_ARTICLE_AGE_HOURS", 1.75), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(notifier, "send_telegram_message", return_value={"sent": False, "skipped": True}):
+            result = scraper.discover_first_valid_article_link(
+                [{"name": "A", "base_url": "https://a.example", "enabled": True}],
+                existing_articles=[],
+            )
+
+        self.assertFalse(result["first_valid"])
+        self.assertEqual(result["source_results"][0]["too_close_links_skipped"], 1)
+
+    def test_prepare_ai_rejects_empty_or_short_content(self):
+        article = {"title": "Valid title", "url": "https://example.com/post", "content_preview": "short", "suggested_category": "Tech", "content_fetch_status": "success", "source_published_at": recent_iso(1)}
+        missing = article_processor._validate_selected_article(article)
+        self.assertIn("main content below 300 characters", missing)
+
+    def test_ai_provider_falls_back_after_primary_failure(self):
+        with patch.object(article_ai_processor, "_resolve_providers", return_value=["gemini", "openrouter"]), patch.object(article_ai_processor, "_generate_with_gemini", side_effect=RuntimeError("provider down")), patch.object(article_ai_processor, "_generate_with_openrouter", return_value=('{"title":"x","description":"y","slug":"z","html_content":"<p>ok</p>"}', "openrouter:test")):
+            raw, provider = article_ai_processor._generate_ai_article("prompt")
+        self.assertIn("html_content", raw)
+        self.assertEqual(provider, "openrouter:test")
+
+    def test_source_cooldown_after_three_failures(self):
+        with TemporaryDirectory() as temp_dir:
+            health_path = Path(temp_dir) / "source_health.json"
+            with patch.object(runtime_state, "SOURCE_HEALTH_PATH", health_path), patch.object(runtime_state, "SOURCE_HEALTH_ENABLED", True), patch.object(runtime_state, "SOURCE_FAILURE_THRESHOLD", 3), patch.object(runtime_state, "SOURCE_FAILURE_COOLDOWN_MINUTES", 30):
+                runtime_state.record_source_failure("https://bad.example", "Bad", "timeout")
+                runtime_state.record_source_failure("https://bad.example", "Bad", "timeout")
+                record = runtime_state.record_source_failure("https://bad.example", "Bad", "timeout")
+                cooled, until = runtime_state.is_source_cooled_down("https://bad.example")
+
+        self.assertEqual(record["failure_count"], 3)
+        self.assertTrue(cooled)
+        self.assertTrue(until)
+
+    def test_telegram_success_summary_uses_short_arabic_format(self):
+        result = {
+            "completed": True,
+            "article": {
+                "id": "a1",
+                "title": "Fresh story",
+                "publish_status": "published",
+                "blogger_post_url": "https://example.com/post",
+                "facebook_status": "posted",
+                "final_word_count": 180,
+            },
+            "draft_action": "created",
+            "execution_seconds": 12.3,
+        }
+        with patch.object(notifier, "send_telegram_message", return_value={"sent": False, "skipped": True, "reason": "disabled"}) as send:
+            notifier.notify_auto_cycle_summary(result, run_id="unit-success-format")
+        message = send.call_args.args[0]
+        self.assertIn("تم نشر مقال جديد", message)
+        self.assertIn("Blogger URL:", message)
 
     def test_secret_redaction(self):
         cleaned = _clean_value(

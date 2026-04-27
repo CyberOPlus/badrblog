@@ -33,12 +33,12 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  AUTO_CYCLE_CACHE_NAMESPACE: auto-cycle-state-v5-reset-20260427
+  AUTO_CYCLE_CACHE_NAMESPACE: auto-cycle-state-v6-production-hardening-20260427
 
 jobs:
   auto-cycle:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
@@ -53,6 +53,7 @@ jobs:
             data/published_ids.json
             data/crawl_state.json
             data/topic_fingerprints.json
+            data/source_health.json
             logs/auto_cycle_runs.jsonl
           key: ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-${{ github.run_id }}
           restore-keys: |
@@ -163,29 +164,41 @@ jobs:
               "BLOG_ID": os.environ.get("BLOGGER_BLOG_ID", ""),
               "PUBLISH_MODE": mode,
               "SAFE_MODE": safe_mode,
+              "BLOGGER_LIVE_ENABLED": "true",
               "FACEBOOK_AUTO_POST": facebook_enabled,
               "FACEBOOK_LINK_MODE": "comment",
               "FAST_NEWS_MODE": fast_news,
-              "FRESH_QUEUE_MODE": "true",
-              "FIRST_VALID_ARTICLE_MODE": "false",
+              "FRESH_QUEUE_MODE": "false",
+              "FIRST_VALID_ARTICLE_MODE": "true",
               "RECENT_NEWS_ONLY": "true",
+              "RECENT_ONLY": "true",
               "RECENT_NEWS_MAX_AGE_HOURS": recent_hours,
+              "RECENT_HOURS": recent_hours,
+              "FRESHNESS_SAFETY_MARGIN_MINUTES": "15",
               "FALLBACK_FIRST_RUN_LOOKBACK_HOURS": "2",
               "CRAWL_INTERVAL_MINUTES": "5",
               "CRAWL_OVERLAP_MINUTES": "10",
               "ALLOW_UNKNOWN_DATE_IN_FAST_MODE": "false",
               "MAX_POSTS_PER_RUN": "1",
               "MAX_ARTICLES_PER_RUN": "1",
-              "MIN_ARTICLE_WORDS": "120",
-              "TARGET_ARTICLE_WORDS": "250-600",
+              "MIN_ARTICLE_WORDS": "150",
+              "TARGET_ARTICLE_WORDS": "450",
               "MAX_SOURCE_RETRIES": "1",
-              "SOURCE_RETRY_DELAY_SECONDS": "3",
-              "SOURCE_TIMEOUT_SECONDS": "10",
-              "MAX_SOURCES_PER_RUN": "10",
+              "SOURCE_RETRY_DELAY_SECONDS": "2",
+              "SOURCE_TIMEOUT_SECONDS": "12",
+              "ARTICLE_TIMEOUT_SECONDS": "15",
+              "AI_TIMEOUT_SECONDS": "60",
+              "MAX_AI_RETRIES": "2",
+              "MAX_SOURCES_PER_RUN": "1",
+              "DUPLICATE_PROTECTION": "true",
+              "QUEUE_PERSIST": "true",
+              "SOURCE_HEALTH_ENABLED": "true",
+              "SOURCE_FAILURE_COOLDOWN_MINUTES": "45",
               "ENABLE_SCRAPLING_FALLBACK": "false",
               "FACEBOOK_PAGE_ID": os.environ.get("FACEBOOK_PAGE_ID", ""),
               "FACEBOOK_PAGE_ACCESS_TOKEN": os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN", ""),
               "TELEGRAM_ALERTS_ENABLED": "true",
+              "TELEGRAM_ENABLED": "true",
               "TELEGRAM_BOT_TOKEN": os.environ.get("TELEGRAM_BOT_TOKEN", ""),
               "TELEGRAM_CHAT_ID": os.environ.get("TELEGRAM_CHAT_ID", ""),
               "SAFE_CYCLE_MAX_ARTICLES": "1",
@@ -206,14 +219,18 @@ jobs:
           print(f"Workflow mode: {mode}")
           print(f"SAFE_MODE: {safe_mode}")
           print(f"FAST_NEWS_MODE: {fast_news}")
-          print("FRESH_QUEUE_MODE: true")
-          print("FIRST_VALID_ARTICLE_MODE: false")
+          print("FRESH_QUEUE_MODE: false")
+          print("FIRST_VALID_ARTICLE_MODE: true")
           print(f"RECENT_NEWS_MAX_AGE_HOURS: {recent_hours}")
+          print("FRESHNESS_SAFETY_MARGIN_MINUTES: 15")
           print("FALLBACK_FIRST_RUN_LOOKBACK_HOURS: 2")
           print("CRAWL_INTERVAL_MINUTES: 5")
           print("CRAWL_OVERLAP_MINUTES: 10")
-          print("Effective action: LIVE_FRESH_QUEUE")
+          print("Effective action: LIVE_FAST_RECENT_NEWS")
           PY
+
+      - name: Run tests
+        run: python -m unittest discover -s tests
 
       - name: Deployment check
         env:
@@ -225,6 +242,7 @@ jobs:
         run: python main.py queue-maintenance
 
       - name: Run auto cycle
+        timeout-minutes: 4
         run: python main.py auto-cycle
 
       - name: Health summary
@@ -241,5 +259,6 @@ jobs:
             data/published_ids.json
             data/crawl_state.json
             data/topic_fingerprints.json
+            data/source_health.json
             logs/auto_cycle_runs.jsonl
           key: ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-${{ github.run_id }}
