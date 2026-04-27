@@ -23,14 +23,14 @@ on:
       recent_hours:
         description: "Recent article max age in hours"
         required: true
-        default: "2"
+        default: "6"
         type: choice
         options:
-          - "2"
+          - "6"
 
 concurrency:
   group: auto-cycle
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 env:
   AUTO_CYCLE_CACHE_NAMESPACE: auto-cycle-state-v6-production-hardening-20260427
@@ -74,7 +74,7 @@ jobs:
         env:
           REQUESTED_MODE: ${{ github.event.inputs.mode || 'live' }}
           REQUESTED_FAST_NEWS: ${{ github.event.inputs.fast_news || 'true' }}
-          REQUESTED_RECENT_HOURS: ${{ github.event.inputs.recent_hours || '2' }}
+          REQUESTED_RECENT_HOURS: ${{ github.event.inputs.recent_hours || '6' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -150,16 +150,19 @@ jobs:
           fast_news = os.environ.get("REQUESTED_FAST_NEWS", "true").strip().lower()
           if fast_news not in {"true", "false"}:
               fast_news = "true"
-          recent_hours = os.environ.get("REQUESTED_RECENT_HOURS", "2").strip()
-          if recent_hours != "2":
-              recent_hours = "2"
+          recent_hours = os.environ.get("REQUESTED_RECENT_HOURS", "6").strip()
+          if recent_hours != "6":
+              recent_hours = "6"
 
           Path("client_secret.json").write_text(os.environ.get("BLOGGER_CLIENT_SECRET_JSON", ""), encoding="utf-8")
           Path("data/token.json").write_text(os.environ.get("BLOGGER_TOKEN_JSON", ""), encoding="utf-8")
 
           env_lines = {
               "GEMINI_API_KEY": os.environ.get("GEMINI_API_KEY", ""),
+              "GEMINI_MODEL": "gemini-2.5-flash",
               "OPENROUTER_API_KEY": os.environ.get("OPENROUTER_API_KEY", ""),
+              "OPENROUTER_MODEL": "openrouter/auto",
+              "OPENROUTER_APP_NAME": "Blogger Automation Bot",
               "OPENAI_API_KEY": os.environ.get("OPENAI_API_KEY", ""),
               "BLOG_ID": os.environ.get("BLOGGER_BLOG_ID", ""),
               "PUBLISH_MODE": mode,
@@ -174,25 +177,29 @@ jobs:
               "RECENT_ONLY": "true",
               "RECENT_NEWS_MAX_AGE_HOURS": recent_hours,
               "RECENT_HOURS": recent_hours,
-              "FRESHNESS_SAFETY_MARGIN_MINUTES": "15",
+              "FRESHNESS_SAFETY_MARGIN_MINUTES": "10",
               "FALLBACK_FIRST_RUN_LOOKBACK_HOURS": "2",
               "CRAWL_INTERVAL_MINUTES": "5",
               "CRAWL_OVERLAP_MINUTES": "10",
               "ALLOW_UNKNOWN_DATE_IN_FAST_MODE": "false",
               "MAX_POSTS_PER_RUN": "1",
               "MAX_ARTICLES_PER_RUN": "1",
-              "MIN_ARTICLE_WORDS": "150",
-              "TARGET_ARTICLE_WORDS": "450",
+              "PUBLISH_WEAK_ARTICLES": "true",
+              "ALLOW_SHORT_ARTICLES": "true",
+              "MIN_ARTICLE_WORDS": "80",
+              "TARGET_ARTICLE_WORDS": "250",
+              "MIN_EXTRACTED_CHARS": "80",
               "MAX_SOURCE_RETRIES": "1",
               "SOURCE_RETRY_DELAY_SECONDS": "2",
               "SOURCE_TIMEOUT_SECONDS": "12",
               "ARTICLE_TIMEOUT_SECONDS": "15",
               "AI_TIMEOUT_SECONDS": "60",
-              "MAX_AI_RETRIES": "2",
-              "MAX_SOURCES_PER_RUN": "1",
+              "MAX_AI_RETRIES": "3",
+              "MAX_SOURCES_PER_RUN": "3",
               "DUPLICATE_PROTECTION": "true",
               "QUEUE_PERSIST": "true",
               "SOURCE_HEALTH_ENABLED": "true",
+              "SKIP_ADS_AFFILIATE_SPONSORED": "true",
               "SOURCE_FAILURE_COOLDOWN_MINUTES": "45",
               "ENABLE_SCRAPLING_FALLBACK": "false",
               "FACEBOOK_PAGE_ID": os.environ.get("FACEBOOK_PAGE_ID", ""),
@@ -222,7 +229,7 @@ jobs:
           print("FRESH_QUEUE_MODE: false")
           print("FIRST_VALID_ARTICLE_MODE: true")
           print(f"RECENT_NEWS_MAX_AGE_HOURS: {recent_hours}")
-          print("FRESHNESS_SAFETY_MARGIN_MINUTES: 15")
+          print("FRESHNESS_SAFETY_MARGIN_MINUTES: 10")
           print("FALLBACK_FIRST_RUN_LOOKBACK_HOURS: 2")
           print("CRAWL_INTERVAL_MINUTES: 5")
           print("CRAWL_OVERLAP_MINUTES: 10")
@@ -242,7 +249,7 @@ jobs:
         run: python main.py queue-maintenance
 
       - name: Run auto cycle
-        timeout-minutes: 4
+        timeout-minutes: 8
         run: python main.py auto-cycle
 
       - name: Health summary

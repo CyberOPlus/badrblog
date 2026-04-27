@@ -1,6 +1,6 @@
 # GitHub Actions Deployment
 
-This bot is configured for permanent GitHub Actions operation. The production workflow runs every 5 minutes, rotates sources with persistent state, skips risky articles before AI, and publishes at most one live Blogger post per run.
+This bot is configured for permanent GitHub Actions operation. The production workflow runs every 5 minutes, rotates sources with persistent state, skips duplicates/ads/affiliate/old stories, and publishes at most one live Blogger post per run.
 
 ## Required GitHub Secrets
 
@@ -12,7 +12,6 @@ Add these required secrets:
 
 - `GEMINI_API_KEY`
 - `OPENROUTER_API_KEY`
-- `OPENAI_API_KEY`
 - `BLOGGER_BLOG_ID`
 - `BLOGGER_CLIENT_SECRET_JSON`
 - `BLOGGER_TOKEN_JSON`
@@ -24,6 +23,10 @@ Optional Telegram alert secrets:
 - `TELEGRAM_ALERTS_ENABLED`
 - `TELEGRAM_BOT_TOKEN`
 - `TELEGRAM_CHAT_ID`
+
+Optional extra AI secret:
+
+- `OPENAI_API_KEY`
 
 Do not paste these values into workflow logs, issues, commits, or README files.
 
@@ -44,6 +47,8 @@ Never upload `client_secret.json`, `data/token.json`, or `.env` directly to GitH
 5. The workflow `.github/workflows/auto-cycle.yml` runs automatically every 5 minutes.
 6. Scheduled runs continue even when your computer is off.
 
+GitHub can delay scheduled jobs during busy periods, so a `*/5 * * * *` workflow may not start at the exact minute every time. The workflow is still configured for automatic 5-minute operation.
+
 ## Production Defaults
 
 The workflow creates a runtime `.env` with these production defaults:
@@ -56,9 +61,9 @@ FRESH_QUEUE_MODE=false
 FIRST_VALID_ARTICLE_MODE=true
 RECENT_NEWS_ONLY=true
 RECENT_ONLY=true
-RECENT_NEWS_MAX_AGE_HOURS=2
-RECENT_HOURS=2
-FRESHNESS_SAFETY_MARGIN_MINUTES=15
+RECENT_NEWS_MAX_AGE_HOURS=6
+RECENT_HOURS=6
+FRESHNESS_SAFETY_MARGIN_MINUTES=10
 FALLBACK_FIRST_RUN_LOOKBACK_HOURS=2
 CRAWL_INTERVAL_MINUTES=5
 CRAWL_OVERLAP_MINUTES=10
@@ -67,15 +72,19 @@ FACEBOOK_AUTO_POST=true
 LOCAL_PUBLISH_FALLBACK=false
 MAX_POSTS_PER_RUN=1
 MAX_ARTICLES_PER_RUN=1
-MAX_SOURCES_PER_RUN=1
-MIN_ARTICLE_WORDS=150
-TARGET_ARTICLE_WORDS=450
+MAX_SOURCES_PER_RUN=3
+PUBLISH_WEAK_ARTICLES=true
+ALLOW_SHORT_ARTICLES=true
+MIN_ARTICLE_WORDS=80
+TARGET_ARTICLE_WORDS=250
+MIN_EXTRACTED_CHARS=80
 SOURCE_TIMEOUT_SECONDS=12
 ARTICLE_TIMEOUT_SECONDS=15
 AI_TIMEOUT_SECONDS=60
-MAX_AI_RETRIES=2
+MAX_AI_RETRIES=3
 SOURCE_HEALTH_ENABLED=true
 SOURCE_FAILURE_COOLDOWN_MINUTES=45
+SKIP_ADS_AFFILIATE_SPONSORED=true
 SAFE_CYCLE_MAX_ARTICLES=1
 SAFE_CYCLE_DRAFT_ONLY=false
 MAX_DRAFTS_PER_DAY=10
@@ -87,9 +96,34 @@ MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=10
 TELEGRAM_ALERTS_ENABLED=true
 ```
 
-In this mode the bot publishes live only, never creates drafts, rejects old, undated, empty, or near-expiry fast-news articles, and stops after the first publishable candidate.
+In this mode the bot publishes live only, never creates drafts, accepts weak or short real news, and stops after the first publishable candidate.
 
-With `RECENT_HOURS=2` and `FRESHNESS_SAFETY_MARGIN_MINUTES=15`, the bot sends articles to AI only when they are at most 1.75 hours old. This prevents the common case where a 1.98-hour article expires during AI processing.
+With `RECENT_HOURS=6` and `FRESHNESS_SAFETY_MARGIN_MINUTES=10`, the bot accepts practical fast-news items up to nearly 6 hours old. It no longer blocks stories just because they are near the old 2-hour window.
+
+The bot rejects:
+
+- duplicate URLs and canonical URLs
+- repeated topics within the topic cooldown window
+- sponsored, affiliate, coupon, deal, and promotional pages
+- articles older than the configured recent window
+
+The bot accepts:
+
+- short real news
+- weak extraction when title plus summary/metadata is available
+- RSS-summary-only stories
+- Blogger posts without images when no valid image exists
+
+## AI Fallback
+
+Set `AI_PROVIDER=auto` with Gemini and OpenRouter secrets. The production sequence is:
+
+1. Gemini (`GEMINI_MODEL=gemini-2.5-flash`)
+2. OpenRouter (`OPENROUTER_MODEL=openrouter/auto`)
+3. Gemini retry
+4. Basic safe Arabic HTML fallback from title and summary when both providers fail
+
+The fallback does not invent sensitive technical details and only uses available title, summary, metadata, and source context.
 
 ## Enable Telegram Alerts Safely
 
@@ -154,7 +188,14 @@ Run:
 python main.py deployment-check
 ```
 
-The command verifies required environment variable names, Blogger JSON availability, GitHub Actions workflow presence, the `*/5 * * * *` schedule, live publish settings, the freshness safety margin, and Facebook/Telegram safety flags. It never prints secret values.
+The command verifies required environment variable names, Blogger JSON availability, GitHub Actions workflow presence, the `*/5 * * * *` schedule, live publish settings, the 6-hour recent window, the freshness safety margin, and Facebook/Telegram safety flags. It never prints secret values.
+
+You can verify production activity from:
+
+- GitHub repository `Actions` tab
+- Telegram success/skip/failure reports
+- Blogger post URLs in the workflow logs
+- Facebook status in Telegram and the queue record
 
 On GitHub Actions, `.env` is generated at runtime from GitHub Secrets. A committed `.env` file is not required and must not be committed.
 

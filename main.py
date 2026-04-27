@@ -43,7 +43,7 @@ from article_enricher import enrich_ready_articles
 from article_processor import prepare_selected_articles_for_ai
 from article_scorer import score_new_articles
 from article_selector import select_next_article, suggest_category
-from duplicate_utils import title_hash
+from duplicate_utils import title_hash, topic_signature
 from article_quality import (
     get_candidate_fetch_limit,
     print_quality_report,
@@ -200,6 +200,7 @@ def run_fetch_only():
         discovery = discover_first_valid_article_link(
             enabled_sources,
             existing_articles=existing_queue.get("articles", []),
+            published_topic_hashes=topic_fingerprints,
         )
     else:
         discovery = discover_latest_article_links(enabled_sources)
@@ -1379,12 +1380,12 @@ def run_deployment_check_only():
             errors.append("Live automation requires RECENT_NEWS_ONLY=true.")
         if allow_unknown_date:
             errors.append("Live automation requires ALLOW_UNKNOWN_DATE_IN_FAST_MODE=false.")
-        if recent_hours_raw != "2":
-            errors.append("Live automation requires RECENT_NEWS_MAX_AGE_HOURS=2.")
-        if freshness_margin_raw != "15":
-            errors.append("Live automation requires FRESHNESS_SAFETY_MARGIN_MINUTES=15.")
-        if max_sources_raw not in {"1", "2"}:
-            errors.append("Live automation requires MAX_SOURCES_PER_RUN=1 or 2.")
+        if recent_hours_raw != "6":
+            errors.append("Live automation requires RECENT_NEWS_MAX_AGE_HOURS=6.")
+        if freshness_margin_raw != "10":
+            errors.append("Live automation requires FRESHNESS_SAFETY_MARGIN_MINUTES=10.")
+        if max_sources_raw != "3":
+            errors.append("Live automation requires MAX_SOURCES_PER_RUN=3.")
         if first_run_lookback_raw != "2":
             errors.append("Live automation requires FALLBACK_FIRST_RUN_LOOKBACK_HOURS=2.")
         if crawl_interval_raw != "5":
@@ -1854,7 +1855,7 @@ def run_safe_cycle_only():
         published_set = load_published_ids()
         mark_many_as_published([article.get("url") or article.get("canonical_url")], published_set)
         add_topic_fingerprint(
-            title_hash(
+            topic_signature(
                 article.get("seo_title")
                 or article.get("fetched_title")
                 or article.get("title")

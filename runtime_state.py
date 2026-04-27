@@ -10,6 +10,8 @@ from config import (
     TOPIC_FINGERPRINTS_PATH,
 )
 
+TOPIC_COOLDOWN_HOURS = 24
+
 
 def _read_json(path, default):
     if not path.exists():
@@ -63,16 +65,33 @@ def update_source_crawl(source_key, **fields):
 
 def load_topic_fingerprints():
     data = _read_json(TOPIC_FINGERPRINTS_PATH, {})
-    fingerprints = data.get("fingerprints", [])
-    if not isinstance(fingerprints, list):
-        fingerprints = []
-    return {str(item) for item in fingerprints if item}
+    raw = data.get("fingerprints", [])
+    now = _utc_now()
+    if isinstance(raw, dict):
+        fingerprints = set()
+        for fingerprint, stored_at in raw.items():
+            parsed = _parse_utc(stored_at)
+            if not parsed or (now - parsed).total_seconds() <= TOPIC_COOLDOWN_HOURS * 3600:
+                fingerprints.add(str(fingerprint))
+        return fingerprints
+    if not isinstance(raw, list):
+        raw = []
+    return {str(item) for item in raw if item}
 
 
 def save_topic_fingerprints(fingerprints):
+    existing = _read_json(TOPIC_FINGERPRINTS_PATH, {}).get("fingerprints", {})
+    if not isinstance(existing, dict):
+        existing = {}
+    now = _utc_iso()
+    active = {str(item) for item in fingerprints if item}
     data = {
-        "fingerprints": sorted({str(item) for item in fingerprints if item}),
-        "updated_at": datetime.now().isoformat(timespec="seconds"),
+        "fingerprints": {
+            fingerprint: existing.get(fingerprint) or now
+            for fingerprint in sorted(active)
+        },
+        "cooldown_hours": TOPIC_COOLDOWN_HOURS,
+        "updated_at": now,
     }
     _write_json(TOPIC_FINGERPRINTS_PATH, data)
 

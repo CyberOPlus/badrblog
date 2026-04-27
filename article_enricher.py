@@ -12,7 +12,15 @@ import requests
 from bs4 import BeautifulSoup
 
 from article_queue import load_article_queue, save_article_queue
-from config import ARTICLE_TIMEOUT_SECONDS, FAST_NEWS_MODE, HEADERS, SOURCE_RETRY_DELAY_SECONDS, MAX_SOURCE_RETRIES
+from config import (
+    ARTICLE_TIMEOUT_SECONDS,
+    FAST_NEWS_MODE,
+    HEADERS,
+    MIN_EXTRACTED_CHARS,
+    PUBLISH_WEAK_ARTICLES,
+    SOURCE_RETRY_DELAY_SECONDS,
+    MAX_SOURCE_RETRIES,
+)
 from production_logging import elapsed_ms, log_event
 
 try:
@@ -30,7 +38,7 @@ MAX_ARTICLE_IMAGES = 5
 MAX_TRUSTED_REFERENCES = 5
 ASYNC_FETCH_CONCURRENCY = 8
 FETCH_RETRIES = MAX_SOURCE_RETRIES
-FAST_ENRICH_MIN_CHARS = 600
+FAST_ENRICH_MIN_CHARS = max(80, MIN_EXTRACTED_CHARS)
 
 TRUSTED_REFERENCE_HOSTS = (
     "microsoft.com",
@@ -427,7 +435,14 @@ def _apply_enrichment_from_html(article, html, url):
     full_text = _extract_full_article_text(soup)
     preview = _trim_preview(full_text) if full_text else _extract_content_preview(soup)
     if not preview:
-        return False, "missing article body"
+        fallback_summary = _normalize_text(
+            article.get("rss_summary") or _extract_meta_description(soup) or article.get("title", "")
+        )
+        if fallback_summary:
+            preview = fallback_summary
+            full_text = fallback_summary
+        else:
+            return False, "missing article body"
 
     article["fetched_title"] = _extract_title(soup) or article.get("title", "")
     article["meta_description"] = _extract_meta_description(soup)
@@ -449,7 +464,9 @@ def _apply_enrichment_from_html(article, html, url):
     is_strong = len(article["full_article_text"]) >= STRONG_ARTICLE_MIN_CHARS
     is_weak = len(article["full_article_text"]) >= min_success_chars
     article["enrichment_status"] = "strong" if is_strong else "weak"
-    article["content_fetch_status"] = "success" if (is_strong or (FAST_NEWS_MODE and is_weak)) else "weak"
+    article["content_fetch_status"] = "success" if (
+        is_strong or (FAST_NEWS_MODE and (is_weak or PUBLISH_WEAK_ARTICLES))
+    ) else "weak"
     article.pop("content_fetch_error", None)
     log_event(
         "article_enriched",
@@ -462,7 +479,7 @@ def _apply_enrichment_from_html(article, html, url):
         references=len(article.get("trusted_references") or []),
         enrichment_status=article["enrichment_status"],
     )
-    if not is_weak:
+    if not is_weak and not (FAST_NEWS_MODE and PUBLISH_WEAK_ARTICLES and article["full_article_text"]):
         return False, f"weak article body ({len(article['full_article_text'])} chars)"
     if not is_strong and not FAST_NEWS_MODE:
         return False, f"weak article body ({len(article['full_article_text'])} chars)"
@@ -471,7 +488,19 @@ def _apply_enrichment_from_html(article, html, url):
 
 def _apply_rss_summary_fallback(article):
     summary = _normalize_text(article.get("rss_summary", ""))
-    if len(summary) < 300:
+    if len(summary) < MIN_EXTRACTED_CHARS:
+        summary = _normalize_text(
+            " ".join(
+                value
+                for value in (
+                    article.get("title", ""),
+                    article.get("meta_description", ""),
+                    article.get("source_name", ""),
+                )
+                if value
+            )
+        )
+    if len(summary) < MIN_EXTRACTED_CHARS:
         return False, "missing article body"
     article["fetched_title"] = article.get("title", "")
     article["meta_description"] = summary[:240]

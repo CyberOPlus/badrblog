@@ -14,7 +14,7 @@ from config import (
     RECENT_NEWS_MAX_AGE_HOURS,
     SOURCES_CONFIG_PATH,
 )
-from duplicate_utils import canonicalize_url, title_hash
+from duplicate_utils import canonicalize_url, title_hash, topic_signature
 
 ALLOWED_STATUSES = {"new", "skipped", "ready", "selected", "draft_created", "published", "failed"}
 
@@ -259,6 +259,11 @@ def add_articles_to_queue(discovered_articles):
         for item in articles
         if normalize_title(item.get("title", "")) and not item.get("archived")
     }
+    existing_topics = {
+        item.get("topic_signature") or topic_signature(item.get("title", ""))
+        for item in articles
+        if normalize_title(item.get("title", "")) and not item.get("archived")
+    }
 
     added = 0
     duplicate_url = 0
@@ -271,6 +276,7 @@ def add_articles_to_queue(discovered_articles):
         title = (article.get("title") or "").strip()
         canonical_url = canonicalize_url(url)
         normalized_title_hash = title_hash(title)
+        normalized_topic_signature = topic_signature(title)
         category_hint = article.get("category_hint", "")
 
         if not url or not title:
@@ -281,7 +287,10 @@ def add_articles_to_queue(discovered_articles):
             duplicate_by_category[category_hint] += 1
             continue
 
-        if normalized_title_hash and normalized_title_hash in existing_titles:
+        if normalized_title_hash and (
+            normalized_title_hash in existing_titles
+            or normalized_topic_signature in existing_topics
+        ):
             duplicate_title += 1
             duplicate_by_category[category_hint] += 1
             continue
@@ -292,6 +301,7 @@ def add_articles_to_queue(discovered_articles):
                 "source_url_hash": make_article_id(url),
                 "canonical_url": canonical_url,
                 "title_hash": normalized_title_hash,
+                "topic_signature": normalized_topic_signature,
                 "title": title,
                 "url": url,
                 "source_name": article.get("source_name", ""),
@@ -307,6 +317,7 @@ def add_articles_to_queue(discovered_articles):
         )
         existing_urls.add(canonical_url)
         existing_titles.add(normalized_title_hash)
+        existing_topics.add(normalized_topic_signature)
         added += 1
         added_by_category[category_hint] += 1
 

@@ -5,7 +5,7 @@
 from datetime import datetime
 
 from article_queue import article_age_hours, is_article_safe_for_ai, load_article_queue, save_article_queue
-from config import FRESHNESS_SAFETY_MARGIN_MINUTES, MAX_AI_ARTICLE_AGE_HOURS
+from config import FRESHNESS_SAFETY_MARGIN_MINUTES, MAX_AI_ARTICLE_AGE_HOURS, MIN_EXTRACTED_CHARS
 
 
 def _now_iso():
@@ -26,8 +26,8 @@ def _validate_selected_article(article):
     full_text = article.get("full_article_text") or article.get("content_full") or article.get("content_preview", "")
     if not _has_value(full_text):
         missing.append("main content")
-    elif len(str(full_text).strip()) < 300:
-        missing.append("main content below 300 characters")
+    elif len(str(full_text).strip()) < MIN_EXTRACTED_CHARS:
+        missing.append(f"main content below {MIN_EXTRACTED_CHARS} characters")
     if not _has_value(article.get("suggested_category")):
         missing.append("suggested_category")
     if article.get("content_fetch_status") != "success":
@@ -56,6 +56,7 @@ def _build_ai_input_package(article):
         "meta_description": article.get("meta_description", ""),
         "content_preview": article.get("content_preview", ""),
         "content_preview_chars": len(article.get("content_preview", "")),
+        "rss_summary": article.get("rss_summary", ""),
         "full_article_text": full_text,
         "full_article_text_chars": len(full_text),
         "enrichment_status": article.get("enrichment_status", ""),

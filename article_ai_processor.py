@@ -23,6 +23,7 @@ from article_queue import load_article_queue, save_article_queue
 from duplicate_utils import content_hash_from_html
 from config import (
     AI_PROVIDER,
+    ALLOW_SHORT_ARTICLES,
     FAST_NEWS_MODE,
     GEMINI_API_KEY,
     GEMINI_MODEL,
@@ -195,9 +196,16 @@ def _validate_ai_output(data, package=None):
     description = str(data["description"]).strip()
     html_content = str(data["html_content"]).strip()
 
-    if not 40 <= len(title) <= 70:
+    if FAST_NEWS_MODE and ALLOW_SHORT_ARTICLES:
+        title_ok = 10 <= len(title) <= 90
+        description_ok = 40 <= len(description) <= 190
+    else:
+        title_ok = 40 <= len(title) <= 70
+        description_ok = 100 <= len(description) <= 170
+
+    if not title_ok:
         raise ValueError(f"SEO title length must be 40-70 characters; got {len(title)}")
-    if not 100 <= len(description) <= 170:
+    if not description_ok:
         raise ValueError(
             f"Meta description length must be 100-170 characters; got {len(description)}"
         )
@@ -354,6 +362,56 @@ def _normalize_ai_output(data):
     data["description"] = str(data.get("description", "")).strip()
     data["slug"] = _normalize_slug(data.get("slug", ""), max_words=7)
     data["html_content"] = str(data.get("html_content", "")).strip()
+    return data
+
+
+def _basic_fallback_article(package, error=""):
+    title = str(package.get("title") or "").strip()
+    summary = str(
+        package.get("full_article_text")
+        or package.get("content_preview")
+        or package.get("meta_description")
+        or package.get("rss_summary")
+        or ""
+    ).strip()
+    source_name = str(package.get("source_name") or "").strip()
+    if not title or len(summary) < 20:
+        raise ValueError("basic fallback needs at least title and short summary")
+
+    safe_title = title[:90]
+    description_source = summary[:180] if summary else title
+    description = _trim_to_length(
+        f"ملخص سريع لخبر {safe_title}: {description_source}",
+        170,
+    )
+    if len(description) < 40:
+        description = f"متابعة سريعة لخبر {safe_title} مع شرح مختصر لأهم ما يعنيه للقارئ."
+
+    html = "\n".join(
+        [
+            f"<p>يتناول هذا الخبر تطورا جديدا بعنوان: {escape(title)}. نعرضه هنا بصياغة عربية مختصرة وسريعة اعتمادا على المعلومات المتاحة فقط، من دون إضافة تفاصيل غير مؤكدة.</p>",
+            "<h2>ملخص الخبر</h2>",
+            f"<p>{escape(summary)}</p>",
+            "<h2>لماذا يهم هذا الخبر؟</h2>",
+            "<p>أهمية الخبر أنه يساعد القارئ على متابعة المستجدات التقنية بسرعة، خصوصا عندما يتعلق الأمر بتحديثات أمنية أو أدوات ذكاء اصطناعي أو تغييرات في التطبيقات والخدمات الرقمية.</p>",
+            "<h2>الخلاصة</h2>",
+            f"<p>الخلاصة أن الخبر يستحق المتابعة لأنه يقدم معلومة حديثة ومباشرة. سنبقي التفاصيل في نطاق ما توفر من بيانات واضحة من {escape(source_name) if source_name else 'المصدر'}.</p>",
+        ]
+    )
+    data = {
+        "title": safe_title if len(safe_title) >= 10 else f"تحديث تقني سريع: {safe_title}",
+        "description": description,
+        "slug": _normalize_slug(title or "fast-news-brief"),
+        "html_content": html,
+    }
+    data = _finalize_html_content(_normalize_ai_output(data), package)
+    if html_word_count(data["html_content"]) < MIN_ARTICLE_WORDS:
+        extra = (
+            "<p>هذا النوع من الأخبار القصيرة مناسب للمتابعة السريعة على الهاتف، "
+            "لأنه يقدم الفكرة الأساسية أولا ثم يترك مساحة للتحديثات اللاحقة عند ظهور معلومات إضافية موثوقة.</p>"
+        )
+        data["html_content"] += "\n" + extra
+    _validate_ai_output(data, package=package)
     return data
 
 
@@ -591,6 +649,35 @@ def _generate_ai_article(prompt, skip_providers=None):
     raise last_error or RuntimeError("No AI provider returned a response.")
 
 
+def _generate_with_provider_name(provider, prompt):
+    if provider == "gemini":
+        return _generate_with_gemini(prompt)
+    if provider == "openrouter":
+        return _generate_with_openrouter(prompt)
+    if provider == "openai":
+        return _generate_with_openai(prompt)
+    raise RuntimeError(f"Unsupported AI provider: {provider}")
+
+
+def _attempt_provider_sequence():
+    providers = _resolve_providers()
+    if (AI_PROVIDER or "").strip().lower() == "auto":
+        sequence = []
+        if "gemini" in providers:
+            sequence.append("gemini")
+        if "openrouter" in providers:
+            sequence.append("openrouter")
+        elif "openai" in providers:
+            sequence.append("openai")
+        if "gemini" in providers:
+            sequence.append("gemini")
+        for provider in providers:
+            if provider not in sequence:
+                sequence.append(provider)
+        return sequence[:MAX_AI_ATTEMPTS]
+    return (providers * MAX_AI_ATTEMPTS)[:MAX_AI_ATTEMPTS]
+
+
 def _apply_success(article, data, provider_used):
     final_html = str(data["html_content"]).strip()
     article["ai_status"] = "completed"
@@ -659,7 +746,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     prompt = _build_prompt(package)
     last_error = None
     previous_data = None
-    skip_providers = set()
+    provider_sequence = _attempt_provider_sequence()
 
     log_event(
         "ai_article_start",
@@ -673,9 +760,14 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
 
     for attempt in range(1, MAX_AI_ATTEMPTS + 1):
         started = time.perf_counter()
+        provider = provider_sequence[attempt - 1] if attempt - 1 < len(provider_sequence) else ""
         provider_used = ""
         try:
-            raw_text, provider_used = _generate_ai_article(prompt, skip_providers=skip_providers)
+            raw_text, provider_used = (
+                _generate_with_provider_name(provider, prompt)
+                if provider
+                else _generate_ai_article(prompt)
+            )
             data = _parse_ai_json(raw_text)
             previous_data = data
             data = _shorten_metadata_once_if_needed(data)
@@ -701,18 +793,37 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             }
         except Exception as error:
             last_error = error
-            if provider_used:
-                skip_providers.add(provider_used.split(":", 1)[0])
             log_event(
                 "ai_article_attempt_failed",
                 article_id=article.get("id"),
                 attempt=attempt,
+                provider=provider or provider_used,
                 error=error,
                 elapsed_ms=elapsed_ms(started),
             )
             prompt = _build_expansion_retry_prompt(package, previous_data, str(error))
             if attempt < MAX_AI_ATTEMPTS:
                 time.sleep(min(2 ** (attempt - 1), 3))
+
+    try:
+        fallback_data = _basic_fallback_article(package, error=str(last_error or "AI failed"))
+        _apply_success(article, fallback_data, "basic-template-fallback")
+        article["ai_fallback_reason"] = str(last_error or "AI providers failed")[:300]
+        save_article_queue(queue)
+        log_event(
+            "ai_article_template_fallback_success",
+            article_id=article.get("id"),
+            words=article.get("final_word_count"),
+        )
+        return {
+            "processed": 1,
+            "success": 1,
+            "failed": 0,
+            "article": article,
+            "message": "AI providers failed; used basic Arabic fallback template.",
+        }
+    except Exception as fallback_error:
+        last_error = fallback_error
 
     _apply_failure(article, last_error)
     save_article_queue(queue)

@@ -10,9 +10,10 @@ import article_draft_publisher
 import article_ai_processor
 import article_processor
 import article_queue
+import content_filter
 import runtime_state
 from article_draft_publisher import _ensure_post_url_for_mode
-from duplicate_utils import canonicalize_url
+from duplicate_utils import canonicalize_url, topic_signature
 from facebook_publisher import _build_caption, _eligible_for_facebook
 import main
 import notifier
@@ -67,7 +68,7 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertFalse(result.passed)
         self.assertIn("too short", result.reason)
 
-    def test_short_article_rejected(self):
+    def test_short_fast_article_is_accepted(self):
         article = {
             "url": "https://example.com/short",
             "source_published_at": recent_iso(1),
@@ -75,9 +76,9 @@ class ProductionHardeningTests(unittest.TestCase):
             "seo_description": "وصف اختبار طويل بما يكفي حتى يمر شرط الوصف الخاص بالنشر.",
             "final_html": "<p>قصير جدا</p>",
         }
+        article["final_html"] = "<p>" + " ".join(["خبر"] * 85) + "</p>"
         result = validate_before_publish(article, check_duplicate=False)
-        self.assertFalse(result.passed)
-        self.assertIn("too short", result.reason)
+        self.assertTrue(result.passed, result.reason)
 
     def test_missing_blogger_url_rejected_for_live_publish(self):
         with patch.object(article_draft_publisher, "SAFE_MODE", False), patch.object(article_draft_publisher, "PUBLISH_MODE", "live"):
@@ -333,8 +334,8 @@ class ProductionHardeningTests(unittest.TestCase):
                 with patch.object(main, "suggest_category", return_value="Tech"):
                     second = main._select_oldest_fresh_ready_article()
 
-        self.assertEqual(first["id"], "newer")
-        self.assertIsNone(second)
+        self.assertEqual(first["id"], "older")
+        self.assertEqual(second["id"], "newer")
 
     def test_expired_queued_articles_are_removed(self):
         with TemporaryDirectory() as temp_dir:
@@ -346,7 +347,7 @@ class ProductionHardeningTests(unittest.TestCase):
                         "url": "https://example.com/expired",
                         "status": "ready",
                         "content_fetch_status": "success",
-                        "source_published_at": recent_iso(3),
+                        "source_published_at": recent_iso(7),
                     },
                     {
                         "id": "fresh",
@@ -598,13 +599,102 @@ class ProductionHardeningTests(unittest.TestCase):
     def test_prepare_ai_rejects_empty_or_short_content(self):
         article = {"title": "Valid title", "url": "https://example.com/post", "content_preview": "short", "suggested_category": "Tech", "content_fetch_status": "success", "source_published_at": recent_iso(1)}
         missing = article_processor._validate_selected_article(article)
-        self.assertIn("main content below 300 characters", missing)
+        self.assertIn("main content below 80 characters", missing)
+
+    def test_weak_extracted_article_is_accepted_for_ai(self):
+        article = {
+            "title": "Valid title",
+            "url": "https://example.com/post",
+            "content_preview": "x" * 90,
+            "suggested_category": "Tech",
+            "content_fetch_status": "success",
+            "source_published_at": recent_iso(1),
+        }
+        self.assertEqual(article_processor._validate_selected_article(article), [])
 
     def test_ai_provider_falls_back_after_primary_failure(self):
         with patch.object(article_ai_processor, "_resolve_providers", return_value=["gemini", "openrouter"]), patch.object(article_ai_processor, "_generate_with_gemini", side_effect=RuntimeError("provider down")), patch.object(article_ai_processor, "_generate_with_openrouter", return_value=('{"title":"x","description":"y","slug":"z","html_content":"<p>ok</p>"}', "openrouter:test")):
             raw, provider = article_ai_processor._generate_ai_article("prompt")
         self.assertIn("html_content", raw)
         self.assertEqual(provider, "openrouter:test")
+
+    def test_auto_ai_sequence_is_gemini_openrouter_gemini(self):
+        with patch.object(article_ai_processor, "_resolve_providers", return_value=["gemini", "openrouter"]), patch.object(article_ai_processor, "AI_PROVIDER", "auto"), patch.object(article_ai_processor, "MAX_AI_ATTEMPTS", 3):
+            self.assertEqual(article_ai_processor._attempt_provider_sequence(), ["gemini", "openrouter", "gemini"])
+
+    def test_basic_template_fallback_has_publishable_words(self):
+        package = {
+            "title": "Chrome fixes active zero-day vulnerability",
+            "url": "https://example.com/chrome-zero-day",
+            "source_published_at": recent_iso(1),
+            "content_preview": "Google released an emergency Chrome update for an actively exploited security flaw. Users should install the latest browser update when available.",
+            "source_name": "Example Source",
+        }
+        data = article_ai_processor._basic_fallback_article(package, error="both providers failed")
+        self.assertGreaterEqual(article_ai_processor.html_word_count(data["html_content"]), 80)
+        self.assertIn("<h2>", data["html_content"])
+
+    def test_process_uses_template_fallback_when_both_ai_providers_fail(self):
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "a1",
+                        "url": "https://example.com/news",
+                        "status": "selected",
+                        "processing_status": "ready_for_ai",
+                        "ai_input_package": {
+                            "title": "Chrome fixes active zero-day vulnerability",
+                            "url": "https://example.com/news",
+                            "source_published_at": recent_iso(1),
+                            "content_preview": "Google released an emergency Chrome update for an actively exploited security flaw. Users should install the latest browser update when available.",
+                            "source_name": "Example Source",
+                        },
+                    }
+                ],
+                "notifications": {},
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini", "openrouter", "gemini"]), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=RuntimeError("provider failed")):
+                article_queue.save_article_queue(queue)
+                result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
+
+        self.assertEqual(result["success"], 1)
+        self.assertEqual(result["article"]["ai_provider_used"], "basic-template-fallback")
+        self.assertGreaterEqual(result["article"]["final_word_count"], 80)
+
+    def test_ads_affiliate_articles_are_skipped(self):
+        blocked, reason = content_filter.is_promotional_article(
+            {"title": "Best VPN discount coupon deal", "url": "https://example.com/deals/best-vpn"}
+        )
+        self.assertTrue(blocked)
+        self.assertTrue(reason)
+
+    def test_duplicate_topic_signature_blocks_repeated_story(self):
+        def fake_collect(base_url, **_kwargs):
+            return [{"title": "Google fixes Chrome zero-day CVE-2026-1234", "url": f"{base_url}/story", "published_at": recent_iso(1)}], "", 200, {"method_used": "feed"}
+
+        with patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "source_crawl_record", return_value={}):
+            result = scraper.discover_fresh_article_links(
+                [{"name": "A", "base_url": "https://a.example", "enabled": True}],
+                existing_articles=[],
+                published_urls=set(),
+                published_topic_hashes={topic_signature("Chrome zero day CVE-2026-1234 patched by Google")},
+            )
+
+        self.assertFalse(result["articles"])
+
+    def test_workflow_cron_is_every_five_minutes(self):
+        text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
+        self.assertIn('cron: "*/5 * * * *"', text)
+        self.assertIn("workflow_dispatch:", text)
+        self.assertIn("timeout-minutes: 8", text)
+
+    def test_articles_up_to_six_hours_are_accepted(self):
+        with patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 6):
+            is_recent, age = scraper._is_recent_published_at(recent_iso(5.5))
+        self.assertTrue(is_recent)
+        self.assertLess(age, 6)
 
     def test_source_cooldown_after_three_failures(self):
         with TemporaryDirectory() as temp_dir:

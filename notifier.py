@@ -312,20 +312,18 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
         ]
     elif status == "skipped":
         clear_lines = [
-            "⚠️ تم تخطي مقال",
-            f"Title: {_article_title(article)}",
-            f"Source: {_source_name(article)}",
-            f"Age: {article.get('article_age_hours', '')}",
+            "⚠️ لم يتم النشر في هذه الدورة",
             f"Reason: {reason or result.get('reason') or 'no publishable article'}",
+            f"Sources checked: {(result.get('fetch') or {}).get('sources_checked', '')}",
+            f"Best candidate: {_article_title(article)}",
+            "Next run: scheduled by GitHub Actions",
         ]
     else:
         clear_lines = [
-            "❌ تم منع النشر",
+            "❌ فشل التشغيل",
             f"Reason: {reason or 'unknown'}",
-            f"AI status: {article.get('ai_status', '')}",
-            f"Words: {_article_word_count(article)}",
-            f"Article age: {article.get('article_age_hours', '')}",
-            f"Execution time: {_execution_time(result)}",
+            f"Safe error: {reason or 'unknown'}",
+            "Next run: scheduled by GitHub Actions",
         ]
 
     lines = clear_lines

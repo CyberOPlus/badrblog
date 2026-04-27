@@ -14,7 +14,8 @@ from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
-from duplicate_utils import canonicalize_url, title_hash
+from content_filter import is_promotional_article
+from duplicate_utils import canonicalize_url, title_hash, topic_signature
 from production_logging import elapsed_ms, log_event
 
 try:
@@ -47,6 +48,7 @@ from config import (
     SOURCE_RETRY_DELAY_SECONDS,
     SOURCE_TIMEOUT_SECONDS,
     SOURCE_URLS,
+    SKIP_ADS_AFFILIATE_SPONSORED,
 )
 from runtime_state import (
     is_source_cooled_down,
@@ -1252,7 +1254,7 @@ def discover_latest_article_links(sources):
     }
 
 
-def discover_first_valid_article_link(sources, existing_articles=None):
+def discover_first_valid_article_link(sources, existing_articles=None, published_topic_hashes=None):
     """
     Fast path: check sources in order and return as soon as one non-duplicate
     article link is found. This avoids scanning every source before publishing.
@@ -1264,6 +1266,7 @@ def discover_first_valid_article_link(sources, existing_articles=None):
         enabled_sources = enabled_sources[:MAX_SOURCES_PER_RUN]
 
     existing_articles = existing_articles or []
+    published_topic_hashes = published_topic_hashes or set()
     known_urls = {
         item.get("canonical_url") or canonicalize_url(item.get("url"))
         for item in existing_articles
@@ -1305,6 +1308,7 @@ def discover_first_valid_article_link(sources, existing_articles=None):
         duplicate_count = 0
         old_count = 0
         too_close_count = 0
+        promo_count = 0
         missing_date_count = 0
         recent_count = 0
         for link in links:
@@ -1319,7 +1323,18 @@ def discover_first_valid_article_link(sources, existing_articles=None):
                 rss_summary = ""
             canonical = canonicalize_url(url)
             current_title_hash = title_hash(link_title)
-            if canonical in known_urls or current_title_hash in known_title_hashes:
+            current_topic_signature = topic_signature(link_title)
+            promotional, promo_reason = is_promotional_article({"title": link_title, "url": url, "rss_summary": rss_summary})
+            if promotional and SKIP_ADS_AFFILIATE_SPONSORED:
+                promo_count += 1
+                _log(f"  Skipping promotional/affiliate article: {promo_reason}: {link_title[:80]}")
+                continue
+            if (
+                canonical in known_urls
+                or current_title_hash in known_title_hashes
+                or current_title_hash in published_topic_hashes
+                or current_topic_signature in published_topic_hashes
+            ):
                 duplicate_count += 1
                 _log(f"  Skipping duplicate: {link_title[:80]}")
                 continue
@@ -1382,7 +1397,7 @@ def discover_first_valid_article_link(sources, existing_articles=None):
             f"  Source result: {status_text}; links={len(links)}; "
             f"duplicates={duplicate_count}; recent={recent_count}; old={old_count}; "
             f"too_close={too_close_count}; "
-            f"missing_date={missing_date_count}; elapsed={elapsed / 1000:.1f}s"
+            f"promo={promo_count}; missing_date={missing_date_count}; elapsed={elapsed / 1000:.1f}s"
         )
         _record_source_result(base_url, source_name, error, len(links))
         update_source_crawl(
@@ -1401,6 +1416,7 @@ def discover_first_valid_article_link(sources, existing_articles=None):
                 "recent_links": recent_count,
                 "old_links_skipped": old_count,
                 "too_close_links_skipped": too_close_count,
+                "promotional_links_skipped": promo_count,
                 "missing_date_skipped": missing_date_count,
                 "status": "failed" if error else "success",
                 "listing_status_code": status_code,
@@ -1493,6 +1509,7 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
         duplicate_count = 0
         old_count = 0
         too_close_count = 0
+        promo_count = 0
         missing_date_count = 0
         recent_count = 0
         selected_links = []
@@ -1510,10 +1527,17 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
 
             canonical = canonicalize_url(url)
             current_title_hash = title_hash(link_title)
+            current_topic_signature = topic_signature(link_title)
+            promotional, promo_reason = is_promotional_article({"title": link_title, "url": url, "rss_summary": rss_summary})
+            if promotional and SKIP_ADS_AFFILIATE_SPONSORED:
+                promo_count += 1
+                _log(f"  Skipping promotional/affiliate article: {promo_reason}: {link_title[:80]}")
+                continue
             if (
                 canonical in known_urls
                 or current_title_hash in known_title_hashes
                 or current_title_hash in published_topic_hashes
+                or current_topic_signature in published_topic_hashes
             ):
                 duplicate_count += 1
                 _log(f"  Skipping duplicate: {link_title[:80]}")
@@ -1577,6 +1601,8 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
             known_urls.add(canonical)
             if current_title_hash:
                 known_title_hashes.add(current_title_hash)
+            if current_topic_signature:
+                published_topic_hashes.add(current_topic_signature)
 
         elapsed = elapsed_ms(started)
         status_text = "failed" if error else "success"
@@ -1584,7 +1610,7 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
             f"  Source result: {status_text}; links={len(links)}; "
             f"duplicates={duplicate_count}; recent={recent_count}; old={old_count}; "
             f"too_close={too_close_count}; "
-            f"missing_date={missing_date_count}; queued={len(selected_links)}; "
+            f"promo={promo_count}; missing_date={missing_date_count}; queued={len(selected_links)}; "
             f"elapsed={elapsed / 1000:.1f}s"
         )
         _record_source_result(base_url, source_name, error, len(links))
@@ -1599,6 +1625,7 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
                 "recent_links": recent_count,
                 "old_links_skipped": old_count,
                 "too_close_links_skipped": too_close_count,
+                "promotional_links_skipped": promo_count,
                 "missing_date_skipped": missing_date_count,
                 "queued_links": len(selected_links),
                 "status": "failed" if error else "success",

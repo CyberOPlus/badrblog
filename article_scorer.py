@@ -5,7 +5,8 @@
 import re
 
 from article_queue import load_article_queue, save_article_queue
-from config import FAST_NEWS_MODE, FIRST_VALID_ARTICLE_MODE, FRESH_QUEUE_MODE
+from config import FAST_NEWS_MODE, FIRST_VALID_ARTICLE_MODE, FRESH_QUEUE_MODE, SKIP_ADS_AFFILIATE_SPONSORED
+from content_filter import is_promotional_article
 
 HIGH_PRIORITY_KEYWORDS = [
     "breach",
@@ -85,6 +86,7 @@ def score_article(article):
     high_matches = _keyword_matches(text, HIGH_PRIORITY_KEYWORDS)
     medium_matches = _keyword_matches(text, MEDIUM_PRIORITY_KEYWORDS)
     skip_matches = _keyword_matches(text, LOW_PRIORITY_SKIP_SIGNALS)
+    promotional, _reason = is_promotional_article(article)
 
     score = 0
     score += min(len(high_matches) * 3, 8)
@@ -96,6 +98,8 @@ def score_article(article):
 
     if skip_matches:
         score -= min(len(skip_matches) * 3, 6)
+    if promotional and SKIP_ADS_AFFILIATE_SPONSORED:
+        score = -10
 
     score = max(0, min(10, score))
     return score
@@ -128,11 +132,16 @@ def score_new_articles():
         analyzed += 1
         score = score_article(article)
         priority = priority_for_score(score)
+        promotional, promo_reason = is_promotional_article(article)
 
         article["score"] = score
         article["priority"] = priority
         ready_threshold = 0 if FAST_NEWS_MODE and (FIRST_VALID_ARTICLE_MODE or FRESH_QUEUE_MODE) else 6
-        article["status"] = "ready" if score >= ready_threshold else "skipped"
+        if promotional and SKIP_ADS_AFFILIATE_SPONSORED:
+            article["status"] = "skipped"
+            article["skip_reason"] = promo_reason
+        else:
+            article["status"] = "ready" if score >= ready_threshold else "skipped"
 
         priority_counts[priority] += 1
         if article["status"] == "ready":

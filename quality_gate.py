@@ -6,10 +6,11 @@ import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
 
-from duplicate_utils import canonicalize_url, content_hash_from_html, title_hash
+from duplicate_utils import canonicalize_url, content_hash_from_html, similar_topic_signature, title_hash, topic_signature
 from production_logging import html_to_text, html_word_count
 from config import (
     ALLOW_UNKNOWN_DATE_IN_FAST_MODE,
+    ALLOW_SHORT_ARTICLES,
     FAST_NEWS_MODE,
     MIN_ARTICLE_WORDS,
     RECENT_NEWS_MAX_AGE_HOURS,
@@ -140,7 +141,7 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
 
     word_count = html_word_count(html_content)
     minimum_words = MIN_ARTICLE_WORDS if fast_mode else MIN_BLOGGER_ARTICLE_WORDS
-    if word_count < minimum_words:
+    if word_count < minimum_words and not (fast_mode and ALLOW_SHORT_ARTICLES and word_count >= 80):
         return QualityGateResult(
             False,
             f"article too short ({word_count} words; minimum {minimum_words})",
@@ -149,6 +150,9 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
 
     body_text = html_to_text(html_content)
     if fast_mode:
+        promotional, promo_reason = is_promotional_article(article)
+        if promotional:
+            return QualityGateResult(False, promo_reason, word_count)
         if not str(article.get("url") or article.get("source_url") or "").strip():
             return QualityGateResult(False, "missing source URL", word_count)
         if RECENT_NEWS_ONLY:
@@ -175,7 +179,7 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             if duplicate_reason:
                 return QualityGateResult(False, duplicate_reason, word_count)
         warnings = []
-        if word_count < 300:
+        if word_count < 120:
             warnings.append(f"fast news article below target range {TARGET_ARTICLE_WORDS}")
         if not _has_reader_section(html_content, body_text):
             warnings.append("reader-impact section omitted in fast mode")
@@ -209,6 +213,7 @@ def duplicate_publish_reason(article, existing_articles):
     article_id = article.get("id")
     canonical_url = article.get("canonical_url") or canonicalize_url(article.get("url") or article.get("original_url"))
     current_title_hash = article.get("title_hash") or title_hash(article.get("title") or article.get("fetched_title") or article.get("seo_title"))
+    current_topic_signature = article.get("topic_signature") or topic_signature(article.get("title") or article.get("fetched_title") or article.get("seo_title"))
     current_content_hash = article.get("final_content_hash") or content_hash_from_html(article.get("final_html", ""))
 
     for other in existing_articles:
@@ -224,6 +229,16 @@ def duplicate_publish_reason(article, existing_articles):
             return "another queue record with the same canonical URL is already published/drafted"
         if current_title_hash and other.get("title_hash") == current_title_hash:
             return "another queue record with the same title hash is already published/drafted"
+        other_title = other.get("title") or other.get("fetched_title") or other.get("seo_title") or ""
+        other_topic_signature = other.get("topic_signature") or topic_signature(other_title)
+        if current_topic_signature and other_topic_signature and current_topic_signature == other_topic_signature:
+            return "another queue record with the same topic is already published/drafted"
+        if similar_topic_signature(
+            article.get("title") or article.get("fetched_title") or article.get("seo_title"),
+            other_title,
+        ):
+            return "another queue record with a similar topic is already published/drafted"
         if current_content_hash and other.get("final_content_hash") == current_content_hash:
             return "another queue record with the same content hash is already published/drafted"
     return ""
+from content_filter import is_promotional_article
