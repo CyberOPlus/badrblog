@@ -670,6 +670,30 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertTrue(blocked)
         self.assertTrue(reason)
 
+    def test_cisa_bulletin_summary_is_not_false_positive_promo(self):
+        blocked, reason = content_filter.is_promotional_article(
+            {
+                "title": "Vulnerability Summary for the Week of April 20, 2026 | CISA",
+                "url": "https://www.cisa.gov/news-events/bulletins/sb26-117",
+                "content_preview": (
+                    "The CISA Vulnerability Bulletin provides a summary of new vulnerabilities. "
+                    "Entries may include additional information provided by organizations and "
+                    "efforts sponsored by CISA."
+                ),
+            }
+        )
+        self.assertFalse(blocked, reason)
+
+    def test_normal_business_deal_news_is_not_skipped(self):
+        blocked, reason = content_filter.is_promotional_article(
+            {
+                "title": "Meta inks deal for solar power beamed from space",
+                "url": "https://techcrunch.com/2026/04/27/meta-solar-power-agreement",
+                "content_preview": "The agreement would add renewable energy capacity for future data centers.",
+            }
+        )
+        self.assertFalse(blocked, reason)
+
     def test_duplicate_topic_signature_blocks_repeated_story(self):
         def fake_collect(base_url, **_kwargs):
             return [{"title": "Google fixes Chrome zero-day CVE-2026-1234", "url": f"{base_url}/story", "published_at": recent_iso(1)}], "", 200, {"method_used": "feed"}

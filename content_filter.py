@@ -9,11 +9,33 @@ PROMO_TITLE_PATTERNS = (
     r"\bpromo\s*code\b",
     r"\bcoupon\b",
     r"\bdiscount\b",
-    r"\bdeal(s)?\b",
+    r"\bdaily\s+deal(s)?\b",
+    r"\bdeal\s+of\s+the\s+day\b",
     r"\bbuy\s+now\b",
     r"\bbest\s+vpn\b",
     r"\bbest\s+hosting\b",
     r"\bblack\s+friday\b",
+)
+
+PROMO_SUMMARY_HARD_PATTERNS = (
+    r"\bsponsored\s+(post|article|content|placement)\b",
+    r"\bpaid\s+(partnership|promotion|placement)\b",
+    r"\badvertorial\b",
+    r"\baffiliate\s+(link|links|commission|deal|offer)\b",
+    r"\bpromo\s*code\b",
+    r"\bcoupon\s+code\b",
+    r"\bbuy\s+now\b",
+    r"\bbest\s+vpn\b",
+    r"\bbest\s+hosting\b",
+)
+
+PROMO_SUMMARY_SOFT_PATTERNS = (
+    r"\baffiliate\b",
+    r"\bcoupon\b",
+    r"\bdiscount\b",
+    r"\bdeal(s)?\b",
+    r"\bpromo\b",
+    r"\bcommission\b",
 )
 
 PROMO_URL_HINTS = (
@@ -42,9 +64,15 @@ def is_promotional_article(article):
     title = str(article.get("title") or article.get("fetched_title") or "").casefold()
     url = str(article.get("url") or "").casefold()
     summary = str(article.get("rss_summary") or article.get("meta_description") or article.get("content_preview") or "").casefold()
-    text = f"{title} {summary}"
 
-    if any(re.search(pattern, text, flags=re.I) for pattern in PROMO_TITLE_PATTERNS):
+    if any(re.search(pattern, title, flags=re.I) for pattern in PROMO_TITLE_PATTERNS):
+        return True, "ad/affiliate/sponsored title or summary"
+
+    if any(re.search(pattern, summary, flags=re.I) for pattern in PROMO_SUMMARY_HARD_PATTERNS):
+        return True, "ad/affiliate/sponsored title or summary"
+
+    soft_matches = sum(1 for pattern in PROMO_SUMMARY_SOFT_PATTERNS if re.search(pattern, summary, flags=re.I))
+    if soft_matches >= 2:
         return True, "ad/affiliate/sponsored title or summary"
 
     parsed = urlparse(url)

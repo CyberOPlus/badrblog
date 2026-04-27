@@ -115,7 +115,7 @@ The bot rejects:
 
 - duplicate URLs and canonical URLs
 - repeated topics within the topic cooldown window
-- sponsored, affiliate, coupon, deal, and promotional pages
+- sponsored, affiliate, coupon, daily-deal, discount, and promotional pages
 - articles older than the configured recent window
 
 The bot accepts:
@@ -123,6 +123,7 @@ The bot accepts:
 - short real news
 - weak extraction when title plus summary/metadata is available
 - RSS-summary-only stories
+- normal business or partnership news that uses words like "deal" but is not promotional
 - Blogger posts without images when no valid image exists
 
 ## AI Fallback
