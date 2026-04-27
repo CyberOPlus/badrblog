@@ -84,7 +84,23 @@ def load_sources():
     with open(SOURCES_CONFIG_PATH, "r", encoding="utf-8-sig") as handle:
         data = json.load(handle)
 
-    sources = data.get("sources", [])
+    if isinstance(data.get("categories"), list):
+        sources = []
+        for category in data.get("categories", []):
+            category_key = str(category.get("key") or "").strip()
+            category_name = str(category.get("name") or category_key).strip()
+            category_label = str(category.get("label") or category_name).strip()
+            for source in category.get("sources", []):
+                if not isinstance(source, dict):
+                    continue
+                normalized = dict(source)
+                normalized["category_key"] = category_key
+                normalized["category_name"] = category_name
+                normalized["category_label"] = category_label
+                normalized["category_hint"] = normalized.get("category_hint") or category_label
+                sources.append(normalized)
+    else:
+        sources = data.get("sources", [])
     if not isinstance(sources, list):
         raise ValueError("sources.json must contain a top-level 'sources' list.")
 
@@ -278,6 +294,9 @@ def add_articles_to_queue(discovered_articles):
         normalized_title_hash = title_hash(title)
         normalized_topic_signature = topic_signature(title)
         category_hint = article.get("category_hint", "")
+        category_key = article.get("category_key", "")
+        category_name = article.get("category_name", "")
+        category_label = article.get("category_label", category_hint)
 
         if not url or not title:
             continue
@@ -310,6 +329,9 @@ def add_articles_to_queue(discovered_articles):
                 "published_at_source": article.get("published_at_source", ""),
                 "article_age_hours": article.get("article_age_hours"),
                 "rss_summary": article.get("rss_summary", ""),
+                "category_key": category_key,
+                "category_name": category_name,
+                "category_label": category_label,
                 "category_hint": category_hint,
                 "discovered_at": _now_iso(),
                 "status": "new",

@@ -1066,6 +1066,9 @@ async def _discover_latest_article_links_async(enabled_sources):
         source_name = source.get("name", source.get("base_url", "Unknown source"))
         base_url = source.get("base_url", "").strip()
         category_hint = source.get("category_hint", "")
+        category_key = source.get("category_key", "")
+        category_name = source.get("category_name", "")
+        category_label = source.get("category_label", category_hint)
         fetch_limit = source.get("fetch_limit_per_run", 3)
         try:
             fetch_limit = int(fetch_limit)
@@ -1100,6 +1103,9 @@ async def _discover_latest_article_links_async(enabled_sources):
             "source_name": source_name,
             "base_url": base_url,
             "category_hint": category_hint,
+            "category_key": category_key,
+            "category_name": category_name,
+            "category_label": category_label,
             "fetch_limit": fetch_limit,
             "links": links,
             "error": error,
@@ -1125,6 +1131,9 @@ async def _discover_latest_article_links_async(enabled_sources):
                     "source_name": result["source_name"],
                     "source_url": result["base_url"],
                     "category_hint": result["category_hint"],
+                    "category_key": result["category_key"],
+                    "category_name": result["category_name"],
+                    "category_label": result["category_label"],
                 }
             )
 
@@ -1133,6 +1142,9 @@ async def _discover_latest_article_links_async(enabled_sources):
                 "source_name": result["source_name"],
                 "base_url": result["base_url"],
                 "category_hint": result["category_hint"],
+                "category_key": result["category_key"],
+                "category_name": result["category_name"],
+                "category_label": result["category_label"],
                 "fetch_limit_per_run": fetch_limit,
                 "links_found": len(result["links"]),
                 "status": "failed" if result["error"] else "success",
@@ -1194,6 +1206,9 @@ def discover_latest_article_links(sources):
 
         print(f"\n[{checked_sources}] Checking {source_name}")
         category_hint = source.get("category_hint", "")
+        category_key = source.get("category_key", "")
+        category_name = source.get("category_name", "")
+        category_label = source.get("category_label", category_hint)
         try:
             links, error, status_code, details = _collect_article_links_for_source(
                 base_url,
@@ -1221,6 +1236,9 @@ def discover_latest_article_links(sources):
                     "source_name": source_name,
                     "source_url": base_url,
                     "category_hint": category_hint,
+                    "category_key": category_key,
+                    "category_name": category_name,
+                    "category_label": category_label,
                 }
             )
 
@@ -1229,6 +1247,9 @@ def discover_latest_article_links(sources):
                 "source_name": source_name,
                 "base_url": base_url,
                 "category_hint": category_hint,
+                "category_key": category_key,
+                "category_name": category_name,
+                "category_label": category_label,
                 "fetch_limit_per_run": fetch_limit,
                 "links_found": len(links),
                 "status": "failed" if error else "success",
@@ -1382,6 +1403,9 @@ def discover_first_valid_article_link(sources, existing_articles=None, published
                 "source_name": source_name,
                 "source_url": base_url,
                 "category_hint": source.get("category_hint", ""),
+                "category_key": source.get("category_key", ""),
+                "category_name": source.get("category_name", ""),
+                "category_label": source.get("category_label", source.get("category_hint", "")),
                 "published_at_source": published_at_source,
                 "source_published_at": published_at,
                 "article_age_hours": round(age_hours, 2) if age_hours is not None else None,
@@ -1411,6 +1435,9 @@ def discover_first_valid_article_link(sources, existing_articles=None, published
                 "source_name": source_name,
                 "base_url": base_url,
                 "category_hint": source.get("category_hint", ""),
+                "category_key": source.get("category_key", ""),
+                "category_name": source.get("category_name", ""),
+                "category_label": source.get("category_label", source.get("category_hint", "")),
                 "links_found": len(links),
                 "duplicates_skipped": duplicate_count,
                 "recent_links": recent_count,
@@ -1449,15 +1476,25 @@ def discover_first_valid_article_link(sources, existing_articles=None, published
     }
 
 
-def discover_fresh_article_links(sources, existing_articles=None, published_urls=None, published_topic_hashes=None):
+def discover_fresh_article_links(
+    sources,
+    existing_articles=None,
+    published_urls=None,
+    published_topic_hashes=None,
+    process_all_sources=False,
+):
     """
     Scan all enabled sources and collect every fresh, non-duplicate article
     within the recent-news window.
     """
-    enabled_sources, cooldown_results = _filter_healthy_sources(
-        _order_sources_for_fast_run([source for source in sources if source.get("enabled", True)])
-    )
-    if MAX_SOURCES_PER_RUN > 0:
+    if process_all_sources:
+        enabled_sources = [source for source in sources if source.get("enabled", True)]
+        cooldown_results = []
+    else:
+        enabled_sources, cooldown_results = _filter_healthy_sources(
+            _order_sources_for_fast_run([source for source in sources if source.get("enabled", True)])
+        )
+    if MAX_SOURCES_PER_RUN > 0 and not process_all_sources:
         enabled_sources = enabled_sources[:MAX_SOURCES_PER_RUN]
     existing_articles = existing_articles or []
     published_urls = published_urls or set()
@@ -1592,6 +1629,9 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
                 "source_name": source_name,
                 "source_url": base_url,
                 "category_hint": source.get("category_hint", ""),
+                "category_key": source.get("category_key", ""),
+                "category_name": source.get("category_name", ""),
+                "category_label": source.get("category_label", source.get("category_hint", "")),
                 "published_at_source": published_at_source,
                 "source_published_at": published_at,
                 "article_age_hours": round(age_hours, 2) if age_hours is not None else None,
@@ -1619,6 +1659,9 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
                 "source_name": source_name,
                 "base_url": base_url,
                 "category_hint": source.get("category_hint", ""),
+                "category_key": source.get("category_key", ""),
+                "category_name": source.get("category_name", ""),
+                "category_label": source.get("category_label", source.get("category_hint", "")),
                 "crawl_window_start": crawl_window_start.isoformat().replace("+00:00", "Z"),
                 "links_found": len(links),
                 "duplicates_skipped": duplicate_count,
@@ -1650,6 +1693,12 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
     )
     if reason:
         _log(f"Finished source scan: {reason}")
+
+    discovered.sort(
+        key=lambda article: _parse_datetime_to_utc(article.get("source_published_at"))
+        or datetime.min.replace(tzinfo=timezone.utc),
+        reverse=True,
+    )
 
     return {
         "checked_sources": len(source_results),

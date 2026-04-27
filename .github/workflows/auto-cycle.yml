@@ -174,6 +174,8 @@ jobs:
               "FACEBOOK_AUTO_POST": facebook_enabled,
               "FACEBOOK_LINK_MODE": "comment",
               "FAST_NEWS_MODE": fast_news,
+              "CATEGORY_ROTATION_MODE": "true",
+              "PROCESS_FULL_CATEGORY_PER_RUN": "true",
               "FRESH_QUEUE_MODE": "false",
               "FIRST_VALID_ARTICLE_MODE": "true",
               "RECENT_NEWS_ONLY": "true",
@@ -198,7 +200,7 @@ jobs:
               "ARTICLE_TIMEOUT_SECONDS": "15",
               "AI_TIMEOUT_SECONDS": "60",
               "MAX_AI_RETRIES": "3",
-              "MAX_SOURCES_PER_RUN": "3",
+              "MAX_SOURCES_PER_RUN": "999",
               "DUPLICATE_PROTECTION": "true",
               "QUEUE_PERSIST": "true",
               "SOURCE_HEALTH_ENABLED": "true",
@@ -229,6 +231,8 @@ jobs:
           print(f"Workflow mode: {mode}")
           print(f"SAFE_MODE: {safe_mode}")
           print(f"FAST_NEWS_MODE: {fast_news}")
+          print("CATEGORY_ROTATION_MODE: true")
+          print("PROCESS_FULL_CATEGORY_PER_RUN: true")
           print("FRESH_QUEUE_MODE: false")
           print("FIRST_VALID_ARTICLE_MODE: true")
           print(f"RECENT_NEWS_MAX_AGE_HOURS: {recent_hours}")
@@ -252,7 +256,7 @@ jobs:
         run: python main.py queue-maintenance
 
       - name: Run auto cycle
-        timeout-minutes: 8
+        timeout-minutes: 10
         run: python main.py auto-cycle
 
       - name: Health summary

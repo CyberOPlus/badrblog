@@ -7,10 +7,10 @@ from datetime import datetime
 
 from article_queue import load_article_queue, save_article_queue
 
-CATEGORY_AI_TOOLS = "أدوات الذكاء الاصطناعي"
-CATEGORY_CYBERSECURITY = "الأمن السيبراني"
-CATEGORY_TECH_NEWS = "أخبار التقنية"
-CATEGORY_APPS = "برامج وتطبيقات"
+CATEGORY_AI_TOOLS = "AI-Tools"
+CATEGORY_CYBERSECURITY = "Cyber-Security"
+CATEGORY_TECH_NEWS = "Tech-News"
+CATEGORY_APPS = "Apps-Programs"
 
 PRIORITY_RANK = {
     "high": 3,
@@ -106,6 +106,30 @@ def suggest_category(article):
     if _has_keyword(text, NEWS_KEYWORDS):
         return CATEGORY_TECH_NEWS
     return CATEGORY_TECH_NEWS
+
+
+def normalize_category_label(value):
+    label = str(value or "").strip()
+    if not label:
+        return ""
+    lowered = label.casefold()
+    if "ai-tools" in lowered:
+        return CATEGORY_AI_TOOLS
+    if "cyber-security" in lowered:
+        return CATEGORY_CYBERSECURITY
+    if "tech-news" in lowered:
+        return CATEGORY_TECH_NEWS
+    if "apps-programs" in lowered:
+        return CATEGORY_APPS
+    if "ذكاء" in label:
+        return CATEGORY_AI_TOOLS
+    if "سيبر" in label:
+        return CATEGORY_CYBERSECURITY
+    if "تقنية" in label:
+        return CATEGORY_TECH_NEWS
+    if "برامج" in label or "تطبيقات" in label:
+        return CATEGORY_APPS
+    return label
 
 
 def _selection_sort_key(article):

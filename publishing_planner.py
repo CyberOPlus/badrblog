@@ -7,10 +7,10 @@ from datetime import datetime
 from article_queue import load_article_queue, save_article_queue
 from article_selector import PRIORITY_RANK, suggest_category
 
-CATEGORY_AI_TOOLS = "أدوات الذكاء الاصطناعي"
-CATEGORY_CYBERSECURITY = "الأمن السيبراني"
-CATEGORY_TECH_NEWS = "أخبار التقنية"
-CATEGORY_APPS = "برامج وتطبيقات"
+CATEGORY_AI_TOOLS = "AI-Tools"
+CATEGORY_CYBERSECURITY = "Cyber-Security"
+CATEGORY_TECH_NEWS = "Tech-News"
+CATEGORY_APPS = "Apps-Programs"
 
 CATEGORY_TARGETS = {
     CATEGORY_CYBERSECURITY: 0.40,

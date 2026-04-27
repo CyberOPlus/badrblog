@@ -22,6 +22,7 @@ from config import (
     BLOGGER_CLIENT_ID,
     BLOGGER_CLIENT_SECRET,
     BLOG_ID,
+    BLOG_CATEGORIES,
     CREDENTIALS_FILE,
     LOCAL_PUBLISH_FALLBACK,
     LOCAL_PUBLISH_DIR,
@@ -229,7 +230,7 @@ def _archive_live_post(article, post_id, post_url, final_content):
         "seo_title": article.get("seo_title", ""),
         "meta_description": article.get("meta_description", ""),
         "slug": article.get("slug", ""),
-        "labels": article.get("labels", []),
+        "labels": [_blogger_label((article.get("labels") or [""])[0])],
         "blogger_post_id": post_id,
         "blogger_url": post_url,
         "original_url": article.get("original_url", ""),
@@ -635,7 +636,7 @@ def publish_post(service, article, related_candidates=None):
         "kind": "blogger#post",
         "title": article["title"],
         "content": final_content,
-        "labels": article["labels"],
+        "labels": [_blogger_label((article.get("labels") or [""])[0])],
     }
     publish_live = (not SAFE_MODE) and PUBLISH_MODE == "live"
     if article.get("meta_description"):
@@ -749,7 +750,7 @@ def publish_all_articles(service, articles, delay_seconds=PUBLISH_DELAY_SECONDS)
                     {
                         "title": article["title"],
                         "url": result["url"],
-                        "labels": article.get("labels", []),
+                        "labels": [_blogger_label((article.get("labels") or [""])[0])],
                         "original_url": article.get("original_url", ""),
                     }
                 )
@@ -762,3 +763,15 @@ def publish_all_articles(service, articles, delay_seconds=PUBLISH_DELAY_SECONDS)
 
     print(f"\nSuccessfully finished {len(published)}/{len(articles)} article(s)!")
     return published
+def _blogger_label(value):
+    label = str(value or "").strip()
+    lowered = label.casefold()
+    if "ai-tools" in lowered or "ذكاء" in label:
+        label = "AI-Tools"
+    elif "cyber-security" in lowered or "سيبر" in label:
+        label = "Cyber-Security"
+    elif "tech-news" in lowered or "تقنية" in label:
+        label = "Tech-News"
+    elif "apps-programs" in lowered or "برامج" in label or "تطبيقات" in label:
+        label = "Apps-Programs"
+    return label if label in BLOG_CATEGORIES else "Tech-News"

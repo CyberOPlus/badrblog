@@ -7,7 +7,7 @@ import os
 import sys
 import time
 from collections import Counter
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from blogger_client import (
@@ -42,7 +42,7 @@ from article_queue import (
 from article_enricher import enrich_ready_articles
 from article_processor import prepare_selected_articles_for_ai
 from article_scorer import score_new_articles
-from article_selector import select_next_article, suggest_category
+from article_selector import normalize_category_label, select_next_article, suggest_category
 from duplicate_utils import title_hash, topic_signature
 from article_quality import (
     get_candidate_fetch_limit,
@@ -56,6 +56,7 @@ from config import (
     ARTICLE_BACKLOG_PATH,
     ARTICLE_QUEUE_PATH,
     CHECK_INTERVAL,
+    CATEGORY_ROTATION_MODE,
     CRAWL_INTERVAL_MINUTES,
     CRAWL_STATE_PATH,
     FALLBACK_FIRST_RUN_LOOKBACK_HOURS,
@@ -76,6 +77,7 @@ from config import (
     SAFE_MODE,
     PUBLISH_MODE,
     PUBLISHED_DB_PATH,
+    PROCESS_FULL_CATEGORY_PER_RUN,
     CRAWL_OVERLAP_MINUTES,
     RECENT_NEWS_MAX_AGE_HOURS,
     RECENT_NEWS_ONLY,
@@ -100,7 +102,14 @@ from processor import initialize_gemini, process_articles
 from publishing_planner import plan_next_article
 from published_db import filter_new_articles, load_published_ids, mark_many_as_published
 from scraper import discover_first_valid_article_link, discover_fresh_article_links, discover_latest_article_links, get_latest_articles
-from runtime_state import add_topic_fingerprint, load_topic_fingerprints, save_crawl_state, save_topic_fingerprints
+from runtime_state import (
+    add_topic_fingerprint,
+    advance_category_rotation,
+    load_topic_fingerprints,
+    save_crawl_state,
+    save_topic_fingerprints,
+    select_category_for_rotation,
+)
 from source_validator import check_sources_config
 from notifier import (
     get_notification_status,
@@ -161,6 +170,68 @@ def print_summary(stats):
     print("=" * 60)
 
 
+def _source_category_label(source):
+    return normalize_category_label(source.get("category_label") or source.get("category_hint") or "")
+
+
+def _available_category_labels(sources):
+    labels = []
+    seen = set()
+    for source in sources:
+        if not source.get("enabled", True):
+            continue
+        label = _source_category_label(source)
+        if label and label not in seen:
+            seen.add(label)
+            labels.append(label)
+    return labels
+
+
+def _sources_for_category(sources, category_label):
+    return [
+        source
+        for source in sources
+        if source.get("enabled", True) and _source_category_label(source) == category_label
+    ]
+
+
+def _category_queue_candidates(category_label):
+    return [
+        article
+        for article in get_fresh_queue_candidates(statuses={"ready", "selected"})
+        if normalize_category_label(
+            article.get("suggested_category")
+            or article.get("category_label")
+            or article.get("category_hint")
+        )
+        == category_label
+    ]
+
+
+def _article_published_sort_value(article):
+    value = str(article.get("source_published_at") or "").strip()
+    if not value:
+        return datetime.min.replace(tzinfo=timezone.utc)
+    if value.endswith("Z"):
+        value = value[:-1] + "+00:00"
+    try:
+        parsed = datetime.fromisoformat(value)
+    except ValueError:
+        return datetime.min.replace(tzinfo=timezone.utc)
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def _select_category_for_this_run(sources):
+    available = _available_category_labels(sources)
+    selection = select_category_for_rotation(available)
+    category_label = selection.get("category", "")
+    if category_label:
+        advance_category_rotation(category_label, available)
+    return category_label, selection.get("order") or available
+
+
 def run_fetch_only():
     """
     Phase 1 command: discover articles and store them in the safe queue only.
@@ -187,7 +258,63 @@ def run_fetch_only():
 
     published_set = load_published_ids()
     topic_fingerprints = load_topic_fingerprints()
-    if FAST_NEWS_MODE and FRESH_QUEUE_MODE:
+    category_context = {}
+    if CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
+        existing_queue = load_article_queue()
+        selected_category, category_order = _select_category_for_this_run(enabled_sources)
+        categories_to_try = [selected_category] if selected_category else []
+        if category_order and selected_category in category_order:
+            next_category = category_order[(category_order.index(selected_category) + 1) % len(category_order)]
+            if next_category and next_category not in categories_to_try:
+                categories_to_try.append(next_category)
+
+        discovery = {
+            "checked_sources": 0,
+            "articles": [],
+            "source_results": [],
+            "reason": "no category configured",
+        }
+        category_attempts = []
+        for attempt_index, category_label in enumerate(categories_to_try):
+            category_sources = _sources_for_category(enabled_sources, category_label)
+            queued_candidates = _category_queue_candidates(category_label)
+            category_discovery = discover_fresh_article_links(
+                category_sources,
+                existing_articles=existing_queue.get("articles", []),
+                published_urls=published_set,
+                published_topic_hashes=topic_fingerprints,
+                process_all_sources=True,
+            )
+            category_discovery["articles"] = sorted(
+                category_discovery.get("articles", []),
+                key=_article_published_sort_value,
+                reverse=True,
+            )
+            category_attempts.append(
+                {
+                    "category": category_label,
+                    "sources_checked": category_discovery.get("checked_sources", 0),
+                    "candidates_found": len(category_discovery.get("articles", [])),
+                    "queued_candidates": len(queued_candidates),
+                    "fallback": attempt_index > 0,
+                    "reason": category_discovery.get("reason", ""),
+                }
+            )
+            discovery = category_discovery
+            category_context = {
+                "selected_category": category_label,
+                "primary_category": selected_category,
+                "category_order": category_order,
+                "category_attempts": category_attempts,
+                "category_fallback_used": attempt_index > 0,
+                "queued_candidates": len(queued_candidates),
+                "queued_candidate_ids": [
+                    article.get("id") for article in queued_candidates if article.get("id")
+                ],
+            }
+            if category_discovery.get("articles") or queued_candidates:
+                break
+    elif FAST_NEWS_MODE and FRESH_QUEUE_MODE:
         existing_queue = load_article_queue()
         discovery = discover_fresh_article_links(
             enabled_sources,
@@ -224,6 +351,18 @@ def run_fetch_only():
     print("PHASE 1 FETCH SUMMARY")
     print("=" * 60)
     print(f"Sources checked:          {discovery['checked_sources']}")
+    if category_context:
+        print(f"Selected category:        {category_context.get('selected_category', '')}")
+        print(f"Primary category:         {category_context.get('primary_category', '')}")
+        print(f"Queued in category:       {category_context.get('queued_candidates', 0)}")
+        for attempt in category_context.get("category_attempts", []):
+            print(
+                "  Category attempt: "
+                f"{attempt.get('category', '')}; "
+                f"sources={attempt.get('sources_checked', 0)}; "
+                f"candidates={attempt.get('candidates_found', 0)}; "
+                f"queued={attempt.get('queued_candidates', 0)}"
+            )
     print(f"Articles found:           {len(articles)}")
     print(f"New articles added:       {queue_stats['added']}")
     print(f"Duplicates skipped:       {queue_stats['duplicates']}")
@@ -260,6 +399,7 @@ def run_fetch_only():
         "failed_sources": failed_sources,
         "zero_link_sources": zero_link_sources,
         "reason": discovery.get("reason", ""),
+        **category_context,
         **queue_stats,
     }
 
@@ -342,7 +482,12 @@ def _lock_specific_ready_article(article_url):
             return None
         article["status"] = "selected"
         article["selected_at"] = datetime.now().isoformat(timespec="seconds")
-        article["suggested_category"] = article.get("suggested_category") or suggest_category(article)
+        article["suggested_category"] = normalize_category_label(
+            article.get("suggested_category")
+            or article.get("category_label")
+            or article.get("category_hint")
+            or suggest_category(article)
+        )
         article["selection_reason"] = "first valid article fast mode"
         save_article_queue(queue)
         return article
@@ -415,6 +560,15 @@ def _effective_action():
         not SAFE_MODE
         and PUBLISH_MODE == "live"
         and FAST_NEWS_MODE
+        and CATEGORY_ROTATION_MODE
+        and PROCESS_FULL_CATEGORY_PER_RUN
+        and RECENT_NEWS_ONLY
+    ):
+        return "LIVE_CATEGORY_ROTATION"
+    if (
+        not SAFE_MODE
+        and PUBLISH_MODE == "live"
+        and FAST_NEWS_MODE
         and FRESH_QUEUE_MODE
         and not FIRST_VALID_ARTICLE_MODE
         and RECENT_NEWS_ONLY
@@ -442,6 +596,8 @@ def print_startup_config():
     print(f"SAFE_MODE:                      {str(SAFE_MODE).lower()}", flush=True)
     print(f"PUBLISH_MODE:                   {PUBLISH_MODE}", flush=True)
     print(f"FAST_NEWS_MODE:                 {str(FAST_NEWS_MODE).lower()}", flush=True)
+    print(f"CATEGORY_ROTATION_MODE:         {str(CATEGORY_ROTATION_MODE).lower()}", flush=True)
+    print(f"PROCESS_FULL_CATEGORY_PER_RUN:  {str(PROCESS_FULL_CATEGORY_PER_RUN).lower()}", flush=True)
     print(f"FRESH_QUEUE_MODE:               {str(FRESH_QUEUE_MODE).lower()}", flush=True)
     print(f"FIRST_VALID_ARTICLE_MODE:       {str(FIRST_VALID_ARTICLE_MODE).lower()}", flush=True)
     print(f"RECENT_NEWS_ONLY:               {str(RECENT_NEWS_ONLY).lower()}", flush=True)
@@ -468,11 +624,66 @@ def _select_oldest_fresh_ready_article():
                 continue
             article["status"] = "selected"
             article["selected_at"] = datetime.now().isoformat(timespec="seconds")
-            article["suggested_category"] = article.get("suggested_category") or suggest_category(article)
+            article["suggested_category"] = normalize_category_label(
+                article.get("suggested_category")
+                or article.get("category_label")
+                or article.get("category_hint")
+                or suggest_category(article)
+            )
             article["selection_reason"] = "oldest fresh queued article"
             candidate = article
             break
         save_article_queue(queue)
+    return candidate
+
+
+def _select_newest_fresh_ready_article(category_label="", preferred_ids=None):
+    candidates = get_fresh_queue_candidates(statuses={"ready", "selected"})
+    if category_label:
+        candidates = [
+            article
+            for article in candidates
+        if normalize_category_label(
+            article.get("suggested_category")
+            or article.get("category_label")
+            or article.get("category_hint")
+        )
+        == category_label
+        ]
+    if not candidates:
+        return None
+
+    preferred_ids = {item for item in (preferred_ids or []) if item}
+    if preferred_ids:
+        preferred_candidates = [
+            article for article in candidates if article.get("id") in preferred_ids
+        ]
+        if preferred_candidates:
+            candidates = preferred_candidates
+
+    candidate = sorted(candidates, key=_article_published_sort_value, reverse=True)[0]
+    queue = load_article_queue()
+    for article in queue.get("articles", []):
+        if article.get("id") != candidate.get("id"):
+            continue
+        if article.get("status") != "selected":
+            article["status"] = "selected"
+            article["selected_at"] = datetime.now().isoformat(timespec="seconds")
+        article["suggested_category"] = (
+            normalize_category_label(article.get("suggested_category"))
+            or article.get("category_label")
+            or article.get("category_hint")
+            or suggest_category(article)
+        )
+        article["suggested_category"] = normalize_category_label(article["suggested_category"])
+        article["selection_reason"] = (
+            f"category rotation newest fresh article: {category_label}"
+            if category_label
+            else "category rotation newest fresh article"
+        )
+        candidate = article
+        break
+    save_article_queue(queue)
     return candidate
 
 
@@ -1233,6 +1444,8 @@ def run_deployment_check_only():
     publish_mode = str(os.getenv("PUBLISH_MODE", PUBLISH_MODE)).strip().lower()
     facebook_auto_post = _effective_bool_env("FACEBOOK_AUTO_POST", FACEBOOK_AUTO_POST)
     fast_news_mode = _effective_bool_env("FAST_NEWS_MODE", FAST_NEWS_MODE)
+    category_rotation_mode = _effective_bool_env("CATEGORY_ROTATION_MODE", CATEGORY_ROTATION_MODE)
+    process_full_category = _effective_bool_env("PROCESS_FULL_CATEGORY_PER_RUN", PROCESS_FULL_CATEGORY_PER_RUN)
     fresh_queue_mode = _effective_bool_env("FRESH_QUEUE_MODE", FRESH_QUEUE_MODE)
     first_valid_mode = _effective_bool_env("FIRST_VALID_ARTICLE_MODE", FIRST_VALID_ARTICLE_MODE)
     recent_news_only = _effective_bool_env("RECENT_NEWS_ONLY", RECENT_NEWS_ONLY)
@@ -1302,6 +1515,8 @@ def run_deployment_check_only():
     safe_mode_env = _effective_bool_env("SAFE_MODE", SAFE_MODE)
     print(f"SAFE_MODE: {'true' if safe_mode_env else 'false'}")
     print(f"FAST_NEWS_MODE: {'true' if fast_news_mode else 'false'}")
+    print(f"CATEGORY_ROTATION_MODE: {'true' if category_rotation_mode else 'false'}")
+    print(f"PROCESS_FULL_CATEGORY_PER_RUN: {'true' if process_full_category else 'false'}")
     print(f"FRESH_QUEUE_MODE: {'true' if fresh_queue_mode else 'false'}")
     print(f"FIRST_VALID_ARTICLE_MODE: {'true' if first_valid_mode else 'false'}")
     print(f"RECENT_NEWS_ONLY: {'true' if recent_news_only else 'false'}")
@@ -1372,10 +1587,12 @@ def run_deployment_check_only():
             errors.append("PUBLISH_MODE=live requires SAFE_MODE=false.")
         if not fast_news_mode:
             errors.append("Live automation requires FAST_NEWS_MODE=true.")
+        if not category_rotation_mode:
+            errors.append("Live automation requires CATEGORY_ROTATION_MODE=true.")
+        if not process_full_category:
+            errors.append("Live automation requires PROCESS_FULL_CATEGORY_PER_RUN=true.")
         if fresh_queue_mode:
             warnings.append("FRESH_QUEUE_MODE=true scans a queue; fastest live mode uses FIRST_VALID_ARTICLE_MODE=true.")
-        if not first_valid_mode:
-            errors.append("Live automation requires FIRST_VALID_ARTICLE_MODE=true.")
         if not recent_news_only:
             errors.append("Live automation requires RECENT_NEWS_ONLY=true.")
         if allow_unknown_date:
@@ -1384,8 +1601,8 @@ def run_deployment_check_only():
             errors.append("Live automation requires RECENT_NEWS_MAX_AGE_HOURS=6.")
         if freshness_margin_raw != "10":
             errors.append("Live automation requires FRESHNESS_SAFETY_MARGIN_MINUTES=10.")
-        if max_sources_raw != "3":
-            errors.append("Live automation requires MAX_SOURCES_PER_RUN=3.")
+        if max_sources_raw != "999":
+            errors.append("Live automation requires MAX_SOURCES_PER_RUN=999.")
         if first_run_lookback_raw != "6":
             errors.append("Live automation requires FALLBACK_FIRST_RUN_LOOKBACK_HOURS=6.")
         if crawl_interval_raw != "5":
@@ -1540,6 +1757,8 @@ def run_safe_cycle_only():
     action_label = _effective_action()
     if action_label == "LIVE_FRESH_QUEUE":
         cycle_label = "LIVE FRESH QUEUE"
+    elif action_label == "LIVE_CATEGORY_ROTATION":
+        cycle_label = "LIVE CATEGORY ROTATION"
     elif action_label == "LIVE_FAST_RECENT_NEWS":
         cycle_label = "LIVE FAST RECENT NEWS"
     else:
@@ -1605,7 +1824,13 @@ def run_safe_cycle_only():
             f"expired={cleanup_stats['expired_archived']} | "
             f"missing_date={cleanup_stats['missing_date_archived']}"
         )
-    if FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE and RECENT_NEWS_ONLY and not fetch_stats.get("first_valid_url"):
+    if (
+        not CATEGORY_ROTATION_MODE
+        and FAST_NEWS_MODE
+        and FIRST_VALID_ARTICLE_MODE
+        and RECENT_NEWS_ONLY
+        and not fetch_stats.get("first_valid_url")
+    ):
         reason = fetch_stats.get("reason") or f"no article in last {RECENT_NEWS_MAX_AGE_HOURS} hours"
         print(f"Live fast recent mode stopping before old queue fallback: {reason}.")
         _print_safe_cycle_final_report(
@@ -1641,7 +1866,26 @@ def run_safe_cycle_only():
     print("\n[4/7] plan-next --lock")
     selected = None
     plan_result = {}
-    if FAST_NEWS_MODE and FRESH_QUEUE_MODE:
+    if CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
+        category_label = fetch_stats.get("selected_category", "")
+        selected = _select_newest_fresh_ready_article(
+            category_label,
+            preferred_ids=fetch_stats.get("queued_candidate_ids", []),
+        )
+        plan_result = {
+            "selected": selected,
+            "reason": (
+                f"newest fresh queued article in {category_label}"
+                if selected
+                else f"no fresh queued article ready for {category_label}"
+            ),
+            "lock": True,
+            "eligible_count": 1 if selected else 0,
+            "selected_category": category_label,
+        }
+        if selected:
+            print(f"Newest fresh article locked for category: {category_label}.")
+    elif FAST_NEWS_MODE and FRESH_QUEUE_MODE:
         selected = _select_oldest_fresh_ready_article()
         plan_result = {
             "selected": selected,
@@ -1683,7 +1927,10 @@ def run_safe_cycle_only():
                 "step_reached": "plan-next",
             }
     if not selected:
-        if not (FAST_NEWS_MODE and FRESH_QUEUE_MODE):
+        if not (
+            (FAST_NEWS_MODE and FRESH_QUEUE_MODE)
+            or (CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN)
+        ):
             plan_result = run_plan_next_only(lock=True)
             selected = plan_result.get("selected")
     if not selected:

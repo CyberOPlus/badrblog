@@ -40,7 +40,7 @@ if hasattr(sys.stderr, "reconfigure"):
     sys.stderr.reconfigure(encoding="utf-8")
 
 
-DEFAULT_BLOG_CATEGORY = "أخبار التقنية"
+DEFAULT_BLOG_CATEGORY = "Tech-News"
 AI_TOOLS_CATEGORY = BLOG_CATEGORIES[0]
 CYBERSECURITY_CATEGORY = BLOG_CATEGORIES[1]
 TECH_NEWS_CATEGORY = BLOG_CATEGORIES[2]
@@ -49,34 +49,24 @@ MIN_BLOGGER_ARTICLE_WORDS = 800
 REQUIRED_READER_SECTION = "\u0645\u0627\u0630\u0627 \u064a\u0639\u0646\u064a \u0647\u0630\u0627 \u0644\u0643"
 
 CATEGORY_ALIASES = {
-    "ai": "أدوات الذكاء الاصطناعي",
-    "artificial intelligence": "أدوات الذكاء الاصطناعي",
-    "ذكاء اصطناعي": "أدوات الذكاء الاصطناعي",
-    "الذكاء الاصطناعي": "أدوات الذكاء الاصطناعي",
-    "ادوات الذكاء الاصطناعي": "أدوات الذكاء الاصطناعي",
-    "أدوات ai": "أدوات الذكاء الاصطناعي",
-    "cybersecurity": "الأمن السيبراني",
-    "cyber security": "الأمن السيبراني",
-    "security": "الأمن السيبراني",
-    "أمن سيبراني": "الأمن السيبراني",
-    "أمن السيبراني": "الأمن السيبراني",
-    "امن سيبراني": "الأمن السيبراني",
-    "الأمن الإلكتروني": "الأمن السيبراني",
-    "الامن السيبراني": "الأمن السيبراني",
-    "tech news": "أخبار التقنية",
-    "أخبار تقنية": "أخبار التقنية",
-    "اخبار التقنية": "أخبار التقنية",
-    "الأخبار التقنية": "أخبار التقنية",
-    "apps": "برامج وتطبيقات",
-    "software": "برامج وتطبيقات",
-    "applications": "برامج وتطبيقات",
-    "تطبيقات": "برامج وتطبيقات",
-    "برامج": "برامج وتطبيقات",
-    "برامج وتطبيقات": "برامج وتطبيقات",
+    "ai": AI_TOOLS_CATEGORY,
+    "ai-tools": AI_TOOLS_CATEGORY,
+    "artificial intelligence": AI_TOOLS_CATEGORY,
+    "chatgpt": AI_TOOLS_CATEGORY,
+    "cybersecurity": CYBERSECURITY_CATEGORY,
+    "cyber security": CYBERSECURITY_CATEGORY,
+    "cyber-security": CYBERSECURITY_CATEGORY,
+    "security": CYBERSECURITY_CATEGORY,
+    "tech news": TECH_NEWS_CATEGORY,
+    "tech-news": TECH_NEWS_CATEGORY,
+    "apps": SOFTWARE_CATEGORY,
+    "software": SOFTWARE_CATEGORY,
+    "apps-programs": SOFTWARE_CATEGORY,
+    "applications": SOFTWARE_CATEGORY,
 }
 
 CATEGORY_KEYWORDS = {
-    "أدوات الذكاء الاصطناعي": [
+    AI_TOOLS_CATEGORY: [
         "ai",
         "artificial intelligence",
         "chatgpt",
@@ -95,7 +85,7 @@ CATEGORY_KEYWORDS = {
         "تعلم آلي",
         "توليد الصور",
     ],
-    "الأمن السيبراني": [
+    CYBERSECURITY_CATEGORY: [
         "cybersecurity",
         "cyber security",
         "security",
@@ -113,7 +103,6 @@ CATEGORY_KEYWORDS = {
         "threat",
         "ransomware",
         "أمن سيبراني",
-        "الأمن السيبراني",
         "ثغرة",
         "ثغرات",
         "اختراق",
@@ -126,7 +115,7 @@ CATEGORY_KEYWORDS = {
         "اختبار الاختراق",
         "تهديد",
     ],
-    "أخبار التقنية": [
+    TECH_NEWS_CATEGORY: [
         "news",
         "announced",
         "announcement",
@@ -150,7 +139,7 @@ CATEGORY_KEYWORDS = {
         "منصة",
         "شركة",
     ],
-    "برامج وتطبيقات": [
+    SOFTWARE_CATEGORY: [
         "app",
         "apps",
         "application",
@@ -175,10 +164,10 @@ CATEGORY_KEYWORDS = {
 }
 
 CATEGORY_FALLBACK_LABELS = {
-    "أدوات الذكاء الاصطناعي": ["ذكاء اصطناعي", "أدوات تقنية"],
-    "الأمن السيبراني": ["حماية رقمية", "نصائح أمنية"],
-    "أخبار التقنية": ["تقنية", "تحليل تقني"],
-    "برامج وتطبيقات": ["تطبيقات", "برامج مجانية"],
+    AI_TOOLS_CATEGORY: ["AI", "AI Tools"],
+    CYBERSECURITY_CATEGORY: ["Security", "Cybersecurity"],
+    TECH_NEWS_CATEGORY: ["Technology", "Tech Updates"],
+    SOFTWARE_CATEGORY: ["Apps", "Software"],
 }
 
 
@@ -461,16 +450,7 @@ def _ensure_blog_category_labels(labels, original_article, arabic_title, html_co
         html_content=html_content,
     )
 
-    supporting_labels = [
-        label for label in cleaned_labels if not _match_blog_category(label)
-    ]
-
-    for fallback_label in CATEGORY_FALLBACK_LABELS.get(category, ["تقنية"]):
-        if len([category] + supporting_labels) >= 3:
-            break
-        supporting_labels.append(fallback_label)
-
-    return _dedupe_labels([category] + supporting_labels)[:5]
+    return [category]
 
 
 def initialize_gemini():

@@ -5,6 +5,7 @@
 from datetime import datetime
 
 from article_queue import article_age_hours, is_article_safe_for_ai, load_article_queue, save_article_queue
+from article_selector import normalize_category_label
 from config import FRESHNESS_SAFETY_MARGIN_MINUTES, MAX_AI_ARTICLE_AGE_HOURS, MIN_EXTRACTED_CHARS
 
 
@@ -50,7 +51,7 @@ def _build_ai_input_package(article):
         "title": article.get("fetched_title") or article.get("title", ""),
         "url": article.get("url", ""),
         "source_name": article.get("source_name", ""),
-        "suggested_category": article.get("suggested_category", ""),
+        "suggested_category": normalize_category_label(article.get("suggested_category", "")),
         "main_image": article.get("main_image", ""),
         "article_images": article.get("article_images", []),
         "meta_description": article.get("meta_description", ""),

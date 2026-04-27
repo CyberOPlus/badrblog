@@ -57,6 +57,8 @@ The workflow creates a runtime `.env` with these production defaults:
 PUBLISH_MODE=live
 SAFE_MODE=false
 FAST_NEWS_MODE=true
+CATEGORY_ROTATION_MODE=true
+PROCESS_FULL_CATEGORY_PER_RUN=true
 FRESH_QUEUE_MODE=false
 FIRST_VALID_ARTICLE_MODE=true
 RECENT_NEWS_ONLY=true
@@ -72,7 +74,7 @@ FACEBOOK_AUTO_POST=true
 LOCAL_PUBLISH_FALLBACK=false
 MAX_POSTS_PER_RUN=1
 MAX_ARTICLES_PER_RUN=1
-MAX_SOURCES_PER_RUN=3
+MAX_SOURCES_PER_RUN=999
 PUBLISH_WEAK_ARTICLES=true
 ALLOW_SHORT_ARTICLES=true
 MIN_ARTICLE_WORDS=80
@@ -96,7 +98,16 @@ MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=10
 TELEGRAM_ALERTS_ENABLED=true
 ```
 
-In this mode the bot publishes live only, never creates drafts, accepts weak or short real news, and stops after the first publishable candidate.
+In this mode the bot publishes live only, never creates drafts, accepts weak or short real news, and runs category rotation. Each 5-minute run selects one category, checks every source in that category, queues valid extra candidates, and publishes at most one article.
+
+Category rotation order:
+
+- `Cyber-Security`
+- `AI-Tools`
+- `Tech-News`
+- `Apps-Programs`
+
+If the selected category has no valid fresh candidate and no queued article, the bot tries the next category once before ending the run. Blogger labels are restricted to those four English slugs.
 
 With `RECENT_HOURS=6` and `FRESHNESS_SAFETY_MARGIN_MINUTES=10`, the bot accepts practical fast-news items up to nearly 6 hours old. It no longer blocks stories just because they are near the old 2-hour window.
 

@@ -122,7 +122,7 @@ class ProductionHardeningTests(unittest.TestCase):
             self.assertEqual(main._effective_action(), "DRAFT")
 
     def test_live_fresh_queue_effective_action(self):
-        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FRESH_QUEUE_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", False), patch.object(main, "RECENT_NEWS_ONLY", True):
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "CATEGORY_ROTATION_MODE", False), patch.object(main, "FRESH_QUEUE_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", False), patch.object(main, "RECENT_NEWS_ONLY", True):
             self.assertEqual(main._effective_action(), "LIVE_FRESH_QUEUE")
 
     def test_first_valid_article_mode_stops_after_first_valid_source(self):
@@ -233,7 +233,7 @@ class ProductionHardeningTests(unittest.TestCase):
 
     def test_startup_config_logs_live_fresh_queue_action(self):
         output = StringIO()
-        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FRESH_QUEUE_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", False), patch.object(main, "RECENT_NEWS_ONLY", True), redirect_stdout(output):
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "CATEGORY_ROTATION_MODE", False), patch.object(main, "FRESH_QUEUE_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", False), patch.object(main, "RECENT_NEWS_ONLY", True), redirect_stdout(output):
             main.print_startup_config()
         text = output.getvalue()
         self.assertIn("FRESH_QUEUE_MODE", text)
@@ -273,7 +273,7 @@ class ProductionHardeningTests(unittest.TestCase):
             "failed_sources": [],
             "zero_link_sources": [],
         }
-        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FRESH_QUEUE_MODE", False), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "run_score_only") as score, patch.object(main, "notify_auto_cycle_blocked"):
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "CATEGORY_ROTATION_MODE", False), patch.object(main, "FRESH_QUEUE_MODE", False), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "run_score_only") as score, patch.object(main, "notify_auto_cycle_blocked"):
             result = main.run_safe_cycle_only()
         self.assertFalse(result["completed"])
         self.assertEqual(result["step_reached"], "fetch")
@@ -449,7 +449,7 @@ class ProductionHardeningTests(unittest.TestCase):
             "zero_link_sources": [],
         }
         enrich = {"failed": 0, "weak": 0}
-        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FRESH_QUEUE_MODE", False), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value=enrich), patch.object(main, "_lock_specific_ready_article", return_value=None), patch.object(main, "run_plan_next_only") as planner, patch.object(main, "notify_auto_cycle_blocked"):
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "CATEGORY_ROTATION_MODE", False), patch.object(main, "FRESH_QUEUE_MODE", False), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value=enrich), patch.object(main, "_lock_specific_ready_article", return_value=None), patch.object(main, "run_plan_next_only") as planner, patch.object(main, "notify_auto_cycle_blocked"):
             result = main.run_safe_cycle_only()
         self.assertFalse(result["completed"])
         self.assertEqual(result["step_reached"], "plan-next")
@@ -481,7 +481,7 @@ class ProductionHardeningTests(unittest.TestCase):
             "zero_link_sources": [],
         }
         cleanup = {"expired_archived": 0, "missing_date_archived": 0}
-        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "FRESH_QUEUE_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", False), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "archive_expired_queue_articles", return_value=cleanup), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value={"failed": 0, "weak": 0}), patch.object(main, "_select_oldest_fresh_ready_article", return_value=None), patch.object(main, "notify_auto_cycle_blocked"):
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "CATEGORY_ROTATION_MODE", False), patch.object(main, "FRESH_QUEUE_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", False), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "archive_expired_queue_articles", return_value=cleanup), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value={"failed": 0, "weak": 0}), patch.object(main, "_select_oldest_fresh_ready_article", return_value=None), patch.object(main, "notify_auto_cycle_blocked"):
             result = main.run_safe_cycle_only()
 
         self.assertFalse(result["completed"])
@@ -506,20 +506,20 @@ class ProductionHardeningTests(unittest.TestCase):
             }
             with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path):
                 article_queue.save_article_queue(queue)
-                with patch.object(main, "suggest_category", return_value="الأمن السيبراني"):
+                with patch.object(main, "suggest_category", return_value="Cyber-Security"):
                     locked = main._lock_specific_ready_article("https://example.com/fresh")
 
                 self.assertIsNotNone(locked)
                 self.assertEqual(locked["status"], "selected")
                 self.assertEqual(locked["selection_reason"], "first valid article fast mode")
-                self.assertEqual(locked["suggested_category"], "الأمن السيبراني")
+                self.assertEqual(locked["suggested_category"], "Cyber-Security")
                 self.assertTrue(locked.get("selected_at"))
 
                 reloaded = article_queue.load_article_queue()
                 persisted = reloaded["articles"][0]
                 self.assertEqual(persisted["status"], "selected")
                 self.assertEqual(persisted["selection_reason"], "first valid article fast mode")
-                self.assertEqual(persisted["suggested_category"], "الأمن السيبراني")
+                self.assertEqual(persisted["suggested_category"], "Cyber-Security")
                 self.assertTrue(persisted.get("selected_at"))
 
     def test_auto_cycle_record_stays_success_when_blogger_publishes_and_facebook_fails(self):
@@ -576,7 +576,7 @@ class ProductionHardeningTests(unittest.TestCase):
             {
                 "seo_title": "اختبار منشور فيسبوك",
                 "seo_description": "ملخص عربي مهني قصير لاختبار منشور فيسبوك.",
-                "suggested_category": "أخبار التقنية",
+                "suggested_category": "Tech-News",
             },
             "insight_knowledge",
             blogger_url="https://example.com/post",
@@ -688,13 +688,58 @@ class ProductionHardeningTests(unittest.TestCase):
         text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
         self.assertIn('cron: "*/5 * * * *"', text)
         self.assertIn("workflow_dispatch:", text)
-        self.assertIn("timeout-minutes: 8", text)
+        self.assertIn("timeout-minutes: 10", text)
+        self.assertIn('"CATEGORY_ROTATION_MODE": "true"', text)
+        self.assertIn('"MAX_SOURCES_PER_RUN": "999"', text)
 
     def test_articles_up_to_six_hours_are_accepted(self):
         with patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 6):
             is_recent, age = scraper._is_recent_published_at(recent_iso(5.5))
         self.assertTrue(is_recent)
         self.assertLess(age, 6)
+
+    def test_category_rotation_state_advances(self):
+        with TemporaryDirectory() as temp_dir:
+            crawl_path = Path(temp_dir) / "crawl_state.json"
+            with patch.object(runtime_state, "CRAWL_STATE_PATH", crawl_path):
+                first = runtime_state.select_category_for_rotation(["Cyber-Security", "AI-Tools"])
+                runtime_state.advance_category_rotation(first["category"], ["Cyber-Security", "AI-Tools"])
+                second = runtime_state.select_category_for_rotation(["Cyber-Security", "AI-Tools"])
+
+        self.assertEqual(first["category"], "Cyber-Security")
+        self.assertEqual(second["category"], "AI-Tools")
+
+    def test_category_rotation_fetch_processes_all_sources_in_category(self):
+        calls = []
+
+        def fake_collect(base_url, **_kwargs):
+            calls.append(base_url)
+            return [{"title": f"Fresh {base_url}", "url": f"{base_url}/story", "published_at": recent_iso(1)}], "", 200, {"method_used": "feed"}
+
+        sources = [
+            {"name": "Cyber A", "base_url": "https://cyber-a.example", "enabled": True, "category_hint": "Cyber-Security", "category_label": "Cyber-Security", "fetch_limit_per_run": 3},
+            {"name": "Cyber B", "base_url": "https://cyber-b.example", "enabled": True, "category_hint": "Cyber-Security", "category_label": "Cyber-Security", "fetch_limit_per_run": 3},
+            {"name": "AI A", "base_url": "https://ai-a.example", "enabled": True, "category_hint": "AI-Tools", "category_label": "AI-Tools", "fetch_limit_per_run": 3},
+        ]
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            crawl_path = Path(temp_dir) / "crawl_state.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(main, "ARTICLE_QUEUE_PATH", queue_path), patch.object(runtime_state, "CRAWL_STATE_PATH", crawl_path), patch.object(scraper, "source_crawl_record", return_value={}), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(main, "load_sources", return_value=sources), patch.object(main, "load_published_ids", return_value=set()), patch.object(main, "CATEGORY_ROTATION_MODE", True), patch.object(main, "PROCESS_FULL_CATEGORY_PER_RUN", True):
+                result = main.run_fetch_only()
+
+        self.assertEqual(result["selected_category"], "Cyber-Security")
+        self.assertEqual(result["sources_checked"], 2)
+        self.assertEqual(len(calls), 2)
+        self.assertIn("https://cyber-a.example", calls)
+        self.assertIn("https://cyber-b.example", calls)
+
+    def test_blogger_labels_are_english_slugs(self):
+        from article_selector import suggest_category
+
+        self.assertEqual(
+            suggest_category({"title": "Chrome zero-day vulnerability patched"}),
+            "Cyber-Security",
+        )
 
     def test_source_cooldown_after_three_failures(self):
         with TemporaryDirectory() as temp_dir:

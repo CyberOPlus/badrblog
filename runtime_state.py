@@ -11,6 +11,7 @@ from config import (
 )
 
 TOPIC_COOLDOWN_HOURS = 24
+CATEGORY_ROTATION_ORDER = ["Cyber-Security", "AI-Tools", "Tech-News", "Apps-Programs"]
 
 
 def _read_json(path, default):
@@ -36,8 +37,12 @@ def load_crawl_state():
     sources = data.get("sources", {})
     if not isinstance(sources, dict):
         sources = {}
+    category_rotation = data.get("category_rotation", {})
+    if not isinstance(category_rotation, dict):
+        category_rotation = {}
     return {
         "sources": sources,
+        "category_rotation": category_rotation,
         "updated_at": str(data.get("updated_at", "")),
     }
 
@@ -45,6 +50,7 @@ def load_crawl_state():
 def save_crawl_state(state):
     data = {
         "sources": state.get("sources", {}),
+        "category_rotation": state.get("category_rotation", {}),
         "updated_at": datetime.now().isoformat(timespec="seconds"),
     }
     _write_json(CRAWL_STATE_PATH, data)
@@ -61,6 +67,55 @@ def update_source_crawl(source_key, **fields):
     record = sources.setdefault(source_key, {})
     record.update({key: value for key, value in fields.items() if value not in (None, "")})
     save_crawl_state(state)
+
+
+def category_rotation_record():
+    state = load_crawl_state()
+    record = state.get("category_rotation", {})
+    return record if isinstance(record, dict) else {}
+
+
+def _rotation_order(available_categories=None):
+    available = [str(category) for category in (available_categories or []) if category]
+    if not available:
+        return list(CATEGORY_ROTATION_ORDER)
+    ordered = [category for category in CATEGORY_ROTATION_ORDER if category in available]
+    ordered.extend(category for category in available if category not in ordered)
+    return ordered
+
+
+def select_category_for_rotation(available_categories=None):
+    order = _rotation_order(available_categories)
+    if not order:
+        return {"category": "", "index": 0, "order": []}
+    record = category_rotation_record()
+    try:
+        index = int(record.get("next_index") or 0)
+    except (TypeError, ValueError):
+        index = 0
+    index = index % len(order)
+    return {"category": order[index], "index": index, "order": order}
+
+
+def advance_category_rotation(selected_category, available_categories=None):
+    order = _rotation_order(available_categories)
+    if not order:
+        return {}
+    try:
+        index = order.index(selected_category)
+    except ValueError:
+        index = -1
+    next_index = (index + 1) % len(order)
+    state = load_crawl_state()
+    state["category_rotation"] = {
+        "order": order,
+        "last_category": selected_category,
+        "next_category": order[next_index],
+        "next_index": next_index,
+        "updated_at": _utc_iso(),
+    }
+    save_crawl_state(state)
+    return dict(state["category_rotation"])
 
 
 def load_topic_fingerprints():

@@ -9,6 +9,7 @@ from urllib.parse import urlparse
 from googleapiclient.errors import HttpError
 
 from article_queue import load_article_queue, save_article_queue
+from article_selector import normalize_category_label
 from blogger_client import create_blogger_service, get_credentials, is_local_publisher
 from config import BLOG_ID, MAX_RETRIES, PUBLISH_MODE, RETRY_DELAY, SAFE_MODE
 from notifier import notify_blogger_result
@@ -125,7 +126,7 @@ def _build_post_body(article):
         "kind": "blogger#post",
         "title": article.get("seo_title") or article.get("title", ""),
         "content": article.get("final_html", ""),
-        "labels": [article.get("suggested_category", "")],
+        "labels": [normalize_category_label(article.get("suggested_category", ""))],
     }
 
     if article.get("seo_description"):

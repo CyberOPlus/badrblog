@@ -5,7 +5,7 @@
 import re
 
 from article_queue import load_article_queue, save_article_queue
-from config import FAST_NEWS_MODE, FIRST_VALID_ARTICLE_MODE, FRESH_QUEUE_MODE, SKIP_ADS_AFFILIATE_SPONSORED
+from config import CATEGORY_ROTATION_MODE, FAST_NEWS_MODE, FIRST_VALID_ARTICLE_MODE, FRESH_QUEUE_MODE, SKIP_ADS_AFFILIATE_SPONSORED
 from content_filter import is_promotional_article
 
 HIGH_PRIORITY_KEYWORDS = [
@@ -136,7 +136,7 @@ def score_new_articles():
 
         article["score"] = score
         article["priority"] = priority
-        ready_threshold = 0 if FAST_NEWS_MODE and (FIRST_VALID_ARTICLE_MODE or FRESH_QUEUE_MODE) else 6
+        ready_threshold = 0 if FAST_NEWS_MODE and (FIRST_VALID_ARTICLE_MODE or FRESH_QUEUE_MODE or CATEGORY_ROTATION_MODE) else 6
         if promotional and SKIP_ADS_AFFILIATE_SPONSORED:
             article["status"] = "skipped"
             article["skip_reason"] = promo_reason

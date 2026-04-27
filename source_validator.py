@@ -8,10 +8,10 @@ from article_queue import load_sources
 
 
 ALLOWED_CATEGORY_HINTS = [
-    "أدوات الذكاء الاصطناعي",
-    "الأمن السيبراني",
-    "أخبار التقنية",
-    "برامج وتطبيقات",
+    "AI-Tools",
+    "Cyber-Security",
+    "Tech-News",
+    "Apps-Programs",
 ]
 
 REQUIRED_SOURCE_FIELDS = {

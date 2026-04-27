@@ -203,16 +203,14 @@ def _hashtags(article):
             tags.append(tag)
 
     category = article.get("suggested_category", "")
-    if "السيبراني" in category or any(word in text for word in ("security", "malware", "breach", "vulnerability", "cve")):
-        add("#الأمن_السيبراني")
+    if category == "Cyber-Security" or any(word in text for word in ("security", "malware", "breach", "vulnerability", "cve")):
         add("#CyberSecurity")
-    if "ذكاء" in category or any(word in text for word in ("ai", "artificial intelligence", "llm", "gemini", "openai")):
-        add("#الذكاء_الاصطناعي")
+    if category == "AI-Tools" or any(word in text for word in ("ai", "artificial intelligence", "llm", "gemini", "openai")):
         add("#AI")
-    if "تقنية" in category or any(word in text for word in ("technology", "software", "platform", "training")):
-        add("#أخبار_التقنية")
-    if "تطبيقات" in category or any(word in text for word in ("app", "android", "ios", "windows")):
-        add("#تطبيقات")
+    if category == "Tech-News" or any(word in text for word in ("technology", "software", "platform", "training")):
+        add("#TechNews")
+    if category == "Apps-Programs" or any(word in text for word in ("app", "android", "ios", "windows")):
+        add("#Apps")
 
     if any(word in text for word in ("teams", "microsoft")):
         add("#MicrosoftTeams")
@@ -223,7 +221,7 @@ def _hashtags(article):
     if any(word in text for word in ("privacy", "data", "training")):
         add("#Data")
 
-    for default_tag in ("#تقنية", "#Tech", "#أخبار_التقنية", "#AI"):
+    for default_tag in ("#Tech", "#TechNews", "#AI"):
         add(default_tag)
 
     return tags[:7]

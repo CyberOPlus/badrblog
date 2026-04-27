@@ -298,6 +298,10 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
     if facebook:
         facebook_article = facebook.get("article") or article
         facebook_status = facebook_article.get("facebook_status") or ("posted" if facebook.get("posted") else "failed")
+    fetch = result.get("fetch") or {}
+    selected_category = fetch.get("selected_category") or article.get("suggested_category") or ""
+    sources_checked = fetch.get("sources_checked", "")
+    candidates_found = fetch.get("articles_found", "")
 
     if status == "success":
         clear_lines = [
@@ -305,6 +309,9 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
             f"Title: {_article_title(article)}",
             f"Blogger URL: {_blogger_url(article)}",
             f"Facebook status: {facebook_status}",
+            f"Category: {selected_category}",
+            f"Sources checked: {sources_checked}",
+            f"Candidates found: {candidates_found}",
             f"Source: {_source_name(article)}",
             f"Age: {article.get('article_age_hours', '')}",
             f"Words: {_article_word_count(article)}",
@@ -314,7 +321,9 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
         clear_lines = [
             "⚠️ لم يتم النشر في هذه الدورة",
             f"Reason: {reason or result.get('reason') or 'no publishable article'}",
-            f"Sources checked: {(result.get('fetch') or {}).get('sources_checked', '')}",
+            f"Category: {selected_category}",
+            f"Sources checked: {sources_checked}",
+            f"Candidates found: {candidates_found}",
             f"Best candidate: {_article_title(article)}",
             "Next run: scheduled by GitHub Actions",
         ]

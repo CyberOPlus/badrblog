@@ -154,6 +154,8 @@ SAFE_MODE = _env_bool_any(["SAFE_MODE"], False)
 FAST_NEWS_MODE = _env_bool_any(["FAST_NEWS_MODE"], True)
 FRESH_QUEUE_MODE = _env_bool_any(["FRESH_QUEUE_MODE"], False)
 FIRST_VALID_ARTICLE_MODE = _env_bool_any(["FIRST_VALID_ARTICLE_MODE"], True)
+CATEGORY_ROTATION_MODE = _env_bool_any(["CATEGORY_ROTATION_MODE"], True)
+PROCESS_FULL_CATEGORY_PER_RUN = _env_bool_any(["PROCESS_FULL_CATEGORY_PER_RUN"], True)
 PUBLISH_WEAK_ARTICLES = _env_bool_any(["PUBLISH_WEAK_ARTICLES"], True)
 ALLOW_SHORT_ARTICLES = _env_bool_any(["ALLOW_SHORT_ARTICLES"], True)
 SKIP_ADS_AFFILIATE_SPONSORED = _env_bool_any(["SKIP_ADS_AFFILIATE_SPONSORED"], True)
@@ -163,7 +165,7 @@ MAX_SOURCE_RETRIES = _env_int("MAX_SOURCE_RETRIES", 1)
 SOURCE_RETRY_DELAY_SECONDS = _env_int("SOURCE_RETRY_DELAY_SECONDS", 3)
 SOURCE_TIMEOUT_SECONDS = _env_int("SOURCE_TIMEOUT_SECONDS", 12)
 ARTICLE_TIMEOUT_SECONDS = _env_int("ARTICLE_TIMEOUT_SECONDS", 15)
-MAX_SOURCES_PER_RUN = _env_int("MAX_SOURCES_PER_RUN", 3)
+MAX_SOURCES_PER_RUN = _env_int("MAX_SOURCES_PER_RUN", 999)
 FALLBACK_FIRST_RUN_LOOKBACK_HOURS = _env_int("FALLBACK_FIRST_RUN_LOOKBACK_HOURS", 6)
 CRAWL_INTERVAL_MINUTES = _env_int("CRAWL_INTERVAL_MINUTES", 5)
 CRAWL_OVERLAP_MINUTES = _env_int("CRAWL_OVERLAP_MINUTES", 10)
@@ -334,23 +336,23 @@ HEADERS = {
 # blog posts with HTML that matches the user's Blogger template.
 
 BLOG_CATEGORIES = [
-    "أدوات الذكاء الاصطناعي",
-    "الأمن السيبراني",
-    "أخبار التقنية",
-    "برامج وتطبيقات",
+    "AI-Tools",
+    "Cyber-Security",
+    "Tech-News",
+    "Apps-Programs",
 ]
 
 BLOG_CATEGORY_RULES = """
-   - أدوات الذكاء الاصطناعي:
+   - AI-Tools:
      Reviews and explainers for tools such as ChatGPT, Gemini, Midjourney, Sora,
      and practical AI uses at work and in daily life.
-   - الأمن السيبراني:
+   - Cyber-Security:
      Account protection, fraud detection, phone security, simple vulnerability
      explainers, and practical security advice.
-   - أخبار التقنية:
+   - Tech-News:
      Latest technology news, platform updates, company announcements, and simple
      fast analysis.
-   - برامج وتطبيقات:
+   - Apps-Programs:
      App reviews, best free apps, and alternatives to paid software.
 """
 
@@ -586,19 +588,19 @@ CLASSIFICATION:
    - Do not use the original source category.
    - Do not rename, translate differently, shorten, or add emoji to the main category.
    - Choose based on the main topic, not minor mentions:
-     1) أدوات الذكاء الاصطناعي: AI tools, ChatGPT, Gemini, Midjourney, AI work
+     1) AI-Tools: AI tools, ChatGPT, Gemini, Midjourney, AI work
         uses, daily-life AI uses, AI tutorials, and AI guides.
-     2) الأمن السيبراني: hacking, breaches, leaks, Malware, phishing, exploits,
+     2) Cyber-Security: hacking, breaches, leaks, Malware, phishing, exploits,
         vulnerabilities, privacy, protection tips, and security risks.
-     3) أخبار التقنية: announcements, product or platform updates, company news,
+     3) Tech-News: announcements, product or platform updates, company news,
         industry updates, and general tech events.
-     4) برامج وتطبيقات: mobile/PC apps, software reviews, non-AI tools,
+     4) Apps-Programs: mobile/PC apps, software reviews, non-AI tools,
         alternatives, and downloads.
    - Priority rule: if the article includes hacking or security as a meaningful
-     topic, choose الأمن السيبراني. If it is clearly about AI tools, choose
-     أدوات الذكاء الاصطناعي. If the main angle is an announcement/update/news
-     story, choose أخبار التقنية. If it is mainly a non-AI software/tool review,
-     choose برامج وتطبيقات.
+     topic, choose Cyber-Security. If it is clearly about AI tools, choose
+     AI-Tools. If the main angle is an announcement/update/news
+     story, choose Tech-News. If it is mainly a non-AI software/tool review,
+     choose Apps-Programs.
    - Add 2-4 specific supporting Arabic labels after the main category.
 
 FINAL QUALITY CHECK BEFORE ANSWERING:
