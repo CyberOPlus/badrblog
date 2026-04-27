@@ -13,6 +13,7 @@ import article_ai_processor
 import article_processor
 import article_queue
 import content_filter
+import facebook_publisher
 import runtime_state
 from article_draft_publisher import _ensure_post_url_for_mode
 from duplicate_utils import canonicalize_url, topic_signature
@@ -786,6 +787,169 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn("timeout-minutes: 10", text)
         self.assertIn('"CATEGORY_ROTATION_MODE": "true"', text)
         self.assertIn('"MAX_SOURCES_PER_RUN": "999"', text)
+        self.assertIn('"MIN_MINUTES_BETWEEN_LIVE_POSTS": "1"', text)
+        self.assertIn('"MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": "0"', text)
+        self.assertIn('"MAX_LIVE_POSTS_PER_DAY": "288"', text)
+        self.assertIn('"MAX_FACEBOOK_POSTS_PER_DAY": "288"', text)
+
+    def test_live_post_allowed_after_one_minute(self):
+        now = datetime(2026, 4, 27, 12, 10, 0)
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(main, "MIN_MINUTES_BETWEEN_LIVE_POSTS", 1), patch.object(main, "MAX_LIVE_POSTS_PER_DAY", 288):
+                article_queue.save_article_queue(
+                    {
+                        "articles": [
+                            {
+                                "id": "published",
+                                "status": "published",
+                                "published_at": (now - timedelta(minutes=1, seconds=5)).isoformat(),
+                            }
+                        ],
+                        "notifications": {},
+                    }
+                )
+                status = main.get_publish_schedule_status(mode="live", now=now)
+
+        self.assertTrue(status["allowed_now"], status["reasons"])
+        self.assertEqual(status["min_minutes_between_live_posts"], 1)
+
+    def test_live_post_not_blocked_by_old_five_minute_setting(self):
+        now = datetime(2026, 4, 27, 12, 10, 0)
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(main, "MIN_MINUTES_BETWEEN_LIVE_POSTS", 1), patch.object(main, "MAX_LIVE_POSTS_PER_DAY", 288):
+                article_queue.save_article_queue(
+                    {
+                        "articles": [
+                            {
+                                "id": "published",
+                                "status": "published",
+                                "published_at": (now - timedelta(minutes=2)).isoformat(),
+                            }
+                        ],
+                        "notifications": {},
+                    }
+                )
+                status = main.get_publish_schedule_status(mode="live", now=now)
+
+        self.assertTrue(status["allowed_now"], "old 5-minute spacing should not block at 2 minutes")
+        self.assertNotIn("minimum minutes between live posts has not elapsed", status["reasons"])
+
+    def test_rate_limit_wait_is_skip_not_fatal_failure(self):
+        next_allowed = datetime(2026, 4, 27, 12, 1, 0)
+        schedule = {
+            "configured_publish_mode": "live",
+            "publish_mode": "live",
+            "drafts_created_today": 0,
+            "live_posts_created_today": 1,
+            "max_drafts_per_day": 10,
+            "max_live_posts_per_day": 288,
+            "last_draft_time": None,
+            "last_live_publish_time": datetime(2026, 4, 27, 12, 0, 30),
+            "minutes_since_last_draft": None,
+            "minutes_since_last_live_publish": 0,
+            "min_minutes_between_drafts": 30,
+            "min_minutes_between_live_posts": 1,
+            "allowed_now": False,
+            "next_allowed_time": next_allowed,
+            "reasons": ["minimum minutes between live posts has not elapsed"],
+        }
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "notify_auto_cycle_blocked") as blocked:
+            result = main.run_safe_cycle_only()
+
+        self.assertFalse(result["completed"])
+        self.assertTrue(result["skipped"])
+        self.assertEqual(result["reason"], "Waiting for next publishing window")
+        self.assertEqual(result["step_reached"], "publish-limit-check")
+        blocked.assert_not_called()
+
+    def test_facebook_posts_immediately_after_blogger_success(self):
+        schedule = {
+            "configured_publish_mode": "live",
+            "publish_mode": "live",
+            "drafts_created_today": 0,
+            "live_posts_created_today": 0,
+            "max_drafts_per_day": 10,
+            "max_live_posts_per_day": 288,
+            "last_draft_time": None,
+            "last_live_publish_time": None,
+            "minutes_since_last_draft": None,
+            "minutes_since_last_live_publish": None,
+            "min_minutes_between_drafts": 30,
+            "min_minutes_between_live_posts": 1,
+            "allowed_now": True,
+            "next_allowed_time": None,
+            "reasons": [],
+        }
+        selected = {"id": "a1", "url": "https://example.com/a1", "title": "Fresh story"}
+        ready = dict(selected, processing_status="ready_for_ai")
+        ai_done = dict(ready, ai_status="completed", final_html="<p>ready</p>")
+        published = dict(
+            ai_done,
+            publish_status="published",
+            blogger_post_url="https://blog.example/a1",
+            suggested_category="Cyber-Security",
+        )
+        draft_result = {"checked": 1, "duplicate_count": 0, "updated_existing": False, "created_new": True, "error": ""}
+
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FACEBOOK_AUTO_POST", True), patch.object(main, "CATEGORY_ROTATION_MODE", True), patch.object(main, "PROCESS_FULL_CATEGORY_PER_RUN", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value={"selected_category": "Cyber-Security", "queued_candidate_ids": ["a1"], "failed_sources": [], "zero_link_sources": []}), patch.object(main, "archive_expired_queue_articles", return_value={"expired_archived": 0, "missing_date_archived": 0}), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value={"failed": 0, "weak": 0}), patch.object(main, "_select_newest_fresh_ready_article", return_value=selected), patch.object(main, "prepare_selected_articles_for_ai", return_value={"checked": 1, "ready_for_ai": 1, "failed": 0}), patch.object(main, "process_one_selected_article_with_ai", return_value={"processed": 1, "success": 1, "failed": 0}), patch.object(main, "publish_one_blogger_post", return_value=draft_result), patch.object(main, "_find_article_by_id", side_effect=[ready, ai_done, published, published, published]), patch.object(main, "post_one_article_to_facebook", return_value={"posted": True, "article": published}) as post_fb, patch.object(main, "preview_next_facebook_post", return_value={"available": False, "error": "preview skipped"}), patch.object(main, "mark_many_as_published"), patch.object(main, "add_topic_fingerprint"), patch.object(main, "archive_published_queue_article"):
+            result = main.run_safe_cycle_only()
+
+        self.assertTrue(result["completed"])
+        post_fb.assert_called_once_with(target_article_id="a1", respect_limits=False)
+
+    def test_facebook_does_not_wait_ten_minutes_when_interval_is_zero(self):
+        now = datetime(2026, 4, 27, 12, 10, 0)
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(facebook_publisher, "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", 0), patch.object(facebook_publisher, "MAX_FACEBOOK_POSTS_PER_DAY", 288):
+                article_queue.save_article_queue(
+                    {
+                        "articles": [
+                            {
+                                "id": "posted",
+                                "facebook_status": "posted",
+                                "facebook_posted_at": now.isoformat(),
+                            }
+                        ],
+                        "notifications": {},
+                    }
+                )
+                status = facebook_publisher.get_facebook_limits_status(now=now)
+
+        self.assertTrue(status["allowed_now"], status["reasons"])
+        self.assertEqual(status["min_minutes_between_facebook_posts"], 0)
+
+    def test_blogger_failure_prevents_facebook_post(self):
+        schedule = {
+            "configured_publish_mode": "live",
+            "publish_mode": "live",
+            "drafts_created_today": 0,
+            "live_posts_created_today": 0,
+            "max_drafts_per_day": 10,
+            "max_live_posts_per_day": 288,
+            "last_draft_time": None,
+            "last_live_publish_time": None,
+            "minutes_since_last_draft": None,
+            "minutes_since_last_live_publish": None,
+            "min_minutes_between_drafts": 30,
+            "min_minutes_between_live_posts": 1,
+            "allowed_now": True,
+            "next_allowed_time": None,
+            "reasons": [],
+        }
+        selected = {"id": "a1", "url": "https://example.com/a1", "title": "Fresh story"}
+        ready = dict(selected, processing_status="ready_for_ai")
+        ai_done = dict(ready, ai_status="completed", final_html="<p>ready</p>")
+        draft_result = {"checked": 1, "duplicate_count": 0, "updated_existing": False, "created_new": False, "error": "Blogger failed"}
+
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FACEBOOK_AUTO_POST", True), patch.object(main, "CATEGORY_ROTATION_MODE", True), patch.object(main, "PROCESS_FULL_CATEGORY_PER_RUN", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value={"selected_category": "Cyber-Security", "queued_candidate_ids": ["a1"], "failed_sources": [], "zero_link_sources": []}), patch.object(main, "archive_expired_queue_articles", return_value={"expired_archived": 0, "missing_date_archived": 0}), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value={"failed": 0, "weak": 0}), patch.object(main, "_select_newest_fresh_ready_article", return_value=selected), patch.object(main, "prepare_selected_articles_for_ai", return_value={"checked": 1, "ready_for_ai": 1, "failed": 0}), patch.object(main, "process_one_selected_article_with_ai", return_value={"processed": 1, "success": 1, "failed": 0}), patch.object(main, "publish_one_blogger_post", return_value=draft_result), patch.object(main, "_find_article_by_id", side_effect=[ready, ai_done, ai_done]), patch.object(main, "post_one_article_to_facebook") as post_fb, patch.object(main, "preview_next_facebook_post", return_value={"available": False, "error": "preview skipped"}):
+            result = main.run_safe_cycle_only()
+
+        self.assertFalse(result["completed"])
+        self.assertEqual(result["reason"], "Blogger failed")
+        post_fb.assert_not_called()
 
     def test_workflow_state_cache_and_fallback_paths_are_safe(self):
         text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")

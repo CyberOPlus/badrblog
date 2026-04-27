@@ -92,9 +92,9 @@ SAFE_CYCLE_DRAFT_ONLY=false
 MAX_DRAFTS_PER_DAY=10
 MIN_MINUTES_BETWEEN_DRAFTS=30
 MAX_LIVE_POSTS_PER_DAY=288
-MIN_MINUTES_BETWEEN_LIVE_POSTS=5
-MAX_FACEBOOK_POSTS_PER_DAY=144
-MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=10
+MIN_MINUTES_BETWEEN_LIVE_POSTS=1
+MAX_FACEBOOK_POSTS_PER_DAY=288
+MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=0
 TELEGRAM_ALERTS_ENABLED=true
 ```
 
@@ -172,14 +172,14 @@ python main.py publish-status
 
 ## Enable Facebook Safely
 
-Facebook posting only runs after a successful live Blogger publish with a real `blogger_post_url`.
+Facebook posting only runs after a successful live Blogger publish with a real `blogger_post_url`. In the auto-cycle workflow it posts immediately in the same run; it does not wait for a separate Facebook interval.
 
 To enable it, set:
 
 ```env
 FACEBOOK_AUTO_POST=true
-MAX_FACEBOOK_POSTS_PER_DAY=5
-MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=60
+MAX_FACEBOOK_POSTS_PER_DAY=288
+MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=0
 ```
 
 Use the preview and status commands before posting:

@@ -215,8 +215,8 @@ FACEBOOK_GRAPH_API_URL = os.getenv("FACEBOOK_GRAPH_API_URL", "https://graph.face
 FACEBOOK_LINK_MODE = os.getenv("FACEBOOK_LINK_MODE", "comment").strip().lower()
 if FACEBOOK_LINK_MODE not in {"caption", "comment", "both"}:
     FACEBOOK_LINK_MODE = "comment"
-MAX_FACEBOOK_POSTS_PER_DAY = _env_int("MAX_FACEBOOK_POSTS_PER_DAY", 5)
-MIN_MINUTES_BETWEEN_FACEBOOK_POSTS = _env_int("MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", 60)
+MAX_FACEBOOK_POSTS_PER_DAY = _env_int("MAX_FACEBOOK_POSTS_PER_DAY", 288)
+MIN_MINUTES_BETWEEN_FACEBOOK_POSTS = _env_int("MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", 0)
 
 # Optional Telegram alerts. Disabled by default.
 TELEGRAM_ALERTS_ENABLED = _env_bool_any(["TELEGRAM_ENABLED", "TELEGRAM_ALERTS_ENABLED"], False)
@@ -236,8 +236,8 @@ SAFE_CYCLE_DRAFT_ONLY = os.getenv("SAFE_CYCLE_DRAFT_ONLY", "false").strip().lowe
 # Phase 10 safe-cycle schedule controls.
 MAX_DRAFTS_PER_DAY = _env_int("MAX_DRAFTS_PER_DAY", 10)
 MIN_MINUTES_BETWEEN_DRAFTS = _env_int("MIN_MINUTES_BETWEEN_DRAFTS", 30)
-MAX_LIVE_POSTS_PER_DAY = _env_int("MAX_LIVE_POSTS_PER_DAY", 5)
-MIN_MINUTES_BETWEEN_LIVE_POSTS = _env_int("MIN_MINUTES_BETWEEN_LIVE_POSTS", 60)
+MAX_LIVE_POSTS_PER_DAY = _env_int("MAX_LIVE_POSTS_PER_DAY", 288)
+MIN_MINUTES_BETWEEN_LIVE_POSTS = _env_int("MIN_MINUTES_BETWEEN_LIVE_POSTS", 1)
 
 # Quality-first publishing controls. The bot fetches a larger candidate pool,
 # saves every usable article to a backlog, then publishes a balanced batch.

@@ -1632,6 +1632,14 @@ def run_deployment_check_only():
             errors.append("Live automation requires CRAWL_INTERVAL_MINUTES=5.")
         if crawl_overlap_raw != "10":
             errors.append("Live automation requires CRAWL_OVERLAP_MINUTES=10.")
+        if effective_limit_values["MAX_LIVE_POSTS_PER_DAY"] != "288":
+            errors.append("Live automation requires MAX_LIVE_POSTS_PER_DAY=288.")
+        if effective_limit_values["MIN_MINUTES_BETWEEN_LIVE_POSTS"] != "1":
+            errors.append("Live automation requires MIN_MINUTES_BETWEEN_LIVE_POSTS=1.")
+        if effective_limit_values["MAX_FACEBOOK_POSTS_PER_DAY"] != "288":
+            errors.append("Live automation requires MAX_FACEBOOK_POSTS_PER_DAY=288.")
+        if effective_limit_values["MIN_MINUTES_BETWEEN_FACEBOOK_POSTS"] != "0":
+            errors.append("Live automation requires MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=0.")
         if not effective_single_post:
             errors.append("Live automation requires a one-post limit via MAX_POSTS_PER_RUN=1, MAX_ARTICLES_PER_RUN=1, or SAFE_CYCLE_MAX_ARTICLES=1.")
         if not AUTO_CYCLE_WORKFLOW_PATH.exists():
@@ -1833,15 +1841,25 @@ def run_safe_cycle_only():
     print_safe_cycle_status(schedule_status)
     if not schedule_status["allowed_now"]:
         reason = "; ".join(schedule_status["reasons"]) or "safe-cycle schedule blocked"
+        interval_wait_only = (
+            publish_mode == "live"
+            and schedule_status.get("reasons") == ["minimum minutes between live posts has not elapsed"]
+        )
+        if interval_wait_only:
+            reason = "Waiting for next publishing window"
         print(f"Cycle stopping cleanly before article selection: {reason}.")
         _print_safe_cycle_final_report(None, draft_result={"error": reason}, stopped_reason=reason)
-        notify_auto_cycle_blocked(reason, _format_datetime(schedule_status.get("next_allowed_time")))
-        return {
+        if not interval_wait_only:
+            notify_auto_cycle_blocked(reason, _format_datetime(schedule_status.get("next_allowed_time")))
+        result = {
             "completed": False,
             "reason": reason,
             "schedule": schedule_status,
             "step_reached": "publish-limit-check",
         }
+        if interval_wait_only:
+            result["skipped"] = True
+        return result
 
     print("\n[1/7] fetch")
     fetch_stats = run_fetch_only()
