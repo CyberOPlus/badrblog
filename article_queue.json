@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-27T19:30:23",
+  "updated_at": "2026-04-27T19:37:06",
   "articles": [
     {
       "id": "a7a11e65e86e7bcc",
@@ -312,7 +312,7 @@
       "category_label": "Cyber-Security",
       "category_hint": "Cyber-Security",
       "discovered_at": "2026-04-27T18:10:45",
-      "status": "ready",
+      "status": "published",
       "score": 0,
       "priority": "low",
       "fetched_title": "ClickUp's Hardcoded API Key Exposes 959 Emails from Fortune 500 Giants",
@@ -335,7 +335,98 @@
       "content_preview_chars": 4076,
       "content_fetched_at": "2026-04-27T18:10:46",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-04-27T19:35:39",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-04-27T19:35:39",
+      "ai_input_package": {
+        "title": "ClickUp's Hardcoded API Key Exposes 959 Emails from Fortune 500 Giants",
+        "url": "https://cybersecuritynews.com/clickup-hardcoded-api-key-expose",
+        "source_name": "Cyber Security News",
+        "suggested_category": "Cyber-Security",
+        "main_image": "",
+        "article_images": [],
+        "meta_description": "A publicly accessible JavaScript file on ClickUp's homepage has been silently leaking nearly a thousand corporate and government email addresses, including employees from Fortinet, Home Depot, Tenable, Mayo Clinic, and U.S. state government workers, through a hardcoded third-party API key that was first reported in January 2025 and remains unrotated as of April 2026.",
+        "content_preview": "A publicly accessible JavaScript file on ClickUp’s homepage has been silently leaking nearly a thousand corporate and government email addresses, including employees from Fortinet, Home Depot, Tenable, Mayo Clinic, and U.S. state government workers, through a hardcoded third-party API key that was first reported in January 2025 and remains unrotated as of April 2026. The exposure was uncovered by a security researcher who visited ClickUp’s homepage, inspected the page source, and found a hardcoded API key embedded directly in a JavaScript file, one that loads before any user authentication takes place. A single unauthenticated GET request using the key returned 959 email addresses and 3,165 internal feature flags, requiring no credentials, no bypass, and no sophisticated tooling whatsoever. i went to https://t.co/GYtMjd81a6 . opened the page source. found a hardcoded API key in the javascript. copied it. sent one GET request. got back 959 email addresses and 3,165 internal feature flags. employees from Home Depot. Fortinet. Autodesk. Tenable. Rakuten. Mayo Clinic.… pic.twitter.com/C0ss5T6at1 The leaked data spans an alarming cross-section of the enterprise and government landscape: employees from Home Depot, Fortinet, Autodesk, Tenable, Rakuten, Mayo Clinic, Permira, and law firm Akin Gump, alongside government workers from Wyoming, Arkansas, North Carolina, Montana, Queensland (Australia), and New Zealand, plus a Microsoft contractor and 71 ClickUp employees. The exposure carries particular weight, given who is affected. Fortinet manufactures enterprise firewalls used globally to defend critical infrastructure. Tenable builds Nessus, the vulnerability scanner deployed across a significant portion of the cybersecurity industry. Having employee email addresses from these organizations exposed through a productivity platform’s sloppy secret management creates a direct attack surface for targeted phishing , credential stuffing, and social engineering campaigns against the very companies tasked with defending others. The 3,165 internal feature flags leaked alongside the emails are equally concerning, revealing internal product development signals, beta features, and A/B testing configurations that could aid competitive intelligence or facilitate targeted platform abuse. The vulnerability was first reported to ClickUp via HackerOne on January 17, 2025. As of late April 2026, more than 15 months later, the API key had not been rotated. The researcher confirmed the data was still live, having pulled the full response minutes before the disclosure went public This is not a zero-day. It is an unpatched known vulnerability sitting in production, quietly harvesting enterprise PII for over a year. ClickUp has raised $535 million at a $4 billion valuation and publicly claims 85% of the Fortune 500 use its platform. Hardcoded secrets in client-side JavaScript remain one of the most well-documented and preventable vulnerability classes in modern web development, making this lapse all the more difficult to justify at ClickUp’s scale and security posture expectations. ClickUp has not publicly acknowledged the ongoing exposure at the time of publication. Follow us on Google News , LinkedIn , and X for daily cybersecurity updates. Contact us to feature your stories. Notepad++ Vulnerability Allows Attackers to Crash Application, Leak Memory Data CrowdStrike LogScale Vulnerability Allows Remote Attackers to Read Arbitrary Files from Server Top 10 Best NDR (Network Detection and Response) Solutions in 2026 12 Browser Extensions Mimic as TikTok Video Downloaders Compromised 130k Users The Phishing Defense Layer Top CISOs Never Miss Critical Gemini CLI Vulnerability Enables Remote Code Execution Attacks New Vidar Malware Campaign Uses Fake YouTube Software Downloads to Steal Corporate Credentials New Malware Uses Obfuscation and Staged Payload Delivery to Evade Detection Hackers Using Fake Income Tax Department’s Notice to Deploy Malware Researchers Warn macOS textutil and KeePassXC Can Become Attack Primitives in Automation",
+        "content_preview_chars": 4076,
+        "rss_summary": "",
+        "full_article_text": "A publicly accessible JavaScript file on ClickUp’s homepage has been silently leaking nearly a thousand corporate and government email addresses, including employees from Fortinet, Home Depot, Tenable, Mayo Clinic, and U.S. state government workers, through a hardcoded third-party API key that was first reported in January 2025 and remains unrotated as of April 2026. The exposure was uncovered by a security researcher who visited ClickUp’s homepage, inspected the page source, and found a hardcoded API key embedded directly in a JavaScript file, one that loads before any user authentication takes place. A single unauthenticated GET request using the key returned 959 email addresses and 3,165 internal feature flags, requiring no credentials, no bypass, and no sophisticated tooling whatsoever. i went to https://t.co/GYtMjd81a6 . opened the page source. found a hardcoded API key in the javascript. copied it. sent one GET request. got back 959 email addresses and 3,165 internal feature flags. employees from Home Depot. Fortinet. Autodesk. Tenable. Rakuten. Mayo Clinic.… pic.twitter.com/C0ss5T6at1 The leaked data spans an alarming cross-section of the enterprise and government landscape: employees from Home Depot, Fortinet, Autodesk, Tenable, Rakuten, Mayo Clinic, Permira, and law firm Akin Gump, alongside government workers from Wyoming, Arkansas, North Carolina, Montana, Queensland (Australia), and New Zealand, plus a Microsoft contractor and 71 ClickUp employees. The exposure carries particular weight, given who is affected. Fortinet manufactures enterprise firewalls used globally to defend critical infrastructure. Tenable builds Nessus, the vulnerability scanner deployed across a significant portion of the cybersecurity industry. Having employee email addresses from these organizations exposed through a productivity platform’s sloppy secret management creates a direct attack surface for targeted phishing , credential stuffing, and social engineering campaigns against the very companies tasked with defending others. The 3,165 internal feature flags leaked alongside the emails are equally concerning, revealing internal product development signals, beta features, and A/B testing configurations that could aid competitive intelligence or facilitate targeted platform abuse. The vulnerability was first reported to ClickUp via HackerOne on January 17, 2025. As of late April 2026, more than 15 months later, the API key had not been rotated. The researcher confirmed the data was still live, having pulled the full response minutes before the disclosure went public This is not a zero-day. It is an unpatched known vulnerability sitting in production, quietly harvesting enterprise PII for over a year. ClickUp has raised $535 million at a $4 billion valuation and publicly claims 85% of the Fortune 500 use its platform. Hardcoded secrets in client-side JavaScript remain one of the most well-documented and preventable vulnerability classes in modern web development, making this lapse all the more difficult to justify at ClickUp’s scale and security posture expectations. ClickUp has not publicly acknowledged the ongoing exposure at the time of publication. Follow us on Google News , LinkedIn , and X for daily cybersecurity updates. Contact us to feature your stories. Notepad++ Vulnerability Allows Attackers to Crash Application, Leak Memory Data CrowdStrike LogScale Vulnerability Allows Remote Attackers to Read Arbitrary Files from Server Top 10 Best NDR (Network Detection and Response) Solutions in 2026 12 Browser Extensions Mimic as TikTok Video Downloaders Compromised 130k Users The Phishing Defense Layer Top CISOs Never Miss Critical Gemini CLI Vulnerability Enables Remote Code Execution Attacks New Vidar Malware Campaign Uses Fake YouTube Software Downloads to Steal Corporate Credentials New Malware Uses Obfuscation and Staged Payload Delivery to Evade Detection Hackers Using Fake Income Tax Department’s Notice to Deploy Malware Researchers Warn macOS textutil and KeePassXC Can Become Attack Primitives in Automation",
+        "full_article_text_chars": 4076,
+        "enrichment_status": "strong",
+        "source_url": "https://cybersecuritynews.com",
+        "source_published_at": "2026-04-27T15:34:31Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 2.59,
+        "trusted_references": [
+          {
+            "title": "accounts.google.com",
+            "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+          },
+          {
+            "title": "news.google.com",
+            "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN:en"
+          }
+        ],
+        "related_posts": [
+          {
+            "title": "ملخص CISA الأسبوعي: ثغرات أمنية خطيرة تهدد ThinkPHP و ELBA5",
+            "url": "https://www.cisa.gov/news-events/bulletins/sb26-117"
+          },
+          {
+            "title": "ثغرة في Notepad++ تسمح للمهاجمين بإسقاط التطبيق وتسريب بيانات الذاكرة",
+            "url": "https://cybersecuritynews.com/notepad-vulnerability-crash"
+          }
+        ]
+      },
+      "ai_status": "completed",
+      "ai_processed_at": "2026-04-27T19:36:54",
+      "seo_title": "مفتاح API ClickUp يفضح 959 بريدًا إلكترونيًا من شركات 500",
+      "seo_description": "ملف JavaScript عام على موقع ClickUp يكشف عن ما يقرب من ألف بريد إلكتروني من مؤسسات كبرى وحكومات، بسبب مفتاح API ثابت لم يُستبدل منذ يناير 2025.",
+      "seo_slug": "clickup-api-959",
+      "final_html": "<p>اكتشف باحث أمان أن ملف JavaScript متاح للجميع على الصفحة الرئيسية لمنصة ClickUp يحتوي على مفتاح API ثابت، ما سمح بالحصول على 959 عنوان بريد إلكتروني و3,165 إشارة ميزات داخلية دون أي مصادقة.</p>\n<p>تم الكشف عن الثغرة عندما فحص الباحث شفرة المصدر للصفحة ولاحظ وجود المفتاح مدمجًا مباشرة في ملف JavaScript يُحمَّل قبل أي تسجيل دخول. باستخدام طلب GET بسيط، استرجع الباحث قائمة شاملة من عناوين البريد الإلكتروني لموظفين في شركات كبرى مثل Fortinet، Home Depot، Autodesk، Tenable، Rakuten، Mayo Clinic، بالإضافة إلى موظفين حكوميين من ولايات أمريكية مثل Wyoming وArkansas وNorth Carolina وMontana، وكذلك من أستراليا ونيوزيلندا.</p>\n<p>تكشف البيانات المسربة عن خطر كبير؛ فالشركات المتضررة تشمل مزودي جدران الحماية وأنظمة فحص الثغرات التي تُستخدم لحماية البنية التحتية الحيوية. وجود عناوين البريد الإلكتروني في يد المهاجمين يفتح بابًا أمام حملات التصيد الاحتيالي، وتعبئة بيانات الاعتماد، والهندسة الاجتماعية المستهدفة.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p>إذا كنت من مستخدمي ClickUp أو تدير بيئات تقنية تعتمد على أدوات سحابية، فإن هذه الحادثة تُظهر أهمية مراجعة وإدارة الأسرار في الكود العميل. يجب التأكد من عدم وجود مفاتيح ثابتة في ملفات الجافاسكريبت العامة وتطبيق سياسات تدوير أسرار دورية.</p>\n<p>تم الإبلاغ عن الثغرة إلى ClickUp عبر منصة HackerOne في 17 يناير 2025، لكن المفتاح لم يُستبدل حتى أواخر أبريل 2026، أي بعد أكثر من 15 شهرًا. لم تُصدر ClickUp بيانًا رسميًا حول الحادثة حتى الآن.</p>\n<p>تُظهر هذه الواقعة أن الأخطاء البسيطة في إدارة الأسرار يمكن أن تؤدي إلى تسريب بيانات حساسة على نطاق واسع، مما يستدعي اتخاذ إجراءات فورية لتقوية ممارسات الأمان في جميع مراحل تطوير البرمجيات.</p>\n<p class='pRef'>المراجع:<br><a class='extL' href='https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&amp;dsh=S-1711039385%3A1777114446800583&amp;hl=en-IN&amp;rip=1&amp;sacu=1&amp;flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin&amp;ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt' target='_blank'>accounts.google.com</a><br><a class='extL' href='https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&amp;gl=IN&amp;ceid=IN:en' target='_blank'>news.google.com</a></p>\n<div class='pRelate'><b>قد يهمك أيضًا:</b><ul><li><a href='https://www.cisa.gov/news-events/bulletins/sb26-117'>ملخص CISA الأسبوعي: ثغرات أمنية خطيرة تهدد ThinkPHP و ELBA5</a></li><li><a href='https://cybersecuritynews.com/notepad-vulnerability-crash'>ثغرة في Notepad++ تسمح للمهاجمين بإسقاط التطبيق وتسريب بيانات الذاكرة</a></li></ul></div>",
+      "blogger_article_html": "<p>اكتشف باحث أمان أن ملف JavaScript متاح للجميع على الصفحة الرئيسية لمنصة ClickUp يحتوي على مفتاح API ثابت، ما سمح بالحصول على 959 عنوان بريد إلكتروني و3,165 إشارة ميزات داخلية دون أي مصادقة.</p>\n<p>تم الكشف عن الثغرة عندما فحص الباحث شفرة المصدر للصفحة ولاحظ وجود المفتاح مدمجًا مباشرة في ملف JavaScript يُحمَّل قبل أي تسجيل دخول. باستخدام طلب GET بسيط، استرجع الباحث قائمة شاملة من عناوين البريد الإلكتروني لموظفين في شركات كبرى مثل Fortinet، Home Depot، Autodesk، Tenable، Rakuten، Mayo Clinic، بالإضافة إلى موظفين حكوميين من ولايات أمريكية مثل Wyoming وArkansas وNorth Carolina وMontana، وكذلك من أستراليا ونيوزيلندا.</p>\n<p>تكشف البيانات المسربة عن خطر كبير؛ فالشركات المتضررة تشمل مزودي جدران الحماية وأنظمة فحص الثغرات التي تُستخدم لحماية البنية التحتية الحيوية. وجود عناوين البريد الإلكتروني في يد المهاجمين يفتح بابًا أمام حملات التصيد الاحتيالي، وتعبئة بيانات الاعتماد، والهندسة الاجتماعية المستهدفة.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p>إذا كنت من مستخدمي ClickUp أو تدير بيئات تقنية تعتمد على أدوات سحابية، فإن هذه الحادثة تُظهر أهمية مراجعة وإدارة الأسرار في الكود العميل. يجب التأكد من عدم وجود مفاتيح ثابتة في ملفات الجافاسكريبت العامة وتطبيق سياسات تدوير أسرار دورية.</p>\n<p>تم الإبلاغ عن الثغرة إلى ClickUp عبر منصة HackerOne في 17 يناير 2025، لكن المفتاح لم يُستبدل حتى أواخر أبريل 2026، أي بعد أكثر من 15 شهرًا. لم تُصدر ClickUp بيانًا رسميًا حول الحادثة حتى الآن.</p>\n<p>تُظهر هذه الواقعة أن الأخطاء البسيطة في إدارة الأسرار يمكن أن تؤدي إلى تسريب بيانات حساسة على نطاق واسع، مما يستدعي اتخاذ إجراءات فورية لتقوية ممارسات الأمان في جميع مراحل تطوير البرمجيات.</p>\n<p class='pRef'>المراجع:<br><a class='extL' href='https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&amp;dsh=S-1711039385%3A1777114446800583&amp;hl=en-IN&amp;rip=1&amp;sacu=1&amp;flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin&amp;ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt' target='_blank'>accounts.google.com</a><br><a class='extL' href='https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&amp;gl=IN&amp;ceid=IN:en' target='_blank'>news.google.com</a></p>\n<div class='pRelate'><b>قد يهمك أيضًا:</b><ul><li><a href='https://www.cisa.gov/news-events/bulletins/sb26-117'>ملخص CISA الأسبوعي: ثغرات أمنية خطيرة تهدد ThinkPHP و ELBA5</a></li><li><a href='https://cybersecuritynews.com/notepad-vulnerability-crash'>ثغرة في Notepad++ تسمح للمهاجمين بإسقاط التطبيق وتسريب بيانات الذاكرة</a></li></ul></div>",
+      "final_word_count": 281,
+      "final_html_chars": 2576,
+      "final_content_hash": "35ff970061c969cb8945501c",
+      "ai_provider_used": "openrouter:openai/gpt-oss-120b",
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 281,
+        "warnings": [
+          "missing article image"
+        ]
+      },
+      "pre_publish_warnings": [
+        "missing article image"
+      ],
+      "blogger_post_id": "3473603468341952542",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/04/api-clickup-959-500.html",
+      "published_at": "2026-04-27T19:36:56",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|3473603468341952542|published|unknown",
+      "telegram_blogger_notified_at": "2026-04-27T19:36:56",
+      "telegram_last_notification_at": "2026-04-27T19:37:06",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_867388696370425",
+      "facebook_posted_at": "2026-04-27T19:37:00",
+      "facebook_post_type": "feed",
+      "facebook_caption_pattern": "insight_knowledge",
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "🧠 مفتاح API ClickUp يفضح 959 بريدًا إلكترونيًا من شركات 500\nالقيمة الحقيقية ليست في الخبر نفسه، بل في ما يكشفه عن الاتجاه القادم.\nملف JavaScript عام على موقع ClickUp يكشف عن ما يقرب من ألف بريد إلكتروني من مؤسسات كبرى وحكومات، بسبب مفتاح API ثابت لم يُستبدل منذ يناير 2025.\nالتفاصيل الكاملة في أول تعليق.\n#CyberSecurity #AI #TechNews #Apps #MicrosoftTeams #API #Malware",
+      "facebook_comment_id": "867388696370425_1839494496726937",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_867388696370425|867388696370425_1839494496726937|unknown",
+      "telegram_facebook_notified_at": "2026-04-27T19:37:06",
+      "archived": true,
+      "archived_at": "2026-04-27T19:37:06",
+      "archive_reason": "published_to_blogger",
+      "telegram_final_summary_notified_at": "2026-04-27T19:37:06"
     },
     {
       "id": "07a128f2dd206542",
@@ -1849,9 +1940,9 @@
     }
   ],
   "notifications": {
-    "telegram_final_summary_event_key": "20260427192938081082",
-    "telegram_final_summary_notified_at": "2026-04-27T19:30:23",
-    "last_notification_at": "2026-04-27T19:30:23",
+    "telegram_final_summary_event_key": "20260427193447942272",
+    "telegram_final_summary_notified_at": "2026-04-27T19:37:06",
+    "last_notification_at": "2026-04-27T19:37:06",
     "telegram_auto_cycle_blocked_event_key": "minimum minutes between live posts has not elapsed|2026-04-27T18:16:20",
     "telegram_auto_cycle_blocked_notified_at": "2026-04-27T18:12:11"
   }
