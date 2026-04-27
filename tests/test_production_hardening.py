@@ -8,6 +8,7 @@ from unittest.mock import patch
 
 import article_draft_publisher
 import article_queue
+import runtime_state
 from article_draft_publisher import _ensure_post_url_for_mode
 from duplicate_utils import canonicalize_url
 from facebook_publisher import _build_caption, _eligible_for_facebook
@@ -284,7 +285,7 @@ class ProductionHardeningTests(unittest.TestCase):
 
         with TemporaryDirectory() as temp_dir:
             queue_path = Path(temp_dir) / "article_queue.json"
-            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "ALLOW_UNKNOWN_DATE_IN_FAST_MODE", False):
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "ALLOW_UNKNOWN_DATE_IN_FAST_MODE", False), patch.object(scraper, "source_crawl_record", return_value={}):
                 result = scraper.discover_fresh_article_links(
                     [
                         {"name": "A", "base_url": "https://a.example", "enabled": True},
@@ -395,6 +396,30 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(queue_stats["added"], 1)
         self.assertEqual(queue_stats["duplicate_url"], 1)
         self.assertEqual(len(reloaded["articles"]), 1)
+
+    def test_published_topic_fingerprint_prevents_requeue(self):
+        def fake_collect(base_url, **_kwargs):
+            return [{"title": "Same Topic", "url": f"{base_url}/story", "published_at": recent_iso(1)}], "", 200, {"method_used": "feed"}
+
+        with patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "source_crawl_record", return_value={}):
+            result = scraper.discover_fresh_article_links(
+                [{"name": "A", "base_url": "https://a.example", "enabled": True}],
+                existing_articles=[],
+                published_urls=set(),
+                published_topic_hashes={main.title_hash("Same Topic")},
+            )
+
+        self.assertFalse(result["articles"])
+
+    def test_existing_crawl_state_uses_last_crawl_with_overlap_not_first_run_fallback(self):
+        now = datetime(2026, 4, 27, 12, 0, tzinfo=timezone.utc)
+        last_crawled = now - timedelta(hours=6)
+        expected = last_crawled - timedelta(minutes=10)
+
+        with patch.object(scraper, "source_crawl_record", return_value={"last_crawled_at": last_crawled.isoformat().replace("+00:00", "Z")}), patch.object(scraper, "CRAWL_OVERLAP_MINUTES", 10), patch.object(scraper, "FALLBACK_FIRST_RUN_LOOKBACK_HOURS", 2):
+            window = scraper._source_crawl_window_start("https://a.example", now=now)
+
+        self.assertEqual(window, expected)
 
     def test_live_fast_recent_stops_when_fresh_article_is_not_ready(self):
         schedule = {
@@ -518,6 +543,29 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(record["facebook_status"], "failed")
         self.assertEqual(record["warning"], "Facebook token expired")
         self.assertEqual(record["stopped_reason"], "")
+
+    def test_reset_state_clears_runtime_files(self):
+        with TemporaryDirectory() as temp_dir:
+            article_queue_path = Path(temp_dir) / "article_queue.json"
+            backlog_path = Path(temp_dir) / "article_backlog.json"
+            published_path = Path(temp_dir) / "published_ids.json"
+            crawl_path = Path(temp_dir) / "crawl_state.json"
+            topic_path = Path(temp_dir) / "topic_fingerprints.json"
+            log_path = Path(temp_dir) / "auto_cycle_runs.jsonl"
+
+            for path in (article_queue_path, backlog_path, published_path, crawl_path, topic_path, log_path):
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("{}", encoding="utf-8")
+
+            with patch.object(main, "ARTICLE_QUEUE_PATH", article_queue_path), patch.object(main, "ARTICLE_BACKLOG_PATH", backlog_path), patch.object(main, "PUBLISHED_DB_PATH", published_path), patch.object(main, "CRAWL_STATE_PATH", crawl_path), patch.object(main, "TOPIC_FINGERPRINTS_PATH", topic_path), patch.object(main, "AUTO_CYCLE_RUN_LOG", log_path), patch.object(article_queue, "ARTICLE_QUEUE_PATH", article_queue_path), patch.object(runtime_state, "CRAWL_STATE_PATH", crawl_path), patch.object(runtime_state, "TOPIC_FINGERPRINTS_PATH", topic_path):
+                result = main.reset_runtime_state()
+
+            self.assertTrue(result["ok"])
+            self.assertTrue(article_queue_path.exists())
+            self.assertFalse(backlog_path.exists())
+            self.assertFalse(published_path.exists())
+            self.assertTrue(crawl_path.exists())
+            self.assertTrue(topic_path.exists())
 
     def test_facebook_default_caption_does_not_duplicate_comment_link(self):
         caption = _build_caption(

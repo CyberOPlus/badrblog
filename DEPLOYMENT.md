@@ -1,6 +1,6 @@
 # GitHub Actions Deployment
 
-This bot can run from a private GitHub repository with GitHub Actions. Keep the default mode safe: draft-only Blogger publishing and Facebook disabled.
+This bot is configured for permanent GitHub Actions operation. The production workflow runs every 5 minutes, scans all enabled sources, keeps per-source crawl state, queues every fresh article, and publishes only one live Blogger post per run.
 
 ## Required GitHub Secrets
 
@@ -41,28 +41,41 @@ Never upload `client_secret.json`, `data/token.json`, or `.env` directly to GitH
 2. Add all required repository secrets.
 3. Open the `Actions` tab.
 4. Enable workflows if GitHub asks for confirmation.
-5. The workflow `.github/workflows/auto-cycle.yml` runs every 5 minutes.
-6. You can also run it manually from `Actions` -> `Blogger Auto Cycle` -> `Run workflow`.
+5. The workflow `.github/workflows/auto-cycle.yml` runs automatically every 5 minutes.
+6. Scheduled runs continue even when your computer is off.
 
-## Default Safe Mode
+## Production Defaults
 
-The workflow creates a runtime `.env` with these safe defaults:
+The workflow creates a runtime `.env` with these production defaults:
 
 ```env
 PUBLISH_MODE=live
-FACEBOOK_AUTO_POST=false
+SAFE_MODE=false
+FAST_NEWS_MODE=true
+FRESH_QUEUE_MODE=true
+FIRST_VALID_ARTICLE_MODE=false
+RECENT_NEWS_ONLY=true
+RECENT_NEWS_MAX_AGE_HOURS=2
+FALLBACK_FIRST_RUN_LOOKBACK_HOURS=2
+CRAWL_INTERVAL_MINUTES=5
+CRAWL_OVERLAP_MINUTES=10
+ALLOW_UNKNOWN_DATE_IN_FAST_MODE=false
+FACEBOOK_AUTO_POST=true
+LOCAL_PUBLISH_FALLBACK=false
+MAX_POSTS_PER_RUN=1
+MAX_ARTICLES_PER_RUN=1
 SAFE_CYCLE_MAX_ARTICLES=1
 SAFE_CYCLE_DRAFT_ONLY=false
 MAX_DRAFTS_PER_DAY=10
 MIN_MINUTES_BETWEEN_DRAFTS=30
 MAX_LIVE_POSTS_PER_DAY=288
 MIN_MINUTES_BETWEEN_LIVE_POSTS=5
-MAX_FACEBOOK_POSTS_PER_DAY=5
-MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=60
-TELEGRAM_ALERTS_ENABLED=false
+MAX_FACEBOOK_POSTS_PER_DAY=144
+MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=10
+TELEGRAM_ALERTS_ENABLED=true
 ```
 
-In this mode the bot creates or updates Blogger drafts only. It does not publish live and does not post to Facebook.
+In this mode the bot publishes live only, never creates drafts, rejects old or undated fast-news articles, and keeps the remaining queued articles for later scheduled runs.
 
 ## Enable Telegram Alerts Safely
 
@@ -88,27 +101,14 @@ python main.py test-alert
 
 Never paste the bot token into logs, issues, commits, or chat messages.
 
-## Switch To Live Blogger Safely
+## Deployment Checks
 
-To publish live from GitHub Actions, edit the workflow defaults intentionally:
-
-```env
-PUBLISH_MODE=live
-FRESH_QUEUE_MODE=true
-FIRST_VALID_ARTICLE_MODE=false
-SAFE_CYCLE_MAX_ARTICLES=1
-MAX_LIVE_POSTS_PER_DAY=288
-MIN_MINUTES_BETWEEN_LIVE_POSTS=5
-```
-
-Before enabling live mode, run:
+Before or after deployment, run:
 
 ```bash
 python main.py deployment-check
 python main.py publish-status
 ```
-
-Keep live limits enabled. Start with low values while testing.
 
 ## Enable Facebook Safely
 
@@ -130,7 +130,7 @@ python main.py facebook-limits-status
 python main.py facebook-preview
 ```
 
-The Blogger link is posted only in the first Facebook comment, using the real Blogger API URL. The bot must never guess URLs from `seo_slug`.
+If Blogger succeeds but Facebook fails, the workflow still succeeds and records the Facebook problem as a warning in the run summary and Telegram report.
 
 ## Local Deployment Check
 
@@ -144,14 +144,15 @@ The command verifies required environment variable names, safe publish settings,
 
 On GitHub Actions, `.env` is generated at runtime from GitHub Secrets. A committed `.env` file is not required and must not be committed.
 
-## Manual Workflow Run
+## Reset Runtime State
 
-1. Go to the repository on GitHub.
-2. Open `Actions`.
-3. Select `Safe Auto Cycle`.
-4. Click `Run workflow`.
-5. Choose the branch.
-6. Click `Run workflow`.
+Use the built-in reset command when you need a clean production restart:
+
+```bash
+python main.py reset-state
+```
+
+This clears the runtime queue, crawl timestamps, published-history files, topic fingerprints, failed queue state, and the cached auto-cycle run log without touching code, tests, workflows, or secrets.
 
 ## Security Warnings
 

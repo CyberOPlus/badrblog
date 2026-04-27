@@ -8,7 +8,7 @@ import re
 import sys
 import time
 import xml.etree.ElementTree as ET
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 from urllib.parse import urljoin, urlparse
 
@@ -29,7 +29,9 @@ except ImportError:
 
 from config import (
     ALLOW_UNKNOWN_DATE_IN_FAST_MODE,
+    CRAWL_OVERLAP_MINUTES,
     ENABLE_SCRAPLING_FALLBACK,
+    FALLBACK_FIRST_RUN_LOOKBACK_HOURS,
     FAST_NEWS_MODE,
     FIRST_VALID_ARTICLE_MODE,
     HEADERS,
@@ -44,6 +46,7 @@ from config import (
     SOURCE_TIMEOUT_SECONDS,
     SOURCE_URLS,
 )
+from runtime_state import source_crawl_record, update_source_crawl
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -540,6 +543,16 @@ def _is_recent_published_at(published_at, now=None):
     if age is None:
         return False, None
     return age <= max(0, RECENT_NEWS_MAX_AGE_HOURS), age
+
+
+def _source_crawl_window_start(source_key, now=None):
+    now = now or datetime.now(timezone.utc)
+    fallback = now - timedelta(hours=max(0, FALLBACK_FIRST_RUN_LOOKBACK_HOURS))
+    record = source_crawl_record(source_key)
+    last_crawled = _parse_datetime_to_utc(record.get("last_crawled_at"))
+    if not last_crawled:
+        return fallback
+    return last_crawled - timedelta(minutes=max(0, CRAWL_OVERLAP_MINUTES))
 
 
 def _json_ld_items(value):
@@ -1300,7 +1313,7 @@ def discover_first_valid_article_link(sources, existing_articles=None):
     }
 
 
-def discover_fresh_article_links(sources, existing_articles=None, published_urls=None):
+def discover_fresh_article_links(sources, existing_articles=None, published_urls=None, published_topic_hashes=None):
     """
     Scan all enabled sources and collect every fresh, non-duplicate article
     within the recent-news window.
@@ -1308,6 +1321,7 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
     enabled_sources = [source for source in sources if source.get("enabled", True)]
     existing_articles = existing_articles or []
     published_urls = published_urls or set()
+    published_topic_hashes = published_topic_hashes or set()
     known_urls = {
         item.get("canonical_url") or canonicalize_url(item.get("url"))
         for item in existing_articles
@@ -1328,6 +1342,9 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
         base_url = source.get("base_url", "").strip()
         if not base_url:
             continue
+        source_key = base_url
+        crawl_now = datetime.now(timezone.utc)
+        crawl_window_start = _source_crawl_window_start(source_key, now=crawl_now)
 
         started = time.perf_counter()
         _log(f"\nChecking source {index}/{len(enabled_sources)}: {source_name}")
@@ -1366,7 +1383,11 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
 
             canonical = canonicalize_url(url)
             current_title_hash = title_hash(link_title)
-            if canonical in known_urls or current_title_hash in known_title_hashes:
+            if (
+                canonical in known_urls
+                or current_title_hash in known_title_hashes
+                or current_title_hash in published_topic_hashes
+            ):
                 duplicate_count += 1
                 _log(f"  Skipping duplicate: {link_title[:80]}")
                 continue
@@ -1395,6 +1416,11 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
                             f"  Skipping article older than {RECENT_NEWS_MAX_AGE_HOURS}h: "
                             f"{link_title[:80]}"
                         )
+                        continue
+                    published_dt = _parse_datetime_to_utc(published_at)
+                    if published_dt and published_dt < crawl_window_start:
+                        old_count += 1
+                        _log(f"  Skipping article before crawl window: {link_title[:80]}")
                         continue
                     recent_count += 1
 
@@ -1426,6 +1452,7 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
                 "source_name": source_name,
                 "base_url": base_url,
                 "category_hint": source.get("category_hint", ""),
+                "crawl_window_start": crawl_window_start.isoformat().replace("+00:00", "Z"),
                 "links_found": len(links),
                 "duplicates_skipped": duplicate_count,
                 "recent_links": recent_count,
@@ -1440,6 +1467,12 @@ def discover_fresh_article_links(sources, existing_articles=None, published_urls
             }
         )
         discovered.extend(selected_links)
+        update_source_crawl(
+            source_key,
+            source_name=source_name,
+            last_crawled_at=crawl_now.isoformat().replace("+00:00", "Z"),
+            overlap_minutes=CRAWL_OVERLAP_MINUTES,
+        )
 
     reason = (
         f"no fresh article in the last {RECENT_NEWS_MAX_AGE_HOURS} hours"

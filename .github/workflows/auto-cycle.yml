@@ -32,6 +32,9 @@ concurrency:
   group: auto-cycle
   cancel-in-progress: true
 
+env:
+  AUTO_CYCLE_CACHE_NAMESPACE: auto-cycle-state-v5-reset-20260427
+
 jobs:
   auto-cycle:
     runs-on: ubuntu-latest
@@ -46,10 +49,14 @@ jobs:
         with:
           path: |
             article_queue.json
+            data/article_backlog.json
+            data/published_ids.json
+            data/crawl_state.json
+            data/topic_fingerprints.json
             logs/auto_cycle_runs.jsonl
-          key: auto-cycle-state-${{ github.run_id }}
+          key: ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-${{ github.run_id }}
           restore-keys: |
-            auto-cycle-state-
+            ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -163,6 +170,9 @@ jobs:
               "FIRST_VALID_ARTICLE_MODE": "false",
               "RECENT_NEWS_ONLY": "true",
               "RECENT_NEWS_MAX_AGE_HOURS": recent_hours,
+              "FALLBACK_FIRST_RUN_LOOKBACK_HOURS": "2",
+              "CRAWL_INTERVAL_MINUTES": "5",
+              "CRAWL_OVERLAP_MINUTES": "10",
               "ALLOW_UNKNOWN_DATE_IN_FAST_MODE": "false",
               "MAX_POSTS_PER_RUN": "1",
               "MAX_ARTICLES_PER_RUN": "1",
@@ -199,6 +209,9 @@ jobs:
           print("FRESH_QUEUE_MODE: true")
           print("FIRST_VALID_ARTICLE_MODE: false")
           print(f"RECENT_NEWS_MAX_AGE_HOURS: {recent_hours}")
+          print("FALLBACK_FIRST_RUN_LOOKBACK_HOURS: 2")
+          print("CRAWL_INTERVAL_MINUTES: 5")
+          print("CRAWL_OVERLAP_MINUTES: 10")
           print("Effective action: LIVE_FRESH_QUEUE")
           PY
 
@@ -224,5 +237,9 @@ jobs:
         with:
           path: |
             article_queue.json
+            data/article_backlog.json
+            data/published_ids.json
+            data/crawl_state.json
+            data/topic_fingerprints.json
             logs/auto_cycle_runs.jsonl
-          key: auto-cycle-state-${{ github.run_id }}
+          key: ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-${{ github.run_id }}

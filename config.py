@@ -159,6 +159,9 @@ MAX_SOURCE_RETRIES = _env_int("MAX_SOURCE_RETRIES", 1)
 SOURCE_RETRY_DELAY_SECONDS = _env_int("SOURCE_RETRY_DELAY_SECONDS", 3)
 SOURCE_TIMEOUT_SECONDS = _env_int("SOURCE_TIMEOUT_SECONDS", 10)
 MAX_SOURCES_PER_RUN = _env_int("MAX_SOURCES_PER_RUN", 10)
+FALLBACK_FIRST_RUN_LOOKBACK_HOURS = _env_int("FALLBACK_FIRST_RUN_LOOKBACK_HOURS", 2)
+CRAWL_INTERVAL_MINUTES = _env_int("CRAWL_INTERVAL_MINUTES", 5)
+CRAWL_OVERLAP_MINUTES = _env_int("CRAWL_OVERLAP_MINUTES", 10)
 RECENT_NEWS_ONLY = os.getenv("RECENT_NEWS_ONLY", "true").strip().lower() in {
     "1",
     "true",
@@ -242,6 +245,8 @@ PUBLISHED_DB_PATH = BASE_DIR / "data" / "published_ids.json"
 # The JSON file that stores fetched-but-not-yet-published articles.
 # This keeps daily articles from being forgotten when only 5 are published/hour.
 ARTICLE_BACKLOG_PATH = BASE_DIR / "data" / "article_backlog.json"
+CRAWL_STATE_PATH = BASE_DIR / "data" / "crawl_state.json"
+TOPIC_FINGERPRINTS_PATH = BASE_DIR / "data" / "topic_fingerprints.json"
 
 # Phase 1 ingestion source configuration and safe article queue.
 SOURCES_CONFIG_PATH = BASE_DIR / "sources.json"
@@ -703,6 +708,8 @@ def validate_config():
     # Ensure required directories exist
     PUBLISHED_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
     ARTICLE_BACKLOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    CRAWL_STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    TOPIC_FINGERPRINTS_PATH.parent.mkdir(parents=True, exist_ok=True)
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
     LOCAL_PUBLISH_DIR.mkdir(parents=True, exist_ok=True)
 
