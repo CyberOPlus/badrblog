@@ -41,8 +41,8 @@ Never upload `client_secret.json`, `data/token.json`, or `.env` directly to GitH
 2. Add all required repository secrets.
 3. Open the `Actions` tab.
 4. Enable workflows if GitHub asks for confirmation.
-5. The workflow `.github/workflows/auto-cycle.yml` runs every 60 minutes.
-6. You can also run it manually from `Actions` -> `Safe Auto Cycle` -> `Run workflow`.
+5. The workflow `.github/workflows/auto-cycle.yml` runs every 5 minutes.
+6. You can also run it manually from `Actions` -> `Blogger Auto Cycle` -> `Run workflow`.
 
 ## Default Safe Mode
 

@@ -339,6 +339,32 @@ class ProductionHardeningTests(unittest.TestCase):
                 self.assertEqual(persisted["suggested_category"], "الأمن السيبراني")
                 self.assertTrue(persisted.get("selected_at"))
 
+    def test_auto_cycle_record_stays_success_when_blogger_publishes_and_facebook_fails(self):
+        result = {
+            "completed": True,
+            "draft_action": "created",
+            "article": {
+                "id": "article-1",
+                "title": "Fresh article",
+                "publish_status": "published",
+                "blogger_post_url": "https://example.com/post",
+                "facebook_status": "failed",
+            },
+            "facebook": {
+                "posted": False,
+                "error": "Facebook token expired",
+            },
+            "step_reached": "publish",
+        }
+
+        record = main._auto_cycle_record_from_result("run-1", "2026-04-27T13:00:00", result)
+
+        self.assertTrue(record["success"])
+        self.assertEqual(record["blogger_status"], "published")
+        self.assertEqual(record["facebook_status"], "failed")
+        self.assertEqual(record["warning"], "Facebook token expired")
+        self.assertEqual(record["stopped_reason"], "")
+
     def test_facebook_default_caption_does_not_duplicate_comment_link(self):
         caption = _build_caption(
             {

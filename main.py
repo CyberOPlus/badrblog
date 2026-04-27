@@ -511,12 +511,13 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
     facebook = (result or {}).get("facebook") or {}
     draft_action = (result or {}).get("draft_action", "")
     facebook_error = facebook.get("error") if facebook and not facebook.get("posted") else ""
-    stopped_reason = "" if draft_action in {"created", "updated"} else str(
+    blogger_succeeded = draft_action in {"created", "updated"}
+    stopped_reason = "" if blogger_succeeded else str(
         error or (result or {}).get("reason") or draft.get("error") or ""
     )
-    if facebook_error:
+    if facebook_error and not blogger_succeeded:
         stopped_reason = facebook_error
-    success = bool((result or {}).get("completed")) and not error and not facebook_error
+    success = bool((result or {}).get("completed")) and not error
 
     return {
         "run_id": run_id,
@@ -533,6 +534,7 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
         "blogger_status": article.get("publish_status") or draft.get("publishing_mode") or "",
         "blogger_post_url": article.get("blogger_post_url") or article.get("blogger_draft_url") or "",
         "facebook_status": article.get("facebook_status") or (facebook.get("article") or {}).get("facebook_status", ""),
+        "warning": facebook_error if blogger_succeeded and facebook_error else "",
         "stopped_reason": stopped_reason,
         "execution_seconds": (result or {}).get("execution_seconds", 0),
         "success": success,
@@ -559,16 +561,19 @@ def _auto_cycle_alert_message(result, error=None):
     if result.get("completed"):
         blogger_status = article.get("publish_status") or draft.get("publishing_mode") or draft_action or ""
         post_url = article.get("blogger_post_url") or article.get("blogger_draft_url") or ""
-        return "\n".join(
-            [
-                "\u2705 Auto-cycle success",
-                f"Mode: {_effective_publish_mode()}",
-                f"Article: {article.get('title') or article.get('seo_title') or ''}",
-                f"Category: {article.get('suggested_category', '')}",
-                f"Blogger: {blogger_status}",
-                f"URL: {post_url}",
-            ]
-        )
+        lines = [
+            "\u2705 Auto-cycle success",
+            f"Mode: {_effective_publish_mode()}",
+            f"Article: {article.get('title') or article.get('seo_title') or ''}",
+            f"Category: {article.get('suggested_category', '')}",
+            f"Blogger: {blogger_status}",
+            f"URL: {post_url}",
+        ]
+        facebook = result.get("facebook") or {}
+        facebook_error = facebook.get("error") if facebook and not facebook.get("posted") else ""
+        if facebook_error:
+            lines.append(f"Warning: {facebook_error}")
+        return "\n".join(lines)
 
     reason = result.get("reason") or draft.get("error") or "unknown"
     if schedule:
