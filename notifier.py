@@ -3,6 +3,7 @@
 # ============================================================
 
 import html
+import time
 from datetime import datetime
 
 import requests
@@ -10,13 +11,19 @@ import requests
 from article_queue import load_article_queue, save_article_queue
 from config import (
     FACEBOOK_PAGE_ACCESS_TOKEN,
+    FAST_NEWS_MODE,
+    RECENT_NEWS_MAX_AGE_HOURS,
+    RECENT_NEWS_ONLY,
+    SAFE_MODE,
     TELEGRAM_ALERTS_ENABLED,
     TELEGRAM_BOT_TOKEN,
     TELEGRAM_CHAT_ID,
 )
+from production_logging import html_word_count, log_event
 
 
 TELEGRAM_API_BASE = "https://api.telegram.org"
+TELEGRAM_SEND_RETRIES = 2
 
 
 def telegram_alert_status():
@@ -64,6 +71,40 @@ def _article_category(article):
 def _blogger_url(article):
     article = article or {}
     return article.get("blogger_post_url") or article.get("blogger_draft_url") or ""
+
+
+def _source_name(article):
+    article = article or {}
+    return _short(article.get("source_name") or article.get("source_url") or "")
+
+
+def _article_word_count(article):
+    article = article or {}
+    try:
+        stored = int(article.get("final_word_count") or article.get("word_count") or 0)
+    except (TypeError, ValueError):
+        stored = 0
+    return stored or html_word_count(article.get("final_html") or article.get("content") or "")
+
+
+def _article_warnings(article):
+    article = article or {}
+    warnings = [str(item) for item in (article.get("pre_publish_warnings") or []) if item]
+    quality = article.get("pre_publish_quality") or {}
+    if quality and not quality.get("passed", True):
+        warnings.append(str(quality.get("reason") or "quality gate failed"))
+    return _short("; ".join(warnings), 300)
+
+
+def _execution_time(result):
+    result = result or {}
+    value = result.get("execution_seconds")
+    if value in (None, ""):
+        return ""
+    try:
+        return f"{float(value):.2f}s"
+    except (TypeError, ValueError):
+        return str(value)
 
 
 def _blogger_mode(article, result=None):
@@ -131,6 +172,8 @@ def notify_blogger_result(queue, article, result=None, stage="publish"):
             [
                 "✅ تم النشر في Blogger بنجاح",
                 f"العنوان: {_article_title(article)}",
+                f"Source: {_source_name(article)}",
+                f"Words: {_article_word_count(article)}",
                 f"الوضع: {_blogger_mode(article, result)}",
                 f"الرابط: {_blogger_url(article)}",
                 f"التصنيف: {_article_category(article)}",
@@ -142,6 +185,8 @@ def notify_blogger_result(queue, article, result=None, stage="publish"):
             [
                 "❌ فشل النشر في Blogger",
                 f"العنوان: {_article_title(article)}",
+                f"Source: {_source_name(article)}",
+                f"Words: {_article_word_count(article)}",
                 f"المرحلة: {_short(stage)}",
                 f"السبب: {_sanitize_reason(result.get('error') or article.get('publish_error'))}",
             ]
@@ -173,6 +218,8 @@ def notify_facebook_result(queue, article, result=None):
             [
                 "✅ تم النشر في Facebook بنجاح",
                 f"العنوان: {_article_title(article)}",
+                f"Source: {_source_name(article)}",
+                f"Words: {_article_word_count(article)}",
                 f"Post ID: {article.get('facebook_post_id', '')}",
                 f"Comment ID: {article.get('facebook_comment_id', '')}",
                 f"رابط Blogger: {blogger_url}",
@@ -185,6 +232,8 @@ def notify_facebook_result(queue, article, result=None):
             [
                 "❌ فشل النشر في Facebook",
                 f"العنوان: {_article_title(article)}",
+                f"Source: {_source_name(article)}",
+                f"Words: {_article_word_count(article)}",
                 f"السبب: {_sanitize_reason(result.get('error') or article.get('facebook_error'))}",
                 f"هل تم نشر Blogger؟ {'نعم' if blogger_published else 'لا'}",
                 f"رابط Blogger: {blogger_url}",
@@ -251,14 +300,25 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
     lines = [
         "📌 تقرير تشغيل البوت",
         f"الحالة: {status}",
+        f"Mode: {'fast' if FAST_NEWS_MODE else 'long'}",
+        f"SAFE_MODE: {str(SAFE_MODE).lower()}",
+        f"Recent only: {str(RECENT_NEWS_ONLY).lower()} ({RECENT_NEWS_MAX_AGE_HOURS}h)",
         f"Blogger: {blogger_status}",
         f"Facebook: {facebook_status}",
+        f"Execution: {_execution_time(result)}",
+        f"Source: {_source_name(article)}",
+        f"Published at: {article.get('source_published_at', '')}",
+        f"Article age: {article.get('article_age_hours', '')}",
+        f"Words: {_article_word_count(article)}",
         f"العنوان: {_article_title(article)}",
         f"الرابط: {_blogger_url(article)}",
         f"السبب إن وجد: {reason}",
     ]
     source_warnings_count = int(result.get("source_warnings_count") or 0)
     enrichment_failed_count = int(result.get("enrichment_failed_count") or 0)
+    article_warnings = _article_warnings(article)
+    if article_warnings:
+        lines.append(f"Warnings: {article_warnings}")
     if source_warnings_count:
         lines.append(f"⚠️ تحذيرات المصادر: {source_warnings_count}")
     if enrichment_failed_count:
@@ -341,26 +401,38 @@ def send_telegram_message(message: str):
         "disable_web_page_preview": True,
     }
 
-    try:
-        response = requests.post(url, json=payload, timeout=15)
-        if response.ok:
-            return {"sent": True, "skipped": False, "reason": ""}
-        if response.status_code in {401, 403}:
-            return {
-                "sent": False,
-                "skipped": False,
-                "reason": (
+    last_reason = ""
+    for attempt in range(TELEGRAM_SEND_RETRIES + 1):
+        try:
+            log_event("telegram_notification_start", attempt=attempt + 1)
+            response = requests.post(url, json=payload, timeout=15)
+            if response.ok:
+                log_event("telegram_notification_result", status="sent")
+                return {"sent": True, "skipped": False, "reason": ""}
+            if response.status_code in {401, 403}:
+                reason = (
                     f"Telegram API returned HTTP {response.status_code}: "
                     "Bot token invalid/revoked or bot is not allowed to message this chat."
-                ),
-            }
-        return {
-            "sent": False,
-            "skipped": False,
-            "reason": f"Telegram API returned HTTP {response.status_code}.",
-        }
-    except requests.RequestException as error:
-        return {"sent": False, "skipped": False, "reason": error.__class__.__name__}
+                )
+                log_event("telegram_notification_result", status="failed", reason=reason)
+                return {"sent": False, "skipped": False, "reason": reason}
+
+            last_reason = f"Telegram API returned HTTP {response.status_code}."
+            log_event(
+                "telegram_notification_result",
+                status="failed",
+                http_status=response.status_code,
+            )
+            if response.status_code not in {429, 500, 502, 503, 504}:
+                break
+        except requests.RequestException as error:
+            last_reason = error.__class__.__name__
+            log_event("telegram_notification_result", status="failed", reason=last_reason)
+
+        if attempt < TELEGRAM_SEND_RETRIES:
+            time.sleep(1 + attempt)
+
+    return {"sent": False, "skipped": False, "reason": last_reason or "Telegram send failed."}
 
 
 def telegram_debug_probe():

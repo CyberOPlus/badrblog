@@ -2,14 +2,20 @@
 # article_draft_publisher.py - Phase 7 Blogger Draft Publishing
 # ============================================================
 
+import time
 from datetime import datetime
+from urllib.parse import urlparse
 
 from googleapiclient.errors import HttpError
 
 from article_queue import load_article_queue, save_article_queue
 from blogger_client import create_blogger_service, get_credentials, is_local_publisher
-from config import BLOG_ID, PUBLISH_MODE
+from config import BLOG_ID, MAX_RETRIES, PUBLISH_MODE, RETRY_DELAY, SAFE_MODE
 from notifier import notify_blogger_result
+from production_logging import html_word_count, log_event
+from quality_gate import validate_before_publish
+
+TEMPORARY_BLOGGER_HTTP_STATUSES = {429, 500, 502, 503, 504}
 
 
 def _now_iso():
@@ -23,8 +29,36 @@ def _log_notification_result(label, result):
 
 
 def _effective_publish_mode(mode=None):
+    if SAFE_MODE:
+        return "draft"
     requested_mode = mode or PUBLISH_MODE
     return "live" if PUBLISH_MODE == "live" and requested_mode == "live" else "draft"
+
+
+def _execute_blogger_request(request, operation, safe_to_retry=True):
+    for attempt in range(MAX_RETRIES + 1):
+        try:
+            return request.execute()
+        except HttpError as error:
+            status = getattr(error.resp, "status", None)
+            can_retry = (
+                safe_to_retry
+                and status in TEMPORARY_BLOGGER_HTTP_STATUSES
+                and attempt < MAX_RETRIES
+            )
+            log_event(
+                "blogger_api_error",
+                operation=operation,
+                status=status,
+                attempt=attempt + 1,
+                retry="yes" if can_retry else "no",
+                error=error._get_reason().strip(),
+            )
+            if not can_retry:
+                raise
+            time.sleep(RETRY_DELAY * (attempt + 1))
+
+    raise RuntimeError(f"Blogger API operation failed after retries: {operation}")
 
 
 def _eligible_for_publish(article):
@@ -34,6 +68,56 @@ def _eligible_for_publish(article):
         and article.get("ai_status") == "completed"
         and bool(article.get("final_html"))
     )
+
+
+def _article_word_count(article):
+    try:
+        stored = int(article.get("final_word_count") or 0)
+    except (TypeError, ValueError):
+        stored = 0
+    return stored or html_word_count(article.get("final_html", ""))
+
+
+def _publish_quality_error(article, articles):
+    result = validate_before_publish(article, existing_articles=articles)
+    article["pre_publish_quality"] = result.to_dict()
+    article["final_word_count"] = result.word_count or _article_word_count(article)
+    if not result.passed:
+        return result.reason
+    if result.warnings:
+        article["pre_publish_warnings"] = list(result.warnings)
+    else:
+        article.pop("pre_publish_warnings", None)
+    return ""
+
+
+def _block_publish(queue, article, error, result_shape):
+    article["publish_status"] = "failed"
+    article["publish_error"] = f"Publish blocked: {error}"
+    article["publish_blocked_reason"] = error
+    article.pop("telegram_blogger_notified", None)
+    article.pop("telegram_blogger_event_key", None)
+    save_article_queue(queue)
+    log_event(
+        "blogger_publish_blocked",
+        article_id=article.get("id"),
+        source=article.get("source_name"),
+        reason=error,
+        words=_article_word_count(article),
+    )
+    result = dict(result_shape)
+    result.update({"article": article, "error": article["publish_error"]})
+    _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="quality gate"))
+    return result
+
+
+def _ensure_post_url_for_mode(post, mode):
+    if _effective_publish_mode(mode) != "live":
+        return
+    post_url = str(post.get("url") or "").strip()
+    parsed = urlparse(post_url)
+    if not post_url or not parsed.netloc or parsed.path.strip("/") == "":
+        raise RuntimeError("Blogger did not return a live post URL; refusing downstream promotion.")
 
 
 def _build_post_body(article):
@@ -55,8 +139,8 @@ def _list_posts_by_status(service, status):
         response = (
             service.posts()
             .list(blogId=BLOG_ID, status=status, fetchBodies=False, maxResults=50)
-            .execute()
         )
+        response = _execute_blogger_request(response, f"list {status}", safe_to_retry=True)
     except HttpError:
         return []
     return response.get("items", []) or []
@@ -99,7 +183,8 @@ def _get_saved_post_by_id(service, article, mode=None):
     if not saved_id:
         return None
     try:
-        post = service.posts().get(blogId=BLOG_ID, postId=saved_id).execute()
+        request = service.posts().get(blogId=BLOG_ID, postId=saved_id)
+        post = _execute_blogger_request(request, "get saved post", safe_to_retry=True)
     except HttpError:
         return None
     post = dict(post)
@@ -138,7 +223,8 @@ def _ensure_returned_post_url(service, post):
     if post.get("url") or not post.get("id"):
         return post
 
-    refreshed = service.posts().get(blogId=BLOG_ID, postId=post["id"]).execute()
+    request = service.posts().get(blogId=BLOG_ID, postId=post["id"])
+    refreshed = _execute_blogger_request(request, "refresh post url", safe_to_retry=True)
     post.update(refreshed or {})
     return post
 
@@ -148,7 +234,8 @@ def _publish_if_live(service, post, mode):
         return post
     if post.get("status") == "LIVE" and post.get("url"):
         return post
-    published = service.posts().publish(blogId=BLOG_ID, postId=post["id"]).execute()
+    request = service.posts().publish(blogId=BLOG_ID, postId=post["id"])
+    published = _execute_blogger_request(request, "publish existing post", safe_to_retry=True)
     return _ensure_returned_post_url(service, published)
 
 
@@ -157,6 +244,7 @@ def _apply_success(article, post, mode):
     now = _now_iso()
     article["blogger_post_id"] = post.get("id", "")
     article["blogger_post_url"] = post.get("url", "")
+    article["final_word_count"] = _article_word_count(article)
 
     if publish_mode == "live":
         article["status"] = "published"
@@ -172,6 +260,16 @@ def _apply_success(article, post, mode):
     article.pop("publish_error", None)
     article.pop("telegram_blogger_notified", None)
     article.pop("telegram_blogger_event_key", None)
+    log_event(
+        "blogger_publish_result",
+        status="success",
+        mode=publish_mode,
+        article_id=article.get("id"),
+        post_id=article.get("blogger_post_id"),
+        url=article.get("blogger_post_url") or article.get("blogger_draft_url"),
+        words=article.get("final_word_count"),
+        source=article.get("source_name"),
+    )
 
 
 def _apply_failure(article, error):
@@ -179,6 +277,13 @@ def _apply_failure(article, error):
     article["publish_error"] = str(error)
     article.pop("telegram_blogger_notified", None)
     article.pop("telegram_blogger_event_key", None)
+    log_event(
+        "blogger_publish_result",
+        status="failed",
+        article_id=article.get("id"),
+        error=error,
+        source=article.get("source_name"),
+    )
 
 
 def _custom_slug_warning(article):
@@ -211,6 +316,14 @@ def publish_one_blogger_draft(target_article_id=None):
         }
 
     article = eligible[0]
+    quality_error = _publish_quality_error(article, articles)
+    if quality_error:
+        return _block_publish(
+            queue,
+            article,
+            quality_error,
+            {"checked": 1, "created": False},
+        )
 
     try:
         creds = get_credentials()
@@ -228,12 +341,10 @@ def publish_one_blogger_draft(target_article_id=None):
 
         _custom_slug_warning(article)
 
-        post = (
-            service.posts()
-            .insert(blogId=BLOG_ID, body=_build_post_body(article), isDraft=True)
-            .execute()
-        )
+        request = service.posts().insert(blogId=BLOG_ID, body=_build_post_body(article), isDraft=True)
+        post = _execute_blogger_request(request, "insert draft", safe_to_retry=False)
         post = _ensure_returned_post_url(service, post)
+        _ensure_post_url_for_mode(post, "draft")
         _apply_success(article, post, "draft")
         save_article_queue(queue)
         result = {
@@ -290,6 +401,20 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
 
     article = eligible[0]
     slug_warning = _custom_slug_warning(article)
+    quality_error = _publish_quality_error(article, articles)
+    if quality_error:
+        return _block_publish(
+            queue,
+            article,
+            quality_error,
+            {
+                "checked": 1,
+                "duplicate_count": 0,
+                "updated_existing": False,
+                "created_new": False,
+                "slug_warning": slug_warning,
+            },
+        )
 
     try:
         creds = get_credentials()
@@ -303,12 +428,10 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
         body = _build_post_body(article)
         saved_draft = _get_saved_post_by_id(service, article, mode="draft")
         if saved_draft and saved_draft.get("status") != "LIVE":
-            post = (
-                service.posts()
-                .update(blogId=BLOG_ID, postId=saved_draft["id"], body=body)
-                .execute()
-            )
+            request = service.posts().update(blogId=BLOG_ID, postId=saved_draft["id"], body=body)
+            post = _execute_blogger_request(request, "update saved draft", safe_to_retry=True)
             post = _ensure_returned_post_url(service, post)
+            _ensure_post_url_for_mode(post, "draft")
             _apply_success(article, post, "draft")
             article["draft_update_status"] = "updated_existing"
             save_article_queue(queue)
@@ -331,12 +454,10 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
             post_to_update = _choose_post_to_update(matches, article, mode="draft")
             if not post_to_update:
                 raise RuntimeError("Matching live post found, but no matching draft is safe to update.")
-            post = (
-                service.posts()
-                .update(blogId=BLOG_ID, postId=post_to_update["id"], body=body)
-                .execute()
-            )
+            request = service.posts().update(blogId=BLOG_ID, postId=post_to_update["id"], body=body)
+            post = _execute_blogger_request(request, "update matching draft", safe_to_retry=True)
             post = _ensure_returned_post_url(service, post)
+            _ensure_post_url_for_mode(post, "draft")
             _apply_success(article, post, "draft")
             article["draft_update_status"] = "updated_existing"
             save_article_queue(queue)
@@ -352,12 +473,10 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
             _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="update draft"))
             return result
 
-        post = (
-            service.posts()
-            .insert(blogId=BLOG_ID, body=body, isDraft=True)
-            .execute()
-        )
+        request = service.posts().insert(blogId=BLOG_ID, body=body, isDraft=True)
+        post = _execute_blogger_request(request, "insert draft", safe_to_retry=False)
         post = _ensure_returned_post_url(service, post)
+        _ensure_post_url_for_mode(post, "draft")
         _apply_success(article, post, "draft")
         article["draft_update_status"] = "created_new"
         save_article_queue(queue)
@@ -422,6 +541,20 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
 
     article = eligible[0]
     _custom_slug_warning(article)
+    quality_error = _publish_quality_error(article, articles)
+    if quality_error:
+        return _block_publish(
+            queue,
+            article,
+            quality_error,
+            {
+                "checked": 1,
+                "duplicate_count": 0,
+                "updated_existing": False,
+                "created_new": False,
+                "publishing_mode": publish_mode,
+            },
+        )
 
     try:
         creds = get_credentials()
@@ -435,13 +568,11 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
         body = _build_post_body(article)
         saved_post = _get_saved_post_by_id(service, article, mode=publish_mode)
         if saved_post and (publish_mode == "live" or saved_post.get("status") != "LIVE"):
-            post = (
-                service.posts()
-                .update(blogId=BLOG_ID, postId=saved_post["id"], body=body)
-                .execute()
-            )
+            request = service.posts().update(blogId=BLOG_ID, postId=saved_post["id"], body=body)
+            post = _execute_blogger_request(request, f"update saved {publish_mode}", safe_to_retry=True)
             post = _ensure_returned_post_url(service, post)
             post = _publish_if_live(service, post, publish_mode)
+            _ensure_post_url_for_mode(post, publish_mode)
             _apply_success(article, post, publish_mode)
             article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "updated_existing"
             save_article_queue(queue)
@@ -463,13 +594,11 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             post_to_update = _choose_post_to_update(matches, article, mode=publish_mode)
             if not post_to_update:
                 raise RuntimeError("Matching Blogger post found, but no post is safe to update for this mode.")
-            post = (
-                service.posts()
-                .update(blogId=BLOG_ID, postId=post_to_update["id"], body=body)
-                .execute()
-            )
+            request = service.posts().update(blogId=BLOG_ID, postId=post_to_update["id"], body=body)
+            post = _execute_blogger_request(request, f"update matching {publish_mode}", safe_to_retry=True)
             post = _ensure_returned_post_url(service, post)
             post = _publish_if_live(service, post, publish_mode)
+            _ensure_post_url_for_mode(post, publish_mode)
             _apply_success(article, post, publish_mode)
             article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "updated_existing"
             save_article_queue(queue)
@@ -485,12 +614,10 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage=f"update {publish_mode}"))
             return result
 
-        post = (
-            service.posts()
-            .insert(blogId=BLOG_ID, body=body, isDraft=(publish_mode != "live"))
-            .execute()
-        )
+        request = service.posts().insert(blogId=BLOG_ID, body=body, isDraft=(publish_mode != "live"))
+        post = _execute_blogger_request(request, f"insert {publish_mode}", safe_to_retry=False)
         post = _ensure_returned_post_url(service, post)
+        _ensure_post_url_for_mode(post, publish_mode)
         _apply_success(article, post, publish_mode)
         article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "created_new"
         save_article_queue(queue)

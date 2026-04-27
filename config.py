@@ -122,12 +122,56 @@ RETRY_DELAY = _env_int("RETRY_DELAY", 30)
 MAX_RETRIES = _env_int("MAX_RETRIES", 3)
 
 # Optional limits and pacing controls
-# 0 means "no limit"
-MAX_ARTICLES_PER_RUN = _env_int("MAX_ARTICLES_PER_RUN", 0)
+# The fast recent live pipeline publishes at most one article per run by default.
+MAX_POSTS_PER_RUN = _env_int("MAX_POSTS_PER_RUN", 1)
+MAX_ARTICLES_PER_RUN = _env_int("MAX_ARTICLES_PER_RUN", MAX_POSTS_PER_RUN)
 SCRAPE_DELAY_SECONDS = _env_int("SCRAPE_DELAY_SECONDS", 2)
 TRANSLATION_DELAY_SECONDS = _env_int("TRANSLATION_DELAY_SECONDS", 3)
 PUBLISH_DELAY_SECONDS = _env_int("PUBLISH_DELAY_SECONDS", 5)
-PUBLISH_MODE = os.getenv("PUBLISH_MODE", "draft").strip().lower()
+PUBLISH_MODE = os.getenv("PUBLISH_MODE", "live").strip().lower()
+SAFE_MODE = os.getenv("SAFE_MODE", "false").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+FAST_NEWS_MODE = os.getenv("FAST_NEWS_MODE", "true").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+FIRST_VALID_ARTICLE_MODE = os.getenv("FIRST_VALID_ARTICLE_MODE", "true").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+MIN_ARTICLE_WORDS = _env_int("MIN_ARTICLE_WORDS", 120)
+TARGET_ARTICLE_WORDS = os.getenv("TARGET_ARTICLE_WORDS", "250-600").strip()
+MAX_SOURCE_RETRIES = _env_int("MAX_SOURCE_RETRIES", 1)
+SOURCE_RETRY_DELAY_SECONDS = _env_int("SOURCE_RETRY_DELAY_SECONDS", 3)
+SOURCE_TIMEOUT_SECONDS = _env_int("SOURCE_TIMEOUT_SECONDS", 10)
+MAX_SOURCES_PER_RUN = _env_int("MAX_SOURCES_PER_RUN", 10)
+RECENT_NEWS_ONLY = os.getenv("RECENT_NEWS_ONLY", "true").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+RECENT_NEWS_MAX_AGE_HOURS = _env_int("RECENT_NEWS_MAX_AGE_HOURS", 2)
+ALLOW_UNKNOWN_DATE_IN_FAST_MODE = os.getenv("ALLOW_UNKNOWN_DATE_IN_FAST_MODE", "false").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
+ENABLE_SCRAPLING_FALLBACK = os.getenv("ENABLE_SCRAPLING_FALLBACK", "false").strip().lower() in {
+    "1",
+    "true",
+    "yes",
+    "on",
+}
 
 # Facebook Page auto-posting is disabled by default and only runs after a
 # successful live Blogger publish.
@@ -140,6 +184,9 @@ FACEBOOK_AUTO_POST = os.getenv("FACEBOOK_AUTO_POST", "false").strip().lower() in
 FACEBOOK_PAGE_ID = os.getenv("FACEBOOK_PAGE_ID", "").strip()
 FACEBOOK_PAGE_ACCESS_TOKEN = os.getenv("FACEBOOK_PAGE_ACCESS_TOKEN", "").strip()
 FACEBOOK_GRAPH_API_URL = os.getenv("FACEBOOK_GRAPH_API_URL", "https://graph.facebook.com/v20.0").strip()
+FACEBOOK_LINK_MODE = os.getenv("FACEBOOK_LINK_MODE", "comment").strip().lower()
+if FACEBOOK_LINK_MODE not in {"caption", "comment", "both"}:
+    FACEBOOK_LINK_MODE = "comment"
 MAX_FACEBOOK_POSTS_PER_DAY = _env_int("MAX_FACEBOOK_POSTS_PER_DAY", 5)
 MIN_MINUTES_BETWEEN_FACEBOOK_POSTS = _env_int("MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", 60)
 
@@ -153,10 +200,10 @@ TELEGRAM_ALERTS_ENABLED = os.getenv("TELEGRAM_ALERTS_ENABLED", "false").strip().
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "").strip()
 
-# Phase 9 safe-cycle controls. The safe cycle is intentionally constrained to
-# one draft-only article per run.
+# Phase 9 safe-cycle controls. The auto cycle is intentionally constrained to
+# exactly one article per run.
 SAFE_CYCLE_MAX_ARTICLES = _env_int("SAFE_CYCLE_MAX_ARTICLES", 1)
-SAFE_CYCLE_DRAFT_ONLY = os.getenv("SAFE_CYCLE_DRAFT_ONLY", "true").strip().lower() in {
+SAFE_CYCLE_DRAFT_ONLY = os.getenv("SAFE_CYCLE_DRAFT_ONLY", "false").strip().lower() in {
     "1",
     "true",
     "yes",
@@ -232,8 +279,8 @@ OPENROUTER_API_URL = os.getenv(
     "OPENROUTER_API_URL",
     "https://openrouter.ai/api/v1/chat/completions",
 )
-OPENROUTER_MAX_TOKENS = _env_int("OPENROUTER_MAX_TOKENS", 4096)
-OPENROUTER_TIMEOUT_SECONDS = _env_int("OPENROUTER_TIMEOUT_SECONDS", 90)
+OPENROUTER_MAX_TOKENS = _env_int("OPENROUTER_MAX_TOKENS", 8192)
+OPENROUTER_TIMEOUT_SECONDS = _env_int("OPENROUTER_TIMEOUT_SECONDS", 120)
 OPENROUTER_REFERER = os.getenv("OPENROUTER_REFERER", "")
 OPENROUTER_APP_NAME = os.getenv("OPENROUTER_APP_NAME", "Blogger Automation Bot")
 
@@ -244,8 +291,8 @@ OPENAI_API_URL = os.getenv(
     "OPENAI_API_URL",
     "https://api.openai.com/v1/chat/completions",
 )
-OPENAI_MAX_TOKENS = _env_int("OPENAI_MAX_TOKENS", 4096)
-OPENAI_TIMEOUT_SECONDS = _env_int("OPENAI_TIMEOUT_SECONDS", 90)
+OPENAI_MAX_TOKENS = _env_int("OPENAI_MAX_TOKENS", 8192)
+OPENAI_TIMEOUT_SECONDS = _env_int("OPENAI_TIMEOUT_SECONDS", 120)
 
 
 # ============================================================
@@ -261,9 +308,15 @@ HEADERS = {
         "Chrome/125.0.0.0 Safari/537.36"
     ),
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-    "Accept-Language": "en-US,en;q=0.5",
+    "Accept-Language": "en-US,en;q=0.9,ar;q=0.8",
     "Accept-Encoding": "gzip, deflate",
+    "Cache-Control": "no-cache",
     "Connection": "keep-alive",
+    "DNT": "1",
+    "Pragma": "no-cache",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
     "Upgrade-Insecure-Requests": "1",
 }
 
@@ -427,6 +480,10 @@ MANDATORY INTERNAL WORKFLOW:
    - Write like a professional Arabic technology blogger.
    - Use a strong intro, then a clear first paragraph.
    - Make the body structured, readable, and engaging.
+   - Write a complete long-form Blogger article of 800-1200 Arabic words.
+   - Include a required section with this exact heading:
+     <h2>ماذا يعني هذا لك</h2>
+   - End with a strong conclusion that summarizes the practical meaning.
    - Prefer short paragraphs, useful headings, and practical takeaways.
    - Use bullet points only when they improve clarity.
    - End naturally with a concise conclusion or takeaway.

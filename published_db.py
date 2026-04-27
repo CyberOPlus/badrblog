@@ -16,6 +16,7 @@ import json
 
 # Import our configuration
 from config import PUBLISHED_DB_PATH
+from duplicate_utils import canonicalize_url, stable_hash
 
 
 def load_published_ids():
@@ -33,7 +34,11 @@ def load_published_ids():
     try:
         with open(PUBLISHED_DB_PATH, "r", encoding="utf-8-sig") as f:
             data = json.load(f)
-            return set(data.get("published_urls", []))
+            urls = set(data.get("published_urls", []))
+            for record in data.get("published_articles", []):
+                if isinstance(record, dict) and record.get("canonical_url"):
+                    urls.add(record["canonical_url"])
+            return {canonicalize_url(url) for url in urls if url}
     except (json.JSONDecodeError, IOError) as e:
         print(f"⚠️  Warning: Could not read published IDs database: {e}")
         print(f"   Starting with empty database to be safe.")
@@ -50,8 +55,17 @@ def save_published_ids(published_set):
     # Ensure the data directory exists
     PUBLISHED_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
 
+    canonical_urls = sorted({canonicalize_url(url) for url in published_set if url})
     data = {
-        "published_urls": sorted(list(published_set)),
+        "published_urls": canonical_urls,
+        "published_articles": [
+            {
+                "canonical_url": url,
+                "source_url": url,
+                "url_hash": stable_hash(url),
+            }
+            for url in canonical_urls
+        ],
     }
 
     with open(PUBLISHED_DB_PATH, "w", encoding="utf-8") as f:
@@ -69,7 +83,7 @@ def is_already_published(url, published_set):
     Returns:
         bool: True if already published, False if it's new
     """
-    return url in published_set
+    return canonicalize_url(url) in published_set
 
 
 def mark_as_published(url, published_set):
@@ -83,7 +97,7 @@ def mark_as_published(url, published_set):
     Returns:
         set: The updated set of published URLs
     """
-    published_set.add(url)
+    published_set.add(canonicalize_url(url))
     save_published_ids(published_set)
     return published_set
 
@@ -99,7 +113,7 @@ def mark_many_as_published(urls, published_set):
     Returns:
         set: The updated set of published URLs
     """
-    published_set.update(urls)
+    published_set.update(canonicalize_url(url) for url in urls if url)
     save_published_ids(published_set)
     return published_set
 

@@ -9,8 +9,9 @@ from collections import Counter
 from datetime import datetime, timedelta
 
 from config import ARTICLE_QUEUE_PATH, SOURCES_CONFIG_PATH
+from duplicate_utils import canonicalize_url, title_hash
 
-ALLOWED_STATUSES = {"new", "skipped", "ready", "selected", "published", "failed"}
+ALLOWED_STATUSES = {"new", "skipped", "ready", "selected", "draft_created", "published", "failed"}
 
 
 def _now_iso():
@@ -62,7 +63,7 @@ def make_article_id(url):
     """
     Stable short ID based on URL, safe for future database migration.
     """
-    return hashlib.sha1((url or "").encode("utf-8")).hexdigest()[:16]
+    return hashlib.sha1(canonicalize_url(url).encode("utf-8")).hexdigest()[:16]
 
 
 def load_sources():
@@ -122,12 +123,12 @@ def add_articles_to_queue(discovered_articles):
     articles = queue["articles"]
 
     existing_urls = {
-        item.get("url")
+        item.get("canonical_url") or canonicalize_url(item.get("url"))
         for item in articles
         if item.get("url") and not item.get("archived")
     }
     existing_titles = {
-        normalize_title(item.get("title", ""))
+        item.get("title_hash") or title_hash(item.get("title", ""))
         for item in articles
         if normalize_title(item.get("title", "")) and not item.get("archived")
     }
@@ -141,18 +142,19 @@ def add_articles_to_queue(discovered_articles):
     for article in discovered_articles:
         url = (article.get("url") or "").strip()
         title = (article.get("title") or "").strip()
-        normalized_title = normalize_title(title)
+        canonical_url = canonicalize_url(url)
+        normalized_title_hash = title_hash(title)
         category_hint = article.get("category_hint", "")
 
         if not url or not title:
             continue
 
-        if url in existing_urls:
+        if canonical_url in existing_urls:
             duplicate_url += 1
             duplicate_by_category[category_hint] += 1
             continue
 
-        if normalized_title and normalized_title in existing_titles:
+        if normalized_title_hash and normalized_title_hash in existing_titles:
             duplicate_title += 1
             duplicate_by_category[category_hint] += 1
             continue
@@ -160,17 +162,23 @@ def add_articles_to_queue(discovered_articles):
         articles.append(
             {
                 "id": make_article_id(url),
+                "source_url_hash": make_article_id(url),
+                "canonical_url": canonical_url,
+                "title_hash": normalized_title_hash,
                 "title": title,
                 "url": url,
                 "source_name": article.get("source_name", ""),
                 "source_url": article.get("source_url", ""),
+                "source_published_at": article.get("source_published_at", ""),
+                "published_at_source": article.get("published_at_source", ""),
+                "article_age_hours": article.get("article_age_hours"),
                 "category_hint": category_hint,
                 "discovered_at": _now_iso(),
                 "status": "new",
             }
         )
-        existing_urls.add(url)
-        existing_titles.add(normalized_title)
+        existing_urls.add(canonical_url)
+        existing_titles.add(normalized_title_hash)
         added += 1
         added_by_category[category_hint] += 1
 
@@ -214,12 +222,18 @@ def maintain_article_queue(days=7):
             continue
 
         url = str(article.get("url") or "").strip()
-        if url:
-            if url in seen_urls:
+        canonical_url = article.get("canonical_url") or canonicalize_url(url)
+        if canonical_url and not article.get("canonical_url"):
+            article["canonical_url"] = canonical_url
+        if article.get("title") and not article.get("title_hash"):
+            article["title_hash"] = title_hash(article.get("title"))
+
+        if canonical_url:
+            if canonical_url in seen_urls:
                 if _archive_article(article, "duplicate_url", archived_at):
                     stats["archived_duplicate_urls"] += 1
                 continue
-            seen_urls[url] = article
+            seen_urls[canonical_url] = article
 
         status = article.get("status")
         if status not in {"skipped", "failed"}:

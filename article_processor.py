@@ -31,6 +31,7 @@ def _validate_selected_article(article):
 
 
 def _build_ai_input_package(article):
+    full_text = article.get("full_article_text") or article.get("content_full") or article.get("content_preview", "")
     return {
         "title": article.get("fetched_title") or article.get("title", ""),
         "url": article.get("url", ""),
@@ -40,7 +41,14 @@ def _build_ai_input_package(article):
         "article_images": article.get("article_images", []),
         "meta_description": article.get("meta_description", ""),
         "content_preview": article.get("content_preview", ""),
+        "content_preview_chars": len(article.get("content_preview", "")),
+        "full_article_text": full_text,
+        "full_article_text_chars": len(full_text),
+        "enrichment_status": article.get("enrichment_status", ""),
         "source_url": article.get("source_url", ""),
+        "source_published_at": article.get("source_published_at", ""),
+        "published_at_source": article.get("published_at_source", ""),
+        "article_age_hours": article.get("article_age_hours"),
         "trusted_references": article.get("trusted_references", []),
         "related_posts": _related_posts_for(article),
     }

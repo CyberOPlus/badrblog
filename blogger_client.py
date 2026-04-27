@@ -26,11 +26,15 @@ from config import (
     LOCAL_PUBLISH_FALLBACK,
     LOCAL_PUBLISH_DIR,
     MAX_RETRIES,
+    PUBLISH_MODE,
     PUBLISH_DELAY_SECONDS,
     RETRY_DELAY,
+    SAFE_MODE,
     SCOPES,
     TOKEN_FILE,
 )
+from production_logging import html_word_count, log_event
+from quality_gate import validate_before_publish
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -589,6 +593,26 @@ def create_blogger_service(creds):
     return service
 
 
+def _publish_quality_error(article, html_content):
+    gate_article = dict(article)
+    gate_article["final_html"] = html_content
+    gate_article["seo_title"] = article.get("seo_title") or article.get("title", "")
+    gate_article["seo_description"] = article.get("meta_description") or article.get("seo_description", "")
+    result = validate_before_publish(gate_article, check_duplicate=False)
+    if not result.passed:
+        return result.reason
+    return ""
+
+
+def _is_public_post_url(url):
+    parsed = urlparse(str(url or "").strip())
+    return bool(
+        parsed.scheme in {"http", "https"}
+        and parsed.netloc
+        and parsed.path.strip("/")
+    )
+
+
 def publish_post(service, article, related_candidates=None):
     """
     Publish one translated article through Blogger or the local fallback.
@@ -596,12 +620,24 @@ def publish_post(service, article, related_candidates=None):
     print(f'\nPublishing: "{article["title"][:60]}..."')
 
     final_content = _finalize_article_content(article, related_candidates=related_candidates)
+    quality_error = _publish_quality_error(article, final_content)
+    if quality_error:
+        log_event(
+            "blogger_publish_blocked",
+            title=article.get("title"),
+            original_url=article.get("original_url"),
+            reason=quality_error,
+        )
+        print(f"  Article was not published: {quality_error}")
+        return None
+
     post_body = {
         "kind": "blogger#post",
         "title": article["title"],
         "content": final_content,
         "labels": article["labels"],
     }
+    publish_live = (not SAFE_MODE) and PUBLISH_MODE == "live"
     if article.get("meta_description"):
         post_body["customMetaData"] = article["meta_description"]
     if is_local_publisher(service) and article.get("seo_title"):
@@ -613,18 +649,37 @@ def publish_post(service, article, related_candidates=None):
         try:
             post = (
                 service.posts()
-                .insert(blogId=BLOG_ID, body=post_body, isDraft=False)
+                .insert(blogId=BLOG_ID, body=post_body, isDraft=not publish_live)
                 .execute()
             )
 
             post_url = post.get("url", "URL not available")
             post_id = post.get("id", "unknown")
+            if publish_live and not is_local_publisher(service) and not _is_public_post_url(post_url):
+                log_event(
+                    "blogger_publish_result",
+                    status="failed",
+                    post_id=post_id,
+                    url=post_url,
+                    error="missing public post permalink",
+                    title=article.get("title"),
+                )
+                print("  Article was not marked published: Blogger did not return a post permalink.")
+                return None
 
-            if not is_local_publisher(service) and str(post_url).startswith("http"):
+            if publish_live and not is_local_publisher(service) and str(post_url).startswith("http"):
                 _archive_live_post(article, post_id, post_url, final_content)
 
             print("  Published successfully!")
             print(f"  URL: {post_url}")
+            log_event(
+                "blogger_publish_result",
+                status="success",
+                post_id=post_id,
+                url=post_url,
+                words=html_word_count(final_content),
+                title=article.get("title"),
+            )
             return {
                 "id": post_id,
                 "url": post_url,
@@ -635,6 +690,13 @@ def publish_post(service, article, related_candidates=None):
             status_code = e.resp.status
             error_message = e._get_reason().strip()
             print(f"  API Error ({status_code}): {error_message}")
+            log_event(
+                "blogger_publish_result",
+                status="api_error",
+                http_status=status_code,
+                error=error_message,
+                title=article.get("title"),
+            )
 
             if status_code == 429:
                 wait_time = RETRY_DELAY * 3
@@ -651,6 +713,12 @@ def publish_post(service, article, related_candidates=None):
 
         except Exception as e:
             print(f"  Unexpected error: {e}")
+            log_event(
+                "blogger_publish_result",
+                status="error",
+                error=e,
+                title=article.get("title"),
+            )
             if attempt < MAX_RETRIES:
                 time.sleep(RETRY_DELAY * (attempt + 1))
             else:

@@ -15,10 +15,12 @@ with warnings.catch_warnings():
 
 from config import (
     AI_PROVIDER,
+    FAST_NEWS_MODE,
     BLOG_CATEGORIES,
     GEMINI_API_KEY,
     GEMINI_MODEL,
     MAX_RETRIES,
+    MIN_ARTICLE_WORDS,
     OPENROUTER_API_KEY,
     OPENROUTER_API_URL,
     OPENROUTER_APP_NAME,
@@ -30,6 +32,7 @@ from config import (
     TRANSLATION_DELAY_SECONDS,
     TRANSLATION_PROMPT,
 )
+from production_logging import html_to_text, html_word_count, log_event
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -42,6 +45,8 @@ AI_TOOLS_CATEGORY = BLOG_CATEGORIES[0]
 CYBERSECURITY_CATEGORY = BLOG_CATEGORIES[1]
 TECH_NEWS_CATEGORY = BLOG_CATEGORIES[2]
 SOFTWARE_CATEGORY = BLOG_CATEGORIES[3]
+MIN_BLOGGER_ARTICLE_WORDS = 800
+REQUIRED_READER_SECTION = "\u0645\u0627\u0630\u0627 \u064a\u0639\u0646\u064a \u0647\u0630\u0627 \u0644\u0643"
 
 CATEGORY_ALIASES = {
     "ai": "أدوات الذكاء الاصطناعي",
@@ -664,6 +669,36 @@ def parse_ai_response(raw_text, original_article):
         print("  ⚠️  AI content is too short, something likely went wrong")
         return None
 
+    word_count = html_word_count(html_content)
+    minimum_words = MIN_ARTICLE_WORDS if FAST_NEWS_MODE else MIN_BLOGGER_ARTICLE_WORDS
+    if word_count < minimum_words:
+        print(
+            f"  AI content is too short for Blogger "
+            f"({word_count} words; minimum {minimum_words})"
+        )
+        log_event(
+            "ai_article_rejected",
+            original_url=original_article.get("url"),
+            reason="too_short",
+            words=word_count,
+        )
+        return None
+
+    body_text = html_to_text(html_content)
+    if (
+        not FAST_NEWS_MODE
+        and REQUIRED_READER_SECTION not in html_content
+        and REQUIRED_READER_SECTION not in body_text
+    ):
+        print("  AI content is missing the required reader-impact section")
+        log_event(
+            "ai_article_rejected",
+            original_url=original_article.get("url"),
+            reason="missing_reader_section",
+            words=word_count,
+        )
+        return None
+
     if not _looks_arabic_enough(arabic_title, html_content):
         print("  ⚠️  AI response is not Arabic enough, rejecting it")
         return None
@@ -681,6 +716,7 @@ def parse_ai_response(raw_text, original_article):
         "meta_description": meta_description,
         "slug": slug,
         "content": html_content,
+        "word_count": word_count,
         "labels": labels,
         "original_url": original_article["url"],
         "original_title": original_article["title"],

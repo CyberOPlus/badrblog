@@ -36,7 +36,7 @@ from article_queue import (
 from article_enricher import enrich_ready_articles
 from article_processor import prepare_selected_articles_for_ai
 from article_scorer import score_new_articles
-from article_selector import select_next_article
+from article_selector import select_next_article, suggest_category
 from article_quality import (
     get_candidate_fetch_limit,
     print_quality_report,
@@ -45,17 +45,25 @@ from article_quality import (
 from config import (
     ARTICLE_SELECTION_MULTIPLIER,
     ARTICLE_SELECTION_POOL_MIN,
+    ALLOW_UNKNOWN_DATE_IN_FAST_MODE,
     CHECK_INTERVAL,
     FACEBOOK_AUTO_POST,
+    FAST_NEWS_MODE,
+    FIRST_VALID_ARTICLE_MODE,
     LOGS_DIR,
     MAX_ARTICLES_PER_RUN,
     MAX_DRAFTS_PER_DAY,
     MAX_LIVE_POSTS_PER_DAY,
+    MAX_SOURCES_PER_RUN,
     MIN_MINUTES_BETWEEN_DRAFTS,
     MIN_MINUTES_BETWEEN_LIVE_POSTS,
+    SAFE_MODE,
     PUBLISH_MODE,
+    RECENT_NEWS_MAX_AGE_HOURS,
+    RECENT_NEWS_ONLY,
     SAFE_CYCLE_DRAFT_ONLY,
     SAFE_CYCLE_MAX_ARTICLES,
+    SOURCE_TIMEOUT_SECONDS,
     TELEGRAM_ALERTS_ENABLED,
     TELEGRAM_BOT_TOKEN,
     TELEGRAM_CHAT_ID,
@@ -71,7 +79,7 @@ from facebook_publisher import (
 from processor import initialize_gemini, process_articles
 from publishing_planner import plan_next_article
 from published_db import filter_new_articles, load_published_ids, mark_many_as_published
-from scraper import discover_latest_article_links, get_latest_articles
+from scraper import discover_first_valid_article_link, discover_latest_article_links, get_latest_articles
 from source_validator import check_sources_config
 from notifier import (
     get_notification_status,
@@ -81,6 +89,7 @@ from notifier import (
     telegram_alert_status,
     telegram_debug_probe,
 )
+from production_logging import html_word_count, log_event
 
 
 PROBLEM_SOURCE_NAMES = {
@@ -139,15 +148,24 @@ def run_fetch_only():
     print("\n" + "=" * 60)
     print("PHASE 1: Safe article ingestion")
     print("=" * 60)
-    print("Mode: fetch only. AI translation and Blogger publishing are disabled.\n")
+    print("Step mode: fetch only. In auto-cycle, AI and publishing continue after this step.\n")
 
     sources = load_sources()
     enabled_sources = [source for source in sources if source.get("enabled", True)]
     print(f"Configured sources: {len(sources)}")
     print(f"Enabled sources:    {len(enabled_sources)}")
     print("Fetch limit:        per-source fetch_limit_per_run")
+    if RECENT_NEWS_ONLY:
+        print(f"Recent filter:      last {RECENT_NEWS_MAX_AGE_HOURS} hour(s)", flush=True)
 
-    discovery = discover_latest_article_links(enabled_sources)
+    if FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE:
+        existing_queue = load_article_queue()
+        discovery = discover_first_valid_article_link(
+            enabled_sources,
+            existing_articles=existing_queue.get("articles", []),
+        )
+    else:
+        discovery = discover_latest_article_links(enabled_sources)
     articles = discovery["articles"]
     queue_stats = add_articles_to_queue(articles)
     source_results = discovery.get("source_results", [])
@@ -199,9 +217,11 @@ def run_fetch_only():
     return {
         "sources_checked": discovery["checked_sources"],
         "articles_found": len(articles),
+        "first_valid_url": articles[0].get("url", "") if articles else "",
         "articles_found_by_category": dict(found_by_category),
         "failed_sources": failed_sources,
         "zero_link_sources": zero_link_sources,
+        "reason": discovery.get("reason", ""),
         **queue_stats,
     }
 
@@ -213,6 +233,24 @@ def _find_article_by_id(article_id):
     for article in queue.get("articles", []):
         if article_id in {article.get("id"), article.get("url")}:
             return article
+    return None
+
+
+def _lock_specific_ready_article(article_url):
+    if not article_url:
+        return None
+    queue = load_article_queue()
+    for article in queue.get("articles", []):
+        if article.get("url") != article_url:
+            continue
+        if article.get("status") != "ready" or article.get("content_fetch_status") != "success":
+            return None
+        article["status"] = "selected"
+        article["selected_at"] = datetime.now().isoformat(timespec="seconds")
+        article["suggested_category"] = article.get("suggested_category") or suggest_category(article)
+        article["selection_reason"] = "first valid article fast mode"
+        save_article_queue(queue)
+        return article
     return None
 
 
@@ -244,6 +282,16 @@ def _count_trusted_references(article):
     return len(article.get("trusted_references") or package.get("trusted_references") or [])
 
 
+def _article_word_count(article):
+    if not article:
+        return 0
+    try:
+        stored = int(article.get("final_word_count") or 0)
+    except (TypeError, ValueError):
+        stored = 0
+    return stored or html_word_count(article.get("final_html", ""))
+
+
 def _source_name_in_final_html(article):
     if not article:
         return False
@@ -262,7 +310,42 @@ def _parse_local_datetime(value):
 
 
 def _effective_publish_mode():
+    if SAFE_MODE:
+        return "draft"
     return "live" if PUBLISH_MODE == "live" else "draft"
+
+
+def _effective_action():
+    if (
+        not SAFE_MODE
+        and PUBLISH_MODE == "live"
+        and FAST_NEWS_MODE
+        and FIRST_VALID_ARTICLE_MODE
+        and RECENT_NEWS_ONLY
+    ):
+        return "LIVE_FAST_RECENT_NEWS"
+    if SAFE_MODE:
+        return "DRAFT"
+    if PUBLISH_MODE == "live":
+        return "LIVE"
+    return "FETCH_ONLY" if PUBLISH_MODE == "fetch-only" else "DRAFT"
+
+
+def print_startup_config():
+    print("\n" + "=" * 60, flush=True)
+    print("STARTUP CONFIG", flush=True)
+    print("=" * 60, flush=True)
+    print(f"SAFE_MODE:                      {str(SAFE_MODE).lower()}", flush=True)
+    print(f"PUBLISH_MODE:                   {PUBLISH_MODE}", flush=True)
+    print(f"FAST_NEWS_MODE:                 {str(FAST_NEWS_MODE).lower()}", flush=True)
+    print(f"FIRST_VALID_ARTICLE_MODE:       {str(FIRST_VALID_ARTICLE_MODE).lower()}", flush=True)
+    print(f"RECENT_NEWS_ONLY:               {str(RECENT_NEWS_ONLY).lower()}", flush=True)
+    print(f"RECENT_NEWS_MAX_AGE_HOURS:      {RECENT_NEWS_MAX_AGE_HOURS}", flush=True)
+    print(f"ALLOW_UNKNOWN_DATE_IN_FAST_MODE:{str(ALLOW_UNKNOWN_DATE_IN_FAST_MODE).lower()}", flush=True)
+    print(f"MAX_SOURCES_PER_RUN:            {MAX_SOURCES_PER_RUN}", flush=True)
+    print(f"SOURCE_TIMEOUT_SECONDS:         {SOURCE_TIMEOUT_SECONDS}", flush=True)
+    print(f"Effective action:               {_effective_action()}", flush=True)
+    print("=" * 60, flush=True)
 
 
 def get_publish_schedule_status(mode=None, now=None):
@@ -390,11 +473,14 @@ def _append_auto_cycle_run_log(record):
         "target_article_id": record.get("target_article_id", ""),
         "step_reached": record.get("step_reached", ""),
         "selected_article_title": record.get("selected_article_title", ""),
+        "source_name": record.get("source_name", ""),
         "selected_category": record.get("selected_category", ""),
+        "article_word_count": record.get("article_word_count", 0),
         "blogger_status": record.get("blogger_status", ""),
         "blogger_post_url": record.get("blogger_post_url", ""),
         "facebook_status": record.get("facebook_status", ""),
         "stopped_reason": record.get("stopped_reason", ""),
+        "execution_seconds": record.get("execution_seconds", 0),
         "success": bool(record.get("success")),
     }
     with open(AUTO_CYCLE_RUN_LOG, "a", encoding="utf-8") as handle:
@@ -440,11 +526,14 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
         "target_article_id": (result or {}).get("target_article_id") or article.get("id") or "",
         "step_reached": (result or {}).get("step_reached", ""),
         "selected_article_title": article.get("title") or article.get("seo_title") or "",
+        "source_name": article.get("source_name", ""),
         "selected_category": article.get("suggested_category", ""),
+        "article_word_count": _article_word_count(article),
         "blogger_status": article.get("publish_status") or draft.get("publishing_mode") or "",
         "blogger_post_url": article.get("blogger_post_url") or article.get("blogger_draft_url") or "",
         "facebook_status": article.get("facebook_status") or (facebook.get("article") or {}).get("facebook_status", ""),
         "stopped_reason": stopped_reason,
+        "execution_seconds": (result or {}).get("execution_seconds", 0),
         "success": success,
     }
 
@@ -557,6 +646,7 @@ def _send_named_telegram_alert(label, message):
 
 
 def _send_auto_cycle_alert(result, error=None, run_id=""):
+    print("Sending Telegram final report", flush=True)
     alert_result = notify_auto_cycle_summary(result, error=error, run_id=run_id)
     if alert_result.get("sent"):
         print("Telegram final alert: sent")
@@ -577,15 +667,28 @@ def _print_telegram_config_warning(status=None):
 def run_auto_cycle_logged():
     run_id = _new_run_id()
     started_at = datetime.now().isoformat(timespec="seconds")
+    started_timer = time.perf_counter()
     result = None
     error = None
     try:
+        log_event("auto_cycle_start", run_id=run_id, mode=_effective_publish_mode())
         result = run_safe_cycle_only()
         return result
     except Exception as exc:
         error = str(exc)
         raise
     finally:
+        execution_seconds = round(time.perf_counter() - started_timer, 2)
+        if isinstance(result, dict):
+            result["execution_seconds"] = execution_seconds
+        log_event(
+            "auto_cycle_end",
+            run_id=run_id,
+            status="failed" if error else "completed",
+            execution_seconds=execution_seconds,
+            error=error,
+        )
+        print(f"Finished in {execution_seconds:.2f} seconds", flush=True)
         _send_auto_cycle_alert(result or {}, error=error, run_id=run_id)
         _append_auto_cycle_run_log(
             _auto_cycle_record_from_result(run_id, started_at, result or {}, error=error)
@@ -980,11 +1083,21 @@ def run_deployment_check_only():
     print("=" * 60)
 
     ai_provider = str(os.getenv("AI_PROVIDER", "auto")).strip().lower()
+    publish_mode = str(os.getenv("PUBLISH_MODE", "draft")).strip().lower()
+    facebook_auto_post = _safe_bool_env("FACEBOOK_AUTO_POST")
+    fast_news_mode = _safe_bool_env("FAST_NEWS_MODE")
+    first_valid_mode = _safe_bool_env("FIRST_VALID_ARTICLE_MODE")
+    recent_news_only = _safe_bool_env("RECENT_NEWS_ONLY")
+    allow_unknown_date = _safe_bool_env("ALLOW_UNKNOWN_DATE_IN_FAST_MODE")
+    recent_hours_raw = str(os.getenv("RECENT_NEWS_MAX_AGE_HOURS", "")).strip()
+    max_posts_raw = str(os.getenv("MAX_POSTS_PER_RUN", "")).strip()
+    max_articles_raw = str(os.getenv("MAX_ARTICLES_PER_RUN", "")).strip()
+    safe_cycle_max_raw = str(os.getenv("SAFE_CYCLE_MAX_ARTICLES", "")).strip()
     required_env = [
         "BLOG_ID",
-        "FACEBOOK_PAGE_ID",
-        "FACEBOOK_PAGE_ACCESS_TOKEN",
     ]
+    if publish_mode == "live" and facebook_auto_post:
+        required_env.extend(["FACEBOOK_PAGE_ID", "FACEBOOK_PAGE_ACCESS_TOKEN"])
     if ai_provider == "gemini":
         required_env.append("GEMINI_API_KEY")
     elif ai_provider == "openrouter":
@@ -1030,11 +1143,19 @@ def run_deployment_check_only():
     print(f"  - client_secret.json fallback: {client_file_status}")
     print(f"  - data/token.json fallback: {token_file_status}")
 
-    publish_mode = str(os.getenv("PUBLISH_MODE", "draft")).strip().lower()
-    facebook_auto_post = _safe_bool_env("FACEBOOK_AUTO_POST")
     publish_mode_safe = publish_mode in {"draft", "live"}
     print(f"PUBLISH_MODE: {publish_mode if publish_mode else 'MISSING'}")
     print(f"PUBLISH_MODE value safe: {'yes' if publish_mode_safe else 'no'}")
+    safe_mode_env = str(os.getenv("SAFE_MODE", "true")).strip().lower() in {"1", "true", "yes", "on"}
+    print(f"SAFE_MODE: {'true' if safe_mode_env else 'false'}")
+    print(f"FAST_NEWS_MODE: {'true' if fast_news_mode else 'false'}")
+    print(f"FIRST_VALID_ARTICLE_MODE: {'true' if first_valid_mode else 'false'}")
+    print(f"RECENT_NEWS_ONLY: {'true' if recent_news_only else 'false'}")
+    print(f"RECENT_NEWS_MAX_AGE_HOURS: {recent_hours_raw or 'MISSING'}")
+    print(f"ALLOW_UNKNOWN_DATE_IN_FAST_MODE: {'true' if allow_unknown_date else 'false'}")
+    print(f"MAX_POSTS_PER_RUN: {max_posts_raw or 'MISSING'}")
+    print(f"MAX_ARTICLES_PER_RUN: {max_articles_raw or 'MISSING'}")
+    print(f"SAFE_CYCLE_MAX_ARTICLES: {safe_cycle_max_raw or 'MISSING'}")
     print(f"FACEBOOK_AUTO_POST: {'true' if facebook_auto_post else 'false'}")
     print("FACEBOOK_AUTO_POST value safe: yes")
     print("Telegram alerts:")
@@ -1070,6 +1191,25 @@ def run_deployment_check_only():
         errors.append("Live Blogger plus Facebook requires all rate-limit variables.")
     if publish_mode == "live":
         warnings.append("PUBLISH_MODE is live. Confirm this is intentional before scheduling.")
+        effective_single_post = (
+            max_posts_raw == "1"
+            or max_articles_raw == "1"
+            or safe_cycle_max_raw == "1"
+        )
+        if safe_mode_env:
+            errors.append("PUBLISH_MODE=live requires SAFE_MODE=false.")
+        if not fast_news_mode:
+            errors.append("Live automation requires FAST_NEWS_MODE=true.")
+        if not first_valid_mode:
+            errors.append("Live automation requires FIRST_VALID_ARTICLE_MODE=true.")
+        if not recent_news_only:
+            errors.append("Live automation requires RECENT_NEWS_ONLY=true.")
+        if allow_unknown_date:
+            errors.append("Live automation requires ALLOW_UNKNOWN_DATE_IN_FAST_MODE=false.")
+        if recent_hours_raw != "2":
+            errors.append("Live automation requires RECENT_NEWS_MAX_AGE_HOURS=2.")
+        if not effective_single_post:
+            errors.append("Live automation requires a one-post limit via MAX_POSTS_PER_RUN=1, MAX_ARTICLES_PER_RUN=1, or SAFE_CYCLE_MAX_ARTICLES=1.")
     if facebook_auto_post:
         warnings.append("FACEBOOK_AUTO_POST is true. Confirm Facebook limits before scheduling.")
     if Path(".env").exists():
@@ -1170,12 +1310,14 @@ def _print_safe_cycle_final_report(
     draft_result = draft_result or {}
     publish_mode = draft_result.get("publishing_mode") or _effective_publish_mode()
     print("\n" + "=" * 60)
-    print("PHASE 9 SAFE-CYCLE FINAL REPORT")
+    print(f"PHASE 9 {_effective_action()} FINAL REPORT")
     print("=" * 60)
     print(f"Target article ID:      {target_article_id or (article.get('id', '') if article else '')}")
     print(f"Selected article title: {article.get('title', '') if article else ''}")
+    print(f"Source:                 {article.get('source_name', '') if article else ''}")
     print(f"Category:               {article.get('suggested_category', '') if article else ''}")
     print(f"Score:                  {article.get('score', '') if article else ''}")
+    print(f"Article word count:     {_article_word_count(article)}")
     print(f"AI status:              {article.get('ai_status', '') if article else ''}")
     print(f"Post created/updated:   {draft_action}")
     print(f"Draft ID:               {article.get('blogger_draft_id', '') if article else ''}")
@@ -1192,7 +1334,7 @@ def _print_safe_cycle_final_report(
         f"{'yes' if _source_name_in_final_html(article) else 'no'}"
     )
     if draft_result.get("error"):
-        print(f"Draft error:            {draft_result['error']}")
+        print(f"Publish error:          {draft_result['error']}")
     if stopped_reason:
         print(f"Stopped reason:         {stopped_reason}")
     print(f"Source warnings:        {source_warnings_count}")
@@ -1203,18 +1345,28 @@ def _print_safe_cycle_final_report(
 
 def run_safe_cycle_only():
     """
-    Phase 9 command: run one full safe workflow through Blogger draft creation.
-    This command is draft-only and never publishes live.
+    Phase 9 command: run one full one-article workflow.
+    SAFE_MODE controls whether the effective publish mode is draft or live.
     """
     publish_mode = _effective_publish_mode()
+    action_label = _effective_action()
+    cycle_label = "LIVE FAST RECENT NEWS" if action_label == "LIVE_FAST_RECENT_NEWS" else "DRAFT/SAFE CYCLE"
     print("\n" + "=" * 60)
-    print("PHASE 9: Safe one-article draft cycle")
+    print(f"PHASE 9: {cycle_label}")
     print("=" * 60)
-    print("Command: python main.py safe-cycle")
+    print("Command: python main.py auto-cycle")
+    print(f"Effective action: {action_label}")
     print(f"Publishing mode: {publish_mode.upper()}")
+    print(f"Safe mode: {'true' if SAFE_MODE else 'false'}")
+    if SAFE_MODE and publish_mode == "live":
+        reason = "SAFE_MODE=true refuses live publishing"
+        print(reason)
+        _print_safe_cycle_final_report(None, stopped_reason=reason)
+        notify_auto_cycle_blocked(reason, "")
+        return {"completed": False, "reason": reason, "step_reached": "safety-check"}
     if publish_mode != "live":
         print("Live publishing is disabled because PUBLISH_MODE is not exactly live.")
-    print(f"Safe-cycle max articles: {SAFE_CYCLE_MAX_ARTICLES}")
+    print(f"Cycle max articles: {SAFE_CYCLE_MAX_ARTICLES}")
     print()
 
     if publish_mode != "live" and not SAFE_CYCLE_DRAFT_ONLY:
@@ -1234,7 +1386,7 @@ def run_safe_cycle_only():
     print_safe_cycle_status(schedule_status)
     if not schedule_status["allowed_now"]:
         reason = "; ".join(schedule_status["reasons"]) or "safe-cycle schedule blocked"
-        print(f"Safe-cycle stopping cleanly before article selection: {reason}.")
+        print(f"Cycle stopping cleanly before article selection: {reason}.")
         _print_safe_cycle_final_report(None, draft_result={"error": reason}, stopped_reason=reason)
         notify_auto_cycle_blocked(reason, _format_datetime(schedule_status.get("next_allowed_time")))
         return {
@@ -1247,8 +1399,30 @@ def run_safe_cycle_only():
     print("\n[1/7] fetch")
     fetch_stats = run_fetch_only()
     source_warnings_count = len(fetch_stats.get("failed_sources") or [])
+    zero_link_warnings_count = len(fetch_stats.get("zero_link_sources") or [])
+    source_warnings_count += zero_link_warnings_count
     if source_warnings_count:
         print(f"Source warnings recorded: {source_warnings_count}")
+    if zero_link_warnings_count:
+        print(f"Zero-link source warnings recorded: {zero_link_warnings_count}")
+    if FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE and RECENT_NEWS_ONLY and not fetch_stats.get("first_valid_url"):
+        reason = fetch_stats.get("reason") or f"no article in last {RECENT_NEWS_MAX_AGE_HOURS} hours"
+        print(f"Live fast recent mode stopping before old queue fallback: {reason}.")
+        _print_safe_cycle_final_report(
+            None,
+            stopped_reason=reason,
+            source_warnings_count=source_warnings_count,
+            enrichment_failed_count=0,
+        )
+        notify_auto_cycle_blocked(reason, "")
+        return {
+            "completed": False,
+            "reason": reason,
+            "fetch": fetch_stats,
+            "source_warnings_count": source_warnings_count,
+            "enrichment_failed_count": 0,
+            "step_reached": "fetch",
+        }
 
     print("\n[2/7] score")
     score_stats = run_score_only()
@@ -1256,24 +1430,63 @@ def run_safe_cycle_only():
     print("\n[3/7] enrich")
     enrich_stats = run_enrich_only(force=False)
     enrichment_failed_count = int(enrich_stats.get("failed") or 0)
+    enrichment_weak_count = int(enrich_stats.get("weak") or 0)
+    enrichment_failed_count += enrichment_weak_count
     if enrichment_failed_count:
         print(f"Enrichment warnings recorded: {enrichment_failed_count}")
+    if enrichment_weak_count:
+        print(f"Weak enrichment warnings recorded: {enrichment_weak_count}")
 
     print("\n[4/7] plan-next --lock")
-    plan_result = run_plan_next_only(lock=True)
-    selected = plan_result.get("selected")
+    selected = None
+    plan_result = {}
+    if FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE:
+        selected = _lock_specific_ready_article(fetch_stats.get("first_valid_url", ""))
+        plan_result = {
+            "selected": selected,
+            "reason": "first valid article fast mode" if selected else "first valid article was not ready after enrichment",
+            "lock": True,
+            "eligible_count": 1 if selected else 0,
+        }
+        if selected:
+            print("First valid article locked for publishing.")
+        else:
+            reason = "fresh article from this run was not ready after enrichment"
+            print(f"Cycle stopping cleanly: {reason}.")
+            _print_safe_cycle_final_report(
+                None,
+                stopped_reason=reason,
+                source_warnings_count=source_warnings_count,
+                enrichment_failed_count=enrichment_failed_count,
+            )
+            notify_auto_cycle_blocked(reason, "")
+            return {
+                "completed": False,
+                "reason": reason,
+                "fetch": fetch_stats,
+                "score": score_stats,
+                "enrich": enrich_stats,
+                "plan": plan_result,
+                "source_warnings_count": source_warnings_count,
+                "enrichment_failed_count": enrichment_failed_count,
+                "step_reached": "plan-next",
+            }
     if not selected:
-        print("Safe-cycle stopping cleanly: no eligible article exists.")
+        plan_result = run_plan_next_only(lock=True)
+        selected = plan_result.get("selected")
+    if not selected:
+        no_article_reason = fetch_stats.get("reason") or "no eligible article"
+        print(f"Cycle stopping cleanly: {no_article_reason}.")
         _print_safe_cycle_final_report(
             None,
-            stopped_reason="no eligible article",
+            stopped_reason=no_article_reason,
             source_warnings_count=source_warnings_count,
             enrichment_failed_count=enrichment_failed_count,
         )
-        notify_auto_cycle_blocked("no eligible article", "")
+        notify_auto_cycle_blocked(no_article_reason, "")
         return {
             "completed": False,
-            "reason": "no eligible article",
+            "reason": no_article_reason,
             "fetch": fetch_stats,
             "score": score_stats,
             "enrich": enrich_stats,
@@ -1297,7 +1510,7 @@ def run_safe_cycle_only():
     print(f"Failed:                  {prepare_stats['failed']}")
     print("=" * 60)
     if not article or article.get("processing_status") != "ready_for_ai":
-        print("Safe-cycle stopping cleanly: selected article could not be prepared for AI.")
+        print("Cycle stopping cleanly: selected article could not be prepared for AI.")
         _print_safe_cycle_final_report(
             article,
             target_article_id=selected_id,
@@ -1317,8 +1530,14 @@ def run_safe_cycle_only():
             "step_reached": "prepare-ai",
         }
 
-    print("\n[6/7] run-ai")
+    print("\n[6/7] run-ai", flush=True)
+    print("Starting AI rewrite", flush=True)
+    ai_started = time.perf_counter()
     ai_stats = process_one_selected_article_with_ai(target_article_id=selected_id)
+    ai_elapsed = time.perf_counter() - ai_started
+    print(f"AI finished in {ai_elapsed:.1f}s", flush=True)
+    if ai_elapsed > 20:
+        print(f"Heartbeat: AI rewrite took {ai_elapsed:.1f}s", flush=True)
     article = _find_article_by_id(selected_id)
     print("\n" + "=" * 60)
     print("PHASE 9 RUN-AI STEP SUMMARY")
@@ -1326,12 +1545,13 @@ def run_safe_cycle_only():
     print(f"Processed articles: {ai_stats['processed']}")
     print(f"Success count:      {ai_stats['success']}")
     print(f"Failed count:       {ai_stats['failed']}")
+    print(f"Article word count: {_article_word_count(article)}")
     if ai_stats.get("message"):
         print(f"Message:            {ai_stats['message']}")
     print("=" * 60)
 
     if not article or article.get("ai_status") != "completed" or not article.get("final_html"):
-        print("Safe-cycle stopping cleanly: AI failed or no completed AI output is available.")
+        print("Cycle stopping cleanly: AI failed or no completed AI output is available.")
         _print_safe_cycle_final_report(
             article,
             target_article_id=selected_id,
@@ -1352,8 +1572,14 @@ def run_safe_cycle_only():
             "step_reached": "run-ai",
         }
 
-    print("\n[7/7] publish")
+    print("\n[7/7] publish", flush=True)
+    print("Publishing to Blogger", flush=True)
+    publish_started = time.perf_counter()
     draft_result = publish_one_blogger_post(target_article_id=selected_id, mode=publish_mode)
+    publish_elapsed = time.perf_counter() - publish_started
+    print(f"Blogger publish finished in {publish_elapsed:.1f}s", flush=True)
+    if publish_elapsed > 20:
+        print(f"Heartbeat: Blogger publish took {publish_elapsed:.1f}s", flush=True)
     article = _find_article_by_id(selected_id)
     draft_action = "none"
     if draft_result.get("updated_existing"):
@@ -1382,7 +1608,8 @@ def run_safe_cycle_only():
         and article.get("publish_status") == "published"
         and article.get("blogger_post_url")
     ):
-        print("\n[8/8] post-facebook")
+        print("\n[8/8] post-facebook", flush=True)
+        print("Posting Facebook", flush=True)
         facebook_result = post_one_article_to_facebook(
             target_article_id=selected_id,
             respect_limits=False,
@@ -1476,6 +1703,7 @@ def run_enrich_only(force=False):
     print("=" * 60)
     print(f"Ready articles checked:          {stats['checked']}")
     print(f"Successfully enriched:           {stats['enriched']}")
+    print(f"Weak enrichments skipped:        {stats.get('weak', 0)}")
     print(f"Failed enrichments:              {stats['failed']}")
     print(f"Already enriched skipped:        {stats['already_enriched']}")
     print(f"Total queued articles:           {stats['total_queued']}")
@@ -1583,6 +1811,7 @@ def run_ai_only(force=False):
         print(f"Title:       {article.get('seo_title') or article.get('title', '')}")
         print(f"Slug:        {article.get('seo_slug', '')}")
         print(f"HTML length: {len(article.get('final_html', ''))}")
+        print(f"Word count:  {_article_word_count(article)}")
         if article.get("ai_status") == "failed":
             print(f"AI error:    {article.get('ai_error', '')}")
     else:
@@ -1959,6 +2188,7 @@ def run_once():
 
 def main():
     print_banner()
+    print_startup_config()
 
     if len(sys.argv) > 1 and sys.argv[1] == "fetch":
         run_fetch_only()
@@ -1969,8 +2199,7 @@ def main():
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "deployment-check":
-        run_deployment_check_only()
-        return
+        raise SystemExit(0 if run_deployment_check_only().get("ok") else 1)
 
     if len(sys.argv) > 1 and sys.argv[1] == "health":
         run_health_only()

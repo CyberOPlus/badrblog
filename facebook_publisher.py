@@ -4,7 +4,9 @@
 
 import random
 import re
+import time
 from datetime import datetime, timedelta
+from urllib.parse import urlparse
 
 import requests
 
@@ -12,12 +14,14 @@ from article_queue import load_article_queue, save_article_queue
 from config import (
     FACEBOOK_AUTO_POST,
     FACEBOOK_GRAPH_API_URL,
+    FACEBOOK_LINK_MODE,
     MAX_FACEBOOK_POSTS_PER_DAY,
     MIN_MINUTES_BETWEEN_FACEBOOK_POSTS,
     FACEBOOK_PAGE_ACCESS_TOKEN,
     FACEBOOK_PAGE_ID,
 )
 from notifier import notify_facebook_result
+from production_logging import elapsed_ms, log_event
 
 
 CAPTION_STYLES = (
@@ -36,6 +40,9 @@ FORBIDDEN_CAPTION_PHRASES = (
     "افتح الرابط",
     "الرابط",
 )
+
+FACEBOOK_CTA = "\u0627\u0644\u062a\u0641\u0627\u0635\u064a\u0644 \u0627\u0644\u0643\u0627\u0645\u0644\u0629 \u0641\u064a \u0623\u0648\u0644 \u062a\u0639\u0644\u064a\u0642."
+FACEBOOK_CTA_WITH_URL = "\u0627\u0644\u062a\u0641\u0627\u0635\u064a\u0644 \u0627\u0644\u0643\u0627\u0645\u0644\u0629 \u0647\u0646\u0627:"
 
 
 def _now_iso():
@@ -65,8 +72,22 @@ def _has_blogger_live_publish(article):
     return (
         article.get("status") == "published"
         and article.get("publish_status") == "published"
-        and bool(article.get("blogger_post_url"))
+        and bool(_blogger_post_url(article))
     )
+
+
+def _valid_public_blogger_url(url):
+    url = str(url or "").strip()
+    if not url.startswith(("http://", "https://")):
+        return ""
+    parsed = urlparse(url)
+    if not parsed.netloc or parsed.path.strip("/") == "":
+        return ""
+    return url
+
+
+def _blogger_post_url(article):
+    return _valid_public_blogger_url((article or {}).get("blogger_post_url"))
 
 
 def _eligible_for_facebook(article):
@@ -104,7 +125,7 @@ def _has_blogger_draft(article):
     return (
         article.get("status") == "draft_created"
         and article.get("publish_status") == "draft_created"
-        and bool(article.get("blogger_draft_url") or article.get("blogger_post_url"))
+        and bool(_valid_public_blogger_url(article.get("blogger_draft_url")) or _blogger_post_url(article))
     )
 
 
@@ -232,10 +253,11 @@ def _human_summary(article):
     return summary[:cut_at].rstrip() + "..."
 
 
-def _build_caption(article, pattern):
+def _build_caption(article, pattern, blogger_url=None):
     title = _short_title(article)
     summary = _human_summary(article)
     tags = " ".join(_hashtags(article))
+    blogger_url = blogger_url or _blogger_post_url(article)
 
     if pattern == "breaking_alert":
         parts = ["🚨 تم اكتشاف تطور مهم في المشهد التقني.", title]
@@ -260,9 +282,20 @@ def _build_caption(article, pattern):
             parts.append(summary)
         parts.append("راقب الأثر العملي قبل أن يصبح واقعا يوميا.")
 
+    cleaned_parts = [_clean_caption_line(part) for part in parts]
+    cleaned_parts = [part for part in cleaned_parts if part]
+    body = "\n".join(cleaned_parts)
+    if len(body) > 950:
+        body = body[:947].rstrip() + "..."
+
+    final_lines = [body] if body else []
+    if blogger_url and FACEBOOK_LINK_MODE in {"caption", "both"}:
+        final_lines.extend([FACEBOOK_CTA_WITH_URL, blogger_url])
+    elif blogger_url:
+        final_lines.append(FACEBOOK_CTA)
     if tags:
-        parts.append(tags)
-    return "\n".join(_clean_caption_line(part) for part in parts if _clean_caption_line(part))[:1200]
+        final_lines.append(tags)
+    return "\n".join(line for line in final_lines if line)
 
 
 def _main_image_url(article):
@@ -281,17 +314,36 @@ def _main_image_url(article):
 
 def _post_to_graph(path, payload):
     url = f"{FACEBOOK_GRAPH_API_URL.rstrip('/')}/{path.lstrip('/')}"
+    started = time.perf_counter()
+    log_event("facebook_graph_start", path=path)
     response = requests.post(url, data=payload, timeout=60)
     if response.status_code >= 400:
+        log_event(
+            "facebook_graph_end",
+            path=path,
+            status=response.status_code,
+            error=response.text[:200],
+            elapsed_ms=elapsed_ms(started),
+        )
         raise RuntimeError(f"Facebook Graph API error {response.status_code}: {response.text[:500]}")
     data = response.json()
     if not isinstance(data, dict):
         raise RuntimeError("Facebook Graph API returned an unexpected response.")
+    log_event(
+        "facebook_graph_end",
+        path=path,
+        status=response.status_code,
+        elapsed_ms=elapsed_ms(started),
+    )
     return data
 
 
 def _publish_facebook_post(article, caption_pattern):
-    caption = _build_caption(article, caption_pattern)
+    blogger_url = _blogger_post_url(article)
+    if not blogger_url:
+        raise RuntimeError("Missing live Blogger URL for Facebook post.")
+
+    caption = _build_caption(article, caption_pattern, blogger_url=blogger_url)
     image_url = _main_image_url(article)
     base_payload = {
         "access_token": FACEBOOK_PAGE_ACCESS_TOKEN,
@@ -456,6 +508,10 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             "Article is not a successful live Blogger publish with blogger_post_url.",
         )
 
+    blogger_url = _blogger_post_url(article)
+    if not blogger_url:
+        return _failure_result(queue, article, "Missing valid live Blogger URL for Facebook.")
+
     if respect_limits:
         limits = get_facebook_limits_status()
         if not limits["allowed_now"]:
@@ -468,6 +524,12 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
 
     try:
         caption_pattern = _choose_caption_pattern(article, articles)
+        log_event(
+            "facebook_post_start",
+            article_id=article.get("id"),
+            blogger_url=blogger_url,
+            pattern=caption_pattern,
+        )
         facebook_post_id, post_type = _publish_facebook_post(article, caption_pattern)
         if not facebook_post_id:
             raise RuntimeError("Facebook Graph API did not return a post id.")
@@ -477,16 +539,21 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         article["facebook_posted_at"] = _now_iso()
         article["facebook_post_type"] = post_type
         article["facebook_caption_pattern"] = caption_pattern
+        article["facebook_link_mode"] = FACEBOOK_LINK_MODE
+        article["facebook_post_text"] = _build_caption(article, caption_pattern, blogger_url=blogger_url)
         article.pop("facebook_error", None)
         article.pop("telegram_facebook_notified", None)
         article.pop("telegram_facebook_event_key", None)
 
-        try:
-            comment_id = _post_first_comment(facebook_post_id, article["blogger_post_url"])
-            article["facebook_comment_id"] = comment_id
-        except Exception as comment_error:
-            article["facebook_status"] = "posted_comment_failed"
-            article["facebook_error"] = f"First comment failed: {comment_error}"
+        if FACEBOOK_LINK_MODE in {"comment", "both"}:
+            try:
+                comment_id = _post_first_comment(facebook_post_id, blogger_url)
+                article["facebook_comment_id"] = comment_id
+            except Exception as comment_error:
+                article["facebook_status"] = "posted_comment_failed"
+                article["facebook_error"] = f"First comment failed: {comment_error}"
+        else:
+            article.pop("facebook_comment_id", None)
 
         save_article_queue(queue)
         result = {
@@ -495,6 +562,15 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             "article": article,
             "error": article.get("facebook_error", ""),
         }
+        log_event(
+            "facebook_post_result",
+            status=article.get("facebook_status"),
+            article_id=article.get("id"),
+            facebook_post_id=article.get("facebook_post_id"),
+            comment_id=article.get("facebook_comment_id"),
+            blogger_url=blogger_url,
+            error=article.get("facebook_error", ""),
+        )
         _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
         return result
 
@@ -507,6 +583,13 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             "article": article,
             "error": article.get("facebook_error", ""),
         }
+        log_event(
+            "facebook_post_result",
+            status="failed",
+            article_id=article.get("id"),
+            blogger_url=blogger_url,
+            error=article.get("facebook_error", ""),
+        )
         _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
         return result
 
@@ -548,11 +631,12 @@ def retry_facebook_first_comment(target_article_id):
         }
     if not article.get("facebook_post_id"):
         return _failure_result(queue, article, "Article has no Facebook post ID for comment retry.")
-    if not article.get("blogger_post_url"):
+    blogger_url = _blogger_post_url(article)
+    if not blogger_url:
         return _failure_result(queue, article, "Article has no real Blogger URL for comment retry.")
 
     try:
-        comment_id = _post_first_comment(article["facebook_post_id"], article["blogger_post_url"])
+        comment_id = _post_first_comment(article["facebook_post_id"], blogger_url)
         article["facebook_comment_id"] = comment_id
         article["facebook_status"] = "posted"
         article.pop("facebook_error", None)
@@ -660,11 +744,17 @@ def preview_next_facebook_post(target_article_id=None, include_drafts=False):
         }
 
     caption_pattern = _choose_caption_pattern(article, articles)
-    caption = _build_caption(article, caption_pattern)
+    blogger_url = _blogger_post_url(article) or _valid_public_blogger_url(article.get("blogger_draft_url"))
+    if not blogger_url:
+        return {
+            "available": False,
+            "article": article,
+            "error": "Selected Blogger article does not have a usable post permalink.",
+        }
+    caption = _build_caption(article, caption_pattern, blogger_url=blogger_url)
     lines = [line for line in caption.splitlines() if line.strip()]
     hashtags = lines[-1] if lines and lines[-1].startswith("#") else ""
     post_text = "\n".join(lines[:-1]) if hashtags else caption
-    blogger_url = article.get("blogger_post_url") or article.get("blogger_draft_url")
 
     return {
         "available": True,
@@ -672,7 +762,8 @@ def preview_next_facebook_post(target_article_id=None, include_drafts=False):
         "selected_style": caption_pattern,
         "post_text": post_text,
         "hashtags": hashtags,
-        "first_comment_text": _first_comment_text(blogger_url),
+        "first_comment_text": _first_comment_text(blogger_url) if FACEBOOK_LINK_MODE in {"comment", "both"} else "",
+        "link_mode": FACEBOOK_LINK_MODE,
         "image_url": _main_image_url(article),
         "error": "",
     }

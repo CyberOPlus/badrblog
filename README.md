@@ -111,7 +111,7 @@ copy .env.example .env
 4. Open the `.env` file in any text editor
 5. Replace `your_gemini_api_key_here` with your actual key:
    ```
-   GEMINI_API_KEY=AIzaSyDzHbCB9uZAd8bw3enMilvsjDaTMCSvRyg
+   GEMINI_API_KEY=your_gemini_api_key_here
    ```
 
 ### Step 4: Find Your Blogger Blog ID

@@ -49,10 +49,10 @@ Never upload `client_secret.json`, `data/token.json`, or `.env` directly to GitH
 The workflow creates a runtime `.env` with these safe defaults:
 
 ```env
-PUBLISH_MODE=draft
+PUBLISH_MODE=live
 FACEBOOK_AUTO_POST=false
 SAFE_CYCLE_MAX_ARTICLES=1
-SAFE_CYCLE_DRAFT_ONLY=true
+SAFE_CYCLE_DRAFT_ONLY=false
 MAX_DRAFTS_PER_DAY=10
 MIN_MINUTES_BETWEEN_DRAFTS=30
 MAX_LIVE_POSTS_PER_DAY=5

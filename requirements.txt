@@ -11,9 +11,11 @@
 # --- Web Scraping ---
 # beautifulsoup4: Parses HTML pages so we can extract article text
 # requests: Makes HTTP requests to download web pages
+# aiohttp: Async HTTP client for parallel source/article fetching
 # scrapling: Adaptive scraping framework with stealthy fetchers
 beautifulsoup4>=4.12.0
 requests>=2.31.0
+aiohttp>=3.9.0
 scrapling>=0.4.7
 
 # --- Google Gemini AI ---

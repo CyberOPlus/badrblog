@@ -5,6 +5,7 @@
 import re
 
 from article_queue import load_article_queue, save_article_queue
+from config import FAST_NEWS_MODE, FIRST_VALID_ARTICLE_MODE
 
 HIGH_PRIORITY_KEYWORDS = [
     "breach",
@@ -130,7 +131,8 @@ def score_new_articles():
 
         article["score"] = score
         article["priority"] = priority
-        article["status"] = "ready" if score >= 6 else "skipped"
+        ready_threshold = 0 if FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE else 6
+        article["status"] = "ready" if score >= ready_threshold else "skipped"
 
         priority_counts[priority] += 1
         if article["status"] == "ready":

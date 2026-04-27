@@ -1,13 +1,36 @@
-name: Safe Auto Cycle
+name: Blogger Auto Cycle
 
 on:
   schedule:
     - cron: "*/10 * * * *"
   workflow_dispatch:
+    inputs:
+      mode:
+        description: "Publishing mode"
+        required: true
+        default: "live"
+        type: choice
+        options:
+          - live
+      fast_news:
+        description: "Use fast news mode"
+        required: true
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+      recent_hours:
+        description: "Recent article max age in hours"
+        required: true
+        default: "2"
+        type: choice
+        options:
+          - "2"
 
 concurrency:
   group: auto-cycle
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   auto-cycle:
@@ -41,6 +64,9 @@ jobs:
 
       - name: Create runtime secrets and .env
         env:
+          REQUESTED_MODE: ${{ github.event.inputs.mode || 'live' }}
+          REQUESTED_FAST_NEWS: ${{ github.event.inputs.fast_news || 'true' }}
+          REQUESTED_RECENT_HOURS: ${{ github.event.inputs.recent_hours || '2' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -54,12 +80,30 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
           python - <<'PY'
+          import json
           import os
+          import sys
           from pathlib import Path
 
-          for name in (
+          masked_names = (
               "GEMINI_API_KEY",
               "OPENROUTER_API_KEY",
+              "OPENAI_API_KEY",
+              "BLOGGER_BLOG_ID",
+              "BLOGGER_CLIENT_SECRET_JSON",
+              "BLOGGER_TOKEN_JSON",
+              "FACEBOOK_PAGE_ID",
+              "FACEBOOK_PAGE_ACCESS_TOKEN",
+              "TELEGRAM_ALERTS_ENABLED",
+              "TELEGRAM_BOT_TOKEN",
+              "TELEGRAM_CHAT_ID",
+          )
+          for name in masked_names:
+              value = os.environ.get(name, "")
+              if value:
+                  print(f"::add-mask::{value}")
+
+          required_names = [
               "BLOGGER_BLOG_ID",
               "BLOGGER_CLIENT_SECRET_JSON",
               "BLOGGER_TOKEN_JSON",
@@ -67,24 +111,69 @@ jobs:
               "FACEBOOK_PAGE_ACCESS_TOKEN",
               "TELEGRAM_BOT_TOKEN",
               "TELEGRAM_CHAT_ID",
-          ):
-              value = os.environ.get(name, "")
-              if value:
-                  print(f"::add-mask::{value}")
+          ]
+          missing = []
+          for name in required_names:
+              if not os.environ.get(name, "").strip():
+                  missing.append(name)
+          if not any(os.environ.get(name, "").strip() for name in ("GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY")):
+              missing.append("GEMINI_API_KEY or OPENROUTER_API_KEY or OPENAI_API_KEY")
+
+          for json_name in ("BLOGGER_CLIENT_SECRET_JSON", "BLOGGER_TOKEN_JSON"):
+              raw = os.environ.get(json_name, "").strip()
+              if not raw:
+                  continue
+              try:
+                  json.loads(raw)
+              except json.JSONDecodeError:
+                  print(f"::error::{json_name} is missing or invalid JSON.")
+                  sys.exit(1)
+
+          if missing:
+              print("::error::Missing required GitHub secrets/env vars: " + ", ".join(missing))
+              sys.exit(1)
 
           Path("data").mkdir(exist_ok=True)
-          Path("client_secret.json").write_text(os.environ["BLOGGER_CLIENT_SECRET_JSON"], encoding="utf-8")
-          Path("data/token.json").write_text(os.environ["BLOGGER_TOKEN_JSON"], encoding="utf-8")
+          mode = os.environ.get("REQUESTED_MODE", "live").strip().lower()
+          if mode != "live":
+              mode = "live"
+          safe_mode = "false"
+          facebook_enabled = "true"
+          fast_news = os.environ.get("REQUESTED_FAST_NEWS", "true").strip().lower()
+          if fast_news not in {"true", "false"}:
+              fast_news = "true"
+          recent_hours = os.environ.get("REQUESTED_RECENT_HOURS", "2").strip()
+          if recent_hours != "2":
+              recent_hours = "2"
+
+          Path("client_secret.json").write_text(os.environ.get("BLOGGER_CLIENT_SECRET_JSON", ""), encoding="utf-8")
+          Path("data/token.json").write_text(os.environ.get("BLOGGER_TOKEN_JSON", ""), encoding="utf-8")
 
           env_lines = {
-              "GEMINI_API_KEY": os.environ["GEMINI_API_KEY"],
-              "OPENROUTER_API_KEY": os.environ["OPENROUTER_API_KEY"],
+              "GEMINI_API_KEY": os.environ.get("GEMINI_API_KEY", ""),
+              "OPENROUTER_API_KEY": os.environ.get("OPENROUTER_API_KEY", ""),
               "OPENAI_API_KEY": os.environ.get("OPENAI_API_KEY", ""),
-              "BLOG_ID": os.environ["BLOGGER_BLOG_ID"],
-              "PUBLISH_MODE": "live",
-              "FACEBOOK_AUTO_POST": "true",
-              "FACEBOOK_PAGE_ID": os.environ["FACEBOOK_PAGE_ID"],
-              "FACEBOOK_PAGE_ACCESS_TOKEN": os.environ["FACEBOOK_PAGE_ACCESS_TOKEN"],
+              "BLOG_ID": os.environ.get("BLOGGER_BLOG_ID", ""),
+              "PUBLISH_MODE": mode,
+              "SAFE_MODE": safe_mode,
+              "FACEBOOK_AUTO_POST": facebook_enabled,
+              "FACEBOOK_LINK_MODE": "comment",
+              "FAST_NEWS_MODE": fast_news,
+              "FIRST_VALID_ARTICLE_MODE": "true",
+              "RECENT_NEWS_ONLY": "true",
+              "RECENT_NEWS_MAX_AGE_HOURS": recent_hours,
+              "ALLOW_UNKNOWN_DATE_IN_FAST_MODE": "false",
+              "MAX_POSTS_PER_RUN": "1",
+              "MAX_ARTICLES_PER_RUN": "1",
+              "MIN_ARTICLE_WORDS": "120",
+              "TARGET_ARTICLE_WORDS": "250-600",
+              "MAX_SOURCE_RETRIES": "1",
+              "SOURCE_RETRY_DELAY_SECONDS": "3",
+              "SOURCE_TIMEOUT_SECONDS": "10",
+              "MAX_SOURCES_PER_RUN": "10",
+              "ENABLE_SCRAPLING_FALLBACK": "false",
+              "FACEBOOK_PAGE_ID": os.environ.get("FACEBOOK_PAGE_ID", ""),
+              "FACEBOOK_PAGE_ACCESS_TOKEN": os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN", ""),
               "TELEGRAM_ALERTS_ENABLED": "true",
               "TELEGRAM_BOT_TOKEN": os.environ.get("TELEGRAM_BOT_TOKEN", ""),
               "TELEGRAM_CHAT_ID": os.environ.get("TELEGRAM_CHAT_ID", ""),
@@ -92,9 +181,9 @@ jobs:
               "SAFE_CYCLE_DRAFT_ONLY": "false",
               "MAX_DRAFTS_PER_DAY": "10",
               "MIN_MINUTES_BETWEEN_DRAFTS": "30",
-              "MAX_LIVE_POSTS_PER_DAY": "120",
+              "MAX_LIVE_POSTS_PER_DAY": "144",
               "MIN_MINUTES_BETWEEN_LIVE_POSTS": "10",
-              "MAX_FACEBOOK_POSTS_PER_DAY": "120",
+              "MAX_FACEBOOK_POSTS_PER_DAY": "144",
               "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": "10",
               "AI_PROVIDER": "auto",
               "LOCAL_PUBLISH_FALLBACK": "false",
@@ -103,6 +192,11 @@ jobs:
               "\n".join(f"{key}={value}" for key, value in env_lines.items()) + "\n",
               encoding="utf-8",
           )
+          print(f"Workflow mode: {mode}")
+          print(f"SAFE_MODE: {safe_mode}")
+          print(f"FAST_NEWS_MODE: {fast_news}")
+          print(f"RECENT_NEWS_MAX_AGE_HOURS: {recent_hours}")
+          print("Effective action: LIVE_FAST_RECENT_NEWS")
           PY
 
       - name: Deployment check
@@ -114,7 +208,7 @@ jobs:
       - name: Queue maintenance
         run: python main.py queue-maintenance
 
-      - name: Run safe auto cycle
+      - name: Run auto cycle
         run: python main.py auto-cycle
 
       - name: Health summary

@@ -4,6 +4,7 @@
 
 import json
 import re
+import time
 import warnings
 from datetime import datetime
 from html import escape
@@ -19,10 +20,13 @@ with warnings.catch_warnings():
         genai = None
 
 from article_queue import load_article_queue, save_article_queue
+from duplicate_utils import content_hash_from_html
 from config import (
     AI_PROVIDER,
+    FAST_NEWS_MODE,
     GEMINI_API_KEY,
     GEMINI_MODEL,
+    MIN_ARTICLE_WORDS,
     OPENAI_API_KEY,
     OPENAI_API_URL,
     OPENAI_MAX_TOKENS,
@@ -35,6 +39,15 @@ from config import (
     OPENROUTER_MODEL,
     OPENROUTER_REFERER,
     OPENROUTER_TIMEOUT_SECONDS,
+    TARGET_ARTICLE_WORDS,
+)
+from production_logging import elapsed_ms, html_word_count, log_event
+from quality_gate import (
+    MIN_BLOGGER_ARTICLE_WORDS,
+    REQUIRED_READER_SECTION,
+    REQUIRED_READER_SECTION_WITH_QUESTION,
+    TARGET_BLOGGER_ARTICLE_WORDS,
+    validate_ai_article_output,
 )
 
 MAX_AI_ATTEMPTS = 2
@@ -57,11 +70,52 @@ def _selected_ready_for_ai(article):
 
 
 def _build_prompt(package):
+    package = dict(package or {})
+    source_text = package.get("full_article_text") or package.get("content_preview") or ""
+    package["blogger_source_text"] = source_text
     package_json = json.dumps(package, ensure_ascii=False, indent=2)
+    if FAST_NEWS_MODE:
+        return f"""
+You are a fast Arabic technology news editor for a Blogger automation pipeline.
+
+Create blogger_article_html: a useful, publish-ready Arabic news article. This is
+not facebook_post_text, not telegram_report, and not a short social caption.
+
+STRICT FAST NEWS RULES:
+- Return JSON only. No markdown fences, notes, or explanations.
+- Write natural human Arabic. Do not translate literally.
+- Preserve facts exactly. Do not invent numbers, dates, quotes, incidents, claims, or links.
+- Keep technical names normally written in English.
+- Target {TARGET_ARTICLE_WORDS} Arabic words. Minimum allowed is {MIN_ARTICLE_WORDS} words.
+- If the original news is short, keep it concise but complete.
+- Structure:
+  1) Short strong introduction.
+  2) Main explanation with clear <h2> headings.
+  3) Add <h2>{REQUIRED_READER_SECTION_WITH_QUESTION}</h2> when it helps the reader understand impact.
+  4) Short conclusion or takeaway.
+- If cybersecurity-related, include brief practical protection/advice when supported.
+- Keep SEO title 40-70 characters and meta description 100-170 characters.
+- Use clean Plus UI-compatible Blogger HTML only.
+- Do not add CSS, scripts, unsupported widgets, fake images, or source/reference blocks unless trusted_references are provided.
+
+OUTPUT JSON SHAPE:
+{{
+  "title": "Arabic SEO title, 40-70 characters",
+  "description": "Arabic meta description, 100-170 characters",
+  "slug": "latin-url-slug",
+  "html_content": "Plus UI HTML article body"
+}}
+
+INPUT PACKAGE:
+{package_json}
+""".strip()
+
     return f"""
 You are a professional Arabic technology and cybersecurity editor.
 
-Create a fully ready Arabic Blogger article from the input package.
+Create a fully ready Arabic Blogger article from the input package. The output is
+blogger_article_html: a complete long-form Blogger article. It is never a Facebook
+post, Telegram report, excerpt, or summary.
 
 STRICT RULES:
 - Return JSON only. No markdown fences, no notes, no explanations.
@@ -73,6 +127,19 @@ STRICT RULES:
 - Do not say the article was translated, rewritten, copied, or sourced from another article.
 - If credibility is needed, mention only official/security references available in trusted_references.
 - Keep product names, company names, malware names, commands, CVE IDs, URLs, and short technical terms in English.
+- Blogger is the main output. Write a complete long-form article, not a social caption or summary.
+- The html_content body must contain {TARGET_BLOGGER_ARTICLE_WORDS} Arabic words. Never return a short article.
+- Required structure:
+  1) A strong introduction with 2-3 substantial paragraphs.
+  2) Detailed explanatory sections with clear <h2> and useful <h3> headings.
+  3) A required section titled exactly: <h2>{REQUIRED_READER_SECTION_WITH_QUESTION}</h2>.
+  4) Practical reader takeaways inside that section.
+  5) If the topic is cybersecurity, add a practical protection/advice section.
+  6) A strong closing section with a clear conclusion.
+- If the fetched source text is thin, expand responsibly by explaining context, implications,
+  background concepts, and practical meaning using only supported facts and safe general
+  technical knowledge. Do not invent numbers, quotes, dates, incidents, claims, or links.
+- Do not pad with generic filler. Every paragraph must add useful meaning.
 - Format html_content using Plus UI-compatible HTML only.
 - Do not add CSS, <style>, <script>, or unsupported components.
 - Place the main image after the first paragraph using <img class='full' alt='meaningful Arabic alt' src='image_link'/> if main_image is available.
@@ -117,7 +184,7 @@ def _parse_ai_json(raw_text):
         return json.loads(text[start : end + 1])
 
 
-def _validate_ai_output(data):
+def _validate_ai_output(data, package=None):
     required = ("title", "description", "slug", "html_content")
     missing = [field for field in required if not str(data.get(field, "")).strip()]
     if missing:
@@ -135,6 +202,73 @@ def _validate_ai_output(data):
         )
     if not html_content:
         raise ValueError("html_content is empty")
+
+    result = validate_ai_article_output(data, package=package)
+    if not result.passed:
+        raise ValueError(result.reason)
+
+
+def _build_expansion_retry_prompt(package, previous_data, previous_error):
+    previous_html = ""
+    if isinstance(previous_data, dict):
+        previous_html = str(previous_data.get("html_content") or "")
+    source_text = (package or {}).get("full_article_text") or (package or {}).get("content_preview") or ""
+    if FAST_NEWS_MODE:
+        return f"""
+Return JSON only using the same shape as before.
+
+The previous fast-news Blogger article failed the production quality gate:
+{previous_error}
+
+Rewrite it as a complete fast Arabic news article, not a Facebook caption.
+
+Mandatory fixes:
+- html_content must be at least {MIN_ARTICLE_WORDS} Arabic words.
+- Aim for {TARGET_ARTICLE_WORDS} words.
+- Include title, description, slug, and clean Blogger HTML.
+- Add a short introduction, main explanation, and conclusion.
+- Add <h2>{REQUIRED_READER_SECTION_WITH_QUESTION}</h2> only if useful.
+- Keep facts accurate and do not invent details.
+
+SOURCE PACKAGE:
+{json.dumps(package, ensure_ascii=False, indent=2)}
+
+SOURCE TEXT:
+{source_text}
+
+PREVIOUS HTML, for diagnosis only:
+{previous_html[:4000]}
+""".strip()
+
+    return f"""
+Return JSON only using the same shape as before.
+
+The previous Blogger article failed the production quality gate:
+{previous_error}
+
+Rewrite the article from the source material into a complete long-form Arabic
+Blogger article. This is blogger_article_html only, not facebook_post_text and
+not telegram_report.
+
+Mandatory fixes:
+- html_content must be {TARGET_BLOGGER_ARTICLE_WORDS} Arabic words.
+- Include a strong introduction before the first heading.
+- Include detailed main explanation sections.
+- Include this exact heading: <h2>{REQUIRED_READER_SECTION_WITH_QUESTION}</h2>
+- If the topic involves cybersecurity, include a protection/advice section.
+- Include a conclusion section with a clear final takeaway.
+- Keep facts accurate. Do not invent numbers, quotes, incidents, dates, or links.
+- Keep SEO title 40-70 characters and description 100-170 characters.
+
+SOURCE PACKAGE:
+{json.dumps(package, ensure_ascii=False, indent=2)}
+
+SOURCE TEXT:
+{source_text}
+
+PREVIOUS SHORT/INVALID HTML, for diagnosis only:
+{previous_html[:6000]}
+""".strip()
 
 
 def _normalize_slug(slug, max_words=7):
@@ -453,14 +587,38 @@ def _generate_ai_article(prompt):
 
 
 def _apply_success(article, data, provider_used):
+    final_html = str(data["html_content"]).strip()
     article["ai_status"] = "completed"
     article["ai_processed_at"] = _now_iso()
     article["seo_title"] = str(data["title"]).strip()
     article["seo_description"] = str(data["description"]).strip()
     article["seo_slug"] = _normalize_slug(data["slug"])
-    article["final_html"] = str(data["html_content"]).strip()
+    article["final_html"] = final_html
+    article["blogger_article_html"] = final_html
+    article["final_word_count"] = html_word_count(final_html)
+    article["final_html_chars"] = len(final_html)
+    article["final_content_hash"] = content_hash_from_html(final_html)
     article["ai_provider_used"] = provider_used
     article.pop("ai_error", None)
+
+
+def _send_ai_quality_warning(article, error):
+    try:
+        from notifier import send_telegram_message
+
+        send_telegram_message(
+            "\n".join(
+                [
+                    "\u26a0\ufe0f AI quality gate blocked an article",
+                    f"Article: {article.get('title') or article.get('fetched_title') or ''}",
+                    f"Source: {article.get('source_name', '')}",
+                    f"Reason: {error}",
+                    f"Words: {article.get('final_word_count') or 0}",
+                ]
+            )
+        )
+    except Exception as notify_error:
+        log_event("telegram_ai_quality_warning_failed", error=notify_error.__class__.__name__)
 
 
 def _apply_failure(article, error):
@@ -495,17 +653,38 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     package = article["ai_input_package"]
     prompt = _build_prompt(package)
     last_error = None
+    previous_data = None
 
-    for _attempt in range(1, MAX_AI_ATTEMPTS + 1):
+    log_event(
+        "ai_article_start",
+        article_id=article.get("id"),
+        source=article.get("source_name"),
+        title=package.get("title"),
+        source_chars=len(package.get("full_article_text") or package.get("content_preview") or ""),
+        enrichment_status=package.get("enrichment_status"),
+        fast_news_mode=FAST_NEWS_MODE,
+    )
+
+    for attempt in range(1, MAX_AI_ATTEMPTS + 1):
+        started = time.perf_counter()
         try:
             raw_text, provider_used = _generate_ai_article(prompt)
             data = _parse_ai_json(raw_text)
+            previous_data = data
             data = _shorten_metadata_once_if_needed(data)
             data = _normalize_ai_output(data)
             data = _finalize_html_content(data, package)
-            _validate_ai_output(data)
+            _validate_ai_output(data, package=package)
             _apply_success(article, data, provider_used)
             save_article_queue(queue)
+            log_event(
+                "ai_article_success",
+                article_id=article.get("id"),
+                provider=provider_used,
+                words=article.get("final_word_count"),
+                chars=article.get("final_html_chars"),
+                elapsed_ms=elapsed_ms(started),
+            )
             return {
                 "processed": 1,
                 "success": 1,
@@ -515,9 +694,19 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             }
         except Exception as error:
             last_error = error
+            log_event(
+                "ai_article_attempt_failed",
+                article_id=article.get("id"),
+                attempt=attempt,
+                error=error,
+                elapsed_ms=elapsed_ms(started),
+            )
+            prompt = _build_expansion_retry_prompt(package, previous_data, str(error))
 
     _apply_failure(article, last_error)
     save_article_queue(queue)
+    log_event("ai_article_failed", article_id=article.get("id"), error=last_error)
+    _send_ai_quality_warning(article, last_error)
     return {
         "processed": 1,
         "success": 0,

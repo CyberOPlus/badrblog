@@ -2,7 +2,9 @@
 # article_enricher.py - Phase 3 Ready Article Enrichment
 # ============================================================
 
+import asyncio
 import re
+import time
 from datetime import datetime
 from urllib.parse import urljoin, urlparse
 
@@ -10,14 +12,25 @@ import requests
 from bs4 import BeautifulSoup
 
 from article_queue import load_article_queue, save_article_queue
-from config import HEADERS
+from config import FAST_NEWS_MODE, HEADERS, SOURCE_RETRY_DELAY_SECONDS, SOURCE_TIMEOUT_SECONDS, MAX_SOURCE_RETRIES
+from production_logging import elapsed_ms, log_event
+
+try:
+    import aiohttp
+except ImportError:
+    aiohttp = None
 
 CONTENT_FETCH_STATUSES = {"success", "failed"}
-REQUEST_TIMEOUT_SECONDS = 15
-PREVIEW_MIN_CHARS = 800
-PREVIEW_MAX_CHARS = 1200
+REQUEST_TIMEOUT_SECONDS = SOURCE_TIMEOUT_SECONDS
+PREVIEW_MIN_CHARS = 3500
+PREVIEW_MAX_CHARS = 9000
+STRONG_ARTICLE_MIN_CHARS = 3500
+WEAK_ARTICLE_MIN_CHARS = 1200
 MAX_ARTICLE_IMAGES = 5
 MAX_TRUSTED_REFERENCES = 5
+ASYNC_FETCH_CONCURRENCY = 8
+FETCH_RETRIES = MAX_SOURCE_RETRIES
+FAST_ENRICH_MIN_CHARS = 600
 
 TRUSTED_REFERENCE_HOSTS = (
     "microsoft.com",
@@ -304,7 +317,7 @@ def _extract_content_preview(soup):
     container = _best_article_container(clean)
     parts = []
 
-    for paragraph in container.find_all(["p", "li"], limit=30):
+    for paragraph in container.find_all(["p", "li"], limit=100):
         text = _normalize_text(paragraph.get_text(" ", strip=True))
         if len(text) < 40:
             continue
@@ -319,6 +332,27 @@ def _extract_content_preview(soup):
     return _trim_preview(" ".join(parts))
 
 
+def _extract_full_article_text(soup):
+    clean = _clean_soup(soup)
+    container = _best_article_container(clean)
+    parts = []
+
+    for node in container.find_all(["p", "li", "h2", "h3"], limit=180):
+        text = _normalize_text(node.get_text(" ", strip=True))
+        if len(text) < 30:
+            continue
+        parts.append(text)
+
+    full_text = _normalize_text(" ".join(parts))
+    if len(full_text) >= WEAK_ARTICLE_MIN_CHARS:
+        return full_text
+
+    fallback = _normalize_text(container.get_text(" ", strip=True))
+    if len(fallback) > len(full_text):
+        return fallback
+    return full_text
+
+
 def _source_url(article):
     explicit = article.get("source_url")
     if explicit:
@@ -330,23 +364,66 @@ def _source_url(article):
     return ""
 
 
-def enrich_article(article):
-    url = article.get("url", "").strip()
-    if not url:
-        return False, "missing url"
+def _fetch_html_with_requests(url):
+    last_error = ""
 
-    try:
-        response = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT_SECONDS)
-    except requests.exceptions.Timeout:
-        return False, "timeout"
-    except requests.exceptions.RequestException as error:
-        return False, str(error)
+    for attempt in range(FETCH_RETRIES + 1):
+        started = time.perf_counter()
+        try:
+            log_event("fetch_start", url=url, method="requests", attempt=attempt + 1)
+            response = requests.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT_SECONDS)
+            status_code = response.status_code
+            if status_code >= 400:
+                last_error = f"http {status_code}"
+                log_event(
+                    "fetch_end",
+                    url=url,
+                    method="requests",
+                    status=status_code,
+                    error=last_error,
+                    elapsed_ms=elapsed_ms(started),
+                )
+                if status_code in {401, 403, 404}:
+                    break
+            else:
+                log_event(
+                    "fetch_end",
+                    url=url,
+                    method="requests",
+                    status=status_code,
+                    chars=len(response.text),
+                    elapsed_ms=elapsed_ms(started),
+                )
+                return response.text, ""
+        except requests.exceptions.Timeout:
+            last_error = "timeout"
+            log_event(
+                "fetch_end",
+                url=url,
+                method="requests",
+                error=last_error,
+                elapsed_ms=elapsed_ms(started),
+            )
+        except requests.exceptions.RequestException as error:
+            last_error = str(error)
+            log_event(
+                "fetch_end",
+                url=url,
+                method="requests",
+                error=error.__class__.__name__,
+                elapsed_ms=elapsed_ms(started),
+            )
 
-    if response.status_code >= 400:
-        return False, f"http {response.status_code}"
+        if attempt < FETCH_RETRIES:
+            time.sleep(min(SOURCE_RETRY_DELAY_SECONDS, 1 + attempt))
 
-    soup = BeautifulSoup(response.text, "html.parser")
-    preview = _extract_content_preview(soup)
+    return "", last_error or "fetch failed"
+
+
+def _apply_enrichment_from_html(article, html, url):
+    soup = BeautifulSoup(html, "html.parser")
+    full_text = _extract_full_article_text(soup)
+    preview = _trim_preview(full_text) if full_text else _extract_content_preview(soup)
     if not preview:
         return False, "missing article body"
 
@@ -360,12 +437,127 @@ def enrich_article(article):
         url,
         article.get("source_url") or _source_url(article),
     )
+    article["full_article_text"] = full_text or preview
+    article["full_article_text_chars"] = len(article["full_article_text"])
     article["content_preview"] = preview
+    article["content_preview_chars"] = len(preview)
     article["source_url"] = _source_url(article)
     article["content_fetched_at"] = _now_iso()
-    article["content_fetch_status"] = "success"
+    min_success_chars = FAST_ENRICH_MIN_CHARS if FAST_NEWS_MODE else WEAK_ARTICLE_MIN_CHARS
+    is_strong = len(article["full_article_text"]) >= STRONG_ARTICLE_MIN_CHARS
+    is_weak = len(article["full_article_text"]) >= min_success_chars
+    article["enrichment_status"] = "strong" if is_strong else "weak"
+    article["content_fetch_status"] = "success" if (is_strong or (FAST_NEWS_MODE and is_weak)) else "weak"
     article.pop("content_fetch_error", None)
+    log_event(
+        "article_enriched",
+        title=article.get("fetched_title") or article.get("title"),
+        source=article.get("source_name"),
+        source_url=url,
+        chars=len(article["full_article_text"]),
+        preview_chars=len(preview),
+        images=len(article_images),
+        references=len(article.get("trusted_references") or []),
+        enrichment_status=article["enrichment_status"],
+    )
+    if not is_weak:
+        return False, f"weak article body ({len(article['full_article_text'])} chars)"
+    if not is_strong and not FAST_NEWS_MODE:
+        return False, f"weak article body ({len(article['full_article_text'])} chars)"
     return True, ""
+
+
+def enrich_article(article):
+    url = article.get("url", "").strip()
+    if not url:
+        return False, "missing url"
+
+    html, error = _fetch_html_with_requests(url)
+    if not html:
+        return False, error
+    return _apply_enrichment_from_html(article, html, url)
+
+
+async def _fetch_html_with_aiohttp(session, url):
+    last_error = ""
+
+    for attempt in range(FETCH_RETRIES + 1):
+        started = time.perf_counter()
+        try:
+            log_event("fetch_start", url=url, method="aiohttp", attempt=attempt + 1)
+            async with session.get(url, headers=HEADERS, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+                status_code = response.status
+                text = await response.text(errors="ignore")
+                if status_code >= 400:
+                    last_error = f"http {status_code}"
+                    log_event(
+                        "fetch_end",
+                        url=url,
+                        method="aiohttp",
+                        status=status_code,
+                        error=last_error,
+                        elapsed_ms=elapsed_ms(started),
+                    )
+                    if status_code in {401, 403, 404}:
+                        break
+                else:
+                    log_event(
+                        "fetch_end",
+                        url=url,
+                        method="aiohttp",
+                        status=status_code,
+                        chars=len(text),
+                        elapsed_ms=elapsed_ms(started),
+                    )
+                    return text, ""
+        except (asyncio.TimeoutError, aiohttp.ClientError) as error:
+            last_error = error.__class__.__name__
+            log_event(
+                "fetch_end",
+                url=url,
+                method="aiohttp",
+                error=last_error,
+                elapsed_ms=elapsed_ms(started),
+            )
+
+        if attempt < FETCH_RETRIES:
+            await asyncio.sleep(min(SOURCE_RETRY_DELAY_SECONDS, 1 + attempt))
+
+    return "", last_error or "fetch failed"
+
+
+async def _enrich_article_async(article, session, semaphore):
+    url = article.get("url", "").strip()
+    if not url:
+        return article, False, "missing url"
+
+    async with semaphore:
+        html, error = await _fetch_html_with_aiohttp(session, url)
+
+    if not html:
+        return article, False, error
+
+    ok, parse_error = _apply_enrichment_from_html(article, html, url)
+    return article, ok, parse_error
+
+
+async def _enrich_articles_async(articles):
+    timeout = aiohttp.ClientTimeout(total=REQUEST_TIMEOUT_SECONDS * (FETCH_RETRIES + 1) + 5)
+    connector = aiohttp.TCPConnector(limit=ASYNC_FETCH_CONCURRENCY, ttl_dns_cache=300)
+    semaphore = asyncio.Semaphore(ASYNC_FETCH_CONCURRENCY)
+    async with aiohttp.ClientSession(timeout=timeout, connector=connector) as session:
+        tasks = [_enrich_article_async(article, session, semaphore) for article in articles]
+        return await asyncio.gather(*tasks)
+
+
+def _can_run_async_fetch():
+    if aiohttp is None:
+        return False
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return True
+    return False
 
 
 def enrich_ready_articles(force=False):
@@ -379,7 +571,9 @@ def enrich_ready_articles(force=False):
     checked = 0
     enriched = 0
     failed = 0
+    weak = 0
     already_enriched = 0
+    targets = []
 
     for article in articles:
         allowed_statuses = {"ready"} if not force else {"ready", "selected", "draft_created"}
@@ -391,14 +585,85 @@ def enrich_ready_articles(force=False):
             already_enriched += 1
             continue
 
-        ok, error = enrich_article(article)
-        if ok:
-            enriched += 1
-        else:
-            failed += 1
-            article["content_fetch_status"] = "failed"
-            article["content_fetch_error"] = error
-            article["content_fetched_at"] = _now_iso()
+        targets.append(article)
+
+    if targets and _can_run_async_fetch():
+        log_event("enrich_batch_start", articles=len(targets), mode="aiohttp")
+        results = asyncio.run(_enrich_articles_async(targets))
+        fallback_articles = []
+        for article, ok, error in results:
+            if ok:
+                enriched += 1
+                continue
+            if article.get("content_fetch_status") == "weak":
+                weak += 1
+                log_event(
+                    "article_enrich_weak",
+                    title=article.get("title"),
+                    source=article.get("source_name"),
+                    source_url=article.get("url"),
+                    chars=article.get("full_article_text_chars"),
+                    error=error,
+                )
+                continue
+            fallback_articles.append((article, error))
+
+        if fallback_articles:
+            log_event("enrich_fallback_start", articles=len(fallback_articles), mode="requests")
+
+        for article, original_error in fallback_articles:
+            ok, error = enrich_article(article)
+            if ok:
+                enriched += 1
+            elif article.get("content_fetch_status") == "weak":
+                weak += 1
+                log_event(
+                    "article_enrich_weak",
+                    title=article.get("title"),
+                    source=article.get("source_name"),
+                    source_url=article.get("url"),
+                    chars=article.get("full_article_text_chars"),
+                    error=error or original_error,
+                )
+            else:
+                failed += 1
+                article["content_fetch_status"] = "failed"
+                article["content_fetch_error"] = error or original_error
+                article["content_fetched_at"] = _now_iso()
+                log_event(
+                    "article_enrich_failed",
+                    title=article.get("title"),
+                    source=article.get("source_name"),
+                    error=article.get("content_fetch_error"),
+                )
+    else:
+        if targets:
+            log_event("enrich_batch_start", articles=len(targets), mode="requests")
+        for article in targets:
+            ok, error = enrich_article(article)
+            if ok:
+                enriched += 1
+            elif article.get("content_fetch_status") == "weak":
+                weak += 1
+                log_event(
+                    "article_enrich_weak",
+                    title=article.get("title"),
+                    source=article.get("source_name"),
+                    source_url=article.get("url"),
+                    chars=article.get("full_article_text_chars"),
+                    error=error,
+                )
+            else:
+                failed += 1
+                article["content_fetch_status"] = "failed"
+                article["content_fetch_error"] = error
+                article["content_fetched_at"] = _now_iso()
+                log_event(
+                    "article_enrich_failed",
+                    title=article.get("title"),
+                    source=article.get("source_name"),
+                    error=error,
+                )
 
     if checked:
         save_article_queue(queue)
@@ -407,6 +672,7 @@ def enrich_ready_articles(force=False):
         "checked": checked,
         "enriched": enriched,
         "failed": failed,
+        "weak": weak,
         "already_enriched": already_enriched,
         "total_queued": len(articles),
         "force": force,
