@@ -124,6 +124,25 @@ SOURCE_URLS = _env_csv("SOURCES")
 if not SOURCE_URLS:
     SOURCE_URLS = [SOURCE_URL]
 
+TRUSTED_SECURITY_SOURCES = [
+    "cisa.gov",
+    "nist.gov",
+    "bleepingcomputer.com",
+    "thehackernews.com",
+    "darkreading.com",
+    "securityweek.com",
+    "krebsonsecurity.com",
+    "therecord.media",
+    "unit42.paloaltonetworks.com",
+    "blog.talosintelligence.com",
+    "mandiant.com",
+    "malwarebytes.com",
+    "isc.sans.edu",
+    "troyhunt.com",
+    "exploit-db.com",
+    "googleprojectzero.blogspot.com",
+]
+
 
 # ============================================================
 # 4) Timing & Retry Settings (with safe defaults)

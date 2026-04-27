@@ -158,6 +158,7 @@ def _set_queue_notification_sent(queue, key, event_key):
 def notify_blogger_result(queue, article, result=None, stage="publish"):
     result = result or {}
     success = bool(result.get("created") or result.get("created_new") or result.get("updated_existing"))
+    article_warnings = _article_warnings(article)
     event_key = "|".join(
         [
             "success" if success else "failed",
@@ -173,6 +174,7 @@ def notify_blogger_result(queue, article, result=None, stage="publish"):
                 "✅ تم النشر في Blogger بنجاح",
                 f"العنوان: {_article_title(article)}",
                 f"Source: {_source_name(article)}",
+                f"Warnings: {article_warnings}" if article_warnings else "",
                 f"Words: {_article_word_count(article)}",
                 f"الوضع: {_blogger_mode(article, result)}",
                 f"الرابط: {_blogger_url(article)}",
@@ -191,6 +193,7 @@ def notify_blogger_result(queue, article, result=None, stage="publish"):
                 f"السبب: {_sanitize_reason(result.get('error') or article.get('publish_error'))}",
             ]
         )
+    message = "\n".join(line for line in message.splitlines() if line)
     return _send_once_for_article(
         queue,
         article,

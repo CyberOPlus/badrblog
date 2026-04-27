@@ -670,19 +670,83 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertTrue(blocked)
         self.assertTrue(reason)
 
-    def test_cisa_bulletin_summary_is_not_false_positive_promo(self):
+    def test_cisa_vulnerability_summary_is_allowed_with_trusted_bypass(self):
+        article = {
+            "title": "Vulnerability Summary for the Week of April 20, 2026 | CISA",
+            "url": "https://www.cisa.gov/news-events/bulletins/sb26-117",
+            "content_preview": (
+                "The CISA Vulnerability Bulletin provides a summary of new vulnerabilities. "
+                "Entries may include additional information provided by organizations and "
+                "efforts sponsored by CISA."
+            ),
+        }
+        blocked, reason = content_filter.is_promotional_article(article)
+        self.assertFalse(blocked, reason)
+        self.assertEqual(reason, "Trusted source bypass applied")
+        self.assertEqual(article["content_filter_bypass_message"], "Trusted source bypass applied")
+
+    def test_cisa_advisory_passes_fast_quality_gate(self):
+        article = {
+            "title": "CISA Cybersecurity Advisory for CVE-2026-1234",
+            "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa26-117a",
+            "source_published_at": recent_iso(1),
+            "seo_title": "CISA Cybersecurity Advisory for CVE-2026-1234",
+            "seo_description": "CISA released a cybersecurity advisory about an exploited vulnerability.",
+            "final_html": "<p>" + " ".join(["security"] * 130) + "</p>",
+        }
+        result = validate_before_publish(article, check_duplicate=False, fast_news_mode=True)
+        self.assertTrue(result.passed, result.reason)
+        self.assertIn("Trusted source bypass applied", result.warnings)
+
+    def test_cve_article_with_many_links_is_allowed(self):
+        content = " ".join(
+            [
+                "CVE-2026-1234",
+                "security advisory",
+                "references",
+                "https://nvd.nist.gov/vuln/detail/CVE-2026-1234",
+                "https://vendor.example/advisory",
+                "https://example.org/patch",
+                "https://example.org/mitigation",
+                "https://example.org/ioc",
+            ]
+        )
         blocked, reason = content_filter.is_promotional_article(
             {
-                "title": "Vulnerability Summary for the Week of April 20, 2026 | CISA",
-                "url": "https://www.cisa.gov/news-events/bulletins/sb26-117",
-                "content_preview": (
-                    "The CISA Vulnerability Bulletin provides a summary of new vulnerabilities. "
-                    "Entries may include additional information provided by organizations and "
-                    "efforts sponsored by CISA."
-                ),
+                "title": "Researchers publish CVE-2026-1234 exploit analysis with references",
+                "url": "https://research.example/report/cve-2026-1234",
+                "content_preview": content,
             }
         )
         self.assertFalse(blocked, reason)
+
+    def test_bleepingcomputer_article_is_allowed(self):
+        blocked, reason = content_filter.is_promotional_article(
+            {
+                "title": "Ransomware gang exploits zero-day in enterprise VPNs",
+                "url": "https://www.bleepingcomputer.com/news/security/ransomware-gang-exploits-zero-day/",
+                "content_preview": "The report includes CVE details and indicators of compromise.",
+            }
+        )
+        self.assertFalse(blocked, reason)
+
+    def test_buy_antivirus_now_is_blocked(self):
+        blocked, reason = content_filter.is_promotional_article(
+            {"title": "Buy antivirus now", "url": "https://example.com/security/buy-antivirus-now"}
+        )
+        self.assertTrue(blocked)
+        self.assertTrue(reason)
+
+    def test_affiliate_blog_post_is_blocked(self):
+        blocked, reason = content_filter.is_promotional_article(
+            {
+                "title": "Partner antivirus deal for readers",
+                "url": "https://example.com/reviews/antivirus",
+                "content_preview": "This affiliate blog post includes sponsored partner offers and coupon discounts.",
+            }
+        )
+        self.assertTrue(blocked)
+        self.assertTrue(reason)
 
     def test_normal_business_deal_news_is_not_skipped(self):
         blocked, reason = content_filter.is_promotional_article(

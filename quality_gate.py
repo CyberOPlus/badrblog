@@ -179,6 +179,9 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             if duplicate_reason:
                 return QualityGateResult(False, duplicate_reason, word_count)
         warnings = []
+        bypass_message = article.get("content_filter_bypass_message")
+        if bypass_message:
+            warnings.append(str(bypass_message))
         if word_count < 120:
             warnings.append(f"fast news article below target range {TARGET_ARTICLE_WORDS}")
         if not _has_reader_section(html_content, body_text):
