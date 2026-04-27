@@ -804,6 +804,7 @@ def _new_run_id():
 def _append_auto_cycle_run_log(record):
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
     safe_record = {
+        "timestamp": record.get("timestamp") or record.get("finished_at", ""),
         "run_id": record.get("run_id", ""),
         "started_at": record.get("started_at", ""),
         "finished_at": record.get("finished_at", ""),
@@ -813,12 +814,17 @@ def _append_auto_cycle_run_log(record):
         "step_reached": record.get("step_reached", ""),
         "selected_article_title": record.get("selected_article_title", ""),
         "source_name": record.get("source_name", ""),
+        "category": record.get("category") or record.get("selected_category", ""),
         "selected_category": record.get("selected_category", ""),
+        "sources_checked": record.get("sources_checked", 0),
+        "candidates_found": record.get("candidates_found", 0),
         "article_word_count": record.get("article_word_count", 0),
         "blogger_status": record.get("blogger_status", ""),
+        "published_url": record.get("published_url") or record.get("blogger_post_url", ""),
         "blogger_post_url": record.get("blogger_post_url", ""),
         "facebook_status": record.get("facebook_status", ""),
         "warning": record.get("warning", ""),
+        "skip_reason": record.get("skip_reason") or record.get("stopped_reason", ""),
         "stopped_reason": record.get("stopped_reason", ""),
         "execution_seconds": record.get("execution_seconds", 0),
         "success": bool(record.get("success")),
@@ -848,6 +854,7 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
     article = (result or {}).get("article") or {}
     draft = (result or {}).get("draft") or {}
     facebook = (result or {}).get("facebook") or {}
+    fetch = (result or {}).get("fetch") or {}
     draft_action = (result or {}).get("draft_action", "")
     facebook_error = facebook.get("error") if facebook and not facebook.get("posted") else ""
     blogger_succeeded = draft_action in {"created", "updated"}
@@ -859,8 +866,12 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
     skipped = bool((result or {}).get("skipped"))
     success = (bool((result or {}).get("completed")) or skipped) and not error
 
+    category = fetch.get("selected_category") or article.get("suggested_category", "")
+    published_url = article.get("blogger_post_url") or article.get("blogger_draft_url") or ""
+
     return {
         "run_id": run_id,
+        "timestamp": finished_at,
         "started_at": started_at,
         "finished_at": finished_at,
         "mode": _effective_publish_mode(),
@@ -869,12 +880,17 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
         "step_reached": (result or {}).get("step_reached", ""),
         "selected_article_title": article.get("title") or article.get("seo_title") or "",
         "source_name": article.get("source_name", ""),
-        "selected_category": article.get("suggested_category", ""),
+        "category": category,
+        "selected_category": category,
+        "sources_checked": fetch.get("sources_checked", 0),
+        "candidates_found": fetch.get("articles_found", 0),
         "article_word_count": _article_word_count(article),
         "blogger_status": article.get("publish_status") or draft.get("publishing_mode") or "",
-        "blogger_post_url": article.get("blogger_post_url") or article.get("blogger_draft_url") or "",
+        "published_url": published_url,
+        "blogger_post_url": published_url,
         "facebook_status": article.get("facebook_status") or (facebook.get("article") or {}).get("facebook_status", ""),
         "warning": facebook_error if blogger_succeeded and facebook_error else "",
+        "skip_reason": stopped_reason,
         "stopped_reason": stopped_reason,
         "execution_seconds": (result or {}).get("execution_seconds", 0),
         "success": success,
@@ -1459,6 +1475,10 @@ def run_deployment_check_only():
     max_articles_raw = _effective_raw_env("MAX_ARTICLES_PER_RUN", MAX_ARTICLES_PER_RUN)
     max_sources_raw = _effective_raw_env("MAX_SOURCES_PER_RUN", MAX_SOURCES_PER_RUN)
     safe_cycle_max_raw = _effective_raw_env("SAFE_CYCLE_MAX_ARTICLES", SAFE_CYCLE_MAX_ARTICLES)
+    try:
+        workflow_text = AUTO_CYCLE_WORKFLOW_PATH.read_text(encoding="utf-8-sig")
+    except OSError:
+        workflow_text = ""
     required_env = [
         "BLOG_ID",
     ]
@@ -1534,6 +1554,9 @@ def run_deployment_check_only():
     workflow_schedule = _workflow_schedule()
     print(f"GitHub Actions workflow: {'present' if AUTO_CYCLE_WORKFLOW_PATH.exists() else 'missing'}")
     print(f"GitHub Actions schedule: {workflow_schedule or 'MISSING'}")
+    print(f"GitHub Actions concurrency: {'safe' if 'group: auto-cycle-${{ github.ref }}' in workflow_text and 'cancel-in-progress: false' in workflow_text else 'needs attention'}")
+    print(f"GitHub Actions job timeout: {'15 minutes' if 'timeout-minutes: 15' in workflow_text else 'needs attention'}")
+    print(f"GitHub Actions auto-cycle timeout: {'10 minutes' if 'Run auto cycle' in workflow_text and 'timeout-minutes: 10' in workflow_text else 'needs attention'}")
     print(f"FACEBOOK_AUTO_POST: {'true' if facebook_auto_post else 'false'}")
     print("FACEBOOK_AUTO_POST value safe: yes")
     print("Telegram alerts:")
@@ -1615,6 +1638,18 @@ def run_deployment_check_only():
             errors.append("Missing .github/workflows/auto-cycle.yml.")
         elif workflow_schedule != "*/5 * * * *":
             errors.append("GitHub Actions schedule must be */5 * * * *.")
+        if "workflow_dispatch:" not in workflow_text:
+            errors.append("GitHub Actions workflow_dispatch must remain enabled.")
+        if "group: auto-cycle-${{ github.ref }}" not in workflow_text:
+            errors.append("GitHub Actions concurrency group must be auto-cycle-${{ github.ref }}.")
+        if "cancel-in-progress: false" not in workflow_text:
+            errors.append("GitHub Actions cancel-in-progress must be false.")
+        if "timeout-minutes: 15" not in workflow_text:
+            errors.append("GitHub Actions job timeout must be 15 minutes.")
+        if "Run auto cycle" not in workflow_text or "timeout-minutes: 10" not in workflow_text:
+            errors.append("GitHub Actions auto-cycle step timeout must be 10 minutes.")
+        if "branches:" in workflow_text:
+            errors.append("GitHub Actions workflow must not restrict scheduled runs away from main.")
     if facebook_auto_post:
         warnings.append("FACEBOOK_AUTO_POST is true. Confirm Facebook limits before scheduling.")
     if Path(".env").exists():

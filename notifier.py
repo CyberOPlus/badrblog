@@ -328,6 +328,7 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
             f"Sources checked: {sources_checked}",
             f"Candidates found: {candidates_found}",
             f"Best candidate: {_article_title(article)}",
+            "Bot alive: yes",
             "Next run: scheduled by GitHub Actions",
         ]
     else:
@@ -335,6 +336,7 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
             "❌ فشل التشغيل",
             f"Reason: {reason or 'unknown'}",
             f"Safe error: {reason or 'unknown'}",
+            "Bot alive: yes",
             "Next run: scheduled by GitHub Actions",
         ]
 

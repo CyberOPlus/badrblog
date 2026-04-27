@@ -1,3 +1,5 @@
+import json
+import subprocess
 import unittest
 from contextlib import redirect_stdout
 from datetime import datetime, timedelta, timezone
@@ -248,6 +250,8 @@ class ProductionHardeningTests(unittest.TestCase):
             )
         message = send.call_args.args[0]
         self.assertIn("no article in last 2 hours", message)
+        self.assertIn("Bot alive: yes", message)
+        self.assertIn("Next run: scheduled by GitHub Actions", message)
 
     def test_live_fast_recent_stops_before_old_queue_fallback(self):
         schedule = {
@@ -776,9 +780,45 @@ class ProductionHardeningTests(unittest.TestCase):
         text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
         self.assertIn('cron: "*/5 * * * *"', text)
         self.assertIn("workflow_dispatch:", text)
+        self.assertIn("group: auto-cycle-${{ github.ref }}", text)
+        self.assertIn("cancel-in-progress: false", text)
+        self.assertIn("timeout-minutes: 15", text)
         self.assertIn("timeout-minutes: 10", text)
         self.assertIn('"CATEGORY_ROTATION_MODE": "true"', text)
         self.assertIn('"MAX_SOURCES_PER_RUN": "999"', text)
+
+    def test_workflow_state_cache_and_fallback_paths_are_safe(self):
+        text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
+        for path in (
+            "article_queue.json",
+            "data/article_backlog.json",
+            "data/published_ids.json",
+            "data/crawl_state.json",
+            "data/topic_fingerprints.json",
+            "data/source_health.json",
+            "logs/auto_cycle_runs.jsonl",
+        ):
+            self.assertIn(path, text)
+        self.assertIn("Persist runtime state fallback", text)
+        self.assertIn('git commit -m "Update bot runtime state [skip ci]"', text)
+        self.assertIn("rm -f .env client_secret.json data/token.json", text)
+        self.assertIn("git rm --cached --ignore-unmatch .env client_secret.json data/token.json", text)
+
+    def test_workflow_safe_diagnostics_are_present(self):
+        text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
+        self.assertIn("Safe runtime diagnostics", text)
+        self.assertIn("UTC time:", text)
+        self.assertIn("Workflow event:", text)
+        self.assertIn("Branch:", text)
+        self.assertIn("Category selected:", text)
+        self.assertIn("Recent hours:", text)
+        self.assertIn("Max sources:", text)
+
+    def test_no_env_or_secret_files_are_committed(self):
+        tracked = subprocess.check_output(["git", "ls-files"], text=True).splitlines()
+        self.assertNotIn(".env", tracked)
+        self.assertNotIn("client_secret.json", tracked)
+        self.assertNotIn("data/token.json", tracked)
 
     def test_articles_up_to_six_hours_are_accepted(self):
         with patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 6):
@@ -861,6 +901,33 @@ class ProductionHardeningTests(unittest.TestCase):
         message = send.call_args.args[0]
         self.assertIn("تم نشر مقال جديد", message)
         self.assertIn("Blogger URL:", message)
+
+    def test_auto_cycle_run_log_contains_reliability_fields(self):
+        with TemporaryDirectory() as temp_dir:
+            log_path = Path(temp_dir) / "auto_cycle_runs.jsonl"
+            result = {
+                "completed": False,
+                "skipped": True,
+                "reason": "no valid article",
+                "fetch": {
+                    "selected_category": "Cyber-Security",
+                    "sources_checked": 12,
+                    "articles_found": 3,
+                },
+                "execution_seconds": 4.2,
+            }
+            record = main._auto_cycle_record_from_result("run-1", "2026-04-27T00:00:00", result)
+            with patch.object(main, "AUTO_CYCLE_RUN_LOG", log_path):
+                main._append_auto_cycle_run_log(record)
+            saved = json.loads(log_path.read_text(encoding="utf-8").strip())
+
+        self.assertTrue(saved["timestamp"])
+        self.assertEqual(saved["category"], "Cyber-Security")
+        self.assertEqual(saved["sources_checked"], 12)
+        self.assertEqual(saved["candidates_found"], 3)
+        self.assertEqual(saved["skip_reason"], "no valid article")
+        self.assertIn("published_url", saved)
+        self.assertEqual(saved["execution_seconds"], 4.2)
 
     def test_secret_redaction(self):
         cleaned = _clean_value(
