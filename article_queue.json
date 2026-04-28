@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-28T13:34:41",
+  "updated_at": "2026-04-28T13:40:09",
   "articles": [
     {
       "id": "a7a11e65e86e7bcc",
@@ -10158,7 +10158,7 @@
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-28T13:18:46",
+      "processing_prepared_at": "2026-04-28T13:39:24",
       "ai_input_package": {
         "title": "Chinese Silk Typhoon Hacker Extradited to the U.S. from Italy",
         "url": "https://cybersecuritynews.com/chinese-silk-typhoon-hacker-extradited",
@@ -10191,25 +10191,15 @@
             "url": "https://www.google.com/preferences/source?q=cybersecuritynews.com"
           }
         ],
-        "related_posts": [
-          {
-            "title": "ملخص CISA الأسبوعي: ثغرات أمنية خطيرة تهدد ThinkPHP و ELBA5",
-            "url": "https://www.cisa.gov/news-events/bulletins/sb26-117"
-          },
-          {
-            "title": "ثغرة في Notepad++ تسمح للمهاجمين بإسقاط التطبيق وتسريب بيانات الذاكرة",
-            "url": "https://cybersecuritynews.com/notepad-vulnerability-crash"
-          },
-          {
-            "title": "مفتاح API ClickUp يفضح 959 بريدًا إلكترونيًا من شركات 500",
-            "url": "https://cybersecuritynews.com/clickup-hardcoded-api-key-expose"
-          }
-        ]
+        "related_posts": []
       },
       "ai_status": "failed",
-      "ai_error": "Invalid \\escape: line 5 column 798 (char 1158)",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 50.798263844s. [links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerDayPerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 20\n}\n, retry_delay {\n  seconds: 50\n}\n]",
       "ai_rotation_exhausted": true,
-      "telegram_final_summary_notified_at": "2026-04-28T13:19:29"
+      "telegram_final_summary_notified_at": "2026-04-28T13:19:29",
+      "ai_quality_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\nPlease retry in 50.798263844s. [links {\n  description: \"Learn more about Gemini API quotas\"\n  url: \"https://ai.google.dev/gemini-api/docs/rate-limits\"\n}\n, violations {\n  quota_metric: \"generativelanguage.googleapis.com/generate_content_free_tier_requests\"\n  quota_id: \"GenerateRequestsPerDayPerProjectPerModel-FreeTier\"\n  quota_dimensions {\n    key: \"model\"\n    value: \"gemini-2.5-flash\"\n  }\n  quota_dimensions {\n    key: \"location\"\n    value: \"global\"\n  }\n  quota_value: 20\n}\n, retry_delay {\n  seconds: 50\n}\n]",
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3
     },
     {
       "id": "054f0024c630607b",
@@ -10494,6 +10484,75 @@
       "content_preview_chars": 2463,
       "content_fetched_at": "2026-04-28T13:33:54",
       "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "67f573fdab86c415",
+      "source_url_hash": "67f573fdab86c415",
+      "canonical_url": "https://blog.talosintelligence.com/five-defender-priorities-from-the-talos-year-in-review",
+      "title_hash": "787527708acc9caa",
+      "topic_signature": "a93762bad75121b49f0a",
+      "title": "Five defender priorities from the Talos Year in Review",
+      "url": "https://blog.talosintelligence.com/five-defender-priorities-from-the-talos-year-in-review",
+      "source_name": "Cisco Talos Blog",
+      "source_url": "https://blog.talosintelligence.com",
+      "source_published_at": "2026-04-28T13:23:20Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.26,
+      "rss_summary": "",
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-04-28T13:39:24",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 1,
+      "priority": "low",
+      "fetched_title": "Five defender priorities from the Talos Year in Review",
+      "meta_description": "With attackers moving faster than ever, it’s easy to feel overwhelmed. This blog breaks down five practical priorities from the Cisco Talos 2025 Year in Review to help defenders focus and prioritize, amidst all the noise.",
+      "article_images": [
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/size/w1200/2026/04/YiR2025_cover_2x1-4.jpg",
+          "alt": "",
+          "source": "og"
+        },
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/2026/04/YiR2025_cover_2x1-4.jpg",
+          "alt": "",
+          "source": "article"
+        }
+      ],
+      "main_image": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/size/w1200/2026/04/YiR2025_cover_2x1-4.jpg",
+      "main_image_source_type": "og",
+      "trusted_references": [
+        {
+          "title": "Hazel Burton",
+          "url": "https://blog.talosintelligence.com/author/hazel-burton/"
+        },
+        {
+          "title": "2025YiR",
+          "url": "https://blog.talosintelligence.com/category/2025yir/"
+        },
+        {
+          "title": "Year In Review",
+          "url": "https://blog.talosintelligence.com/category/year-in-review/"
+        },
+        {
+          "title": "Cisco Talos Incident Response Quarterly Trends",
+          "url": "https://blog.talosintelligence.com/ir-trends-q1-2026/"
+        },
+        {
+          "title": "Year in Review",
+          "url": "https://blog.talosintelligence.com/2025yearinreview/"
+        }
+      ],
+      "full_article_text": "A familiar theme in security right now is that the barrier to entry for attackers is at an all-time low. AI tools can spin up websites within minutes that can easily direct data to disposable external data stores and send alerts for new captures — all without code. One such case was recently detailed in the latest Cisco Talos Incident Response Quarterly Trends report. Proof-of-concept code for exploiting new vulnerabilities used to take attackers months to create. Now they take hours. All of this is very concerning for defenders. Yesterday, my colleague told me about a recent conference Q&A he hosted, where he was asked to provide some hope to those in the room who have faced an overwhelming amount of change in recent months. His answer was to focus on the here and now. Focus on what you can control, and what you have influence over. We can’t change what may or may not happen in six months’ time, but we can prioritize what’s important now. The other key thing for defenders to bear in mind is that even when attackers move fast, they still don’t behave like your normal users. At the end of the day, you’re still looking for anomalous behavior – whether that behavior is machine- or human-generated. As we come to the end of our Year in Review content release (if you haven’t seen it yet, we published videos, podcasts, and topic specific blog posts), we’d like to end by summarizing the key priorities for defenders. Here are five of them that are worth considering when it comes to spotting malicious, unusual behaviour in your environment. 1. Identity is the main battlefield The Year in Review highlights how frequently attackers rely on valid accounts and credential abuse throughout the attack chain. We see this across multiple areas: MFA spray attacks targeting IAM platforms directly Device compromise attacks increasing 178% year over year Attackers registering their own devices as trusted multi-factor authentication (MFA) methods Ransomware attack chains [L(1] largely relying on valid accounts, credentialed tools, or both Network infrastructure is a key part of this. VPNs, Active Directory Controllers (ADCs), and firewalls are being exploited to steal session tokens, bypass MFA, and impersonate users. However, when attackers successfully authenticate, where they go from there tends not to fall in line with normal user behavior. They start to access new systems outside of their role, move laterally using tools like PsExec, execute commands at unusual times, and overall operate at a scale that normal users don’t. Therefore, having a baseline understanding of normal user behavior is more important than ever. Treating identity infrastructure as Tier 1 critical assets and apply the strongest monitoring and protection controls to IAM and PAM systems Securing MFA device registration workflows with strict verification procedures and limited administrative approval rights Hardening authentication systems against automated attacks by enforcing rate limiting, anomaly detection, and strong conditional access policies Building baseline detections around what users do, not just how they log in 2. Prioritize the vulnerabilities that have the most exposure One of the most important callouts in the report is how attackers select targets. The rapid exploitation of vulnerabilities such as React2Shell and ToolShell shows that exploitation can begin immediately after disclosure with readily available proof-of-concepts. Attackers then prioritize what is exposed and reachable. Attackers also like to exploit the vulnerabilities that are closest to identity, session handling, and access logic. At the same time, older vulnerabilities such as Log4Shell remain among the most exploited, over four years after disclosure. This creates a dual reality where some new vulnerabilities are weaponized instantly, but old, highly-valued vulnerabilities are never fully eliminated. Remediating vulnerabilities based on internet exposure and access impact, not just CVSS scores Reducing time-to-patch for externally accessible systems Continuously reassessing what is reachable from the outside 3. Address the long tail of legacy and embedded risk The Year in Review highlights that nearly 40% of the top 100 most targeted vulnerabilities impact EOL systems, and 32% are over a decade old. Many of these vulnerabilities exist in deeply embedded components such as PHP frameworks, Log4j, and ColdFusion. These components are often poorly inventoried, difficult to patch, and tightly coupled to business-critical systems. It’s a frustrating fact that the most persistent risks are often the least visible, and the hardest to remove. They create long-term blind spots, which are an attacker’s favorite thing to find and exploit. Improving visibility into software dependencies and embedded components Treating development frameworks and libraries as part of your attack surface Establishing clear strategies for isolating or retiring legacy systems 4. Secure the systems that broker trust Attackers are increasingly targeting systems that provide maximum operational leverage. This includes network management platforms, application delivery controllers (ADCs), and shared software platforms running across multiple devices. These systems are attractive to adversaries because they store credentials, control configurations across large environments, provide visibility into the network, and enable changes at scale. Unfortunately, these platforms are also traditionally less monitored than endpoints, more complex to patch or upgrade, and have centralized points of failure. Identifying management-plane and control-plane systems that need securing Applying enhanced monitoring and access controls to these platforms Limiting administrative access and enforce strong segmentation 5. Keep focusing on patterns, even with increased automation and AI-driven attacks Yes, automation and AI are changing the threat landscape. As we’ve spoken about, attackers are increasingly able to rapidly identify and exploit vulnerabilities, launch large-scale identity attacks, generate convincing phishing lures that mimic real business workflows, and accelerate parts of the attack lifecycle using AI-assisted tooling . However, all these things do not remove a key constraint for adversaries: Automated attacks still produce patterns of unusual behavior, and patterns are detectable. Even highly scalable attacks tend to reuse the same infrastructure, tools, and techniques. They also follow predictable sequences of activity and generate anomalies. Focusing detection efforts on anomalous events (e.g., unusual authentication flows, abnormal system access, anomalous device registration) Reducing alert fatigue by prioritizing a smaller number of meaningful detections over broad, low-confidence alerting Supporting triage and enrichment with automation where possible, alongside human decision-making Ensuring teams are equipped to investigate patterns of behavior, not just isolated alerts Much of the current concern in and around the security community is the new reality that anyone can create a malicious campaign. The Year in Review doesn’t disagree. However, Talos data also shows something equally important: Attackers still rely on the same vulnerabilities They reuse the same tools and techniques They follow repeatable patterns And, critically, they don’t behave like your users Even when they successfully authenticate, move laterally, or establish persistence, their activity introduces detectable anomalies. That’s where the opportunity lies for defenders.",
+      "full_article_text_chars": 7580,
+      "content_preview": "A familiar theme in security right now is that the barrier to entry for attackers is at an all-time low. AI tools can spin up websites within minutes that can easily direct data to disposable external data stores and send alerts for new captures — all without code. One such case was recently detailed in the latest Cisco Talos Incident Response Quarterly Trends report. Proof-of-concept code for exploiting new vulnerabilities used to take attackers months to create. Now they take hours. All of this is very concerning for defenders. Yesterday, my colleague told me about a recent conference Q&A he hosted, where he was asked to provide some hope to those in the room who have faced an overwhelming amount of change in recent months. His answer was to focus on the here and now. Focus on what you can control, and what you have influence over. We can’t change what may or may not happen in six months’ time, but we can prioritize what’s important now. The other key thing for defenders to bear in mind is that even when attackers move fast, they still don’t behave like your normal users. At the end of the day, you’re still looking for anomalous behavior – whether that behavior is machine- or human-generated. As we come to the end of our Year in Review content release (if you haven’t seen it yet, we published videos, podcasts, and topic specific blog posts), we’d like to end by summarizing the key priorities for defenders. Here are five of them that are worth considering when it comes to spotting malicious, unusual behaviour in your environment. 1. Identity is the main battlefield The Year in Review highlights how frequently attackers rely on valid accounts and credential abuse throughout the attack chain. We see this across multiple areas: MFA spray attacks targeting IAM platforms directly Device compromise attacks increasing 178% year over year Attackers registering their own devices as trusted multi-factor authentication (MFA) methods Ransomware attack chains [L(1] largely relying on valid accounts, credentialed tools, or both Network infrastructure is a key part of this. VPNs, Active Directory Controllers (ADCs), and firewalls are being exploited to steal session tokens, bypass MFA, and impersonate users. However, when attackers successfully authenticate, where they go from there tends not to fall in line with normal user behavior. They start to access new systems outside of their role, move laterally using tools like PsExec, execute commands at unusual times, and overall operate at a scale that normal users don’t. Therefore, having a baseline understanding of normal user behavior is more important than ever. Treating identity infrastructure as Tier 1 critical assets and apply the strongest monitoring and protection controls to IAM and PAM systems Securing MFA device registration workflows with strict verification procedures and limited administrative approval rights Hardening authentication systems against automated attacks by enforcing rate limiting, anomaly detection, and strong conditional access policies Building baseline detections around what users do, not just how they log in 2. Prioritize the vulnerabilities that have the most exposure One of the most important callouts in the report is how attackers select targets. The rapid exploitation of vulnerabilities such as React2Shell and ToolShell shows that exploitation can begin immediately after disclosure with readily available proof-of-concepts. Attackers then prioritize what is exposed and reachable. Attackers also like to exploit the vulnerabilities that are closest to identity, session handling, and access logic. At the same time, older vulnerabilities such as Log4Shell remain among the most exploited, over four years after disclosure. This creates a dual reality where some new vulnerabilities are weaponized instantly, but old, highly-valued vulnerabilities are never fully eliminated. Remediating vulnerabilities based on internet exposure and access impact, not just CVSS scores Reducing time-to-patch for externally accessible systems Continuously reassessing what is reachable from the outside 3. Address the long tail of legacy and embedded risk The Year in Review highlights that nearly 40% of the top 100 most targeted vulnerabilities impact EOL systems, and 32% are over a decade old. Many of these vulnerabilities exist in deeply embedded components such as PHP frameworks, Log4j, and ColdFusion. These components are often poorly inventoried, difficult to patch, and tightly coupled to business-critical systems. It’s a frustrating fact that the most persistent risks are often the least visible, and the hardest to remove. They create long-term blind spots, which are an attacker’s favorite thing to find and exploit. Improving visibility into software dependencies and embedded components Treating development frameworks and libraries as part of your attack surface Establishing clear strategies for isolating or retiring legacy systems 4. Secure the systems that broker trust Attackers are increasingly targeting systems that provide maximum operational leverage. This includes network management platforms, application delivery controllers (ADCs), and shared software platforms running across multiple devices. These systems are attractive to adversaries because they store credentials, control configurations across large environments, provide visibility into the network, and enable changes at scale. Unfortunately, these platforms are also traditionally less monitored than endpoints, more complex to patch or upgrade, and have centralized points of failure. Identifying management-plane and control-plane systems that need securing Applying enhanced monitoring and access controls to these platforms Limiting administrative access and enforce strong segmentation 5. Keep focusing on patterns, even with increased automation and AI-driven attacks Yes, automation and AI are changing the threat landscape. As we’ve spoken about, attackers are increasingly able to rapidly identify and exploit vulnerabilities, launch large-scale identity attacks, generate convincing phishing lures that mimic real business workflows, and accelerate parts of the attack lifecycle using AI-assisted tooling . However, all these things do not remove a key constraint for adversaries: Automated attacks still produce patterns of unusual behavior, and patterns are detectable. Even highly scalable attacks tend to reuse the same infrastructure, tools, and techniques. They also follow predictable sequences of activity and generate anomalies. Focusing detection efforts on anomalous events (e.g., unusual authentication flows, abnormal system access, anomalous device registration) Reducing alert fatigue by prioritizing a smaller number of meaningful detections over broad, low-confidence alerting Supporting triage and enrichment with automation where possible, alongside human decision-making Ensuring teams are equipped to investigate patterns of behavior, not just isolated alerts Much of the current concern in and around the security community is the new reality that anyone can create a malicious campaign. The Year in Review doesn’t disagree. However, Talos data also shows something equally important: Attackers still rely on the same vulnerabilities They reuse the same tools and techniques They follow repeatable patterns And, critically, they don’t behave like your users Even when they successfully authenticate, move laterally, or establish persistence, their activity introduces detectable anomalies. That’s where the opportunity lies for defenders.",
+      "content_preview_chars": 7580,
+      "content_fetched_at": "2026-04-28T13:39:24",
+      "enrichment_status": "strong",
       "content_fetch_status": "success"
     }
   ],
