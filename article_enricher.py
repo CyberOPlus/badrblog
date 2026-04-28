@@ -23,6 +23,7 @@ from config import (
     MAX_SOURCE_RETRIES,
 )
 from production_logging import elapsed_ms, log_event
+from image_extractor import extract_main_image, extract_extra_images
 
 try:
     import aiohttp
@@ -276,38 +277,43 @@ def _meta_image_candidates(soup):
     )
 
 
-def _extract_article_images(soup, article_url):
-    images = []
-    seen = set()
-
-    for source_type, image_url in _meta_image_candidates(soup):
-        if image_url:
-            _append_image(images, seen, urljoin(article_url, image_url), source=source_type)
-
-    for image_url in _extract_jsonld_images(soup):
-        _append_image(images, seen, urljoin(article_url, image_url), source="jsonld")
-
-    container = _best_article_container(soup)
-    article_imgs = list(container.select("img[src], img[data-src], img[data-lazy-src], img[data-original], img[data-hi-res-src], img[srcset], img[data-srcset]"))
-    passes = (
-        ("srcset", lambda img: _best_src_from_srcset(img.get("srcset") or img.get("data-srcset"))),
-        ("lazy", lambda img: img.get("data-src") or img.get("data-lazy-src") or img.get("data-original") or img.get("data-hi-res-src")),
-        ("article", lambda img: img.get("src")),
+def _extract_and_prepare_images(html_content, article_url, article_title=""):
+    """
+    Extract main image and extra images using the new image_extractor module.
+    Returns (main_image_url, extraction_method, extra_images_list)
+    """
+    # Extract main image
+    main_image_url, extraction_method = extract_main_image(
+        html_content,
+        article_url,
+        article_title or "صورة المقال"
     )
-    for source_type, getter in passes:
-        for img in article_imgs:
-            src = getter(img)
-            if not src:
-                continue
-            url = urljoin(article_url, src)
-            alt = img.get("alt") or img.get("title") or ""
-            _append_image(images, seen, url, alt=alt, source=source_type, img=img)
-            if len(images) >= MAX_ARTICLE_IMAGES:
-                break
-        if len(images) >= MAX_ARTICLE_IMAGES:
-            break
-
-    return images[:MAX_ARTICLE_IMAGES]
+    
+    # Extract extra images (up to 3, excluding main image)
+    extra_images = extract_extra_images(
+        html_content,
+        article_url,
+        main_image_url=main_image_url,
+        limit=3
+    )
+    
+    # Format as article_images list for backward compatibility
+    article_images = []
+    if main_image_url:
+        article_images.append({
+            "url": main_image_url,
+            "alt": article_title or "صورة المقال",
+            "source": extraction_method or "unknown",
+        })
+    
+    for extra_image in extra_images:
+        article_images.append({
+            "url": extra_image["url"],
+            "alt": extra_image.get("alt", "صورة توضيحية"),
+            "source": "article_content",
+        })
+    
+    return main_image_url, extraction_method or "unknown", extra_images
 
 
 def _trusted_reference_allowed(url, source_url):
@@ -501,23 +507,44 @@ def _apply_enrichment_from_html(article, html, url):
 
     article["fetched_title"] = _extract_title(soup) or article.get("title", "")
     article["meta_description"] = _extract_meta_description(soup)
-    declared_images = [(source_type, image_url) for source_type, image_url in _meta_image_candidates(soup) if image_url]
-    article_images = _extract_article_images(soup, url)
+    
+    # Extract images using the new advanced image extractor
+    main_image_url, image_extraction_method, extra_images = _extract_and_prepare_images(
+        str(soup),
+        url,
+        article.get("title", "") or article.get("fetched_title", "")
+    )
+    
+    # Build article_images list
+    article_images = []
+    if main_image_url:
+        article_images.append({
+            "url": main_image_url,
+            "alt": article.get("fetched_title") or article.get("title", ""),
+            "source": image_extraction_method,
+        })
+    
+    for extra_image in extra_images:
+        article_images.append({
+            "url": extra_image["url"],
+            "alt": extra_image.get("alt", "صورة توضيحية"),
+            "source": "article_content",
+        })
+    
     article["article_images"] = article_images
-    main_image = article_images[0] if article_images else {}
-    article["main_image"] = main_image.get("url", "")
-    article["main_image_source_type"] = main_image.get("source", "fallback" if not main_image else "")
-    if declared_images and not article["main_image"]:
-        source_types = ",".join(source_type for source_type, _image_url in declared_images)
-        article["image_warning"] = f"declared meta image exists but no usable image was selected from {source_types}"
-        log_event(
-            "article_image_warning",
-            url=url,
-            reason=article["image_warning"],
-            image_source_type=article["main_image_source_type"],
-        )
-    else:
-        article.pop("image_warning", None)
+    article["main_image"] = main_image_url or ""
+    article["main_image_source_type"] = image_extraction_method or "fallback"
+    article["main_image_extraction_method"] = image_extraction_method
+    article["extra_article_images"] = extra_images
+    
+    # Log image extraction results
+    log_event(
+        "image_extraction_complete",
+        url=url,
+        main_image_found="yes" if main_image_url else "no",
+        image_extraction_method=image_extraction_method,
+        extra_images_count=len(extra_images),
+    )
     article["trusted_references"] = _extract_trusted_references(
         soup,
         url,
@@ -546,7 +573,8 @@ def _apply_enrichment_from_html(article, html, url):
         preview_chars=len(preview),
         images=len(article_images),
         main_image_found="yes" if article.get("main_image") else "no",
-        image_source_type=article.get("main_image_source_type"),
+        image_extraction_method=article.get("main_image_extraction_method"),
+        extra_images_count=len(article.get("extra_article_images") or []),
         references=len(article.get("trusted_references") or []),
         enrichment_status=article["enrichment_status"],
     )
@@ -578,6 +606,8 @@ def _apply_rss_summary_fallback(article):
     article["article_images"] = []
     article["main_image"] = ""
     article["main_image_source_type"] = "fallback"
+    article["main_image_extraction_method"] = "fallback"
+    article["extra_article_images"] = []
     article["image_warning"] = "article image unavailable; fallback image will be used where supported"
     article["trusted_references"] = []
     article["full_article_text"] = summary
