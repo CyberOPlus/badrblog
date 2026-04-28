@@ -740,6 +740,15 @@ class ProductionHardeningTests(unittest.TestCase):
         )
         self.assertEqual(config.OPENROUTER_MODELS, config.FAST_OPENROUTER_MODELS)
 
+    def test_github_actions_facebook_image_dependencies_are_declared(self):
+        requirements_text = Path("requirements.txt").read_text(encoding="utf-8")
+        workflow_text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8-sig")
+
+        self.assertRegex(requirements_text, r"(?im)^\s*Pillow\b")
+        self.assertIn("pip install -r requirements.txt", workflow_text)
+        self.assertTrue(Path("assets/facebook_template.png").exists())
+        self.assertTrue(Path("assets/fallback_article.png").exists())
+
     def test_facebook_image_generator_uses_fallback_image(self):
         try:
             from PIL import Image
@@ -787,9 +796,35 @@ class ProductionHardeningTests(unittest.TestCase):
                     output,
                     hook_text="عنوان عربي قصير فوق صورة المقال",
                 )
+                output_exists = output.exists()
 
         self.assertTrue(result["ok"], result)
-        self.assertTrue(output.exists())
+        self.assertTrue(output_exists)
+
+    def test_facebook_image_generator_works_without_template_or_fallback_asset(self):
+        try:
+            from PIL import Image
+        except ImportError:
+            self.skipTest("Pillow is not installed in this local environment")
+
+        with TemporaryDirectory() as temp_dir:
+            temp_dir = Path(temp_dir)
+            output = temp_dir / "out.jpg"
+            missing_template = temp_dir / "missing_template.png"
+            missing_fallback = temp_dir / "missing_fallback.png"
+
+            with patch.object(facebook_image_generator, "FACEBOOK_IMAGE_TEMPLATE_PATH", missing_template), patch.object(facebook_image_generator, "FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH", missing_fallback), patch.object(facebook_image_generator, "FACEBOOK_IMAGE_OUTPUT_DIR", temp_dir):
+                result = facebook_image_generator.generate_facebook_image(
+                    "Android security update",
+                    "",
+                    output,
+                    hook_text="تنبيه تقني مهم لمستخدمي Android",
+                )
+                output_exists = output.exists()
+
+        self.assertTrue(result["ok"], result)
+        self.assertTrue(result["used_fallback"])
+        self.assertTrue(output_exists)
 
     def test_freshness_safety_margin_skips_article_before_ai(self):
         def fake_collect(base_url, **_kwargs):

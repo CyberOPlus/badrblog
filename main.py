@@ -3,6 +3,7 @@
 # ============================================================
 
 import json
+import importlib.util
 import os
 import re
 import subprocess
@@ -65,6 +66,8 @@ from config import (
     CRAWL_STATE_PATH,
     FALLBACK_FIRST_RUN_LOOKBACK_HOURS,
     FACEBOOK_AUTO_POST,
+    FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH,
+    FACEBOOK_IMAGE_TEMPLATE_PATH,
     FACEBOOK_STYLE_MEMORY_PATH,
     FAST_NEWS_MODE,
     FRESHNESS_SAFETY_MARGIN_MINUTES,
@@ -1740,6 +1743,10 @@ def run_deployment_check_only():
         workflow_text = AUTO_CYCLE_WORKFLOW_PATH.read_text(encoding="utf-8-sig")
     except OSError:
         workflow_text = ""
+    try:
+        requirements_text = Path("requirements.txt").read_text(encoding="utf-8")
+    except OSError:
+        requirements_text = ""
     required_env = [
         "BLOG_ID",
     ]
@@ -1825,6 +1832,15 @@ def run_deployment_check_only():
     print(f"GitHub Actions self-trigger: {'present' if 'Self trigger next run' in workflow_text and 'self_trigger' in workflow_text and '/dispatches' in workflow_text else 'missing'}")
     print(f"FACEBOOK_AUTO_POST: {'true' if facebook_auto_post else 'false'}")
     print("FACEBOOK_AUTO_POST value safe: yes")
+    workflow_installs_requirements = "pip install -r requirements.txt" in workflow_text
+    pillow_declared = bool(re.search(r"(?im)^\s*Pillow\b", requirements_text))
+    pillow_import_available = importlib.util.find_spec("PIL") is not None
+    print("Facebook image generation:")
+    print(f"  - workflow installs requirements.txt: {'yes' if workflow_installs_requirements else 'no'}")
+    print(f"  - Pillow declared in requirements.txt: {'yes' if pillow_declared else 'no'}")
+    print(f"  - Pillow import available now: {'yes' if pillow_import_available else 'no'}")
+    print(f"  - template asset present: {'yes' if FACEBOOK_IMAGE_TEMPLATE_PATH.exists() else 'optional-missing'}")
+    print(f"  - fallback image asset present: {'yes' if FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH.exists() else 'generated fallback will be used'}")
     print("Telegram alerts:")
     print(f"  - TELEGRAM_ALERTS_ENABLED: {'true' if TELEGRAM_ALERTS_ENABLED else 'false'}")
     print(f"  - TELEGRAM_BOT_TOKEN: {'present' if TELEGRAM_BOT_TOKEN else 'missing'}")
@@ -1871,6 +1887,11 @@ def run_deployment_check_only():
         errors.append("PUBLISH_MODE must be draft or live.")
     if publish_mode == "live" and facebook_auto_post and missing_limits:
         errors.append("Live Blogger plus Facebook requires all rate-limit variables.")
+    if facebook_auto_post:
+        if not workflow_installs_requirements:
+            errors.append("GitHub Actions must install dependencies with pip install -r requirements.txt before running the bot.")
+        if not pillow_declared:
+            errors.append("Facebook image generation requires Pillow in requirements.txt.")
     if publish_mode == "live":
         warnings.append("PUBLISH_MODE is live. Confirm this is intentional before scheduling.")
         if safe_mode_env:

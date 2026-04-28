@@ -70,12 +70,23 @@ def _load_template():
 
 
 def _load_fallback_image():
-    from PIL import Image
+    from PIL import Image, ImageDraw
 
     if FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH.exists():
         log_event("facebook_image_fallback_used", reason="article image unavailable")
         return Image.open(FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH).convert("RGBA"), True
-    raise FileNotFoundError(f"missing fallback image: {FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH}")
+
+    log_event(
+        "facebook_image_fallback_generated",
+        reason="fallback asset missing",
+        path=str(FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH),
+    )
+    image = Image.new("RGBA", (FACEBOOK_IMAGE_SIZE, FACEBOOK_IMAGE_SIZE), (18, 28, 44, 255))
+    draw = ImageDraw.Draw(image)
+    for index in range(0, FACEBOOK_IMAGE_SIZE, 36):
+        color = (26 + (index // 36) % 30, 52, 76, 255)
+        draw.line((0, index, FACEBOOK_IMAGE_SIZE, index - FACEBOOK_IMAGE_SIZE), fill=color, width=18)
+    return image, True
 
 
 def _load_article_image(image_url):
