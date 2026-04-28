@@ -1,8 +1,7 @@
 name: Blogger Auto Cycle
 
-on:
-  schedule:
-    - cron: "*/15 * * * *"
+off:
+
   workflow_dispatch:
     inputs:
       mode:
