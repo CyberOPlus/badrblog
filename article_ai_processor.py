@@ -1040,6 +1040,9 @@ def _is_quota_or_rate_limit_error(error):
             "rate limit",
             "rate-limit",
             "rate_limited",
+            "exceeded",
+            "retry_delay",
+            "retry delay",
             "resource_exhausted",
             "too many requests",
             "timeout",
@@ -1145,6 +1148,17 @@ def _attempt_provider_sequence():
 
 def _attempt_provider_candidates():
     return _provider_candidates()
+
+
+def _openrouter_fallback_available():
+    try:
+        return any(item.get("provider") == "openrouter" for item in _provider_candidates())
+    except Exception:
+        return False
+
+
+def _should_switch_gemini_to_openrouter(provider, error):
+    return provider == "gemini" and _is_quota_or_rate_limit_error(error) and _openrouter_fallback_available()
 
 
 def _generate_with_provider_name(provider, prompt):
@@ -1285,7 +1299,22 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     else _generate_ai_article(prompt)
                 )
             except Exception as provider_error:
-                raise
+                if _should_switch_gemini_to_openrouter(provider, provider_error):
+                    message = "Gemini quota exceeded; switching to OpenRouter"
+                    print(f"  {message}")
+                    log_event(
+                        "gemini_quota_switching_to_openrouter",
+                        article_id=article.get("id"),
+                        reason=_safe_error_reason(provider_error),
+                    )
+                    raw_text, provider_used = _generate_with_provider_name("openrouter", prompt)
+                    log_event(
+                        "openrouter_model_used",
+                        article_id=article.get("id"),
+                        model=provider_used.replace("openrouter:", "", 1),
+                    )
+                else:
+                    raise
             data = _parse_ai_json(raw_text)
             previous_data = data
             data = _shorten_metadata_once_if_needed(data)

@@ -818,6 +818,50 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(result["article"]["ai_quality_status"], "failed_after_retries")
         self.assertEqual(result["article"]["ai_quality_attempts"], 3)
 
+    def test_gemini_429_triggers_openrouter_fallback(self):
+        intro = " ".join(["يوضح", "هذا", "التحديث", "الأمني", "أهمية", "المتابعة", "السريعة", "للمستخدمين"] * 13)
+        details = " ".join(["يساعد", "التثبيت", "السريع", "على", "تقليل", "المخاطر", "وحماية", "البيانات"] * 13)
+        good = {
+            "title": "تحديث أمني مهم لمتصفح Chrome",
+            "description": "شرح مبسط لتحديث أمني مهم في Chrome ولماذا ينبغي للمستخدمين تثبيت التحديث بسرعة لحماية بياناتهم وتقليل مخاطر الاستغلال.",
+            "slug": "chrome-security-update",
+            "html_content": f"<p>{intro}</p><h2>ما الذي حدث؟</h2><p>{details}</p>",
+        }
+        calls = []
+
+        def fake_generate(provider, prompt):
+            calls.append(provider)
+            if provider == "gemini":
+                raise RuntimeError("Gemini API error 429: quota exceeded retry_delay")
+            return json.dumps(good, ensure_ascii=False), "openrouter:test-model"
+
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "a1",
+                        "url": "https://example.com/news",
+                        "status": "selected",
+                        "processing_status": "ready_for_ai",
+                        "ai_input_package": {
+                            "title": "Chrome fixes active zero-day vulnerability",
+                            "url": "https://example.com/news",
+                            "source_published_at": recent_iso(1),
+                            "content_preview": "Google released an emergency Chrome security update.",
+                        },
+                    }
+                ],
+                "notifications": {},
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]), patch.object(article_ai_processor, "_openrouter_fallback_available", return_value=True), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=fake_generate), patch.object(article_ai_processor.time, "sleep"):
+                article_queue.save_article_queue(queue)
+                result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
+
+        self.assertEqual(result["success"], 1)
+        self.assertEqual(calls, ["gemini", "openrouter"])
+        self.assertEqual(result["article"]["ai_provider_used"], "openrouter:test-model")
+
     def test_plus_ui_format_places_main_image_after_first_paragraph(self):
         html = "<p>هذه مقدمة عربية واضحة عن الخبر وتشرح الفكرة ببساطة.</p><h2>التفاصيل</h2><p>هذه فقرة ثانية توضح الأثر على القارئ.</p>"
         formatted = article_ai_processor.format_phase3_article_html(
