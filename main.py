@@ -1050,7 +1050,7 @@ def save_runtime_state_to_git():
             return result
         subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=False, capture_output=True, text=True)
         subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], check=False, capture_output=True, text=True)
-        subprocess.run(["git", "add", "--", *paths], check=True, capture_output=True, text=True)
+        subprocess.run(["git", "add", "-f", "--", *paths], check=True, capture_output=True, text=True)
         diff = subprocess.run(["git", "diff", "--cached", "--quiet"], check=False)
         if diff.returncode == 0:
             return result
