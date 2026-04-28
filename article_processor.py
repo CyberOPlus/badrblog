@@ -7,6 +7,7 @@ from datetime import datetime
 from article_queue import article_age_hours, is_article_safe_for_ai, load_article_queue, save_article_queue
 from article_selector import normalize_category_label
 from config import FRESHNESS_SAFETY_MARGIN_MINUTES, MAX_AI_ARTICLE_AGE_HOURS, MIN_EXTRACTED_CHARS
+from internal_link_cache import load_internal_link_cache, select_internal_link_candidates
 
 
 def _now_iso():
@@ -71,28 +72,11 @@ def _build_ai_input_package(article):
 
 
 def _related_posts_for(article):
-    queue = load_article_queue()
-    related = []
-    current_url = article.get("url", "")
-    category = article.get("suggested_category", "")
-
-    for candidate in queue.get("articles", []):
-        if candidate.get("url") == current_url:
-            continue
-        if candidate.get("status") not in {"draft_created", "published"}:
-            continue
-        if category and candidate.get("suggested_category") != category:
-            continue
-
-        link = candidate.get("blogger_draft_url") or candidate.get("blogger_url") or candidate.get("url")
-        title = candidate.get("seo_title") or candidate.get("fetched_title") or candidate.get("title")
-        if not link or not title:
-            continue
-        related.append({"title": title, "url": link})
-        if len(related) >= 3:
-            break
-
-    return related
+    cache_data, _stats = load_internal_link_cache(save=True)
+    return [
+        {"title": candidate.get("title", ""), "url": candidate.get("url", "")}
+        for candidate in select_internal_link_candidates(article, cache_data.get("links", []))
+    ]
 
 
 def prepare_selected_articles_for_ai(target_article_id=None):

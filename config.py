@@ -364,6 +364,7 @@ FACEBOOK_TITLE_FONT_SIZE = _env_int("FACEBOOK_TITLE_FONT_SIZE", 56)
 # remain ignored by git through data/*.json.
 AI_PROVIDER_MEMORY_PATH = BASE_DIR / "data" / "ai_provider_memory.json"
 FACEBOOK_STYLE_MEMORY_PATH = BASE_DIR / "data" / "facebook_style_memory.json"
+INTERNAL_LINK_CACHE_PATH = BASE_DIR / "data" / "internal_link_cache.json"
 
 
 # ============================================================

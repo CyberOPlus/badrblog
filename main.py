@@ -68,6 +68,7 @@ from config import (
     FRESHNESS_SAFETY_MARGIN_MINUTES,
     FRESH_QUEUE_MODE,
     FIRST_VALID_ARTICLE_MODE,
+    INTERNAL_LINK_CACHE_PATH,
     LOGS_DIR,
     MAX_ARTICLES_PER_RUN,
     MAX_AI_ARTICLE_AGE_HOURS,
@@ -1035,6 +1036,7 @@ RUNTIME_STATE_PATHS = (
     SOURCE_HEALTH_PATH,
     AI_PROVIDER_MEMORY_PATH,
     FACEBOOK_STYLE_MEMORY_PATH,
+    INTERNAL_LINK_CACHE_PATH,
 )
 
 
@@ -1849,6 +1851,11 @@ def _print_safe_cycle_final_report(
     print(f"Main image found:       {'yes' if article and article.get('main_image') else 'no'}")
     print(f"Image source type:      {article.get('main_image_source_type', '') if article else ''}")
     print(f"Removed source links:   {article.get('removed_source_links_count', 0) if article else 0}")
+    print(f"Internal cache loaded:  {article.get('internal_cache_loaded', 0) if article else 0}")
+    print(f"Expired links removed:  {article.get('expired_internal_links_removed', 0) if article else 0}")
+    print(f"Internal links added:   {article.get('internal_links_inserted_count', 0) if article else 0}")
+    print(f"Trusted links added:    {article.get('external_trusted_links_inserted_count', 0) if article else 0}")
+    print(f"Internal cache saved:   {'yes' if article and article.get('internal_cache_saved') else 'no'}")
     print(f"Trusted references:     {_count_trusted_references(article)}")
     print(
         "Source name in HTML:    "

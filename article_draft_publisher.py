@@ -15,6 +15,7 @@ from config import BLOG_ID, MAX_RETRIES, PUBLISH_MODE, RETRY_DELAY, SAFE_MODE
 from notifier import notify_blogger_result
 from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
+from internal_link_cache import apply_link_enrichment, record_published_article
 from source_sanitizer import sanitize_source_links
 
 TEMPORARY_BLOGGER_HTTP_STATUSES = {429, 500, 502, 503, 504}
@@ -148,9 +149,17 @@ def _source_domain_for_article(article):
 def _sanitize_article_final_html(article):
     source_domain = _source_domain_for_article(article)
     cleaned, removed_count = sanitize_source_links(article.get("final_html", ""), source_domain)
+    cleaned, link_stats = apply_link_enrichment(cleaned, article, source_domain=source_domain)
+    cleaned, post_link_removed_count = sanitize_source_links(cleaned, source_domain)
+    removed_count += post_link_removed_count
     article["final_html"] = cleaned
     article["blogger_article_html"] = cleaned
     article["removed_source_links_count"] = removed_count
+    article["internal_cache_loaded"] = link_stats.get("internal_cache_loaded", 0)
+    article["expired_internal_links_removed"] = link_stats.get("expired_internal_links_removed", 0)
+    article["internal_links_inserted_count"] = link_stats.get("internal_links_inserted_count", 0)
+    article["external_trusted_links_inserted_count"] = link_stats.get("external_trusted_links_inserted_count", 0)
+    article["internal_cache_saved"] = link_stats.get("internal_cache_saved", False)
     article["final_word_count"] = html_word_count(cleaned)
     return removed_count
 
@@ -271,6 +280,8 @@ def _apply_success(article, post, mode):
         article["status"] = "published"
         article["published_at"] = now
         article["publish_status"] = "published"
+        cache_stats = record_published_article(article, article.get("blogger_post_url", ""))
+        article["internal_cache_saved"] = bool(cache_stats.get("saved"))
     else:
         article["status"] = "draft_created"
         article["draft_created_at"] = now
@@ -423,6 +434,7 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
 
     article = eligible[0]
     slug_warning = _custom_slug_warning(article)
+    _sanitize_article_final_html(article)
     quality_error = _publish_quality_error(article, articles)
     if quality_error:
         return _block_publish(

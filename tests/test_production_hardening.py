@@ -15,6 +15,7 @@ import article_processor
 import article_queue
 import content_filter
 import facebook_publisher
+import internal_link_cache
 import utils.facebook_image_generator as facebook_image_generator
 import runtime_state
 import source_sanitizer
@@ -1031,6 +1032,7 @@ class ProductionHardeningTests(unittest.TestCase):
             "data/crawl_state.json",
             "data/topic_fingerprints.json",
             "data/source_health.json",
+            "data/internal_link_cache.json",
             "logs/auto_cycle_runs.jsonl",
         ):
             self.assertIn(path, text)
@@ -1257,6 +1259,106 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(result["git_push_state"], "skipped")
         called_commands = [call.args[0] for call in run.call_args_list]
         self.assertNotIn(["git", "commit", "-m", "Update bot runtime state [skip ci]"], called_commands)
+
+    def test_internal_cache_prunes_links_older_than_sixty_minutes(self):
+        now = datetime(2026, 4, 28, 12, 0, tzinfo=timezone.utc)
+        data = {
+            "links": [
+                {"title": "Fresh", "url": "https://blog.example/fresh", "published_at": (now - timedelta(minutes=30)).isoformat()},
+                {"title": "Old", "url": "https://blog.example/old", "published_at": (now - timedelta(minutes=61)).isoformat()},
+            ]
+        }
+        pruned, stats = internal_link_cache.prune_internal_link_cache(data, now=now)
+        self.assertEqual(len(pruned["links"]), 1)
+        self.assertEqual(stats["expired_removed"], 1)
+        self.assertEqual(pruned["links"][0]["title"], "Fresh")
+
+    def test_internal_cache_keeps_maximum_fifty_links(self):
+        now = datetime(2026, 4, 28, 12, 0, tzinfo=timezone.utc)
+        data = {
+            "links": [
+                {
+                    "title": f"Post {index}",
+                    "url": f"https://blog.example/post-{index}",
+                    "published_at": (now - timedelta(seconds=index)).isoformat(),
+                }
+                for index in range(55)
+            ]
+        }
+        pruned, stats = internal_link_cache.prune_internal_link_cache(data, now=now)
+        self.assertEqual(len(pruned["links"]), 50)
+        self.assertEqual(stats["trimmed_removed"], 5)
+
+    def test_internal_links_do_not_link_current_article_to_itself(self):
+        article = {
+            "seo_title": "Microsoft security update",
+            "suggested_category": "Cyber-Security",
+            "blogger_post_url": "https://blog.example/current",
+            "final_html": "<p>Microsoft issued a security update.</p>",
+        }
+        links = [
+            {"title": "Microsoft security update", "url": "https://blog.example/current", "category": "Cyber-Security", "keywords": ["Microsoft"]},
+            {"title": "Microsoft patch guidance", "url": "https://blog.example/patch", "category": "Cyber-Security", "keywords": ["Microsoft"]},
+        ]
+        selected = internal_link_cache.select_internal_link_candidates(article, links)
+        self.assertEqual(len(selected), 1)
+        self.assertEqual(selected[0]["url"], "https://blog.example/patch")
+
+    def test_internal_link_insertion_adds_one_to_three_links_only(self):
+        article = {
+            "seo_title": "Microsoft and Google security patch",
+            "suggested_category": "Cyber-Security",
+            "final_html": "<p>Microsoft and Google released security patches.</p>",
+        }
+        links = [
+            {"title": f"Microsoft Google patch {index}", "url": f"https://blog.example/post-{index}", "category": "Cyber-Security", "keywords": ["Microsoft", "Google"]}
+            for index in range(6)
+        ]
+        html, count = internal_link_cache.insert_internal_links(article["final_html"], article, {"links": links})
+        self.assertGreaterEqual(count, 1)
+        self.assertLessEqual(count, 3)
+        self.assertEqual(html.count("<li><a href="), count)
+
+    def test_link_enrichment_does_not_insert_original_source_links(self):
+        article = {
+            "seo_title": "CISA Microsoft alert",
+            "suggested_category": "Cyber-Security",
+            "final_html": "<p>CISA and Microsoft published guidance.</p>",
+            "trusted_references": [
+                {"title": "Original source", "url": "https://source.example/story"},
+                {"title": "CISA alert", "url": "https://www.cisa.gov/news-events/alerts"},
+            ],
+        }
+        html, count = internal_link_cache.insert_trusted_external_links(
+            article["final_html"],
+            article["trusted_references"],
+            source_domain="source.example",
+        )
+        self.assertEqual(count, 1)
+        self.assertNotIn("source.example", html)
+        self.assertIn("cisa.gov", html)
+
+    def test_internal_cache_saved_after_live_publish(self):
+        with TemporaryDirectory() as temp_dir:
+            cache_path = Path(temp_dir) / "internal_link_cache.json"
+            article = {
+                "seo_title": "Microsoft security patch",
+                "suggested_category": "Cyber-Security",
+                "seo_slug": "microsoft-security-patch",
+                "published_at": "2026-04-28T12:00:00Z",
+                "keywords": ["Microsoft", "security"],
+            }
+            stats = internal_link_cache.record_published_article(
+                article,
+                "https://blog.example/microsoft-security-patch",
+                path=cache_path,
+                now=datetime(2026, 4, 28, 12, 0, tzinfo=timezone.utc),
+            )
+            saved = json.loads(cache_path.read_text(encoding="utf-8"))
+
+        self.assertTrue(stats["saved"])
+        self.assertEqual(saved["links"][0]["url"], "https://blog.example/microsoft-security-patch")
+        self.assertNotIn("final_html", saved["links"][0])
 
 
 if __name__ == "__main__":

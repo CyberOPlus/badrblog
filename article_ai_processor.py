@@ -226,6 +226,36 @@ def _selected_ready_for_ai(article):
     )
 
 
+PLUS_UI_FORMAT_SNIPPETS = """
+Use these Plus UI snippets exactly when the component is needed. Do not add CSS.
+
+<!--[ Paragraph ]-->
+<p>This is a paragraph</p>
+
+<!--[ Text Indent paragraph ]-->
+<p class='pIndent'>This is a paragraph with text indent.</p>
+
+<!--[ Post Reference paragraph ]-->
+<p class='pRef'>Source:<br> www.example.com</p>
+
+<!--[ Standard image ]-->
+<img class='full' alt='alt_here' width='1280' height='720' src='image_link'/>
+
+External Link:
+<a class='extL' href='link_here' rel='nofollow noreferrer noopener' target='_blank'>link_title</a>
+
+Manual Related Posts:
+<div class='pRelate'>
+  <b>You may want to read this post :</b>
+  <ul>
+    <li><a href='post_link'>post_title</a></li>
+    <li><a href='post_link'>post_title</a></li>
+    <li><a href='post_link'>post_title</a></li>
+  </ul>
+</div>
+""".strip()
+
+
 def _build_prompt(package):
     package = dict(package or {})
     source_text = package.get("full_article_text") or package.get("content_preview") or ""
@@ -267,6 +297,9 @@ OUTPUT JSON SHAPE:
 
 INPUT PACKAGE:
 {package_json}
+
+PLUS UI FORMAT SNIPPETS:
+{PLUS_UI_FORMAT_SNIPPETS}
 """.strip()
 
     return f"""
@@ -323,6 +356,9 @@ OUTPUT JSON SHAPE:
 
 INPUT PACKAGE:
 {package_json}
+
+PLUS UI FORMAT SNIPPETS:
+{PLUS_UI_FORMAT_SNIPPETS}
 """.strip()
 
 
