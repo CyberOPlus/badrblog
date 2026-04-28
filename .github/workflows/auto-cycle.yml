@@ -2,7 +2,7 @@ name: Blogger Auto Cycle
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "0 * * * *"
   workflow_dispatch:
     inputs:
       mode:
@@ -49,7 +49,7 @@ env:
 jobs:
   auto-cycle:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 60
     permissions:
       actions: write
       contents: write
@@ -247,8 +247,10 @@ jobs:
               "CRAWL_INTERVAL_MINUTES": "5",
               "CRAWL_OVERLAP_MINUTES": "10",
               "ALLOW_UNKNOWN_DATE_IN_FAST_MODE": "false",
-              "MAX_POSTS_PER_RUN": "1",
-              "MAX_ARTICLES_PER_RUN": "1",
+              "MAX_POSTS_PER_RUN": "8",
+              "MAX_ARTICLES_PER_RUN": "8",
+              "CATEGORY_POSTS_PER_HOUR": "2",
+              "HOURLY_POST_LIMIT": "8",
               "PUBLISH_WEAK_ARTICLES": "true",
               "ALLOW_SHORT_ARTICLES": "true",
               "MIN_ARTICLE_WORDS": "80",
@@ -276,12 +278,12 @@ jobs:
               "TELEGRAM_ENABLED": "true",
               "TELEGRAM_BOT_TOKEN": os.environ.get("TELEGRAM_BOT_TOKEN", ""),
               "TELEGRAM_CHAT_ID": os.environ.get("TELEGRAM_CHAT_ID", ""),
-              "SAFE_CYCLE_MAX_ARTICLES": "1",
+              "SAFE_CYCLE_MAX_ARTICLES": "8",
               "SAFE_CYCLE_DRAFT_ONLY": "false",
               "MAX_DRAFTS_PER_DAY": "10",
               "MIN_MINUTES_BETWEEN_DRAFTS": "30",
               "MAX_LIVE_POSTS_PER_DAY": "288",
-              "MIN_MINUTES_BETWEEN_LIVE_POSTS": "1",
+              "MIN_MINUTES_BETWEEN_LIVE_POSTS": "0",
               "MAX_FACEBOOK_POSTS_PER_DAY": "288",
               "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": "0",
               "AI_PROVIDER": "auto",
@@ -303,7 +305,7 @@ jobs:
           print("FALLBACK_FIRST_RUN_LOOKBACK_HOURS: 6")
           print("CRAWL_INTERVAL_MINUTES: 5")
           print("CRAWL_OVERLAP_MINUTES: 10")
-          print("Effective action: LIVE_CATEGORY_ROTATION")
+          print("Effective action: LIVE_HOURLY_CATEGORY_BATCH")
           PY
 
       - name: Run tests
@@ -350,7 +352,7 @@ jobs:
 
       - name: Run auto cycle
         if: steps.recent_run_guard.outputs.skip_run != 'true'
-        timeout-minutes: 10
+        timeout-minutes: 55
         run: python main.py auto-cycle
 
       - name: Health summary

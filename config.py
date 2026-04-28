@@ -227,9 +227,10 @@ TELEGRAM_ALERTS_ENABLED = _env_bool_any(["TELEGRAM_ENABLED", "TELEGRAM_ALERTS_EN
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "").strip()
 
-# Phase 9 safe-cycle controls. The auto cycle is intentionally constrained to
-# exactly one article per run.
-SAFE_CYCLE_MAX_ARTICLES = _env_int("SAFE_CYCLE_MAX_ARTICLES", 1)
+# Phase 9 hourly-cycle controls.
+CATEGORY_POSTS_PER_HOUR = _env_int("CATEGORY_POSTS_PER_HOUR", 2)
+HOURLY_POST_LIMIT = _env_int("HOURLY_POST_LIMIT", 8)
+SAFE_CYCLE_MAX_ARTICLES = _env_int("SAFE_CYCLE_MAX_ARTICLES", HOURLY_POST_LIMIT)
 SAFE_CYCLE_DRAFT_ONLY = os.getenv("SAFE_CYCLE_DRAFT_ONLY", "false").strip().lower() in {
     "1",
     "true",

@@ -79,6 +79,10 @@ class AIProviderRotationExhausted(RuntimeError):
     """Raised when all available AI providers fail before quality validation."""
 
 
+class AIProviderEmptyResponse(RuntimeError):
+    """Raised when an AI provider returns no usable message content."""
+
+
 class AITimeBudgetExceeded(RuntimeError):
     """Raised when the full AI generation budget is exhausted."""
 
@@ -1122,7 +1126,7 @@ def _generate_with_gemini(prompt, api_key=None, model_name=None, timeout_seconds
     response = model.generate_content(prompt, request_options={"timeout": timeout_seconds})
     text = getattr(response, "text", "") or ""
     if not text.strip():
-        raise RuntimeError("Gemini returned an empty response.")
+        raise AIProviderEmptyResponse("Gemini returned an empty response.")
     return text, f"gemini:{model_name}"
 
 
@@ -1159,11 +1163,11 @@ def _generate_with_openrouter(prompt, api_key=None, model_name=None, timeout_sec
     data = response.json()
     choices = data.get("choices") or []
     if not choices:
-        raise RuntimeError("OpenRouter returned no choices.")
+        raise AIProviderEmptyResponse("OpenRouter returned no choices.")
     message = choices[0].get("message") or {}
     text = _normalize_openai_content(message.get("content")).strip()
     if not text:
-        raise RuntimeError("OpenRouter returned an empty response.")
+        raise AIProviderEmptyResponse("OpenRouter returned an empty response.")
     return text, f"openrouter:{data.get('model') or model_name}"
 
 
@@ -1195,11 +1199,11 @@ def _generate_with_openai(prompt, api_key=None, model_name=None, timeout_seconds
     data = response.json()
     choices = data.get("choices") or []
     if not choices:
-        raise RuntimeError("OpenAI returned no choices.")
+        raise AIProviderEmptyResponse("OpenAI returned no choices.")
     message = choices[0].get("message") or {}
     text = _normalize_openai_content(message.get("content")).strip()
     if not text:
-        raise RuntimeError("OpenAI returned an empty response.")
+        raise AIProviderEmptyResponse("OpenAI returned an empty response.")
     return text, f"openai:{model_name}"
 
 
@@ -1225,6 +1229,21 @@ def _is_quota_or_rate_limit_error(error):
             "too many requests",
             "timeout",
             "invalid response",
+        )
+    )
+
+
+def _is_empty_provider_response(error):
+    if isinstance(error, AIProviderEmptyResponse):
+        return True
+    message = str(error).casefold()
+    return any(
+        hint in message
+        for hint in (
+            "no choices",
+            "empty response",
+            "no usable message",
+            "returned no response",
         )
     )
 
@@ -1307,11 +1326,13 @@ def _generate_ai_article(prompt, skip_providers=None, context=None):
     if not candidates:
         candidates = _provider_candidates(context=context)
     last_error = None
+    skipped_cooldown_candidates = []
     for index, candidate in enumerate(candidates):
         _check_ai_time_budget(context, stage="candidate_loop")
         provider = candidate["provider"]
         cooldown = _cooldown_remaining(candidate)
         if cooldown > 0 and index < len(candidates) - 1:
+            skipped_cooldown_candidates.append(candidate)
             log_event(
                 "ai_candidate_skipped_cooldown",
                 provider=provider,
@@ -1325,11 +1346,46 @@ def _generate_ai_article(prompt, skip_providers=None, context=None):
             return result
         except Exception as error:
             last_error = error
+            if _is_empty_provider_response(error):
+                log_event(
+                    "ai_provider_empty_response",
+                    provider=provider,
+                    model=candidate.get("model"),
+                    article_id=getattr(context, "article_id", ""),
+                )
             _put_candidate_on_cooldown(candidate, error)
             reason = "quota/rate limit" if _is_quota_or_rate_limit_error(error) else "error"
             if index < len(candidates) - 1:
                 print(f"  AI provider {provider} {reason}. Trying next AI candidate...")
+                log_event(
+                    "ai_provider_switch",
+                    article_id=getattr(context, "article_id", ""),
+                    from_provider=provider,
+                    to_provider=candidates[index + 1].get("provider"),
+                    reason=_safe_error_reason(error),
+                )
                 continue
+            for fallback_candidate in skipped_cooldown_candidates:
+                fallback_provider = fallback_candidate["provider"]
+                try:
+                    log_event(
+                        "ai_provider_switch",
+                        article_id=getattr(context, "article_id", ""),
+                        from_provider=provider,
+                        to_provider=fallback_provider,
+                        reason="retrying cooled candidate after active candidates failed",
+                    )
+                    return _generate_with_candidate(fallback_candidate, prompt, context=context)
+                except Exception as fallback_error:
+                    last_error = fallback_error
+                    if _is_empty_provider_response(fallback_error):
+                        log_event(
+                            "ai_provider_empty_response",
+                            provider=fallback_provider,
+                            model=fallback_candidate.get("model"),
+                            article_id=getattr(context, "article_id", ""),
+                        )
+                    _put_candidate_on_cooldown(fallback_candidate, fallback_error)
             raise
     raise last_error or RuntimeError("No AI provider returned a response.")
 
@@ -1436,6 +1492,13 @@ def _generate_with_provider_name(provider, prompt, context=None):
             return result
         except Exception as error:
             last_error = error
+            if _is_empty_provider_response(error):
+                log_event(
+                    "ai_provider_empty_response",
+                    provider=provider,
+                    model=candidate.get("model"),
+                    article_id=getattr(context, "article_id", ""),
+                )
             _put_candidate_on_cooldown(candidate, error)
             if provider == "gemini" and context:
                 context.gemini_failures += 1
@@ -1455,6 +1518,13 @@ def _generate_with_provider_name(provider, prompt, context=None):
                     "AI rotation exhausted: Gemini failed and 2 fast OpenRouter models failed"
                 ) from error
             if index < len(allowed) - 1:
+                log_event(
+                    "ai_provider_switch",
+                    article_id=getattr(context, "article_id", ""),
+                    from_provider=provider,
+                    to_provider=allowed[index + 1].get("provider"),
+                    reason=_safe_error_reason(error),
+                )
                 continue
             if provider == "gemini" and _is_quota_or_rate_limit_error(error):
                 raise AIProviderFallbackNeeded(_safe_error_reason(error)) from error
@@ -1562,6 +1632,8 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     last_error = None
     previous_data = None
     provider_sequence = _attempt_provider_sequence()
+    failed_provider_names = set()
+    forced_next_provider = ""
     context = AIExecutionContext(article_id=article.get("id") or article.get("url") or "")
     context.skipped_slow_models_count = _skipped_slow_models_count()
 
@@ -1586,8 +1658,16 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             last_error = error
             break
         started = time.perf_counter()
-        provider = provider_sequence[(attempt - 1) % len(provider_sequence)] if provider_sequence else ""
+        provider = forced_next_provider or (provider_sequence[(attempt - 1) % len(provider_sequence)] if provider_sequence else "")
+        forced_next_provider = ""
         provider_used = ""
+        log_event(
+            "ai_retry",
+            article_id=article.get("id"),
+            attempt=attempt,
+            max_attempts=total_attempts,
+            provider=provider,
+        )
         log_event(
             "ai_retry_attempt",
             article_id=article.get("id"),
@@ -1597,58 +1677,11 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             ai_total_time=round(context.elapsed_seconds(), 2),
         )
         try:
-            try:
-                raw_text, provider_used = (
-                    _generate_with_provider_name(provider, prompt, context=context)
-                    if provider
-                    else _generate_ai_article(prompt, context=context)
-                )
-            except AIProviderFallbackNeeded as provider_error:
-                if _should_switch_gemini_to_openrouter(provider, provider_error):
-                    message = "Gemini quota exceeded; switching to OpenRouter"
-                    print(f"  {message}")
-                    log_event(
-                        "gemini_quota_switching_to_openrouter",
-                        article_id=article.get("id"),
-                        reason=_safe_error_reason(provider_error),
-                    )
-                    try:
-                        raw_text, provider_used = _generate_with_provider_name("openrouter", prompt, context=context)
-                    except Exception as fallback_error:
-                        raise AIProviderRotationExhausted(
-                            "AI rotation exhausted: OpenRouter fallback failed after Gemini quota "
-                            f"({_safe_error_reason(fallback_error)})"
-                        ) from fallback_error
-                    log_event(
-                        "openrouter_model_used",
-                        article_id=article.get("id"),
-                        model=provider_used.replace("openrouter:", "", 1),
-                    )
-                else:
-                    raise
-            except Exception as provider_error:
-                if _should_switch_gemini_to_openrouter(provider, provider_error):
-                    message = "Gemini quota exceeded; switching to OpenRouter"
-                    print(f"  {message}")
-                    log_event(
-                        "gemini_quota_switching_to_openrouter",
-                        article_id=article.get("id"),
-                        reason=_safe_error_reason(provider_error),
-                    )
-                    try:
-                        raw_text, provider_used = _generate_with_provider_name("openrouter", prompt, context=context)
-                    except Exception as fallback_error:
-                        raise AIProviderRotationExhausted(
-                            "AI rotation exhausted: OpenRouter fallback failed after Gemini quota "
-                            f"({_safe_error_reason(fallback_error)})"
-                        ) from fallback_error
-                    log_event(
-                        "openrouter_model_used",
-                        article_id=article.get("id"),
-                        model=provider_used.replace("openrouter:", "", 1),
-                    )
-                else:
-                    raise
+            raw_text, provider_used = (
+                _generate_with_provider_name(provider, prompt, context=context)
+                if provider
+                else _generate_ai_article(prompt, context=context)
+            )
             data = _parse_ai_json(raw_text)
             previous_data = data
             data = _shorten_metadata_once_if_needed(data)
@@ -1716,12 +1749,48 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     attempt=attempt,
                     reason=_safe_error_reason(error),
                 )
-            if provider == "gemini" and "openrouter" in provider_sequence:
-                log_event("ai_openrouter_fallback_started", article_id=article.get("id"))
             if is_quality_failure:
                 prompt = _build_expansion_retry_prompt(package, previous_data, str(error))
                 continue
             if _is_provider_error(error):
+                if _is_empty_provider_response(error):
+                    log_event(
+                        "ai_provider_empty_response",
+                        article_id=article.get("id"),
+                        provider=provider,
+                        reason=_safe_error_reason(error),
+                    )
+                if _should_switch_gemini_to_openrouter(provider, error) and "openrouter" not in provider_sequence:
+                    provider_sequence.append("openrouter")
+                    log_event(
+                        "gemini_quota_switching_to_openrouter",
+                        article_id=article.get("id"),
+                        reason=_safe_error_reason(error),
+                    )
+                if provider:
+                    failed_provider_names.add(provider)
+                if attempt < total_attempts:
+                    next_provider = ""
+                    if provider_sequence:
+                        start_index = provider_sequence.index(provider) if provider in provider_sequence else -1
+                        for offset in range(1, len(provider_sequence) + 1):
+                            candidate_provider = provider_sequence[(start_index + offset) % len(provider_sequence)]
+                            if candidate_provider not in failed_provider_names:
+                                next_provider = candidate_provider
+                                break
+                    if not next_provider:
+                        break
+                    forced_next_provider = next_provider
+                    log_event(
+                        "ai_provider_switch",
+                        article_id=article.get("id"),
+                        from_provider=provider,
+                        to_provider=next_provider,
+                        reason=_safe_error_reason(error),
+                    )
+                    if provider == "gemini" and next_provider == "openrouter":
+                        log_event("ai_openrouter_fallback_started", article_id=article.get("id"))
+                    continue
                 break
 
     _apply_failure(article, last_error)
@@ -1752,13 +1821,28 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             skipped_slow_models_count=context.skipped_slow_models_count,
         )
         log_event("article_skipped", article_id=article.get("id"), reason="ai_time_budget_exceeded")
+        log_event(
+            "ai_article_skipped_after_ai_failure",
+            article_id=article.get("id"),
+            reason="ai_time_budget_exceeded",
+        )
     elif provider_exhausted:
         log_event("ai_rotation_exhausted", article_id=article.get("id"), error=last_error)
         log_event("article_skipped", article_id=article.get("id"), reason="AI rotation exhausted")
+        log_event(
+            "ai_article_skipped_after_ai_failure",
+            article_id=article.get("id"),
+            reason="AI rotation exhausted",
+        )
         _send_ai_rotation_exhausted_warning(article, last_error)
     else:
         log_event("ai_quality_failed_after_retries", article_id=article.get("id"), error=last_error)
         log_event("article_skipped", article_id=article.get("id"), reason="AI quality failed after retries")
+        log_event(
+            "ai_article_skipped_after_ai_failure",
+            article_id=article.get("id"),
+            reason="AI quality failed after retries",
+        )
         if "too short" in str(last_error).lower():
             log_event(
                 "article_skipped_too_short",

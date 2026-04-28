@@ -28,7 +28,7 @@ import main
 import notifier
 import scraper
 from production_logging import _clean_value
-from quality_gate import duplicate_publish_reason, validate_before_publish
+from quality_gate import QualityGateResult, duplicate_publish_reason, validate_before_publish
 
 
 def long_arabic_html(word="اختبار", cyber=False):
@@ -877,6 +877,49 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(result["article"]["ai_status"], "failed")
         self.assertTrue(result["article"]["ai_rotation_exhausted"])
 
+    def test_openrouter_empty_response_switches_provider_without_stopping_article(self):
+        calls = []
+        good = {
+            "title": "Important Chrome security update released today",
+            "description": "A clear summary of the Chrome security update and why users should install it quickly to reduce practical risk.",
+            "slug": "chrome-security-update",
+            "html_content": "<p>" + " ".join(["security"] * 130) + "</p>",
+        }
+
+        def fake_generate(provider, prompt, context=None):
+            calls.append(provider)
+            if provider == "openrouter":
+                raise article_ai_processor.AIProviderEmptyResponse("OpenRouter returned no choices.")
+            return json.dumps(good), "gemini:test"
+
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "a1",
+                        "url": "https://example.com/news",
+                        "status": "selected",
+                        "processing_status": "ready_for_ai",
+                        "ai_input_package": {
+                            "title": "Chrome fixes active zero-day vulnerability",
+                            "url": "https://example.com/news",
+                            "source_published_at": recent_iso(1),
+                            "content_preview": "Google released an emergency Chrome security update.",
+                        },
+                    }
+                ],
+                "notifications": {},
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["openrouter", "gemini"]), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=fake_generate), patch.object(article_ai_processor, "validate_ai_article_output", return_value=QualityGateResult(True, "", 130)), patch.object(article_ai_processor, "_phase3_quality_failure_reason", return_value=""), patch.object(article_ai_processor.time, "sleep"):
+                article_queue.save_article_queue(queue)
+                result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
+
+        self.assertEqual(calls, ["openrouter", "gemini"])
+        self.assertEqual(result["success"], 1)
+        self.assertEqual(result["article"]["ai_provider_used"], "gemini:test")
+        self.assertEqual(result["article"]["ai_quality_status"], "passed")
+
     def test_ai_quality_retries_until_article_passes(self):
         intro = " ".join(["يوضح", "هذا", "التحديث", "الأمني", "سبب", "أهمية", "المتابعة", "السريعة"] * 13)
         details = " ".join(["تساعد", "هذه", "الخطوة", "المستخدمين", "على", "تقليل", "المخاطر", "وتثبيت", "الإصلاحات"] * 12)
@@ -1226,6 +1269,19 @@ class ProductionHardeningTests(unittest.TestCase):
         )
         self.assertFalse(blocked, reason)
 
+    def test_apps_ai_title_summary_marketing_words_need_real_ad_signal(self):
+        article = {
+            "title": "Android AI software partner deal brings new app automation tools",
+            "url": "https://example.com/apps/android-ai-software-partner-deal",
+            "content_preview": "The companies announced a software partnership for Android app automation and AI developer tools.",
+        }
+        with patch.object(content_filter, "log_event") as log:
+            blocked, reason = content_filter.is_promotional_article(article)
+
+        self.assertFalse(blocked, reason)
+        log.assert_called()
+        self.assertEqual(log.call_args.args[0], "quality_gate_false_positive_avoided")
+
     def test_duplicate_topic_signature_blocks_repeated_story(self):
         def fake_collect(base_url, **_kwargs):
             return [{"title": "Google fixes Chrome zero-day CVE-2026-1234", "url": f"{base_url}/story", "published_at": recent_iso(1)}], "", 200, {"method_used": "feed"}
@@ -1240,17 +1296,22 @@ class ProductionHardeningTests(unittest.TestCase):
 
         self.assertFalse(result["articles"])
 
-    def test_workflow_cron_is_every_five_minutes(self):
+    def test_workflow_cron_is_hourly_batch(self):
         text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
-        self.assertIn('cron: "*/5 * * * *"', text)
+        self.assertIn('cron: "0 * * * *"', text)
         self.assertIn("workflow_dispatch:", text)
         self.assertIn("group: auto-cycle-${{ github.ref }}", text)
         self.assertIn("cancel-in-progress: false", text)
-        self.assertIn("timeout-minutes: 15", text)
-        self.assertIn("timeout-minutes: 10", text)
+        self.assertIn("timeout-minutes: 60", text)
+        self.assertIn("timeout-minutes: 55", text)
         self.assertIn('"CATEGORY_ROTATION_MODE": "true"', text)
         self.assertIn('"MAX_SOURCES_PER_RUN": "999"', text)
-        self.assertIn('"MIN_MINUTES_BETWEEN_LIVE_POSTS": "1"', text)
+        self.assertIn('"MAX_POSTS_PER_RUN": "8"', text)
+        self.assertIn('"MAX_ARTICLES_PER_RUN": "8"', text)
+        self.assertIn('"SAFE_CYCLE_MAX_ARTICLES": "8"', text)
+        self.assertIn('"CATEGORY_POSTS_PER_HOUR": "2"', text)
+        self.assertIn('"HOURLY_POST_LIMIT": "8"', text)
+        self.assertIn('"MIN_MINUTES_BETWEEN_LIVE_POSTS": "0"', text)
         self.assertIn('"MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": "0"', text)
         self.assertIn('"MAX_LIVE_POSTS_PER_DAY": "288"', text)
         self.assertIn('"MAX_FACEBOOK_POSTS_PER_DAY": "288"', text)
@@ -1444,7 +1505,7 @@ class ProductionHardeningTests(unittest.TestCase):
 
     def test_workflow_self_trigger_loop_is_present_and_guarded(self):
         text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
-        self.assertIn('cron: "*/5 * * * *"', text)
+        self.assertIn('cron: "0 * * * *"', text)
         self.assertIn("self_trigger:", text)
         self.assertIn("actions: write", text)
         self.assertIn("Recent run guard", text)
@@ -1491,7 +1552,7 @@ class ProductionHardeningTests(unittest.TestCase):
         with TemporaryDirectory() as temp_dir:
             queue_path = Path(temp_dir) / "article_queue.json"
             crawl_path = Path(temp_dir) / "crawl_state.json"
-            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(main, "ARTICLE_QUEUE_PATH", queue_path), patch.object(runtime_state, "CRAWL_STATE_PATH", crawl_path), patch.object(scraper, "source_crawl_record", return_value={}), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(main, "load_sources", return_value=sources), patch.object(main, "load_published_ids", return_value=set()), patch.object(main, "CATEGORY_ROTATION_MODE", True), patch.object(main, "PROCESS_FULL_CATEGORY_PER_RUN", True):
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(main, "ARTICLE_QUEUE_PATH", queue_path), patch.object(runtime_state, "CRAWL_STATE_PATH", crawl_path), patch.object(scraper, "source_crawl_record", return_value={}), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(main, "load_sources", return_value=sources), patch.object(main, "load_published_ids", return_value=set()), patch.object(main, "CATEGORY_ROTATION_MODE", True), patch.object(main, "PROCESS_FULL_CATEGORY_PER_RUN", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1):
                 result = main.run_fetch_only()
 
         self.assertEqual(result["selected_category"], "Cyber-Security")
@@ -1499,6 +1560,76 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(len(calls), 2)
         self.assertIn("https://cyber-a.example", calls)
         self.assertIn("https://cyber-b.example", calls)
+
+    def test_hourly_batch_fetch_processes_all_configured_categories(self):
+        calls = []
+
+        def fake_collect(base_url, **_kwargs):
+            calls.append(base_url)
+            return [{"title": f"Fresh {base_url}", "url": f"{base_url}/story", "published_at": recent_iso(1)}], "", 200, {"method_used": "feed"}
+
+        sources = [
+            {"name": "Cyber A", "base_url": "https://cyber-a.example", "enabled": True, "category_hint": "Cyber-Security", "category_label": "Cyber-Security", "fetch_limit_per_run": 3},
+            {"name": "AI A", "base_url": "https://ai-a.example", "enabled": True, "category_hint": "AI-Tools", "category_label": "AI-Tools", "fetch_limit_per_run": 3},
+            {"name": "Tech A", "base_url": "https://tech-a.example", "enabled": True, "category_hint": "Tech-News", "category_label": "Tech-News", "fetch_limit_per_run": 3},
+            {"name": "Apps A", "base_url": "https://apps-a.example", "enabled": True, "category_hint": "Apps-Programs", "category_label": "Apps-Programs", "fetch_limit_per_run": 3},
+        ]
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(main, "ARTICLE_QUEUE_PATH", queue_path), patch.object(scraper, "source_crawl_record", return_value={}), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(main, "load_sources", return_value=sources), patch.object(main, "load_published_ids", return_value=set()), patch.object(main, "CATEGORY_ROTATION_MODE", True), patch.object(main, "PROCESS_FULL_CATEGORY_PER_RUN", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 8):
+                result = main.run_fetch_only()
+
+        self.assertEqual(result["selected_category"], "ALL")
+        self.assertEqual(result["sources_checked"], 4)
+        self.assertEqual(set(calls), {"https://cyber-a.example", "https://ai-a.example", "https://tech-a.example", "https://apps-a.example"})
+
+    def test_hourly_candidate_prefers_unused_source_within_category(self):
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path):
+                article_queue.save_article_queue(
+                    {
+                        "articles": [
+                            {
+                                "id": "newer-a",
+                                "url": "https://a.example/newer",
+                                "title": "Newer source A",
+                                "source_name": "Source A",
+                                "category_label": "Cyber-Security",
+                                "source_published_at": recent_iso(0.5),
+                                "status": "ready",
+                                "content_fetch_status": "success",
+                            },
+                            {
+                                "id": "older-b",
+                                "url": "https://b.example/older",
+                                "title": "Older source B",
+                                "source_name": "Source B",
+                                "category_label": "Cyber-Security",
+                                "source_published_at": recent_iso(1),
+                                "status": "ready",
+                                "content_fetch_status": "success",
+                            },
+                        ],
+                        "notifications": {},
+                    }
+                )
+                selected = main._lock_hourly_candidate("Cyber-Security", used_sources={"Source A"})
+
+        self.assertEqual(selected["id"], "older-b")
+
+    def test_hourly_target_does_not_post_facebook_when_blogger_fails(self):
+        selected = {"id": "a1", "url": "https://example.com/a1", "source_name": "Source A", "category_label": "Cyber-Security"}
+        ready = dict(selected, processing_status="ready_for_ai")
+        ai_done = dict(ready, ai_status="completed", final_html="<p>" + " ".join(["ready"] * 130) + "</p>")
+        draft_result = {"checked": 1, "duplicate_count": 0, "updated_existing": False, "created_new": False, "error": "Blogger failed"}
+
+        with patch.object(main, "FACEBOOK_AUTO_POST", True), patch.object(main, "prepare_selected_articles_for_ai", return_value={"checked": 1, "ready_for_ai": 1, "failed": 0}), patch.object(main, "process_one_selected_article_with_ai", return_value={"processed": 1, "success": 1, "failed": 0}), patch.object(main, "publish_one_blogger_post", return_value=draft_result), patch.object(main, "_find_article_by_id", side_effect=[ready, ai_done, ai_done]), patch.object(main, "post_one_article_to_facebook") as post_fb:
+            result = main._process_hourly_target(selected, "live")
+
+        self.assertFalse(result["completed"])
+        self.assertEqual(result["reason"], "Blogger failed")
+        post_fb.assert_not_called()
 
     def test_blogger_labels_are_english_slugs(self):
         from article_selector import suggest_category

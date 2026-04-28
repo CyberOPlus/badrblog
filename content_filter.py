@@ -2,6 +2,7 @@ import re
 from urllib.parse import parse_qsl, urlparse
 
 from config import TRUSTED_SECURITY_SOURCES
+from production_logging import log_event
 
 
 BYPASS_MESSAGE = "Trusted source bypass applied"
@@ -24,10 +25,13 @@ SECURITY_REPORT_KEYWORDS = (
 EXPLICIT_MARKETING_PATTERNS = (
     r"\bsponsored\s+(post|article|content|placement|deal|offer)\b",
     r"\bpaid\s+(partnership|promotion|placement|review)\b",
+    r"\bpaid\s+promotion\b",
     r"\badvertorial\b",
-    r"\baffiliate\s+(link|links|commission|deal|offer|blog|post)\b",
+    r"\badvertisement\b",
+    r"\baffiliate\s+(disclosure|link|links|commission|deal|offer|blog|post)\b",
+    r"\bcommission(s)?\b",
     r"\bpromo\s*code\b",
-    r"\bcoupon\s+code\b",
+    r"\bcoupon(s)?(\s+code)?\b",
     r"\bbuy\s+now\b",
 )
 
@@ -120,6 +124,27 @@ def _article_text(article):
     )
 
 
+def _article_body_text(article):
+    return " ".join(
+        str(article.get(field) or "")
+        for field in (
+            "full_article_text",
+            "content",
+            "final_html",
+            "blogger_article_html",
+            "content_preview",
+            "summary",
+        )
+    )
+
+
+def _has_real_article_body(article):
+    body = _article_body_text(article)
+    if len(body) >= 500:
+        return True
+    return any(article.get(field) for field in ("full_article_text", "final_html", "blogger_article_html"))
+
+
 def _host_from_value(value):
     text = str(value or "").strip()
     if not text:
@@ -167,6 +192,18 @@ def _mark_bypass(article):
         article["content_filter_bypass_message"] = BYPASS_MESSAGE
 
 
+def _log_false_positive_avoided(article, reason):
+    try:
+        log_event(
+            "quality_gate_false_positive_avoided",
+            title=str(article.get("title") or article.get("fetched_title") or "")[:120],
+            source_name=article.get("source_name"),
+            reason=reason,
+        )
+    except Exception:
+        pass
+
+
 def is_promotional_article(article):
     article = article or {}
     url = str(article.get("url") or article.get("source_url") or article.get("original_url") or "")
@@ -185,6 +222,9 @@ def is_promotional_article(article):
     promo_path = any(hint in path for hint in PROMO_URL_HINTS)
     affiliate_query = _affiliate_query_detected(parsed)
 
+    explicit_marketing = _has_pattern(EXPLICIT_MARKETING_PATTERNS, text)
+    body_has_explicit_marketing = _has_pattern(EXPLICIT_MARKETING_PATTERNS, _article_body_text(article))
+    has_real_body = _has_real_article_body(article)
     marketing_intent = _has_pattern(MARKETING_INTENT_PATTERNS, normalized_text) or promo_path or affiliate_query
     selling_language = _has_pattern(SELLING_LANGUAGE_PATTERNS, normalized_text) or promo_path
     affiliate_signal = (
@@ -195,11 +235,14 @@ def is_promotional_article(article):
     )
     primary_goal_selling = _has_pattern(PRIMARY_SELLING_PATTERNS, normalized_text) or promo_path
 
-    if marketing_intent and selling_language and affiliate_signal and primary_goal_selling:
+    if explicit_marketing and (body_has_explicit_marketing or has_real_body or promo_path or affiliate_query):
         return True, "ad/affiliate/sponsored title or summary"
 
     direct_sales_cta = _has_pattern((r"\bbuy\s+.+\s+now\b",), normalized_text)
     if direct_sales_cta and marketing_intent and selling_language and primary_goal_selling:
         return True, "ad/affiliate/sponsored title or summary"
+
+    if marketing_intent and selling_language and affiliate_signal and primary_goal_selling:
+        _log_false_positive_avoided(article, "requires explicit marketing signal in real article content")
 
     return False, ""
