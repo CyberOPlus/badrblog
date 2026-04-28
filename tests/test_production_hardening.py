@@ -14,6 +14,7 @@ import article_processor
 import article_queue
 import content_filter
 import facebook_publisher
+import utils.facebook_image_generator as facebook_image_generator
 import runtime_state
 from article_draft_publisher import _ensure_post_url_for_mode
 from duplicate_utils import canonicalize_url, topic_signature
@@ -587,6 +588,40 @@ class ProductionHardeningTests(unittest.TestCase):
             blogger_url="https://example.com/post",
         )
         self.assertNotIn("https://example.com/post", caption)
+        self.assertIn("أول تعليق", caption)
+
+    def test_default_openrouter_fallback_list_is_available(self):
+        import config
+
+        self.assertIn("openai/gpt-oss-120b:free", config.DEFAULT_OPENROUTER_MODELS)
+        self.assertIn("liquid/lfm-2.5-1.2b-instruct:free", config.DEFAULT_OPENROUTER_MODELS)
+        self.assertGreaterEqual(len(config.DEFAULT_OPENROUTER_MODELS), 10)
+
+    def test_facebook_image_generator_uses_fallback_image(self):
+        try:
+            from PIL import Image
+        except ImportError:
+            self.skipTest("Pillow is not installed in this local environment")
+
+        with TemporaryDirectory() as temp_dir:
+            temp_dir = Path(temp_dir)
+            template = temp_dir / "facebook_template.png"
+            fallback = temp_dir / "fallback_article.png"
+            output = temp_dir / "out.jpg"
+            Image.new("RGB", (1080, 1080), (20, 20, 30)).save(template)
+            Image.new("RGB", (600, 400), (80, 120, 180)).save(fallback)
+
+            with patch.object(facebook_image_generator, "FACEBOOK_IMAGE_TEMPLATE_PATH", template), patch.object(facebook_image_generator, "FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH", fallback), patch.object(facebook_image_generator, "FACEBOOK_IMAGE_OUTPUT_DIR", temp_dir):
+                result = facebook_image_generator.generate_facebook_image(
+                    "اختبار صورة فيسبوك",
+                    "https://invalid.example/missing.jpg",
+                    output,
+                )
+                output_exists = output.exists()
+
+        self.assertTrue(result["ok"], result)
+        self.assertTrue(result["used_fallback"])
+        self.assertTrue(output_exists)
 
     def test_freshness_safety_margin_skips_article_before_ai(self):
         def fake_collect(base_url, **_kwargs):
@@ -625,7 +660,7 @@ class ProductionHardeningTests(unittest.TestCase):
 
     def test_auto_ai_sequence_is_gemini_openrouter_gemini(self):
         with patch.object(article_ai_processor, "_resolve_providers", return_value=["gemini", "openrouter"]), patch.object(article_ai_processor, "AI_PROVIDER", "auto"), patch.object(article_ai_processor, "MAX_AI_ATTEMPTS", 3):
-            self.assertEqual(article_ai_processor._attempt_provider_sequence(), ["gemini", "openrouter", "gemini"])
+            self.assertEqual(article_ai_processor._attempt_provider_sequence(), ["gemini", "openrouter"])
 
     def test_basic_template_fallback_has_publishable_words(self):
         package = {
@@ -660,13 +695,14 @@ class ProductionHardeningTests(unittest.TestCase):
                 ],
                 "notifications": {},
             }
-            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini", "openrouter", "gemini"]), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=RuntimeError("provider failed")):
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini", "openrouter"]), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=RuntimeError("provider failed")), patch("notifier.send_telegram_message", return_value={"sent": False, "skipped": True}):
                 article_queue.save_article_queue(queue)
                 result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
 
-        self.assertEqual(result["success"], 1)
-        self.assertEqual(result["article"]["ai_provider_used"], "basic-template-fallback")
-        self.assertGreaterEqual(result["article"]["final_word_count"], 80)
+        self.assertEqual(result["success"], 0)
+        self.assertEqual(result["failed"], 1)
+        self.assertEqual(result["article"]["ai_status"], "failed")
+        self.assertTrue(result["article"]["ai_rotation_exhausted"])
 
     def test_ads_affiliate_articles_are_skipped(self):
         blocked, reason = content_filter.is_promotional_article(

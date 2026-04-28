@@ -4,10 +4,12 @@
 
 import json
 import re
+import hashlib
 import time
 import warnings
 from datetime import datetime
 from html import escape
+from urllib.parse import urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -39,6 +41,7 @@ from config import (
     OPENROUTER_APP_NAME,
     OPENROUTER_MAX_TOKENS,
     OPENROUTER_MODEL,
+    OPENROUTER_MODELS,
     OPENROUTER_REFERER,
     OPENROUTER_TIMEOUT_SECONDS,
     TARGET_ARTICLE_WORDS,
@@ -53,6 +56,8 @@ from quality_gate import (
 )
 
 MAX_AI_ATTEMPTS = max(1, MAX_AI_RETRIES)
+AI_MODEL_COOLDOWN_SECONDS = 30 * 60
+_AI_COOLDOWNS = {}
 
 
 def _now_iso():
@@ -61,6 +66,43 @@ def _now_iso():
 
 def _has_real_key(value, placeholder):
     return bool(value and value != placeholder)
+
+
+def _key_id(value):
+    return hashlib.sha256(str(value or "").encode("utf-8")).hexdigest()[:10]
+
+
+def _models(values, fallback):
+    model_names = []
+    seen = set()
+    for value in values or [fallback]:
+        value = str(value or "").strip()
+        if not value or value in seen:
+            continue
+        seen.add(value)
+        model_names.append(value)
+    return model_names
+
+
+def _candidate_id(candidate):
+    return f"{candidate['provider']}:{candidate.get('model', '')}:{_key_id(candidate.get('api_key'))}"
+
+
+def _cooldown_remaining(candidate):
+    until = _AI_COOLDOWNS.get(_candidate_id(candidate), 0)
+    return max(0, until - time.time())
+
+
+def _put_candidate_on_cooldown(candidate, error):
+    _AI_COOLDOWNS[_candidate_id(candidate)] = time.time() + AI_MODEL_COOLDOWN_SECONDS
+    log_event(
+        "ai_candidate_cooldown",
+        provider=candidate.get("provider"),
+        model=candidate.get("model"),
+        key_id=_key_id(candidate.get("api_key")),
+        reason=str(error)[:160],
+        cooldown_seconds=AI_MODEL_COOLDOWN_SECONDS,
+    )
 
 
 def _selected_ready_for_ai(article):
@@ -479,8 +521,30 @@ def _append_related_posts_if_missing(html_content, package):
     )
 
 
+def _same_host(url_a, url_b):
+    host_a = urlparse(str(url_a or "")).netloc.lower().removeprefix("www.")
+    host_b = urlparse(str(url_b or "")).netloc.lower().removeprefix("www.")
+    return bool(host_a and host_b and host_a == host_b)
+
+
+def _sanitize_source_links(html_content, package):
+    source_url = package.get("url") or package.get("source_url") or ""
+    if not source_url:
+        return html_content
+
+    soup = BeautifulSoup(html_content, "html.parser")
+    changed = False
+    for link in soup.find_all("a", href=True):
+        href = str(link.get("href") or "")
+        if _same_host(href, source_url):
+            link.unwrap()
+            changed = True
+    return str(soup) if changed else html_content
+
+
 def _finalize_html_content(data, package):
     html_content = data["html_content"]
+    html_content = _sanitize_source_links(html_content, package)
     html_content = _insert_main_image_if_missing(html_content, package)
     html_content = _append_trusted_references_if_missing(html_content, package)
     html_content = _append_related_posts_if_missing(html_content, package)
@@ -504,27 +568,31 @@ def _normalize_openai_content(content):
     return str(content or "")
 
 
-def _generate_with_gemini(prompt):
+def _generate_with_gemini(prompt, api_key=None, model_name=None):
     if genai is None:
         raise RuntimeError("google-generativeai is not installed.")
-    if not _has_real_key(GEMINI_API_KEY, "your_gemini_api_key_here"):
+    api_key = api_key or GEMINI_API_KEY
+    model_name = model_name or GEMINI_MODEL
+    if not _has_real_key(api_key, "your_gemini_api_key_here"):
         raise RuntimeError("GEMINI_API_KEY is missing.")
 
-    genai.configure(api_key=GEMINI_API_KEY)
-    model = genai.GenerativeModel(GEMINI_MODEL)
+    genai.configure(api_key=api_key)
+    model = genai.GenerativeModel(model_name)
     response = model.generate_content(prompt)
     text = getattr(response, "text", "") or ""
     if not text.strip():
         raise RuntimeError("Gemini returned an empty response.")
-    return text, f"gemini:{GEMINI_MODEL}"
+    return text, f"gemini:{model_name}"
 
 
-def _generate_with_openrouter(prompt):
-    if not _has_real_key(OPENROUTER_API_KEY, "your_new_key_here"):
+def _generate_with_openrouter(prompt, api_key=None, model_name=None):
+    api_key = api_key or OPENROUTER_API_KEY
+    model_name = model_name or OPENROUTER_MODEL
+    if not _has_real_key(api_key, "your_new_key_here"):
         raise RuntimeError("OPENROUTER_API_KEY is missing.")
 
     headers = {
-        "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+        "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
         "X-OpenRouter-Title": OPENROUTER_APP_NAME,
     }
@@ -535,7 +603,7 @@ def _generate_with_openrouter(prompt):
         OPENROUTER_API_URL,
         headers=headers,
         json={
-            "model": OPENROUTER_MODEL,
+            "model": model_name,
             "messages": [{"role": "user", "content": prompt}],
             "max_tokens": OPENROUTER_MAX_TOKENS,
             "temperature": 0.35,
@@ -554,21 +622,23 @@ def _generate_with_openrouter(prompt):
     text = _normalize_openai_content(message.get("content")).strip()
     if not text:
         raise RuntimeError("OpenRouter returned an empty response.")
-    return text, f"openrouter:{data.get('model') or OPENROUTER_MODEL}"
+    return text, f"openrouter:{data.get('model') or model_name}"
 
 
-def _generate_with_openai(prompt):
-    if not _has_real_key(OPENAI_API_KEY, "your_openai_api_key_here"):
+def _generate_with_openai(prompt, api_key=None, model_name=None):
+    api_key = api_key or OPENAI_API_KEY
+    model_name = model_name or OPENAI_MODEL
+    if not _has_real_key(api_key, "your_openai_api_key_here"):
         raise RuntimeError("OPENAI_API_KEY is missing.")
 
     response = requests.post(
         OPENAI_API_URL,
         headers={
-            "Authorization": f"Bearer {OPENAI_API_KEY}",
+            "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
         },
         json={
-            "model": OPENAI_MODEL,
+            "model": model_name,
             "messages": [{"role": "user", "content": prompt}],
             "max_tokens": OPENAI_MAX_TOKENS,
             "temperature": 0.35,
@@ -587,7 +657,7 @@ def _generate_with_openai(prompt):
     text = _normalize_openai_content(message.get("content")).strip()
     if not text:
         raise RuntimeError("OpenAI returned an empty response.")
-    return text, f"openai:{OPENAI_MODEL}"
+    return text, f"openai:{model_name}"
 
 
 def _is_quota_or_rate_limit_error(error):
@@ -596,12 +666,19 @@ def _is_quota_or_rate_limit_error(error):
         hint in message
         for hint in (
             "429",
+            "402",
+            "403",
+            "500",
+            "502",
+            "503",
             "quota",
             "rate limit",
             "rate-limit",
             "rate_limited",
             "resource_exhausted",
             "too many requests",
+            "timeout",
+            "invalid response",
         )
     )
 
@@ -614,8 +691,6 @@ def _resolve_providers():
             providers.append("gemini")
         if _has_real_key(OPENROUTER_API_KEY, "your_new_key_here"):
             providers.append("openrouter")
-        if _has_real_key(OPENAI_API_KEY, "your_openai_api_key_here"):
-            providers.append("openai")
         if providers:
             return providers
         raise RuntimeError("No AI provider key configured.")
@@ -624,38 +699,67 @@ def _resolve_providers():
     raise RuntimeError("AI_PROVIDER must be one of: gemini, openrouter, openai, auto")
 
 
+def _provider_candidates():
+    providers = _resolve_providers()
+    candidates = []
+    for provider in providers:
+        if provider == "gemini":
+            if _has_real_key(GEMINI_API_KEY, "your_gemini_api_key_here"):
+                candidates.append({"provider": "gemini", "api_key": GEMINI_API_KEY, "model": GEMINI_MODEL})
+        elif provider == "openrouter":
+            if _has_real_key(OPENROUTER_API_KEY, "your_new_key_here"):
+                for model_name in _models(OPENROUTER_MODELS, OPENROUTER_MODEL):
+                    candidates.append({"provider": "openrouter", "api_key": OPENROUTER_API_KEY, "model": model_name})
+        elif provider == "openai":
+            if _has_real_key(OPENAI_API_KEY, "your_openai_api_key_here"):
+                candidates.append({"provider": "openai", "api_key": OPENAI_API_KEY, "model": OPENAI_MODEL})
+    if not candidates:
+        raise RuntimeError("No AI provider key configured.")
+    return candidates
+
+
 def _generate_ai_article(prompt, skip_providers=None):
     skip_providers = set(skip_providers or [])
-    providers = [provider for provider in _resolve_providers() if provider not in skip_providers]
-    if not providers:
-        providers = _resolve_providers()
+    candidates = [
+        candidate for candidate in _provider_candidates()
+        if candidate["provider"] not in skip_providers
+    ]
+    if not candidates:
+        candidates = _provider_candidates()
     last_error = None
-    for index, provider in enumerate(providers):
+    for index, candidate in enumerate(candidates):
+        provider = candidate["provider"]
+        cooldown = _cooldown_remaining(candidate)
+        if cooldown > 0 and index < len(candidates) - 1:
+            log_event(
+                "ai_candidate_skipped_cooldown",
+                provider=provider,
+                model=candidate.get("model"),
+                key_id=_key_id(candidate.get("api_key")),
+                remaining_seconds=int(cooldown),
+            )
+            continue
         try:
-            if provider == "gemini":
-                return _generate_with_gemini(prompt)
-            if provider == "openrouter":
-                return _generate_with_openrouter(prompt)
-            if provider == "openai":
-                return _generate_with_openai(prompt)
+            return _generate_with_candidate(candidate, prompt)
         except Exception as error:
             last_error = error
-            has_next_provider = index < len(providers) - 1
-            if has_next_provider:
-                reason = "quota/rate limit" if _is_quota_or_rate_limit_error(error) else "error"
-                print(f"  AI provider {provider} {reason}. Trying next provider...")
+            _put_candidate_on_cooldown(candidate, error)
+            reason = "quota/rate limit" if _is_quota_or_rate_limit_error(error) else "error"
+            if index < len(candidates) - 1:
+                print(f"  AI provider {provider} {reason}. Trying next AI candidate...")
                 continue
             raise
     raise last_error or RuntimeError("No AI provider returned a response.")
 
 
-def _generate_with_provider_name(provider, prompt):
+def _generate_with_candidate(candidate, prompt):
+    provider = candidate.get("provider")
     if provider == "gemini":
-        return _generate_with_gemini(prompt)
+        return _generate_with_gemini(prompt, candidate.get("api_key"), candidate.get("model"))
     if provider == "openrouter":
-        return _generate_with_openrouter(prompt)
+        return _generate_with_openrouter(prompt, candidate.get("api_key"), candidate.get("model"))
     if provider == "openai":
-        return _generate_with_openai(prompt)
+        return _generate_with_openai(prompt, candidate.get("api_key"), candidate.get("model"))
     raise RuntimeError(f"Unsupported AI provider: {provider}")
 
 
@@ -667,15 +771,48 @@ def _attempt_provider_sequence():
             sequence.append("gemini")
         if "openrouter" in providers:
             sequence.append("openrouter")
-        elif "openai" in providers:
-            sequence.append("openai")
-        if "gemini" in providers:
-            sequence.append("gemini")
-        for provider in providers:
-            if provider not in sequence:
-                sequence.append(provider)
-        return sequence[:MAX_AI_ATTEMPTS]
+        return sequence or providers
     return (providers * MAX_AI_ATTEMPTS)[:MAX_AI_ATTEMPTS]
+
+
+def _attempt_provider_candidates():
+    return _provider_candidates()
+
+
+def _generate_with_provider_name(provider, prompt):
+    allowed = [item for item in _provider_candidates() if item.get("provider") == provider]
+    if not allowed:
+        raise RuntimeError(f"Unsupported AI provider or missing key: {provider}")
+    last_error = None
+    for index, candidate in enumerate(allowed):
+        cooldown = _cooldown_remaining(candidate)
+        if cooldown > 0 and index < len(allowed) - 1:
+            log_event(
+                "ai_candidate_skipped_cooldown",
+                provider=provider,
+                model=candidate.get("model"),
+                key_id=_key_id(candidate.get("api_key")),
+                remaining_seconds=int(cooldown),
+            )
+            continue
+        try:
+            return _generate_with_candidate(candidate, prompt)
+        except Exception as error:
+            last_error = error
+            _put_candidate_on_cooldown(candidate, error)
+            reason = "quota/rate limit/temporary provider error" if _is_quota_or_rate_limit_error(error) else "provider error"
+            log_event(
+                "ai_model_failed",
+                provider=provider,
+                model=candidate.get("model"),
+                key_id=_key_id(candidate.get("api_key")),
+                reason=reason,
+                error=error.__class__.__name__,
+            )
+            if index < len(allowed) - 1:
+                continue
+            raise
+    raise last_error or RuntimeError(f"No {provider} AI candidate returned a response.")
 
 
 def _apply_success(article, data, provider_used):
@@ -758,16 +895,20 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
         fast_news_mode=FAST_NEWS_MODE,
     )
 
-    for attempt in range(1, MAX_AI_ATTEMPTS + 1):
+    total_attempts = max(1, len(provider_sequence))
+    for attempt in range(1, total_attempts + 1):
         started = time.perf_counter()
-        provider = provider_sequence[attempt - 1] if attempt - 1 < len(provider_sequence) else ""
+        provider = provider_sequence[(attempt - 1) % len(provider_sequence)] if provider_sequence else ""
         provider_used = ""
         try:
-            raw_text, provider_used = (
-                _generate_with_provider_name(provider, prompt)
-                if provider
-                else _generate_ai_article(prompt)
-            )
+            try:
+                raw_text, provider_used = (
+                    _generate_with_provider_name(provider, prompt)
+                    if provider
+                    else _generate_ai_article(prompt)
+                )
+            except Exception as provider_error:
+                raise
             data = _parse_ai_json(raw_text)
             previous_data = data
             data = _shorten_metadata_once_if_needed(data)
@@ -775,6 +916,8 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             data = _finalize_html_content(data, package)
             _validate_ai_output(data, package=package)
             _apply_success(article, data, provider_used)
+            article["ai_rotation_exhausted"] = False
+            article["ai_openrouter_fallback_used"] = provider_used.startswith("openrouter:")
             save_article_queue(queue)
             log_event(
                 "ai_article_success",
@@ -801,33 +944,16 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 error=error,
                 elapsed_ms=elapsed_ms(started),
             )
+            if provider == "gemini" and "openrouter" in provider_sequence:
+                log_event("ai_openrouter_fallback_started", article_id=article.get("id"))
             prompt = _build_expansion_retry_prompt(package, previous_data, str(error))
-            if attempt < MAX_AI_ATTEMPTS:
+            if attempt < total_attempts:
                 time.sleep(min(2 ** (attempt - 1), 3))
 
-    try:
-        fallback_data = _basic_fallback_article(package, error=str(last_error or "AI failed"))
-        _apply_success(article, fallback_data, "basic-template-fallback")
-        article["ai_fallback_reason"] = str(last_error or "AI providers failed")[:300]
-        save_article_queue(queue)
-        log_event(
-            "ai_article_template_fallback_success",
-            article_id=article.get("id"),
-            words=article.get("final_word_count"),
-        )
-        return {
-            "processed": 1,
-            "success": 1,
-            "failed": 0,
-            "article": article,
-            "message": "AI providers failed; used basic Arabic fallback template.",
-        }
-    except Exception as fallback_error:
-        last_error = fallback_error
-
     _apply_failure(article, last_error)
+    article["ai_rotation_exhausted"] = True
     save_article_queue(queue)
-    log_event("ai_article_failed", article_id=article.get("id"), error=last_error)
+    log_event("ai_rotation_exhausted", article_id=article.get("id"), error=last_error)
     _send_ai_quality_warning(article, last_error)
     return {
         "processed": 1,

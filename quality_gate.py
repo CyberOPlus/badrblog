@@ -55,6 +55,12 @@ CONCLUSION_HINTS = (
     "\u0627\u0644\u0627\u0633\u062a\u0646\u062a\u0627\u062c",
 )
 
+TECHNICAL_LATIN_TOKENS = {
+    "ai", "api", "cve", "sql", "xss", "rce", "llm", "vpn", "ios", "android",
+    "windows", "linux", "github", "docker", "chatgpt", "gemini", "openai",
+    "malware", "ransomware", "phishing", "cloud", "google", "microsoft",
+}
+
 
 @dataclass
 class QualityGateResult:
@@ -109,6 +115,64 @@ def _has_intro_before_first_heading(html_content):
     return html_word_count(before_heading) >= 80
 
 
+def _has_visible_json_or_markdown(text):
+    if "```" in text:
+        return True
+    if re.search(r'(^|\s)"(?:title|description|slug|html_content|facebook_post_text)"\s*:', text):
+        return True
+    if re.search(r"\{[^{}]{0,80}\"(?:title|description|slug|html_content)\"\s*:", text, re.S):
+        return True
+    return False
+
+
+def _has_repeated_text_blocks(body_text):
+    normalized = re.sub(r"\s+", " ", body_text or "").strip()
+    if not normalized:
+        return False
+    chunks = re.split(r"[.!؟؛]\s+|\n+", normalized)
+    seen = set()
+    for chunk in chunks:
+        chunk = chunk.strip()
+        if len(chunk) < 80:
+            continue
+        fingerprint = re.sub(r"\W+", "", chunk.casefold())[:180]
+        if fingerprint in seen:
+            return True
+        seen.add(fingerprint)
+    return False
+
+
+def _has_random_language_mixing(body_text):
+    arabic_tokens = re.findall(r"[\u0600-\u06FF]{2,}", body_text or "")
+    latin_tokens = re.findall(r"\b[A-Za-z][A-Za-z0-9+._-]{1,}\b", body_text or "")
+    if len(arabic_tokens) < 30 or len(latin_tokens) < 18:
+        return False
+    nontechnical = [
+        token for token in latin_tokens
+        if token.casefold().strip("._-") not in TECHNICAL_LATIN_TOKENS
+        and not re.match(r"^(CVE-\d{4}-\d+|v?\d+(?:\.\d+)+)$", token, re.I)
+    ]
+    return (
+        len(nontechnical) / max(1, len(latin_tokens)) > 0.65
+        and len(nontechnical) > 60
+        and len(nontechnical) > len(arabic_tokens) * 0.6
+    )
+
+
+def _expected_image_missing(article, html_content):
+    package = article.get("ai_input_package") or {}
+    has_expected_image = bool(
+        article.get("main_image")
+        or article.get("image")
+        or package.get("main_image")
+        or article.get("article_images")
+        or package.get("article_images")
+    )
+    if not has_expected_image:
+        return False
+    return not re.search(r"<img\b", html_content, flags=re.I)
+
+
 def validate_ai_article_output(data, package=None):
     article = {
         "final_html": str(data.get("html_content", "")).strip(),
@@ -122,6 +186,9 @@ def validate_ai_article_output(data, package=None):
         "source_published_at": (package or {}).get("source_published_at", ""),
         "published_at_source": (package or {}).get("published_at_source", ""),
         "content_preview": (package or {}).get("content_preview", ""),
+        "main_image": (package or {}).get("main_image", ""),
+        "article_images": (package or {}).get("article_images", []),
+        "ai_input_package": package or {},
     }
     return validate_before_publish(article, check_duplicate=False)
 
@@ -149,6 +216,14 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         )
 
     body_text = html_to_text(html_content)
+    if _has_visible_json_or_markdown(html_content) or _has_visible_json_or_markdown(body_text):
+        return QualityGateResult(False, "visible JSON/markdown found in article output", word_count)
+    if _has_repeated_text_blocks(body_text):
+        return QualityGateResult(False, "repeated text blocks found in article output", word_count)
+    if _has_random_language_mixing(body_text):
+        return QualityGateResult(False, "random language mixing found in article output", word_count)
+    if _expected_image_missing(article, html_content):
+        return QualityGateResult(False, "expected article image is missing from final HTML", word_count)
     if fast_mode:
         promotional, promo_reason = is_promotional_article(article)
         if promotional:

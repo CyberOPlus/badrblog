@@ -6,6 +6,7 @@ import random
 import re
 import time
 from datetime import datetime, timedelta
+from pathlib import Path
 from urllib.parse import urlparse
 
 import requests
@@ -14,6 +15,7 @@ from article_queue import load_article_queue, save_article_queue
 from config import (
     FACEBOOK_AUTO_POST,
     FACEBOOK_GRAPH_API_URL,
+    FACEBOOK_IMAGE_OUTPUT_DIR,
     FACEBOOK_LINK_MODE,
     MAX_FACEBOOK_POSTS_PER_DAY,
     MIN_MINUTES_BETWEEN_FACEBOOK_POSTS,
@@ -22,6 +24,7 @@ from config import (
 )
 from notifier import notify_facebook_result
 from production_logging import elapsed_ms, log_event
+from utils.facebook_image_generator import generate_facebook_image
 
 
 CAPTION_STYLES = (
@@ -30,6 +33,8 @@ CAPTION_STYLES = (
     "insight_knowledge",
     "story_scenario",
     "warning_tip",
+    "category_digest",
+    "reader_impact",
 )
 
 FORBIDDEN_CAPTION_PHRASES = (
@@ -41,7 +46,7 @@ FORBIDDEN_CAPTION_PHRASES = (
     "الرابط",
 )
 
-FACEBOOK_CTA = "\u0627\u0644\u062a\u0641\u0627\u0635\u064a\u0644 \u0627\u0644\u0643\u0627\u0645\u0644\u0629 \u0641\u064a \u0623\u0648\u0644 \u062a\u0639\u0644\u064a\u0642."
+FACEBOOK_CTA = "\u0627\u0644\u0631\u0627\u0628\u0637 \u0641\u064a \u0623\u0648\u0644 \u062a\u0639\u0644\u064a\u0642."
 FACEBOOK_CTA_WITH_URL = "\u0627\u0644\u062a\u0641\u0627\u0635\u064a\u0644 \u0627\u0644\u0643\u0627\u0645\u0644\u0629 \u0647\u0646\u0627:"
 
 
@@ -199,18 +204,22 @@ def _hashtags(article):
     tags = []
 
     def add(tag):
-        if tag not in tags and len(tags) < 7:
+        if tag not in tags and len(tags) < 10:
             tags.append(tag)
 
     category = article.get("suggested_category", "")
     if category == "Cyber-Security" or any(word in text for word in ("security", "malware", "breach", "vulnerability", "cve")):
         add("#CyberSecurity")
+        add("#الأمن_السيبراني")
     if category == "AI-Tools" or any(word in text for word in ("ai", "artificial intelligence", "llm", "gemini", "openai")):
         add("#AI")
+        add("#الذكاء_الاصطناعي")
     if category == "Tech-News" or any(word in text for word in ("technology", "software", "platform", "training")):
         add("#TechNews")
+        add("#أخبار_التقنية")
     if category == "Apps-Programs" or any(word in text for word in ("app", "android", "ios", "windows")):
         add("#Apps")
+        add("#تطبيقات")
 
     if any(word in text for word in ("teams", "microsoft")):
         add("#MicrosoftTeams")
@@ -221,10 +230,10 @@ def _hashtags(article):
     if any(word in text for word in ("privacy", "data", "training")):
         add("#Data")
 
-    for default_tag in ("#Tech", "#TechNews", "#AI"):
+    for default_tag in ("#Tech", "#تقنية", "#Digital", "#News"):
         add(default_tag)
 
-    return tags[:7]
+    return tags[:10]
 
 
 def _clean_caption_line(line):
@@ -254,8 +263,51 @@ def _human_summary(article):
 def _build_caption(article, pattern, blogger_url=None):
     title = _short_title(article)
     summary = _human_summary(article)
+    lead = summary or title
     tags = " ".join(_hashtags(article))
     blogger_url = blogger_url or _blogger_post_url(article)
+    category = article.get("suggested_category", "")
+
+    if category == "AI-Tools":
+        hook = "💡 تطور جديد في عالم AI يستحق الانتباه."
+        middle = "⚙️ الأهم\nالفكرة ليست في الاسم فقط، بل في الاستخدام العملي وما قد يتغير للمستخدمين."
+    elif category == "Cyber-Security":
+        hook = "⚠️ خبر أمني جديد قد يهم كل من يتعامل مع البيانات والحسابات."
+        middle = "📌 بمعنى آخر\nالتفاصيل الصغيرة في أخبار الأمن قد تتحول بسرعة إلى أثر عملي على المستخدمين والشركات."
+    elif category == "Apps-Programs":
+        hook = "📱 تحديث أو أداة جديدة قد تجعل الاستخدام اليومي أسهل."
+        middle = "💡 ما الجديد؟\nالتركيز هنا على الفائدة العملية: هل تستحق التجربة، وما الذي تغير فعلا؟"
+    else:
+        hook = "🌍 خبر تقني جديد يوضح أين يتجه المشهد الرقمي."
+        middle = "🌍 لماذا هذا مهم؟\nلأن هذه التحركات الصغيرة ترسم غالبا ملامح ما سنستخدمه لاحقا."
+
+    if pattern == "question_hook":
+        parts = [f"هل هذا الخبر بداية تغيير أكبر؟\n{lead}", middle]
+    elif pattern == "insight_knowledge":
+        parts = [f"💡 ما الجديد؟\n{lead}", middle]
+    elif pattern == "story_scenario":
+        parts = [f"{hook}\n\n{lead}", "⚙️ الأهم\nلننظر إلى ما يعنيه الخبر بعيدا عن الضجيج."]
+    elif pattern == "warning_tip":
+        parts = [hook, f"📌 بمعنى آخر\n{lead}", middle]
+    elif pattern == "reader_impact":
+        parts = [f"🌍 لماذا هذا مهم؟\n{lead}", middle]
+    else:
+        parts = [hook, lead, middle]
+
+    cleaned_parts = [_clean_caption_line(part) for part in parts]
+    cleaned_parts = [part for part in cleaned_parts if part]
+    body = "\n\n".join(cleaned_parts)
+    if len(body) > 950:
+        body = body[:947].rstrip() + "..."
+
+    final_lines = [body] if body else []
+    if blogger_url and FACEBOOK_LINK_MODE in {"caption", "both"}:
+        final_lines.extend([FACEBOOK_CTA_WITH_URL, blogger_url])
+    elif blogger_url:
+        final_lines.append(FACEBOOK_CTA)
+    if tags:
+        final_lines.append(tags)
+    return "\n\n".join(line for line in final_lines if line)
 
     if pattern == "breaking_alert":
         parts = ["🚨 تم اكتشاف تطور مهم في المشهد التقني.", title]
@@ -336,33 +388,83 @@ def _post_to_graph(path, payload):
     return data
 
 
+def _post_photo_file(path, payload, image_path):
+    url = f"{FACEBOOK_GRAPH_API_URL.rstrip('/')}/{path.lstrip('/')}"
+    started = time.perf_counter()
+    log_event("facebook_graph_start", path=path, upload="photo")
+    with open(image_path, "rb") as handle:
+        response = requests.post(
+            url,
+            data=payload,
+            files={"source": handle},
+            timeout=60,
+        )
+    if response.status_code >= 400:
+        log_event(
+            "facebook_graph_end",
+            path=path,
+            status=response.status_code,
+            error=response.text[:200],
+            elapsed_ms=elapsed_ms(started),
+        )
+        raise RuntimeError(f"Facebook Graph API error {response.status_code}: {response.text[:500]}")
+    data = response.json()
+    if not isinstance(data, dict):
+        raise RuntimeError("Facebook Graph API returned an unexpected response.")
+    log_event(
+        "facebook_graph_end",
+        path=path,
+        status=response.status_code,
+        elapsed_ms=elapsed_ms(started),
+    )
+    return data
+
+
+def _facebook_image_output_path(article):
+    article_id = re.sub(r"[^a-zA-Z0-9_-]+", "-", str(article.get("id") or article.get("url") or "post")).strip("-")
+    if not article_id:
+        article_id = "post"
+    return FACEBOOK_IMAGE_OUTPUT_DIR / f"{article_id[:80]}.jpg"
+
+
 def _publish_facebook_post(article, caption_pattern):
     blogger_url = _blogger_post_url(article)
     if not blogger_url:
         raise RuntimeError("Missing live Blogger URL for Facebook post.")
 
     caption = _build_caption(article, caption_pattern, blogger_url=blogger_url)
+    _validate_facebook_caption(caption, blogger_url=blogger_url)
     image_url = _main_image_url(article)
+    image_result = generate_facebook_image(
+        _short_title(article),
+        image_url,
+        _facebook_image_output_path(article),
+    )
     base_payload = {
         "access_token": FACEBOOK_PAGE_ACCESS_TOKEN,
     }
 
-    if image_url:
+    if image_result.get("ok") and Path(image_result["path"]).exists():
         payload = {
             **base_payload,
-            "url": image_url,
             "caption": caption,
             "published": "true",
         }
-        data = _post_to_graph(f"{FACEBOOK_PAGE_ID}/photos", payload)
-        return data.get("post_id") or data.get("id") or "", "photo"
+        data = _post_photo_file(f"{FACEBOOK_PAGE_ID}/photos", payload, image_result["path"])
+        return data.get("post_id") or data.get("id") or "", "photo", image_result
+
+    log_event(
+        "facebook_image_generation_failed_safe_text_only",
+        article_id=article.get("id"),
+        error=image_result.get("error", ""),
+    )
 
     payload = {
         **base_payload,
         "message": caption,
     }
     data = _post_to_graph(f"{FACEBOOK_PAGE_ID}/feed", payload)
-    return data.get("id") or "", "feed"
+    return data.get("id") or "", "feed", image_result
 
 
 def _post_first_comment(facebook_post_id, blogger_post_url):
@@ -379,6 +481,22 @@ def _post_first_comment(facebook_post_id, blogger_post_url):
 
 def _first_comment_text(blogger_post_url):
     return f"🔗 اقرأ المنشور الكامل:\n{blogger_post_url}"
+
+
+def _validate_facebook_caption(caption, blogger_url=""):
+    if not str(caption or "").strip():
+        raise RuntimeError("Facebook caption is empty.")
+    if "```" in caption or re.search(r'"\s*(title|description|html_content|facebook_post_text)\s*"\s*:', caption):
+        raise RuntimeError("Facebook caption contains visible JSON/markdown.")
+    if FACEBOOK_LINK_MODE == "comment" and re.search(r"https?://\S+", caption):
+        raise RuntimeError("Facebook caption contains a URL while comment link mode is enabled.")
+    hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", caption, flags=re.UNICODE)
+    if len(set(hashtags)) != len(hashtags):
+        raise RuntimeError("Facebook caption contains duplicate hashtags.")
+    if hashtags and not (6 <= len(hashtags) <= 10):
+        raise RuntimeError("Facebook caption must contain 6 to 10 hashtags.")
+    if blogger_url and FACEBOOK_LINK_MODE == "comment" and "أول تعليق" not in caption:
+        raise RuntimeError("Facebook caption must say the link is in the first comment.")
 
 
 def _apply_failure(article, error):
@@ -528,7 +646,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             blogger_url=blogger_url,
             pattern=caption_pattern,
         )
-        facebook_post_id, post_type = _publish_facebook_post(article, caption_pattern)
+        facebook_post_id, post_type, image_result = _publish_facebook_post(article, caption_pattern)
         if not facebook_post_id:
             raise RuntimeError("Facebook Graph API did not return a post id.")
 
@@ -536,6 +654,13 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         article["facebook_post_id"] = facebook_post_id
         article["facebook_posted_at"] = _now_iso()
         article["facebook_post_type"] = post_type
+        article["facebook_image_status"] = "generated" if image_result.get("ok") else "failed"
+        article["facebook_image_path"] = image_result.get("path", "")
+        article["facebook_image_used_fallback"] = bool(image_result.get("used_fallback"))
+        if image_result.get("error"):
+            article["facebook_image_error"] = image_result.get("error", "")[:300]
+        else:
+            article.pop("facebook_image_error", None)
         article["facebook_caption_pattern"] = caption_pattern
         article["facebook_link_mode"] = FACEBOOK_LINK_MODE
         article["facebook_post_text"] = _build_caption(article, caption_pattern, blogger_url=blogger_url)

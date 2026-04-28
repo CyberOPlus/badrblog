@@ -1491,24 +1491,24 @@ def run_deployment_check_only():
     elif ai_provider == "openai":
         required_env.append("OPENAI_API_KEY")
     else:
-        required_env.extend(["GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY"])
+        required_env.extend(["GEMINI_API_KEY", "OPENROUTER_API_KEY"])
     missing = [name for name in required_env if not _env_present(name)]
     if ai_provider == "auto":
         has_any_ai_key = any(
             _env_present(name)
-            for name in ("GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY")
+            for name in ("GEMINI_API_KEY", "OPENROUTER_API_KEY")
         )
         missing = [
             name
             for name in missing
-            if name not in {"GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY"}
+            if name not in {"GEMINI_API_KEY", "OPENROUTER_API_KEY"}
         ]
         if not has_any_ai_key:
-            missing.append("GEMINI_API_KEY or OPENROUTER_API_KEY or OPENAI_API_KEY")
+            missing.append("GEMINI_API_KEY or OPENROUTER_API_KEY")
 
     print("Required environment variables:")
     for name in required_env:
-        if ai_provider == "auto" and name in {"GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY"}:
+        if ai_provider == "auto" and name in {"GEMINI_API_KEY", "OPENROUTER_API_KEY"}:
             status = "present" if _env_present(name) else "optional-missing"
         else:
             status = "present" if name not in missing else "MISSING"
@@ -1622,8 +1622,8 @@ def run_deployment_check_only():
             errors.append("Live automation requires RECENT_NEWS_ONLY=true.")
         if allow_unknown_date:
             errors.append("Live automation requires ALLOW_UNKNOWN_DATE_IN_FAST_MODE=false.")
-        if recent_hours_raw != "6":
-            errors.append("Live automation requires RECENT_NEWS_MAX_AGE_HOURS=6.")
+        if recent_hours_raw != "2":
+            errors.append("Live automation requires RECENT_NEWS_MAX_AGE_HOURS=2.")
         if freshness_margin_raw != "10":
             errors.append("Live automation requires FRESHNESS_SAFETY_MARGIN_MINUTES=10.")
         if max_sources_raw != "999":
@@ -1773,12 +1773,14 @@ def _print_safe_cycle_final_report(
     print(f"Score:                  {article.get('score', '') if article else ''}")
     print(f"Article word count:     {_article_word_count(article)}")
     print(f"AI status:              {article.get('ai_status', '') if article else ''}")
+    print(f"AI provider used:       {article.get('ai_provider_used', '') if article else ''}")
     print(f"Post created/updated:   {draft_action}")
     print(f"Draft ID:               {article.get('blogger_draft_id', '') if article else ''}")
     print(f"Draft URL:              {article.get('blogger_draft_url', '') if article else ''}")
     print(f"Blogger post ID:        {article.get('blogger_post_id', '') if article else ''}")
     print(f"Blogger post URL:       {article.get('blogger_post_url', '') if article else ''}")
     print(f"Facebook status:        {article.get('facebook_status', '') if article else ''}")
+    print(f"Facebook image status:  {article.get('facebook_image_status', '') if article else ''}")
     print(f"Facebook post ID:       {article.get('facebook_post_id', '') if article else ''}")
     print(f"Facebook comment ID:    {article.get('facebook_comment_id', '') if article else ''}")
     print(f"Image count:            {_count_images(article)}")

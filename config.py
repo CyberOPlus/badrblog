@@ -120,6 +120,7 @@ def _env_csv(name, default=""):
     return items
 
 
+
 SOURCE_URLS = _env_csv("SOURCES")
 if not SOURCE_URLS:
     SOURCE_URLS = [SOURCE_URL]
@@ -189,7 +190,7 @@ FALLBACK_FIRST_RUN_LOOKBACK_HOURS = _env_int("FALLBACK_FIRST_RUN_LOOKBACK_HOURS"
 CRAWL_INTERVAL_MINUTES = _env_int("CRAWL_INTERVAL_MINUTES", 5)
 CRAWL_OVERLAP_MINUTES = _env_int("CRAWL_OVERLAP_MINUTES", 10)
 RECENT_NEWS_ONLY = _env_bool_any(["RECENT_ONLY", "RECENT_NEWS_ONLY"], True)
-RECENT_NEWS_MAX_AGE_HOURS = _env_int_any(["RECENT_HOURS", "RECENT_NEWS_MAX_AGE_HOURS"], 6)
+RECENT_NEWS_MAX_AGE_HOURS = _env_int_any(["RECENT_HOURS", "RECENT_NEWS_MAX_AGE_HOURS"], 2)
 RECENT_HOURS = RECENT_NEWS_MAX_AGE_HOURS
 FRESHNESS_SAFETY_MARGIN_MINUTES = _env_int("FRESHNESS_SAFETY_MARGIN_MINUTES", 10)
 MAX_AI_ARTICLE_AGE_HOURS = max(
@@ -297,11 +298,30 @@ SCOPES = [
 # The Gemini model we'll use for translation.
 # You can override it from .env if needed.
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_MODELS = _env_csv("GEMINI_MODELS")
+if not GEMINI_MODELS and GEMINI_MODEL:
+    GEMINI_MODELS = [GEMINI_MODEL]
 
 # OpenRouter fallback settings.
 # OPENROUTER_API_KEY should be kept in .env only.
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openrouter/auto")
+DEFAULT_OPENROUTER_MODELS = [
+    "openai/gpt-oss-120b:free",
+    "minimax/minimax-m2.5:free",
+    "z-ai/glm-4.5-air:free",
+    "nvidia/nemotron-3-super-120b-a12b:free",
+    "tencent/hy3-preview:free",
+    "inclusionai/ling-2.6-1t:free",
+    "inclusionai/ling-2.6-flash:free",
+    "nvidia/nemotron-3-nano-30b-a3b:free",
+    "openai/gpt-oss-20b:free",
+    "nvidia/nemotron-nano-12b-v2-vl:free",
+    "google/gemma-4-26b-a4b-it:free",
+    "qwen/qwen3-coder:free",
+    "liquid/lfm-2.5-1.2b-instruct:free",
+]
+OPENROUTER_MODELS = _env_csv("OPENROUTER_MODELS") or DEFAULT_OPENROUTER_MODELS
 OPENROUTER_API_URL = os.getenv(
     "OPENROUTER_API_URL",
     "https://openrouter.ai/api/v1/chat/completions",
@@ -314,12 +334,31 @@ OPENROUTER_APP_NAME = os.getenv("OPENROUTER_APP_NAME", "Blogger Automation Bot")
 # OpenAI settings for Phase 6 AI processing.
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+OPENAI_MODELS = _env_csv("OPENAI_MODELS")
+if not OPENAI_MODELS and OPENAI_MODEL:
+    OPENAI_MODELS = [OPENAI_MODEL]
 OPENAI_API_URL = os.getenv(
     "OPENAI_API_URL",
     "https://api.openai.com/v1/chat/completions",
 )
 OPENAI_MAX_TOKENS = _env_int("OPENAI_MAX_TOKENS", 8192)
 OPENAI_TIMEOUT_SECONDS = _env_int("OPENAI_TIMEOUT_SECONDS", AI_TIMEOUT_SECONDS)
+
+# Facebook image generation settings.
+ASSETS_DIR = BASE_DIR / "assets"
+FACEBOOK_IMAGE_TEMPLATE_PATH = ASSETS_DIR / "facebook_template.png"
+FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH = ASSETS_DIR / "fallback_article.png"
+FACEBOOK_IMAGE_OUTPUT_DIR = BASE_DIR / "output" / "facebook_images"
+FACEBOOK_IMAGE_SIZE = _env_int("FACEBOOK_IMAGE_SIZE", 1080)
+FACEBOOK_IMAGE_BOX_X = _env_int("FACEBOOK_IMAGE_BOX_X", 180)
+FACEBOOK_IMAGE_BOX_Y = _env_int("FACEBOOK_IMAGE_BOX_Y", 170)
+FACEBOOK_IMAGE_BOX_W = _env_int("FACEBOOK_IMAGE_BOX_W", 720)
+FACEBOOK_IMAGE_BOX_H = _env_int("FACEBOOK_IMAGE_BOX_H", 520)
+FACEBOOK_TITLE_BOX_X = _env_int("FACEBOOK_TITLE_BOX_X", 130)
+FACEBOOK_TITLE_BOX_Y = _env_int("FACEBOOK_TITLE_BOX_Y", 740)
+FACEBOOK_TITLE_BOX_W = _env_int("FACEBOOK_TITLE_BOX_W", 820)
+FACEBOOK_TITLE_BOX_H = _env_int("FACEBOOK_TITLE_BOX_H", 210)
+FACEBOOK_TITLE_FONT_SIZE = _env_int("FACEBOOK_TITLE_FONT_SIZE", 56)
 
 
 # ============================================================
@@ -669,9 +708,7 @@ def validate_config():
     has_openrouter_key = bool(
         OPENROUTER_API_KEY and OPENROUTER_API_KEY != "your_new_key_here"
     )
-    has_openai_key = bool(
-        OPENAI_API_KEY and OPENAI_API_KEY != "your_openai_api_key_here"
-    )
+    has_openai_key = bool(OPENAI_API_KEY and OPENAI_API_KEY != "your_openai_api_key_here")
 
     if AI_PROVIDER not in supported_ai_providers:
         errors.append(
@@ -691,8 +728,8 @@ def validate_config():
         errors.append("  ❌ OPENAI_API_KEY is missing or still set to a placeholder in .env")
 
     if AI_PROVIDER == "auto":
-        if not has_gemini_key and not has_openrouter_key and not has_openai_key:
-            errors.append("  ❌ Set GEMINI_API_KEY, OPENROUTER_API_KEY, or OPENAI_API_KEY in .env")
+        if not has_gemini_key and not has_openrouter_key:
+            errors.append("  ❌ Set GEMINI_API_KEY or OPENROUTER_API_KEY in .env")
         elif has_gemini_key and not has_openrouter_key:
             warnings.append("  ⚠️  OpenRouter fallback is disabled until OPENROUTER_API_KEY is set.")
 
@@ -731,6 +768,7 @@ def validate_config():
     TOPIC_FINGERPRINTS_PATH.parent.mkdir(parents=True, exist_ok=True)
     LOGS_DIR.mkdir(parents=True, exist_ok=True)
     LOCAL_PUBLISH_DIR.mkdir(parents=True, exist_ok=True)
+    FACEBOOK_IMAGE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     print("✅ Configuration validated successfully!")
     return True

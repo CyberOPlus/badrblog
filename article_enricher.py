@@ -140,6 +140,30 @@ def _meta_content(soup, *selectors):
     return ""
 
 
+def _best_src_from_srcset(value):
+    best_url = ""
+    best_width = -1
+    for item in str(value or "").split(","):
+        parts = item.strip().split()
+        if not parts:
+            continue
+        url = parts[0].strip()
+        width = 0
+        if len(parts) > 1 and parts[1].endswith("w"):
+            width = _safe_int(parts[1][:-1]) or 0
+        if width >= best_width:
+            best_url = url
+            best_width = width
+    return best_url
+
+
+def _image_src(img):
+    for attr in ("src", "data-src", "data-lazy-src", "data-original", "data-hi-res-src"):
+        if img.get(attr):
+            return img.get(attr)
+    return _best_src_from_srcset(img.get("srcset") or img.get("data-srcset"))
+
+
 def _extract_title(soup):
     title = _meta_content(
         soup,
@@ -174,14 +198,17 @@ def _extract_main_image(soup, article_url):
         "meta[property='og:image']",
         "meta[name='twitter:image']",
         "meta[name='twitter:image:src']",
+        "meta[itemprop='image']",
+        "meta[name='image']",
     )
     if image_url and _looks_useful_image(urljoin(article_url, image_url), ""):
         return urljoin(article_url, image_url)
 
-    for selector in ("article img[src]", "main img[src]"):
+    for selector in ("article img", "main img"):
         img = soup.select_one(selector)
-        if img and img.get("src"):
-            candidate = urljoin(article_url, img.get("src"))
+        src = _image_src(img) if img else ""
+        if img and src:
+            candidate = urljoin(article_url, src)
             if _looks_useful_image(candidate, img.get("alt") or "", img=img):
                 return candidate
 
@@ -237,13 +264,15 @@ def _extract_article_images(soup, article_url):
         "meta[property='og:image']",
         "meta[name='twitter:image']",
         "meta[name='twitter:image:src']",
+        "meta[itemprop='image']",
+        "meta[name='image']",
     )
     if og_image:
         _append_image(images, seen, urljoin(article_url, og_image), source="og:image")
 
     container = _best_article_container(soup)
-    for img in container.select("img[src], img[data-src], img[data-lazy-src]"):
-        src = img.get("src") or img.get("data-src") or img.get("data-lazy-src")
+    for img in container.select("img[src], img[data-src], img[data-lazy-src], img[data-original], img[data-hi-res-src], img[srcset], img[data-srcset]"):
+        src = _image_src(img)
         if not src:
             continue
         url = urljoin(article_url, src)
@@ -446,9 +475,22 @@ def _apply_enrichment_from_html(article, html, url):
 
     article["fetched_title"] = _extract_title(soup) or article.get("title", "")
     article["meta_description"] = _extract_meta_description(soup)
+    declared_image = _meta_content(
+        soup,
+        "meta[property='og:image']",
+        "meta[name='twitter:image']",
+        "meta[name='twitter:image:src']",
+        "meta[itemprop='image']",
+        "meta[name='image']",
+    )
     article_images = _extract_article_images(soup, url)
     article["article_images"] = article_images
     article["main_image"] = article_images[0]["url"] if article_images else _extract_main_image(soup, url)
+    if declared_image and not article["main_image"]:
+        article["image_warning"] = "declared image exists but no usable article image was selected"
+        log_event("article_image_warning", url=url, reason=article["image_warning"])
+    else:
+        article.pop("image_warning", None)
     article["trusted_references"] = _extract_trusted_references(
         soup,
         url,
