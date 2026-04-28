@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-28T16:59:53",
+  "updated_at": "2026-04-28T17:09:05",
   "articles": [
     {
       "id": "a7a11e65e86e7bcc",
@@ -12436,7 +12436,10 @@
       "ai_time_budget_exceeded": false,
       "ai_total_time_seconds": 40.91,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 3
+      "ai_quality_attempts": 3,
+      "archived": true,
+      "archived_at": "2026-04-28T17:09:01",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "284b1c5148ab15d5",
@@ -12568,7 +12571,10 @@
       "ai_time_budget_exceeded": true,
       "ai_total_time_seconds": 67.61,
       "ai_quality_status": "time_budget_exceeded",
-      "ai_quality_attempts": 2
+      "ai_quality_attempts": 2,
+      "archived": true,
+      "archived_at": "2026-04-28T17:09:01",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "d0de714bbc5d6812",
@@ -14125,8 +14131,8 @@
   "notifications": {
     "telegram_final_summary_event_key": "20260428165114710244",
     "telegram_final_summary_notified_at": "2026-04-28T16:59:53",
-    "last_notification_at": "2026-04-28T16:59:53",
-    "telegram_auto_cycle_blocked_event_key": "no fresh article safely inside the last 2 hours|",
-    "telegram_auto_cycle_blocked_notified_at": "2026-04-28T12:55:58"
+    "last_notification_at": "2026-04-28T17:09:05",
+    "telegram_auto_cycle_blocked_event_key": "daily live limit reached|2026-04-29T00:00:00",
+    "telegram_auto_cycle_blocked_notified_at": "2026-04-28T17:09:05"
   }
 }
