@@ -314,7 +314,9 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
             f"Facebook status: {facebook_status}",
             f"Category: {selected_category}",
             f"AI provider: {article.get('ai_provider_used', '')}",
-            f"Image: {'yes' if _main_image_url(article) else 'no'}",
+            f"Main image found: {'yes' if _main_image_url(article) else 'no'}",
+            f"Image source type: {article.get('main_image_source_type', '')}",
+            f"Removed source links: {article.get('removed_source_links_count', 0)}",
             f"Facebook image: {article.get('facebook_image_status', 'skipped')}",
             f"Sources checked: {sources_checked}",
             f"Candidates found: {candidates_found}",
@@ -346,6 +348,10 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
     lines = clear_lines
     if warning:
         lines.append(f"Warning: {warning}")
+    runtime_state = result.get("runtime_state") or {}
+    if runtime_state:
+        lines.append(f"Runtime state saved: {'yes' if runtime_state.get('saved') else 'no'}")
+        lines.append(f"Git push state: {runtime_state.get('git_push_state', 'skipped')}")
     source_warnings_count = int(result.get("source_warnings_count") or 0)
     enrichment_failed_count = int(result.get("enrichment_failed_count") or 0)
     article_warnings = _article_warnings(article)

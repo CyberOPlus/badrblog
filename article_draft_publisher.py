@@ -15,6 +15,7 @@ from config import BLOG_ID, MAX_RETRIES, PUBLISH_MODE, RETRY_DELAY, SAFE_MODE
 from notifier import notify_blogger_result
 from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
+from source_sanitizer import sanitize_source_links
 
 TEMPORARY_BLOGGER_HTTP_STATUSES = {429, 500, 502, 503, 504}
 
@@ -122,10 +123,11 @@ def _ensure_post_url_for_mode(post, mode):
 
 
 def _build_post_body(article):
+    content = article.get("final_html", "")
     body = {
         "kind": "blogger#post",
         "title": article.get("seo_title") or article.get("title", ""),
-        "content": article.get("final_html", ""),
+        "content": content,
         "labels": [normalize_category_label(article.get("suggested_category", ""))],
     }
 
@@ -133,6 +135,24 @@ def _build_post_body(article):
         body["customMetaData"] = article["seo_description"]
 
     return body
+
+
+def _source_domain_for_article(article):
+    for key in ("original_url", "url", "source_url", "canonical_url"):
+        parsed = urlparse(str(article.get(key) or "").strip())
+        if parsed.netloc:
+            return parsed.netloc
+    return ""
+
+
+def _sanitize_article_final_html(article):
+    source_domain = _source_domain_for_article(article)
+    cleaned, removed_count = sanitize_source_links(article.get("final_html", ""), source_domain)
+    article["final_html"] = cleaned
+    article["blogger_article_html"] = cleaned
+    article["removed_source_links_count"] = removed_count
+    article["final_word_count"] = html_word_count(cleaned)
+    return removed_count
 
 
 def _list_posts_by_status(service, status):
@@ -317,6 +337,7 @@ def publish_one_blogger_draft(target_article_id=None):
         }
 
     article = eligible[0]
+    _sanitize_article_final_html(article)
     quality_error = _publish_quality_error(article, articles)
     if quality_error:
         return _block_publish(
@@ -542,6 +563,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
 
     article = eligible[0]
     _custom_slug_warning(article)
+    _sanitize_article_final_html(article)
     quality_error = _publish_quality_error(article, articles)
     if quality_error:
         return _block_publish(

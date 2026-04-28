@@ -3,6 +3,7 @@
 # ============================================================
 
 import asyncio
+import json
 import re
 import time
 from datetime import datetime
@@ -29,7 +30,7 @@ except ImportError:
     aiohttp = None
 
 CONTENT_FETCH_STATUSES = {"success", "failed"}
-REQUEST_TIMEOUT_SECONDS = ARTICLE_TIMEOUT_SECONDS
+REQUEST_TIMEOUT_SECONDS = min(ARTICLE_TIMEOUT_SECONDS, 10)
 PREVIEW_MIN_CHARS = 3500
 PREVIEW_MAX_CHARS = 9000
 STRONG_ARTICLE_MIN_CHARS = 3500
@@ -192,29 +193,6 @@ def _extract_meta_description(soup):
     )
 
 
-def _extract_main_image(soup, article_url):
-    image_url = _meta_content(
-        soup,
-        "meta[property='og:image']",
-        "meta[name='twitter:image']",
-        "meta[name='twitter:image:src']",
-        "meta[itemprop='image']",
-        "meta[name='image']",
-    )
-    if image_url and _looks_useful_image(urljoin(article_url, image_url), ""):
-        return urljoin(article_url, image_url)
-
-    for selector in ("article img", "main img"):
-        img = soup.select_one(selector)
-        src = _image_src(img) if img else ""
-        if img and src:
-            candidate = urljoin(article_url, src)
-            if _looks_useful_image(candidate, img.get("alt") or "", img=img):
-                return candidate
-
-    return ""
-
-
 def _safe_int(value):
     try:
         return int(str(value).strip())
@@ -234,7 +212,7 @@ def _looks_useful_image(url, alt, img=None):
     if img:
         width = _safe_int(img.get("width"))
         height = _safe_int(img.get("height"))
-        if width and height and (width < 120 or height < 80):
+        if width and height and (width < 200 or height < 120):
             return False
 
     return True
@@ -242,9 +220,9 @@ def _looks_useful_image(url, alt, img=None):
 
 def _append_image(images, seen, url, alt="", source="article/img", img=None):
     if not _looks_useful_image(url, alt, img=img):
-        return
+        return False
     if url in seen:
-        return
+        return False
     seen.add(url)
     images.append(
         {
@@ -253,31 +231,79 @@ def _append_image(images, seen, url, alt="", source="article/img", img=None):
             "source": source,
         }
     )
+    return True
+
+
+def _jsonld_image_values(value):
+    if not value:
+        return []
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, list):
+        values = []
+        for item in value:
+            values.extend(_jsonld_image_values(item))
+        return values
+    if isinstance(value, dict):
+        return _jsonld_image_values(value.get("url") or value.get("@id"))
+    return []
+
+
+def _extract_jsonld_images(soup):
+    images = []
+    for script in soup.select("script[type='application/ld+json']"):
+        raw = script.string or script.get_text("", strip=True)
+        if not raw:
+            continue
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError:
+            continue
+        nodes = data if isinstance(data, list) else [data]
+        for node in nodes:
+            if isinstance(node, dict) and "@graph" in node and isinstance(node["@graph"], list):
+                nodes.extend(node["@graph"])
+            if isinstance(node, dict):
+                images.extend(_jsonld_image_values(node.get("image")))
+    return images
+
+
+def _meta_image_candidates(soup):
+    return (
+        ("og", _meta_content(soup, "meta[property='og:image']", "meta[property='og:image:url']", "meta[property='og:image:secure_url']")),
+        ("twitter", _meta_content(soup, "meta[name='twitter:image']", "meta[property='twitter:image']", "meta[name='twitter:image:src']")),
+        ("meta", _meta_content(soup, "meta[name='image']", "meta[itemprop='image']")),
+    )
 
 
 def _extract_article_images(soup, article_url):
     images = []
     seen = set()
 
-    og_image = _meta_content(
-        soup,
-        "meta[property='og:image']",
-        "meta[name='twitter:image']",
-        "meta[name='twitter:image:src']",
-        "meta[itemprop='image']",
-        "meta[name='image']",
-    )
-    if og_image:
-        _append_image(images, seen, urljoin(article_url, og_image), source="og:image")
+    for source_type, image_url in _meta_image_candidates(soup):
+        if image_url:
+            _append_image(images, seen, urljoin(article_url, image_url), source=source_type)
+
+    for image_url in _extract_jsonld_images(soup):
+        _append_image(images, seen, urljoin(article_url, image_url), source="jsonld")
 
     container = _best_article_container(soup)
-    for img in container.select("img[src], img[data-src], img[data-lazy-src], img[data-original], img[data-hi-res-src], img[srcset], img[data-srcset]"):
-        src = _image_src(img)
-        if not src:
-            continue
-        url = urljoin(article_url, src)
-        alt = img.get("alt") or img.get("title") or ""
-        _append_image(images, seen, url, alt=alt, source="article/img", img=img)
+    article_imgs = list(container.select("img[src], img[data-src], img[data-lazy-src], img[data-original], img[data-hi-res-src], img[srcset], img[data-srcset]"))
+    passes = (
+        ("srcset", lambda img: _best_src_from_srcset(img.get("srcset") or img.get("data-srcset"))),
+        ("lazy", lambda img: img.get("data-src") or img.get("data-lazy-src") or img.get("data-original") or img.get("data-hi-res-src")),
+        ("article", lambda img: img.get("src")),
+    )
+    for source_type, getter in passes:
+        for img in article_imgs:
+            src = getter(img)
+            if not src:
+                continue
+            url = urljoin(article_url, src)
+            alt = img.get("alt") or img.get("title") or ""
+            _append_image(images, seen, url, alt=alt, source=source_type, img=img)
+            if len(images) >= MAX_ARTICLE_IMAGES:
+                break
         if len(images) >= MAX_ARTICLE_IMAGES:
             break
 
@@ -475,20 +501,21 @@ def _apply_enrichment_from_html(article, html, url):
 
     article["fetched_title"] = _extract_title(soup) or article.get("title", "")
     article["meta_description"] = _extract_meta_description(soup)
-    declared_image = _meta_content(
-        soup,
-        "meta[property='og:image']",
-        "meta[name='twitter:image']",
-        "meta[name='twitter:image:src']",
-        "meta[itemprop='image']",
-        "meta[name='image']",
-    )
+    declared_images = [(source_type, image_url) for source_type, image_url in _meta_image_candidates(soup) if image_url]
     article_images = _extract_article_images(soup, url)
     article["article_images"] = article_images
-    article["main_image"] = article_images[0]["url"] if article_images else _extract_main_image(soup, url)
-    if declared_image and not article["main_image"]:
-        article["image_warning"] = "declared image exists but no usable article image was selected"
-        log_event("article_image_warning", url=url, reason=article["image_warning"])
+    main_image = article_images[0] if article_images else {}
+    article["main_image"] = main_image.get("url", "")
+    article["main_image_source_type"] = main_image.get("source", "fallback" if not main_image else "")
+    if declared_images and not article["main_image"]:
+        source_types = ",".join(source_type for source_type, _image_url in declared_images)
+        article["image_warning"] = f"declared meta image exists but no usable image was selected from {source_types}"
+        log_event(
+            "article_image_warning",
+            url=url,
+            reason=article["image_warning"],
+            image_source_type=article["main_image_source_type"],
+        )
     else:
         article.pop("image_warning", None)
     article["trusted_references"] = _extract_trusted_references(
@@ -518,6 +545,8 @@ def _apply_enrichment_from_html(article, html, url):
         chars=len(article["full_article_text"]),
         preview_chars=len(preview),
         images=len(article_images),
+        main_image_found="yes" if article.get("main_image") else "no",
+        image_source_type=article.get("main_image_source_type"),
         references=len(article.get("trusted_references") or []),
         enrichment_status=article["enrichment_status"],
     )
@@ -548,6 +577,8 @@ def _apply_rss_summary_fallback(article):
     article["meta_description"] = summary[:240]
     article["article_images"] = []
     article["main_image"] = ""
+    article["main_image_source_type"] = "fallback"
+    article["image_warning"] = "article image unavailable; fallback image will be used where supported"
     article["trusted_references"] = []
     article["full_article_text"] = summary
     article["full_article_text_chars"] = len(summary)

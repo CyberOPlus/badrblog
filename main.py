@@ -4,6 +4,7 @@
 
 import json
 import os
+import subprocess
 import sys
 import time
 from collections import Counter
@@ -55,12 +56,14 @@ from config import (
     ALLOW_UNKNOWN_DATE_IN_FAST_MODE,
     ARTICLE_BACKLOG_PATH,
     ARTICLE_QUEUE_PATH,
+    AI_PROVIDER_MEMORY_PATH,
     CHECK_INTERVAL,
     CATEGORY_ROTATION_MODE,
     CRAWL_INTERVAL_MINUTES,
     CRAWL_STATE_PATH,
     FALLBACK_FIRST_RUN_LOOKBACK_HOURS,
     FACEBOOK_AUTO_POST,
+    FACEBOOK_STYLE_MEMORY_PATH,
     FAST_NEWS_MODE,
     FRESHNESS_SAFETY_MARGIN_MINUTES,
     FRESH_QUEUE_MODE,
@@ -1026,6 +1029,57 @@ def _print_telegram_config_warning(status=None):
         print("Telegram alerts enabled but TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is missing.")
 
 
+RUNTIME_STATE_PATHS = (
+    ARTICLE_QUEUE_PATH,
+    CRAWL_STATE_PATH,
+    SOURCE_HEALTH_PATH,
+    AI_PROVIDER_MEMORY_PATH,
+    FACEBOOK_STYLE_MEMORY_PATH,
+)
+
+
+def save_runtime_state_to_git():
+    result = {
+        "saved": False,
+        "git_push_state": "skipped",
+        "warning": "",
+    }
+    try:
+        paths = [str(path.relative_to(Path.cwd())) if path.is_absolute() else str(path) for path in RUNTIME_STATE_PATHS if Path(path).exists()]
+        if not paths:
+            return result
+        subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=False, capture_output=True, text=True)
+        subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], check=False, capture_output=True, text=True)
+        subprocess.run(["git", "add", "--", *paths], check=True, capture_output=True, text=True)
+        diff = subprocess.run(["git", "diff", "--cached", "--quiet"], check=False)
+        if diff.returncode == 0:
+            return result
+        commit = subprocess.run(
+            ["git", "commit", "-m", "Update bot runtime state [skip ci]"],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if commit.returncode != 0:
+            result["warning"] = "git commit failed"
+            result["git_push_state"] = "warning"
+            log_event("runtime_state_git_warning", reason=result["warning"])
+            return result
+        result["saved"] = True
+        push = subprocess.run(["git", "push", "origin", "HEAD:main"], check=False, capture_output=True, text=True)
+        if push.returncode == 0:
+            result["git_push_state"] = "success"
+        else:
+            result["git_push_state"] = "warning"
+            result["warning"] = "git push failed"
+            log_event("runtime_state_git_warning", reason=result["warning"])
+    except Exception as error:
+        result["git_push_state"] = "warning"
+        result["warning"] = f"runtime state save failed: {error.__class__.__name__}"
+        log_event("runtime_state_git_warning", reason=result["warning"])
+    return result
+
+
 def run_auto_cycle_logged():
     run_id = _new_run_id()
     started_at = datetime.now().isoformat(timespec="seconds")
@@ -1051,6 +1105,14 @@ def run_auto_cycle_logged():
             error=error,
         )
         print(f"Finished in {execution_seconds:.2f} seconds", flush=True)
+        runtime_state_result = save_runtime_state_to_git()
+        if isinstance(result, dict):
+            result["runtime_state"] = runtime_state_result
+        print(
+            "Runtime state saved: "
+            f"{'yes' if runtime_state_result.get('saved') else 'no'} | "
+            f"git push: {runtime_state_result.get('git_push_state')}"
+        )
         _send_auto_cycle_alert(result or {}, error=error, run_id=run_id)
         _append_auto_cycle_run_log(
             _auto_cycle_record_from_result(run_id, started_at, result or {}, error=error)
@@ -1784,6 +1846,9 @@ def _print_safe_cycle_final_report(
     print(f"Facebook post ID:       {article.get('facebook_post_id', '') if article else ''}")
     print(f"Facebook comment ID:    {article.get('facebook_comment_id', '') if article else ''}")
     print(f"Image count:            {_count_images(article)}")
+    print(f"Main image found:       {'yes' if article and article.get('main_image') else 'no'}")
+    print(f"Image source type:      {article.get('main_image_source_type', '') if article else ''}")
+    print(f"Removed source links:   {article.get('removed_source_links_count', 0) if article else 0}")
     print(f"Trusted references:     {_count_trusted_references(article)}")
     print(
         "Source name in HTML:    "

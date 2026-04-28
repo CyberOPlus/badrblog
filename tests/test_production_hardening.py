@@ -9,6 +9,7 @@ from tempfile import TemporaryDirectory
 from unittest.mock import patch
 
 import article_draft_publisher
+import article_enricher
 import article_ai_processor
 import article_processor
 import article_queue
@@ -16,7 +17,9 @@ import content_filter
 import facebook_publisher
 import utils.facebook_image_generator as facebook_image_generator
 import runtime_state
+import source_sanitizer
 from article_draft_publisher import _ensure_post_url_for_mode
+from bs4 import BeautifulSoup
 from duplicate_utils import canonicalize_url, topic_signature
 from facebook_publisher import _build_caption, _eligible_for_facebook
 import main
@@ -1185,6 +1188,75 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertNotIn("refresh-secret", cleaned)
         self.assertNotIn("token-secret", cleaned)
         self.assertIn("[redacted]", cleaned)
+
+    def test_sanitize_source_links_removes_original_domain(self):
+        html = (
+            "<p>Text <a href='https://news.example/story'>source link</a></p>"
+            "<div class='related'><b>قد يهمك أيضًا</b>"
+            "<a href='https://news.example/related'>related</a></div>"
+        )
+        cleaned, removed = source_sanitizer.sanitize_source_links(html, "news.example")
+        self.assertEqual(removed, 2)
+        self.assertNotIn("https://news.example", cleaned)
+        self.assertIn("source link", cleaned)
+        self.assertNotIn("related</a>", cleaned)
+
+    def test_sanitize_source_links_keeps_trusted_external_links(self):
+        html = (
+            "<p><a href='https://github.com/org/repo'>GitHub</a> "
+            "<a href='https://www.cisa.gov/news-events/alerts'>CISA</a> "
+            "<a href='https://www.microsoft.com/security'>Microsoft</a></p>"
+        )
+        cleaned, removed = source_sanitizer.sanitize_source_links(html, "news.example")
+        self.assertEqual(removed, 0)
+        self.assertIn("github.com", cleaned)
+        self.assertIn("cisa.gov", cleaned)
+        self.assertIn("microsoft.com", cleaned)
+
+    def test_extract_article_images_prefers_og_image(self):
+        soup = BeautifulSoup(
+            "<html><head><meta property='og:image' content='/images/story.jpg'></head>"
+            "<body><article><img src='/article.jpg' width='800' height='400'></article></body></html>",
+            "html.parser",
+        )
+        images = article_enricher._extract_article_images(soup, "https://news.example/post")
+        self.assertEqual(images[0]["url"], "https://news.example/images/story.jpg")
+        self.assertEqual(images[0]["source"], "og")
+
+    def test_extract_article_images_reads_jsonld_image(self):
+        soup = BeautifulSoup(
+            '<script type="application/ld+json">{"@type":"NewsArticle","image":{"url":"/jsonld.jpg"}}</script>',
+            "html.parser",
+        )
+        images = article_enricher._extract_article_images(soup, "https://news.example/post")
+        self.assertEqual(images[0]["url"], "https://news.example/jsonld.jpg")
+        self.assertEqual(images[0]["source"], "jsonld")
+
+    def test_extract_article_images_skips_small_logo(self):
+        soup = BeautifulSoup(
+            "<article>"
+            "<img src='/logo.png' width='64' height='64' alt='logo'>"
+            "<img src='/big.jpg' width='900' height='500' alt='story'>"
+            "</article>",
+            "html.parser",
+        )
+        images = article_enricher._extract_article_images(soup, "https://news.example/post")
+        self.assertEqual(images[0]["url"], "https://news.example/big.jpg")
+
+    def test_runtime_state_commit_skips_when_no_changes(self):
+        with patch.object(main, "RUNTIME_STATE_PATHS", (Path("article_queue.json"),)), patch("subprocess.run") as run:
+            run.side_effect = [
+                subprocess.CompletedProcess(["git"], 0),
+                subprocess.CompletedProcess(["git"], 0),
+                subprocess.CompletedProcess(["git"], 0),
+                subprocess.CompletedProcess(["git"], 0),
+            ]
+            result = main.save_runtime_state_to_git()
+
+        self.assertFalse(result["saved"])
+        self.assertEqual(result["git_push_state"], "skipped")
+        called_commands = [call.args[0] for call in run.call_args_list]
+        self.assertNotIn(["git", "commit", "-m", "Update bot runtime state [skip ci]"], called_commands)
 
 
 if __name__ == "__main__":
