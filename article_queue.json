@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-28T16:50:35",
+  "updated_at": "2026-04-28T16:59:51",
   "articles": [
     {
       "id": "a7a11e65e86e7bcc",
@@ -11871,7 +11871,10 @@
       "content_preview_chars": 8147,
       "content_fetched_at": "2026-04-28T15:06:07",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-04-28T16:51:11",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "fdb0dbb182337615",
@@ -11944,11 +11947,11 @@
       "content_fetched_at": "2026-04-28T16:02:08",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-04-28T16:45:58",
+      "selected_at": "2026-04-28T16:55:16",
       "suggested_category": "Tech-News",
       "selection_reason": "hourly category batch: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-28T16:45:58",
+      "processing_prepared_at": "2026-04-28T16:55:16",
       "ai_input_package": {
         "title": "Google and the Pentagon sign classified deal to give the Department of Defense unfettered access to its AI models",
         "url": "https://www.engadget.com/ai/google-and-the-pentagon-sign-classified-deal-to-give-the-department-of-defense-unfettered-access-to-its-ai-models-155211834.html",
@@ -11989,18 +11992,23 @@
         "published_at_source": "feed",
         "article_age_hours": 0.16,
         "trusted_references": [],
-        "related_posts": []
+        "related_posts": [
+          {
+            "title": "جيت هاب تغير نظام دفع Copilot إلى استهلاك فعلي للذكاء الاصطناعي",
+            "url": "https://cybersecawarenes.blogspot.com/2026/04/copilot.html"
+          }
+        ]
       },
       "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_status": "failed",
-      "ai_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "ai_rotation_exhausted": true,
-      "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 3.22,
-      "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 3,
+      "ai_error": "ai_time_budget_exceeded",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": true,
+      "ai_total_time_seconds": 62.55,
+      "ai_quality_status": "time_budget_exceeded",
+      "ai_quality_attempts": 2,
       "telegram_final_summary_notified_at": "2026-04-28T16:06:03",
-      "ai_quality_last_error": "Expecting ':' delimiter: line 1 column 10 (char 9)"
+      "ai_quality_last_error": "Invalid control character at: line 1 column 7 (char 6)"
     },
     {
       "id": "4d8e1528190d5cd0",
@@ -12250,11 +12258,11 @@
       "content_fetched_at": "2026-04-28T16:02:08",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-04-28T16:46:44",
+      "selected_at": "2026-04-28T16:56:19",
       "suggested_category": "Tech-News",
       "selection_reason": "hourly category batch: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-28T16:46:44",
+      "processing_prepared_at": "2026-04-28T16:56:19",
       "ai_input_package": {
         "title": "The FTC says Americans lost at least $2.1 billion to social media scams in 2025",
         "url": "https://www.engadget.com/social-media/the-ftc-says-americans-lost-at-least-21-billion-to-social-media-scams-in-2025-152846798.html",
@@ -12287,14 +12295,15 @@
           }
         ]
       },
-      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.99,
+      "ai_total_time_seconds": 39.76,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2
+      "ai_quality_attempts": 3,
+      "ai_quality_last_error": "ad/affiliate/sponsored title or summary"
     },
     {
       "id": "f5aa02076cb0284c",
@@ -12588,7 +12597,7 @@
       "meta_description": "",
       "content_fetch_status": "failed",
       "content_fetch_error": "missing article image",
-      "content_fetched_at": "2026-04-28T16:45:39"
+      "content_fetched_at": "2026-04-28T16:54:18"
     },
     {
       "id": "22321f087b308237",
@@ -12666,11 +12675,11 @@
       "content_fetched_at": "2026-04-28T16:45:32",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-04-28T16:48:35",
+      "selected_at": "2026-04-28T16:58:36",
       "suggested_category": "Apps-Programs",
       "selection_reason": "hourly category batch: Apps-Programs",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-28T16:48:36",
+      "processing_prepared_at": "2026-04-28T16:58:36",
       "ai_input_package": {
         "title": "Why digital archivists chose a comic book format over everything else",
         "url": "https://www.howtogeek.com/this-file-format-was-made-for-digital-comics-but-its-saved-decades-of-computing-history",
@@ -12716,16 +12725,22 @@
             "url": "https://github.com/kurotom/comicpy"
           }
         ],
-        "related_posts": []
+        "related_posts": [
+          {
+            "title": "Zulip 12.0 يضيف تشفيراً للنداءات Push ويُسهّل نشر Docker",
+            "url": "https://cybersecawarenes.blogspot.com/2026/04/zulip-120-push-docker.html"
+          }
+        ]
       },
-      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 3.25,
+      "ai_total_time_seconds": 22.32,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2
+      "ai_quality_attempts": 3,
+      "ai_quality_last_error": "Invalid control character at: line 1 column 1564 (char 1563)"
     },
     {
       "id": "07e48ae9ca809022",
@@ -12746,7 +12761,7 @@
       "category_label": "Apps-Programs",
       "category_hint": "Apps-Programs",
       "discovered_at": "2026-04-28T16:45:30",
-      "status": "selected",
+      "status": "published",
       "score": 0,
       "priority": "low",
       "fetched_title": "Zulip 12.0 adds end-to-end encrypted mobile push notifications & easier Docker deployment",
@@ -12780,11 +12795,11 @@
       "content_fetched_at": "2026-04-28T16:45:39",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-04-28T16:48:40",
+      "selected_at": "2026-04-28T16:57:15",
       "suggested_category": "Apps-Programs",
       "selection_reason": "hourly category batch: Apps-Programs",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-28T16:48:40",
+      "processing_prepared_at": "2026-04-28T16:57:15",
       "ai_input_package": {
         "title": "Zulip 12.0 adds end-to-end encrypted mobile push notifications & easier Docker deployment",
         "url": "https://alternativeto.net/news/2026/4/zulip-12-0-adds-end-to-end-encrypted-mobile-push-notifications-and-easier-docker-deployment",
@@ -12819,13 +12834,67 @@
       },
       "ai_quality_last_error": "Expecting ',' delimiter: line 1 column 431 (char 430)",
       "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "ai_status": "failed",
-      "ai_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "ai_rotation_exhausted": true,
+      "ai_status": "completed",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 11.13,
-      "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 3
+      "ai_total_time_seconds": 28.75,
+      "ai_quality_status": "passed",
+      "ai_quality_attempts": 1,
+      "ai_processed_at": "2026-04-28T16:57:44",
+      "seo_title": "Zulip 12.0 يضيف تشفيراً للنداءات Push ويُسهّل نشر Docker",
+      "seo_description": "أعلنت Zulip إصدار 12.0 مع تشفير نهائي‑إلى‑نهائي للنداءات Push على الأجهزة المحمولة، وتحسينات في نشر Docker، وتحديثات واجهة المستخدم. تعرف على ما يعنيه للفرق التقنية.",
+      "seo_slug": "zulip-12-0-encryption-docker",
+      "final_html": "<p class=\"pIndent\"><span class=\"dropCap\">ي</span>علن Zulip عن إصدار 12.0 الذي يضيف تشفيراً نهائي‑إلى‑نهائي للنداءات Push على الهواتف، ويُسهّل نشره عبر Docker، مع تحديثات واجهة المستخدم والميزات الأخرى.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Zulip 12.0 adds end-to-end encrypted mobile push notifications &amp; easier Docker deployment\" class=\"full\" loading=\"lazy\" src=\"https://img.alternativeto.net/news/1200x630/jpeg/1777380158279.png\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Zulip 12.0 adds end-to-end encrypted mobile push notifications &amp; easier Docker deployment</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Zulip 12.0 adds end-to-end encrypted mobile push notifications &amp; easier Docker deployment</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<h2>تشفير نداءات Push</h2>\n<p class=\"pIndent\">النسخة الجديدة تضمن أن رسائل الإشعارات التي تنتقل من خادم Zulip إلى جهازك المحمول محمية بالكامل، ما يمنع أي وسطاء من الاطلاع على محتوى الرسائل حتى لو كانوا يراقبون الشبكة. يتطلب ذلك تشغيل خادم 12.0 مع تطبيقات Android أو iOS محدثة.</p>\n<h2>نشر Docker أكثر مرونة</h2>\n<p class=\"pIndent\">حاوية Docker الآن تحل معظم المشكلات السابقة، وتأتي مع وثائق شاملة واختبارات متكاملة. كما تم تحديث مخطط Helm لدعم Kubernetes مع مخطط جديد وأوسع.</p>\n<h2>واجهة مستخدم متجددة</h2>\n<p class=\"pIndent\">تم إعادة تصميم عرض المحادثات الأخيرة، مع فلاتر مجلدات، ومساحة أكبر للمناقشات. تم تحديث الشريط الجانبي ومركز المساعدة وقوائم الاختيار، مع إمكانية تصفية المواضيع المتابعة والتمرير السريع إلى أي تاريخ.</p>\n<h2>ميزات رسائل محسّنة</h2>\n<p class=\"pIndent\">الصور ومقاطع الصوت تظهر مباشرة في المحادثات، مع اقتراحات رموز تعبيرية حسب الاستخدام، وإعدادات حجم معاينة للصور والفيديو على مستوى المؤسسة. إضافة Tenor وKlipy إلى GIPHY، وتحويل عكسي للروابط.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<div class=\"alert info\">إذا كنت تدير فريقاً يستخدم Zulip، فستستفيد من أمان أعلى وتوزيع أسهل للبرمجيات، مع تجربة مستخدم أكثر سلاسة.</div>\n<h2>الاستنتاج</h2>\n<p class=\"pIndent\">إصدار 12.0 يضع Zulip في طليعة أدوات التعاون الآمنة، مع تحسينات عملية في النشر والواجهة، ما يجعله خياراً مثالياً للفرق الموزعة التي تتطلب أماناً ومرونة في بيئاتها التقنية.</p>\n<p class=\"pRef\">Source:<br/> https://alternativeto.net/news/2026/4/zulip-12-0-adds-end-to-end-encrypted-mobile-push-notifications-and-easier-docker-deployment</p>",
+      "blogger_article_html": "<p class=\"pIndent\"><span class=\"dropCap\">ي</span>علن Zulip عن إصدار 12.0 الذي يضيف تشفيراً نهائي‑إلى‑نهائي للنداءات Push على الهواتف، ويُسهّل نشره عبر Docker، مع تحديثات واجهة المستخدم والميزات الأخرى.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Zulip 12.0 adds end-to-end encrypted mobile push notifications &amp; easier Docker deployment\" class=\"full\" loading=\"lazy\" src=\"https://img.alternativeto.net/news/1200x630/jpeg/1777380158279.png\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Zulip 12.0 adds end-to-end encrypted mobile push notifications &amp; easier Docker deployment</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Zulip 12.0 adds end-to-end encrypted mobile push notifications &amp; easier Docker deployment</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<h2>تشفير نداءات Push</h2>\n<p class=\"pIndent\">النسخة الجديدة تضمن أن رسائل الإشعارات التي تنتقل من خادم Zulip إلى جهازك المحمول محمية بالكامل، ما يمنع أي وسطاء من الاطلاع على محتوى الرسائل حتى لو كانوا يراقبون الشبكة. يتطلب ذلك تشغيل خادم 12.0 مع تطبيقات Android أو iOS محدثة.</p>\n<h2>نشر Docker أكثر مرونة</h2>\n<p class=\"pIndent\">حاوية Docker الآن تحل معظم المشكلات السابقة، وتأتي مع وثائق شاملة واختبارات متكاملة. كما تم تحديث مخطط Helm لدعم Kubernetes مع مخطط جديد وأوسع.</p>\n<h2>واجهة مستخدم متجددة</h2>\n<p class=\"pIndent\">تم إعادة تصميم عرض المحادثات الأخيرة، مع فلاتر مجلدات، ومساحة أكبر للمناقشات. تم تحديث الشريط الجانبي ومركز المساعدة وقوائم الاختيار، مع إمكانية تصفية المواضيع المتابعة والتمرير السريع إلى أي تاريخ.</p>\n<h2>ميزات رسائل محسّنة</h2>\n<p class=\"pIndent\">الصور ومقاطع الصوت تظهر مباشرة في المحادثات، مع اقتراحات رموز تعبيرية حسب الاستخدام، وإعدادات حجم معاينة للصور والفيديو على مستوى المؤسسة. إضافة Tenor وKlipy إلى GIPHY، وتحويل عكسي للروابط.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<div class=\"alert info\">إذا كنت تدير فريقاً يستخدم Zulip، فستستفيد من أمان أعلى وتوزيع أسهل للبرمجيات، مع تجربة مستخدم أكثر سلاسة.</div>\n<h2>الاستنتاج</h2>\n<p class=\"pIndent\">إصدار 12.0 يضع Zulip في طليعة أدوات التعاون الآمنة، مع تحسينات عملية في النشر والواجهة، ما يجعله خياراً مثالياً للفرق الموزعة التي تتطلب أماناً ومرونة في بيئاتها التقنية.</p>\n<p class=\"pRef\">Source:<br/> https://alternativeto.net/news/2026/4/zulip-12-0-adds-end-to-end-encrypted-mobile-push-notifications-and-easier-docker-deployment</p>",
+      "final_word_count": 267,
+      "final_html_chars": 2277,
+      "final_content_hash": "ad3ed1b12e23dd187da52e35",
+      "ai_provider_used": "openrouter:openai/gpt-oss-20b:free",
+      "ai_openrouter_fallback_used": true,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "removed_source_links_count": 0,
+      "internal_cache_loaded": 2,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 0,
+      "internal_cache_saved": true,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 267,
+        "warnings": []
+      },
+      "blogger_post_id": "4241025426600326162",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/04/zulip-120-push-docker.html",
+      "published_at": "2026-04-28T16:57:47",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|4241025426600326162|published|unknown",
+      "telegram_blogger_notified_at": "2026-04-28T16:57:47",
+      "telegram_last_notification_at": "2026-04-28T16:57:55",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_868096692966292",
+      "facebook_posted_at": "2026-04-28T16:57:50",
+      "facebook_post_type": "feed",
+      "facebook_image_status": "failed",
+      "facebook_image_path": "",
+      "facebook_image_used_fallback": false,
+      "facebook_image_error": "facebook template must be 1080x1080",
+      "facebook_caption_pattern": "apps_programs",
+      "facebook_style_used": "apps_programs",
+      "facebook_hook_generated": "Zulip 12.0 يضيف تشفيراً للنداءات Push يقترب من الأداة العملية أكثر من الضجة المؤقتة.",
+      "facebook_structure_used": "utility_focus",
+      "facebook_hashtags_count": 9,
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "Zulip 12.0 يضيف تشفيراً للنداءات Push يقترب من الأداة العملية أكثر من الضجة المؤقتة.\n\nأداة جديدة تدخل المشهد بفكرة عملية وواضحة.\n\nماذا تقدم؟\nهي تقدم باختصار 0 مع تشفير نهائي‑إلى‑نهائي للنداءات Push على الأجهزة المحمولة، وتحسينات في نشر Docker، وتحديثات واجهة المستخدم\n\nلمن تصلح؟\nتبدو مناسبة أكثر لمن يريد حلًا واضحًا وسريعًا من دون إعدادات مرهقة.\n\nلماذا تجربها؟\nوقد تستحق التجربة لأنها تلمح إلى فائدة مباشرة يمكن ملاحظتها من الاستخدام الأول.\n\n🔗 الرابط في أول تعليق\n\n#Apps #Productivity #Software #تطبيقات #برامج #تقنية #Android #iOS #Data",
+      "facebook_comment_id": "868096692966292_970409009282455",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_868096692966292|868096692966292_970409009282455|unknown",
+      "telegram_facebook_notified_at": "2026-04-28T16:57:55",
+      "archived": true,
+      "archived_at": "2026-04-28T16:57:55",
+      "archive_reason": "published_to_blogger"
     },
     {
       "id": "276e96f4b0c580e5",
@@ -12911,11 +12980,11 @@
       "content_fetched_at": "2026-04-28T16:45:34",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-04-28T16:45:39",
+      "selected_at": "2026-04-28T16:54:19",
       "suggested_category": "Cyber-Security",
       "selection_reason": "hourly category batch: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-28T16:45:39",
+      "processing_prepared_at": "2026-04-28T16:54:19",
       "ai_input_package": {
         "title": "Microsoft Confirms Remote Desktop Warnings May Display Incorrectly After April 2026 Security Update",
         "url": "https://cybersecuritynews.com/remote-desktop-warnings-display-incorrectly",
@@ -12971,14 +13040,15 @@
         ],
         "related_posts": []
       },
-      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 1.58,
+      "ai_total_time_seconds": 19.98,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2
+      "ai_quality_attempts": 3,
+      "ai_quality_last_error": "Invalid control character at: line 1 column 898 (char 897)"
     },
     {
       "id": "9dd0aaf96f0d8b0e",
@@ -13051,11 +13121,11 @@
       "content_fetched_at": "2026-04-28T16:45:32",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-04-28T16:49:20",
+      "selected_at": "2026-04-28T16:58:59",
       "suggested_category": "Apps-Programs",
       "selection_reason": "hourly category batch: Apps-Programs",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-28T16:49:20",
+      "processing_prepared_at": "2026-04-28T16:58:59",
       "ai_input_package": {
         "title": "I loved my Sony Discman, but the nostalgia for CDs is overrated",
         "url": "https://www.howtogeek.com/sony-discman-nostalgia-for-cds-is-overrated",
@@ -13096,7 +13166,12 @@
         "published_at_source": "json-ld:datePublished",
         "article_age_hours": 0.49,
         "trusted_references": [],
-        "related_posts": []
+        "related_posts": [
+          {
+            "title": "Zulip 12.0 يضيف تشفيراً للنداءات Push ويُسهّل نشر Docker",
+            "url": "https://cybersecawarenes.blogspot.com/2026/04/zulip-120-push-docker.html"
+          }
+        ]
       },
       "ai_quality_last_error": "ad/affiliate/sponsored title or summary",
       "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
@@ -13104,7 +13179,7 @@
       "ai_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 20.75,
+      "ai_total_time_seconds": 18.22,
       "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3
     },
@@ -13179,11 +13254,11 @@
       "content_fetched_at": "2026-04-28T16:45:31",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-04-28T16:48:52",
+      "selected_at": "2026-04-28T16:57:55",
       "suggested_category": "Apps-Programs",
       "selection_reason": "hourly category batch: Apps-Programs",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-28T16:48:52",
+      "processing_prepared_at": "2026-04-28T16:57:55",
       "ai_input_package": {
         "title": "6 Windows Terminal commands I wish I'd known years ago would have saved me hours",
         "url": "https://www.makeuseof.com/windows-terminal-commands-i-wish-id-known-years-ago",
@@ -13224,15 +13299,20 @@
         "published_at_source": "json-ld:datePublished",
         "article_age_hours": 0.74,
         "trusted_references": [],
-        "related_posts": []
+        "related_posts": [
+          {
+            "title": "Zulip 12.0 يضيف تشفيراً للنداءات Push ويُسهّل نشر Docker",
+            "url": "https://cybersecawarenes.blogspot.com/2026/04/zulip-120-push-docker.html"
+          }
+        ]
       },
-      "ai_quality_last_error": "original source name appears in article text",
+      "ai_quality_last_error": "Invalid control character at: line 1 column 896 (char 895)",
       "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_status": "failed",
       "ai_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 27.61,
+      "ai_total_time_seconds": 40.38,
       "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3
     },
@@ -13255,7 +13335,7 @@
       "category_label": "Apps-Programs",
       "category_hint": "Apps-Programs",
       "discovered_at": "2026-04-28T16:45:30",
-      "status": "selected",
+      "status": "published",
       "score": 0,
       "priority": "low",
       "fetched_title": "I've owned this Brother printer since 2021, and it's still the only one I recommend to friends",
@@ -13307,11 +13387,11 @@
       "content_fetched_at": "2026-04-28T16:45:31",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-04-28T16:49:42",
+      "selected_at": "2026-04-28T16:59:18",
       "suggested_category": "Apps-Programs",
       "selection_reason": "hourly category batch: Apps-Programs",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-28T16:49:42",
+      "processing_prepared_at": "2026-04-28T16:59:18",
       "ai_input_package": {
         "title": "I've owned this Brother printer since 2021, and it's still the only one I recommend to friends",
         "url": "https://www.howtogeek.com/great-brother-printer-only-one-to-recommend",
@@ -13352,17 +13432,76 @@
         "published_at_source": "json-ld:datePublished",
         "article_age_hours": 0.74,
         "trusted_references": [],
-        "related_posts": []
+        "related_posts": [
+          {
+            "title": "Zulip 12.0 يضيف تشفيراً للنداءات Push ويُسهّل نشر Docker",
+            "url": "https://cybersecawarenes.blogspot.com/2026/04/zulip-120-push-docker.html"
+          }
+        ]
       },
       "ai_quality_last_error": "Unterminated string starting at: line 1 column 221 (char 220)",
       "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "ai_status": "failed",
-      "ai_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "ai_rotation_exhausted": true,
+      "ai_status": "completed",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 5.51,
-      "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 3
+      "ai_total_time_seconds": 21.25,
+      "ai_quality_status": "passed",
+      "ai_quality_attempts": 1,
+      "ai_processed_at": "2026-04-28T16:59:40",
+      "seo_title": "طابعة Brother: الحل النهائي للمشاكل التقليدية",
+      "seo_description": "تجربة شخصية مع طابعة Brother HL‑L2460DW تُظهر كيف تتغلب الطابعات الليزرية على عيوب الطابعات النفثية، مع نصائح لاختيار الطابعة المناسبة للمكاتب الصغيرة.",
+      "seo_slug": "brother",
+      "final_html": "<!--[ Paragraph ]-->\n<p class=\"pIndent\"><span class=\"dropCap\">ت</span>جربت طابعات كثيرة، لكن كل مرة كانت تتعطل أو تتكلف. تغيرت كل هذه المشاكل عندما انتقلت إلى طابعة Brother HL‑L2460DW، وأصبحت أداة لا غنى عنها في مكتبي.\n</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"I've owned this Brother printer since 2021, and it's still the only one I recommend to friends\" class=\"full\" loading=\"lazy\" src=\"https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/04/pxl_20260422_032840977-raw-01-mp-cover-large.jpg?w=1600&amp;h=900&amp;fit=crop\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">I've owned this Brother printer since 2021, and it's still the only one I recommend to friends</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">I've owned this Brother printer since 2021, and it's still the only one I recommend to friends</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<!--[ Standard image ]-->\n<h2>مزايا طابعة Brother HL‑L2460DW</h2>\n<p class=\"pIndent\">الطابعة تعتمد على تقنية الليزر، ما يعني عدم وجود رؤوس طباعة قابلة للتسرب أو إغلاق. لا تحتاج إلى صيانة مستمرة، وتستمر في الطباعة حتى بعد سنوات من الاستخدام.\n</p>\n<p class=\"pIndent\">تكلفة الطباعة منخفضة، تقارب 3 سنتات للصفحة، بفضل استخدام الرذاذ بدلًا من الحبر الجاف. كما أن السائقين (drivers) موثوقون، لا تتطلب تحديثات مستمرة أو إصلاحات.\n</p>\n<h2>مقارنة مع الطابعات النفثية</h2>\n<p class=\"pIndent\">الطابعات النفثية تعاني من انسداد رؤوس الطباعة، تجفيف الحبر، وفقدان الجودة مع مرور الوقت. بالمقابل، لا يتوقف طابعة Brother عن العمل بسبب تجفيف الرذاذ أو انسداد الرؤوس.\n</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<div class=\"alert info\">إذا كنت تدير مكتبًا صغيرًا أو تحتاج لطابعة موثوقة للوثائق، فإن اختيار طابعة Brother HL‑L2460DW يوفر عليك وقتًا ومصاريف صيانة. اختر طابعة بسيطة، فكلما زادت المزايا، زادت فرص الأعطال.\n</div>\n<h2>نصيحة سريعة للسلامة الرقمية</h2>\n<div class=\"alert warning\">تأكد من تحديث برنامج التشغيل بانتظام وتفعيل خيارات الأمان في الشبكة لمنع الوصول غير المصرح به.\n</div>\n<h2>الخلاصة</h2>\n<p class=\"pIndent\">بعد سنوات من تجربة طابعات متعددة، أؤكد أن طابعة Brother HL‑L2460DW هي الخيار الأمثل للوثائق. لا تتردد في استبدال طابعاتك القديمة بهذه الطابعة المتينة.\n</p>\n<!--[ Manual Related Posts ]-->\n<div class=\"pRelate\">\n<b>You may want to read this post :</b>\n<ul>\n<li><a href=\"https://cybersecawarenes.blogspot.com/2026/04/zulip-120-push-docker.html\">Zulip 12.0 يضيف تشفيراً للنداءات Push ويُسهّل نشر Docker</a></li>\n</ul>\n</div>",
+      "blogger_article_html": "<!--[ Paragraph ]-->\n<p class=\"pIndent\"><span class=\"dropCap\">ت</span>جربت طابعات كثيرة، لكن كل مرة كانت تتعطل أو تتكلف. تغيرت كل هذه المشاكل عندما انتقلت إلى طابعة Brother HL‑L2460DW، وأصبحت أداة لا غنى عنها في مكتبي.\n</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"I've owned this Brother printer since 2021, and it's still the only one I recommend to friends\" class=\"full\" loading=\"lazy\" src=\"https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/04/pxl_20260422_032840977-raw-01-mp-cover-large.jpg?w=1600&amp;h=900&amp;fit=crop\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">I've owned this Brother printer since 2021, and it's still the only one I recommend to friends</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">I've owned this Brother printer since 2021, and it's still the only one I recommend to friends</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<!--[ Standard image ]-->\n<h2>مزايا طابعة Brother HL‑L2460DW</h2>\n<p class=\"pIndent\">الطابعة تعتمد على تقنية الليزر، ما يعني عدم وجود رؤوس طباعة قابلة للتسرب أو إغلاق. لا تحتاج إلى صيانة مستمرة، وتستمر في الطباعة حتى بعد سنوات من الاستخدام.\n</p>\n<p class=\"pIndent\">تكلفة الطباعة منخفضة، تقارب 3 سنتات للصفحة، بفضل استخدام الرذاذ بدلًا من الحبر الجاف. كما أن السائقين (drivers) موثوقون، لا تتطلب تحديثات مستمرة أو إصلاحات.\n</p>\n<h2>مقارنة مع الطابعات النفثية</h2>\n<p class=\"pIndent\">الطابعات النفثية تعاني من انسداد رؤوس الطباعة، تجفيف الحبر، وفقدان الجودة مع مرور الوقت. بالمقابل، لا يتوقف طابعة Brother عن العمل بسبب تجفيف الرذاذ أو انسداد الرؤوس.\n</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<div class=\"alert info\">إذا كنت تدير مكتبًا صغيرًا أو تحتاج لطابعة موثوقة للوثائق، فإن اختيار طابعة Brother HL‑L2460DW يوفر عليك وقتًا ومصاريف صيانة. اختر طابعة بسيطة، فكلما زادت المزايا، زادت فرص الأعطال.\n</div>\n<h2>نصيحة سريعة للسلامة الرقمية</h2>\n<div class=\"alert warning\">تأكد من تحديث برنامج التشغيل بانتظام وتفعيل خيارات الأمان في الشبكة لمنع الوصول غير المصرح به.\n</div>\n<h2>الخلاصة</h2>\n<p class=\"pIndent\">بعد سنوات من تجربة طابعات متعددة، أؤكد أن طابعة Brother HL‑L2460DW هي الخيار الأمثل للوثائق. لا تتردد في استبدال طابعاتك القديمة بهذه الطابعة المتينة.\n</p>\n<!--[ Manual Related Posts ]-->\n<div class=\"pRelate\">\n<b>You may want to read this post :</b>\n<ul>\n<li><a href=\"https://cybersecawarenes.blogspot.com/2026/04/zulip-120-push-docker.html\">Zulip 12.0 يضيف تشفيراً للنداءات Push ويُسهّل نشر Docker</a></li>\n</ul>\n</div>",
+      "final_word_count": 253,
+      "final_html_chars": 2391,
+      "final_content_hash": "ab5e20a3c9ef4847db79749a",
+      "ai_provider_used": "openrouter:openai/gpt-oss-20b:free",
+      "ai_openrouter_fallback_used": true,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "removed_source_links_count": 0,
+      "internal_cache_loaded": 3,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 0,
+      "internal_cache_saved": true,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 253,
+        "warnings": []
+      },
+      "blogger_post_id": "7545601962552037539",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/04/brother.html",
+      "published_at": "2026-04-28T16:59:42",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|7545601962552037539|published|unknown",
+      "telegram_blogger_notified_at": "2026-04-28T16:59:42",
+      "telegram_last_notification_at": "2026-04-28T16:59:51",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_868098089632819",
+      "facebook_posted_at": "2026-04-28T16:59:45",
+      "facebook_post_type": "feed",
+      "facebook_image_status": "failed",
+      "facebook_image_path": "",
+      "facebook_image_used_fallback": false,
+      "facebook_image_error": "facebook template must be 1080x1080",
+      "facebook_caption_pattern": "tech_news",
+      "facebook_style_used": "tech_news",
+      "facebook_hook_generated": "طابعة Brother: الحل النهائي للمشاكل التقليدية قد يكون بداية لتحول أوسع مما يبدو.",
+      "facebook_structure_used": "shift_focus",
+      "facebook_hashtags_count": 7,
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "طابعة Brother: الحل النهائي للمشاكل التقليدية قد يكون بداية لتحول أوسع مما يبدو.\n\nكشفت التطورات الأخيرة عن اتجاه تقني يتشكل بسرعة.\n\n💡 ما الجديد؟\nالمهم في الخبر أن تجربة شخصية مع طابعة Brother HL‑L2460DW تُظهر كيف تتغلب الطابعات الليزرية على عيوب الطابعات النفثية، مع نصائح لاختيار الطابعة المناسبة للمكاتب الصغيرة\n\nلماذا هذا مهم؟\nهذا مهم لأن Stop falling for the \"all-in-one\" printer scam (this incredibly boring alternative is the only one you should actually buy)\n\nالخلاصة\nالخلاصة العملية أن أفضلية هذه الأداة تظهر عند الحاجة إلى إنجاز أسرع وتجربة أبسط من الحلول المعقدة.\n\n🔗 الرابط في أول تعليق\n\n#TechNews #Innovation #Digital #أخبار_التقنية #مستجدات #تقنية #Windows",
+      "facebook_comment_id": "868098089632819_1512414776947553",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_868098089632819|868098089632819_1512414776947553|unknown",
+      "telegram_facebook_notified_at": "2026-04-28T16:59:51",
+      "archived": true,
+      "archived_at": "2026-04-28T16:59:51",
+      "archive_reason": "published_to_blogger"
     },
     {
       "id": "a3571cf6d4856a25",
@@ -13383,7 +13522,7 @@
       "category_label": "Cyber-Security",
       "category_hint": "Cyber-Security",
       "discovered_at": "2026-04-28T16:45:30",
-      "status": "selected",
+      "status": "published",
       "score": 0,
       "priority": "low",
       "fetched_title": "Checkmarx Confirms GitHub Repository Data Published on Dark Web",
@@ -13444,11 +13583,11 @@
       "content_fetched_at": "2026-04-28T16:45:33",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-04-28T16:45:42",
+      "selected_at": "2026-04-28T16:54:40",
       "suggested_category": "Cyber-Security",
       "selection_reason": "hourly category batch: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-28T16:45:42",
+      "processing_prepared_at": "2026-04-28T16:54:40",
       "ai_input_package": {
         "title": "Checkmarx Confirms GitHub Repository Data Published on Dark Web",
         "url": "https://cybersecuritynews.com/checkmarx-data-published-on-dark-web",
@@ -13498,16 +13637,80 @@
             "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN:en"
           }
         ],
-        "related_posts": []
+        "related_posts": [
+          {
+            "title": "جيت هاب تغير نظام دفع Copilot إلى استهلاك فعلي للذكاء الاصطناعي",
+            "url": "https://cybersecawarenes.blogspot.com/2026/04/copilot.html"
+          }
+        ]
       },
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_status": "completed",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.68,
-      "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2
+      "ai_total_time_seconds": 18.18,
+      "ai_quality_status": "passed",
+      "ai_quality_attempts": 1,
+      "ai_processed_at": "2026-04-28T16:54:58",
+      "seo_title": "تسريب بيانات Checkmarx على Dark Web: ما الذي حدث؟",
+      "seo_description": "أكدت شركة Checkmarx تسريب بياناتها على Dark Web بعد هجوم سلسلة إمداد، مع تفاصيل حول ما تم تسريبه وكيفية حماية العملاء. تعرف على ما يعنيه ذلك لك.",
+      "seo_slug": "checkmarx-tasreeb-datain-dark-web",
+      "final_html": "<p class=\"pIndent\"><span class=\"dropCap\">ق</span>متّعّق Checkmarx، شركة اختبار أمان التطبيقات، أعلنت مؤخرًا أن بياناتها قد تم نشرها على Dark Web، نتيجة لهجوم سلسلة إمداد حدث في 23 مارس 2026. تم تتبع التسريب مباشرة إلى مستودع GitHub الخاص بالشركة، حيث استخدم المهاجمون الثغرات التي اكتشفوها في الاختراق الأولي للوصول غير المصرح به إلى بيئة المطورين.\n</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Checkmarx Confirms GitHub Repository Data Published on Dark Web\" class=\"full\" loading=\"lazy\" src=\"http://cybersecuritynews.com/wp-content/uploads/2026/04/Checkmarx-Confirms-GitHub-Repository-Data-Published-on-Dark-Web-.webp\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Checkmarx Confirms GitHub Repository Data Published on Dark Web</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Checkmarx Confirms GitHub Repository Data Published on Dark Web</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<h2>ما الذي حدث بالضبط؟</h2>\n<p class=\"pIndent\">بعد اكتشاف التسريب، أغلقت Checkmarx جميع الوصول إلى المستودع المتضرر، مما مهدّدًا أن يتيح للمهاجمين مزيدًا من النشاط غير المصرح به. يعمل فريق التحقيق الجنائي بالتعاون مع شركة خارجية على تحليل الملفات التي تم تسريبها، مع التركيز على تحديد ما إذا كان قد تم سرقة رموز المصدر أو وثائق داخلية حساسة.\n</p>\n<h2>ما الذي يعنيه هذا لك؟</h2>\n<p class=\"pIndent\">Checkmarx تؤكد أن بيانات العملاء لا تزال آمنة، إذ يتم فصل المستودعات المتضررة تمامًا عن بيئات الإنتاج. ومع ذلك، يُنصح جميع المستخدمين بمراقبة أي إشعارات رسمية من الشركة، وتحديث سياسات الأمان الخاصة بهم بانتظام.\n</p>\n<div class=\"alert warning\">تحذير: إذا كنت تستخدم أدوات Checkmarx، تأكد من مراجعة إعدادات الأمان الخاصة بمستودعات GitHub الخاصة بك، وتفعيل المصادقة متعددة العوامل.\n</div>\n<h2>خطوات الوقاية العملية</h2>\n<p class=\"pIndent\">1. فحص مستودعات GitHub للتأكد من عدم وجود بيانات حساسة.\n2. تطبيق سياسات صارمة تمنع تخزين بيانات العملاء داخل المستودعات.\n3. مراقبة النشاط غير المعتاد وتفعيل تنبيهات الأمان.\n</p>\n<h2>الختام</h2>\n<p class=\"pIndent\">Checkmarx ستصدر تحديثًا فنيًا تفصيليًا خلال 24 ساعة. في الوقت نفسه، يُنصح العملاء بالتحقق من أمان بيئاتهم الخاصة، وتفعيل إجراءات الحماية المناسبة.\n</p>\n<div class=\"pRelate\">\n<b>قد ترغب في قراءة هذه المقالات أيضًا :</b>\n<ul>\n<li><a href=\"https://cybersecawarenes.blogspot.com/2026/04/copilot.html\">جيت هاب تغير نظام دفع Copilot إلى استهلاك فعلي للذكاء الاصطناعي</a></li>\n</ul>\n</div>\n<p class=\"pRef\">المراجع:<br/><a class=\"extL\" href=\"https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&amp;dsh=S-1711039385%3A1777114446800583&amp;hl=en-IN&amp;rip=1&amp;sacu=1&amp;flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin&amp;ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">accounts.google.com</a><br/><a class=\"extL\" href=\"https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&amp;gl=IN&amp;ceid=IN:en\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">news.google.com</a></p>",
+      "blogger_article_html": "<p class=\"pIndent\"><span class=\"dropCap\">ق</span>متّعّق Checkmarx، شركة اختبار أمان التطبيقات، أعلنت مؤخرًا أن بياناتها قد تم نشرها على Dark Web، نتيجة لهجوم سلسلة إمداد حدث في 23 مارس 2026. تم تتبع التسريب مباشرة إلى مستودع GitHub الخاص بالشركة، حيث استخدم المهاجمون الثغرات التي اكتشفوها في الاختراق الأولي للوصول غير المصرح به إلى بيئة المطورين.\n</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Checkmarx Confirms GitHub Repository Data Published on Dark Web\" class=\"full\" loading=\"lazy\" src=\"http://cybersecuritynews.com/wp-content/uploads/2026/04/Checkmarx-Confirms-GitHub-Repository-Data-Published-on-Dark-Web-.webp\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Checkmarx Confirms GitHub Repository Data Published on Dark Web</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Checkmarx Confirms GitHub Repository Data Published on Dark Web</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<h2>ما الذي حدث بالضبط؟</h2>\n<p class=\"pIndent\">بعد اكتشاف التسريب، أغلقت Checkmarx جميع الوصول إلى المستودع المتضرر، مما مهدّدًا أن يتيح للمهاجمين مزيدًا من النشاط غير المصرح به. يعمل فريق التحقيق الجنائي بالتعاون مع شركة خارجية على تحليل الملفات التي تم تسريبها، مع التركيز على تحديد ما إذا كان قد تم سرقة رموز المصدر أو وثائق داخلية حساسة.\n</p>\n<h2>ما الذي يعنيه هذا لك؟</h2>\n<p class=\"pIndent\">Checkmarx تؤكد أن بيانات العملاء لا تزال آمنة، إذ يتم فصل المستودعات المتضررة تمامًا عن بيئات الإنتاج. ومع ذلك، يُنصح جميع المستخدمين بمراقبة أي إشعارات رسمية من الشركة، وتحديث سياسات الأمان الخاصة بهم بانتظام.\n</p>\n<div class=\"alert warning\">تحذير: إذا كنت تستخدم أدوات Checkmarx، تأكد من مراجعة إعدادات الأمان الخاصة بمستودعات GitHub الخاصة بك، وتفعيل المصادقة متعددة العوامل.\n</div>\n<h2>خطوات الوقاية العملية</h2>\n<p class=\"pIndent\">1. فحص مستودعات GitHub للتأكد من عدم وجود بيانات حساسة.\n2. تطبيق سياسات صارمة تمنع تخزين بيانات العملاء داخل المستودعات.\n3. مراقبة النشاط غير المعتاد وتفعيل تنبيهات الأمان.\n</p>\n<h2>الختام</h2>\n<p class=\"pIndent\">Checkmarx ستصدر تحديثًا فنيًا تفصيليًا خلال 24 ساعة. في الوقت نفسه، يُنصح العملاء بالتحقق من أمان بيئاتهم الخاصة، وتفعيل إجراءات الحماية المناسبة.\n</p>\n<div class=\"pRelate\">\n<b>قد ترغب في قراءة هذه المقالات أيضًا :</b>\n<ul>\n<li><a href=\"https://cybersecawarenes.blogspot.com/2026/04/copilot.html\">جيت هاب تغير نظام دفع Copilot إلى استهلاك فعلي للذكاء الاصطناعي</a></li>\n</ul>\n</div>\n<p class=\"pRef\">المراجع:<br/><a class=\"extL\" href=\"https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&amp;dsh=S-1711039385%3A1777114446800583&amp;hl=en-IN&amp;rip=1&amp;sacu=1&amp;flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin&amp;ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">accounts.google.com</a><br/><a class=\"extL\" href=\"https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&amp;gl=IN&amp;ceid=IN:en\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">news.google.com</a></p>",
+      "final_word_count": 262,
+      "final_html_chars": 2996,
+      "final_content_hash": "3098a28725044359d6589952",
+      "ai_provider_used": "openrouter:openai/gpt-oss-20b:free",
+      "ai_openrouter_fallback_used": true,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "removed_source_links_count": 0,
+      "internal_cache_loaded": 1,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 0,
+      "internal_cache_saved": true,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 262,
+        "warnings": [
+          "reader-impact section omitted in fast mode"
+        ]
+      },
+      "pre_publish_warnings": [
+        "reader-impact section omitted in fast mode"
+      ],
+      "blogger_post_id": "5261096080651671503",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/04/checkmarx-dark-web.html",
+      "published_at": "2026-04-28T16:55:00",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|5261096080651671503|published|unknown",
+      "telegram_blogger_notified_at": "2026-04-28T16:55:00",
+      "telegram_last_notification_at": "2026-04-28T16:55:07",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_868094979633130",
+      "facebook_posted_at": "2026-04-28T16:55:02",
+      "facebook_post_type": "feed",
+      "facebook_image_status": "failed",
+      "facebook_image_path": "",
+      "facebook_image_used_fallback": false,
+      "facebook_image_error": "facebook template must be 1080x1080",
+      "facebook_caption_pattern": "cybersecurity",
+      "facebook_style_used": "cybersecurity",
+      "facebook_hook_generated": "🚨 تسريب بيانات Checkmarx على Dark Web: يضع عامل السرعة في الواجهة من جديد.",
+      "facebook_structure_used": "impact_focus",
+      "facebook_hashtags_count": 10,
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "🚨 تسريب بيانات Checkmarx على Dark Web: يضع عامل السرعة في الواجهة من جديد.\n\nماذا حدث؟\nما حدث يمكن تلخيصه في أن أكدت شركة Checkmarx تسريب بياناتها على Dark Web بعد هجوم سلسلة إمداد، مع تفاصيل حول ما تم تسريبه وكيفية حماية العملاء\n\nلماذا هذا مهم؟\nهذه ليست نقطة تقنية هامشية لأن Checkmarx confirmed its incident has escalated, with stolen data leaked on the dark web following a supply chain attack\n\nماذا يعني للمستخدم؟\nعلى مستوى الأثر اليومي، هذا يعني أن المستخدم أو الفريق يحتاج إلى متابعة سريعة للتحديثات ومراجعة النقاط الحساسة قبل اتساع الأثر.\n\n🔗 الرابط في أول تعليق\n\n#CyberSecurity #Security #DataProtection #الأمن_السيبراني #أمن_رقمي #تقنية #GitHub #Google #Windows #Malware",
+      "facebook_comment_id": "868094979633130_1392987596181579",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_868094979633130|868094979633130_1392987596181579|unknown",
+      "telegram_facebook_notified_at": "2026-04-28T16:55:07",
+      "archived": true,
+      "archived_at": "2026-04-28T16:55:07",
+      "archive_reason": "published_to_blogger"
     },
     {
       "id": "e107e8221533e0d9",
@@ -13636,7 +13839,7 @@
       "meta_description": "Inoreader Teams now uses shared feature pools for key features, offers a new Feeds section for admins, and enables automated reports for Intelligence members.",
       "content_fetch_status": "failed",
       "content_fetch_error": "missing article image",
-      "content_fetched_at": "2026-04-28T16:45:39"
+      "content_fetched_at": "2026-04-28T16:54:19"
     },
     {
       "id": "a9ad7bf8bf84a503",
@@ -13718,11 +13921,11 @@
       "content_fetched_at": "2026-04-28T16:45:34",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-04-28T16:45:43",
+      "selected_at": "2026-04-28T16:55:07",
       "suggested_category": "Cyber-Security",
       "selection_reason": "hourly category batch: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-28T16:45:43",
+      "processing_prepared_at": "2026-04-28T16:55:07",
       "ai_input_package": {
         "title": "Critical LiteLLM SQL Injection Vulnerability Exploited in the Wild",
         "url": "https://cybersecuritynews.com/litellm-sql-injection-vulnerability-exploited",
@@ -13772,16 +13975,150 @@
             "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN:en"
           }
         ],
-        "related_posts": []
+        "related_posts": [
+          {
+            "title": "تسريب بيانات Checkmarx على Dark Web: ما الذي حدث؟",
+            "url": "https://cybersecawarenes.blogspot.com/2026/04/checkmarx-dark-web.html"
+          }
+        ]
       },
-      "ai_provider_last_error": "504 The request timed out. Please try again.",
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_status": "failed",
-      "ai_error": "504 The request timed out. Please try again.",
+      "ai_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 14.25,
+      "ai_total_time_seconds": 8.15,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2
+      "ai_quality_attempts": 3,
+      "ai_quality_last_error": "Invalid control character at: line 1 column 712 (char 711)"
+    },
+    {
+      "id": "4c888c2147befda9",
+      "source_url_hash": "4c888c2147befda9",
+      "canonical_url": "https://www.howtogeek.com/japanese-hybrid-suv-rx-comfort-cheaper",
+      "title_hash": "76d065bd0adc9008",
+      "topic_signature": "a056f07070d9654327bb",
+      "title": "Forget the Lexus RX—this Japanese hybrid SUV matches its comfort for less",
+      "url": "https://www.howtogeek.com/japanese-hybrid-suv-rx-comfort-cheaper",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-04-28T16:46:16Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.13,
+      "rss_summary": "",
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-04-28T16:54:16",
+      "status": "selected",
+      "score": 0,
+      "priority": "low",
+      "fetched_title": "Forget the Lexus RX—this Japanese hybrid SUV matches its comfort for less",
+      "meta_description": "Hybrids are solid, luxury hybrids are better—but can you really get both worlds in a regular car for regular money?",
+      "article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/06/2025_toyota_crown_signia_009.jpg?w=1600&h=900&fit=crop",
+          "alt": "Forget the Lexus RX—this Japanese hybrid SUV matches its comfort for less",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/02/2025_toyota_grand-highlander_nightshade_cement_017.jpg?q=49&fit=crop&w=220&h=182&dpr=2",
+          "alt": "Gray 2025 Toyota Grand Highlander driving in a city. ",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/07/2025_lexus_tx_500h_fsport_premium_013_resized.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Dynamic front 3/4 shot of a silver 2025 Lexus TX 500h FSPORT Premium driving on a country road with hills in the background.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/07/2024-mazda-cx-90-13-original.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Shot inside the cabin of a 2025 Mazda CX-90 showing the interior.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/06/2025_toyota_crown_signia_009.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/02/2025_toyota_grand-highlander_nightshade_cement_017.jpg?q=49&fit=crop&w=220&h=182&dpr=2",
+          "alt": "Gray 2025 Toyota Grand Highlander driving in a city. "
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/07/2025_lexus_tx_500h_fsport_premium_013_resized.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Dynamic front 3/4 shot of a silver 2025 Lexus TX 500h FSPORT Premium driving on a country road with hills in the background."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/07/2024-mazda-cx-90-13-original.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Shot inside the cabin of a 2025 Mazda CX-90 showing the interior."
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "It feels a bit like the clock got rolled back, because gas prices aren’t exactly doing anyone any favors right now. Sitting anywhere from around four to five dollars a gallon on average, and even higher in places like California, filling up isn’t exactly painless. That adds up fast depending on what you drive, especially if you’re in something bigger like a truck or full-size SUV . Even smaller tanks aren’t escaping it, with costs stacking up every time you stop at the pump. If going fully electric still feels like a big jump, there’s a middle ground that’s been quietly getting a lot better. The hybrid SUV space has grown a lot, and it’s now full of options that balance fuel savings with comfort and everyday usability. In order to give you the most up-to-date and accurate information possible, the data used to compile this article was sourced from Lexus and Toyota , as well as other authoritative sources, including the EPA , J.D. Power , and TopSpeed . SUVs, especially the bigger ones, aren't known for their fuel efficiency, but one Japanese model stands out from the crowd–and it has three rows. Modern hybrid SUVs are quietly replacing entry-level luxury brands Loaded features and premium feel are showing up in non-luxury crossovers more than ever Hybrid SUVs are everywhere right now, and it’s not hard to see why. Hyundai and Kia just rolled out new generations of the Palisade and Telluride, both now with hybrid setups that are stronger and more efficient than before. It’s a pretty clear sign of where this segment is headed. Step inside the new Hyundai Palisade and, honestly, it doesn’t feel far off from something like a Lexus TX or even a Lincoln MKX in terms of design and features. Premium features are becoming standard The Palisade is packed with features that honestly feel more luxury than mainstream. You’ve got things like a UV sanitizer in the glove box and even driver’s seat massage functions, which isn’t something you’d expect at this level. It’s not alone either. Rivals like the Mazda CX-90 —also available as a hybrid—bring seriously upscale materials and design, pushing what a “standard” three-row SUV is supposed to feel like. Why entry-level luxury buyers are switching to fully loaded hybrids Premium features are no longer just reserved for luxury badges, mostly because the tech behind them has gotten cheaper to build—and automakers know buyers expect more for their money now. It’s not just about comfort either, it’s safety too. The Honda CR-V Hybrid , for example, comes standard with features like adaptive cruise control, lane-keeping assist, and automatic emergency braking, which used to be optional extras not too long ago. These budget-friendly midsize SUVs offer reliability, comfort, and value, making them perfect choices for first-time buyers. What buyers really want from a daily driver Comfort, efficiency, and reliability are now beating out badge prestige for everyday cars What people really want from a daily driver is something like the Lexus RX350h . When it comes to luxury hybrids, this is the one a lot of buyers naturally end up looking at. Part of that is because it sits in a pretty tight segment with only a few real competitors, and it’s the one that starts at a lower price than most of them. On top of that, it’s also one of the best-selling compact luxury SUVs out there, with over 100,000 units sold in 2025. Comfort, refinement, and real-world reliability The RX comes in a few different hybrid versions, depending on what you’re after. You’ve got the standard hybrid setup, a plug-in hybrid option, and then the 500h F Sport, which adds a lot more power while still keeping efficiency in check. What’s notable is that all of this starts at around $54,575 for the base model. For a luxury SUV with this level of flexibility, that’s still relatively competitive in its segment. 2026 Lexus RX Hybrid performance specs 2.5-liter inline-4 + electric motors 2.5-liter inline 4 + larger battery + stronger electric motors 2.4-liter turbo 4-cylinder + hybrid system How the Lexus RX defines the segment Lexus doesn’t treat hybrid tech like a niche option here—it’s basically the default. Instead of offering just one setup, the RX gives you three different hybrid powertrains to choose from. The focus is clearly on reliability, efficiency, and comfort all bundled into one package. And it seems to work, given how many repeat buyers it has in the US and how consistently J.D. Power ranks Lexus near the top for reliability and brand loyalty. These compact SUVs are the most efficient and spacious you can buy right now. The Toyota Crown Signia enters the conversation A more affordable hybrid SUV that borrows heavily from Lexus-like comfort and refinement Let’s move away from the RX and look at something a bit more down-to-earth—the 2026 Toyota Crown Signia . It arrived alongside the Crown sedan, with the Crown replacing the Avalon and the Signia stepping in for the Venza. It’s a larger midsize SUV that comes standard as a hybrid, with no other powertrain options on offer. Instead of trying to compete on flash like the RX, it leans more into being understated—and that might actually be the whole idea. You still get a lot of the premium feel, just without the luxury badge pricing. In fact, you’re looking at something that can deliver a similar experience for roughly $10,000 or more less than an RX. On one side, you get Toyota’s usual strengths— reliability you can count on, low running costs, and that familiar hybrid efficiency. On the other, the cabin and ride quality are clearly trying to punch above the usual Toyota feel, edging closer to something you’d expect from Lexus. It’s not pretending to be a luxury car, and the badge makes that clear. But what it does deliver are the two things most people actually care about anyway—comfort and quality. Targeting buyers who are cross-shopping luxury From our perspective, the strategy is pretty straightforward—the Crown Signia is aimed at buyers who are actively cross-shopping and trying to decide if stepping up to a Lexus is actually worth it. Subscribe for smart hybrid SUV coverage and buying insight That’s where things get interesting, because it really comes down to whether the badge matters. It sits in that “close enough” zone, without really cutting back on the features you’d expect from a more expensive SUV. Turns out you don’t need a luxury badge to feel spoiled—this Toyota SUV is refined and seriously comfortable. Getting the best of both worlds Toyota reliability meets near-luxury comfort in a single hybrid SUV Zooming out, there’s not actually a huge difference in the underlying powertrains here. In fact, you’re essentially getting the same setup you’d find in the base RX350h, just without the extra luxury polish on top. What’s most surprising, though, is how capable it is when it comes to towing. Let’s talk features, because the Crown Signia isn’t exactly holding back. You get a 12.3-inch infotainment screen with wireless Apple CarPlay and Android Auto, plus an available JBL premium sound system on higher trims. It also brings in heated and ventilated front seats, a power liftgate, a wireless charging pad, and a panoramic view monitor. On the safety side, Toyota Safety Sense adds lane tracing assist, adaptive cruise control, and pre-collision braking, among a few other driver aids. Once again, the Crown Signia makes its strongest case against the RX by undercutting it on price, using the same basic powertrain, and offering more cargo space. It’s built for real everyday use without the badge tax or status markup that comes with a luxury nameplate. There is a small trade-off in overall ownership costs, but not enough to change the equation for most buyers. In the end, the Crown Signia feels less like a compromise and more like a very calculated middle ground.",
+      "full_article_text_chars": 7855,
+      "content_preview": "It feels a bit like the clock got rolled back, because gas prices aren’t exactly doing anyone any favors right now. Sitting anywhere from around four to five dollars a gallon on average, and even higher in places like California, filling up isn’t exactly painless. That adds up fast depending on what you drive, especially if you’re in something bigger like a truck or full-size SUV . Even smaller tanks aren’t escaping it, with costs stacking up every time you stop at the pump. If going fully electric still feels like a big jump, there’s a middle ground that’s been quietly getting a lot better. The hybrid SUV space has grown a lot, and it’s now full of options that balance fuel savings with comfort and everyday usability. In order to give you the most up-to-date and accurate information possible, the data used to compile this article was sourced from Lexus and Toyota , as well as other authoritative sources, including the EPA , J.D. Power , and TopSpeed . SUVs, especially the bigger ones, aren't known for their fuel efficiency, but one Japanese model stands out from the crowd–and it has three rows. Modern hybrid SUVs are quietly replacing entry-level luxury brands Loaded features and premium feel are showing up in non-luxury crossovers more than ever Hybrid SUVs are everywhere right now, and it’s not hard to see why. Hyundai and Kia just rolled out new generations of the Palisade and Telluride, both now with hybrid setups that are stronger and more efficient than before. It’s a pretty clear sign of where this segment is headed. Step inside the new Hyundai Palisade and, honestly, it doesn’t feel far off from something like a Lexus TX or even a Lincoln MKX in terms of design and features. Premium features are becoming standard The Palisade is packed with features that honestly feel more luxury than mainstream. You’ve got things like a UV sanitizer in the glove box and even driver’s seat massage functions, which isn’t something you’d expect at this level. It’s not alone either. Rivals like the Mazda CX-90 —also available as a hybrid—bring seriously upscale materials and design, pushing what a “standard” three-row SUV is supposed to feel like. Why entry-level luxury buyers are switching to fully loaded hybrids Premium features are no longer just reserved for luxury badges, mostly because the tech behind them has gotten cheaper to build—and automakers know buyers expect more for their money now. It’s not just about comfort either, it’s safety too. The Honda CR-V Hybrid , for example, comes standard with features like adaptive cruise control, lane-keeping assist, and automatic emergency braking, which used to be optional extras not too long ago. These budget-friendly midsize SUVs offer reliability, comfort, and value, making them perfect choices for first-time buyers. What buyers really want from a daily driver Comfort, efficiency, and reliability are now beating out badge prestige for everyday cars What people really want from a daily driver is something like the Lexus RX350h . When it comes to luxury hybrids, this is the one a lot of buyers naturally end up looking at. Part of that is because it sits in a pretty tight segment with only a few real competitors, and it’s the one that starts at a lower price than most of them. On top of that, it’s also one of the best-selling compact luxury SUVs out there, with over 100,000 units sold in 2025. Comfort, refinement, and real-world reliability The RX comes in a few different hybrid versions, depending on what you’re after. You’ve got the standard hybrid setup, a plug-in hybrid option, and then the 500h F Sport, which adds a lot more power while still keeping efficiency in check. What’s notable is that all of this starts at around $54,575 for the base model. For a luxury SUV with this level of flexibility, that’s still relatively competitive in its segment. 2026 Lexus RX Hybrid performance specs 2.5-liter inline-4 + electric motors 2.5-liter inline 4 + larger battery + stronger electric motors 2.4-liter turbo 4-cylinder + hybrid system How the Lexus RX defines the segment Lexus doesn’t treat hybrid tech like a niche option here—it’s basically the default. Instead of offering just one setup, the RX gives you three different hybrid powertrains to choose from. The focus is clearly on reliability, efficiency, and comfort all bundled into one package. And it seems to work, given how many repeat buyers it has in the US and how consistently J.D. Power ranks Lexus near the top for reliability and brand loyalty. These compact SUVs are the most efficient and spacious you can buy right now. The Toyota Crown Signia enters the conversation A more affordable hybrid SUV that borrows heavily from Lexus-like comfort and refinement Let’s move away from the RX and look at something a bit more down-to-earth—the 2026 Toyota Crown Signia . It arrived alongside the Crown sedan, with the Crown replacing the Avalon and the Signia stepping in for the Venza. It’s a larger midsize SUV that comes standard as a hybrid, with no other powertrain options on offer. Instead of trying to compete on flash like the RX, it leans more into being understated—and that might actually be the whole idea. You still get a lot of the premium feel, just without the luxury badge pricing. In fact, you’re looking at something that can deliver a similar experience for roughly $10,000 or more less than an RX. On one side, you get Toyota’s usual strengths— reliability you can count on, low running costs, and that familiar hybrid efficiency. On the other, the cabin and ride quality are clearly trying to punch above the usual Toyota feel, edging closer to something you’d expect from Lexus. It’s not pretending to be a luxury car, and the badge makes that clear. But what it does deliver are the two things most people actually care about anyway—comfort and quality. Targeting buyers who are cross-shopping luxury From our perspective, the strategy is pretty straightforward—the Crown Signia is aimed at buyers who are actively cross-shopping and trying to decide if stepping up to a Lexus is actually worth it. Subscribe for smart hybrid SUV coverage and buying insight That’s where things get interesting, because it really comes down to whether the badge matters. It sits in that “close enough” zone, without really cutting back on the features you’d expect from a more expensive SUV. Turns out you don’t need a luxury badge to feel spoiled—this Toyota SUV is refined and seriously comfortable. Getting the best of both worlds Toyota reliability meets near-luxury comfort in a single hybrid SUV Zooming out, there’s not actually a huge difference in the underlying powertrains here. In fact, you’re essentially getting the same setup you’d find in the base RX350h, just without the extra luxury polish on top. What’s most surprising, though, is how capable it is when it comes to towing. Let’s talk features, because the Crown Signia isn’t exactly holding back. You get a 12.3-inch infotainment screen with wireless Apple CarPlay and Android Auto, plus an available JBL premium sound system on higher trims. It also brings in heated and ventilated front seats, a power liftgate, a wireless charging pad, and a panoramic view monitor. On the safety side, Toyota Safety Sense adds lane tracing assist, adaptive cruise control, and pre-collision braking, among a few other driver aids. Once again, the Crown Signia makes its strongest case against the RX by undercutting it on price, using the same basic powertrain, and offering more cargo space. It’s built for real everyday use without the badge tax or status markup that comes with a luxury nameplate. There is a small trade-off in overall ownership costs, but not enough to change the equation for most buyers. In the end, the Crown Signia feels less like a compromise and more like a very calculated middle ground.",
+      "content_preview_chars": 7855,
+      "content_fetched_at": "2026-04-28T16:54:18",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success",
+      "selected_at": "2026-04-28T16:56:59",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "hourly category batch: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-04-28T16:56:59",
+      "ai_input_package": {
+        "title": "Forget the Lexus RX—this Japanese hybrid SUV matches its comfort for less",
+        "url": "https://www.howtogeek.com/japanese-hybrid-suv-rx-comfort-cheaper",
+        "source_name": "How-To Geek",
+        "suggested_category": "Apps-Programs",
+        "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/06/2025_toyota_crown_signia_009.jpg?w=1600&h=900&fit=crop",
+        "article_images": [
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/06/2025_toyota_crown_signia_009.jpg?w=1600&h=900&fit=crop",
+            "alt": "Forget the Lexus RX—this Japanese hybrid SUV matches its comfort for less",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/02/2025_toyota_grand-highlander_nightshade_cement_017.jpg?q=49&fit=crop&w=220&h=182&dpr=2",
+            "alt": "Gray 2025 Toyota Grand Highlander driving in a city. ",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/07/2025_lexus_tx_500h_fsport_premium_013_resized.jpg?q=49&fit=crop&w=825&dpr=2",
+            "alt": "Dynamic front 3/4 shot of a silver 2025 Lexus TX 500h FSPORT Premium driving on a country road with hills in the background.",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/07/2024-mazda-cx-90-13-original.jpg?q=49&fit=crop&w=825&dpr=2",
+            "alt": "Shot inside the cabin of a 2025 Mazda CX-90 showing the interior.",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Hybrids are solid, luxury hybrids are better—but can you really get both worlds in a regular car for regular money?",
+        "content_preview": "It feels a bit like the clock got rolled back, because gas prices aren’t exactly doing anyone any favors right now. Sitting anywhere from around four to five dollars a gallon on average, and even higher in places like California, filling up isn’t exactly painless. That adds up fast depending on what you drive, especially if you’re in something bigger like a truck or full-size SUV . Even smaller tanks aren’t escaping it, with costs stacking up every time you stop at the pump. If going fully electric still feels like a big jump, there’s a middle ground that’s been quietly getting a lot better. The hybrid SUV space has grown a lot, and it’s now full of options that balance fuel savings with comfort and everyday usability. In order to give you the most up-to-date and accurate information possible, the data used to compile this article was sourced from Lexus and Toyota , as well as other authoritative sources, including the EPA , J.D. Power , and TopSpeed . SUVs, especially the bigger ones, aren't known for their fuel efficiency, but one Japanese model stands out from the crowd–and it has three rows. Modern hybrid SUVs are quietly replacing entry-level luxury brands Loaded features and premium feel are showing up in non-luxury crossovers more than ever Hybrid SUVs are everywhere right now, and it’s not hard to see why. Hyundai and Kia just rolled out new generations of the Palisade and Telluride, both now with hybrid setups that are stronger and more efficient than before. It’s a pretty clear sign of where this segment is headed. Step inside the new Hyundai Palisade and, honestly, it doesn’t feel far off from something like a Lexus TX or even a Lincoln MKX in terms of design and features. Premium features are becoming standard The Palisade is packed with features that honestly feel more luxury than mainstream. You’ve got things like a UV sanitizer in the glove box and even driver’s seat massage functions, which isn’t something you’d expect at this level. It’s not alone either. Rivals like the Mazda CX-90 —also available as a hybrid—bring seriously upscale materials and design, pushing what a “standard” three-row SUV is supposed to feel like. Why entry-level luxury buyers are switching to fully loaded hybrids Premium features are no longer just reserved for luxury badges, mostly because the tech behind them has gotten cheaper to build—and automakers know buyers expect more for their money now. It’s not just about comfort either, it’s safety too. The Honda CR-V Hybrid , for example, comes standard with features like adaptive cruise control, lane-keeping assist, and automatic emergency braking, which used to be optional extras not too long ago. These budget-friendly midsize SUVs offer reliability, comfort, and value, making them perfect choices for first-time buyers. What buyers really want from a daily driver Comfort, efficiency, and reliability are now beating out badge prestige for everyday cars What people really want from a daily driver is something like the Lexus RX350h . When it comes to luxury hybrids, this is the one a lot of buyers naturally end up looking at. Part of that is because it sits in a pretty tight segment with only a few real competitors, and it’s the one that starts at a lower price than most of them. On top of that, it’s also one of the best-selling compact luxury SUVs out there, with over 100,000 units sold in 2025. Comfort, refinement, and real-world reliability The RX comes in a few different hybrid versions, depending on what you’re after. You’ve got the standard hybrid setup, a plug-in hybrid option, and then the 500h F Sport, which adds a lot more power while still keeping efficiency in check. What’s notable is that all of this starts at around $54,575 for the base model. For a luxury SUV with this level of flexibility, that’s still relatively competitive in its segment. 2026 Lexus RX Hybrid performance specs 2.5-liter inline-4 + electric motors 2.5-liter inline 4 + larger battery + stronger electric motors 2.4-liter turbo 4-cylinder + hybrid system How the Lexus RX defines the segment Lexus doesn’t treat hybrid tech like a niche option here—it’s basically the default. Instead of offering just one setup, the RX gives you three different hybrid powertrains to choose from. The focus is clearly on reliability, efficiency, and comfort all bundled into one package. And it seems to work, given how many repeat buyers it has in the US and how consistently J.D. Power ranks Lexus near the top for reliability and brand loyalty. These compact SUVs are the most efficient and spacious you can buy right now. The Toyota Crown Signia enters the conversation A more affordable hybrid SUV that borrows heavily from Lexus-like comfort and refinement Let’s move away from the RX and look at something a bit more down-to-earth—the 2026 Toyota Crown Signia . It arrived alongside the Crown sedan, with the Crown replacing the Avalon and the Signia stepping in for the Venza. It’s a larger midsize SUV that comes standard as a hybrid, with no other powertrain options on offer. Instead of trying to compete on flash like the RX, it leans more into being understated—and that might actually be the whole idea. You still get a lot of the premium feel, just without the luxury badge pricing. In fact, you’re looking at something that can deliver a similar experience for roughly $10,000 or more less than an RX. On one side, you get Toyota’s usual strengths— reliability you can count on, low running costs, and that familiar hybrid efficiency. On the other, the cabin and ride quality are clearly trying to punch above the usual Toyota feel, edging closer to something you’d expect from Lexus. It’s not pretending to be a luxury car, and the badge makes that clear. But what it does deliver are the two things most people actually care about anyway—comfort and quality. Targeting buyers who are cross-shopping luxury From our perspective, the strategy is pretty straightforward—the Crown Signia is aimed at buyers who are actively cross-shopping and trying to decide if stepping up to a Lexus is actually worth it. Subscribe for smart hybrid SUV coverage and buying insight That’s where things get interesting, because it really comes down to whether the badge matters. It sits in that “close enough” zone, without really cutting back on the features you’d expect from a more expensive SUV. Turns out you don’t need a luxury badge to feel spoiled—this Toyota SUV is refined and seriously comfortable. Getting the best of both worlds Toyota reliability meets near-luxury comfort in a single hybrid SUV Zooming out, there’s not actually a huge difference in the underlying powertrains here. In fact, you’re essentially getting the same setup you’d find in the base RX350h, just without the extra luxury polish on top. What’s most surprising, though, is how capable it is when it comes to towing. Let’s talk features, because the Crown Signia isn’t exactly holding back. You get a 12.3-inch infotainment screen with wireless Apple CarPlay and Android Auto, plus an available JBL premium sound system on higher trims. It also brings in heated and ventilated front seats, a power liftgate, a wireless charging pad, and a panoramic view monitor. On the safety side, Toyota Safety Sense adds lane tracing assist, adaptive cruise control, and pre-collision braking, among a few other driver aids. Once again, the Crown Signia makes its strongest case against the RX by undercutting it on price, using the same basic powertrain, and offering more cargo space. It’s built for real everyday use without the badge tax or status markup that comes with a luxury nameplate. There is a small trade-off in overall ownership costs, but not enough to change the equation for most buyers. In the end, the Crown Signia feels less like a compromise and more like a very calculated middle ground.",
+        "content_preview_chars": 7855,
+        "rss_summary": "",
+        "full_article_text": "It feels a bit like the clock got rolled back, because gas prices aren’t exactly doing anyone any favors right now. Sitting anywhere from around four to five dollars a gallon on average, and even higher in places like California, filling up isn’t exactly painless. That adds up fast depending on what you drive, especially if you’re in something bigger like a truck or full-size SUV . Even smaller tanks aren’t escaping it, with costs stacking up every time you stop at the pump. If going fully electric still feels like a big jump, there’s a middle ground that’s been quietly getting a lot better. The hybrid SUV space has grown a lot, and it’s now full of options that balance fuel savings with comfort and everyday usability. In order to give you the most up-to-date and accurate information possible, the data used to compile this article was sourced from Lexus and Toyota , as well as other authoritative sources, including the EPA , J.D. Power , and TopSpeed . SUVs, especially the bigger ones, aren't known for their fuel efficiency, but one Japanese model stands out from the crowd–and it has three rows. Modern hybrid SUVs are quietly replacing entry-level luxury brands Loaded features and premium feel are showing up in non-luxury crossovers more than ever Hybrid SUVs are everywhere right now, and it’s not hard to see why. Hyundai and Kia just rolled out new generations of the Palisade and Telluride, both now with hybrid setups that are stronger and more efficient than before. It’s a pretty clear sign of where this segment is headed. Step inside the new Hyundai Palisade and, honestly, it doesn’t feel far off from something like a Lexus TX or even a Lincoln MKX in terms of design and features. Premium features are becoming standard The Palisade is packed with features that honestly feel more luxury than mainstream. You’ve got things like a UV sanitizer in the glove box and even driver’s seat massage functions, which isn’t something you’d expect at this level. It’s not alone either. Rivals like the Mazda CX-90 —also available as a hybrid—bring seriously upscale materials and design, pushing what a “standard” three-row SUV is supposed to feel like. Why entry-level luxury buyers are switching to fully loaded hybrids Premium features are no longer just reserved for luxury badges, mostly because the tech behind them has gotten cheaper to build—and automakers know buyers expect more for their money now. It’s not just about comfort either, it’s safety too. The Honda CR-V Hybrid , for example, comes standard with features like adaptive cruise control, lane-keeping assist, and automatic emergency braking, which used to be optional extras not too long ago. These budget-friendly midsize SUVs offer reliability, comfort, and value, making them perfect choices for first-time buyers. What buyers really want from a daily driver Comfort, efficiency, and reliability are now beating out badge prestige for everyday cars What people really want from a daily driver is something like the Lexus RX350h . When it comes to luxury hybrids, this is the one a lot of buyers naturally end up looking at. Part of that is because it sits in a pretty tight segment with only a few real competitors, and it’s the one that starts at a lower price than most of them. On top of that, it’s also one of the best-selling compact luxury SUVs out there, with over 100,000 units sold in 2025. Comfort, refinement, and real-world reliability The RX comes in a few different hybrid versions, depending on what you’re after. You’ve got the standard hybrid setup, a plug-in hybrid option, and then the 500h F Sport, which adds a lot more power while still keeping efficiency in check. What’s notable is that all of this starts at around $54,575 for the base model. For a luxury SUV with this level of flexibility, that’s still relatively competitive in its segment. 2026 Lexus RX Hybrid performance specs 2.5-liter inline-4 + electric motors 2.5-liter inline 4 + larger battery + stronger electric motors 2.4-liter turbo 4-cylinder + hybrid system How the Lexus RX defines the segment Lexus doesn’t treat hybrid tech like a niche option here—it’s basically the default. Instead of offering just one setup, the RX gives you three different hybrid powertrains to choose from. The focus is clearly on reliability, efficiency, and comfort all bundled into one package. And it seems to work, given how many repeat buyers it has in the US and how consistently J.D. Power ranks Lexus near the top for reliability and brand loyalty. These compact SUVs are the most efficient and spacious you can buy right now. The Toyota Crown Signia enters the conversation A more affordable hybrid SUV that borrows heavily from Lexus-like comfort and refinement Let’s move away from the RX and look at something a bit more down-to-earth—the 2026 Toyota Crown Signia . It arrived alongside the Crown sedan, with the Crown replacing the Avalon and the Signia stepping in for the Venza. It’s a larger midsize SUV that comes standard as a hybrid, with no other powertrain options on offer. Instead of trying to compete on flash like the RX, it leans more into being understated—and that might actually be the whole idea. You still get a lot of the premium feel, just without the luxury badge pricing. In fact, you’re looking at something that can deliver a similar experience for roughly $10,000 or more less than an RX. On one side, you get Toyota’s usual strengths— reliability you can count on, low running costs, and that familiar hybrid efficiency. On the other, the cabin and ride quality are clearly trying to punch above the usual Toyota feel, edging closer to something you’d expect from Lexus. It’s not pretending to be a luxury car, and the badge makes that clear. But what it does deliver are the two things most people actually care about anyway—comfort and quality. Targeting buyers who are cross-shopping luxury From our perspective, the strategy is pretty straightforward—the Crown Signia is aimed at buyers who are actively cross-shopping and trying to decide if stepping up to a Lexus is actually worth it. Subscribe for smart hybrid SUV coverage and buying insight That’s where things get interesting, because it really comes down to whether the badge matters. It sits in that “close enough” zone, without really cutting back on the features you’d expect from a more expensive SUV. Turns out you don’t need a luxury badge to feel spoiled—this Toyota SUV is refined and seriously comfortable. Getting the best of both worlds Toyota reliability meets near-luxury comfort in a single hybrid SUV Zooming out, there’s not actually a huge difference in the underlying powertrains here. In fact, you’re essentially getting the same setup you’d find in the base RX350h, just without the extra luxury polish on top. What’s most surprising, though, is how capable it is when it comes to towing. Let’s talk features, because the Crown Signia isn’t exactly holding back. You get a 12.3-inch infotainment screen with wireless Apple CarPlay and Android Auto, plus an available JBL premium sound system on higher trims. It also brings in heated and ventilated front seats, a power liftgate, a wireless charging pad, and a panoramic view monitor. On the safety side, Toyota Safety Sense adds lane tracing assist, adaptive cruise control, and pre-collision braking, among a few other driver aids. Once again, the Crown Signia makes its strongest case against the RX by undercutting it on price, using the same basic powertrain, and offering more cargo space. It’s built for real everyday use without the badge tax or status markup that comes with a luxury nameplate. There is a small trade-off in overall ownership costs, but not enough to change the equation for most buyers. In the end, the Crown Signia feels less like a compromise and more like a very calculated middle ground.",
+        "full_article_text_chars": 7855,
+        "enrichment_status": "strong",
+        "source_url": "https://www.howtogeek.com",
+        "source_published_at": "2026-04-28T16:46:16Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.13,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "Expecting value: line 1 column 323 (char 322)",
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "ai_status": "failed",
+      "ai_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 15.4,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3
     }
   ],
   "notifications": {
