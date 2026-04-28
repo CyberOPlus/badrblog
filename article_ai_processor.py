@@ -136,6 +136,42 @@ ALLOWED_LATIN_INLINE = {
     "xss",
 }
 
+GENERAL_ENGLISH_ARABIC_REPLACEMENTS = {
+    "movie": "فيلم",
+    "movies": "أفلام",
+    "film": "فيلم",
+    "films": "أفلام",
+    "classic": "كلاسيكي",
+    "oscar": "الأوسكار",
+    "oscars": "الأوسكار",
+    "stream": "مشاهدة",
+    "streaming": "البث",
+    "today": "اليوم",
+    "watch": "شاهد",
+    "shows": "عروض",
+    "show": "عرض",
+    "thriller": "إثارة",
+    "drama": "دراما",
+    "comedy": "كوميديا",
+    "feature": "ميزة",
+    "features": "ميزات",
+    "workflow": "سير العمل",
+    "productivity": "الإنتاجية",
+    "enterprise": "المؤسسات",
+    "teams": "الفرق",
+    "update": "تحديث",
+    "updates": "تحديثات",
+    "tool": "أداة",
+    "tools": "أدوات",
+    "account": "الحساب",
+    "protection": "الحماية",
+    "privacy": "الخصوصية",
+    "security": "الأمان",
+    "software": "برنامج",
+    "bug": "خلل",
+    "data": "بيانات",
+}
+
 
 def _now_iso():
     return datetime.now().isoformat(timespec="seconds")
@@ -403,6 +439,9 @@ not facebook_post_text, not telegram_report, and not a short social caption.
 STRICT FAST NEWS RULES:
 - Return JSON only. No markdown fences, notes, or explanations.
 - Write natural human Arabic. Do not translate literally.
+- The article must be mostly Arabic. Keep English only for essential technical terms:
+  AI, API, CVE, Malware, Android, iOS, Windows, Linux, VPN, GitHub, OpenAI, Microsoft, Google.
+- Translate ordinary English words, entertainment terms, and generic verbs/nouns into Arabic.
 - Preserve facts exactly. Do not invent numbers, dates, quotes, incidents, claims, or links.
 - Keep technical names normally written in English.
 - Target {TARGET_ARTICLE_WORDS} Arabic words. Minimum allowed is {MIN_ARTICLE_WORDS} words.
@@ -448,6 +487,9 @@ STRICT RULES:
 - Do not invent facts, numbers, links, dates, quotes, or claims.
 - Preserve the meaning of the source content.
 - Write fluent Modern Standard Arabic with a natural human style.
+- The article must be mostly Arabic. Keep English only for essential technical terms:
+  AI, API, CVE, Malware, Android, iOS, Windows, Linux, VPN, GitHub, OpenAI, Microsoft, Google.
+- Translate ordinary English words, entertainment terms, and generic verbs/nouns into Arabic.
 - Do not translate technical names that are normally kept in English.
 - Never mention the scraped source website as the article source.
 - Do not say the article was translated, rewritten, copied, or sourced from another article.
@@ -577,6 +619,40 @@ Mandatory fixes:
 - Add a short introduction, main explanation, and conclusion.
 - Add <h2>{REQUIRED_READER_SECTION_WITH_QUESTION}</h2> only if useful.
 - Keep facts accurate and do not invent details.
+
+SOURCE PACKAGE:
+{json.dumps(package, ensure_ascii=False, indent=2)}
+
+SOURCE TEXT:
+{source_text}
+
+PREVIOUS HTML, for diagnosis only:
+{previous_html[:4000]}
+""".strip()
+
+
+def _build_excess_english_retry_prompt(package, previous_data, previous_error):
+    previous_html = ""
+    if isinstance(previous_data, dict):
+        previous_html = str(previous_data.get("html_content") or "")
+    source_text = (package or {}).get("full_article_text") or (package or {}).get("content_preview") or ""
+    return f"""
+Return JSON only using the same shape as before.
+
+The previous Blogger article failed because it contained too much English:
+{previous_error}
+
+Rewrite the article in natural Modern Standard Arabic.
+
+Strict language rules:
+- Arabic must dominate every paragraph.
+- Keep English only for essential technical terms and names:
+  AI, API, CVE, Malware, Android, iOS, Windows, Linux, VPN, GitHub, OpenAI, Microsoft, Google.
+- Translate generic English words such as movies, streaming, feature, update, workflow, security, privacy,
+  account, protection, tool, software, and similar non-brand terms into Arabic.
+- Do not leave long English phrases or sentences inside paragraph text.
+- Preserve facts from the source; do not invent claims, numbers, dates, quotes, or links.
+- Keep clean Plus UI-compatible HTML and a concise fast-news structure.
 
 SOURCE PACKAGE:
 {json.dumps(package, ensure_ascii=False, indent=2)}
@@ -1003,6 +1079,38 @@ def _has_too_much_english_in_paragraphs(html_content):
     return False
 
 
+def _clean_general_english_in_paragraphs(html_content):
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    changed = False
+    allowed = {item.casefold() for item in ALLOWED_LATIN_INLINE}
+
+    def replace_text(text):
+        nonlocal changed
+
+        def repl(match):
+            token = match.group(0)
+            stripped = token.strip()
+            key = stripped.casefold().strip("._-")
+            if key in allowed or re.match(r"^(CVE-\d{4}-\d+|v?\d+(?:\.\d+)+)$", stripped, flags=re.I):
+                return token
+            replacement = GENERAL_ENGLISH_ARABIC_REPLACEMENTS.get(key)
+            if replacement:
+                changed = True
+                return replacement
+            return token
+
+        return re.sub(r"\b[A-Za-z][A-Za-z0-9+._-]{1,}\b", repl, text)
+
+    for paragraph in soup.find_all("p"):
+        for node in list(paragraph.descendants):
+            if isinstance(node, NavigableString) and not node.find_parent(["code", "pre", "a"]):
+                cleaned = replace_text(str(node))
+                if cleaned != str(node):
+                    node.replace_with(cleaned)
+
+    return str(soup) if changed else html_content
+
+
 def _paragraph_fingerprints(html_content):
     soup = BeautifulSoup(html_content or "", "html.parser")
     fingerprints = []
@@ -1092,6 +1200,7 @@ def _finalize_html_content(data, package):
     html_content = _append_trusted_references_if_missing(html_content, package)
     html_content = _append_related_posts_if_missing(html_content, package)
     html_content = _sanitize_source_links(html_content, package)
+    html_content = _clean_general_english_in_paragraphs(html_content)
     data["html_content"] = html_content
     return data
 
@@ -1634,6 +1743,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     provider_sequence = _attempt_provider_sequence()
     failed_provider_names = set()
     forced_next_provider = ""
+    excess_english_retry_used = False
     context = AIExecutionContext(article_id=article.get("id") or article.get("url") or "")
     context.skipped_slow_models_count = _skipped_slow_models_count()
 
@@ -1750,6 +1860,25 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     reason=_safe_error_reason(error),
                 )
             if is_quality_failure:
+                if "too much english inside article paragraphs" in str(error).casefold():
+                    if not excess_english_retry_used and attempt < total_attempts:
+                        excess_english_retry_used = True
+                        article["ai_excess_english_retry_used"] = True
+                        log_event(
+                            "article_regenerated_due_to_excess_english",
+                            article_id=article.get("id"),
+                            attempt=attempt,
+                            reason=error,
+                        )
+                        prompt = _build_excess_english_retry_prompt(package, previous_data, str(error))
+                        continue
+                    log_event(
+                        "article_skipped_excess_english_after_retry",
+                        article_id=article.get("id"),
+                        attempt=attempt,
+                        reason=error,
+                    )
+                    break
                 prompt = _build_expansion_retry_prompt(package, previous_data, str(error))
                 continue
             if _is_provider_error(error):
@@ -1838,6 +1967,12 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     else:
         log_event("ai_quality_failed_after_retries", article_id=article.get("id"), error=last_error)
         log_event("article_skipped", article_id=article.get("id"), reason="AI quality failed after retries")
+        if "too much english inside article paragraphs" in str(last_error).casefold():
+            log_event(
+                "article_skipped_excess_english_after_retry",
+                article_id=article.get("id"),
+                reason=last_error,
+            )
         log_event(
             "ai_article_skipped_after_ai_failure",
             article_id=article.get("id"),

@@ -28,6 +28,7 @@ from config import (
 )
 from notifier import notify_facebook_result
 from production_logging import elapsed_ms, log_event
+from utils.facebook_image_generator import generate_facebook_image
 CAPTION_STYLES = (
     "ai_tools",
     "cybersecurity",
@@ -723,6 +724,19 @@ def _keyword_hashtag(token):
     return ""
 
 
+def _strip_unneeded_latin(text):
+    allowed = {item.casefold() for item in ALLOWED_ENGLISH_TERMS}
+
+    def repl(match):
+        token = match.group(0)
+        if token.casefold() in allowed:
+            return token
+        return ""
+
+    cleaned = re.sub(r"\b[A-Za-z][A-Za-z0-9+._-]*\b", repl, str(text or ""))
+    return re.sub(r"\s+", " ", cleaned).strip()
+
+
 def _hashtags(article, style=None, text="", memory=None):
     style = style or STYLE_BY_CATEGORY.get(_caption_memory_category(article), "tech_news")
     text = " ".join(
@@ -1012,16 +1026,24 @@ def _prepare_facebook_post(article, articles, blogger_url):
         except Exception as error:
             last_error = error
     fallback = _build_fallback_blueprint(article, preferred_style, memory)
-    _validate_facebook_caption(
-        fallback["caption"],
-        blogger_url=blogger_url,
-        style="",
-        hook=fallback["hook"],
-        structure_id="",
-        title=_short_title(article),
-        memory=memory,
-        allow_simple=True,
-    )
+    try:
+        _validate_facebook_caption(
+            fallback["caption"],
+            blogger_url=blogger_url,
+            style="",
+            hook=fallback["hook"],
+            structure_id="",
+            title=_short_title(article),
+            memory=memory,
+            allow_simple=True,
+        )
+    except Exception as fallback_error:
+        log_event(
+            "facebook_caption_emergency_fallback_used",
+            article_id=article.get("id"),
+            reason=str(fallback_error)[:180],
+        )
+        fallback = _build_emergency_fallback_blueprint(article, preferred_style, memory)
     log_event(
         "facebook_caption_fallback_used",
         article_id=article.get("id"),
@@ -1033,7 +1055,10 @@ def _prepare_facebook_post(article, articles, blogger_url):
 def _build_fallback_blueprint(article, style, memory):
     title = _short_title(article)
     summary = _human_summary(article) or _limit_text((_article_sentences(article) or [title])[0], limit=180)
+    title = _strip_unneeded_latin(title) or "خبر تقني جديد يستحق الانتباه"
+    summary = _strip_unneeded_latin(summary) or "هذا الخبر يسلط الضوء على نقطة مهمة للمستخدمين، مع تفاصيل أوضح في المقال الكامل."
     hook = _fallback_hook(article)
+    hook = _strip_unneeded_latin(hook) or "تفصيل تقني صغير قد يكون أهم مما يبدو."
     cta = _choose_cta(memory)
     hashtags = _hashtags(article, style=style, text=f"{title} {summary}", memory=memory)
     blocks = [
@@ -1064,7 +1089,14 @@ def _publish_facebook_post(article, blueprint):
         raise RuntimeError("Missing live Blogger URL for Facebook post.")
 
     caption = blueprint["caption"]
-    image_result = _download_article_image_for_facebook(article)
+    image_result = generate_facebook_image(
+        _short_title(article),
+        _main_image_url(article),
+        _facebook_image_output_path(article),
+        hook_text=blueprint.get("hook", ""),
+    )
+    if image_result.get("ok"):
+        image_result["url"] = _main_image_url(article)
     base_payload = {
         "access_token": FACEBOOK_PAGE_ACCESS_TOKEN,
     }
@@ -1079,7 +1111,7 @@ def _publish_facebook_post(article, blueprint):
         return data.get("post_id") or data.get("id") or "", "photo", image_result
 
     log_event(
-        "facebook_article_image_failed_safe_text_only",
+        "facebook_generated_image_failed_safe_text_only",
         article_id=article.get("id"),
         error=image_result.get("error", ""),
         image_url=image_result.get("url", ""),
@@ -1091,6 +1123,28 @@ def _publish_facebook_post(article, blueprint):
     }
     data = _post_to_graph(f"{FACEBOOK_PAGE_ID}/feed", payload)
     return data.get("id") or "", "feed", image_result
+
+
+def _build_emergency_fallback_blueprint(article, style, memory):
+    hook = "تفصيل تقني صغير قد يكون أهم مما يبدو."
+    summary = "نلخص في المقال أبرز ما يحتاج القارئ معرفته، مع شرح مبسط للسياق وما يعنيه ذلك عمليًا."
+    cta = _choose_cta(memory)
+    hashtags = _hashtags(article, style=style, text=f"{hook} {summary}", memory=memory)
+    if len(hashtags) < 3:
+        hashtags = ["#تقنية", "#أخبار_تقنية", "#تطبيقات"]
+    caption = "\n\n".join([hook, summary, cta, " ".join(hashtags[:6])])
+    return {
+        "caption": caption,
+        "hashtags": hashtags[:6],
+        "hook": hook,
+        "cta": cta,
+        "fingerprint": _caption_fingerprint(caption),
+        "lead": "",
+        "sections": [],
+        "style": style,
+        "structure": "emergency_fallback",
+        "blogger_url": _blogger_post_url(article),
+    }
 
 
 def _post_first_comment(facebook_post_id, blogger_post_url):
@@ -1589,21 +1643,36 @@ def preview_next_facebook_post(target_article_id=None, include_drafts=False):
             "available": False,
             "article": None,
             "error": "No eligible Blogger article for Facebook preview found.",
+            "preview_status": "unavailable",
         }
 
-    blueprint = _prepare_facebook_post(article, articles, blogger_url=_blogger_post_url(article) or _valid_public_blogger_url(article.get("blogger_draft_url")))
-    caption_pattern = blueprint["style"]
     blogger_url = _blogger_post_url(article) or _valid_public_blogger_url(article.get("blogger_draft_url"))
     if not blogger_url:
         return {
             "available": False,
             "article": article,
             "error": "Selected Blogger article does not have a usable post permalink.",
+            "preview_status": "unavailable",
         }
+    preview_status = "ok"
+    try:
+        blueprint = _prepare_facebook_post(article, articles, blogger_url=blogger_url)
+    except Exception as error:
+        memory = _load_style_memory()
+        style = _choose_caption_pattern(article, articles)
+        blueprint = _build_emergency_fallback_blueprint(article, style, memory)
+        preview_status = "fallback_used"
+        log_event(
+            "facebook_preview_fallback_used",
+            article_id=article.get("id"),
+            reason=str(error)[:180],
+        )
+    caption_pattern = blueprint["style"]
     post_text, hashtags = _split_caption_parts(blueprint["caption"])
 
     return {
         "available": True,
+        "preview_status": preview_status,
         "article": article,
         "selected_style": caption_pattern,
         "selected_structure": blueprint["structure"],

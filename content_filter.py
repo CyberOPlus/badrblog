@@ -95,6 +95,43 @@ PROMO_URL_HINTS = (
     "advertorial",
 )
 
+NON_TECHNICAL_ENTERTAINMENT_REASON = "non_technical_entertainment_content"
+
+ENTERTAINMENT_BLOCK_PATTERNS = (
+    r"\b(oscar|oscars|academy awards?)\b",
+    r"\b(movie|movies|film|films|cinema)\b",
+    r"\b(tv\s+shows?|series|sitcom|drama|thriller|comedy)\b",
+    r"\b(stream|streaming|watch|binge)\b",
+    r"\b(netflix|hulu|disney\+?|prime video|max|hbo)\b",
+    r"\b(celebrity|celebrities|actor|actress|hollywood)\b",
+    r"\b(game review|gaming deals?|playstation games?|xbox games?)\b",
+    r"\b(deals?|coupons?|shopping|discounts?|best price|buy now)\b",
+)
+
+TECHNICAL_ALLOW_PATTERNS = (
+    r"\bsecurity\b",
+    r"\bprivacy\b",
+    r"\bai\b",
+    r"\bapp(s)?\b",
+    r"\bandroid\b",
+    r"\bios\b",
+    r"\bsoftware\b",
+    r"\bbug(s)?\b",
+    r"\bdata breach\b",
+    r"\bmalware\b",
+    r"\baccount protection\b",
+    r"\bvulnerability\b",
+    r"\bcve\b",
+    r"\bexploit\b",
+    r"\bapi\b",
+    r"\bupdate\b",
+    r"\bpatch\b",
+    r"\bpassword\b",
+    r"\bencryption\b",
+    r"\btwo-factor\b",
+    r"\b2fa\b",
+)
+
 AFFILIATE_QUERY_HINTS = (
     "tag",
     "aff",
@@ -175,6 +212,21 @@ def _is_trusted_security_source(article):
 
 def _has_pattern(patterns, text):
     return any(re.search(pattern, text, flags=re.I) for pattern in patterns)
+
+
+def is_non_technical_entertainment_article(article):
+    article = article or {}
+    text = _article_text(article)
+    normalized = text.casefold()
+
+    if _is_trusted_security_source(article):
+        return False, ""
+    if _has_pattern(TECHNICAL_ALLOW_PATTERNS, normalized):
+        return False, ""
+    if _has_pattern(ENTERTAINMENT_BLOCK_PATTERNS, normalized):
+        return True, NON_TECHNICAL_ENTERTAINMENT_REASON
+
+    return False, ""
 
 
 def _has_security_report_keyword(article):

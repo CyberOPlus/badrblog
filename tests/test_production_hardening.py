@@ -4,7 +4,7 @@ import subprocess
 import unittest
 from contextlib import redirect_stdout
 from datetime import datetime, timedelta, timezone
-from io import StringIO
+from io import BytesIO, StringIO
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
@@ -14,6 +14,7 @@ import article_enricher
 import article_ai_processor
 import article_processor
 import article_queue
+import article_scorer
 import blogger_client
 import content_filter
 import facebook_publisher
@@ -127,6 +128,29 @@ class ProductionHardeningTests(unittest.TestCase):
             )
         )
 
+    def test_non_technical_entertainment_article_is_skipped(self):
+        from content_filter import is_non_technical_entertainment_article
+
+        article = {
+            "title": "4 classic Oscar-winning movies you can stream on Netflix today",
+            "rss_summary": "A list of films to watch this week.",
+            "source_name": "How-To Geek",
+        }
+        blocked, reason = is_non_technical_entertainment_article(article)
+        self.assertTrue(blocked)
+        self.assertEqual(reason, "non_technical_entertainment_content")
+        self.assertEqual(article_scorer.score_article(article), 0)
+
+    def test_netflix_security_article_is_allowed(self):
+        from content_filter import is_non_technical_entertainment_article
+
+        article = {
+            "title": "Netflix account protection update improves privacy and security",
+            "rss_summary": "The app update adds account protection and privacy controls.",
+        }
+        blocked, reason = is_non_technical_entertainment_article(article)
+        self.assertFalse(blocked, reason)
+
     def test_facebook_caption_uses_variable_cta_and_three_to_six_hashtags(self):
         article = {
             "id": "fb1",
@@ -144,6 +168,27 @@ class ProductionHardeningTests(unittest.TestCase):
         hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", blueprint["caption"], flags=re.UNICODE)
         self.assertGreaterEqual(len(hashtags), 3)
         self.assertLessEqual(len(hashtags), 6)
+
+    def test_facebook_preview_uses_fallback_when_validation_fails(self):
+        article = {
+            "id": "fb-preview",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.com/post",
+            "title": "Netflix movies with too much entertainment English",
+            "seo_description": "English entertainment text that would fail validation.",
+            "suggested_category": "Apps-Programs",
+        }
+        queue = {"articles": [article], "notifications": {}}
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(facebook_publisher, "_prepare_facebook_post", side_effect=RuntimeError("bad caption")):
+                article_queue.save_article_queue(queue)
+                preview = facebook_publisher.preview_next_facebook_post()
+
+        self.assertTrue(preview["available"])
+        self.assertEqual(preview["preview_status"], "fallback_used")
+        self.assertIn("أول تعليق", preview["post_text"])
 
     def test_blogger_image_alt_is_single_clean_attribute(self):
         html = (
@@ -721,6 +766,31 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertTrue(result["used_fallback"])
         self.assertTrue(output_exists)
 
+    def test_facebook_image_generator_accepts_unexpected_template_size(self):
+        try:
+            from PIL import Image
+        except ImportError:
+            self.skipTest("Pillow is not installed in this local environment")
+
+        with TemporaryDirectory() as temp_dir:
+            temp_dir = Path(temp_dir)
+            template = temp_dir / "facebook_template.png"
+            fallback = temp_dir / "fallback_article.png"
+            output = temp_dir / "out.jpg"
+            Image.new("RGBA", (1122, 1402), (20, 20, 30, 90)).save(template)
+            Image.new("RGB", (900, 600), (80, 120, 180)).save(fallback)
+
+            with patch.object(facebook_image_generator, "FACEBOOK_IMAGE_TEMPLATE_PATH", template), patch.object(facebook_image_generator, "FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH", fallback), patch.object(facebook_image_generator, "FACEBOOK_IMAGE_OUTPUT_DIR", temp_dir):
+                result = facebook_image_generator.generate_facebook_image(
+                    "اختبار قالب مختلف الحجم",
+                    "",
+                    output,
+                    hook_text="عنوان عربي قصير فوق صورة المقال",
+                )
+
+        self.assertTrue(result["ok"], result)
+        self.assertTrue(output.exists())
+
     def test_freshness_safety_margin_skips_article_before_ai(self):
         def fake_collect(base_url, **_kwargs):
             return [{"title": "Almost expired", "url": f"{base_url}/story", "published_at": recent_iso(1.9)}], "", 200, {"method_used": "feed"}
@@ -998,6 +1068,58 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(result["success"], 1)
         self.assertEqual(result["article"]["ai_quality_attempts"], 3)
         self.assertEqual(result["article"]["ai_quality_status"], "passed")
+
+    def test_ai_retries_once_for_excess_english(self):
+        bad_english = " ".join(
+            [
+                "movie streaming classic oscar watch today feature workflow productivity account protection privacy security software update tool movies shows films drama comedy"
+            ]
+            * 9
+        )
+        bad = {
+            "title": "تحديث أمني مهم لمستخدمي Android",
+            "description": "شرح عربي موجز يوضح أهمية التحديث الجديد للمستخدمين وكيف يساعد في تحسين الحماية اليومية.",
+            "slug": "android-security-update",
+            "html_content": (
+                "<p class='pIndent'><span class='dropCap'>ه</span> "
+                f"{bad_english}.</p>"
+            ),
+        }
+        good_intro = " ".join(["يوضح", "هذا", "التحديث", "الأمني", "أهمية", "حماية", "الحسابات", "والبيانات"] * 18)
+        good_details = " ".join(["يساعد", "المستخدمين", "على", "تقليل", "المخاطر", "ومراجعة", "الإعدادات"] * 9)
+        good = {
+            "title": "تحديث أمني مهم لمستخدمي Android",
+            "description": "شرح عربي موجز يوضح أهمية التحديث الجديد للمستخدمين وكيف يساعد في تحسين الحماية اليومية.",
+            "slug": "android-security-update",
+            "html_content": f"<p class='pIndent'><span class='dropCap'>ه</span> {good_intro}</p><h2>لماذا يهمك هذا؟</h2><p class='pIndent'>{good_details}</p>",
+        }
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "a1",
+                        "url": "https://example.com/android-security",
+                        "status": "selected",
+                        "processing_status": "ready_for_ai",
+                        "ai_input_package": {
+                            "title": "Android security update",
+                            "url": "https://example.com/android-security",
+                            "source_published_at": recent_iso(1),
+                            "content_preview": "Android security update protects accounts.",
+                            "suggested_category": "Cyber-Security",
+                        },
+                    }
+                ],
+                "notifications": {},
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=[(json.dumps(bad), "gemini:test"), (json.dumps(good, ensure_ascii=False), "gemini:test")]), patch.object(article_ai_processor.time, "sleep"):
+                article_queue.save_article_queue(queue)
+                result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
+
+        self.assertEqual(result["success"], 1)
+        self.assertTrue(result["article"].get("ai_excess_english_retry_used"))
+        self.assertEqual(result["article"]["ai_quality_attempts"], 2)
 
     def test_ai_quality_failed_after_three_retries_skips_article(self):
         bad = {

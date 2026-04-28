@@ -228,6 +228,9 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         promotional, promo_reason = is_promotional_article(article)
         if promotional:
             return QualityGateResult(False, promo_reason, word_count)
+        non_technical, non_technical_reason = is_non_technical_entertainment_article(article)
+        if non_technical:
+            return QualityGateResult(False, non_technical_reason, word_count)
         if not str(article.get("url") or article.get("source_url") or "").strip():
             return QualityGateResult(False, "missing source URL", word_count)
         if RECENT_NEWS_ONLY:
@@ -319,4 +322,4 @@ def duplicate_publish_reason(article, existing_articles):
         if current_content_hash and other.get("final_content_hash") == current_content_hash:
             return "another queue record with the same content hash is already published/drafted"
     return ""
-from content_filter import is_promotional_article
+from content_filter import is_non_technical_entertainment_article, is_promotional_article

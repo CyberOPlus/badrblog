@@ -6,6 +6,7 @@ import textwrap
 from io import BytesIO
 from pathlib import Path
 import re
+import os
 
 import requests
 
@@ -33,6 +34,7 @@ MIN_ARTICLE_IMAGE_WIDTH = 360
 MIN_ARTICLE_IMAGE_HEIGHT = 220
 IMAGE_TITLE_MARGIN = 28
 MAX_TITLE_LINES = 2
+FACEBOOK_BRAND_TEXT = os.getenv("FACEBOOK_BRAND_TEXT", "CyberOplus").strip() or "CyberOplus"
 
 
 TECH_TERMS = {
@@ -56,9 +58,15 @@ def _load_template():
     if not FACEBOOK_IMAGE_TEMPLATE_PATH.exists():
         raise FileNotFoundError(f"missing template: {FACEBOOK_IMAGE_TEMPLATE_PATH}")
     image = Image.open(FACEBOOK_IMAGE_TEMPLATE_PATH).convert("RGBA")
-    if image.size != (FACEBOOK_IMAGE_SIZE, FACEBOOK_IMAGE_SIZE):
-        raise ValueError(f"facebook template must be {FACEBOOK_IMAGE_SIZE}x{FACEBOOK_IMAGE_SIZE}")
-    return image
+    if image.size == (FACEBOOK_IMAGE_SIZE, FACEBOOK_IMAGE_SIZE):
+        return image
+    log_event(
+        "facebook_template_resized",
+        original_width=image.width,
+        original_height=image.height,
+        target_size=FACEBOOK_IMAGE_SIZE,
+    )
+    return _cover(image, (FACEBOOK_IMAGE_SIZE, FACEBOOK_IMAGE_SIZE))
 
 
 def _load_fallback_image():
@@ -247,9 +255,36 @@ def _draw_title(base, title, prepared=False):
         y += line_height
 
 
+def _draw_brand(base):
+    from PIL import ImageDraw
+
+    draw = ImageDraw.Draw(base)
+    font = _font(34)
+    padding_x = 42
+    padding_y = 32
+    label = FACEBOOK_BRAND_TEXT
+    bbox = draw.textbbox((0, 0), label, font=font)
+    width = bbox[2] - bbox[0]
+    height = bbox[3] - bbox[1]
+    x = FACEBOOK_IMAGE_SIZE - padding_x - width / 2
+    y = FACEBOOK_IMAGE_SIZE - padding_y - height / 2
+    draw.rounded_rectangle(
+        (
+            int(x - width / 2 - 18),
+            int(y - height / 2 - 12),
+            int(x + width / 2 + 18),
+            int(y + height / 2 + 12),
+        ),
+        radius=14,
+        fill=(0, 0, 0, 120),
+    )
+    _draw_text(draw, (x, y), label, font, (255, 255, 255, 245))
+
+
 def generate_facebook_image(title, image_url, output_path, hook_text=""):
     """
-    Generate a 1080x1080 Facebook image from a fixed template.
+    Generate a Facebook image from the article image, optional template overlay,
+    a short Arabic title/hook, and a small brand mark.
     Returns a dict with ok/path/used_fallback/error for logging and tests.
     """
     output_path = Path(output_path)
@@ -257,13 +292,27 @@ def generate_facebook_image(title, image_url, output_path, hook_text=""):
     FACEBOOK_IMAGE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     try:
-        base = _load_template()
         article_image, used_fallback = _load_article_image(image_url)
-        article_image = _cover(article_image, (FACEBOOK_IMAGE_BOX_W, FACEBOOK_IMAGE_BOX_H))
+        base = _cover(article_image, (FACEBOOK_IMAGE_SIZE, FACEBOOK_IMAGE_SIZE))
+        from PIL import Image, ImageFilter
+
+        base = base.filter(ImageFilter.GaussianBlur(1.2))
+        shade = Image.new("RGBA", base.size, (0, 0, 0, 92))
+        base.alpha_composite(shade)
+        try:
+            template = _load_template()
+            if template.getextrema()[3][0] < 255:
+                base.alpha_composite(template)
+        except Exception as template_error:
+            log_event("facebook_template_overlay_skipped", error=template_error.__class__.__name__)
+
+        article_card = _cover(article_image, (FACEBOOK_IMAGE_BOX_W, FACEBOOK_IMAGE_BOX_H))
         image_x = max(0, (FACEBOOK_IMAGE_SIZE - FACEBOOK_IMAGE_BOX_W) // 2)
-        base.alpha_composite(article_image, (image_x, FACEBOOK_IMAGE_BOX_Y))
+        image_y = FACEBOOK_IMAGE_BOX_Y
+        base.alpha_composite(article_card, (image_x, image_y))
         overlay_text = _clean_overlay_text(hook_text) or title
         _draw_title(base, overlay_text, prepared=bool(_clean_overlay_text(hook_text)))
+        _draw_brand(base)
         base.convert("RGB").save(output_path, "JPEG", quality=90, optimize=True)
         if not output_path.exists() or output_path.stat().st_size <= 0:
             raise RuntimeError("empty generated facebook image")

@@ -1636,10 +1636,12 @@ def print_facebook_preview(preview):
     print("PHASE 13 FACEBOOK PREVIEW")
     print("=" * 60)
     if not preview.get("available"):
+        print(f"Preview status: {preview.get('preview_status', 'unavailable')}")
         print(preview.get("error", "No eligible Facebook post preview available."))
         print("=" * 60)
         return
 
+    print(f"Preview status: {preview.get('preview_status', 'ok')}")
     print(f"Selected style: {preview['selected_style']}")
     print("\nPost text:")
     print(preview["post_text"])
