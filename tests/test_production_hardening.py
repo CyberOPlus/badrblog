@@ -1,4 +1,5 @@
 import json
+import re
 import subprocess
 import unittest
 from contextlib import redirect_stdout
@@ -588,11 +589,61 @@ class ProductionHardeningTests(unittest.TestCase):
                 "seo_description": "ملخص عربي مهني قصير لاختبار منشور فيسبوك.",
                 "suggested_category": "Tech-News",
             },
-            "insight_knowledge",
+            "tech_news",
             blogger_url="https://example.com/post",
         )
         self.assertNotIn("https://example.com/post", caption)
         self.assertIn("أول تعليق", caption)
+
+    def test_facebook_hashtags_count_stays_between_six_and_ten(self):
+        blueprint = facebook_publisher._build_post_blueprint(
+            {
+                "seo_title": "OpenAI launches new productivity workflow for enterprise teams",
+                "seo_description": "A practical update focused on team productivity, automation, and faster daily workflows.",
+                "suggested_category": "AI-Tools",
+                "content_preview": "The tool helps teams automate repeated work and shorten delivery time.",
+            },
+            style="ai_tools",
+        )
+        hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", blueprint["caption"], flags=re.UNICODE)
+        self.assertGreaterEqual(len(hashtags), 6)
+        self.assertLessEqual(len(hashtags), 10)
+
+    def test_facebook_hook_is_not_equal_to_title(self):
+        article = {
+            "seo_title": "Microsoft launches new Windows security update",
+            "seo_description": "The latest update fixes a high-risk issue and changes the protection flow for users.",
+            "suggested_category": "Cyber-Security",
+            "content_preview": "Users should apply the update quickly to reduce the exposure window.",
+        }
+        blueprint = facebook_publisher._build_post_blueprint(article, style="cybersecurity")
+        self.assertNotEqual(
+            facebook_publisher._normalize_memory_text(blueprint["hook"]),
+            facebook_publisher._normalize_memory_text(article["seo_title"]),
+        )
+
+    def test_facebook_style_rotation_avoids_third_repeat(self):
+        with TemporaryDirectory() as temp_dir:
+            memory_path = Path(temp_dir) / "facebook_style_memory.json"
+            memory_path.write_text(
+                json.dumps(
+                    {
+                        "global_styles": ["tech_news", "tech_news"],
+                        "recent": {"Tech-News": ["tech_news"]},
+                        "recent_hooks": [],
+                        "recent_structures": [],
+                        "stats": {},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with patch.object(facebook_publisher, "FACEBOOK_STYLE_MEMORY_PATH", memory_path):
+                pattern = facebook_publisher._choose_caption_pattern(
+                    {"suggested_category": "Tech-News"},
+                    [],
+                )
+
+        self.assertNotEqual(pattern, "tech_news")
 
     def test_default_openrouter_fallback_list_is_available(self):
         import config
@@ -767,8 +818,11 @@ class ProductionHardeningTests(unittest.TestCase):
             memory_path.write_text(
                 json.dumps(
                     {
-                        "recent": {"Tech-News": ["question_hook", "insight_knowledge"]},
-                        "stats": {"Tech-News": {"reader_impact": {"used": 20}}},
+                        "global_styles": ["tech_news"],
+                        "recent": {"Tech-News": ["tech_news", "ai_tools"]},
+                        "recent_hooks": [],
+                        "recent_structures": [],
+                        "stats": {"Tech-News": {"apps_programs": {"used": 20}}},
                     }
                 ),
                 encoding="utf-8",
@@ -776,10 +830,10 @@ class ProductionHardeningTests(unittest.TestCase):
             with patch.object(facebook_publisher, "FACEBOOK_STYLE_MEMORY_PATH", memory_path):
                 pattern = facebook_publisher._choose_caption_pattern(
                     {"suggested_category": "Tech-News"},
-                    [{"facebook_posted_at": "2026-01-01T00:00:00", "facebook_caption_pattern": "breaking_alert"}],
+                    [{"facebook_posted_at": "2026-01-01T00:00:00", "facebook_caption_pattern": "tech_news"}],
                 )
 
-        self.assertNotIn(pattern, {"breaking_alert", "question_hook", "insight_knowledge"})
+        self.assertNotIn(pattern, {"tech_news", "ai_tools"})
 
     def test_basic_template_fallback_has_publishable_words(self):
         package = {

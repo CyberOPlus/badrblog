@@ -133,6 +133,14 @@ def _clean_title_text(title):
     return cleaned
 
 
+def _clean_overlay_text(text):
+    cleaned = _clean_title_text(text)
+    words = cleaned.split()
+    if len(words) > 10:
+        cleaned = " ".join(words[:10])
+    return cleaned
+
+
 def _brand_from_title(title):
     lower = str(title or "").casefold()
     for token, display in TECH_TERMS.items():
@@ -208,11 +216,11 @@ def _draw_text(draw, position, line, font, fill):
         draw.text(position, line, font=font, fill=fill, anchor="mm")
 
 
-def _draw_title(base, title):
+def _draw_title(base, title, prepared=False):
     from PIL import Image, ImageDraw, ImageFilter
 
     draw = ImageDraw.Draw(base)
-    title = _generate_image_title(title)
+    title = _clean_overlay_text(title) if prepared else _generate_image_title(title)
 
     for size in range(FACEBOOK_TITLE_FONT_SIZE, 27, -3):
         font = _font(size)
@@ -239,7 +247,7 @@ def _draw_title(base, title):
         y += line_height
 
 
-def generate_facebook_image(title, image_url, output_path):
+def generate_facebook_image(title, image_url, output_path, hook_text=""):
     """
     Generate a 1080x1080 Facebook image from a fixed template.
     Returns a dict with ok/path/used_fallback/error for logging and tests.
@@ -254,7 +262,8 @@ def generate_facebook_image(title, image_url, output_path):
         article_image = _cover(article_image, (FACEBOOK_IMAGE_BOX_W, FACEBOOK_IMAGE_BOX_H))
         image_x = max(0, (FACEBOOK_IMAGE_SIZE - FACEBOOK_IMAGE_BOX_W) // 2)
         base.alpha_composite(article_image, (image_x, FACEBOOK_IMAGE_BOX_Y))
-        _draw_title(base, title)
+        overlay_text = _clean_overlay_text(hook_text) or title
+        _draw_title(base, overlay_text, prepared=bool(_clean_overlay_text(hook_text)))
         base.convert("RGB").save(output_path, "JPEG", quality=90, optimize=True)
         if not output_path.exists() or output_path.stat().st_size <= 0:
             raise RuntimeError("empty generated facebook image")
