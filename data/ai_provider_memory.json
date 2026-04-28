@@ -9,14 +9,6 @@
       "reason": "504 The request timed out. Please try again.",
       "until": 1777421804.3540845
     },
-    "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
-      "failed_at": "2026-04-29T00:26:01",
-      "key_id": "e5c3515f5b",
-      "model": "inclusionai/ling-2.6-flash:free",
-      "provider": "openrouter",
-      "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "until": 1777420565.4930422
-    },
     "openrouter:liquid/lfm-2.5-1.2b-instruct:free:e5c3515f5b": {
       "failed_at": "2026-04-29T00:46:43",
       "key_id": "e5c3515f5b",
@@ -24,14 +16,6 @@
       "provider": "openrouter",
       "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "until": 1777421804.2161472
-    },
-    "openrouter:nvidia/nemotron-3-nano-30b-a3b:free:e5c3515f5b": {
-      "failed_at": "2026-04-29T00:26:03",
-      "key_id": "e5c3515f5b",
-      "model": "nvidia/nemotron-3-nano-30b-a3b:free",
-      "provider": "openrouter",
-      "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "until": 1777420566.5453684
     }
   },
   "fastest_success_model": "openrouter:inclusionai/ling-2.6-flash:free",
@@ -48,10 +32,10 @@
       "failures": 1,
       "key_id": "e5c3515f5b",
       "last_failure_at": "2026-04-29T00:26:01",
-      "last_success_at": "2026-04-29T00:21:06",
+      "last_success_at": "2026-04-28T23:57:16",
       "model": "inclusionai/ling-2.6-flash:free",
       "provider": "openrouter",
-      "successes": 5,
+      "successes": 6,
       "total_success_time": 0.0004
     },
     "openrouter:liquid/lfm-2.5-1.2b-instruct:free:e5c3515f5b": {
