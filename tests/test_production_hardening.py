@@ -1282,6 +1282,18 @@ class ProductionHardeningTests(unittest.TestCase):
         log.assert_called()
         self.assertEqual(log.call_args.args[0], "quality_gate_false_positive_avoided")
 
+    def test_title_only_marketing_signal_with_clean_body_is_not_blocked(self):
+        article = {
+            "title": "EU Commission AI deal expands Android software ecosystem",
+            "url": "https://example.com/news/eu-commission-ai-ecosystem",
+            "full_article_text": (
+                "European regulators approved a broader interoperability framework for Android software tools. "
+                "The report focuses on policy, developer access, and ecosystem changes without any buying prompts."
+            ),
+        }
+        blocked, reason = content_filter.is_promotional_article(article)
+        self.assertFalse(blocked, reason)
+
     def test_duplicate_topic_signature_blocks_repeated_story(self):
         def fake_collect(base_url, **_kwargs):
             return [{"title": "Google fixes Chrome zero-day CVE-2026-1234", "url": f"{base_url}/story", "published_at": recent_iso(1)}], "", 200, {"method_used": "feed"}
@@ -1296,25 +1308,26 @@ class ProductionHardeningTests(unittest.TestCase):
 
         self.assertFalse(result["articles"])
 
-    def test_workflow_cron_is_hourly_batch(self):
+    def test_workflow_cron_is_quota_optimized_lightweight_run(self):
         text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
-        self.assertIn('cron: "0 * * * *"', text)
+        self.assertIn('cron: "*/15 * * * *"', text)
         self.assertIn("workflow_dispatch:", text)
         self.assertIn("group: auto-cycle-${{ github.ref }}", text)
         self.assertIn("cancel-in-progress: false", text)
-        self.assertIn("timeout-minutes: 60", text)
-        self.assertIn("timeout-minutes: 55", text)
+        self.assertIn("timeout-minutes: 15", text)
+        self.assertIn("timeout-minutes: 10", text)
         self.assertIn('"CATEGORY_ROTATION_MODE": "true"', text)
-        self.assertIn('"MAX_SOURCES_PER_RUN": "999"', text)
-        self.assertIn('"MAX_POSTS_PER_RUN": "8"', text)
-        self.assertIn('"MAX_ARTICLES_PER_RUN": "8"', text)
-        self.assertIn('"SAFE_CYCLE_MAX_ARTICLES": "8"', text)
-        self.assertIn('"CATEGORY_POSTS_PER_HOUR": "2"', text)
-        self.assertIn('"HOURLY_POST_LIMIT": "8"', text)
+        self.assertIn('"MAX_SOURCES_PER_RUN": "4"', text)
+        self.assertIn('"MAX_POSTS_PER_RUN": "1"', text)
+        self.assertIn('"MAX_ARTICLES_PER_RUN": "1"', text)
+        self.assertIn('"SAFE_CYCLE_MAX_ARTICLES": "1"', text)
+        self.assertIn('"CATEGORY_POSTS_PER_HOUR": "1"', text)
+        self.assertIn('"HOURLY_POST_LIMIT": "1"', text)
+        self.assertIn('"MAX_LIVE_POSTS_PER_DAY": "20"', text)
+        self.assertIn('"TARGET_LIVE_POSTS_PER_DAY": "12"', text)
         self.assertIn('"MIN_MINUTES_BETWEEN_LIVE_POSTS": "0"', text)
         self.assertIn('"MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": "0"', text)
-        self.assertIn('"MAX_LIVE_POSTS_PER_DAY": "288"', text)
-        self.assertIn('"MAX_FACEBOOK_POSTS_PER_DAY": "288"', text)
+        self.assertIn('"MAX_FACEBOOK_POSTS_PER_DAY": "20"', text)
 
     def test_live_post_allowed_after_one_minute(self):
         now = datetime(2026, 4, 27, 12, 10, 0)
@@ -1505,11 +1518,12 @@ class ProductionHardeningTests(unittest.TestCase):
 
     def test_workflow_self_trigger_loop_is_present_and_guarded(self):
         text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
-        self.assertIn('cron: "0 * * * *"', text)
+        self.assertIn('cron: "*/15 * * * *"', text)
         self.assertIn("self_trigger:", text)
         self.assertIn("actions: write", text)
         self.assertIn("Recent run guard", text)
         self.assertIn("Self trigger next run", text)
+        self.assertIn("900 - elapsed", text)
         self.assertIn("github.event_name == 'workflow_dispatch'", text)
         self.assertIn("github.event.inputs.self_trigger == 'true'", text)
         self.assertIn("/actions/workflows/auto-cycle.yml/dispatches", text)
@@ -1537,6 +1551,28 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(first["category"], "Cyber-Security")
         self.assertEqual(second["category"], "AI-Tools")
 
+    def test_source_rotation_state_advances_within_category(self):
+        sources = [
+            {"name": "Cyber A", "base_url": "https://a.example"},
+            {"name": "Cyber B", "base_url": "https://b.example"},
+        ]
+        with TemporaryDirectory() as temp_dir:
+            crawl_path = Path(temp_dir) / "crawl_state.json"
+            with patch.object(runtime_state, "CRAWL_STATE_PATH", crawl_path):
+                first_order = runtime_state.order_sources_for_rotation("Cyber-Security", sources)
+                runtime_state.advance_source_rotation(
+                    "Cyber-Security",
+                    first_order[0]["base_url"],
+                    first_order[0]["name"],
+                    [source["base_url"] for source in sources],
+                )
+                second_order = runtime_state.order_sources_for_rotation("Cyber-Security", sources)
+                record = runtime_state.source_rotation_record("Cyber-Security")
+
+        self.assertEqual(first_order[0]["base_url"], "https://a.example")
+        self.assertEqual(second_order[0]["base_url"], "https://b.example")
+        self.assertEqual(record["last_source_key"], "https://a.example")
+
     def test_category_rotation_fetch_processes_all_sources_in_category(self):
         calls = []
 
@@ -1560,6 +1596,30 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(len(calls), 2)
         self.assertIn("https://cyber-a.example", calls)
         self.assertIn("https://cyber-b.example", calls)
+
+    def test_lightweight_category_fetch_exits_without_next_category_fallback(self):
+        calls = []
+
+        def fake_collect(base_url, **_kwargs):
+            calls.append(base_url)
+            if "cyber" in base_url:
+                return [], "", 200, {"method_used": "feed"}
+            return [{"title": f"Fresh {base_url}", "url": f"{base_url}/story", "published_at": recent_iso(1)}], "", 200, {"method_used": "feed"}
+
+        sources = [
+            {"name": "Cyber A", "base_url": "https://cyber-a.example", "enabled": True, "category_hint": "Cyber-Security", "category_label": "Cyber-Security", "fetch_limit_per_run": 3},
+            {"name": "AI A", "base_url": "https://ai-a.example", "enabled": True, "category_hint": "AI-Tools", "category_label": "AI-Tools", "fetch_limit_per_run": 3},
+        ]
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            crawl_path = Path(temp_dir) / "crawl_state.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(main, "ARTICLE_QUEUE_PATH", queue_path), patch.object(runtime_state, "CRAWL_STATE_PATH", crawl_path), patch.object(scraper, "source_crawl_record", return_value={}), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(main, "load_sources", return_value=sources), patch.object(main, "load_published_ids", return_value=set()), patch.object(main, "CATEGORY_ROTATION_MODE", True), patch.object(main, "PROCESS_FULL_CATEGORY_PER_RUN", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1):
+                result = main.run_fetch_only()
+
+        self.assertEqual(result["selected_category"], "Cyber-Security")
+        self.assertEqual(result["selected_source_name"], "Cyber A")
+        self.assertEqual(calls, ["https://cyber-a.example"])
+        self.assertEqual(result["articles_found"], 0)
 
     def test_hourly_batch_fetch_processes_all_configured_categories(self):
         calls = []
@@ -1665,12 +1725,40 @@ class ProductionHardeningTests(unittest.TestCase):
             },
             "draft_action": "created",
             "execution_seconds": 12.3,
+            "lightweight_run": True,
+            "next_run_expected_at": "2026-04-28T12:15:00",
+            "schedule": {"live_posts_created_today": 4},
         }
         with patch.object(notifier, "send_telegram_message", return_value={"sent": False, "skipped": True, "reason": "disabled"}) as send:
             notifier.notify_auto_cycle_summary(result, run_id="unit-success-format")
         message = send.call_args.args[0]
         self.assertIn("تم نشر مقال جديد", message)
         self.assertIn("Blogger URL:", message)
+        self.assertIn("Run duration: 12.30s", message)
+        self.assertIn("Lightweight run: yes", message)
+        self.assertIn("Posts today: 4/20 (target 12)", message)
+        self.assertIn("Next run: 2026-04-28T12:15:00", message)
+
+    def test_telegram_skipped_summary_uses_selected_source_from_fetch(self):
+        result = {
+            "skipped": True,
+            "reason": "no article",
+            "fetch": {
+                "selected_category": "Cyber-Security",
+                "selected_source_name": "Cyber A",
+                "sources_checked": 1,
+                "articles_found": 0,
+            },
+            "execution_seconds": 3.2,
+            "lightweight_run": True,
+            "next_run_expected_at": "2026-04-28T12:30:00",
+            "schedule": {"live_posts_created_today": 2},
+        }
+        with patch.object(notifier, "send_telegram_message", return_value={"sent": False, "skipped": True, "reason": "disabled"}) as send:
+            notifier.notify_auto_cycle_summary(result, run_id="unit-skip-source")
+        message = send.call_args.args[0]
+        self.assertIn("Source: Cyber A", message)
+        self.assertIn("Publish result: skipped", message)
 
     def test_auto_cycle_run_log_contains_reliability_fields(self):
         with TemporaryDirectory() as temp_dir:

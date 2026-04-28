@@ -88,11 +88,11 @@ COMMERCIAL_ROUNDUP_PATTERNS = (
 PROMO_URL_HINTS = (
     "coupon",
     "promo",
-    "deal",
     "discount",
     "affiliate",
     "sponsored",
-    "partner",
+    "advert",
+    "advertorial",
 )
 
 AFFILIATE_QUERY_HINTS = (
@@ -223,7 +223,8 @@ def is_promotional_article(article):
     affiliate_query = _affiliate_query_detected(parsed)
 
     explicit_marketing = _has_pattern(EXPLICIT_MARKETING_PATTERNS, text)
-    body_has_explicit_marketing = _has_pattern(EXPLICIT_MARKETING_PATTERNS, _article_body_text(article))
+    body_text = _article_body_text(article)
+    body_has_explicit_marketing = _has_pattern(EXPLICIT_MARKETING_PATTERNS, body_text)
     has_real_body = _has_real_article_body(article)
     marketing_intent = _has_pattern(MARKETING_INTENT_PATTERNS, normalized_text) or promo_path or affiliate_query
     selling_language = _has_pattern(SELLING_LANGUAGE_PATTERNS, normalized_text) or promo_path
@@ -235,11 +236,23 @@ def is_promotional_article(article):
     )
     primary_goal_selling = _has_pattern(PRIMARY_SELLING_PATTERNS, normalized_text) or promo_path
 
-    if explicit_marketing and (body_has_explicit_marketing or has_real_body or promo_path or affiliate_query):
+    if body_has_explicit_marketing:
         return True, "ad/affiliate/sponsored title or summary"
 
     direct_sales_cta = _has_pattern((r"\bbuy\s+.+\s+now\b",), normalized_text)
     if direct_sales_cta and marketing_intent and selling_language and primary_goal_selling:
+        return True, "ad/affiliate/sponsored title or summary"
+
+    obvious_title_only_promo = (
+        explicit_marketing
+        and marketing_intent
+        and primary_goal_selling
+        and (affiliate_signal or promo_path or affiliate_query)
+    )
+    if not has_real_body and obvious_title_only_promo:
+        return True, "ad/affiliate/sponsored title or summary"
+
+    if (promo_path or affiliate_query) and explicit_marketing:
         return True, "ad/affiliate/sponsored title or summary"
 
     if marketing_intent and selling_language and affiliate_signal and primary_goal_selling:

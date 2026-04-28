@@ -40,9 +40,13 @@ def load_crawl_state():
     category_rotation = data.get("category_rotation", {})
     if not isinstance(category_rotation, dict):
         category_rotation = {}
+    source_rotation = data.get("source_rotation", {})
+    if not isinstance(source_rotation, dict):
+        source_rotation = {}
     return {
         "sources": sources,
         "category_rotation": category_rotation,
+        "source_rotation": source_rotation,
         "updated_at": str(data.get("updated_at", "")),
     }
 
@@ -51,6 +55,7 @@ def save_crawl_state(state):
     data = {
         "sources": state.get("sources", {}),
         "category_rotation": state.get("category_rotation", {}),
+        "source_rotation": state.get("source_rotation", {}),
         "updated_at": datetime.now().isoformat(timespec="seconds"),
     }
     _write_json(CRAWL_STATE_PATH, data)
@@ -116,6 +121,62 @@ def advance_category_rotation(selected_category, available_categories=None):
     }
     save_crawl_state(state)
     return dict(state["category_rotation"])
+
+
+def source_rotation_record(category_label):
+    state = load_crawl_state()
+    rotations = state.get("source_rotation", {})
+    if not isinstance(rotations, dict):
+        return {}
+    record = rotations.get(str(category_label or ""), {})
+    return record if isinstance(record, dict) else {}
+
+
+def _source_key(source):
+    if isinstance(source, dict):
+        return str(source.get("base_url") or source.get("url") or source.get("name") or "").strip()
+    return str(source or "").strip()
+
+
+def order_sources_for_rotation(category_label, sources):
+    sources = [source for source in (sources or []) if source]
+    if len(sources) < 2:
+        return sources
+    keys = [_source_key(source) for source in sources]
+    record = source_rotation_record(category_label)
+    start_key = str(record.get("next_source_key") or "").strip()
+    if not start_key:
+        last_key = str(record.get("last_source_key") or "").strip()
+        if last_key in keys:
+            start_key = keys[(keys.index(last_key) + 1) % len(keys)]
+    if start_key in keys:
+        index = keys.index(start_key)
+        return sources[index:] + sources[:index]
+    return sources
+
+
+def advance_source_rotation(category_label, selected_source_key, selected_source_name="", available_source_keys=None):
+    selected_source_key = str(selected_source_key or "").strip()
+    category_label = str(category_label or "").strip()
+    if not category_label or not selected_source_key:
+        return {}
+    keys = [str(key or "").strip() for key in (available_source_keys or []) if str(key or "").strip()]
+    if selected_source_key in keys and keys:
+        next_key = keys[(keys.index(selected_source_key) + 1) % len(keys)]
+    elif keys:
+        next_key = keys[0]
+    else:
+        next_key = ""
+    state = load_crawl_state()
+    rotations = state.setdefault("source_rotation", {})
+    rotations[category_label] = {
+        "last_source_key": selected_source_key,
+        "last_source_name": selected_source_name,
+        "next_source_key": next_key,
+        "updated_at": _utc_iso(),
+    }
+    save_crawl_state(state)
+    return dict(rotations[category_label])
 
 
 def load_topic_fingerprints():

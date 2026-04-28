@@ -12,9 +12,11 @@ from article_queue import load_article_queue, save_article_queue
 from config import (
     FACEBOOK_PAGE_ACCESS_TOKEN,
     FAST_NEWS_MODE,
+    MAX_LIVE_POSTS_PER_DAY,
     RECENT_NEWS_MAX_AGE_HOURS,
     RECENT_NEWS_ONLY,
     SAFE_MODE,
+    TARGET_LIVE_POSTS_PER_DAY,
     TELEGRAM_ALERTS_ENABLED,
     TELEGRAM_BOT_TOKEN,
     TELEGRAM_CHAT_ID,
@@ -76,6 +78,14 @@ def _blogger_url(article):
 def _source_name(article):
     article = article or {}
     return _short(article.get("source_name") or article.get("source_url") or "")
+
+
+def _selected_source_name(result, article):
+    source_name = _source_name(article)
+    if source_name:
+        return source_name
+    fetch = (result or {}).get("fetch") or {}
+    return _short(fetch.get("selected_source_name") or fetch.get("selected_source_url") or "")
 
 
 def _article_word_count(article):
@@ -302,9 +312,22 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
         facebook_article = facebook.get("article") or article
         facebook_status = facebook_article.get("facebook_status") or ("posted" if facebook.get("posted") else "failed")
     fetch = result.get("fetch") or {}
+    schedule = result.get("schedule") or {}
     selected_category = fetch.get("selected_category") or article.get("suggested_category") or ""
+    selected_source = _selected_source_name(result, article)
     sources_checked = fetch.get("sources_checked", "")
     candidates_found = fetch.get("articles_found", "")
+    posts_today = schedule.get("posts_today")
+    if posts_today in (None, ""):
+        posts_today = schedule.get("live_posts_created_today", "")
+    daily_line = (
+        f"Posts today: {posts_today}/{MAX_LIVE_POSTS_PER_DAY} (target {TARGET_LIVE_POSTS_PER_DAY})"
+        if posts_today not in (None, "")
+        else f"Daily limit: {MAX_LIVE_POSTS_PER_DAY} (target {TARGET_LIVE_POSTS_PER_DAY})"
+    )
+    run_duration = _execution_time(result) or "unknown"
+    lightweight = "yes" if result.get("lightweight_run", True) else "no"
+    next_run = result.get("next_run_expected_at") or "scheduled by GitHub Actions"
 
     if status == "success":
         clear_lines = [
@@ -327,29 +350,43 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
             f"Facebook image: {article.get('facebook_image_status', 'skipped')}",
             f"Sources checked: {sources_checked}",
             f"Candidates found: {candidates_found}",
-            f"Source: {_source_name(article)}",
+            f"Source: {selected_source}",
             f"Age: {article.get('article_age_hours', '')}",
             f"Words: {_article_word_count(article)}",
-            f"Execution time: {_execution_time(result)}",
+            f"Run duration: {run_duration}",
+            f"Lightweight run: {lightweight}",
+            "Publish result: published",
+            daily_line,
+            f"Next run: {next_run}",
         ]
     elif status == "skipped":
         clear_lines = [
             "⚠️ لم يتم النشر في هذه الدورة",
             f"Reason: {reason or result.get('reason') or 'no publishable article'}",
             f"Category: {selected_category}",
+            f"Source: {selected_source}",
             f"Sources checked: {sources_checked}",
             f"Candidates found: {candidates_found}",
             f"Best candidate: {_article_title(article)}",
+            f"Run duration: {run_duration}",
+            f"Lightweight run: {lightweight}",
+            "Publish result: skipped",
+            daily_line,
             "Bot alive: yes",
-            "Next run: scheduled by GitHub Actions",
+            f"Next run: {next_run}",
         ]
     else:
         clear_lines = [
             "❌ فشل التشغيل",
             f"Reason: {reason or 'unknown'}",
+            f"Category: {selected_category}",
+            f"Source: {selected_source}",
+            f"Run duration: {run_duration}",
+            f"Lightweight run: {lightweight}",
+            daily_line,
             f"Safe error: {reason or 'unknown'}",
             "Bot alive: yes",
-            "Next run: scheduled by GitHub Actions",
+            f"Next run: {next_run}",
         ]
 
     lines = clear_lines

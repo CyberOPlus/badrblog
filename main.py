@@ -92,6 +92,7 @@ from config import (
     SAFE_CYCLE_MAX_ARTICLES,
     SOURCE_TIMEOUT_SECONDS,
     SOURCE_HEALTH_PATH,
+    TARGET_LIVE_POSTS_PER_DAY,
     TELEGRAM_ALERTS_ENABLED,
     TELEGRAM_BOT_TOKEN,
     TELEGRAM_CHAT_ID,
@@ -112,10 +113,13 @@ from scraper import discover_first_valid_article_link, discover_fresh_article_li
 from runtime_state import (
     add_topic_fingerprint,
     advance_category_rotation,
+    advance_source_rotation,
     load_topic_fingerprints,
+    order_sources_for_rotation,
     save_crawl_state,
     save_topic_fingerprints,
     select_category_for_rotation,
+    source_rotation_record,
 )
 from source_validator import check_sources_config
 from notifier import (
@@ -202,6 +206,23 @@ def _sources_for_category(sources, category_label):
     ]
 
 
+def _rotated_sources_for_category(sources, category_label):
+    return order_sources_for_rotation(category_label, _sources_for_category(sources, category_label))
+
+
+def _remember_selected_source(category_label, article, available_sources=None):
+    if not category_label or not article:
+        return {}
+    source_key = str(article.get("source_url") or "").strip()
+    source_name = str(article.get("source_name") or "").strip()
+    available_keys = [
+        str(source.get("base_url") or "").strip()
+        for source in (available_sources or [])
+        if str(source.get("base_url") or "").strip()
+    ]
+    return advance_source_rotation(category_label, source_key, source_name, available_keys)
+
+
 def _category_queue_candidates(category_label):
     return [
         article
@@ -276,10 +297,6 @@ def run_fetch_only():
         else:
             selected_category, category_order = _select_category_for_this_run(enabled_sources)
             categories_to_try = [selected_category] if selected_category else []
-            if category_order and selected_category in category_order:
-                next_category = category_order[(category_order.index(selected_category) + 1) % len(category_order)]
-                if next_category and next_category not in categories_to_try:
-                    categories_to_try.append(next_category)
 
         discovery = {
             "checked_sources": 0,
@@ -291,14 +308,19 @@ def run_fetch_only():
         all_source_results = []
         category_attempts = []
         for attempt_index, category_label in enumerate(categories_to_try):
-            category_sources = _sources_for_category(enabled_sources, category_label)
+            category_sources = (
+                _sources_for_category(enabled_sources, category_label)
+                if hourly_batch
+                else _rotated_sources_for_category(enabled_sources, category_label)
+            )
+            selected_source = category_sources[0] if category_sources else {}
             queued_candidates = _category_queue_candidates(category_label)
             category_discovery = discover_fresh_article_links(
                 category_sources,
                 existing_articles=existing_queue.get("articles", []),
                 published_urls=published_set,
                 published_topic_hashes=topic_fingerprints,
-                process_all_sources=True,
+                process_all_sources=hourly_batch,
             )
             category_discovery["articles"] = sorted(
                 category_discovery.get("articles", []),
@@ -320,6 +342,9 @@ def run_fetch_only():
                 "selected_category": category_label,
                 "primary_category": selected_category,
                 "category_order": category_order,
+                "selected_source_name": str(selected_source.get("name") or ""),
+                "selected_source_url": str(selected_source.get("base_url") or ""),
+                "source_rotation": source_rotation_record(category_label),
                 "category_attempts": category_attempts,
                 "category_fallback_used": attempt_index > 0,
                 "queued_candidates": len(queued_candidates),
@@ -329,6 +354,13 @@ def run_fetch_only():
             }
             all_discovered_articles.extend(category_discovery.get("articles", []))
             all_source_results.extend(category_discovery.get("source_results", []))
+            if not hourly_batch and category_discovery.get("articles"):
+                _remember_selected_source(
+                    category_label,
+                    category_discovery.get("articles", [])[0],
+                    available_sources=category_sources,
+                )
+                category_context["source_rotation"] = source_rotation_record(category_label)
             if hourly_batch:
                 continue
             if category_discovery.get("articles") or queued_candidates:
@@ -401,6 +433,7 @@ def run_fetch_only():
     print(f"Sources checked:          {discovery['checked_sources']}")
     if category_context:
         print(f"Selected category:        {category_context.get('selected_category', '')}")
+        print(f"Selected source:          {category_context.get('selected_source_name', '')}")
         print(f"Primary category:         {category_context.get('primary_category', '')}")
         print(f"Queued in category:       {category_context.get('queued_candidates', 0)}")
         for attempt in category_context.get("category_attempts", []):
@@ -711,7 +744,15 @@ def _select_newest_fresh_ready_article(category_label="", preferred_ids=None):
         if preferred_candidates:
             candidates = preferred_candidates
 
-    candidate = sorted(candidates, key=_article_published_sort_value, reverse=True)[0]
+    source_record = source_rotation_record(category_label) if category_label else {}
+    last_source = str(source_record.get("last_source_key") or "").strip()
+    candidates = sorted(candidates, key=_article_published_sort_value, reverse=True)
+    if last_source and len(candidates) > 1:
+        candidates = sorted(
+            candidates,
+            key=lambda article: 1 if str(article.get("source_url") or "").strip() == last_source else 0,
+        )
+    candidate = candidates[0]
     queue = load_article_queue()
     for article in queue.get("articles", []):
         if article.get("id") != candidate.get("id"):
@@ -734,6 +775,12 @@ def _select_newest_fresh_ready_article(category_label="", preferred_ids=None):
         candidate = article
         break
     save_article_queue(queue)
+    if category_label and candidate:
+        _remember_selected_source(
+            category_label,
+            candidate,
+            available_sources=_sources_for_category(load_sources(), category_label),
+        )
     return candidate
 
 
@@ -884,10 +931,13 @@ def get_publish_schedule_status(mode=None, now=None):
     return {
         "configured_publish_mode": PUBLISH_MODE,
         "publish_mode": publish_mode,
+        "posts_today": created_today,
         "drafts_created_today": len(today_draft_times),
         "live_posts_created_today": len(today_live_times),
         "max_drafts_per_day": MAX_DRAFTS_PER_DAY,
         "max_live_posts_per_day": MAX_LIVE_POSTS_PER_DAY,
+        "target_live_posts_per_day": TARGET_LIVE_POSTS_PER_DAY,
+        "soft_target_reached": publish_mode == "live" and created_today >= TARGET_LIVE_POSTS_PER_DAY,
         "last_draft_time": last_draft_time,
         "last_live_publish_time": last_live_time,
         "minutes_since_last_draft": minutes_since_last_draft,
@@ -922,6 +972,14 @@ def _workflow_schedule():
         if stripped.startswith("- cron:"):
             return stripped.split("cron:", 1)[1].strip().strip('"').strip("'")
     return ""
+
+
+def _next_quarter_hour(now=None):
+    now = now or datetime.now()
+    minute = ((now.minute // 15) + 1) * 15
+    if minute >= 60:
+        return (now.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1))
+    return now.replace(minute=minute, second=0, microsecond=0)
 
 
 def _new_run_id():
@@ -1231,6 +1289,8 @@ def run_auto_cycle_logged():
         execution_seconds = round(time.perf_counter() - started_timer, 2)
         if isinstance(result, dict):
             result["execution_seconds"] = execution_seconds
+            result["lightweight_run"] = SAFE_CYCLE_MAX_ARTICLES == 1 and MAX_ARTICLES_PER_RUN == 1
+            result["next_run_expected_at"] = _next_quarter_hour().isoformat(timespec="seconds")
         log_event(
             "auto_cycle_end",
             run_id=run_id,
@@ -1673,6 +1733,7 @@ def run_deployment_check_only():
     safe_cycle_max_raw = _effective_raw_env("SAFE_CYCLE_MAX_ARTICLES", SAFE_CYCLE_MAX_ARTICLES)
     category_posts_raw = _effective_raw_env("CATEGORY_POSTS_PER_HOUR", CATEGORY_POSTS_PER_HOUR)
     hourly_limit_raw = _effective_raw_env("HOURLY_POST_LIMIT", HOURLY_POST_LIMIT)
+    target_live_posts_raw = _effective_raw_env("TARGET_LIVE_POSTS_PER_DAY", TARGET_LIVE_POSTS_PER_DAY)
     try:
         workflow_text = AUTO_CYCLE_WORKFLOW_PATH.read_text(encoding="utf-8-sig")
     except OSError:
@@ -1751,13 +1812,14 @@ def run_deployment_check_only():
     print(f"SAFE_CYCLE_MAX_ARTICLES: {safe_cycle_max_raw or 'MISSING'}")
     print(f"CATEGORY_POSTS_PER_HOUR: {category_posts_raw or 'MISSING'}")
     print(f"HOURLY_POST_LIMIT: {hourly_limit_raw or 'MISSING'}")
+    print(f"TARGET_LIVE_POSTS_PER_DAY: {target_live_posts_raw or 'MISSING'}")
     workflow_schedule = _workflow_schedule()
     print(f"GitHub Actions workflow: {'present' if AUTO_CYCLE_WORKFLOW_PATH.exists() else 'missing'}")
     print(f"GitHub Actions schedule: {workflow_schedule or 'MISSING'}")
     print(f"GitHub Actions concurrency: {'safe' if 'group: auto-cycle-${{ github.ref }}' in workflow_text and 'cancel-in-progress: false' in workflow_text else 'needs attention'}")
     print(f"GitHub Actions permissions: {'actions+contents write' if 'actions: write' in workflow_text and 'contents: write' in workflow_text else 'needs attention'}")
-    print(f"GitHub Actions job timeout: {'60 minutes' if 'timeout-minutes: 60' in workflow_text else 'needs attention'}")
-    print(f"GitHub Actions auto-cycle timeout: {'55 minutes' if 'Run auto cycle' in workflow_text and 'timeout-minutes: 55' in workflow_text else 'needs attention'}")
+    print(f"GitHub Actions job timeout: {'15 minutes' if 'timeout-minutes: 15' in workflow_text else 'needs attention'}")
+    print(f"GitHub Actions auto-cycle timeout: {'10 minutes' if 'Run auto cycle' in workflow_text and 'timeout-minutes: 10' in workflow_text else 'needs attention'}")
     print(f"GitHub Actions self-trigger: {'present' if 'Self trigger next run' in workflow_text and 'self_trigger' in workflow_text and '/dispatches' in workflow_text else 'missing'}")
     print(f"FACEBOOK_AUTO_POST: {'true' if facebook_auto_post else 'false'}")
     print("FACEBOOK_AUTO_POST value safe: yes")
@@ -1773,6 +1835,7 @@ def run_deployment_check_only():
         "MAX_DRAFTS_PER_DAY",
         "MIN_MINUTES_BETWEEN_DRAFTS",
         "MAX_LIVE_POSTS_PER_DAY",
+        "TARGET_LIVE_POSTS_PER_DAY",
         "MIN_MINUTES_BETWEEN_LIVE_POSTS",
         "MAX_FACEBOOK_POSTS_PER_DAY",
         "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS",
@@ -1784,6 +1847,7 @@ def run_deployment_check_only():
         "MAX_DRAFTS_PER_DAY": _effective_raw_env("MAX_DRAFTS_PER_DAY", MAX_DRAFTS_PER_DAY),
         "MIN_MINUTES_BETWEEN_DRAFTS": _effective_raw_env("MIN_MINUTES_BETWEEN_DRAFTS", MIN_MINUTES_BETWEEN_DRAFTS),
         "MAX_LIVE_POSTS_PER_DAY": _effective_raw_env("MAX_LIVE_POSTS_PER_DAY", MAX_LIVE_POSTS_PER_DAY),
+        "TARGET_LIVE_POSTS_PER_DAY": target_live_posts_raw,
         "MIN_MINUTES_BETWEEN_LIVE_POSTS": _effective_raw_env("MIN_MINUTES_BETWEEN_LIVE_POSTS", MIN_MINUTES_BETWEEN_LIVE_POSTS),
         "MAX_FACEBOOK_POSTS_PER_DAY": _effective_raw_env("MAX_FACEBOOK_POSTS_PER_DAY", get_facebook_limits_status().get("max_facebook_posts_per_day", "")),
         "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": _effective_raw_env("MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", get_facebook_limits_status().get("min_minutes_between_facebook_posts", "")),
@@ -1825,30 +1889,30 @@ def run_deployment_check_only():
             errors.append("Live automation requires RECENT_NEWS_MAX_AGE_HOURS=2.")
         if freshness_margin_raw != "10":
             errors.append("Live automation requires FRESHNESS_SAFETY_MARGIN_MINUTES=10.")
-        if max_sources_raw != "999":
-            errors.append("Live automation requires MAX_SOURCES_PER_RUN=999.")
+        if max_sources_raw != "4":
+            errors.append("Quota-optimized live automation requires MAX_SOURCES_PER_RUN=4.")
         if first_run_lookback_raw != "6":
             errors.append("Live automation requires FALLBACK_FIRST_RUN_LOOKBACK_HOURS=6.")
         if crawl_interval_raw != "5":
             errors.append("Live automation requires CRAWL_INTERVAL_MINUTES=5.")
         if crawl_overlap_raw != "10":
             errors.append("Live automation requires CRAWL_OVERLAP_MINUTES=10.")
-        if effective_limit_values["MAX_LIVE_POSTS_PER_DAY"] != "288":
-            errors.append("Live automation requires MAX_LIVE_POSTS_PER_DAY=288.")
+        if effective_limit_values["MAX_LIVE_POSTS_PER_DAY"] != "20":
+            errors.append("Quota-optimized live automation requires MAX_LIVE_POSTS_PER_DAY=20.")
+        if effective_limit_values["TARGET_LIVE_POSTS_PER_DAY"] != "12":
+            errors.append("Quota-optimized live automation requires TARGET_LIVE_POSTS_PER_DAY=12.")
         if effective_limit_values["MIN_MINUTES_BETWEEN_LIVE_POSTS"] != "0":
-            errors.append("Hourly batch automation requires MIN_MINUTES_BETWEEN_LIVE_POSTS=0.")
-        if effective_limit_values["MAX_FACEBOOK_POSTS_PER_DAY"] != "288":
-            errors.append("Live automation requires MAX_FACEBOOK_POSTS_PER_DAY=288.")
+            errors.append("Quota-optimized live automation requires MIN_MINUTES_BETWEEN_LIVE_POSTS=0.")
+        if effective_limit_values["MAX_FACEBOOK_POSTS_PER_DAY"] != "20":
+            errors.append("Quota-optimized live automation requires MAX_FACEBOOK_POSTS_PER_DAY=20.")
         if effective_limit_values["MIN_MINUTES_BETWEEN_FACEBOOK_POSTS"] != "0":
             errors.append("Live automation requires MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=0.")
-        if max_posts_raw != "8" or max_articles_raw != "8" or safe_cycle_max_raw != "8":
-            errors.append("Hourly batch automation requires MAX_POSTS_PER_RUN=8, MAX_ARTICLES_PER_RUN=8, and SAFE_CYCLE_MAX_ARTICLES=8.")
-        if category_posts_raw != "2" or hourly_limit_raw != "8":
-            errors.append("Hourly batch automation requires CATEGORY_POSTS_PER_HOUR=2 and HOURLY_POST_LIMIT=8.")
+        if max_posts_raw != "1" or max_articles_raw != "1" or safe_cycle_max_raw != "1":
+            errors.append("Quota-optimized automation requires MAX_POSTS_PER_RUN=1, MAX_ARTICLES_PER_RUN=1, and SAFE_CYCLE_MAX_ARTICLES=1.")
         if not AUTO_CYCLE_WORKFLOW_PATH.exists():
             errors.append("Missing .github/workflows/auto-cycle.yml.")
-        elif workflow_schedule != "0 * * * *":
-            errors.append("GitHub Actions schedule must be 0 * * * *.")
+        elif workflow_schedule != "*/15 * * * *":
+            errors.append("GitHub Actions schedule must be */15 * * * *.")
         if "workflow_dispatch:" not in workflow_text:
             errors.append("GitHub Actions workflow_dispatch must remain enabled.")
         if "group: auto-cycle-${{ github.ref }}" not in workflow_text:
@@ -1857,10 +1921,10 @@ def run_deployment_check_only():
             errors.append("GitHub Actions cancel-in-progress must be false.")
         if "actions: write" not in workflow_text or "contents: write" not in workflow_text:
             errors.append("GitHub Actions permissions must include actions: write and contents: write.")
-        if "timeout-minutes: 60" not in workflow_text:
-            errors.append("GitHub Actions job timeout must be 60 minutes.")
-        if "Run auto cycle" not in workflow_text or "timeout-minutes: 55" not in workflow_text:
-            errors.append("GitHub Actions auto-cycle step timeout must be 55 minutes.")
+        if "timeout-minutes: 15" not in workflow_text:
+            errors.append("GitHub Actions job timeout must be 15 minutes.")
+        if "Run auto cycle" not in workflow_text or "timeout-minutes: 10" not in workflow_text:
+            errors.append("GitHub Actions auto-cycle step timeout must be 10 minutes.")
         if "Self trigger next run" not in workflow_text or "self_trigger" not in workflow_text or "/dispatches" not in workflow_text:
             errors.append("GitHub Actions workflow must include the self-trigger dispatch step.")
         if "branches:" in workflow_text:
@@ -2354,6 +2418,7 @@ def run_safe_cycle_only():
             "skipped": True,
             "reason": reason,
             "fetch": fetch_stats,
+            "schedule": schedule_status,
             "source_warnings_count": source_warnings_count,
             "enrichment_failed_count": 0,
             "step_reached": "fetch",
@@ -2428,6 +2493,7 @@ def run_safe_cycle_only():
                 "completed": False,
                 "reason": reason,
                 "fetch": fetch_stats,
+                "schedule": schedule_status,
                 "score": score_stats,
                 "enrich": enrich_stats,
                 "plan": plan_result,
@@ -2457,6 +2523,7 @@ def run_safe_cycle_only():
             "skipped": True,
             "reason": no_article_reason,
             "fetch": fetch_stats,
+            "schedule": schedule_status,
             "score": score_stats,
             "enrich": enrich_stats,
             "plan": plan_result,
@@ -2492,6 +2559,7 @@ def run_safe_cycle_only():
             "reason": "prepare-ai failed",
             "article": article,
             "fetch": fetch_stats,
+            "schedule": schedule_status,
             "enrich": enrich_stats,
             "source_warnings_count": source_warnings_count,
             "enrichment_failed_count": enrichment_failed_count,
@@ -2502,7 +2570,15 @@ def run_safe_cycle_only():
     print("\n[6/7] run-ai", flush=True)
     print("Starting AI rewrite", flush=True)
     ai_started = time.perf_counter()
-    ai_stats = process_one_selected_article_with_ai(target_article_id=selected_id)
+    try:
+        ai_stats = process_one_selected_article_with_ai(target_article_id=selected_id)
+    except Exception as error:
+        ai_stats = {"processed": 1, "success": 0, "failed": 1, "message": str(error)}
+        log_event(
+            "ai_article_skipped_after_ai_failure",
+            article_id=selected_id,
+            reason=error.__class__.__name__,
+        )
     ai_elapsed = time.perf_counter() - ai_started
     print(f"AI finished in {ai_elapsed:.1f}s", flush=True)
     if ai_elapsed > 20:
@@ -2534,6 +2610,7 @@ def run_safe_cycle_only():
             "article": article,
             "ai": ai_stats,
             "fetch": fetch_stats,
+            "schedule": schedule_status,
             "enrich": enrich_stats,
             "source_warnings_count": source_warnings_count,
             "enrichment_failed_count": enrichment_failed_count,
@@ -2627,6 +2704,7 @@ def run_safe_cycle_only():
         "completed": draft_action in {"created", "updated"},
         "article": article,
         "fetch": fetch_stats,
+        "schedule": schedule_status,
         "enrich": enrich_stats,
         "draft": draft_result,
         "draft_action": draft_action,
