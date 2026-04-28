@@ -18,6 +18,8 @@ from production_logging import log_event
 MIN_IMAGE_WIDTH = 360
 MIN_IMAGE_HEIGHT = 220
 IMAGE_REQUEST_TIMEOUT = 10
+IMAGE_DOWNLOAD_TIMEOUT = 5
+IMAGE_DOWNLOAD_RETRIES = 3
 IMAGE_ASPECT_RATIO_MIN = 0.6  # width/height >= 0.6
 IMAGE_ASPECT_RATIO_MAX = 2.0  # width/height <= 2.0
 
@@ -297,6 +299,107 @@ def _extract_article_images(soup: BeautifulSoup, base_url: str) -> List[Dict[str
             })
     
     return images
+
+
+def extract_images(soup_or_html, article_url: str) -> List[Dict[str, str]]:
+    """
+    Public backward-compatible image extraction helper.
+    Returns dictionaries with url, alt, and source keys.
+    """
+    if isinstance(soup_or_html, BeautifulSoup):
+        soup = soup_or_html
+    else:
+        soup = _get_soup(str(soup_or_html or ""))
+    if not soup or not article_url:
+        return []
+
+    images = []
+    seen = set()
+
+    def add_image(url, source, alt=""):
+        absolute_url = _make_absolute_url(url, article_url)
+        if not absolute_url or absolute_url in seen:
+            return
+        if _is_blocked_image(absolute_url, [], alt):
+            return
+        seen.add(absolute_url)
+        images.append({"url": absolute_url, "alt": alt or "", "source": source})
+
+    for source, selector in (
+        ("og", "meta[property='og:image'], meta[property='og:image:url'], meta[property='og:image:secure_url']"),
+        ("twitter", "meta[name='twitter:image'], meta[property='twitter:image'], meta[name='twitter:image:src']"),
+        ("meta", "meta[name='image'], meta[itemprop='image'], meta[property='image']"),
+    ):
+        tag = soup.select_one(selector)
+        if tag and tag.get("content"):
+            add_image(tag.get("content"), source)
+
+    json_ld_image = _extract_json_ld_image(soup)
+    if json_ld_image:
+        add_image(json_ld_image, "jsonld")
+
+    for img_data in _extract_article_images(soup, article_url):
+        images.append(
+            {
+                "url": img_data["url"],
+                "alt": img_data.get("alt") or "",
+                "source": img_data.get("method") or "article_content",
+            }
+        )
+
+    return images
+
+
+def download_image_with_retry(url: str, timeout: int = IMAGE_DOWNLOAD_TIMEOUT, retries: int = IMAGE_DOWNLOAD_RETRIES) -> bool:
+    """
+    Verify an image is downloadable with bounded retries.
+    The pipeline keeps the remote URL; this downloads only enough to prove it works.
+    """
+    if not url or not _is_absolute_url(url):
+        log_event("image_download_failed", url_domain="", error="invalid_url")
+        return False
+
+    last_error = ""
+    attempts = max(1, retries)
+    for attempt in range(1, attempts + 1):
+        try:
+            response = requests.get(url, headers=HEADERS, timeout=timeout, stream=True)
+            response.raise_for_status()
+            content_type = response.headers.get("Content-Type", "").lower()
+            if content_type and "image" not in content_type:
+                raise ValueError("non_image_content_type")
+
+            content_length = int(response.headers.get("Content-Length") or 0)
+            if content_length and content_length < 1024:
+                raise ValueError("image_too_small")
+
+            first_chunk = next(response.iter_content(chunk_size=1024), b"")
+            if not first_chunk and not content_length:
+                raise ValueError("empty_image_response")
+
+            log_event(
+                "image_download_success",
+                url_domain=urlparse(url).netloc,
+                attempt=attempt,
+            )
+            response.close()
+            return True
+        except Exception as error:
+            last_error = error.__class__.__name__
+            log_event(
+                "image_download_failed",
+                url_domain=urlparse(url).netloc,
+                attempt=attempt,
+                error=last_error,
+            )
+            try:
+                response.close()
+            except Exception:
+                pass
+            if attempt < attempts:
+                time.sleep(min(1, attempt * 0.25))
+
+    return False
 
 
 def extract_main_image(

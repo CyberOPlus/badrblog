@@ -64,6 +64,7 @@ from quality_gate import (
 )
 
 MAX_AI_ATTEMPTS = max(1, MAX_AI_RETRIES)
+MIN_PUBLISHABLE_WORDS = 120
 AI_MODEL_COOLDOWN_SECONDS = 30 * 60
 _AI_COOLDOWNS = {}
 _AI_MEMORY_CACHE = None
@@ -537,6 +538,11 @@ def _validate_ai_output(data, package=None):
         )
     if not html_content:
         raise ValueError("html_content is empty")
+    word_count = html_word_count(html_content)
+    if word_count < MIN_PUBLISHABLE_WORDS:
+        raise ValueError(
+            f"article too short ({word_count} words; minimum {MIN_PUBLISHABLE_WORDS})"
+        )
 
     result = validate_ai_article_output(data, package=package)
     if not result.passed:
@@ -733,12 +739,14 @@ def _basic_fallback_article(package, error=""):
         "html_content": html,
     }
     data = _finalize_html_content(_normalize_ai_output(data), package)
-    if html_word_count(data["html_content"]) < MIN_ARTICLE_WORDS:
+    if html_word_count(data["html_content"]) < MIN_PUBLISHABLE_WORDS:
         extra = (
             "<p>هذا النوع من الأخبار القصيرة مناسب للمتابعة السريعة على الهاتف، "
             "لأنه يقدم الفكرة الأساسية أولا ثم يترك مساحة للتحديثات اللاحقة عند ظهور معلومات إضافية موثوقة.</p>"
         )
         data["html_content"] += "\n" + extra
+    if html_word_count(data["html_content"]) < MIN_PUBLISHABLE_WORDS:
+        data["html_content"] += "\n<p>هذه متابعة قصيرة تضيف سياقا عمليا للقارئ، وتؤكد ضرورة انتظار التفاصيل الرسمية قبل اتخاذ أي قرار تقني.</p>"
     _validate_ai_output(data, package=package)
     return data
 
@@ -858,39 +866,31 @@ def _plus_ui_format_html(html_content, package):
 def _insert_main_image_if_missing(html_content, package):
     """
     Ensure main image is present in HTML.
-    If missing, insert it after the first paragraph.
+    Always keep it directly after the first paragraph.
     If no first paragraph, prepend it to the content.
     """
     main_image = package.get("main_image")
     if not main_image:
         return html_content
-    
-    # Check if image already exists in HTML
-    if re.search(r"<img\b", html_content, flags=re.IGNORECASE):
-        # Image already present, but ensure it has the main image
-        if main_image.lower() in html_content.lower():
-            return html_content
-        # Try to replace the first image with the main image if it doesn't have a src
-        soup = BeautifulSoup(html_content, "html.parser")
-        first_img = soup.find("img")
-        if first_img and not first_img.get("src"):
-            first_img["src"] = main_image
-            return str(soup)
-        # If first image has src, it's probably intentional, don't replace
-        return html_content
-    
-    # Image missing, need to insert it
+
     title = package.get("title") or "صورة المقال"
     image_html = (
         "<!--[ Main article image - auto-inserted ]-->\n"
         "<figure style='text-align: center; margin: 20px 0;'>\n"
-        f"  <img alt='{escape(title, quote=True)}' "
+        f"  <img class='full' alt='{escape(title, quote=True)}' "
         f"src='{escape(main_image, quote=True)}' loading='lazy' style='max-width: 100%; height: auto;'/>\n"
         f"  <figcaption style='font-size: 0.9em; color: #666; margin-top: 8px;'>{escape(title)}</figcaption>\n"
         "</figure>\n"
     )
     
     soup = BeautifulSoup(html_content, "html.parser")
+    for image in soup.find_all("img"):
+        parent = image.find_parent("figure")
+        if parent:
+            parent.decompose()
+        else:
+            image.decompose()
+
     first_paragraph = soup.find("p")
     if first_paragraph:
         first_paragraph.insert_after(BeautifulSoup(image_html, "html.parser"))
@@ -1472,6 +1472,11 @@ def _is_provider_error(error):
 
 def _apply_success(article, data, provider_used):
     final_html = str(data["html_content"]).strip()
+    word_count = html_word_count(final_html)
+    if word_count < MIN_PUBLISHABLE_WORDS:
+        raise ValueError(
+            f"article too short ({word_count} words; minimum {MIN_PUBLISHABLE_WORDS})"
+        )
     article["ai_status"] = "completed"
     article["ai_processed_at"] = _now_iso()
     article["seo_title"] = str(data["title"]).strip()
@@ -1479,7 +1484,7 @@ def _apply_success(article, data, provider_used):
     article["seo_slug"] = _normalize_slug(data["slug"])
     article["final_html"] = final_html
     article["blogger_article_html"] = final_html
-    article["final_word_count"] = html_word_count(final_html)
+    article["final_word_count"] = word_count
     article["final_html_chars"] = len(final_html)
     article["final_content_hash"] = content_hash_from_html(final_html)
     article["ai_provider_used"] = provider_used
@@ -1754,6 +1759,13 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     else:
         log_event("ai_quality_failed_after_retries", article_id=article.get("id"), error=last_error)
         log_event("article_skipped", article_id=article.get("id"), reason="AI quality failed after retries")
+        if "too short" in str(last_error).lower():
+            log_event(
+                "article_skipped_too_short",
+                article_id=article.get("id"),
+                words=article.get("final_word_count") or 0,
+                reason=last_error,
+            )
         _send_ai_quality_warning(article, last_error)
     return {
         "processed": 1,

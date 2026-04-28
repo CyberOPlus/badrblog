@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 from googleapiclient.errors import HttpError
 
 from article_queue import load_article_queue, save_article_queue
-from article_ai_processor import format_phase3_article_html, validate_phase3_article_quality
+from article_ai_processor import MIN_PUBLISHABLE_WORDS, format_phase3_article_html, validate_phase3_article_quality
 from article_selector import normalize_category_label
 from blogger_client import create_blogger_service, get_credentials, is_local_publisher
 from config import BLOG_ID, MAX_RETRIES, PUBLISH_MODE, RETRY_DELAY, SAFE_MODE
@@ -83,6 +83,17 @@ def _article_word_count(article):
 
 
 def _publish_quality_error(article, articles):
+    words = _article_word_count(article)
+    if words < MIN_PUBLISHABLE_WORDS:
+        log_event(
+            "article_skipped_too_short",
+            article_id=article.get("id"),
+            words=words,
+            reason=f"minimum {MIN_PUBLISHABLE_WORDS}",
+        )
+        article["final_word_count"] = words
+        return f"article too short ({words} words; minimum {MIN_PUBLISHABLE_WORDS})"
+
     result = validate_before_publish(article, existing_articles=articles)
     article["pre_publish_quality"] = result.to_dict()
     article["final_word_count"] = result.word_count or _article_word_count(article)

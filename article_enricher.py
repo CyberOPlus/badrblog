@@ -23,7 +23,7 @@ from config import (
     MAX_SOURCE_RETRIES,
 )
 from production_logging import elapsed_ms, log_event
-from image_extractor import extract_main_image, extract_extra_images
+from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
 
 try:
     import aiohttp
@@ -277,6 +277,72 @@ def _meta_image_candidates(soup):
     )
 
 
+def _extract_article_images(soup, article_url):
+    from image_extractor import extract_images
+    return extract_images(soup, article_url)
+
+
+def _existing_image_candidates(article):
+    candidates = []
+    image = article.get("image")
+    if isinstance(image, dict) and image.get("url"):
+        candidates.append(
+            {
+                "url": image.get("url"),
+                "alt": image.get("alt") or article.get("title", ""),
+                "source": "scraper",
+            }
+        )
+    elif isinstance(image, str) and image.strip():
+        candidates.append(
+            {
+                "url": image.strip(),
+                "alt": article.get("title", ""),
+                "source": "scraper",
+            }
+        )
+    return candidates
+
+
+def _select_downloadable_main_image(article, main_image_url, image_extraction_method, extra_images):
+    candidates = []
+    if main_image_url:
+        candidates.append(
+            {
+                "url": main_image_url,
+                "alt": article.get("fetched_title") or article.get("title", ""),
+                "source": image_extraction_method or "unknown",
+            }
+        )
+    candidates.extend(_existing_image_candidates(article))
+    for extra_image in extra_images or []:
+        if extra_image.get("url"):
+            candidates.append(
+                {
+                    "url": extra_image["url"],
+                    "alt": extra_image.get("alt") or article.get("title", ""),
+                    "source": "article_content",
+                }
+            )
+
+    seen = set()
+    for candidate in candidates:
+        image_url = str(candidate.get("url") or "").strip()
+        if not image_url or image_url in seen:
+            continue
+        seen.add(image_url)
+        if download_image_with_retry(image_url, timeout=5, retries=3):
+            return image_url, candidate.get("source") or "unknown", candidate.get("alt") or ""
+
+    log_event(
+        "article_skipped_no_image",
+        article_id=article.get("id"),
+        url=article.get("url"),
+        title=article.get("title"),
+    )
+    return "", "", ""
+
+
 def _extract_and_prepare_images(html_content, article_url, article_title=""):
     """
     Extract main image and extra images using the new image_extractor module.
@@ -514,6 +580,14 @@ def _apply_enrichment_from_html(article, html, url):
         url,
         article.get("title", "") or article.get("fetched_title", "")
     )
+    main_image_url, image_extraction_method, _downloaded_alt = _select_downloadable_main_image(
+        article,
+        main_image_url,
+        image_extraction_method,
+        extra_images,
+    )
+    if not main_image_url:
+        return False, "missing article image"
     
     # Build article_images list
     article_images = []
@@ -586,6 +660,15 @@ def _apply_enrichment_from_html(article, html, url):
 
 
 def _apply_rss_summary_fallback(article):
+    fallback_image_url, fallback_image_source, _fallback_image_alt = _select_downloadable_main_image(
+        article,
+        "",
+        "",
+        [],
+    )
+    if not fallback_image_url:
+        return False, "missing article image"
+
     summary = _normalize_text(article.get("rss_summary", ""))
     if len(summary) < MIN_EXTRACTED_CHARS:
         summary = _normalize_text(
@@ -603,12 +686,18 @@ def _apply_rss_summary_fallback(article):
         return False, "missing article body"
     article["fetched_title"] = article.get("title", "")
     article["meta_description"] = summary[:240]
-    article["article_images"] = []
-    article["main_image"] = ""
-    article["main_image_source_type"] = "fallback"
-    article["main_image_extraction_method"] = "fallback"
+    article["article_images"] = [
+        {
+            "url": fallback_image_url,
+            "alt": article.get("fetched_title") or article.get("title", ""),
+            "source": fallback_image_source or "fallback",
+        }
+    ]
+    article["main_image"] = fallback_image_url
+    article["main_image_source_type"] = fallback_image_source or "fallback"
+    article["main_image_extraction_method"] = fallback_image_source or "fallback"
     article["extra_article_images"] = []
-    article["image_warning"] = "article image unavailable; fallback image will be used where supported"
+    article.pop("image_warning", None)
     article["trusted_references"] = []
     article["full_article_text"] = summary
     article["full_article_text_chars"] = len(summary)
