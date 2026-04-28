@@ -1,0 +1,28 @@
+{
+  "cooldowns": {
+    "gemini:gemini-2.5-flash:75c7824eb0": {
+      "failed_at": "2026-04-28T13:41:02",
+      "key_id": "75c7824eb0",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini",
+      "reason": "provider down",
+      "until": 1777381866.6417553
+    }
+  },
+  "stats": {
+    "gemini:gemini-2.5-flash:75c7824eb0": {
+      "failures": 1,
+      "key_id": "75c7824eb0",
+      "last_failure_at": "2026-04-28T13:41:02",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini"
+    },
+    "openrouter:openai/gpt-oss-120b:free:e5c3515f5b": {
+      "key_id": "e5c3515f5b",
+      "last_success_at": "2026-04-28T14:06:28",
+      "model": "openai/gpt-oss-120b:free",
+      "provider": "openrouter",
+      "successes": 2
+    }
+  }
+}
