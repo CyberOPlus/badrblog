@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-28T10:38:22",
+  "updated_at": "2026-04-28T10:43:57",
   "articles": [
     {
       "id": "a7a11e65e86e7bcc",
@@ -8800,12 +8800,154 @@
       "archived_at": "2026-04-28T10:38:22",
       "archive_reason": "published_to_blogger",
       "telegram_final_summary_notified_at": "2026-04-28T10:38:22"
+    },
+    {
+      "id": "67041cbbb8d22196",
+      "source_url_hash": "67041cbbb8d22196",
+      "canonical_url": "https://www.howtogeek.com/tired-of-hunting-through-logs-heres-how-i-automated-the-entire-process",
+      "title_hash": "1dd0dcd02fdae0d4",
+      "topic_signature": "f0107f67c8c2b97a4758",
+      "title": "Tired of hunting through logs? Here's how I automated the entire process",
+      "url": "https://www.howtogeek.com/tired-of-hunting-through-logs-heres-how-i-automated-the-entire-process",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-04-28T10:30:16Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.21,
+      "rss_summary": "",
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-04-28T10:43:38",
+      "status": "published",
+      "score": 0,
+      "priority": "low",
+      "fetched_title": "Tired of hunting through logs? Here's how I automated the entire process",
+      "meta_description": "Now a tiny script turns them into clean, shareable error reports in seconds.",
+      "article_images": [],
+      "main_image": "",
+      "trusted_references": [
+        {
+          "title": "his GitHub",
+          "url": "https://github.com/rustybladez"
+        },
+        {
+          "title": "my GitHub",
+          "url": "https://github.com/rustybladez/demo-webapp-error"
+        }
+      ],
+      "full_article_text": "If you've ever debugged a web application, you've probably done this more than you'd like to admit. An error pops up. You scroll through your logs. You find what looks important. You copy a chunk of it. Then you paste it somewhere. Maybe into a chat with a teammate, maybe into a document, or increasingly, into an AI tool to help you make sense of it. I've been in your shoes, and at some point, I felt like this needed to stop. So, I carefully crafted a solution that takes care of this manual log handling. Crafting an automation system for parsing logs Letting a script handle manual workflow Logs are already structured text. With a small script, I could pull out only the important parts, clean them up, and format them into something readable, automatically. The idea was simple: take the exact workflow I was repeating by hand, and turn it into something I could run with a single command. A reusable script . To test this idea, I used a tiny demo web app that randomly throws errors and writes them to a log file. If you want to follow along, I’ve put the code up on my GitHub . But you don’t need this exact setup. Any application that writes logs to a file will work the same way. The only thing that matters for now is a growing log file with a mix of useful errors and some noise around them. Instead of manually digging through logs every time, I wrote a small, smart Python script to do the boring part for me. The idea is simple: read the log file, pull out only the error sections, clean them up, and save them into a Markdown file I can use anywhere. Here’s a minimal version of the script: There are four small steps happening here: Read the log file: The script loads the log file into memory as a list of lines. This makes it easier to process logs one step at a time instead of dealing with one big chunk of text. Extract only error logs: Whenever a line contains \"ERROR\", the script treats that as the beginning of a new error block. From that point on, it starts collecting every line that belongs to that error, including the full traceback. Capture the full error block: Instead of guessing where the error ends, the script keeps collecting lines until it hits the start of a new log entry (like \"INFO\" or another \"ERROR\".) This ensures you get the entire stack trace without cutting anything off. Format the output: Each error is wrapped in a clean Markdown block, making it easy to read, share, or paste into other tools. Save it with a timestamp: Finally, the script writes everything to a new file with a timestamped name, so you don’t overwrite previous reports: Turn Excel into a lightweight data-science tool for cleaning datasets, standardizing dates, visualizing clusters, and analyzing keywords. What my workflow looks like with the script in action After hitting the error endpoint a few times, my raw log file (app.log) looked like this: It’s a mix of everything: successful requests, repeated noise, and the actual errors buried in between. After running the script, I got a clean Markdown report: Each error is isolated, complete, and already formatted in a way that’s easy to read or share. Now, you can use this script and take the automation to the next level by integrating Slack, an LLM, or any other service where you'd want to copy and paste this log. That way, the logs will automatically reach where you want them to be. Unlock the power of Bash strings with these clever techniques. This was a fun experiment, but it has changed my outlook towards scripting and automation. With such a simple but useful Python script , I was able to save hours of headache and manual work.",
+      "full_article_text_chars": 3623,
+      "content_preview": "If you've ever debugged a web application, you've probably done this more than you'd like to admit. An error pops up. You scroll through your logs. You find what looks important. You copy a chunk of it. Then you paste it somewhere. Maybe into a chat with a teammate, maybe into a document, or increasingly, into an AI tool to help you make sense of it. I've been in your shoes, and at some point, I felt like this needed to stop. So, I carefully crafted a solution that takes care of this manual log handling. Crafting an automation system for parsing logs Letting a script handle manual workflow Logs are already structured text. With a small script, I could pull out only the important parts, clean them up, and format them into something readable, automatically. The idea was simple: take the exact workflow I was repeating by hand, and turn it into something I could run with a single command. A reusable script . To test this idea, I used a tiny demo web app that randomly throws errors and writes them to a log file. If you want to follow along, I’ve put the code up on my GitHub . But you don’t need this exact setup. Any application that writes logs to a file will work the same way. The only thing that matters for now is a growing log file with a mix of useful errors and some noise around them. Instead of manually digging through logs every time, I wrote a small, smart Python script to do the boring part for me. The idea is simple: read the log file, pull out only the error sections, clean them up, and save them into a Markdown file I can use anywhere. Here’s a minimal version of the script: There are four small steps happening here: Read the log file: The script loads the log file into memory as a list of lines. This makes it easier to process logs one step at a time instead of dealing with one big chunk of text. Extract only error logs: Whenever a line contains \"ERROR\", the script treats that as the beginning of a new error block. From that point on, it starts collecting every line that belongs to that error, including the full traceback. Capture the full error block: Instead of guessing where the error ends, the script keeps collecting lines until it hits the start of a new log entry (like \"INFO\" or another \"ERROR\".) This ensures you get the entire stack trace without cutting anything off. Format the output: Each error is wrapped in a clean Markdown block, making it easy to read, share, or paste into other tools. Save it with a timestamp: Finally, the script writes everything to a new file with a timestamped name, so you don’t overwrite previous reports: Turn Excel into a lightweight data-science tool for cleaning datasets, standardizing dates, visualizing clusters, and analyzing keywords. What my workflow looks like with the script in action After hitting the error endpoint a few times, my raw log file (app.log) looked like this: It’s a mix of everything: successful requests, repeated noise, and the actual errors buried in between. After running the script, I got a clean Markdown report: Each error is isolated, complete, and already formatted in a way that’s easy to read or share. Now, you can use this script and take the automation to the next level by integrating Slack, an LLM, or any other service where you'd want to copy and paste this log. That way, the logs will automatically reach where you want them to be. Unlock the power of Bash strings with these clever techniques. This was a fun experiment, but it has changed my outlook towards scripting and automation. With such a simple but useful Python script , I was able to save hours of headache and manual work.",
+      "content_preview_chars": 3623,
+      "content_fetched_at": "2026-04-28T10:43:39",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success",
+      "selected_at": "2026-04-28T10:43:39",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "category rotation newest fresh article: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-04-28T10:43:39",
+      "ai_input_package": {
+        "title": "Tired of hunting through logs? Here's how I automated the entire process",
+        "url": "https://www.howtogeek.com/tired-of-hunting-through-logs-heres-how-i-automated-the-entire-process",
+        "source_name": "How-To Geek",
+        "suggested_category": "Apps-Programs",
+        "main_image": "",
+        "article_images": [],
+        "meta_description": "Now a tiny script turns them into clean, shareable error reports in seconds.",
+        "content_preview": "If you've ever debugged a web application, you've probably done this more than you'd like to admit. An error pops up. You scroll through your logs. You find what looks important. You copy a chunk of it. Then you paste it somewhere. Maybe into a chat with a teammate, maybe into a document, or increasingly, into an AI tool to help you make sense of it. I've been in your shoes, and at some point, I felt like this needed to stop. So, I carefully crafted a solution that takes care of this manual log handling. Crafting an automation system for parsing logs Letting a script handle manual workflow Logs are already structured text. With a small script, I could pull out only the important parts, clean them up, and format them into something readable, automatically. The idea was simple: take the exact workflow I was repeating by hand, and turn it into something I could run with a single command. A reusable script . To test this idea, I used a tiny demo web app that randomly throws errors and writes them to a log file. If you want to follow along, I’ve put the code up on my GitHub . But you don’t need this exact setup. Any application that writes logs to a file will work the same way. The only thing that matters for now is a growing log file with a mix of useful errors and some noise around them. Instead of manually digging through logs every time, I wrote a small, smart Python script to do the boring part for me. The idea is simple: read the log file, pull out only the error sections, clean them up, and save them into a Markdown file I can use anywhere. Here’s a minimal version of the script: There are four small steps happening here: Read the log file: The script loads the log file into memory as a list of lines. This makes it easier to process logs one step at a time instead of dealing with one big chunk of text. Extract only error logs: Whenever a line contains \"ERROR\", the script treats that as the beginning of a new error block. From that point on, it starts collecting every line that belongs to that error, including the full traceback. Capture the full error block: Instead of guessing where the error ends, the script keeps collecting lines until it hits the start of a new log entry (like \"INFO\" or another \"ERROR\".) This ensures you get the entire stack trace without cutting anything off. Format the output: Each error is wrapped in a clean Markdown block, making it easy to read, share, or paste into other tools. Save it with a timestamp: Finally, the script writes everything to a new file with a timestamped name, so you don’t overwrite previous reports: Turn Excel into a lightweight data-science tool for cleaning datasets, standardizing dates, visualizing clusters, and analyzing keywords. What my workflow looks like with the script in action After hitting the error endpoint a few times, my raw log file (app.log) looked like this: It’s a mix of everything: successful requests, repeated noise, and the actual errors buried in between. After running the script, I got a clean Markdown report: Each error is isolated, complete, and already formatted in a way that’s easy to read or share. Now, you can use this script and take the automation to the next level by integrating Slack, an LLM, or any other service where you'd want to copy and paste this log. That way, the logs will automatically reach where you want them to be. Unlock the power of Bash strings with these clever techniques. This was a fun experiment, but it has changed my outlook towards scripting and automation. With such a simple but useful Python script , I was able to save hours of headache and manual work.",
+        "content_preview_chars": 3623,
+        "rss_summary": "",
+        "full_article_text": "If you've ever debugged a web application, you've probably done this more than you'd like to admit. An error pops up. You scroll through your logs. You find what looks important. You copy a chunk of it. Then you paste it somewhere. Maybe into a chat with a teammate, maybe into a document, or increasingly, into an AI tool to help you make sense of it. I've been in your shoes, and at some point, I felt like this needed to stop. So, I carefully crafted a solution that takes care of this manual log handling. Crafting an automation system for parsing logs Letting a script handle manual workflow Logs are already structured text. With a small script, I could pull out only the important parts, clean them up, and format them into something readable, automatically. The idea was simple: take the exact workflow I was repeating by hand, and turn it into something I could run with a single command. A reusable script . To test this idea, I used a tiny demo web app that randomly throws errors and writes them to a log file. If you want to follow along, I’ve put the code up on my GitHub . But you don’t need this exact setup. Any application that writes logs to a file will work the same way. The only thing that matters for now is a growing log file with a mix of useful errors and some noise around them. Instead of manually digging through logs every time, I wrote a small, smart Python script to do the boring part for me. The idea is simple: read the log file, pull out only the error sections, clean them up, and save them into a Markdown file I can use anywhere. Here’s a minimal version of the script: There are four small steps happening here: Read the log file: The script loads the log file into memory as a list of lines. This makes it easier to process logs one step at a time instead of dealing with one big chunk of text. Extract only error logs: Whenever a line contains \"ERROR\", the script treats that as the beginning of a new error block. From that point on, it starts collecting every line that belongs to that error, including the full traceback. Capture the full error block: Instead of guessing where the error ends, the script keeps collecting lines until it hits the start of a new log entry (like \"INFO\" or another \"ERROR\".) This ensures you get the entire stack trace without cutting anything off. Format the output: Each error is wrapped in a clean Markdown block, making it easy to read, share, or paste into other tools. Save it with a timestamp: Finally, the script writes everything to a new file with a timestamped name, so you don’t overwrite previous reports: Turn Excel into a lightweight data-science tool for cleaning datasets, standardizing dates, visualizing clusters, and analyzing keywords. What my workflow looks like with the script in action After hitting the error endpoint a few times, my raw log file (app.log) looked like this: It’s a mix of everything: successful requests, repeated noise, and the actual errors buried in between. After running the script, I got a clean Markdown report: Each error is isolated, complete, and already formatted in a way that’s easy to read or share. Now, you can use this script and take the automation to the next level by integrating Slack, an LLM, or any other service where you'd want to copy and paste this log. That way, the logs will automatically reach where you want them to be. Unlock the power of Bash strings with these clever techniques. This was a fun experiment, but it has changed my outlook towards scripting and automation. With such a simple but useful Python script , I was able to save hours of headache and manual work.",
+        "full_article_text_chars": 3623,
+        "enrichment_status": "strong",
+        "source_url": "https://www.howtogeek.com",
+        "source_published_at": "2026-04-28T10:30:16Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.21,
+        "trusted_references": [
+          {
+            "title": "his GitHub",
+            "url": "https://github.com/rustybladez"
+          },
+          {
+            "title": "my GitHub",
+            "url": "https://github.com/rustybladez/demo-webapp-error"
+          }
+        ],
+        "related_posts": [
+          {
+            "title": "Motorola used to make the best phones—what happened?",
+            "url": "https://www.howtogeek.com/motorola-used-to-make-the-best-phones-what-happened"
+          },
+          {
+            "title": "City Tales - Medieval Era Review (PC)",
+            "url": "https://www.softpedia.com/reviews/games/pc/city-tales-medieval-era-review-538112.shtml"
+          },
+          {
+            "title": "Forget the BMW 5 Series—this Korean sedan wins on quality and value",
+            "url": "https://www.howtogeek.com/bmw-5-series-korean-sedan-quality-value"
+          }
+        ]
+      },
+      "ai_status": "completed",
+      "ai_processed_at": "2026-04-28T10:43:43",
+      "seo_title": "Tired of hunting through logs? Here's how I automated the entire process",
+      "seo_description": "ملخص سريع لخبر Tired of hunting through logs? Here's how I automated the entire process: If you've ever debugged a web application, you've probably done this more than",
+      "seo_slug": "tired-of-hunting-through-logs-heres-how",
+      "final_html": "<p>يتناول هذا الخبر تطورا جديدا بعنوان: Tired of hunting through logs? Here&#x27;s how I automated the entire process. نعرضه هنا بصياغة عربية مختصرة وسريعة اعتمادا على المعلومات المتاحة فقط، من دون إضافة تفاصيل غير مؤكدة.</p>\n<h2>ملخص الخبر</h2>\n<p>If you&#x27;ve ever debugged a web application, you&#x27;ve probably done this more than you&#x27;d like to admit. An error pops up. You scroll through your logs. You find what looks important. You copy a chunk of it. Then you paste it somewhere. Maybe into a chat with a teammate, maybe into a document, or increasingly, into an AI tool to help you make sense of it. I&#x27;ve been in your shoes, and at some point, I felt like this needed to stop. So, I carefully crafted a solution that takes care of this manual log handling. Crafting an automation system for parsing logs Letting a script handle manual workflow Logs are already structured text. With a small script, I could pull out only the important parts, clean them up, and format them into something readable, automatically. The idea was simple: take the exact workflow I was repeating by hand, and turn it into something I could run with a single command. A reusable script . To test this idea, I used a tiny demo web app that randomly throws errors and writes them to a log file. If you want to follow along, I’ve put the code up on my GitHub . But you don’t need this exact setup. Any application that writes logs to a file will work the same way. The only thing that matters for now is a growing log file with a mix of useful errors and some noise around them. Instead of manually digging through logs every time, I wrote a small, smart Python script to do the boring part for me. The idea is simple: read the log file, pull out only the error sections, clean them up, and save them into a Markdown file I can use anywhere. Here’s a minimal version of the script: There are four small steps happening here: Read the log file: The script loads the log file into memory as a list of lines. This makes it easier to process logs one step at a time instead of dealing with one big chunk of text. Extract only error logs: Whenever a line contains &quot;ERROR&quot;, the script treats that as the beginning of a new error block. From that point on, it starts collecting every line that belongs to that error, including the full traceback. Capture the full error block: Instead of guessing where the error ends, the script keeps collecting lines until it hits the start of a new log entry (like &quot;INFO&quot; or another &quot;ERROR&quot;.) This ensures you get the entire stack trace without cutting anything off. Format the output: Each error is wrapped in a clean Markdown block, making it easy to read, share, or paste into other tools. Save it with a timestamp: Finally, the script writes everything to a new file with a timestamped name, so you don’t overwrite previous reports: Turn Excel into a lightweight data-science tool for cleaning datasets, standardizing dates, visualizing clusters, and analyzing keywords. What my workflow looks like with the script in action After hitting the error endpoint a few times, my raw log file (app.log) looked like this: It’s a mix of everything: successful requests, repeated noise, and the actual errors buried in between. After running the script, I got a clean Markdown report: Each error is isolated, complete, and already formatted in a way that’s easy to read or share. Now, you can use this script and take the automation to the next level by integrating Slack, an LLM, or any other service where you&#x27;d want to copy and paste this log. That way, the logs will automatically reach where you want them to be. Unlock the power of Bash strings with these clever techniques. This was a fun experiment, but it has changed my outlook towards scripting and automation. With such a simple but useful Python script , I was able to save hours of headache and manual work.</p>\n<h2>لماذا يهم هذا الخبر؟</h2>\n<p>أهمية الخبر أنه يساعد القارئ على متابعة المستجدات التقنية بسرعة، خصوصا عندما يتعلق الأمر بتحديثات أمنية أو أدوات ذكاء اصطناعي أو تغييرات في التطبيقات والخدمات الرقمية.</p>\n<h2>الخلاصة</h2>\n<p>الخلاصة أن الخبر يستحق المتابعة لأنه يقدم معلومة حديثة ومباشرة. سنبقي التفاصيل في نطاق ما توفر من بيانات واضحة من How-To Geek.</p>\n<p class='pRef'>المراجع:<br><a class='extL' href='https://github.com/rustybladez' target='_blank'>his GitHub</a><br><a class='extL' href='https://github.com/rustybladez/demo-webapp-error' target='_blank'>my GitHub</a></p>\n<div class='pRelate'><b>قد يهمك أيضًا:</b><ul><li><a href='https://www.howtogeek.com/motorola-used-to-make-the-best-phones-what-happened'>Motorola used to make the best phones—what happened?</a></li><li><a href='https://www.softpedia.com/reviews/games/pc/city-tales-medieval-era-review-538112.shtml'>City Tales - Medieval Era Review (PC)</a></li><li><a href='https://www.howtogeek.com/bmw-5-series-korean-sedan-quality-value'>Forget the BMW 5 Series—this Korean sedan wins on quality and value</a></li></ul></div>",
+      "blogger_article_html": "<p>يتناول هذا الخبر تطورا جديدا بعنوان: Tired of hunting through logs? Here&#x27;s how I automated the entire process. نعرضه هنا بصياغة عربية مختصرة وسريعة اعتمادا على المعلومات المتاحة فقط، من دون إضافة تفاصيل غير مؤكدة.</p>\n<h2>ملخص الخبر</h2>\n<p>If you&#x27;ve ever debugged a web application, you&#x27;ve probably done this more than you&#x27;d like to admit. An error pops up. You scroll through your logs. You find what looks important. You copy a chunk of it. Then you paste it somewhere. Maybe into a chat with a teammate, maybe into a document, or increasingly, into an AI tool to help you make sense of it. I&#x27;ve been in your shoes, and at some point, I felt like this needed to stop. So, I carefully crafted a solution that takes care of this manual log handling. Crafting an automation system for parsing logs Letting a script handle manual workflow Logs are already structured text. With a small script, I could pull out only the important parts, clean them up, and format them into something readable, automatically. The idea was simple: take the exact workflow I was repeating by hand, and turn it into something I could run with a single command. A reusable script . To test this idea, I used a tiny demo web app that randomly throws errors and writes them to a log file. If you want to follow along, I’ve put the code up on my GitHub . But you don’t need this exact setup. Any application that writes logs to a file will work the same way. The only thing that matters for now is a growing log file with a mix of useful errors and some noise around them. Instead of manually digging through logs every time, I wrote a small, smart Python script to do the boring part for me. The idea is simple: read the log file, pull out only the error sections, clean them up, and save them into a Markdown file I can use anywhere. Here’s a minimal version of the script: There are four small steps happening here: Read the log file: The script loads the log file into memory as a list of lines. This makes it easier to process logs one step at a time instead of dealing with one big chunk of text. Extract only error logs: Whenever a line contains &quot;ERROR&quot;, the script treats that as the beginning of a new error block. From that point on, it starts collecting every line that belongs to that error, including the full traceback. Capture the full error block: Instead of guessing where the error ends, the script keeps collecting lines until it hits the start of a new log entry (like &quot;INFO&quot; or another &quot;ERROR&quot;.) This ensures you get the entire stack trace without cutting anything off. Format the output: Each error is wrapped in a clean Markdown block, making it easy to read, share, or paste into other tools. Save it with a timestamp: Finally, the script writes everything to a new file with a timestamped name, so you don’t overwrite previous reports: Turn Excel into a lightweight data-science tool for cleaning datasets, standardizing dates, visualizing clusters, and analyzing keywords. What my workflow looks like with the script in action After hitting the error endpoint a few times, my raw log file (app.log) looked like this: It’s a mix of everything: successful requests, repeated noise, and the actual errors buried in between. After running the script, I got a clean Markdown report: Each error is isolated, complete, and already formatted in a way that’s easy to read or share. Now, you can use this script and take the automation to the next level by integrating Slack, an LLM, or any other service where you&#x27;d want to copy and paste this log. That way, the logs will automatically reach where you want them to be. Unlock the power of Bash strings with these clever techniques. This was a fun experiment, but it has changed my outlook towards scripting and automation. With such a simple but useful Python script , I was able to save hours of headache and manual work.</p>\n<h2>لماذا يهم هذا الخبر؟</h2>\n<p>أهمية الخبر أنه يساعد القارئ على متابعة المستجدات التقنية بسرعة، خصوصا عندما يتعلق الأمر بتحديثات أمنية أو أدوات ذكاء اصطناعي أو تغييرات في التطبيقات والخدمات الرقمية.</p>\n<h2>الخلاصة</h2>\n<p>الخلاصة أن الخبر يستحق المتابعة لأنه يقدم معلومة حديثة ومباشرة. سنبقي التفاصيل في نطاق ما توفر من بيانات واضحة من How-To Geek.</p>\n<p class='pRef'>المراجع:<br><a class='extL' href='https://github.com/rustybladez' target='_blank'>his GitHub</a><br><a class='extL' href='https://github.com/rustybladez/demo-webapp-error' target='_blank'>my GitHub</a></p>\n<div class='pRelate'><b>قد يهمك أيضًا:</b><ul><li><a href='https://www.howtogeek.com/motorola-used-to-make-the-best-phones-what-happened'>Motorola used to make the best phones—what happened?</a></li><li><a href='https://www.softpedia.com/reviews/games/pc/city-tales-medieval-era-review-538112.shtml'>City Tales - Medieval Era Review (PC)</a></li><li><a href='https://www.howtogeek.com/bmw-5-series-korean-sedan-quality-value'>Forget the BMW 5 Series—this Korean sedan wins on quality and value</a></li></ul></div>",
+      "final_word_count": 791,
+      "final_html_chars": 5023,
+      "final_content_hash": "ffe576cb1e171ca6b2c374c4",
+      "ai_provider_used": "basic-template-fallback",
+      "ai_fallback_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googlea",
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 791,
+        "warnings": [
+          "reader-impact section omitted in fast mode",
+          "missing article image"
+        ]
+      },
+      "pre_publish_warnings": [
+        "reader-impact section omitted in fast mode",
+        "missing article image"
+      ],
+      "blogger_post_id": "4869301128632323242",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/04/tired-of-hunting-through-logs-heres-how.html",
+      "published_at": "2026-04-28T10:43:46",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|4869301128632323242|published|unknown",
+      "telegram_blogger_notified_at": "2026-04-28T10:43:46",
+      "telegram_last_notification_at": "2026-04-28T10:43:56",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_867858736323421",
+      "facebook_posted_at": "2026-04-28T10:43:49",
+      "facebook_post_type": "feed",
+      "facebook_caption_pattern": "warning_tip",
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "⚠️ لا تتعامل مع هذا التطور كخبر عابر.\nTired of hunting through logs? Here's how I automated the entire process\nملخص سريع لخبر Tired of hunting through logs? Here's how I automated the entire process: If you've ever debugged a web application, you've probably done this more than\nراقب الأثر العملي قبل أن يصبح واقعا يوميا.\nالتفاصيل الكاملة في أول تعليق.\n#AI #Apps #Data #Tech #TechNews",
+      "facebook_comment_id": "867858736323421_1484099646541253",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_867858736323421|867858736323421_1484099646541253|unknown",
+      "telegram_facebook_notified_at": "2026-04-28T10:43:56",
+      "archived": true,
+      "archived_at": "2026-04-28T10:43:56",
+      "archive_reason": "published_to_blogger",
+      "telegram_final_summary_notified_at": "2026-04-28T10:43:57"
     }
   ],
   "notifications": {
-    "telegram_final_summary_event_key": "20260428103752723811",
-    "telegram_final_summary_notified_at": "2026-04-28T10:38:22",
-    "last_notification_at": "2026-04-28T10:38:22",
+    "telegram_final_summary_event_key": "20260428104306556741",
+    "telegram_final_summary_notified_at": "2026-04-28T10:43:57",
+    "last_notification_at": "2026-04-28T10:43:57",
     "telegram_auto_cycle_blocked_event_key": "no fresh article safely inside the last 6 hours|",
     "telegram_auto_cycle_blocked_notified_at": "2026-04-27T20:59:54"
   }
