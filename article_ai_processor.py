@@ -14,6 +14,7 @@ from urllib.parse import urlparse
 
 import requests
 from bs4 import BeautifulSoup
+from bs4 import NavigableString
 
 with warnings.catch_warnings():
     warnings.simplefilter("ignore", FutureWarning)
@@ -61,6 +62,34 @@ MAX_AI_ATTEMPTS = max(1, MAX_AI_RETRIES)
 AI_MODEL_COOLDOWN_SECONDS = 30 * 60
 _AI_COOLDOWNS = {}
 _AI_MEMORY_CACHE = None
+
+ALLOWED_LATIN_INLINE = {
+    "ai",
+    "api",
+    "github",
+    "cve",
+    "nvd",
+    "cisa",
+    "microsoft",
+    "google",
+    "windows",
+    "linux",
+    "android",
+    "ios",
+    "chrome",
+    "openai",
+    "gemini",
+    "openrouter",
+    "malware",
+    "ransomware",
+    "zero-day",
+    "vpn",
+    "http",
+    "https",
+    "dns",
+    "sql",
+    "xss",
+}
 
 
 def _now_iso():
@@ -283,6 +312,8 @@ STRICT FAST NEWS RULES:
 - If cybersecurity-related, include brief practical protection/advice when supported.
 - Keep SEO title 40-70 characters and meta description 100-170 characters.
 - Use clean Plus UI-compatible Blogger HTML only.
+- Start the introduction with <p class='pIndent'><span class='dropCap'>...</span> ...</p>.
+- Use short <p class='pIndent'> paragraphs, clear <h2> headings, <div class='alert info'> for useful context, and <div class='alert warning'> for caution.
 - Do not add CSS, scripts, unsupported widgets, fake images, or source/reference blocks unless trusted_references are provided.
 - Before returning, silently self-check: no source-domain links, no visible JSON inside html_content,
   no markdown fences, no repeated paragraphs, and no social-media caption tone.
@@ -334,8 +365,10 @@ STRICT RULES:
 - Do not pad with generic filler. Every paragraph must add useful meaning.
 - Format html_content using Plus UI-compatible HTML only.
 - Do not add CSS, <style>, <script>, or unsupported components.
+- Start the introduction with <p class='pIndent'><span class='dropCap'>...</span> ...</p>.
+- Use short <p class='pIndent'> paragraphs, clear <h2> headings, <div class='alert info'> for useful context, and <div class='alert warning'> for caution.
 - Place the main image after the first paragraph using <img class='full' alt='meaningful Arabic alt' src='image_link'/> if main_image is available.
-- If article_images contains more useful images, insert them naturally after relevant sections. Do not invent images.
+- Use the main image only. Do not insert extra images from article_images.
 - Do not lazyload the first image.
 - If trusted_references exist, add them at the end using <p class='pRef'>المراجع:<br>...</p>.
 - If related_posts exist, add them at the end using <div class='pRelate'><b>قد يهمك أيضًا:</b><ul>...</ul></div>.
@@ -410,6 +443,9 @@ def _validate_ai_output(data, package=None):
     result = validate_ai_article_output(data, package=package)
     if not result.passed:
         raise ValueError(result.reason)
+    phase3_reason = _phase3_quality_failure_reason(data, package=package)
+    if phase3_reason:
+        raise ValueError(phase3_reason)
 
 
 def _build_expansion_retry_prompt(package, previous_data, previous_error):
@@ -569,7 +605,6 @@ def _basic_fallback_article(package, error=""):
         or package.get("rss_summary")
         or ""
     ).strip()
-    source_name = str(package.get("source_name") or "").strip()
     if not title or len(summary) < 20:
         raise ValueError("basic fallback needs at least title and short summary")
 
@@ -586,11 +621,11 @@ def _basic_fallback_article(package, error=""):
         [
             f"<p>يتناول هذا الخبر تطورا جديدا بعنوان: {escape(title)}. نعرضه هنا بصياغة عربية مختصرة وسريعة اعتمادا على المعلومات المتاحة فقط، من دون إضافة تفاصيل غير مؤكدة.</p>",
             "<h2>ملخص الخبر</h2>",
-            f"<p>{escape(summary)}</p>",
+            "<p>يعرض الخبر تحديثا تقنيا مهما يحتاج القارئ إلى فهم أثره بسرعة: ما الذي تغيّر، ولماذا يستحق الانتباه، وما الخطوة العملية التي ينبغي التفكير فيها الآن.</p>",
             "<h2>لماذا يهم هذا الخبر؟</h2>",
             "<p>أهمية الخبر أنه يساعد القارئ على متابعة المستجدات التقنية بسرعة، خصوصا عندما يتعلق الأمر بتحديثات أمنية أو أدوات ذكاء اصطناعي أو تغييرات في التطبيقات والخدمات الرقمية.</p>",
             "<h2>الخلاصة</h2>",
-            f"<p>الخلاصة أن الخبر يستحق المتابعة لأنه يقدم معلومة حديثة ومباشرة. سنبقي التفاصيل في نطاق ما توفر من بيانات واضحة من {escape(source_name) if source_name else 'المصدر'}.</p>",
+            "<p>الخلاصة أن الخبر يستحق المتابعة لأنه يقدم معلومة حديثة ومباشرة. سنبقي التفاصيل في نطاق ما توفر من بيانات واضحة وموثوقة من دون إضافة تفاصيل غير مؤكدة.</p>",
         ]
     )
     data = {
@@ -608,6 +643,78 @@ def _basic_fallback_article(package, error=""):
         data["html_content"] += "\n" + extra
     _validate_ai_output(data, package=package)
     return data
+
+
+def _normal_paragraphs(soup):
+    return [
+        paragraph
+        for paragraph in soup.find_all("p")
+        if not paragraph.find_parent(["blockquote", "figcaption", "pre", "code"])
+        and "pRef" not in (paragraph.get("class") or [])
+        and "note" not in (paragraph.get("class") or [])
+    ]
+
+
+def _ensure_first_drop_cap(paragraph):
+    if not paragraph or paragraph.find("span", class_="dropCap"):
+        return
+    for node in paragraph.descendants:
+        if not isinstance(node, NavigableString):
+            continue
+        text = str(node)
+        match = re.search(r"[\u0600-\u06FF]", text)
+        if not match:
+            continue
+        before = text[: match.start()]
+        letter = text[match.start()]
+        after = text[match.start() + 1 :]
+        fragment = BeautifulSoup(
+            f"{escape(before)}<span class='dropCap'>{escape(letter)}</span>{escape(after)}",
+            "html.parser",
+        )
+        node.replace_with(*fragment.contents)
+        return
+
+
+def _plus_ui_format_html(html_content, package):
+    soup = BeautifulSoup(html_content or "", "html.parser")
+
+    for tag in soup.find_all(["script", "style"]):
+        tag.decompose()
+
+    for paragraph in _normal_paragraphs(soup):
+        classes = [value for value in (paragraph.get("class") or []) if value]
+        if "pIndent" not in classes:
+            classes.insert(0, "pIndent")
+        paragraph["class"] = classes
+
+    paragraphs = _normal_paragraphs(soup)
+    if paragraphs:
+        _ensure_first_drop_cap(paragraphs[0])
+
+    main_image = package.get("main_image") or ""
+    for img in soup.find_all("img"):
+        img.decompose()
+    if main_image and paragraphs:
+        title = package.get("title") or "صورة المقال"
+        image_html = (
+            "<!--[ Standard image ]-->\n"
+            f"<img class='full' alt='{escape('صورة توضيحية عن ' + title, quote=True)}' "
+            f"src='{escape(main_image, quote=True)}'/>"
+        )
+        paragraphs[0].insert_after(BeautifulSoup(image_html, "html.parser"))
+
+    for link in soup.find_all("a", href=True):
+        href = str(link.get("href") or "")
+        if href.startswith(("http://", "https://")) and not link.find_parent(class_="pRelate"):
+            classes = [value for value in (link.get("class") or []) if value]
+            if "extL" not in classes:
+                classes.insert(0, "extL")
+            link["class"] = classes
+            link["rel"] = "nofollow noreferrer noopener"
+            link["target"] = "_blank"
+
+    return str(soup).strip()
 
 
 def _insert_main_image_if_missing(html_content, package):
@@ -664,7 +771,7 @@ def _append_related_posts_if_missing(html_content, package):
             continue
         items.append(f"<li><a href='{escape(url, quote=True)}'>{escape(title)}</a></li>")
 
-    if not items:
+    if len(items) < 2:
         return html_content
     return (
         html_content.rstrip()
@@ -695,12 +802,117 @@ def _sanitize_source_links(html_content, package):
     return str(soup) if changed else html_content
 
 
+def _body_text_without_code(html_content):
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    for tag in soup.find_all(["pre", "code"]):
+        tag.decompose()
+    return soup.get_text(" ", strip=True)
+
+
+def _has_long_english_sentence(text):
+    return bool(re.search(r"\b[A-Za-z][A-Za-z0-9 ,;:'\"()\-/]{80,}[.!?]", text or ""))
+
+
+def _has_too_much_english_in_paragraphs(html_content):
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    for tag in soup.find_all(["pre", "code"]):
+        tag.decompose()
+    for paragraph in soup.find_all("p"):
+        text = paragraph.get_text(" ", strip=True)
+        if not text:
+            continue
+        arabic_tokens = re.findall(r"[\u0600-\u06FF]{2,}", text)
+        latin_tokens = re.findall(r"\b[A-Za-z][A-Za-z0-9+._-]{1,}\b", text)
+        nontechnical = [
+            token
+            for token in latin_tokens
+            if token.casefold().strip("._-") not in ALLOWED_LATIN_INLINE
+            and not re.match(r"^(CVE-\d{4}-\d+|v?\d+(?:\.\d+)+)$", token, flags=re.I)
+        ]
+        if len(nontechnical) >= 8 and len(nontechnical) > len(arabic_tokens) * 0.35:
+            return True
+    return False
+
+
+def _paragraph_fingerprints(html_content):
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    fingerprints = []
+    for paragraph in soup.find_all("p"):
+        text = re.sub(r"\s+", " ", paragraph.get_text(" ", strip=True)).strip()
+        if len(text) < 80:
+            continue
+        fingerprints.append(re.sub(r"\W+", "", text.casefold())[:180])
+    return fingerprints
+
+
+def _has_repeated_paragraphs(html_content):
+    fingerprints = _paragraph_fingerprints(html_content)
+    return len(fingerprints) != len(set(fingerprints))
+
+
+def _looks_poorly_formatted(html_content, package=None):
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    normal_paragraphs = _normal_paragraphs(soup)
+    if not normal_paragraphs:
+        return "missing paragraphs"
+    if not normal_paragraphs[0].find("span", class_="dropCap"):
+        return "missing Plus UI dropCap in introduction"
+    if "pIndent" not in (normal_paragraphs[0].get("class") or []):
+        return "missing Plus UI pIndent paragraphs"
+    if len(soup.find_all("h2")) < (1 if FAST_NEWS_MODE else 2):
+        return "missing clear h2 sections"
+    if package and package.get("main_image"):
+        first_img = soup.find("img")
+        first_p = normal_paragraphs[0] if normal_paragraphs else None
+        if not first_img:
+            return "missing main image in article HTML"
+        if first_p and first_img.find_previous("p") != first_p:
+            return "main image is not placed after the first paragraph"
+    return ""
+
+
+def _phase3_quality_failure_reason(data, package=None):
+    html_content = str(data.get("html_content") or "")
+    body_text = _body_text_without_code(html_content)
+    source_name = str((package or {}).get("source_name") or "").strip()
+    if re.search(r"```|^\s*[-*]\s+", html_content, flags=re.M):
+        return "markdown found in article output"
+    if re.search(r"\{[^{}]{0,120}\"(?:title|description|slug|html_content)\"\s*:", html_content, flags=re.S):
+        return "visible JSON found in article output"
+    if _has_long_english_sentence(body_text) or _has_too_much_english_in_paragraphs(html_content):
+        return "too much English inside article paragraphs"
+    if _has_repeated_paragraphs(html_content):
+        return "repeated paragraphs found in article output"
+    if source_name and source_name.casefold() in body_text.casefold():
+        return "original source name appears in article text"
+    poor_format = _looks_poorly_formatted(html_content, package=package)
+    if poor_format:
+        return poor_format
+    return ""
+
+
+def validate_phase3_article_quality(article):
+    data = {
+        "title": article.get("seo_title") or article.get("title") or "",
+        "description": article.get("seo_description") or "",
+        "slug": article.get("seo_slug") or article.get("slug") or "",
+        "html_content": article.get("final_html") or article.get("blogger_article_html") or "",
+    }
+    package = article.get("ai_input_package") or {}
+    return _phase3_quality_failure_reason(data, package=package)
+
+
+def format_phase3_article_html(html_content, package=None):
+    return _plus_ui_format_html(html_content, package or {})
+
+
 def _finalize_html_content(data, package):
     html_content = data["html_content"]
     html_content = _sanitize_source_links(html_content, package)
-    html_content = _insert_main_image_if_missing(html_content, package)
+    html_content = _plus_ui_format_html(html_content, package)
     html_content = _append_trusted_references_if_missing(html_content, package)
     html_content = _append_related_posts_if_missing(html_content, package)
+    html_content = _sanitize_source_links(html_content, package)
     data["html_content"] = html_content
     return data
 
@@ -1053,11 +1265,18 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
         fast_news_mode=FAST_NEWS_MODE,
     )
 
-    total_attempts = max(1, len(provider_sequence))
+    total_attempts = max(1, MAX_AI_ATTEMPTS)
     for attempt in range(1, total_attempts + 1):
         started = time.perf_counter()
         provider = provider_sequence[(attempt - 1) % len(provider_sequence)] if provider_sequence else ""
         provider_used = ""
+        log_event(
+            "ai_retry_attempt",
+            article_id=article.get("id"),
+            attempt=attempt,
+            max_attempts=total_attempts,
+            provider=provider,
+        )
         try:
             try:
                 raw_text, provider_used = (
@@ -1076,6 +1295,8 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             _apply_success(article, data, provider_used)
             article["ai_rotation_exhausted"] = False
             article["ai_openrouter_fallback_used"] = provider_used.startswith("openrouter:")
+            article["ai_quality_attempts"] = attempt
+            article["ai_quality_status"] = "passed"
             save_article_queue(queue)
             log_event(
                 "ai_article_success",
@@ -1084,6 +1305,12 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 words=article.get("final_word_count"),
                 chars=article.get("final_html_chars"),
                 elapsed_ms=elapsed_ms(started),
+            )
+            log_event(
+                "article_passed_quality",
+                article_id=article.get("id"),
+                attempt=attempt,
+                provider=provider_used,
             )
             return {
                 "processed": 1,
@@ -1094,6 +1321,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             }
         except Exception as error:
             last_error = error
+            article["ai_quality_last_error"] = str(error)
             log_event(
                 "ai_article_attempt_failed",
                 article_id=article.get("id"),
@@ -1101,6 +1329,12 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 provider=provider or provider_used,
                 error=error,
                 elapsed_ms=elapsed_ms(started),
+            )
+            log_event(
+                "quality_failed_reason",
+                article_id=article.get("id"),
+                attempt=attempt,
+                reason=error,
             )
             if provider == "gemini" and "openrouter" in provider_sequence:
                 log_event("ai_openrouter_fallback_started", article_id=article.get("id"))
@@ -1110,8 +1344,12 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
 
     _apply_failure(article, last_error)
     article["ai_rotation_exhausted"] = True
+    article["ai_quality_status"] = "failed_after_retries"
+    article["ai_quality_attempts"] = total_attempts
     save_article_queue(queue)
     log_event("ai_rotation_exhausted", article_id=article.get("id"), error=last_error)
+    log_event("ai_quality_failed_after_retries", article_id=article.get("id"), error=last_error)
+    log_event("article_skipped", article_id=article.get("id"), reason="AI quality failed after retries")
     _send_ai_quality_warning(article, last_error)
     return {
         "processed": 1,

@@ -1838,6 +1838,8 @@ def _print_safe_cycle_final_report(
     print(f"Article word count:     {_article_word_count(article)}")
     print(f"AI status:              {article.get('ai_status', '') if article else ''}")
     print(f"AI provider used:       {article.get('ai_provider_used', '') if article else ''}")
+    print(f"AI quality status:      {article.get('ai_quality_status', '') if article else ''}")
+    print(f"AI quality attempts:    {article.get('ai_quality_attempts', '') if article else ''}")
     print(f"Post created/updated:   {draft_action}")
     print(f"Draft ID:               {article.get('blogger_draft_id', '') if article else ''}")
     print(f"Draft URL:              {article.get('blogger_draft_url', '') if article else ''}")

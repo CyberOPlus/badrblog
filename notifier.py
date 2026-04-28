@@ -314,6 +314,8 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
             f"Facebook status: {facebook_status}",
             f"Category: {selected_category}",
             f"AI provider: {article.get('ai_provider_used', '')}",
+            f"AI quality: {article.get('ai_quality_status', '')}",
+            f"AI attempts: {article.get('ai_quality_attempts', '')}",
             f"Main image found: {'yes' if _main_image_url(article) else 'no'}",
             f"Image source type: {article.get('main_image_source_type', '')}",
             f"Removed source links: {article.get('removed_source_links_count', 0)}",

@@ -740,6 +740,95 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(result["article"]["ai_status"], "failed")
         self.assertTrue(result["article"]["ai_rotation_exhausted"])
 
+    def test_ai_quality_retries_until_article_passes(self):
+        intro = " ".join(["يوضح", "هذا", "التحديث", "الأمني", "سبب", "أهمية", "المتابعة", "السريعة"] * 13)
+        details = " ".join(["تساعد", "هذه", "الخطوة", "المستخدمين", "على", "تقليل", "المخاطر", "وتثبيت", "الإصلاحات"] * 12)
+        good = {
+            "title": "تحديث أمني مهم لمتصفح Chrome",
+            "description": "شرح مبسط لتحديث أمني مهم في Chrome ولماذا ينبغي للمستخدمين تثبيت التحديث بسرعة لحماية بياناتهم وتقليل مخاطر الاستغلال.",
+            "slug": "chrome-security-update",
+            "html_content": f"<p>{intro}</p><h2>ما الذي حدث؟</h2><p>{details}</p>",
+        }
+        bad = {
+            "title": "تحديث Chrome",
+            "description": "وصف قصير عن تحديث Chrome الأمني.",
+            "slug": "chrome-update",
+            "html_content": "<p>short</p>",
+        }
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "a1",
+                        "url": "https://example.com/news",
+                        "status": "selected",
+                        "processing_status": "ready_for_ai",
+                        "ai_input_package": {
+                            "title": "Chrome fixes active zero-day vulnerability",
+                            "url": "https://example.com/news",
+                            "source_published_at": recent_iso(1),
+                            "content_preview": "Google released an emergency Chrome security update.",
+                        },
+                    }
+                ],
+                "notifications": {},
+            }
+            outputs = [json.dumps(bad), json.dumps(bad), json.dumps(good, ensure_ascii=False)]
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=[(outputs[0], "gemini:test"), (outputs[1], "gemini:test"), (outputs[2], "gemini:test")]), patch.object(article_ai_processor.time, "sleep"):
+                article_queue.save_article_queue(queue)
+                result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
+
+        self.assertEqual(result["success"], 1)
+        self.assertEqual(result["article"]["ai_quality_attempts"], 3)
+        self.assertEqual(result["article"]["ai_quality_status"], "passed")
+
+    def test_ai_quality_failed_after_three_retries_skips_article(self):
+        bad = {
+            "title": "تحديث Chrome",
+            "description": "وصف قصير عن تحديث Chrome الأمني.",
+            "slug": "chrome-update",
+            "html_content": "<p>short</p>",
+        }
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "a1",
+                        "url": "https://example.com/news",
+                        "status": "selected",
+                        "processing_status": "ready_for_ai",
+                        "ai_input_package": {
+                            "title": "Chrome fixes active zero-day vulnerability",
+                            "url": "https://example.com/news",
+                            "source_published_at": recent_iso(1),
+                            "content_preview": "Google released an emergency Chrome security update.",
+                        },
+                    }
+                ],
+                "notifications": {},
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]), patch.object(article_ai_processor, "_generate_with_provider_name", return_value=(json.dumps(bad), "gemini:test")), patch.object(article_ai_processor.time, "sleep"), patch("notifier.send_telegram_message", return_value={"sent": False, "skipped": True}):
+                article_queue.save_article_queue(queue)
+                result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
+
+        self.assertEqual(result["success"], 0)
+        self.assertEqual(result["failed"], 1)
+        self.assertEqual(result["article"]["ai_quality_status"], "failed_after_retries")
+        self.assertEqual(result["article"]["ai_quality_attempts"], 3)
+
+    def test_plus_ui_format_places_main_image_after_first_paragraph(self):
+        html = "<p>هذه مقدمة عربية واضحة عن الخبر وتشرح الفكرة ببساطة.</p><h2>التفاصيل</h2><p>هذه فقرة ثانية توضح الأثر على القارئ.</p>"
+        formatted = article_ai_processor.format_phase3_article_html(
+            html,
+            {"main_image": "https://cdn.example/image.jpg", "title": "خبر أمني"},
+        )
+        self.assertIn("class=\"pIndent\"", formatted)
+        self.assertIn("class=\"dropCap\"", formatted)
+        self.assertLess(formatted.find("</p>"), formatted.find("<img"))
+        self.assertIn("class=\"full\"", formatted)
+
     def test_ads_affiliate_articles_are_skipped(self):
         blocked, reason = content_filter.is_promotional_article(
             {"title": "Best VPN discount coupon deal", "url": "https://example.com/deals/best-vpn"}

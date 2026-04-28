@@ -276,7 +276,7 @@ def insert_internal_links(html, article, cache_data):
             f"<li><a href='{escape(candidate.get('url', ''), quote=True)}'>"
             f"{escape(candidate.get('title') or candidate.get('url') or '')}</a></li>"
         )
-    if not items:
+    if len(items) < 2:
         return html, 0
     block = "\n<div class='pRelate'><b>قد يهمك أيضًا:</b><ul>" + "".join(items) + "</ul></div>"
     return html.rstrip() + block, len(items)

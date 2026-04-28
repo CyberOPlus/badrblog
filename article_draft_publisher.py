@@ -9,6 +9,7 @@ from urllib.parse import urlparse
 from googleapiclient.errors import HttpError
 
 from article_queue import load_article_queue, save_article_queue
+from article_ai_processor import format_phase3_article_html, validate_phase3_article_quality
 from article_selector import normalize_category_label
 from blogger_client import create_blogger_service, get_credentials, is_local_publisher
 from config import BLOG_ID, MAX_RETRIES, PUBLISH_MODE, RETRY_DELAY, SAFE_MODE
@@ -87,6 +88,9 @@ def _publish_quality_error(article, articles):
     article["final_word_count"] = result.word_count or _article_word_count(article)
     if not result.passed:
         return result.reason
+    phase3_reason = validate_phase3_article_quality(article)
+    if phase3_reason:
+        return phase3_reason
     if result.warnings:
         article["pre_publish_warnings"] = list(result.warnings)
     else:
@@ -148,7 +152,8 @@ def _source_domain_for_article(article):
 
 def _sanitize_article_final_html(article):
     source_domain = _source_domain_for_article(article)
-    cleaned, removed_count = sanitize_source_links(article.get("final_html", ""), source_domain)
+    cleaned = format_phase3_article_html(article.get("final_html", ""), article.get("ai_input_package") or article)
+    cleaned, removed_count = sanitize_source_links(cleaned, source_domain)
     cleaned, link_stats = apply_link_enrichment(cleaned, article, source_domain=source_domain)
     cleaned, post_link_removed_count = sanitize_source_links(cleaned, source_domain)
     removed_count += post_link_removed_count
