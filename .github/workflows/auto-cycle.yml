@@ -1,8 +1,6 @@
 name: Blogger Auto Cycle
 
 on:
-  schedule:
-    - cron: "*/5 * * * *"
   workflow_dispatch:
     inputs:
       mode:
@@ -23,7 +21,7 @@ on:
       recent_hours:
         description: "Recent article max age in hours"
         required: true
-        default: "6"
+        default: "2"
         type: choice
         options:
           - "2"
@@ -136,10 +134,9 @@ jobs:
         env:
           REQUESTED_MODE: ${{ github.event.inputs.mode || 'live' }}
           REQUESTED_FAST_NEWS: ${{ github.event.inputs.fast_news || 'true' }}
-          REQUESTED_RECENT_HOURS: ${{ github.event.inputs.recent_hours || '6' }}
+          REQUESTED_RECENT_HOURS: ${{ github.event.inputs.recent_hours || '2' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
           BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
           BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
@@ -158,7 +155,6 @@ jobs:
           masked_names = (
               "GEMINI_API_KEY",
               "OPENROUTER_API_KEY",
-              "OPENAI_API_KEY",
               "BLOGGER_BLOG_ID",
               "BLOGGER_CLIENT_SECRET_JSON",
               "BLOGGER_TOKEN_JSON",
@@ -186,8 +182,8 @@ jobs:
           for name in required_names:
               if not os.environ.get(name, "").strip():
                   missing.append(name)
-          if not any(os.environ.get(name, "").strip() for name in ("GEMINI_API_KEY", "OPENROUTER_API_KEY", "OPENAI_API_KEY")):
-              missing.append("GEMINI_API_KEY or OPENROUTER_API_KEY or OPENAI_API_KEY")
+          if not any(os.environ.get(name, "").strip() for name in ("GEMINI_API_KEY", "OPENROUTER_API_KEY")):
+              missing.append("GEMINI_API_KEY or OPENROUTER_API_KEY")
 
           for json_name in ("BLOGGER_CLIENT_SECRET_JSON", "BLOGGER_TOKEN_JSON"):
               raw = os.environ.get(json_name, "").strip()
@@ -212,9 +208,9 @@ jobs:
           fast_news = os.environ.get("REQUESTED_FAST_NEWS", "true").strip().lower()
           if fast_news not in {"true", "false"}:
               fast_news = "true"
-          recent_hours = os.environ.get("REQUESTED_RECENT_HOURS", "6").strip()
+          recent_hours = os.environ.get("REQUESTED_RECENT_HOURS", "2").strip()
           if recent_hours not in {"2", "3", "4", "6"}:
-              recent_hours = "6"
+              recent_hours = "2"
 
           Path("client_secret.json").write_text(os.environ.get("BLOGGER_CLIENT_SECRET_JSON", ""), encoding="utf-8")
           Path("data/token.json").write_text(os.environ.get("BLOGGER_TOKEN_JSON", ""), encoding="utf-8")
@@ -225,7 +221,6 @@ jobs:
               "OPENROUTER_API_KEY": os.environ.get("OPENROUTER_API_KEY", ""),
               "OPENROUTER_MODEL": "openrouter/auto",
               "OPENROUTER_APP_NAME": "Blogger Automation Bot",
-              "OPENAI_API_KEY": os.environ.get("OPENAI_API_KEY", ""),
               "BLOG_ID": os.environ.get("BLOGGER_BLOG_ID", ""),
               "PUBLISH_MODE": mode,
               "SAFE_MODE": safe_mode,
@@ -255,9 +250,9 @@ jobs:
               "MIN_EXTRACTED_CHARS": "80",
               "MAX_SOURCE_RETRIES": "1",
               "SOURCE_RETRY_DELAY_SECONDS": "2",
-              "SOURCE_TIMEOUT_SECONDS": "12",
-              "ARTICLE_TIMEOUT_SECONDS": "15",
-              "AI_TIMEOUT_SECONDS": "60",
+              "SOURCE_TIMEOUT_SECONDS": "10",
+              "ARTICLE_TIMEOUT_SECONDS": "12",
+              "AI_TIMEOUT_SECONDS": "50",
               "MAX_AI_RETRIES": "3",
               "MAX_SOURCES_PER_RUN": "999",
               "DUPLICATE_PROTECTION": "true",
@@ -414,4 +409,4 @@ jobs:
             -H "Authorization: Bearer ${GH_TOKEN}" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
             https://api.github.com/repos/${{ github.repository }}/actions/workflows/auto-cycle.yml/dispatches \
-            -d '{"ref":"main","inputs":{"mode":"live","fast_news":"true","recent_hours":"6","self_trigger":"true"}}'
+            -d '{"ref":"main","inputs":{"mode":"live","fast_news":"true","recent_hours":"2","self_trigger":"true"}}'
