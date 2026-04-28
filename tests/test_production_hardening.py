@@ -597,9 +597,16 @@ class ProductionHardeningTests(unittest.TestCase):
     def test_default_openrouter_fallback_list_is_available(self):
         import config
 
-        self.assertIn("openai/gpt-oss-120b:free", config.DEFAULT_OPENROUTER_MODELS)
-        self.assertIn("liquid/lfm-2.5-1.2b-instruct:free", config.DEFAULT_OPENROUTER_MODELS)
-        self.assertGreaterEqual(len(config.DEFAULT_OPENROUTER_MODELS), 10)
+        self.assertEqual(
+            config.FAST_OPENROUTER_MODELS,
+            [
+                "inclusionai/ling-2.6-flash:free",
+                "liquid/lfm-2.5-1.2b-instruct:free",
+                "nvidia/nemotron-3-nano-30b-a3b:free",
+                "openai/gpt-oss-20b:free",
+            ],
+        )
+        self.assertEqual(config.OPENROUTER_MODELS, config.FAST_OPENROUTER_MODELS)
 
     def test_facebook_image_generator_uses_fallback_image(self):
         try:
@@ -663,7 +670,7 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(provider, "openrouter:test")
 
     def test_auto_ai_sequence_is_gemini_openrouter_gemini(self):
-        with patch.object(article_ai_processor, "_resolve_providers", return_value=["gemini", "openrouter"]), patch.object(article_ai_processor, "AI_PROVIDER", "auto"), patch.object(article_ai_processor, "MAX_AI_ATTEMPTS", 3):
+        with patch.object(article_ai_processor, "_resolve_providers", return_value=["gemini", "openrouter"]), patch.object(article_ai_processor, "_preferred_provider", return_value=""), patch.object(article_ai_processor, "AI_PROVIDER", "auto"), patch.object(article_ai_processor, "MAX_AI_ATTEMPTS", 3):
             self.assertEqual(article_ai_processor._attempt_provider_sequence(), ["gemini", "openrouter"])
 
     def test_ai_cooldown_memory_persists_without_secret(self):
@@ -677,6 +684,82 @@ class ProductionHardeningTests(unittest.TestCase):
 
         self.assertIn("openrouter:test/free", next(iter(data["cooldowns"])))
         self.assertNotIn("sk-test-secret-value", json.dumps(data))
+
+    def test_ai_speed_memory_tracks_fastest_success_model(self):
+        with TemporaryDirectory() as temp_dir:
+            memory_path = Path(temp_dir) / "ai_provider_memory.json"
+            fast_candidate = {"provider": "openrouter", "model": "openai/gpt-oss-20b:free", "api_key": "sk-fast"}
+            slow_candidate = {"provider": "gemini", "model": "gemini-2.5-flash", "api_key": "sk-gemini"}
+            with patch.object(article_ai_processor, "AI_PROVIDER_MEMORY_PATH", memory_path), patch.object(article_ai_processor, "_AI_MEMORY_CACHE", None):
+                article_ai_processor._record_candidate_success(slow_candidate, elapsed_seconds=8.0)
+                article_ai_processor._record_candidate_success(fast_candidate, elapsed_seconds=3.0)
+                data = json.loads(memory_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(data["fastest_success_model"], "openrouter:openai/gpt-oss-20b:free")
+        self.assertEqual(data["avg_time"], 3.0)
+
+    def test_openrouter_candidates_use_fast_models_only(self):
+        with patch.object(article_ai_processor, "OPENROUTER_API_KEY", "sk-fast"), patch.object(
+            article_ai_processor,
+            "OPENROUTER_MODELS",
+            [
+                "openai/gpt-oss-120b:free",
+                "inclusionai/ling-2.6-flash:free",
+                "nvidia/nemotron-3-super-120b-a12b:free",
+                "openai/gpt-oss-20b:free",
+            ],
+        ), patch.object(article_ai_processor, "OPENROUTER_MODEL", "openai/gpt-oss-120b:free"):
+            candidates = article_ai_processor._openrouter_candidates()
+
+        self.assertEqual(
+            [candidate["model"] for candidate in candidates],
+            ["inclusionai/ling-2.6-flash:free", "openai/gpt-oss-20b:free"],
+        )
+
+    def test_gemini_timeout_uses_15_seconds(self):
+        class FakeResponse:
+            text = '{"title":"x","description":"y","slug":"z","html_content":"<p>ok</p>"}'
+
+        class FakeModel:
+            def __init__(self, _name):
+                self.request_options = None
+
+            def generate_content(self, _prompt, request_options=None):
+                self.request_options = request_options
+                return FakeResponse()
+
+        fake_model = FakeModel("gemini-2.5-flash")
+        fake_genai = type(
+            "FakeGenAI",
+            (),
+            {
+                "configure": staticmethod(lambda **_kwargs: None),
+                "GenerativeModel": staticmethod(lambda _name: fake_model),
+            },
+        )
+
+        with patch.object(article_ai_processor, "genai", fake_genai), patch.object(article_ai_processor, "GEMINI_API_KEY", "sk-gemini"):
+            article_ai_processor._generate_with_gemini("prompt", timeout_seconds=15)
+
+        self.assertEqual(fake_model.request_options, {"timeout": 15})
+
+    def test_openrouter_timeout_uses_model_timeout(self):
+        class FakeResponse:
+            status_code = 200
+
+            @staticmethod
+            def json():
+                return {
+                    "model": "openai/gpt-oss-20b:free",
+                    "choices": [{"message": {"content": '{"title":"x","description":"y","slug":"z","html_content":"<p>ok</p>"}'}}],
+                }
+
+        with patch.object(article_ai_processor.requests, "post", return_value=FakeResponse()) as post, patch.object(
+            article_ai_processor, "OPENROUTER_API_KEY", "sk-openrouter"
+        ):
+            article_ai_processor._generate_with_openrouter("prompt", model_name="openai/gpt-oss-20b:free", timeout_seconds=12)
+
+        self.assertEqual(post.call_args.kwargs["timeout"], 12)
 
     def test_caption_style_memory_avoids_recent_pattern(self):
         with TemporaryDirectory() as temp_dir:
@@ -829,7 +912,7 @@ class ProductionHardeningTests(unittest.TestCase):
         }
         calls = []
 
-        def fake_generate(provider, prompt):
+        def fake_generate(provider, prompt, context=None):
             calls.append(provider)
             if provider == "gemini":
                 raise RuntimeError("Gemini API error 429: quota exceeded retry_delay")
@@ -871,7 +954,7 @@ class ProductionHardeningTests(unittest.TestCase):
     def test_gemini_429_rotation_exhaustion_does_not_send_quality_gate_warning(self):
         calls = []
 
-        def fake_generate(provider, prompt):
+        def fake_generate(provider, prompt, context=None):
             calls.append(provider)
             if provider == "gemini":
                 raise article_ai_processor.AIProviderFallbackNeeded("Gemini 429 quota exceeded retry_delay")
@@ -907,13 +990,81 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(result["article"]["ai_status"], "failed")
         self.assertTrue(result["article"]["ai_rotation_exhausted"])
         self.assertEqual(result["article"]["ai_quality_status"], "provider_rotation_exhausted")
-        self.assertEqual(calls, ["gemini", "openrouter", "gemini", "openrouter", "gemini", "openrouter"])
+        self.assertEqual(calls, ["gemini", "openrouter"])
         validate_gate.assert_not_called()
         self.assertTrue(send.called)
         sent_message = send.call_args.args[0]
         self.assertIn("AI rotation exhausted", sent_message)
         self.assertNotIn("AI quality gate blocked", sent_message)
         self.assertNotIn("Words: 0", sent_message)
+
+    def test_openrouter_stops_after_two_fast_failures_when_gemini_failed(self):
+        context = article_ai_processor.AIExecutionContext(article_id="a1")
+        context.gemini_failures = 1
+        candidates = [
+            {"provider": "openrouter", "model": "inclusionai/ling-2.6-flash:free", "api_key": "sk-openrouter"},
+            {"provider": "openrouter", "model": "liquid/lfm-2.5-1.2b-instruct:free", "api_key": "sk-openrouter"},
+            {"provider": "openrouter", "model": "openai/gpt-oss-20b:free", "api_key": "sk-openrouter"},
+        ]
+
+        with patch.object(article_ai_processor, "_openrouter_candidates", return_value=candidates), patch.object(
+            article_ai_processor, "_generate_with_candidate", side_effect=RuntimeError("provider failed")
+        ) as generate_candidate, patch.object(
+            article_ai_processor, "_cooldown_remaining", return_value=0
+        ), patch.object(article_ai_processor, "_put_candidate_on_cooldown"):
+            with self.assertRaises(article_ai_processor.AIProviderRotationExhausted):
+                article_ai_processor._generate_with_provider_name("openrouter", "prompt", context=context)
+
+        self.assertEqual(generate_candidate.call_count, 2)
+
+    def test_ai_time_budget_stops_additional_attempts(self):
+        bad = {
+            "title": "ØªØ­Ø¯ÙŠØ« Chrome",
+            "description": "ÙˆØµÙ Ù‚ØµÙŠØ± Ø¹Ù† ØªØ­Ø¯ÙŠØ« Chrome Ø§Ù„Ø£Ù…Ù†ÙŠ.",
+            "slug": "chrome-update",
+            "html_content": "<p>short</p>",
+        }
+        check_calls = {"count": 0}
+
+        def fake_budget_check(_context, stage=""):
+            check_calls["count"] += 1
+            if stage == "attempt_2_start":
+                raise article_ai_processor.AITimeBudgetExceeded("ai_time_budget_exceeded")
+
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "a1",
+                        "url": "https://example.com/news",
+                        "status": "selected",
+                        "processing_status": "ready_for_ai",
+                        "ai_input_package": {
+                            "title": "Chrome fixes active zero-day vulnerability",
+                            "url": "https://example.com/news",
+                            "source_published_at": recent_iso(1),
+                            "content_preview": "Google released an emergency Chrome security update.",
+                        },
+                    }
+                ],
+                "notifications": {},
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(
+                article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]
+            ), patch.object(
+                article_ai_processor, "_generate_with_provider_name", return_value=(json.dumps(bad), "gemini:test")
+            ) as generate_provider, patch.object(
+                article_ai_processor, "_check_ai_time_budget", side_effect=fake_budget_check
+            ), patch("notifier.send_telegram_message", return_value={"sent": False, "skipped": True}):
+                article_queue.save_article_queue(queue)
+                result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
+
+        self.assertEqual(result["success"], 0)
+        self.assertEqual(result["article"]["ai_quality_status"], "time_budget_exceeded")
+        self.assertTrue(result["article"]["ai_time_budget_exceeded"])
+        self.assertEqual(generate_provider.call_count, 1)
+        self.assertGreaterEqual(check_calls["count"], 2)
 
     def test_plus_ui_format_places_main_image_after_first_paragraph(self):
         html = "<p>هذه مقدمة عربية واضحة عن الخبر وتشرح الفكرة ببساطة.</p><h2>التفاصيل</h2><p>هذه فقرة ثانية توضح الأثر على القارئ.</p>"

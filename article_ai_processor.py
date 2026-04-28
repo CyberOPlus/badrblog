@@ -8,6 +8,7 @@ import re
 import hashlib
 import time
 import warnings
+from dataclasses import dataclass, field
 from datetime import datetime
 from html import escape
 from urllib.parse import urlparse
@@ -28,10 +29,14 @@ from duplicate_utils import content_hash_from_html
 from config import (
     AI_PROVIDER,
     AI_PROVIDER_MEMORY_PATH,
+    AI_MODEL_TIMEOUT_SECONDS,
+    AI_TOTAL_TIME_BUDGET_SECONDS,
     ALLOW_SHORT_ARTICLES,
+    FAST_OPENROUTER_MODELS,
     FAST_NEWS_MODE,
     GEMINI_API_KEY,
     GEMINI_MODEL,
+    GEMINI_TIMEOUT_SECONDS,
     MAX_AI_RETRIES,
     MIN_ARTICLE_WORDS,
     OPENAI_API_KEY,
@@ -62,6 +67,7 @@ MAX_AI_ATTEMPTS = max(1, MAX_AI_RETRIES)
 AI_MODEL_COOLDOWN_SECONDS = 30 * 60
 _AI_COOLDOWNS = {}
 _AI_MEMORY_CACHE = None
+FAST_OPENROUTER_MODEL_SET = set(FAST_OPENROUTER_MODELS)
 
 
 class AIProviderFallbackNeeded(RuntimeError):
@@ -70,6 +76,31 @@ class AIProviderFallbackNeeded(RuntimeError):
 
 class AIProviderRotationExhausted(RuntimeError):
     """Raised when all available AI providers fail before quality validation."""
+
+
+class AITimeBudgetExceeded(RuntimeError):
+    """Raised when the full AI generation budget is exhausted."""
+
+
+@dataclass
+class AIExecutionContext:
+    article_id: str = ""
+    started_at: float = field(default_factory=time.perf_counter)
+    total_budget_seconds: int = AI_TOTAL_TIME_BUDGET_SECONDS
+    gemini_failures: int = 0
+    openrouter_failures_after_gemini: int = 0
+    skipped_slow_models_count: int = 0
+    fast_mode_enabled: bool = True
+
+    @property
+    def deadline(self):
+        return self.started_at + self.total_budget_seconds
+
+    def elapsed_seconds(self):
+        return max(0.0, time.perf_counter() - self.started_at)
+
+    def remaining_seconds(self):
+        return max(0.0, self.deadline - time.perf_counter())
 
 
 ALLOWED_LATIN_INLINE = {
@@ -130,7 +161,7 @@ def _candidate_id(candidate):
 
 
 def _empty_ai_memory():
-    return {"cooldowns": {}, "stats": {}}
+    return {"avg_time": 0.0, "cooldowns": {}, "fastest_success_model": "", "stats": {}}
 
 
 def _load_ai_memory():
@@ -142,7 +173,9 @@ def _load_ai_memory():
             with AI_PROVIDER_MEMORY_PATH.open("r", encoding="utf-8") as handle:
                 data = json.load(handle)
             if isinstance(data, dict):
+                data.setdefault("avg_time", 0.0)
                 data.setdefault("cooldowns", {})
+                data.setdefault("fastest_success_model", "")
                 data.setdefault("stats", {})
                 _AI_MEMORY_CACHE = data
                 return _AI_MEMORY_CACHE
@@ -167,6 +200,53 @@ def _safe_error_reason(error):
     text = re.sub(r"AIza[0-9A-Za-z_\-]{20,}", "AIza***", text)
     text = re.sub(r"sk-[0-9A-Za-z_\-]{12,}", "sk-***", text)
     return text[:160] or error.__class__.__name__
+
+
+def _candidate_memory_key(candidate):
+    return f"{candidate.get('provider')}:{candidate.get('model')}"
+
+
+def _preferred_model_memory_key():
+    return str(_load_ai_memory().get("fastest_success_model") or "").strip()
+
+
+def _reorder_candidates_by_speed_memory(candidates):
+    preferred = _preferred_model_memory_key()
+    if not preferred:
+        return list(candidates)
+    preferred_candidates = [candidate for candidate in candidates if _candidate_memory_key(candidate) == preferred]
+    others = [candidate for candidate in candidates if _candidate_memory_key(candidate) != preferred]
+    return preferred_candidates + others
+
+
+def _preferred_provider():
+    preferred = _preferred_model_memory_key()
+    return preferred.split(":", 1)[0] if ":" in preferred else ""
+
+
+def _remaining_budget_seconds(context):
+    return context.remaining_seconds() if context else float(AI_TOTAL_TIME_BUDGET_SECONDS)
+
+
+def _provider_timeout_seconds(candidate, context=None):
+    provider = candidate.get("provider")
+    base_timeout = GEMINI_TIMEOUT_SECONDS if provider == "gemini" else AI_MODEL_TIMEOUT_SECONDS
+    remaining = _remaining_budget_seconds(context)
+    if remaining <= 0:
+        raise AITimeBudgetExceeded("ai_time_budget_exceeded")
+    return max(1, min(base_timeout, int(remaining) if remaining >= 1 else 1))
+
+
+def _check_ai_time_budget(context, stage=""):
+    if context and context.remaining_seconds() <= 0:
+        log_event(
+            "ai_time_budget_exceeded",
+            article_id=context.article_id,
+            stage=stage,
+            ai_total_time=round(context.elapsed_seconds(), 2),
+            budget_seconds=context.total_budget_seconds,
+        )
+        raise AITimeBudgetExceeded("ai_time_budget_exceeded")
 
 
 def _memory_cooldown_until(candidate_id):
@@ -243,7 +323,7 @@ def _put_candidate_on_cooldown(candidate, error):
     )
 
 
-def _record_candidate_success(candidate):
+def _record_candidate_success(candidate, elapsed_seconds=None):
     candidate_id = _candidate_id(candidate)
     memory = _load_ai_memory()
     memory.setdefault("cooldowns", {}).pop(candidate_id, None)
@@ -253,6 +333,15 @@ def _record_candidate_success(candidate):
     stats["key_id"] = _key_id(candidate.get("api_key"))
     stats["successes"] = int(stats.get("successes", 0)) + 1
     stats["last_success_at"] = _now_iso()
+    if elapsed_seconds is not None:
+        total_elapsed = float(stats.get("total_success_time", 0.0)) + float(elapsed_seconds)
+        stats["total_success_time"] = round(total_elapsed, 4)
+        stats["avg_time"] = round(total_elapsed / max(1, int(stats.get("successes", 1))), 4)
+        current_fastest_key = str(memory.get("fastest_success_model") or "").strip()
+        current_fastest_avg = float(memory.get("avg_time") or 0.0)
+        if not current_fastest_key or stats["avg_time"] <= current_fastest_avg:
+            memory["fastest_success_model"] = _candidate_memory_key(candidate)
+            memory["avg_time"] = stats["avg_time"]
     _save_ai_memory(memory)
 
 
@@ -942,26 +1031,28 @@ def _normalize_openai_content(content):
     return str(content or "")
 
 
-def _generate_with_gemini(prompt, api_key=None, model_name=None):
+def _generate_with_gemini(prompt, api_key=None, model_name=None, timeout_seconds=None):
     if genai is None:
         raise RuntimeError("google-generativeai is not installed.")
     api_key = api_key or GEMINI_API_KEY
     model_name = model_name or GEMINI_MODEL
+    timeout_seconds = timeout_seconds or GEMINI_TIMEOUT_SECONDS
     if not _has_real_key(api_key, "your_gemini_api_key_here"):
         raise RuntimeError("GEMINI_API_KEY is missing.")
 
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel(model_name)
-    response = model.generate_content(prompt)
+    response = model.generate_content(prompt, request_options={"timeout": timeout_seconds})
     text = getattr(response, "text", "") or ""
     if not text.strip():
         raise RuntimeError("Gemini returned an empty response.")
     return text, f"gemini:{model_name}"
 
 
-def _generate_with_openrouter(prompt, api_key=None, model_name=None):
+def _generate_with_openrouter(prompt, api_key=None, model_name=None, timeout_seconds=None):
     api_key = api_key or OPENROUTER_API_KEY
     model_name = model_name or OPENROUTER_MODEL
+    timeout_seconds = timeout_seconds or OPENROUTER_TIMEOUT_SECONDS
     if not _has_real_key(api_key, "your_new_key_here"):
         raise RuntimeError("OPENROUTER_API_KEY is missing.")
 
@@ -983,7 +1074,7 @@ def _generate_with_openrouter(prompt, api_key=None, model_name=None):
             "temperature": 0.35,
             "response_format": {"type": "json_object"},
         },
-        timeout=OPENROUTER_TIMEOUT_SECONDS,
+        timeout=timeout_seconds,
     )
     if response.status_code >= 400:
         raise RuntimeError(f"OpenRouter API error {response.status_code}: {response.text[:500]}")
@@ -999,9 +1090,10 @@ def _generate_with_openrouter(prompt, api_key=None, model_name=None):
     return text, f"openrouter:{data.get('model') or model_name}"
 
 
-def _generate_with_openai(prompt, api_key=None, model_name=None):
+def _generate_with_openai(prompt, api_key=None, model_name=None, timeout_seconds=None):
     api_key = api_key or OPENAI_API_KEY
     model_name = model_name or OPENAI_MODEL
+    timeout_seconds = timeout_seconds or OPENAI_TIMEOUT_SECONDS
     if not _has_real_key(api_key, "your_openai_api_key_here"):
         raise RuntimeError("OPENAI_API_KEY is missing.")
 
@@ -1018,7 +1110,7 @@ def _generate_with_openai(prompt, api_key=None, model_name=None):
             "temperature": 0.35,
             "response_format": {"type": "json_object"},
         },
-        timeout=OPENAI_TIMEOUT_SECONDS,
+        timeout=timeout_seconds,
     )
     if response.status_code >= 400:
         raise RuntimeError(f"OpenAI API error {response.status_code}: {response.text[:500]}")
@@ -1076,9 +1168,23 @@ def _resolve_providers():
     raise RuntimeError("AI_PROVIDER must be one of: gemini, openrouter, openai, auto")
 
 
-def _provider_candidates():
+def _resolve_openrouter_models():
+    configured = _models(OPENROUTER_MODELS, OPENROUTER_MODEL)
+    fast_models = [model for model in configured if model in FAST_OPENROUTER_MODEL_SET]
+    return fast_models or FAST_OPENROUTER_MODELS[:]
+
+
+def _skipped_slow_models_count():
+    configured_models = _models(OPENROUTER_MODELS, OPENROUTER_MODEL)
+    return len([model_name for model_name in configured_models if model_name not in FAST_OPENROUTER_MODEL_SET])
+
+
+def _provider_candidates(context=None):
     _prune_ai_memory()
     providers = _resolve_providers()
+    preferred_provider = _preferred_provider() if (AI_PROVIDER or "").strip().lower() == "auto" else ""
+    if preferred_provider in providers:
+        providers = [preferred_provider] + [provider for provider in providers if provider != preferred_provider]
     candidates = []
     for provider in providers:
         if provider == "gemini":
@@ -1086,35 +1192,46 @@ def _provider_candidates():
                 candidates.append({"provider": "gemini", "api_key": GEMINI_API_KEY, "model": GEMINI_MODEL})
         elif provider == "openrouter":
             if _has_real_key(OPENROUTER_API_KEY, "your_new_key_here"):
-                for model_name in _models(OPENROUTER_MODELS, OPENROUTER_MODEL):
+                resolved_openrouter_models = _resolve_openrouter_models()
+                if context:
+                    context.skipped_slow_models_count = _skipped_slow_models_count()
+                for model_name in resolved_openrouter_models:
                     candidates.append({"provider": "openrouter", "api_key": OPENROUTER_API_KEY, "model": model_name})
         elif provider == "openai":
             if _has_real_key(OPENAI_API_KEY, "your_openai_api_key_here"):
                 candidates.append({"provider": "openai", "api_key": OPENAI_API_KEY, "model": OPENAI_MODEL})
     if not candidates:
         raise RuntimeError("No AI provider key configured.")
-    return candidates
+    return _reorder_candidates_by_speed_memory(candidates)
 
 
-def _openrouter_candidates():
+def _openrouter_candidates(context=None):
     if not _has_real_key(OPENROUTER_API_KEY, "your_new_key_here"):
         return []
-    return [
+    configured_models = _models(OPENROUTER_MODELS, OPENROUTER_MODEL)
+    fast_models = _resolve_openrouter_models()
+    if context:
+        context.skipped_slow_models_count = len(
+            [model_name for model_name in configured_models if model_name not in FAST_OPENROUTER_MODEL_SET]
+        )
+    candidates = [
         {"provider": "openrouter", "api_key": OPENROUTER_API_KEY, "model": model_name}
-        for model_name in _models(OPENROUTER_MODELS, OPENROUTER_MODEL)
+        for model_name in fast_models
     ]
+    return _reorder_candidates_by_speed_memory(candidates)
 
 
-def _generate_ai_article(prompt, skip_providers=None):
+def _generate_ai_article(prompt, skip_providers=None, context=None):
     skip_providers = set(skip_providers or [])
     candidates = [
-        candidate for candidate in _provider_candidates()
+        candidate for candidate in _provider_candidates(context=context)
         if candidate["provider"] not in skip_providers
     ]
     if not candidates:
-        candidates = _provider_candidates()
+        candidates = _provider_candidates(context=context)
     last_error = None
     for index, candidate in enumerate(candidates):
+        _check_ai_time_budget(context, stage="candidate_loop")
         provider = candidate["provider"]
         cooldown = _cooldown_remaining(candidate)
         if cooldown > 0 and index < len(candidates) - 1:
@@ -1127,8 +1244,7 @@ def _generate_ai_article(prompt, skip_providers=None):
             )
             continue
         try:
-            result = _generate_with_candidate(candidate, prompt)
-            _record_candidate_success(candidate)
+            result = _generate_with_candidate(candidate, prompt, context=context)
             return result
         except Exception as error:
             last_error = error
@@ -1141,25 +1257,64 @@ def _generate_ai_article(prompt, skip_providers=None):
     raise last_error or RuntimeError("No AI provider returned a response.")
 
 
-def _generate_with_candidate(candidate, prompt):
+def _generate_with_candidate(candidate, prompt, context=None):
     provider = candidate.get("provider")
+    timeout_seconds = _provider_timeout_seconds(candidate, context=context)
+    started = time.perf_counter()
     if provider == "gemini":
-        return _generate_with_gemini(prompt, candidate.get("api_key"), candidate.get("model"))
-    if provider == "openrouter":
-        return _generate_with_openrouter(prompt, candidate.get("api_key"), candidate.get("model"))
-    if provider == "openai":
-        return _generate_with_openai(prompt, candidate.get("api_key"), candidate.get("model"))
-    raise RuntimeError(f"Unsupported AI provider: {provider}")
+        raw_text, provider_used = _generate_with_gemini(
+            prompt,
+            candidate.get("api_key"),
+            candidate.get("model"),
+            timeout_seconds=timeout_seconds,
+        )
+    elif provider == "openrouter":
+        raw_text, provider_used = _generate_with_openrouter(
+            prompt,
+            candidate.get("api_key"),
+            candidate.get("model"),
+            timeout_seconds=timeout_seconds,
+        )
+    elif provider == "openai":
+        raw_text, provider_used = _generate_with_openai(
+            prompt,
+            candidate.get("api_key"),
+            candidate.get("model"),
+            timeout_seconds=timeout_seconds,
+        )
+    else:
+        raise RuntimeError(f"Unsupported AI provider: {provider}")
+    elapsed_seconds = max(0.0, time.perf_counter() - started)
+    _record_candidate_success(candidate, elapsed_seconds=elapsed_seconds)
+    if provider == "gemini":
+        log_event(
+            "gemini_time",
+            article_id=getattr(context, "article_id", ""),
+            model=candidate.get("model"),
+            seconds=round(elapsed_seconds, 2),
+            timeout_seconds=timeout_seconds,
+        )
+    elif provider == "openrouter":
+        log_event(
+            "openrouter_model_time",
+            article_id=getattr(context, "article_id", ""),
+            model=candidate.get("model"),
+            seconds=round(elapsed_seconds, 2),
+            timeout_seconds=timeout_seconds,
+        )
+    return raw_text, provider_used
 
 
 def _attempt_provider_sequence():
     providers = _resolve_providers()
     if (AI_PROVIDER or "").strip().lower() == "auto":
         sequence = []
-        if "gemini" in providers:
-            sequence.append("gemini")
-        if "openrouter" in providers:
-            sequence.append("openrouter")
+        preferred_provider = _preferred_provider()
+        if preferred_provider in providers:
+            sequence.append(preferred_provider)
+        for provider in ("gemini", "openrouter", "openai"):
+            if provider in providers and provider not in sequence:
+                sequence.append(provider)
         return sequence or providers
     return (providers * MAX_AI_ATTEMPTS)[:MAX_AI_ATTEMPTS]
 
@@ -1176,16 +1331,19 @@ def _should_switch_gemini_to_openrouter(provider, error):
     return provider == "gemini" and _is_quota_or_rate_limit_error(error) and _openrouter_fallback_available()
 
 
-def _generate_with_provider_name(provider, prompt):
+def _generate_with_provider_name(provider, prompt, context=None):
     allowed = (
-        _openrouter_candidates()
+        _openrouter_candidates(context=context)
         if provider == "openrouter"
-        else [item for item in _provider_candidates() if item.get("provider") == provider]
+        else [item for item in _provider_candidates(context=context) if item.get("provider") == provider]
     )
     if not allowed:
         raise RuntimeError(f"Unsupported AI provider or missing key: {provider}")
     last_error = None
+    if provider == "openrouter" and context and context.gemini_failures:
+        allowed = allowed[:2]
     for index, candidate in enumerate(allowed):
+        _check_ai_time_budget(context, stage=f"{provider}_candidate")
         cooldown = _cooldown_remaining(candidate)
         if cooldown > 0 and index < len(allowed) - 1:
             log_event(
@@ -1197,12 +1355,15 @@ def _generate_with_provider_name(provider, prompt):
             )
             continue
         try:
-            result = _generate_with_candidate(candidate, prompt)
-            _record_candidate_success(candidate)
+            result = _generate_with_candidate(candidate, prompt, context=context)
             return result
         except Exception as error:
             last_error = error
             _put_candidate_on_cooldown(candidate, error)
+            if provider == "gemini" and context:
+                context.gemini_failures += 1
+            if provider == "openrouter" and context and context.gemini_failures:
+                context.openrouter_failures_after_gemini += 1
             reason = "quota/rate limit/temporary provider error" if _is_quota_or_rate_limit_error(error) else "provider error"
             log_event(
                 "ai_model_failed",
@@ -1212,11 +1373,15 @@ def _generate_with_provider_name(provider, prompt):
                 reason=reason,
                 error=error.__class__.__name__,
             )
+            if provider == "openrouter" and context and context.gemini_failures and context.openrouter_failures_after_gemini >= 2:
+                raise AIProviderRotationExhausted(
+                    "AI rotation exhausted: Gemini failed and 2 fast OpenRouter models failed"
+                ) from error
             if index < len(allowed) - 1:
                 continue
             if provider == "gemini" and _is_quota_or_rate_limit_error(error):
                 raise AIProviderFallbackNeeded(_safe_error_reason(error)) from error
-            raise
+            raise AIProviderRotationExhausted(_safe_error_reason(error)) from error
     raise last_error or RuntimeError(f"No {provider} AI candidate returned a response.")
 
 
@@ -1315,6 +1480,8 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     last_error = None
     previous_data = None
     provider_sequence = _attempt_provider_sequence()
+    context = AIExecutionContext(article_id=article.get("id") or article.get("url") or "")
+    context.skipped_slow_models_count = _skipped_slow_models_count()
 
     log_event(
         "ai_article_start",
@@ -1324,10 +1491,18 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
         source_chars=len(package.get("full_article_text") or package.get("content_preview") or ""),
         enrichment_status=package.get("enrichment_status"),
         fast_news_mode=FAST_NEWS_MODE,
+        ai_fast_mode_enabled=context.fast_mode_enabled,
+        skipped_slow_models_count=context.skipped_slow_models_count,
+        ai_total_time_budget_seconds=context.total_budget_seconds,
     )
 
     total_attempts = max(1, MAX_AI_ATTEMPTS)
     for attempt in range(1, total_attempts + 1):
+        try:
+            _check_ai_time_budget(context, stage=f"attempt_{attempt}_start")
+        except AITimeBudgetExceeded as error:
+            last_error = error
+            break
         started = time.perf_counter()
         provider = provider_sequence[(attempt - 1) % len(provider_sequence)] if provider_sequence else ""
         provider_used = ""
@@ -1337,13 +1512,14 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             attempt=attempt,
             max_attempts=total_attempts,
             provider=provider,
+            ai_total_time=round(context.elapsed_seconds(), 2),
         )
         try:
             try:
                 raw_text, provider_used = (
-                    _generate_with_provider_name(provider, prompt)
+                    _generate_with_provider_name(provider, prompt, context=context)
                     if provider
-                    else _generate_ai_article(prompt)
+                    else _generate_ai_article(prompt, context=context)
                 )
             except AIProviderFallbackNeeded as provider_error:
                 if _should_switch_gemini_to_openrouter(provider, provider_error):
@@ -1355,7 +1531,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                         reason=_safe_error_reason(provider_error),
                     )
                     try:
-                        raw_text, provider_used = _generate_with_provider_name("openrouter", prompt)
+                        raw_text, provider_used = _generate_with_provider_name("openrouter", prompt, context=context)
                     except Exception as fallback_error:
                         raise AIProviderRotationExhausted(
                             "AI rotation exhausted: OpenRouter fallback failed after Gemini quota "
@@ -1378,7 +1554,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                         reason=_safe_error_reason(provider_error),
                     )
                     try:
-                        raw_text, provider_used = _generate_with_provider_name("openrouter", prompt)
+                        raw_text, provider_used = _generate_with_provider_name("openrouter", prompt, context=context)
                     except Exception as fallback_error:
                         raise AIProviderRotationExhausted(
                             "AI rotation exhausted: OpenRouter fallback failed after Gemini quota "
@@ -1402,6 +1578,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             article["ai_openrouter_fallback_used"] = provider_used.startswith("openrouter:")
             article["ai_quality_attempts"] = attempt
             article["ai_quality_status"] = "passed"
+            article["ai_total_time_seconds"] = round(context.elapsed_seconds(), 2)
             save_article_queue(queue)
             log_event(
                 "ai_article_success",
@@ -1410,6 +1587,9 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 words=article.get("final_word_count"),
                 chars=article.get("final_html_chars"),
                 elapsed_ms=elapsed_ms(started),
+                ai_total_time=round(context.elapsed_seconds(), 2),
+                ai_fast_mode_enabled=context.fast_mode_enabled,
+                skipped_slow_models_count=context.skipped_slow_models_count,
             )
             log_event(
                 "article_passed_quality",
@@ -1438,6 +1618,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 provider=provider or provider_used,
                 error=error,
                 elapsed_ms=elapsed_ms(started),
+                ai_total_time=round(context.elapsed_seconds(), 2),
             )
             if is_quality_failure:
                 log_event(
@@ -1457,16 +1638,39 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 log_event("ai_openrouter_fallback_started", article_id=article.get("id"))
             if is_quality_failure:
                 prompt = _build_expansion_retry_prompt(package, previous_data, str(error))
-            if attempt < total_attempts:
-                time.sleep(min(2 ** (attempt - 1), 3))
+                continue
+            if _is_provider_error(error):
+                break
 
     _apply_failure(article, last_error)
-    provider_exhausted = bool(last_error and _is_provider_error(last_error) and not _is_quality_error(last_error))
+    provider_exhausted = bool(
+        last_error
+        and not isinstance(last_error, AITimeBudgetExceeded)
+        and _is_provider_error(last_error)
+        and not _is_quality_error(last_error)
+    )
     article["ai_rotation_exhausted"] = provider_exhausted
-    article["ai_quality_status"] = "provider_rotation_exhausted" if provider_exhausted else "failed_after_retries"
-    article["ai_quality_attempts"] = total_attempts
+    article["ai_time_budget_exceeded"] = isinstance(last_error, AITimeBudgetExceeded)
+    article["ai_total_time_seconds"] = round(context.elapsed_seconds(), 2)
+    article["ai_quality_status"] = (
+        "time_budget_exceeded"
+        if isinstance(last_error, AITimeBudgetExceeded)
+        else "provider_rotation_exhausted"
+        if provider_exhausted
+        else "failed_after_retries"
+    )
+    article["ai_quality_attempts"] = attempt if "attempt" in locals() else 0
     save_article_queue(queue)
-    if provider_exhausted:
+    if isinstance(last_error, AITimeBudgetExceeded):
+        log_event(
+            "ai_time_budget_exceeded",
+            article_id=article.get("id"),
+            ai_total_time=round(context.elapsed_seconds(), 2),
+            ai_fast_mode_enabled=context.fast_mode_enabled,
+            skipped_slow_models_count=context.skipped_slow_models_count,
+        )
+        log_event("article_skipped", article_id=article.get("id"), reason="ai_time_budget_exceeded")
+    elif provider_exhausted:
         log_event("ai_rotation_exhausted", article_id=article.get("id"), error=last_error)
         log_event("article_skipped", article_id=article.get("id"), reason="AI rotation exhausted")
         _send_ai_rotation_exhausted_warning(article, last_error)

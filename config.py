@@ -201,6 +201,9 @@ ALLOW_UNKNOWN_DATE_IN_FAST_MODE = _env_bool_any(["ALLOW_UNKNOWN_DATE_IN_FAST_MOD
 ENABLE_SCRAPLING_FALLBACK = _env_bool_any(["ENABLE_SCRAPLING_FALLBACK"], False)
 MAX_AI_RETRIES = _env_int("MAX_AI_RETRIES", 3)
 AI_TIMEOUT_SECONDS = _env_int("AI_TIMEOUT_SECONDS", 60)
+AI_TOTAL_TIME_BUDGET_SECONDS = _env_int("AI_TOTAL_TIME_BUDGET_SECONDS", 60)
+GEMINI_TIMEOUT_SECONDS = _env_int("GEMINI_TIMEOUT_SECONDS", 15)
+AI_MODEL_TIMEOUT_SECONDS = _env_int("AI_MODEL_TIMEOUT_SECONDS", 12)
 DUPLICATE_PROTECTION = _env_bool_any(["DUPLICATE_PROTECTION"], True)
 QUEUE_PERSIST = _env_bool_any(["QUEUE_PERSIST"], True)
 SOURCE_HEALTH_ENABLED = _env_bool_any(["SOURCE_HEALTH_ENABLED"], True)
@@ -305,29 +308,27 @@ if not GEMINI_MODELS and GEMINI_MODEL:
 # OpenRouter fallback settings.
 # OPENROUTER_API_KEY should be kept in .env only.
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
-OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", "openrouter/auto")
-DEFAULT_OPENROUTER_MODELS = [
-    "openai/gpt-oss-120b:free",
-    "minimax/minimax-m2.5:free",
-    "z-ai/glm-4.5-air:free",
-    "nvidia/nemotron-3-super-120b-a12b:free",
-    "tencent/hy3-preview:free",
-    "inclusionai/ling-2.6-1t:free",
+FAST_OPENROUTER_MODELS = [
     "inclusionai/ling-2.6-flash:free",
+    "liquid/lfm-2.5-1.2b-instruct:free",
     "nvidia/nemotron-3-nano-30b-a3b:free",
     "openai/gpt-oss-20b:free",
-    "nvidia/nemotron-nano-12b-v2-vl:free",
-    "google/gemma-4-26b-a4b-it:free",
-    "qwen/qwen3-coder:free",
-    "liquid/lfm-2.5-1.2b-instruct:free",
 ]
-OPENROUTER_MODELS = _env_csv("OPENROUTER_MODELS") or DEFAULT_OPENROUTER_MODELS
+OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", FAST_OPENROUTER_MODELS[0]).strip()
+_configured_openrouter_models = _env_csv("OPENROUTER_MODELS")
+OPENROUTER_MODELS = [
+    model
+    for model in (_configured_openrouter_models or FAST_OPENROUTER_MODELS)
+    if model in FAST_OPENROUTER_MODELS
+]
+if not OPENROUTER_MODELS:
+    OPENROUTER_MODELS = FAST_OPENROUTER_MODELS[:]
 OPENROUTER_API_URL = os.getenv(
     "OPENROUTER_API_URL",
     "https://openrouter.ai/api/v1/chat/completions",
 )
 OPENROUTER_MAX_TOKENS = _env_int("OPENROUTER_MAX_TOKENS", 8192)
-OPENROUTER_TIMEOUT_SECONDS = _env_int("OPENROUTER_TIMEOUT_SECONDS", AI_TIMEOUT_SECONDS)
+OPENROUTER_TIMEOUT_SECONDS = _env_int("OPENROUTER_TIMEOUT_SECONDS", AI_MODEL_TIMEOUT_SECONDS)
 OPENROUTER_REFERER = os.getenv("OPENROUTER_REFERER", "")
 OPENROUTER_APP_NAME = os.getenv("OPENROUTER_APP_NAME", "Blogger Automation Bot")
 
@@ -342,7 +343,7 @@ OPENAI_API_URL = os.getenv(
     "https://api.openai.com/v1/chat/completions",
 )
 OPENAI_MAX_TOKENS = _env_int("OPENAI_MAX_TOKENS", 8192)
-OPENAI_TIMEOUT_SECONDS = _env_int("OPENAI_TIMEOUT_SECONDS", AI_TIMEOUT_SECONDS)
+OPENAI_TIMEOUT_SECONDS = _env_int("OPENAI_TIMEOUT_SECONDS", AI_MODEL_TIMEOUT_SECONDS)
 
 # Facebook image generation settings.
 ASSETS_DIR = BASE_DIR / "assets"
