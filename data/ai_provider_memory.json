@@ -2,20 +2,20 @@
   "avg_time": 0.0,
   "cooldowns": {
     "gemini:gemini-2.5-flash:75c7824eb0": {
-      "failed_at": "2026-04-28T15:00:42",
+      "failed_at": "2026-04-28T15:12:21",
       "key_id": "75c7824eb0",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1777390246.734767
+      "until": 1777390943.1911576
     }
   },
   "fastest_success_model": "openrouter:inclusionai/ling-2.6-flash:free",
   "stats": {
     "gemini:gemini-2.5-flash:75c7824eb0": {
-      "failures": 18,
+      "failures": 19,
       "key_id": "75c7824eb0",
-      "last_failure_at": "2026-04-28T15:00:42",
+      "last_failure_at": "2026-04-28T15:12:21",
       "last_success_at": "2026-04-28T13:24:44",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
@@ -29,13 +29,13 @@
       "successes": 13
     },
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
-      "avg_time": 2.8986,
+      "avg_time": 3.0725,
       "key_id": "e5c3515f5b",
-      "last_success_at": "2026-04-28T15:06:16",
+      "last_success_at": "2026-04-28T15:12:35",
       "model": "inclusionai/ling-2.6-flash:free",
       "provider": "openrouter",
-      "successes": 27,
-      "total_success_time": 78.262
+      "successes": 32,
+      "total_success_time": 98.3185
     },
     "openrouter:minimax/minimax-m2.5:free:e5c3515f5b": {
       "failures": 1,
