@@ -2,6 +2,7 @@
 # facebook_publisher.py - Phase 12 Facebook Page Auto-Posting
 # ============================================================
 
+import hashlib
 import random
 import re
 import json
@@ -27,9 +28,6 @@ from config import (
 )
 from notifier import notify_facebook_result
 from production_logging import elapsed_ms, log_event
-from utils.facebook_image_generator import generate_facebook_image
-
-
 CAPTION_STYLES = (
     "ai_tools",
     "cybersecurity",
@@ -45,8 +43,30 @@ FORBIDDEN_CAPTION_PHRASES = (
     "افتح الرابط",
 )
 
-FACEBOOK_CTA = "🔗 الرابط في أول تعليق"
 FACEBOOK_LINK_MODE_ENFORCED = "comment"
+ALLOWED_ENGLISH_TERMS = {
+    "AI",
+    "Android",
+    "CVE",
+    "Malware",
+    "VPN",
+    "API",
+    "OpenAI",
+    "Microsoft",
+    "Google",
+    "GitHub",
+    "Windows",
+    "Linux",
+    "iOS",
+}
+CTA_VARIANTS = (
+    "التفاصيل كاملة في أول تعليق 👇",
+    "وضعت رابط التفاصيل في أول تعليق 👇",
+    "لمن يريد القراءة الكاملة، الرابط في أول تعليق 👇",
+    "الرابط الكامل ستجده في أول تعليق 👇",
+    "تابع التفاصيل من الرابط الموجود في أول تعليق 👇",
+    "المزيد من التفاصيل في أول تعليق 👇",
+)
 STYLE_BY_CATEGORY = {
     "AI-Tools": "ai_tools",
     "Cyber-Security": "cybersecurity",
@@ -200,6 +220,22 @@ DEFAULT_HASHTAGS = {
     "apps_programs": ["#Apps", "#Productivity", "#Software", "#تطبيقات", "#برامج", "#تقنية"],
 }
 
+ARABIC_HASHTAG_MAP = (
+    (("ذكاء", "اصطناعي", "ai", "openai", "gemini"), "#ذكاء_اصطناعي"),
+    (("أمن", "سيبراني", "ثغرة", "cve", "malware", "vulnerability"), "#أمن_سيبراني"),
+    (("تطبيق", "android", "ios"), "#تطبيقات"),
+    (("برامج", "software", "windows", "linux"), "#برامج"),
+    (("خصوصية", "بيانات", "privacy", "data"), "#خصوصية"),
+    (("google",), "#Google"),
+    (("microsoft",), "#Microsoft"),
+    (("openai",), "#OpenAI"),
+    (("android",), "#Android"),
+    (("api",), "#API"),
+    (("vpn",), "#VPN"),
+    (("cve",), "#CVE"),
+    (("malware",), "#Malware"),
+)
+
 
 def _now_iso():
     return datetime.now().isoformat(timespec="seconds")
@@ -341,6 +377,9 @@ def _empty_style_memory():
         "recent": {},
         "recent_hooks": [],
         "recent_structures": [],
+        "recent_ctas": [],
+        "recent_hashtag_sets": [],
+        "recent_fingerprints": [],
         "stats": {},
     }
 
@@ -355,6 +394,9 @@ def _load_style_memory():
                 data.setdefault("recent", {})
                 data.setdefault("recent_hooks", [])
                 data.setdefault("recent_structures", [])
+                data.setdefault("recent_ctas", [])
+                data.setdefault("recent_hashtag_sets", [])
+                data.setdefault("recent_fingerprints", [])
                 data.setdefault("stats", {})
                 return data
     except Exception as error:
@@ -394,6 +436,13 @@ def _structure_score(memory, category, style, structure_id):
 
 def _normalize_memory_text(value):
     return re.sub(r"[^\w\u0600-\u06FF]+", "", str(value or "").casefold(), flags=re.UNICODE)
+
+
+def _caption_fingerprint(caption):
+    normalized = re.sub(r"\s+", " ", str(caption or "").casefold()).strip()
+    normalized = re.sub(r"https?://\S+", "", normalized)
+    normalized = re.sub(r"#[\w\u0600-\u06FF_]+", "", normalized, flags=re.UNICODE)
+    return hashlib.sha256(_normalize_memory_text(normalized).encode("utf-8")).hexdigest()[:20]
 
 
 def _plain_text_from_html(html):
@@ -464,7 +513,7 @@ def _choose_caption_pattern(article, articles):
     return selected
 
 
-def _remember_caption_pattern(article, pattern, posted, structure_id="", hook=""):
+def _remember_caption_pattern(article, pattern, posted, structure_id="", hook="", cta="", hashtags=None, fingerprint=""):
     if pattern not in CAPTION_STYLES:
         return
     memory = _load_style_memory()
@@ -479,6 +528,18 @@ def _remember_caption_pattern(article, pattern, posted, structure_id="", hook=""
         recent_hooks = list(memory.get("recent_hooks", []))
         recent_hooks.append(_normalize_memory_text(hook))
         memory["recent_hooks"] = recent_hooks[-20:]
+    if cta:
+        recent_ctas = list(memory.get("recent_ctas", []))
+        recent_ctas.append(_normalize_memory_text(cta))
+        memory["recent_ctas"] = recent_ctas[-12:]
+    if hashtags:
+        recent_hashtag_sets = list(memory.get("recent_hashtag_sets", []))
+        recent_hashtag_sets.append("|".join(sorted(str(tag).casefold() for tag in hashtags)))
+        memory["recent_hashtag_sets"] = recent_hashtag_sets[-12:]
+    if fingerprint:
+        recent_fingerprints = list(memory.get("recent_fingerprints", []))
+        recent_fingerprints.append(fingerprint)
+        memory["recent_fingerprints"] = recent_fingerprints[-30:]
     if structure_id:
         recent_structures = list(memory.get("recent_structures", []))
         recent_structures.append(structure_id)
@@ -572,6 +633,14 @@ def _article_context(article):
     }
 
 
+def _choose_cta(memory):
+    recent = set(memory.get("recent_ctas", [])[-4:])
+    for cta in random.sample(list(CTA_VARIANTS), k=len(CTA_VARIANTS)):
+        if _normalize_memory_text(cta) not in recent:
+            return cta
+    return random.choice(CTA_VARIANTS)
+
+
 def _choose_structure_variant(article, style, memory):
     category = _caption_memory_category(article)
     options = list(STYLE_STRUCTURES.get(style, {}).keys())
@@ -640,58 +709,88 @@ def _build_style_sections(style, structure_id, context):
     return structure["lead"], list(zip(headers, [_limit_text(body, limit=220) for body in bodies]))
 
 
-def _hashtags(article, style=None, text=""):
+def _keyword_hashtag(token):
+    token = re.sub(r"[^\w\u0600-\u06FF]+", "", str(token or ""), flags=re.UNICODE).strip("_")
+    if not token or len(token) < 3:
+        return ""
+    if re.fullmatch(r"[A-Za-z][A-Za-z0-9_+-]{1,24}", token):
+        for allowed in ALLOWED_ENGLISH_TERMS:
+            if token.casefold() == allowed.casefold():
+                return f"#{allowed}"
+        return ""
+    if re.search(r"[\u0600-\u06FF]", token):
+        return "#" + token[:28]
+    return ""
+
+
+def _hashtags(article, style=None, text="", memory=None):
     style = style or STYLE_BY_CATEGORY.get(_caption_memory_category(article), "tech_news")
     text = " ".join(
         [
             text,
             _short_title(article),
             _human_summary(article),
+            _plain_text_from_html(article.get("final_html") or article.get("blogger_article_html")),
             str(article.get("suggested_category", "")),
             str(article.get("content_preview", "")),
         ]
-    ).casefold()
+    )
+    lowered = text.casefold()
     tags = []
     seen = set()
+    recent_sets = set((memory or {}).get("recent_hashtag_sets", [])[-6:])
 
     def add(tag):
         normalized = tag.casefold()
-        if normalized not in seen and len(tags) < 10:
+        if normalized not in seen and len(tags) < 6:
             seen.add(normalized)
             tags.append(tag)
 
-    for tag in DEFAULT_HASHTAGS.get(style, DEFAULT_HASHTAGS["tech_news"]):
-        add(tag)
-
-    keyword_map = (
-        (("openai",), "#OpenAI"),
-        (("gemini",), "#Gemini"),
-        (("github",), "#GitHub"),
-        (("microsoft",), "#Microsoft"),
-        (("google",), "#Google"),
-        (("windows",), "#Windows"),
-        (("android",), "#Android"),
-        (("ios",), "#iOS"),
-        (("api",), "#API"),
-        (("malware",), "#Malware"),
-        (("cve",), "#CVE"),
-        (("privacy", "data"), "#Data"),
-        (("opensource", "open source"), "#OpenSource"),
-    )
-    for keywords, tag in keyword_map:
-        if any(keyword in text for keyword in keywords):
+    for keywords, tag in ARABIC_HASHTAG_MAP:
+        if any(keyword in lowered for keyword in keywords):
             add(tag)
 
-    fallback_tags = ["#Digital", "#Tech", "#أخبار_تقنية", "#تحول_رقمي"]
-    for tag in fallback_tags:
+    tokens = re.findall(r"[A-Za-z][A-Za-z0-9_+-]{2,}|\b[\u0600-\u06FF]{3,}\b", text, flags=re.UNICODE)
+    stopwords = {
+        "هذا", "هذه", "ذلك", "التي", "الذي", "على", "إلى", "الى", "في", "من", "عن",
+        "مع", "كما", "لكن", "كان", "كانت", "يكون", "يمكن", "أكثر", "بعد", "قبل",
+        "article", "news", "this", "that", "with", "from", "using", "will",
+    }
+    counts = {}
+    for token in tokens:
+        key = token.casefold()
+        if key in stopwords or len(key) < 3:
+            continue
+        counts[key] = counts.get(key, 0) + 1
+    ranked = sorted(counts, key=lambda key: (-counts[key], len(key)))
+    for key in ranked:
         if len(tags) >= 6:
+            break
+        add(_keyword_hashtag(key))
+
+    fallback_by_style = {
+        "ai_tools": ["#ذكاء_اصطناعي", "#تقنية"],
+        "cybersecurity": ["#أمن_سيبراني", "#تقنية"],
+        "tech_news": ["#أخبار_تقنية", "#تقنية"],
+        "apps_programs": ["#تطبيقات", "#برامج"],
+    }
+    for tag in fallback_by_style.get(style, ["#تقنية"]):
+        if len(tags) >= 3:
             break
         add(tag)
 
-    return tags[:10]
+    if "|".join(sorted(tag.casefold() for tag in tags)) in recent_sets:
+        for tag in DEFAULT_HASHTAGS.get(style, DEFAULT_HASHTAGS["tech_news"]):
+            if len(tags) >= 6:
+                break
+            clean = tag.lstrip("#")
+            if re.search(r"[\u0600-\u06FF]", clean) or any(clean.casefold() == allowed.casefold() for allowed in ALLOWED_ENGLISH_TERMS):
+                add(tag)
+
+    return tags[:6]
 
 
-def _render_facebook_post(article, style, structure_id, hook, blogger_url=None):
+def _render_facebook_post(article, style, structure_id, hook, blogger_url=None, memory=None, cta=None):
     context = _article_context(article)
     lead, sections = _build_style_sections(style, structure_id, context)
     blocks = [_limit_text(hook, limit=120)]
@@ -699,16 +798,25 @@ def _render_facebook_post(article, style, structure_id, hook, blogger_url=None):
         blocks.append(_limit_text(lead, limit=140))
     for header, body in sections:
         blocks.append(f"{header}\n{_clean_caption_line(body)}")
-    hashtags = _hashtags(article, style=style, text=" ".join([context["primary"], context["secondary"], hook]))
-    blocks.append(FACEBOOK_CTA)
+    hashtags = _hashtags(
+        article,
+        style=style,
+        text=" ".join([context["primary"], context["secondary"], hook]),
+        memory=memory,
+    )
+    cta = cta or _choose_cta(memory or {})
+    blocks.append(cta)
     blocks.append(" ".join(hashtags))
     caption = "\n\n".join(block for block in blocks if block)
     if len(caption) > 1200:
         caption = caption[:1197].rstrip() + "..."
+    fingerprint = _caption_fingerprint(caption)
     return {
         "caption": caption,
         "hashtags": hashtags,
         "hook": hook,
+        "cta": cta,
+        "fingerprint": fingerprint,
         "lead": lead,
         "sections": sections,
         "style": style,
@@ -728,7 +836,7 @@ def _build_post_blueprint(article, style=None, memory=None, retry_index=0, force
     hook = force_hook or _generate_hook(article, style, memory)
     if retry_index and not force_hook:
         hook = _fallback_hook(article)
-    return _render_facebook_post(article, style, structure_id, hook)
+    return _render_facebook_post(article, style, structure_id, hook, memory=memory)
 
 
 def _build_caption(article, pattern, blogger_url=None):
@@ -750,20 +858,29 @@ def _main_image_url(article):
     return ""
 
 
+def _redact_facebook_error(text):
+    text = str(text or "")
+    for secret in (FACEBOOK_PAGE_ACCESS_TOKEN,):
+        if secret:
+            text = text.replace(secret, "[redacted]")
+    return text
+
+
 def _post_to_graph(path, payload):
     url = f"{FACEBOOK_GRAPH_API_URL.rstrip('/')}/{path.lstrip('/')}"
     started = time.perf_counter()
     log_event("facebook_graph_start", path=path)
     response = requests.post(url, data=payload, timeout=60)
     if response.status_code >= 400:
+        error_text = _redact_facebook_error(response.text[:200])
         log_event(
             "facebook_graph_end",
             path=path,
             status=response.status_code,
-            error=response.text[:200],
+            error=error_text,
             elapsed_ms=elapsed_ms(started),
         )
-        raise RuntimeError(f"Facebook Graph API error {response.status_code}: {response.text[:500]}")
+        raise RuntimeError(f"Facebook Graph API error {response.status_code}: {_redact_facebook_error(response.text[:500])}")
     data = response.json()
     if not isinstance(data, dict):
         raise RuntimeError("Facebook Graph API returned an unexpected response.")
@@ -788,14 +905,15 @@ def _post_photo_file(path, payload, image_path):
             timeout=60,
         )
     if response.status_code >= 400:
+        error_text = _redact_facebook_error(response.text[:200])
         log_event(
             "facebook_graph_end",
             path=path,
             status=response.status_code,
-            error=response.text[:200],
+            error=error_text,
             elapsed_ms=elapsed_ms(started),
         )
-        raise RuntimeError(f"Facebook Graph API error {response.status_code}: {response.text[:500]}")
+        raise RuntimeError(f"Facebook Graph API error {response.status_code}: {_redact_facebook_error(response.text[:500])}")
     data = response.json()
     if not isinstance(data, dict):
         raise RuntimeError("Facebook Graph API returned an unexpected response.")
@@ -815,6 +933,52 @@ def _facebook_image_output_path(article):
     return FACEBOOK_IMAGE_OUTPUT_DIR / f"{article_id[:80]}.jpg"
 
 
+def _facebook_article_image_output_path(article, content_type="", image_url=""):
+    article_id = re.sub(r"[^a-zA-Z0-9_-]+", "-", str(article.get("id") or article.get("url") or "post")).strip("-") or "post"
+    parsed_ext = Path(urlparse(str(image_url or "")).path).suffix.lower()
+    if parsed_ext not in {".jpg", ".jpeg", ".png", ".webp"}:
+        parsed_ext = ".jpg" if "jpeg" in content_type or "jpg" in content_type else ".png"
+    return FACEBOOK_IMAGE_OUTPUT_DIR / f"{article_id[:80]}-article-image{parsed_ext}"
+
+
+def _download_article_image_for_facebook(article):
+    image_url = _main_image_url(article)
+    if not image_url:
+        return {"ok": False, "path": "", "url": "", "error": "No main article image found."}
+    if not str(image_url).startswith(("http://", "https://")):
+        return {"ok": False, "path": "", "url": image_url, "error": "Main image URL is not public HTTP(S)."}
+
+    try:
+        response = requests.get(
+            image_url,
+            headers={"User-Agent": "Mozilla/5.0"},
+            timeout=30,
+        )
+        response.raise_for_status()
+        content_type = response.headers.get("Content-Type", "")
+        if "image/" not in content_type.casefold():
+            return {"ok": False, "path": "", "url": image_url, "error": f"Main image returned non-image content type: {content_type or 'unknown'}."}
+        if len(response.content or b"") < 4096:
+            return {"ok": False, "path": "", "url": image_url, "error": "Main image download was too small."}
+
+        output_path = _facebook_article_image_output_path(article, content_type=content_type, image_url=image_url)
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        output_path.write_bytes(response.content)
+
+        try:
+            from PIL import Image
+
+            with Image.open(output_path) as image:
+                image.verify()
+        except Exception as verify_error:
+            output_path.unlink(missing_ok=True)
+            return {"ok": False, "path": "", "url": image_url, "error": f"Downloaded main image is invalid: {verify_error}."}
+
+        return {"ok": True, "path": str(output_path), "url": image_url, "error": ""}
+    except Exception as error:
+        return {"ok": False, "path": "", "url": image_url, "error": str(error)}
+
+
 def _split_caption_parts(caption):
     lines = [line for line in str(caption or "").splitlines() if line.strip()]
     hashtags = lines[-1] if lines and lines[-1].startswith("#") else ""
@@ -824,11 +988,13 @@ def _split_caption_parts(caption):
 
 def _prepare_facebook_post(article, articles, blogger_url):
     last_error = None
+    memory = _load_style_memory()
     preferred_style = _choose_caption_pattern(article, articles)
     for retry_index in range(2):
         blueprint = _build_post_blueprint(
             article,
             style=preferred_style,
+            memory=memory,
             retry_index=retry_index,
             articles=articles,
         )
@@ -840,11 +1006,56 @@ def _prepare_facebook_post(article, articles, blogger_url):
                 hook=blueprint["hook"],
                 structure_id=blueprint["structure"],
                 title=_short_title(article),
+                memory=memory,
             )
             return blueprint
         except Exception as error:
             last_error = error
-    raise last_error or RuntimeError("Facebook post quality gate failed.")
+    fallback = _build_fallback_blueprint(article, preferred_style, memory)
+    _validate_facebook_caption(
+        fallback["caption"],
+        blogger_url=blogger_url,
+        style="",
+        hook=fallback["hook"],
+        structure_id="",
+        title=_short_title(article),
+        memory=memory,
+        allow_simple=True,
+    )
+    log_event(
+        "facebook_caption_fallback_used",
+        article_id=article.get("id"),
+        reason=str(last_error or "quality gate failed")[:180],
+    )
+    return fallback
+
+
+def _build_fallback_blueprint(article, style, memory):
+    title = _short_title(article)
+    summary = _human_summary(article) or _limit_text((_article_sentences(article) or [title])[0], limit=180)
+    hook = _fallback_hook(article)
+    cta = _choose_cta(memory)
+    hashtags = _hashtags(article, style=style, text=f"{title} {summary}", memory=memory)
+    blocks = [
+        _limit_text(hook, limit=120),
+        _clean_caption_line(title),
+        _limit_text(summary, limit=220),
+        cta,
+        " ".join(hashtags),
+    ]
+    caption = "\n\n".join(block for block in blocks if block)
+    return {
+        "caption": caption,
+        "hashtags": hashtags,
+        "hook": hook,
+        "cta": cta,
+        "fingerprint": _caption_fingerprint(caption),
+        "lead": "",
+        "sections": [],
+        "style": style,
+        "structure": "fallback",
+        "blogger_url": _blogger_post_url(article),
+    }
 
 
 def _publish_facebook_post(article, blueprint):
@@ -853,13 +1064,7 @@ def _publish_facebook_post(article, blueprint):
         raise RuntimeError("Missing live Blogger URL for Facebook post.")
 
     caption = blueprint["caption"]
-    image_url = _main_image_url(article)
-    image_result = generate_facebook_image(
-        _short_title(article),
-        image_url,
-        _facebook_image_output_path(article),
-        hook_text=blueprint["hook"],
-    )
+    image_result = _download_article_image_for_facebook(article)
     base_payload = {
         "access_token": FACEBOOK_PAGE_ACCESS_TOKEN,
     }
@@ -874,9 +1079,10 @@ def _publish_facebook_post(article, blueprint):
         return data.get("post_id") or data.get("id") or "", "photo", image_result
 
     log_event(
-        "facebook_image_generation_failed_safe_text_only",
+        "facebook_article_image_failed_safe_text_only",
         article_id=article.get("id"),
         error=image_result.get("error", ""),
+        image_url=image_result.get("url", ""),
     )
 
     payload = {
@@ -903,7 +1109,7 @@ def _first_comment_text(blogger_post_url):
     return f"🔗 الرابط الحقيقي للمنشور:\n{blogger_post_url}"
 
 
-def _validate_facebook_caption(caption, blogger_url="", style="", hook="", structure_id="", title=""):
+def _validate_facebook_caption(caption, blogger_url="", style="", hook="", structure_id="", title="", memory=None, allow_simple=False):
     if not str(caption or "").strip():
         raise RuntimeError("Facebook caption is empty.")
     if "```" in caption or re.search(r'"\s*(title|description|html_content|facebook_post_text)\s*"\s*:', caption):
@@ -915,16 +1121,37 @@ def _validate_facebook_caption(caption, blogger_url="", style="", hook="", struc
     hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", caption, flags=re.UNICODE)
     if len(set(hashtags)) != len(hashtags):
         raise RuntimeError("Facebook caption contains duplicate hashtags.")
-    if not (6 <= len(hashtags) <= 10):
-        raise RuntimeError("Facebook caption must contain 6 to 10 hashtags.")
+    if not (3 <= len(hashtags) <= 6):
+        raise RuntimeError("Facebook caption must contain 3 to 6 hashtags.")
     if blogger_url and "أول تعليق" not in caption:
         raise RuntimeError("Facebook caption must say the link is in the first comment.")
     if not hook or _normalize_memory_text(hook) == _normalize_memory_text(title):
         raise RuntimeError("Facebook caption hook is missing or identical to the title.")
+    first_line = next((line.strip() for line in str(caption).splitlines() if line.strip()), "")
+    if len(first_line) < 18 or first_line.startswith("#"):
+        raise RuntimeError("Facebook caption hook is too weak.")
+    arabic_chars = len(re.findall(r"[\u0600-\u06FF]", caption))
+    latin_words = re.findall(r"\b[A-Za-z][A-Za-z0-9+._-]*\b", caption)
+    allowed_latin = [
+        word for word in latin_words
+        if any(word.casefold() == allowed.casefold() for allowed in ALLOWED_ENGLISH_TERMS)
+        or word.startswith("#")
+    ]
+    if arabic_chars < 40:
+        raise RuntimeError("Facebook caption is not Arabic enough.")
+    if latin_words and len(allowed_latin) / max(1, len(latin_words)) < 0.75:
+        raise RuntimeError("Facebook caption contains unnecessary mixed-language terms.")
+    if len(caption) > 1200 or len(caption) < 120:
+        raise RuntimeError("Facebook caption length is outside the expected range.")
+    fingerprint = _caption_fingerprint(caption)
+    if fingerprint in set((memory or {}).get("recent_fingerprints", [])):
+        raise RuntimeError("Facebook caption is too similar to a recent post.")
     if style and structure_id:
         for header in STYLE_HEADERS.get(style, ()):
             if header not in caption:
                 raise RuntimeError("Facebook caption is missing its required structure.")
+    if not allow_simple and len([line for line in str(caption).splitlines() if line.strip()]) < 5:
+        raise RuntimeError("Facebook caption is too thin.")
 
 
 def _apply_failure(article, error):
@@ -1099,9 +1326,10 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         article["facebook_post_id"] = facebook_post_id
         article["facebook_posted_at"] = _now_iso()
         article["facebook_post_type"] = post_type
-        article["facebook_image_status"] = "generated" if image_result.get("ok") else "failed"
+        article["facebook_image_status"] = "posted" if image_result.get("ok") else "failed_text_only"
         article["facebook_image_path"] = image_result.get("path", "")
-        article["facebook_image_used_fallback"] = bool(image_result.get("used_fallback"))
+        article["facebook_image_url"] = image_result.get("url", "")
+        article["facebook_image_used_fallback"] = False
         if image_result.get("error"):
             article["facebook_image_error"] = image_result.get("error", "")[:300]
         else:
@@ -1111,6 +1339,8 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         article["facebook_hook_generated"] = blueprint["hook"]
         article["facebook_structure_used"] = blueprint["structure"]
         article["facebook_hashtags_count"] = len(blueprint["hashtags"])
+        article["facebook_cta_used"] = blueprint.get("cta", "")
+        article["facebook_caption_fingerprint"] = blueprint.get("fingerprint", "")
         article["facebook_link_mode"] = FACEBOOK_LINK_MODE_ENFORCED
         article["facebook_post_text"] = blueprint["caption"]
         article.pop("facebook_error", None)
@@ -1142,11 +1372,16 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             posted=article.get("facebook_status") == "posted",
             structure_id=blueprint["structure"],
             hook=blueprint["hook"],
+            cta=blueprint.get("cta", ""),
+            hashtags=blueprint.get("hashtags", []),
+            fingerprint=blueprint.get("fingerprint", ""),
         )
         save_article_queue(queue)
         result = {
             "checked": 1,
-            "posted": article.get("facebook_status") == "posted",
+            "posted": bool(article.get("facebook_post_id")),
+            "comment_posted": bool(article.get("facebook_comment_id")),
+            "image_posted": article.get("facebook_image_status") == "posted",
             "article": article,
             "error": article.get("facebook_error", ""),
         }
@@ -1177,6 +1412,9 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
                 posted=False,
                 structure_id=blueprint.get("structure", "") if "blueprint" in locals() else "",
                 hook=blueprint.get("hook", "") if "blueprint" in locals() else "",
+                cta=blueprint.get("cta", "") if "blueprint" in locals() else "",
+                hashtags=blueprint.get("hashtags", []) if "blueprint" in locals() else [],
+                fingerprint=blueprint.get("fingerprint", "") if "blueprint" in locals() else "",
             )
         save_article_queue(queue)
         result = {

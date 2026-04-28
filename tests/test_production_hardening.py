@@ -14,6 +14,7 @@ import article_enricher
 import article_ai_processor
 import article_processor
 import article_queue
+import blogger_client
 import content_filter
 import facebook_publisher
 import internal_link_cache
@@ -125,6 +126,41 @@ class ProductionHardeningTests(unittest.TestCase):
                 }
             )
         )
+
+    def test_facebook_caption_uses_variable_cta_and_three_to_six_hashtags(self):
+        article = {
+            "id": "fb1",
+            "title": "Google تضيف ميزة AI جديدة لحماية Android من Malware",
+            "seo_description": "توضح Google أن الميزة الجديدة تستخدم AI لتحليل السلوك المشبوه على Android وتقليل مخاطر Malware قبل وصولها إلى المستخدم.",
+            "final_html": "<p>توضح Google أن الميزة الجديدة تستخدم AI لتحليل السلوك المشبوه على Android وتقليل مخاطر Malware قبل وصولها إلى المستخدم.</p>",
+            "suggested_category": "Cyber-Security",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.com/post",
+        }
+        blueprint = facebook_publisher._prepare_facebook_post(article, [article], article["blogger_post_url"])
+        self.assertIn("أول تعليق", blueprint["caption"])
+        self.assertNotIn("https://example.com/post", blueprint["caption"])
+        hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", blueprint["caption"], flags=re.UNICODE)
+        self.assertGreaterEqual(len(hashtags), 3)
+        self.assertLessEqual(len(hashtags), 6)
+
+    def test_blogger_image_alt_is_single_clean_attribute(self):
+        html = (
+            "<p>مقدمة المقال</p>"
+            "<p><img class='full' alt='قديم' alt='مكرر' src='https://example.com/old.jpg'/></p>"
+            "<p>باقي المقال</p>"
+        )
+        article = {
+            "title": "Google تضيف حماية جديدة إلى Android",
+            "content": html,
+            "image": {"url": "https://example.com/main.jpg", "alt": ""},
+        }
+        final_html = blogger_client._finalize_article_content(article)
+        self.assertEqual(final_html.count("<img"), 1)
+        self.assertEqual(final_html.count("alt="), 1)
+        self.assertIn("https://example.com/main.jpg", final_html)
+        self.assertIn("Google تضيف حماية جديدة إلى Android", final_html)
 
     def test_safe_mode_effective_action_is_draft(self):
         with patch.object(main, "SAFE_MODE", True), patch.object(main, "PUBLISH_MODE", "live"):
@@ -595,7 +631,7 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertNotIn("https://example.com/post", caption)
         self.assertIn("أول تعليق", caption)
 
-    def test_facebook_hashtags_count_stays_between_six_and_ten(self):
+    def test_facebook_hashtags_count_stays_between_three_and_six(self):
         blueprint = facebook_publisher._build_post_blueprint(
             {
                 "seo_title": "OpenAI launches new productivity workflow for enterprise teams",
@@ -606,8 +642,8 @@ class ProductionHardeningTests(unittest.TestCase):
             style="ai_tools",
         )
         hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", blueprint["caption"], flags=re.UNICODE)
-        self.assertGreaterEqual(len(hashtags), 6)
-        self.assertLessEqual(len(hashtags), 10)
+        self.assertGreaterEqual(len(hashtags), 3)
+        self.assertLessEqual(len(hashtags), 6)
 
     def test_facebook_hook_is_not_equal_to_title(self):
         article = {

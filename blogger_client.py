@@ -162,6 +162,23 @@ def _normalize_text(value):
     return re.sub(r"\s+", " ", (value or "").strip())
 
 
+def _image_alt_text(article, fallback_alt=""):
+    raw = (
+        (article or {}).get("image_alt")
+        or (article or {}).get("seo_title")
+        or (article or {}).get("title")
+        or fallback_alt
+        or "صورة توضيحية للمقال"
+    )
+    text = _normalize_text(re.sub(r"<[^>]+>", " ", str(raw)))
+    text = re.sub(r"https?://\S+", "", text)
+    text = re.sub(r"[#*_`\"'<>]+", "", text)
+    words = text.split()
+    if len(words) > 12:
+        text = " ".join(words[:12])
+    return text[:120].strip(" -،.:؛") or "صورة توضيحية للمقال"
+
+
 def _safe_positive_int(value):
     try:
         parsed = int(str(value).strip())
@@ -269,9 +286,10 @@ def _build_image_html(image, fallback_alt):
     if not image or not image.get("url"):
         return ""
 
+    alt_text = _image_alt_text({"image_alt": image.get("alt")}, fallback_alt)
     attrs = [
         "class='full'",
-        f"alt='{escape(image.get('alt') or fallback_alt, quote=True)}'",
+        f"alt='{escape(alt_text, quote=True)}'",
         f"src='{escape(image['url'], quote=True)}'",
     ]
 
@@ -283,6 +301,18 @@ def _build_image_html(image, fallback_alt):
         attrs.insert(3, f"height='{height}'")
 
     return "<!--[ Standard image ]-->\n<img " + " ".join(attrs) + "/>"
+
+
+def _remove_existing_article_images(content):
+    if not content or not re.search(r"<img\b", content, flags=re.IGNORECASE):
+        return content
+    soup = BeautifulSoup(content or "", "html.parser")
+    for img in soup.find_all("img"):
+        parent = img.parent
+        img.decompose()
+        if parent and parent.name in {"p", "div", "figure"} and not _normalize_text(parent.get_text(" ", strip=True)) and not parent.find(True):
+            parent.decompose()
+    return str(soup)
 
 
 def _insert_image_after_first_paragraph(content, image_html):
@@ -469,9 +499,13 @@ def _build_internal_links_html(article, related_candidates):
 
 def _finalize_article_content(article, related_candidates=None):
     content = _strip_legacy_source_blocks(article.get("content", "").strip())
+    content = _remove_existing_article_images(content)
+    image = dict(article.get("image") or {})
+    if image:
+        image["alt"] = _image_alt_text(article)
     content = _insert_image_after_first_paragraph(
         content,
-        _build_image_html(article.get("image"), article.get("title", "")),
+        _build_image_html(image, article.get("title", "")),
     )
 
     internal_links_html = _build_internal_links_html(article, related_candidates or [])

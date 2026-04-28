@@ -216,8 +216,10 @@ def notify_blogger_result(queue, article, result=None, stage="publish"):
 
 def notify_facebook_result(queue, article, result=None):
     result = result or {}
-    success = bool(result.get("posted")) and article.get("facebook_status") == "posted"
+    success = bool(result.get("posted")) and bool(article.get("facebook_post_id"))
     blogger_url = _blogger_url(article)
+    image_posted = article.get("facebook_image_status") == "posted" or bool(result.get("image_posted"))
+    comment_posted = bool(article.get("facebook_comment_id") or result.get("comment_posted"))
     event_key = "|".join(
         [
             "success" if success else "failed",
@@ -236,7 +238,9 @@ def notify_facebook_result(queue, article, result=None):
                 f"Post ID: {article.get('facebook_post_id', '')}",
                 f"Comment ID: {article.get('facebook_comment_id', '')}",
                 f"رابط Blogger: {blogger_url}",
-                f"الصورة: {'نعم' if _main_image_url(article) else 'لا'}",
+                f"صورة Facebook: {'نعم' if image_posted else 'لا'}",
+                f"أول تعليق بالرابط: {'نعم' if comment_posted else 'لا'}",
+                f"تحذير Facebook: {_sanitize_reason(result.get('error') or article.get('facebook_error'))}" if result.get("error") or article.get("facebook_error") else "",
             ]
         )
     else:
@@ -249,9 +253,12 @@ def notify_facebook_result(queue, article, result=None):
                 f"Words: {_article_word_count(article)}",
                 f"السبب: {_sanitize_reason(result.get('error') or article.get('facebook_error'))}",
                 f"هل تم نشر Blogger؟ {'نعم' if blogger_published else 'لا'}",
+                f"صورة Facebook: {'نعم' if image_posted else 'لا'}",
+                f"أول تعليق بالرابط: {'نعم' if comment_posted else 'لا'}",
                 f"رابط Blogger: {blogger_url}",
             ]
         )
+    message = "\n".join(line for line in message.splitlines() if line)
     return _send_once_for_article(
         queue,
         article,
@@ -308,9 +315,25 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
 
     blogger_status = article.get("publish_status") or draft.get("publishing_mode") or result.get("draft_action") or "skipped"
     facebook_status = "skipped"
+    facebook_post_url = ""
+    facebook_image_posted = False
+    facebook_comment_posted = False
     if facebook:
         facebook_article = facebook.get("article") or article
         facebook_status = facebook_article.get("facebook_status") or ("posted" if facebook.get("posted") else "failed")
+        facebook_post_url = facebook_article.get("facebook_post_url") or (
+            f"https://www.facebook.com/{facebook_article.get('facebook_post_id')}"
+            if facebook_article.get("facebook_post_id")
+            else ""
+        )
+        facebook_image_posted = (
+            facebook_article.get("facebook_image_status") == "posted"
+            or bool(facebook.get("image_posted"))
+        )
+        facebook_comment_posted = bool(
+            facebook_article.get("facebook_comment_id")
+            or facebook.get("comment_posted")
+        )
     fetch = result.get("fetch") or {}
     schedule = result.get("schedule") or {}
     selected_category = fetch.get("selected_category") or article.get("suggested_category") or ""
@@ -333,8 +356,14 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
         clear_lines = [
             "✅ تم نشر مقال جديد",
             f"Title: {_article_title(article)}",
+            f"Blogger success: {'yes' if blogger_status == 'published' and _blogger_url(article) else 'no'}",
             f"Blogger URL: {_blogger_url(article)}",
+            f"Facebook post success: {'yes' if facebook.get('posted') or article.get('facebook_post_id') else 'no'}",
             f"Facebook status: {facebook_status}",
+            f"Facebook image posted: {'yes' if facebook_image_posted else 'no'}",
+            f"First comment link posted: {'yes' if facebook_comment_posted else 'no'}",
+            f"Facebook URL: {facebook_post_url}",
+            f"Facebook failure reason: {warning}" if warning else "",
             f"Category: {selected_category}",
             f"AI provider: {article.get('ai_provider_used', '')}",
             f"AI quality: {article.get('ai_quality_status', '')}",
@@ -406,6 +435,7 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
     if enrichment_failed_count:
         lines.append(f"⚠️ فشل إثراء المقالات: {enrichment_failed_count}")
 
+    lines = [line for line in lines if line]
     send_result = send_telegram_message("\n".join(lines))
     if send_result.get("sent"):
         now = _now_iso()
