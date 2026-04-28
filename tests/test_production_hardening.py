@@ -662,6 +662,38 @@ class ProductionHardeningTests(unittest.TestCase):
         with patch.object(article_ai_processor, "_resolve_providers", return_value=["gemini", "openrouter"]), patch.object(article_ai_processor, "AI_PROVIDER", "auto"), patch.object(article_ai_processor, "MAX_AI_ATTEMPTS", 3):
             self.assertEqual(article_ai_processor._attempt_provider_sequence(), ["gemini", "openrouter"])
 
+    def test_ai_cooldown_memory_persists_without_secret(self):
+        with TemporaryDirectory() as temp_dir:
+            memory_path = Path(temp_dir) / "ai_provider_memory.json"
+            candidate = {"provider": "openrouter", "model": "test/free", "api_key": "sk-test-secret-value"}
+            with patch.object(article_ai_processor, "AI_PROVIDER_MEMORY_PATH", memory_path), patch.object(article_ai_processor, "_AI_MEMORY_CACHE", None), patch.object(article_ai_processor, "_AI_COOLDOWNS", {}):
+                article_ai_processor._put_candidate_on_cooldown(candidate, RuntimeError("quota sk-test-secret-value"))
+                self.assertGreater(article_ai_processor._cooldown_remaining(candidate), 0)
+                data = json.loads(memory_path.read_text(encoding="utf-8"))
+
+        self.assertIn("openrouter:test/free", next(iter(data["cooldowns"])))
+        self.assertNotIn("sk-test-secret-value", json.dumps(data))
+
+    def test_caption_style_memory_avoids_recent_pattern(self):
+        with TemporaryDirectory() as temp_dir:
+            memory_path = Path(temp_dir) / "facebook_style_memory.json"
+            memory_path.write_text(
+                json.dumps(
+                    {
+                        "recent": {"Tech-News": ["question_hook", "insight_knowledge"]},
+                        "stats": {"Tech-News": {"reader_impact": {"used": 20}}},
+                    }
+                ),
+                encoding="utf-8",
+            )
+            with patch.object(facebook_publisher, "FACEBOOK_STYLE_MEMORY_PATH", memory_path):
+                pattern = facebook_publisher._choose_caption_pattern(
+                    {"suggested_category": "Tech-News"},
+                    [{"facebook_posted_at": "2026-01-01T00:00:00", "facebook_caption_pattern": "breaking_alert"}],
+                )
+
+        self.assertNotIn(pattern, {"breaking_alert", "question_hook", "insight_knowledge"})
+
     def test_basic_template_fallback_has_publishable_words(self):
         package = {
             "title": "Chrome fixes active zero-day vulnerability",

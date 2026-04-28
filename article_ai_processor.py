@@ -3,6 +3,7 @@
 # ============================================================
 
 import json
+import random
 import re
 import hashlib
 import time
@@ -25,6 +26,7 @@ from article_queue import load_article_queue, save_article_queue
 from duplicate_utils import content_hash_from_html
 from config import (
     AI_PROVIDER,
+    AI_PROVIDER_MEMORY_PATH,
     ALLOW_SHORT_ARTICLES,
     FAST_NEWS_MODE,
     GEMINI_API_KEY,
@@ -58,6 +60,7 @@ from quality_gate import (
 MAX_AI_ATTEMPTS = max(1, MAX_AI_RETRIES)
 AI_MODEL_COOLDOWN_SECONDS = 30 * 60
 _AI_COOLDOWNS = {}
+_AI_MEMORY_CACHE = None
 
 
 def _now_iso():
@@ -88,21 +91,131 @@ def _candidate_id(candidate):
     return f"{candidate['provider']}:{candidate.get('model', '')}:{_key_id(candidate.get('api_key'))}"
 
 
+def _empty_ai_memory():
+    return {"cooldowns": {}, "stats": {}}
+
+
+def _load_ai_memory():
+    global _AI_MEMORY_CACHE
+    if _AI_MEMORY_CACHE is not None:
+        return _AI_MEMORY_CACHE
+    try:
+        if AI_PROVIDER_MEMORY_PATH.exists():
+            with AI_PROVIDER_MEMORY_PATH.open("r", encoding="utf-8") as handle:
+                data = json.load(handle)
+            if isinstance(data, dict):
+                data.setdefault("cooldowns", {})
+                data.setdefault("stats", {})
+                _AI_MEMORY_CACHE = data
+                return _AI_MEMORY_CACHE
+    except Exception as error:
+        log_event("ai_memory_load_failed", error=error.__class__.__name__)
+    _AI_MEMORY_CACHE = _empty_ai_memory()
+    return _AI_MEMORY_CACHE
+
+
+def _save_ai_memory(memory):
+    try:
+        AI_PROVIDER_MEMORY_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with AI_PROVIDER_MEMORY_PATH.open("w", encoding="utf-8") as handle:
+            json.dump(memory, handle, ensure_ascii=False, indent=2, sort_keys=True)
+    except Exception as error:
+        log_event("ai_memory_save_failed", error=error.__class__.__name__)
+
+
+def _safe_error_reason(error):
+    text = re.sub(r"\s+", " ", str(error or error.__class__.__name__)).strip()
+    text = re.sub(r"(key|token|secret|password)[=:]\s*\S+", r"\1=***", text, flags=re.IGNORECASE)
+    text = re.sub(r"AIza[0-9A-Za-z_\-]{20,}", "AIza***", text)
+    text = re.sub(r"sk-[0-9A-Za-z_\-]{12,}", "sk-***", text)
+    return text[:160] or error.__class__.__name__
+
+
+def _memory_cooldown_until(candidate_id):
+    memory = _load_ai_memory()
+    entry = memory.get("cooldowns", {}).get(candidate_id)
+    if isinstance(entry, dict):
+        try:
+            return float(entry.get("until", 0))
+        except (TypeError, ValueError):
+            return 0
+    try:
+        return float(entry or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def _cooldown_entry_until(entry):
+    try:
+        if isinstance(entry, dict):
+            return float(entry.get("until", 0))
+        return float(entry or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def _prune_ai_memory(now=None):
+    now = now or time.time()
+    memory = _load_ai_memory()
+    cooldowns = memory.get("cooldowns", {})
+    expired = [
+        candidate_id
+        for candidate_id, entry in list(cooldowns.items())
+        if _cooldown_entry_until(entry) <= now
+    ]
+    for candidate_id in expired:
+        cooldowns.pop(candidate_id, None)
+    if expired:
+        _save_ai_memory(memory)
+
+
 def _cooldown_remaining(candidate):
-    until = _AI_COOLDOWNS.get(_candidate_id(candidate), 0)
+    candidate_id = _candidate_id(candidate)
+    until = max(_AI_COOLDOWNS.get(candidate_id, 0), _memory_cooldown_until(candidate_id))
     return max(0, until - time.time())
 
 
 def _put_candidate_on_cooldown(candidate, error):
-    _AI_COOLDOWNS[_candidate_id(candidate)] = time.time() + AI_MODEL_COOLDOWN_SECONDS
+    candidate_id = _candidate_id(candidate)
+    until = time.time() + AI_MODEL_COOLDOWN_SECONDS + random.uniform(0, 5)
+    _AI_COOLDOWNS[candidate_id] = until
+    memory = _load_ai_memory()
+    memory.setdefault("cooldowns", {})[candidate_id] = {
+        "until": until,
+        "provider": candidate.get("provider"),
+        "model": candidate.get("model"),
+        "key_id": _key_id(candidate.get("api_key")),
+        "reason": _safe_error_reason(error),
+        "failed_at": _now_iso(),
+    }
+    stats = memory.setdefault("stats", {}).setdefault(candidate_id, {})
+    stats["provider"] = candidate.get("provider")
+    stats["model"] = candidate.get("model")
+    stats["key_id"] = _key_id(candidate.get("api_key"))
+    stats["failures"] = int(stats.get("failures", 0)) + 1
+    stats["last_failure_at"] = _now_iso()
+    _save_ai_memory(memory)
     log_event(
         "ai_candidate_cooldown",
         provider=candidate.get("provider"),
         model=candidate.get("model"),
         key_id=_key_id(candidate.get("api_key")),
-        reason=str(error)[:160],
+        reason=_safe_error_reason(error),
         cooldown_seconds=AI_MODEL_COOLDOWN_SECONDS,
     )
+
+
+def _record_candidate_success(candidate):
+    candidate_id = _candidate_id(candidate)
+    memory = _load_ai_memory()
+    memory.setdefault("cooldowns", {}).pop(candidate_id, None)
+    stats = memory.setdefault("stats", {}).setdefault(candidate_id, {})
+    stats["provider"] = candidate.get("provider")
+    stats["model"] = candidate.get("model")
+    stats["key_id"] = _key_id(candidate.get("api_key"))
+    stats["successes"] = int(stats.get("successes", 0)) + 1
+    stats["last_success_at"] = _now_iso()
+    _save_ai_memory(memory)
 
 
 def _selected_ready_for_ai(article):
@@ -141,6 +254,8 @@ STRICT FAST NEWS RULES:
 - Keep SEO title 40-70 characters and meta description 100-170 characters.
 - Use clean Plus UI-compatible Blogger HTML only.
 - Do not add CSS, scripts, unsupported widgets, fake images, or source/reference blocks unless trusted_references are provided.
+- Before returning, silently self-check: no source-domain links, no visible JSON inside html_content,
+  no markdown fences, no repeated paragraphs, and no social-media caption tone.
 
 OUTPUT JSON SHAPE:
 {{
@@ -195,6 +310,8 @@ STRICT RULES:
 - SEO title must be 40-70 characters.
 - Meta description must be 100-170 characters.
 - Slug must be Latin lowercase words separated by hyphens.
+- Before returning, silently self-check: no source-domain links, no visible JSON inside html_content,
+  no markdown fences, no repeated paragraphs, no source attribution, and no unsupported claims.
 
 OUTPUT JSON SHAPE:
 {{
@@ -700,6 +817,7 @@ def _resolve_providers():
 
 
 def _provider_candidates():
+    _prune_ai_memory()
     providers = _resolve_providers()
     candidates = []
     for provider in providers:
@@ -740,7 +858,9 @@ def _generate_ai_article(prompt, skip_providers=None):
             )
             continue
         try:
-            return _generate_with_candidate(candidate, prompt)
+            result = _generate_with_candidate(candidate, prompt)
+            _record_candidate_success(candidate)
+            return result
         except Exception as error:
             last_error = error
             _put_candidate_on_cooldown(candidate, error)
@@ -796,7 +916,9 @@ def _generate_with_provider_name(provider, prompt):
             )
             continue
         try:
-            return _generate_with_candidate(candidate, prompt)
+            result = _generate_with_candidate(candidate, prompt)
+            _record_candidate_success(candidate)
+            return result
         except Exception as error:
             last_error = error
             _put_candidate_on_cooldown(candidate, error)

@@ -360,6 +360,11 @@ FACEBOOK_TITLE_BOX_W = _env_int("FACEBOOK_TITLE_BOX_W", 820)
 FACEBOOK_TITLE_BOX_H = _env_int("FACEBOOK_TITLE_BOX_H", 210)
 FACEBOOK_TITLE_FONT_SIZE = _env_int("FACEBOOK_TITLE_FONT_SIZE", 56)
 
+# Lightweight runtime memory. These files are intentionally runtime state and
+# remain ignored by git through data/*.json.
+AI_PROVIDER_MEMORY_PATH = BASE_DIR / "data" / "ai_provider_memory.json"
+FACEBOOK_STYLE_MEMORY_PATH = BASE_DIR / "data" / "facebook_style_memory.json"
+
 
 # ============================================================
 # 7) HTTP Headers for Web Scraping

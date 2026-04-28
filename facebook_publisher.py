@@ -4,6 +4,7 @@
 
 import random
 import re
+import json
 import time
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -17,6 +18,7 @@ from config import (
     FACEBOOK_GRAPH_API_URL,
     FACEBOOK_IMAGE_OUTPUT_DIR,
     FACEBOOK_LINK_MODE,
+    FACEBOOK_STYLE_MEMORY_PATH,
     MAX_FACEBOOK_POSTS_PER_DAY,
     MIN_MINUTES_BETWEEN_FACEBOOK_POSTS,
     FACEBOOK_PAGE_ACCESS_TOKEN,
@@ -184,10 +186,85 @@ def _last_caption_style(articles):
     return latest.get("facebook_caption_pattern", "")
 
 
+def _empty_style_memory():
+    return {"recent": {}, "stats": {}}
+
+
+def _load_style_memory():
+    try:
+        if FACEBOOK_STYLE_MEMORY_PATH.exists():
+            with FACEBOOK_STYLE_MEMORY_PATH.open("r", encoding="utf-8") as handle:
+                data = json.load(handle)
+            if isinstance(data, dict):
+                data.setdefault("recent", {})
+                data.setdefault("stats", {})
+                return data
+    except Exception as error:
+        log_event("facebook_style_memory_load_failed", error=error.__class__.__name__)
+    return _empty_style_memory()
+
+
+def _save_style_memory(memory):
+    try:
+        FACEBOOK_STYLE_MEMORY_PATH.parent.mkdir(parents=True, exist_ok=True)
+        with FACEBOOK_STYLE_MEMORY_PATH.open("w", encoding="utf-8") as handle:
+            json.dump(memory, handle, ensure_ascii=False, indent=2, sort_keys=True)
+    except Exception as error:
+        log_event("facebook_style_memory_save_failed", error=error.__class__.__name__)
+
+
+def _caption_memory_category(article):
+    return str(article.get("suggested_category") or "general").strip() or "general"
+
+
+def _caption_style_score(memory, category, style):
+    stats = memory.get("stats", {}).get(category, {}).get(style, {})
+    used = int(stats.get("used", 0))
+    failed = int(stats.get("failed", 0))
+    posted = int(stats.get("posted", 0))
+    return (used + failed * 2 - min(posted, 5) * 0.25, random.random())
+
+
 def _choose_caption_pattern(article, articles):
     last_style = _last_caption_style(articles)
-    choices = [style for style in CAPTION_STYLES if style != last_style]
-    return random.choice(choices or list(CAPTION_STYLES))
+    memory = _load_style_memory()
+    category = _caption_memory_category(article)
+    recent = list(memory.get("recent", {}).get(category, []))[-3:]
+    choices = [
+        style
+        for style in CAPTION_STYLES
+        if style != last_style and style not in recent[-2:]
+    ]
+    choices = choices or [style for style in CAPTION_STYLES if style != last_style]
+    choices = choices or list(CAPTION_STYLES)
+    selected = min(choices, key=lambda style: _caption_style_score(memory, category, style))
+    log_event(
+        "facebook_caption_pattern_selected",
+        category=category,
+        pattern=selected,
+        recent_count=len(recent),
+    )
+    return selected
+
+
+def _remember_caption_pattern(article, pattern, posted):
+    if pattern not in CAPTION_STYLES:
+        return
+    memory = _load_style_memory()
+    category = _caption_memory_category(article)
+    recent = list(memory.setdefault("recent", {}).get(category, []))
+    recent.append(pattern)
+    memory["recent"][category] = recent[-8:]
+    category_stats = memory.setdefault("stats", {}).setdefault(category, {})
+    stats = category_stats.setdefault(pattern, {})
+    stats["used"] = int(stats.get("used", 0)) + 1
+    if posted:
+        stats["posted"] = int(stats.get("posted", 0)) + 1
+        stats["last_success_at"] = _now_iso()
+    else:
+        stats["failed"] = int(stats.get("failed", 0)) + 1
+        stats["last_failure_at"] = _now_iso()
+    _save_style_memory(memory)
 
 
 def _hashtags(article):
@@ -678,6 +755,11 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         else:
             article.pop("facebook_comment_id", None)
 
+        _remember_caption_pattern(
+            article,
+            caption_pattern,
+            posted=article.get("facebook_status") == "posted",
+        )
         save_article_queue(queue)
         result = {
             "checked": 1,
@@ -699,6 +781,8 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
 
     except Exception as error:
         _apply_failure(article, error)
+        if "caption_pattern" in locals():
+            _remember_caption_pattern(article, caption_pattern, posted=False)
         save_article_queue(queue)
         result = {
             "checked": 1,
