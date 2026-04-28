@@ -1,30 +1,107 @@
 {
   "cooldowns": {
     "gemini:gemini-2.5-flash:75c7824eb0": {
-      "failed_at": "2026-04-28T13:40:09",
+      "failed_at": "2026-04-28T14:11:56",
       "key_id": "75c7824eb0",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1777385412.3846123
+      "until": 1777387316.9378657
+    },
+    "openrouter:minimax/minimax-m2.5:free:e5c3515f5b": {
+      "failed_at": "2026-04-28T14:08:12",
+      "key_id": "e5c3515f5b",
+      "model": "minimax/minimax-m2.5:free",
+      "provider": "openrouter",
+      "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"minimax/minimax-m2.5:free is temporarily rate-limited upst",
+      "until": 1777387093.654959
+    },
+    "openrouter:nvidia/nemotron-3-super-120b-a12b:free:e5c3515f5b": {
+      "failed_at": "2026-04-28T14:11:50",
+      "key_id": "e5c3515f5b",
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned no choices.",
+      "until": 1777387311.865092
+    },
+    "openrouter:openai/gpt-oss-120b:free:e5c3515f5b": {
+      "failed_at": "2026-04-28T14:08:12",
+      "key_id": "e5c3515f5b",
+      "model": "openai/gpt-oss-120b:free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1777387095.0208075
+    },
+    "openrouter:tencent/hy3-preview:free:e5c3515f5b": {
+      "failed_at": "2026-04-28T14:11:50",
+      "key_id": "e5c3515f5b",
+      "model": "tencent/hy3-preview:free",
+      "provider": "openrouter",
+      "reason": "OpenRouter API error 400: {\"error\":{\"message\":\"Provider returned error\",\"code\":400,\"metadata\":{\"raw\":\"{\\\"code\\\":20024,\\\"message\\\":\\\"Json mode is not supported f",
+      "until": 1777387312.5654113
+    },
+    "openrouter:z-ai/glm-4.5-air:free:e5c3515f5b": {
+      "failed_at": "2026-04-28T14:09:50",
+      "key_id": "e5c3515f5b",
+      "model": "z-ai/glm-4.5-air:free",
+      "provider": "openrouter",
+      "reason": "Expecting value: line 461 column 1 (char 2530)",
+      "until": 1777387193.6029673
     }
   },
   "stats": {
     "gemini:gemini-2.5-flash:75c7824eb0": {
-      "failures": 9,
+      "failures": 11,
       "key_id": "75c7824eb0",
-      "last_failure_at": "2026-04-28T13:40:09",
+      "last_failure_at": "2026-04-28T14:11:56",
       "last_success_at": "2026-04-28T13:24:44",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
       "successes": 1
     },
-    "openrouter:openai/gpt-oss-120b:free:e5c3515f5b": {
+    "openrouter:inclusionai/ling-2.6-1t:free:e5c3515f5b": {
       "key_id": "e5c3515f5b",
-      "last_success_at": "2026-04-28T13:40:07",
+      "last_success_at": "2026-04-28T14:12:25",
+      "model": "inclusionai/ling-2.6-1t:free",
+      "provider": "openrouter",
+      "successes": 3
+    },
+    "openrouter:minimax/minimax-m2.5:free:e5c3515f5b": {
+      "failures": 1,
+      "key_id": "e5c3515f5b",
+      "last_failure_at": "2026-04-28T14:08:12",
+      "model": "minimax/minimax-m2.5:free",
+      "provider": "openrouter"
+    },
+    "openrouter:nvidia/nemotron-3-super-120b-a12b:free:e5c3515f5b": {
+      "failures": 1,
+      "key_id": "e5c3515f5b",
+      "last_failure_at": "2026-04-28T14:11:50",
+      "model": "nvidia/nemotron-3-super-120b-a12b:free",
+      "provider": "openrouter"
+    },
+    "openrouter:openai/gpt-oss-120b:free:e5c3515f5b": {
+      "failures": 1,
+      "key_id": "e5c3515f5b",
+      "last_failure_at": "2026-04-28T14:08:12",
+      "last_success_at": "2026-04-28T14:07:52",
       "model": "openai/gpt-oss-120b:free",
       "provider": "openrouter",
-      "successes": 13
+      "successes": 16
+    },
+    "openrouter:tencent/hy3-preview:free:e5c3515f5b": {
+      "failures": 1,
+      "key_id": "e5c3515f5b",
+      "last_failure_at": "2026-04-28T14:11:50",
+      "model": "tencent/hy3-preview:free",
+      "provider": "openrouter"
+    },
+    "openrouter:z-ai/glm-4.5-air:free:e5c3515f5b": {
+      "failures": 1,
+      "key_id": "e5c3515f5b",
+      "last_failure_at": "2026-04-28T14:09:50",
+      "model": "z-ai/glm-4.5-air:free",
+      "provider": "openrouter"
     }
   }
 }
