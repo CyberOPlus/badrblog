@@ -4,6 +4,7 @@
 
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -1040,6 +1041,15 @@ RUNTIME_STATE_PATHS = (
 )
 
 
+def _safe_git_command_output(*values):
+    text = "\n".join(str(value or "") for value in values if value)
+    text = text.replace("\r", "\n")
+    text = "\n".join(line.strip() for line in text.splitlines() if line.strip())
+    text = re.sub(r"https://[^@\s]+@", "https://***@", text)
+    text = re.sub(r"(token|secret|password|key)[=:]\s*\S+", r"\1=***", text, flags=re.IGNORECASE)
+    return text[:500] or "no git output"
+
+
 def save_runtime_state_to_git():
     result = {
         "saved": False,
@@ -1063,9 +1073,9 @@ def save_runtime_state_to_git():
             text=True,
         )
         if commit.returncode != 0:
-            result["warning"] = "git commit failed"
+            result["warning"] = f"git commit failed: {_safe_git_command_output(commit.stderr, commit.stdout)}"
             result["git_push_state"] = "warning"
-            log_event("runtime_state_git_warning", reason=result["warning"])
+            log_event("runtime_state_git_warning", reason=result["warning"], returncode=commit.returncode)
             return result
         result["saved"] = True
         push = subprocess.run(["git", "push", "origin", "HEAD:main"], check=False, capture_output=True, text=True)
@@ -1073,8 +1083,8 @@ def save_runtime_state_to_git():
             result["git_push_state"] = "success"
         else:
             result["git_push_state"] = "warning"
-            result["warning"] = "git push failed"
-            log_event("runtime_state_git_warning", reason=result["warning"])
+            result["warning"] = f"git push failed: {_safe_git_command_output(push.stderr, push.stdout)}"
+            log_event("runtime_state_git_warning", reason=result["warning"], returncode=push.returncode)
     except Exception as error:
         result["git_push_state"] = "warning"
         result["warning"] = f"runtime state save failed: {error.__class__.__name__}"

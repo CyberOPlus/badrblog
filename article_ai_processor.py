@@ -63,6 +63,15 @@ AI_MODEL_COOLDOWN_SECONDS = 30 * 60
 _AI_COOLDOWNS = {}
 _AI_MEMORY_CACHE = None
 
+
+class AIProviderFallbackNeeded(RuntimeError):
+    """Raised when a provider error must switch to another AI provider first."""
+
+
+class AIProviderRotationExhausted(RuntimeError):
+    """Raised when all available AI providers fail before quality validation."""
+
+
 ALLOWED_LATIN_INLINE = {
     "ai",
     "api",
@@ -1087,6 +1096,15 @@ def _provider_candidates():
     return candidates
 
 
+def _openrouter_candidates():
+    if not _has_real_key(OPENROUTER_API_KEY, "your_new_key_here"):
+        return []
+    return [
+        {"provider": "openrouter", "api_key": OPENROUTER_API_KEY, "model": model_name}
+        for model_name in _models(OPENROUTER_MODELS, OPENROUTER_MODEL)
+    ]
+
+
 def _generate_ai_article(prompt, skip_providers=None):
     skip_providers = set(skip_providers or [])
     candidates = [
@@ -1151,10 +1169,7 @@ def _attempt_provider_candidates():
 
 
 def _openrouter_fallback_available():
-    try:
-        return any(item.get("provider") == "openrouter" for item in _provider_candidates())
-    except Exception:
-        return False
+    return bool(_openrouter_candidates())
 
 
 def _should_switch_gemini_to_openrouter(provider, error):
@@ -1162,7 +1177,11 @@ def _should_switch_gemini_to_openrouter(provider, error):
 
 
 def _generate_with_provider_name(provider, prompt):
-    allowed = [item for item in _provider_candidates() if item.get("provider") == provider]
+    allowed = (
+        _openrouter_candidates()
+        if provider == "openrouter"
+        else [item for item in _provider_candidates() if item.get("provider") == provider]
+    )
     if not allowed:
         raise RuntimeError(f"Unsupported AI provider or missing key: {provider}")
     last_error = None
@@ -1195,8 +1214,18 @@ def _generate_with_provider_name(provider, prompt):
             )
             if index < len(allowed) - 1:
                 continue
+            if provider == "gemini" and _is_quota_or_rate_limit_error(error):
+                raise AIProviderFallbackNeeded(_safe_error_reason(error)) from error
             raise
     raise last_error or RuntimeError(f"No {provider} AI candidate returned a response.")
+
+
+def _is_quality_error(error):
+    return isinstance(error, ValueError)
+
+
+def _is_provider_error(error):
+    return isinstance(error, (RuntimeError, AIProviderFallbackNeeded, AIProviderRotationExhausted))
 
 
 def _apply_success(article, data, provider_used):
@@ -1232,6 +1261,24 @@ def _send_ai_quality_warning(article, error):
         )
     except Exception as notify_error:
         log_event("telegram_ai_quality_warning_failed", error=notify_error.__class__.__name__)
+
+
+def _send_ai_rotation_exhausted_warning(article, error):
+    try:
+        from notifier import send_telegram_message
+
+        send_telegram_message(
+            "\n".join(
+                [
+                    "\u26a0\ufe0f AI rotation exhausted",
+                    f"Article: {article.get('title') or article.get('fetched_title') or ''}",
+                    f"Source: {article.get('source_name', '')}",
+                    f"Reason: {_safe_error_reason(error)}",
+                ]
+            )
+        )
+    except Exception as notify_error:
+        log_event("telegram_ai_rotation_warning_failed", error=notify_error.__class__.__name__)
 
 
 def _apply_failure(article, error):
@@ -1298,6 +1345,29 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     if provider
                     else _generate_ai_article(prompt)
                 )
+            except AIProviderFallbackNeeded as provider_error:
+                if _should_switch_gemini_to_openrouter(provider, provider_error):
+                    message = "Gemini quota exceeded; switching to OpenRouter"
+                    print(f"  {message}")
+                    log_event(
+                        "gemini_quota_switching_to_openrouter",
+                        article_id=article.get("id"),
+                        reason=_safe_error_reason(provider_error),
+                    )
+                    try:
+                        raw_text, provider_used = _generate_with_provider_name("openrouter", prompt)
+                    except Exception as fallback_error:
+                        raise AIProviderRotationExhausted(
+                            "AI rotation exhausted: OpenRouter fallback failed after Gemini quota "
+                            f"({_safe_error_reason(fallback_error)})"
+                        ) from fallback_error
+                    log_event(
+                        "openrouter_model_used",
+                        article_id=article.get("id"),
+                        model=provider_used.replace("openrouter:", "", 1),
+                    )
+                else:
+                    raise
             except Exception as provider_error:
                 if _should_switch_gemini_to_openrouter(provider, provider_error):
                     message = "Gemini quota exceeded; switching to OpenRouter"
@@ -1307,7 +1377,13 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                         article_id=article.get("id"),
                         reason=_safe_error_reason(provider_error),
                     )
-                    raw_text, provider_used = _generate_with_provider_name("openrouter", prompt)
+                    try:
+                        raw_text, provider_used = _generate_with_provider_name("openrouter", prompt)
+                    except Exception as fallback_error:
+                        raise AIProviderRotationExhausted(
+                            "AI rotation exhausted: OpenRouter fallback failed after Gemini quota "
+                            f"({_safe_error_reason(fallback_error)})"
+                        ) from fallback_error
                     log_event(
                         "openrouter_model_used",
                         article_id=article.get("id"),
@@ -1350,7 +1426,11 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             }
         except Exception as error:
             last_error = error
-            article["ai_quality_last_error"] = str(error)
+            is_quality_failure = _is_quality_error(error)
+            if is_quality_failure:
+                article["ai_quality_last_error"] = str(error)
+            else:
+                article["ai_provider_last_error"] = _safe_error_reason(error)
             log_event(
                 "ai_article_attempt_failed",
                 article_id=article.get("id"),
@@ -1359,27 +1439,41 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 error=error,
                 elapsed_ms=elapsed_ms(started),
             )
-            log_event(
-                "quality_failed_reason",
-                article_id=article.get("id"),
-                attempt=attempt,
-                reason=error,
-            )
+            if is_quality_failure:
+                log_event(
+                    "quality_failed_reason",
+                    article_id=article.get("id"),
+                    attempt=attempt,
+                    reason=error,
+                )
+            else:
+                log_event(
+                    "provider_failed_reason",
+                    article_id=article.get("id"),
+                    attempt=attempt,
+                    reason=_safe_error_reason(error),
+                )
             if provider == "gemini" and "openrouter" in provider_sequence:
                 log_event("ai_openrouter_fallback_started", article_id=article.get("id"))
-            prompt = _build_expansion_retry_prompt(package, previous_data, str(error))
+            if is_quality_failure:
+                prompt = _build_expansion_retry_prompt(package, previous_data, str(error))
             if attempt < total_attempts:
                 time.sleep(min(2 ** (attempt - 1), 3))
 
     _apply_failure(article, last_error)
-    article["ai_rotation_exhausted"] = True
-    article["ai_quality_status"] = "failed_after_retries"
+    provider_exhausted = bool(last_error and _is_provider_error(last_error) and not _is_quality_error(last_error))
+    article["ai_rotation_exhausted"] = provider_exhausted
+    article["ai_quality_status"] = "provider_rotation_exhausted" if provider_exhausted else "failed_after_retries"
     article["ai_quality_attempts"] = total_attempts
     save_article_queue(queue)
-    log_event("ai_rotation_exhausted", article_id=article.get("id"), error=last_error)
-    log_event("ai_quality_failed_after_retries", article_id=article.get("id"), error=last_error)
-    log_event("article_skipped", article_id=article.get("id"), reason="AI quality failed after retries")
-    _send_ai_quality_warning(article, last_error)
+    if provider_exhausted:
+        log_event("ai_rotation_exhausted", article_id=article.get("id"), error=last_error)
+        log_event("article_skipped", article_id=article.get("id"), reason="AI rotation exhausted")
+        _send_ai_rotation_exhausted_warning(article, last_error)
+    else:
+        log_event("ai_quality_failed_after_retries", article_id=article.get("id"), error=last_error)
+        log_event("article_skipped", article_id=article.get("id"), reason="AI quality failed after retries")
+        _send_ai_quality_warning(article, last_error)
     return {
         "processed": 1,
         "success": 0,

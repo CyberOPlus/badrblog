@@ -854,13 +854,66 @@ class ProductionHardeningTests(unittest.TestCase):
                 ],
                 "notifications": {},
             }
-            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]), patch.object(article_ai_processor, "_openrouter_fallback_available", return_value=True), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=fake_generate), patch.object(article_ai_processor.time, "sleep"):
+            original_validate = article_ai_processor.validate_ai_article_output
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]), patch.object(article_ai_processor, "_openrouter_fallback_available", return_value=True), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=fake_generate), patch.object(article_ai_processor, "validate_ai_article_output", wraps=original_validate) as validate_gate, patch.object(article_ai_processor.time, "sleep"):
                 article_queue.save_article_queue(queue)
                 result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
 
         self.assertEqual(result["success"], 1)
+        self.assertEqual(result["failed"], 0)
         self.assertEqual(calls, ["gemini", "openrouter"])
         self.assertEqual(result["article"]["ai_provider_used"], "openrouter:test-model")
+        self.assertEqual(result["article"]["ai_status"], "completed")
+        self.assertEqual(result["article"]["ai_quality_status"], "passed")
+        self.assertEqual(validate_gate.call_count, 1)
+        self.assertTrue(validate_gate.call_args.args[0]["html_content"])
+
+    def test_gemini_429_rotation_exhaustion_does_not_send_quality_gate_warning(self):
+        calls = []
+
+        def fake_generate(provider, prompt):
+            calls.append(provider)
+            if provider == "gemini":
+                raise article_ai_processor.AIProviderFallbackNeeded("Gemini 429 quota exceeded retry_delay")
+            raise RuntimeError("OpenRouter API error 429: rate limit exceeded")
+
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "a1",
+                        "url": "https://example.com/news",
+                        "title": "Provider quota article",
+                        "source_name": "Example Source",
+                        "status": "selected",
+                        "processing_status": "ready_for_ai",
+                        "ai_input_package": {
+                            "title": "Chrome fixes active zero-day vulnerability",
+                            "url": "https://example.com/news",
+                            "source_published_at": recent_iso(1),
+                            "content_preview": "Google released an emergency Chrome security update.",
+                        },
+                    }
+                ],
+                "notifications": {},
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]), patch.object(article_ai_processor, "_openrouter_fallback_available", return_value=True), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=fake_generate), patch.object(article_ai_processor, "validate_ai_article_output") as validate_gate, patch.object(article_ai_processor.time, "sleep"), patch("notifier.send_telegram_message", return_value={"sent": False, "skipped": True}) as send:
+                article_queue.save_article_queue(queue)
+                result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
+
+        self.assertEqual(result["success"], 0)
+        self.assertEqual(result["failed"], 1)
+        self.assertEqual(result["article"]["ai_status"], "failed")
+        self.assertTrue(result["article"]["ai_rotation_exhausted"])
+        self.assertEqual(result["article"]["ai_quality_status"], "provider_rotation_exhausted")
+        self.assertEqual(calls, ["gemini", "openrouter", "gemini", "openrouter", "gemini", "openrouter"])
+        validate_gate.assert_not_called()
+        self.assertTrue(send.called)
+        sent_message = send.call_args.args[0]
+        self.assertIn("AI rotation exhausted", sent_message)
+        self.assertNotIn("AI quality gate blocked", sent_message)
+        self.assertNotIn("Words: 0", sent_message)
 
     def test_plus_ui_format_places_main_image_after_first_paragraph(self):
         html = "<p>هذه مقدمة عربية واضحة عن الخبر وتشرح الفكرة ببساطة.</p><h2>التفاصيل</h2><p>هذه فقرة ثانية توضح الأثر على القارئ.</p>"
