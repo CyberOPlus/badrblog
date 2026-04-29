@@ -3,38 +3,36 @@
     "https://a.example": {
       "source_name": "A",
       "failure_count": 0,
-      "last_success_at": "2026-04-29T00:10:39Z",
+      "last_success_at": "2026-04-29T00:11:48Z",
       "cooldown_until": "",
       "last_error": ""
     },
-    "https://www.sentinelone.com/blog": {
-      "source_name": "SentinelOne Blog",
+    "https://openai.com/news": {
+      "source_name": "OpenAI News",
+      "failure_count": 1,
+      "last_failure_at": "2026-04-29T00:11:54Z",
+      "last_error": "fetch failed"
+    },
+    "https://anthropic.com/news": {
+      "source_name": "Anthropic News",
       "failure_count": 0,
-      "last_success_at": "2026-04-29T00:10:48Z",
+      "last_success_at": "2026-04-29T00:12:13Z",
       "cooldown_until": "",
       "last_error": ""
     },
-    "https://unit42.paloaltonetworks.com": {
-      "source_name": "Unit 42",
+    "https://www.artificialintelligence-news.com": {
+      "source_name": "Artificial Intelligence News",
       "failure_count": 0,
-      "last_success_at": "2026-04-29T00:10:53Z",
+      "last_success_at": "2026-04-29T00:12:20Z",
       "cooldown_until": "",
       "last_error": ""
     },
-    "https://blog.talosintelligence.com": {
-      "source_name": "Cisco Talos Blog",
-      "failure_count": 0,
-      "last_success_at": "2026-04-29T00:10:54Z",
-      "cooldown_until": "",
-      "last_error": ""
-    },
-    "https://googleprojectzero.blogspot.com": {
-      "source_name": "Google Project Zero",
-      "failure_count": 0,
-      "last_success_at": "2026-04-29T00:11:01Z",
-      "cooldown_until": "",
-      "last_error": ""
+    "https://venturebeat.com/ai": {
+      "source_name": "VentureBeat AI",
+      "failure_count": 1,
+      "last_failure_at": "2026-04-29T00:12:23Z",
+      "last_error": "fetch failed"
     }
   },
-  "updated_at": "2026-04-29T00:11:01Z"
+  "updated_at": "2026-04-29T00:12:23Z"
 }
