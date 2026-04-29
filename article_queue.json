@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-29T01:33:01",
+  "updated_at": "2026-04-29T02:24:30",
   "articles": [
     {
       "id": "a7a11e65e86e7bcc",
@@ -737,7 +737,7 @@
       "full_article_text_chars": 109,
       "content_preview": "Researchers have uncovered a malware framework dubbed &quot;fast16&quot; that predates Stuxnet by five years.",
       "content_preview_chars": 109,
-      "content_fetched_at": "2026-04-29T01:24:28",
+      "content_fetched_at": "2026-04-29T02:20:41",
       "enrichment_status": "rss_summary",
       "content_fetch_status": "failed",
       "archived": true,
@@ -745,11 +745,11 @@
       "archive_reason": "expired_recent_window",
       "image_warning": "missing downloadable article image",
       "content_fetch_error": "missing article body after rss fallback (109 chars/16 words; required 120 words)",
-      "candidate_retry_after": "2026-04-29T01:39:28Z",
+      "candidate_retry_after": "2026-04-29T02:35:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "missing article body after rss fallback (109 chars/16 words; required 120 words)",
-      "candidate_failed_at": "2026-04-29T01:24:28",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-04-29T02:20:41",
+      "candidate_failure_count": 2
     },
     {
       "id": "ad0a275dcc4ac2ac",
@@ -783,7 +783,7 @@
       "full_article_text_chars": 160,
       "content_preview": "Some fear frontier LLMs like Claude Mythos and Anthropic's GPT-5.5 will lead to cybersecurity annihilation. Ari Herbert-Voss notes this could be an opportunity.",
       "content_preview_chars": 160,
-      "content_fetched_at": "2026-04-29T01:24:28",
+      "content_fetched_at": "2026-04-29T02:20:41",
       "enrichment_status": "rss_summary",
       "content_fetch_status": "failed",
       "archived": true,
@@ -791,11 +791,11 @@
       "archive_reason": "expired_recent_window",
       "image_warning": "missing downloadable article image",
       "content_fetch_error": "missing article body after rss fallback (160 chars/23 words; required 120 words)",
-      "candidate_retry_after": "2026-04-29T01:39:28Z",
+      "candidate_retry_after": "2026-04-29T02:35:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "missing article body after rss fallback (160 chars/23 words; required 120 words)",
-      "candidate_failed_at": "2026-04-29T01:24:28",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-04-29T02:20:41",
+      "candidate_failure_count": 2
     },
     {
       "id": "71d489b3fc67bb54",
@@ -12623,7 +12623,7 @@
       "category_label": "Tech-News",
       "category_hint": "Tech-News",
       "discovered_at": "2026-04-29T00:45:54",
-      "status": "selected",
+      "status": "ready",
       "score": 0,
       "priority": "low",
       "fetched_title": "Anti-Trump Instagram pic of seashells now enough to indict ex-FBI directors",
@@ -12679,7 +12679,7 @@
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-29T00:24:52",
+      "processing_prepared_at": "2026-04-29T02:20:46",
       "ai_input_package": {
         "title": "Anti-Trump Instagram pic of seashells now enough to indict ex-FBI directors",
         "url": "https://arstechnica.com/tech-policy/2026/04/anti-trump-instagram-pic-of-seashells-now-enough-to-indict-ex-fbi-directors",
@@ -12722,16 +12722,21 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "article too short (13 words; minimum 120)",
+      "ai_quality_last_error": "Missing AI output field(s): slug",
       "ai_provider_last_error": "504 The request timed out. Please try again.",
       "ai_status": "failed",
-      "ai_error": "article too short (13 words; minimum 120)",
+      "ai_error": "Missing AI output field(s): slug",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 19.22,
+      "ai_total_time_seconds": 71.28,
       "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "telegram_final_summary_notified_at": "2026-04-29T00:25:14"
+      "telegram_final_summary_notified_at": "2026-04-29T00:25:14",
+      "candidate_retry_after": "2026-04-29T02:36:58Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-04-29T02:21:58",
+      "candidate_failure_count": 1
     },
     {
       "id": "792176a6bd410dcb",
@@ -12803,7 +12808,67 @@
       "content_preview_chars": 2335,
       "content_fetched_at": "2026-04-29T00:24:52",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-04-29T02:21:58",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-04-29T02:21:58",
+      "ai_input_package": {
+        "title": "Apple is finally building the AI Photo editor that Google and Samsung have had for years",
+        "url": "https://www.digitaltrends.com/phones/apple-is-finally-building-the-ai-photo-editor-that-google-and-samsung-have-had-for-years",
+        "source_name": "Digital Trends",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.digitaltrends.com/tachyon/2024/08/using-clean-up-iphone-hero.jpeg?resize=1200%2C630",
+        "article_images": [
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2024/08/using-clean-up-iphone-hero.jpeg?resize=1200%2C630",
+            "alt": "Apple is finally building the AI Photo editor that Google and Samsung have had for years",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2023/12/google-pixel-8-pro-magic-editor-golden-hour.jpg?resize=4032%2C3024",
+            "alt": "Google Pixel 8 Pro showing Magic Editor results.",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/04/siri-editing-photo-with-voice-commad.jpg?resize=2000%2C1200",
+            "alt": "Siri editing photo with voice command",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2023/12/google-pixel-8-pro-magic-editor-golden-hour.jpg?resize=4032%2C3024",
+            "alt": "Google Pixel 8 Pro showing Magic Editor results.",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Enhance applies one-tap quality improvements, and Reframe adjusts spatial photo perspectives. Both Extend and Reframe face reliability issues in internal testing.",
+        "content_preview": "Google’s Photos app has been doing things that Apple’s Photos app couldn’t, for years, and the iPhone-maker has noticed. Bloomberg’s Mark Gurman, in his latest report, claims that iOS 27 , iPadOS 27, and macOS 27 will come with a dedicated “Apple Intelligence Tools” section inside the Photos editing interface. The “Apple Intelligence Tools” section will include three new AI-powered photo-editing features: Extend, Enhance, and Reframe. Before we begin with what the features actually do, all of them will run entirely on-device, and, in a typical Apple fashion, complete their edits in seconds. What will the new Apple Intelligence photo editing tools do? Extend, as the name suggests, extends a picture’s boundaries by generating new imagery and seamlessly stitching it to the existing one. You should be able to use the feature to add some surrounding to close-up shots or add some negative space to either side of the subject. Enhance, on the other hand, works as a one-tap enhancement button, which immediately adjusts the color, lighting, and the overall image quality, without going through different editing options and fiddling with various sliders. Reframe is designed primarily for spatial photos captured for the Vision Pro headset. It lets users shift the perspective of a 3D image after it’s already been taken, allowing you to move from a front-facing to a side-facing view. Is Apple actually ready to release all three features? Not at the moment, no. Per Gurman, both the Extend and Reframe features are producing inconsistent results in the internal testing. If the underlying AI models don’t adapt or the results don’t improve significantly before the September launch event, Apple might delay them or scale back. While I’m a big fan of the Apple Photos app myself, it currently offers only one AI-based editing feature, Clean Up, and that doesn’t work as well as the feature does on other smartphones like the Galaxy S or the Pixel flagship series. I remember when Google released its Magic zeditor in 2023, and Samsung’s Galaxy AI followed quite aggressively in the coming years. In response, the best Apple could come up with was Clean Up. In my opinion, Apple genuinely needs the Extend, Enhance, and Reframe features to work, and work in time for a showcase at the WWDC 2026 and a public release in September.",
+        "content_preview_chars": 2335,
+        "rss_summary": "",
+        "full_article_text": "Google’s Photos app has been doing things that Apple’s Photos app couldn’t, for years, and the iPhone-maker has noticed. Bloomberg’s Mark Gurman, in his latest report, claims that iOS 27 , iPadOS 27, and macOS 27 will come with a dedicated “Apple Intelligence Tools” section inside the Photos editing interface. The “Apple Intelligence Tools” section will include three new AI-powered photo-editing features: Extend, Enhance, and Reframe. Before we begin with what the features actually do, all of them will run entirely on-device, and, in a typical Apple fashion, complete their edits in seconds. What will the new Apple Intelligence photo editing tools do? Extend, as the name suggests, extends a picture’s boundaries by generating new imagery and seamlessly stitching it to the existing one. You should be able to use the feature to add some surrounding to close-up shots or add some negative space to either side of the subject. Enhance, on the other hand, works as a one-tap enhancement button, which immediately adjusts the color, lighting, and the overall image quality, without going through different editing options and fiddling with various sliders. Reframe is designed primarily for spatial photos captured for the Vision Pro headset. It lets users shift the perspective of a 3D image after it’s already been taken, allowing you to move from a front-facing to a side-facing view. Is Apple actually ready to release all three features? Not at the moment, no. Per Gurman, both the Extend and Reframe features are producing inconsistent results in the internal testing. If the underlying AI models don’t adapt or the results don’t improve significantly before the September launch event, Apple might delay them or scale back. While I’m a big fan of the Apple Photos app myself, it currently offers only one AI-based editing feature, Clean Up, and that doesn’t work as well as the feature does on other smartphones like the Galaxy S or the Pixel flagship series. I remember when Google released its Magic zeditor in 2023, and Samsung’s Galaxy AI followed quite aggressively in the coming years. In response, the best Apple could come up with was Clean Up. In my opinion, Apple genuinely needs the Extend, Enhance, and Reframe features to work, and work in time for a showcase at the WWDC 2026 and a public release in September.",
+        "full_article_text_chars": 2335,
+        "enrichment_status": "weak",
+        "source_url": "https://www.digitaltrends.com",
+        "source_published_at": "2026-04-28T22:50:29Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 1.57,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_status": "failed",
+      "ai_error": "Missing AI output field(s): slug",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 42.26,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-04-29T02:37:41Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-04-29T02:22:41",
+      "candidate_failure_count": 1
     },
     {
       "id": "71e64984e179e996",
@@ -12875,7 +12940,67 @@
       "content_preview_chars": 1921,
       "content_fetched_at": "2026-04-29T00:24:52",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-04-29T02:22:41",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-04-29T02:22:41",
+      "ai_input_package": {
+        "title": "Amazon now lets you have a real conversation with AI while shopping for products",
+        "url": "https://www.digitaltrends.com/phones/amazon-now-lets-you-have-a-real-conversation-with-ai-while-shopping-for-products",
+        "source_name": "Digital Trends",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.digitaltrends.com/tachyon/2026/04/amazon-join-the-chat-ai.jpg?resize=1200%2C630",
+        "article_images": [
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/04/amazon-join-the-chat-ai.jpg?resize=1200%2C630",
+            "alt": "Amazon now lets you have a real conversation with AI while shopping for products",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/04/amazon-join-the-chat-ai-feature.jpeg?resize=1320%2C743",
+            "alt": "amazon-join-the-chat-ai-feature",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/04/amazon-join-the-chat-ai-shopping-feature.jpeg?resize=1320%2C743",
+            "alt": "amazon-join-the-chat-ai-shopping-feature",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/04/amazon-join-the-chat-ai-feature.jpeg?resize=1320%2C743",
+            "alt": "amazon-join-the-chat-ai-feature",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Shopping on Amazon just got a lot more conversational. The company has launched Join the chat, a new interactive feature inside its existing Hear the highlights experience. If you have not come across Hear the highlights before, it is an AI-powered audio summary tool that lives on millions of product pages inside the Amazon Shopping […]",
+        "content_preview": "Shopping on Amazon just got a lot more conversational. The company has launched Join the chat, a new interactive feature inside its existing Hear the highlights experience. If you have not come across Hear the highlights before, it is an AI-powered audio summary tool that lives on millions of product pages inside the Amazon Shopping app. It gives you a short audio rundown of a product’s key features, pulled from product details, customer reviews, and other publicly available information. Now, the ‘Join the chat’ feature takes it one step further by letting you have a conversation with the AI . How does Amazon’s Join the chat feature work? Once you tap play on the Hear the highlights button below a product image, you can tap the raised-hand icon to expand into full-screen view and either type or speak your question. The AI hosts can pause, answer your question in real time, and then pick up right where they left off. You can also minimize the player and keep listening while you browse. The AI does not give generic answers either. It tracks what has already been covered in the audio summary and responds with new, relevant information each time. So if you ask whether a coffee maker suits a beginner or someone with barista experience, or whether a sweater feels itchy based on reviews, you get a tailored, context-aware answer rather than a canned response. Amazon describes it as the kind of conversation you would have with a knowledgeable store employee. Join the chat is now live on iOS and Android in the US. What else has Amazon been up to lately? Amazon recently launched a dedicated storefront for AI-powered gadgets , giving AI-enhanced devices their own curated corner of the marketplace. And for Kindle fans, Amazon also fixed one of the most complained-about issues with the Kindle Colorsoft , addressing the screen experience that made reading after dark more of a chore than it needed to be.",
+        "content_preview_chars": 1921,
+        "rss_summary": "",
+        "full_article_text": "Shopping on Amazon just got a lot more conversational. The company has launched Join the chat, a new interactive feature inside its existing Hear the highlights experience. If you have not come across Hear the highlights before, it is an AI-powered audio summary tool that lives on millions of product pages inside the Amazon Shopping app. It gives you a short audio rundown of a product’s key features, pulled from product details, customer reviews, and other publicly available information. Now, the ‘Join the chat’ feature takes it one step further by letting you have a conversation with the AI . How does Amazon’s Join the chat feature work? Once you tap play on the Hear the highlights button below a product image, you can tap the raised-hand icon to expand into full-screen view and either type or speak your question. The AI hosts can pause, answer your question in real time, and then pick up right where they left off. You can also minimize the player and keep listening while you browse. The AI does not give generic answers either. It tracks what has already been covered in the audio summary and responds with new, relevant information each time. So if you ask whether a coffee maker suits a beginner or someone with barista experience, or whether a sweater feels itchy based on reviews, you get a tailored, context-aware answer rather than a canned response. Amazon describes it as the kind of conversation you would have with a knowledgeable store employee. Join the chat is now live on iOS and Android in the US. What else has Amazon been up to lately? Amazon recently launched a dedicated storefront for AI-powered gadgets , giving AI-enhanced devices their own curated corner of the marketplace. And for Kindle fans, Amazon also fixed one of the most complained-about issues with the Kindle Colorsoft , addressing the screen experience that made reading after dark more of a chore than it needed to be.",
+        "full_article_text_chars": 1921,
+        "enrichment_status": "weak",
+        "source_url": "https://www.digitaltrends.com",
+        "source_published_at": "2026-04-28T22:20:31Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 2.07,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_status": "failed",
+      "ai_error": "Missing AI output field(s): slug",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 57.52,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-04-29T02:38:39Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-04-29T02:23:39",
+      "candidate_failure_count": 1
     },
     {
       "id": "6610bbb661987f5c",
@@ -12947,7 +13072,67 @@
       "content_preview_chars": 2412,
       "content_fetched_at": "2026-04-29T00:24:51",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-04-29T02:23:39",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-04-29T02:23:39",
+      "ai_input_package": {
+        "title": "YouTube TV custom multiview lets you mix NFL Sunday Ticket with any channel",
+        "url": "https://www.digitaltrends.com/home-theater/youtube-tv-custom-multiview-lets-you-mix-nfl-sunday-ticket-with-any-channel",
+        "source_name": "Digital Trends",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.digitaltrends.com/tachyon/2026/04/YouTube-custom-multiview.jpg?resize=1200%2C630",
+        "article_images": [
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/04/YouTube-custom-multiview.jpg?resize=1200%2C630",
+            "alt": "YouTube TV custom multiview lets you mix NFL Sunday Ticket with any channel",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/04/YouTube-custom-multiview.jpg?resize=1200%2C720",
+            "alt": "YouTube custom multiview.",
+            "source": "article_content"
+          },
+          {
+            "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+            "alt": "Sennheiser HD 600",
+            "source": "article_content"
+          },
+          {
+            "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+            "alt": "People, Person, Head",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "YouTube TV's custom Multiview Builder is now live, letting subscribers combine up to four live streams from any channel in their plan, including NFL Sunday Ticket, with different categories.",
+        "content_preview": "YouTube TV’s multiview feature has always been a great idea, but it was held back by one frustrating limitation: Google decided what you watched, not you. But that changes now. On April 28, 2026, YouTube CEO Neal Mohan announced the full launch of the custom multiview feature for YouTube TV , giving subscribers complete freedom to create their own multi-screen viewing experience from any live channel. Today, we’re officially launching fully customizable multiview on @YouTubeTV . Our @youtube teams made one of our most popular features even better. The new multiview builder gives you full control to mix and match live streams (including add-ons like @nfl Sunday Ticket), and… pic.twitter.com/OwEHizQ34b What can you actually do with the custom multiview feature? Quite a lot, actually. YouTube TV’s new multiview builder lets you combine up to four live streams simultaneously. You can select from any channel that’s part of your subscription, including the add-on packages . The builder can organize content into categories, including Recommended, Sports, News, Shows, Movies, and other live content. Users can freely pick across the entire channel library. The stream-stitching happens on YouTube’s servers rather than your device. In other words, no special hardware is required to run the feature. To create a custom multiview, all you have to do is press the down arrow on your remote, select the multiview tab, start creating your multi-screen experience by selecting up to four channels, and enjoy. Are there any restrictions that are worth knowing about? The most significant unlocked combination is NFL Sunday Ticket, alongside regular YouTube TV channels, something that subscribers have been asking for over three years since the original multiview feature launched in March 2023. Talking about the restrictions, only live content qualifies for creating a custom multiview. Recorded shows and video-on-demand titles can’t be added to the multiview (yet). Furthermore, YouTube has excluded a small selection of family-friendly content as well. What else? Less than five percent of older devices won’t receive the full customization ability. They’ll still get a multiview builder, but limited to major events like the NFC and World Cup. Anyway, the rollout for YouTube TV custom multiview began for subscribers on April 23 , 2026, and is now officially rolling out for the vast majority of users.",
+        "content_preview_chars": 2412,
+        "rss_summary": "",
+        "full_article_text": "YouTube TV’s multiview feature has always been a great idea, but it was held back by one frustrating limitation: Google decided what you watched, not you. But that changes now. On April 28, 2026, YouTube CEO Neal Mohan announced the full launch of the custom multiview feature for YouTube TV , giving subscribers complete freedom to create their own multi-screen viewing experience from any live channel. Today, we’re officially launching fully customizable multiview on @YouTubeTV . Our @youtube teams made one of our most popular features even better. The new multiview builder gives you full control to mix and match live streams (including add-ons like @nfl Sunday Ticket), and… pic.twitter.com/OwEHizQ34b What can you actually do with the custom multiview feature? Quite a lot, actually. YouTube TV’s new multiview builder lets you combine up to four live streams simultaneously. You can select from any channel that’s part of your subscription, including the add-on packages . The builder can organize content into categories, including Recommended, Sports, News, Shows, Movies, and other live content. Users can freely pick across the entire channel library. The stream-stitching happens on YouTube’s servers rather than your device. In other words, no special hardware is required to run the feature. To create a custom multiview, all you have to do is press the down arrow on your remote, select the multiview tab, start creating your multi-screen experience by selecting up to four channels, and enjoy. Are there any restrictions that are worth knowing about? The most significant unlocked combination is NFL Sunday Ticket, alongside regular YouTube TV channels, something that subscribers have been asking for over three years since the original multiview feature launched in March 2023. Talking about the restrictions, only live content qualifies for creating a custom multiview. Recorded shows and video-on-demand titles can’t be added to the multiview (yet). Furthermore, YouTube has excluded a small selection of family-friendly content as well. What else? Less than five percent of older devices won’t receive the full customization ability. They’ll still get a multiview builder, but limited to major events like the NFC and World Cup. Anyway, the rollout for YouTube TV custom multiview began for subscribers on April 23 , 2026, and is now officially rolling out for the vast majority of users.",
+        "full_article_text_chars": 2412,
+        "enrichment_status": "weak",
+        "source_url": "https://www.digitaltrends.com",
+        "source_published_at": "2026-04-28T22:16:34Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 2.14,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "non_technical_entertainment_content",
+      "ai_status": "failed",
+      "ai_error": "non_technical_entertainment_content",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 49.58,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-04-29T02:39:30Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "non_technical_entertainment_content",
+      "candidate_failed_at": "2026-04-29T02:24:30",
+      "candidate_failure_count": 1
     },
     {
       "id": "7037ab8858645206",
@@ -12978,12 +13163,12 @@
       "meta_description": "Welcome back folks, this thread is for our second round of feedback on HammerBot - the Tom's Hardware AI Chatbot. You can find out details about it HERE...",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T01:24:28",
-      "candidate_retry_after": "2026-04-29T01:39:28Z",
+      "content_fetched_at": "2026-04-29T02:20:41",
+      "candidate_retry_after": "2026-04-29T02:35:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-04-29T01:24:28",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-04-29T02:20:41",
+      "candidate_failure_count": 2
     },
     {
       "id": "22d38d44bab47b2b",
@@ -13012,12 +13197,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T01:24:28",
-      "candidate_retry_after": "2026-04-29T01:39:28Z",
+      "content_fetched_at": "2026-04-29T02:20:41",
+      "candidate_retry_after": "2026-04-29T02:35:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-04-29T01:24:28",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-04-29T02:20:41",
+      "candidate_failure_count": 2
     },
     {
       "id": "aae18783ee8625e0",
@@ -13046,12 +13231,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T01:24:28",
-      "candidate_retry_after": "2026-04-29T01:39:28Z",
+      "content_fetched_at": "2026-04-29T02:20:41",
+      "candidate_retry_after": "2026-04-29T02:35:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-04-29T01:24:28",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-04-29T02:20:41",
+      "candidate_failure_count": 2
     },
     {
       "id": "6d7b4fc01b8f3719",
@@ -13080,12 +13265,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T01:24:29",
-      "candidate_retry_after": "2026-04-29T01:39:29Z",
+      "content_fetched_at": "2026-04-29T02:20:41",
+      "candidate_retry_after": "2026-04-29T02:35:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-04-29T01:24:29",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-04-29T02:20:41",
+      "candidate_failure_count": 2
     },
     {
       "id": "bc31e5cd03be3e0d",
@@ -13141,12 +13326,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T01:24:29",
-      "candidate_retry_after": "2026-04-29T01:39:29Z",
+      "content_fetched_at": "2026-04-29T02:20:41",
+      "candidate_retry_after": "2026-04-29T02:35:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-04-29T01:24:29",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-04-29T02:20:41",
+      "candidate_failure_count": 2
     },
     {
       "id": "119acafbd01343c2",
@@ -13175,12 +13360,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T01:24:29",
-      "candidate_retry_after": "2026-04-29T01:39:29Z",
+      "content_fetched_at": "2026-04-29T02:20:41",
+      "candidate_retry_after": "2026-04-29T02:35:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-04-29T01:24:29",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-04-29T02:20:41",
+      "candidate_failure_count": 2
     },
     {
       "id": "5bd5257f6c16b930",
@@ -13371,12 +13556,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-04-29T01:24:31",
-      "candidate_retry_after": "2026-04-29T01:39:31Z",
+      "content_fetched_at": "2026-04-29T02:20:42",
+      "candidate_retry_after": "2026-04-29T02:35:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-04-29T01:24:31",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-04-29T02:20:42",
+      "candidate_failure_count": 2
     },
     {
       "id": "33732dfdc6295ab2",
@@ -13408,12 +13593,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-04-29T01:24:32",
-      "candidate_retry_after": "2026-04-29T01:39:32Z",
+      "content_fetched_at": "2026-04-29T02:20:44",
+      "candidate_retry_after": "2026-04-29T02:35:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-04-29T01:24:32",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-04-29T02:20:44",
+      "candidate_failure_count": 2
     },
     {
       "id": "aede79193c6b98c9",
@@ -13445,12 +13630,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-04-29T01:24:34",
-      "candidate_retry_after": "2026-04-29T01:39:34Z",
+      "content_fetched_at": "2026-04-29T02:20:45",
+      "candidate_retry_after": "2026-04-29T02:35:45Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-04-29T01:24:34",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-04-29T02:20:45",
+      "candidate_failure_count": 2
     },
     {
       "id": "cf019b5a35acd452",
@@ -13478,12 +13663,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T01:32:59",
-      "candidate_retry_after": "2026-04-29T01:47:59Z",
+      "content_fetched_at": "2026-04-29T02:20:45",
+      "candidate_retry_after": "2026-04-29T02:35:45Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-04-29T01:32:59",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-04-29T02:20:45",
+      "candidate_failure_count": 2
     },
     {
       "id": "1f41f5310439af41",
@@ -13511,12 +13696,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T01:32:59",
-      "candidate_retry_after": "2026-04-29T01:47:59Z",
+      "content_fetched_at": "2026-04-29T02:20:45",
+      "candidate_retry_after": "2026-04-29T02:35:45Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-04-29T01:32:59",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-04-29T02:20:45",
+      "candidate_failure_count": 2
     },
     {
       "id": "018ad9df30b3fee8",
@@ -13544,11 +13729,853 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T01:32:59",
-      "candidate_retry_after": "2026-04-29T01:47:59Z",
+      "content_fetched_at": "2026-04-29T02:20:46",
+      "candidate_retry_after": "2026-04-29T02:35:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-04-29T01:32:59",
+      "candidate_failed_at": "2026-04-29T02:20:46",
+      "candidate_failure_count": 2
+    },
+    {
+      "id": "8b921d3780708893",
+      "source_url_hash": "8b921d3780708893",
+      "canonical_url": "https://www.wired.com/story/openai-really-wants-codex-to-shut-up-about-goblins",
+      "title_hash": "9331e127cc7016a4",
+      "topic_signature": "7b131fd47350fe807265",
+      "title": "OpenAI Really Wants Codex to Shut Up About Goblins",
+      "url": "https://www.wired.com/story/openai-really-wants-codex-to-shut-up-about-goblins",
+      "source_name": "WIRED",
+      "source_url": "https://www.wired.com",
+      "source_published_at": "2026-04-28T23:45:05.256000Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.59,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-29T02:20:22",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 96,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 96,
+      "enrichment_fallback_used": "jsonld_article_body",
+      "fetched_title": "OpenAI Really Wants Codex to Shut Up About Goblins",
+      "meta_description": "“Never talk about goblins, gremlins, raccoons, trolls, ogres, pigeons, or other animals or creatures unless it is absolutely and unambiguously relevant,” reads OpenAI’s coding agent instructions.",
+      "article_images": [
+        {
+          "url": "https://media.wired.com/photos/69f144197df9442e8d9b4623/191:100/w_1280,c_limit/biz_gremlin_GettyImages-163004531.jpg",
+          "alt": "OpenAI Really Wants Codex to Shut Up About Goblins",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://media.wired.com/photos/69f144197df9442e8d9b4623/master/w_2560%2Cc_limit/biz_gremlin_GettyImages-163004531.jpg",
+          "alt": "Image may contain Face Head Person Photography Portrait and Child",
+          "source": "article_content"
+        },
+        {
+          "url": "https://media.wired.com/photos/635b05bc0c761e833be17fee/1:1/w_90%2Cc_limit/Will%2520Knight.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://media.wired.com/photos/69e7e52ddbc7ae33ffd93e6a/16:9/w_640%2Cc_limit/undefined",
+          "alt": "The Pope’s Warnings About AI Were AI-Generated, a Detection Tool Claims",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://media.wired.com/photos/69f144197df9442e8d9b4623/191:100/w_1280,c_limit/biz_gremlin_GettyImages-163004531.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://media.wired.com/photos/69f144197df9442e8d9b4623/master/w_2560%2Cc_limit/biz_gremlin_GettyImages-163004531.jpg",
+          "alt": "Image may contain Face Head Person Photography Portrait and Child"
+        },
+        {
+          "url": "https://media.wired.com/photos/635b05bc0c761e833be17fee/1:1/w_90%2Cc_limit/Will%2520Knight.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://media.wired.com/photos/69e7e52ddbc7ae33ffd93e6a/16:9/w_640%2Cc_limit/undefined",
+          "alt": "The Pope’s Warnings About AI Were AI-Generated, a Detection Tool Claims"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "revealed to include",
+          "url": "https://github.com/openai/codex/blob/main/codex-rs/models-manager/models.json"
+        }
+      ],
+      "full_article_text": "OpenAI has a goblin problem. Instructions designed to guide the behavior of the company’s latest model as it writes code have been revealed to include a line, repeated several times, that specifically forbids it from randomly mentioning an assortment of mythical and real creatures. “Never talk about goblins, gremlins, raccoons, trolls, ogres, pigeons, or other animals or creatures unless it is absolutely and unambiguously relevant to the user’s query,” read instructions in Codex CLI, a command-line tool for using AI to generate code. It is unclear why OpenAI felt compelled to spell this out for Codex—or indeed why its models might want to discuss goblins or pigeons in the first place. The company did not immediately respond to a request for comment. OpenAI’s newest model, GPT-5.5, was released with enhanced coding skills earlier this month. The company is in a fierce race with rivals, especially Anthropic, to deliver cutting-edge AI, and coding has emerged as a killer capability. In response to a post on X that highlighted the lines, however, some users claimed that OpenAI’s models occasionally become obsessed with goblins and other creatures when used to power OpenClaw, a tool that lets AI take control of a computer and apps running on it in order to do useful things for users. “I was wondering why my claw suddenly became a goblin with codex 5.5,” one user wrote on X. “Been using it a lot lately and it actually can't stop speaking of bugs as ‘gremlins’ and ‘goblins’ it's hilarious,” posted another. The discovery quickly became its own meme, inspiring AI-generated scenes of goblins in data centers, and plug-ins for Codex that put it in a playful “goblin mode.” AI models like GPT-5.5 are trained to predict the word—or code—that should follow a given prompt. These models have become so good at doing this that they appear to exhibit genuine intelligence. But their probabilistic nature means that they can sometimes behave in surprising ways. A model might become more prone to misbehavior when used with an “agentic harness” like OpenClaw that puts lots of additional instructions into prompts, such as facts stored in long-term memory. OpenAI acquired OpenClaw in February not long after the tool became a viral hit among AI enthusiasts. OpenClaw can use any AI model to automate useful tasks like answering emails or buying things on the web. Users can select any of various personae for their helper, which shapes its behavior and responses. OpenAI staffers appeared to acknowledge the prohibition. In response to a post highlighting OpenClaw’s goblin tendencies, Nik Pash, who works on Codex, wrote, “This is indeed one of the reasons.” Even Sam Altman, OpenAI’s CEO, joined in with the memes, posting a screenshot of a prompt for ChatGPT. It read: “Start training GPT-6, you can have the whole cluster. Extra goblins.”",
+      "full_article_text_chars": 2853,
+      "content_preview": "OpenAI has a goblin problem. Instructions designed to guide the behavior of the company’s latest model as it writes code have been revealed to include a line, repeated several times, that specifically forbids it from randomly mentioning an assortment of mythical and real creatures. “Never talk about goblins, gremlins, raccoons, trolls, ogres, pigeons, or other animals or creatures unless it is absolutely and unambiguously relevant to the user’s query,” read instructions in Codex CLI, a command-line tool for using AI to generate code. It is unclear why OpenAI felt compelled to spell this out for Codex—or indeed why its models might want to discuss goblins or pigeons in the first place. The company did not immediately respond to a request for comment. OpenAI’s newest model, GPT-5.5, was released with enhanced coding skills earlier this month. The company is in a fierce race with rivals, especially Anthropic, to deliver cutting-edge AI, and coding has emerged as a killer capability. In response to a post on X that highlighted the lines, however, some users claimed that OpenAI’s models occasionally become obsessed with goblins and other creatures when used to power OpenClaw, a tool that lets AI take control of a computer and apps running on it in order to do useful things for users. “I was wondering why my claw suddenly became a goblin with codex 5.5,” one user wrote on X. “Been using it a lot lately and it actually can't stop speaking of bugs as ‘gremlins’ and ‘goblins’ it's hilarious,” posted another. The discovery quickly became its own meme, inspiring AI-generated scenes of goblins in data centers, and plug-ins for Codex that put it in a playful “goblin mode.” AI models like GPT-5.5 are trained to predict the word—or code—that should follow a given prompt. These models have become so good at doing this that they appear to exhibit genuine intelligence. But their probabilistic nature means that they can sometimes behave in surprising ways. A model might become more prone to misbehavior when used with an “agentic harness” like OpenClaw that puts lots of additional instructions into prompts, such as facts stored in long-term memory. OpenAI acquired OpenClaw in February not long after the tool became a viral hit among AI enthusiasts. OpenClaw can use any AI model to automate useful tasks like answering emails or buying things on the web. Users can select any of various personae for their helper, which shapes its behavior and responses. OpenAI staffers appeared to acknowledge the prohibition. In response to a post highlighting OpenClaw’s goblin tendencies, Nik Pash, who works on Codex, wrote, “This is indeed one of the reasons.” Even Sam Altman, OpenAI’s CEO, joined in with the memes, posting a screenshot of a prompt for ChatGPT. It read: “Start training GPT-6, you can have the whole cluster. Extra goblins.”",
+      "content_preview_chars": 2853,
+      "content_fetched_at": "2026-04-29T02:20:28",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "e1b3be272f43da3e",
+      "source_url_hash": "e1b3be272f43da3e",
+      "canonical_url": "https://www.wired.com/story/model-behavior-elon-musk-testifies-at-musk-v-altman-trial",
+      "title_hash": "c15a8fe67033504b",
+      "topic_signature": "5a56d1e96d9f7917420b",
+      "title": "Elon Musk Testifies That He Started OpenAI to Prevent a ‘Terminator Outcome’",
+      "url": "https://www.wired.com/story/model-behavior-elon-musk-testifies-at-musk-v-altman-trial",
+      "source_name": "WIRED",
+      "source_url": "https://www.wired.com",
+      "source_published_at": "2026-04-28T21:35:17.224000Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 4.75,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-29T02:20:22",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 104,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 104,
+      "enrichment_fallback_used": "jsonld_article_body",
+      "fetched_title": "Elon Musk Testifies That He Started OpenAI to Prevent a ‘Terminator Outcome’",
+      "meta_description": "The judge also warned Musk and Sam Altman to curb their “propensity to use social media to make things worse outside the courtroom” after both sides traded attacks online.",
+      "article_images": [
+        {
+          "url": "https://media.wired.com/photos/69f0ecdcb1c2fecb9fce2560/191:100/w_1280,c_limit/Model-Behavior-Musk-Testifies-Business.jpg",
+          "alt": "Elon Musk Testifies That He Started OpenAI to Prevent a ‘Terminator Outcome’",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://media.wired.com/photos/69f0ecdcb1c2fecb9fce2560/master/w_2560%2Cc_limit/Model-Behavior-Musk-Testifies-Business.jpg",
+          "alt": "Image may contain Elon Musk Adult Person Clothing Formal Wear Suit Face Head Electrical Device and Microphone",
+          "source": "article_content"
+        },
+        {
+          "url": "https://media.wired.com/photos/645addcb0a0f9ed43773ef84/1:1/w_90%2Cc_limit/Paresh-Dave-4N9A0042.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://media.wired.com/photos/691ca24026b98e3f01dc3683/1:1/w_90%2Cc_limit/zeff_headshot_720_bw.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://media.wired.com/photos/69f0ecdcb1c2fecb9fce2560/191:100/w_1280,c_limit/Model-Behavior-Musk-Testifies-Business.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://media.wired.com/photos/69f0ecdcb1c2fecb9fce2560/master/w_2560%2Cc_limit/Model-Behavior-Musk-Testifies-Business.jpg",
+          "alt": "Image may contain Elon Musk Adult Person Clothing Formal Wear Suit Face Head Electrical Device and Microphone"
+        },
+        {
+          "url": "https://media.wired.com/photos/645addcb0a0f9ed43773ef84/1:1/w_90%2Cc_limit/Paresh-Dave-4N9A0042.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://media.wired.com/photos/691ca24026b98e3f01dc3683/1:1/w_90%2Cc_limit/zeff_headshot_720_bw.jpg",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "The trial in Musk’s lawsuit against Altman could result in financial damages and, more significantly, governance changes at OpenAI that may complicate its plans for an initial public offering as soon as this year. As the first witness on the stand, Musk immediately sought to frame his case as more than just about OpenAI. Siding with Altman “will give license to looting every charity in America” and shake the “entire foundation of charitable giving,” Musk told a panel of nine jurors advising US District Judge Yvonne Gonzalez Rogers on how to rule. Musk has been concerned about computers becoming smarter than people “since he was a young man in college,” his attorney Steven Molo told jurors. Molo explained that Musk lobbied governments to pass regulations addressing the prospect of so-called artificial general intelligence, including meeting with then-president Barack Obama in 2015. “But the government was not stepping up,” Molo said. “Elon felt he had to do something.” Around the same time, Musk met with Altman, a then-30-year-old investor “whom he didn’t know very well,” Molo said. They soon launched OpenAI together as a nonprofit. Google’s unchecked progress on AI development had sparked concerns for both OpenAI cofounders, and they wanted to create a competing lab with a greater focus on safety. “My perspective is [OpenAI] exists because Larry Page called me a speciesist for being pro-humanity,” Musk said, referring to the Google cofounder. “What would be the opposite of Google? An open-source nonprofit.” While Musk believes AI could cure diseases and generate prosperity for humanity, he also told the court that he thinks the technology could veer off into catastrophic scenarios straight out of science fiction. “It could also kill all of us … the Terminator outcome. I think we want to be in a movie … like Star Trek, not a James Cameron movie,” Musk said. (While Musk has long raised alarms about AI safety, his current firm, xAI, has been criticized by researchers at other AI labs for its “reckless” safety culture.) As OpenAI began notching some of its own successes, Musk and Altman agreed that a for-profit arm with fixed returns for investors was necessary to raise extraordinary sums of money needed to fund hiring and computing, according to Molo. He compared it to a nonprofit museum that receives some proceeds from a for-profit store. “I was not opposed to there being a small for-profit as long as the tail didn’t wag the dog,” Musk said on the stand. Musk felt that the approach had gone too far when Microsoft, another defendant in the trial, agreed to invest $10 billion in 2023, and OpenAI increasingly moved intellectual property and staff to the for-profit company. “The museum store sold the Picassos so they were locked up where no one could see them,” Molo said. OpenAI’s Rebuttal William Savitt, an attorney for OpenAI, told jurors that OpenAI never promised Musk that it would remain a nonprofit and publish all its code. “The evidence here will show what Musk says happened did not happen,” Savitt said. He added that Musk knew about plans to raise corporate investment exceeding $10 billion as far back as 2018. Musk even raised concerns about Microsoft’s involvement in a 2020 tweet. But he didn’t file a lawsuit until he founded a competitor, xAI, in 2023. Savitt asked the jury to invalidate Musk’s claims on the basis that the time limit for pursuing them had expired in 2021, when Musk was well aware of the issues he’s now raising. “It’s too late to gin up something to harm a competitor,” Savitt said. In OpenAI’s telling, it was Musk who didn’t live up to promises. He had pledged to invest up to $1 billion in the startup. Instead, he delivered about $38 million over five years. And while he professed a desire to keep superintelligence out of the hands of a single organization or individual, he proposed that himself or his car company, Tesla, have control over OpenAI. “When OpenAI refused to be absorbed into Musk’s empire, he just picked up his marbles and left,” Savitt said. Musk testified he wanted temporary control to ensure advancement in the “right direction.” In the courtroom, Musk sat among his lawyers at a table in front of the judge taking sips of water from a plastic bottle and blankly staring toward a monitor. Altman and OpenAI president Greg Brockman, a codefendant, were about 10 feet away in the public gallery behind their attorneys, with Altman alternating between looking at the judge and down toward the floor. Altman left just before Musk testified. OpenAI didn’t immediately respond to a request for comment on his departure. The day started with an OpenAI attorney complaining to the judge about “a barrage of tweets” posted and boosted by Musk on Monday they said were “inflammatory” and promoted “a nasty article,” apparently referring to a recent New Yorker profile questioning Altman’s character. When the judge questioned Musk about his activity, he said that he had been responding to earlier posts from OpenAI. The judge then called for a clean slate, and Musk and Altman agreed to stand down on social media for the duration of the trial. “Try to control—all of you—your propensity to use social media to make things worse outside the courtroom,” Gonzalez Rogers said. The trial forced Altman to miss a marketing event that Amazon Web Services held with OpenAI in San Francisco on Tuesday to unveil new efforts in agentic AI development. “Sorry I couldn't be there in person, but my schedule got taken away from me,” Altman said in a video recording played to the audience. Musk’s team repeatedly experienced problems with their wireless microphone during opening statements, bringing a moment of levity to an otherwise quiet and tense courtroom. “We are funded by the federal government,” Gonzalez Rogers said of the technical challenges, drawing laughs from the courtroom. “Is this the Microsoft cloud?” Molo asked. Musk will return to the stand on Wednesday, when OpenAI’s attorneys will get a chance to cross-examine him. This is an edition of Maxwell Zeff’s Model Behavior newsletter. Read previous newsletters here.",
+      "full_article_text_chars": 6129,
+      "content_preview": "The trial in Musk’s lawsuit against Altman could result in financial damages and, more significantly, governance changes at OpenAI that may complicate its plans for an initial public offering as soon as this year. As the first witness on the stand, Musk immediately sought to frame his case as more than just about OpenAI. Siding with Altman “will give license to looting every charity in America” and shake the “entire foundation of charitable giving,” Musk told a panel of nine jurors advising US District Judge Yvonne Gonzalez Rogers on how to rule. Musk has been concerned about computers becoming smarter than people “since he was a young man in college,” his attorney Steven Molo told jurors. Molo explained that Musk lobbied governments to pass regulations addressing the prospect of so-called artificial general intelligence, including meeting with then-president Barack Obama in 2015. “But the government was not stepping up,” Molo said. “Elon felt he had to do something.” Around the same time, Musk met with Altman, a then-30-year-old investor “whom he didn’t know very well,” Molo said. They soon launched OpenAI together as a nonprofit. Google’s unchecked progress on AI development had sparked concerns for both OpenAI cofounders, and they wanted to create a competing lab with a greater focus on safety. “My perspective is [OpenAI] exists because Larry Page called me a speciesist for being pro-humanity,” Musk said, referring to the Google cofounder. “What would be the opposite of Google? An open-source nonprofit.” While Musk believes AI could cure diseases and generate prosperity for humanity, he also told the court that he thinks the technology could veer off into catastrophic scenarios straight out of science fiction. “It could also kill all of us … the Terminator outcome. I think we want to be in a movie … like Star Trek, not a James Cameron movie,” Musk said. (While Musk has long raised alarms about AI safety, his current firm, xAI, has been criticized by researchers at other AI labs for its “reckless” safety culture.) As OpenAI began notching some of its own successes, Musk and Altman agreed that a for-profit arm with fixed returns for investors was necessary to raise extraordinary sums of money needed to fund hiring and computing, according to Molo. He compared it to a nonprofit museum that receives some proceeds from a for-profit store. “I was not opposed to there being a small for-profit as long as the tail didn’t wag the dog,” Musk said on the stand. Musk felt that the approach had gone too far when Microsoft, another defendant in the trial, agreed to invest $10 billion in 2023, and OpenAI increasingly moved intellectual property and staff to the for-profit company. “The museum store sold the Picassos so they were locked up where no one could see them,” Molo said. OpenAI’s Rebuttal William Savitt, an attorney for OpenAI, told jurors that OpenAI never promised Musk that it would remain a nonprofit and publish all its code. “The evidence here will show what Musk says happened did not happen,” Savitt said. He added that Musk knew about plans to raise corporate investment exceeding $10 billion as far back as 2018. Musk even raised concerns about Microsoft’s involvement in a 2020 tweet. But he didn’t file a lawsuit until he founded a competitor, xAI, in 2023. Savitt asked the jury to invalidate Musk’s claims on the basis that the time limit for pursuing them had expired in 2021, when Musk was well aware of the issues he’s now raising. “It’s too late to gin up something to harm a competitor,” Savitt said. In OpenAI’s telling, it was Musk who didn’t live up to promises. He had pledged to invest up to $1 billion in the startup. Instead, he delivered about $38 million over five years. And while he professed a desire to keep superintelligence out of the hands of a single organization or individual, he proposed that himself or his car company, Tesla, have control over OpenAI. “When OpenAI refused to be absorbed into Musk’s empire, he just picked up his marbles and left,” Savitt said. Musk testified he wanted temporary control to ensure advancement in the “right direction.” In the courtroom, Musk sat among his lawyers at a table in front of the judge taking sips of water from a plastic bottle and blankly staring toward a monitor. Altman and OpenAI president Greg Brockman, a codefendant, were about 10 feet away in the public gallery behind their attorneys, with Altman alternating between looking at the judge and down toward the floor. Altman left just before Musk testified. OpenAI didn’t immediately respond to a request for comment on his departure. The day started with an OpenAI attorney complaining to the judge about “a barrage of tweets” posted and boosted by Musk on Monday they said were “inflammatory” and promoted “a nasty article,” apparently referring to a recent New Yorker profile questioning Altman’s character. When the judge questioned Musk about his activity, he said that he had been responding to earlier posts from OpenAI. The judge then called for a clean slate, and Musk and Altman agreed to stand down on social media for the duration of the trial. “Try to control—all of you—your propensity to use social media to make things worse outside the courtroom,” Gonzalez Rogers said. The trial forced Altman to miss a marketing event that Amazon Web Services held with OpenAI in San Francisco on Tuesday to unveil new efforts in agentic AI development. “Sorry I couldn't be there in person, but my schedule got taken away from me,” Altman said in a video recording played to the audience. Musk’s team repeatedly experienced problems with their wireless microphone during opening statements, bringing a moment of levity to an otherwise quiet and tense courtroom. “We are funded by the federal government,” Gonzalez Rogers said of the technical challenges, drawing laughs from the courtroom. “Is this the Microsoft cloud?” Molo asked. Musk will return to the stand on Wednesday, when OpenAI’s attorneys will get a chance to cross-examine him. This is an edition of Maxwell Zeff’s Model Behavior newsletter. Read previous newsletters here.",
+      "content_preview_chars": 6129,
+      "content_fetched_at": "2026-04-29T02:20:32",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "2b2806f3f0a0538d",
+      "source_url_hash": "2b2806f3f0a0538d",
+      "canonical_url": "https://arstechnica.com/health/2026/04/flesh-eating-bacteria-devour-mans-arm-and-leg-in-just-three-days",
+      "title_hash": "266f2ab4589df5d9",
+      "topic_signature": "c419f9b9f07b70a2f7f9",
+      "title": "Flesh-eating bacteria devour man’s arm and leg in just three days",
+      "url": "https://arstechnica.com/health/2026/04/flesh-eating-bacteria-devour-mans-arm-and-leg-in-just-three-days",
+      "source_name": "Ars Technica",
+      "source_url": "https://arstechnica.com",
+      "source_published_at": "2026-04-28T20:15:04Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 6.09,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-29T02:20:22",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 59,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 59,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Flesh-eating bacteria devour man's arm and leg in just three days",
+      "meta_description": "When doctors saw him, his limbs were discolored and crackling.",
+      "article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/GettyImages-151039025-1152x648.jpg",
+          "alt": "Flesh-eating bacteria devour man's arm and leg in just three days",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/GettyImages-151039025-640x381.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2016/05/b.mole-45957.jpg",
+          "alt": "Photo of Beth Mole",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+          "alt": "Loading",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/GettyImages-151039025-1152x648.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/GettyImages-151039025-640x381.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2016/05/b.mole-45957.jpg",
+          "alt": "Photo of Beth Mole"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+          "alt": "Loading"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "A 74-year-old man went to an emergency department in Florida with rapidly rotting limbs after jumping into the waters off Florida’s Gulf Coast. Just three days earlier, the man was otherwise healthy and active on the coast. But at one point when he jumped into the water, he got a cut on his right leg. It quickly became painful and bruised. Two days later, the skin on his right arm also started changing color. According to a case report in the New England Journal of Medicine , by day three, when he arrived at the hospital, he was in dire shape. The lower half of his leg was darkly colored, indicating bleeding under his skin. Doctors noted a crackling sound, suggesting gases bubbling out of his dying flesh, and some of the outer layers of skin were peeling off. His arm wasn’t much better. It appeared red, discolored, and swollen. A large blood blister (a hemorrhagic bulla) had formed, suggesting a severe flesh-eating infection. (You can see a graphic image here , including an end image of his arm.) While the man was rushed into surgery to start cutting out the dead and infected tissue, doctors also began tests to find the cause of the infection. Blood and tissue samples turned up positive for Vibrio vulnificus , a flesh-eating bacterium found in warm, brackish waters. V. vulnificus can infect people two ways: through wounds exposed to contaminated water—as in the man’s case—or, more commonly, through contaminated seafood. The bacteria can take up residence in the stomachs of shellfish, particularly oysters, as well as the intestines of fish. Either route can be gruesome. When ingested, the bacteria can release enzymes that neutralize stomach acids, then from there storm the intestines and can enter the blood. These bacteria have a large arsenal of molecular munitions, including various toxins, that all help the bacteria hijack cells, siphon nutrients, degrade structural proteins, break down tissue linings, make blood vessels leaky, fuel destructive inflammation, suppress immune defenses, and generally lay waste to their victims. The overall mortality rate of V. vulnificus infections is about 35 percent. But for anyone infected who also has an immunocompromising condition or a liver condition, mortality reaches 50­–60 percent. Likewise, for those who develop sepsis—a life-threatening reaction to an infection—mortality is also about 50 percent. For patients like the man in this case, if antibiotics or surgical removal of necrotic tissue is delayed, mortality jumps to 100 percent. In this case, the man did not die. But his right leg was so far gone by the time he reached the hospital that he needed to have it amputated above the knee. His forearm, meanwhile, required extensive skin grafting, which was collected from elsewhere on his body. After an antibiotic regimen and six months of healing, doctors reported that he had healed well. The case highlighted that the threat of V. vulnificus is only increasing amid climate change, and medical experts see its rise as an urgent public health concern. Warming waters, geographic spread, and increases in antibiotic resistance are increasing risks. Between 1998 and 2018, US cases of V. vulnificus increased eightfold, including expanding into areas where the bacteria is considered rare, including Massachusetts, New Hampshire, and Maine. “The abundance and geographic range of V. vulnificus is projected to increase owing to factors related to climate change, including rising water temperatures, storm surges, salinity changes, and algal blooms,” the man’s doctors wrote. The Centers for Disease Control and Prevention advises that to avoid a Vibrio infection, only eat thoroughly cooked seafood and wash your hands after handling raw seafood. If you have an open wound, avoid going into brackish water or at least cover it tightly. If wounded while in brackish water or if an existing wound is exposed, wash it with soap and clean, running water.",
+      "full_article_text_chars": 3941,
+      "content_preview": "A 74-year-old man went to an emergency department in Florida with rapidly rotting limbs after jumping into the waters off Florida’s Gulf Coast. Just three days earlier, the man was otherwise healthy and active on the coast. But at one point when he jumped into the water, he got a cut on his right leg. It quickly became painful and bruised. Two days later, the skin on his right arm also started changing color. According to a case report in the New England Journal of Medicine , by day three, when he arrived at the hospital, he was in dire shape. The lower half of his leg was darkly colored, indicating bleeding under his skin. Doctors noted a crackling sound, suggesting gases bubbling out of his dying flesh, and some of the outer layers of skin were peeling off. His arm wasn’t much better. It appeared red, discolored, and swollen. A large blood blister (a hemorrhagic bulla) had formed, suggesting a severe flesh-eating infection. (You can see a graphic image here , including an end image of his arm.) While the man was rushed into surgery to start cutting out the dead and infected tissue, doctors also began tests to find the cause of the infection. Blood and tissue samples turned up positive for Vibrio vulnificus , a flesh-eating bacterium found in warm, brackish waters. V. vulnificus can infect people two ways: through wounds exposed to contaminated water—as in the man’s case—or, more commonly, through contaminated seafood. The bacteria can take up residence in the stomachs of shellfish, particularly oysters, as well as the intestines of fish. Either route can be gruesome. When ingested, the bacteria can release enzymes that neutralize stomach acids, then from there storm the intestines and can enter the blood. These bacteria have a large arsenal of molecular munitions, including various toxins, that all help the bacteria hijack cells, siphon nutrients, degrade structural proteins, break down tissue linings, make blood vessels leaky, fuel destructive inflammation, suppress immune defenses, and generally lay waste to their victims. The overall mortality rate of V. vulnificus infections is about 35 percent. But for anyone infected who also has an immunocompromising condition or a liver condition, mortality reaches 50­–60 percent. Likewise, for those who develop sepsis—a life-threatening reaction to an infection—mortality is also about 50 percent. For patients like the man in this case, if antibiotics or surgical removal of necrotic tissue is delayed, mortality jumps to 100 percent. In this case, the man did not die. But his right leg was so far gone by the time he reached the hospital that he needed to have it amputated above the knee. His forearm, meanwhile, required extensive skin grafting, which was collected from elsewhere on his body. After an antibiotic regimen and six months of healing, doctors reported that he had healed well. The case highlighted that the threat of V. vulnificus is only increasing amid climate change, and medical experts see its rise as an urgent public health concern. Warming waters, geographic spread, and increases in antibiotic resistance are increasing risks. Between 1998 and 2018, US cases of V. vulnificus increased eightfold, including expanding into areas where the bacteria is considered rare, including Massachusetts, New Hampshire, and Maine. “The abundance and geographic range of V. vulnificus is projected to increase owing to factors related to climate change, including rising water temperatures, storm surges, salinity changes, and algal blooms,” the man’s doctors wrote. The Centers for Disease Control and Prevention advises that to avoid a Vibrio infection, only eat thoroughly cooked seafood and wash your hands after handling raw seafood. If you have an open wound, avoid going into brackish water or at least cover it tightly. If wounded while in brackish water or if an existing wound is exposed, wash it with soap and clean, running water.",
+      "content_preview_chars": 3941,
+      "content_fetched_at": "2026-04-29T02:20:39",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "15edbd24379f0d28",
+      "source_url_hash": "15edbd24379f0d28",
+      "canonical_url": "https://arstechnica.com/gadgets/2026/04/no-fly-zones-around-moving-ice-vehicles-this-drone-pilot-fought-back-and-won",
+      "title_hash": "d8e7dcbf7d301698",
+      "topic_signature": "b8d44665d232a653b781",
+      "title": "Drone pilot makes US rescind no-fly zones around unmarked, moving ICE vehicles",
+      "url": "https://arstechnica.com/gadgets/2026/04/no-fly-zones-around-moving-ice-vehicles-this-drone-pilot-fought-back-and-won",
+      "source_name": "Ars Technica",
+      "source_url": "https://arstechnica.com",
+      "source_published_at": "2026-04-28T19:37:09Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 6.72,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-29T02:20:22",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 59,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 59,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Drone pilot makes US rescind no-fly zones around unmarked, moving ICE vehicles",
+      "meta_description": "Civil liberty concerns spur FAA to revise drone no-fly zones near ICE vehicles.",
+      "article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/powderhorn_jan_10-2560x1440.jpg",
+          "alt": "Drone pilot makes US rescind no-fly zones around unmarked, moving ICE vehicles",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/powderhorn_jan_10.jpg",
+          "alt": "An aerial photo taken by a drone from above shows wintry scene with a large crowd of people gathered in Powderhorn Park in Minneapolis on January 10, 2026 to protest the killing of Renee Good by an ICE agent.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+          "alt": "Loading",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2025/06/browser-security-threat-768x432.jpg",
+          "alt": "Listing image for first story in Most Read: Open source package with 1 million monthly downloads stole user credentials",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/powderhorn_jan_10-2560x1440.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/04/powderhorn_jan_10.jpg",
+          "alt": "An aerial photo taken by a drone from above shows wintry scene with a large crowd of people gathered in Powderhorn Park in Minneapolis on January 10, 2026 to protest the killing of Renee Good by an ICE agent."
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+          "alt": "Loading"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2025/06/browser-security-threat-768x432.jpg",
+          "alt": "Listing image for first story in Most Read: Open source package with 1 million monthly downloads stole user credentials"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "In January 2026, during the height of protests against immigration raids in Minneapolis, federal agents shot and killed 37-year-old Renee Good . Before even gathering all the facts , the Department of Homeland Security labeled the mother of three an “anti-ICE rioter” who “weaponized her vehicle against law enforcement” in an “act of domestic terrorism.” Days later, the feds announced a major expansion of “no-fly zones” in the name of national security. While such no-fly zones used to be about controlling aircraft, they now often focus on small drones. The expanded no-fly zones announced on January 16 prohibited such drones from flying within 3,000 lateral feet and 1,000 vertical feet of federal facilities. But for the first time, the order extended no-fly zones to ground vehicles belonging to the Department of Homeland Security. Even while the vehicles were in motion. Even if they were unmarked. And even if their routes had not been announced. This exceptionally ambiguous policy posed real danger to people like Rob Levine , a freelance photojournalist and commercial photographer in Minneapolis for nearly four decades. Since Levine got his remote-pilot certification and bought his first drone in 2016, he has flown a small fleet of DJI quadcopter drones to take aerial photographs and videos of Minnesota’s rivers, bridges, and cities, along with crowds gathered for outdoor concerts and parades. More recently, he has documented Twin City residents protesting the increased presence of federal agents in their community. Levine immediately stopped flying when he saw the no-fly notice. The notice said government agencies could shoot down or seize drones “deemed to pose a credible safety or security threat,” and it warned of civil and even criminal penalties for drone operators. “I saw what these federal agents were willing to do, the violence they were willing to visit upon even constitutional observers here in the Twin Cities who were just photographing what they were doing,” Levine told Ars. Good’s killing had occurred just six blocks from his home. “It didn’t take much imagination to think what they would do to somebody with a drone, and so for weeks I didn’t go fly,” he said. A week after the no-fly zone warning, the situation in Minneapolis escalated further when Customs and Border Protection officers killed Alex Pretti , a 37-year-old intensive care nurse, after wrestling him to the ground and shooting him multiple times. Levine wanted his drones back in the air. But when he sought guidance from the Federal Aviation Administration, the agency candidly acknowledged that the no-fly zone warning was “ambiguous” and “therefore, any flight carries the risk of inadvertent violation.” Could such a policy possibly be legal? Hidden no-fly zones The FAA had previously only advised that drone pilots avoid flying near “mobile assets” operated by the Department of Defense and Department of Energy, such as naval warships and truck convoys transporting nuclear materials between US national labs. But the “notice to airmen” alert in January— NOTAM FDC 6/4375 —had created the equivalent of roving, 3,000-foot no-fly zones around federal agents’ cars and other vehicles operating in cities and towns across the country. And it didn’t just affect those trying to film federal agents. Because it was practically impossible to ensure compliance with the new flight restrictions, any drone pilot could be at risk during any flight. “It created a whole lot of fear in the community,” said Vic Moss , CEO and cofounder of the Drone Service Providers Alliance, a drone industry trade association based in Lakewood, Colorado. In a post on March 11 , Moss described the FAA flight restriction as posing an “impossible compliance problem” for drone operators, who could end up “ensnared inside a restricted zone with no way of knowing it.” Drone pilots in the United States must use apps such as Air Control to seek official permission to fly in controlled airspaces. Any drones larger than 0.55 pounds must be registered with the FAA and have a Remote ID module that can “squawk” the drone’s identification and location at all times. That makes it easy for federal agents or authorities to see where drone operations are taking place. But the system provided no way for drone operators to avoid unmarked government vehicles in motion. The no-fly zone restrictions were also exceptional in their length and scope. The FAA regularly issues temporary flight restrictions during natural disasters or to protect the airspace around government officials and sporting events such as professional baseball or football games . Most restrictions last just hours or days and cover specific geographic locations, according to the Electronic Frontier Foundation . But the restrictions issued on January 16, 2026, would last until October 29, 2027—21 months—while covering many federal facilities and vehicles across the entire United States. Given these unprecedented restrictions, the Electronic Frontier Foundation joined other members of the News Media Coalition—an international organization that includes more than 50 news organizations—in sending a letter to the FAA’s Office of the Chief Counsel. The letter detailed “significant concerns regarding the FAA’s January 16, 2026 sweeping and unprecedented Temporary Flight Restriction.” It described the flight restrictions as violating the First Amendment by making it more difficult to record law enforcement officers. The letter also argued that the policy’s ambiguity violated the Fifth Amendment to the US Constitution, which guarantees the right to due process before being deprived of liberty or property by the government. Back in Minnesota, Levine spent weeks looking for lawyers who could help him challenge the FAA flight restriction as a freelance photojournalist—but he was racing against a deadline. One law firm alerted him that he had only 60 days to file a petition regarding the FAA decision. But he couldn’t find a law firm willing to back him. “To me, this was an obviously unconstitutional rule by the FAA,” Levine told Ars Technica. “Even when I was looking for a lawyer, I had a lot of sympathetic ears, but nobody offered to take the case or to even help me with it.” Levine eventually called a hotline for the Reporters Committee for Freedom of the Press , a nonprofit in Washington, DC, that offers free legal services. The organization took the case and filed a lawsuit, designated Levine v. FAA (26-1054), with the Court of Appeals for the DC Circuit on March 16. They had barely beaten the petition deadline. By March 16, it was common knowledge in the aviation industry that the FAA was aware of the issues and had prepared a revised version of its flight restriction notice, Moss said. But another federal agency was apparently holding up the revision. Many suspected that the agency responsible for the delay was the Department of Homeland Security (DHS). “I think anybody with more than four synapses firing at the same time can realize that this was a DHS issue,” Moss said. A Department of Homeland Security spokesperson told Ars only that “DHS routinely coordinates with the FAA on airspace restrictions to support operational security and safety of the Department.” On April 10, Levine and his lawyers pressed ahead by filing an emergency motion seeking to temporarily suspend the FAA flight restriction until the court had a chance to review the case. That may have expedited the government’s next move. On April 15, the FAA removed the no-fly zones by replacing the sweeping flight restrictions with a “national security advisory” titled NOTAM FDC 6/2824 . The revised notice dropped all mentions of flight restrictions and criminal charges. It instead “advised” drone pilots to avoid flying near “covered mobile assets” belonging to the Department of Homeland Security and several other federal agencies. The revised notice was intended to “clarify drone operations based on user feedback,” according to an FAA statement shared with Ars. An FAA spokesperson confirmed that “the revised NOTAM removes the flight prohibition and instead advises pilots to use caution near protected operations while enabling federal security partners to assess and respond to potential threats.” Levine and his lawyers were pleased. “First and foremost, our goal was to get the restriction thrown out so that Rob [Levine] and other journalists could be up in the air again,” said Grayson Clary , a staff attorney at the Reporters Committee for Freedom of the Press. “So on that front, we think this is already a victory.” But Clary still plans to press ahead with the lawsuit. “We’re cognizant that the FAA is doing this because they don’t want to have to defend what they did here on the merits in front of the DC Circuit, and we are going to fight back on that tactical gamesmanship,” Clary said. “We do plan to make clear to the DC Circuit that this shouldn’t have happened in the first place.” The lingering chill The new FAA advisory wording is “a lot better than it was,” but it still comes off as “too ambiguous,” according to Moss at the Drone Service Providers Alliance. He suggested that the Department of Homeland Security could handle any potential drone concerns rather than making it an FAA issue. “If there’s somebody harassing them with a drone, then I think there’s other ways that can be dealt with,” he said. The FAA advisory is also potentially problematic because it still creates a “chilling effect to dissuade people from taking photos and videos, particularly of immigration enforcement agents, from the air,” said Sophia Cope , a senior staff attorney at the Electronic Frontier Foundation. Like the earlier notice, the new advisory warns that federal agents can seize, damage, or destroy drones “deemed to pose a credible safety or security threat to covered mobile assets.” “The threats that [drones] present to the national security and mission of DHS are evolving, and the approaches to securing the locations and personnel of the Department must also evolve,” the Department of Homeland Security spokesperson said. “We ask that the [drone] user community respect the security of DHS operations, personnel and facilities and refrain from operating in vicinity of known enforcement activities, and all federal facilities.” The FAA advisory cites three existing laws as giving the federal agencies authority to seize or destroy drone threats. But those laws first require federal agencies to have performed risk-based assessments to identify specific drone threats to the covered assets. It’s unclear whether agencies have done those assessments, Cope said, and therefore, “they’re just disincentivizing people from engaging in lawful, First Amendment protected activity.” That chilling effect was very real for Levine while the initial flight restriction was in place. Hesitation cost him the chance to take aerial photos of protestors putting up roadblocks in his neighborhood to stop federal agents’ vehicles toward the end of the US government’s Operation Metro Surge . Even when a friend asked him to help take drone videos and photos of a performance art event on February 28, he had to think hard about the risks. As he tells it, “I eventually just screwed up my courage, as little as I have, and said ‘OK, I’m gonna do it.’”",
+      "full_article_text_chars": 11348,
+      "content_preview": "In January 2026, during the height of protests against immigration raids in Minneapolis, federal agents shot and killed 37-year-old Renee Good . Before even gathering all the facts , the Department of Homeland Security labeled the mother of three an “anti-ICE rioter” who “weaponized her vehicle against law enforcement” in an “act of domestic terrorism.” Days later, the feds announced a major expansion of “no-fly zones” in the name of national security. While such no-fly zones used to be about controlling aircraft, they now often focus on small drones. The expanded no-fly zones announced on January 16 prohibited such drones from flying within 3,000 lateral feet and 1,000 vertical feet of federal facilities. But for the first time, the order extended no-fly zones to ground vehicles belonging to the Department of Homeland Security. Even while the vehicles were in motion. Even if they were unmarked. And even if their routes had not been announced. This exceptionally ambiguous policy posed real danger to people like Rob Levine , a freelance photojournalist and commercial photographer in Minneapolis for nearly four decades. Since Levine got his remote-pilot certification and bought his first drone in 2016, he has flown a small fleet of DJI quadcopter drones to take aerial photographs and videos of Minnesota’s rivers, bridges, and cities, along with crowds gathered for outdoor concerts and parades. More recently, he has documented Twin City residents protesting the increased presence of federal agents in their community. Levine immediately stopped flying when he saw the no-fly notice. The notice said government agencies could shoot down or seize drones “deemed to pose a credible safety or security threat,” and it warned of civil and even criminal penalties for drone operators. “I saw what these federal agents were willing to do, the violence they were willing to visit upon even constitutional observers here in the Twin Cities who were just photographing what they were doing,” Levine told Ars. Good’s killing had occurred just six blocks from his home. “It didn’t take much imagination to think what they would do to somebody with a drone, and so for weeks I didn’t go fly,” he said. A week after the no-fly zone warning, the situation in Minneapolis escalated further when Customs and Border Protection officers killed Alex Pretti , a 37-year-old intensive care nurse, after wrestling him to the ground and shooting him multiple times. Levine wanted his drones back in the air. But when he sought guidance from the Federal Aviation Administration, the agency candidly acknowledged that the no-fly zone warning was “ambiguous” and “therefore, any flight carries the risk of inadvertent violation.” Could such a policy possibly be legal? Hidden no-fly zones The FAA had previously only advised that drone pilots avoid flying near “mobile assets” operated by the Department of Defense and Department of Energy, such as naval warships and truck convoys transporting nuclear materials between US national labs. But the “notice to airmen” alert in January— NOTAM FDC 6/4375 —had created the equivalent of roving, 3,000-foot no-fly zones around federal agents’ cars and other vehicles operating in cities and towns across the country. And it didn’t just affect those trying to film federal agents. Because it was practically impossible to ensure compliance with the new flight restrictions, any drone pilot could be at risk during any flight. “It created a whole lot of fear in the community,” said Vic Moss , CEO and cofounder of the Drone Service Providers Alliance, a drone industry trade association based in Lakewood, Colorado. In a post on March 11 , Moss described the FAA flight restriction as posing an “impossible compliance problem” for drone operators, who could end up “ensnared inside a restricted zone with no way of knowing it.” Drone pilots in the United States must use apps such as Air Control to seek official permission to fly in controlled airspaces. Any drones larger than 0.55 pounds must be registered with the FAA and have a Remote ID module that can “squawk” the drone’s identification and location at all times. That makes it easy for federal agents or authorities to see where drone operations are taking place. But the system provided no way for drone operators to avoid unmarked government vehicles in motion. The no-fly zone restrictions were also exceptional in their length and scope. The FAA regularly issues temporary flight restrictions during natural disasters or to protect the airspace around government officials and sporting events such as professional baseball or football games . Most restrictions last just hours or days and cover specific geographic locations, according to the Electronic Frontier Foundation . But the restrictions issued on January 16, 2026, would last until October 29, 2027—21 months—while covering many federal facilities and vehicles across the entire United States. Given these unprecedented restrictions, the Electronic Frontier Foundation joined other members of the News Media Coalition—an international organization that includes more than 50 news organizations—in sending a letter to the FAA’s Office of the Chief Counsel. The letter detailed “significant concerns regarding the FAA’s January 16, 2026 sweeping and unprecedented Temporary Flight Restriction.” It described the flight restrictions as violating the First Amendment by making it more difficult to record law enforcement officers. The letter also argued that the policy’s ambiguity violated the Fifth Amendment to the US Constitution, which guarantees the right to due process before being deprived of liberty or property by the government. Back in Minnesota, Levine spent weeks looking for lawyers who could help him challenge the FAA flight restriction as a freelance photojournalist—but he was racing against a deadline. One law firm alerted him that he had only 60 days to file a petition regarding the FAA decision. But he couldn’t find a law firm willing to back him. “To me, this was an obviously unconstitutional rule by the FAA,” Levine told Ars Technica. “Even when I was looking for a lawyer, I had a lot of sympathetic ears, but nobody offered to take the case or to even help me with it.” Levine eventually called a hotline for the Reporters Committee for Freedom of the Press , a nonprofit in Washington, DC, that offers free legal services. The organization took the case and filed a lawsuit, designated Levine v. FAA (26-1054), with the Court of Appeals for the DC Circuit on March 16. They had barely beaten the petition deadline. By March 16, it was common knowledge in the aviation industry that the FAA was aware of the issues and had prepared a revised version of its flight restriction notice, Moss said. But another federal agency was apparently holding up the revision. Many suspected that the agency responsible for the delay was the Department of Homeland Security (DHS). “I think anybody with more than four synapses firing at the same time can realize that this was a DHS issue,” Moss said. A Department of Homeland Security spokesperson told Ars only that “DHS routinely coordinates with the FAA on airspace restrictions to support operational security and safety of the Department.” On April 10, Levine and his lawyers pressed ahead by filing an emergency motion seeking to temporarily suspend the FAA flight restriction until the court had a chance to review the case. That may have expedited the government’s next move. On April 15, the FAA removed the no-fly zones by replacing the sweeping flight restrictions with a “national security advisory” titled NOTAM FDC 6/2824 . The revised notice dropped all mentions of flight restrictions and criminal charges. It instead “advised” drone pilots to avoid flying near “covered mobile assets” belonging to the Department of Homeland Security and several other federal agencies. The revised notice was intended to “clarify drone operations based on user feedback,” according to an FAA statement shared with Ars. An FAA spokesperson confirmed that “the revised NOTAM removes the flight prohibition and instead advises pilots to use caution near protected operations while enabling federal security partners to assess and respond to potential threats.” Levine and his lawyers were pleased. “First and foremost, our goal was to get the restriction thrown out so that Rob [Levine] and other journalists could be up in the air again,” said Grayson Clary , a staff attorney at the Reporters Committee for Freedom of the Press. “So on that front, we think this is already a victory.” But Clary still plans to press ahead with the lawsuit. “We’re cognizant that the FAA is doing this because they don’t want to have to defend what they did here on the merits in front of the DC Circuit, and we are going to fight back on that tactical gamesmanship,” Clary said.",
+      "content_preview_chars": 8887,
+      "content_fetched_at": "2026-04-29T02:20:40",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "c10b51644268f232",
+      "source_url_hash": "c10b51644268f232",
+      "canonical_url": "https://www.engadget.com/computing/laptops/asus-dual-screen-rog-zephyrus-duo-is-now-on-pre-order-starting-at-4500-130041463.html",
+      "title_hash": "727c53b30e6e0a47",
+      "topic_signature": "263016883c2e8d03ac56",
+      "title": "ASUS' dual-screen ROG Zephyrus Duo is now on pre-order starting at $4,500",
+      "url": "https://www.engadget.com/computing/laptops/asus-dual-screen-rog-zephyrus-duo-is-now-on-pre-order-starting-at-4500-130041463.html",
+      "source_name": "Engadget",
+      "source_url": "https://www.engadget.com",
+      "source_published_at": "2026-04-28T13:00:41Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 13.33,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-29T02:20:22",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 45,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 45,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "ASUS' dual-screen ROG Zephyrus Duo is now on pre-order starting at $4,500",
+      "meta_description": "ASUS is often best when it's weird, and this year at CES the company decided to resurrect one of its weirdest laptops ever: the ROG Zephyrus Duo.",
+      "article_images": [
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/nRXPTbwGHb4PA5EGOueQIQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02Nzg-/https://s.yimg.com/os/creatr-uploaded-images/2026-04/e9561250-42d7-11f1-bcfa-90d740373dac",
+          "alt": "ASUS' dual-screen ROG Zephyrus Duo is now on pre-order starting at $4,500",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/jTvwq.9dDCrzQ8wsoTeXCQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTgwO2g9ODA-/https://s.yimg.com/os/creatr-uploaded-images/2024-02/500d6260-d592-11ee-befa-a7ddcfcafe0d",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/OJttsj6ASs2rfz8V.1Dpiw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyNDI7aD03MDE-/https://s.yimg.com/os/creatr-uploaded-images/2026-04/e9561250-42d7-11f1-bcfa-90d740373dac",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/88JkGis0htE_lrWco_620g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTY0MQ--/https://s.yimg.com/os/creatr-uploaded-images/2026-04/31287360-42e3-11f1-aefe-02be2944aaa6",
+          "alt": "ASUS&#39;s dual-screen ROG Zephyrus Duo is making a comeback",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://s.yimg.com/ny/api/res/1.2/nRXPTbwGHb4PA5EGOueQIQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02Nzg-/https://s.yimg.com/os/creatr-uploaded-images/2026-04/e9561250-42d7-11f1-bcfa-90d740373dac",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/jTvwq.9dDCrzQ8wsoTeXCQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTgwO2g9ODA-/https://s.yimg.com/os/creatr-uploaded-images/2024-02/500d6260-d592-11ee-befa-a7ddcfcafe0d",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/OJttsj6ASs2rfz8V.1Dpiw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyNDI7aD03MDE-/https://s.yimg.com/os/creatr-uploaded-images/2026-04/e9561250-42d7-11f1-bcfa-90d740373dac",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/88JkGis0htE_lrWco_620g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTY0MQ--/https://s.yimg.com/os/creatr-uploaded-images/2026-04/31287360-42e3-11f1-aefe-02be2944aaa6",
+          "alt": "ASUS&#39;s dual-screen ROG Zephyrus Duo is making a comeback"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Engadget on Google",
+          "url": "https://www.google.com/preferences/source?q=engadget.com"
+        }
+      ],
+      "full_article_text": "ASUS is often best when it's weird, and this year at CES 2026 the company decided to resurrect one of its weirdest laptops ever: the ROG Zephyrus Duo. Unlike the last model from 2023 that had a smallish, tilting second screen, the 2026 model rocks massive dual 16-inch OLED displays that should make it an ideal content creation and gaming machine. ASUS has now opened up pre-orders for the Zephyrus Duo and revealed that pricing will start at a breathtaking $4,500. The Zephyrus Duo is the \"world's first 16-inch dual-screen gaming laptop,\" according to ASUS. It boasts a pair of 3K HDR OLED touchscreens that offer a combined 21 inches of diagonal screen space. They're DisplayHDR True Black 1000 certified, and can each hit 1,100 nits of peak HDR brightness. Both offer a 120Hz refresh rate and 0.2ms response time, though only the main screen supports NVIDIA G-Sync. Another important piece is the detachable magnetic Bluetooth keyboard. Despite the thin 5.1mm profile, it offers a generous 1.7mm of key travel and ultra-large touchpad. With the two hinging touch displays and the keyboard, it offers five dedicated operation modes. Dual Screen mode removes the keyboard altogether, Laptop mode provides a standard 16-inch screen and keyboard setup, Sharing mode sets the Duo flat at 180 degrees, Book mode sets both screens in a portrait orientation, and Tent mode has the hinge forming an A-frame. There's a lot of power under the hood, with a 16-core Intel Core Ultra 9 386H processor paired with an NVIDIA GeForce RTX 5070 or RTX 5090 laptop GPU with a max TGP of 135 watts. The latter is NVIDIA's flagship mobile GPU with the latest AI and gaming features including DLSS 4, frame generation and fourth-gen ray-tracing cores. It also comes with a redesigned motherboard and larger vapor chamber, along with dual fans to keep things cool. All of that is housed in a CNC-milled aluminum chassis with a new \"Stellar Grey\" colorway and \"Slash\" lighting array with 35 discrete zones. The Zyphyrus Duo is now available for pre-order from ASUS or partners including Newegg starting at $4,500 for the RTX 5070Ti version or (brace for it) $5,500 for the RTX 5090 version . Both models come with 32GB of memory and 1TB of PCIe 5.0 storage.",
+      "full_article_text_chars": 2237,
+      "content_preview": "ASUS is often best when it's weird, and this year at CES 2026 the company decided to resurrect one of its weirdest laptops ever: the ROG Zephyrus Duo. Unlike the last model from 2023 that had a smallish, tilting second screen, the 2026 model rocks massive dual 16-inch OLED displays that should make it an ideal content creation and gaming machine. ASUS has now opened up pre-orders for the Zephyrus Duo and revealed that pricing will start at a breathtaking $4,500. The Zephyrus Duo is the \"world's first 16-inch dual-screen gaming laptop,\" according to ASUS. It boasts a pair of 3K HDR OLED touchscreens that offer a combined 21 inches of diagonal screen space. They're DisplayHDR True Black 1000 certified, and can each hit 1,100 nits of peak HDR brightness. Both offer a 120Hz refresh rate and 0.2ms response time, though only the main screen supports NVIDIA G-Sync. Another important piece is the detachable magnetic Bluetooth keyboard. Despite the thin 5.1mm profile, it offers a generous 1.7mm of key travel and ultra-large touchpad. With the two hinging touch displays and the keyboard, it offers five dedicated operation modes. Dual Screen mode removes the keyboard altogether, Laptop mode provides a standard 16-inch screen and keyboard setup, Sharing mode sets the Duo flat at 180 degrees, Book mode sets both screens in a portrait orientation, and Tent mode has the hinge forming an A-frame. There's a lot of power under the hood, with a 16-core Intel Core Ultra 9 386H processor paired with an NVIDIA GeForce RTX 5070 or RTX 5090 laptop GPU with a max TGP of 135 watts. The latter is NVIDIA's flagship mobile GPU with the latest AI and gaming features including DLSS 4, frame generation and fourth-gen ray-tracing cores. It also comes with a redesigned motherboard and larger vapor chamber, along with dual fans to keep things cool. All of that is housed in a CNC-milled aluminum chassis with a new \"Stellar Grey\" colorway and \"Slash\" lighting array with 35 discrete zones. The Zyphyrus Duo is now available for pre-order from ASUS or partners including Newegg starting at $4,500 for the RTX 5070Ti version or (brace for it) $5,500 for the RTX 5090 version . Both models come with 32GB of memory and 1TB of PCIe 5.0 storage.",
+      "content_preview_chars": 2237,
+      "content_fetched_at": "2026-04-29T02:20:29",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "d66ad28491979e5d",
+      "source_url_hash": "d66ad28491979e5d",
+      "canonical_url": "https://www.engadget.com/audio/dji-mic-mini-2-review-the-tiny-wireless-mic-is-colorful-and-much-cheaper-120046171.html",
+      "title_hash": "1354473c2fe355b0",
+      "topic_signature": "9b60e9b3c7882b5e4356",
+      "title": "DJI Mic Mini 2 review: The tiny wireless mic is colorful and much cheaper",
+      "url": "https://www.engadget.com/audio/dji-mic-mini-2-review-the-tiny-wireless-mic-is-colorful-and-much-cheaper-120046171.html",
+      "source_name": "Engadget",
+      "source_url": "https://www.engadget.com",
+      "source_published_at": "2026-04-28T12:00:46Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 14.33,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-29T02:20:22",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 46,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 46,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "DJI Mic Mini 2 review: The tiny wireless mic is colorful and much cheaper",
+      "meta_description": "DJI’s Mic Mini 2 offers a great mix of sound quality, range and features at a very low price.",
+      "article_images": [
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/wl9G5KB5dgjZCqdyCojf4g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02OTI-/https://s.yimg.com/os/creatr-uploaded-images/2026-04/2ec33b00-4266-11f1-95f7-0f9a14d8491c",
+          "alt": "DJI Mic Mini 2 review: The tiny wireless mic is colorful and much cheaper",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://s.yimg.com/os/creatr-uploaded-images/2023-09/72819a70-4d9b-11ee-97ef-bc308af496e0",
+          "alt": "Engadget",
+          "source": "article_content"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/jTvwq.9dDCrzQ8wsoTeXCQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTgwO2g9ODA-/https://s.yimg.com/os/creatr-uploaded-images/2024-02/500d6260-d592-11ee-befa-a7ddcfcafe0d",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/bTacNwCh4yDxKzLF6BoGsg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyNDI7aD03MTY-/https://s.yimg.com/os/creatr-uploaded-images/2026-04/2ec33b00-4266-11f1-95f7-0f9a14d8491c",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://s.yimg.com/ny/api/res/1.2/wl9G5KB5dgjZCqdyCojf4g--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02OTI-/https://s.yimg.com/os/creatr-uploaded-images/2026-04/2ec33b00-4266-11f1-95f7-0f9a14d8491c",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://s.yimg.com/os/creatr-uploaded-images/2023-09/72819a70-4d9b-11ee-97ef-bc308af496e0",
+          "alt": "Engadget"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/jTvwq.9dDCrzQ8wsoTeXCQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTgwO2g9ODA-/https://s.yimg.com/os/creatr-uploaded-images/2024-02/500d6260-d592-11ee-befa-a7ddcfcafe0d",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/bTacNwCh4yDxKzLF6BoGsg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyNDI7aD03MTY-/https://s.yimg.com/os/creatr-uploaded-images/2026-04/2ec33b00-4266-11f1-95f7-0f9a14d8491c",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Engadget on Google",
+          "url": "https://www.google.com/preferences/source?q=engadget.com"
+        }
+      ],
+      "full_article_text": "Not long ago, high-quality wireless mic systems cost over $500 and required a bulky transmitter and lav mic wire tucked under the subject’s shirt. DJI’s Mic Mini showed how unnecessary all of that was, combining mic and transmitter into a 0.35-ounce device that delivered high quality sound for under $100. Now, DJI has released the Mic Mini 2 (around $100) as a mild update to the original at a much lower price. It’s more fashion forward thanks to the colorful new magnetic covers and offers an audio upgrade via new voice tone presets. Those changes make it the best budget wireless mic for new buyers, but it’s not worth the upgrade if you already have a Mic Mini — and DJI’s flagship Mic 3 is better if you can afford it. However, beware that the Mic Mini 2 isn’t currently on sale in the US as it hasn’t yet been certified by the Federal Communications Commission (FCC). DJI’s Mic Mini 2 offers a great mix of sound quality, range and features at a very low price. Very mild upgrade from the Mic Mini Design and features The Mic Mini 2 now comes in two packages for smartphone and camera users. One includes a receiver with a 3.5mm mic output for mirrorless cameras, while the other offers a mobile receiver with a USB-C port for smartphones. Both kits include a charging case, one or two transmitters (mics) and a receiver. You also get a magnetic mount, clip mount, black and white magnetic front covers and a windscreen for each mic. The camera kit includes a smartphone adapter as well. The camera kit contains 10 mic covers in a rainbow of hues that look like they were borrowed from ‘90s iMacs, letting you match a subject’s clothing or add a pop of color. They all have a huge, distracting DJI logo, though, so many creators may want to cover it with a piece of tape. DJI also has optional designer front covers with four very ‘90s looking abstract patterns in several pastel shades, available for around $45. DJI has changed the transmitter design slightly from the previous model's faceted shape to a flatter design to better accommodate the new magnetic covers. The mic portion also weighs slightly more at 0.39 ounces. Though tiny, each mic is rated to run up to 11.5 hours on a charge, and the receiver is supposed to go for about 10.5 hours with noise cancellation disabled. In my own testing (recording continuously with a looped video as an audio source), I was even able to slightly exceed these times, so you could easily use it for a full shooting day. This is better than nearly all rivals including the Rode Wireless Go III, which is rated for seven hours on a charge. Another wireless mic in this price range, the Hollyland Lark M2, has a stated runtime of 10 hours between charges. As before, the transmitters and receiver snap into the charging case magnetically. The mobile charging case is small enough to slide into a pants pocket, while the larger camera version fits into a jacket pocket or a bag. On top of being a convenient way to store the transmitters and receiver, they can charge the mics and receiver 3.6 times, giving you 48 hours of use even without a wall plug in sight. It took me about two hours to charge all three devices in the camera case and about an hour to charge the smaller receiver and single transmitter with the mobile case. The Mic Mini 2 transmitters can be paired directly with smartphones via Bluetooth or you can connect them to DJI cameras like the Osmo Action 6, Osmo 360 and Osmo Pocket 4 via DJI’s OsmoAudio system. To use the Mic Mini 2, just affix the mics (transmitters) to your subject, either via the clip or magnetic attachment, and turn them on. Then, power up the receiver and connect it to your camera via a 3.5mm cable or plug it into your smartphone’s USB-C port. Everything pairs automatically, and the final step is to adjust the level between -12 db and +12 db using the dial on the side (camera receiver only). Noise reduction is set via a switch on the mobile receiver, or the Mimo app for the camera receiver. There are a few major differences between DJI’s Mic Mini 2 and the more expensive flagship Mic 3 when it comes to audio specs. The biggest is that the Mic 3 supports 32-bit float internal recording (with 32GB of storage) that eliminates clipping in most situations, even if your levels are too high. It also comes with dynamic gain control to balance volume if your subject tends to lower or raise their voice a lot. In comparison, the Mic Mini 2 only offers automatic limiting, which does prevent clipping but can reduce audio quality. It also offers no internal recording so you won’t have a backup if your camera or smartphone recording fails. The Mic Mini 2 also lacks an audio level display like the Mic 3. Despite those limitations, the 48Khz, 24-bit audio quality on the Mic Mini 2 is excellent. I recorded my voice using all three voice tone presets, and found that I could use the “rich” mode (which emphasizes low tones) without the need to do equalization in post. The “regular” setting offers neutral and balanced sound, while the “bright” mode adds clarity in noisy situations. If you prefer doing EQ yourself, the regular mode is best. A good test of a microphone is to record your voice and then max out EQ levels in a narrow band across a range of frequencies. A mediocre mic will distort audio in more than one range, reducing sound quality. DJI’s Mic Mini 2 performed well here, showing minor distortion for my voice only at one frequency. When I reduced the gain at that range, my voiceovers sounded clear and full. Another key feature is noise cancellation. DJI’s Mic Mini 2 offers two levels of AI-powered cancellation depending on the amount of background noise. At the low setting, it reduced background noise but produced some distortion. However, the high level noise cancellation distorts audio considerably, so you should only use it in a pinch when noise is excessive. I also tested the Mic Mini 2’s wireless range and was able to record audio at 450 yards away from the receiver as DJI claims, though the device disconnected once at that distance. The Mic Mini 2 retains other functions from the original Mini like automatic limiting to prevent clipping. It supports two mics at once, and when used in Stereo mode, lets you capture each mic to a separate channel so you can mix them later on. To set those functions, you need to use DJI’s Mimo smartphone app. The Mic Mini 2 is now available in Europe and elsewhere but not yet the US due to lack of certification. It costs almost half as much as the Mic Mini did at launch, just €89/£89 for the camera kit with two transmitters and a receiver, or €49/£54 for the mobile kit with one transmitter and a receiver. Given the features and price, the Mic Mini 2 doesn’t have a lot of competition. One of its main rivals is the Rode Wireless Go III, but that model is double the price and lacks noise cancellation. It does have slightly better audio quality, though. Other options in the same price range from Hollyland, Boya and others either can’t connect to both a camera and smartphone or don’t stack up in terms of sound quality and features. Overall the Mic Mini 2 offers a great combination of range, audio quality and noise cancellation. It’s not worth an upgrade from the Mic Mini, but if you’re buying your first wireless mic and don’t want to spend a bundle, it’s a great option.",
+      "full_article_text_chars": 7358,
+      "content_preview": "Not long ago, high-quality wireless mic systems cost over $500 and required a bulky transmitter and lav mic wire tucked under the subject’s shirt. DJI’s Mic Mini showed how unnecessary all of that was, combining mic and transmitter into a 0.35-ounce device that delivered high quality sound for under $100. Now, DJI has released the Mic Mini 2 (around $100) as a mild update to the original at a much lower price. It’s more fashion forward thanks to the colorful new magnetic covers and offers an audio upgrade via new voice tone presets. Those changes make it the best budget wireless mic for new buyers, but it’s not worth the upgrade if you already have a Mic Mini — and DJI’s flagship Mic 3 is better if you can afford it. However, beware that the Mic Mini 2 isn’t currently on sale in the US as it hasn’t yet been certified by the Federal Communications Commission (FCC). DJI’s Mic Mini 2 offers a great mix of sound quality, range and features at a very low price. Very mild upgrade from the Mic Mini Design and features The Mic Mini 2 now comes in two packages for smartphone and camera users. One includes a receiver with a 3.5mm mic output for mirrorless cameras, while the other offers a mobile receiver with a USB-C port for smartphones. Both kits include a charging case, one or two transmitters (mics) and a receiver. You also get a magnetic mount, clip mount, black and white magnetic front covers and a windscreen for each mic. The camera kit includes a smartphone adapter as well. The camera kit contains 10 mic covers in a rainbow of hues that look like they were borrowed from ‘90s iMacs, letting you match a subject’s clothing or add a pop of color. They all have a huge, distracting DJI logo, though, so many creators may want to cover it with a piece of tape. DJI also has optional designer front covers with four very ‘90s looking abstract patterns in several pastel shades, available for around $45. DJI has changed the transmitter design slightly from the previous model's faceted shape to a flatter design to better accommodate the new magnetic covers. The mic portion also weighs slightly more at 0.39 ounces. Though tiny, each mic is rated to run up to 11.5 hours on a charge, and the receiver is supposed to go for about 10.5 hours with noise cancellation disabled. In my own testing (recording continuously with a looped video as an audio source), I was even able to slightly exceed these times, so you could easily use it for a full shooting day. This is better than nearly all rivals including the Rode Wireless Go III, which is rated for seven hours on a charge. Another wireless mic in this price range, the Hollyland Lark M2, has a stated runtime of 10 hours between charges. As before, the transmitters and receiver snap into the charging case magnetically. The mobile charging case is small enough to slide into a pants pocket, while the larger camera version fits into a jacket pocket or a bag. On top of being a convenient way to store the transmitters and receiver, they can charge the mics and receiver 3.6 times, giving you 48 hours of use even without a wall plug in sight. It took me about two hours to charge all three devices in the camera case and about an hour to charge the smaller receiver and single transmitter with the mobile case. The Mic Mini 2 transmitters can be paired directly with smartphones via Bluetooth or you can connect them to DJI cameras like the Osmo Action 6, Osmo 360 and Osmo Pocket 4 via DJI’s OsmoAudio system. To use the Mic Mini 2, just affix the mics (transmitters) to your subject, either via the clip or magnetic attachment, and turn them on. Then, power up the receiver and connect it to your camera via a 3.5mm cable or plug it into your smartphone’s USB-C port. Everything pairs automatically, and the final step is to adjust the level between -12 db and +12 db using the dial on the side (camera receiver only). Noise reduction is set via a switch on the mobile receiver, or the Mimo app for the camera receiver. There are a few major differences between DJI’s Mic Mini 2 and the more expensive flagship Mic 3 when it comes to audio specs. The biggest is that the Mic 3 supports 32-bit float internal recording (with 32GB of storage) that eliminates clipping in most situations, even if your levels are too high. It also comes with dynamic gain control to balance volume if your subject tends to lower or raise their voice a lot. In comparison, the Mic Mini 2 only offers automatic limiting, which does prevent clipping but can reduce audio quality. It also offers no internal recording so you won’t have a backup if your camera or smartphone recording fails. The Mic Mini 2 also lacks an audio level display like the Mic 3. Despite those limitations, the 48Khz, 24-bit audio quality on the Mic Mini 2 is excellent. I recorded my voice using all three voice tone presets, and found that I could use the “rich” mode (which emphasizes low tones) without the need to do equalization in post. The “regular” setting offers neutral and balanced sound, while the “bright” mode adds clarity in noisy situations. If you prefer doing EQ yourself, the regular mode is best. A good test of a microphone is to record your voice and then max out EQ levels in a narrow band across a range of frequencies. A mediocre mic will distort audio in more than one range, reducing sound quality. DJI’s Mic Mini 2 performed well here, showing minor distortion for my voice only at one frequency. When I reduced the gain at that range, my voiceovers sounded clear and full. Another key feature is noise cancellation. DJI’s Mic Mini 2 offers two levels of AI-powered cancellation depending on the amount of background noise. At the low setting, it reduced background noise but produced some distortion. However, the high level noise cancellation distorts audio considerably, so you should only use it in a pinch when noise is excessive. I also tested the Mic Mini 2’s wireless range and was able to record audio at 450 yards away from the receiver as DJI claims, though the device disconnected once at that distance. The Mic Mini 2 retains other functions from the original Mini like automatic limiting to prevent clipping. It supports two mics at once, and when used in Stereo mode, lets you capture each mic to a separate channel so you can mix them later on. To set those functions, you need to use DJI’s Mimo smartphone app. The Mic Mini 2 is now available in Europe and elsewhere but not yet the US due to lack of certification. It costs almost half as much as the Mic Mini did at launch, just €89/£89 for the camera kit with two transmitters and a receiver, or €49/£54 for the mobile kit with one transmitter and a receiver. Given the features and price, the Mic Mini 2 doesn’t have a lot of competition. One of its main rivals is the Rode Wireless Go III, but that model is double the price and lacks noise cancellation. It does have slightly better audio quality, though. Other options in the same price range from Hollyland, Boya and others either can’t connect to both a camera and smartphone or don’t stack up in terms of sound quality and features. Overall the Mic Mini 2 offers a great combination of range, audio quality and noise cancellation. It’s not worth an upgrade from the Mic Mini, but if you’re buying your first wireless mic and don’t want to spend a bundle, it’s a great option.",
+      "content_preview_chars": 7358,
+      "content_fetched_at": "2026-04-29T02:20:35",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "18147998e510ac64",
+      "source_url_hash": "18147998e510ac64",
+      "canonical_url": "https://www.engadget.com/gaming/pc/the-g512-x-is-logitechs-most-advanced-and-customizable-gaming-keyboard-yet-070100610.html",
+      "title_hash": "46cb3ca095cc35ee",
+      "topic_signature": "221b41130095b0d8342f",
+      "title": "The G512 X is Logitech’s most advanced and customizable gaming keyboard yet",
+      "url": "https://www.engadget.com/gaming/pc/the-g512-x-is-logitechs-most-advanced-and-customizable-gaming-keyboard-yet-070100610.html",
+      "source_name": "Engadget",
+      "source_url": "https://www.engadget.com",
+      "source_published_at": "2026-04-28T07:01:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 19.32,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-29T02:20:22",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 45,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 45,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "The G512 X is Logitech’s most advanced and customizable gaming keyboard yet",
+      "meta_description": "Featuring support for both mechanical and analog switch with TMR sensors, rapid trigger tech and an 8K polling rate, the Logitech G512 X might be Logitech's fanciest and most customizable gaming keyboard to date.",
+      "article_images": [
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/L5LEt4SE85OMz8GGFymJjg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzU-/https://d29szjachogqwa.cloudfront.net/images/user-uploaded/high-resolution-png-g512-x-75-g512-x-98-kv-white-black-prod-16x9_5493.png",
+          "alt": "The G512 X is Logitech’s most advanced and customizable gaming keyboard yet",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/i5.smExwDJ1LOOa3Sj0bqQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTgwO2g9ODA-/https://o.aolcdn.com/images/dims?image_uri=https%3A%2F%2Fo.aolcdn.com%2Fimages%2Fdims%3Fimage_uri%3Dhttps%253A%252F%252Fs.yimg.com%252Fos%252Fcreatr-uploaded-images%252F2022-01%252Fe6f476b0-73d2-11ec-b5f7-793df213f3fa%26compress%3D1%26progressive%3D1%26quality%3D75%26client%3Dhawkeye%26signature%3D16e9c79d9723047b8fac9392a7bdec0c030dffe5&compress=1&progressive=1&quality=75&client=hawkeye&signature=2f15a5d632b96edc05ee55a7e1545f195a5b6140",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/3TAjEpn7vunsrcZ2ISr5ZQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyNDI7aD02OTk-/https://s.yimg.com/uu/api/res/1.2/pLMdmk7Q0CYCVbYYfD1tbQ--~B/aD0xMDgwO3c9MTkyMDthcHBpZD15dGFjaHlvbg--/https://d29szjachogqwa.cloudfront.net/images/user-uploaded/high-resolution-png-g512-x-75-g512-x-98-kv-white-black-prod-16x9_5493.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/k5oVUzns1RdZ0U96N8edmw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTU0MA--/https://d29szjachogqwa.cloudfront.net/images/user-uploaded/high-resolution-png-g512-x-white-kv-dual-swap-16x9_4903.png",
+          "alt": "The 39 TMR sensors on the left of the keyboard are the ones that support the included TMR switches. ",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://s.yimg.com/ny/api/res/1.2/L5LEt4SE85OMz8GGFymJjg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyMDA7aD02NzU-/https://d29szjachogqwa.cloudfront.net/images/user-uploaded/high-resolution-png-g512-x-75-g512-x-98-kv-white-black-prod-16x9_5493.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/i5.smExwDJ1LOOa3Sj0bqQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTgwO2g9ODA-/https://o.aolcdn.com/images/dims?image_uri=https%3A%2F%2Fo.aolcdn.com%2Fimages%2Fdims%3Fimage_uri%3Dhttps%253A%252F%252Fs.yimg.com%252Fos%252Fcreatr-uploaded-images%252F2022-01%252Fe6f476b0-73d2-11ec-b5f7-793df213f3fa%26compress%3D1%26progressive%3D1%26quality%3D75%26client%3Dhawkeye%26signature%3D16e9c79d9723047b8fac9392a7bdec0c030dffe5&compress=1&progressive=1&quality=75&client=hawkeye&signature=2f15a5d632b96edc05ee55a7e1545f195a5b6140",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/3TAjEpn7vunsrcZ2ISr5ZQ--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyNDI7aD02OTk-/https://s.yimg.com/uu/api/res/1.2/pLMdmk7Q0CYCVbYYfD1tbQ--~B/aD0xMDgwO3c9MTkyMDthcHBpZD15dGFjaHlvbg--/https://d29szjachogqwa.cloudfront.net/images/user-uploaded/high-resolution-png-g512-x-75-g512-x-98-kv-white-black-prod-16x9_5493.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://s.yimg.com/ny/api/res/1.2/k5oVUzns1RdZ0U96N8edmw--/YXBwaWQ9aGlnaGxhbmRlcjt3PTk2MDtoPTU0MA--/https://d29szjachogqwa.cloudfront.net/images/user-uploaded/high-resolution-png-g512-x-white-kv-dual-swap-16x9_4903.png",
+          "alt": "The 39 TMR sensors on the left of the keyboard are the ones that support the included TMR switches. "
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Engadget on Google",
+          "url": "https://www.google.com/preferences/source?q=engadget.com"
+        }
+      ],
+      "full_article_text": "Thanks to the adoption of features like rapid triggers, analog switches and TMR sensors, the tech in fancy gaming keyboards has changed surprisingly quickly in the past few years. So to keep up with the pace of development, Logitech is putting a bunch of advanced components in its latest flagship offering — the G512 X — to create what may be its most configurable keyboard to date. Available in both 75 and 98 percent layouts, the G512 X is based on a novel design that supports both mechanical and analog switches. Out of the box, every key features PBT keycaps and uses one of Logitech's MX mechanical switches. However, for important buttons like WASD, users can swap in up to nine bundled Gateron KS-20 magnetic analog switches. This means that when combined with the keyboard's 39 tunneling magnetoresistance (TMR) switch beds, users can enable support for customizable rapid triggers and multipoint actuation, complete with five bundled second actuation pressure point (SAPP) rings in case you need even more control over every keystroke. The one potential downside is that Logitech only added TMR switch beds to the left side of the keyboard, so if you prefer more unusual keybinds, you won't have quite as many configuration options. Meanwhile, to meet the demands of competitive gamers who need lightning-fast response times, Logitech added an 8K polling rate. This includes both 8K reporting and processing to deliver input times of just 0.125 milliseconds. Elsewhere, the G512 X comes with dual dials, a large RGB lightbar and game mode presets — all of which can be tweaked in Logitech's G Hub app. However, the coolest thing about the G512 X might be all the handy little details scattered across the keyboard. For example, its adjustable feet serve double duty as keycap and switch pullers, so when you want to adjust your layout, you won't need to go searching elsewhere for the right tool. On top of that, there is built-in storage for the nine included magnetic analog switches and five SAPP rings, so you'll always have them on hand if you want to make changes. Finally, while it is an optional accessory, Logitech created a transparent palm rest with a laser-etched surface that will enhance the G512 X's onboard RGB lighting. Unfortunately, at $180 for the 75 percent layout or $200 for the 98 percent model, the G512 X is a bit pricey. And unlike some other members of Logitech's G5 family, there's no option for a wireless variant. But if you want a keyboard with practically all the latest tech and a ton of customizability (including the ability to select linear, tactile or clicky switches), the G512 X is a very intriguing option for demanding gamers. The G512 X is available directly from Logitech today, with wider availability slated for May 2. If you buy something through a link in this article, we may earn commission.",
+      "full_article_text_chars": 2852,
+      "content_preview": "Thanks to the adoption of features like rapid triggers, analog switches and TMR sensors, the tech in fancy gaming keyboards has changed surprisingly quickly in the past few years. So to keep up with the pace of development, Logitech is putting a bunch of advanced components in its latest flagship offering — the G512 X — to create what may be its most configurable keyboard to date. Available in both 75 and 98 percent layouts, the G512 X is based on a novel design that supports both mechanical and analog switches. Out of the box, every key features PBT keycaps and uses one of Logitech's MX mechanical switches. However, for important buttons like WASD, users can swap in up to nine bundled Gateron KS-20 magnetic analog switches. This means that when combined with the keyboard's 39 tunneling magnetoresistance (TMR) switch beds, users can enable support for customizable rapid triggers and multipoint actuation, complete with five bundled second actuation pressure point (SAPP) rings in case you need even more control over every keystroke. The one potential downside is that Logitech only added TMR switch beds to the left side of the keyboard, so if you prefer more unusual keybinds, you won't have quite as many configuration options. Meanwhile, to meet the demands of competitive gamers who need lightning-fast response times, Logitech added an 8K polling rate. This includes both 8K reporting and processing to deliver input times of just 0.125 milliseconds. Elsewhere, the G512 X comes with dual dials, a large RGB lightbar and game mode presets — all of which can be tweaked in Logitech's G Hub app. However, the coolest thing about the G512 X might be all the handy little details scattered across the keyboard. For example, its adjustable feet serve double duty as keycap and switch pullers, so when you want to adjust your layout, you won't need to go searching elsewhere for the right tool. On top of that, there is built-in storage for the nine included magnetic analog switches and five SAPP rings, so you'll always have them on hand if you want to make changes. Finally, while it is an optional accessory, Logitech created a transparent palm rest with a laser-etched surface that will enhance the G512 X's onboard RGB lighting. Unfortunately, at $180 for the 75 percent layout or $200 for the 98 percent model, the G512 X is a bit pricey. And unlike some other members of Logitech's G5 family, there's no option for a wireless variant. But if you want a keyboard with practically all the latest tech and a ton of customizability (including the ability to select linear, tactile or clicky switches), the G512 X is a very intriguing option for demanding gamers. The G512 X is available directly from Logitech today, with wider availability slated for May 2. If you buy something through a link in this article, we may earn commission.",
+      "content_preview_chars": 2852,
+      "content_fetched_at": "2026-04-29T02:20:30",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "965be8c04bfb40f2",
+      "source_url_hash": "965be8c04bfb40f2",
+      "canonical_url": "https://9to5mac.com/2026/04/27/heres-what-apple-showcased-at-iclr-2026-one-of-the-worlds-biggest-ai-conferences",
+      "title_hash": "c1f78055d31fa0da",
+      "topic_signature": "b650f48ea8954324a565",
+      "title": "Here’s what Apple showcased at ICLR 2026, one of the world’s biggest AI conferences",
+      "url": "https://9to5mac.com/2026/04/27/heres-what-apple-showcased-at-iclr-2026-one-of-the-worlds-biggest-ai-conferences",
+      "source_name": "9to5Mac",
+      "source_url": "https://9to5mac.com",
+      "source_published_at": "2026-04-27T22:27:04Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 27.89,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-29T02:20:22",
+      "status": "ready",
+      "score": 6,
+      "priority": "medium",
+      "source_links_removed_count": 79,
+      "affiliate_links_removed_count": 7,
+      "removed_source_links_count": 79,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Here’s what Apple showcased at ICLR 2026 - 9to5Mac",
+      "meta_description": "ICLR 2026 is wrapping up today, closing out nearly a week of presentations, debates, and research showcases from leading AI scientists across academia and the tech industry, including Apple.",
+      "article_images": [
+        {
+          "url": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2025/07/machine-learning-research.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+          "alt": "Here’s what Apple showcased at ICLR 2026 - 9to5Mac",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2025/07/machine-learning-research.jpg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/04/iclr-2026-06.jpg?quality=82&strip=all&w=1024",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/04/iclr-2026-07.jpg?quality=82&strip=all&w=1024",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2025/07/machine-learning-research.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2025/07/machine-learning-research.jpg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/04/iclr-2026-06.jpg?quality=82&strip=all&w=1024",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/04/iclr-2026-07.jpg?quality=82&strip=all&w=1024",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2F9to5mac.com"
+        }
+      ],
+      "full_article_text": "The fourteenth International Conference on Learning Representation (ICLR) is wrapping up today in Rio de Janeiro, closing out nearly a week of presentations, debates, and research showcases from leading AI scientists across academia and the tech industry, including Apple. Here’s what the company presented. Apple showcased dozens of studies at ICLR 2026 While ICLR may not be widely known to the general public, it has been regarded for more than a decade as one of the most renowned and prestigious conferences in machine learning. This year , it ran from April 23 through 27 and occupied the four pavilions and the conference center of the Riocentro Convention Center in Rio de Janeiro. ICLR 2026 drew machine learning and artificial intelligence specialists and researchers (including AMI Labs’ Yann LeCun) from all over the world, from China to India to the United States and across Europe. It also brought together major technology companies as sponsors and exhibitors, including Amazon, Tencent, Google, Microsoft, Ant Group, ByteDance, Huawei, Meta, Salesforce, Shopify, and Apple, as well as firms from Wall Street and the broader financial industry, such as Capital One, Jane Street, Citadel Securities, and others. As Apple announced a few days ago, the company had a booth at the event, where it showcased SHARP, an impressive open-source model that turns 2D images into 3D spaces in just a few seconds, as well as LLM inference on MLX , Apple’s open-source framework for machine learning tasks running on Apple Silicon. Apple’s booth also doubled as a recruiting hub, with iPads set up for attendees to scan QR codes and apply for machine learning roles on the spot. That was by no means exclusive to Apple, as most companies on the show floor were also using the event as a hiring pipeline for AI talent. ICLR also featured gigantic poster areas, where researchers presented their work and answered questions about their studies. During the event, Apple showcased dozens of papers, all of which you can find here . Apple also delivered presentations and workshops on some of the studies accepted for the conference. That included ParaRNN: Unlocking Parallel Training of Nonlinear RNNs for Large Language Models , presented by Federico Danieli, and Cram Less to Fit More: Training Data Pruning Improves Memorization of Facts , presented by Kunal Talwar. To learn more about the studies Apple presented at ICLR 2026, follow this link . David Pogue – ’Apple: The First 50 Years’ AirTag (2nd Generation) – 4 Pack FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Marcus Mendes is a Brazilian tech podcaster and journalist who has been closely following Apple since the mid-2000s. He began covering Apple news in Brazilian media in 2012 and later broadened his focus to the wider tech industry, hosting a daily podcast for seven years.",
+      "full_article_text_chars": 2899,
+      "content_preview": "The fourteenth International Conference on Learning Representation (ICLR) is wrapping up today in Rio de Janeiro, closing out nearly a week of presentations, debates, and research showcases from leading AI scientists across academia and the tech industry, including Apple. Here’s what the company presented. Apple showcased dozens of studies at ICLR 2026 While ICLR may not be widely known to the general public, it has been regarded for more than a decade as one of the most renowned and prestigious conferences in machine learning. This year , it ran from April 23 through 27 and occupied the four pavilions and the conference center of the Riocentro Convention Center in Rio de Janeiro. ICLR 2026 drew machine learning and artificial intelligence specialists and researchers (including AMI Labs’ Yann LeCun) from all over the world, from China to India to the United States and across Europe. It also brought together major technology companies as sponsors and exhibitors, including Amazon, Tencent, Google, Microsoft, Ant Group, ByteDance, Huawei, Meta, Salesforce, Shopify, and Apple, as well as firms from Wall Street and the broader financial industry, such as Capital One, Jane Street, Citadel Securities, and others. As Apple announced a few days ago, the company had a booth at the event, where it showcased SHARP, an impressive open-source model that turns 2D images into 3D spaces in just a few seconds, as well as LLM inference on MLX , Apple’s open-source framework for machine learning tasks running on Apple Silicon. Apple’s booth also doubled as a recruiting hub, with iPads set up for attendees to scan QR codes and apply for machine learning roles on the spot. That was by no means exclusive to Apple, as most companies on the show floor were also using the event as a hiring pipeline for AI talent. ICLR also featured gigantic poster areas, where researchers presented their work and answered questions about their studies. During the event, Apple showcased dozens of papers, all of which you can find here . Apple also delivered presentations and workshops on some of the studies accepted for the conference. That included ParaRNN: Unlocking Parallel Training of Nonlinear RNNs for Large Language Models , presented by Federico Danieli, and Cram Less to Fit More: Training Data Pruning Improves Memorization of Facts , presented by Kunal Talwar. To learn more about the studies Apple presented at ICLR 2026, follow this link . David Pogue – ’Apple: The First 50 Years’ AirTag (2nd Generation) – 4 Pack FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Marcus Mendes is a Brazilian tech podcaster and journalist who has been closely following Apple since the mid-2000s. He began covering Apple news in Brazilian media in 2012 and later broadened his focus to the wider tech industry, hosting a daily podcast for seven years.",
+      "content_preview_chars": 2899,
+      "content_fetched_at": "2026-04-29T02:20:37",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "d468e707041a6b7a",
+      "source_url_hash": "d468e707041a6b7a",
+      "canonical_url": "https://9to5mac.com/2026/04/27/wwdc-2026-apple-highlights-community-events-in-california-during-keynote-week",
+      "title_hash": "daccbb4f028ea6b3",
+      "topic_signature": "7a4e31625efe56a924e9",
+      "title": "WWDC 2026: Apple highlights community events in Cupertino during keynote week",
+      "url": "https://9to5mac.com/2026/04/27/wwdc-2026-apple-highlights-community-events-in-california-during-keynote-week",
+      "source_name": "9to5Mac",
+      "source_url": "https://9to5mac.com",
+      "source_published_at": "2026-04-27T19:38:32Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 30.7,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-29T02:20:22",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 83,
+      "affiliate_links_removed_count": 4,
+      "removed_source_links_count": 83,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "WWDC 2026: Apple highlights community events in Cupertino during keynote week - 9to5Mac",
+      "meta_description": "WWDC 2026 is six weeks away, and we’re looking forward to Apple’s big iOS 27 reveal with a healthy side...",
+      "article_images": [
+        {
+          "url": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/03/WWDC-2026.webp?resize=1200%2C628&quality=82&strip=all&ssl=1",
+          "alt": "WWDC 2026: Apple highlights community events in Cupertino during keynote week - 9to5Mac",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/03/WWDC-2026.webp?w=1600",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/themes/ninetofive/dist/images/default-9to5mac-guide.png",
+          "alt": "Developers",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/03/WWDC-2026.webp?resize=1200%2C628&quality=82&strip=all&ssl=1",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/03/WWDC-2026.webp?w=1600",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/themes/ninetofive/dist/images/default-9to5mac-guide.png",
+          "alt": "Developers"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2F9to5mac.com"
+        }
+      ],
+      "full_article_text": "WWDC 2026 is six weeks away, and we’re looking forward to Apple’s big iOS 27 reveal with a healthy side of AI-infused Siri. You don’t need a WWDC ticket to enjoy many of the developer events happening around Apple’s conference in June either. There’s more to do during WWDC week around Cupertino than attending Apple’s conference Apple highlights nine developer community events happening in California during WWDC 2026 keynote week. These take place around Cupertino between Sunday, June 7 and Friday, June 12. #WWDCScholars Meetup at WWDC26 Core Coffee – WWDC Edition (San Jose) WWDC26 Community Step-Into-Coffee WWDC26 Step Into Vision – @CommunityKit AiOS Meetup – WWDC ’26 Edition Apple also recommends checking out Envision WWDC26 , which describes itself as “a third party online developer community event built around WWDC week.” Beyond California, Apple also highlights developer meetups happening in the Netherlands, China, and Turkey during WWDC week in June. Many of these events require free registration ahead of time to attend, but a WWDC ticket is never required. These events are a great way for developers to network and engage during WWDC week without having to win the ticket lottery. You can see Apple’s community-driven events page for all developer-related meetups around the world, all-year long, for more events to consider. The website lets you filter by region and events specific to WWDC or held throughout the year. Apple is expected to unveil iOS 27, Gemini-enhanced Siri, and much more on Monday, June 8. The keynote usually kicks off at 10 am PT/1 pm ET, although Apple hasn’t released the WWDC 2026 schedule just yet. Do more with your Apple products Apple AirTag 2 | Add Find My tracking to keys, bags, bikes, more Beats USB-A to USB-C Cable | The official CarPlay cable Wireless CarPlay Adapter | No more plugging in required Withings Body Comp | Best smart scale for Apple Health Pioneer Sphera | Add CarPlay with Dolby Atmos to your current car FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Zac covers Apple news, hosts the 9to5Mac Happy Hour podcast, and created SpaceExplored.com.",
+      "full_article_text_chars": 2178,
+      "content_preview": "WWDC 2026 is six weeks away, and we’re looking forward to Apple’s big iOS 27 reveal with a healthy side of AI-infused Siri. You don’t need a WWDC ticket to enjoy many of the developer events happening around Apple’s conference in June either. There’s more to do during WWDC week around Cupertino than attending Apple’s conference Apple highlights nine developer community events happening in California during WWDC 2026 keynote week. These take place around Cupertino between Sunday, June 7 and Friday, June 12. #WWDCScholars Meetup at WWDC26 Core Coffee – WWDC Edition (San Jose) WWDC26 Community Step-Into-Coffee WWDC26 Step Into Vision – @CommunityKit AiOS Meetup – WWDC ’26 Edition Apple also recommends checking out Envision WWDC26 , which describes itself as “a third party online developer community event built around WWDC week.” Beyond California, Apple also highlights developer meetups happening in the Netherlands, China, and Turkey during WWDC week in June. Many of these events require free registration ahead of time to attend, but a WWDC ticket is never required. These events are a great way for developers to network and engage during WWDC week without having to win the ticket lottery. You can see Apple’s community-driven events page for all developer-related meetups around the world, all-year long, for more events to consider. The website lets you filter by region and events specific to WWDC or held throughout the year. Apple is expected to unveil iOS 27, Gemini-enhanced Siri, and much more on Monday, June 8. The keynote usually kicks off at 10 am PT/1 pm ET, although Apple hasn’t released the WWDC 2026 schedule just yet. Do more with your Apple products Apple AirTag 2 | Add Find My tracking to keys, bags, bikes, more Beats USB-A to USB-C Cable | The official CarPlay cable Wireless CarPlay Adapter | No more plugging in required Withings Body Comp | Best smart scale for Apple Health Pioneer Sphera | Add CarPlay with Dolby Atmos to your current car FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Zac covers Apple news, hosts the 9to5Mac Happy Hour podcast, and created SpaceExplored.com.",
+      "content_preview_chars": 2178,
+      "content_fetched_at": "2026-04-29T02:20:36",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "ea4e54d6ec9de32e",
+      "source_url_hash": "ea4e54d6ec9de32e",
+      "canonical_url": "https://9to5mac.com/2026/04/27/iphone-ultra-and-macbook-ultra-are-coming-this-year-per-report",
+      "title_hash": "51aaef98d3a5cbfa",
+      "topic_signature": "e70edc94dc6d57327071",
+      "title": "iPhone Ultra and MacBook Ultra are coming this year, per report",
+      "url": "https://9to5mac.com/2026/04/27/iphone-ultra-and-macbook-ultra-are-coming-this-year-per-report",
+      "source_name": "9to5Mac",
+      "source_url": "https://9to5mac.com",
+      "source_published_at": "2026-04-27T15:44:08Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 34.6,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-29T02:20:22",
+      "status": "ready",
+      "score": 2,
+      "priority": "low",
+      "source_links_removed_count": 90,
+      "affiliate_links_removed_count": 7,
+      "removed_source_links_count": 90,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "iPhone Ultra and MacBook Ultra are coming this year, per report - 9to5Mac",
+      "meta_description": "A new report says Apple’s foldable iPhone and touchscreen MacBook Pro will be named ‘iPhone Ultra’ and ‘MacBook Ultra,’ respectively.",
+      "article_images": [
+        {
+          "url": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/04/iphone-ultra-fold-mockup.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+          "alt": "iPhone Ultra and MacBook Ultra are coming this year, per report - 9to5Mac",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/04/iphone-ultra-fold-mockup.jpg?quality=82&strip=all&w=1600",
+          "alt": "Trendforce says hi-tech glue could be key to an invisible crease in the iPhone Ultra (render shown)",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/01/macbook-pro-unsplash-wallpaper.jpg?quality=82&strip=all",
+          "alt": "M5 Max MacBook Pro could offer 'astounding' Geekbench score",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/client-mu-plugins/9to5-core/includes/obfuscate-images/images/9to5mac-default.jpg?quality=82&strip=all&w=140",
+          "alt": "Mac",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/04/iphone-ultra-fold-mockup.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/04/iphone-ultra-fold-mockup.jpg?quality=82&strip=all&w=1600",
+          "alt": "Trendforce says hi-tech glue could be key to an invisible crease in the iPhone Ultra (render shown)"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/01/macbook-pro-unsplash-wallpaper.jpg?quality=82&strip=all",
+          "alt": "M5 Max MacBook Pro could offer 'astounding' Geekbench score"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/client-mu-plugins/9to5-core/includes/obfuscate-images/images/9to5mac-default.jpg?quality=82&strip=all&w=140",
+          "alt": "Mac"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2F9to5mac.com"
+        }
+      ],
+      "full_article_text": "Rumors about Apple expanding its line of ‘Ultra’ products just got more corroboration. A new report says Apple’s foldable iPhone and touchscreen MacBook Pro will be named ‘iPhone Ultra’ and ‘MacBook Ultra,’ respectively. Macworld report says Apple will use ‘Ultra’ branding for new iPhone and MacBook Filipe Espósito writes at Macworld : Apple is rumored to be introducing one of the biggest upgrades to the iPhone lineup ever this year, with the debut of its first foldable phone. While many members of the press have taken to calling this device the “iPhone Fold,” Macworld has received information that corroborates reports that Apple will instead opt for the “Ultra” brand for its new iPhone model. According to a source familiar with Apple’s plans, the company seems set on expanding its Ultra branding with the new flagship iPhone arriving this fall. Furthermore, our source says Apple is also likely to bring the Ultra branding to the Mac as well. According to a source familiar with Apple’s plans, the company seems set on expanding its Ultra branding with the new flagship iPhone arriving this fall. Furthermore, our source says Apple is also likely to bring the Ultra branding to the Mac as well. Mark Gurman has previously reported on Apple’s ambitions to expand its ‘Ultra’ lineup, and more recently, several Weibo leakers have said that ‘iPhone Ultra’ is the planned name for Apple’s foldable iPhone. Now, Macworld’s report further corroborates the iPhone Ultra name while also saying that the first ‘MacBook Ultra’ is coming too. Apple’s iPhone Ultra is expected to be unveiled in September alongside iPhone 18 Pro and Pro Max. book-style fold with crease-free display roughly 5.5-inch outer screen and 7.8-inch inner A20 Pro chip and C2 cellular modem custom iOS 27 features for side-by-side apps Main and Ultra Wide rear cameras, plus a front camera on each display Touch ID integrated in power button Top comment by Blarft A foldable iPhone - if well executed - makes sense, because iPads show the popularity of tablets, and because many consumers have shown a desire for the largest-possible iPhone their pockets will allow. Consumers like bigger screens. A device that can have a bigger screen but still fit in a pocket is a no-brainer. A MacBook Pro with a touchscreen still does not make sense. Fingerprint smudges and UI complexities aside, Steve Jobs' point about vertically-oriented touchscreens not making sense due to arm fatigue still holds true. Human anatomy has not changed. Meanwhile, the MacBook Ultra is essentially a new high-end model that we’d been expecting to be introduced as the M6 MacBook Pro. This new MacBook Ultra will come with a new industrial design, touchscreen, OLED display, Dynamic Island instead of a notch, and possibly a C2 cellular modem. Macworld’s report reiterates that Apple is planning to launch the iPhone Ultra this September, and is targeting a MacBook Ultra launch this year too, but it might slip into early 2027. Best iPhone accessories AirPods Pro 3 ( now only $199, down from $249 ) 10-year AirTag battery case 2-pack 100W USB-C fast charging power adapter Apple’s new AirTag 2 (1-pack / 4-pack) FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Apple’s Mac lineup consists of MacBook, MacBoo… Introduced in 2007 by Steve Jobs, iPhone is Appl… Ryan got his start in journalism as an Editor at MacStories, where he worked for four years covering Apple news, writing app reviews, and more. For two years he co-hosted the Adapt podcast on Relay FM, which focused entirely on the iPad. As a result, it should come as no surprise that his favorite Apple device is the iPad Pro.",
+      "full_article_text_chars": 3695,
+      "content_preview": "Rumors about Apple expanding its line of ‘Ultra’ products just got more corroboration. A new report says Apple’s foldable iPhone and touchscreen MacBook Pro will be named ‘iPhone Ultra’ and ‘MacBook Ultra,’ respectively. Macworld report says Apple will use ‘Ultra’ branding for new iPhone and MacBook Filipe Espósito writes at Macworld : Apple is rumored to be introducing one of the biggest upgrades to the iPhone lineup ever this year, with the debut of its first foldable phone. While many members of the press have taken to calling this device the “iPhone Fold,” Macworld has received information that corroborates reports that Apple will instead opt for the “Ultra” brand for its new iPhone model. According to a source familiar with Apple’s plans, the company seems set on expanding its Ultra branding with the new flagship iPhone arriving this fall. Furthermore, our source says Apple is also likely to bring the Ultra branding to the Mac as well. According to a source familiar with Apple’s plans, the company seems set on expanding its Ultra branding with the new flagship iPhone arriving this fall. Furthermore, our source says Apple is also likely to bring the Ultra branding to the Mac as well. Mark Gurman has previously reported on Apple’s ambitions to expand its ‘Ultra’ lineup, and more recently, several Weibo leakers have said that ‘iPhone Ultra’ is the planned name for Apple’s foldable iPhone. Now, Macworld’s report further corroborates the iPhone Ultra name while also saying that the first ‘MacBook Ultra’ is coming too. Apple’s iPhone Ultra is expected to be unveiled in September alongside iPhone 18 Pro and Pro Max. book-style fold with crease-free display roughly 5.5-inch outer screen and 7.8-inch inner A20 Pro chip and C2 cellular modem custom iOS 27 features for side-by-side apps Main and Ultra Wide rear cameras, plus a front camera on each display Touch ID integrated in power button Top comment by Blarft A foldable iPhone - if well executed - makes sense, because iPads show the popularity of tablets, and because many consumers have shown a desire for the largest-possible iPhone their pockets will allow. Consumers like bigger screens. A device that can have a bigger screen but still fit in a pocket is a no-brainer. A MacBook Pro with a touchscreen still does not make sense. Fingerprint smudges and UI complexities aside, Steve Jobs' point about vertically-oriented touchscreens not making sense due to arm fatigue still holds true. Human anatomy has not changed. Meanwhile, the MacBook Ultra is essentially a new high-end model that we’d been expecting to be introduced as the M6 MacBook Pro. This new MacBook Ultra will come with a new industrial design, touchscreen, OLED display, Dynamic Island instead of a notch, and possibly a C2 cellular modem. Macworld’s report reiterates that Apple is planning to launch the iPhone Ultra this September, and is targeting a MacBook Ultra launch this year too, but it might slip into early 2027. Best iPhone accessories AirPods Pro 3 ( now only $199, down from $249 ) 10-year AirTag battery case 2-pack 100W USB-C fast charging power adapter Apple’s new AirTag 2 (1-pack / 4-pack) FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Apple’s Mac lineup consists of MacBook, MacBoo… Introduced in 2007 by Steve Jobs, iPhone is Appl… Ryan got his start in journalism as an Editor at MacStories, where he worked for four years covering Apple news, writing app reviews, and more. For two years he co-hosted the Adapt podcast on Relay FM, which focused entirely on the iPad. As a result, it should come as no surprise that his favorite Apple device is the iPad Pro.",
+      "content_preview_chars": 3695,
+      "content_fetched_at": "2026-04-29T02:20:33",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "ef45a8e8ade9c9fe",
+      "source_url_hash": "ef45a8e8ade9c9fe",
+      "canonical_url": "https://www.wired.com/v2/offers/wir_edit_hardcoded",
+      "title_hash": "fc96b85a0852bbb2",
+      "topic_signature": "d9f660796b1c65135bb2",
+      "title": "Subscriber Exclusives",
+      "url": "https://www.wired.com/v2/offers/wir_edit_hardcoded",
+      "source_name": "WIRED",
+      "source_url": "https://www.wired.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-04-29T02:20:22",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 9,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 9,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
+      "content_fetched_at": "2026-04-29T02:20:46",
+      "candidate_retry_after": "2026-04-29T02:35:46Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
+      "candidate_failed_at": "2026-04-29T02:20:46",
       "candidate_failure_count": 1
     }
   ],
