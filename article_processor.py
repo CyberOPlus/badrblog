@@ -4,9 +4,9 @@
 
 from datetime import datetime
 
-from article_queue import article_age_hours, is_article_safe_for_ai, load_article_queue, save_article_queue
+from article_queue import load_article_queue, save_article_queue
 from article_selector import normalize_category_label
-from config import FRESHNESS_SAFETY_MARGIN_MINUTES, MAX_AI_ARTICLE_AGE_HOURS, MIN_EXTRACTED_CHARS
+from config import MIN_EXTRACTED_CHARS
 from internal_link_cache import load_internal_link_cache, select_internal_link_candidates
 
 
@@ -34,15 +34,6 @@ def _validate_selected_article(article):
         missing.append("suggested_category")
     if article.get("content_fetch_status") != "success":
         missing.append("successful content extraction")
-    if not is_article_safe_for_ai(article):
-        age = article_age_hours(article)
-        age_text = f"{age:.2f}h" if age is not None else "unknown"
-        missing.append(
-            "article too close to freshness limit "
-            f"(age {age_text}; AI cutoff {MAX_AI_ARTICLE_AGE_HOURS:.2f}h; "
-            f"margin {FRESHNESS_SAFETY_MARGIN_MINUTES}m)"
-        )
-
     return missing
 
 

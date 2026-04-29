@@ -70,7 +70,7 @@ if SCRAPLING_AVAILABLE:
 
 SMART_FRESHNESS_INITIAL_HOURS = 6
 SMART_FRESHNESS_EXPANDED_HOURS = 12
-FRESHNESS_HARD_MAX_HOURS = 24
+FRESHNESS_HARD_MAX_HOURS = 24 * 7
 
 
 BLOCKED_IMAGE_HINTS = (
@@ -661,7 +661,7 @@ def _freshness_bucket_for_date(published_at, initial_hours=None, expanded_hours=
         return "fresh", age
     if age <= expanded_hours:
         return "expanded", age
-    return "old", age
+    return "within_hard_max", age
 
 
 def _source_crawl_window_start(source_key, now=None):
@@ -1407,20 +1407,15 @@ def discover_first_valid_article_link(sources, existing_articles=None, published
                     missing_date_count += 1
                     freshness_source = "fallback_no_date"
                     log_event(
-                        "freshness_source",
+                        "freshness_not_strict",
                         freshness_source=freshness_source,
                         article_url=url,
                         source_name=source_name,
+                        decision="accepted_new_url_without_publish_date",
                     )
                     _log(f"  Article date missing; new URL accepted by freshness fallback: {link_title[:80]}")
                 if published_at:
                     freshness_source = "date"
-                    log_event(
-                        "freshness_source",
-                        freshness_source=freshness_source,
-                        article_url=url,
-                        source_name=source_name,
-                    )
                     bucket, age_hours = _freshness_bucket_for_date(
                         published_at,
                         initial_hours=initial_freshness_hours,
@@ -1430,53 +1425,29 @@ def discover_first_valid_article_link(sources, existing_articles=None, published
                         f"  Article date found ({published_at_source or 'unknown'}): "
                         f"{published_at}; age {age_hours:.2f}h"
                     )
-                    if bucket in {"old", "too_old"}:
+                    if bucket == "too_old":
                         old_count += 1
                         log_event(
                             "article_skipped_old",
                             article_url=url,
                             age_hours=round(age_hours, 2),
-                            max_age_hours=FRESHNESS_HARD_MAX_HOURS if bucket == "too_old" else expanded_freshness_hours,
+                            max_age_hours=FRESHNESS_HARD_MAX_HOURS,
                         )
                         _log(
-                            f"  Skipping article outside freshness range: "
+                            f"  Skipping article older than {FRESHNESS_HARD_MAX_HOURS / 24:.0f} days: "
                             f"{link_title[:80]}"
                         )
                         continue
-                    is_safe_for_ai, age_hours = _is_safe_for_ai_published_at(
-                        published_at,
-                        max_age_hours=expanded_freshness_hours if bucket == "expanded" else initial_freshness_hours,
+                    log_event(
+                        "freshness_not_strict",
+                        freshness_source=freshness_source,
+                        article_url=url,
+                        source_name=source_name,
+                        age_hours=round(age_hours, 2),
+                        strict_window_hours=initial_freshness_hours,
+                        hard_max_hours=FRESHNESS_HARD_MAX_HOURS,
+                        decision="accepted_new_url_publish_date_for_sorting_only",
                     )
-                    if not is_safe_for_ai:
-                        too_close_count += 1
-                        reason = (
-                            "article too close to freshness limit "
-                            f"(age {age_hours:.2f}h; AI cutoff {_ai_cutoff_for_window(expanded_freshness_hours if bucket == 'expanded' else initial_freshness_hours):.2f}h; "
-                            f"margin {FRESHNESS_SAFETY_MARGIN_MINUTES}m)"
-                        )
-                        _log(f"  Skipping article: {reason}: {link_title[:80]}")
-                        _notify_freshness_skip(link_title, source_name, published_at, age_hours, reason)
-                        continue
-                    if bucket == "expanded":
-                        expanded_candidates.append(
-                            {
-                                "title": link_title,
-                                "url": url,
-                                "source_name": source_name,
-                                "source_url": base_url,
-                                "category_hint": source.get("category_hint", ""),
-                                "category_key": source.get("category_key", ""),
-                                "category_name": source.get("category_name", ""),
-                                "category_label": source.get("category_label", source.get("category_hint", "")),
-                                "published_at_source": published_at_source,
-                                "source_published_at": published_at,
-                                "article_age_hours": round(age_hours, 2) if age_hours is not None else None,
-                                "rss_summary": rss_summary,
-                                "freshness_source": freshness_source,
-                                "freshness_window_hours": expanded_freshness_hours,
-                            }
-                        )
-                        continue
                     recent_count += 1
             selected = {
                 "title": link_title,
@@ -1492,7 +1463,7 @@ def discover_first_valid_article_link(sources, existing_articles=None, published
                 "article_age_hours": round(age_hours, 2) if age_hours is not None else None,
                 "rss_summary": rss_summary,
                 "freshness_source": freshness_source or ("date" if published_at else ""),
-                "freshness_window_hours": initial_freshness_hours if published_at else "",
+                "freshness_window_hours": FRESHNESS_HARD_MAX_HOURS if published_at else "",
             }
             break
 
@@ -1568,7 +1539,7 @@ def discover_first_valid_article_link(sources, existing_articles=None, published
         }
 
     reason = (
-        f"no article safely inside the last {_smart_expanded_freshness_hours()} hours"
+        f"no new publishable article under {FRESHNESS_HARD_MAX_HOURS // 24} days"
         if RECENT_NEWS_ONLY
         else "no valid non-duplicate article"
     )
@@ -1699,20 +1670,15 @@ def discover_fresh_article_links(
                     missing_date_count += 1
                     freshness_source = "fallback_no_date"
                     log_event(
-                        "freshness_source",
+                        "freshness_not_strict",
                         freshness_source=freshness_source,
                         article_url=url,
                         source_name=source_name,
+                        decision="accepted_new_url_without_publish_date",
                     )
                     _log(f"  Article date missing; new URL accepted by freshness fallback: {link_title[:80]}")
                 if published_at:
                     freshness_source = "date"
-                    log_event(
-                        "freshness_source",
-                        freshness_source=freshness_source,
-                        article_url=url,
-                        source_name=source_name,
-                    )
                     bucket, age_hours = _freshness_bucket_for_date(
                         published_at,
                         initial_hours=initial_freshness_hours,
@@ -1722,58 +1688,29 @@ def discover_fresh_article_links(
                         f"  Article date found ({published_at_source or 'unknown'}): "
                         f"{published_at}; age {age_hours:.2f}h"
                     )
-                    if bucket in {"old", "too_old"}:
+                    if bucket == "too_old":
                         old_count += 1
                         log_event(
                             "article_skipped_old",
                             article_url=url,
                             age_hours=round(age_hours, 2),
-                            max_age_hours=FRESHNESS_HARD_MAX_HOURS if bucket == "too_old" else expanded_freshness_hours,
+                            max_age_hours=FRESHNESS_HARD_MAX_HOURS,
                         )
                         _log(
-                            f"  Skipping article outside freshness range: "
+                            f"  Skipping article older than {FRESHNESS_HARD_MAX_HOURS / 24:.0f} days: "
                             f"{link_title[:80]}"
                         )
                         continue
-                    is_safe_for_ai, age_hours = _is_safe_for_ai_published_at(
-                        published_at,
-                        max_age_hours=expanded_freshness_hours if bucket == "expanded" else initial_freshness_hours,
+                    log_event(
+                        "freshness_not_strict",
+                        freshness_source=freshness_source,
+                        article_url=url,
+                        source_name=source_name,
+                        age_hours=round(age_hours, 2),
+                        strict_window_hours=initial_freshness_hours,
+                        hard_max_hours=FRESHNESS_HARD_MAX_HOURS,
+                        decision="accepted_new_url_publish_date_for_sorting_only",
                     )
-                    if not is_safe_for_ai:
-                        too_close_count += 1
-                        reason = (
-                            "article too close to freshness limit "
-                            f"(age {age_hours:.2f}h; AI cutoff {_ai_cutoff_for_window(expanded_freshness_hours if bucket == 'expanded' else initial_freshness_hours):.2f}h; "
-                            f"margin {FRESHNESS_SAFETY_MARGIN_MINUTES}m)"
-                        )
-                        _log(f"  Skipping article: {reason}: {link_title[:80]}")
-                        _notify_freshness_skip(link_title, source_name, published_at, age_hours, reason)
-                        continue
-                    published_dt = _parse_datetime_to_utc(published_at)
-                    if published_dt and published_dt < crawl_window_start:
-                        old_count += 1
-                        _log(f"  Skipping article before crawl window: {link_title[:80]}")
-                        continue
-                    if bucket == "expanded":
-                        expanded_candidates.append(
-                            {
-                                "title": link_title,
-                                "url": url,
-                                "source_name": source_name,
-                                "source_url": base_url,
-                                "category_hint": source.get("category_hint", ""),
-                                "category_key": source.get("category_key", ""),
-                                "category_name": source.get("category_name", ""),
-                                "category_label": source.get("category_label", source.get("category_hint", "")),
-                                "published_at_source": published_at_source,
-                                "source_published_at": published_at,
-                                "article_age_hours": round(age_hours, 2) if age_hours is not None else None,
-                                "rss_summary": rss_summary,
-                                "freshness_source": freshness_source,
-                                "freshness_window_hours": expanded_freshness_hours,
-                            }
-                        )
-                        continue
                     recent_count += 1
 
             selected = {
@@ -1790,7 +1727,7 @@ def discover_fresh_article_links(
                 "article_age_hours": round(age_hours, 2) if age_hours is not None else None,
                 "rss_summary": rss_summary,
                 "freshness_source": freshness_source or ("date" if published_at else ""),
-                "freshness_window_hours": initial_freshness_hours if published_at else "",
+                "freshness_window_hours": FRESHNESS_HARD_MAX_HOURS if published_at else "",
             }
             selected_links.append(selected)
             known_urls.add(canonical)
@@ -1860,7 +1797,7 @@ def discover_fresh_article_links(
         )
 
     reason = (
-        f"no fresh article safely inside the last {_smart_expanded_freshness_hours()} hours"
+        f"no new publishable article under {FRESHNESS_HARD_MAX_HOURS // 24} days"
         if RECENT_NEWS_ONLY and not discovered
         else ""
     )

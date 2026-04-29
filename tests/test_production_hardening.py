@@ -271,21 +271,21 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertTrue(is_recent)
         self.assertLess(age, 2)
 
-    def test_article_older_than_twenty_four_hours_is_skipped(self):
+    def test_article_older_than_seven_days_is_skipped(self):
         def fake_collect(base_url, **_kwargs):
-            return [{"title": "Old story", "url": f"{base_url}/story", "published_at": recent_iso(25)}], "", 200, {"method_used": "feed"}
+            return [{"title": "Old story", "url": f"{base_url}/story", "published_at": recent_iso(169)}], "", 200, {"method_used": "feed"}
 
         with patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 2), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
             result = scraper.discover_first_valid_article_link(
                 [{"name": "A", "base_url": "https://a.example", "enabled": True}],
                 existing_articles=[],
-            )
+        )
 
         self.assertFalse(result["first_valid"])
-        self.assertIn("last 12 hours", result["reason"])
+        self.assertIn("under 7 days", result["reason"])
         self.assertEqual(result["source_results"][0]["old_links_skipped"], 1)
 
-    def test_expanded_freshness_is_used_only_after_fresh_sources_fail(self):
+    def test_stale_but_under_seven_days_article_is_accepted_without_strict_freshness(self):
         calls = []
 
         def fake_collect(base_url, **_kwargs):
@@ -304,9 +304,9 @@ class ProductionHardeningTests(unittest.TestCase):
             )
 
         self.assertTrue(result["first_valid"])
-        self.assertEqual(calls, ["https://older.example", "https://fresh.example"])
-        self.assertEqual(result["articles"][0]["title"], "Fresh story")
-        self.assertEqual(result["articles"][0]["freshness_window_hours"], 6)
+        self.assertEqual(calls, ["https://older.example"])
+        self.assertEqual(result["articles"][0]["title"], "Expanded story")
+        self.assertEqual(result["articles"][0]["freshness_window_hours"], 168)
 
     def test_missing_date_uses_new_url_fallback_when_strict_recent_mode_enabled(self):
         def fake_collect(base_url, **_kwargs):
@@ -354,14 +354,14 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn("RECENT_NEWS_ONLY", text)
         self.assertIn("LIVE_FRESH_QUEUE", text)
 
-    def test_telegram_reports_skipped_when_no_recent_article(self):
+    def test_telegram_reports_skipped_when_no_publishable_article(self):
         with patch.object(notifier, "send_telegram_message", return_value={"sent": False, "skipped": True, "reason": "disabled"}) as send:
             notifier.notify_auto_cycle_summary(
-                {"completed": False, "reason": "no article in last 2 hours", "source_warnings_count": 1},
+                {"completed": False, "reason": "no new publishable article under 7 days", "source_warnings_count": 1},
                 run_id="unit-test-no-recent",
             )
         message = send.call_args.args[0]
-        self.assertIn("no article in last 2 hours", message)
+        self.assertIn("no new publishable article under 7 days", message)
         self.assertIn("Bot alive: yes", message)
         self.assertIn("Next run: scheduled by GitHub Actions", message)
 
@@ -385,7 +385,7 @@ class ProductionHardeningTests(unittest.TestCase):
         }
         fetch = {
             "first_valid_url": "",
-            "reason": "no article in last 2 hours",
+            "reason": "no new publishable article under 7 days",
             "failed_sources": [],
             "zero_link_sources": [],
         }
@@ -463,7 +463,7 @@ class ProductionHardeningTests(unittest.TestCase):
                         "url": "https://example.com/expired",
                         "status": "ready",
                         "content_fetch_status": "success",
-                        "source_published_at": recent_iso(25),
+                        "source_published_at": recent_iso(169),
                     },
                     {
                         "id": "fresh",
@@ -593,7 +593,7 @@ class ProductionHardeningTests(unittest.TestCase):
         }
         fetch = {
             "first_valid_url": "",
-            "reason": "no fresh article in the last 2 hours",
+            "reason": "no new publishable article under 7 days",
             "failed_sources": [],
             "zero_link_sources": [],
         }
@@ -603,7 +603,7 @@ class ProductionHardeningTests(unittest.TestCase):
 
         self.assertFalse(result["completed"])
         self.assertTrue(result["skipped"])
-        self.assertEqual(result["reason"], "no fresh article in the last 2 hours")
+        self.assertEqual(result["reason"], "no new publishable article under 7 days")
 
     def test_lock_specific_ready_article_persists_selection(self):
         with TemporaryDirectory() as temp_dir:
@@ -851,7 +851,7 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertTrue(result["used_fallback"])
         self.assertTrue(output_exists)
 
-    def test_freshness_safety_margin_skips_article_before_ai(self):
+    def test_freshness_safety_margin_does_not_block_under_seven_days(self):
         def fake_collect(base_url, **_kwargs):
             return [{"title": "Almost expired", "url": f"{base_url}/story", "published_at": recent_iso(5.95)}], "", 200, {"method_used": "feed"}
 
@@ -861,8 +861,8 @@ class ProductionHardeningTests(unittest.TestCase):
                 existing_articles=[],
             )
 
-        self.assertFalse(result["first_valid"])
-        self.assertEqual(result["source_results"][0]["too_close_links_skipped"], 1)
+        self.assertTrue(result["first_valid"])
+        self.assertEqual(result["source_results"][0]["too_close_links_skipped"], 0)
 
     def test_prepare_ai_rejects_empty_or_short_content(self):
         article = {"title": "Valid title", "url": "https://example.com/post", "content_preview": "short", "suggested_category": "Tech", "content_fetch_status": "success", "source_published_at": recent_iso(1)}

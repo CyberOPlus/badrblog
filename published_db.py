@@ -17,6 +17,7 @@ import json
 # Import our configuration
 from config import PUBLISHED_DB_PATH
 from duplicate_utils import canonicalize_url, stable_hash
+from production_logging import log_event
 
 
 def load_published_ids():
@@ -139,6 +140,12 @@ def filter_new_articles(articles, published_set):
     for article in articles:
         if is_already_published(article["url"], published_set):
             skipped += 1
+            log_event(
+                "candidate_skipped_already_published",
+                article_url=article.get("url"),
+                title=article.get("title"),
+                source=article.get("source_name"),
+            )
             print(f"  ⏭️  Skipping (already published): {article['title'][:60]}")
         else:
             new_articles.append(article)

@@ -315,3 +315,24 @@ def record_source_failure(source_key, source_name="", error=""):
         record["cooldown_until"] = _utc_iso(cooldown_until)
     save_source_health(state)
     return dict(record)
+
+
+def record_source_cooldown(source_key, source_name="", error="", minutes=None):
+    if not SOURCE_HEALTH_ENABLED or not source_key:
+        return {}
+    cooldown_minutes = SOURCE_FAILURE_COOLDOWN_MINUTES if minutes is None else minutes
+    cooldown_until = _utc_now() + timedelta(minutes=max(1, int(cooldown_minutes or 1)))
+    state = load_source_health()
+    record = state.setdefault("sources", {}).setdefault(source_key, {})
+    failure_count = int(record.get("failure_count") or 0) + 1
+    record.update(
+        {
+            "source_name": source_name or record.get("source_name", ""),
+            "failure_count": failure_count,
+            "last_failure_at": _utc_iso(),
+            "last_error": str(error or "")[:300],
+            "cooldown_until": _utc_iso(cooldown_until),
+        }
+    )
+    save_source_health(state)
+    return dict(record)

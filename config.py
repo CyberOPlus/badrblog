@@ -209,6 +209,7 @@ QUEUE_PERSIST = _env_bool_any(["QUEUE_PERSIST"], True)
 SOURCE_HEALTH_ENABLED = _env_bool_any(["SOURCE_HEALTH_ENABLED"], True)
 SOURCE_FAILURE_COOLDOWN_MINUTES = _env_int("SOURCE_FAILURE_COOLDOWN_MINUTES", 45)
 SOURCE_FAILURE_THRESHOLD = _env_int("SOURCE_FAILURE_THRESHOLD", 3)
+SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES = _env_int("SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES", 15)
 
 # Facebook Page auto-posting is disabled by default and only runs after a
 # successful live Blogger publish.

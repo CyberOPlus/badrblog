@@ -6,19 +6,20 @@ import asyncio
 import json
 import re
 import time
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from urllib.parse import urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
 
-from article_queue import load_article_queue, save_article_queue
+from article_queue import is_candidate_in_recent_failure, load_article_queue, save_article_queue
 from config import (
     ARTICLE_TIMEOUT_SECONDS,
     FAST_NEWS_MODE,
     HEADERS,
     MIN_EXTRACTED_CHARS,
     PUBLISH_WEAK_ARTICLES,
+    SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
     SOURCE_RETRY_DELAY_SECONDS,
     MAX_SOURCE_RETRIES,
 )
@@ -128,6 +129,13 @@ ARTICLE_SELECTORS = (
 
 def _now_iso():
     return datetime.now().isoformat(timespec="seconds")
+
+
+def _retry_after_iso(minutes=None):
+    retry_at = datetime.now(timezone.utc) + timedelta(
+        minutes=max(1, int(minutes or SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES or 1))
+    )
+    return retry_at.isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
 def _normalize_text(value):
@@ -335,7 +343,7 @@ def _select_downloadable_main_image(article, main_image_url, image_extraction_me
             return image_url, candidate.get("source") or "unknown", candidate.get("alt") or ""
 
     log_event(
-        "article_skipped_no_image",
+        "article_image_missing",
         article_id=article.get("id"),
         url=article.get("url"),
         title=article.get("title"),
@@ -417,6 +425,10 @@ def _clean_soup(soup):
     return soup
 
 
+def _soup_copy(soup):
+    return BeautifulSoup(str(soup), "html.parser")
+
+
 def _best_article_container(soup):
     best = None
     best_length = 0
@@ -490,6 +502,30 @@ def _extract_full_article_text(soup):
     return full_text
 
 
+def _choose_enrichment_text(article, soup, min_success_chars):
+    meta_description = _extract_meta_description(soup)
+    candidates = [
+        ("article_body", _extract_full_article_text(_soup_copy(soup))),
+        ("rss_summary", article.get("rss_summary", "")),
+        ("meta_description", meta_description),
+        ("page_text", _extract_content_preview(_soup_copy(soup))),
+    ]
+    best_method = ""
+    best_text = ""
+    tried = []
+    for method, raw_text in candidates:
+        text = _normalize_text(raw_text)
+        if not text:
+            continue
+        tried.append(f"{method}:{len(text)}")
+        if len(text) > len(best_text):
+            best_method = method
+            best_text = text
+        if len(text) >= min_success_chars:
+            return text, method, meta_description, tried
+    return best_text, best_method, meta_description, tried
+
+
 def _source_url(article):
     explicit = article.get("source_url")
     if explicit:
@@ -559,20 +595,33 @@ def _fetch_html_with_requests(url):
 
 def _apply_enrichment_from_html(article, html, url):
     soup = BeautifulSoup(html, "html.parser")
-    full_text = _extract_full_article_text(soup)
-    preview = _trim_preview(full_text) if full_text else _extract_content_preview(soup)
-    if not preview:
-        fallback_summary = _normalize_text(
-            article.get("rss_summary") or _extract_meta_description(soup) or article.get("title", "")
+    min_success_chars = FAST_ENRICH_MIN_CHARS if FAST_NEWS_MODE else WEAK_ARTICLE_MIN_CHARS
+    full_text, text_method, meta_description, tried_text_sources = _choose_enrichment_text(
+        article,
+        soup,
+        min_success_chars,
+    )
+    preview = _trim_preview(full_text) if full_text else ""
+    if not full_text or len(full_text) < min_success_chars:
+        tried = ", ".join(tried_text_sources) if tried_text_sources else "none"
+        return (
+            False,
+            "weak article body after fallbacks "
+            f"(best={len(full_text or '')} chars; required={min_success_chars}; tried={tried})",
         )
-        if fallback_summary:
-            preview = fallback_summary
-            full_text = fallback_summary
-        else:
-            return False, "missing article body"
+    if text_method and text_method != "article_body":
+        article["enrichment_fallback_used"] = text_method
+        log_event(
+            "enrichment_fallback_used",
+            method=text_method,
+            title=article.get("title"),
+            source=article.get("source_name"),
+            source_url=url,
+            chars=len(full_text),
+        )
 
     article["fetched_title"] = _extract_title(soup) or article.get("title", "")
-    article["meta_description"] = _extract_meta_description(soup)
+    article["meta_description"] = meta_description
     
     # Extract images using the new advanced image extractor
     main_image_url, image_extraction_method, extra_images = _extract_and_prepare_images(
@@ -587,7 +636,15 @@ def _apply_enrichment_from_html(article, html, url):
         extra_images,
     )
     if not main_image_url:
-        return False, "missing article image"
+        article["image_warning"] = "missing downloadable article image"
+        log_event(
+            "enrichment_fallback_used",
+            method="no_image_continue",
+            title=article.get("title"),
+            source=article.get("source_name"),
+            source_url=url,
+            reason="missing downloadable article image",
+        )
     
     # Build article_images list
     article_images = []
@@ -630,7 +687,6 @@ def _apply_enrichment_from_html(article, html, url):
     article["content_preview_chars"] = len(preview)
     article["source_url"] = _source_url(article)
     article["content_fetched_at"] = _now_iso()
-    min_success_chars = FAST_ENRICH_MIN_CHARS if FAST_NEWS_MODE else WEAK_ARTICLE_MIN_CHARS
     is_strong = len(article["full_article_text"]) >= STRONG_ARTICLE_MIN_CHARS
     is_weak = len(article["full_article_text"]) >= min_success_chars
     article["enrichment_status"] = "strong" if is_strong else "weak"
@@ -667,7 +723,7 @@ def _apply_rss_summary_fallback(article):
         [],
     )
     if not fallback_image_url:
-        return False, "missing article image"
+        article["image_warning"] = "missing downloadable article image"
 
     summary = _normalize_text(article.get("rss_summary", ""))
     if len(summary) < MIN_EXTRACTED_CHARS:
@@ -692,7 +748,7 @@ def _apply_rss_summary_fallback(article):
             "alt": article.get("fetched_title") or article.get("title", ""),
             "source": fallback_image_source or "fallback",
         }
-    ]
+    ] if fallback_image_url else []
     article["main_image"] = fallback_image_url
     article["main_image_source_type"] = fallback_image_source or "fallback"
     article["main_image_extraction_method"] = fallback_image_source or "fallback"
@@ -708,6 +764,13 @@ def _apply_rss_summary_fallback(article):
     article["enrichment_status"] = "rss_summary"
     article["content_fetch_status"] = "success"
     article.pop("content_fetch_error", None)
+    log_event(
+        "enrichment_fallback_used",
+        method="rss_summary",
+        title=article.get("title"),
+        source=article.get("source_name"),
+        chars=len(summary),
+    )
     log_event(
         "article_enriched_from_rss_summary",
         title=article.get("title"),
@@ -813,6 +876,26 @@ def _can_run_async_fetch():
     return False
 
 
+def _record_enrichment_failure(article, error):
+    reason = str(error or "unknown enrichment failure")
+    article["content_fetch_status"] = "failed"
+    article["content_fetch_error"] = reason
+    article["content_fetched_at"] = _now_iso()
+    article["candidate_retry_after"] = _retry_after_iso()
+    article["candidate_failure_stage"] = "enrichment"
+    article["candidate_failure_reason"] = reason[:300]
+    article["candidate_failed_at"] = _now_iso()
+    article["candidate_failure_count"] = int(article.get("candidate_failure_count") or 0) + 1
+    log_event(
+        "enrichment_failed_reason",
+        title=article.get("title"),
+        source=article.get("source_name"),
+        source_url=article.get("url"),
+        reason=reason,
+        retry_after=article.get("candidate_retry_after"),
+    )
+
+
 def enrich_ready_articles(force=False):
     """
     Enrich ready articles only. Existing successful enrichments are skipped
@@ -826,6 +909,9 @@ def enrich_ready_articles(force=False):
     failed = 0
     weak = 0
     already_enriched = 0
+    recent_failure_skipped = 0
+    failed_articles = []
+    successful_articles = []
     targets = []
 
     for article in articles:
@@ -837,6 +923,16 @@ def enrich_ready_articles(force=False):
         if article.get("content_fetch_status") == "success" and not force:
             already_enriched += 1
             continue
+        if not force and is_candidate_in_recent_failure(article):
+            recent_failure_skipped += 1
+            log_event(
+                "candidate_skipped_recent_failure",
+                article_id=article.get("id"),
+                source=article.get("source_name"),
+                stage=article.get("candidate_failure_stage"),
+                retry_after=article.get("candidate_retry_after"),
+            )
+            continue
 
         targets.append(article)
 
@@ -847,6 +943,14 @@ def enrich_ready_articles(force=False):
         for article, ok, error in results:
             if ok:
                 enriched += 1
+                successful_articles.append(
+                    {
+                        "id": article.get("id"),
+                        "url": article.get("url"),
+                        "source_name": article.get("source_name"),
+                        "source_url": article.get("source_url"),
+                    }
+                )
                 continue
             if article.get("content_fetch_status") == "weak":
                 weak += 1
@@ -868,6 +972,14 @@ def enrich_ready_articles(force=False):
             ok, error = enrich_article(article)
             if ok:
                 enriched += 1
+                successful_articles.append(
+                    {
+                        "id": article.get("id"),
+                        "url": article.get("url"),
+                        "source_name": article.get("source_name"),
+                        "source_url": article.get("source_url"),
+                    }
+                )
             elif article.get("content_fetch_status") == "weak":
                 weak += 1
                 log_event(
@@ -880,9 +992,17 @@ def enrich_ready_articles(force=False):
                 )
             else:
                 failed += 1
-                article["content_fetch_status"] = "failed"
-                article["content_fetch_error"] = error or original_error
-                article["content_fetched_at"] = _now_iso()
+                _record_enrichment_failure(article, error or original_error)
+                failed_articles.append(
+                    {
+                        "id": article.get("id"),
+                        "url": article.get("url"),
+                        "title": article.get("title"),
+                        "source_name": article.get("source_name"),
+                        "source_url": article.get("source_url"),
+                        "reason": article.get("content_fetch_error"),
+                    }
+                )
                 log_event(
                     "article_enrich_failed",
                     title=article.get("title"),
@@ -896,6 +1016,14 @@ def enrich_ready_articles(force=False):
             ok, error = enrich_article(article)
             if ok:
                 enriched += 1
+                successful_articles.append(
+                    {
+                        "id": article.get("id"),
+                        "url": article.get("url"),
+                        "source_name": article.get("source_name"),
+                        "source_url": article.get("source_url"),
+                    }
+                )
             elif article.get("content_fetch_status") == "weak":
                 weak += 1
                 log_event(
@@ -908,9 +1036,17 @@ def enrich_ready_articles(force=False):
                 )
             else:
                 failed += 1
-                article["content_fetch_status"] = "failed"
-                article["content_fetch_error"] = error
-                article["content_fetched_at"] = _now_iso()
+                _record_enrichment_failure(article, error)
+                failed_articles.append(
+                    {
+                        "id": article.get("id"),
+                        "url": article.get("url"),
+                        "title": article.get("title"),
+                        "source_name": article.get("source_name"),
+                        "source_url": article.get("source_url"),
+                        "reason": article.get("content_fetch_error"),
+                    }
+                )
                 log_event(
                     "article_enrich_failed",
                     title=article.get("title"),
@@ -927,6 +1063,9 @@ def enrich_ready_articles(force=False):
         "failed": failed,
         "weak": weak,
         "already_enriched": already_enriched,
+        "recent_failure_skipped": recent_failure_skipped,
+        "failed_articles": failed_articles,
+        "successful_articles": successful_articles,
         "total_queued": len(articles),
         "force": force,
     }

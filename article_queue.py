@@ -11,18 +11,20 @@ from datetime import datetime, timedelta, timezone
 from config import (
     ARTICLE_QUEUE_PATH,
     RECENT_NEWS_MAX_AGE_HOURS,
+    SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
     SOURCES_CONFIG_PATH,
 )
 from duplicate_utils import canonicalize_url, title_hash, topic_signature
+from production_logging import log_event
 
 ALLOWED_STATUSES = {"new", "skipped", "ready", "selected", "draft_created", "published", "failed"}
-FRESHNESS_HARD_MAX_HOURS = 24
+FRESHNESS_HARD_MAX_HOURS = 24 * 7
 
 
 def _smart_freshness_hours(max_age_hours=None):
     if max_age_hours is not None:
         return min(FRESHNESS_HARD_MAX_HOURS, max(0, max_age_hours))
-    return min(FRESHNESS_HARD_MAX_HOURS, max(12, RECENT_NEWS_MAX_AGE_HOURS))
+    return FRESHNESS_HARD_MAX_HOURS
 
 
 def _is_no_date_fallback_article(article):
@@ -57,6 +59,70 @@ def _article_age_anchor(article):
         if parsed:
             return parsed
     return None
+
+
+def _as_utc(parsed):
+    if not parsed:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return parsed.astimezone(timezone.utc)
+
+
+def _candidate_retry_after(article):
+    for field in ("candidate_retry_after", "enrichment_retry_after"):
+        parsed = _as_utc(_parse_iso(article.get(field)))
+        if parsed:
+            return parsed
+    return None
+
+
+def is_candidate_in_recent_failure(article, now=None):
+    retry_after = _candidate_retry_after(article or {})
+    if not retry_after:
+        return False
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    return retry_after > now.astimezone(timezone.utc)
+
+
+def _retry_after_iso(minutes=None, now=None):
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    retry_at = now.astimezone(timezone.utc) + timedelta(
+        minutes=max(1, int(minutes or SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES or 1))
+    )
+    return retry_at.isoformat(timespec="seconds").replace("+00:00", "Z")
+
+
+def mark_article_recent_failure(article_id="", article_url="", stage="", reason="", cooldown_minutes=None):
+    if not article_id and not article_url:
+        return None
+    queue = load_article_queue()
+    retry_after = _retry_after_iso(cooldown_minutes)
+    matched = None
+    for article in queue.get("articles", []):
+        if article_id and article.get("id") != article_id:
+            if not article_url or article.get("url") != article_url:
+                continue
+        elif article_url and article.get("url") != article_url and article.get("id") != article_id:
+            continue
+        if article.get("status") == "published":
+            return article
+        if article.get("status") == "selected":
+            article["status"] = "ready"
+        article["candidate_retry_after"] = retry_after
+        article["candidate_failure_stage"] = stage
+        article["candidate_failure_reason"] = str(reason or "")[:300]
+        article["candidate_failed_at"] = _now_iso()
+        article["candidate_failure_count"] = int(article.get("candidate_failure_count") or 0) + 1
+        matched = article
+        break
+    if matched:
+        save_article_queue(queue)
+    return matched
 
 
 def _archive_article(article, reason, archived_at):
@@ -170,7 +236,7 @@ def _fresh_queue_sort_key(article):
     if discovered_at.tzinfo is not None:
         discovered_at = discovered_at.astimezone(timezone.utc).replace(tzinfo=None)
     return (
-        published_at or datetime.max.replace(tzinfo=timezone.utc),
+        published_at or datetime.min.replace(tzinfo=timezone.utc),
         discovered_at,
         article.get("url", ""),
     )
@@ -179,7 +245,7 @@ def _fresh_queue_sort_key(article):
 def is_article_within_fresh_window(article, now=None, max_age_hours=None):
     published_at = _source_published_datetime(article)
     if not published_at:
-        return _is_no_date_fallback_article(article)
+        return True
     return published_at >= _fresh_queue_cutoff(now=now, max_age_hours=max_age_hours)
 
 
@@ -194,7 +260,7 @@ def article_age_hours(article, now=None):
 def is_article_safe_for_ai(article, now=None):
     published_at = _source_published_datetime(article)
     if not published_at:
-        return _is_no_date_fallback_article(article)
+        return True
     return published_at >= _fresh_queue_cutoff(now=now, max_age_hours=FRESHNESS_HARD_MAX_HOURS)
 
 
@@ -214,12 +280,6 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
 
         published_at = _source_published_datetime(article)
         if not published_at:
-            if _is_no_date_fallback_article(article):
-                continue
-            if article.get("status") in {"new", "ready", "selected", "failed", "skipped"}:
-                if _archive_article(article, "missing_reliable_publish_date", archived_at):
-                    missing_date += 1
-                    changed = True
             continue
 
         if not is_article_within_fresh_window(article, now=now, max_age_hours=max_age_hours):
@@ -242,15 +302,26 @@ def get_fresh_queue_candidates(statuses=None, now=None, max_age_hours=None):
     queue = load_article_queue()
     articles = queue.get("articles", [])
     statuses = set(statuses or {"ready", "selected"})
-    candidates = [
-        article
-        for article in articles
-        if not article.get("archived")
-        and article.get("status") in statuses
-        and article.get("content_fetch_status") == "success"
-        and is_article_within_fresh_window(article, now=now, max_age_hours=max_age_hours)
-        and is_article_safe_for_ai(article, now=now)
-    ]
+    candidates = []
+    for article in articles:
+        if article.get("archived") or article.get("status") not in statuses:
+            continue
+        if article.get("content_fetch_status") != "success":
+            continue
+        if is_candidate_in_recent_failure(article, now=now):
+            log_event(
+                "candidate_skipped_recent_failure",
+                article_id=article.get("id"),
+                source=article.get("source_name"),
+                stage=article.get("candidate_failure_stage"),
+                retry_after=article.get("candidate_retry_after"),
+            )
+            continue
+        if not is_article_within_fresh_window(article, now=now, max_age_hours=max_age_hours):
+            continue
+        if not is_article_safe_for_ai(article, now=now):
+            continue
+        candidates.append(article)
     return sorted(candidates, key=_fresh_queue_sort_key)
 
 
@@ -341,6 +412,8 @@ def add_articles_to_queue(discovered_articles):
                 "published_at_source": article.get("published_at_source", ""),
                 "article_age_hours": article.get("article_age_hours"),
                 "rss_summary": article.get("rss_summary", ""),
+                "freshness_source": article.get("freshness_source", ""),
+                "freshness_window_hours": article.get("freshness_window_hours", ""),
                 "category_key": category_key,
                 "category_name": category_name,
                 "category_label": category_label,

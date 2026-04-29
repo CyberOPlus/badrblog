@@ -32,14 +32,13 @@ from article_draft_publisher import (
 )
 from article_queue import (
     add_articles_to_queue,
-    article_age_hours,
     archive_expired_queue_articles,
     archive_published_queue_article,
     get_fresh_queue_candidates,
-    is_article_safe_for_ai,
     load_article_queue,
     load_sources,
     maintain_article_queue,
+    mark_article_recent_failure,
     save_article_queue,
 )
 from article_enricher import enrich_ready_articles
@@ -95,6 +94,7 @@ from config import (
     SAFE_CYCLE_MAX_ARTICLES,
     SOURCE_TIMEOUT_SECONDS,
     SOURCE_HEALTH_PATH,
+    SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
     TARGET_LIVE_POSTS_PER_DAY,
     TELEGRAM_ALERTS_ENABLED,
     TELEGRAM_BOT_TOKEN,
@@ -119,6 +119,7 @@ from runtime_state import (
     advance_source_rotation,
     load_topic_fingerprints,
     order_sources_for_rotation,
+    record_source_cooldown,
     save_crawl_state,
     save_topic_fingerprints,
     select_category_for_rotation,
@@ -224,6 +225,60 @@ def _remember_selected_source(category_label, article, available_sources=None):
         if str(source.get("base_url") or "").strip()
     ]
     return advance_source_rotation(category_label, source_key, source_name, available_keys)
+
+
+def _cooldown_sources_after_candidate_failures(category_label, enrich_stats):
+    failed_articles = enrich_stats.get("failed_articles") or []
+    if not failed_articles:
+        return []
+    successful_sources = {
+        str(article.get("source_url") or "").strip()
+        for article in (enrich_stats.get("successful_articles") or [])
+        if str(article.get("source_url") or "").strip()
+    }
+    failures_by_source = defaultdict(list)
+    source_names = {}
+    for article in failed_articles:
+        source_key = str(article.get("source_url") or "").strip()
+        if not source_key:
+            continue
+        failures_by_source[source_key].append(article)
+        source_names[source_key] = str(article.get("source_name") or source_key)
+
+    rotated = []
+    available_sources = _sources_for_category(load_sources(), category_label) if category_label else []
+    available_keys = [
+        str(source.get("base_url") or "").strip()
+        for source in available_sources
+        if str(source.get("base_url") or "").strip()
+    ]
+    for source_key, failures in failures_by_source.items():
+        if source_key in successful_sources:
+            continue
+        source_name = source_names.get(source_key, source_key)
+        record_source_cooldown(
+            source_key,
+            source_name=source_name,
+            error=f"all candidate enrichments failed ({len(failures)})",
+            minutes=SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
+        )
+        if category_label:
+            advance_source_rotation(
+                category_label,
+                source_key,
+                source_name,
+                available_source_keys=available_keys,
+            )
+        log_event(
+            "source_rotated_after_all_candidates_failed",
+            category=category_label,
+            source=source_name,
+            source_url=source_key,
+            failed_candidates=len(failures),
+            cooldown_minutes=SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
+        )
+        rotated.append({"source_url": source_key, "source_name": source_name, "failed_candidates": len(failures)})
+    return rotated
 
 
 def _category_queue_candidates(category_label):
@@ -384,7 +439,7 @@ def run_fetch_only():
                     reverse=True,
                 ),
                 "source_results": all_source_results,
-                "reason": "" if all_discovered_articles else "no fresh article safely inside configured categories",
+                "reason": "" if all_discovered_articles else "no new publishable article under 7 days in configured categories",
             }
             category_context.update(
                 {
@@ -561,15 +616,6 @@ def _lock_specific_ready_article(article_url):
         if article.get("url") != article_url:
             continue
         if article.get("status") != "ready" or article.get("content_fetch_status") != "success":
-            return None
-        if not is_article_safe_for_ai(article):
-            age = article_age_hours(article)
-            article["status"] = "skipped"
-            article["skip_reason"] = (
-                "article too close to freshness limit before AI "
-                f"(age {age or 0:.2f}h; cutoff {MAX_AI_ARTICLE_AGE_HOURS:.2f}h)"
-            )
-            save_article_queue(queue)
             return None
         article["status"] = "selected"
         article["selected_at"] = datetime.now().isoformat(timespec="seconds")
@@ -1246,6 +1292,9 @@ def save_runtime_state_to_git():
         "git_push_state": "skipped",
         "warning": "",
     }
+    if os.getenv("GITHUB_ACTIONS", "").strip().lower() != "true":
+        result["warning"] = "runtime state git save skipped outside GitHub Actions"
+        return result
     try:
         paths = [str(path.relative_to(Path.cwd())) if path.is_absolute() else str(path) for path in RUNTIME_STATE_PATHS if Path(path).exists()]
         if not paths:
@@ -2123,6 +2172,86 @@ def _record_successful_publish(article):
     )
 
 
+def _mark_candidate_failure_for_retry(article, stage, reason):
+    article = article or {}
+    failed = mark_article_recent_failure(
+        article_id=article.get("id", ""),
+        article_url=article.get("url", ""),
+        stage=stage,
+        reason=reason,
+        cooldown_minutes=SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
+    )
+    log_event(
+        "candidate_skipped_recent_failure",
+        article_id=article.get("id"),
+        source=article.get("source_name"),
+        stage=stage,
+        reason=reason,
+        retry_after=(failed or {}).get("candidate_retry_after"),
+    )
+    return failed
+
+
+def _select_retry_candidate(fetch_stats, attempted_ids):
+    attempted_ids = {item for item in (attempted_ids or set()) if item}
+    selected = None
+    if CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
+        selected = _select_newest_fresh_ready_article(
+            fetch_stats.get("selected_category", ""),
+            preferred_ids=fetch_stats.get("queued_candidate_ids", []),
+        )
+    elif FAST_NEWS_MODE and FRESH_QUEUE_MODE:
+        selected = _select_oldest_fresh_ready_article()
+    elif not (FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE):
+        plan_result = run_plan_next_only(lock=True)
+        selected = plan_result.get("selected")
+
+    if selected and (selected.get("id") or selected.get("url")) in attempted_ids:
+        return None
+    return selected
+
+
+def _log_retry_next_candidate(failed_article, next_article, stage, reason):
+    if not next_article:
+        return
+    log_event(
+        "candidate_retry_next_source",
+        failed_article_id=(failed_article or {}).get("id"),
+        failed_source=(failed_article or {}).get("source_name"),
+        next_article_id=next_article.get("id"),
+        next_source=next_article.get("source_name"),
+        stage=stage,
+        reason=reason,
+    )
+
+
+def _retry_after_single_candidate_failure(
+    failed_article,
+    stage,
+    reason,
+    publish_mode,
+    fetch_stats,
+    attempted_ids,
+    max_extra_attempts=3,
+):
+    _mark_candidate_failure_for_retry(failed_article, stage, reason)
+    retry_results = []
+    last_failed = failed_article or {}
+    for _ in range(max(0, max_extra_attempts)):
+        next_selected = _select_retry_candidate(fetch_stats, attempted_ids)
+        if not next_selected:
+            return None, retry_results
+        next_id = next_selected.get("id") or next_selected.get("url")
+        attempted_ids.add(next_id)
+        _log_retry_next_candidate(last_failed, next_selected, stage, reason)
+        item_result = _process_hourly_target(next_selected, publish_mode)
+        retry_results.append(item_result)
+        if item_result.get("completed"):
+            return item_result, retry_results
+        last_failed = item_result.get("article") or next_selected
+    return None, retry_results
+
+
 def _process_hourly_target(selected, publish_mode):
     selected_id = selected.get("id") or selected.get("url")
     result = {
@@ -2142,10 +2271,12 @@ def _process_hourly_target(selected, publish_mode):
             article_id=selected_id,
             reason=error.__class__.__name__,
         )
+        _mark_candidate_failure_for_retry(selected, "prepare-ai", str(error))
         result.update({"article": None, "reason": str(error), "step_reached": "prepare-ai"})
         return result
     result["prepare"] = prepare_stats
     if not article or article.get("processing_status") != "ready_for_ai":
+        _mark_candidate_failure_for_retry(article or selected, "prepare-ai", "prepare-ai failed")
         result.update({"article": article, "reason": "prepare-ai failed", "step_reached": "prepare-ai"})
         return result
 
@@ -2158,6 +2289,7 @@ def _process_hourly_target(selected, publish_mode):
             article_id=selected_id,
             reason=error.__class__.__name__,
         )
+        _mark_candidate_failure_for_retry(article or selected, "run-ai", str(error))
         result.update({"article": None, "reason": str(error), "step_reached": "run-ai"})
         return result
     result["ai"] = ai_stats
@@ -2167,6 +2299,7 @@ def _process_hourly_target(selected, publish_mode):
             article_id=selected_id,
             reason=(ai_stats or {}).get("message") or "AI failed",
         )
+        _mark_candidate_failure_for_retry(article or selected, "run-ai", (ai_stats or {}).get("message") or "AI failed")
         result.update({"article": article, "reason": "AI failed", "step_reached": "run-ai"})
         return result
 
@@ -2179,6 +2312,7 @@ def _process_hourly_target(selected, publish_mode):
             article_id=selected_id,
             reason=error.__class__.__name__,
         )
+        _mark_candidate_failure_for_retry(article or selected, "publish", str(error))
         result.update({"article": article, "reason": str(error), "step_reached": "publish"})
         return result
     draft_action = "none"
@@ -2188,6 +2322,7 @@ def _process_hourly_target(selected, publish_mode):
         draft_action = "created"
     result.update({"draft": draft_result, "draft_action": draft_action})
     if draft_action not in {"created", "updated"}:
+        _mark_candidate_failure_for_retry(article or selected, "publish", draft_result.get("error") or "Blogger failed")
         result.update(
             {
                 "article": article,
@@ -2466,6 +2601,10 @@ def run_safe_cycle_only():
         print(f"Enrichment warnings recorded: {enrichment_failed_count}")
     if enrichment_weak_count:
         print(f"Weak enrichment warnings recorded: {enrichment_weak_count}")
+    source_candidate_cooldowns = _cooldown_sources_after_candidate_failures(
+        fetch_stats.get("selected_category", ""),
+        enrich_stats,
+    )
 
     print("\n[4/7] plan-next --lock")
     selected = None
@@ -2563,6 +2702,7 @@ def run_safe_cycle_only():
         }
 
     selected_id = selected.get("id") or selected.get("url")
+    attempted_candidate_ids = {selected_id}
     print(f"Target article ID: {selected_id}")
 
     print("\n[5/7] prepare-ai")
@@ -2577,6 +2717,41 @@ def run_safe_cycle_only():
     print("=" * 60)
     if not article or article.get("processing_status") != "ready_for_ai":
         print("Cycle stopping cleanly: selected article could not be prepared for AI.")
+        retry_success, retry_results = _retry_after_single_candidate_failure(
+            article or selected,
+            "prepare-ai",
+            "prepare-ai failed",
+            publish_mode,
+            fetch_stats,
+            attempted_candidate_ids,
+        )
+        if retry_success:
+            retry_article = retry_success.get("article")
+            _print_safe_cycle_final_report(
+                retry_article,
+                draft_action=retry_success.get("draft_action", "created"),
+                draft_result=retry_success.get("draft"),
+                target_article_id=retry_success.get("target_article_id"),
+                source_warnings_count=source_warnings_count,
+                enrichment_failed_count=enrichment_failed_count,
+            )
+            return {
+                "completed": True,
+                "article": retry_article,
+                "fetch": fetch_stats,
+                "schedule": schedule_status,
+                "score": score_stats,
+                "enrich": enrich_stats,
+                "draft": retry_success.get("draft"),
+                "draft_action": retry_success.get("draft_action"),
+                "facebook": retry_success.get("facebook"),
+                "retry_results": retry_results,
+                "source_warnings_count": source_warnings_count,
+                "enrichment_failed_count": enrichment_failed_count,
+                "target_article_id": retry_success.get("target_article_id"),
+                "step_reached": "publish",
+                "reason": "",
+            }
         _print_safe_cycle_final_report(
             article,
             target_article_id=selected_id,
@@ -2591,6 +2766,7 @@ def run_safe_cycle_only():
             "fetch": fetch_stats,
             "schedule": schedule_status,
             "enrich": enrich_stats,
+            "retry_results": retry_results,
             "source_warnings_count": source_warnings_count,
             "enrichment_failed_count": enrichment_failed_count,
             "target_article_id": selected_id,
@@ -2627,6 +2803,42 @@ def run_safe_cycle_only():
 
     if not article or article.get("ai_status") != "completed" or not article.get("final_html"):
         print("Cycle stopping cleanly: AI failed or no completed AI output is available.")
+        retry_success, retry_results = _retry_after_single_candidate_failure(
+            article or selected,
+            "run-ai",
+            ai_stats.get("message") or "AI failed",
+            publish_mode,
+            fetch_stats,
+            attempted_candidate_ids,
+        )
+        if retry_success:
+            retry_article = retry_success.get("article")
+            _print_safe_cycle_final_report(
+                retry_article,
+                draft_action=retry_success.get("draft_action", "created"),
+                draft_result=retry_success.get("draft"),
+                target_article_id=retry_success.get("target_article_id"),
+                source_warnings_count=source_warnings_count,
+                enrichment_failed_count=enrichment_failed_count,
+            )
+            return {
+                "completed": True,
+                "article": retry_article,
+                "ai": ai_stats,
+                "fetch": fetch_stats,
+                "schedule": schedule_status,
+                "score": score_stats,
+                "enrich": enrich_stats,
+                "draft": retry_success.get("draft"),
+                "draft_action": retry_success.get("draft_action"),
+                "facebook": retry_success.get("facebook"),
+                "retry_results": retry_results,
+                "source_warnings_count": source_warnings_count,
+                "enrichment_failed_count": enrichment_failed_count,
+                "target_article_id": retry_success.get("target_article_id"),
+                "step_reached": "publish",
+                "reason": "",
+            }
         _print_safe_cycle_final_report(
             article,
             target_article_id=selected_id,
@@ -2642,6 +2854,7 @@ def run_safe_cycle_only():
             "fetch": fetch_stats,
             "schedule": schedule_status,
             "enrich": enrich_stats,
+            "retry_results": retry_results,
             "source_warnings_count": source_warnings_count,
             "enrichment_failed_count": enrichment_failed_count,
             "target_article_id": selected_id,
@@ -2704,6 +2917,44 @@ def run_safe_cycle_only():
     stopped_reason = ""
     if draft_action not in {"created", "updated"}:
         stopped_reason = draft_result.get("error", "")
+        retry_success, retry_results = _retry_after_single_candidate_failure(
+            article or selected,
+            "publish",
+            stopped_reason or "Blogger failed",
+            publish_mode,
+            fetch_stats,
+            attempted_candidate_ids,
+        )
+        if retry_success:
+            retry_article = retry_success.get("article")
+            _print_safe_cycle_final_report(
+                retry_article,
+                draft_action=retry_success.get("draft_action", "created"),
+                draft_result=retry_success.get("draft"),
+                target_article_id=retry_success.get("target_article_id"),
+                source_warnings_count=source_warnings_count,
+                enrichment_failed_count=enrichment_failed_count,
+            )
+            return {
+                "completed": True,
+                "article": retry_article,
+                "fetch": fetch_stats,
+                "schedule": schedule_status,
+                "score": score_stats,
+                "enrich": enrich_stats,
+                "draft": retry_success.get("draft"),
+                "draft_action": retry_success.get("draft_action"),
+                "facebook": retry_success.get("facebook"),
+                "facebook_preview": facebook_preview,
+                "retry_results": retry_results,
+                "source_warnings_count": source_warnings_count,
+                "enrichment_failed_count": enrichment_failed_count,
+                "target_article_id": retry_success.get("target_article_id"),
+                "step_reached": "publish",
+                "reason": "",
+            }
+    else:
+        retry_results = []
 
     _print_safe_cycle_final_report(
         article,
@@ -2740,6 +2991,7 @@ def run_safe_cycle_only():
         "draft_action": draft_action,
         "facebook": facebook_result,
         "facebook_preview": facebook_preview,
+        "retry_results": retry_results,
         "source_warnings_count": source_warnings_count,
         "enrichment_failed_count": enrichment_failed_count,
         "target_article_id": selected_id,

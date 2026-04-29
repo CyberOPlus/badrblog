@@ -270,6 +270,7 @@ def notify_facebook_result(queue, article, result=None):
 
 
 def notify_auto_cycle_blocked(reason, next_expected=""):
+    next_expected = str(next_expected or "").strip() or "scheduled by GitHub Actions"
     queue = load_article_queue()
     event_key = f"{_sanitize_reason(reason)}|{next_expected}"
     notifications = queue.setdefault("notifications", {})
@@ -434,6 +435,13 @@ def notify_auto_cycle_summary(result=None, error=None, run_id=""):
         lines.append(f"⚠️ تحذيرات المصادر: {source_warnings_count}")
     if enrichment_failed_count:
         lines.append(f"⚠️ فشل إثراء المقالات: {enrichment_failed_count}")
+
+    if enrichment_failed_count:
+        failed_articles = ((result.get("enrich") or {}).get("failed_articles") or [])[:3]
+        for failed in failed_articles:
+            title = _short(failed.get("title") or failed.get("url") or "unknown", limit=70)
+            fail_reason = _short(failed.get("reason") or "unknown", limit=120)
+            lines.append(f"Enrichment failed: {title} | {fail_reason}")
 
     lines = [line for line in lines if line]
     send_result = send_telegram_message("\n".join(lines))
