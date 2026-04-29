@@ -2065,6 +2065,87 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn("cisa.gov", cleaned)
         self.assertIn("microsoft.com", cleaned)
 
+    def test_full_article_extraction_prefers_jsonld_article_body(self):
+        body = " ".join(f"securityword{i}" for i in range(130))
+        html = (
+            "<html><head><script type='application/ld+json'>"
+            + json.dumps({"@type": "NewsArticle", "articleBody": body})
+            + "</script><meta name='description' content='Short metadata only'></head>"
+            "<body><article><p>Short visible summary only.</p></article></body></html>"
+        )
+        soup = BeautifulSoup(html, "html.parser")
+
+        text, method, _meta, tried = article_enricher._choose_enrichment_text(
+            {"title": "JSON-LD article", "source_name": "Example"},
+            soup,
+            80,
+        )
+
+        self.assertEqual(method, "jsonld_article_body")
+        self.assertGreaterEqual(article_enricher._word_count(text), 120)
+        self.assertIn("jsonld_article_body", " ".join(tried))
+
+    def test_article_tag_extraction_removes_noise_blocks(self):
+        body = " ".join(f"analysisword{i}" for i in range(125))
+        html = (
+            "<html><body><article>"
+            f"<p>{body}</p>"
+            "<div class='newsletter'>Subscribe to our newsletter</div>"
+            "<div class='related'><a href='https://news.example/related'>Read more</a></div>"
+            "</article></body></html>"
+        )
+        soup = BeautifulSoup(html, "html.parser")
+
+        text, method, _meta, _tried = article_enricher._choose_enrichment_text(
+            {"title": "Clean article", "source_name": "Example"},
+            soup,
+            80,
+        )
+
+        self.assertEqual(method, "article_tag")
+        self.assertNotIn("Subscribe", text)
+        self.assertNotIn("Read more", text)
+        self.assertGreaterEqual(article_enricher._word_count(text), 120)
+
+    def test_paragraph_fallback_runs_after_primary_extractors_fail(self):
+        body = " ".join(f"fallbackword{i}" for i in range(125))
+        html = f"<html><body><div><p>{body}</p></div></body></html>"
+        soup = BeautifulSoup(html, "html.parser")
+
+        text, method, _meta, _tried = article_enricher._choose_enrichment_text(
+            {"title": "Fallback article", "source_name": "Example"},
+            soup,
+            80,
+        )
+
+        self.assertEqual(method, "paragraph_fallback")
+        self.assertGreaterEqual(article_enricher._word_count(text), 120)
+
+    def test_extraction_removes_source_and_affiliate_links_but_keeps_official_refs(self):
+        html = (
+            "<article>"
+            "<p>Useful text <a href='https://news.example/internal'>source link</a></p>"
+            "<p>Deal text <a href='https://amzn.to/example'>affiliate</a></p>"
+            "<p>Official <a href='https://www.cisa.gov/news-events/alerts?utm_source=x'>CISA alert</a></p>"
+            "</article>"
+        )
+        soup = BeautifulSoup(html, "html.parser")
+
+        source_removed, affiliate_removed = article_enricher._remove_unwanted_links(
+            soup,
+            "https://news.example/story",
+            "https://news.example",
+        )
+        refs = article_enricher._extract_trusted_references(
+            soup,
+            "https://news.example/story",
+            "https://news.example",
+        )
+
+        self.assertEqual(source_removed, 1)
+        self.assertEqual(affiliate_removed, 1)
+        self.assertEqual([ref["url"] for ref in refs], ["https://www.cisa.gov/news-events/alerts"])
+
     def test_extract_article_images_prefers_og_image(self):
         soup = BeautifulSoup(
             "<html><head><meta property='og:image' content='/images/story.jpg'></head>"

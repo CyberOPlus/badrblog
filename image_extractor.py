@@ -248,6 +248,7 @@ def _extract_article_images(soup: BeautifulSoup, base_url: str) -> List[Dict[str
     Returns list of dicts with 'url', 'alt', 'method' keys.
     """
     images = []
+    seen = set()
     
     # Find article content containers
     article_selectors = [
@@ -273,6 +274,8 @@ def _extract_article_images(soup: BeautifulSoup, base_url: str) -> List[Dict[str
             absolute_url = _make_absolute_url(src, base_url)
             if not absolute_url:
                 continue
+            if absolute_url in seen:
+                continue
             
             # Get dimensions
             width = _safe_positive_int(img.get("width"))
@@ -290,6 +293,7 @@ def _extract_article_images(soup: BeautifulSoup, base_url: str) -> List[Dict[str
             if not _is_valid_image_dimensions(width, height):
                 continue
             
+            seen.add(absolute_url)
             images.append({
                 "url": absolute_url,
                 "alt": alt_text,
@@ -339,6 +343,9 @@ def extract_images(soup_or_html, article_url: str) -> List[Dict[str, str]]:
         add_image(json_ld_image, "jsonld")
 
     for img_data in _extract_article_images(soup, article_url):
+        if img_data["url"] in seen:
+            continue
+        seen.add(img_data["url"])
         images.append(
             {
                 "url": img_data["url"],

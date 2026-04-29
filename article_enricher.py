@@ -7,7 +7,7 @@ import json
 import re
 import time
 from datetime import datetime, timedelta, timezone
-from urllib.parse import urljoin, urlparse
+from urllib.parse import parse_qsl, urlencode, urljoin, urlparse, urlunparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -42,12 +42,14 @@ MAX_TRUSTED_REFERENCES = 5
 ASYNC_FETCH_CONCURRENCY = 8
 FETCH_RETRIES = MAX_SOURCE_RETRIES
 FAST_ENRICH_MIN_CHARS = max(80, MIN_EXTRACTED_CHARS)
+MIN_EXTRACTED_WORDS = 120
 
 TRUSTED_REFERENCE_HOSTS = (
     "microsoft.com",
     "google.com",
     "cloud.google.com",
     "mandiant.com",
+    "openai.com",
     "cisa.gov",
     "paloaltonetworks.com",
     "unit42.paloaltonetworks.com",
@@ -74,6 +76,89 @@ BLOCKED_IMAGE_HINTS = (
     "banner",
     "button",
     "badge",
+)
+
+NOISE_ATTR_HINTS = (
+    "ads",
+    "advert",
+    "advertisement",
+    "affiliate",
+    "also-read",
+    "author-bio",
+    "bio",
+    "comments",
+    "cookie",
+    "deal",
+    "deals",
+    "newsletter",
+    "outbrain",
+    "promo",
+    "promoted",
+    "read-more",
+    "recommended",
+    "related",
+    "share",
+    "sidebar",
+    "social",
+    "sponsor",
+    "sponsored",
+    "subscribe",
+    "taboola",
+)
+
+NOISE_TEXT_PATTERNS = (
+    "advertisement",
+    "also read",
+    "comments",
+    "continue reading",
+    "deal of the day",
+    "follow us",
+    "more from",
+    "newsletter",
+    "read more",
+    "related posts",
+    "share this",
+    "sign up",
+    "sponsored",
+    "subscribe",
+    "you may also like",
+)
+
+AFFILIATE_HOST_HINTS = (
+    "amzn.to",
+    "amazon.",
+    "awin1.com",
+    "click.linksynergy.com",
+    "go.redirectingat.com",
+    "impact.com",
+    "partnerize.com",
+    "rstyle.me",
+    "shareasale.com",
+    "shop-links.co",
+    "skimresources.com",
+    "tidd.ly",
+)
+
+AFFILIATE_PATH_HINTS = (
+    "affiliate",
+    "affid",
+    "deal",
+    "deals",
+    "partner",
+    "promo",
+    "redirect",
+    "referral",
+    "sponsored",
+)
+
+TRACKING_QUERY_KEYS = (
+    "fbclid",
+    "gclid",
+    "igshid",
+    "mc_cid",
+    "mc_eid",
+    "msclkid",
+    "utm_",
 )
 
 REMOVE_SELECTORS = (
@@ -110,6 +195,36 @@ REMOVE_SELECTORS = (
     ".related",
     ".recommended",
     ".sidebar",
+    ".author-bio",
+    ".bio",
+    ".byline",
+    ".read-more",
+    ".also-read",
+    ".more-stories",
+    ".outbrain",
+    ".taboola",
+    ".affiliate",
+    ".deal",
+    ".deals",
+    ".promo",
+    ".promoted",
+    "[class*='newsletter']",
+    "[class*='related']",
+    "[class*='read-more']",
+    "[class*='also-read']",
+    "[class*='social']",
+    "[class*='share']",
+    "[class*='sponsor']",
+    "[class*='affiliate']",
+    "[class*='deal']",
+    "[id*='newsletter']",
+    "[id*='related']",
+    "[id*='comments']",
+    "[id*='social']",
+    "[id*='share']",
+    "[id*='sponsor']",
+    "[id*='affiliate']",
+    "[id*='deal']",
 )
 
 ARTICLE_SELECTORS = (
@@ -126,6 +241,27 @@ ARTICLE_SELECTORS = (
     "main",
 )
 
+BODY_CONTAINER_SELECTORS = (
+    "[itemprop='articleBody']",
+    ".article-content",
+    ".article-body",
+    ".entry-content",
+    ".post-content",
+    ".c-article-content",
+    ".content-body",
+    ".post-body",
+    ".story-body",
+    ".storyBody",
+    ".article__body",
+    ".articleBody",
+    ".body-content",
+    "[class*='article-body']",
+    "[class*='articleBody']",
+    "[class*='entry-content']",
+    "[class*='post-content']",
+    "[class*='story-body']",
+)
+
 
 def _now_iso():
     return datetime.now().isoformat(timespec="seconds")
@@ -140,6 +276,21 @@ def _retry_after_iso(minutes=None):
 
 def _normalize_text(value):
     return re.sub(r"\s+", " ", (value or "").strip())
+
+
+def _word_count(value):
+    return len(re.findall(r"[A-Za-z0-9\u0600-\u06FF][A-Za-z0-9\u0600-\u06FF'’._-]*", value or ""))
+
+
+def _html_to_text(value):
+    raw = str(value or "").strip()
+    if not raw:
+        return ""
+    if "<" in raw and ">" in raw:
+        soup = BeautifulSoup(raw, "html.parser")
+        _clean_soup(soup)
+        return _normalize_text(soup.get_text(" ", strip=True))
+    return _normalize_text(raw)
 
 
 def _meta_content(soup, *selectors):
@@ -277,6 +428,79 @@ def _extract_jsonld_images(soup):
     return images
 
 
+def _iter_jsonld_nodes(soup):
+    for script in soup.select("script[type='application/ld+json']"):
+        raw = script.string or script.get_text("", strip=True)
+        if not raw:
+            continue
+        try:
+            data = json.loads(raw)
+        except json.JSONDecodeError:
+            continue
+
+        stack = list(data if isinstance(data, list) else [data])
+        while stack:
+            node = stack.pop(0)
+            if isinstance(node, list):
+                stack.extend(node)
+                continue
+            if not isinstance(node, dict):
+                continue
+            yield node
+            for key in ("@graph", "mainEntity", "mainEntityOfPage", "isPartOf"):
+                value = node.get(key)
+                if isinstance(value, list):
+                    stack.extend(value)
+                elif isinstance(value, dict):
+                    stack.append(value)
+
+
+def _jsonld_types(node):
+    value = node.get("@type")
+    if isinstance(value, str):
+        return {value.casefold()}
+    if isinstance(value, list):
+        return {str(item).casefold() for item in value}
+    return set()
+
+
+def _jsonld_is_article(node):
+    types = _jsonld_types(node)
+    return any("article" in item or item in {"blogposting", "news", "report"} for item in types)
+
+
+def _jsonld_text_value(value):
+    if isinstance(value, str):
+        return _html_to_text(value)
+    if isinstance(value, dict):
+        return _jsonld_text_value(value.get("text") or value.get("value") or value.get("@value"))
+    if isinstance(value, list):
+        return _normalize_text(" ".join(_jsonld_text_value(item) for item in value))
+    return ""
+
+
+def _extract_jsonld_article_body(soup):
+    best = ""
+    for node in _iter_jsonld_nodes(soup):
+        if not _jsonld_is_article(node):
+            continue
+        text = _jsonld_text_value(node.get("articleBody"))
+        if len(text) > len(best):
+            best = text
+    return best
+
+
+def _extract_jsonld_description(soup):
+    best = ""
+    for node in _iter_jsonld_nodes(soup):
+        if not _jsonld_is_article(node):
+            continue
+        text = _jsonld_text_value(node.get("description"))
+        if len(text) > len(best):
+            best = text
+    return best
+
+
 def _meta_image_candidates(soup):
     return (
         ("og", _meta_content(soup, "meta[property='og:image']", "meta[property='og:image:url']", "meta[property='og:image:secure_url']")),
@@ -356,11 +580,16 @@ def _extract_and_prepare_images(html_content, article_url, article_title=""):
     Extract main image and extra images using the new image_extractor module.
     Returns (main_image_url, extraction_method, extra_images_list)
     """
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    raw_article_image_count = 0
+    if soup:
+        raw_article_image_count = len(soup.find_all("img"))
+
     # Extract main image
     main_image_url, extraction_method = extract_main_image(
         html_content,
         article_url,
-        article_title or "صورة المقال"
+        article_title or "Article image"
     )
     
     # Extract extra images (up to 3, excluding main image)
@@ -373,29 +602,126 @@ def _extract_and_prepare_images(html_content, article_url, article_title=""):
     
     # Format as article_images list for backward compatibility
     article_images = []
+    seen_article_images = set()
     if main_image_url:
+        seen_article_images.add(main_image_url)
         article_images.append({
             "url": main_image_url,
-            "alt": article_title or "صورة المقال",
+            "alt": article_title or "Article image",
             "source": extraction_method or "unknown",
         })
     
     for extra_image in extra_images:
+        image_url = extra_image.get("url")
+        if not image_url or image_url in seen_article_images:
+            continue
+        seen_article_images.add(image_url)
         article_images.append({
-            "url": extra_image["url"],
-            "alt": extra_image.get("alt", "صورة توضيحية"),
+            "url": image_url,
+            "alt": extra_image.get("alt") or "Article image",
             "source": "article_content",
         })
+
+    log_event(
+        "article_images_found",
+        article_url=article_url,
+        raw_images=str(raw_article_image_count),
+        selected_images=str(len(article_images)),
+        main_image_found="yes" if main_image_url else "no",
+    )
+    log_event(
+        "article_images_filtered",
+        article_url=article_url,
+        filtered_count=str(max(0, raw_article_image_count - len(article_images))),
+        selected_images=str(len(article_images)),
+    )
     
     return main_image_url, extraction_method or "unknown", extra_images
 
 
+def _host_without_www(value):
+    return str(value or "").lower().removeprefix("www.")
+
+
+def _host_for_url(value):
+    parsed = urlparse(str(value or "").strip())
+    host = parsed.netloc or parsed.path.split("/")[0]
+    return _host_without_www(host)
+
+
+def _same_site(url_a, url_b):
+    host_a = _host_for_url(url_a)
+    host_b = _host_for_url(url_b)
+    return bool(host_a and host_b and (host_a == host_b or host_a.endswith("." + host_b) or host_b.endswith("." + host_a)))
+
+
+def _trusted_host(host):
+    clean_host = _host_without_www(host)
+    return any(clean_host == trusted or clean_host.endswith("." + trusted) for trusted in TRUSTED_REFERENCE_HOSTS)
+
+
+def _has_tracking_query(url):
+    query_keys = [key.casefold() for key, _value in parse_qsl(urlparse(url).query, keep_blank_values=True)]
+    return any(any(key.startswith(prefix) for prefix in TRACKING_QUERY_KEYS) for key in query_keys)
+
+
+def _strip_tracking_query(url):
+    parsed = urlparse(url)
+    filtered = [
+        (key, value)
+        for key, value in parse_qsl(parsed.query, keep_blank_values=True)
+        if not any(key.casefold().startswith(prefix) for prefix in TRACKING_QUERY_KEYS)
+    ]
+    return urlunparse(parsed._replace(query=urlencode(filtered, doseq=True), fragment=""))
+
+
+def _is_affiliate_or_tracking_link(url):
+    parsed = urlparse(url)
+    host = parsed.netloc.casefold()
+    path_query = f"{parsed.path} {parsed.query}".casefold()
+    if any(hint in host for hint in AFFILIATE_HOST_HINTS):
+        return True
+    return any(hint in path_query for hint in AFFILIATE_PATH_HINTS)
+
+
+def _remove_unwanted_links(soup, article_url, source_url):
+    source_links_removed = 0
+    affiliate_links_removed = 0
+    source_base = source_url or article_url
+
+    for link in list(soup.select("a[href]")):
+        href = (link.get("href") or "").strip()
+        if not href or href.startswith(("#", "mailto:", "tel:", "javascript:")):
+            continue
+        absolute_href = urljoin(article_url, href)
+        if not absolute_href.startswith(("http://", "https://")):
+            link.unwrap()
+            continue
+
+        if _is_affiliate_or_tracking_link(absolute_href):
+            affiliate_links_removed += 1
+            link.unwrap()
+            continue
+
+        if _same_site(absolute_href, source_base) and not _trusted_host(_host_for_url(absolute_href)):
+            source_links_removed += 1
+            link.unwrap()
+            continue
+
+        if _has_tracking_query(absolute_href):
+            cleaned_href = _strip_tracking_query(absolute_href)
+            if cleaned_href != absolute_href:
+                link["href"] = cleaned_href
+
+    return source_links_removed, affiliate_links_removed
+
+
 def _trusted_reference_allowed(url, source_url):
-    host = urlparse(url).netloc.lower()
-    source_host = urlparse(source_url or "").netloc.lower()
+    host = _host_for_url(url)
+    source_host = _host_for_url(source_url or "")
     if source_host and host == source_host:
-        return any(trusted in host for trusted in TRUSTED_REFERENCE_HOSTS)
-    return any(trusted in host for trusted in TRUSTED_REFERENCE_HOSTS)
+        return _trusted_host(host)
+    return _trusted_host(host)
 
 
 def _extract_trusted_references(soup, article_url, source_url):
@@ -407,6 +733,9 @@ def _extract_trusted_references(soup, article_url, source_url):
         href = urljoin(article_url, (link.get("href") or "").strip())
         if not href.startswith(("http://", "https://")):
             continue
+        if _is_affiliate_or_tracking_link(href):
+            continue
+        href = _strip_tracking_query(href)
         if href in seen or not _trusted_reference_allowed(href, source_url):
             continue
         title = _normalize_text(link.get_text(" ", strip=True)) or urlparse(href).netloc
@@ -421,6 +750,22 @@ def _extract_trusted_references(soup, article_url, source_url):
 def _clean_soup(soup):
     for selector in REMOVE_SELECTORS:
         for tag in soup.select(selector):
+            tag.decompose()
+    for tag in list(soup.find_all(True)):
+        if getattr(tag, "attrs", None) is None:
+            continue
+        attrs = " ".join(
+            str(value)
+            for value in (
+                tag.get("class", []),
+                tag.get("id", ""),
+                tag.get("role", ""),
+                tag.get("aria-label", ""),
+                tag.get("data-testid", ""),
+                tag.get("data-component", ""),
+            )
+        ).casefold()
+        if attrs and any(hint in attrs for hint in NOISE_ATTR_HINTS):
             tag.decompose()
     return soup
 
@@ -441,6 +786,64 @@ def _best_article_container(soup):
                 best_length = len(text)
 
     return best or soup.body or soup
+
+
+def _is_noisy_text(text):
+    lower = (text or "").casefold()
+    return any(pattern in lower for pattern in NOISE_TEXT_PATTERNS)
+
+
+def _append_text_part(parts, seen, text, min_chars=30):
+    clean = _normalize_text(text)
+    if len(clean) < min_chars or _is_noisy_text(clean):
+        return False
+    fingerprint = re.sub(r"\W+", "", clean.casefold())[:180]
+    if fingerprint and fingerprint in seen:
+        return False
+    seen.add(fingerprint)
+    parts.append(clean)
+    return True
+
+
+def _container_text(container, include_tables=True):
+    parts = []
+    seen = set()
+    tags = ["p", "li", "h2", "h3", "blockquote"]
+    if include_tables:
+        tags.extend(["td", "th"])
+
+    for node in container.find_all(tags, limit=260):
+        if node.find_parent(["nav", "header", "footer", "aside", "form"]):
+            continue
+        text = node.get_text(" ", strip=True)
+        min_chars = 18 if node.name in {"h2", "h3", "th"} else 30
+        _append_text_part(parts, seen, text, min_chars=min_chars)
+
+    if parts:
+        return _normalize_text(" ".join(parts))
+
+    fallback = _normalize_text(container.get_text(" ", strip=True))
+    return "" if _is_noisy_text(fallback) else fallback
+
+
+def _best_text_for_selector(soup, selector, method):
+    best = ""
+    for candidate in soup.select(selector):
+        text = _container_text(candidate)
+        if len(text) > len(best):
+            best = text
+    return method, best
+
+
+def _paragraph_fallback_text(soup):
+    root = soup.body or soup
+    parts = []
+    seen = set()
+    for paragraph in root.find_all(["p", "li"], limit=320):
+        if paragraph.find_parent(["nav", "header", "footer", "aside", "form"]):
+            continue
+        _append_text_part(parts, seen, paragraph.get_text(" ", strip=True), min_chars=40)
+    return _normalize_text(" ".join(parts))
 
 
 def _trim_preview(text):
@@ -464,64 +867,69 @@ def _trim_preview(text):
 def _extract_content_preview(soup):
     clean = _clean_soup(soup)
     container = _best_article_container(clean)
-    parts = []
-
-    for paragraph in container.find_all(["p", "li"], limit=100):
-        text = _normalize_text(paragraph.get_text(" ", strip=True))
-        if len(text) < 40:
-            continue
-        parts.append(text)
-        if len(" ".join(parts)) >= PREVIEW_MAX_CHARS:
-            break
-
-    if not parts:
-        fallback = _normalize_text(container.get_text(" ", strip=True))
-        return _trim_preview(fallback)
-
-    return _trim_preview(" ".join(parts))
+    return _trim_preview(_container_text(container))
 
 
 def _extract_full_article_text(soup):
     clean = _clean_soup(soup)
     container = _best_article_container(clean)
-    parts = []
-
-    for node in container.find_all(["p", "li", "h2", "h3"], limit=180):
-        text = _normalize_text(node.get_text(" ", strip=True))
-        if len(text) < 30:
-            continue
-        parts.append(text)
-
-    full_text = _normalize_text(" ".join(parts))
-    if len(full_text) >= WEAK_ARTICLE_MIN_CHARS:
-        return full_text
-
-    fallback = _normalize_text(container.get_text(" ", strip=True))
-    if len(fallback) > len(full_text):
-        return fallback
-    return full_text
+    full_text = _container_text(container)
+    fallback = _paragraph_fallback_text(clean)
+    return fallback if len(fallback) > len(full_text) else full_text
 
 
 def _choose_enrichment_text(article, soup, min_success_chars):
     meta_description = _extract_meta_description(soup)
     candidates = [
-        ("article_body", _extract_full_article_text(_soup_copy(soup))),
-        ("rss_summary", article.get("rss_summary", "")),
-        ("meta_description", meta_description),
-        ("page_text", _extract_content_preview(_soup_copy(soup))),
+        ("jsonld_article_body", _extract_jsonld_article_body(_soup_copy(soup))),
+        _best_text_for_selector(_soup_copy(soup), "article", "article_tag"),
+        _best_text_for_selector(_soup_copy(soup), "main", "main_tag"),
     ]
+    for selector in BODY_CONTAINER_SELECTORS:
+        method, text = _best_text_for_selector(_soup_copy(soup), selector, "content_container")
+        if text:
+            candidates.append((method, text))
+    candidates.extend(
+        [
+            ("paragraph_fallback", _paragraph_fallback_text(_clean_soup(_soup_copy(soup)))),
+            ("article_body", _extract_full_article_text(_soup_copy(soup))),
+            ("rss_summary", _html_to_text(article.get("rss_summary", ""))),
+            ("jsonld_description", _extract_jsonld_description(_soup_copy(soup))),
+            ("meta_description", meta_description),
+            ("page_text", _extract_content_preview(_soup_copy(soup))),
+        ]
+    )
     best_method = ""
     best_text = ""
     tried = []
+    primary_failed_logged = False
     for method, raw_text in candidates:
         text = _normalize_text(raw_text)
         if not text:
             continue
-        tried.append(f"{method}:{len(text)}")
+        words = _word_count(text)
+        tried.append(f"{method}:{len(text)}chars/{words}words")
         if len(text) > len(best_text):
             best_method = method
             best_text = text
-        if len(text) >= min_success_chars:
+        if method in {"jsonld_article_body", "article_tag", "main_tag"} and words < MIN_EXTRACTED_WORDS and not primary_failed_logged:
+            primary_failed_logged = True
+            log_event(
+                "extraction_primary_failed",
+                method=method,
+                title=article.get("title"),
+                source=article.get("source_name"),
+                chars=len(text),
+                words=words,
+                required_words=MIN_EXTRACTED_WORDS,
+            )
+        if len(text) >= min_success_chars and words >= MIN_EXTRACTED_WORDS:
+            if method == "jsonld_article_body":
+                log_event("extraction_jsonld_used", title=article.get("title"), source=article.get("source_name"), words=words)
+            elif method == "article_tag":
+                log_event("extraction_article_tag_used", title=article.get("title"), source=article.get("source_name"), words=words)
+            elif method == "paragraph_fallback":
+                log_event("extraction_paragraph_fallback_used", title=article.get("title"), source=article.get("source_name"), words=words)
             return text, method, meta_description, tried
     return best_text, best_method, meta_description, tried
 
@@ -595,6 +1003,28 @@ def _fetch_html_with_requests(url):
 
 def _apply_enrichment_from_html(article, html, url):
     soup = BeautifulSoup(html, "html.parser")
+    source_links_removed, affiliate_links_removed = _remove_unwanted_links(
+        soup,
+        url,
+        article.get("source_url") or _source_url(article),
+    )
+    log_event(
+        "source_links_removed",
+        title=article.get("title"),
+        source=article.get("source_name"),
+        source_url=url,
+        count=str(source_links_removed),
+    )
+    log_event(
+        "affiliate_links_removed",
+        title=article.get("title"),
+        source=article.get("source_name"),
+        source_url=url,
+        count=str(affiliate_links_removed),
+    )
+    article["source_links_removed_count"] = source_links_removed
+    article["affiliate_links_removed_count"] = affiliate_links_removed
+    article["removed_source_links_count"] = source_links_removed
     min_success_chars = FAST_ENRICH_MIN_CHARS if FAST_NEWS_MODE else WEAK_ARTICLE_MIN_CHARS
     full_text, text_method, meta_description, tried_text_sources = _choose_enrichment_text(
         article,
@@ -602,12 +1032,23 @@ def _apply_enrichment_from_html(article, html, url):
         min_success_chars,
     )
     preview = _trim_preview(full_text) if full_text else ""
-    if not full_text or len(full_text) < min_success_chars:
+    extracted_words = _word_count(full_text)
+    log_event(
+        "final_extracted_words",
+        title=article.get("title"),
+        source=article.get("source_name"),
+        source_url=url,
+        method=text_method or "none",
+        chars=len(full_text or ""),
+        words=str(extracted_words),
+    )
+    if not full_text or len(full_text) < min_success_chars or extracted_words < MIN_EXTRACTED_WORDS:
         tried = ", ".join(tried_text_sources) if tried_text_sources else "none"
         return (
             False,
             "weak article body after fallbacks "
-            f"(best={len(full_text or '')} chars; required={min_success_chars}; tried={tried})",
+            f"(best={len(full_text or '')} chars/{extracted_words} words; "
+            f"required={min_success_chars} chars/{MIN_EXTRACTED_WORDS} words; tried={tried})",
         )
     if text_method and text_method != "article_body":
         article["enrichment_fallback_used"] = text_method
@@ -648,17 +1089,23 @@ def _apply_enrichment_from_html(article, html, url):
     
     # Build article_images list
     article_images = []
+    seen_article_images = set()
     if main_image_url:
+        seen_article_images.add(main_image_url)
         article_images.append({
             "url": main_image_url,
             "alt": article.get("fetched_title") or article.get("title", ""),
             "source": image_extraction_method,
         })
-    
+
     for extra_image in extra_images:
+        image_url = extra_image.get("url")
+        if not image_url or image_url in seen_article_images:
+            continue
+        seen_article_images.add(image_url)
         article_images.append({
-            "url": extra_image["url"],
-            "alt": extra_image.get("alt", "صورة توضيحية"),
+            "url": image_url,
+            "alt": extra_image.get("alt") or "Article image",
             "source": "article_content",
         })
     
@@ -725,7 +1172,7 @@ def _apply_rss_summary_fallback(article):
     if not fallback_image_url:
         article["image_warning"] = "missing downloadable article image"
 
-    summary = _normalize_text(article.get("rss_summary", ""))
+    summary = _html_to_text(article.get("rss_summary", ""))
     if len(summary) < MIN_EXTRACTED_CHARS:
         summary = _normalize_text(
             " ".join(
@@ -738,8 +1185,12 @@ def _apply_rss_summary_fallback(article):
                 if value
             )
         )
-    if len(summary) < MIN_EXTRACTED_CHARS:
-        return False, "missing article body"
+    summary_words = _word_count(summary)
+    if len(summary) < MIN_EXTRACTED_CHARS or summary_words < MIN_EXTRACTED_WORDS:
+        return False, (
+            "missing article body after rss fallback "
+            f"({len(summary)} chars/{summary_words} words; required {MIN_EXTRACTED_WORDS} words)"
+        )
     article["fetched_title"] = article.get("title", "")
     article["meta_description"] = summary[:240]
     article["article_images"] = [
@@ -776,6 +1227,7 @@ def _apply_rss_summary_fallback(article):
         title=article.get("title"),
         source=article.get("source_name"),
         chars=len(summary),
+        words=summary_words,
     )
     return True, ""
 
@@ -921,8 +1373,20 @@ def enrich_ready_articles(force=False):
 
         checked += 1
         if article.get("content_fetch_status") == "success" and not force:
-            already_enriched += 1
-            continue
+            existing_text = article.get("full_article_text") or article.get("content_full") or article.get("content_preview", "")
+            existing_words = _word_count(existing_text)
+            if existing_words >= MIN_EXTRACTED_WORDS:
+                already_enriched += 1
+                continue
+            log_event(
+                "extraction_primary_failed",
+                article_id=article.get("id"),
+                title=article.get("title"),
+                source=article.get("source_name"),
+                method="cached_success_too_short",
+                words=str(existing_words),
+                required_words=MIN_EXTRACTED_WORDS,
+            )
         if not force and is_candidate_in_recent_failure(article):
             recent_failure_skipped += 1
             log_event(

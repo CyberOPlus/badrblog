@@ -1032,6 +1032,23 @@ def _same_host(url_a, url_b):
     return bool(host_a and host_b and host_a == host_b)
 
 
+TRUSTED_OFFICIAL_LINK_HOSTS = (
+    "cisa.gov",
+    "microsoft.com",
+    "google.com",
+    "openai.com",
+    "github.com",
+    "nvd.nist.gov",
+    "mitre.org",
+    "cve.org",
+)
+
+
+def _official_reference_host(url):
+    host = urlparse(str(url or "")).netloc.lower().removeprefix("www.")
+    return any(host == trusted or host.endswith("." + trusted) for trusted in TRUSTED_OFFICIAL_LINK_HOSTS)
+
+
 def _sanitize_source_links(html_content, package):
     source_url = package.get("url") or package.get("source_url") or ""
     if not source_url:
@@ -1041,7 +1058,7 @@ def _sanitize_source_links(html_content, package):
     changed = False
     for link in soup.find_all("a", href=True):
         href = str(link.get("href") or "")
-        if _same_host(href, source_url):
+        if _same_host(href, source_url) and not _official_reference_host(href):
             link.unwrap()
             changed = True
     return str(soup) if changed else html_content
