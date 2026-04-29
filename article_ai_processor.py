@@ -52,14 +52,11 @@ from config import (
     OPENROUTER_MODELS,
     OPENROUTER_REFERER,
     OPENROUTER_TIMEOUT_SECONDS,
-    TARGET_ARTICLE_WORDS,
 )
 from production_logging import elapsed_ms, html_word_count, log_event
 from quality_gate import (
-    MIN_BLOGGER_ARTICLE_WORDS,
     REQUIRED_READER_SECTION,
     REQUIRED_READER_SECTION_WITH_QUESTION,
-    TARGET_BLOGGER_ARTICLE_WORDS,
     validate_ai_article_output,
 )
 
@@ -69,6 +66,13 @@ AI_MODEL_COOLDOWN_SECONDS = 30 * 60
 _AI_COOLDOWNS = {}
 _AI_MEMORY_CACHE = None
 FAST_OPENROUTER_MODEL_SET = set(FAST_OPENROUTER_MODELS)
+AI_TIMEOUT_RETRIES = 2
+MIN_PROVIDER_TIMEOUT_SECONDS = 30
+LONG_FORM_ARTICLE_MIN_WORDS = 700
+LONG_FORM_ARTICLE_TARGET_RANGE = "700-1000"
+RICH_INPUT_MIN_SOURCE_WORDS = 180
+RICH_INPUT_MIN_SOURCE_CHARS = 1200
+REQUIRED_ARTICLE_FIELDS = ("title", "description", "slug", "html_content")
 
 
 class AIProviderFallbackNeeded(RuntimeError):
@@ -87,6 +91,14 @@ class AITimeBudgetExceeded(RuntimeError):
     """Raised when the full AI generation budget is exhausted."""
 
 
+class AIIncompleteResponseError(ValueError):
+    """Raised when the AI response is incomplete or structurally invalid."""
+
+
+class AIOutputRejectedShortError(ValueError):
+    """Raised when the AI output is too short to be publishable."""
+
+
 @dataclass
 class AIExecutionContext:
     article_id: str = ""
@@ -96,6 +108,7 @@ class AIExecutionContext:
     openrouter_failures_after_gemini: int = 0
     skipped_slow_models_count: int = 0
     fast_mode_enabled: bool = True
+    current_stage: str = "article_generation"
 
     @property
     def deadline(self):
@@ -271,11 +284,37 @@ def _remaining_budget_seconds(context):
 
 def _provider_timeout_seconds(candidate, context=None):
     provider = candidate.get("provider")
-    base_timeout = GEMINI_TIMEOUT_SECONDS if provider == "gemini" else AI_MODEL_TIMEOUT_SECONDS
+    if provider == "gemini":
+        base_timeout = GEMINI_TIMEOUT_SECONDS
+    elif provider == "openrouter":
+        base_timeout = OPENROUTER_TIMEOUT_SECONDS
+    elif provider == "openai":
+        base_timeout = OPENAI_TIMEOUT_SECONDS
+    else:
+        base_timeout = AI_MODEL_TIMEOUT_SECONDS
     remaining = _remaining_budget_seconds(context)
     if remaining <= 0:
         raise AITimeBudgetExceeded("ai_time_budget_exceeded")
-    return max(1, min(base_timeout, int(remaining) if remaining >= 1 else 1))
+    desired_timeout = max(int(base_timeout or 0), MIN_PROVIDER_TIMEOUT_SECONDS)
+    remaining_seconds = int(remaining) if remaining >= 1 else 1
+    return max(1, min(desired_timeout, remaining_seconds))
+
+
+def _is_timeout_error(error):
+    if isinstance(error, (requests.Timeout, TimeoutError)):
+        return True
+    message = str(error).casefold()
+    return any(
+        hint in message
+        for hint in (
+            "timeout",
+            "timed out",
+            "deadline exceeded",
+            "read timed out",
+            "connect timeout",
+            "request timed out",
+        )
+    )
 
 
 def _check_ai_time_budget(context, stage=""):
@@ -394,6 +433,81 @@ def _selected_ready_for_ai(article):
     )
 
 
+def _source_text_for_package(package):
+    package = dict(package or {})
+    return str(
+        package.get("full_article_text")
+        or package.get("content_preview")
+        or package.get("rss_summary")
+        or ""
+    ).strip()
+
+
+def _source_stats(package):
+    source_text = _source_text_for_package(package)
+    words = len(re.findall(r"\b\w+\b", source_text, flags=re.UNICODE))
+    return source_text, len(source_text), words
+
+
+def _is_rich_input_package(package):
+    _source_text, source_chars, source_words = _source_stats(package)
+    return source_words >= RICH_INPUT_MIN_SOURCE_WORDS or source_chars >= RICH_INPUT_MIN_SOURCE_CHARS
+
+
+def _minimum_article_words_for_package(package):
+    return LONG_FORM_ARTICLE_MIN_WORDS if _is_rich_input_package(package) else MIN_PUBLISHABLE_WORDS
+
+
+def _next_provider_in_sequence(provider_sequence, current_provider):
+    if not provider_sequence:
+        return ""
+    if current_provider not in provider_sequence:
+        return provider_sequence[0]
+    if len(provider_sequence) == 1:
+        return current_provider
+    current_index = provider_sequence.index(current_provider)
+    return provider_sequence[(current_index + 1) % len(provider_sequence)]
+
+
+def _raw_html_incomplete_reason(html_content):
+    text = str(html_content or "").strip()
+    if not text:
+        return "html_content is empty"
+    if re.search(r"<[^>]*$", text):
+        return "html_content ended before a tag was closed"
+    if re.search(r"&(?:[A-Za-z]+|#\d+|#x[0-9A-Fa-f]+)?$", text):
+        return "html_content ended before an HTML entity was completed"
+    for tag in ("p", "h2", "h3", "ul", "li", "div", "a"):
+        opening_count = len(re.findall(rf"<{tag}\b[^>]*>", text, flags=re.I))
+        closing_count = len(re.findall(rf"</{tag}>", text, flags=re.I))
+        if opening_count != closing_count:
+            return f"html_content has unbalanced <{tag}> tags"
+    return ""
+
+
+def _parse_complete_ai_json(raw_text, required_fields, stage_label):
+    try:
+        data = _parse_ai_json(raw_text)
+    except json.JSONDecodeError as error:
+        raise AIIncompleteResponseError(f"{stage_label} returned incomplete JSON.") from error
+
+    if not isinstance(data, dict):
+        raise AIIncompleteResponseError(f"{stage_label} returned a non-object JSON payload.")
+
+    missing_fields = [field for field in required_fields if not str(data.get(field, "")).strip()]
+    if missing_fields:
+        raise AIIncompleteResponseError(
+            f"{stage_label} is missing required field(s): {', '.join(missing_fields)}"
+        )
+
+    if "html_content" in required_fields:
+        html_issue = _raw_html_incomplete_reason(data.get("html_content", ""))
+        if html_issue:
+            raise AIIncompleteResponseError(html_issue)
+
+    return data
+
+
 PLUS_UI_FORMAT_SNIPPETS = """
 Use these Plus UI snippets exactly when the component is needed. Do not add CSS.
 
@@ -426,9 +540,10 @@ Manual Related Posts:
 
 def _build_prompt(package):
     package = dict(package or {})
-    source_text = package.get("full_article_text") or package.get("content_preview") or ""
+    source_text = _source_text_for_package(package)
     package["blogger_source_text"] = source_text
     package_json = json.dumps(package, ensure_ascii=False, indent=2)
+    source_is_rich = _is_rich_input_package(package)
     if FAST_NEWS_MODE:
         return f"""
 You are a fast Arabic technology news editor for a Blogger automation pipeline.
@@ -444,8 +559,10 @@ STRICT FAST NEWS RULES:
 - Translate ordinary English words, entertainment terms, and generic verbs/nouns into Arabic.
 - Preserve facts exactly. Do not invent numbers, dates, quotes, incidents, claims, or links.
 - Keep technical names normally written in English.
-- Target {TARGET_ARTICLE_WORDS} Arabic words. Minimum allowed is {MIN_ARTICLE_WORDS} words.
-- If the original news is short, keep it concise but complete.
+- The source package richness is {"rich" if source_is_rich else "thin"}.
+- If the source package is rich, html_content must be a complete Arabic Blogger article of {LONG_FORM_ARTICLE_TARGET_RANGE} words.
+- If the source package is thin, still write the fullest accurate article possible and never return a thin brief, teaser, or social caption.
+- Never accept a short article when the source package already contains enough detail.
 - Structure:
   1) Short strong introduction.
   2) Main explanation with clear <h2> headings.
@@ -496,7 +613,8 @@ STRICT RULES:
 - If credibility is needed, mention only official/security references available in trusted_references.
 - Keep product names, company names, malware names, commands, CVE IDs, URLs, and short technical terms in English.
 - Blogger is the main output. Write a complete long-form article, not a social caption or summary.
-- The html_content body must contain {TARGET_BLOGGER_ARTICLE_WORDS} Arabic words. Never return a short article.
+- The html_content body should be a complete Arabic article in the {LONG_FORM_ARTICLE_TARGET_RANGE} word range whenever the source package is rich.
+- If the source package is thin, expand responsibly and still avoid returning a short article.
 - Required structure:
   1) A strong introduction with 2-3 substantial paragraphs.
   2) Detailed explanatory sections with clear <h2> and useful <h3> headings.
@@ -560,10 +678,9 @@ def _parse_ai_json(raw_text):
 
 
 def _validate_ai_output(data, package=None):
-    required = ("title", "description", "slug", "html_content")
-    missing = [field for field in required if not str(data.get(field, "")).strip()]
+    missing = [field for field in REQUIRED_ARTICLE_FIELDS if not str(data.get(field, "")).strip()]
     if missing:
-        raise ValueError("Missing AI output field(s): " + ", ".join(missing))
+        raise AIIncompleteResponseError("Missing AI output field(s): " + ", ".join(missing))
 
     title = str(data["title"]).strip()
     description = str(data["description"]).strip()
@@ -577,21 +694,24 @@ def _validate_ai_output(data, package=None):
         description_ok = 100 <= len(description) <= 170
 
     if not title_ok:
-        raise ValueError(f"SEO title length must be 40-70 characters; got {len(title)}")
+        raise AIIncompleteResponseError(f"SEO title length must be 40-70 characters; got {len(title)}")
     if not description_ok:
-        raise ValueError(
+        raise AIIncompleteResponseError(
             f"Meta description length must be 100-170 characters; got {len(description)}"
         )
     if not html_content:
-        raise ValueError("html_content is empty")
+        raise AIIncompleteResponseError("html_content is empty")
     word_count = html_word_count(html_content)
-    if word_count < MIN_PUBLISHABLE_WORDS:
-        raise ValueError(
-            f"article too short ({word_count} words; minimum {MIN_PUBLISHABLE_WORDS})"
+    minimum_words = _minimum_article_words_for_package(package)
+    if word_count < minimum_words:
+        raise AIOutputRejectedShortError(
+            f"article too short ({word_count} words; minimum {minimum_words})"
         )
 
     result = validate_ai_article_output(data, package=package)
     if not result.passed:
+        if "too short" in str(result.reason).casefold():
+            raise AIOutputRejectedShortError(result.reason)
         raise ValueError(result.reason)
     phase3_reason = _phase3_quality_failure_reason(data, package=package)
     if phase3_reason:
@@ -602,7 +722,7 @@ def _build_expansion_retry_prompt(package, previous_data, previous_error):
     previous_html = ""
     if isinstance(previous_data, dict):
         previous_html = str(previous_data.get("html_content") or "")
-    source_text = (package or {}).get("full_article_text") or (package or {}).get("content_preview") or ""
+    source_text = _source_text_for_package(package)
     if FAST_NEWS_MODE:
         return f"""
 Return JSON only using the same shape as before.
@@ -613,46 +733,14 @@ The previous fast-news Blogger article failed the production quality gate:
 Rewrite it as a complete fast Arabic news article, not a Facebook caption.
 
 Mandatory fixes:
-- html_content must be at least {MIN_ARTICLE_WORDS} Arabic words.
-- Aim for {TARGET_ARTICLE_WORDS} words.
+- The response is rejected unless title, description, slug, and html_content are all present.
+- html_content must be structurally complete Blogger HTML with no truncated tags.
+- If the source package is rich, html_content must be a complete Arabic article of {LONG_FORM_ARTICLE_TARGET_RANGE} words.
+- If the source package is thin, still expand responsibly and never return a short brief or social caption.
 - Include title, description, slug, and clean Blogger HTML.
 - Add a short introduction, main explanation, and conclusion.
 - Add <h2>{REQUIRED_READER_SECTION_WITH_QUESTION}</h2> only if useful.
 - Keep facts accurate and do not invent details.
-
-SOURCE PACKAGE:
-{json.dumps(package, ensure_ascii=False, indent=2)}
-
-SOURCE TEXT:
-{source_text}
-
-PREVIOUS HTML, for diagnosis only:
-{previous_html[:4000]}
-""".strip()
-
-
-def _build_excess_english_retry_prompt(package, previous_data, previous_error):
-    previous_html = ""
-    if isinstance(previous_data, dict):
-        previous_html = str(previous_data.get("html_content") or "")
-    source_text = (package or {}).get("full_article_text") or (package or {}).get("content_preview") or ""
-    return f"""
-Return JSON only using the same shape as before.
-
-The previous Blogger article failed because it contained too much English:
-{previous_error}
-
-Rewrite the article in natural Modern Standard Arabic.
-
-Strict language rules:
-- Arabic must dominate every paragraph.
-- Keep English only for essential technical terms and names:
-  AI, API, CVE, Malware, Android, iOS, Windows, Linux, VPN, GitHub, OpenAI, Microsoft, Google.
-- Translate generic English words such as movies, streaming, feature, update, workflow, security, privacy,
-  account, protection, tool, software, and similar non-brand terms into Arabic.
-- Do not leave long English phrases or sentences inside paragraph text.
-- Preserve facts from the source; do not invent claims, numbers, dates, quotes, or links.
-- Keep clean Plus UI-compatible HTML and a concise fast-news structure.
 
 SOURCE PACKAGE:
 {json.dumps(package, ensure_ascii=False, indent=2)}
@@ -675,7 +763,9 @@ Blogger article. This is blogger_article_html only, not facebook_post_text and
 not telegram_report.
 
 Mandatory fixes:
-- html_content must be {TARGET_BLOGGER_ARTICLE_WORDS} Arabic words.
+- The response is rejected unless title, description, slug, and html_content are all present.
+- html_content must be structurally complete Blogger HTML with no truncated tags.
+- html_content should stay in the {LONG_FORM_ARTICLE_TARGET_RANGE} word range for a complete article.
 - Include a strong introduction before the first heading.
 - Include detailed main explanation sections.
 - Include this exact heading: <h2>{REQUIRED_READER_SECTION_WITH_QUESTION}</h2>
@@ -692,6 +782,43 @@ SOURCE TEXT:
 
 PREVIOUS SHORT/INVALID HTML, for diagnosis only:
 {previous_html[:6000]}
+""".strip()
+
+
+def _build_excess_english_retry_prompt(package, previous_data, previous_error):
+    previous_html = ""
+    if isinstance(previous_data, dict):
+        previous_html = str(previous_data.get("html_content") or "")
+    source_text = _source_text_for_package(package)
+    return f"""
+Return JSON only using the same shape as before.
+
+The previous Blogger article failed because it contained too much English:
+{previous_error}
+
+Rewrite the article in natural Modern Standard Arabic.
+
+Strict language rules:
+- Arabic must dominate every paragraph.
+- Keep English only for essential technical terms and names:
+  AI, API, CVE, Malware, Android, iOS, Windows, Linux, VPN, GitHub, OpenAI, Microsoft, Google.
+- Translate generic English words such as movies, streaming, feature, update, workflow, security, privacy,
+  account, protection, tool, software, and similar non-brand terms into Arabic.
+- Do not leave long English phrases or sentences inside paragraph text.
+- The response is rejected unless title, description, slug, and html_content are all present.
+- html_content must be structurally complete Blogger HTML with no truncated tags.
+- If the source package is rich, aim for a complete article in the {LONG_FORM_ARTICLE_TARGET_RANGE} word range.
+- Preserve facts from the source; do not invent claims, numbers, dates, quotes, or links.
+- Keep clean Plus UI-compatible HTML and a concise fast-news structure.
+
+SOURCE PACKAGE:
+{json.dumps(package, ensure_ascii=False, indent=2)}
+
+SOURCE TEXT:
+{source_text}
+
+PREVIOUS HTML, for diagnosis only:
+{previous_html[:4000]}
 """.strip()
 
 
@@ -718,32 +845,6 @@ def _trim_to_length(text, max_length):
     return preview.strip()
 
 
-def _build_metadata_shortening_prompt(title, description):
-    return f"""
-Return JSON only.
-
-Shorten only the fields that are too long while preserving exact meaning.
-
-Rules:
-- If title is longer than 70 characters, shorten it to 50-65 Arabic characters.
-- If description is longer than 170 characters, shorten it to 120-160 Arabic characters.
-- Do not add facts.
-- Keep technical names in English.
-
-Input:
-{{
-  "title": {json.dumps(title, ensure_ascii=False)},
-  "description": {json.dumps(description, ensure_ascii=False)}
-}}
-
-Output JSON:
-{{
-  "title": "...",
-  "description": "..."
-}}
-""".strip()
-
-
 def _shorten_metadata_once_if_needed(data):
     title = str(data.get("title", "")).strip()
     description = str(data.get("description", "")).strip()
@@ -751,23 +852,11 @@ def _shorten_metadata_once_if_needed(data):
     if len(title) <= 70 and len(description) <= 170:
         return data
 
-    prompt = _build_metadata_shortening_prompt(title, description)
-    raw_text, _provider_used = _generate_ai_article(prompt)
-    corrected = _parse_ai_json(raw_text)
-
     if len(title) > 70:
-        new_title = str(corrected.get("title", "")).strip()
-        if new_title:
-            data["title"] = new_title
-        if len(str(data.get("title", ""))) > 70:
-            data["title"] = _trim_to_length(data.get("title", ""), 65)
+        data["title"] = _trim_to_length(title, 65)
 
     if len(description) > 170:
-        new_description = str(corrected.get("description", "")).strip()
-        if new_description:
-            data["description"] = new_description
-        if len(str(data.get("description", ""))) > 170:
-            data["description"] = _trim_to_length(data.get("description", ""), 160)
+        data["description"] = _trim_to_length(description, 160)
 
     return data
 
@@ -1602,7 +1691,6 @@ def _generate_with_provider_name(provider, prompt, context=None):
     if provider == "openrouter" and context and context.gemini_failures:
         allowed = allowed[:2]
     for index, candidate in enumerate(allowed):
-        _check_ai_time_budget(context, stage=f"{provider}_candidate")
         cooldown = _cooldown_remaining(candidate)
         if cooldown > 0 and index < len(allowed) - 1:
             log_event(
@@ -1613,48 +1701,79 @@ def _generate_with_provider_name(provider, prompt, context=None):
                 remaining_seconds=int(cooldown),
             )
             continue
-        try:
-            result = _generate_with_candidate(candidate, prompt, context=context)
-            return result
-        except Exception as error:
-            last_error = error
-            if _is_empty_provider_response(error):
-                log_event(
-                    "ai_provider_empty_response",
-                    provider=provider,
-                    model=candidate.get("model"),
-                    article_id=getattr(context, "article_id", ""),
-                )
-            _put_candidate_on_cooldown(candidate, error)
-            if provider == "gemini" and context:
-                context.gemini_failures += 1
-            if provider == "openrouter" and context and context.gemini_failures:
-                context.openrouter_failures_after_gemini += 1
-            reason = "quota/rate limit/temporary provider error" if _is_quota_or_rate_limit_error(error) else "provider error"
+
+        timeout_retry_count = 0
+        while True:
+            _check_ai_time_budget(context, stage=f"{provider}_candidate")
             log_event(
-                "ai_model_failed",
+                "ai_waiting_for_complete_response",
+                article_id=getattr(context, "article_id", ""),
                 provider=provider,
                 model=candidate.get("model"),
-                key_id=_key_id(candidate.get("api_key")),
-                reason=reason,
-                error=error.__class__.__name__,
+                stage=getattr(context, "current_stage", "article_generation"),
+                timeout_seconds=_provider_timeout_seconds(candidate, context=context),
+                timeout_retry=timeout_retry_count,
             )
-            if provider == "openrouter" and context and context.gemini_failures and context.openrouter_failures_after_gemini >= 2:
-                raise AIProviderRotationExhausted(
-                    "AI rotation exhausted: Gemini failed and 2 fast OpenRouter models failed"
-                ) from error
-            if index < len(allowed) - 1:
-                log_event(
-                    "ai_provider_switch",
-                    article_id=getattr(context, "article_id", ""),
-                    from_provider=provider,
-                    to_provider=allowed[index + 1].get("provider"),
-                    reason=_safe_error_reason(error),
+            try:
+                result = _generate_with_candidate(candidate, prompt, context=context)
+                return result
+            except Exception as error:
+                last_error = error
+                if _is_timeout_error(error) and timeout_retry_count < AI_TIMEOUT_RETRIES:
+                    timeout_retry_count += 1
+                    log_event(
+                        "ai_timeout_retry",
+                        article_id=getattr(context, "article_id", ""),
+                        provider=provider,
+                        model=candidate.get("model"),
+                        stage=getattr(context, "current_stage", "article_generation"),
+                        retry=timeout_retry_count,
+                        max_retries=AI_TIMEOUT_RETRIES,
+                        reason=_safe_error_reason(error),
+                    )
+                    time.sleep(min(timeout_retry_count, 2))
+                    continue
+                if _is_empty_provider_response(error):
+                    log_event(
+                        "ai_provider_empty_response",
+                        provider=provider,
+                        model=candidate.get("model"),
+                        article_id=getattr(context, "article_id", ""),
+                    )
+                _put_candidate_on_cooldown(candidate, error)
+                if provider == "gemini" and context:
+                    context.gemini_failures += 1
+                if provider == "openrouter" and context and context.gemini_failures:
+                    context.openrouter_failures_after_gemini += 1
+                reason = (
+                    "quota/rate limit/temporary provider error"
+                    if _is_quota_or_rate_limit_error(error)
+                    else "provider error"
                 )
-                continue
-            if provider == "gemini" and _is_quota_or_rate_limit_error(error):
-                raise AIProviderFallbackNeeded(_safe_error_reason(error)) from error
-            raise AIProviderRotationExhausted(_safe_error_reason(error)) from error
+                log_event(
+                    "ai_model_failed",
+                    provider=provider,
+                    model=candidate.get("model"),
+                    key_id=_key_id(candidate.get("api_key")),
+                    reason=reason,
+                    error=error.__class__.__name__,
+                )
+                if provider == "openrouter" and context and context.gemini_failures and context.openrouter_failures_after_gemini >= 2:
+                    raise AIProviderRotationExhausted(
+                        "AI rotation exhausted: Gemini failed and 2 fast OpenRouter models failed"
+                    ) from error
+                if index < len(allowed) - 1:
+                    log_event(
+                        "ai_provider_switch",
+                        article_id=getattr(context, "article_id", ""),
+                        from_provider=provider,
+                        to_provider=allowed[index + 1].get("provider"),
+                        reason=_safe_error_reason(error),
+                    )
+                    break
+                if provider == "gemini" and _is_quota_or_rate_limit_error(error):
+                    raise AIProviderFallbackNeeded(_safe_error_reason(error)) from error
+                raise AIProviderRotationExhausted(_safe_error_reason(error)) from error
     raise last_error or RuntimeError(f"No {provider} AI candidate returned a response.")
 
 
@@ -1759,17 +1878,21 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     previous_data = None
     provider_sequence = _attempt_provider_sequence()
     failed_provider_names = set()
+    quality_retry_counts = {}
     forced_next_provider = ""
     excess_english_retry_used = False
     context = AIExecutionContext(article_id=article.get("id") or article.get("url") or "")
     context.skipped_slow_models_count = _skipped_slow_models_count()
+    _source_text, source_chars, source_words = _source_stats(package)
 
     log_event(
         "ai_article_start",
         article_id=article.get("id"),
         source=article.get("source_name"),
         title=package.get("title"),
-        source_chars=len(package.get("full_article_text") or package.get("content_preview") or ""),
+        source_chars=source_chars,
+        source_words=source_words,
+        rich_input_source=_is_rich_input_package(package),
         enrichment_status=package.get("enrichment_status"),
         fast_news_mode=FAST_NEWS_MODE,
         ai_fast_mode_enabled=context.fast_mode_enabled,
@@ -1804,17 +1927,26 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             ai_total_time=round(context.elapsed_seconds(), 2),
         )
         try:
+            context.current_stage = "article_generation"
             raw_text, provider_used = (
                 _generate_with_provider_name(provider, prompt, context=context)
                 if provider
                 else _generate_ai_article(prompt, context=context)
             )
-            data = _parse_ai_json(raw_text)
+            data = _parse_complete_ai_json(raw_text, REQUIRED_ARTICLE_FIELDS, "AI article response")
             previous_data = data
             data = _shorten_metadata_once_if_needed(data)
             data = _normalize_ai_output(data)
             data = _finalize_html_content(data, package)
             _validate_ai_output(data, package=package)
+            log_event(
+                "ai_complete_response_accepted",
+                article_id=article.get("id"),
+                attempt=attempt,
+                provider=provider_used or provider,
+                stage=context.current_stage,
+                words=html_word_count(data.get("html_content", "")),
+            )
             _apply_success(article, data, provider_used)
             article["ai_rotation_exhausted"] = False
             article["ai_openrouter_fallback_used"] = provider_used.startswith("openrouter:")
@@ -1849,6 +1981,8 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
         except Exception as error:
             last_error = error
             is_quality_failure = _is_quality_error(error)
+            is_incomplete_response = isinstance(error, AIIncompleteResponseError)
+            is_short_output = isinstance(error, AIOutputRejectedShortError)
             if is_quality_failure:
                 article["ai_quality_last_error"] = str(error)
             else:
@@ -1869,6 +2003,22 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     attempt=attempt,
                     reason=error,
                 )
+                if is_incomplete_response:
+                    log_event(
+                        "ai_response_incomplete_retry",
+                        article_id=article.get("id"),
+                        attempt=attempt,
+                        provider=provider or provider_used,
+                        reason=str(error),
+                    )
+                if is_short_output:
+                    log_event(
+                        "ai_output_rejected_short",
+                        article_id=article.get("id"),
+                        attempt=attempt,
+                        provider=provider or provider_used,
+                        reason=str(error),
+                    )
             else:
                 log_event(
                     "provider_failed_reason",
@@ -1897,6 +2047,13 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     )
                     break
                 prompt = _build_expansion_retry_prompt(package, previous_data, str(error))
+                if provider:
+                    quality_retry_counts[provider] = quality_retry_counts.get(provider, 0) + 1
+                if attempt < total_attempts and provider:
+                    if quality_retry_counts.get(provider, 0) < 2:
+                        forced_next_provider = provider
+                    else:
+                        forced_next_provider = _next_provider_in_sequence(provider_sequence, provider)
                 continue
             if _is_provider_error(error):
                 if _is_empty_provider_response(error):

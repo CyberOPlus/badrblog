@@ -978,6 +978,25 @@ class ProductionHardeningTests(unittest.TestCase):
 
         self.assertEqual(post.call_args.kwargs["timeout"], 12)
 
+    def test_gemini_timeout_retries_twice_before_provider_fallback(self):
+        context = article_ai_processor.AIExecutionContext(article_id="a1")
+        candidate = {"provider": "gemini", "model": "gemini-2.5-flash", "api_key": "sk-gemini"}
+        timeout_error = article_ai_processor.requests.exceptions.Timeout("request timed out")
+
+        with patch.object(article_ai_processor, "_provider_candidates", return_value=[candidate]), patch.object(
+            article_ai_processor, "_cooldown_remaining", return_value=0
+        ), patch.object(
+            article_ai_processor,
+            "_generate_with_candidate",
+            side_effect=[timeout_error, timeout_error, RuntimeError("Gemini API error 429: quota exceeded")],
+        ) as generate_candidate, patch.object(
+            article_ai_processor, "_put_candidate_on_cooldown"
+        ), patch.object(article_ai_processor.time, "sleep"):
+            with self.assertRaises(article_ai_processor.AIProviderFallbackNeeded):
+                article_ai_processor._generate_with_provider_name("gemini", "prompt", context=context)
+
+        self.assertEqual(generate_candidate.call_count, 3)
+
     def test_caption_style_memory_avoids_recent_pattern(self):
         with TemporaryDirectory() as temp_dir:
             memory_path = Path(temp_dir) / "facebook_style_memory.json"
@@ -1128,6 +1147,103 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(result["success"], 1)
         self.assertEqual(result["article"]["ai_quality_attempts"], 3)
         self.assertEqual(result["article"]["ai_quality_status"], "passed")
+
+    def test_ai_incomplete_json_retries_until_complete_response(self):
+        good = {
+            "title": "تحديث أمني كامل لمتصفح Chrome",
+            "description": "شرح عربي واضح لتحديث أمني جديد في Chrome وما الذي يجب على المستخدم معرفته قبل تثبيت الإصلاح بسرعة مناسبة.",
+            "slug": "chrome-security-update",
+            "html_content": (
+                "<p>" + " ".join(["حماية"] * 90) + "</p>"
+                + "<h2>ما الذي حدث؟</h2><p>" + " ".join(["التحديث"] * 70) + "</p>"
+            ),
+        }
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "a1",
+                        "url": "https://example.com/news",
+                        "status": "selected",
+                        "processing_status": "ready_for_ai",
+                        "ai_input_package": {
+                            "title": "Chrome fixes active zero-day vulnerability",
+                            "url": "https://example.com/news",
+                            "source_published_at": recent_iso(1),
+                            "content_preview": "Google released an emergency Chrome security update.",
+                        },
+                    }
+                ],
+                "notifications": {},
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(
+                article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]
+            ), patch.object(
+                article_ai_processor,
+                "_generate_with_provider_name",
+                side_effect=[('{"title":"broken"', "gemini:test"), (json.dumps(good, ensure_ascii=False), "gemini:test")],
+            ), patch.object(article_ai_processor.time, "sleep"):
+                article_queue.save_article_queue(queue)
+                result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
+
+        self.assertEqual(result["success"], 1)
+        self.assertEqual(result["article"]["ai_quality_attempts"], 2)
+        self.assertEqual(result["article"]["ai_quality_status"], "passed")
+
+    def test_rich_input_short_article_is_rejected_and_regenerated(self):
+        rich_good_html = (
+            "<p>" + " ".join(["يوضح"] * 180) + "</p>"
+            + "<h2>ما الذي حدث؟</h2><p>" + " ".join(["التحديث"] * 190) + "</p>"
+            + "<h2>ماذا يعني هذا لك؟</h2><p>" + " ".join(["المستخدم"] * 180) + "</p>"
+            + "<h2>كيف تحمي نفسك</h2><p>" + " ".join(["الوقاية"] * 170) + "</p>"
+        )
+        bad = {
+            "title": "تحديث أمني مهم لمتصفح Chrome",
+            "description": "شرح عربي موجز لخبر أمني جديد في Chrome وما الذي يجب متابعته.",
+            "slug": "chrome-security-update",
+            "html_content": "<p>" + " ".join(["security"] * 140) + "</p>",
+        }
+        good = {
+            "title": "تحديث أمني مهم لمتصفح Chrome",
+            "description": "شرح عربي كامل لتحديث أمني في Chrome وما الذي يجب على المستخدم معرفته وتطبيقه بسرعة لتقليل المخاطر اليومية.",
+            "slug": "chrome-security-update",
+            "html_content": rich_good_html,
+        }
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "a1",
+                        "url": "https://example.com/news",
+                        "status": "selected",
+                        "processing_status": "ready_for_ai",
+                        "ai_input_package": {
+                            "title": "Chrome fixes active zero-day vulnerability",
+                            "url": "https://example.com/news",
+                            "source_published_at": recent_iso(1),
+                            "content_preview": "Google released an emergency Chrome security update.",
+                            "full_article_text": " ".join(["تفاصيل"] * 240),
+                            "suggested_category": "Cyber-Security",
+                        },
+                    }
+                ],
+                "notifications": {},
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(
+                article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]
+            ), patch.object(
+                article_ai_processor,
+                "_generate_with_provider_name",
+                side_effect=[(json.dumps(bad), "gemini:test"), (json.dumps(good, ensure_ascii=False), "gemini:test")],
+            ), patch.object(article_ai_processor.time, "sleep"):
+                article_queue.save_article_queue(queue)
+                result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
+
+        self.assertEqual(result["success"], 1)
+        self.assertEqual(result["article"]["ai_quality_attempts"], 2)
+        self.assertGreaterEqual(result["article"]["final_word_count"], 700)
 
     def test_ai_retries_once_for_excess_english(self):
         bad_english = " ".join(
