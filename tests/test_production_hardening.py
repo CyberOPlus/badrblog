@@ -1566,6 +1566,28 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertTrue(status["allowed_now"], "old 5-minute spacing should not block at 2 minutes")
         self.assertNotIn("minimum minutes between live posts has not elapsed", status["reasons"])
 
+    def test_zero_live_spacing_ignores_future_timestamp_from_timezone_skew(self):
+        now = datetime(2026, 4, 29, 0, 0, 26)
+        with TemporaryDirectory() as temp_dir:
+            queue_path = Path(temp_dir) / "article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(main, "MIN_MINUTES_BETWEEN_LIVE_POSTS", 0), patch.object(main, "MAX_LIVE_POSTS_PER_DAY", 20):
+                article_queue.save_article_queue(
+                    {
+                        "articles": [
+                            {
+                                "id": "published",
+                                "status": "published",
+                                "published_at": "2026-04-29T00:48:05",
+                            }
+                        ],
+                        "notifications": {},
+                    }
+                )
+                status = main.get_publish_schedule_status(mode="live", now=now)
+
+        self.assertTrue(status["allowed_now"], status["reasons"])
+        self.assertNotIn("minimum minutes between live posts has not elapsed", status["reasons"])
+
     def test_rate_limit_wait_is_skip_not_fatal_failure(self):
         next_allowed = datetime(2026, 4, 27, 12, 1, 0)
         schedule = {

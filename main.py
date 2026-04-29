@@ -921,7 +921,7 @@ def get_publish_schedule_status(mode=None, now=None):
     if limit_reached:
         daily_next_allowed = datetime.combine(now.date() + timedelta(days=1), datetime.min.time())
 
-    interval_blocked = bool(last_time and interval_next_allowed > now)
+    interval_blocked = bool(min_minutes > 0 and last_time and interval_next_allowed > now)
     allowed_now = not limit_reached and not interval_blocked
     next_allowed_time = now if allowed_now else max(daily_next_allowed, interval_next_allowed)
 
