@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-29T00:27:13",
+  "updated_at": "2026-04-29T01:24:52",
   "articles": [
     {
       "id": "a7a11e65e86e7bcc",
@@ -737,12 +737,19 @@
       "full_article_text_chars": 109,
       "content_preview": "Researchers have uncovered a malware framework dubbed &quot;fast16&quot; that predates Stuxnet by five years.",
       "content_preview_chars": 109,
-      "content_fetched_at": "2026-04-27T18:10:45",
+      "content_fetched_at": "2026-04-29T01:24:28",
       "enrichment_status": "rss_summary",
-      "content_fetch_status": "success",
+      "content_fetch_status": "failed",
       "archived": true,
       "archived_at": "2026-04-27T19:13:59",
-      "archive_reason": "expired_recent_window"
+      "archive_reason": "expired_recent_window",
+      "image_warning": "missing downloadable article image",
+      "content_fetch_error": "missing article body after rss fallback (109 chars/16 words; required 120 words)",
+      "candidate_retry_after": "2026-04-29T01:39:28Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "missing article body after rss fallback (109 chars/16 words; required 120 words)",
+      "candidate_failed_at": "2026-04-29T01:24:28",
+      "candidate_failure_count": 1
     },
     {
       "id": "ad0a275dcc4ac2ac",
@@ -776,12 +783,19 @@
       "full_article_text_chars": 160,
       "content_preview": "Some fear frontier LLMs like Claude Mythos and Anthropic's GPT-5.5 will lead to cybersecurity annihilation. Ari Herbert-Voss notes this could be an opportunity.",
       "content_preview_chars": 160,
-      "content_fetched_at": "2026-04-27T18:10:45",
+      "content_fetched_at": "2026-04-29T01:24:28",
       "enrichment_status": "rss_summary",
-      "content_fetch_status": "success",
+      "content_fetch_status": "failed",
       "archived": true,
       "archived_at": "2026-04-27T19:03:40",
-      "archive_reason": "expired_recent_window"
+      "archive_reason": "expired_recent_window",
+      "image_warning": "missing downloadable article image",
+      "content_fetch_error": "missing article body after rss fallback (160 chars/23 words; required 120 words)",
+      "candidate_retry_after": "2026-04-29T01:39:28Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "missing article body after rss fallback (160 chars/23 words; required 120 words)",
+      "candidate_failed_at": "2026-04-29T01:24:28",
+      "candidate_failure_count": 1
     },
     {
       "id": "71d489b3fc67bb54",
@@ -12964,7 +12978,12 @@
       "meta_description": "Welcome back folks, this thread is for our second round of feedback on HammerBot - the Tom's Hardware AI Chatbot. You can find out details about it HERE...",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T00:27:10"
+      "content_fetched_at": "2026-04-29T01:24:28",
+      "candidate_retry_after": "2026-04-29T01:39:28Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-04-29T01:24:28",
+      "candidate_failure_count": 1
     },
     {
       "id": "22d38d44bab47b2b",
@@ -12993,7 +13012,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T00:27:10"
+      "content_fetched_at": "2026-04-29T01:24:28",
+      "candidate_retry_after": "2026-04-29T01:39:28Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-04-29T01:24:28",
+      "candidate_failure_count": 1
     },
     {
       "id": "aae18783ee8625e0",
@@ -13022,7 +13046,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T00:27:11"
+      "content_fetched_at": "2026-04-29T01:24:28",
+      "candidate_retry_after": "2026-04-29T01:39:28Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-04-29T01:24:28",
+      "candidate_failure_count": 1
     },
     {
       "id": "6d7b4fc01b8f3719",
@@ -13051,7 +13080,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T00:27:11"
+      "content_fetched_at": "2026-04-29T01:24:29",
+      "candidate_retry_after": "2026-04-29T01:39:29Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-04-29T01:24:29",
+      "candidate_failure_count": 1
     },
     {
       "id": "bc31e5cd03be3e0d",
@@ -13107,7 +13141,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T00:27:11"
+      "content_fetched_at": "2026-04-29T01:24:29",
+      "candidate_retry_after": "2026-04-29T01:39:29Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-04-29T01:24:29",
+      "candidate_failure_count": 1
     },
     {
       "id": "119acafbd01343c2",
@@ -13136,7 +13175,281 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-04-29T00:27:11"
+      "content_fetched_at": "2026-04-29T01:24:29",
+      "candidate_retry_after": "2026-04-29T01:39:29Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-04-29T01:24:29",
+      "candidate_failure_count": 1
+    },
+    {
+      "id": "5bd5257f6c16b930",
+      "source_url_hash": "5bd5257f6c16b930",
+      "canonical_url": "https://www.malwarebytes.com/blog/news/2026/04/apple-fixes-ios-bug-that-kept-deleted-notifications-including-chat-previews",
+      "title_hash": "7155a919b33a9209",
+      "topic_signature": "74f09e2b039ca5e1f76a",
+      "title": "Apple fixes iOS bug that kept deleted notifications, including chat previews",
+      "url": "https://www.malwarebytes.com/blog/news/2026/04/apple-fixes-ios-bug-that-kept-deleted-notifications-including-chat-previews",
+      "source_name": "Malwarebytes Blog",
+      "source_url": "https://www.malwarebytes.com/blog",
+      "source_published_at": "2026-04-23T10:27:32Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 134.95,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-04-29T01:24:21",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 134,
+      "affiliate_links_removed_count": 11,
+      "removed_source_links_count": 134,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Apple fixes iOS bug that kept deleted notifications, including chat previews",
+      "meta_description": "A vulnerability in iPhones and iPads allowed law enforcement to recover deleted notifications, including Signal message previews.",
+      "article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/iphone-notifications-2.jpg",
+          "alt": "Apple fixes iOS bug that kept deleted notifications, including chat previews",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/iPad_Update_settings.png",
+          "alt": "Update settings on iPad",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/iphone-notifications-2.jpg?w=600",
+          "alt": "iPhone notifications",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/sending_text.png?w=1200",
+          "alt": "typing SMS",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/iphone-notifications-2.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/iPad_Update_settings.png",
+          "alt": "Update settings on iPad"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/iphone-notifications-2.jpg?w=600",
+          "alt": "iPhone notifications"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/sending_text.png?w=1200",
+          "alt": "typing SMS"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "CVE-2026-28950",
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-28950"
+        },
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.malwarebytes.com"
+        }
+      ],
+      "full_article_text": "Apple has released a software update that deals with an issue that could allow deleted notifications to be retrieved. Something that, in at least one reported case, was used by law enforcement during forensic analysis. Apple fixed the issue in iOS and iPadOS versions 18.7.8 and 26.4.2 (check availability for your device at those links). The update deals with a singular security vulnerability, tracked as CVE-2026-28950 . Although the description is brief—“a logging issue was addressed with improved data redaction”—the impact points us in the right direction. “Notifications marked for deletion could be unexpectedly retained on the device.” This suggests that Apple’s bug was that iOS kept copies of notification content in an internal database for longer than intended, even after the messages “disappeared” or the app was uninstalled. In a case reported by 404 Media , law enforcement was able to recover those notifications using standard forensic tools once they had access to the unlocked device. The example in that reported case involved Signal. Mobile protection, anywhere, anytime. A response on X by Signal states: “The FBI was able to forensically extract copies of incoming Signal messages from a defendant’s iPhone, even after the app was deleted, because copies of the content were saved in the device’s push notification database.” Before we go into the update process, you may want to know that you can mute or hide notifications in Signal , which also protects them from prying eyes. In Signal, open your Settings and tap on Notifications . You can adjust several settings there. For example, I have mine set so I only see the name of the sender. Install the update For iOS and iPadOS users, you can check if you’re using the latest software version by going to Settings > General > Software Update . It’s also worth turning on Automatic Updates if you haven’t already. You can do that on the same screen. Scammers know more about you than you think. Malwarebytes Mobile Security protects you from phishing, scam texts, malicious sites, and more. With real-time AI-powered Scam Guard built right in. Download for iOS → Download for Android →",
+      "full_article_text_chars": 2163,
+      "content_preview": "Apple has released a software update that deals with an issue that could allow deleted notifications to be retrieved. Something that, in at least one reported case, was used by law enforcement during forensic analysis. Apple fixed the issue in iOS and iPadOS versions 18.7.8 and 26.4.2 (check availability for your device at those links). The update deals with a singular security vulnerability, tracked as CVE-2026-28950 . Although the description is brief—“a logging issue was addressed with improved data redaction”—the impact points us in the right direction. “Notifications marked for deletion could be unexpectedly retained on the device.” This suggests that Apple’s bug was that iOS kept copies of notification content in an internal database for longer than intended, even after the messages “disappeared” or the app was uninstalled. In a case reported by 404 Media , law enforcement was able to recover those notifications using standard forensic tools once they had access to the unlocked device. The example in that reported case involved Signal. Mobile protection, anywhere, anytime. A response on X by Signal states: “The FBI was able to forensically extract copies of incoming Signal messages from a defendant’s iPhone, even after the app was deleted, because copies of the content were saved in the device’s push notification database.” Before we go into the update process, you may want to know that you can mute or hide notifications in Signal , which also protects them from prying eyes. In Signal, open your Settings and tap on Notifications . You can adjust several settings there. For example, I have mine set so I only see the name of the sender. Install the update For iOS and iPadOS users, you can check if you’re using the latest software version by going to Settings > General > Software Update . It’s also worth turning on Automatic Updates if you haven’t already. You can do that on the same screen. Scammers know more about you than you think. Malwarebytes Mobile Security protects you from phishing, scam texts, malicious sites, and more. With real-time AI-powered Scam Guard built right in. Download for iOS → Download for Android →",
+      "content_preview_chars": 2163,
+      "content_fetched_at": "2026-04-29T01:24:24",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success",
+      "selected_at": "2026-04-29T01:24:34",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-04-29T01:24:34",
+      "ai_input_package": {
+        "title": "Apple fixes iOS bug that kept deleted notifications, including chat previews",
+        "url": "https://www.malwarebytes.com/blog/news/2026/04/apple-fixes-ios-bug-that-kept-deleted-notifications-including-chat-previews",
+        "source_name": "Malwarebytes Blog",
+        "suggested_category": "Cyber-Security",
+        "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/iphone-notifications-2.jpg",
+        "article_images": [
+          {
+            "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/iphone-notifications-2.jpg",
+            "alt": "Apple fixes iOS bug that kept deleted notifications, including chat previews",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/iPad_Update_settings.png",
+            "alt": "Update settings on iPad",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/iphone-notifications-2.jpg?w=600",
+            "alt": "iPhone notifications",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/sending_text.png?w=1200",
+            "alt": "typing SMS",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "A vulnerability in iPhones and iPads allowed law enforcement to recover deleted notifications, including Signal message previews.",
+        "content_preview": "Apple has released a software update that deals with an issue that could allow deleted notifications to be retrieved. Something that, in at least one reported case, was used by law enforcement during forensic analysis. Apple fixed the issue in iOS and iPadOS versions 18.7.8 and 26.4.2 (check availability for your device at those links). The update deals with a singular security vulnerability, tracked as CVE-2026-28950 . Although the description is brief—“a logging issue was addressed with improved data redaction”—the impact points us in the right direction. “Notifications marked for deletion could be unexpectedly retained on the device.” This suggests that Apple’s bug was that iOS kept copies of notification content in an internal database for longer than intended, even after the messages “disappeared” or the app was uninstalled. In a case reported by 404 Media , law enforcement was able to recover those notifications using standard forensic tools once they had access to the unlocked device. The example in that reported case involved Signal. Mobile protection, anywhere, anytime. A response on X by Signal states: “The FBI was able to forensically extract copies of incoming Signal messages from a defendant’s iPhone, even after the app was deleted, because copies of the content were saved in the device’s push notification database.” Before we go into the update process, you may want to know that you can mute or hide notifications in Signal , which also protects them from prying eyes. In Signal, open your Settings and tap on Notifications . You can adjust several settings there. For example, I have mine set so I only see the name of the sender. Install the update For iOS and iPadOS users, you can check if you’re using the latest software version by going to Settings > General > Software Update . It’s also worth turning on Automatic Updates if you haven’t already. You can do that on the same screen. Scammers know more about you than you think. Malwarebytes Mobile Security protects you from phishing, scam texts, malicious sites, and more. With real-time AI-powered Scam Guard built right in. Download for iOS → Download for Android →",
+        "content_preview_chars": 2163,
+        "rss_summary": "",
+        "full_article_text": "Apple has released a software update that deals with an issue that could allow deleted notifications to be retrieved. Something that, in at least one reported case, was used by law enforcement during forensic analysis. Apple fixed the issue in iOS and iPadOS versions 18.7.8 and 26.4.2 (check availability for your device at those links). The update deals with a singular security vulnerability, tracked as CVE-2026-28950 . Although the description is brief—“a logging issue was addressed with improved data redaction”—the impact points us in the right direction. “Notifications marked for deletion could be unexpectedly retained on the device.” This suggests that Apple’s bug was that iOS kept copies of notification content in an internal database for longer than intended, even after the messages “disappeared” or the app was uninstalled. In a case reported by 404 Media , law enforcement was able to recover those notifications using standard forensic tools once they had access to the unlocked device. The example in that reported case involved Signal. Mobile protection, anywhere, anytime. A response on X by Signal states: “The FBI was able to forensically extract copies of incoming Signal messages from a defendant’s iPhone, even after the app was deleted, because copies of the content were saved in the device’s push notification database.” Before we go into the update process, you may want to know that you can mute or hide notifications in Signal , which also protects them from prying eyes. In Signal, open your Settings and tap on Notifications . You can adjust several settings there. For example, I have mine set so I only see the name of the sender. Install the update For iOS and iPadOS users, you can check if you’re using the latest software version by going to Settings > General > Software Update . It’s also worth turning on Automatic Updates if you haven’t already. You can do that on the same screen. Scammers know more about you than you think. Malwarebytes Mobile Security protects you from phishing, scam texts, malicious sites, and more. With real-time AI-powered Scam Guard built right in. Download for iOS → Download for Android →",
+        "full_article_text_chars": 2163,
+        "enrichment_status": "weak",
+        "source_url": "https://www.malwarebytes.com/blog",
+        "source_published_at": "2026-04-23T10:27:32Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 134.95,
+        "trusted_references": [
+          {
+            "title": "CVE-2026-28950",
+            "url": "https://www.cve.org/CVERecord?id=CVE-2026-28950"
+          },
+          {
+            "title": "google.com",
+            "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.malwarebytes.com"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_provider_last_error": "504 The request timed out. Please try again.",
+      "ai_status": "failed",
+      "ai_error": "Missing AI output field(s): slug",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 18.0,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-04-29T01:39:52Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-04-29T01:24:52",
+      "candidate_failure_count": 1
+    },
+    {
+      "id": "621d8f209ee9cdb9",
+      "source_url_hash": "621d8f209ee9cdb9",
+      "canonical_url": "https://www.exploit-db.com/shellcodes",
+      "title_hash": "91ff2b751d7f7f77",
+      "topic_signature": "91ff2b751d7f7f7781db",
+      "title": "Shellcodes",
+      "url": "https://www.exploit-db.com/shellcodes",
+      "source_name": "Exploit-DB",
+      "source_url": "https://www.exploit-db.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-04-29T01:24:21",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 48,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 48,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
+      "content_fetched_at": "2026-04-29T01:24:31",
+      "candidate_retry_after": "2026-04-29T01:39:31Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
+      "candidate_failed_at": "2026-04-29T01:24:31",
+      "candidate_failure_count": 1
+    },
+    {
+      "id": "33732dfdc6295ab2",
+      "source_url_hash": "33732dfdc6295ab2",
+      "canonical_url": "https://www.exploit-db.com/submit",
+      "title_hash": "8729316a873bb7df",
+      "topic_signature": "8729316a873bb7df7d83",
+      "title": "Submissions",
+      "url": "https://www.exploit-db.com/submit",
+      "source_name": "Exploit-DB",
+      "source_url": "https://www.exploit-db.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-04-29T01:24:21",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 48,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 48,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "content_fetched_at": "2026-04-29T01:24:32",
+      "candidate_retry_after": "2026-04-29T01:39:32Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "candidate_failed_at": "2026-04-29T01:24:32",
+      "candidate_failure_count": 1
+    },
+    {
+      "id": "aede79193c6b98c9",
+      "source_url_hash": "aede79193c6b98c9",
+      "canonical_url": "https://www.exploit-db.com/history",
+      "title_hash": "89741e45a34270f7",
+      "topic_signature": "2c5f122106145812fb49",
+      "title": "Exploit-DB History",
+      "url": "https://www.exploit-db.com/history",
+      "source_name": "Exploit-DB",
+      "source_url": "https://www.exploit-db.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-04-29T01:24:21",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 49,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 49,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
+      "content_fetched_at": "2026-04-29T01:24:34",
+      "candidate_retry_after": "2026-04-29T01:39:34Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
+      "candidate_failed_at": "2026-04-29T01:24:34",
+      "candidate_failure_count": 1
     }
   ],
   "notifications": {

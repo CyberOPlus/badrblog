@@ -2,27 +2,27 @@
   "sources": {
     "https://blocked.example": {
       "source_name": "Blocked",
-      "last_crawled_at": "2026-04-29T00:26:46.201083Z",
+      "last_crawled_at": "2026-04-29T01:24:10.968025Z",
       "overlap_minutes": 10
     },
     "https://good.example": {
       "source_name": "Good",
-      "last_crawled_at": "2026-04-29T00:26:46.205516Z",
+      "last_crawled_at": "2026-04-29T01:24:10.972550Z",
       "overlap_minutes": 10
     },
     "https://a.example": {
       "source_name": "A",
-      "last_crawled_at": "2026-04-29T00:26:47.350189Z",
+      "last_crawled_at": "2026-04-29T01:24:12.179715Z",
       "overlap_minutes": 10
     },
     "https://first.example": {
       "source_name": "The Hacker News",
-      "last_crawled_at": "2026-04-29T00:26:47.126072Z",
+      "last_crawled_at": "2026-04-29T01:24:11.881079Z",
       "overlap_minutes": 10
     },
     "https://b.example": {
       "source_name": "B",
-      "last_crawled_at": "2026-04-29T00:26:47.234261Z",
+      "last_crawled_at": "2026-04-29T01:24:12.025053Z",
       "overlap_minutes": 10
     },
     "https://www.bleepingcomputer.com": {
@@ -87,22 +87,22 @@
     },
     "https://www.malwarebytes.com/blog": {
       "source_name": "Malwarebytes Blog",
-      "last_crawled_at": "2026-04-28T15:11:53.949964Z",
+      "last_crawled_at": "2026-04-29T01:24:15.565358Z",
       "overlap_minutes": 10
     },
     "https://isc.sans.edu": {
       "source_name": "SANS ISC",
-      "last_crawled_at": "2026-04-28T15:11:54.570542Z",
+      "last_crawled_at": "2026-04-29T01:24:16.132312Z",
       "overlap_minutes": 10
     },
     "https://www.troyhunt.com": {
       "source_name": "Troy Hunt",
-      "last_crawled_at": "2026-04-28T15:11:57.218200Z",
+      "last_crawled_at": "2026-04-29T01:24:18.619831Z",
       "overlap_minutes": 10
     },
     "https://www.exploit-db.com": {
       "source_name": "Exploit-DB",
-      "last_crawled_at": "2026-04-28T15:11:57.878787Z",
+      "last_crawled_at": "2026-04-29T01:24:19.313138Z",
       "overlap_minutes": 10
     },
     "https://www.cisa.gov/news-events/cybersecurity-advisories": {
@@ -277,27 +277,27 @@
     },
     "https://cyber-a.example": {
       "source_name": "Cyber A",
-      "last_crawled_at": "2026-04-29T00:26:47.144673Z",
+      "last_crawled_at": "2026-04-29T01:24:11.919169Z",
       "overlap_minutes": 10
     },
     "https://ai-a.example": {
       "source_name": "AI A",
-      "last_crawled_at": "2026-04-29T00:26:47.146853Z",
+      "last_crawled_at": "2026-04-29T01:24:11.921134Z",
       "overlap_minutes": 10
     },
     "https://tech-a.example": {
       "source_name": "Tech A",
-      "last_crawled_at": "2026-04-29T00:26:47.148812Z",
+      "last_crawled_at": "2026-04-29T01:24:11.923061Z",
       "overlap_minutes": 10
     },
     "https://apps-a.example": {
       "source_name": "Apps A",
-      "last_crawled_at": "2026-04-29T00:26:47.150839Z",
+      "last_crawled_at": "2026-04-29T01:24:11.925019Z",
       "overlap_minutes": 10
     },
     "https://older.example": {
       "source_name": "Older",
-      "last_crawled_at": "2026-04-29T00:26:46.272815Z",
+      "last_crawled_at": "2026-04-29T01:24:12.092653Z",
       "overlap_minutes": 10
     },
     "https://fresh.example": {
@@ -313,10 +313,10 @@
       "Tech-News",
       "Apps-Programs"
     ],
-    "last_category": "Apps-Programs",
-    "next_category": "Cyber-Security",
-    "next_index": 0,
-    "updated_at": "2026-04-29T00:26:51Z"
+    "last_category": "Cyber-Security",
+    "next_category": "AI-Tools",
+    "next_index": 1,
+    "updated_at": "2026-04-29T01:24:15Z"
   },
   "source_rotation": {
     "Apps-Programs": {
@@ -330,7 +330,13 @@
       "last_source_name": "Ars Technica",
       "next_source_key": "https://www.engadget.com",
       "updated_at": "2026-04-29T00:24:52Z"
+    },
+    "Cyber-Security": {
+      "last_source_key": "https://www.malwarebytes.com/blog",
+      "last_source_name": "Malwarebytes Blog",
+      "next_source_key": "https://isc.sans.edu",
+      "updated_at": "2026-04-29T01:24:34Z"
     }
   },
-  "updated_at": "2026-04-29T00:27:10"
+  "updated_at": "2026-04-29T01:24:34"
 }

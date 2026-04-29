@@ -1,39 +1,75 @@
 {
   "sources": {
+    "https://older.example": {
+      "source_name": "Older",
+      "failure_count": 0,
+      "last_success_at": "2026-04-29T01:24:12Z",
+      "cooldown_until": "",
+      "last_error": ""
+    },
     "https://a.example": {
       "source_name": "A",
       "failure_count": 0,
-      "last_success_at": "2026-04-29T00:26:47Z",
+      "last_success_at": "2026-04-29T01:24:12Z",
       "cooldown_until": "",
       "last_error": ""
     },
-    "https://lifehacker.com": {
-      "source_name": "Lifehacker",
+    "https://www.malwarebytes.com/blog": {
+      "source_name": "Malwarebytes Blog",
       "failure_count": 0,
-      "last_success_at": "2026-04-29T00:26:52Z",
+      "last_success_at": "2026-04-29T01:24:16Z",
       "cooldown_until": "",
       "last_error": ""
+    },
+    "https://isc.sans.edu": {
+      "source_name": "SANS ISC",
+      "failure_count": 1,
+      "last_failure_at": "2026-04-29T01:24:18Z",
+      "last_error": "fetch failed"
+    },
+    "https://www.troyhunt.com": {
+      "source_name": "Troy Hunt",
+      "failure_count": 0,
+      "last_success_at": "2026-04-29T01:24:19Z",
+      "cooldown_until": "",
+      "last_error": ""
+    },
+    "https://www.exploit-db.com": {
+      "source_name": "Exploit-DB",
+      "failure_count": 1,
+      "last_success_at": "2026-04-29T01:24:21Z",
+      "cooldown_until": "2026-04-29T01:39:34Z",
+      "last_error": "all candidate enrichments failed (3)",
+      "last_failure_at": "2026-04-29T01:24:34Z"
+    },
+    "https://www.darkreading.com": {
+      "source_name": "Dark Reading",
+      "failure_count": 1,
+      "last_failure_at": "2026-04-29T01:24:34Z",
+      "last_error": "all candidate enrichments failed (2)",
+      "cooldown_until": "2026-04-29T01:39:34Z"
+    },
+    "https://www.tomshardware.com": {
+      "source_name": "Tom's Hardware",
+      "failure_count": 1,
+      "last_failure_at": "2026-04-29T01:24:34Z",
+      "last_error": "all candidate enrichments failed (1)",
+      "cooldown_until": "2026-04-29T01:39:34Z"
     },
     "https://www.ghacks.net": {
       "source_name": "Ghacks",
-      "failure_count": 0,
-      "last_success_at": "2026-04-29T00:26:59Z",
-      "cooldown_until": "",
-      "last_error": ""
-    },
-    "https://alternativeto.net/news": {
-      "source_name": "AlternativeTo News",
       "failure_count": 1,
-      "last_failure_at": "2026-04-29T00:27:02Z",
-      "last_error": "fetch failed"
+      "last_failure_at": "2026-04-29T01:24:34Z",
+      "last_error": "all candidate enrichments failed (3)",
+      "cooldown_until": "2026-04-29T01:39:34Z"
     },
     "https://www.neowin.net": {
       "source_name": "Neowin",
-      "failure_count": 0,
-      "last_success_at": "2026-04-29T00:27:10Z",
-      "cooldown_until": "",
-      "last_error": ""
+      "failure_count": 1,
+      "last_failure_at": "2026-04-29T01:24:34Z",
+      "last_error": "all candidate enrichments failed (2)",
+      "cooldown_until": "2026-04-29T01:39:34Z"
     }
   },
-  "updated_at": "2026-04-29T00:27:10Z"
+  "updated_at": "2026-04-29T01:24:34Z"
 }
