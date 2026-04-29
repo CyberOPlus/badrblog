@@ -279,7 +279,14 @@ def run_fetch_only():
     print(f"Enabled sources:    {len(enabled_sources)}")
     print("Fetch limit:        per-source fetch_limit_per_run")
     if RECENT_NEWS_ONLY:
-        print(f"Recent filter:      last {RECENT_NEWS_MAX_AGE_HOURS} hour(s)", flush=True)
+        smart_recent_hours = min(24, max(6, RECENT_NEWS_MAX_AGE_HOURS))
+        smart_expanded_hours = min(24, max(12, smart_recent_hours))
+        print(
+            "Recent filter:      "
+            f"smart {smart_recent_hours}h, expands to {smart_expanded_hours}h "
+            f"(config baseline {RECENT_NEWS_MAX_AGE_HOURS}h)",
+            flush=True,
+        )
         print(
             "AI freshness cutoff:"
             f" {MAX_AI_ARTICLE_AGE_HOURS:.2f} hour(s)"

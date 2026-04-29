@@ -10,13 +10,23 @@ from datetime import datetime, timedelta, timezone
 
 from config import (
     ARTICLE_QUEUE_PATH,
-    MAX_AI_ARTICLE_AGE_HOURS,
     RECENT_NEWS_MAX_AGE_HOURS,
     SOURCES_CONFIG_PATH,
 )
 from duplicate_utils import canonicalize_url, title_hash, topic_signature
 
 ALLOWED_STATUSES = {"new", "skipped", "ready", "selected", "draft_created", "published", "failed"}
+FRESHNESS_HARD_MAX_HOURS = 24
+
+
+def _smart_freshness_hours(max_age_hours=None):
+    if max_age_hours is not None:
+        return min(FRESHNESS_HARD_MAX_HOURS, max(0, max_age_hours))
+    return min(FRESHNESS_HARD_MAX_HOURS, max(12, RECENT_NEWS_MAX_AGE_HOURS))
+
+
+def _is_no_date_fallback_article(article):
+    return str((article or {}).get("freshness_source") or "").strip() == "fallback_no_date"
 
 
 def _now_iso():
@@ -141,7 +151,7 @@ def save_article_queue(queue):
 
 def _fresh_queue_cutoff(now=None, max_age_hours=None):
     now = now or datetime.now(timezone.utc)
-    max_age_hours = RECENT_NEWS_MAX_AGE_HOURS if max_age_hours is None else max_age_hours
+    max_age_hours = _smart_freshness_hours(max_age_hours)
     return now - timedelta(hours=max(0, max_age_hours))
 
 
@@ -169,7 +179,7 @@ def _fresh_queue_sort_key(article):
 def is_article_within_fresh_window(article, now=None, max_age_hours=None):
     published_at = _source_published_datetime(article)
     if not published_at:
-        return False
+        return _is_no_date_fallback_article(article)
     return published_at >= _fresh_queue_cutoff(now=now, max_age_hours=max_age_hours)
 
 
@@ -184,8 +194,8 @@ def article_age_hours(article, now=None):
 def is_article_safe_for_ai(article, now=None):
     published_at = _source_published_datetime(article)
     if not published_at:
-        return False
-    return published_at >= _fresh_queue_cutoff(now=now, max_age_hours=MAX_AI_ARTICLE_AGE_HOURS)
+        return _is_no_date_fallback_article(article)
+    return published_at >= _fresh_queue_cutoff(now=now, max_age_hours=FRESHNESS_HARD_MAX_HOURS)
 
 
 def archive_expired_queue_articles(now=None, max_age_hours=None):
@@ -204,6 +214,8 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
 
         published_at = _source_published_datetime(article)
         if not published_at:
+            if _is_no_date_fallback_article(article):
+                continue
             if article.get("status") in {"new", "ready", "selected", "failed", "skipped"}:
                 if _archive_article(article, "missing_reliable_publish_date", archived_at):
                     missing_date += 1

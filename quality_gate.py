@@ -13,7 +13,6 @@ from config import (
     ALLOW_SHORT_ARTICLES,
     FAST_NEWS_MODE,
     MIN_ARTICLE_WORDS,
-    RECENT_NEWS_MAX_AGE_HOURS,
     RECENT_NEWS_ONLY,
     TARGET_ARTICLE_WORDS,
 )
@@ -21,6 +20,7 @@ from config import (
 
 MIN_BLOGGER_ARTICLE_WORDS = 800
 TARGET_BLOGGER_ARTICLE_WORDS = "800-1200"
+FRESHNESS_HARD_MAX_HOURS = 24
 REQUIRED_READER_SECTION = "\u0645\u0627\u0630\u0627 \u064a\u0639\u0646\u064a \u0647\u0630\u0627 \u0644\u0643"
 REQUIRED_READER_SECTION_WITH_QUESTION = REQUIRED_READER_SECTION + "\u061f"
 
@@ -235,7 +235,10 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             return QualityGateResult(False, "missing source URL", word_count)
         if RECENT_NEWS_ONLY:
             published_at = article.get("source_published_at") or article.get("original_published_at")
-            if not published_at and not ALLOW_UNKNOWN_DATE_IN_FAST_MODE:
+            freshness_source = str(article.get("freshness_source") or "").strip()
+            if not published_at and freshness_source == "fallback_no_date":
+                published_at = ""
+            elif not published_at and not ALLOW_UNKNOWN_DATE_IN_FAST_MODE:
                 return QualityGateResult(False, "publish date missing in strict recent mode", word_count)
             if published_at:
                 try:
@@ -246,10 +249,10 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
                     age_hours = (datetime.now(timezone.utc) - parsed.astimezone(timezone.utc)).total_seconds() / 3600
                 except ValueError:
                     return QualityGateResult(False, "invalid publish date in strict recent mode", word_count)
-                if age_hours > RECENT_NEWS_MAX_AGE_HOURS:
+                if age_hours > FRESHNESS_HARD_MAX_HOURS:
                     return QualityGateResult(
                         False,
-                        f"article older than {RECENT_NEWS_MAX_AGE_HOURS} hours",
+                        f"article older than {FRESHNESS_HARD_MAX_HOURS} hours",
                         word_count,
                     )
         if check_duplicate:

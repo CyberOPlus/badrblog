@@ -271,9 +271,9 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertTrue(is_recent)
         self.assertLess(age, 2)
 
-    def test_article_older_than_two_hours_is_skipped(self):
+    def test_article_older_than_twenty_four_hours_is_skipped(self):
         def fake_collect(base_url, **_kwargs):
-            return [{"title": "Old story", "url": f"{base_url}/story", "published_at": recent_iso(3)}], "", 200, {"method_used": "feed"}
+            return [{"title": "Old story", "url": f"{base_url}/story", "published_at": recent_iso(25)}], "", 200, {"method_used": "feed"}
 
         with patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 2), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
             result = scraper.discover_first_valid_article_link(
@@ -282,10 +282,33 @@ class ProductionHardeningTests(unittest.TestCase):
             )
 
         self.assertFalse(result["first_valid"])
-        self.assertIn("last 2 hours", result["reason"])
+        self.assertIn("last 12 hours", result["reason"])
         self.assertEqual(result["source_results"][0]["old_links_skipped"], 1)
 
-    def test_missing_date_is_skipped_when_strict_recent_mode_enabled(self):
+    def test_expanded_freshness_is_used_only_after_fresh_sources_fail(self):
+        calls = []
+
+        def fake_collect(base_url, **_kwargs):
+            calls.append(base_url)
+            if "older" in base_url:
+                return [{"title": "Expanded story", "url": f"{base_url}/story", "published_at": recent_iso(7)}], "", 200, {"method_used": "feed"}
+            return [{"title": "Fresh story", "url": f"{base_url}/story", "published_at": recent_iso(1)}], "", 200, {"method_used": "feed"}
+
+        with patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 2), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "source_crawl_record", return_value={}), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
+            result = scraper.discover_first_valid_article_link(
+                [
+                    {"name": "Older", "base_url": "https://older.example", "enabled": True},
+                    {"name": "Fresh", "base_url": "https://fresh.example", "enabled": True},
+                ],
+                existing_articles=[],
+            )
+
+        self.assertTrue(result["first_valid"])
+        self.assertEqual(calls, ["https://older.example", "https://fresh.example"])
+        self.assertEqual(result["articles"][0]["title"], "Fresh story")
+        self.assertEqual(result["articles"][0]["freshness_window_hours"], 6)
+
+    def test_missing_date_uses_new_url_fallback_when_strict_recent_mode_enabled(self):
         def fake_collect(base_url, **_kwargs):
             return [{"title": "Undated story", "url": f"{base_url}/story"}], "", 200, {"method_used": "html"}
 
@@ -295,7 +318,8 @@ class ProductionHardeningTests(unittest.TestCase):
                 existing_articles=[],
             )
 
-        self.assertFalse(result["first_valid"])
+        self.assertTrue(result["first_valid"])
+        self.assertEqual(result["articles"][0]["freshness_source"], "fallback_no_date")
         self.assertEqual(result["source_results"][0]["missing_date_skipped"], 1)
 
     def test_first_valid_recent_article_stops_source_scanning(self):
@@ -439,7 +463,7 @@ class ProductionHardeningTests(unittest.TestCase):
                         "url": "https://example.com/expired",
                         "status": "ready",
                         "content_fetch_status": "success",
-                        "source_published_at": recent_iso(7),
+                        "source_published_at": recent_iso(25),
                     },
                     {
                         "id": "fresh",
@@ -462,7 +486,7 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertTrue(expired["archived"])
         self.assertFalse(fresh.get("archived", False))
 
-    def test_unknown_date_articles_are_skipped_in_fresh_queue_discovery(self):
+    def test_unknown_date_articles_are_queued_with_fallback_in_fresh_discovery(self):
         def fake_collect(base_url, **_kwargs):
             return [{"title": "Undated story", "url": f"{base_url}/story"}], "", 200, {"method_used": "html"}
 
@@ -473,7 +497,8 @@ class ProductionHardeningTests(unittest.TestCase):
                 published_urls=set(),
             )
 
-        self.assertFalse(result["articles"])
+        self.assertEqual(len(result["articles"]), 1)
+        self.assertEqual(result["articles"][0]["freshness_source"], "fallback_no_date")
         self.assertEqual(result["source_results"][0]["missing_date_skipped"], 1)
 
     def test_duplicate_urls_are_not_queued_twice(self):
@@ -828,7 +853,7 @@ class ProductionHardeningTests(unittest.TestCase):
 
     def test_freshness_safety_margin_skips_article_before_ai(self):
         def fake_collect(base_url, **_kwargs):
-            return [{"title": "Almost expired", "url": f"{base_url}/story", "published_at": recent_iso(1.9)}], "", 200, {"method_used": "feed"}
+            return [{"title": "Almost expired", "url": f"{base_url}/story", "published_at": recent_iso(5.95)}], "", 200, {"method_used": "feed"}
 
         with patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 2), patch.object(scraper, "MAX_AI_ARTICLE_AGE_HOURS", 1.75), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(notifier, "send_telegram_message", return_value={"sent": False, "skipped": True}):
             result = scraper.discover_first_valid_article_link(
