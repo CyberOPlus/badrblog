@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-04-29T00:06:43",
+  "updated_at": "2026-04-29T00:08:36",
   "articles": [
     {
       "id": "a7a11e65e86e7bcc",
@@ -12665,7 +12665,7 @@
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-04-29T00:46:09",
+      "processing_prepared_at": "2026-04-29T00:07:54",
       "ai_input_package": {
         "title": "Anti-Trump Instagram pic of seashells now enough to indict ex-FBI directors",
         "url": "https://arstechnica.com/tech-policy/2026/04/anti-trump-instagram-pic-of-seashells-now-enough-to-indict-ex-fbi-directors",
@@ -12708,14 +12708,14 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "non_technical_entertainment_content",
-      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "ai_quality_last_error": "article too short (13 words; minimum 120)",
+      "ai_provider_last_error": "504 The request timed out. Please try again.",
       "ai_status": "failed",
-      "ai_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "ai_rotation_exhausted": true,
+      "ai_error": "article too short (13 words; minimum 120)",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 32.68,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 41.62,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
       "telegram_final_summary_notified_at": "2026-04-29T00:46:49"
     }
