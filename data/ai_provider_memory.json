@@ -2,42 +2,42 @@
   "avg_time": 0.0,
   "cooldowns": {
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
-      "failed_at": "2026-05-14T22:50:37",
+      "failed_at": "2026-05-14T23:46:43",
       "key_id": "e5c3515f5b",
       "model": "inclusionai/ling-2.6-flash:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 404: {\"error\":{\"message\":\"Ling-2.6-flash is no longer available as a free model. It has transitioned to a paid model. Continue using it her",
-      "until": 1778800838.7216437
+      "until": 1778804208.6411002
     },
     "openrouter:liquid/lfm-2.5-1.2b-instruct:free:e5c3515f5b": {
-      "failed_at": "2026-05-14T22:50:38",
+      "failed_at": "2026-05-14T23:46:44",
       "key_id": "e5c3515f5b",
       "model": "liquid/lfm-2.5-1.2b-instruct:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "until": 1778800843.1680448
+      "until": 1778804207.861171
     },
     "openrouter:nvidia/nemotron-3-nano-30b-a3b:free:e5c3515f5b": {
-      "failed_at": "2026-05-14T22:50:38",
+      "failed_at": "2026-05-14T23:46:44",
       "key_id": "e5c3515f5b",
       "model": "nvidia/nemotron-3-nano-30b-a3b:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "until": 1778800842.3124564
+      "until": 1778804205.7511415
     }
   },
   "fastest_success_model": "openrouter:inclusionai/ling-2.6-flash:free",
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 32.4991,
+      "avg_time": 32.4661,
       "failures": 338,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-05-14T21:56:49",
-      "last_success_at": "2026-05-14T22:53:15",
+      "last_success_at": "2026-05-14T23:48:06",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 282,
-      "total_success_time": 9164.7545
+      "successes": 283,
+      "total_success_time": 9187.9176
     },
     "gemini:gemini-2.5-flash:75c7824eb0": {
       "failures": 5,
@@ -48,9 +48,9 @@
     },
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
       "avg_time": 0.0,
-      "failures": 211,
+      "failures": 212,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-05-14T22:50:37",
+      "last_failure_at": "2026-05-14T23:46:43",
       "last_success_at": "2026-04-29T02:57:32",
       "model": "inclusionai/ling-2.6-flash:free",
       "provider": "openrouter",
@@ -59,9 +59,9 @@
     },
     "openrouter:liquid/lfm-2.5-1.2b-instruct:free:e5c3515f5b": {
       "avg_time": 6.5471,
-      "failures": 133,
+      "failures": 134,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-05-14T22:50:38",
+      "last_failure_at": "2026-05-14T23:46:44",
       "last_success_at": "2026-05-14T12:20:04",
       "model": "liquid/lfm-2.5-1.2b-instruct:free",
       "provider": "openrouter",
@@ -70,9 +70,9 @@
     },
     "openrouter:nvidia/nemotron-3-nano-30b-a3b:free:e5c3515f5b": {
       "avg_time": 25.9639,
-      "failures": 127,
+      "failures": 128,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-05-14T22:50:38",
+      "last_failure_at": "2026-05-14T23:46:44",
       "last_success_at": "2026-05-09T04:44:05",
       "model": "nvidia/nemotron-3-nano-30b-a3b:free",
       "provider": "openrouter",
@@ -80,15 +80,15 @@
       "total_success_time": 389.459
     },
     "openrouter:openai/gpt-oss-20b:free:e5c3515f5b": {
-      "avg_time": 51.7347,
+      "avg_time": 51.6598,
       "failures": 111,
       "key_id": "e5c3515f5b",
       "last_failure_at": "2026-05-14T21:56:49",
-      "last_success_at": "2026-05-14T22:52:33",
+      "last_success_at": "2026-05-14T23:47:43",
       "model": "openai/gpt-oss-20b:free",
       "provider": "openrouter",
-      "successes": 591,
-      "total_success_time": 30575.2216
+      "successes": 593,
+      "total_success_time": 30634.2675
     }
   }
 }
