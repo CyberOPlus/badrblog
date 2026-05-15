@@ -2,26 +2,26 @@
   "avg_time": 0.0,
   "cooldowns": {
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
-      "failed_at": "2026-05-15T08:30:26",
+      "failed_at": "2026-05-15T10:59:19",
       "key_id": "e5c3515f5b",
       "model": "inclusionai/ling-2.6-flash:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 404: {\"error\":{\"message\":\"Ling-2.6-flash is no longer available as a free model. It has transitioned to a paid model. Continue using it her",
-      "until": 1778835631.3719409
+      "until": 1778844559.800147
     }
   },
   "fastest_success_model": "openrouter:inclusionai/ling-2.6-flash:free",
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 32.5094,
-      "failures": 341,
+      "avg_time": 32.5407,
+      "failures": 342,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-05-15T08:33:23",
-      "last_success_at": "2026-05-15T08:34:52",
+      "last_failure_at": "2026-05-15T11:01:42",
+      "last_success_at": "2026-05-15T11:02:36",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 287,
-      "total_success_time": 9330.2052
+      "successes": 288,
+      "total_success_time": 9371.709
     },
     "gemini:gemini-2.5-flash:75c7824eb0": {
       "failures": 5,
@@ -32,9 +32,9 @@
     },
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
       "avg_time": 0.0,
-      "failures": 215,
+      "failures": 216,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-05-15T08:30:26",
+      "last_failure_at": "2026-05-15T10:59:19",
       "last_success_at": "2026-04-29T02:57:32",
       "model": "inclusionai/ling-2.6-flash:free",
       "provider": "openrouter",
@@ -42,15 +42,15 @@
       "total_success_time": 0.0004
     },
     "openrouter:liquid/lfm-2.5-1.2b-instruct:free:e5c3515f5b": {
-      "avg_time": 6.62,
+      "avg_time": 6.609,
       "failures": 134,
       "key_id": "e5c3515f5b",
       "last_failure_at": "2026-05-14T23:46:44",
-      "last_success_at": "2026-05-15T08:34:20",
+      "last_success_at": "2026-05-15T11:01:55",
       "model": "liquid/lfm-2.5-1.2b-instruct:free",
       "provider": "openrouter",
-      "successes": 552,
-      "total_success_time": 3654.2203
+      "successes": 556,
+      "total_success_time": 3674.6165
     },
     "openrouter:nvidia/nemotron-3-nano-30b-a3b:free:e5c3515f5b": {
       "avg_time": 25.9639,
