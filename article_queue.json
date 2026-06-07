@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-07T23:52:25",
+  "updated_at": "2026-06-07T23:52:27",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -274,7 +274,8 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "article older than 24 hours",
       "candidate_failed_at": "2026-06-07T23:48:12",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "telegram_final_summary_notified_at": "2026-06-07T23:52:27"
     },
     {
       "id": "f14c0e85a92852fa",
@@ -708,5 +709,9 @@
       "content_fetch_status": "success"
     }
   ],
-  "notifications": {}
+  "notifications": {
+    "telegram_final_summary_event_key": "20260607234506328482",
+    "telegram_final_summary_notified_at": "2026-06-07T23:52:27",
+    "last_notification_at": "2026-06-07T23:52:27"
+  }
 }
