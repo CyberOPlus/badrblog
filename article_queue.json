@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-08T21:09:32",
+  "updated_at": "2026-06-08T22:51:21",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -1408,12 +1408,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-06-08T21:05:27",
-      "candidate_retry_after": "2026-06-08T21:20:27Z",
+      "content_fetched_at": "2026-06-08T22:47:54",
+      "candidate_retry_after": "2026-06-08T23:02:54Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-06-08T21:05:27",
-      "candidate_failure_count": 6
+      "candidate_failed_at": "2026-06-08T22:47:54",
+      "candidate_failure_count": 7
     },
     {
       "id": "387079dc0a830ad9",
@@ -2701,7 +2701,68 @@
       "content_preview_chars": 8809,
       "content_fetched_at": "2026-06-08T12:07:12",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-08T22:48:01",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-08T22:48:01",
+      "ai_input_package": {
+        "title": "Silent Ransom Group Uses DNS Fast Flux in Attacks",
+        "url": "https://www.securityweek.com/silent-ransom-group-uses-dns-fast-flux-in-attacks",
+        "source_name": "SecurityWeek",
+        "suggested_category": "Cyber-Security",
+        "main_image": "https://www.securityweek.com/wp-content/uploads/2026/05/Underminr-DNS-vulnerability.jpg",
+        "article_images": [
+          {
+            "url": "https://www.securityweek.com/wp-content/uploads/2026/05/Underminr-DNS-vulnerability.jpg",
+            "alt": "Silent Ransom Group Uses DNS Fast Flux in Attacks",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.securityweek.com/wp-content/uploads/2022/04/SecurityWeek-Small-Dark.png",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.securityweek.com/wp-content/uploads/2022/04/SecurityWeek-Small-Dark@2x.png",
+            "alt": "SecurityWeek",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "The Silent Ransom Group was caught using DNS fast flux to hide its infrastructure in attacks against law firms and other industries.",
+        "content_preview": "Shortly after data exfiltration, often within 30 minutes, the threat actor sends extortion emails to the victim organization, threatening to publish the stolen data on its clear web data leak site. If the victim is unresponsive, the group contacts its employees and partners to increase the pressure. A new Resecurity report shows that SRG is also using a fast flux network of infected routers, modems, gateways, and other types of IoT and CPE (customer premises equipment) devices. A domain-based technique that relies on rapidly changing the DNS records of a legitimate domain, fast flux allows threat actors to hide their servers’ location by rotating numerous IP addresses and DNS name servers for the same domain name. For that, the threat actors need a large number of compromised hosts, and Resecurity has identified SRG fast flux nodes in 18 countries across Latin America, Eastern Europe, Central Asia, the Middle East, Africa, East Asia, and the Caribbean. Spread across 22 ISPs, the fast flux botnet has been used to rotate the DNS records for ep6pheij[.]com and business-data-leaks[.]com, two domains known to have been used by the ransomware group. “The SRG’s attacks have had a significant impact on the legal industry. Law firms accounted for almost a quarter of all ransomware-related incidents tracked in the first quarter of 2026, making it the fourth-most targeted industry. The SRG’s focus on data theft and extortion has contributed to this uptick,” Resecurity notes. According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware. Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million A new Resecurity report shows that SRG is also using a fast flux network of infected routers, modems, gateways, and other types of IoT and CPE (customer premises equipment) devices. A domain-based technique that relies on rapidly changing the DNS records of a legitimate domain, fast flux allows threat actors to hide their servers’ location by rotating numerous IP addresses and DNS name servers for the same domain name. For that, the threat actors need a large number of compromised hosts, and Resecurity has identified SRG fast flux nodes in 18 countries across Latin America, Eastern Europe, Central Asia, the Middle East, Africa, East Asia, and the Caribbean. Spread across 22 ISPs, the fast flux botnet has been used to rotate the DNS records for ep6pheij[.]com and business-data-leaks[.]com, two domains known to have been used by the ransomware group. “The SRG’s attacks have had a significant impact on the legal industry. Law firms accounted for almost a quarter of all ransomware-related incidents tracked in the first quarter of 2026, making it the fourth-most targeted industry. The SRG’s focus on data theft and extortion has contributed to this uptick,” Resecurity notes. According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware. Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million A domain-based technique that relies on rapidly changing the DNS records of a legitimate domain, fast flux allows threat actors to hide their servers’ location by rotating numerous IP addresses and DNS name servers for the same domain name. For that, the threat actors need a large number of compromised hosts, and Resecurity has identified SRG fast flux nodes in 18 countries across Latin America, Eastern Europe, Central Asia, the Middle East, Africa, East Asia, and the Caribbean. Spread across 22 ISPs, the fast flux botnet has been used to rotate the DNS records for ep6pheij[.]com and business-data-leaks[.]com, two domains known to have been used by the ransomware group. “The SRG’s attacks have had a significant impact on the legal industry. Law firms accounted for almost a quarter of all ransomware-related incidents tracked in the first quarter of 2026, making it the fourth-most targeted industry. The SRG’s focus on data theft and extortion has contributed to this uptick,” Resecurity notes. According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware. Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million For that, the threat actors need a large number of compromised hosts, and Resecurity has identified SRG fast flux nodes in 18 countries across Latin America, Eastern Europe, Central Asia, the Middle East, Africa, East Asia, and the Caribbean. Spread across 22 ISPs, the fast flux botnet has been used to rotate the DNS records for ep6pheij[.]com and business-data-leaks[.]com, two domains known to have been used by the ransomware group. “The SRG’s attacks have had a significant impact on the legal industry. Law firms accounted for almost a quarter of all ransomware-related incidents tracked in the first quarter of 2026, making it the fourth-most targeted industry. The SRG’s focus on data theft and extortion has contributed to this uptick,” Resecurity notes. According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware. Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million Spread across 22 ISPs, the fast flux botnet has been used to rotate the DNS records for ep6pheij[.]com and business-data-leaks[.]com, two domains known to have been used by the ransomware group. “The SRG’s attacks have had a significant impact on the legal industry. Law firms accounted for almost a quarter of all ransomware-related incidents tracked in the first quarter of 2026, making it the fourth-most targeted industry. The SRG’s focus on data theft and extortion has contributed to this uptick,” Resecurity notes. According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware. Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million “The SRG’s attacks have had a significant impact on the legal industry. Law firms accounted for almost a quarter of all ransomware-related incidents tracked in the first quarter of 2026, making it the fourth-most targeted industry. The SRG’s focus on data theft and extortion has contributed to this uptick,” Resecurity notes. According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware. Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware.",
+        "content_preview_chars": 8809,
+        "rss_summary": "",
+        "full_article_text": "Shortly after data exfiltration, often within 30 minutes, the threat actor sends extortion emails to the victim organization, threatening to publish the stolen data on its clear web data leak site. If the victim is unresponsive, the group contacts its employees and partners to increase the pressure. A new Resecurity report shows that SRG is also using a fast flux network of infected routers, modems, gateways, and other types of IoT and CPE (customer premises equipment) devices. A domain-based technique that relies on rapidly changing the DNS records of a legitimate domain, fast flux allows threat actors to hide their servers’ location by rotating numerous IP addresses and DNS name servers for the same domain name. For that, the threat actors need a large number of compromised hosts, and Resecurity has identified SRG fast flux nodes in 18 countries across Latin America, Eastern Europe, Central Asia, the Middle East, Africa, East Asia, and the Caribbean. Spread across 22 ISPs, the fast flux botnet has been used to rotate the DNS records for ep6pheij[.]com and business-data-leaks[.]com, two domains known to have been used by the ransomware group. “The SRG’s attacks have had a significant impact on the legal industry. Law firms accounted for almost a quarter of all ransomware-related incidents tracked in the first quarter of 2026, making it the fourth-most targeted industry. The SRG’s focus on data theft and extortion has contributed to this uptick,” Resecurity notes. According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware. Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million A new Resecurity report shows that SRG is also using a fast flux network of infected routers, modems, gateways, and other types of IoT and CPE (customer premises equipment) devices. A domain-based technique that relies on rapidly changing the DNS records of a legitimate domain, fast flux allows threat actors to hide their servers’ location by rotating numerous IP addresses and DNS name servers for the same domain name. For that, the threat actors need a large number of compromised hosts, and Resecurity has identified SRG fast flux nodes in 18 countries across Latin America, Eastern Europe, Central Asia, the Middle East, Africa, East Asia, and the Caribbean. Spread across 22 ISPs, the fast flux botnet has been used to rotate the DNS records for ep6pheij[.]com and business-data-leaks[.]com, two domains known to have been used by the ransomware group. “The SRG’s attacks have had a significant impact on the legal industry. Law firms accounted for almost a quarter of all ransomware-related incidents tracked in the first quarter of 2026, making it the fourth-most targeted industry. The SRG’s focus on data theft and extortion has contributed to this uptick,” Resecurity notes. According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware. Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million A domain-based technique that relies on rapidly changing the DNS records of a legitimate domain, fast flux allows threat actors to hide their servers’ location by rotating numerous IP addresses and DNS name servers for the same domain name. For that, the threat actors need a large number of compromised hosts, and Resecurity has identified SRG fast flux nodes in 18 countries across Latin America, Eastern Europe, Central Asia, the Middle East, Africa, East Asia, and the Caribbean. Spread across 22 ISPs, the fast flux botnet has been used to rotate the DNS records for ep6pheij[.]com and business-data-leaks[.]com, two domains known to have been used by the ransomware group. “The SRG’s attacks have had a significant impact on the legal industry. Law firms accounted for almost a quarter of all ransomware-related incidents tracked in the first quarter of 2026, making it the fourth-most targeted industry. The SRG’s focus on data theft and extortion has contributed to this uptick,” Resecurity notes. According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware. Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million For that, the threat actors need a large number of compromised hosts, and Resecurity has identified SRG fast flux nodes in 18 countries across Latin America, Eastern Europe, Central Asia, the Middle East, Africa, East Asia, and the Caribbean. Spread across 22 ISPs, the fast flux botnet has been used to rotate the DNS records for ep6pheij[.]com and business-data-leaks[.]com, two domains known to have been used by the ransomware group. “The SRG’s attacks have had a significant impact on the legal industry. Law firms accounted for almost a quarter of all ransomware-related incidents tracked in the first quarter of 2026, making it the fourth-most targeted industry. The SRG’s focus on data theft and extortion has contributed to this uptick,” Resecurity notes. According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware. Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million Spread across 22 ISPs, the fast flux botnet has been used to rotate the DNS records for ep6pheij[.]com and business-data-leaks[.]com, two domains known to have been used by the ransomware group. “The SRG’s attacks have had a significant impact on the legal industry. Law firms accounted for almost a quarter of all ransomware-related incidents tracked in the first quarter of 2026, making it the fourth-most targeted industry. The SRG’s focus on data theft and extortion has contributed to this uptick,” Resecurity notes. According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware. Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million “The SRG’s attacks have had a significant impact on the legal industry. Law firms accounted for almost a quarter of all ransomware-related incidents tracked in the first quarter of 2026, making it the fourth-most targeted industry. The SRG’s focus on data theft and extortion has contributed to this uptick,” Resecurity notes. According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware. Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million According to a new Google report , SRG has been active since at least 2022, with some of its activities overlapping with those of UNC2686, known for BazarCall campaigns and for the use of TrickBot, Ursnif, and BazarLoader malware. Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million Related: Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million Related: Chinese Cybercrime Group in Spotlight for Record Campaign Pace Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million Related: UNC6692 Uses Email Bombing, Social Engineering to Deploy ‘Snow’ Malware Related: Hackers Leak DentaQuest Information Impacting 2.6 Million Related: Hackers Leak DentaQuest Information Impacting 2.6 Million Ionut Arghire is an international correspondent for SecurityWeek. Hackers Leak DentaQuest Information Impacting 2.6 Million Chrome 149 Patches 429 Vulnerabilities Five Eyes: Chinese Spies Target Government, Military Staff With Fake Job Opportunities Mirasvit Vulnerability Exploited to Execute Code on Magento Servers Chinese Cybercrime Group in Spotlight for Record Campaign Pace Over 1.4 Million Accounts Disrupted in Cybercrime Crackdown Cisco Warns of Available PoC for Critical Unified CM Vulnerability Kirki, Burst Statistics WordPress Plugin Flaws in Attackers’ Crosshairs 174,000 Impacted by Lansing Community College Data Breach OpenAI Rolling Out ChatGPT Account Security Controls Anthropic Urges Industry Coordination to Allow for a ‘Pause’ in AI Development if Risks Grow SolarWinds Serv-U Vulnerability Exploited in the Wild Meta Says 20,000 Instagram Accounts Hacked via AI Tool Abuse Emphere Raises $2.1 Million for AI-Powered Vulnerability Remediation Opal Security Raises $23 Million for AI-Native Identity Governance OWASP Incubator Project Helps Developers Find and Fix Vulnerable Dependencies in Seconds Webinar: Third-Party Risk in Practice Organizations are investing heavily in third-party risk management, but breaches, delays, and blind spots continue to persist. Join this live webinar as we examine the gap between how organizations think their third-party risk programs are performing and what’s actually happening in practice. Virtual Roundtable: CISO Forum 2026 Mid-Year Review Explore how attackers are using AI to scale threats and how security teams can respond with AI-driven defenses. Protecting against unmonitored use of generative AI (Shadow AI) in business units and building and enforcing AI governance frameworks. Opal Security has appointed CPO, CTO, VP of Field Engineering, VP of Marketing, and Head of Product and Solutions Marketing. The Department of the Air Force has appointed Ashley Devoto as Chief Information Officer. Bartley Richardson has been named Chief AI and Autonomous Systems Officer at CrowdStrike. The Zero-Knowledge Threat Actor and the End of Responsible Disclosure AI can help attackers generate malware, create malicious payloads, bypass simple security checks, and convert vague malicious intent into functional code. (Etay Maor) Raising the Cybersecurity Stakes: Ante up for the Agentic Era CISOs are now facing machine-speed attacks and asking, “How do I agent?” The industry must provide remediation at scale. (Nadir Izrael) Caught Off Guard: Securing AI After It Hits Production As enterprises rush AI projects into production, security teams are increasingly being forced into reactive mode. (Joshua Goldfarb) Cyber Resilience is the New Business Continuity Plan The organizations best prepared to face disruption are those that align security, continuity and risk management around what the business cannot afford to lose. (Steve Durbin) Enhancing Data Center Security Without Sacrificing Performance For AI data centers, where the stakes are the highest and performance constraints are the tightest, security and performance are no longer a zero-sum game. (Nadir Izrael) Flipboard Reddit Whatsapp Whatsapp Email",
+        "full_article_text_chars": 13062,
+        "enrichment_status": "strong",
+        "source_url": "https://www.securityweek.com",
+        "source_published_at": "2026-06-08T10:31:39Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 1.59,
+        "trusted_references": [
+          {
+            "title": "report",
+            "url": "https://cloud.google.com/blog/topics/threat-intelligence/targeted-campaign-us-law-firms/"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 78.48,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-08T23:04:20Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-08T22:49:20",
+      "candidate_failure_count": 1
     },
     {
       "id": "e71125d8cec96408",
@@ -2780,7 +2841,71 @@
       "content_preview_chars": 8750,
       "content_fetched_at": "2026-06-08T12:07:14",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-08T22:51:15",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-08T22:51:15",
+      "ai_input_package": {
+        "title": "OpenAI Rolling Out ChatGPT Account Security Controls",
+        "url": "https://www.securityweek.com/openai-rolling-out-chatgpt-account-security-controls",
+        "source_name": "SecurityWeek",
+        "suggested_category": "Cyber-Security",
+        "main_image": "https://www.securityweek.com/wp-content/uploads/2025/11/OpenAI.jpeg",
+        "article_images": [
+          {
+            "url": "https://www.securityweek.com/wp-content/uploads/2025/11/OpenAI.jpeg",
+            "alt": "OpenAI Rolling Out ChatGPT Account Security Controls",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.securityweek.com/wp-content/uploads/2022/04/SecurityWeek-Small-Dark.png",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.securityweek.com/wp-content/uploads/2022/04/SecurityWeek-Small-Dark@2x.png",
+            "alt": "SecurityWeek",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "OpenAI is making two ChatGPT security controls more widely available, giving users additional tools to protect their accounts and data.",
+        "content_preview": "The second feature is Active Sessions , which enables ChatGPT users to review where their account is signed in. Users can see the sessions and devices they are logged into, and log out of sessions they don’t recognize. The feature is available for all ChatGPT accounts and workspace types, except accounts linked to an organization’s SSO setup. Active Sessions is available in Settings> Security. The announcement comes after OpenAI unveiled a new account security feature for ChatGPT users at increased risk of targeted hacking. The opt-in feature, Advanced Account Security, is designed to strengthen sign-in protection by disabling password-based login and requiring physical security keys or passkeys. It also covers account recovery, replacing email- and SMS-based recovery with backup passkeys, recovery keys, and security keys. Advanced Account Security also shortens sign-in sessions to reduce the risk of account takeover in the event of a device or session compromise. Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack The feature is available for all ChatGPT accounts and workspace types, except accounts linked to an organization’s SSO setup. Active Sessions is available in Settings> Security. The announcement comes after OpenAI unveiled a new account security feature for ChatGPT users at increased risk of targeted hacking. The opt-in feature, Advanced Account Security, is designed to strengthen sign-in protection by disabling password-based login and requiring physical security keys or passkeys. It also covers account recovery, replacing email- and SMS-based recovery with backup passkeys, recovery keys, and security keys. Advanced Account Security also shortens sign-in sessions to reduce the risk of account takeover in the event of a device or session compromise. Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack Active Sessions is available in Settings> Security. The announcement comes after OpenAI unveiled a new account security feature for ChatGPT users at increased risk of targeted hacking. The opt-in feature, Advanced Account Security, is designed to strengthen sign-in protection by disabling password-based login and requiring physical security keys or passkeys. It also covers account recovery, replacing email- and SMS-based recovery with backup passkeys, recovery keys, and security keys. Advanced Account Security also shortens sign-in sessions to reduce the risk of account takeover in the event of a device or session compromise. Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack The announcement comes after OpenAI unveiled a new account security feature for ChatGPT users at increased risk of targeted hacking. The opt-in feature, Advanced Account Security, is designed to strengthen sign-in protection by disabling password-based login and requiring physical security keys or passkeys. It also covers account recovery, replacing email- and SMS-based recovery with backup passkeys, recovery keys, and security keys. Advanced Account Security also shortens sign-in sessions to reduce the risk of account takeover in the event of a device or session compromise. Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack The opt-in feature, Advanced Account Security, is designed to strengthen sign-in protection by disabling password-based login and requiring physical security keys or passkeys. It also covers account recovery, replacing email- and SMS-based recovery with backup passkeys, recovery keys, and security keys. Advanced Account Security also shortens sign-in sessions to reduce the risk of account takeover in the event of a device or session compromise. Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack Advanced Account Security also shortens sign-in sessions to reduce the risk of account takeover in the event of a device or session compromise. Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack Related : OpenAI Hit by TanStack Supply Chain Attack Eduard Kovacs (@EduardKovacs) is senior managing editor at SecurityWeek. He worked as a high school IT teacher before starting a career in journalism in 2011. Eduard holds a bachelor’s degree in industrial informatics and a master’s degree in computer techniques applied in electrical engineering. Nightclub Giant RCI Says Data Breach Affects 40,000 Individuals Cisco Warns of 7th SD-WAN Zero-Day Exploited in 2026 Gemini Voice Assistant Hijacked via Messaging Notifications VS Code Vulnerability Allows One-Click GitHub Token Theft Coralogix Raises $200M at $1.6B Valuation to Scale AI Observability Platform Hackers Target Global Stock Exchange in Espionage Operation Microsoft Tries to Calm Legal Threat Fears After Zero-Day Disclosure Backlash Android Update Patches Exploited Zero-Day, 123 Other Vulnerabilities 174,000 Impacted by Lansing Community College Data Breach Silent Ransom Group Uses DNS Fast Flux in Attacks Anthropic Urges Industry Coordination to Allow for a ‘Pause’ in AI Development if Risks Grow SolarWinds Serv-U Vulnerability Exploited in the Wild Meta Says 20,000 Instagram Accounts Hacked via AI Tool Abuse Emphere Raises $2.1 Million for AI-Powered Vulnerability Remediation Opal Security Raises $23 Million for AI-Native Identity Governance OWASP Incubator Project Helps Developers Find and Fix Vulnerable Dependencies in Seconds Webinar: Third-Party Risk in Practice Organizations are investing heavily in third-party risk management, but breaches, delays, and blind spots continue to persist. Join this live webinar as we examine the gap between how organizations think their third-party risk programs are performing and what’s actually happening in practice. Virtual Roundtable: CISO Forum 2026 Mid-Year Review Explore how attackers are using AI to scale threats and how security teams can respond with AI-driven defenses. Protecting against unmonitored use of generative AI (Shadow AI) in business units and building and enforcing AI governance frameworks. Opal Security has appointed CPO, CTO, VP of Field Engineering, VP of Marketing, and Head of Product and Solutions Marketing. The Department of the Air Force has appointed Ashley Devoto as Chief Information Officer. Bartley Richardson has been named Chief AI and Autonomous Systems Officer at CrowdStrike. The Zero-Knowledge Threat Actor and the End of Responsible Disclosure AI can help attackers generate malware, create malicious payloads, bypass simple security checks, and convert vague malicious intent into functional code. (Etay Maor) Raising the Cybersecurity Stakes: Ante up for the Agentic Era CISOs are now facing machine-speed attacks and asking, “How do I agent?” The industry must provide remediation at scale. (Nadir Izrael) Caught Off Guard: Securing AI After It Hits Production As enterprises rush AI projects into production, security teams are increasingly being forced into reactive mode. (Joshua Goldfarb) Cyber Resilience is the New Business Continuity Plan The organizations best prepared to face disruption are those that align security, continuity and risk management around what the business cannot afford to lose. (Steve Durbin) Enhancing Data Center Security Without Sacrificing Performance For AI data centers, where the stakes are the highest and performance constraints are the tightest, security and performance are no longer a zero-sum game. (Nadir Izrael) Flipboard Reddit Whatsapp Whatsapp Email",
+        "content_preview_chars": 8750,
+        "rss_summary": "",
+        "full_article_text": "The second feature is Active Sessions , which enables ChatGPT users to review where their account is signed in. Users can see the sessions and devices they are logged into, and log out of sessions they don’t recognize. The feature is available for all ChatGPT accounts and workspace types, except accounts linked to an organization’s SSO setup. Active Sessions is available in Settings> Security. The announcement comes after OpenAI unveiled a new account security feature for ChatGPT users at increased risk of targeted hacking. The opt-in feature, Advanced Account Security, is designed to strengthen sign-in protection by disabling password-based login and requiring physical security keys or passkeys. It also covers account recovery, replacing email- and SMS-based recovery with backup passkeys, recovery keys, and security keys. Advanced Account Security also shortens sign-in sessions to reduce the risk of account takeover in the event of a device or session compromise. Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack The feature is available for all ChatGPT accounts and workspace types, except accounts linked to an organization’s SSO setup. Active Sessions is available in Settings> Security. The announcement comes after OpenAI unveiled a new account security feature for ChatGPT users at increased risk of targeted hacking. The opt-in feature, Advanced Account Security, is designed to strengthen sign-in protection by disabling password-based login and requiring physical security keys or passkeys. It also covers account recovery, replacing email- and SMS-based recovery with backup passkeys, recovery keys, and security keys. Advanced Account Security also shortens sign-in sessions to reduce the risk of account takeover in the event of a device or session compromise. Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack Active Sessions is available in Settings> Security. The announcement comes after OpenAI unveiled a new account security feature for ChatGPT users at increased risk of targeted hacking. The opt-in feature, Advanced Account Security, is designed to strengthen sign-in protection by disabling password-based login and requiring physical security keys or passkeys. It also covers account recovery, replacing email- and SMS-based recovery with backup passkeys, recovery keys, and security keys. Advanced Account Security also shortens sign-in sessions to reduce the risk of account takeover in the event of a device or session compromise. Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack The announcement comes after OpenAI unveiled a new account security feature for ChatGPT users at increased risk of targeted hacking. The opt-in feature, Advanced Account Security, is designed to strengthen sign-in protection by disabling password-based login and requiring physical security keys or passkeys. It also covers account recovery, replacing email- and SMS-based recovery with backup passkeys, recovery keys, and security keys. Advanced Account Security also shortens sign-in sessions to reduce the risk of account takeover in the event of a device or session compromise. Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack The opt-in feature, Advanced Account Security, is designed to strengthen sign-in protection by disabling password-based login and requiring physical security keys or passkeys. It also covers account recovery, replacing email- and SMS-based recovery with backup passkeys, recovery keys, and security keys. Advanced Account Security also shortens sign-in sessions to reduce the risk of account takeover in the event of a device or session compromise. Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack Advanced Account Security also shortens sign-in sessions to reduce the risk of account takeover in the event of a device or session compromise. Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack Related : OpenAI Widens Access to Cybersecurity Model After Anthropic’s Mythos Reveal Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack Related : 1Password Teams With OpenAI to Stop AI Coding Agents From Leaking Credentials Related : OpenAI Hit by TanStack Supply Chain Attack Related : OpenAI Hit by TanStack Supply Chain Attack Eduard Kovacs (@EduardKovacs) is senior managing editor at SecurityWeek. He worked as a high school IT teacher before starting a career in journalism in 2011. Eduard holds a bachelor’s degree in industrial informatics and a master’s degree in computer techniques applied in electrical engineering. Nightclub Giant RCI Says Data Breach Affects 40,000 Individuals Cisco Warns of 7th SD-WAN Zero-Day Exploited in 2026 Gemini Voice Assistant Hijacked via Messaging Notifications VS Code Vulnerability Allows One-Click GitHub Token Theft Coralogix Raises $200M at $1.6B Valuation to Scale AI Observability Platform Hackers Target Global Stock Exchange in Espionage Operation Microsoft Tries to Calm Legal Threat Fears After Zero-Day Disclosure Backlash Android Update Patches Exploited Zero-Day, 123 Other Vulnerabilities 174,000 Impacted by Lansing Community College Data Breach Silent Ransom Group Uses DNS Fast Flux in Attacks Anthropic Urges Industry Coordination to Allow for a ‘Pause’ in AI Development if Risks Grow SolarWinds Serv-U Vulnerability Exploited in the Wild Meta Says 20,000 Instagram Accounts Hacked via AI Tool Abuse Emphere Raises $2.1 Million for AI-Powered Vulnerability Remediation Opal Security Raises $23 Million for AI-Native Identity Governance OWASP Incubator Project Helps Developers Find and Fix Vulnerable Dependencies in Seconds Webinar: Third-Party Risk in Practice Organizations are investing heavily in third-party risk management, but breaches, delays, and blind spots continue to persist. Join this live webinar as we examine the gap between how organizations think their third-party risk programs are performing and what’s actually happening in practice. Virtual Roundtable: CISO Forum 2026 Mid-Year Review Explore how attackers are using AI to scale threats and how security teams can respond with AI-driven defenses. Protecting against unmonitored use of generative AI (Shadow AI) in business units and building and enforcing AI governance frameworks. Opal Security has appointed CPO, CTO, VP of Field Engineering, VP of Marketing, and Head of Product and Solutions Marketing. The Department of the Air Force has appointed Ashley Devoto as Chief Information Officer. Bartley Richardson has been named Chief AI and Autonomous Systems Officer at CrowdStrike. The Zero-Knowledge Threat Actor and the End of Responsible Disclosure AI can help attackers generate malware, create malicious payloads, bypass simple security checks, and convert vague malicious intent into functional code. (Etay Maor) Raising the Cybersecurity Stakes: Ante up for the Agentic Era CISOs are now facing machine-speed attacks and asking, “How do I agent?” The industry must provide remediation at scale. (Nadir Izrael) Caught Off Guard: Securing AI After It Hits Production As enterprises rush AI projects into production, security teams are increasingly being forced into reactive mode. (Joshua Goldfarb) Cyber Resilience is the New Business Continuity Plan The organizations best prepared to face disruption are those that align security, continuity and risk management around what the business cannot afford to lose. (Steve Durbin) Enhancing Data Center Security Without Sacrificing Performance For AI data centers, where the stakes are the highest and performance constraints are the tightest, security and performance are no longer a zero-sum game. (Nadir Izrael) Flipboard Reddit Whatsapp Whatsapp Email",
+        "full_article_text_chars": 8750,
+        "enrichment_status": "strong",
+        "source_url": "https://www.securityweek.com",
+        "source_published_at": "2026-06-08T08:32:49Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 3.57,
+        "trusted_references": [
+          {
+            "title": "Lockdown Mode",
+            "url": "https://help.openai.com/en/articles/20001061-lockdown-mode"
+          },
+          {
+            "title": "Active Sessions",
+            "url": "https://help.openai.com/en/articles/20001257-managing-active-sessions-in-chatgpt"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 4.11,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-06-08T23:06:20Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-08T22:51:20",
+      "candidate_failure_count": 1
     },
     {
       "id": "417932b810466aba",
@@ -2867,7 +2992,80 @@
       "content_preview_chars": 3625,
       "content_fetched_at": "2026-06-08T12:07:08",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-08T22:49:20",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-08T22:49:20",
+      "ai_input_package": {
+        "title": "CISA: Hackers now exploit SolarWinds Serv-U flaw to crash servers",
+        "url": "https://www.bleepingcomputer.com/news/security/cisa-hackers-now-exploit-solarwinds-serv-u-flaw-to-crash-servers",
+        "source_name": "BleepingComputer",
+        "suggested_category": "Cyber-Security",
+        "main_image": "https://www.bleepstatic.com/content/hl-images/2026/01/28/SolarWinds.jpg",
+        "article_images": [
+          {
+            "url": "https://www.bleepstatic.com/content/hl-images/2026/01/28/SolarWinds.jpg",
+            "alt": "CISA: Hackers now exploit SolarWinds Serv-U flaw to crash servers",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.bleepstatic.com/c/w/state-of-ai-report-970.jpg",
+            "alt": "image",
+            "source": "article_content"
+          },
+          {
+            "url": "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+            "alt": "article image",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "CISA warned today that hackers are now actively exploiting a recently patched high-severity SolarWinds Serv-U flaw to crash servers.",
+        "content_preview": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) warned today that hackers are now actively exploiting a recently patched high-severity SolarWinds Serv-U flaw to crash servers. Serv-U is the company's Windows and Linux file transfer software that offers Managed File Transfer (MFT) and FTP server capabilities, which allow users to securely exchange files via HTTP/HTTPS, FTP, FTPS, and SFTP. SolarWinds released Serv-U 15.5.4 Hotfix 1 on Thursday to patch this denial-of-service vulnerability (tracked as CVE-2026-28318 ) and said it stems from an uncontrolled resource consumption weakness. \"SolarWinds Serv-U is susceptible to specially crafted POST requests that crash the Serv-U service without authentication using Content-Encoding: deflate,\" the company said. Remote attackers can exploit the security flaw without privileges in low-complexity attacks that don't require user interaction. SolarWinds also advised admins who can't immediately deploy the patch to limit access to known addresses and to block any POST request containing \"content-encoding,\" since the vulnerable Serv-U service does not require this functionality. The Internet intelligence platform Shodan currently tracks over 12,000 Serv-U servers exposed online, and Internet security watchdog Shadowserver just over 3,100 , but there is no information on how many have already been patched. ​Days after SolarWinds addressed the vulnerability, CISA flagged it as exploited in the wild and added it to the Known Exploited Vulnerabilities Catalog , ordering all Federal Civilian Executive Branch agencies to patch their servers against ongoing attacks by June 19, as mandated by Binding Operational Directive (BOD) 22-01 . While BOD 22-01 applies only to U.S. government agencies, the cybersecurity agency also urged all network defenders, including the private sector, to secure their networks against ongoing CVE-2026-28318 attacks as soon as possible. \"This type of vulnerability is a frequent attack vector for malicious cyber actors and poses significant risks to the federal enterprise,\" CISA warned. \"Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.\" In recent years, multiple cybercrime and state-backed hacking groups have targeted vulnerabilities in Serv-U to steal sensitive corporate and customer data. For instance, the Clop ransomware gang exploited a Serv-U remote code execution vulnerability (CVE-2021-35211) to breach corporate networks in a 2021 campaign. DEV-0322 Chinese hackers also deployed CVE-2021-35211 exploits in zero-day attacks starting in July 2021. More recently, in June 2024, cybersecurity companies GreyNoise and Rapid7 tagged a Serv-U path-traversal vulnerability (CVE-2024-28995) as actively exploited. Over the past several years, CISA has tagged 11 vulnerabilities across various SolarWinds products as actively exploited in attacks, one of which has also been abused by ransomware gangs. Test every layer before attackers do Security teams log 54% of successful attacks and alert on just 14%. The rest move through your environment unseen. The Picus whitepaper shows how breach and attack simulation tests your SIEM and EDR rules so threats stop slipping by detection. Microsoft warns of new Defender zero-days exploited in attacks Critical SolarWinds Serv-U flaws offer root access to servers CISA flags new SD-WAN flaw as actively exploited in attacks New 'HTTP/2 Bomb' DoS attack crashes web servers in under a minute CISA warns of active attacks exploiting Android, Linux bugs",
+        "content_preview_chars": 3625,
+        "rss_summary": "",
+        "full_article_text": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) warned today that hackers are now actively exploiting a recently patched high-severity SolarWinds Serv-U flaw to crash servers. Serv-U is the company's Windows and Linux file transfer software that offers Managed File Transfer (MFT) and FTP server capabilities, which allow users to securely exchange files via HTTP/HTTPS, FTP, FTPS, and SFTP. SolarWinds released Serv-U 15.5.4 Hotfix 1 on Thursday to patch this denial-of-service vulnerability (tracked as CVE-2026-28318 ) and said it stems from an uncontrolled resource consumption weakness. \"SolarWinds Serv-U is susceptible to specially crafted POST requests that crash the Serv-U service without authentication using Content-Encoding: deflate,\" the company said. Remote attackers can exploit the security flaw without privileges in low-complexity attacks that don't require user interaction. SolarWinds also advised admins who can't immediately deploy the patch to limit access to known addresses and to block any POST request containing \"content-encoding,\" since the vulnerable Serv-U service does not require this functionality. The Internet intelligence platform Shodan currently tracks over 12,000 Serv-U servers exposed online, and Internet security watchdog Shadowserver just over 3,100 , but there is no information on how many have already been patched. ​Days after SolarWinds addressed the vulnerability, CISA flagged it as exploited in the wild and added it to the Known Exploited Vulnerabilities Catalog , ordering all Federal Civilian Executive Branch agencies to patch their servers against ongoing attacks by June 19, as mandated by Binding Operational Directive (BOD) 22-01 . While BOD 22-01 applies only to U.S. government agencies, the cybersecurity agency also urged all network defenders, including the private sector, to secure their networks against ongoing CVE-2026-28318 attacks as soon as possible. \"This type of vulnerability is a frequent attack vector for malicious cyber actors and poses significant risks to the federal enterprise,\" CISA warned. \"Apply mitigations per vendor instructions, follow applicable BOD 22-01 guidance for cloud services, or discontinue use of the product if mitigations are unavailable.\" In recent years, multiple cybercrime and state-backed hacking groups have targeted vulnerabilities in Serv-U to steal sensitive corporate and customer data. For instance, the Clop ransomware gang exploited a Serv-U remote code execution vulnerability (CVE-2021-35211) to breach corporate networks in a 2021 campaign. DEV-0322 Chinese hackers also deployed CVE-2021-35211 exploits in zero-day attacks starting in July 2021. More recently, in June 2024, cybersecurity companies GreyNoise and Rapid7 tagged a Serv-U path-traversal vulnerability (CVE-2024-28995) as actively exploited. Over the past several years, CISA has tagged 11 vulnerabilities across various SolarWinds products as actively exploited in attacks, one of which has also been abused by ransomware gangs. Test every layer before attackers do Security teams log 54% of successful attacks and alert on just 14%. The rest move through your environment unseen. The Picus whitepaper shows how breach and attack simulation tests your SIEM and EDR rules so threats stop slipping by detection. Microsoft warns of new Defender zero-days exploited in attacks Critical SolarWinds Serv-U flaws offer root access to servers CISA flags new SD-WAN flaw as actively exploited in attacks New 'HTTP/2 Bomb' DoS attack crashes web servers in under a minute CISA warns of active attacks exploiting Android, Linux bugs",
+        "full_article_text_chars": 3625,
+        "enrichment_status": "strong",
+        "source_url": "https://www.bleepingcomputer.com",
+        "source_published_at": "2026-06-05T19:15:30Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 64.86,
+        "trusted_references": [
+          {
+            "title": "flagged it as exploited in the wild",
+            "url": "https://www.cisa.gov/news-events/alerts/2026/06/05/cisa-adds-one-known-exploited-vulnerability-catalog"
+          },
+          {
+            "title": "added it to the Known Exploited Vulnerabilities Catalog",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?field_cve=CVE-2026-28318"
+          },
+          {
+            "title": "Binding Operational Directive (BOD) 22-01",
+            "url": "https://www.cisa.gov/binding-operational-directive-22-01"
+          },
+          {
+            "title": "11 vulnerabilities across various SolarWinds products",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?f%5B0%5D=vendor_project%3A837"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (528 words; minimum 700)",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 114.18,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-08T23:06:15Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-08T22:51:15",
+      "candidate_failure_count": 1
     },
     {
       "id": "34695cf6de5c7b9e",
@@ -2963,7 +3161,84 @@
       "content_preview_chars": 3793,
       "content_fetched_at": "2026-06-08T12:07:07",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-08T22:51:20",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-08T22:51:20",
+      "ai_input_package": {
+        "title": "Cisco warns of unpatched SD-WAN zero-day exploited in attacks",
+        "url": "https://www.bleepingcomputer.com/news/security/new-cisco-sd-wan-flaw-exploited-in-zero-day-attacks-to-gain-root",
+        "source_name": "BleepingComputer",
+        "suggested_category": "Cyber-Security",
+        "main_image": "https://www.bleepstatic.com/content/hl-images/2025/03/04/Cisco-headpic.jpg",
+        "article_images": [
+          {
+            "url": "https://www.bleepstatic.com/content/hl-images/2025/03/04/Cisco-headpic.jpg",
+            "alt": "Cisco warns of unpatched SD-WAN zero-day exploited in attacks",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.bleepstatic.com/c/w/mcp-playbook-970.jpg",
+            "alt": "image",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.bleepstatic.com/c/p/bas-report.jpg",
+            "alt": "article image",
+            "source": "article_content"
+          },
+          {
+            "url": "data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==",
+            "alt": "CISA: Hackers now exploit SolarWinds Serv-U flaw to crash servers",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "On Thursday, Cisco warned of a high-severity, unpatched zero-day in the Cisco Catalyst SD-WAN Manager (tracked as CVE-2026-20245) actively exploited in attacks enabling root privilege escalation.",
+        "content_preview": "On Thursday, Cisco warned of a high-severity, unpatched zero-day in the Cisco Catalyst SD-WAN Manager (tracked as CVE-2026-20245 ) actively exploited in attacks enabling root privilege escalation. The zero-day flaw impacts all deployment types, including On-Prem Deployment, Cisco SD-WAN Cloud-Pro, Cisco SD-WAN Cloud (Cisco Managed), and Cisco SD-WAN for Government (FedRAMP). In a Thursday advisory, Cisco said the issue stems from insufficient validation of user-supplied input, and it can allow local attackers with low privileges to execute arbitrary commands as root. \"An attacker could exploit this vulnerability by uploading a crafted file to the affected system. A successful exploit could allow the attacker to perform command injection attacks on an affected system and elevate their privileges as the root user,\" the company explained . \"To exploit this vulnerability, the attacker must have netadmin privileges on the affected system. This would require valid credentials or exploitation of CVE-2026-20182 or CVE-2026-20127. Cisco is not aware of successful exploitation by other methods,\" it added. \"Cisco is not aware of successful exploitation by other methods. Cisco has observed limited cases where the exploitation of this bug resulted in a configuration change pushed to edge devices.\" Formerly known as SD-WAN vManage, this network management software helps admins monitor and manage up to 6,000 Catalyst SD-WAN devices from a single dashboard. Cisco's Product Security Incident Response Team (PSIRT) became aware of CVE-2026-20245 exploitation in June after Google Cloud cybersecurity subsidiary Mandiant reported the flaw but did not share any details. However, it shared indicators of compromise (IOCs) warning admins to check their SD-WAN /var/log/scripts.log file for attempts to upload tenant configuration data to vSmart controllers to escalate privileges through legitimate commands, as in the following example: \"For help determining if a Cisco Catalyst SD-WAN Manager has been compromised, customers may open a case with the Cisco TAC,\" the company added, advising admins first to collect admin-tech files to help with the review. Security patches not yet available Last month, Cisco also tagged a maximum severity Catalyst SD-WAN Controller authentication bypass flaw (CVE-2026-20182) as actively exploited as a zero-day to gain administrative privileges on unpatched devices. While Cisco has not yet released patches for CVE-2026-20245, it advised customers to upgrade to the software fixed for CVE-2026-20182 on May 14. In February, Cisco patched another Catalyst SD-WAN Manager information disclosure security flaw (CVE-2026-20133), which CISA flagged as actively exploited in late April, and, two weeks later, warned that two more flaws (CVE-2026-20128 and CVE-2026-20122) were being abused in the wild. In March, it also addressed and flagged a critical authentication-bypass vulnerability (CVE-2026-20127) that has been exploited in zero-day attacks since at least 2023. Over the last several years, CISA has tagged 90 Cisco vulnerabilities as abused in the wild, four of them in Cisco Catalyst SD-WAN Manager and six others exploited by ransomware operations. Test every layer before attackers do Security teams log 54% of successful attacks and alert on just 14%. The rest move through your environment unseen. The Picus whitepaper shows how breach and attack simulation tests your SIEM and EDR rules so threats stop slipping by detection. CISA says ‘Copy Fail’ flaw now exploited to root Linux systems CISA flags new SD-WAN flaw as actively exploited in attacks Recently leaked Windows zero-days now exploited in attacks Exploit released for new PinTheft Arch Linux root escalation flaw Exploit available for new DirtyDecrypt Linux root escalation flaw",
+        "content_preview_chars": 3793,
+        "rss_summary": "",
+        "full_article_text": "On Thursday, Cisco warned of a high-severity, unpatched zero-day in the Cisco Catalyst SD-WAN Manager (tracked as CVE-2026-20245 ) actively exploited in attacks enabling root privilege escalation. The zero-day flaw impacts all deployment types, including On-Prem Deployment, Cisco SD-WAN Cloud-Pro, Cisco SD-WAN Cloud (Cisco Managed), and Cisco SD-WAN for Government (FedRAMP). In a Thursday advisory, Cisco said the issue stems from insufficient validation of user-supplied input, and it can allow local attackers with low privileges to execute arbitrary commands as root. \"An attacker could exploit this vulnerability by uploading a crafted file to the affected system. A successful exploit could allow the attacker to perform command injection attacks on an affected system and elevate their privileges as the root user,\" the company explained . \"To exploit this vulnerability, the attacker must have netadmin privileges on the affected system. This would require valid credentials or exploitation of CVE-2026-20182 or CVE-2026-20127. Cisco is not aware of successful exploitation by other methods,\" it added. \"Cisco is not aware of successful exploitation by other methods. Cisco has observed limited cases where the exploitation of this bug resulted in a configuration change pushed to edge devices.\" Formerly known as SD-WAN vManage, this network management software helps admins monitor and manage up to 6,000 Catalyst SD-WAN devices from a single dashboard. Cisco's Product Security Incident Response Team (PSIRT) became aware of CVE-2026-20245 exploitation in June after Google Cloud cybersecurity subsidiary Mandiant reported the flaw but did not share any details. However, it shared indicators of compromise (IOCs) warning admins to check their SD-WAN /var/log/scripts.log file for attempts to upload tenant configuration data to vSmart controllers to escalate privileges through legitimate commands, as in the following example: \"For help determining if a Cisco Catalyst SD-WAN Manager has been compromised, customers may open a case with the Cisco TAC,\" the company added, advising admins first to collect admin-tech files to help with the review. Security patches not yet available Last month, Cisco also tagged a maximum severity Catalyst SD-WAN Controller authentication bypass flaw (CVE-2026-20182) as actively exploited as a zero-day to gain administrative privileges on unpatched devices. While Cisco has not yet released patches for CVE-2026-20245, it advised customers to upgrade to the software fixed for CVE-2026-20182 on May 14. In February, Cisco patched another Catalyst SD-WAN Manager information disclosure security flaw (CVE-2026-20133), which CISA flagged as actively exploited in late April, and, two weeks later, warned that two more flaws (CVE-2026-20128 and CVE-2026-20122) were being abused in the wild. In March, it also addressed and flagged a critical authentication-bypass vulnerability (CVE-2026-20127) that has been exploited in zero-day attacks since at least 2023. Over the last several years, CISA has tagged 90 Cisco vulnerabilities as abused in the wild, four of them in Cisco Catalyst SD-WAN Manager and six others exploited by ransomware operations. Test every layer before attackers do Security teams log 54% of successful attacks and alert on just 14%. The rest move through your environment unseen. The Picus whitepaper shows how breach and attack simulation tests your SIEM and EDR rules so threats stop slipping by detection. CISA says ‘Copy Fail’ flaw now exploited to root Linux systems CISA flags new SD-WAN flaw as actively exploited in attacks Recently leaked Windows zero-days now exploited in attacks Exploit released for new PinTheft Arch Linux root escalation flaw Exploit available for new DirtyDecrypt Linux root escalation flaw",
+        "full_article_text_chars": 3793,
+        "enrichment_status": "strong",
+        "source_url": "https://www.bleepingcomputer.com",
+        "source_published_at": "2026-06-05T06:24:20Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 77.71,
+        "trusted_references": [
+          {
+            "title": "CVE-2026-20245",
+            "url": "https://nvd.nist.gov/vuln/detail/CVE-2026-20245"
+          },
+          {
+            "title": "the company explained",
+            "url": "https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-sdwan-privesc-4uxFrdzx"
+          },
+          {
+            "title": "collect admin-tech files",
+            "url": "https://www.cisco.com/c/en/us/support/docs/routers/sd-wan/225842-remediate-catalyst-sd-wan-security.html"
+          },
+          {
+            "title": "tagged 90 Cisco vulnerabilities",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search=&field_date_added_wrapper=all&field_cve=&sort_by=field_date_added&items_per_page=All&url=&f%5B0%5D=vendor_project%3A801"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 0.62,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-06-08T23:06:21Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-08T22:51:21",
+      "candidate_failure_count": 1
     },
     {
       "id": "f53ae0a7f8d71bfd",
@@ -3158,12 +3433,12 @@
       "removed_source_links_count": 82,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-08T21:05:30",
-      "candidate_retry_after": "2026-06-08T21:20:30Z",
+      "content_fetched_at": "2026-06-08T22:47:56",
+      "candidate_retry_after": "2026-06-08T23:02:56Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-08T21:05:30",
-      "candidate_failure_count": 4
+      "candidate_failed_at": "2026-06-08T22:47:56",
+      "candidate_failure_count": 5
     },
     {
       "id": "561b6316398d7603",
@@ -3897,17 +4172,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 0,
-      "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 0,
+      "source_links_removed_count": 228,
+      "affiliate_links_removed_count": 5,
+      "removed_source_links_count": 228,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-06-08T21:05:30",
-      "candidate_retry_after": "2026-06-08T21:20:30Z",
+      "content_fetch_error": "weak article body after fallbacks (best=462 chars/73 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:462chars/73words, page_text:462chars/73words)",
+      "content_fetched_at": "2026-06-08T22:47:59",
+      "candidate_retry_after": "2026-06-08T23:02:59Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-06-08T21:05:30",
-      "candidate_failure_count": 3
+      "candidate_failure_reason": "weak article body after fallbacks (best=462 chars/73 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:462chars/73words, page_text:462chars/73words)",
+      "candidate_failed_at": "2026-06-08T22:47:59",
+      "candidate_failure_count": 4
     },
     {
       "id": "c1354558130eaeb3",
@@ -4746,12 +5021,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-08T21:05:32",
-      "candidate_retry_after": "2026-06-08T21:20:32Z",
+      "content_fetched_at": "2026-06-08T22:48:00",
+      "candidate_retry_after": "2026-06-08T23:03:00Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-08T21:05:32",
-      "candidate_failure_count": 2
+      "candidate_failed_at": "2026-06-08T22:48:00",
+      "candidate_failure_count": 3
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -5303,6 +5578,382 @@
       "content_fetched_at": "2026-06-08T21:05:40",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
+    },
+    {
+      "id": "aa5467e1b9e97eb5",
+      "source_url_hash": "aa5467e1b9e97eb5",
+      "canonical_url": "https://cybersecuritynews.com/new-china-linked-threat-cluster-op-512-targets-iis-servers",
+      "title_hash": "210b7786217fd529",
+      "topic_signature": "8f51a60b724ab47ef18a",
+      "title": "New China-Linked Threat Cluster OP-512 Targets IIS Servers With Cryptographically Unique Web Shell Framework",
+      "url": "https://cybersecuritynews.com/new-china-linked-threat-cluster-op-512-targets-iis-servers",
+      "source_name": "Cyber Security News",
+      "source_url": "https://cybersecuritynews.com",
+      "source_published_at": "2026-06-08T19:12:59Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 3.58,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-08T22:47:43",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 74,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 74,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "New China-Linked Threat Cluster OP-512 Targets IIS Servers With Cryptographically Unique Web Shell Framework",
+      "meta_description": "China-linked OP-512 targets IIS servers with stealthy web shells, waiting 75 days before deploying its full espionage toolkit.",
+      "article_images": [
+        {
+          "url": "http://cybersecuritynews.com/wp-content/uploads/2026/06/New-China-Linked-Threat-Cluster-OP-512-Targets-IIS-Servers-With-Cryptographically-Unique-Web-Shell-Framework.webp",
+          "alt": "New China-Linked Threat Cluster OP-512 Targets IIS Servers With Cryptographically Unique Web Shell Framework",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/06/New-China-Linked-Threat-Cluster-OP-512-Targets-IIS-Servers-With-Cryptographically-Unique-Web-Shell-Framework-696x392.webp",
+          "alt": "New China-Linked Threat Cluster OP-512 Targets IIS Servers With Cryptographically Unique Web Shell Framework",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "http://cybersecuritynews.com/wp-content/uploads/2026/06/New-China-Linked-Threat-Cluster-OP-512-Targets-IIS-Servers-With-Cryptographically-Unique-Web-Shell-Framework.webp",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/06/New-China-Linked-Threat-Cluster-OP-512-Targets-IIS-Servers-With-Cryptographically-Unique-Web-Shell-Framework-696x392.webp",
+          "alt": "New China-Linked Threat Cluster OP-512 Targets IIS Servers With Cryptographically Unique Web Shell Framework"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "accounts.google.com",
+          "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+        },
+        {
+          "title": "news.google.com",
+          "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN%3Aen"
+        },
+        {
+          "title": "Google",
+          "url": "https://www.google.com/preferences/source?q=cybersecuritynews.com"
+        }
+      ],
+      "full_article_text": "A newly identified threat cluster with suspected ties to China has been caught targeting Internet Information Services (IIS) web servers using a purpose-built web shell framework. Tracked as OP-512, this group stands out for deploying tools designed to evade every detection method that works against similar China-linked actors. The discovery marks another escalation in a growing pattern of state-aligned espionage against legacy server infrastructure. What makes OP-512 especially alarming is its patience. Investigators found evidence that the attacker first accessed the targeted server 75 days before the main intrusion was discovered. Analysts at ReliaQuest identified this new cluster after their Agentic AI system stitched together a high volume of seemingly unrelated suspicious events into one high-priority incident. Threat research experts then reviewed and validated the findings. The targeted organization’s sector and geography aligned with China-linked intelligence priorities, adding weight to the attribution. According to a report shared with Cyber Security News (CSN), ReliaQuest assessed with moderate-high confidence that OP-512 is a new, previously undocumented actor. At the center of the operation is a custom web shell framework made up of three malicious files that give attackers remote access through a web browser. Each deployment is cryptographically unique, meaning traditional signature-based tools cannot reliably detect it. Every installation generates a completely different file fingerprint, making many common defenses ineffective. The compromised server was running Windows Server 2016 with a .NET Framework version that has not received security updates since 2016. OP-512 is at least the fourth China-linked cluster documented targeting legacy IIS servers in the past year, confirming that outdated, internet-facing infrastructure remains a preferred entry point for espionage. New China-Linked Threat Cluster OP-512 Targets IIS Servers Once inside the server, OP-512 moved quickly to establish control. The web server’s worker process wrote the first web shell to an upload directory, a .aspx file manager with a built-in command-and-control notification channel. Within seconds, it encoded its own URL and transmitted that location through two independent channels: a DNS query and, as a fallback, an HTTP request to a backup server linked to known Meterpreter infrastructure. Two .ashx command handler files were then deployed to the same directory, each generated with a different cryptographic key. Compromising one could not grant access through the other. The system was built so each web shell looks unique, operates securely, and reports back automatically. The attacker could drop the files and walk away, knowing their infrastructure would track everything. The framework also used timestomping, where file timestamps are manipulated to match those of legitimate files already on the server. A file planted in 2026 was made to appear as though it had existed since 2022, directly undermining a standard forensic technique investigators rely on to spot recently dropped artifacts. Privilege Escalation and Persistent Access With web shells in place, OP-512 loaded four exploitation toolkits directly into the server’s process memory, leaving nothing written to disk. Three came from the publicly known “Potato Suite,” which abuses built-in Windows services to escalate access from a limited service account to full system-level control. A fourth toolkit appeared in telemetry as “GhostKit,” though no public documentation exists for a tool by that name. Endpoint protection did terminate the malicious process when suspicious behavior was detected. However, IIS automatically restarts worker processes when they stop, so the attacker’s tools reloaded within minutes. Prevention fired repeatedly but the intrusion continued, highlighting a critical gap: stopping a process without isolating the host only delays, rather than stops, an attacker operating through IIS. Defenders are advised to retire or isolate internet-facing servers running end-of-life .NET frameworks immediately. Organizations should disable script execution in upload directories, monitor ASP.NET compilation directories for unexpected file creation, and apply web application firewall rules. Incident teams should not close a case until the entry point is confirmed and fixed, since removing web shells alone does not address the underlying vulnerability. Indicators of Compromise (IoCs):- DNS C2 domain observed during earlier activity on the same host, approximately 75 days before the primary incident. Suggests infrastructure rotation between attacker visits. DNS C2 domain used by the self-reporting notification channel. In logs, look for the subdomain pattern a.<hex>.c.hcgos[.]com Meterpreter C2 server communicating on a non-standard port Outbound connection observed from the compromised host Source IP associated with web shell interaction; high-signal indicator due to the combination of python-requests/2.33.0 user agent, POST requests to .aspx upload paths, and timing aligned with the web shell deployment window Note: IP addresses and domains are intentionally defanged (e.g., [.] ) to prevent accidental resolution or hyperlinking. Re-fang only within controlled threat intelligence platforms such as MISP, VirusTotal, or your SIEM . CISA Flags Palo Alto Networks PAN-OS Vulnerability as Exploited in Attacks Instagram Fixes Password Reset Flaw That Exposes User Emails and Phone Numbers OWASP Releases AI Security Report to Empower Security Professionals with New Tools Hackers Use Fake Purchase Orders to Deploy JS.MonoGlyphRAT Targeting US Enterprises 1-Click GitHub Token Vulnerability Lets Attackers Steal Users’ OAuth Tokens New Linux Kernel Vulnerability Lets Attackers Escalate Privileges to Root New Pink Hacking Group Attacking Enterprise Users to Steal Cloud Storage Passwords Malspam Attack Uses Google DoubleClick Redirects to Deliver Fileless .NET Loader UNC3753 Attacking US Law Firms Using Vishing and RMM Tools to Exfiltrate Data New Lucid Stealer Targets 18 Browsers, Crypto Wallets, and Discord Tokens With Hidden Remote Access",
+      "full_article_text_chars": 6186,
+      "content_preview": "A newly identified threat cluster with suspected ties to China has been caught targeting Internet Information Services (IIS) web servers using a purpose-built web shell framework. Tracked as OP-512, this group stands out for deploying tools designed to evade every detection method that works against similar China-linked actors. The discovery marks another escalation in a growing pattern of state-aligned espionage against legacy server infrastructure. What makes OP-512 especially alarming is its patience. Investigators found evidence that the attacker first accessed the targeted server 75 days before the main intrusion was discovered. Analysts at ReliaQuest identified this new cluster after their Agentic AI system stitched together a high volume of seemingly unrelated suspicious events into one high-priority incident. Threat research experts then reviewed and validated the findings. The targeted organization’s sector and geography aligned with China-linked intelligence priorities, adding weight to the attribution. According to a report shared with Cyber Security News (CSN), ReliaQuest assessed with moderate-high confidence that OP-512 is a new, previously undocumented actor. At the center of the operation is a custom web shell framework made up of three malicious files that give attackers remote access through a web browser. Each deployment is cryptographically unique, meaning traditional signature-based tools cannot reliably detect it. Every installation generates a completely different file fingerprint, making many common defenses ineffective. The compromised server was running Windows Server 2016 with a .NET Framework version that has not received security updates since 2016. OP-512 is at least the fourth China-linked cluster documented targeting legacy IIS servers in the past year, confirming that outdated, internet-facing infrastructure remains a preferred entry point for espionage. New China-Linked Threat Cluster OP-512 Targets IIS Servers Once inside the server, OP-512 moved quickly to establish control. The web server’s worker process wrote the first web shell to an upload directory, a .aspx file manager with a built-in command-and-control notification channel. Within seconds, it encoded its own URL and transmitted that location through two independent channels: a DNS query and, as a fallback, an HTTP request to a backup server linked to known Meterpreter infrastructure. Two .ashx command handler files were then deployed to the same directory, each generated with a different cryptographic key. Compromising one could not grant access through the other. The system was built so each web shell looks unique, operates securely, and reports back automatically. The attacker could drop the files and walk away, knowing their infrastructure would track everything. The framework also used timestomping, where file timestamps are manipulated to match those of legitimate files already on the server. A file planted in 2026 was made to appear as though it had existed since 2022, directly undermining a standard forensic technique investigators rely on to spot recently dropped artifacts. Privilege Escalation and Persistent Access With web shells in place, OP-512 loaded four exploitation toolkits directly into the server’s process memory, leaving nothing written to disk. Three came from the publicly known “Potato Suite,” which abuses built-in Windows services to escalate access from a limited service account to full system-level control. A fourth toolkit appeared in telemetry as “GhostKit,” though no public documentation exists for a tool by that name. Endpoint protection did terminate the malicious process when suspicious behavior was detected. However, IIS automatically restarts worker processes when they stop, so the attacker’s tools reloaded within minutes. Prevention fired repeatedly but the intrusion continued, highlighting a critical gap: stopping a process without isolating the host only delays, rather than stops, an attacker operating through IIS. Defenders are advised to retire or isolate internet-facing servers running end-of-life .NET frameworks immediately. Organizations should disable script execution in upload directories, monitor ASP.NET compilation directories for unexpected file creation, and apply web application firewall rules. Incident teams should not close a case until the entry point is confirmed and fixed, since removing web shells alone does not address the underlying vulnerability. Indicators of Compromise (IoCs):- DNS C2 domain observed during earlier activity on the same host, approximately 75 days before the primary incident. Suggests infrastructure rotation between attacker visits. DNS C2 domain used by the self-reporting notification channel. In logs, look for the subdomain pattern a.<hex>.c.hcgos[.]com Meterpreter C2 server communicating on a non-standard port Outbound connection observed from the compromised host Source IP associated with web shell interaction; high-signal indicator due to the combination of python-requests/2.33.0 user agent, POST requests to .aspx upload paths, and timing aligned with the web shell deployment window Note: IP addresses and domains are intentionally defanged (e.g., [.] ) to prevent accidental resolution or hyperlinking. Re-fang only within controlled threat intelligence platforms such as MISP, VirusTotal, or your SIEM . CISA Flags Palo Alto Networks PAN-OS Vulnerability as Exploited in Attacks Instagram Fixes Password Reset Flaw That Exposes User Emails and Phone Numbers OWASP Releases AI Security Report to Empower Security Professionals with New Tools Hackers Use Fake Purchase Orders to Deploy JS.MonoGlyphRAT Targeting US Enterprises 1-Click GitHub Token Vulnerability Lets Attackers Steal Users’ OAuth Tokens New Linux Kernel Vulnerability Lets Attackers Escalate Privileges to Root New Pink Hacking Group Attacking Enterprise Users to Steal Cloud Storage Passwords Malspam Attack Uses Google DoubleClick Redirects to Deliver Fileless .NET Loader UNC3753 Attacking US Law Firms Using Vishing and RMM Tools to Exfiltrate Data New Lucid Stealer Targets 18 Browsers, Crypto Wallets, and Discord Tokens With Hidden Remote Access",
+      "content_preview_chars": 6186,
+      "content_fetched_at": "2026-06-08T22:47:46",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "ea777e72c926241e",
+      "source_url_hash": "ea777e72c926241e",
+      "canonical_url": "https://cybersecuritynews.com/check-point-vpn-0-day-vulnerability",
+      "title_hash": "743f05c6db189cc6",
+      "topic_signature": "4450c7d3487e99fba860",
+      "title": "Check Point VPN 0-day Vulnerability Exploited in the Wild to Deploy Ransomware",
+      "url": "https://cybersecuritynews.com/check-point-vpn-0-day-vulnerability",
+      "source_name": "Cyber Security News",
+      "source_url": "https://cybersecuritynews.com",
+      "source_published_at": "2026-06-08T17:18:01Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 5.49,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-08T22:47:43",
+      "status": "ready",
+      "score": 6,
+      "priority": "medium",
+      "source_links_removed_count": 73,
+      "affiliate_links_removed_count": 4,
+      "removed_source_links_count": 73,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Check Point VPN 0-day Vulnerability Exploited in the Wild to Deploy Ransomware",
+      "meta_description": "Check Point Research has uncovered active exploitation of CVE-2026-50751, a critical authentication bypass vulnerability (CVSS 9.3) in Check Point Remote Access VPN and Mobile Access deployments, with confirmed post-compromise activity linked to the Qilin ransomware gang.",
+      "article_images": [
+        {
+          "url": "http://cybersecuritynews.com/wp-content/uploads/2026/06/Check-Point-VPN-0-day-Vulnerability.webp",
+          "alt": "Check Point VPN 0-day Vulnerability Exploited in the Wild to Deploy Ransomware",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/06/Check-Point-VPN-0-day-Vulnerability-696x392.webp",
+          "alt": "Check Point VPN 0-day Vulnerability",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "http://cybersecuritynews.com/wp-content/uploads/2026/06/Check-Point-VPN-0-day-Vulnerability.webp",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/06/Check-Point-VPN-0-day-Vulnerability-696x392.webp",
+          "alt": "Check Point VPN 0-day Vulnerability"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "accounts.google.com",
+          "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+        },
+        {
+          "title": "news.google.com",
+          "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN%3Aen"
+        }
+      ],
+      "full_article_text": "Check Point Research has uncovered active exploitation of CVE-2026-50751, a critical authentication bypass vulnerability (CVSS 9.3) in Check Point Remote Access VPN and Mobile Access deployments, with confirmed post-compromise activity linked to the Qilin ransomware gang. CVE-2026-50751 targets deployments configured to use the deprecated IKEv1 key exchange protocol. By exploiting a logic flaw in certificate validation, an unauthenticated remote attacker can establish a VPN session without a valid user password, effectively bypassing all authentication requirements. The flaw affects Mobile Access / SSL VPN, Remote Access VPN, and Spark Firewall products across versions R80.20.X through R82.10. While initial access is gained through the bypass, additional post-authentication steps are required to access internal resources or escalate privileges. Check Point Research launched its investigation on June 4, 2026, following indications of suspicious activity, tracing exploitation attempts back to May 7, 2026. Exploitation attempts escalated sharply in early June 2026, targeting a few dozen organizations globally. Incident response teams should prioritize forensic log audits and configuration reviews beginning from the earliest observed exploitation date. The threat actor is assessed with medium confidence to be financially motivated, leveraging Qilin Linux ransomware binaries and attempting to download malicious ELF files from actor-controlled infrastructure. The actor likely uses the Tox protocol for command-and-control communication, a pattern commonly associated with ransomware operators, and is believed to be simultaneously exploiting VPN vulnerabilities disclosed by Palo Alto, Fortinet, and F5. Attacker infrastructure was hosted across Kaupo Cloud HK, Shock Hosting, and Vultr Holdings, with VPS geolocation correlated to victim geography in several cases. Second Vulnerability – CVE-2026-50752 During the CVE-2026-50751 investigation, Check Point’s agentic AI code security platform BLAST identified a related flaw: CVE-2026-50752 (CVSS 7.4). This vulnerability impacts certificate validation in the deprecated IKEv1 key exchange and can enable man-in-the-middle (MitM) interference on site-to-site VPN communications under specific conditions. While not yet observed in active exploitation, customers are urged to apply updates proactively. Auth bypass via IKEv1 certificate validation flaw Mobile Access/SSL VPN, Remote Access VPN, Spark Firewall MitM condition in IKEv1 certificate validation Security Gateways, Spark Firewall Indicators of Compromise (IOCs) 45.77.149[.]152, 209.182.225[.]136, 38.60.157[.]139, 162.33.177[.]101, 45.76.26[.]42 144.208.127[.]155, 38.54.88[.]201, 38.54.107[.]167, 66.42.99[.]200 52fda5c1b9704544f32ee98d9060e689 51d39aa39478beeac94f2d12f682ecce Check Point strongly urges all customers on affected versions to immediately apply the released hotfix for their Security Gateways. Organizations unable to patch instantly should take the following interim steps: Remove support for legacy remote access clients. Configure Remote Access VPN Authentication to IKEv2 only. Set Machine Certificate Authentication as mandatory. Enable IPS and download the latest signatures. Bots Surpass Humans in Global Web Traffic for the First Time in Internet History OWASP CVE Lite CLI – New Tool to Scan for Vulnerabilities in Your Projects Microsoft Edge Vulnerability Allows Remote Attackers to Execute Arbitrary Code Russia Says Foreign Spyware Found on High-Ranking Officials’ Mobile Phones New Gafgyt Variant Targets Multiple Linux Architectures With Modular Propagation New Pink Hacking Group Attacking Enterprise Users to Steal Cloud Storage Passwords Malspam Attack Uses Google DoubleClick Redirects to Deliver Fileless .NET Loader UNC3753 Attacking US Law Firms Using Vishing and RMM Tools to Exfiltrate Data New Lucid Stealer Targets 18 Browsers, Crypto Wallets, and Discord Tokens With Hidden Remote Access WhatsApp Disrupts NSO-Linked Cyberattack Targeting Users with Pegasus Spyware",
+      "full_article_text_chars": 4040,
+      "content_preview": "Check Point Research has uncovered active exploitation of CVE-2026-50751, a critical authentication bypass vulnerability (CVSS 9.3) in Check Point Remote Access VPN and Mobile Access deployments, with confirmed post-compromise activity linked to the Qilin ransomware gang. CVE-2026-50751 targets deployments configured to use the deprecated IKEv1 key exchange protocol. By exploiting a logic flaw in certificate validation, an unauthenticated remote attacker can establish a VPN session without a valid user password, effectively bypassing all authentication requirements. The flaw affects Mobile Access / SSL VPN, Remote Access VPN, and Spark Firewall products across versions R80.20.X through R82.10. While initial access is gained through the bypass, additional post-authentication steps are required to access internal resources or escalate privileges. Check Point Research launched its investigation on June 4, 2026, following indications of suspicious activity, tracing exploitation attempts back to May 7, 2026. Exploitation attempts escalated sharply in early June 2026, targeting a few dozen organizations globally. Incident response teams should prioritize forensic log audits and configuration reviews beginning from the earliest observed exploitation date. The threat actor is assessed with medium confidence to be financially motivated, leveraging Qilin Linux ransomware binaries and attempting to download malicious ELF files from actor-controlled infrastructure. The actor likely uses the Tox protocol for command-and-control communication, a pattern commonly associated with ransomware operators, and is believed to be simultaneously exploiting VPN vulnerabilities disclosed by Palo Alto, Fortinet, and F5. Attacker infrastructure was hosted across Kaupo Cloud HK, Shock Hosting, and Vultr Holdings, with VPS geolocation correlated to victim geography in several cases. Second Vulnerability – CVE-2026-50752 During the CVE-2026-50751 investigation, Check Point’s agentic AI code security platform BLAST identified a related flaw: CVE-2026-50752 (CVSS 7.4). This vulnerability impacts certificate validation in the deprecated IKEv1 key exchange and can enable man-in-the-middle (MitM) interference on site-to-site VPN communications under specific conditions. While not yet observed in active exploitation, customers are urged to apply updates proactively. Auth bypass via IKEv1 certificate validation flaw Mobile Access/SSL VPN, Remote Access VPN, Spark Firewall MitM condition in IKEv1 certificate validation Security Gateways, Spark Firewall Indicators of Compromise (IOCs) 45.77.149[.]152, 209.182.225[.]136, 38.60.157[.]139, 162.33.177[.]101, 45.76.26[.]42 144.208.127[.]155, 38.54.88[.]201, 38.54.107[.]167, 66.42.99[.]200 52fda5c1b9704544f32ee98d9060e689 51d39aa39478beeac94f2d12f682ecce Check Point strongly urges all customers on affected versions to immediately apply the released hotfix for their Security Gateways. Organizations unable to patch instantly should take the following interim steps: Remove support for legacy remote access clients. Configure Remote Access VPN Authentication to IKEv2 only. Set Machine Certificate Authentication as mandatory. Enable IPS and download the latest signatures. Bots Surpass Humans in Global Web Traffic for the First Time in Internet History OWASP CVE Lite CLI – New Tool to Scan for Vulnerabilities in Your Projects Microsoft Edge Vulnerability Allows Remote Attackers to Execute Arbitrary Code Russia Says Foreign Spyware Found on High-Ranking Officials’ Mobile Phones New Gafgyt Variant Targets Multiple Linux Architectures With Modular Propagation New Pink Hacking Group Attacking Enterprise Users to Steal Cloud Storage Passwords Malspam Attack Uses Google DoubleClick Redirects to Deliver Fileless .NET Loader UNC3753 Attacking US Law Firms Using Vishing and RMM Tools to Exfiltrate Data New Lucid Stealer Targets 18 Browsers, Crypto Wallets, and Discord Tokens With Hidden Remote Access WhatsApp Disrupts NSO-Linked Cyberattack Targeting Users with Pegasus Spyware",
+      "content_preview_chars": 4040,
+      "content_fetched_at": "2026-06-08T22:47:50",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "012edd6231936fb9",
+      "source_url_hash": "012edd6231936fb9",
+      "canonical_url": "https://cybersecuritynews.com/linux-kernel-nftables-vulnerability",
+      "title_hash": "1ee493c7079cb2f5",
+      "topic_signature": "946dee9e37bf3a3f3f52",
+      "title": "New Linux Kernel Vulnerability Lets Attackers Escalate Privileges to Root",
+      "url": "https://cybersecuritynews.com/linux-kernel-nftables-vulnerability",
+      "source_name": "Cyber Security News",
+      "source_url": "https://cybersecuritynews.com",
+      "source_published_at": "2026-06-08T16:45:41Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 6.03,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-08T22:47:43",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 72,
+      "affiliate_links_removed_count": 4,
+      "removed_source_links_count": 72,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "New Linux Kernel Vulnerability Lets Attackers Escalate Privileges to Root",
+      "meta_description": "A use-after-free vulnerability in the Linux kernel's nftables subsystem has been disclosed, enabling unprivileged local attackers to escalate privileges to root on widely deployed distributions including Debian Bookworm, Debian Trixie, Ubuntu 22.04 LTS, and Ubuntu 24.04 LTS.",
+      "article_images": [
+        {
+          "url": "http://cybersecuritynews.com/wp-content/uploads/2026/06/Linux-Kernel-nftables-Vulnerability.webp",
+          "alt": "New Linux Kernel Vulnerability Lets Attackers Escalate Privileges to Root",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/06/Linux-Kernel-nftables-Vulnerability-696x392.webp",
+          "alt": "Linux Kernel nftables Vulnerability",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "http://cybersecuritynews.com/wp-content/uploads/2026/06/Linux-Kernel-nftables-Vulnerability.webp",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cybersecuritynews.com/wp-content/uploads/2026/06/Linux-Kernel-nftables-Vulnerability-696x392.webp",
+          "alt": "Linux Kernel nftables Vulnerability"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "accounts.google.com",
+          "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+        },
+        {
+          "title": "news.google.com",
+          "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN%3Aen"
+        }
+      ],
+      "full_article_text": "A use-after-free vulnerability in the Linux kernel’s nftables subsystem has been disclosed, enabling unprivileged local attackers to escalate privileges to root on widely deployed distributions including Debian Bookworm, Debian Trixie, Ubuntu 22.04 LTS, and Ubuntu 24.04 LTS. Tracked as CVE-2026-23111, the flaw was discovered in early 2025 and patched upstream on February 5, 2026, via a kernel commit . Security researcher Oliver Sieber of Exodus Intelligence published a detailed technical write-up alongside a working exploit demonstrating >99% reliability on idle systems. The bug originates in the nft_map_catchall_activate() function within the nftables subsystem — a packet filtering framework built on top of Linux’s Netfilter hooks. Specifically, a single inverted conditional check (a misplaced ! operator) causes the function to incorrectly skip inactive catchall elements during the abort process, instead of reactivating them. When a pipapo-backed verdict map containing a catchall element referencing a chain is deleted and a subsequent transaction in the same batch fails, triggering an abort, the catchall element remains incorrectly inactive. This leaves the referenced chain’s reference counter at zero, even though a valid reference to that chain still exists. An attacker can then delete the chain while a dangling pointer remains in a base chain rule, triggering the use-after-free condition. Linux Kernel use-after-free Vulnerability The exploit chains four transaction batches to manipulate nftables’ generational cursor mechanism: Batch 1: Delete the pipapo set, then force an error to trigger the abort — causing the chain reference counter to decrement incorrectly Batch 2: Send a benign transaction to toggle the generation cursor Batch 3: Delete the pipapo set cleanly, driving the chain’s reference counter to zero Batch 4: Delete the chain while the base chain retains a live rule referencing it From there, the exploit performs KASLR defeat by reclaiming the freed kmalloc-cg-32 slab with a seq_operations structure (populated via open(\"/proc/self/stat\") ), leaking kernel function pointers through an NFT_MSG_GETRULE request. Heap addresses are subsequently leaked by reclaiming freed kmalloc-cg-192 objects with crafted nft_rule structures whose linked-list pointers are exfiltrated the same way. Control flow hijacking is achieved by overwriting the deleted chain’s blob_gen_0 pointer with a fake nft_expr_ops structure pointing to a ROP gadget ( push rbx; pop rsp ). The final ROP chain calls commit_creds(&init_cred) to gain root credentials, then escapes namespace isolation via switch_task_namespaces() , achieving a full container and namespace breakout. On Ubuntu 24.04, namespace creation restrictions enforced via AppArmor can be bypassed using aa-exec -p trinity -- unshare -Urmin /bin/sh prior to exploitation. The exploit achieved >99% stability on idle systems and approximately 80% stability under heavy heap pressure (Apache benchmark via Phoronix Test Suite), making it highly reliable in real-world conditions, Oliver Sieber said . Notably, the same break statement that introduced this flaw also spawned a related bug tracked as CVE-2026-23278, patched separately via a second kernel commit . Administrators should immediately apply the upstream kernel patch (commit f41c5d1 ) or update to a patched kernel release provided by their distribution. On Ubuntu systems, restricting unprivileged user namespace creation via kernel.unprivileged_userns_clone=0 provides a partial mitigation where policy permits. Critical StrongDM Vulnerability Allows Attackers to Steal and Reuse Authentication Chrome Patches 429 Vulnerabilities Including 22 Critical Ones – Update Now! CISA Warns of Linux Kernel Improper Authentication Vulnerability Exploited in Attacks Microsoft Edge Vulnerability Allows Remote Attackers to Execute Arbitrary Code SolyxImmortal Python Malware Steals Browser Passwords, Cookies, Files, and Keystrokes New Pink Hacking Group Attacking Enterprise Users to Steal Cloud Storage Passwords Malspam Attack Uses Google DoubleClick Redirects to Deliver Fileless .NET Loader UNC3753 Attacking US Law Firms Using Vishing and RMM Tools to Exfiltrate Data New Lucid Stealer Targets 18 Browsers, Crypto Wallets, and Discord Tokens With Hidden Remote Access WhatsApp Disrupts NSO-Linked Cyberattack Targeting Users with Pegasus Spyware",
+      "full_article_text_chars": 4387,
+      "content_preview": "A use-after-free vulnerability in the Linux kernel’s nftables subsystem has been disclosed, enabling unprivileged local attackers to escalate privileges to root on widely deployed distributions including Debian Bookworm, Debian Trixie, Ubuntu 22.04 LTS, and Ubuntu 24.04 LTS. Tracked as CVE-2026-23111, the flaw was discovered in early 2025 and patched upstream on February 5, 2026, via a kernel commit . Security researcher Oliver Sieber of Exodus Intelligence published a detailed technical write-up alongside a working exploit demonstrating >99% reliability on idle systems. The bug originates in the nft_map_catchall_activate() function within the nftables subsystem — a packet filtering framework built on top of Linux’s Netfilter hooks. Specifically, a single inverted conditional check (a misplaced ! operator) causes the function to incorrectly skip inactive catchall elements during the abort process, instead of reactivating them. When a pipapo-backed verdict map containing a catchall element referencing a chain is deleted and a subsequent transaction in the same batch fails, triggering an abort, the catchall element remains incorrectly inactive. This leaves the referenced chain’s reference counter at zero, even though a valid reference to that chain still exists. An attacker can then delete the chain while a dangling pointer remains in a base chain rule, triggering the use-after-free condition. Linux Kernel use-after-free Vulnerability The exploit chains four transaction batches to manipulate nftables’ generational cursor mechanism: Batch 1: Delete the pipapo set, then force an error to trigger the abort — causing the chain reference counter to decrement incorrectly Batch 2: Send a benign transaction to toggle the generation cursor Batch 3: Delete the pipapo set cleanly, driving the chain’s reference counter to zero Batch 4: Delete the chain while the base chain retains a live rule referencing it From there, the exploit performs KASLR defeat by reclaiming the freed kmalloc-cg-32 slab with a seq_operations structure (populated via open(\"/proc/self/stat\") ), leaking kernel function pointers through an NFT_MSG_GETRULE request. Heap addresses are subsequently leaked by reclaiming freed kmalloc-cg-192 objects with crafted nft_rule structures whose linked-list pointers are exfiltrated the same way. Control flow hijacking is achieved by overwriting the deleted chain’s blob_gen_0 pointer with a fake nft_expr_ops structure pointing to a ROP gadget ( push rbx; pop rsp ). The final ROP chain calls commit_creds(&init_cred) to gain root credentials, then escapes namespace isolation via switch_task_namespaces() , achieving a full container and namespace breakout. On Ubuntu 24.04, namespace creation restrictions enforced via AppArmor can be bypassed using aa-exec -p trinity -- unshare -Urmin /bin/sh prior to exploitation. The exploit achieved >99% stability on idle systems and approximately 80% stability under heavy heap pressure (Apache benchmark via Phoronix Test Suite), making it highly reliable in real-world conditions, Oliver Sieber said . Notably, the same break statement that introduced this flaw also spawned a related bug tracked as CVE-2026-23278, patched separately via a second kernel commit . Administrators should immediately apply the upstream kernel patch (commit f41c5d1 ) or update to a patched kernel release provided by their distribution. On Ubuntu systems, restricting unprivileged user namespace creation via kernel.unprivileged_userns_clone=0 provides a partial mitigation where policy permits. Critical StrongDM Vulnerability Allows Attackers to Steal and Reuse Authentication Chrome Patches 429 Vulnerabilities Including 22 Critical Ones – Update Now! CISA Warns of Linux Kernel Improper Authentication Vulnerability Exploited in Attacks Microsoft Edge Vulnerability Allows Remote Attackers to Execute Arbitrary Code SolyxImmortal Python Malware Steals Browser Passwords, Cookies, Files, and Keystrokes New Pink Hacking Group Attacking Enterprise Users to Steal Cloud Storage Passwords Malspam Attack Uses Google DoubleClick Redirects to Deliver Fileless .NET Loader UNC3753 Attacking US Law Firms Using Vishing and RMM Tools to Exfiltrate Data New Lucid Stealer Targets 18 Browsers, Crypto Wallets, and Discord Tokens With Hidden Remote Access WhatsApp Disrupts NSO-Linked Cyberattack Targeting Users with Pegasus Spyware",
+      "content_preview_chars": 4387,
+      "content_fetched_at": "2026-06-08T22:47:48",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "7e14b2a878e5aa33",
+      "source_url_hash": "7e14b2a878e5aa33",
+      "canonical_url": "https://therecord.media/news/leadership",
+      "title_hash": "911224d5a284e9ae",
+      "topic_signature": "911224d5a284e9ae6f96",
+      "title": "Leadership",
+      "url": "https://therecord.media/news/leadership",
+      "source_name": "The Record",
+      "source_url": "https://therecord.media",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-08T22:47:43",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 13,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 13,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
+      "content_fetched_at": "2026-06-08T22:48:00",
+      "candidate_retry_after": "2026-06-08T23:03:00Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
+      "candidate_failed_at": "2026-06-08T22:48:00",
+      "candidate_failure_count": 1
+    },
+    {
+      "id": "cc5e99891af35b5e",
+      "source_url_hash": "cc5e99891af35b5e",
+      "canonical_url": "https://therecord.media/news/cybercrime",
+      "title_hash": "6a0cec0842e2350b",
+      "topic_signature": "6a0cec0842e2350b1213",
+      "title": "Cybercrime",
+      "url": "https://therecord.media/news/cybercrime",
+      "source_name": "The Record",
+      "source_url": "https://therecord.media",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-08T22:47:43",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 13,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 13,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
+      "content_fetched_at": "2026-06-08T22:48:01",
+      "candidate_retry_after": "2026-06-08T23:03:01Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
+      "candidate_failed_at": "2026-06-08T22:48:01",
+      "candidate_failure_count": 1
+    },
+    {
+      "id": "a6f4ca9464909855",
+      "source_url_hash": "a6f4ca9464909855",
+      "canonical_url": "https://therecord.media/news/nation-state",
+      "title_hash": "f0e1b87bf2e47b16",
+      "topic_signature": "275bfffa5d96bf71443d",
+      "title": "Nation-state",
+      "url": "https://therecord.media/news/nation-state",
+      "source_name": "The Record",
+      "source_url": "https://therecord.media",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-08T22:47:43",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 13,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 13,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
+      "content_fetched_at": "2026-06-08T22:48:01",
+      "candidate_retry_after": "2026-06-08T23:03:01Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
+      "candidate_failed_at": "2026-06-08T22:48:01",
+      "candidate_failure_count": 1
     }
   ],
   "notifications": {
