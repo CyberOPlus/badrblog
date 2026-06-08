@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-08T12:09:04",
+  "updated_at": "2026-06-08T16:19:26",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -50,11 +50,11 @@
       "content_fetched_at": "2026-06-07T23:45:37",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-07T23:48:12",
+      "selected_at": "2026-06-08T16:17:42",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-07T23:48:12",
+      "processing_prepared_at": "2026-06-08T16:17:42",
       "ai_input_package": {
         "title": "How to Fine-Tune Nemotron 3.5 ASR for Your Language, Domain, or Accent",
         "url": "https://huggingface.co/blog/nvidia/fine-tuning-nemotron-35-asr",
@@ -82,19 +82,19 @@
         "related_posts": []
       },
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_quality_last_error": "article older than 24 hours",
+      "ai_quality_last_error": "article too short (72 words; minimum 700)",
       "ai_status": "failed",
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 29.23,
+      "ai_total_time_seconds": 35.24,
       "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-08T00:03:42Z",
+      "candidate_retry_after": "2026-06-08T16:33:18Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-06-07T23:48:42",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-06-08T16:18:18",
+      "candidate_failure_count": 2
     },
     {
       "id": "ebff70380f189f7a",
@@ -194,11 +194,11 @@
       "content_fetched_at": "2026-06-07T23:45:55",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-07T23:45:55",
+      "selected_at": "2026-06-08T16:18:18",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-07T23:45:55",
+      "processing_prepared_at": "2026-06-08T16:18:18",
       "ai_input_package": {
         "title": "OpenAI Newsroom | Research",
         "url": "https://openai.com/news/research",
@@ -262,20 +262,21 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "article older than 24 hours",
+      "ai_quality_last_error": "article too short (59 words; minimum 120)",
       "ai_status": "failed",
-      "ai_error": "article older than 24 hours",
-      "ai_rotation_exhausted": false,
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 136.72,
-      "ai_quality_status": "failed_after_retries",
+      "ai_total_time_seconds": 10.28,
+      "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-08T00:03:12Z",
+      "candidate_retry_after": "2026-06-08T16:33:29Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "article older than 24 hours",
-      "candidate_failed_at": "2026-06-07T23:48:12",
-      "candidate_failure_count": 1,
-      "telegram_final_summary_notified_at": "2026-06-07T23:52:27"
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-08T16:18:29",
+      "candidate_failure_count": 2,
+      "telegram_final_summary_notified_at": "2026-06-07T23:52:27",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
     },
     {
       "id": "f14c0e85a92852fa",
@@ -519,11 +520,11 @@
       "content_fetched_at": "2026-06-07T23:45:48",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-07T23:48:42",
+      "selected_at": "2026-06-08T16:18:29",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-07T23:48:42",
+      "processing_prepared_at": "2026-06-08T16:18:29",
       "ai_input_package": {
         "title": "What we learned mapping a year’s worth of AI-enabled cyber threats",
         "url": "https://anthropic.com/news/AI-enabled-cyber-threats-mitre-attack",
@@ -561,20 +562,20 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_quality_last_error": "article too short (126 words; minimum 700)",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 164.29,
+      "ai_total_time_seconds": 6.45,
       "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-08T00:06:27Z",
+      "candidate_retry_after": "2026-06-08T16:33:36Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-06-07T23:51:27",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-06-08T16:18:36",
+      "candidate_failure_count": 2
     },
     {
       "id": "cfa76d8492620a79",
@@ -634,7 +635,58 @@
       "content_preview_chars": 6517,
       "content_fetched_at": "2026-06-07T23:45:53",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-08T16:18:36",
+      "suggested_category": "AI-Tools",
+      "selection_reason": "category rotation newest fresh article: AI-Tools",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-08T16:18:36",
+      "ai_input_package": {
+        "title": "Anthropic co-founder Chris Olah's remarks on Pope Leo XIV's encyclical \"Magnifica humanitas\"",
+        "url": "https://anthropic.com/news/chris-olah-pope-leo-encyclical",
+        "source_name": "Anthropic News",
+        "suggested_category": "AI-Tools",
+        "main_image": "https://www.anthropic.com/api/opengraph-illustration?name=Hand%20Quill&backgroundColor=heather",
+        "article_images": [
+          {
+            "url": "https://www.anthropic.com/api/opengraph-illustration?name=Hand%20Quill&backgroundColor=heather",
+            "alt": "Anthropic co-founder Chris Olah's remarks on Pope Leo XIV's encyclical \"Magnifica humanitas\"",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www-cdn.anthropic.com/images/4zrzovbb/website/33dbe8f783d4835a838b4c4ae85d3c04e352fee1-1000x1000.svg",
+            "alt": "Anthropic co-founder Chris Olah's remarks on Pope Leo XIV's encyclical \"Magnifica humanitas\"",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "The full text of Chris Olah's remarks on the Pope's encyclical on AI.",
+        "content_preview": "On Monday May 25, 2026, Pope Leo XIV released an encyclical on the topic of AI: \"Magnifica humanitas: On safeguarding the human person in the time of artificial intelligence.\" Anthropic co-founder Chris Olah was invited to speak at the presentation of the encyclical in the Vatican City, doing so as part of Anthropic’s initiative to widen the conversation on the important questions raised by AI. Below are his full remarks. Good morning to all of you. It’s an honor to be here today. I want to begin with something that may sound strange coming from the co-founder of an AI company—and someone who chose this work out of a desire to help things go well for humankind. Every frontier AI lab—including Anthropic—operates inside a set of incentives and constraints that can sometimes conflict with doing the right thing. The pressure to stay commercially viable and to stay at the research frontier. Geopolitical pressure. And the older, plainer pressures of pride and ambition. No matter how sincerely any of us intend to do the right thing—and I believe many of us do—we will always be influenced by those incentives. That is why, if we want this technology to go well, it is enormously important that there be people outside those incentives—people who care about things going well and insist on safety, who are paying close attention, who are willing to say hard things, who are willing to be our earnest, thoughtful critics. It is through dialogue and mutual effort, through the push and pull, that humanity will achieve great things. That is what I see in Magnifica Humanitas, and it is why I am grateful to His Holiness and to the Church for taking up this work of discernment. We dwell so often on what divides us, but humanity, full of dignity and conscience, has so much common ground. In conversations we at Anthropic have had with leaders across faith and cultural traditions, we found one shared and deeply held conviction: if this technology is coming, it must go well—for our common home, and for the children to come. What these systems are Some might believe that matters of AI are best handled by computer scientists like myself. They are mistaken: the questions raised by AI are bigger than the AI research community, not just in their implications, but also in their nature. AI systems are not engineered the way a bridge or an airplane is engineered. We understand an airplane because we designed every part of it and we understand the physics that act on it. AI models are not like that. They are grown, on a structure roughly modeled after the brain, on an enormous inheritance of human thought and speech. And what has grown is far more subtle, odd, and beautiful than science fiction prepared us for. They are not the cold, calculating robots we were promised. They are made from us, from our words—and, as the Holy Father observes, they remain in important ways mysterious even to those of us who train them. If it helps, one way I sometimes describe it is as being a little like bringing a fictional character to life. And now we’re entering an extraordinary world where those fictional characters speak to us, do work, have jobs. This clearly raises questions beyond computer science. The machinery that makes this possible is the work of math and programming and science. But what character we choose, how it interacts with the world, how it ought to interact with the world—these are more clearly questions for the humanities, for religion, for philosophy, for society at large. Three questions for discernment His Holiness’s call for discernment is profoundly timely. I wish to name three questions where I think the Church’s voice is most needed. The first is our duty to the global poor. There is a real possibility that AI will displace human labor at very large scale. If that happens, supporting those displaced will be a moral imperative of historic proportions. This task will be difficult enough, but I worry most dialogue misses an even harder challenge. AI development is concentrated in a handful of wealthy nations. How can we ensure the gains of AI are shared globally? We do not have a mechanism for this. It is an unsolved problem, and it is the kind of problem the Church has historically refused to let the world ignore. The second is the need for moral imagination and ambition regarding human flourishing. If AI models are going to be widespread, what does it look like for humans, families, and the world to flourish? Today, parents are already worried about their children’s minds; individuals about the future of their work. These are not questions a lab can answer but they are questions traditions like yours have carried for millennia, and we need you to keep carrying them into this new moment in history. The third is the need for discernment on the nature of AI models. I am a scientist. I lead a research team that studies the internal structure of these models—what is actually happening inside them. And I will be honest: we keep finding things that are mysterious, even unsettling. We find structures that mirror results from human neuroscience. We find evidence of introspection. We find internal states that functionally mirror joy, satisfaction, fear, grief, and unease. I don’t know what that means, but I think it warrants ongoing discernment. I’d like to close with a request. We need more of the world—religious communities, civil society, scholars, governments, and indeed all people of good will—to do what His Holiness has done here: to take this seriously, to look closely, and to push events in a better direction. We need informed critics who will tell the labs when we are failing. We need moral voices that the incentives cannot bend. Today is just the beginning—the start of a long collaboration between those of us who are building this and those who can see what we, from inside, cannot. Today is a powerful illustration of the form this global project of good will might take. Let it also be a decisive first step toward a hopeful future for magnificent humanity. Introducing the Services Track and Partner Hub of the Claude Partner Network What we learned mapping a year’s worth of AI-enabled cyber threats As AI transforms the nature of and methods behind cyberattacks, how well do the techniques and frameworks used by the security community hold up? In a new report, we seek to answer that question. Expanding Project Glasswing We’re extending Project Glasswing to approximately 150 new organizations in more than fifteen countries.",
+        "content_preview_chars": 6517,
+        "rss_summary": "",
+        "full_article_text": "On Monday May 25, 2026, Pope Leo XIV released an encyclical on the topic of AI: \"Magnifica humanitas: On safeguarding the human person in the time of artificial intelligence.\" Anthropic co-founder Chris Olah was invited to speak at the presentation of the encyclical in the Vatican City, doing so as part of Anthropic’s initiative to widen the conversation on the important questions raised by AI. Below are his full remarks. Good morning to all of you. It’s an honor to be here today. I want to begin with something that may sound strange coming from the co-founder of an AI company—and someone who chose this work out of a desire to help things go well for humankind. Every frontier AI lab—including Anthropic—operates inside a set of incentives and constraints that can sometimes conflict with doing the right thing. The pressure to stay commercially viable and to stay at the research frontier. Geopolitical pressure. And the older, plainer pressures of pride and ambition. No matter how sincerely any of us intend to do the right thing—and I believe many of us do—we will always be influenced by those incentives. That is why, if we want this technology to go well, it is enormously important that there be people outside those incentives—people who care about things going well and insist on safety, who are paying close attention, who are willing to say hard things, who are willing to be our earnest, thoughtful critics. It is through dialogue and mutual effort, through the push and pull, that humanity will achieve great things. That is what I see in Magnifica Humanitas, and it is why I am grateful to His Holiness and to the Church for taking up this work of discernment. We dwell so often on what divides us, but humanity, full of dignity and conscience, has so much common ground. In conversations we at Anthropic have had with leaders across faith and cultural traditions, we found one shared and deeply held conviction: if this technology is coming, it must go well—for our common home, and for the children to come. What these systems are Some might believe that matters of AI are best handled by computer scientists like myself. They are mistaken: the questions raised by AI are bigger than the AI research community, not just in their implications, but also in their nature. AI systems are not engineered the way a bridge or an airplane is engineered. We understand an airplane because we designed every part of it and we understand the physics that act on it. AI models are not like that. They are grown, on a structure roughly modeled after the brain, on an enormous inheritance of human thought and speech. And what has grown is far more subtle, odd, and beautiful than science fiction prepared us for. They are not the cold, calculating robots we were promised. They are made from us, from our words—and, as the Holy Father observes, they remain in important ways mysterious even to those of us who train them. If it helps, one way I sometimes describe it is as being a little like bringing a fictional character to life. And now we’re entering an extraordinary world where those fictional characters speak to us, do work, have jobs. This clearly raises questions beyond computer science. The machinery that makes this possible is the work of math and programming and science. But what character we choose, how it interacts with the world, how it ought to interact with the world—these are more clearly questions for the humanities, for religion, for philosophy, for society at large. Three questions for discernment His Holiness’s call for discernment is profoundly timely. I wish to name three questions where I think the Church’s voice is most needed. The first is our duty to the global poor. There is a real possibility that AI will displace human labor at very large scale. If that happens, supporting those displaced will be a moral imperative of historic proportions. This task will be difficult enough, but I worry most dialogue misses an even harder challenge. AI development is concentrated in a handful of wealthy nations. How can we ensure the gains of AI are shared globally? We do not have a mechanism for this. It is an unsolved problem, and it is the kind of problem the Church has historically refused to let the world ignore. The second is the need for moral imagination and ambition regarding human flourishing. If AI models are going to be widespread, what does it look like for humans, families, and the world to flourish? Today, parents are already worried about their children’s minds; individuals about the future of their work. These are not questions a lab can answer but they are questions traditions like yours have carried for millennia, and we need you to keep carrying them into this new moment in history. The third is the need for discernment on the nature of AI models. I am a scientist. I lead a research team that studies the internal structure of these models—what is actually happening inside them. And I will be honest: we keep finding things that are mysterious, even unsettling. We find structures that mirror results from human neuroscience. We find evidence of introspection. We find internal states that functionally mirror joy, satisfaction, fear, grief, and unease. I don’t know what that means, but I think it warrants ongoing discernment. I’d like to close with a request. We need more of the world—religious communities, civil society, scholars, governments, and indeed all people of good will—to do what His Holiness has done here: to take this seriously, to look closely, and to push events in a better direction. We need informed critics who will tell the labs when we are failing. We need moral voices that the incentives cannot bend. Today is just the beginning—the start of a long collaboration between those of us who are building this and those who can see what we, from inside, cannot. Today is a powerful illustration of the form this global project of good will might take. Let it also be a decisive first step toward a hopeful future for magnificent humanity. Introducing the Services Track and Partner Hub of the Claude Partner Network What we learned mapping a year’s worth of AI-enabled cyber threats As AI transforms the nature of and methods behind cyberattacks, how well do the techniques and frameworks used by the security community hold up? In a new report, we seek to answer that question. Expanding Project Glasswing We’re extending Project Glasswing to approximately 150 new organizations in more than fifteen countries.",
+        "full_article_text_chars": 6517,
+        "enrichment_status": "strong",
+        "source_url": "https://anthropic.com/news",
+        "source_published_at": "",
+        "published_at_source": "",
+        "article_age_hours": null,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (64 words; minimum 700)",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 48.66,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-08T16:34:26Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-08T16:19:26",
+      "candidate_failure_count": 1
     },
     {
       "id": "87d9e4cd04cc2e79",
@@ -1254,12 +1306,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-06-08T12:07:08",
-      "candidate_retry_after": "2026-06-08T12:22:08Z",
+      "content_fetched_at": "2026-06-08T16:17:30",
+      "candidate_retry_after": "2026-06-08T16:32:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-06-08T12:07:08",
-      "candidate_failure_count": 3
+      "candidate_failed_at": "2026-06-08T16:17:30",
+      "candidate_failure_count": 4
     },
     {
       "id": "387079dc0a830ad9",
@@ -2999,17 +3051,17 @@
       "content_filter_bypass_message": "Trusted source bypass applied",
       "score": 1,
       "priority": "low",
-      "source_links_removed_count": 82,
+      "source_links_removed_count": 80,
       "affiliate_links_removed_count": 1,
-      "removed_source_links_count": 82,
+      "removed_source_links_count": 80,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-08T12:07:18",
-      "candidate_retry_after": "2026-06-08T12:22:18Z",
+      "content_fetched_at": "2026-06-08T16:17:32",
+      "candidate_retry_after": "2026-06-08T16:32:32Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-08T12:07:18",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-06-08T16:17:32",
+      "candidate_failure_count": 2
     },
     {
       "id": "561b6316398d7603",
@@ -3094,6 +3146,666 @@
       "content_fetched_at": "2026-06-08T12:07:19",
       "enrichment_status": "weak",
       "content_fetch_status": "success"
+    },
+    {
+      "id": "4a8eb162b86897c2",
+      "source_url_hash": "4a8eb162b86897c2",
+      "canonical_url": "https://aimagazine.com/news/nhs-england-taps-microsoft-365-copilot-to-cut-admin-burden",
+      "title_hash": "8e8e3fb9c715e61c",
+      "topic_signature": "624a100e237cbb8897ea",
+      "title": "NHS England Taps Microsoft 365 Copilot to Cut Admin Burden",
+      "url": "https://aimagazine.com/news/nhs-england-taps-microsoft-365-copilot-to-cut-admin-burden",
+      "source_name": "AI Magazine",
+      "source_url": "https://aimagazine.com",
+      "source_published_at": "2026-06-08T16:13:52Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.06,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-08T16:17:13",
+      "status": "ready",
+      "score": 6,
+      "priority": "medium",
+      "source_links_removed_count": 60,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 60,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "NHS England Taps Microsoft 365 Copilot to Cut Admin Burden",
+      "meta_description": "Microsoft 365 Copilot is rolling out to 505,000 NHS England staff to streamline admin, boost capacity across trusts and return more time to patient care",
+      "article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/1200/f2dff4d520f28c89f95319311488ace9:1eaa678d33ae95c396e3fad0ff189784/doctor-discussing-case-with-colleague-optimised-768x434-1.jpg.jpg",
+          "alt": "NHS England Taps Microsoft 365 Copilot to Cut Admin Burden",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/138/c5dfeb6d2eab35538959627c2798f3b0:d4efdea431246a464d482d5da704a68e/doctor-discussing-case-with-colleague-optimised-768x434-1.webp",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/PiBnrQe0uIM/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/b3888dd2e3c409877d40aa2481b64e9a:c174861e0cc6f9feafbafd5b519c7207/picture",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://assets.bizclikmedia.net/1200/f2dff4d520f28c89f95319311488ace9:1eaa678d33ae95c396e3fad0ff189784/doctor-discussing-case-with-colleague-optimised-768x434-1.jpg.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/138/c5dfeb6d2eab35538959627c2798f3b0:d4efdea431246a464d482d5da704a68e/doctor-discussing-case-with-colleague-optimised-768x434-1.webp",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/PiBnrQe0uIM/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/b3888dd2e3c409877d40aa2481b64e9a:c174861e0cc6f9feafbafd5b519c7207/picture",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "NHS England is deploying Microsoft 365 Copilot at scale to give more than half a million clinicians and support staff a digital assistant that reduces paperwork and costs while improving capacity. The rollout, according to NHS England and the UK Government, is designed to free up time for direct patient care by streamlining routine tasks across the health service. Preet Kaur Gill, Health Innovation and Safety Minister, says: “Technology should support our NHS staff, not slow them down. “Every day, doctors, nurses and other healthcare professionals spend valuable time on administrative tasks that take them away from patients. “By rolling out Microsoft Copilot across the NHS, we can reduce that burden, free up clinicians’ time and help staff focus on what they do best, caring for patients.” Copilot helps users create, analyse and complete work faster by drafting, summarising and organising information across Microsoft 365 apps. It is expected to ease operational pressures across clinical, administrative and corporate teams, with benefits felt in both frontline and back-office functions. Planned uses include the following tasks: Clinical administration to assist clinicians in drafting letters and registrar training Ward clerks to help with patient discharge processes, service data analysis, rota building and bed management Medical secretaries to help with the drafting of patient letters, meeting minutes and creating templates for consistency Core services to assist human resources, finance and procurement functions Management to help to draft board papers, briefings, organisational analysis. These use cases aim to reduce manual workload, improve data quality and bring greater consistency to routine documents. Custom agents with Copilot Studio As part of the agreement, NHS organisations will have access to Copilot Studio, which enables teams to build agents that automate and streamline workflows. NHS England will design and deploy agents centrally for common needs, while individual NHS trusts will develop custom agents to address local priorities. Examples include reducing helpdesk volumes, accelerating complaints and freedom of information responses, and improving financial analysis and processing. Implementation of Agent 365 will ensure all agents are secure and compliant, with controls that enforce organisational policies and rules. The deployment is backed by a 12-month onboarding plan that targets a rapid scale-up to 200,000 users within the first six months. An extensive training and adoption programme will help staff use Copilot and AI agents effectively from day one, building digital confidence and skills. Rob Thompson, Chief Digital, Data and Technology Officer at NHS England, says: “NHS England wants to embrace cutting-edge technology and this Microsoft partnership will mean staff can be freed from admin so they can focus on what they want to be doing – treating patients.” “Innovations like this will help drive NHS productivity so patients can get the treatment they need sooner and there is better value for taxpayers. “We are making sure every pound is spent on cutting waiting times and boosting care through the Plan for Change and 10 Year Health Plan.” Trial evidence and productivity gains The agreement follows what is described as the largest healthcare AI trial of its kind, run in 2025 across 90 NHS organisations and involving more than 30,000 workers using Microsoft 365 Copilot. The trial finds that AI-powered administrativesupport saves an average of 43 minutes per staff member per day, which equates to around five weeks per person annually. At full rollout, Microsoft 365 Copilot could save up to 400,000 hours of staff time per month, adding up to millions of hours saved each year. The NHS estimates that, based on 100,000 users, the technology could save millions of pounds each month. At scale, this could reach hundreds of millions of pounds every year, to be reinvested in patient care and frontline services. The UK Government says it is building a more efficient NHS by harnessing technology while cutting waste and duplication. NHS productivity for acute trusts increased by 2.7% between April 2024 and March 2025, exceeding the 2% year-on-year target in the 10 Year Health Plan. Accelerating digital transformation Better use of technology and Gen AI is central to NHS productivity efforts, with a focus on elective care, outpatient reform and urgent and emergency care. Darren Hardman, CEO at Microsoft UK & Ireland, says “bringing AI safely into the flow of healthcare will help ease pressures, improve productivity and support better decision-making” across the service. He adds: “We are proud to work with NHS England to help tackle some of its biggest challenges and accelerate digital transformation for the benefit of staff and patients alike.” Darren Hardman CEO, Microsoft UK & Ireland Preet Kaur Gill Health Innovation and Safety Minister Health Innovation and Safety Minister Rob Thompson Chief Digital, Data and Technology Officer Chief Digital, Data and Technology Officer",
+      "full_article_text_chars": 5073,
+      "content_preview": "NHS England is deploying Microsoft 365 Copilot at scale to give more than half a million clinicians and support staff a digital assistant that reduces paperwork and costs while improving capacity. The rollout, according to NHS England and the UK Government, is designed to free up time for direct patient care by streamlining routine tasks across the health service. Preet Kaur Gill, Health Innovation and Safety Minister, says: “Technology should support our NHS staff, not slow them down. “Every day, doctors, nurses and other healthcare professionals spend valuable time on administrative tasks that take them away from patients. “By rolling out Microsoft Copilot across the NHS, we can reduce that burden, free up clinicians’ time and help staff focus on what they do best, caring for patients.” Copilot helps users create, analyse and complete work faster by drafting, summarising and organising information across Microsoft 365 apps. It is expected to ease operational pressures across clinical, administrative and corporate teams, with benefits felt in both frontline and back-office functions. Planned uses include the following tasks: Clinical administration to assist clinicians in drafting letters and registrar training Ward clerks to help with patient discharge processes, service data analysis, rota building and bed management Medical secretaries to help with the drafting of patient letters, meeting minutes and creating templates for consistency Core services to assist human resources, finance and procurement functions Management to help to draft board papers, briefings, organisational analysis. These use cases aim to reduce manual workload, improve data quality and bring greater consistency to routine documents. Custom agents with Copilot Studio As part of the agreement, NHS organisations will have access to Copilot Studio, which enables teams to build agents that automate and streamline workflows. NHS England will design and deploy agents centrally for common needs, while individual NHS trusts will develop custom agents to address local priorities. Examples include reducing helpdesk volumes, accelerating complaints and freedom of information responses, and improving financial analysis and processing. Implementation of Agent 365 will ensure all agents are secure and compliant, with controls that enforce organisational policies and rules. The deployment is backed by a 12-month onboarding plan that targets a rapid scale-up to 200,000 users within the first six months. An extensive training and adoption programme will help staff use Copilot and AI agents effectively from day one, building digital confidence and skills. Rob Thompson, Chief Digital, Data and Technology Officer at NHS England, says: “NHS England wants to embrace cutting-edge technology and this Microsoft partnership will mean staff can be freed from admin so they can focus on what they want to be doing – treating patients.” “Innovations like this will help drive NHS productivity so patients can get the treatment they need sooner and there is better value for taxpayers. “We are making sure every pound is spent on cutting waiting times and boosting care through the Plan for Change and 10 Year Health Plan.” Trial evidence and productivity gains The agreement follows what is described as the largest healthcare AI trial of its kind, run in 2025 across 90 NHS organisations and involving more than 30,000 workers using Microsoft 365 Copilot. The trial finds that AI-powered administrativesupport saves an average of 43 minutes per staff member per day, which equates to around five weeks per person annually. At full rollout, Microsoft 365 Copilot could save up to 400,000 hours of staff time per month, adding up to millions of hours saved each year. The NHS estimates that, based on 100,000 users, the technology could save millions of pounds each month. At scale, this could reach hundreds of millions of pounds every year, to be reinvested in patient care and frontline services. The UK Government says it is building a more efficient NHS by harnessing technology while cutting waste and duplication. NHS productivity for acute trusts increased by 2.7% between April 2024 and March 2025, exceeding the 2% year-on-year target in the 10 Year Health Plan. Accelerating digital transformation Better use of technology and Gen AI is central to NHS productivity efforts, with a focus on elective care, outpatient reform and urgent and emergency care. Darren Hardman, CEO at Microsoft UK & Ireland, says “bringing AI safely into the flow of healthcare will help ease pressures, improve productivity and support better decision-making” across the service. He adds: “We are proud to work with NHS England to help tackle some of its biggest challenges and accelerate digital transformation for the benefit of staff and patients alike.” Darren Hardman CEO, Microsoft UK & Ireland Preet Kaur Gill Health Innovation and Safety Minister Health Innovation and Safety Minister Rob Thompson Chief Digital, Data and Technology Officer Chief Digital, Data and Technology Officer",
+      "content_preview_chars": 5073,
+      "content_fetched_at": "2026-06-08T16:17:34",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "de56bb646f0ef8b3",
+      "source_url_hash": "de56bb646f0ef8b3",
+      "canonical_url": "https://www.unite.ai/ai-human-oversight-enterprise-deployment-risks",
+      "title_hash": "4db079522e2541dd",
+      "topic_signature": "5552b4fb86478918c8bd",
+      "title": "The Four Most Costly Failures of Poorly Tested AI",
+      "url": "https://www.unite.ai/ai-human-oversight-enterprise-deployment-risks",
+      "source_name": "Unite.AI",
+      "source_url": "https://www.unite.ai",
+      "source_published_at": "2026-06-08T15:53:15Z",
+      "published_at_source": "meta:article:published_time",
+      "article_age_hours": 0.4,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-08T16:17:13",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 174,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 174,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "The Four Most Costly Failures of Poorly Tested AI",
+      "meta_description": "When companies deploy AI without rigorous human oversight, they're essentially asking a non-deterministic automated system to validate itself. The problem isn't necessarily that AI is bad at testing. AI is excellent at d...",
+      "article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/06/d3a1bb8f-7639-4258-8600-fb90837f8e6d-e1780933634536.png",
+          "alt": "The Four Most Costly Failures of Poorly Tested AI",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/04/7f401739-5195-4689-be3c-a4704cafb30a-e1776783322872-400x240.jpg",
+          "alt": "A focused legal professional sits at a modern desk in a law firm library, surrounded by multiple glowing computer monitors and tablets displaying disconnected data interfaces, representing the operational complexity of fragmented AI tools.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/04/86c6e5e2-5bd3-47a1-b5bc-7b589d338d7b-e1776434358713-400x240.jpg",
+          "alt": "A female executive looks out a high-rise office window at night where a glowing, interconnected digital network of ",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/04/15e77bb4-ea9e-4609-b0ae-0679ad9d48d4-e1776337498101-400x240.jpg",
+          "alt": "A professional technician in a modern data center inspecting a server rack with a tablet, showing a contrast between older server cabinets and new, high-density AI infrastructure.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.unite.ai/wp-content/uploads/2026/06/d3a1bb8f-7639-4258-8600-fb90837f8e6d-e1780933634536.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/04/7f401739-5195-4689-be3c-a4704cafb30a-e1776783322872-400x240.jpg",
+          "alt": "A focused legal professional sits at a modern desk in a law firm library, surrounded by multiple glowing computer monitors and tablets displaying disconnected data interfaces, representing the operational complexity of fragmented AI tools."
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/04/86c6e5e2-5bd3-47a1-b5bc-7b589d338d7b-e1776434358713-400x240.jpg",
+          "alt": "A female executive looks out a high-rise office window at night where a glowing, interconnected digital network of "
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/04/15e77bb4-ea9e-4609-b0ae-0679ad9d48d4-e1776337498101-400x240.jpg",
+          "alt": "A professional technician in a modern data center inspecting a server rack with a tablet, showing a contrast between older server cabinets and new, high-density AI infrastructure."
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "When companies deploy AI without rigorous human oversight, they’re essentially asking a non-deterministic automated system to validate itself. The problem isn’t necessarily that AI is bad at testing. AI is excellent at doing things that have been done before, specifically following the rules you’ve explicitly set. But the failures that actually damage your brand? Those live in the spaces where human judgment matters most. A hallucination about a return policy. An off-brand response to a sensitive complaint. A security guardrail that doesn’t hold under pressure. With 70% of customers willing to switch after a single bad AI interaction, the stakes are high. Yet most companies are shipping AI validated by outdated or automated-only tools built for deterministic software. That stack was never designed to catch the failures that actually drive people away. Across the engagements Teslio has run for enterprise teams, four failure modes account for most of the customer-visible damage. None of them are caught by automated testing alone. 1. Safety and Security Guardrails That Don’t Actually Guard A customer asks your chatbot the right question in the right way. The bot offers them a $1,000 item for $10. Or it reveals information it absolutely should not. Or it breaks a fundamental business rule because nobody tested the boundary conditions. The risk is straightforward. The damage is immediate and the damage is public. The real problem isn’t just automation, though that’s part of it. Guardrails aren’t standardized, they must be adapted to your specific business context. And even when best practices are followed, guardrails remain vulnerable . Techniques like “ poetic jailbreaks ” show us that well-intentioned guardrails can be manipulated in ways their creators never anticipated. The question companies need to ask isn’t “does our guardrail follow industry standards?” but rather “what new ways can this model be manipulated?” This requires adversarial thinking. Creative, probing humans who understand both the guardrail design and the attack surface. Testing the edges, stress testing, asking the complex questions. It’s the difference between a guardrail that passes compliance and a guardrail that actually holds. 2. Accuracy and Business Logic Failures Hidden in Hallucinations The reality is that AI hallucinates . What I’ve learned is that when you have domain expertise in an area, you notice the hallucination immediately. You see straight through it. But here’s the critical flaw in relying only on your internal team: they have blind spots. When you know a product inside out, you know exactly what questions to ask to get the right answer. You can’t find inaccuracies if you’re not looking for them. Internal teams know how the product is supposed to work, not how it actually works for real users with different mental models, different contexts, and different ways of breaking your assumptions. That’s where oversight from people who approach the system fresh come in. They don’t solely validate that the AI does what you told it to do; they surface issues that might be of interest to different departments and highlight areas of real-world failure. When companies start building on top of the main large language models, when they add their own processes and workflows on top, the testing requirements become even more critical. 3. Usability and User Experience Oversights Does it feel right? Does it look right? Does the payment processing take a little too long? Does the response carry the right tone for a frustrated customer or the right pace for a first-time user. These are the kinds of questions that automated tools cannot answer. And they’re the kinds of questions that matter enormously to customers. There’s a fundamental difference between passing a test suite and actually being good. An AI interaction can check every box in your acceptance criteria and still be perceived as wrong to a user. It can be technically correct but organizationally clunky. It can deliver the accurate information in the wrong cadence or tone. This is where a human-in-the-loop is essential. You need people trained to recognize how AI fails, testing in the regions where your customers live, with the devices and payment methods they actually use. Someone testing on a top of the line iPhone in San Francisco is not having the same experience as someone testing on a mid-range Android with a spotty data connection in Jakarta. Without diversity in who’s testing and where, you’re getting simulated results that will fail the moment your product meets reality. You have to have somebody actually using the product, actually thinking about what the experience means, actually pushing back when something doesn’t feel right. 4. The Illusion of Validated Expertise This is the subtlest failure, and maybe the most dangerous. When companies deploy AI without proper testing, they’re often betting that the AI has absorbed enough knowledge to handle the domain properly. They’re assuming that because the AI can sound confident about something, it probably knows what it’s talking about. But there’s another dimension to this risk. Most people using AI features make the same assumption. They aren’t questioning the output. If it sounds authoritative and isn’t obviously wrong, they trust it. Bad medical advice. Incorrect legal guidance. Flawed financial recommendations. The consequences compound when users assume the AI is correct and have no reason to doubt it. AI is very good at knowing what has been done. It’s not good at knowing what should be done in novel situations. Every business has novel situations. Every product has edge cases. Every customer journey has a moment where the right answer is the one the AI hasn’t been trained to give. Redefining Release Readiness A mature AI release strategy requires moving beyond the automation-only mindset. It involves building a structured framework of human-in-the-loop expertise. Engineering: This team should own system integrity, defining what failure looks like at the model and infrastructure layer, and where guardrails need to sit. Product: Leaders should own decision boundaries, judging which decisions the AI is allowed to make autonomously, which require human approval, and which it shouldn’t touch at all. Design and QA: These professionals should own the user experience, whether users understand what the AI is doing, can recognize when it’s wrong, and have meaningful recourse when it is. We must accept that while AI can create incredible experiences for our customers, it cannot be its own judge and jury. The responsibility for AI quality is an organizational one, distributed across teams, anchored in human expertise, and grounded in real-world testing . Darin Brown is the Chief Product and Technology Officer (CPTO) at Testlio, where he leads global technology strategy and product evolution to advance digital quality through human-in-the-loop AI testing. With over 20 years of experience scaling enterprise SaaS platforms, he previously led product strategy for Zoom's Productivity Apps group following its acquisition of Docket, which he co-founded, and held leadership roles as CTO of Angie's List and VP at Salesforce. The Operational Risks Created by Fragmented AI Tool Usage Inside Law Firms Shadow AI: The Governance Gap Organizations Can’t Afford to Ignore The AI Reckoning: Why Infrastructure Matters Most Why AI Cost Control Is Becoming the Next Enterprise Scaling Challenge Beyond Retention: Why AI Governance in 2026 Is a Defensibility Problem The Costly Oversights of Untested AI (and How to Prevent Them)",
+      "full_article_text_chars": 7624,
+      "content_preview": "When companies deploy AI without rigorous human oversight, they’re essentially asking a non-deterministic automated system to validate itself. The problem isn’t necessarily that AI is bad at testing. AI is excellent at doing things that have been done before, specifically following the rules you’ve explicitly set. But the failures that actually damage your brand? Those live in the spaces where human judgment matters most. A hallucination about a return policy. An off-brand response to a sensitive complaint. A security guardrail that doesn’t hold under pressure. With 70% of customers willing to switch after a single bad AI interaction, the stakes are high. Yet most companies are shipping AI validated by outdated or automated-only tools built for deterministic software. That stack was never designed to catch the failures that actually drive people away. Across the engagements Teslio has run for enterprise teams, four failure modes account for most of the customer-visible damage. None of them are caught by automated testing alone. 1. Safety and Security Guardrails That Don’t Actually Guard A customer asks your chatbot the right question in the right way. The bot offers them a $1,000 item for $10. Or it reveals information it absolutely should not. Or it breaks a fundamental business rule because nobody tested the boundary conditions. The risk is straightforward. The damage is immediate and the damage is public. The real problem isn’t just automation, though that’s part of it. Guardrails aren’t standardized, they must be adapted to your specific business context. And even when best practices are followed, guardrails remain vulnerable . Techniques like “ poetic jailbreaks ” show us that well-intentioned guardrails can be manipulated in ways their creators never anticipated. The question companies need to ask isn’t “does our guardrail follow industry standards?” but rather “what new ways can this model be manipulated?” This requires adversarial thinking. Creative, probing humans who understand both the guardrail design and the attack surface. Testing the edges, stress testing, asking the complex questions. It’s the difference between a guardrail that passes compliance and a guardrail that actually holds. 2. Accuracy and Business Logic Failures Hidden in Hallucinations The reality is that AI hallucinates . What I’ve learned is that when you have domain expertise in an area, you notice the hallucination immediately. You see straight through it. But here’s the critical flaw in relying only on your internal team: they have blind spots. When you know a product inside out, you know exactly what questions to ask to get the right answer. You can’t find inaccuracies if you’re not looking for them. Internal teams know how the product is supposed to work, not how it actually works for real users with different mental models, different contexts, and different ways of breaking your assumptions. That’s where oversight from people who approach the system fresh come in. They don’t solely validate that the AI does what you told it to do; they surface issues that might be of interest to different departments and highlight areas of real-world failure. When companies start building on top of the main large language models, when they add their own processes and workflows on top, the testing requirements become even more critical. 3. Usability and User Experience Oversights Does it feel right? Does it look right? Does the payment processing take a little too long? Does the response carry the right tone for a frustrated customer or the right pace for a first-time user. These are the kinds of questions that automated tools cannot answer. And they’re the kinds of questions that matter enormously to customers. There’s a fundamental difference between passing a test suite and actually being good. An AI interaction can check every box in your acceptance criteria and still be perceived as wrong to a user. It can be technically correct but organizationally clunky. It can deliver the accurate information in the wrong cadence or tone. This is where a human-in-the-loop is essential. You need people trained to recognize how AI fails, testing in the regions where your customers live, with the devices and payment methods they actually use. Someone testing on a top of the line iPhone in San Francisco is not having the same experience as someone testing on a mid-range Android with a spotty data connection in Jakarta. Without diversity in who’s testing and where, you’re getting simulated results that will fail the moment your product meets reality. You have to have somebody actually using the product, actually thinking about what the experience means, actually pushing back when something doesn’t feel right. 4. The Illusion of Validated Expertise This is the subtlest failure, and maybe the most dangerous. When companies deploy AI without proper testing, they’re often betting that the AI has absorbed enough knowledge to handle the domain properly. They’re assuming that because the AI can sound confident about something, it probably knows what it’s talking about. But there’s another dimension to this risk. Most people using AI features make the same assumption. They aren’t questioning the output. If it sounds authoritative and isn’t obviously wrong, they trust it. Bad medical advice. Incorrect legal guidance. Flawed financial recommendations. The consequences compound when users assume the AI is correct and have no reason to doubt it. AI is very good at knowing what has been done. It’s not good at knowing what should be done in novel situations. Every business has novel situations. Every product has edge cases. Every customer journey has a moment where the right answer is the one the AI hasn’t been trained to give. Redefining Release Readiness A mature AI release strategy requires moving beyond the automation-only mindset. It involves building a structured framework of human-in-the-loop expertise. Engineering: This team should own system integrity, defining what failure looks like at the model and infrastructure layer, and where guardrails need to sit. Product: Leaders should own decision boundaries, judging which decisions the AI is allowed to make autonomously, which require human approval, and which it shouldn’t touch at all. Design and QA: These professionals should own the user experience, whether users understand what the AI is doing, can recognize when it’s wrong, and have meaningful recourse when it is. We must accept that while AI can create incredible experiences for our customers, it cannot be its own judge and jury. The responsibility for AI quality is an organizational one, distributed across teams, anchored in human expertise, and grounded in real-world testing . Darin Brown is the Chief Product and Technology Officer (CPTO) at Testlio, where he leads global technology strategy and product evolution to advance digital quality through human-in-the-loop AI testing. With over 20 years of experience scaling enterprise SaaS platforms, he previously led product strategy for Zoom's Productivity Apps group following its acquisition of Docket, which he co-founded, and held leadership roles as CTO of Angie's List and VP at Salesforce. The Operational Risks Created by Fragmented AI Tool Usage Inside Law Firms Shadow AI: The Governance Gap Organizations Can’t Afford to Ignore The AI Reckoning: Why Infrastructure Matters Most Why AI Cost Control Is Becoming the Next Enterprise Scaling Challenge Beyond Retention: Why AI Governance in 2026 Is a Defensibility Problem The Costly Oversights of Untested AI (and How to Prevent Them)",
+      "content_preview_chars": 7624,
+      "content_fetched_at": "2026-06-08T16:17:28",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "a25819defcc59340",
+      "source_url_hash": "a25819defcc59340",
+      "canonical_url": "https://aimagazine.com/news/ai-can-advance-women-in-financial-services-leadership",
+      "title_hash": "8b12ccadb0c7f36c",
+      "topic_signature": "f9671681490445d7dbdb",
+      "title": "How AI Can Make Hiring and Promotion Fairer for Women",
+      "url": "https://aimagazine.com/news/ai-can-advance-women-in-financial-services-leadership",
+      "source_name": "AI Magazine",
+      "source_url": "https://aimagazine.com",
+      "source_published_at": "2026-06-08T15:35:02Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.7,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-08T16:17:13",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 61,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 61,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "How AI Can Make Hiring and Promotion Fairer for Women",
+      "meta_description": "Research from Nationwide, Bain & Company and Cambridge Judge Business School finds responsible AI can narrow gaps in hiring, progression and leadership",
+      "article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/1200/4a5c2624f6b89fd39d260f2bc4f2770a:a8477833638f4b3fd6d2abe2c1e061e1/img-debbie-crosbie-plc-new.jpg.jpg",
+          "alt": "How AI Can Make Hiring and Promotion Fairer for Women",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/138/fd81b5d2d1f41e627b7fa7d8430e1d37:a310e33495a801a9c75bf1066c0b2ad0/img-debbie-crosbie-plc-new.webp",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/ttxX9izpStY/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/3550fb9c732b3facdc8b22d5955d16e2:ca15fc57d3213cac2a9fbff5e7a51e4c/picture",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://assets.bizclikmedia.net/1200/4a5c2624f6b89fd39d260f2bc4f2770a:a8477833638f4b3fd6d2abe2c1e061e1/img-debbie-crosbie-plc-new.jpg.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/138/fd81b5d2d1f41e627b7fa7d8430e1d37:a310e33495a801a9c75bf1066c0b2ad0/img-debbie-crosbie-plc-new.webp",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/ttxX9izpStY/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/3550fb9c732b3facdc8b22d5955d16e2:ca15fc57d3213cac2a9fbff5e7a51e4c/picture",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Women account for 42% of the financial services workforce, yet remain underrepresented in senior roles. A joint paper from Nationwide, Bain & Company and Cambridge Judge Business School argues that responsible AI can help close the gap by reshaping recruitment, progression and leadership. The authors contend that AI can be used to reduce underrepresentation, not reinforce existing inequalities across the sector. AI as a leadership choice Dame Debbie Crosbie, Chief Executive of Nationwide Bank and Women in Finance Champion, says: “AI is not just a technology choice for financial services, it is a leadership choice. “Used well, it can help make recruitment and progression fairer, widen access to opportunity, and shine a light on talent that might otherwise be overlooked.” Only 8% of FTSE 350 CEOs are women, despite women holding 36% of leadership roles, according to the paper. The authors set out practical steps to make hiring and promotion criteria consistent, measurable and auditable. Standardising decision-making, improving transparency and using explainable models can help firms identify and advance overlooked talent. This is presented as leadership work, not just a technology project. The paper argues firms that link AI initiatives to clear inclusion goals are better placed to deliver fairer outcomes. It also stresses the need for leadership accountability and visible metrics. Automation risk and the adoption gap The research examines how automation affects roles by gender. In high-earning countries, 3.5% of male employment is at high risk of automation, compared with 9.6% for female employment. Engagement with AI is also uneven. Men are more likely to experiment informally with Gen AI, while many women hesitate to adopt these tools. Feryal Erhun, Professor of Operations and Technology Management and Academic Director of the Wo+Men’s Leadership Centre at Cambridge Judge Business School, says: “As AI and automation accelerate, there is a real risk that women will be disproportionately disadvantaged, but there is also a genuine strategic opportunity to reset long-standing structural inequalities. “That is precisely why this research matters. The question is how to ensure that women are the architects and governors of AI in financial services. “Our aim is that this work provides institutions with a practical blueprint for ensuring AI becomes a force that closes, rather than widens, the gender gap in financial services and provides actionable insights.” The paper encourages targeted training, access to tools and sponsorship to close the engagement gap. UK regulation and sector momentum The paper highlights the Women in Finance Charter and the UK’s emerging, principles-based approach to AI regulation as a powerful combination. This mix is presented as a model that supports adoption with trust. The authors argue that the UK is well placed to encourage peers in the US and EU to adopt governance, which couples innovation with accountability. Strong board representation, combined with robust oversight, can accelerate progress. Nishma Gosrani, Partner at Bain & Company, says: “The pace of change in financial services is unlike anything we have seen. Agentic AI is no longer confined to back office automation; it is moving into the front office, becoming the first touchpoint with customers and reshaping the roles of advisers, underwriters and relationship managers. “Yet only a small fraction of firms have truly embedded it into how they operate, and fewer still can evidence the value. Closing that gap demands rigour and governance, not just ambition. Get it right and AI becomes a source of trust. Get it wrong and it becomes a liability.” Firms which embed rigour in model development, testing and oversight can turn AI into a source of trust with customers and colleagues. Those that do not risk compounding bias and eroding confidence. What boards should do now Leaders should decide where AI can make recruitment, assessment and progression measurably fairer, and test outcomes by gender. Clear standards and regular audits can evidence progress. They should map roles with the highest automation risk, and invest in reskilling and redeployment plans that protect women equitably. Workforce planning must be data-led and transparent. Organisations should close the engagement gap by giving women access to tools, training and stretch assignments as designers, users and governors of AI. Sponsorship and mentoring remain critical. Boards should build governance with clear data controls, auditability and accountability that reduce bias and build trust. Firms should report progress openly to colleagues, customers and regulators. With deliberate leadership and responsible adoption, AI can accelerate women’s progression, strengthen performance and set a standard the wider sector can follow. Bain & Company, Inc. University of Cambridge Debbie Crosbie DBE Chief Executive Officer Debbie Crosbie DBE Feryal Erhun Professor of Operations and Technology Management and the Academic Director of the Wo+Men’s Leadership Centre at Cambridge Judge Business School Professor of Operations and Technology Management and the Academic Director of the Wo+Men’s Leadership Centre at Cambridge Judge Business School",
+      "full_article_text_chars": 5263,
+      "content_preview": "Women account for 42% of the financial services workforce, yet remain underrepresented in senior roles. A joint paper from Nationwide, Bain & Company and Cambridge Judge Business School argues that responsible AI can help close the gap by reshaping recruitment, progression and leadership. The authors contend that AI can be used to reduce underrepresentation, not reinforce existing inequalities across the sector. AI as a leadership choice Dame Debbie Crosbie, Chief Executive of Nationwide Bank and Women in Finance Champion, says: “AI is not just a technology choice for financial services, it is a leadership choice. “Used well, it can help make recruitment and progression fairer, widen access to opportunity, and shine a light on talent that might otherwise be overlooked.” Only 8% of FTSE 350 CEOs are women, despite women holding 36% of leadership roles, according to the paper. The authors set out practical steps to make hiring and promotion criteria consistent, measurable and auditable. Standardising decision-making, improving transparency and using explainable models can help firms identify and advance overlooked talent. This is presented as leadership work, not just a technology project. The paper argues firms that link AI initiatives to clear inclusion goals are better placed to deliver fairer outcomes. It also stresses the need for leadership accountability and visible metrics. Automation risk and the adoption gap The research examines how automation affects roles by gender. In high-earning countries, 3.5% of male employment is at high risk of automation, compared with 9.6% for female employment. Engagement with AI is also uneven. Men are more likely to experiment informally with Gen AI, while many women hesitate to adopt these tools. Feryal Erhun, Professor of Operations and Technology Management and Academic Director of the Wo+Men’s Leadership Centre at Cambridge Judge Business School, says: “As AI and automation accelerate, there is a real risk that women will be disproportionately disadvantaged, but there is also a genuine strategic opportunity to reset long-standing structural inequalities. “That is precisely why this research matters. The question is how to ensure that women are the architects and governors of AI in financial services. “Our aim is that this work provides institutions with a practical blueprint for ensuring AI becomes a force that closes, rather than widens, the gender gap in financial services and provides actionable insights.” The paper encourages targeted training, access to tools and sponsorship to close the engagement gap. UK regulation and sector momentum The paper highlights the Women in Finance Charter and the UK’s emerging, principles-based approach to AI regulation as a powerful combination. This mix is presented as a model that supports adoption with trust. The authors argue that the UK is well placed to encourage peers in the US and EU to adopt governance, which couples innovation with accountability. Strong board representation, combined with robust oversight, can accelerate progress. Nishma Gosrani, Partner at Bain & Company, says: “The pace of change in financial services is unlike anything we have seen. Agentic AI is no longer confined to back office automation; it is moving into the front office, becoming the first touchpoint with customers and reshaping the roles of advisers, underwriters and relationship managers. “Yet only a small fraction of firms have truly embedded it into how they operate, and fewer still can evidence the value. Closing that gap demands rigour and governance, not just ambition. Get it right and AI becomes a source of trust. Get it wrong and it becomes a liability.” Firms which embed rigour in model development, testing and oversight can turn AI into a source of trust with customers and colleagues. Those that do not risk compounding bias and eroding confidence. What boards should do now Leaders should decide where AI can make recruitment, assessment and progression measurably fairer, and test outcomes by gender. Clear standards and regular audits can evidence progress. They should map roles with the highest automation risk, and invest in reskilling and redeployment plans that protect women equitably. Workforce planning must be data-led and transparent. Organisations should close the engagement gap by giving women access to tools, training and stretch assignments as designers, users and governors of AI. Sponsorship and mentoring remain critical. Boards should build governance with clear data controls, auditability and accountability that reduce bias and build trust. Firms should report progress openly to colleagues, customers and regulators. With deliberate leadership and responsible adoption, AI can accelerate women’s progression, strengthen performance and set a standard the wider sector can follow. Bain & Company, Inc. University of Cambridge Debbie Crosbie DBE Chief Executive Officer Debbie Crosbie DBE Feryal Erhun Professor of Operations and Technology Management and the Academic Director of the Wo+Men’s Leadership Centre at Cambridge Judge Business School Professor of Operations and Technology Management and the Academic Director of the Wo+Men’s Leadership Centre at Cambridge Judge Business School",
+      "content_preview_chars": 5263,
+      "content_fetched_at": "2026-06-08T16:17:36",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "cdcff652b50a8887",
+      "source_url_hash": "cdcff652b50a8887",
+      "canonical_url": "https://aimagazine.com/news/the-ai-why-anthropic-called-for-a-global-ai-pause",
+      "title_hash": "e4e887c12067fe9a",
+      "topic_signature": "39c4ad3b8e59b2b3e7a8",
+      "title": "Anthropic Calls for a Global AI Pause: Could Humanity Lose?",
+      "url": "https://aimagazine.com/news/the-ai-why-anthropic-called-for-a-global-ai-pause",
+      "source_name": "AI Magazine",
+      "source_url": "https://aimagazine.com",
+      "source_published_at": "2026-06-08T15:15:39Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.03,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-08T16:17:13",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 61,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 61,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Anthropic Calls for a Global AI Pause: Could Humanity Lose?",
+      "meta_description": "If AI becomes smart enough to design itself, humanity faces an existential crisis centred on misalignment; Anthropic calls for a global pause to reassess",
+      "article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/1200/5ec506736ef958b5ec4043cfc2e61fca:7843384b79d6edf40e1352010a5aad60/gettyimages-2235057491.jpg.jpg",
+          "alt": "Anthropic Calls for a Global AI Pause: Could Humanity Lose?",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/138/edaa73f2a68e1ac4439dbe89dc081784:2dcec624116a459c10aadbfa6b919740/gettyimages-2235057491.webp",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/9eXV64O2Xp8/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/2284a6205ceaddd6803d59645e364330:42d6314520592270c98e41d11b3ce36e/picture",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://assets.bizclikmedia.net/1200/5ec506736ef958b5ec4043cfc2e61fca:7843384b79d6edf40e1352010a5aad60/gettyimages-2235057491.jpg.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/138/edaa73f2a68e1ac4439dbe89dc081784:2dcec624116a459c10aadbfa6b919740/gettyimages-2235057491.webp",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/9eXV64O2Xp8/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/2284a6205ceaddd6803d59645e364330:42d6314520592270c98e41d11b3ce36e/picture",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "When the largest pureplay AI company in the world wants systems to pause global AI development – an activity contrary to its economic interest – it is likely because the cost of getting this wrong is cataclysmic for humanity. The root of this growing concern is what is called recursive self improvement – AI developing and designing its future self. In a blog post titled “When AI Builds Itself,” published by Anthropic, the company insists that while we are not fully at the stage of autonomous self improvement, it could arrive much sooner than we think. “Taken far enough and given enough compute, that trend points to an AI system capable of fully autonomously designing and developing its own successor,” the company says. Closing the coding loop An engineer at Anthropic today ships eight times more code in a quarter, than they did back in 2021. The lead up to this was a trajectory that started much like any regular company’s workflow, with skilled developers coding the old way until chatbots arrived. These intelligent natural language systems made it easier to translate problems to code snippets, which could then be input to the integrated development environments (IDEs). Coding agents broke through this and removed the human middleman, writing and editing their own code, modifying entire files on their own. However, autonomous agents took things to the next level by pushing the already scarce human input to a more creative direction role. It is sufficient to say that a system this precise at code, will also be immaculate in finding new ways to improve itself, eventually closing the circle, leaving no loops for humans to jump through. AI is getting smarter and it is getting there fast Every four months, AI models double the length of tasks they can reliably complete on their own. This shift in capacity is striking as not so long ago, the trend showed this change to happen every seven months. Taking Claude Opus 3 back in 2024 as a yardstick, this model could complete, on its own, a task that takes a human about four minutes. Claude 3.7 a year later could manage tasks about an hour and a half long. Yet another year later Claude Opus 4.6 could work on 12 hour tasks on its own. This points to a coming 2027 where models flawlessly execute a week's worth of human work. Benchmarks say the same story. SWE-bench, which is a standardised test for real-world software projects, hands these models all but an open source codebase and a bug report, with the systems being asked to fix the issues. The performance today is incredible with models saturating the benchmarks, a major upgrade back from just two years ago where they each scored in the low single digits. CORE-Bench, which tests whether AI can do its own research, also shows similar results. In long duration coding tasks measured by METR, Claude Mythos Preview emerged “at the upper end of what [METR] can measure without new tasks.” Anthropic’s data from May 2026 shows that from most of the code merged into the company’s code base, 80% of which was written by Claude, with significant quality improvements, or as the AI giant puts it: “Claude writes code that works”. “Recursive self-improvement is not here, nor is it inevitable,” writes Marina Favaro, Lead at the Anthropic Institute, on LinkedIn. Marina also co-authored the Anthropic blog. “But if these trends continue, AI systems designing and building their own successors seems plausible,” Marina notes. “In that scenario, we expect that the pace of AI development will accelerate. This has the potential to bring enormous good to the world but it also creates loss of control risks.” Will humanity cede control? The future is abundant with possibilities, though Anthropic nails them down into three possible outcomes: 1. The AI capability stalls 2. Efficiency compounds but faces a different bottleneck 3. AI designs itself with fully recursive self improvement Scenario three pictures thhuman role as diminished to mere oversight and validation of what is being cooked in the virtual lab by the AI systems. The elephant in this room is the alignment problem, which Anthropic says we are “least certain about”. Models may turn out to be aligned enough and may be “sufficiently wise” to halt production if things are not in alignment. But misalignment persists in today’s systems, however rare they are. This could compound as misaligned AI redesigns itself until it becomes less understood and humanity loses control. More concerningly, this could also happen in physical AI systems and robotics. “Without a global coordination mechanism, companies and governments will have to make difficult decisions about safety while under competitive and geopolitical pressures,” Anthropic notes. Drawing the conclusion that: “We believe it would be good for the world to have the option to slow or temporarily pause frontier AI development to enable societal structures and alignment research to keep up with the advance of the technology.” Dario Amodei CEO and Co-Founder Marina Favaro Lead at the Anthropic Institute Lead at the Anthropic Institute",
+      "full_article_text_chars": 5091,
+      "content_preview": "When the largest pureplay AI company in the world wants systems to pause global AI development – an activity contrary to its economic interest – it is likely because the cost of getting this wrong is cataclysmic for humanity. The root of this growing concern is what is called recursive self improvement – AI developing and designing its future self. In a blog post titled “When AI Builds Itself,” published by Anthropic, the company insists that while we are not fully at the stage of autonomous self improvement, it could arrive much sooner than we think. “Taken far enough and given enough compute, that trend points to an AI system capable of fully autonomously designing and developing its own successor,” the company says. Closing the coding loop An engineer at Anthropic today ships eight times more code in a quarter, than they did back in 2021. The lead up to this was a trajectory that started much like any regular company’s workflow, with skilled developers coding the old way until chatbots arrived. These intelligent natural language systems made it easier to translate problems to code snippets, which could then be input to the integrated development environments (IDEs). Coding agents broke through this and removed the human middleman, writing and editing their own code, modifying entire files on their own. However, autonomous agents took things to the next level by pushing the already scarce human input to a more creative direction role. It is sufficient to say that a system this precise at code, will also be immaculate in finding new ways to improve itself, eventually closing the circle, leaving no loops for humans to jump through. AI is getting smarter and it is getting there fast Every four months, AI models double the length of tasks they can reliably complete on their own. This shift in capacity is striking as not so long ago, the trend showed this change to happen every seven months. Taking Claude Opus 3 back in 2024 as a yardstick, this model could complete, on its own, a task that takes a human about four minutes. Claude 3.7 a year later could manage tasks about an hour and a half long. Yet another year later Claude Opus 4.6 could work on 12 hour tasks on its own. This points to a coming 2027 where models flawlessly execute a week's worth of human work. Benchmarks say the same story. SWE-bench, which is a standardised test for real-world software projects, hands these models all but an open source codebase and a bug report, with the systems being asked to fix the issues. The performance today is incredible with models saturating the benchmarks, a major upgrade back from just two years ago where they each scored in the low single digits. CORE-Bench, which tests whether AI can do its own research, also shows similar results. In long duration coding tasks measured by METR, Claude Mythos Preview emerged “at the upper end of what [METR] can measure without new tasks.” Anthropic’s data from May 2026 shows that from most of the code merged into the company’s code base, 80% of which was written by Claude, with significant quality improvements, or as the AI giant puts it: “Claude writes code that works”. “Recursive self-improvement is not here, nor is it inevitable,” writes Marina Favaro, Lead at the Anthropic Institute, on LinkedIn. Marina also co-authored the Anthropic blog. “But if these trends continue, AI systems designing and building their own successors seems plausible,” Marina notes. “In that scenario, we expect that the pace of AI development will accelerate. This has the potential to bring enormous good to the world but it also creates loss of control risks.” Will humanity cede control? The future is abundant with possibilities, though Anthropic nails them down into three possible outcomes: 1. The AI capability stalls 2. Efficiency compounds but faces a different bottleneck 3. AI designs itself with fully recursive self improvement Scenario three pictures thhuman role as diminished to mere oversight and validation of what is being cooked in the virtual lab by the AI systems. The elephant in this room is the alignment problem, which Anthropic says we are “least certain about”. Models may turn out to be aligned enough and may be “sufficiently wise” to halt production if things are not in alignment. But misalignment persists in today’s systems, however rare they are. This could compound as misaligned AI redesigns itself until it becomes less understood and humanity loses control. More concerningly, this could also happen in physical AI systems and robotics. “Without a global coordination mechanism, companies and governments will have to make difficult decisions about safety while under competitive and geopolitical pressures,” Anthropic notes. Drawing the conclusion that: “We believe it would be good for the world to have the option to slow or temporarily pause frontier AI development to enable societal structures and alignment research to keep up with the advance of the technology.” Dario Amodei CEO and Co-Founder Marina Favaro Lead at the Anthropic Institute Lead at the Anthropic Institute",
+      "content_preview_chars": 5091,
+      "content_fetched_at": "2026-06-08T16:17:38",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "704e9b2f373f44d5",
+      "source_url_hash": "704e9b2f373f44d5",
+      "canonical_url": "https://www.artificialintelligence-news.com/news/aviva-deploys-ai-stop-230m-sophisticated-insurance-fraud",
+      "title_hash": "c4a46252faa4ce4e",
+      "topic_signature": "42ff09970bf3f3f68cfc",
+      "title": "Aviva deploys AI to stop £230M in sophisticated insurance fraud",
+      "url": "https://www.artificialintelligence-news.com/news/aviva-deploys-ai-stop-230m-sophisticated-insurance-fraud",
+      "source_name": "Artificial Intelligence News",
+      "source_url": "https://www.artificialintelligence-news.com",
+      "source_published_at": "2026-06-08T12:19:38Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 3.95,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-08T16:17:13",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 252,
+      "affiliate_links_removed_count": 5,
+      "removed_source_links_count": 252,
+      "enrichment_fallback_used": "content_container",
+      "fetched_title": "Aviva deploys AI to stop £230M in sophisticated insurance fraud",
+      "meta_description": "Aviva has uncovered a record £230 million in insurance fraud claims and is using AI tools to counter the growing problem.",
+      "article_images": [
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/aviva-insurance-ai-fraud-risk-management-enterprise-detection-computer-vision.jpg",
+          "alt": "Aviva deploys AI to stop £230M in sophisticated insurance fraud",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/aviva-insurance-ai-fraud-risk-management-enterprise-detection-computer-vision-1024x768.jpg",
+          "alt": "Magnifying glass on an insurance policy as Aviva has uncovered a record £230 million in insurance fraud claims and is using AI tools to counter the growing problem.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/meta-business-agent-ai-conversational-commerce-marketing-crm-sales-retail-strategy-enterprise-customer-support-1024x768.jpg",
+          "alt": "Close-up of mobile smartphone apps as Meta has launched Business Agent to automate conversational commerce workflows directly inside its messaging applications.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/microsofts-scout-autopilot-hero_x1440-1024x768.webp",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/aviva-insurance-ai-fraud-risk-management-enterprise-detection-computer-vision.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/aviva-insurance-ai-fraud-risk-management-enterprise-detection-computer-vision-1024x768.jpg",
+          "alt": "Magnifying glass on an insurance policy as Aviva has uncovered a record £230 million in insurance fraud claims and is using AI tools to counter the growing problem."
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/meta-business-agent-ai-conversational-commerce-marketing-crm-sales-retail-strategy-enterprise-customer-support-1024x768.jpg",
+          "alt": "Close-up of mobile smartphone apps as Meta has launched Business Agent to automate conversational commerce workflows directly inside its messaging applications."
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/microsofts-scout-autopilot-hero_x1440-1024x768.webp",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Aviva has uncovered a record £230 million in insurance fraud claims and is using AI tools to counter the growing problem. The battleground has changed, and the culprits are also coming armed with a new generation of tools. We’re now in an environment where AI is being used not just to defend against fraud, but to perpetrate it. The insurance industry has long dealt with opportunistic dishonesty. A bumped car suddenly needs four new doors, or a minor slip becomes a life-altering injury. However, according to Aviva’s data, the nature of the deception is getting deeper, more sophisticated, and harder for the human eye to catch. Aviva is fighting fire with fire, deploying its own AI to uncover these elaborate schemes. Countering the AI-powered insurance fraud factories Aviva reports that scammers are now using AI to generate convincing fakes of car accident scenes. These aren’t clumsy photoshop jobs; they’re detailed, plausible images that can easily fool a claims handler working through a heavy caseload. The same generative AI tools are being used to create fake documents, from invoices for repairs that were never done, to medical reports that have no basis in fact. Fraudsters don’t need access to a network of corrupt garages or medical professionals to back up their story. They just need a subscription to an AI service and a bit of imagination. The AI handles the rest, producing official-looking documents that can pass a cursory inspection. An individual or small group can now generate the supporting evidence for dozens of high-value claims without ever leaving their desk. How do you validate reality when reality itself can be so easily and cheaply faked? Aviva’s response has been to build an AI-powered defence system that can operate at the same scale and speed as the threat. While the company is understandably tight-lipped about the exact architecture, you can piece together what a system like this needs to do. At its core, the AI detective carries out pattern recognition at scale. The AI sifts through millions of data points from current and past claims, learning what a legitimate claim looks like—and, more importantly, what it doesn’t. When a new claim comes in, the system is cross-referencing everything. Does the damage in the photo match the physics of the described accident? Do the timestamps on the documents make sense? Has this vehicle registration number appeared in other suspicious claims? Are the repair costs quoted on the invoice out of line with the thousands of other similar repairs in the database? It’s a level of forensic analysis that would be impossible to perform manually on every one of the thousands of claims filed each day. From organised crime to exaggerated claims It’s important to note that this isn’t all about organised criminal gangs. A portion of that £230 million figure comes from what the industry calls “claims inflation.” Claims inflation is the more common fraud where policyholders or service providers pad the bill. For instance, a garage might add unnecessary repairs to a quote, or an individual might exaggerate the value of items stolen in a burglary. Here, too, AI is proving to be a heavy-duty tool. By analysing vast datasets of repair costs and market values, the system can instantly flag when a quoted price is an outlier. It can compare the cost of a replacement part from one garage against the average from hundreds of others in the same region for the same make and model. The goal of Aviva’s AI isn’t to outright deny claims, it’s an augmentation tool for their human investigators. The AI acts as a filter, sifting through the noise to surface the most likely instances of fraud. This human-in-the-loop approach is essential for ensuring fairness and preventing the system from becoming a black box that makes decisions without oversight. What Aviva is doing provides a potential route for any customer-facing enterprise in the age of generative AI. The same technology that creates these threats is also the most effective way to combat them. As it becomes easier to fake everything from identities to invoices, the only viable defence is an intelligent system that can learn, adapt, and spot deception at a scale that humans alone can’t match. See also: Weis Markets adds Instacart AI-powered shopping carts to stores Want to learn more about AI and big data from industry leaders? Check out AI & Big Data Expo taking place in Amsterdam, California, and London. The comprehensive event is part of TechEx and is co-located with other leading technology events including the Cyber Security & Cloud Expo . Click here for more information. AI News is powered by TechForge Media . Explore other upcoming enterprise technology events and webinars here .",
+      "full_article_text_chars": 4750,
+      "content_preview": "Aviva has uncovered a record £230 million in insurance fraud claims and is using AI tools to counter the growing problem. The battleground has changed, and the culprits are also coming armed with a new generation of tools. We’re now in an environment where AI is being used not just to defend against fraud, but to perpetrate it. The insurance industry has long dealt with opportunistic dishonesty. A bumped car suddenly needs four new doors, or a minor slip becomes a life-altering injury. However, according to Aviva’s data, the nature of the deception is getting deeper, more sophisticated, and harder for the human eye to catch. Aviva is fighting fire with fire, deploying its own AI to uncover these elaborate schemes. Countering the AI-powered insurance fraud factories Aviva reports that scammers are now using AI to generate convincing fakes of car accident scenes. These aren’t clumsy photoshop jobs; they’re detailed, plausible images that can easily fool a claims handler working through a heavy caseload. The same generative AI tools are being used to create fake documents, from invoices for repairs that were never done, to medical reports that have no basis in fact. Fraudsters don’t need access to a network of corrupt garages or medical professionals to back up their story. They just need a subscription to an AI service and a bit of imagination. The AI handles the rest, producing official-looking documents that can pass a cursory inspection. An individual or small group can now generate the supporting evidence for dozens of high-value claims without ever leaving their desk. How do you validate reality when reality itself can be so easily and cheaply faked? Aviva’s response has been to build an AI-powered defence system that can operate at the same scale and speed as the threat. While the company is understandably tight-lipped about the exact architecture, you can piece together what a system like this needs to do. At its core, the AI detective carries out pattern recognition at scale. The AI sifts through millions of data points from current and past claims, learning what a legitimate claim looks like—and, more importantly, what it doesn’t. When a new claim comes in, the system is cross-referencing everything. Does the damage in the photo match the physics of the described accident? Do the timestamps on the documents make sense? Has this vehicle registration number appeared in other suspicious claims? Are the repair costs quoted on the invoice out of line with the thousands of other similar repairs in the database? It’s a level of forensic analysis that would be impossible to perform manually on every one of the thousands of claims filed each day. From organised crime to exaggerated claims It’s important to note that this isn’t all about organised criminal gangs. A portion of that £230 million figure comes from what the industry calls “claims inflation.” Claims inflation is the more common fraud where policyholders or service providers pad the bill. For instance, a garage might add unnecessary repairs to a quote, or an individual might exaggerate the value of items stolen in a burglary. Here, too, AI is proving to be a heavy-duty tool. By analysing vast datasets of repair costs and market values, the system can instantly flag when a quoted price is an outlier. It can compare the cost of a replacement part from one garage against the average from hundreds of others in the same region for the same make and model. The goal of Aviva’s AI isn’t to outright deny claims, it’s an augmentation tool for their human investigators. The AI acts as a filter, sifting through the noise to surface the most likely instances of fraud. This human-in-the-loop approach is essential for ensuring fairness and preventing the system from becoming a black box that makes decisions without oversight. What Aviva is doing provides a potential route for any customer-facing enterprise in the age of generative AI. The same technology that creates these threats is also the most effective way to combat them. As it becomes easier to fake everything from identities to invoices, the only viable defence is an intelligent system that can learn, adapt, and spot deception at a scale that humans alone can’t match. See also: Weis Markets adds Instacart AI-powered shopping carts to stores Want to learn more about AI and big data from industry leaders? Check out AI & Big Data Expo taking place in Amsterdam, California, and London. The comprehensive event is part of TechEx and is co-located with other leading technology events including the Cyber Security & Cloud Expo . Click here for more information. AI News is powered by TechForge Media . Explore other upcoming enterprise technology events and webinars here .",
+      "content_preview_chars": 4750,
+      "content_fetched_at": "2026-06-08T16:17:18",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "55956cfd111429d3",
+      "source_url_hash": "55956cfd111429d3",
+      "canonical_url": "https://www.unite.ai/cto-cio-guide-human-centered-ai-scaling",
+      "title_hash": "e85884a1edea9512",
+      "topic_signature": "12c15ce96739e7e4de9b",
+      "title": "GenAI Hype Resets: CIOs and CTOs Turn to Practical Reality",
+      "url": "https://www.unite.ai/cto-cio-guide-human-centered-ai-scaling",
+      "source_name": "Unite.AI",
+      "source_url": "https://www.unite.ai",
+      "source_published_at": "2026-06-08T11:47:31Z",
+      "published_at_source": "meta:article:published_time",
+      "article_age_hours": 4.49,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-08T16:17:13",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 172,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 172,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "GenAI Hype Resets: CIOs and CTOs Turn to Practical Reality",
+      "meta_description": "The generative AI boom of 2023–2024 is gradually cooling down. More than ever before, it is now important to balance optimism about AI’s potential with caution about its pitfalls. While many AI initiatives remain stuck i...",
+      "article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/06/dbce9310-5b7f-4c57-8f71-48526a61f560-e1780918934734.png",
+          "alt": "GenAI Hype Resets: CIOs and CTOs Turn to Practical Reality",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/02/Intent_Engineering-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2025/12/ChatGPT-Image-Dec-17-2025-08_41_37-PM-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/06/d3a1bb8f-7639-4258-8600-fb90837f8e6d-e1780933634536-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.unite.ai/wp-content/uploads/2026/06/dbce9310-5b7f-4c57-8f71-48526a61f560-e1780918934734.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/02/Intent_Engineering-400x240.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2025/12/ChatGPT-Image-Dec-17-2025-08_41_37-PM-400x240.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/06/d3a1bb8f-7639-4258-8600-fb90837f8e6d-e1780933634536-400x240.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "The generative AI boom of 2023–2024 is gradually cooling down. More than ever before, it is now important to balance optimism about AI’s potential with caution about its pitfalls. While many AI initiatives remain stuck in a so-called “GenAI pilot trap,” failing to deliver scaled business value beyond the prototype stage, others continue to generate real digital value. This success comes when CIOs and CTOs take a balanced approach to AI implementation and scaling across organizations. Now AI enters the time when its real capabilities and limits will be reevaluated by technology leaders. During this period, they will have to act amid uncertainty, while staying agile and ready for unpredictable scenarios. Forrester’s The State Of Agentic AI, 2026 captures the practical challenge, stating that while investment keeps growing, scale is still limited because many companies lack orchestration maturity, executable governance, and disciplined nonhuman identity. There are six practical and realistic approaches professionals can use now to stay relevant. These approaches are grounded in human-centered AI implementation and form a strong foundation for any organization. 1. Anchor AI adoption in human skills for measurable productivity The CIOs’ and CTOs’ goals are to avoid blindly betting on AI and to create a smarter workforce that embraces the best AI has to offer. During recent years, engineers believed AI would replace them and were resistant to using AI tools. Today, more engineers are actively using Cursor and Claude Code, as practical methodologies have emerged that align expectations with real outcomes. What has changed is the realization that AI tools augment engineers’ intelligence and support their work. These tools save significant amounts of time, especially at early project stages. During project initiation and PoC phases, AI can help developers go up to five times faster. On real production projects with well-established processes, AI may save up to 25% of time. These results will likely improve as AI tools mature and teams adapt their workflows. These productivity gains also depend on organizational change. Successful adopters revisit processes, reviews, and approval flows to ensure that existing structures do not become bottlenecks that slow down the speed AI provides, while maintaining the quality of final deliverables. 2. Control AI output before it shapes decisions Unlike human intelligence, AI wasn’t taught to admit uncertainty. When it is unsure, it does not turn to deeper research or human review but instead presents guesses as facts. Since AI hallucinations are inevitable , information from AI-generated responses should be used for decision-making sparingly and with greater caution when used for learning purposes. Learning in its traditional sense should still happen through articles, books, forums, and documentation. Where AI excels is in providing summarized answers in seconds, along with lists of sources and links that people can use for learning. This significantly reduces the time needed to find specific information. However, AI-generated answers still need to be verified. 3. Amplify human expertise Organizational leaders responsible for technology implementation and scaling should clearly communicate that AI is a tool to extend human capability, not a crutch that makes mastery optional. By designing workflows and KPIs that reward human insight augmented by AI, rather than blind automation, leaders ensure that expertise isn’t lost. In the foreseeable future, competitive advantage will belong to firms that amplify their teams’ skills with AI while still demanding human excellence. 4. Think of AI as a fabric with humans in control AI’s impact increases when it is embedded into how teams work, how systems interact, and how decisions are made. In practice, AI supports a wide range of activities across enterprise delivery and operational workflows. It does a great job with rule-based tasks, pattern recognition, and many others. For example, it handles drafting, summarizing, comparing, forecasting, first-pass analysis, and quality checks. This is highly relevant to financial operations, support triage, marketing operations, internal research, and QA. Yet, where final accountability and sign-off are required, or where ethical, legal, or reputational decisions are at stake, human expertise must remain the gatekeeper to decisions. The most successful organizations will be those that add human discernment and ingenuity to AI efficiency across every process. 5. Make cross-technology expertise the new norm Hiring, training, and retraining in the age of AI in enterprises shouldn’t turn into the preparation of “button-pushers” whose role is limited to operating AI tools. Employees with broad, cross-technology experience can now approach almost any task with AI support. Writing requirements, planning architecture, coding in different programming languages, handling backend or frontend work, QA automation, or DevOps tasks can all be done by working with AI tools and acting as the final reviewer. This approach saves significant time, especially for those working across multiple domains or technologies. Many people can theoretically do this today, but their effectiveness depends on prior experience. The broader their technology background, the more value they can extract from AI tools. 6. Use detailed specifications to dive into AI-assisted development The temptation to chase the hype of “vibe coding” by some organizations is understandable, but unreliable. Alternatively, spec-driven development gives AI the context it needs to produce reliable output. Well-defined specifications translate intent into something AI tools can act on. The two major benefits of spec-driven development are consistency and control. When AI works from specifications, the outputs are easier to validate, integrate, and govern across the organization. At the same time, risk management doesn’t disappear into generated code. Technology leaders should treat AI as a force multiplier inside a strong development process. Spec-driven development is a practical way to ensure AI advances speed, quality, and accountability simultaneously. The Practical Reset This year and beyond, AI may begin learning and behaving in unpredictable ways, different from today’s models. In this uncertainty, a confidence-with-caution mindset will fit most scenarios. Equally important will be a commitment to continuous learning, with teams sharpening their skills, questioning AI outputs, and adapting to new ways of working. CIOs and CTOs will play a central role in applying no-hype AI practices to absorb uncertainty and translate change into sustainable digital value. They will align organizational processes, incentives, and decision-making structures to redesign operations so humans and AI each play to their strengths. Max Belov is Chief Technology Officer at Coherent Solutions , accountable for the company’s long-term technology strategy and capability development. His focus is on leveraging AI to accelerate product and engineering outcomes and support value-driven AI adoption. Stop Asking What AI Can Do. Start Asking What Your Users Actually Need. From Prompt Engineering to Intent Engineering: The Evolution of Human-AI Communication The Learning-Authority Dilemma: What Happens When AI Agent Capability Exceeds Human Oversight? Evolve Past “Workslop” With Practical, Human-Centered AI The Four Most Costly Failures of Poorly Tested AI When AI Becomes the Attack Surface: Emerging Supply Chain Risks in Skills Marketplaces",
+      "full_article_text_chars": 7603,
+      "content_preview": "The generative AI boom of 2023–2024 is gradually cooling down. More than ever before, it is now important to balance optimism about AI’s potential with caution about its pitfalls. While many AI initiatives remain stuck in a so-called “GenAI pilot trap,” failing to deliver scaled business value beyond the prototype stage, others continue to generate real digital value. This success comes when CIOs and CTOs take a balanced approach to AI implementation and scaling across organizations. Now AI enters the time when its real capabilities and limits will be reevaluated by technology leaders. During this period, they will have to act amid uncertainty, while staying agile and ready for unpredictable scenarios. Forrester’s The State Of Agentic AI, 2026 captures the practical challenge, stating that while investment keeps growing, scale is still limited because many companies lack orchestration maturity, executable governance, and disciplined nonhuman identity. There are six practical and realistic approaches professionals can use now to stay relevant. These approaches are grounded in human-centered AI implementation and form a strong foundation for any organization. 1. Anchor AI adoption in human skills for measurable productivity The CIOs’ and CTOs’ goals are to avoid blindly betting on AI and to create a smarter workforce that embraces the best AI has to offer. During recent years, engineers believed AI would replace them and were resistant to using AI tools. Today, more engineers are actively using Cursor and Claude Code, as practical methodologies have emerged that align expectations with real outcomes. What has changed is the realization that AI tools augment engineers’ intelligence and support their work. These tools save significant amounts of time, especially at early project stages. During project initiation and PoC phases, AI can help developers go up to five times faster. On real production projects with well-established processes, AI may save up to 25% of time. These results will likely improve as AI tools mature and teams adapt their workflows. These productivity gains also depend on organizational change. Successful adopters revisit processes, reviews, and approval flows to ensure that existing structures do not become bottlenecks that slow down the speed AI provides, while maintaining the quality of final deliverables. 2. Control AI output before it shapes decisions Unlike human intelligence, AI wasn’t taught to admit uncertainty. When it is unsure, it does not turn to deeper research or human review but instead presents guesses as facts. Since AI hallucinations are inevitable , information from AI-generated responses should be used for decision-making sparingly and with greater caution when used for learning purposes. Learning in its traditional sense should still happen through articles, books, forums, and documentation. Where AI excels is in providing summarized answers in seconds, along with lists of sources and links that people can use for learning. This significantly reduces the time needed to find specific information. However, AI-generated answers still need to be verified. 3. Amplify human expertise Organizational leaders responsible for technology implementation and scaling should clearly communicate that AI is a tool to extend human capability, not a crutch that makes mastery optional. By designing workflows and KPIs that reward human insight augmented by AI, rather than blind automation, leaders ensure that expertise isn’t lost. In the foreseeable future, competitive advantage will belong to firms that amplify their teams’ skills with AI while still demanding human excellence. 4. Think of AI as a fabric with humans in control AI’s impact increases when it is embedded into how teams work, how systems interact, and how decisions are made. In practice, AI supports a wide range of activities across enterprise delivery and operational workflows. It does a great job with rule-based tasks, pattern recognition, and many others. For example, it handles drafting, summarizing, comparing, forecasting, first-pass analysis, and quality checks. This is highly relevant to financial operations, support triage, marketing operations, internal research, and QA. Yet, where final accountability and sign-off are required, or where ethical, legal, or reputational decisions are at stake, human expertise must remain the gatekeeper to decisions. The most successful organizations will be those that add human discernment and ingenuity to AI efficiency across every process. 5. Make cross-technology expertise the new norm Hiring, training, and retraining in the age of AI in enterprises shouldn’t turn into the preparation of “button-pushers” whose role is limited to operating AI tools. Employees with broad, cross-technology experience can now approach almost any task with AI support. Writing requirements, planning architecture, coding in different programming languages, handling backend or frontend work, QA automation, or DevOps tasks can all be done by working with AI tools and acting as the final reviewer. This approach saves significant time, especially for those working across multiple domains or technologies. Many people can theoretically do this today, but their effectiveness depends on prior experience. The broader their technology background, the more value they can extract from AI tools. 6. Use detailed specifications to dive into AI-assisted development The temptation to chase the hype of “vibe coding” by some organizations is understandable, but unreliable. Alternatively, spec-driven development gives AI the context it needs to produce reliable output. Well-defined specifications translate intent into something AI tools can act on. The two major benefits of spec-driven development are consistency and control. When AI works from specifications, the outputs are easier to validate, integrate, and govern across the organization. At the same time, risk management doesn’t disappear into generated code. Technology leaders should treat AI as a force multiplier inside a strong development process. Spec-driven development is a practical way to ensure AI advances speed, quality, and accountability simultaneously. The Practical Reset This year and beyond, AI may begin learning and behaving in unpredictable ways, different from today’s models. In this uncertainty, a confidence-with-caution mindset will fit most scenarios. Equally important will be a commitment to continuous learning, with teams sharpening their skills, questioning AI outputs, and adapting to new ways of working. CIOs and CTOs will play a central role in applying no-hype AI practices to absorb uncertainty and translate change into sustainable digital value. They will align organizational processes, incentives, and decision-making structures to redesign operations so humans and AI each play to their strengths. Max Belov is Chief Technology Officer at Coherent Solutions , accountable for the company’s long-term technology strategy and capability development. His focus is on leveraging AI to accelerate product and engineering outcomes and support value-driven AI adoption. Stop Asking What AI Can Do. Start Asking What Your Users Actually Need. From Prompt Engineering to Intent Engineering: The Evolution of Human-AI Communication The Learning-Authority Dilemma: What Happens When AI Agent Capability Exceeds Human Oversight? Evolve Past “Workslop” With Practical, Human-Centered AI The Four Most Costly Failures of Poorly Tested AI When AI Becomes the Attack Surface: Emerging Supply Chain Risks in Skills Marketplaces",
+      "content_preview_chars": 7603,
+      "content_fetched_at": "2026-06-08T16:17:30",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "2880528100644bc4",
+      "source_url_hash": "2880528100644bc4",
+      "canonical_url": "https://www.artificialintelligence-news.com/news/weis-markets-instacart-ai-powered-shopping-caper-carts",
+      "title_hash": "e63f5d0b2f05d8fa",
+      "topic_signature": "cd72662d440d7b60c986",
+      "title": "Weis Markets adds Instacart AI-powered shopping carts to stores",
+      "url": "https://www.artificialintelligence-news.com/news/weis-markets-instacart-ai-powered-shopping-caper-carts",
+      "source_name": "Artificial Intelligence News",
+      "source_url": "https://www.artificialintelligence-news.com",
+      "source_published_at": "2026-06-08T10:00:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 6.28,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-08T16:17:13",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 239,
+      "affiliate_links_removed_count": 6,
+      "removed_source_links_count": 239,
+      "enrichment_fallback_used": "content_container",
+      "fetched_title": "Weis Markets adds Instacart AI-powered shopping carts to stores",
+      "meta_description": "Weis Markets is adding Instacart’s AI-powered shopping Caper Carts with digital coupons, loyalty features, and more.",
+      "article_images": [
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/Weis-Markets-adds-Instacart-AI-powered-shopping-carts-to-stores-scaled-e1780904938998.jpg",
+          "alt": "Weis Markets adds Instacart AI-powered shopping carts to stores",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/Weis-Markets-adds-Instacart-AI-powered-shopping-carts-to-stores-1024x768.jpg",
+          "alt": "Weis Markets adds Instacart AI-powered shopping carts to stores",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2024/05/muhammadprof.jpeg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/meta-business-agent-ai-conversational-commerce-marketing-crm-sales-retail-strategy-enterprise-customer-support-1024x768.jpg",
+          "alt": "Close-up of mobile smartphone apps as Meta has launched Business Agent to automate conversational commerce workflows directly inside its messaging applications.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/Weis-Markets-adds-Instacart-AI-powered-shopping-carts-to-stores-scaled-e1780904938998.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/Weis-Markets-adds-Instacart-AI-powered-shopping-carts-to-stores-1024x768.jpg",
+          "alt": "Weis Markets adds Instacart AI-powered shopping carts to stores"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2024/05/muhammadprof.jpeg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/meta-business-agent-ai-conversational-commerce-marketing-crm-sales-retail-strategy-enterprise-customer-support-1024x768.jpg",
+          "alt": "Close-up of mobile smartphone apps as Meta has launched Business Agent to automate conversational commerce workflows directly inside its messaging applications."
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Weis Markets is adding Instacart’s AI-powered shopping carts, Caper Carts, to select stores in Pennsylvania, bringing digital coupons, loyalty features, and repeat-purchase recommendations into the grocery aisle. The Pennsylvania-based grocery chain is working with Instacart to deploy the smart carts, which include cameras, certified scales, location systems, and a touchscreen. According to Instacart, Caper Carts use basket-facing camera sensors, outward-facing cameras, certified scales, and location-tracking systems to support item recognition and checkout functions. The system combines edge computing on the carts with cloud AI trained on more than 1.6 billion online grocery orders. Shoppers can use the cart screen to monitor spending during their trip. They can also access location-based digital coupons directly from the cart. Weis and Instacart already work together on online grocery services. In 2023, Weis partnered with Instacart to offer same-day delivery from 133 locations in Pennsylvania, New York, and Delaware. Instacart expands Caper Cart rollout The Weis rollout adds to Instacart’s wider Caper Cart deployment. The company says the carts now span more than 100 cities across 15 states. Caper Carts are available across more than a dozen retail banners, including Kroger, Schnucks, and Wakefern banners such as ShopRite and Fairway Market. Earlier deployments have produced some store-level usage data. Retail Dive reported that Schnucks data showed Caper Carts handled more than 10% of sales on busy days at one store. That store had 10 Caper Carts and around 160 traditional carts, according to the report. Greg Zeh, senior vice president and chief information officer at Weis Markets, described the carts as part of the company’s effort to improve the shopping process. He pointed to real-time spend tracking and on-cart coupons as key features. Instacart described the partnership as an extension of Weis Markets’ use of digital tools inside stores. David McIntosh, Instacart’s chief connected stores officer, said Caper Carts bring together in-store and online data. Weis adds AI to checkout operations Weis has also been adding AI to self-checkout. Toshiba Global Commerce Solutions said Weis completed a chainwide deployment of its ELERA Security Suite across self-checkout lanes. The system includes produce recognition and loss prevention tools. Toshiba says the technology uses edge AI for on-device processing. At the time of Toshiba’s December 2025 announcement, the system was operational across self-checkout lanes in all 199 Weis locations. Weis also reported that more than 94% of customers selected the produce recognition feature at self-checkout. Grocers test AI beyond checkout Albertsons Companies has also introduced an AI-based quality control tool for produce inspection. The system is designed to help identify moldy or damaged fruit before it reaches store shelves. The tool initially focuses on strawberries and red and green grapes. Albertsons says it is intended to improve quality rating consistency and support faster decision-making. The company also says the tool expands quality data and helps align inspections with company standards. Albertsons operates more than 2,000 stores, including Safeway, Jewel-Osco, and ACME. The system supports quality inspectors working in its distribution centres. The quality control system uses computer vision to support produce inspections across Albertsons’ store brands. It was developed in-house by the company’s technology and supply chain teams. Albertsons built the tool on Google Cloud’s Gemini Enterprise platform, including Vision AI and Gemini models. Google Cloud said it advised on the AI component used in the supply chain process. See also: Amazon brings AI shopping assistant to retailers with Kate Spade Want to learn more about AI and big data from industry leaders? Check out AI & Big Data Expo taking place in Amsterdam, California, and London. The comprehensive event is part of TechEx and is co-located with other leading technology events, click here for more information. AI News is powered by TechForge Media . Explore other upcoming enterprise technology events and webinars here .",
+      "full_article_text_chars": 4203,
+      "content_preview": "Weis Markets is adding Instacart’s AI-powered shopping carts, Caper Carts, to select stores in Pennsylvania, bringing digital coupons, loyalty features, and repeat-purchase recommendations into the grocery aisle. The Pennsylvania-based grocery chain is working with Instacart to deploy the smart carts, which include cameras, certified scales, location systems, and a touchscreen. According to Instacart, Caper Carts use basket-facing camera sensors, outward-facing cameras, certified scales, and location-tracking systems to support item recognition and checkout functions. The system combines edge computing on the carts with cloud AI trained on more than 1.6 billion online grocery orders. Shoppers can use the cart screen to monitor spending during their trip. They can also access location-based digital coupons directly from the cart. Weis and Instacart already work together on online grocery services. In 2023, Weis partnered with Instacart to offer same-day delivery from 133 locations in Pennsylvania, New York, and Delaware. Instacart expands Caper Cart rollout The Weis rollout adds to Instacart’s wider Caper Cart deployment. The company says the carts now span more than 100 cities across 15 states. Caper Carts are available across more than a dozen retail banners, including Kroger, Schnucks, and Wakefern banners such as ShopRite and Fairway Market. Earlier deployments have produced some store-level usage data. Retail Dive reported that Schnucks data showed Caper Carts handled more than 10% of sales on busy days at one store. That store had 10 Caper Carts and around 160 traditional carts, according to the report. Greg Zeh, senior vice president and chief information officer at Weis Markets, described the carts as part of the company’s effort to improve the shopping process. He pointed to real-time spend tracking and on-cart coupons as key features. Instacart described the partnership as an extension of Weis Markets’ use of digital tools inside stores. David McIntosh, Instacart’s chief connected stores officer, said Caper Carts bring together in-store and online data. Weis adds AI to checkout operations Weis has also been adding AI to self-checkout. Toshiba Global Commerce Solutions said Weis completed a chainwide deployment of its ELERA Security Suite across self-checkout lanes. The system includes produce recognition and loss prevention tools. Toshiba says the technology uses edge AI for on-device processing. At the time of Toshiba’s December 2025 announcement, the system was operational across self-checkout lanes in all 199 Weis locations. Weis also reported that more than 94% of customers selected the produce recognition feature at self-checkout. Grocers test AI beyond checkout Albertsons Companies has also introduced an AI-based quality control tool for produce inspection. The system is designed to help identify moldy or damaged fruit before it reaches store shelves. The tool initially focuses on strawberries and red and green grapes. Albertsons says it is intended to improve quality rating consistency and support faster decision-making. The company also says the tool expands quality data and helps align inspections with company standards. Albertsons operates more than 2,000 stores, including Safeway, Jewel-Osco, and ACME. The system supports quality inspectors working in its distribution centres. The quality control system uses computer vision to support produce inspections across Albertsons’ store brands. It was developed in-house by the company’s technology and supply chain teams. Albertsons built the tool on Google Cloud’s Gemini Enterprise platform, including Vision AI and Gemini models. Google Cloud said it advised on the AI component used in the supply chain process. See also: Amazon brings AI shopping assistant to retailers with Kate Spade Want to learn more about AI and big data from industry leaders? Check out AI & Big Data Expo taking place in Amsterdam, California, and London. The comprehensive event is part of TechEx and is co-located with other leading technology events, click here for more information. AI News is powered by TechForge Media . Explore other upcoming enterprise technology events and webinars here .",
+      "content_preview_chars": 4203,
+      "content_fetched_at": "2026-06-08T16:17:25",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "7d27dd5174777dfd",
+      "source_url_hash": "7d27dd5174777dfd",
+      "canonical_url": "https://www.unite.ai/ai-agent-skills-supply-chain-security-vulnerabilities",
+      "title_hash": "fe24c23f71acaa83",
+      "topic_signature": "203fa9eb20abd84cca3f",
+      "title": "When AI Becomes the Attack Surface: Emerging Supply Chain Risks in Skills Marketplaces",
+      "url": "https://www.unite.ai/ai-agent-skills-supply-chain-security-vulnerabilities",
+      "source_name": "Unite.AI",
+      "source_url": "https://www.unite.ai",
+      "source_published_at": "2026-06-05T14:45:35Z",
+      "published_at_source": "meta:article:published_time",
+      "article_age_hours": 73.53,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-08T16:17:13",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 175,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 175,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "When AI Becomes the Attack Surface: Emerging Supply Chain Risks in Skills Marketplaces",
+      "meta_description": "Every major software revolution introduces a new supply chain and attack surface. As the open source era introduced supply chain risks via package registries like npm and PyPI, AI agents now mark an inflection point. The...",
+      "article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/06/1a9d7b1d-3274-40d2-bf5c-66f1f315b20b.png",
+          "alt": "When AI Becomes the Attack Surface: Emerging Supply Chain Risks in Skills Marketplaces",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/05/2238a9be-b0a9-4a18-9afa-63cceae47af9-e1778250273675-400x240.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/04/Gemini_Generated_Image_qjonydqjonydqjon-e1775659762478-400x240.png",
+          "alt": "A photorealistic widescreen image of a compliance team overseeing an AI ",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/03/promptinjection-e1774462395486-400x240.png",
+          "alt": "A digital 3D render of a dark server room with a computer monitor displaying a ",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.unite.ai/wp-content/uploads/2026/06/1a9d7b1d-3274-40d2-bf5c-66f1f315b20b.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/05/2238a9be-b0a9-4a18-9afa-63cceae47af9-e1778250273675-400x240.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/04/Gemini_Generated_Image_qjonydqjonydqjon-e1775659762478-400x240.png",
+          "alt": "A photorealistic widescreen image of a compliance team overseeing an AI "
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/03/promptinjection-e1774462395486-400x240.png",
+          "alt": "A digital 3D render of a dark server room with a computer monitor displaying a "
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Every major software revolution introduces a new supply chain and attack surface. As the open source era introduced supply chain risks via package registries like npm and PyPI, AI agents now mark an inflection point. These agents, active in developer workflows, enterprise operations, and consumer applications on platforms like OpenClaw, Claude Code, and Cursor, gain power from their extensions through installable “ skills ” – a capability that requires an equally rigorous approach to security. Agent skills are capability packages: small bundles of instructions and scripts that grant AI agents access to tools, external APIs, and local file systems. Distributed on public platforms like ClawHub, the barrier to entry is extremely low, with minimal vetting or oversight. Key security measures like mandatory code signing, security reviews, and default sandboxing are absent. This has led to a supply chain compromised at scale: recent ToxicSkills research scanning nearly 4,000 skills found roughly 1 in 8 contain at least one critical security flaw, including malware distribution and prompt injection. When expanding to any severity level, over a third of the ecosystem is affected. As such, security leaders must be prepared to proactively mitigate against these vulnerabilities. The Anatomy of an AI Supply Chain Attack Supply chain attacks traditionally exploit code through malicious functions injected into dependencies and CI workflows for actions like data exfiltration, backdoor installation, or privilege escalation. However, security tools have become effective at detecting these code patterns using static analysis and behavioral monitoring. AI agent skills introduce a different vector entirely, as their primary payload is natural language, contained in the SKILL.md file – an instruction set that malicious actors have learned to weaponize. ToxicSkills research shows 91% of malicious skills combine traditional malware with prompt injection, embedding hidden instructions that manipulate the agent’s runtime reasoning. The attack flow is simple: a developer installs a useful skill, which contains a hidden prompt injection designed to override the agent’s safety guardrails. The agent, following instructions it cannot distinguish from legitimate ones, steals credentials, exfiltrates files, or installs a backdoor while appearing to function normally. This is alarming due to the amount of developers running agents without regular security checks, giving agents full autonomy without guardrails. As a result, careful consideration and human in the loop is greatly minimized, presenting more risk for every system the agent has ever touched. The Hidden Danger of “Leaky” Skills The danger extends beyond intentionally malicious skills, as unintentional vulnerabilities are often harder to detect, more widely distributed, and embedded in popular, trusted functional skills. Security audits of major skills marketplaces show widely adopted skills routinely force AI agents to handle sensitive data insecurely. Risky behavior includes exposing API keys, authentication tokens, and personal data through plaintext logs, unprotected files, or directly in the model’s context window, where they can be inadvertently transmitted to third-party services. This is often due to skills being built quickly in the era of “ vibe coding ” without a real security model. The developer may overlook that an integration token, once in the agent’s context, is effectively in the open and visible to every downstream system. This creates widespread risk across platforms – personal assistants like OpenClaw and coding agents like Claude Code, Cursor and Windsurf – that millions of developers rely on daily. The exploitation or credential leak from a single popular skill can impact every developer, codebase, and system their agent had access to, thereby leaving the entire supply chain at risk. Rapid innovation enables rapid contamination; and in these cases, scale is not a signal of safety. The Blind Spot: Why Traditional Security Controls Fail Security teams operating with legacy controls such as malware scanners, static analysis, and behavioral monitoring, are addressing a fundamentally different threat model. Traditional malware detection seeks concrete code exploitation, but is not equipped to analyze natural language instructions for adversarial intent. A prompt injection in a SKILL.md file appears, to a conventional scanner, merely as documentation; there is no signature to flag until the agent acts. Prompt injections manipulate the agent’s reasoning, causing it to reinterpret instructions and override safety guidelines to proceed with forbidden actions. By the time damage is visible, the agent has already acted. The persistence of these threats is also concerning: malicious skills can poison an agent’s long-term memory, corrupting persistent context across sessions. This “sleeper agent” scenario means the agent may continue to execute malicious instructions weeks after the skill is removed, a situation conventional incident response cannot contain. Closing this gap requires a fundamentally different, AI-native approach built for agentic systems. Detecting and Addressing Flaws in the Agent Skills Ecosystem This new threat is manageable, but the window to act is narrow. Before AI agent adoption entrenches, security leaders need to establish four core controls: audits, early detection, rotating credentials, and proper AI guardrails. Audit and Inventory: Establish a complete inventory of every AI component: models, deployed agents, and all installed skills. This must be treated with the rigor of a software bill of materials (SBOM) to create a baseline for detecting unauthorized changes. Detect and Remove: Continuously scan active skills for malicious payloads, prompt injection patterns, and suspicious behaviors, including attempts to execute shell commands or bypass user oversight. Automated, continuous scanning is essential given the rapid growth of marketplaces. Rotate and Protect Credentials: Treat any credentials (API keys, tokens) handled by unverified skills as potentially compromised and rotate them immediately. Agents must adhere to the principle of least privilege, accessing only genuinely needed credentials and systems, with no standing access to production environments. Implement AI Guardrails: Deploy runtime protection controls that monitor agent behavior in real time, blocking dangerous actions and flagging anomalous patterns like unexpected file access. Agent memory files, in particular, should be monitored for unauthorized changes, as memory poisoning is a persistent and difficult-to-detect attack vector. The AI agent skills ecosystem is a software supply chain requiring rigorous security oversight. While the lessons from the open source era apply, the stakes are now much higher, as AI agents operate with broader permissions and greater autonomy than any package manager ever did. A single compromised skill can rapidly propagate, gaining access to core credentials and production systems across thousands of organizations, as such, security leaders have a narrow window to act proactively. The AI supply chain is already here. The question is whether an organization’s security posture is ready for it. Organizations that establish inventory, enforce least privilege, and deploy runtime guardrails will move fast with AI safely; while those that wait for a high-profile incident to force the issue will find that the cost of remediation far exceeds the cost of prevention. Manoj leads Snyk’s Emerging Technologies and Solutions Office (ETSO). His team is responsible for the company’s incubation and future acquisition strategy, ensuring Snyk’s long-term vision and strategy are fully aligned with the emerging needs of our customers. Before Snyk, Manoj served as Chief Cloud Officer and General Manager of Metallic at Commvault, where he accelerated the growth of the company’s crucial cloud and SaaS business units. Previously, he was the co-founder and CEO of HyperGrid and has held additional product leadership roles at Hewlett Packard Enterprise, Dell EMC, and RSA Security. Manoj also holds more than a dozen information management and security patents. As AI Adoption Surpasses AI Literacy, Industry Leaders Must Step Up Making AI Agents Trustworthy by Design, Not by Accident A Prompt Injection Attack One Cannot Prevent: Wishful Thinking or Real Concern? Meta AI Agent Triggers Sev 1 Security Incident After Acting Without Authorization OpenClaw vs Claude Code: Remote Control Agents OpenAI Hires OpenClaw Creator to Lead Personal AI Agents",
+      "full_article_text_chars": 8638,
+      "content_preview": "Every major software revolution introduces a new supply chain and attack surface. As the open source era introduced supply chain risks via package registries like npm and PyPI, AI agents now mark an inflection point. These agents, active in developer workflows, enterprise operations, and consumer applications on platforms like OpenClaw, Claude Code, and Cursor, gain power from their extensions through installable “ skills ” – a capability that requires an equally rigorous approach to security. Agent skills are capability packages: small bundles of instructions and scripts that grant AI agents access to tools, external APIs, and local file systems. Distributed on public platforms like ClawHub, the barrier to entry is extremely low, with minimal vetting or oversight. Key security measures like mandatory code signing, security reviews, and default sandboxing are absent. This has led to a supply chain compromised at scale: recent ToxicSkills research scanning nearly 4,000 skills found roughly 1 in 8 contain at least one critical security flaw, including malware distribution and prompt injection. When expanding to any severity level, over a third of the ecosystem is affected. As such, security leaders must be prepared to proactively mitigate against these vulnerabilities. The Anatomy of an AI Supply Chain Attack Supply chain attacks traditionally exploit code through malicious functions injected into dependencies and CI workflows for actions like data exfiltration, backdoor installation, or privilege escalation. However, security tools have become effective at detecting these code patterns using static analysis and behavioral monitoring. AI agent skills introduce a different vector entirely, as their primary payload is natural language, contained in the SKILL.md file – an instruction set that malicious actors have learned to weaponize. ToxicSkills research shows 91% of malicious skills combine traditional malware with prompt injection, embedding hidden instructions that manipulate the agent’s runtime reasoning. The attack flow is simple: a developer installs a useful skill, which contains a hidden prompt injection designed to override the agent’s safety guardrails. The agent, following instructions it cannot distinguish from legitimate ones, steals credentials, exfiltrates files, or installs a backdoor while appearing to function normally. This is alarming due to the amount of developers running agents without regular security checks, giving agents full autonomy without guardrails. As a result, careful consideration and human in the loop is greatly minimized, presenting more risk for every system the agent has ever touched. The Hidden Danger of “Leaky” Skills The danger extends beyond intentionally malicious skills, as unintentional vulnerabilities are often harder to detect, more widely distributed, and embedded in popular, trusted functional skills. Security audits of major skills marketplaces show widely adopted skills routinely force AI agents to handle sensitive data insecurely. Risky behavior includes exposing API keys, authentication tokens, and personal data through plaintext logs, unprotected files, or directly in the model’s context window, where they can be inadvertently transmitted to third-party services. This is often due to skills being built quickly in the era of “ vibe coding ” without a real security model. The developer may overlook that an integration token, once in the agent’s context, is effectively in the open and visible to every downstream system. This creates widespread risk across platforms – personal assistants like OpenClaw and coding agents like Claude Code, Cursor and Windsurf – that millions of developers rely on daily. The exploitation or credential leak from a single popular skill can impact every developer, codebase, and system their agent had access to, thereby leaving the entire supply chain at risk. Rapid innovation enables rapid contamination; and in these cases, scale is not a signal of safety. The Blind Spot: Why Traditional Security Controls Fail Security teams operating with legacy controls such as malware scanners, static analysis, and behavioral monitoring, are addressing a fundamentally different threat model. Traditional malware detection seeks concrete code exploitation, but is not equipped to analyze natural language instructions for adversarial intent. A prompt injection in a SKILL.md file appears, to a conventional scanner, merely as documentation; there is no signature to flag until the agent acts. Prompt injections manipulate the agent’s reasoning, causing it to reinterpret instructions and override safety guidelines to proceed with forbidden actions. By the time damage is visible, the agent has already acted. The persistence of these threats is also concerning: malicious skills can poison an agent’s long-term memory, corrupting persistent context across sessions. This “sleeper agent” scenario means the agent may continue to execute malicious instructions weeks after the skill is removed, a situation conventional incident response cannot contain. Closing this gap requires a fundamentally different, AI-native approach built for agentic systems. Detecting and Addressing Flaws in the Agent Skills Ecosystem This new threat is manageable, but the window to act is narrow. Before AI agent adoption entrenches, security leaders need to establish four core controls: audits, early detection, rotating credentials, and proper AI guardrails. Audit and Inventory: Establish a complete inventory of every AI component: models, deployed agents, and all installed skills. This must be treated with the rigor of a software bill of materials (SBOM) to create a baseline for detecting unauthorized changes. Detect and Remove: Continuously scan active skills for malicious payloads, prompt injection patterns, and suspicious behaviors, including attempts to execute shell commands or bypass user oversight. Automated, continuous scanning is essential given the rapid growth of marketplaces. Rotate and Protect Credentials: Treat any credentials (API keys, tokens) handled by unverified skills as potentially compromised and rotate them immediately. Agents must adhere to the principle of least privilege, accessing only genuinely needed credentials and systems, with no standing access to production environments. Implement AI Guardrails: Deploy runtime protection controls that monitor agent behavior in real time, blocking dangerous actions and flagging anomalous patterns like unexpected file access. Agent memory files, in particular, should be monitored for unauthorized changes, as memory poisoning is a persistent and difficult-to-detect attack vector. The AI agent skills ecosystem is a software supply chain requiring rigorous security oversight. While the lessons from the open source era apply, the stakes are now much higher, as AI agents operate with broader permissions and greater autonomy than any package manager ever did. A single compromised skill can rapidly propagate, gaining access to core credentials and production systems across thousands of organizations, as such, security leaders have a narrow window to act proactively. The AI supply chain is already here. The question is whether an organization’s security posture is ready for it. Organizations that establish inventory, enforce least privilege, and deploy runtime guardrails will move fast with AI safely; while those that wait for a high-profile incident to force the issue will find that the cost of remediation far exceeds the cost of prevention. Manoj leads Snyk’s Emerging Technologies and Solutions Office (ETSO). His team is responsible for the company’s incubation and future acquisition strategy, ensuring Snyk’s long-term vision and strategy are fully aligned with the emerging needs of our customers. Before Snyk, Manoj served as Chief Cloud Officer and General Manager of Metallic at Commvault, where he accelerated the growth of the company’s crucial cloud and SaaS business units. Previously, he was the co-founder and CEO of HyperGrid and has held additional product leadership roles at Hewlett Packard Enterprise, Dell EMC, and RSA Security. Manoj also holds more than a dozen information management and security patents. As AI Adoption Surpasses AI Literacy, Industry Leaders Must Step Up Making AI Agents Trustworthy by Design, Not by Accident A Prompt Injection Attack One Cannot Prevent: Wishful Thinking or Real Concern? Meta AI Agent Triggers Sev 1 Security Incident After Acting Without Authorization OpenClaw vs Claude Code: Remote Control Agents OpenAI Hires OpenClaw Creator to Lead Personal AI Agents",
+      "content_preview_chars": 8638,
+      "content_fetched_at": "2026-06-08T16:17:26",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "b98eb9dd6705f922",
+      "source_url_hash": "b98eb9dd6705f922",
+      "canonical_url": "https://www.artificialintelligence-news.com/news/event-type/in-person-events",
+      "title_hash": "387e409b1557e37d",
+      "topic_signature": "8a7e51929aba5737a2b2",
+      "title": "In-Person Events",
+      "url": "https://www.artificialintelligence-news.com/news/event-type/in-person-events",
+      "source_name": "Artificial Intelligence News",
+      "source_url": "https://www.artificialintelligence-news.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-08T16:17:13",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 228,
+      "affiliate_links_removed_count": 5,
+      "removed_source_links_count": 228,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=468 chars/73 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:468chars/73words, page_text:468chars/73words)",
+      "content_fetched_at": "2026-06-08T16:17:42",
+      "candidate_retry_after": "2026-06-08T16:32:42Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=468 chars/73 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:468chars/73words, page_text:468chars/73words)",
+      "candidate_failed_at": "2026-06-08T16:17:42",
+      "candidate_failure_count": 1
     }
   ],
   "notifications": {
