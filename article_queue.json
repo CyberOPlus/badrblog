@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-09T10:29:11",
+  "updated_at": "2026-06-09T13:24:16",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -1408,12 +1408,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-06-09T10:23:55",
-      "candidate_retry_after": "2026-06-09T10:38:55Z",
+      "content_fetched_at": "2026-06-09T13:21:08",
+      "candidate_retry_after": "2026-06-09T13:36:08Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-06-09T10:23:55",
-      "candidate_failure_count": 11
+      "candidate_failed_at": "2026-06-09T13:21:08",
+      "candidate_failure_count": 12
     },
     {
       "id": "387079dc0a830ad9",
@@ -3434,12 +3434,12 @@
       "removed_source_links_count": 82,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-09T10:23:56",
-      "candidate_retry_after": "2026-06-09T10:38:56Z",
+      "content_fetched_at": "2026-06-09T13:21:09",
+      "candidate_retry_after": "2026-06-09T13:36:09Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-09T10:23:56",
-      "candidate_failure_count": 9
+      "candidate_failed_at": "2026-06-09T13:21:09",
+      "candidate_failure_count": 10
     },
     {
       "id": "561b6316398d7603",
@@ -3602,11 +3602,11 @@
       "content_fetched_at": "2026-06-08T16:17:34",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-08T23:57:58",
+      "selected_at": "2026-06-09T13:22:19",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-08T23:57:59",
+      "processing_prepared_at": "2026-06-09T13:22:19",
       "ai_input_package": {
         "title": "NHS England Taps Microsoft 365 Copilot to Cut Admin Burden",
         "url": "https://aimagazine.com/news/nhs-england-taps-microsoft-365-copilot-to-cut-admin-burden",
@@ -3649,20 +3649,20 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "article too short (479 words; minimum 700)",
+      "ai_quality_last_error": "Missing AI output field(s): slug",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "Missing AI output field(s): slug",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 95.72,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 51.68,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-09T00:14:35Z",
+      "candidate_retry_after": "2026-06-09T13:38:12Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-06-08T23:59:35",
-      "candidate_failure_count": 1,
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-06-09T13:23:12",
+      "candidate_failure_count": 2,
       "telegram_final_summary_notified_at": "2026-06-09T00:05:21"
     },
     {
@@ -3742,11 +3742,11 @@
       "content_fetched_at": "2026-06-08T16:17:28",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-08T23:59:35",
+      "selected_at": "2026-06-09T13:23:26",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-08T23:59:35",
+      "processing_prepared_at": "2026-06-09T13:23:26",
       "ai_input_package": {
         "title": "The Four Most Costly Failures of Poorly Tested AI",
         "url": "https://www.unite.ai/ai-human-oversight-enterprise-deployment-risks",
@@ -3789,19 +3789,19 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_quality_last_error": "Missing AI output field(s): slug",
       "ai_status": "failed",
-      "ai_error": "ai_time_budget_exceeded",
+      "ai_error": "Missing AI output field(s): slug",
       "ai_rotation_exhausted": false,
-      "ai_time_budget_exceeded": true,
-      "ai_total_time_seconds": 226.33,
-      "ai_quality_status": "time_budget_exceeded",
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 49.44,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-09T00:18:21Z",
+      "candidate_retry_after": "2026-06-09T13:39:16Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "ai_time_budget_exceeded",
-      "candidate_failed_at": "2026-06-09T00:03:21",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-06-09T13:24:16",
+      "candidate_failure_count": 2
     },
     {
       "id": "a25819defcc59340",
@@ -4417,17 +4417,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 231,
-      "affiliate_links_removed_count": 5,
-      "removed_source_links_count": 231,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=459 chars/74 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:459chars/74words, page_text:459chars/74words)",
-      "content_fetched_at": "2026-06-09T10:23:59",
-      "candidate_retry_after": "2026-06-09T10:38:59Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-06-09T13:21:10",
+      "candidate_retry_after": "2026-06-09T13:36:10Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=459 chars/74 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:459chars/74words, page_text:459chars/74words)",
-      "candidate_failed_at": "2026-06-09T10:23:59",
-      "candidate_failure_count": 8
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-06-09T13:21:10",
+      "candidate_failure_count": 9
     },
     {
       "id": "c1354558130eaeb3",
@@ -5450,12 +5450,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-09T10:24:00",
-      "candidate_retry_after": "2026-06-09T10:39:00Z",
+      "content_fetched_at": "2026-06-09T13:21:11",
+      "candidate_retry_after": "2026-06-09T13:36:11Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-09T10:24:00",
-      "candidate_failure_count": 7
+      "candidate_failed_at": "2026-06-09T13:21:11",
+      "candidate_failure_count": 8
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -6726,13 +6726,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 520",
-      "content_fetched_at": "2026-06-09T10:24:11",
-      "candidate_retry_after": "2026-06-09T10:39:11Z",
+      "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
+      "content_fetched_at": "2026-06-09T13:21:12",
+      "candidate_retry_after": "2026-06-09T13:36:12Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 520",
-      "candidate_failed_at": "2026-06-09T10:24:11",
-      "candidate_failure_count": 5
+      "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
+      "candidate_failed_at": "2026-06-09T13:21:12",
+      "candidate_failure_count": 6
     },
     {
       "id": "cc5e99891af35b5e",
@@ -6763,13 +6763,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 520",
-      "content_fetched_at": "2026-06-09T10:24:22",
-      "candidate_retry_after": "2026-06-09T10:39:22Z",
+      "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
+      "content_fetched_at": "2026-06-09T13:21:12",
+      "candidate_retry_after": "2026-06-09T13:36:12Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 520",
-      "candidate_failed_at": "2026-06-09T10:24:22",
-      "candidate_failure_count": 5
+      "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
+      "candidate_failed_at": "2026-06-09T13:21:12",
+      "candidate_failure_count": 6
     },
     {
       "id": "a6f4ca9464909855",
@@ -6800,13 +6800,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 520",
-      "content_fetched_at": "2026-06-09T10:24:33",
-      "candidate_retry_after": "2026-06-09T10:39:33Z",
+      "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
+      "content_fetched_at": "2026-06-09T13:21:13",
+      "candidate_retry_after": "2026-06-09T13:36:13Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 520",
-      "candidate_failed_at": "2026-06-09T10:24:33",
-      "candidate_failure_count": 5
+      "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
+      "candidate_failed_at": "2026-06-09T13:21:13",
+      "candidate_failure_count": 6
     },
     {
       "id": "66722f50e91993b6",
@@ -6889,7 +6889,73 @@
       "content_preview_chars": 4203,
       "content_fetched_at": "2026-06-08T23:57:43",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-09T13:21:13",
+      "suggested_category": "AI-Tools",
+      "selection_reason": "category rotation newest fresh article: AI-Tools",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-09T13:21:13",
+      "ai_input_package": {
+        "title": "ClawHub Security Signals: A Coding Guide to End-to-End Security Signal Analysis and Verdict Classification on the AI Skills Dataset",
+        "url": "https://www.marktechpost.com/2026/06/08/clawhub-security-signals-a-coding-guide-to-end-to-end-security-signal-analysis-and-verdict-classification-on-the-ai-skills-dataset",
+        "source_name": "MarkTechPost",
+        "suggested_category": "AI-Tools",
+        "main_image": "https://www.marktechpost.com/wp-content/uploads/2026/06/blog15-3.png",
+        "article_images": [
+          {
+            "url": "https://www.marktechpost.com/wp-content/uploads/2026/06/blog15-3.png",
+            "alt": "ClawHub Security Signals: A Coding Guide to End-to-End Security Signal Analysis and Verdict Classification on the AI Skills Dataset",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.marktechpost.com/wp-content/uploads/2026/06/Screenshot-2026-06-05-at-3.40.16-AM.png",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Analyze the ClawHub Security Signals dataset, compare scanner signals, and train a logistic regression model to predict ClawScan verdicts",
+        "content_preview": "In this tutorial, we use the ClawHub Security Signals dataset to examine how different security scanners assess AI skills and related files. We load the dataset directly from the Hugging Face Parquet conversion to avoid compatibility issues with newer dataset metadata, then inspect the main columns, verdict distribution, scanner outputs, and severity labels. After exploring scanner disagreement and overlap patterns, we build a practical machine learning pipeline that combines SKILL.md text with numerical scanner signals to predict the final ClawScan verdict. It gives us a complete workflow for loading, analyzing, visualizing, and modeling security signal data in a Colab-ready environment. Setting Up the Colab Environment and Imports for Security Signal Analysis We install all the required libraries and import the main packages needed for data loading, analysis, visualization, and machine learning. We also configure warnings and set the plotting style to keep the notebook output clean and readable. Finally, we define the sample size and random seed to make the experiment controlled and reproducible. Loading the ClawHub Security Signals Dataset from the Hugging Face Parquet Conversion We connect to the Hugging Face dataset repository and list the available Parquet files from the converted dataset branch. We create a helper function to download and combine the Parquet shards for each split into a single pandas DataFrame. We then load the train and test splits, optionally sample the training data, and print the dataset size and column names. Exploring Verdict Distribution and Scanner Agreement with Jaccard and Cohen’s Kappa We perform the main exploratory analysis on the ClawHub Security Signals dataset. We inspect verdict distributions, severity labels, example skill metadata, and the beginning of a SKILL.md file to understand the data structure. We also convert scanner outputs into positive flags and compare VirusTotal, static analysis, and SkillSpector through positive rates, overlap patterns, Jaccard scores, and Cohen’s kappa. Visualizing Verdict Distribution, Scanner Positive Rates, and Overlap Patterns We create visualizations to make the dataset patterns easier to understand. We plot the ClawScan verdict distribution, scanner positive rates, positive-signal overlap patterns, and SkillSpector score differences across verdict categories. These charts help us quickly see class imbalance, scanner behavior, and the relationship between numerical security scores and final verdicts. Building a Logistic Regression Pipeline on SKILL.md Text and Scanner Signals to Predict ClawScan Verdicts We prepare the text and numerical features for training a machine learning classifier. We build a pipeline that uses TF-IDF features from SKILL.md content, along with scanner-related numeric fields, and then trains a balanced logistic regression model to predict the ClawScan verdict. We evaluate the model using a classification report, a confusion matrix, and sample misclassifications to understand where the classifier performs well and where it fails. In conclusion, we completed an end-to-end analysis of the ClawHub Security Signals dataset, from robust data loading to test-set evaluation of a verdict classifier. We examined how VirusTotal, static analysis, and SkillSpector signals differ, visualized their patterns, and used both textual and numerical features to train a balanced logistic regression model. This workflow helps us understand how security verdicts are distributed, and also how multiple scanner signals can be combined into a simple predictive system. We can extend this further by using the full dataset, trying stronger text models, or adding deeper feature engineering around scanner summaries and skill metadata. Need to partner with us for promoting your GitHub Repo OR Hugging Face Page OR Product Release OR Webinar etc.? Connect with us Sana Hassan, a consulting intern at Marktechpost and dual-degree student at IIT Madras, is passionate about applying technology and AI to address real-world challenges. With a keen interest in solving practical problems, he brings a fresh perspective to the intersection of AI and real-life solutions.",
+        "content_preview_chars": 4203,
+        "rss_summary": "",
+        "full_article_text": "In this tutorial, we use the ClawHub Security Signals dataset to examine how different security scanners assess AI skills and related files. We load the dataset directly from the Hugging Face Parquet conversion to avoid compatibility issues with newer dataset metadata, then inspect the main columns, verdict distribution, scanner outputs, and severity labels. After exploring scanner disagreement and overlap patterns, we build a practical machine learning pipeline that combines SKILL.md text with numerical scanner signals to predict the final ClawScan verdict. It gives us a complete workflow for loading, analyzing, visualizing, and modeling security signal data in a Colab-ready environment. Setting Up the Colab Environment and Imports for Security Signal Analysis We install all the required libraries and import the main packages needed for data loading, analysis, visualization, and machine learning. We also configure warnings and set the plotting style to keep the notebook output clean and readable. Finally, we define the sample size and random seed to make the experiment controlled and reproducible. Loading the ClawHub Security Signals Dataset from the Hugging Face Parquet Conversion We connect to the Hugging Face dataset repository and list the available Parquet files from the converted dataset branch. We create a helper function to download and combine the Parquet shards for each split into a single pandas DataFrame. We then load the train and test splits, optionally sample the training data, and print the dataset size and column names. Exploring Verdict Distribution and Scanner Agreement with Jaccard and Cohen’s Kappa We perform the main exploratory analysis on the ClawHub Security Signals dataset. We inspect verdict distributions, severity labels, example skill metadata, and the beginning of a SKILL.md file to understand the data structure. We also convert scanner outputs into positive flags and compare VirusTotal, static analysis, and SkillSpector through positive rates, overlap patterns, Jaccard scores, and Cohen’s kappa. Visualizing Verdict Distribution, Scanner Positive Rates, and Overlap Patterns We create visualizations to make the dataset patterns easier to understand. We plot the ClawScan verdict distribution, scanner positive rates, positive-signal overlap patterns, and SkillSpector score differences across verdict categories. These charts help us quickly see class imbalance, scanner behavior, and the relationship between numerical security scores and final verdicts. Building a Logistic Regression Pipeline on SKILL.md Text and Scanner Signals to Predict ClawScan Verdicts We prepare the text and numerical features for training a machine learning classifier. We build a pipeline that uses TF-IDF features from SKILL.md content, along with scanner-related numeric fields, and then trains a balanced logistic regression model to predict the ClawScan verdict. We evaluate the model using a classification report, a confusion matrix, and sample misclassifications to understand where the classifier performs well and where it fails. In conclusion, we completed an end-to-end analysis of the ClawHub Security Signals dataset, from robust data loading to test-set evaluation of a verdict classifier. We examined how VirusTotal, static analysis, and SkillSpector signals differ, visualized their patterns, and used both textual and numerical features to train a balanced logistic regression model. This workflow helps us understand how security verdicts are distributed, and also how multiple scanner signals can be combined into a simple predictive system. We can extend this further by using the full dataset, trying stronger text models, or adding deeper feature engineering around scanner summaries and skill metadata. Need to partner with us for promoting your GitHub Repo OR Hugging Face Page OR Product Release OR Webinar etc.? Connect with us Sana Hassan, a consulting intern at Marktechpost and dual-degree student at IIT Madras, is passionate about applying technology and AI to address real-world challenges. With a keen interest in solving practical problems, he brings a fresh perspective to the intersection of AI and real-life solutions. Sana Hassan Building Reflective Prompt Optimization with GEPA: Multi-Component Prompts, Structured Feedback, and Held-Out Validation Sana Hassan NVIDIA garak Tutorial: Build a Complete Defensive LLM Red-Teaming Workflow with Custom Probes and Detectors Sana Hassan A Hands-On Coding Tutorial on Qualcomm AI Hub Models for Classification, Object Detection, and Hardware-Aware Deployment Sana Hassan Microsoft Fara Tutorial: Run a Browser-Use Agent in Google Colab with a Mock OpenAI-Compatible Endpoint Sana Hassan Building a Semantic Search Engine and Open-Status Classifier over the ResearchMath-14k Dataset Sana Hassan How to Build a Document Intelligence Backend with iii Using Workers, Functions, and Cron Triggers Sana Hassan How to Fine-Tune LFM2 Using QLoRA and DPO: A Complete Step-by-Step Coding Tutorial on Google Colab Sana Hassan How to Speed Up Transformer Training Using NVIDIA Apex (FusedAdam, FusedLayerNorm) and Native torch.amp Sana Hassan An Implementation of the Microsoft Agent Governance Toolkit for Safe AI Agent Tool Use with Policies, Approvals, Audit Logs, and Risk Controls Sana Hassan A Coding Implementation on Loguru for Designing Robust, Structured, Concurrent, and Production-Ready Python Logging Pipelines Sana Hassan Build Skill-Augmented AI Agents with SkillNet for Search, Evaluation, Graph Analysis, and Task Planning Sana Hassan How to Use AgentTrove: Streaming 1.7M Agentic Traces and Building a Clean ShareGPT SFT Dataset in Python Sana Hassan How to Design an End-to-End Ansible Automation Lab with Playbooks, Inventories, Roles, Vault, Dynamic Inventory, and Custom Modules Sana Hassan A Coding Guide to Implement a pgvector-Powered Semantic, Hybrid, Sparse, and Quantized Vector Search System Sana Hassan Design a High-Precision Retrieve-and-Rerank Pipeline with ZeroEntropy Zerank-2 Reranker Sana Hassan Design a Complete Multimodal RLVR Pipeline with Open-MM-RL, Vision-Language Prompting, Reward Scoring, and GRPO Export Sana Hassan Step by Step Guide to Build and Compare FedAvg and FedProx Federated Learning on Non-IID CIFAR-10 with NVIDIA FLARE Sana Hassan Build a Complete Langfuse Observability and Evaluation Pipeline for Tracing, Prompt Management, Scoring, and Experiments Sana Hassan Build a SuperClaude Framework Workflow with Commands, Agents, Modes, and Session Memory Sana Hassan Build Recurrent-Depth Transformers with OpenMythos for MLA, GQA, Sparse MoE, and Loop-Scaled Reasoning Sana Hassan How to Build Knowledge Graph Generation Pipelines From Text With kg-gen, NetworkX Analytics, and Interactive Visualizations Sana Hassan How to Build an Advanced Agentic AI System with Planning, Tool Calling, Memory, and Self-Critique Using OpenAI API Sana Hassan A Coding Implementation to Compress and Benchmark Instruction-Tuned LLMs with FP8, GPTQ, and SmoothQuant Quantization using llmcompressor Sana Hassan A Coding Guide Implementing SHAP Explainability Workflows with Explainer Comparisons, Maskers, Interactions, Drift, and Black-Box Models Sana Hassan How to Build Repository-Level Code Intelligence with Repowise Using Graph Analysis, Dead-Code Detection, Decisions, and AI Context Sana Hassan How to Build an MCP Style Routed AI Agent System with Dynamic Tool Exposure Planning, Execution, and Context Injection Sana Hassan How to Build a Django-Unfold Admin Dashboard with Custom Models, Filters, Actions, and KPIs Sana Hassan A Coding Implementation to Master GPU Computing with CuPy, Custom CUDA Kernels, Streams, Sparse Matrices, and Profiling Sana Hassan How to Build a Dynamic Zero-Trust Network Simulation with Graph-Based Micro-Segmentation, Adaptive Policy Engine, and Insider Threat Detection Sana Hassan Build a Hybrid-Memory Autonomous Agent with Modular Architecture and Tool Dispatch Using OpenAI Sana Hassan A Coding Implementation to Portfolio Optimization with skfolio for Building Testing, Tuning, and Comparing Modern Investment Strategies Sana Hassan How to Build Technical Analysis and Backtesting Workflow with pandas-ta-classic, Strategy Signals, and Performance Metrics Sana Hassan A Coding Implementation to Build Agent-Native Memory Infrastructure with Memori for Persistent Multi-User and Multi-Session LLM Applications Sana Hassan How to Build a Cost-Aware LLM Routing System with NadirClaw Using Local Prompt Classification and Gemini Model Switching Sana Hassan A Coding Implementation to Recover Hidden Malware IOCs with FLARE-FLOSS Beyond Classic Strings Analysis Sana Hassan How to Build a Single-Cell RNA-seq Analysis Pipeline with Scanpy for PBMC Clustering, Annotation, and Trajectory Discovery Sana Hassan Build a CloakBrowser Automation Workflow with Stealth Chromium, Persistent Profiles, and Browser Signal Inspection Sana Hassan How to Build a Fully Interactive Multi-Page NiceGUI Application with Real-Time Dashboard, CRUD Operations, File Upload, and Async Chat Sana Hassan Build a Modular Skill-Based Agent System for LLMs with Dynamic Tool Routing in Python Sana Hassan A Coding Guide to Survey Bias Correction Using Facebook Research Balance with IPW CBPS Ranking and Post Stratification Methods Sana Hassan How to Build an End-to-End Production Grade Machine Learning Pipeline with ZenML, Including Custom Materializers, Metadata Tracking, and Hyperparameter Optimization Sana Hassan A Coding Implementation to Explore and Analyze the TaskTrove Dataset with Streaming Parsing Visualization and Verifier Detection Sana Hassan A Coding Implementation of End-to-End Brain Decoding from MEG Signals Using NeuralSet and Deep Learning for Predicting Linguistic Features Sana Hassan A Coding Guide on LLM Post Training with TRL from Supervised Fine Tuning to DPO and GRPO Reasoning Sana Hassan A Coding Deep Dive into Agentic UI, Generative UI, State Synchronization, and Interrupt-Driven Approval Flows Sana Hassan A Coding Implementation on Pyright Type Checking Covering Generics, Protocols, Strict Mode, Type Narrowing, and Modern Python Typing Sana Hassan A Coding Implementation on Document Parsing Benchmarking with LlamaIndex ParseBench Using Python, Hugging Face, and Evaluation Metrics Sana Hassan How to Build Traceable and Evaluated LLM Workflows Using Promptflow, Prompty, and OpenAI Sana Hassan How to Build a Lightweight Vision-Language-Action-Inspired Embodied Agent with Latent World Modeling and Model Predictive Control Sana Hassan How to Build a Fully Searchable AI Knowledge Base with OpenKB, OpenRouter, and Llama Sana Hassan How to Build Smarter Multilingual Text Wrapping with BudouX Through Parsing, HTML Rendering, Model Introspection, and Toy Training Sana Hassan A Coding Tutorial on Datashader on Rendering Massive Datasets with High-Performance Python Visual Analytics Sana Hassan A Coding Implementation on kvcached for Elastic KV Cache Memory, Bursty LLM Serving, and Multi-Model GPU Sharing Sana Hassan A Coding Implementation on Microsoft’s OpenMementos with Trace Structure Analysis, Context Compression, and Fine-Tuning Data Preparation Sana Hassan A Detailed Implementation on Equinox with JAX Native Modules, Filtered Transforms, Stateful Layers, and End-to-End Training Workflows Sana Hassan A Coding Implementation to Build a Conditional Bayesian Hyperparameter Optimization Pipeline with Hyperopt, TPE, and Early Stopping Sana Hassan A Coding Implementation on Qwen 3.6-35B-A3B Covering Multimodal Inference, Thinking Control, Tool Calling, MoE Routing, RAG, and Session Persistence Sana Hassan A Coding Implementation on Microsoft’s Phi-4-Mini for Quantized Inference Reasoning Tool Use RAG and LoRA Fine-Tuning Sana Hassan A Coding Implementation to Build an AI-Powered File Type Detection and Security Analysis Pipeline with Magika and OpenAI Sana Hassan A Coding Implementation of Quantum State Evolution, Decoherence, and Entanglement Dynamics using QuTiP Sana Hassan Google AI Introduced Guardrailed-AMIE (g-AMIE): A Multi-Agent Approach to Accountability in Conversational Medical AI Sana Hassan Prefix-RFT: A Unified Machine Learning Framework to blend Supervised Fine-Tuning (SFT) and Reinforcement Fine-Tuning (RFT) Sana Hassan Huawei CloudMatrix: A Peer-to-Peer AI Datacenter Architecture for Scalable and Efficient LLM Serving Sana Hassan ZenFlow: A New DeepSpeed Extension Designed as a Stall-Free Offloading Engine for Large Language Model (LLM) Training Sana Hassan A Coding Implementation to Build a Complete Self-Hosted LLM Workflow with Ollama, REST API, and Gradio Chat Interface Sana Hassan Memp: A Task-Agnostic Framework that Elevates Procedural Memory to a Core Optimization Target in LLM-based Agent Sana Hassan A Coding Guide to Build and Validate End-to-End Partitioned Data Pipelines in Dagster with Machine Learning Integration Sana Hassan Efficient AI Agents Don’t Have to Be Expensive: Here’s Proof Sana Hassan Genie Envisioner: A Unified Video-Generative Platform for Scalable, Instruction-Driven Robotic Manipulation Sana Hassan Building an Advanced Portfolio Analysis and Market Intelligence Tool with OpenBB Sana Hassan Graph-R1: An Agentic GraphRAG Framework for Structured, Multi-Turn Reasoning with Reinforcement Learning Sana Hassan MIT Researchers Develop Methods to Control Transformer Sensitivity with Provable Lipschitz Bounds and Muon Sana Hassan TransEvalnia: A Prompting-Based System for Fine-Grained, Human-Aligned Translation Evaluation Using LLMs Sana Hassan Why Context Matters: Transforming AI Model Evaluation with Contextualized Queries Sana Hassan URBAN-SIM: Advancing Autonomous Micromobility with Scalable Urban Simulation Sana Hassan GPT-4o Understands Text, But Does It See Clearly? A Benchmarking Study of MFMs on Vision Tasks Sana Hassan A Code Implementation to Efficiently Leverage LangChain to Automate PubMed Literature Searches, Parsing, and Trend Visualization Sana Hassan Can LLM Reward Models Be Trusted? Master-RM Exposes and Fixes Their Weaknesses Sana Hassan EG-CFG: Enhancing Code Generation with Real-Time Execution Feedback Sana Hassan Mirage: Multimodal Reasoning in VLMs Without Rendering Images Sana Hassan NeuralOS: A Generative Framework for Simulating Interactive Operating System Interfaces Sana Hassan Efficient and Adaptable Speech Enhancement via Pre-trained Generative Audioencoders and Vocoders Sana Hassan SDBench and MAI-DxO: Advancing Realistic, Cost-Aware Clinical Reasoning with AI Sana Hassan From Perception to Action: The Role of World Models in Embodied AI Systems Sana Hassan Mistral AI Releases Devstral 2507 for Code-Centric Language Modeling Sana Hassan Perplexity Introduces Comet—An AI-First Alternative to Traditional Browsers Sana Hassan Microsoft Open-Sources GitHub Copilot Chat Extension for VS Code—Now Free for All Developers Sana Hassan How Radial Attention Cuts Costs in Video Diffusion by 4.4× Without Sacrificing Quality Sana Hassan SynPref-40M and Skywork-Reward-V2: Scalable Human-AI Alignment for State-of-the-Art Reward Models Sana Hassan A Coding Guide to Build Modular and Self-Correcting QA Systems with DSPy Sana Hassan AbstRaL: Teaching LLMs Abstract Reasoning via Reinforcement to Boost Robustness on GSM Benchmarks Sana Hassan Kyutai Releases 2B Parameter Streaming Text-to-Speech TTS with 220ms Latency and 2.5M Hours of Training Sana Hassan A Tutorial on Using OpenAI Codex with GitHub Repositories for Seamless AI-Powered Development Sana Hassan Thought Anchors: A Machine Learning Framework for Identifying and Measuring Key Reasoning Steps in Large Language Models with Precision Sana Hassan Building a BioCypher-Powered AI Agent for Biomedical Knowledge Graph Generation and Querying Sana Hassan LongWriter-Zero: A Reinforcement Learning Framework for Ultra-Long Text Generation Without Synthetic Data Sana Hassan MDM-Prime: A generalized Masked Diffusion Models (MDMs) Framework that Enables Partially Unmasked Tokens during Sampling Sana Hassan UC San Diego Researchers Introduced Dex1B: A Billion-Scale Dataset for Dexterous Hand Manipulation in Robotics Sana Hassan DeepRare: The First AI-Powered Agentic Diagnostic System Transforming Clinical Decision-Making in Rare Disease Management Sana Hassan GURU: A Reinforcement Learning Framework that Bridges LLM Reasoning Across Six Domains Sana Hassan MIT and NUS Researchers Introduce MEM1: A Memory-Efficient Framework for Long-Horizon Language Agents Sana Hassan ETH and Stanford Researchers Introduce MIRIAD: A 5.8M Pair Dataset to Improve LLM Accuracy in Medical AI Sana Hassan ByteDance Researchers Introduce Seed-Coder: A Model-Centric Code LLM Trained on 6 Trillion Tokens Sana Hassan A Coding Implementation for Creating, Annotating, and Visualizing Complex Biological Knowledge Graphs Using PyBEL Sana Hassan ByteDance Researchers Introduce ProtoReasoning: Enhancing LLM Generalization via Logic-Based Prototypes Sana Hassan Build a Groundedness Verification Tool Using Upstage API and LangChain Sana Hassan A Coding Guide to Build a Production-Ready Asynchronous Python SDK with Rate Limiting, In-Memory Caching, and Authentication Sana Hassan EmbodiedGen: A Scalable 3D World Generator for Realistic Embodied AI Simulations Sana Hassan Texas A&M Researchers Introduce a Two-Phase Machine Learning Method Named ‘ShockCast’ for High-Speed Flow Simulation with Neural Temporal Re-Meshing Sana Hassan Mistral AI Releases Mistral Small 3.2: Enhanced Instruction Following, Reduced Repetition, and Stronger Function Calling for AI Integration Sana Hassan PoE-World + Planner Outperforms Reinforcement Learning RL Baselines in Montezuma’s Revenge with Minimal Demonstration Data Sana Hassan ReVisual-R1: An Open-Source 7B Multimodal Large Language Model (MLLMs) that Achieves Long, Accurate and Thoughtful Reasoning Sana Hassan Why Small Language Models (SLMs) Are Poised to Redefine Agentic AI: Efficiency, Cost, and Practical Deployment Sana Hassan AREAL: Accelerating Large Reasoning Model Training with Fully Asynchronous Reinforcement Learning Sana Hassan Building High-Performance Financial Analytics Pipelines with Polars: Lazy Evaluation, Advanced Expressions, and SQL Integration Sana Hassan OThink-R1: A Dual-Mode Reasoning Framework to Cut Redundant Computation in LLMs Sana Hassan Building AI-Powered Applications Using the Plan → Files → Code Workflow in TinyDev Sana Hassan MemOS: A Memory-Centric Operating System for Evolving and Adaptive Large Language Models Sana Hassan Google AI Unveils a Hybrid AI-Physics Model for Accurate Regional Climate Risk Forecasts with Better Uncertainty Assessment Sana Hassan Run Multiple AI Coding Agents in Parallel with Container-Use from Dagger Sana Hassan How Do LLMs Really Reason? A Framework to Separate Logic from Knowledge Sana Hassan From Text to Action: How Tool-Augmented AI Agents Are Redefining Language Models with Reasoning, Memory, and Autonomy Sana Hassan Meet BioReason: The World’s First Reasoning Model in Biology that Enables AI to Reason about Genomics like a Biology Expert Sana Hassan Darwin Gödel Machine: A Self-Improving AI Agent That Evolves Code Using Foundation Models and Real-World Benchmarks Sana Hassan Salesforce AI Introduces CRMArena-Pro: The First Multi-Turn and Enterprise-Grade Benchmark for LLM Agents Sana Hassan LifelongAgentBench: A Benchmark for Evaluating Continuous Learning in LLM-Based Agents Sana Hassan Mistral AI Introduces Codestral Embed: A High-Performance Code Embedding Model for Scalable Retrieval and Semantic Understanding Sana Hassan Off-Policy Reinforcement Learning RL with KL Divergence Yields Superior Reasoning in Large Language Models Sana Hassan This AI Paper from Microsoft Introduces WINA: A Training-Free Sparse Activation Framework for Efficient Large Language Model Inference Sana Hassan Apple and Duke Researchers Present a Reinforcement Learning Approach That Enables LLMs to Provide Intermediate Answers, Enhancing Speed and Accuracy Sana Hassan National University of Singapore Researchers Introduce Dimple: A Discrete Diffusion Multimodal Language Model for Efficient and Controllable Text Generation Sana Hassan LLMs Can Now Reason Beyond Language: Researchers Introduce Soft Thinking to Replace Discrete Tokens with Continuous Concept Embeddings Sana Hassan Researchers at UT Austin Introduce Panda: A Foundation Model for Nonlinear Dynamics Pretrained on 20,000 Chaotic ODE Discovered via Evolutionary Search Sana Hassan Microsoft Releases NLWeb: An Open Project that Allows Developers to Easily Turn Any Website into an AI-Powered App with Natural Language Interfaces Sana Hassan Optimizing Assembly Code with LLMs: Reinforcement Learning Outperforms Traditional Compilers Sana Hassan Evaluating Enterprise-Grade AI Assistants: A Benchmark for Complex, Voice-Driven Workflows Sana Hassan Beyond Aha Moments: Structuring Reasoning in Large Language Models Sana Hassan RXTX: A Machine Learning-Guided Algorithm for Efficient Structured Matrix Multiplication Sana Hassan From Protocol to Production: How Model Context Protocol (MCP) Gateways Enable Secure, Scalable, and Seamless AI Integrations Across Enterprises Sana Hassan Researchers from Renmin University and Huawei Propose MemEngine: A Unified Modular AI Library for Customizing Memory in LLM-Based Agents Sana Hassan Meta Introduces KernelLLM: An 8B LLM that Translates PyTorch Modules into Efficient Triton GPU Kernels Sana Hassan Omni-R1: Advancing Audio Question Answering with Text-Driven Reinforcement Learning and Auto-Generated Data Sana Hassan Reinforcement Learning Makes LLMs Search-Savvy: Ant Group Researchers Introduce SEM to Optimize Tool Usage and Reasoning Efficiency Sana Hassan SWE-Bench Performance Reaches 50.8% Without Tool Use: A Case for Monolithic State-in-Context Agents Sana Hassan This AI paper from DeepSeek-AI Explores How DeepSeek-V3 Delivers High-Performance Language Modeling by Minimizing Hardware Overhead and Maximizing Computational Efficiency Sana Hassan Meet LangGraph Multi-Agent Swarm: A Python Library for Creating Swarm-Style Multi-Agent Systems Using LangGraph Sana Hassan ByteDance Introduces Seed1.5-VL: A Vision-Language Foundation Model Designed to Advance General-Purpose Multimodal Understanding and Reasoning Sana Hassan Researchers from Tsinghua and ModelBest Release Ultra-FineWeb: A Trillion-Token Dataset Enhancing LLM Accuracy Across Benchmarks Sana Hassan Coding Agents See 75% Surge: SimilarWeb’s AI Usage Report Highlights the Sectors Winning and Losing in 2025’s Generative AI Boom Sana Hassan Rethinking Toxic Data in LLM Pretraining: A Co-Design Approach for Improved Steerability and Detoxification Sana Hassan A Step-by-Step Guide on Building, Customizing, and Publishing an AI-Focused Blogging Website with Lovable.dev and Seamless GitHub Integration Sana Hassan NVIDIA AI Introduces Audio-SDS: A Unified Diffusion-Based Framework for Prompt-Guided Audio Synthesis and Source Separation without Specialized Datasets Sana Hassan Tencent Released PrimitiveAnything: A New AI Framework That Reconstructs 3D Shapes Using Auto-Regressive Primitive Generation Sana Hassan Microsoft Researchers Introduce ARTIST: A Reinforcement Learning Framework That Equips LLMs with Agentic Reasoning and Dynamic Tool Use Sana Hassan A Deep Technical Dive into Next-Generation Interoperability Protocols: Model Context Protocol (MCP), Agent Communication Protocol (ACP), Agent-to-Agent Protocol (A2A), and Agent Network Protocol (ANP) Sana Hassan Ming-Lite-Uni: An Open-Source AI Framework Designed to Unify Text and Vision through an Autoregressive Multimodal Structure Sana Hassan Multimodal LLMs Without Compromise: Researchers from UCLA, UW–Madison, and Adobe Introduce X-Fusion to Add Vision to Frozen Language Models Without Losing Language Capabilities Sana Hassan NVIDIA Open-Sources Open Code Reasoning Models (32B, 14B, 7B) Sana Hassan Is Automated Hallucination Detection in LLMs Feasible? A Theoretical and Empirical Investigation Sana Hassan Google Releases 76-Page Whitepaper on AI Agents: A Deep Technical Dive into Agentic RAG, Evaluation Frameworks, and Real-World Architectures Sana Hassan How AI Agents Store, Forget, and Retrieve? A Fresh Look at Memory Operations for the Next-Gen LLMs Sana Hassan 8 Comprehensive Open-Source and Hosted Solutions to Seamlessly Convert Any API into AI-Ready MCP Servers Sana Hassan How the Model Context Protocol (MCP) Standardizes, Simplifies, and Future-Proofs AI Agent Tool Calling Across Models for Scalable, Secure, Interoperable Workflows Traditional Approaches to AI–Tool Integration Sana Hassan Multimodal Queries Require Multimodal RAG: Researchers from KAIST and DeepAuto.ai Propose UniversalRAG—A New Framework That Dynamically Routes Across Modalities and Granularities for Accurate and Efficient Retrieval-Augmented Generation Sana Hassan Google Researchers Advance Diagnostic AI: AMIE Now Matches or Outperforms Primary Care Physicians Using Multimodal Reasoning with Gemini 2.0 Flash Sana Hassan LLMs Can Learn Complex Math from Just One Example: Researchers from University of Washington, Microsoft, and USC Unlock the Power of 1-Shot Reinforcement Learning with Verifiable Reward Sana Hassan Building the Internet of Agents: A Technical Dive into AI Agent Protocols and Their Role in Scalable Intelligence Systems Sana Hassan Meta AI Introduces First Version of Its Llama 4-Powered AI App: A Standalone AI Assistant to Rival ChatGPT Sana Hassan Exploring the Sparse Frontier: How Researchers from Edinburgh, Cohere, and Meta Are Rethinking Attention Mechanisms for Long-Context LLMs Sana Hassan Can Coding Agents Improve Themselves? Researchers from University of Bristol and iGent AI Propose SICA (Self-Improving Coding Agent) that Iteratively Enhances Its Own Code and Performance Sana Hassan UniME: A Two-Stage Framework for Enhancing Multimodal Representation Learning with MLLMs Sana Hassan ViSMaP: Unsupervised Summarization of Hour-Long Videos Using Meta-Prompting and Short-Form Datasets Sana Hassan Tiny Models, Big Reasoning Gains: USC Researchers Introduce Tina for Cost-Effective Reinforcement Learning with LoRA Sana Hassan Microsoft Releases a Comprehensive Guide to Failure Modes in Agentic AI Systems Sana Hassan This AI Paper from China Proposes a Novel Training-Free Approach DEER that Allows Large Reasoning Language Models to Achieve Dynamic Early Exit in Reasoning Sana Hassan AgentA/B: A Scalable AI System Using LLM Agents that Simulate Real User Behavior to Transform Traditional A/B Testing on Live Web Platforms Sana Hassan Skywork AI Advances Multimodal Reasoning: Introducing Skywork R1V2 with Hybrid Reinforcement Learning Sana Hassan Microsoft Research Introduces MMInference to Accelerate Pre-filling for Long-Context Vision-Language Models Sana Hassan Meet Rowboat: An Open-Source IDE for Building Complex Multi-Agent Systems Sana Hassan A New Citibank Report/Guide Shares How Agentic AI Will Reshape Finance with Autonomous Analysis and Intelligent Automation Sana Hassan Sequential-NIAH: A Benchmark for Evaluating LLMs in Extracting Sequential Information from Long Texts Sana Hassan LLMs Can Now Learn without Labels: Researchers from Tsinghua University and Shanghai AI Lab Introduce Test-Time Reinforcement Learning (TTRL) to Enable Self-Evolving Language Models Using Unlabeled Data Sana Hassan Meet VoltAgent: A TypeScript AI Framework for Building and Orchestrating Scalable AI Agents Sana Hassan Decoupled Diffusion Transformers: Accelerating High-Fidelity Image Generation via Semantic-Detail Separation and Encoder Sharing Sana Hassan A Code Implementation of a Real‑Time In‑Memory Sensor Alert Pipeline in Google Colab with FastStream, RabbitMQ, TestRabbitBroker, Pydantic Sana Hassan LLMs Still Struggle to Cite Medical Sources Reliably: Stanford Researchers Introduce SourceCheckup to Audit Factual Support in AI-Generated Responses Sana Hassan Stanford Researchers Propose FramePack: A Compression-based AI Framework to Tackle Drifting and Forgetting in Long-Sequence Video Generation Using Efficient Context Management and Sampling Sana Hassan LLMs Can Be Misled by Surprising Data: Google DeepMind Introduces New Techniques to Predict and Reduce Unintended Knowledge Contamination Sana Hassan LLMs Can Now Learn to Try Again: Researchers from Menlo Introduce ReZero, a Reinforcement Learning Framework That Rewards Query Retrying to Improve Search-Based Reasoning in RAG Systems Sana Hassan Model Context Protocol (MCP) vs Function Calling: A Deep Dive into AI Integration Architectures Sana Hassan Google Unveils Gemini 2.5 Flash in Preview through the Gemini API via Google AI Studio and Vertex AI. Sana Hassan Do Reasoning Models Really Need Transformers?: Researchers from TogetherAI, Cornell, Geneva, and Princeton Introduce M1—A Hybrid Mamba-Based AI that Matches SOTA Performance at 3x Inference Speed Sana Hassan Do We Still Need Complex Vision-Language Pipelines? Researchers from ByteDance and WHU Introduce Pixel-SAIL—A Single Transformer Model for Pixel-Level Understanding That Outperforms 7B MLLMs Sana Hassan Biophysical Brain Models Get a 2000× Speed Boost: Researchers from NUS, UPenn, and UPF Introduce DELSSOME to Replace Numerical Integration with Deep Learning Without Sacrificing Accuracy Sana Hassan SyncSDE: A Probabilistic Framework for Task-Adaptive Diffusion Synchronization in Collaborative Generation Sana Hassan Transformers Can Now Predict Spreadsheet Cells without Fine-Tuning: Researchers Introduce TabPFN Trained on 100 Million Synthetic Datasets Sana Hassan A Coding Guide to Build a Finance Analytics Tool for Extracting Yahoo Finance Data, Computing Financial Analysis, and Creating Custom PDF Reports Sana Hassan Traditional RAG Frameworks Fall Short: Megagon Labs Introduces ‘Insight-RAG’, a Novel AI Method Enhancing Retrieval-Augmented Generation through Intermediate Insight Extraction Sana Hassan Google AI Introduce the Articulate Medical Intelligence Explorer (AMIE): A Large Language Model Optimized for Diagnostic Reasoning, and Evaluate its Ability to Generate a Differential Diagnosis Sana Hassan Moonsight AI Released Kimi-VL: A Compact and Powerful Vision-Language Model Series Redefining Multimodal Reasoning, Long-Context Understanding, and High-Resolution Visual Processing Sana Hassan Balancing Accuracy and Efficiency in Language Models: A Two-Phase RL Post-Training Approach for Concise Reasoning Sana Hassan RoR-Bench: Revealing Recitation Over Reasoning in Large Language Models Through Subtle Context Shifts Sana Hassan T* and LV-Haystack: A Spatially-Guided Temporal Search Framework for Efficient Long-Form Video Understanding Sana Hassan Unveiling Attention Sinks: The Functional Role of First-Token Focus in Stabilizing Large Language Models Sana Hassan RARE (Retrieval-Augmented Reasoning Modeling): A Scalable AI Framework for Domain-Specific Reasoning in Lightweight Language Models Sana Hassan Scalable and Principled Reward Modeling for LLMs: Enhancing Generalist Reward Models RMs with SPCT and Inference-Time Optimization Sana Hassan Reducto AI Released RolmOCR: A SoTA OCR Model Built on Qwen 2.5 VL, Fully Open-Source and Apache 2.0 Licensed for Advanced Document Understanding Sana Hassan Scalable Reinforcement Learning with Verifiable Rewards: Generative Reward Modeling for Unstructured, Multi-Domain Tasks Sana Hassan Meet GenSpark Super Agent: The All-in-One AI Agent that Autonomously Think, Plan, Act, and Use Tools to Handle All Your Everyday Tasks Sana Hassan UB-Mesh: A Cost-Efficient, Scalable Network Architecture for Large-Scale LLM Training Sana Hassan Advancing Vision-Language Reward Models: Challenges, Benchmarks, and the Role of Process-Supervised Learning Sana Hassan Enhancing Strategic Decision-Making in Gomoku Using Large Language Models and Reinforcement Learning Sana Hassan Mitigating Hallucinations in Large Vision-Language Models: A Latent Space Steering Approach Sana Hassan A Comprehensive Guide to LLM Routing: Tools and Frameworks Sana Hassan Understanding AI Agent Memory: Building Blocks for Intelligent Systems Sana Hassan Advancing Medical Reasoning with Reinforcement Learning from Verifiable Rewards (RLVR): Insights from MED-RLVR Sana Hassan Efficient Inference-Time Scaling for Flow Models: Enhancing Sampling Diversity and Compute Allocation Sana Hassan UCLA Researchers Released OpenVLThinker-7B: A Reinforcement Learning Driven Model for Enhancing Complex Visual Reasoning and Step-by-Step Problem Solving in Multimodal Systems Sana Hassan Vision-R1: Redefining Reinforcement Learning for Large Vision-Language Models Sana Hassan Understanding and Mitigating Failure Modes in LLM-Based Multi-Agent Systems Sana Hassan RWKV-7: Advancing Recurrent Neural Networks for Efficient Sequence Modeling Sana Hassan Lyra: A Computationally Efficient Subquadratic Architecture for Biological Sequence Modeling Sana Hassan Fin-R1: A Specialized Large Language Model for Financial Reasoning and Decision-Making Sana Hassan Microsoft AI Releases RD-Agent: An AI-Driven Tool for Performing R&D with LLM-based Agents Sana Hassan KBLAM: Efficient Knowledge Base Augmentation for Large Language Models Without Retrieval Overhead Sana Hassan MemQ: Enhancing Knowledge Graph Question Answering with Memory-Augmented Query Reconstruction Sana Hassan VisualWebInstruct: A Large-Scale Multimodal Reasoning Dataset for Enhancing Vision-Language Models Sana Hassan Groundlight Research Team Released an Open-Source AI Framework that Makes It Easy to Build Visual Reasoning Agents (with GRPO) Sana Hassan Dynamic Tanh DyT: A Simplified Alternative to Normalization in Transformers Sana Hassan Optimizing Test-Time Compute for LLMs: A Meta-Reinforcement Learning Approach with Cumulative Regret Minimization Sana Hassan MMR1-Math-v0-7B Model and MMR1-Math-RL-Data-v0 Dataset Released: New State of the Art Benchmark in Efficient Multimodal Mathematical Reasoning with Minimal Data Sana Hassan Google AI Introduces Gemini Embedding: A Novel Embedding Model Initialized from the Powerful Gemini Large Language Model Sana Hassan Enhancing LLM Reasoning with Multi-Attempt Reinforcement Learning Sana Hassan What if You Could Control How Long a Reasoning Model “Thinks”? CMU Researchers Introduce L1-1.5B: Reinforcement Learning Optimizes AI Thought Process Sana Hassan Google AI Introduces Differentiable Logic Cellular Automata (DiffLogic CA): A Differentiable Logic Approach to Neural Cellular Automata Sana Hassan Evaluating Brain Alignment in Large Language Models: Insights into Linguistic Competence and Neural Representations Sana Hassan Salesforce AI Proposes ViUniT (Visual Unit Testing): An AI Framework to Improve the Reliability of Visual Programs by Automatically Generating Unit Tests by Leveraging LLMs and Diffusion Models Sana Hassan Microsoft AI Introduces Belief State Transformer (BST): Enhancing Goal-Conditioned Sequence Modeling with Bidirectional Context Sana Hassan Meta AI Introduces Brain2Qwerty: Advancing Non-Invasive Sentence Decoding with MEG and Deep Learning",
+        "full_article_text_chars": 35069,
+        "enrichment_status": "strong",
+        "source_url": "https://www.marktechpost.com",
+        "source_published_at": "2026-06-08T18:57:19Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 5.0,
+        "trusted_references": [
+          {
+            "title": "Full Codes with Notebook",
+            "url": "https://github.com/MARKTECHPOST-AI-MEDIA-INC/AI-Agents-Projects-Tutorials/blob/main/Security/clawhub_security_signals_verdict_classification_marktechpost.py"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (97 words; minimum 700)",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 65.26,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-09T13:37:19Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-09T13:22:19",
+      "candidate_failure_count": 1
     },
     {
       "id": "eb68748d84565853",
@@ -6967,7 +7033,68 @@
       "content_preview_chars": 8220,
       "content_fetched_at": "2026-06-08T23:57:27",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-09T13:23:12",
+      "suggested_category": "AI-Tools",
+      "selection_reason": "category rotation newest fresh article: AI-Tools",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-09T13:23:12",
+      "ai_input_package": {
+        "title": "Xiaomi MiMo and TileRT Push a 1-Trillion-Parameter Model Past 1000 Tokens Per Second on Commodity GPUs",
+        "url": "https://www.marktechpost.com/2026/06/08/xiaomi-mimo-and-tilert-push-a-1-trillion-parameter-model-past-1000-tokens-per-second-on-commodity-gpus",
+        "source_name": "MarkTechPost",
+        "suggested_category": "AI-Tools",
+        "main_image": "https://www.marktechpost.com/wp-content/uploads/2026/06/blog15-2-1024x731.png",
+        "article_images": [
+          {
+            "url": "https://www.marktechpost.com/wp-content/uploads/2026/06/blog15-2-1024x731.png",
+            "alt": "Xiaomi MiMo and TileRT Push a 1-Trillion-Parameter Model Past 1000 Tokens Per Second on Commodity GPUs",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.marktechpost.com/wp-content/uploads/2026/06/Screenshot-2026-06-05-at-3.40.16-AM.png",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Xiaomi MiMo-V2.5-Pro-UltraSpeed decodes past 1000 tokens per second on commodity GPUs using FP4 quantization and DFlash speculative decoding.",
+        "content_preview": "Inference speed is becoming a competitive metric for large language models. Xiaomi’s MiMo team just released MiMo-V2.5-Pro-UltraSpeed, built in collaboration with the TileRT systems group. It decodes faster than 1000 tokens per second on a 1-trillion-parameter model. Xiaomi team describes this as a first at trillion-parameter scale. Demos show generation peaks near 1200 tokens per second. The notable part is the hardware: it runs on commodity GPUs, not custom silicon. What is MiMo-V2.5-Pro-UltraSpeed UltraSpeed is a high-speed serving mode for the existing MiMo-V2.5-Pro model. The base model uses a Mixture-of-Experts (MoE) architecture at trillion-parameter scale. UltraSpeed targets generation speed rather than model capability. It changes how fast the model produces output tokens. The speedup comes from three coordinated techniques across the model and the serving system. Xiaomi calls this approach extreme model-system codesign. Crucially, the entire stack runs on a single standard 8-GPU commodity node. The Speed Case: Three Layers Working Together The first layer is FP4 quantization. At trillion scale, FP8 or FP16 weights create heavy memory and bandwidth pressure. Lower bit-width weights move through memory faster, which directly lifts decode speed. Xiaomi uses the MXFP4 format, applied selectively to the MoE Experts only. Other modules keep higher precision, reported as FP8 by TileRT. Experts hold most parameters and tolerate quantization best, so the tradeoff is favorable. Quantization-Aware Training (QAT) keeps benchmark quality essentially on par with the original. The second layer is DFlash speculative decoding, covered in detail below. The third layer is TileRT, the system that executes everything on the GPU. Each technique alone is not enough. The 1000 TPS result needs all three aligned tightly. DFlash: Parallel Drafting Without a Serial Bottleneck Standard speculative decoding uses a small draft model to guess upcoming tokens. The large model then verifies those guesses in parallel. Rejection sampling keeps output identical to normal decoding, so quality is lossless. The problem is that the draft model still generates tokens one at a time. DFlash, a method from the research community, removes that constraint. It uses block-level masked parallel prediction. The draft model fills a whole block of masked positions in one forward pass. Xiaomi tuned DFlash with the Muon second-order optimizer and model self-distillation. The draft model uses Sliding Window Attention (SWA) only, matching the MiMo-V2 design. This makes per-prediction compute constant rather than growing with context length. Block size is capped at 8 to limit verification cost and raise concurrency. Acceptance length measures how many draft tokens survive verification each round. In coding, six to seven of eight draft tokens are accepted per round. Some samples reach a maximum of 7.14. TileRT: Squeezing the Microseconds At 1000 TPS, each operator runs for only microseconds. Traditional systems launch operators one by one, and each launch costs time. Those gaps fracture the execution stream and become the real bottleneck. TileRT replaces this with a Persistent Engine Kernel that stays resident on the GPU. It uses Warp Specialization to split data movement, compute, and communication into coordinated roles. Small operations like RMSNorm, RoPE, and KV cache writes turn into bottlenecks at this scale. The system was co-designed with the FP4 and DFlash choices, not added afterward. The release targets latency-sensitive work where waiting breaks the loop: Parallel reasoning: run many Best-of-N or tree-search paths within the same wall-clock time. Coding agents: faster code generation cuts the wait between agent steps. Real-time decision loops: trading signal generation, fraud interception, and live dialogue. Interactive prototyping: demos show a Snake game in about 10 seconds and a macOS interface in about one minute. These are throughput-bound workloads where raw token speed is the binding constraint. The first table contrasts the two routes to extreme decode speed. How speed is achieved Wafer-Scale integration (custom) Scale on a single custom wafer Model-system codesign: FP4 + DFlash + TileRT The second table compares the standard model with the UltraSpeed mode. MiMo-V2.5-Pro-UltraSpeed API only, application-based trial Access, Pricing, and Open Source UltraSpeed ships through a limited, application-based window. The API trial runs June 9 to June 23, 2026. Pricing is 3× the standard MiMo-V2.5-Pro rate, for roughly 10× the speed. It is API only, and the Token Plan is not supported. Approved users also receive free Chat access during the trial. Chat limits apply: 10 queue entries daily, 30-minute sessions, and 5-minute idle release. Xiaomi open-sourced the MiMo-V2.5-Pro-FP4-DFlash checkpoint on Hugging Face . TileRT has open-sourced select modules on GitHub. Strengths and Limitations 1000+ TPS on a 1T model without custom silicon. Lossless decoding through rejection sampling in DFlash. FP4 applied only where tolerance is highest, preserving quality. An open checkpoint lets the community test the claims. Access is gated, short, and approval-based at launch. Pricing triples per token versus the standard model. Acceptance length drops in open-ended conversation. Independent third-party speed verification is not yet public. Xiaomi MiMo and TileRT decode a 1-trillion-parameter model past 1000 tokens per second on commodity GPUs. The speedup comes from three layers: FP4 quantization, DFlash speculative decoding, and the TileRT runtime. FP4 (MXFP4) is applied only to MoE Experts; QAT keeps capability essentially on par. DFlash predicts a whole masked block per forward pass, hitting 6.30 average acceptance length in coding. UltraSpeed runs on a single 8-GPU node via an application-based API trial, June 9–23, 2026. Marktechpost’s Visual Explainer MiMo-V2.5-Pro-UltraSpeed: 1000+ Tokens Per Second on a 1T Model Xiaomi MiMo & TileRT — FP4 quantization, DFlash speculative decoding, and a microsecond-scale runtime. Xiaomi’s MiMo team built it with the TileRT systems group. It decodes over 1000 tokens/s on a 1-trillion-parameter model. Demos show generation peaks near 1200 tokens/s. It runs on commodity GPUs, a single standard 8-GPU node. Three Layers Working Together FP4 quantization shrinks weights and eases bandwidth pressure. DFlash speculative decoding predicts many tokens in parallel. TileRT executes the whole pipeline at microsecond scale. Xiaomi calls this approach extreme model-system codesign. No single technique is enough; all three must align. Layer 1 — FP4 Quantization Uses the MXFP4 format to lower memory and bandwidth cost. Applied selectively to the MoE Experts only. Other modules keep higher precision (FP8, per TileRT). Experts hold most parameters and tolerate quantization best. QAT keeps capability essentially on par with the original. Layer 2 — DFlash Speculative Decoding A research-community method using block-level masked parallel prediction. The draft model fills a whole block in one forward pass. It uses Sliding Window Attention; block size capped at 8. Rejection sampling keeps the output lossless. Layer 3 — TileRT Runtime At 1000 TPS, each operator runs for only microseconds. A Persistent Engine Kernel stays resident on the GPU. Warp Specialization splits data movement, compute, and communication. Small ops like RMSNorm and RoPE become bottlenecks here. The runtime was co-designed with the FP4 and DFlash choices. Parallel reasoning: many Best-of-N or tree-search paths at once. Coding agents: less wait between agent steps. Real-time loops: trading signals, fraud interception, live dialogue. Interactive prototyping: a Snake game in about 10 seconds. Standard vs UltraSpeed Access, Pricing & Open Source API trial runs June 9 to June 23, 2026 (Beijing time). Pricing is 3× the standard rate for roughly 10× speed. API only; the Token Plan is not supported. Checkpoint open-sourced: MiMo-V2.5-Pro-FP4-DFlash on Hugging Face. TileRT has open-sourced select modules on GitHub. Need to partner with us for promoting your GitHub Repo OR Hugging Face Page OR Product Release OR Webinar etc.? Connect with us",
+        "content_preview_chars": 8220,
+        "rss_summary": "",
+        "full_article_text": "Inference speed is becoming a competitive metric for large language models. Xiaomi’s MiMo team just released MiMo-V2.5-Pro-UltraSpeed, built in collaboration with the TileRT systems group. It decodes faster than 1000 tokens per second on a 1-trillion-parameter model. Xiaomi team describes this as a first at trillion-parameter scale. Demos show generation peaks near 1200 tokens per second. The notable part is the hardware: it runs on commodity GPUs, not custom silicon. What is MiMo-V2.5-Pro-UltraSpeed UltraSpeed is a high-speed serving mode for the existing MiMo-V2.5-Pro model. The base model uses a Mixture-of-Experts (MoE) architecture at trillion-parameter scale. UltraSpeed targets generation speed rather than model capability. It changes how fast the model produces output tokens. The speedup comes from three coordinated techniques across the model and the serving system. Xiaomi calls this approach extreme model-system codesign. Crucially, the entire stack runs on a single standard 8-GPU commodity node. The Speed Case: Three Layers Working Together The first layer is FP4 quantization. At trillion scale, FP8 or FP16 weights create heavy memory and bandwidth pressure. Lower bit-width weights move through memory faster, which directly lifts decode speed. Xiaomi uses the MXFP4 format, applied selectively to the MoE Experts only. Other modules keep higher precision, reported as FP8 by TileRT. Experts hold most parameters and tolerate quantization best, so the tradeoff is favorable. Quantization-Aware Training (QAT) keeps benchmark quality essentially on par with the original. The second layer is DFlash speculative decoding, covered in detail below. The third layer is TileRT, the system that executes everything on the GPU. Each technique alone is not enough. The 1000 TPS result needs all three aligned tightly. DFlash: Parallel Drafting Without a Serial Bottleneck Standard speculative decoding uses a small draft model to guess upcoming tokens. The large model then verifies those guesses in parallel. Rejection sampling keeps output identical to normal decoding, so quality is lossless. The problem is that the draft model still generates tokens one at a time. DFlash, a method from the research community, removes that constraint. It uses block-level masked parallel prediction. The draft model fills a whole block of masked positions in one forward pass. Xiaomi tuned DFlash with the Muon second-order optimizer and model self-distillation. The draft model uses Sliding Window Attention (SWA) only, matching the MiMo-V2 design. This makes per-prediction compute constant rather than growing with context length. Block size is capped at 8 to limit verification cost and raise concurrency. Acceptance length measures how many draft tokens survive verification each round. In coding, six to seven of eight draft tokens are accepted per round. Some samples reach a maximum of 7.14. TileRT: Squeezing the Microseconds At 1000 TPS, each operator runs for only microseconds. Traditional systems launch operators one by one, and each launch costs time. Those gaps fracture the execution stream and become the real bottleneck. TileRT replaces this with a Persistent Engine Kernel that stays resident on the GPU. It uses Warp Specialization to split data movement, compute, and communication into coordinated roles. Small operations like RMSNorm, RoPE, and KV cache writes turn into bottlenecks at this scale. The system was co-designed with the FP4 and DFlash choices, not added afterward. The release targets latency-sensitive work where waiting breaks the loop: Parallel reasoning: run many Best-of-N or tree-search paths within the same wall-clock time. Coding agents: faster code generation cuts the wait between agent steps. Real-time decision loops: trading signal generation, fraud interception, and live dialogue. Interactive prototyping: demos show a Snake game in about 10 seconds and a macOS interface in about one minute. These are throughput-bound workloads where raw token speed is the binding constraint. The first table contrasts the two routes to extreme decode speed. How speed is achieved Wafer-Scale integration (custom) Scale on a single custom wafer Model-system codesign: FP4 + DFlash + TileRT The second table compares the standard model with the UltraSpeed mode. MiMo-V2.5-Pro-UltraSpeed API only, application-based trial Access, Pricing, and Open Source UltraSpeed ships through a limited, application-based window. The API trial runs June 9 to June 23, 2026. Pricing is 3× the standard MiMo-V2.5-Pro rate, for roughly 10× the speed. It is API only, and the Token Plan is not supported. Approved users also receive free Chat access during the trial. Chat limits apply: 10 queue entries daily, 30-minute sessions, and 5-minute idle release. Xiaomi open-sourced the MiMo-V2.5-Pro-FP4-DFlash checkpoint on Hugging Face . TileRT has open-sourced select modules on GitHub. Strengths and Limitations 1000+ TPS on a 1T model without custom silicon. Lossless decoding through rejection sampling in DFlash. FP4 applied only where tolerance is highest, preserving quality. An open checkpoint lets the community test the claims. Access is gated, short, and approval-based at launch. Pricing triples per token versus the standard model. Acceptance length drops in open-ended conversation. Independent third-party speed verification is not yet public. Xiaomi MiMo and TileRT decode a 1-trillion-parameter model past 1000 tokens per second on commodity GPUs. The speedup comes from three layers: FP4 quantization, DFlash speculative decoding, and the TileRT runtime. FP4 (MXFP4) is applied only to MoE Experts; QAT keeps capability essentially on par. DFlash predicts a whole masked block per forward pass, hitting 6.30 average acceptance length in coding. UltraSpeed runs on a single 8-GPU node via an application-based API trial, June 9–23, 2026. Marktechpost’s Visual Explainer MiMo-V2.5-Pro-UltraSpeed: 1000+ Tokens Per Second on a 1T Model Xiaomi MiMo & TileRT — FP4 quantization, DFlash speculative decoding, and a microsecond-scale runtime. Xiaomi’s MiMo team built it with the TileRT systems group. It decodes over 1000 tokens/s on a 1-trillion-parameter model. Demos show generation peaks near 1200 tokens/s. It runs on commodity GPUs, a single standard 8-GPU node. Three Layers Working Together FP4 quantization shrinks weights and eases bandwidth pressure. DFlash speculative decoding predicts many tokens in parallel. TileRT executes the whole pipeline at microsecond scale. Xiaomi calls this approach extreme model-system codesign. No single technique is enough; all three must align. Layer 1 — FP4 Quantization Uses the MXFP4 format to lower memory and bandwidth cost. Applied selectively to the MoE Experts only. Other modules keep higher precision (FP8, per TileRT). Experts hold most parameters and tolerate quantization best. QAT keeps capability essentially on par with the original. Layer 2 — DFlash Speculative Decoding A research-community method using block-level masked parallel prediction. The draft model fills a whole block in one forward pass. It uses Sliding Window Attention; block size capped at 8. Rejection sampling keeps the output lossless. Layer 3 — TileRT Runtime At 1000 TPS, each operator runs for only microseconds. A Persistent Engine Kernel stays resident on the GPU. Warp Specialization splits data movement, compute, and communication. Small ops like RMSNorm and RoPE become bottlenecks here. The runtime was co-designed with the FP4 and DFlash choices. Parallel reasoning: many Best-of-N or tree-search paths at once. Coding agents: less wait between agent steps. Real-time loops: trading signals, fraud interception, live dialogue. Interactive prototyping: a Snake game in about 10 seconds. Standard vs UltraSpeed Access, Pricing & Open Source API trial runs June 9 to June 23, 2026 (Beijing time). Pricing is 3× the standard rate for roughly 10× speed. API only; the Token Plan is not supported. Checkpoint open-sourced: MiMo-V2.5-Pro-FP4-DFlash on Hugging Face. TileRT has open-sourced select modules on GitHub. Need to partner with us for promoting your GitHub Repo OR Hugging Face Page OR Product Release OR Webinar etc.? Connect with us",
+        "full_article_text_chars": 8220,
+        "enrichment_status": "strong",
+        "source_url": "https://www.marktechpost.com",
+        "source_published_at": "2026-06-08T16:49:04Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 7.14,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (110 words; minimum 700)",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 13.25,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-09T13:38:26Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-09T13:23:26",
+      "candidate_failure_count": 1
     },
     {
       "id": "490b446a62ff5853",
@@ -8535,12 +8662,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-09T10:24:34",
-      "candidate_retry_after": "2026-06-09T10:39:34Z",
+      "content_fetched_at": "2026-06-09T13:21:13",
+      "candidate_retry_after": "2026-06-09T13:36:13Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-09T10:24:34",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-06-09T13:21:13",
+      "candidate_failure_count": 2
     },
     {
       "id": "512c2899a98440d2",
@@ -8569,12 +8696,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-09T10:24:34",
-      "candidate_retry_after": "2026-06-09T10:39:34Z",
+      "content_fetched_at": "2026-06-09T13:21:13",
+      "candidate_retry_after": "2026-06-09T13:36:13Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-09T10:24:34",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-06-09T13:21:13",
+      "candidate_failure_count": 2
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -8603,12 +8730,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-09T10:24:34",
-      "candidate_retry_after": "2026-06-09T10:39:34Z",
+      "content_fetched_at": "2026-06-09T13:21:13",
+      "candidate_retry_after": "2026-06-09T13:36:13Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-09T10:24:34",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-06-09T13:21:13",
+      "candidate_failure_count": 2
     }
   ],
   "notifications": {
