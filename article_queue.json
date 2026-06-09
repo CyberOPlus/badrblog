@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-09T18:31:44",
+  "updated_at": "2026-06-09T20:29:59",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -1408,12 +1408,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-06-09T18:27:48",
-      "candidate_retry_after": "2026-06-09T18:42:48Z",
+      "content_fetched_at": "2026-06-09T20:25:37",
+      "candidate_retry_after": "2026-06-09T20:40:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-06-09T18:27:48",
-      "candidate_failure_count": 14
+      "candidate_failed_at": "2026-06-09T20:25:37",
+      "candidate_failure_count": 15
     },
     {
       "id": "387079dc0a830ad9",
@@ -2702,11 +2702,11 @@
       "content_fetched_at": "2026-06-08T12:07:12",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-09T10:26:54",
+      "selected_at": "2026-06-09T20:26:44",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-09T10:26:54",
+      "processing_prepared_at": "2026-06-09T20:26:44",
       "ai_input_package": {
         "title": "Silent Ransom Group Uses DNS Fast Flux in Attacks",
         "url": "https://www.securityweek.com/silent-ransom-group-uses-dns-fast-flux-in-attacks",
@@ -2749,20 +2749,20 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "Missing AI output field(s): slug",
-      "ai_rotation_exhausted": false,
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 82.1,
-      "ai_quality_status": "failed_after_retries",
+      "ai_total_time_seconds": 97.36,
+      "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-09T10:43:17Z",
+      "candidate_retry_after": "2026-06-09T20:43:22Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "Missing AI output field(s): slug",
-      "candidate_failed_at": "2026-06-09T10:28:17",
-      "candidate_failure_count": 2,
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-09T20:28:22",
+      "candidate_failure_count": 3,
       "telegram_final_summary_notified_at": "2026-06-08T22:51:23"
     },
     {
@@ -2843,11 +2843,11 @@
       "content_fetched_at": "2026-06-08T12:07:14",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-08T22:51:15",
+      "selected_at": "2026-06-09T20:29:18",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-08T22:51:15",
+      "processing_prepared_at": "2026-06-09T20:29:18",
       "ai_input_package": {
         "title": "OpenAI Rolling Out ChatGPT Account Security Controls",
         "url": "https://www.securityweek.com/openai-rolling-out-chatgpt-account-security-controls",
@@ -2899,14 +2899,15 @@
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 4.11,
+      "ai_total_time_seconds": 40.77,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-06-08T23:06:20Z",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-09T20:44:59Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-06-08T22:51:20",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-06-09T20:29:59",
+      "candidate_failure_count": 2,
+      "ai_quality_last_error": "article older than 24 hours"
     },
     {
       "id": "417932b810466aba",
@@ -3434,12 +3435,12 @@
       "removed_source_links_count": 82,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-09T18:27:49",
-      "candidate_retry_after": "2026-06-09T18:42:49Z",
+      "content_fetched_at": "2026-06-09T20:25:38",
+      "candidate_retry_after": "2026-06-09T20:40:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-09T18:27:49",
-      "candidate_failure_count": 12
+      "candidate_failed_at": "2026-06-09T20:25:38",
+      "candidate_failure_count": 13
     },
     {
       "id": "561b6316398d7603",
@@ -4422,12 +4423,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-06-09T18:27:49",
-      "candidate_retry_after": "2026-06-09T18:42:49Z",
+      "content_fetched_at": "2026-06-09T20:25:39",
+      "candidate_retry_after": "2026-06-09T20:40:39Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-06-09T18:27:49",
-      "candidate_failure_count": 11
+      "candidate_failed_at": "2026-06-09T20:25:39",
+      "candidate_failure_count": 12
     },
     {
       "id": "c1354558130eaeb3",
@@ -5506,12 +5507,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-09T18:27:50",
-      "candidate_retry_after": "2026-06-09T18:42:50Z",
+      "content_fetched_at": "2026-06-09T20:25:40",
+      "candidate_retry_after": "2026-06-09T20:40:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-09T18:27:50",
-      "candidate_failure_count": 10
+      "candidate_failed_at": "2026-06-09T20:25:40",
+      "candidate_failure_count": 11
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -6386,11 +6387,11 @@
       "content_fetched_at": "2026-06-08T22:47:46",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-09T10:24:34",
+      "selected_at": "2026-06-09T20:25:48",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-09T10:24:34",
+      "processing_prepared_at": "2026-06-09T20:25:48",
       "ai_input_package": {
         "title": "New China-Linked Threat Cluster OP-512 Targets IIS Servers With Cryptographically Unique Web Shell Framework",
         "url": "https://cybersecuritynews.com/new-china-linked-threat-cluster-op-512-targets-iis-servers",
@@ -6446,20 +6447,20 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "article too short (76 words; minimum 700)",
-      "ai_provider_last_error": "504 The request timed out. Please try again.",
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "504 The request timed out. Please try again.",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 139.94,
+      "ai_total_time_seconds": 55.21,
       "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-09T10:41:54Z",
+      "candidate_retry_after": "2026-06-09T20:41:44Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "504 The request timed out. Please try again.",
-      "candidate_failed_at": "2026-06-09T10:26:54",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-09T20:26:44",
+      "candidate_failure_count": 2
     },
     {
       "id": "ea777e72c926241e",
@@ -6752,7 +6753,77 @@
       "content_preview_chars": 4387,
       "content_fetched_at": "2026-06-08T22:47:48",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-09T20:28:22",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-09T20:28:22",
+      "ai_input_package": {
+        "title": "New Linux Kernel Vulnerability Lets Attackers Escalate Privileges to Root",
+        "url": "https://cybersecuritynews.com/linux-kernel-nftables-vulnerability",
+        "source_name": "Cyber Security News",
+        "suggested_category": "Cyber-Security",
+        "main_image": "http://cybersecuritynews.com/wp-content/uploads/2026/06/Linux-Kernel-nftables-Vulnerability.webp",
+        "article_images": [
+          {
+            "url": "http://cybersecuritynews.com/wp-content/uploads/2026/06/Linux-Kernel-nftables-Vulnerability.webp",
+            "alt": "New Linux Kernel Vulnerability Lets Attackers Escalate Privileges to Root",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/06/Linux-Kernel-nftables-Vulnerability-696x392.webp",
+            "alt": "Linux Kernel nftables Vulnerability",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "A use-after-free vulnerability in the Linux kernel's nftables subsystem has been disclosed, enabling unprivileged local attackers to escalate privileges to root on widely deployed distributions including Debian Bookworm, Debian Trixie, Ubuntu 22.04 LTS, and Ubuntu 24.04 LTS.",
+        "content_preview": "A use-after-free vulnerability in the Linux kernel’s nftables subsystem has been disclosed, enabling unprivileged local attackers to escalate privileges to root on widely deployed distributions including Debian Bookworm, Debian Trixie, Ubuntu 22.04 LTS, and Ubuntu 24.04 LTS. Tracked as CVE-2026-23111, the flaw was discovered in early 2025 and patched upstream on February 5, 2026, via a kernel commit . Security researcher Oliver Sieber of Exodus Intelligence published a detailed technical write-up alongside a working exploit demonstrating >99% reliability on idle systems. The bug originates in the nft_map_catchall_activate() function within the nftables subsystem — a packet filtering framework built on top of Linux’s Netfilter hooks. Specifically, a single inverted conditional check (a misplaced ! operator) causes the function to incorrectly skip inactive catchall elements during the abort process, instead of reactivating them. When a pipapo-backed verdict map containing a catchall element referencing a chain is deleted and a subsequent transaction in the same batch fails, triggering an abort, the catchall element remains incorrectly inactive. This leaves the referenced chain’s reference counter at zero, even though a valid reference to that chain still exists. An attacker can then delete the chain while a dangling pointer remains in a base chain rule, triggering the use-after-free condition. Linux Kernel use-after-free Vulnerability The exploit chains four transaction batches to manipulate nftables’ generational cursor mechanism: Batch 1: Delete the pipapo set, then force an error to trigger the abort — causing the chain reference counter to decrement incorrectly Batch 2: Send a benign transaction to toggle the generation cursor Batch 3: Delete the pipapo set cleanly, driving the chain’s reference counter to zero Batch 4: Delete the chain while the base chain retains a live rule referencing it From there, the exploit performs KASLR defeat by reclaiming the freed kmalloc-cg-32 slab with a seq_operations structure (populated via open(\"/proc/self/stat\") ), leaking kernel function pointers through an NFT_MSG_GETRULE request. Heap addresses are subsequently leaked by reclaiming freed kmalloc-cg-192 objects with crafted nft_rule structures whose linked-list pointers are exfiltrated the same way. Control flow hijacking is achieved by overwriting the deleted chain’s blob_gen_0 pointer with a fake nft_expr_ops structure pointing to a ROP gadget ( push rbx; pop rsp ). The final ROP chain calls commit_creds(&init_cred) to gain root credentials, then escapes namespace isolation via switch_task_namespaces() , achieving a full container and namespace breakout. On Ubuntu 24.04, namespace creation restrictions enforced via AppArmor can be bypassed using aa-exec -p trinity -- unshare -Urmin /bin/sh prior to exploitation. The exploit achieved >99% stability on idle systems and approximately 80% stability under heavy heap pressure (Apache benchmark via Phoronix Test Suite), making it highly reliable in real-world conditions, Oliver Sieber said . Notably, the same break statement that introduced this flaw also spawned a related bug tracked as CVE-2026-23278, patched separately via a second kernel commit . Administrators should immediately apply the upstream kernel patch (commit f41c5d1 ) or update to a patched kernel release provided by their distribution. On Ubuntu systems, restricting unprivileged user namespace creation via kernel.unprivileged_userns_clone=0 provides a partial mitigation where policy permits. Critical StrongDM Vulnerability Allows Attackers to Steal and Reuse Authentication Chrome Patches 429 Vulnerabilities Including 22 Critical Ones – Update Now! CISA Warns of Linux Kernel Improper Authentication Vulnerability Exploited in Attacks Microsoft Edge Vulnerability Allows Remote Attackers to Execute Arbitrary Code SolyxImmortal Python Malware Steals Browser Passwords, Cookies, Files, and Keystrokes New Pink Hacking Group Attacking Enterprise Users to Steal Cloud Storage Passwords Malspam Attack Uses Google DoubleClick Redirects to Deliver Fileless .NET Loader UNC3753 Attacking US Law Firms Using Vishing and RMM Tools to Exfiltrate Data New Lucid Stealer Targets 18 Browsers, Crypto Wallets, and Discord Tokens With Hidden Remote Access WhatsApp Disrupts NSO-Linked Cyberattack Targeting Users with Pegasus Spyware",
+        "content_preview_chars": 4387,
+        "rss_summary": "",
+        "full_article_text": "A use-after-free vulnerability in the Linux kernel’s nftables subsystem has been disclosed, enabling unprivileged local attackers to escalate privileges to root on widely deployed distributions including Debian Bookworm, Debian Trixie, Ubuntu 22.04 LTS, and Ubuntu 24.04 LTS. Tracked as CVE-2026-23111, the flaw was discovered in early 2025 and patched upstream on February 5, 2026, via a kernel commit . Security researcher Oliver Sieber of Exodus Intelligence published a detailed technical write-up alongside a working exploit demonstrating >99% reliability on idle systems. The bug originates in the nft_map_catchall_activate() function within the nftables subsystem — a packet filtering framework built on top of Linux’s Netfilter hooks. Specifically, a single inverted conditional check (a misplaced ! operator) causes the function to incorrectly skip inactive catchall elements during the abort process, instead of reactivating them. When a pipapo-backed verdict map containing a catchall element referencing a chain is deleted and a subsequent transaction in the same batch fails, triggering an abort, the catchall element remains incorrectly inactive. This leaves the referenced chain’s reference counter at zero, even though a valid reference to that chain still exists. An attacker can then delete the chain while a dangling pointer remains in a base chain rule, triggering the use-after-free condition. Linux Kernel use-after-free Vulnerability The exploit chains four transaction batches to manipulate nftables’ generational cursor mechanism: Batch 1: Delete the pipapo set, then force an error to trigger the abort — causing the chain reference counter to decrement incorrectly Batch 2: Send a benign transaction to toggle the generation cursor Batch 3: Delete the pipapo set cleanly, driving the chain’s reference counter to zero Batch 4: Delete the chain while the base chain retains a live rule referencing it From there, the exploit performs KASLR defeat by reclaiming the freed kmalloc-cg-32 slab with a seq_operations structure (populated via open(\"/proc/self/stat\") ), leaking kernel function pointers through an NFT_MSG_GETRULE request. Heap addresses are subsequently leaked by reclaiming freed kmalloc-cg-192 objects with crafted nft_rule structures whose linked-list pointers are exfiltrated the same way. Control flow hijacking is achieved by overwriting the deleted chain’s blob_gen_0 pointer with a fake nft_expr_ops structure pointing to a ROP gadget ( push rbx; pop rsp ). The final ROP chain calls commit_creds(&init_cred) to gain root credentials, then escapes namespace isolation via switch_task_namespaces() , achieving a full container and namespace breakout. On Ubuntu 24.04, namespace creation restrictions enforced via AppArmor can be bypassed using aa-exec -p trinity -- unshare -Urmin /bin/sh prior to exploitation. The exploit achieved >99% stability on idle systems and approximately 80% stability under heavy heap pressure (Apache benchmark via Phoronix Test Suite), making it highly reliable in real-world conditions, Oliver Sieber said . Notably, the same break statement that introduced this flaw also spawned a related bug tracked as CVE-2026-23278, patched separately via a second kernel commit . Administrators should immediately apply the upstream kernel patch (commit f41c5d1 ) or update to a patched kernel release provided by their distribution. On Ubuntu systems, restricting unprivileged user namespace creation via kernel.unprivileged_userns_clone=0 provides a partial mitigation where policy permits. Critical StrongDM Vulnerability Allows Attackers to Steal and Reuse Authentication Chrome Patches 429 Vulnerabilities Including 22 Critical Ones – Update Now! CISA Warns of Linux Kernel Improper Authentication Vulnerability Exploited in Attacks Microsoft Edge Vulnerability Allows Remote Attackers to Execute Arbitrary Code SolyxImmortal Python Malware Steals Browser Passwords, Cookies, Files, and Keystrokes New Pink Hacking Group Attacking Enterprise Users to Steal Cloud Storage Passwords Malspam Attack Uses Google DoubleClick Redirects to Deliver Fileless .NET Loader UNC3753 Attacking US Law Firms Using Vishing and RMM Tools to Exfiltrate Data New Lucid Stealer Targets 18 Browsers, Crypto Wallets, and Discord Tokens With Hidden Remote Access WhatsApp Disrupts NSO-Linked Cyberattack Targeting Users with Pegasus Spyware",
+        "full_article_text_chars": 4387,
+        "enrichment_status": "strong",
+        "source_url": "https://cybersecuritynews.com",
+        "source_published_at": "2026-06-08T16:45:41Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 6.03,
+        "trusted_references": [
+          {
+            "title": "accounts.google.com",
+            "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+          },
+          {
+            "title": "news.google.com",
+            "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN%3Aen"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (454 words; minimum 700)",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 54.99,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-09T20:44:18Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-09T20:29:18",
+      "candidate_failure_count": 1
     },
     {
       "id": "7e14b2a878e5aa33",
@@ -6784,12 +6855,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-06-09T18:27:50",
-      "candidate_retry_after": "2026-06-09T18:42:50Z",
+      "content_fetched_at": "2026-06-09T20:25:41",
+      "candidate_retry_after": "2026-06-09T20:40:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-06-09T18:27:50",
-      "candidate_failure_count": 8
+      "candidate_failed_at": "2026-06-09T20:25:41",
+      "candidate_failure_count": 9
     },
     {
       "id": "cc5e99891af35b5e",
@@ -6821,12 +6892,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-06-09T18:27:51",
-      "candidate_retry_after": "2026-06-09T18:42:51Z",
+      "content_fetched_at": "2026-06-09T20:25:41",
+      "candidate_retry_after": "2026-06-09T20:40:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-06-09T18:27:51",
-      "candidate_failure_count": 8
+      "candidate_failed_at": "2026-06-09T20:25:41",
+      "candidate_failure_count": 9
     },
     {
       "id": "a6f4ca9464909855",
@@ -6858,12 +6929,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-06-09T18:27:51",
-      "candidate_retry_after": "2026-06-09T18:42:51Z",
+      "content_fetched_at": "2026-06-09T20:25:42",
+      "candidate_retry_after": "2026-06-09T20:40:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-06-09T18:27:51",
-      "candidate_failure_count": 8
+      "candidate_failed_at": "2026-06-09T20:25:42",
+      "candidate_failure_count": 9
     },
     {
       "id": "66722f50e91993b6",
@@ -8904,12 +8975,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-09T18:27:51",
-      "candidate_retry_after": "2026-06-09T18:42:51Z",
+      "content_fetched_at": "2026-06-09T20:25:42",
+      "candidate_retry_after": "2026-06-09T20:40:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-09T18:27:51",
-      "candidate_failure_count": 4
+      "candidate_failed_at": "2026-06-09T20:25:42",
+      "candidate_failure_count": 5
     },
     {
       "id": "512c2899a98440d2",
@@ -8938,12 +9009,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-09T18:27:51",
-      "candidate_retry_after": "2026-06-09T18:42:51Z",
+      "content_fetched_at": "2026-06-09T20:25:42",
+      "candidate_retry_after": "2026-06-09T20:40:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-09T18:27:51",
-      "candidate_failure_count": 4
+      "candidate_failed_at": "2026-06-09T20:25:42",
+      "candidate_failure_count": 5
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -8972,12 +9043,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-09T18:27:52",
-      "candidate_retry_after": "2026-06-09T18:42:52Z",
+      "content_fetched_at": "2026-06-09T20:25:42",
+      "candidate_retry_after": "2026-06-09T20:40:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-09T18:27:52",
-      "candidate_failure_count": 4
+      "candidate_failed_at": "2026-06-09T20:25:42",
+      "candidate_failure_count": 5
     },
     {
       "id": "d9a0fa48ccc53ccf",
@@ -10098,6 +10169,397 @@
       "content_fetched_at": "2026-06-09T18:28:04",
       "enrichment_status": "weak",
       "content_fetch_status": "success"
+    },
+    {
+      "id": "ee6fd7096b03793e",
+      "source_url_hash": "ee6fd7096b03793e",
+      "canonical_url": "https://www.malwarebytes.com/blog/scams/2026/06/scammers-love-meta-according-to-lloyds-bank",
+      "title_hash": "3a0921c1aa76fb23",
+      "topic_signature": "6bacf07ed3d20e9dade0",
+      "title": "Scammers love Meta, according to Lloyds Bank",
+      "url": "https://www.malwarebytes.com/blog/scams/2026/06/scammers-love-meta-according-to-lloyds-bank",
+      "source_name": "Malwarebytes Blog",
+      "source_url": "https://www.malwarebytes.com/blog",
+      "source_published_at": "2026-06-09T13:02:49Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 7.38,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-09T20:25:24",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 138,
+      "affiliate_links_removed_count": 9,
+      "removed_source_links_count": 138,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Scammers love Meta, according to Lloyds Bank",
+      "meta_description": "Facebook, Instagram, and WhatsApp account for more than two thirds of fraud reports made by Lloyds customers.",
+      "article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/06/meta-glasses.jpg?w=1200",
+          "alt": "Scammers love Meta, according to Lloyds Bank",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/07/Robot_on_the_phone.png?w=1200",
+          "alt": "AI cloned voice call",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/06/meta-glasses.jpg?w=1200",
+      "main_image_source_type": "article_content",
+      "main_image_extraction_method": "article_content",
+      "extra_article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/07/Robot_on_the_phone.png?w=1200",
+          "alt": "AI cloned voice call"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.malwarebytes.com"
+        }
+      ],
+      "full_article_text": "Scammers go phishing wherever the victims are. In the UK, that means Facebook, Instagram, and WhatsApp, according to Lloyds Bank. It just revealed that Meta platforms account for over two thirds of fraud reports made by its customers. Writing in The Sunday Times , Lloyds Bank’s fraud prevention director Liz Ziegler said that 68% of fraud reports from its customers start on a Meta-owned platform. The scams cover everything from fake concert tickets and sporting events to bogus listings for cars, bikes, campervans, mobility vehicles, and rental properties. Lloyds said customers reported losing an estimated £66 million a year after falling victim to scam ads on Meta platforms, up from £27 million in 2023. The victim demographic isn’t who you’d guess. Lloyds says customers in their late twenties and early thirties—supposed digital natives—are reporting scams at the highest rates. Lloyds isn’t alone in calling out the tech giant. In 2023, TSB reported that 80% of losses across its three biggest fraud categories began on Meta platforms. Meta says it’s doing plenty A Meta spokesperson told The Sunday Times the company: “…removed over 159 million scam ads last year alone, 92% of which we took down before anyone reported them”. In October 2024, Meta also launched the Fraud Intelligence Reciprocal Exchange to let UK banks share intelligence directly with the platform. However, a Reuters investigation published in November 2025 reported that internal Meta documents estimated that roughly 10% of the company’s 2024 advertising revenue came from scam ads and ads for banned, illicit or low-quality goods and services. The documents also estimated that users were shown around 15 billion “higher risk” scam ads each day. In March this year, Meta rolled out additional anti-scam tools across WhatsApp, Facebook, and Messenger. The lawyers are circling UK firms Richardson Hartley Law and Humphries Kerstetter are coordinating a group legal claim for victims who lost money after clicking ads on Facebook or Instagram. Scammers’ use of Meta AI has also introduced a new dimension to legal arguments against the company. In the US, a federal judge in California refused to dismiss key claims in Bouck v. Meta and Forrest v. Meta , lawsuits brought by fraud victims who allege that scammers used Meta’s advertising and AI tools to create and optimize fraudulent ads. The plaintiffs argued that made the platform “a genuine co-conspirator in the creation of the offending content.” Meta denies wrongdoing, and the cases are ongoing. Last month, Santa Clara County filed its own suit against Meta, citing leaked internal documents that allegedly show the company earned as much as $7 billion a year from so-called “high-risk” scam ads. The county also alleges that Meta built guardrails to prevent anti-scam measures from reducing advertising revenue too much. Even if social media companies do try their best to quash scam advertisers, they won’t catch them all. So it’s up to you to keep a watchful eye for potential fraudulent activity. Here are some tips: Treat unsolicited social media ads—especially ones promising hard-to-find tickets, eye-watering investment returns, or impossibly cheap goods—as a default-untrustworthy starting point. Research the sellers. What else do they sell on the platform? Do they have an established profile? Pay with a card or service that offers chargeback protection. Never pay by bank transfer, cryptocurrency, gift card, or Friends and Family payment methods when buying from someone you don’t know. Be especially wary when a Facebook or Instagram exchange tries to migrate to WhatsApp. That handoff to a private channel is a classic scammer move, taking the conversation away from public scrutiny and platform enforcement. Remember that seeing an ad on a major platform isn’t an endorsement. Scammers routinely pay to place ads alongside legitimate businesses. Something feel off? Check it before you click. Malwarebytes Scam Guard helps you analyze suspicious links, texts, and screenshots instantly. Available with Malwarebytes Premium Security for all your devices, and in the Malwarebytes app for iOS and Android.",
+      "full_article_text_chars": 4163,
+      "content_preview": "Scammers go phishing wherever the victims are. In the UK, that means Facebook, Instagram, and WhatsApp, according to Lloyds Bank. It just revealed that Meta platforms account for over two thirds of fraud reports made by its customers. Writing in The Sunday Times , Lloyds Bank’s fraud prevention director Liz Ziegler said that 68% of fraud reports from its customers start on a Meta-owned platform. The scams cover everything from fake concert tickets and sporting events to bogus listings for cars, bikes, campervans, mobility vehicles, and rental properties. Lloyds said customers reported losing an estimated £66 million a year after falling victim to scam ads on Meta platforms, up from £27 million in 2023. The victim demographic isn’t who you’d guess. Lloyds says customers in their late twenties and early thirties—supposed digital natives—are reporting scams at the highest rates. Lloyds isn’t alone in calling out the tech giant. In 2023, TSB reported that 80% of losses across its three biggest fraud categories began on Meta platforms. Meta says it’s doing plenty A Meta spokesperson told The Sunday Times the company: “…removed over 159 million scam ads last year alone, 92% of which we took down before anyone reported them”. In October 2024, Meta also launched the Fraud Intelligence Reciprocal Exchange to let UK banks share intelligence directly with the platform. However, a Reuters investigation published in November 2025 reported that internal Meta documents estimated that roughly 10% of the company’s 2024 advertising revenue came from scam ads and ads for banned, illicit or low-quality goods and services. The documents also estimated that users were shown around 15 billion “higher risk” scam ads each day. In March this year, Meta rolled out additional anti-scam tools across WhatsApp, Facebook, and Messenger. The lawyers are circling UK firms Richardson Hartley Law and Humphries Kerstetter are coordinating a group legal claim for victims who lost money after clicking ads on Facebook or Instagram. Scammers’ use of Meta AI has also introduced a new dimension to legal arguments against the company. In the US, a federal judge in California refused to dismiss key claims in Bouck v. Meta and Forrest v. Meta , lawsuits brought by fraud victims who allege that scammers used Meta’s advertising and AI tools to create and optimize fraudulent ads. The plaintiffs argued that made the platform “a genuine co-conspirator in the creation of the offending content.” Meta denies wrongdoing, and the cases are ongoing. Last month, Santa Clara County filed its own suit against Meta, citing leaked internal documents that allegedly show the company earned as much as $7 billion a year from so-called “high-risk” scam ads. The county also alleges that Meta built guardrails to prevent anti-scam measures from reducing advertising revenue too much. Even if social media companies do try their best to quash scam advertisers, they won’t catch them all. So it’s up to you to keep a watchful eye for potential fraudulent activity. Here are some tips: Treat unsolicited social media ads—especially ones promising hard-to-find tickets, eye-watering investment returns, or impossibly cheap goods—as a default-untrustworthy starting point. Research the sellers. What else do they sell on the platform? Do they have an established profile? Pay with a card or service that offers chargeback protection. Never pay by bank transfer, cryptocurrency, gift card, or Friends and Family payment methods when buying from someone you don’t know. Be especially wary when a Facebook or Instagram exchange tries to migrate to WhatsApp. That handoff to a private channel is a classic scammer move, taking the conversation away from public scrutiny and platform enforcement. Remember that seeing an ad on a major platform isn’t an endorsement. Scammers routinely pay to place ads alongside legitimate businesses. Something feel off? Check it before you click. Malwarebytes Scam Guard helps you analyze suspicious links, texts, and screenshots instantly. Available with Malwarebytes Premium Security for all your devices, and in the Malwarebytes app for iOS and Android.",
+      "content_preview_chars": 4163,
+      "content_fetched_at": "2026-06-09T20:25:30",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "2a1882dae53e66b9",
+      "source_url_hash": "2a1882dae53e66b9",
+      "canonical_url": "https://www.malwarebytes.com/blog/bugs/2026/06/update-chrome-google-patches-actively-exploited-vulnerability-and-73-others",
+      "title_hash": "239ccdbecbda7122",
+      "topic_signature": "307c47ae943b1a6066b9",
+      "title": "Update Chrome: Google patches actively exploited vulnerability and 73 others",
+      "url": "https://www.malwarebytes.com/blog/bugs/2026/06/update-chrome-google-patches-actively-exploited-vulnerability-and-73-others",
+      "source_name": "Malwarebytes Blog",
+      "source_url": "https://www.malwarebytes.com/blog",
+      "source_published_at": "2026-06-09T10:50:16Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 9.58,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-09T20:25:24",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 8,
+      "priority": "high",
+      "source_links_removed_count": 136,
+      "affiliate_links_removed_count": 8,
+      "removed_source_links_count": 136,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Update Chrome: Google patches actively exploited vulnerability and 73 others",
+      "meta_description": "Google's latest Chrome update fixes 74 security vulnerabilities, including one under active attack.",
+      "article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2023/11/Chrome-1200.png",
+          "alt": "Update Chrome: Google patches actively exploited vulnerability and 73 others",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/06/meta-glasses.jpg?w=1200",
+          "alt": "Meta Glasses",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/07/Robot_on_the_phone.png?w=1200",
+          "alt": "AI cloned voice call",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2023/11/Chrome-1200.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/06/meta-glasses.jpg?w=1200",
+          "alt": "Meta Glasses"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/07/Robot_on_the_phone.png?w=1200",
+          "alt": "AI cloned voice call"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.malwarebytes.com"
+        },
+        {
+          "title": "CVE-2026-11645",
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-11645"
+        }
+      ],
+      "full_article_text": "Google has issued updates for the Chrome browser, patching a number of high‑severity vulnerabilities. The update includes fixes for 74 vulnerabilities, including one that is being actively exploited in the wild. The stable channel has been updated to 149.0.7827.102/.103 for Windows/Mac, and 149.0.7827.102 for Linux, which will roll out over the coming weeks. How to update Chrome If you don’t want to wait for the rollout to reach you, manually updating is easy. The easiest option is to allow Chrome to update automatically. But you can end up lagging behind on updates if you never close your browser or if something goes wrong, such as an extension preventing the update. To update manually, click the More menu (three dots), then go to Settings > About Chrome . If an update is available, Chrome will start downloading it automatically. Restart Chrome to complete the update, and you’ll be protected against these vulnerabilities. You can also find step-by-step instructions in our guide to how to update Chrome on every operating system. The vulnerability that Google says is being exploited in the wild is tracked as CVE-2026-11645 . “Out of bounds read and write in V8 in Google Chrome prior to 149.0.7827.103 allowed a remote attacker to execute arbitrary code inside a sandbox via a crafted HTML page.” This means this flaw was found in Chrome’s V8 engine—the part of Chrome (and other Chromium-based browsers) that runs JavaScript. Such a flaw allows a program to read or write outside the memory boundaries it is supposed to use, enabling attackers to manipulate other areas of memory allocated to more critical functions. Attackers may be able to place malicious code in memory and trick the system into running it. In this case, the vulnerability could be triggered when V8 processes specially crafted HTML content, such as a malicious website. The phrase “inside a sandbox” means the malicious code would run in a restricted, sealed-off environment rather than directly on your whole computer. An attacker’s code is constrained to the browser, which lowers the impact compared with code running outside the sandbox. However, attackers often chain multiple vulnerabilities together to achieve more serious compromises. So, the phrase is a security limiter, not a reassurance that the bug is harmless. The update also includes some new features, like the ability to sign PDF forms without using an extension. Stop threats before they can do any harm. Malwarebytes Browser Guard blocks phishing pages and malicious sites automatically. Free, one click to install. Add it to your browser →",
+      "full_article_text_chars": 2601,
+      "content_preview": "Google has issued updates for the Chrome browser, patching a number of high‑severity vulnerabilities. The update includes fixes for 74 vulnerabilities, including one that is being actively exploited in the wild. The stable channel has been updated to 149.0.7827.102/.103 for Windows/Mac, and 149.0.7827.102 for Linux, which will roll out over the coming weeks. How to update Chrome If you don’t want to wait for the rollout to reach you, manually updating is easy. The easiest option is to allow Chrome to update automatically. But you can end up lagging behind on updates if you never close your browser or if something goes wrong, such as an extension preventing the update. To update manually, click the More menu (three dots), then go to Settings > About Chrome . If an update is available, Chrome will start downloading it automatically. Restart Chrome to complete the update, and you’ll be protected against these vulnerabilities. You can also find step-by-step instructions in our guide to how to update Chrome on every operating system. The vulnerability that Google says is being exploited in the wild is tracked as CVE-2026-11645 . “Out of bounds read and write in V8 in Google Chrome prior to 149.0.7827.103 allowed a remote attacker to execute arbitrary code inside a sandbox via a crafted HTML page.” This means this flaw was found in Chrome’s V8 engine—the part of Chrome (and other Chromium-based browsers) that runs JavaScript. Such a flaw allows a program to read or write outside the memory boundaries it is supposed to use, enabling attackers to manipulate other areas of memory allocated to more critical functions. Attackers may be able to place malicious code in memory and trick the system into running it. In this case, the vulnerability could be triggered when V8 processes specially crafted HTML content, such as a malicious website. The phrase “inside a sandbox” means the malicious code would run in a restricted, sealed-off environment rather than directly on your whole computer. An attacker’s code is constrained to the browser, which lowers the impact compared with code running outside the sandbox. However, attackers often chain multiple vulnerabilities together to achieve more serious compromises. So, the phrase is a security limiter, not a reassurance that the bug is harmless. The update also includes some new features, like the ability to sign PDF forms without using an extension. Stop threats before they can do any harm. Malwarebytes Browser Guard blocks phishing pages and malicious sites automatically. Free, one click to install. Add it to your browser →",
+      "content_preview_chars": 2601,
+      "content_fetched_at": "2026-06-09T20:25:28",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "1c378cdd2baad56e",
+      "source_url_hash": "1c378cdd2baad56e",
+      "canonical_url": "https://www.malwarebytes.com/blog/scams/2026/06/americans-lost-nearly-900-million-to-ai-powered-scams-fbi-says",
+      "title_hash": "e51c8caa2a481fb4",
+      "topic_signature": "d613c3204037978fb633",
+      "title": "Americans lost nearly $900 million to AI-powered scams, FBI says",
+      "url": "https://www.malwarebytes.com/blog/scams/2026/06/americans-lost-nearly-900-million-to-ai-powered-scams-fbi-says",
+      "source_name": "Malwarebytes Blog",
+      "source_url": "https://www.malwarebytes.com/blog",
+      "source_published_at": "2026-06-08T15:02:13Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 29.38,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-09T20:25:24",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 140,
+      "affiliate_links_removed_count": 8,
+      "removed_source_links_count": 140,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Americans lost nearly $900 million to AI-powered scams, FBI says",
+      "meta_description": "Deepfakes, voice cloning, and other AI-powered scams cost Americans nearly $900 million in 2025, says the 2025 FBI Internet Crime Report.",
+      "article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/07/Robot_on_the_phone.png",
+          "alt": "Americans lost nearly $900 million to AI-powered scams, FBI says",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/07/Robot_on_the_phone.png?w=600",
+          "alt": "AI cloned voice call",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/06/meta-glasses.jpg?w=1200",
+          "alt": "Meta Glasses",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/07/Robot_on_the_phone.png?w=1200",
+          "alt": "AI cloned voice call",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/07/Robot_on_the_phone.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/07/Robot_on_the_phone.png?w=600",
+          "alt": "AI cloned voice call"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/06/meta-glasses.jpg?w=1200",
+          "alt": "Meta Glasses"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/07/Robot_on_the_phone.png?w=1200",
+          "alt": "AI cloned voice call"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.malwarebytes.com"
+        }
+      ],
+      "full_article_text": "The 2025 Federal Bureau of Investigation (FBI) Internet Crime Report shows that Americans reported $893,346,472 in AI‑related scam losses. Those losses stem from 22,364 AI-related complaints. And these figures represent only the reported losses, which may well be the proverbial tip of the iceberg. The main drivers behind the rise in AI-powered scams are voice cloning, deepfake images and videos, and AI‑generated scripts. These tools have supercharged classic fraud schemes such as romance scams, kidnapping and extortion calls, fake influencers, and government impersonation. Michael Machtinger, deputy assistant director of the FBI Cyber Division, told the Wall Street Journal : “AI-created fraudulent communications can look very official and very legitimate to even the most trained individuals.” The FBI and financial institutions recommend verifying identities via official contact channels. One of their biggest concerns is government impersonation scams, which have evolved from crude IRS gift‑card phone calls into sophisticated, multi‑channel operations that combine spoofed caller ID, stolen agency logos, and AI‑generated audio and video of public officials. This report, and others like it, shows how AI is being weaponized to automate research on victims, generate convincing scripts, and create highly believable deepfake personas at scale. AI is also increasingly used in business email compromise (BEC), romance scams, and impersonation fraud. In BEC cases involving AI, losses have already reached tens of millions of dollars for businesses alone. For a broader look at why AI is simultaneously fueling scams like these and becoming indispensable to defending against them, see my article AI: Threat, tool, or both? It explains how both defenders and criminals use AI to find vulnerabilities, and why security vendors increasingly rely on AI to process vast amounts of telemetry, detect anomalies, and keep pace with threats that “no longer move at human speed.” Consumer protection agencies have documented a growing list of the ways scammers are using AI to try to rip people off. The main problem is that we can no longer take it at face value that the person we’re talking to is who they claim to be. Government agencies and financial institutions recommend that you: Be skeptical of urgent payment demands, especially those involving cryptocurrency or gift cards Limit the amount of voice and video content you share publicly, as it can be reused by scammers Report incidents quickly to your bank(s) and IC3.gov Pro tip: Malwarebytes Scam Guard can help you determine whether a message is a scam and guide you through the next steps. Something feel off? Check it before you click. Malwarebytes Scam Guard helps you analyze suspicious links, texts, and screenshots instantly. Available with Malwarebytes Premium Security for all your devices, and in the Malwarebytes app for iOS and Android.",
+      "full_article_text_chars": 2916,
+      "content_preview": "The 2025 Federal Bureau of Investigation (FBI) Internet Crime Report shows that Americans reported $893,346,472 in AI‑related scam losses. Those losses stem from 22,364 AI-related complaints. And these figures represent only the reported losses, which may well be the proverbial tip of the iceberg. The main drivers behind the rise in AI-powered scams are voice cloning, deepfake images and videos, and AI‑generated scripts. These tools have supercharged classic fraud schemes such as romance scams, kidnapping and extortion calls, fake influencers, and government impersonation. Michael Machtinger, deputy assistant director of the FBI Cyber Division, told the Wall Street Journal : “AI-created fraudulent communications can look very official and very legitimate to even the most trained individuals.” The FBI and financial institutions recommend verifying identities via official contact channels. One of their biggest concerns is government impersonation scams, which have evolved from crude IRS gift‑card phone calls into sophisticated, multi‑channel operations that combine spoofed caller ID, stolen agency logos, and AI‑generated audio and video of public officials. This report, and others like it, shows how AI is being weaponized to automate research on victims, generate convincing scripts, and create highly believable deepfake personas at scale. AI is also increasingly used in business email compromise (BEC), romance scams, and impersonation fraud. In BEC cases involving AI, losses have already reached tens of millions of dollars for businesses alone. For a broader look at why AI is simultaneously fueling scams like these and becoming indispensable to defending against them, see my article AI: Threat, tool, or both? It explains how both defenders and criminals use AI to find vulnerabilities, and why security vendors increasingly rely on AI to process vast amounts of telemetry, detect anomalies, and keep pace with threats that “no longer move at human speed.” Consumer protection agencies have documented a growing list of the ways scammers are using AI to try to rip people off. The main problem is that we can no longer take it at face value that the person we’re talking to is who they claim to be. Government agencies and financial institutions recommend that you: Be skeptical of urgent payment demands, especially those involving cryptocurrency or gift cards Limit the amount of voice and video content you share publicly, as it can be reused by scammers Report incidents quickly to your bank(s) and IC3.gov Pro tip: Malwarebytes Scam Guard can help you determine whether a message is a scam and guide you through the next steps. Something feel off? Check it before you click. Malwarebytes Scam Guard helps you analyze suspicious links, texts, and screenshots instantly. Available with Malwarebytes Premium Security for all your devices, and in the Malwarebytes app for iOS and Android.",
+      "content_preview_chars": 2916,
+      "content_fetched_at": "2026-06-09T20:25:32",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "5291afba30ccbc75",
+      "source_url_hash": "5291afba30ccbc75",
+      "canonical_url": "https://www.troyhunt.com/welcoming-the-philippine-government-to-have-i-been-pwned",
+      "title_hash": "8d763df419eab632",
+      "topic_signature": "86aab7175bcca5a2c131",
+      "title": "Welcoming the Philippine Government to Have I Been Pwned",
+      "url": "https://www.troyhunt.com/welcoming-the-philippine-government-to-have-i-been-pwned",
+      "source_name": "Troy Hunt",
+      "source_url": "https://www.troyhunt.com",
+      "source_published_at": "2026-06-03T03:40:17Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 160.75,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-09T20:25:24",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 18,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 18,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Welcoming the Philippine Government to Have I Been Pwned",
+      "meta_description": "Today, we welcome the 46th government onboarded to Have I Been Pwned’s free gov service: the Philippines. The Philippines’ National CERT, working with the Department of Information and Communications Technology, now has access to monitor official government domains against the data in HIBP. This gives their Cyber Threat Intel",
+      "article_images": [
+        {
+          "url": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2026/05/Artboard-1-2.png",
+          "alt": "Welcoming the Philippine Government to Have I Been Pwned",
+          "source": "og:image_or_twitter"
+        }
+      ],
+      "main_image": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2026/05/Artboard-1-2.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "Today, we welcome the 46th government onboarded to Have I Been Pwned’s free gov service: the Philippines. The Philippines’ National CERT, working with the Department of Information and Communications Technology, now has access to monitor official government domains against the data in HIBP. This gives their Cyber Threat Intel and Monitoring Section the ability to identify exposure across government email addresses and respond quickly when those accounts appear in new data breach. This is precisely what the HIBP government service was built for: helping national cyber teams better understand credential exposure across their government domain space, monitor for compromised accounts on demand via API, and receive notifications when government domains are impacted by newly loaded breach data. The Philippines joins a growing list of national CERTs and government cybersecurity teams using HIBP to help strengthen national cyber defense, protect government departments and resources, and reduce the risk posed by compromised credentials before attackers can take advantage.",
+      "full_article_text_chars": 1079,
+      "content_preview": "Today, we welcome the 46th government onboarded to Have I Been Pwned’s free gov service: the Philippines. The Philippines’ National CERT, working with the Department of Information and Communications Technology, now has access to monitor official government domains against the data in HIBP. This gives their Cyber Threat Intel and Monitoring Section the ability to identify exposure across government email addresses and respond quickly when those accounts appear in new data breach. This is precisely what the HIBP government service was built for: helping national cyber teams better understand credential exposure across their government domain space, monitor for compromised accounts on demand via API, and receive notifications when government domains are impacted by newly loaded breach data. The Philippines joins a growing list of national CERTs and government cybersecurity teams using HIBP to help strengthen national cyber defense, protect government departments and resources, and reduce the risk posed by compromised credentials before attackers can take advantage.",
+      "content_preview_chars": 1079,
+      "content_fetched_at": "2026-06-09T20:25:26",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "621d8f209ee9cdb9",
+      "source_url_hash": "621d8f209ee9cdb9",
+      "canonical_url": "https://www.exploit-db.com/shellcodes",
+      "title_hash": "91ff2b751d7f7f77",
+      "topic_signature": "91ff2b751d7f7f7781db",
+      "title": "Shellcodes",
+      "url": "https://www.exploit-db.com/shellcodes",
+      "source_name": "Exploit-DB",
+      "source_url": "https://www.exploit-db.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-09T20:25:24",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 48,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 48,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
+      "content_fetched_at": "2026-06-09T20:25:44",
+      "candidate_retry_after": "2026-06-09T20:40:44Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
+      "candidate_failed_at": "2026-06-09T20:25:44",
+      "candidate_failure_count": 1
+    },
+    {
+      "id": "33732dfdc6295ab2",
+      "source_url_hash": "33732dfdc6295ab2",
+      "canonical_url": "https://www.exploit-db.com/submit",
+      "title_hash": "8729316a873bb7df",
+      "topic_signature": "8729316a873bb7df7d83",
+      "title": "Submissions",
+      "url": "https://www.exploit-db.com/submit",
+      "source_name": "Exploit-DB",
+      "source_url": "https://www.exploit-db.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-09T20:25:24",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 48,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 48,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "content_fetched_at": "2026-06-09T20:25:46",
+      "candidate_retry_after": "2026-06-09T20:40:46Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "candidate_failed_at": "2026-06-09T20:25:46",
+      "candidate_failure_count": 1
+    },
+    {
+      "id": "aede79193c6b98c9",
+      "source_url_hash": "aede79193c6b98c9",
+      "canonical_url": "https://www.exploit-db.com/history",
+      "title_hash": "89741e45a34270f7",
+      "topic_signature": "2c5f122106145812fb49",
+      "title": "Exploit-DB History",
+      "url": "https://www.exploit-db.com/history",
+      "source_name": "Exploit-DB",
+      "source_url": "https://www.exploit-db.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-09T20:25:24",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 49,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 49,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
+      "content_fetched_at": "2026-06-09T20:25:48",
+      "candidate_retry_after": "2026-06-09T20:40:48Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
+      "candidate_failed_at": "2026-06-09T20:25:48",
+      "candidate_failure_count": 1
     }
   ],
   "notifications": {
