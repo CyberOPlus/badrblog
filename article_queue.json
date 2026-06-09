@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-09T13:24:18",
+  "updated_at": "2026-06-09T16:17:37",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -1408,12 +1408,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-06-09T13:21:08",
-      "candidate_retry_after": "2026-06-09T13:36:08Z",
+      "content_fetched_at": "2026-06-09T16:15:57",
+      "candidate_retry_after": "2026-06-09T16:30:57Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-06-09T13:21:08",
-      "candidate_failure_count": 12
+      "candidate_failed_at": "2026-06-09T16:15:57",
+      "candidate_failure_count": 13
     },
     {
       "id": "387079dc0a830ad9",
@@ -3434,12 +3434,12 @@
       "removed_source_links_count": 82,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-09T13:21:09",
-      "candidate_retry_after": "2026-06-09T13:36:09Z",
+      "content_fetched_at": "2026-06-09T16:16:00",
+      "candidate_retry_after": "2026-06-09T16:31:00Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-09T13:21:09",
-      "candidate_failure_count": 10
+      "candidate_failed_at": "2026-06-09T16:16:00",
+      "candidate_failure_count": 11
     },
     {
       "id": "561b6316398d7603",
@@ -4417,17 +4417,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 0,
-      "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 0,
+      "source_links_removed_count": 228,
+      "affiliate_links_removed_count": 11,
+      "removed_source_links_count": 228,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-06-09T13:21:10",
-      "candidate_retry_after": "2026-06-09T13:36:10Z",
+      "content_fetch_error": "weak article body after fallbacks (best=491 chars/78 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:491chars/78words, page_text:491chars/78words)",
+      "content_fetched_at": "2026-06-09T16:16:03",
+      "candidate_retry_after": "2026-06-09T16:31:03Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-06-09T13:21:10",
-      "candidate_failure_count": 9
+      "candidate_failure_reason": "weak article body after fallbacks (best=491 chars/78 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:491chars/78words, page_text:491chars/78words)",
+      "candidate_failed_at": "2026-06-09T16:16:03",
+      "candidate_failure_count": 10
     },
     {
       "id": "c1354558130eaeb3",
@@ -4506,11 +4506,11 @@
       "content_fetched_at": "2026-06-08T18:40:46",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-09T02:40:05",
+      "selected_at": "2026-06-09T16:16:16",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-09T02:40:05",
+      "processing_prepared_at": "2026-06-09T16:16:16",
       "ai_input_package": {
         "title": "For the 2nd time in weeks, Microsoft packages laced with credential stealer",
         "url": "https://arstechnica.com/security/2026/06/for-the-2nd-time-in-weeks-microsoft-packages-laced-with-credential-stealer",
@@ -4557,20 +4557,20 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "article too short (53 words; minimum 700)",
+      "ai_quality_last_error": "article too short (20 words; minimum 700)",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 53.3,
+      "ai_total_time_seconds": 7.55,
       "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-09T02:55:59Z",
+      "candidate_retry_after": "2026-06-09T16:31:24Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-06-09T02:40:59",
-      "candidate_failure_count": 2,
+      "candidate_failed_at": "2026-06-09T16:16:24",
+      "candidate_failure_count": 3,
       "telegram_final_summary_notified_at": "2026-06-09T02:42:26"
     },
     {
@@ -4650,11 +4650,11 @@
       "content_fetched_at": "2026-06-08T18:40:34",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-09T02:40:59",
+      "selected_at": "2026-06-09T16:16:24",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-09T02:40:59",
+      "processing_prepared_at": "2026-06-09T16:16:24",
       "ai_input_package": {
         "title": "Apple WWDC 2026 Live Blog: All the Updates, as They Happen",
         "url": "https://www.wired.com/live/apple-wwdc-2026-live-blog-all-the-updates-as-they-happen",
@@ -4697,20 +4697,20 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "article too short (48 words; minimum 700)",
+      "ai_quality_last_error": "article too short (79 words; minimum 700)",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 12.44,
+      "ai_total_time_seconds": 8.93,
       "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-09T02:56:11Z",
+      "candidate_retry_after": "2026-06-09T16:31:33Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-06-09T02:41:11",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-06-09T16:16:33",
+      "candidate_failure_count": 2
     },
     {
       "id": "e17f5ddcbed25e0b",
@@ -4872,12 +4872,12 @@
       "category_label": "Tech-News",
       "category_hint": "Tech-News",
       "discovered_at": "2026-06-08T18:40:26",
-      "status": "ready",
+      "status": "published",
       "score": 3,
       "priority": "low",
       "source_links_removed_count": 59,
       "affiliate_links_removed_count": 1,
-      "removed_source_links_count": 59,
+      "removed_source_links_count": 0,
       "enrichment_fallback_used": "article_tag",
       "fetched_title": "Apple's iOS 27, macOS 27 Golden Gate, and other updates focus on refinement",
       "meta_description": "Apple's OSes come with Liquid Glass tweaks and performance optimizations.",
@@ -4928,11 +4928,11 @@
       "content_fetched_at": "2026-06-08T18:40:45",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-09T02:41:11",
+      "selected_at": "2026-06-09T16:16:33",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-09T02:41:12",
+      "processing_prepared_at": "2026-06-09T16:16:33",
       "ai_input_package": {
         "title": "Apple's iOS 27, macOS 27 Golden Gate, and other updates focus on refinement",
         "url": "https://arstechnica.com/gadgets/2026/06/apples-ios-27-macos-27-golden-gate-and-other-updates-focus-on-refinement",
@@ -4975,20 +4975,75 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_quality_last_error": "article too short (100 words; minimum 700)",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_status": "completed",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 63.54,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 46.98,
+      "ai_quality_status": "passed",
       "ai_quality_attempts": 3,
       "candidate_retry_after": "2026-06-09T02:57:16Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-06-09T02:42:16",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "ai_processed_at": "2026-06-09T16:17:20",
+      "seo_title": "آبل تكشف عن تحديثات أنظمتها الجديدة: iOS 27 وmacOS 27 Golden",
+      "seo_description": "كشفت آبل في مؤتمر المطورين العالمي عن تحديثات أنظمتها التشغيلية القادمة",
+      "seo_slug": "ios27-macos27",
+      "final_html": "<div dir=\"rtl\">\n<p class=\"pIndent\"><strong><span class=\"dropCap\">ك</span>شفت شركة آبل اليوم في مؤتمرها العالمي للمطورين (WWDC) عن الجيل القادم من تحديثات أنظمتها التشغيلية، والتي تشمل iOS 27 وiPadOS 27 وmacOS 27 Golden Gate. وبينما كان تحديث سيري للذكاء الاصطناعي الذي طال انتظاره هو العنوان الأبرز، أكدت آبل أيضًا على جهودها المكثفة لتحسين برامجها بشكل عام، مع التركيز على تعزيز الأداء والموثوقية. تُشكل هذه التحديثات نقلة نوعية في منهج آبل، حيث تسعى لتقديم تجربة مستخدم أكثر سلاسة واستقرارًا عبر جميع أجهزتها، بدلاً من مجرد إضافة ميزات جديدة، مما يعكس التزام الشركة بتعزيز الأساسيات.</strong></p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Apple's iOS 27, macOS 27 Golden Gate, and other updates focus on refinement\" class=\"full\" loading=\"lazy\" src=\"https://cdn.arstechnica.net/wp-content/uploads/2026/06/ios-27.jpeg\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Apple's iOS 27, macOS 27 Golden Gate, and other updates focus on refinement</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Apple's iOS 27, macOS 27 Golden Gate, and other updates focus on refinement</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">تحديثات iOS 27 و macOS 27 Golden Gate تركز على التحسين والصقل لتقديم تجربة مستخدم أكثر سلاسة.</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">في جوهر هذه التحديثات، تبرز فلسفة التحسين الشامل، بدءًا من لغة التصميم وصولاً إلى الأداء الداخلي. تواصل الشركة صقل لغة تصميم \"Liquid Glass\" التي قدمتها العام الماضي، مع إدخال تحسينات تمنح المستخدمين سيطرة أكبر على المظهر البصري. كما شهدت الأيقونات المعاد تصميمها العام الماضي إعادة تصميم أخرى، مع طبقات زجاجية إضافية تعد آبل بأنها ستجعلها أكثر وضوحًا وتميزًا. هذه التغييرات ليست مجرد لمسات جمالية، بل هي جزء من رؤية أوسع لتقديم واجهة مستخدم أكثر تفاعلية وجاذبية، تعكس الدقة والاهتمام بالتفاصيل الذي تشتهر به آبل.</p>\n<h2>تحسينات التصميم وواجهة المستخدم: 'Liquid Glass' في حلة جديدة</h2>\n<p class=\"pIndent\">تُعد لغة تصميم \"Liquid Glass\" حجر الزاوية في التجديد البصري لأنظمة آبل. في iOS 27 وiPadOS 27، أصبح بإمكان المستخدمين التحكم بدقة في شفافية تأثير \"Liquid Glass\" عبر شريط تمرير جديد في الإعدادات. يتيح هذا الشريط للمستخدمين الاختيار بين الشفافية القصوى التي تمنح مظهرًا زجاجيًا واضحًا ومفتوحًا، أو التلوين الكامل للحصول على مظهر أكثر كثافة وخصوصية. هذا المستوى غير المسبوق من التخصيص يسمح لكل مستخدم بتكييف الواجهة لتناسب ذوقه وتفضيلاته البصرية، مما يعزز الشعور بالملكية والراحة مع الجهاز.</p>\n<p class=\"pIndent\">بالإضافة إلى ذلك، تم إعادة تصميم الأيقونات التي شهدت تحديثًا في العام الماضي، حيث أصبحت الآن تتضمن المزيد من الطبقات الزجاجية. توضح آبل أن هذا التغيير سيجعل الأيقونات تبدو أكثر حدة وتميزًا على الشاشة، مما يعزز الوضوح البصري ويجعل التنقل بين التطبيقات أكثر سهولة وجاذبية. هذه التفاصيل الدقيقة في التصميم تعكس التزام آبل بتقديم تجربة بصرية متفوقة لا تقتصر على الجماليات فحسب، بل تمتد لتشمل الوظائف وسهولة الاستخدام.</p>\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">جانب من تصميم Liquid Glass كما يظهر في نظام macOS 27 Golden Gate.</figcaption>\n</figure>\n<p class=\"pIndent\">على صعيد نظام macOS 27 Golden Gate، أدخلت آبل تغييرات هامة على طريقة عمل أشرطة الأدوات (toolbars) والأشرطة الجانبية (sidebars) في التطبيقات. أصبحت أشرطة الأدوات أكثر تميزًا ووضوحًا، مما يسهل على المستخدمين تحديد وظائفها. بينما تمتد محتويات الأشرطة الجانبية الآن حتى حافة النافذة، مما يوفر مساحة عرض أكبر وواجهة أكثر تنظيمًا وانسيابية. كما أعادت الشركة إدخال الألوان إلى أيقونات الأشرطة الجانبية، مما يضيف لمسة من الحيوية ويساعد في التمييز البصري بين الخيارات المختلفة، ويعيد بعض من التوهج الكلاسيكي لواجهة الماك.</p>\n<p class=\"pIndent\">ولمعالجة الشكاوى المتعلقة بكيفية عمل تغيير حجم النوافذ في macOS 26 Tahoe، حصلت نوافذ الماك الآن على \"نصف قطر زاوية أكثر إحكامًا\" (tighter corner radius). يهدف هذا التغيير إلى تحسين تجربة المستخدم عند التعامل مع النوافذ، مما يجعل عملية تغيير حجمها وتحريكها أكثر سلاسة واستجابة، ويقلل من الإحباط الذي قد ينجم عن التفاعلات غير المتوقعة.</p>\n<h2>تحسينات الأداء والموثوقية: سرعة واستقرار أكبر</h2>\n<p class=\"pIndent\">لم تقتصر التحديثات على المظهر الخارجي فحسب، بل امتدت لتشمل تحسينات جوهرية \"تحت الغطاء\" تهدف إلى تعزيز الأداء العام والموثوقية عبر جميع أنظمة التشغيل. تقول آبل إنها قامت بتحسين استخدام الذاكرة، واستغلال وحدة المعالجة المركزية (CPU)، وعرض الشاشة، وأداء الشبكات في iOS 27 وiPadOS 27 وmacOS 27. هذه التحسينات التقنية الدقيقة تعمل معًا لضمان تشغيل الأنظمة بشكل أكثر كفاءة، حتى في ظل المهام المعقدة.</p>\n<p class=\"pIndent\">من أهم هذه التحسينات هي تلك المتعلقة بمُجدوِل وحدة المعالجة المركزية (CPU scheduler)، والتي تم تقديمها لأول مرة في هواتف آيفون الأحدث. قامت آبل الآن بنقل هذه التحسينات إلى الطرازات القديمة، مما يعني أن نظام iOS 27 يجب أن يبدو أسرع على الأجهزة الأقدم. على غرار iOS 26، سيدعم تحديث iOS 27 هواتف آيفون القديمة حتى طراز iPhone 11 الذي صدر عام 2019، مما يضمن أن شريحة واسعة من المستخدمين يمكنها الاستفادة من هذه التحسينات دون الحاجة إلى الترقية لأحدث الأجهزة. هذا يمثل التزامًا قويًا من آبل بتوفير أطول عمر ممكن لمنتجاتها ودعم قاعدة مستخدميها الأوسع.</p>\n<p class=\"pIndent\">سلطت آبل الضوء على العديد من التحسينات الملموسة في الأداء والموثوقية التي تم تمكينها بفضل هذه التحسينات وغيرها، والتي ستنعكس مباشرة على تجربة المستخدم اليومية: \n    <ul>\n<li><strong>سرعة تشغيل التطبيقات:</strong> تقول الشركة إن التطبيقات يجب أن تعمل أسرع بنسبة تصل إلى 30 بالمائة، مما يقلل من أوقات الانتظار ويزيد من الإنتاجية.</li>\n<li><strong>ظهور الصور الجديدة:</strong> يجب أن تظهر الصور الملتقطة حديثًا في مكتبتك أسرع بنسبة تصل إلى 70 بالمائة، مما يتيح لك الوصول إليها ومشاركتها فورًا تقريبًا.</li>\n<li><strong>نقل الملفات عبر AirDrop:</strong> يجب أن يكون استخدام AirDrop لنقل الملفات أسرع بنسبة تصل إلى 8 بالمائة، مما يجعل مشاركة المحتوى بين أجهزة آبل أكثر كفاءة وسرعة.</li>\n</ul>\n</p>\n<p class=\"pIndent\">بالإضافة إلى ذلك، ذكرت آبل أنها جعلت عملية الانتقال بين شبكات Wi-Fi والشبكات الخلوية أكثر موثوقية، وهو ما سيحسن من تجربة الاتصال المستمرة للمستخدمين أثناء التنقل أو في البيئات التي تتغير فيها الشبكات بشكل متكرر، ويقلل من انقطاعات الاتصال غير المرغوبة.</p>\n<h2>تحسينات جذرية في البحث: العثور على ما تحتاجه بسرعة أكبر</h2>\n<p class=\"pIndent\">أعادت آبل بناء طريقة عمل البحث عبر جميع أنظمة التشغيل الخاصة بها، مما يعزز من قدرة المستخدمين على الوصول إلى المعلومات. فقد أدت التحسينات في الفهرسة داخل Spotlight وMail وPhotos إلى جعل هذه الأدوات قادرة على العثور على المحتوى الجديد والقديم بشكل أكثر موثوقية ودقة. يعني هذا أن المستخدمين سيتمكنون من تحديد مواقع الملفات، الرسائل الإلكترونية، والصور التي يحتاجونها بسرعة ودقة أكبر، مما يوفر الوقت ويزيد من الإنتاجية، ويجعل البحث جزءًا لا يتجزأ من تجربتهم الرقمية دون عناء.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">بالنسبة للمستخدم العادي، تُترجم هذه التحديثات إلى تجربة يومية محسّنة بشكل ملموس وملحوظ. لن تلاحظ فقط واجهة مستخدم أكثر أناقة ومرونة وقابلية للتخصيص بفضل لغة Liquid Glass الجديدة والأيقونات المعاد تصميمها، بل ستشعر أيضًا بفرق كبير في سرعة واستجابة جهازك بشكل عام. هذا يعني أن كل تفاعل مع جهازك سيكون أكثر متعة وسلاسة، من فتح التطبيقات إلى التنقل بين الشاشات.</p>\n<p class=\"pIndent\">إذا كنت تمتلك جهاز آيفون قديمًا نسبيًا مثل iPhone 11، فإن التحديث إلى iOS 27 سيعني أن جهازك سيشعر وكأنه جديد مرة أخرى، بفضل تحسينات مُجدوِل وحدة المعالجة المركزية التي تم تضمينها. هذا لا يطيل فقط من عمر الجهاز ويجعل استخدامه أكثر فائدة، بل يوفر أيضًا قيمة أكبر لاستثماراتك الأولية في منتجات آبل، ويؤكد أن الشركة لا تنسى مستخدميها الحاليين لصالح الأجهزة الجديدة.</p>\n<p class=\"pIndent\">كما أن السرعات المتزايدة في تشغيل التطبيقات وظهور الصور ونقل الملفات عبر AirDrop ستجعل مهامك اليومية أكثر كفاءة وسلاسة. لن تضطر للانتظار طويلاً لتحميل تطبيق أو البحث عن صورة، مما يوفر لك وقتًا ثمينًا ويزيل الإحباط. علاوة على ذلك، فإن البحث الموثوق به والمعزز في Spotlight والبريد والصور يعني أنك ستتمكن من الوصول إلى معلوماتك المهمة دون عناء، وستجد ما تبحث عنه بسرعة فائقة. بعبارة أخرى، آبل تركز على جعل استخدام أجهزتها تجربة خالية من المتاعب، أكثر متعة، وأكثر إنتاجية، مما يضمن أن المستخدمين يحصلون على أقصى استفادة من تقنياتهم.</p>\n<h2>الخاتمة: مستقبل التحسين المستمر</h2>\n<p class=\"pIndent\">تُظهر تحديثات iOS 27 وiPadOS 27 وmacOS 27 Golden Gate التزام آبل الراسخ بتحسين وتطوير أنظمتها التشغيلية باستمرار. بدلاً من التركيز على الميزات الثورية الكبيرة فقط، اختارت آبل هذا العام مسار الصقل العميق وتحسين الأداء والموثوقية والجماليات. هذا النهج يضمن أن تكون تجربة المستخدم أكثر استقرارًا وسلاسة عبر مجموعة واسعة من الأجهزة، سواء كانت حديثة تتمتع بأحدث التقنيات أو قديمة لا تزال في الخدمة.</p>\n<p class=\"pIndent\">تؤكد آبل أنها ستجعل الإصدارات التجريبية من تحديثات أنظمة التشغيل هذه متاحة للمطورين اليوم، وستعمل على صقلها وتحسينها على مدار الأشهر القليلة القادمة بناءً على ملاحظاتهم، قبل إصدار الإصدارات النهائية للجمهور في الخريف. هذا التوجه نحو التحسين المستمر يعزز مكانة آبل كشركة رائدة في تقديم تجارب رقمية متكاملة وموثوقة لمستخدميها حول العالم، ويؤكد على أن الابتكار لا يقتصر على إضافة الجديد، بل يشمل أيضًا صقل وتجويد الموجود.</p>\n</div>",
+      "blogger_article_html": "<div dir=\"rtl\">\n<p class=\"pIndent\"><strong><span class=\"dropCap\">ك</span>شفت شركة آبل اليوم في مؤتمرها العالمي للمطورين (WWDC) عن الجيل القادم من تحديثات أنظمتها التشغيلية، والتي تشمل iOS 27 وiPadOS 27 وmacOS 27 Golden Gate. وبينما كان تحديث سيري للذكاء الاصطناعي الذي طال انتظاره هو العنوان الأبرز، أكدت آبل أيضًا على جهودها المكثفة لتحسين برامجها بشكل عام، مع التركيز على تعزيز الأداء والموثوقية. تُشكل هذه التحديثات نقلة نوعية في منهج آبل، حيث تسعى لتقديم تجربة مستخدم أكثر سلاسة واستقرارًا عبر جميع أجهزتها، بدلاً من مجرد إضافة ميزات جديدة، مما يعكس التزام الشركة بتعزيز الأساسيات.</strong></p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Apple's iOS 27, macOS 27 Golden Gate, and other updates focus on refinement\" class=\"full\" loading=\"lazy\" src=\"https://cdn.arstechnica.net/wp-content/uploads/2026/06/ios-27.jpeg\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Apple's iOS 27, macOS 27 Golden Gate, and other updates focus on refinement</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Apple's iOS 27, macOS 27 Golden Gate, and other updates focus on refinement</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">تحديثات iOS 27 و macOS 27 Golden Gate تركز على التحسين والصقل لتقديم تجربة مستخدم أكثر سلاسة.</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">في جوهر هذه التحديثات، تبرز فلسفة التحسين الشامل، بدءًا من لغة التصميم وصولاً إلى الأداء الداخلي. تواصل الشركة صقل لغة تصميم \"Liquid Glass\" التي قدمتها العام الماضي، مع إدخال تحسينات تمنح المستخدمين سيطرة أكبر على المظهر البصري. كما شهدت الأيقونات المعاد تصميمها العام الماضي إعادة تصميم أخرى، مع طبقات زجاجية إضافية تعد آبل بأنها ستجعلها أكثر وضوحًا وتميزًا. هذه التغييرات ليست مجرد لمسات جمالية، بل هي جزء من رؤية أوسع لتقديم واجهة مستخدم أكثر تفاعلية وجاذبية، تعكس الدقة والاهتمام بالتفاصيل الذي تشتهر به آبل.</p>\n<h2>تحسينات التصميم وواجهة المستخدم: 'Liquid Glass' في حلة جديدة</h2>\n<p class=\"pIndent\">تُعد لغة تصميم \"Liquid Glass\" حجر الزاوية في التجديد البصري لأنظمة آبل. في iOS 27 وiPadOS 27، أصبح بإمكان المستخدمين التحكم بدقة في شفافية تأثير \"Liquid Glass\" عبر شريط تمرير جديد في الإعدادات. يتيح هذا الشريط للمستخدمين الاختيار بين الشفافية القصوى التي تمنح مظهرًا زجاجيًا واضحًا ومفتوحًا، أو التلوين الكامل للحصول على مظهر أكثر كثافة وخصوصية. هذا المستوى غير المسبوق من التخصيص يسمح لكل مستخدم بتكييف الواجهة لتناسب ذوقه وتفضيلاته البصرية، مما يعزز الشعور بالملكية والراحة مع الجهاز.</p>\n<p class=\"pIndent\">بالإضافة إلى ذلك، تم إعادة تصميم الأيقونات التي شهدت تحديثًا في العام الماضي، حيث أصبحت الآن تتضمن المزيد من الطبقات الزجاجية. توضح آبل أن هذا التغيير سيجعل الأيقونات تبدو أكثر حدة وتميزًا على الشاشة، مما يعزز الوضوح البصري ويجعل التنقل بين التطبيقات أكثر سهولة وجاذبية. هذه التفاصيل الدقيقة في التصميم تعكس التزام آبل بتقديم تجربة بصرية متفوقة لا تقتصر على الجماليات فحسب، بل تمتد لتشمل الوظائف وسهولة الاستخدام.</p>\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">جانب من تصميم Liquid Glass كما يظهر في نظام macOS 27 Golden Gate.</figcaption>\n</figure>\n<p class=\"pIndent\">على صعيد نظام macOS 27 Golden Gate، أدخلت آبل تغييرات هامة على طريقة عمل أشرطة الأدوات (toolbars) والأشرطة الجانبية (sidebars) في التطبيقات. أصبحت أشرطة الأدوات أكثر تميزًا ووضوحًا، مما يسهل على المستخدمين تحديد وظائفها. بينما تمتد محتويات الأشرطة الجانبية الآن حتى حافة النافذة، مما يوفر مساحة عرض أكبر وواجهة أكثر تنظيمًا وانسيابية. كما أعادت الشركة إدخال الألوان إلى أيقونات الأشرطة الجانبية، مما يضيف لمسة من الحيوية ويساعد في التمييز البصري بين الخيارات المختلفة، ويعيد بعض من التوهج الكلاسيكي لواجهة الماك.</p>\n<p class=\"pIndent\">ولمعالجة الشكاوى المتعلقة بكيفية عمل تغيير حجم النوافذ في macOS 26 Tahoe، حصلت نوافذ الماك الآن على \"نصف قطر زاوية أكثر إحكامًا\" (tighter corner radius). يهدف هذا التغيير إلى تحسين تجربة المستخدم عند التعامل مع النوافذ، مما يجعل عملية تغيير حجمها وتحريكها أكثر سلاسة واستجابة، ويقلل من الإحباط الذي قد ينجم عن التفاعلات غير المتوقعة.</p>\n<h2>تحسينات الأداء والموثوقية: سرعة واستقرار أكبر</h2>\n<p class=\"pIndent\">لم تقتصر التحديثات على المظهر الخارجي فحسب، بل امتدت لتشمل تحسينات جوهرية \"تحت الغطاء\" تهدف إلى تعزيز الأداء العام والموثوقية عبر جميع أنظمة التشغيل. تقول آبل إنها قامت بتحسين استخدام الذاكرة، واستغلال وحدة المعالجة المركزية (CPU)، وعرض الشاشة، وأداء الشبكات في iOS 27 وiPadOS 27 وmacOS 27. هذه التحسينات التقنية الدقيقة تعمل معًا لضمان تشغيل الأنظمة بشكل أكثر كفاءة، حتى في ظل المهام المعقدة.</p>\n<p class=\"pIndent\">من أهم هذه التحسينات هي تلك المتعلقة بمُجدوِل وحدة المعالجة المركزية (CPU scheduler)، والتي تم تقديمها لأول مرة في هواتف آيفون الأحدث. قامت آبل الآن بنقل هذه التحسينات إلى الطرازات القديمة، مما يعني أن نظام iOS 27 يجب أن يبدو أسرع على الأجهزة الأقدم. على غرار iOS 26، سيدعم تحديث iOS 27 هواتف آيفون القديمة حتى طراز iPhone 11 الذي صدر عام 2019، مما يضمن أن شريحة واسعة من المستخدمين يمكنها الاستفادة من هذه التحسينات دون الحاجة إلى الترقية لأحدث الأجهزة. هذا يمثل التزامًا قويًا من آبل بتوفير أطول عمر ممكن لمنتجاتها ودعم قاعدة مستخدميها الأوسع.</p>\n<p class=\"pIndent\">سلطت آبل الضوء على العديد من التحسينات الملموسة في الأداء والموثوقية التي تم تمكينها بفضل هذه التحسينات وغيرها، والتي ستنعكس مباشرة على تجربة المستخدم اليومية: \n    <ul>\n<li><strong>سرعة تشغيل التطبيقات:</strong> تقول الشركة إن التطبيقات يجب أن تعمل أسرع بنسبة تصل إلى 30 بالمائة، مما يقلل من أوقات الانتظار ويزيد من الإنتاجية.</li>\n<li><strong>ظهور الصور الجديدة:</strong> يجب أن تظهر الصور الملتقطة حديثًا في مكتبتك أسرع بنسبة تصل إلى 70 بالمائة، مما يتيح لك الوصول إليها ومشاركتها فورًا تقريبًا.</li>\n<li><strong>نقل الملفات عبر AirDrop:</strong> يجب أن يكون استخدام AirDrop لنقل الملفات أسرع بنسبة تصل إلى 8 بالمائة، مما يجعل مشاركة المحتوى بين أجهزة آبل أكثر كفاءة وسرعة.</li>\n</ul>\n</p>\n<p class=\"pIndent\">بالإضافة إلى ذلك، ذكرت آبل أنها جعلت عملية الانتقال بين شبكات Wi-Fi والشبكات الخلوية أكثر موثوقية، وهو ما سيحسن من تجربة الاتصال المستمرة للمستخدمين أثناء التنقل أو في البيئات التي تتغير فيها الشبكات بشكل متكرر، ويقلل من انقطاعات الاتصال غير المرغوبة.</p>\n<h2>تحسينات جذرية في البحث: العثور على ما تحتاجه بسرعة أكبر</h2>\n<p class=\"pIndent\">أعادت آبل بناء طريقة عمل البحث عبر جميع أنظمة التشغيل الخاصة بها، مما يعزز من قدرة المستخدمين على الوصول إلى المعلومات. فقد أدت التحسينات في الفهرسة داخل Spotlight وMail وPhotos إلى جعل هذه الأدوات قادرة على العثور على المحتوى الجديد والقديم بشكل أكثر موثوقية ودقة. يعني هذا أن المستخدمين سيتمكنون من تحديد مواقع الملفات، الرسائل الإلكترونية، والصور التي يحتاجونها بسرعة ودقة أكبر، مما يوفر الوقت ويزيد من الإنتاجية، ويجعل البحث جزءًا لا يتجزأ من تجربتهم الرقمية دون عناء.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">بالنسبة للمستخدم العادي، تُترجم هذه التحديثات إلى تجربة يومية محسّنة بشكل ملموس وملحوظ. لن تلاحظ فقط واجهة مستخدم أكثر أناقة ومرونة وقابلية للتخصيص بفضل لغة Liquid Glass الجديدة والأيقونات المعاد تصميمها، بل ستشعر أيضًا بفرق كبير في سرعة واستجابة جهازك بشكل عام. هذا يعني أن كل تفاعل مع جهازك سيكون أكثر متعة وسلاسة، من فتح التطبيقات إلى التنقل بين الشاشات.</p>\n<p class=\"pIndent\">إذا كنت تمتلك جهاز آيفون قديمًا نسبيًا مثل iPhone 11، فإن التحديث إلى iOS 27 سيعني أن جهازك سيشعر وكأنه جديد مرة أخرى، بفضل تحسينات مُجدوِل وحدة المعالجة المركزية التي تم تضمينها. هذا لا يطيل فقط من عمر الجهاز ويجعل استخدامه أكثر فائدة، بل يوفر أيضًا قيمة أكبر لاستثماراتك الأولية في منتجات آبل، ويؤكد أن الشركة لا تنسى مستخدميها الحاليين لصالح الأجهزة الجديدة.</p>\n<p class=\"pIndent\">كما أن السرعات المتزايدة في تشغيل التطبيقات وظهور الصور ونقل الملفات عبر AirDrop ستجعل مهامك اليومية أكثر كفاءة وسلاسة. لن تضطر للانتظار طويلاً لتحميل تطبيق أو البحث عن صورة، مما يوفر لك وقتًا ثمينًا ويزيل الإحباط. علاوة على ذلك، فإن البحث الموثوق به والمعزز في Spotlight والبريد والصور يعني أنك ستتمكن من الوصول إلى معلوماتك المهمة دون عناء، وستجد ما تبحث عنه بسرعة فائقة. بعبارة أخرى، آبل تركز على جعل استخدام أجهزتها تجربة خالية من المتاعب، أكثر متعة، وأكثر إنتاجية، مما يضمن أن المستخدمين يحصلون على أقصى استفادة من تقنياتهم.</p>\n<h2>الخاتمة: مستقبل التحسين المستمر</h2>\n<p class=\"pIndent\">تُظهر تحديثات iOS 27 وiPadOS 27 وmacOS 27 Golden Gate التزام آبل الراسخ بتحسين وتطوير أنظمتها التشغيلية باستمرار. بدلاً من التركيز على الميزات الثورية الكبيرة فقط، اختارت آبل هذا العام مسار الصقل العميق وتحسين الأداء والموثوقية والجماليات. هذا النهج يضمن أن تكون تجربة المستخدم أكثر استقرارًا وسلاسة عبر مجموعة واسعة من الأجهزة، سواء كانت حديثة تتمتع بأحدث التقنيات أو قديمة لا تزال في الخدمة.</p>\n<p class=\"pIndent\">تؤكد آبل أنها ستجعل الإصدارات التجريبية من تحديثات أنظمة التشغيل هذه متاحة للمطورين اليوم، وستعمل على صقلها وتحسينها على مدار الأشهر القليلة القادمة بناءً على ملاحظاتهم، قبل إصدار الإصدارات النهائية للجمهور في الخريف. هذا التوجه نحو التحسين المستمر يعزز مكانة آبل كشركة رائدة في تقديم تجارب رقمية متكاملة وموثوقة لمستخدميها حول العالم، ويؤكد على أن الابتكار لا يقتصر على إضافة الجديد، بل يشمل أيضًا صقل وتجويد الموجود.</p>\n</div>",
+      "final_word_count": 1269,
+      "final_html_chars": 8935,
+      "final_content_hash": "5416d0256a1203e14bd87952",
+      "ai_provider_used": "gemini:gemini-2.5-flash",
+      "ai_openrouter_fallback_used": false,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "internal_cache_loaded": 0,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 0,
+      "internal_cache_saved": true,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 1269,
+        "warnings": []
+      },
+      "blogger_post_id": "5020404446728705478",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/06/ios-27-macos-27-golden.html",
+      "published_at": "2026-06-09T16:17:22",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|5020404446728705478|published|unknown",
+      "telegram_blogger_notified_at": "2026-06-09T16:17:22",
+      "telegram_last_notification_at": "2026-06-09T16:17:37",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_903474499428511",
+      "facebook_posted_at": "2026-06-09T16:17:28",
+      "facebook_post_type": "photo",
+      "facebook_image_status": "posted",
+      "facebook_image_path": "/home/runner/work/badrblog/badrblog/output/facebook_images/f218672fc19dac5f.jpg",
+      "facebook_image_url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/ios-27.jpeg",
+      "facebook_image_used_fallback": false,
+      "facebook_caption_pattern": "apps_programs",
+      "facebook_style_used": "apps_programs",
+      "facebook_hook_generated": "آبل تكشف عن تحديثات أنظمتها الجديدة: يقترب من الأداة العملية أكثر من الضجة المؤقتة.",
+      "facebook_structure_used": "utility_focus",
+      "facebook_hashtags_count": 6,
+      "facebook_cta_used": "الرابط الكامل ستجده في أول تعليق 👇",
+      "facebook_caption_fingerprint": "b6894e6fa5cefa235065",
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "آبل تكشف عن تحديثات أنظمتها الجديدة: يقترب من الأداة العملية أكثر من الضجة المؤقتة.\n\nأداة جديدة تدخل المشهد بفكرة عملية وواضحة.\n\nماذا تقدم؟\nهي تقدم باختصار كشفت آبل في مؤتمر المطورين العالمي عن تحديثات أنظمتها التشغيلية القادمة\n\nلمن تصلح؟\nتبدو مناسبة أكثر لمن يراقب أين تتجه المنصات والشركات والتجارب الرقمية المقبلة.\n\nلماذا تجربها؟\nوقد تستحق التجربة لأنها تختصر ما يستحق المتابعة بعيدًا عن الضجيج المعتاد حول الأخبار السريعة.\n\nالرابط الكامل ستجده في أول تعليق 👇\n\n#ذكاء_اصطناعي #تطبيقات #برامج #خصوصية #آبل ",
+      "facebook_comment_id": "903474499428511_3257152517803533",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_903474499428511|903474499428511_3257152517803533|unknown",
+      "telegram_facebook_notified_at": "2026-06-09T16:17:37",
+      "archived": true,
+      "archived_at": "2026-06-09T16:17:37",
+      "archive_reason": "published_to_blogger"
     },
     {
       "id": "0626b73f71735120",
@@ -5450,12 +5505,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-09T13:21:11",
-      "candidate_retry_after": "2026-06-09T13:36:11Z",
+      "content_fetched_at": "2026-06-09T16:16:04",
+      "candidate_retry_after": "2026-06-09T16:31:04Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-09T13:21:11",
-      "candidate_failure_count": 8
+      "candidate_failed_at": "2026-06-09T16:16:04",
+      "candidate_failure_count": 9
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -6727,12 +6782,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-06-09T13:21:12",
-      "candidate_retry_after": "2026-06-09T13:36:12Z",
+      "content_fetched_at": "2026-06-09T16:16:04",
+      "candidate_retry_after": "2026-06-09T16:31:04Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-06-09T13:21:12",
-      "candidate_failure_count": 6
+      "candidate_failed_at": "2026-06-09T16:16:04",
+      "candidate_failure_count": 7
     },
     {
       "id": "cc5e99891af35b5e",
@@ -6764,12 +6819,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-06-09T13:21:12",
-      "candidate_retry_after": "2026-06-09T13:36:12Z",
+      "content_fetched_at": "2026-06-09T16:16:05",
+      "candidate_retry_after": "2026-06-09T16:31:05Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-06-09T13:21:12",
-      "candidate_failure_count": 6
+      "candidate_failed_at": "2026-06-09T16:16:05",
+      "candidate_failure_count": 7
     },
     {
       "id": "a6f4ca9464909855",
@@ -6801,12 +6856,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-06-09T13:21:13",
-      "candidate_retry_after": "2026-06-09T13:36:13Z",
+      "content_fetched_at": "2026-06-09T16:16:05",
+      "candidate_retry_after": "2026-06-09T16:31:05Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-06-09T13:21:13",
-      "candidate_failure_count": 6
+      "candidate_failed_at": "2026-06-09T16:16:05",
+      "candidate_failure_count": 7
     },
     {
       "id": "66722f50e91993b6",
@@ -7320,7 +7375,58 @@
       "content_preview_chars": 1989,
       "content_fetched_at": "2026-06-09T02:39:45",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-09T16:16:05",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-09T16:16:05",
+      "ai_input_package": {
+        "title": "OpenAI files SEC paperwork to go public - Engadget",
+        "url": "https://www.engadget.com/2190079/openai-files-sec-paperwork-to-go-public",
+        "source_name": "Engadget",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.engadget.com/img/gallery/openai-files-sec-paperwork-to-go-public/l-intro-1780955420.jpg",
+        "article_images": [
+          {
+            "url": "https://www.engadget.com/img/gallery/openai-files-sec-paperwork-to-go-public/l-intro-1780955420.jpg",
+            "alt": "OpenAI files SEC paperwork to go public - Engadget",
+            "source": "og:image_or_twitter"
+          }
+        ],
+        "meta_description": "\"We expect it to leak so we're just announcing it.\"",
+        "content_preview": "\"We expect it to leak so we're just announcing it.\" Exactly a week after Anthropic announced its plan to go public, OpenAI has followed suit. The company said on Monday that it confidentially submitted a S-1 form with the Securities and Exchange Commission. No date or offer price has been set by OpenAI yet for the initial public offering. \"We recently submitted a confidential S-1. We expect it to leak so we're just announcing it. We have not decided on timing yet; it may be a while because there are things we want to do that are likely easier as a private company. But it's a complicated set of tradeoffs and this gives us the option to go public sooner if that ends up being best,\" the company wrote on its website . As the date of the public offering gets closer, it will give journalists and financial analysts the chance to look at OpenAI's books. Following its most recent fundraising round, which saw companies like NVIDIA and Amazon pour an additional $122 billion into the company, OpenAI valuation ballooned to $852 billion. Recent reporting from The Information suggests the company recorded $25 billion in annualized revenue as of the end of February. However, the company is also projected to burn as much $115 billion through 2029 on compute costs and other expenses, raising the question of whether the company has a route toward profitability. Complicating that question is the fierce competition OpenAI faces from other players in the AI space, including Anthropic and of course Google. Following ChatGPT's breakout success in 2022, the search giant has largely managed to catch up and surpass OpenAI in the competition to offer the best model, including, most significantly, when it launched Gemini 3 Pro last November. OpenAI also faces other roadblocks, many of them of its own making. In April, the families of the victims of the Tumbler Ridge mass shooting sued the company for negligence, claiming it failed to act on warnings from its automated safety systems.",
+        "content_preview_chars": 1989,
+        "rss_summary": "",
+        "full_article_text": "\"We expect it to leak so we're just announcing it.\" Exactly a week after Anthropic announced its plan to go public, OpenAI has followed suit. The company said on Monday that it confidentially submitted a S-1 form with the Securities and Exchange Commission. No date or offer price has been set by OpenAI yet for the initial public offering. \"We recently submitted a confidential S-1. We expect it to leak so we're just announcing it. We have not decided on timing yet; it may be a while because there are things we want to do that are likely easier as a private company. But it's a complicated set of tradeoffs and this gives us the option to go public sooner if that ends up being best,\" the company wrote on its website . As the date of the public offering gets closer, it will give journalists and financial analysts the chance to look at OpenAI's books. Following its most recent fundraising round, which saw companies like NVIDIA and Amazon pour an additional $122 billion into the company, OpenAI valuation ballooned to $852 billion. Recent reporting from The Information suggests the company recorded $25 billion in annualized revenue as of the end of February. However, the company is also projected to burn as much $115 billion through 2029 on compute costs and other expenses, raising the question of whether the company has a route toward profitability. Complicating that question is the fierce competition OpenAI faces from other players in the AI space, including Anthropic and of course Google. Following ChatGPT's breakout success in 2022, the search giant has largely managed to catch up and surpass OpenAI in the competition to offer the best model, including, most significantly, when it launched Gemini 3 Pro last November. OpenAI also faces other roadblocks, many of them of its own making. In April, the families of the victims of the Tumbler Ridge mass shooting sued the company for negligence, claiming it failed to act on warnings from its automated safety systems.",
+        "full_article_text_chars": 1989,
+        "enrichment_status": "weak",
+        "source_url": "https://www.engadget.com",
+        "source_published_at": "2026-06-08T21:51:25Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 4.8,
+        "trusted_references": [
+          {
+            "title": "wrote on its website",
+            "url": "https://openai.com/index/openai-submits-confidential-s-1/"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "html_content has unbalanced <p> tags",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 10.01,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-09T16:31:16Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-09T16:16:16",
+      "candidate_failure_count": 1
     },
     {
       "id": "e5f973964a8261d7",
@@ -8663,12 +8769,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-09T13:21:13",
-      "candidate_retry_after": "2026-06-09T13:36:13Z",
+      "content_fetched_at": "2026-06-09T16:16:05",
+      "candidate_retry_after": "2026-06-09T16:31:05Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-09T13:21:13",
-      "candidate_failure_count": 2
+      "candidate_failed_at": "2026-06-09T16:16:05",
+      "candidate_failure_count": 3
     },
     {
       "id": "512c2899a98440d2",
@@ -8697,12 +8803,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-09T13:21:13",
-      "candidate_retry_after": "2026-06-09T13:36:13Z",
+      "content_fetched_at": "2026-06-09T16:16:05",
+      "candidate_retry_after": "2026-06-09T16:31:05Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-09T13:21:13",
-      "candidate_failure_count": 2
+      "candidate_failed_at": "2026-06-09T16:16:05",
+      "candidate_failure_count": 3
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -8731,12 +8837,486 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-09T13:21:13",
-      "candidate_retry_after": "2026-06-09T13:36:13Z",
+      "content_fetched_at": "2026-06-09T16:16:05",
+      "candidate_retry_after": "2026-06-09T16:31:05Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-09T13:21:13",
-      "candidate_failure_count": 2
+      "candidate_failed_at": "2026-06-09T16:16:05",
+      "candidate_failure_count": 3
+    },
+    {
+      "id": "d9a0fa48ccc53ccf",
+      "source_url_hash": "d9a0fa48ccc53ccf",
+      "canonical_url": "https://www.digitaltrends.com/wearables/meta-denied-face-scanning-tech-on-ai-smartglasses-and-then-silently-wiped-the-evidence",
+      "title_hash": "ea88ba4b60c04006",
+      "topic_signature": "6ba7eb282002f7a059f2",
+      "title": "Meta denied face scanning tech on AI smartglasses, and then silently wiped the evidence",
+      "url": "https://www.digitaltrends.com/wearables/meta-denied-face-scanning-tech-on-ai-smartglasses-and-then-silently-wiped-the-evidence",
+      "source_name": "Digital Trends",
+      "source_url": "https://www.digitaltrends.com",
+      "source_published_at": "2026-06-09T15:48:56Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.44,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-09T16:15:38",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 266,
+      "affiliate_links_removed_count": 32,
+      "removed_source_links_count": 266,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Meta denied face scanning tech on AI smartglasses, and then silently wiped the evidence",
+      "meta_description": "Dormant face-recognition code reportedly appeared in Meta’s smart glasses app, then disappeared after scrutiny. That has put Meta’s AI eyewear plans back under the privacy spotlight.",
+      "article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/03/meta-smart-glasses-1.jpg?resize=1200%2C630",
+          "alt": "Meta denied face scanning tech on AI smartglasses, and then silently wiped the evidence",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2025/04/ray-ban-meta-glasses-live-translation.jpg?resize=1500%2C1000",
+          "alt": "A Ray-Ban Meta Glasses wearer talks to another person using live translation.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/03/Meta-AI-Glasses.jpg?resize=1800%2C1080",
+          "alt": "Meta AI Glasses",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+          "alt": "Add as a preferred source on Google",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.digitaltrends.com/tachyon/2026/03/meta-smart-glasses-1.jpg?resize=1200%2C630",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2025/04/ray-ban-meta-glasses-live-translation.jpg?resize=1500%2C1000",
+          "alt": "A Ray-Ban Meta Glasses wearer talks to another person using live translation."
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/03/Meta-AI-Glasses.jpg?resize=1800%2C1080",
+          "alt": "Meta AI Glasses"
+        },
+        {
+          "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+          "alt": "Add as a preferred source on Google"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Meta’s smart glasses privacy problem has taken another turn. After WIRED found inactive face-identification references inside the Meta AI app, the same code has now reportedly vanished in a follow-up app update. Meta’s smart glasses app carried traces of face-ID work The code was reportedly connected to an internal effort called “NameTag.” WIRED found that the system was not switched on for users, but its presence suggested Meta had gone beyond a loose concept and had started testing how face identification might work inside its smart glasses ecosystem. According to WIRED, the dormant system appeared to process faces into on-device identifiers that could be matched with previously saved information. That is still different from a public launch of facial recognition on Ray-Ban Meta smart glasses, but it shows why the discovery has drawn attention. The issue is more sensitive because this was not hidden in a research demo or developer-only build. It surfaced in the app ordinary smart glasses owners interact with. For a camera-equipped wearable meant to be worn in public spaces, even inactive face-recognition references are enough to raise questions about consent and how much users actually know about what is being tested behind the scenes. Civil rights groups were already sounding the alarm This was not the first warning sign around Meta’s smart glasses ambitions. It was previously reported that civil rights groups were unhappy about Meta’s reported plans to bring facial recognition to its AI glasses. Civil rights advocates argued that a feature capable of identifying people through wearable cameras could create privacy risks for bystanders who never agreed to be scanned, while also expanding the reach of surveillance in everyday public settings. That concern has only grown sharper after the code removal. Meta communications executive Andy Stone told WIRED that the feature was part of a pilot and that the company had not decided whether to use it. That may explain why the feature was not live, but it does not answer why face-ID code appeared in an app built for regular smart glasses owners. Meta’s history with the technology also makes this harder to brush aside. In 2021, Facebook said it was shutting down its face-recognition system and deleting facial recognition templates for more than a billion users, citing privacy and regulatory concerns. The latest report does not prove facial recognition is coming to Meta glasses soon. But when dormant face-ID code appears in a consumer app and then disappears after being reported, it becomes harder to treat Meta’s interest as purely theoretical.",
+      "full_article_text_chars": 2632,
+      "content_preview": "Meta’s smart glasses privacy problem has taken another turn. After WIRED found inactive face-identification references inside the Meta AI app, the same code has now reportedly vanished in a follow-up app update. Meta’s smart glasses app carried traces of face-ID work The code was reportedly connected to an internal effort called “NameTag.” WIRED found that the system was not switched on for users, but its presence suggested Meta had gone beyond a loose concept and had started testing how face identification might work inside its smart glasses ecosystem. According to WIRED, the dormant system appeared to process faces into on-device identifiers that could be matched with previously saved information. That is still different from a public launch of facial recognition on Ray-Ban Meta smart glasses, but it shows why the discovery has drawn attention. The issue is more sensitive because this was not hidden in a research demo or developer-only build. It surfaced in the app ordinary smart glasses owners interact with. For a camera-equipped wearable meant to be worn in public spaces, even inactive face-recognition references are enough to raise questions about consent and how much users actually know about what is being tested behind the scenes. Civil rights groups were already sounding the alarm This was not the first warning sign around Meta’s smart glasses ambitions. It was previously reported that civil rights groups were unhappy about Meta’s reported plans to bring facial recognition to its AI glasses. Civil rights advocates argued that a feature capable of identifying people through wearable cameras could create privacy risks for bystanders who never agreed to be scanned, while also expanding the reach of surveillance in everyday public settings. That concern has only grown sharper after the code removal. Meta communications executive Andy Stone told WIRED that the feature was part of a pilot and that the company had not decided whether to use it. That may explain why the feature was not live, but it does not answer why face-ID code appeared in an app built for regular smart glasses owners. Meta’s history with the technology also makes this harder to brush aside. In 2021, Facebook said it was shutting down its face-recognition system and deleting facial recognition templates for more than a billion users, citing privacy and regulatory concerns. The latest report does not prove facial recognition is coming to Meta glasses soon. But when dormant face-ID code appears in a consumer app and then disappears after being reported, it becomes harder to treat Meta’s interest as purely theoretical.",
+      "content_preview_chars": 2632,
+      "content_fetched_at": "2026-06-09T16:15:49",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "60251356e1b69698",
+      "source_url_hash": "60251356e1b69698",
+      "canonical_url": "https://www.theverge.com/facebook",
+      "title_hash": "cbe648909034c062",
+      "topic_signature": "cbe648909034c0624c20",
+      "title": "Facebook",
+      "url": "https://www.theverge.com/facebook",
+      "source_name": "The Verge",
+      "source_url": "https://www.theverge.com",
+      "source_published_at": "2026-06-09T15:00:00Z",
+      "published_at_source": "time",
+      "article_age_hours": 1.26,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-09T16:15:38",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 154,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 154,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Facebook",
+      "meta_description": "The world’s largest social network has more than 2 billion daily users, and is expanding rapidly around the world. Led by CEO Mark Zuckerberg and his chief operating officer, Sheryl Sandberg, Facebook undergirds much of the world’s communication online, both through its flagship app and its subsidiaries Instagram, WhatsApp, and Oculus. Despite huge financial success, Facebook is also confronted with questions about data privacy, hate speech on the platform, and concerns that frequent social media use can lead to unhappiness. The Verge publishes a nightly newsletter about Facebook and democracy, subscribe here.",
+      "article_images": [
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK043_VRG_Illo_N_Barclay_1_Meta.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200",
+          "alt": "Facebook",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK043_VRG_Illo_N_Barclay_1_Meta.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400",
+          "alt": "Meta will use your activity on other websites to personalize your feeds",
+          "source": "article_content"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/23951343/STK040_VRG_Illo_N_Barclay_5_facebook.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400",
+          "alt": "Facebook launches a ‘Plus’ subscription that gives you extra features",
+          "source": "article_content"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/05/meta-forum-app-featured.jpg?quality=90&strip=all&crop=21.875%2C0%2C56.25%2C100&w=2400",
+          "alt": "Meta’s Forum is part Reddit, part Facebook, and part Google AI Overview",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK043_VRG_Illo_N_Barclay_1_Meta.jpg?quality=90&strip=all&crop=0%2C10.732984293194%2C100%2C78.534031413613&w=1200",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/2025/02/STK043_VRG_Illo_N_Barclay_1_Meta.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400",
+          "alt": "Meta will use your activity on other websites to personalize your feeds"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/23951343/STK040_VRG_Illo_N_Barclay_5_facebook.jpg?quality=90&strip=all&crop=0%2C0%2C100%2C100&w=2400",
+          "alt": "Facebook launches a ‘Plus’ subscription that gives you extra features"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/05/meta-forum-app-featured.jpg?quality=90&strip=all&crop=21.875%2C0%2C56.25%2C100&w=2400",
+          "alt": "Meta’s Forum is part Reddit, part Facebook, and part Google AI Overview"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Privacy Policy",
+          "url": "https://policies.google.com/privacy"
+        },
+        {
+          "title": "Terms of Service",
+          "url": "https://policies.google.com/terms"
+        }
+      ],
+      "full_article_text": "Beginning in July, you may start seeing content related to the games you’ve played, your online purchases, and more across your feeds. WhatsApp, Instagram, and Meta AI are getting paid subscriptions, too. Latest In Facebook The company’s new agentic developer tools are giving the discontinued smart displays a second life as a smart home controller , family message board, art display, or anything you can dream up. The move comes shortly after Microsoft announced Project Solara. Meta says the tools are hardware-agnostic and work with many existing devices. Still, anything that breathes new life into a defunct gadget is a good thing. The EU’s General Court said the European Commission’s decision to designate Facebook Marketplace as a gatekeeper service under Digital Markets Act rules “lacks sufficient reasoning,” and that it should be exempt from the regulation. Meta also tried to appeal Messenger’s designation, but that decision stands firm. The app, available on iOS , lets you browse groups that you’re a part of, make posts to groups, and ask questions to a chatbot to get information sourced from groups. Saw this one thanks to Matt Navarra . The New York Times and Reuters report that a memo was sent to Meta employees on Monday reassigning 7,000 of them, and said that “As org leaders worked on the changes, many of them incorporated AI native design principles ⁠into their new org structures.” The memo told employees to work remotely on Wednesday, when it will lay off about 10 percent of its workforce, roughly 8,000 people, with emails sent at 4AM local time. Now that a jury has ruled against Meta and YouTube in a landmark trial, the sharks are circling, and what better place to find potential clients than on those social media platforms? The only problem is that Axios reports Meta pulled “more than a dozen” such ads from firms like Morgan & Morgan and Sokolove Law on Thursday. Social media on trial: tech giants face lawsuits over addiction, safety, and mental health ﻿Why nuclear options like age limits and repealing Section 230 won’t make social media safer. Last year, content moderators who’ve risked consequences like PTSD working for Big Tech companies have started to organize for better treatment in the last several years. Now, Meta has announced a wide rollout of its AI support assistant for Facebook and Instagram, and that it will “reduce our reliance on third-party vendors” employing humans for content enforcement. While we’ll still have people who review content, these systems will be able to take on work that’s better-suited to technology, like repetitive reviews of graphic content or areas where adversarial actors are constantly changing their tactics, such as with illicit drugs sales or scams. At around 5:30PM ET, Downdetector showed a recent peak of more than 11,000 user reports of problems, but reports of issues have fallen dramatically. At 5:48PM ET, NetBlocks said the platform was experiencing “international outages.” A Meta status page was showing “high disruptions” for Facebook Ads Manager , including ads creation and delivery, but that has been “resolved.” Following Australia’s social media ban for children under 16 taking effect last month, Meta says it has now removed almost 550,000 Instagram, Facebook, and Threads accounts that it believes were run by kids under that age threshold. Despite its compliance, Meta is still voicing opposition to the law. Members can now post under a nickname , along with a custom avatar, though admins have to approve them first. It’s a small step towards Discordification for Facebook, which has otherwise always insisted on posting under real names. So are external comment buttons, according to Meta . They’ll be discontinued on February 10th, 2026, and starting on that date, they’ll render instead as a 0 x 0 pixel to prevent causing errors. So says France’s equality watchdog, ruling Meta needs to improve its job listings, where mechanic roles are mostly being shown to men, with preschool teacher ads going to women. We’ve been talking about sexism in job algorithms for a decade now, including at Facebook, but apparently some things never change. Meta’s AI translation feature initially worked with English and Spanish. The platform has added a new “poke” button directly to users’ profiles, as spotted earlier by TechCrunch . You can track all your pokes and build up a “poke count” on a dedicated page that just reminded me of everyone who poked me in 2010. Apple WWDC 2026: The 7 biggest announcements WWDC 2026 live blog: On the ground at Apple’s keynote Apple announces Siri AI and its next generation of Apple Intelligence 5 things I already love from the iOS 27 beta This is the title for the native ad",
+      "full_article_text_chars": 4728,
+      "content_preview": "Beginning in July, you may start seeing content related to the games you’ve played, your online purchases, and more across your feeds. WhatsApp, Instagram, and Meta AI are getting paid subscriptions, too. Latest In Facebook The company’s new agentic developer tools are giving the discontinued smart displays a second life as a smart home controller , family message board, art display, or anything you can dream up. The move comes shortly after Microsoft announced Project Solara. Meta says the tools are hardware-agnostic and work with many existing devices. Still, anything that breathes new life into a defunct gadget is a good thing. The EU’s General Court said the European Commission’s decision to designate Facebook Marketplace as a gatekeeper service under Digital Markets Act rules “lacks sufficient reasoning,” and that it should be exempt from the regulation. Meta also tried to appeal Messenger’s designation, but that decision stands firm. The app, available on iOS , lets you browse groups that you’re a part of, make posts to groups, and ask questions to a chatbot to get information sourced from groups. Saw this one thanks to Matt Navarra . The New York Times and Reuters report that a memo was sent to Meta employees on Monday reassigning 7,000 of them, and said that “As org leaders worked on the changes, many of them incorporated AI native design principles ⁠into their new org structures.” The memo told employees to work remotely on Wednesday, when it will lay off about 10 percent of its workforce, roughly 8,000 people, with emails sent at 4AM local time. Now that a jury has ruled against Meta and YouTube in a landmark trial, the sharks are circling, and what better place to find potential clients than on those social media platforms? The only problem is that Axios reports Meta pulled “more than a dozen” such ads from firms like Morgan & Morgan and Sokolove Law on Thursday. Social media on trial: tech giants face lawsuits over addiction, safety, and mental health ﻿Why nuclear options like age limits and repealing Section 230 won’t make social media safer. Last year, content moderators who’ve risked consequences like PTSD working for Big Tech companies have started to organize for better treatment in the last several years. Now, Meta has announced a wide rollout of its AI support assistant for Facebook and Instagram, and that it will “reduce our reliance on third-party vendors” employing humans for content enforcement. While we’ll still have people who review content, these systems will be able to take on work that’s better-suited to technology, like repetitive reviews of graphic content or areas where adversarial actors are constantly changing their tactics, such as with illicit drugs sales or scams. At around 5:30PM ET, Downdetector showed a recent peak of more than 11,000 user reports of problems, but reports of issues have fallen dramatically. At 5:48PM ET, NetBlocks said the platform was experiencing “international outages.” A Meta status page was showing “high disruptions” for Facebook Ads Manager , including ads creation and delivery, but that has been “resolved.” Following Australia’s social media ban for children under 16 taking effect last month, Meta says it has now removed almost 550,000 Instagram, Facebook, and Threads accounts that it believes were run by kids under that age threshold. Despite its compliance, Meta is still voicing opposition to the law. Members can now post under a nickname , along with a custom avatar, though admins have to approve them first. It’s a small step towards Discordification for Facebook, which has otherwise always insisted on posting under real names. So are external comment buttons, according to Meta . They’ll be discontinued on February 10th, 2026, and starting on that date, they’ll render instead as a 0 x 0 pixel to prevent causing errors. So says France’s equality watchdog, ruling Meta needs to improve its job listings, where mechanic roles are mostly being shown to men, with preschool teacher ads going to women. We’ve been talking about sexism in job algorithms for a decade now, including at Facebook, but apparently some things never change. Meta’s AI translation feature initially worked with English and Spanish. The platform has added a new “poke” button directly to users’ profiles, as spotted earlier by TechCrunch . You can track all your pokes and build up a “poke count” on a dedicated page that just reminded me of everyone who poked me in 2010. Apple WWDC 2026: The 7 biggest announcements WWDC 2026 live blog: On the ground at Apple’s keynote Apple announces Siri AI and its next generation of Apple Intelligence 5 things I already love from the iOS 27 beta This is the title for the native ad",
+      "content_preview_chars": 4728,
+      "content_fetched_at": "2026-06-09T16:15:42",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "d72098338d722239",
+      "source_url_hash": "d72098338d722239",
+      "canonical_url": "https://www.theverge.com/microsoft",
+      "title_hash": "64814a3b7fd8444a",
+      "topic_signature": "64814a3b7fd8444a56ad",
+      "title": "Microsoft",
+      "url": "https://www.theverge.com/microsoft",
+      "source_name": "The Verge",
+      "source_url": "https://www.theverge.com",
+      "source_published_at": "2026-06-09T14:54:51Z",
+      "published_at_source": "time",
+      "article_age_hours": 1.35,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-09T16:15:38",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 188,
+      "affiliate_links_removed_count": 6,
+      "removed_source_links_count": 188,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Microsoft",
+      "meta_description": "It might not get the same kind of attention as Google and Apple, but Microsoft is still one of the biggest and most powerful tech companies operating today. It runs Azure, one of the biggest cloud computing services, and maintains Windows 11 and the whole Office suite of software. It also makes plenty of Surface hardware and has a whole slew of gaming products, including the Xbox Series X. But the company is ever expanding — building new hardware, acquiring new game studios, and making sure that even if Microsoft doesn’t run your phone, it can touch plenty of the apps on it.",
+      "article_images": [
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/06/gettyimages-2219304754.jpg?quality=90&strip=all&crop=0%2C10.737892056687%2C100%2C78.524215886627&w=1200",
+          "alt": "Microsoft",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/06/DCD-Mustafa-Suleyman.png?quality=90&strip=all&crop=0.027173913043484%2C0%2C99.945652173913%2C100&w=2400",
+          "alt": "Microsoft’s AI chief says superintelligence is near, but won’t take your job",
+          "source": "article_content"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25283723/STK048_XBOX_B.jpg?quality=90&strip=all&crop=17.303921568627%2C0%2C65.392156862745%2C100&w=2400",
+          "alt": "Xbox exclusives are back and more complicated than ever",
+          "source": "article_content"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25283723/STK048_XBOX_B.jpg?quality=90&strip=all&crop=0.95588235294118%2C0%2C98.088235294118%2C100&w=2400",
+          "alt": "Xbox exclusives are back and more complicated than ever",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/06/gettyimages-2219304754.jpg?quality=90&strip=all&crop=0%2C10.737892056687%2C100%2C78.524215886627&w=1200",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/06/DCD-Mustafa-Suleyman.png?quality=90&strip=all&crop=0.027173913043484%2C0%2C99.945652173913%2C100&w=2400",
+          "alt": "Microsoft’s AI chief says superintelligence is near, but won’t take your job"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25283723/STK048_XBOX_B.jpg?quality=90&strip=all&crop=17.303921568627%2C0%2C65.392156862745%2C100&w=2400",
+          "alt": "Xbox exclusives are back and more complicated than ever"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25283723/STK048_XBOX_B.jpg?quality=90&strip=all&crop=0.95588235294118%2C0%2C98.088235294118%2C100&w=2400",
+          "alt": "Xbox exclusives are back and more complicated than ever"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "new publication",
+          "url": "https://commandline.microsoft.com/new-rules-for-builders-agentic-ai-development-jay-parikh-build-2026/"
+        },
+        {
+          "title": "kicking off with information",
+          "url": "https://commandline.microsoft.com/project-solara-build-2026/"
+        },
+        {
+          "title": "Privacy Policy",
+          "url": "https://policies.google.com/privacy"
+        },
+        {
+          "title": "Terms of Service",
+          "url": "https://policies.google.com/terms"
+        }
+      ],
+      "full_article_text": "It might not get the same kind of attention as Google and Apple, but Microsoft is still one of the biggest and most powerful tech companies operating today. It runs Azure, one of the biggest cloud computing services, and maintains Windows 11 and the whole Office suite of software. It also makes plenty of Surface hardware and has a whole slew of gaming products, including the Xbox Series X. But the company is ever expanding — building new hardware, acquiring new game studios, and making sure that even if Microsoft doesn’t run your phone, it can touch plenty of the apps on it. Mustafa Suleyman says AI will help these workers complete tasks, rather than do their jobs. Mustafa Suleyman on automation, OpenAI, and why it’s ‘dangerous’ to call AI ‘alive.’ Latest In Microsoft During an interview with The Game Business at Summer Game Fest, Xbox strategy chief Matthew Ball admitted to “underestimating” the RAM crisis, saying that demand for Xbox consoles “exceeds supply.” It’s pushing Xbox to re-evaluate its plans for its next-gen Helix console: “We are working very hard to rethink everything that we can about Helix, which is a console we are committed to shipping, and we are very cognisant of the ways in which we need to change as a company to make sure it is affordable, to make sure that it’s flexible.” Microsoft AI CEO Mustafa Suleyman came on Decoder this week to talk about the path to superintelligence and the company’s ever-evolving relationship with OpenAI. When asked whether Microsoft was using Build to flex its independence from OpenAI like a “freshly single divorcée,” Suleyman had this to say : Definitely not. No, not at all. Look, I mean, obviously that’s a cool headline and a fun phrase. But the reality is that we are in partnership with OpenAI for years and years to come… So naturally, that’s going to continue. And so I think that’s just a natural course of these sorts of partnerships. I don’t think it’s anything untoward or surprising. I think OpenAI is very understanding and supportive of that. I mean, they’ve obviously been an incredibly fast-growing company, and they understand that we have to pursue our own agenda as well. I don’t think it’s anything untoward or surprising. I think OpenAI is very understanding and supportive of that. I mean, they’ve obviously been an incredibly fast-growing company, and they understand that we have to pursue our own agenda as well. Xbox chief strategy officer Matthew Ball acknowledged during a The Game Business Live interview at Summer Game Fest that the wave of cancellations happened over just a few months after the October price hike. Ball also admitted that “the value of the offering has now changed,” since Call of Duty games won’t be available day-one on Game Pass anymore. An even messier return to console wars than we thought: As spotted by ResetEra , Microsoft’s own Xbox Podcast seems to have inadvertently revealed proof that Gears of War: E-Day was coming to PS5 before Xbox locked it down. The podcast episode has been pulled , presumably to fix the goof. Xbox has just released a new Halo: Campaign Evolved trailer , and the footage was captured on Sony’s PS5 Pro console. The trailer comes a day after Microsoft brought Xbox exclusives back at its Xbox Games Showcase, with Gears of War: E-Day and Clockwork Revolution both skipping PlayStation. Xbox exclusives are back and more complicated than ever We’ve been waiting to hear more about inXile’s new steampunk RPG, and during the Xbox Games Showcase today we finally got a rough release window: 2027. Clockwork Revolution will also be an Xbox console exclusive, just like Gears of War: E-Day . Hoffman, who joined Microsoft’s board in 2017, won’t stand for reelection at the company’s next shareholder meeting, as reported earlier by Bloomberg . In an episode of his Possible podcast with Microsoft CEO Satya Nadella, Hoffman says he wants to focus on Manas, the AI drug development startup he co-founded last year. If you buy something from a Verge link, Vox Media may earn a commission. See our ethics statement. Microsoft’s commitment to AI is not news. Copilot has been everywhere for... a while now. But at this week’s Build developer conference, the company made clear that it wants — and needs — to be a bigger player in the space. The Verge ’s Tom Warren joins David to talk about the new Scout AI assistant, the Solara operating system concept, and whether Microsoft can hang with OpenAI, Anthropic, and Google. Also: how’s the new era of Xbox going? At Computex, Asus announced the ROG NUC 16 Edition 20 — a mini-PC with Intel’s highest-end mobile chip and a flagship RTX 5090 Laptop GPU. It’s even decked out in gold accents for the Republic of Gamers’ 20th anniversary. Like other Asus Computex announcements, there’s no pricing. But as Liliputing points out , the standard model with an RTX 5080 costs $3,799. ‘We have to prove that we can do everything that we need to from the ground up,’ said AI chief Mustafa Suleyman. Microsoft has a vision for its future AI hardware concepts, including an AI ID badge. It doesn’t feel entirely new, but it does feel very Microsoft. congrats this is the rabbit r1 but for middle managers instead of teenage engineering gadgetheads Microsoft’s new publication has a familiar name and is aimed at developers, kicking off with information about the launch of Project Solara, its agentic AI hardware-focused platform. At its Build developer conference, Microsoft is launching Microsoft Execution Containers , a policy-driven layer to make it more secure to run things like OpenClaw on Windows. It’s going a step further too, by allowing a companion app for OpenClaw to run contained on Windows PCs. It should stop AI agents like OpenClaw from deleting all your files. “You can totally run OpenClaw inside your company now,” says OpenClaw creator Peter Steinberger. Microsoft just introduced a couple of concept gadgets at Build 2026 that are powered by a new platform, Project Solara, which is made to run AI agents on devices taking the form of everything from smart speakers to security badges or earbuds. Microsoft’s Project Solara is an OS for AI agent gadgets Microsoft just launched a new Surface Dev Box, and the company is already using the machine live on stage at Build. The top looks like the vent on an Xbox Series X, and inside there’s an Nvidia RTX Spark chip and 128GB of unified memory. Overall, I’d say it looks like a flattened Xbox Series X. It’s nearly time for Microsoft’s annual developer event. The Build keynote kicks off at 9:30AM PT / 12:30PM ET / 5:30PM UK. I’m expecting we’ll hear a lot about new Microsoft AI models, Windows dev improvements, and a little surprise or two. The ‘90s are in right now, and with a new Microsoft antitrust case on the horizon, even the Federal Trade Commission is getting into the spirit. The Knicks are in the NBA finals and Microsoft are under antitrust investigation, it really is the 90s all over again. Asus is launching various Vivobooks and ExperBooks at Computex, but I’m most interested in the Zenbook 14 with a base-level Snapdragon X1-26-100. It’ll come in AMD and Intel configs too, but the Qualcomm version will start with a lowly 8GB of RAM and 256GB SSD. Sounds like another Neo wannabe, but we don’t know for certain since pricing is TBD. ﻿Nvidia’s RTX Spark ‘superchip’ shows promise for Windows laptops. But it also comes at the worst time. Apple WWDC 2026: The 7 biggest announcements WWDC 2026 live blog: On the ground at Apple’s keynote Apple announces Siri AI and its next generation of Apple Intelligence 5 things I already love from the iOS 27 beta This is the title for the native ad",
+      "full_article_text_chars": 7672,
+      "content_preview": "It might not get the same kind of attention as Google and Apple, but Microsoft is still one of the biggest and most powerful tech companies operating today. It runs Azure, one of the biggest cloud computing services, and maintains Windows 11 and the whole Office suite of software. It also makes plenty of Surface hardware and has a whole slew of gaming products, including the Xbox Series X. But the company is ever expanding — building new hardware, acquiring new game studios, and making sure that even if Microsoft doesn’t run your phone, it can touch plenty of the apps on it. Mustafa Suleyman says AI will help these workers complete tasks, rather than do their jobs. Mustafa Suleyman on automation, OpenAI, and why it’s ‘dangerous’ to call AI ‘alive.’ Latest In Microsoft During an interview with The Game Business at Summer Game Fest, Xbox strategy chief Matthew Ball admitted to “underestimating” the RAM crisis, saying that demand for Xbox consoles “exceeds supply.” It’s pushing Xbox to re-evaluate its plans for its next-gen Helix console: “We are working very hard to rethink everything that we can about Helix, which is a console we are committed to shipping, and we are very cognisant of the ways in which we need to change as a company to make sure it is affordable, to make sure that it’s flexible.” Microsoft AI CEO Mustafa Suleyman came on Decoder this week to talk about the path to superintelligence and the company’s ever-evolving relationship with OpenAI. When asked whether Microsoft was using Build to flex its independence from OpenAI like a “freshly single divorcée,” Suleyman had this to say : Definitely not. No, not at all. Look, I mean, obviously that’s a cool headline and a fun phrase. But the reality is that we are in partnership with OpenAI for years and years to come… So naturally, that’s going to continue. And so I think that’s just a natural course of these sorts of partnerships. I don’t think it’s anything untoward or surprising. I think OpenAI is very understanding and supportive of that. I mean, they’ve obviously been an incredibly fast-growing company, and they understand that we have to pursue our own agenda as well. I don’t think it’s anything untoward or surprising. I think OpenAI is very understanding and supportive of that. I mean, they’ve obviously been an incredibly fast-growing company, and they understand that we have to pursue our own agenda as well. Xbox chief strategy officer Matthew Ball acknowledged during a The Game Business Live interview at Summer Game Fest that the wave of cancellations happened over just a few months after the October price hike. Ball also admitted that “the value of the offering has now changed,” since Call of Duty games won’t be available day-one on Game Pass anymore. An even messier return to console wars than we thought: As spotted by ResetEra , Microsoft’s own Xbox Podcast seems to have inadvertently revealed proof that Gears of War: E-Day was coming to PS5 before Xbox locked it down. The podcast episode has been pulled , presumably to fix the goof. Xbox has just released a new Halo: Campaign Evolved trailer , and the footage was captured on Sony’s PS5 Pro console. The trailer comes a day after Microsoft brought Xbox exclusives back at its Xbox Games Showcase, with Gears of War: E-Day and Clockwork Revolution both skipping PlayStation. Xbox exclusives are back and more complicated than ever We’ve been waiting to hear more about inXile’s new steampunk RPG, and during the Xbox Games Showcase today we finally got a rough release window: 2027. Clockwork Revolution will also be an Xbox console exclusive, just like Gears of War: E-Day . Hoffman, who joined Microsoft’s board in 2017, won’t stand for reelection at the company’s next shareholder meeting, as reported earlier by Bloomberg . In an episode of his Possible podcast with Microsoft CEO Satya Nadella, Hoffman says he wants to focus on Manas, the AI drug development startup he co-founded last year. If you buy something from a Verge link, Vox Media may earn a commission. See our ethics statement. Microsoft’s commitment to AI is not news. Copilot has been everywhere for... a while now. But at this week’s Build developer conference, the company made clear that it wants — and needs — to be a bigger player in the space. The Verge ’s Tom Warren joins David to talk about the new Scout AI assistant, the Solara operating system concept, and whether Microsoft can hang with OpenAI, Anthropic, and Google. Also: how’s the new era of Xbox going? At Computex, Asus announced the ROG NUC 16 Edition 20 — a mini-PC with Intel’s highest-end mobile chip and a flagship RTX 5090 Laptop GPU. It’s even decked out in gold accents for the Republic of Gamers’ 20th anniversary. Like other Asus Computex announcements, there’s no pricing. But as Liliputing points out , the standard model with an RTX 5080 costs $3,799. ‘We have to prove that we can do everything that we need to from the ground up,’ said AI chief Mustafa Suleyman. Microsoft has a vision for its future AI hardware concepts, including an AI ID badge. It doesn’t feel entirely new, but it does feel very Microsoft. congrats this is the rabbit r1 but for middle managers instead of teenage engineering gadgetheads Microsoft’s new publication has a familiar name and is aimed at developers, kicking off with information about the launch of Project Solara, its agentic AI hardware-focused platform. At its Build developer conference, Microsoft is launching Microsoft Execution Containers , a policy-driven layer to make it more secure to run things like OpenClaw on Windows. It’s going a step further too, by allowing a companion app for OpenClaw to run contained on Windows PCs. It should stop AI agents like OpenClaw from deleting all your files. “You can totally run OpenClaw inside your company now,” says OpenClaw creator Peter Steinberger. Microsoft just introduced a couple of concept gadgets at Build 2026 that are powered by a new platform, Project Solara, which is made to run AI agents on devices taking the form of everything from smart speakers to security badges or earbuds. Microsoft’s Project Solara is an OS for AI agent gadgets Microsoft just launched a new Surface Dev Box, and the company is already using the machine live on stage at Build. The top looks like the vent on an Xbox Series X, and inside there’s an Nvidia RTX Spark chip and 128GB of unified memory. Overall, I’d say it looks like a flattened Xbox Series X. It’s nearly time for Microsoft’s annual developer event. The Build keynote kicks off at 9:30AM PT / 12:30PM ET / 5:30PM UK. I’m expecting we’ll hear a lot about new Microsoft AI models, Windows dev improvements, and a little surprise or two. The ‘90s are in right now, and with a new Microsoft antitrust case on the horizon, even the Federal Trade Commission is getting into the spirit. The Knicks are in the NBA finals and Microsoft are under antitrust investigation, it really is the 90s all over again. Asus is launching various Vivobooks and ExperBooks at Computex, but I’m most interested in the Zenbook 14 with a base-level Snapdragon X1-26-100. It’ll come in AMD and Intel configs too, but the Qualcomm version will start with a lowly 8GB of RAM and 256GB SSD. Sounds like another Neo wannabe, but we don’t know for certain since pricing is TBD. ﻿Nvidia’s RTX Spark ‘superchip’ shows promise for Windows laptops. But it also comes at the worst time. Apple WWDC 2026: The 7 biggest announcements WWDC 2026 live blog: On the ground at Apple’s keynote Apple announces Siri AI and its next generation of Apple Intelligence 5 things I already love from the iOS 27 beta This is the title for the native ad",
+      "content_preview_chars": 7672,
+      "content_fetched_at": "2026-06-09T16:15:46",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "42ec3242e26ba7fb",
+      "source_url_hash": "42ec3242e26ba7fb",
+      "canonical_url": "https://www.digitaltrends.com/home-theater/marshalls-new-stockwell-iii-fixes-the-problem-most-bluetooth-speakers-ignore",
+      "title_hash": "f7ae12523d40fefb",
+      "topic_signature": "63061270e61327d5bb89",
+      "title": "Marshall’s new Stockwell III fixes the problem most Bluetooth speakers ignore",
+      "url": "https://www.digitaltrends.com/home-theater/marshalls-new-stockwell-iii-fixes-the-problem-most-bluetooth-speakers-ignore",
+      "source_name": "Digital Trends",
+      "source_url": "https://www.digitaltrends.com",
+      "source_published_at": "2026-06-09T14:50:08Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.42,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-09T16:15:38",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 259,
+      "affiliate_links_removed_count": 32,
+      "removed_source_links_count": 259,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Marshall’s new Stockwell III fixes the problem most Bluetooth speakers ignore",
+      "meta_description": "The new Stockwell III packs longer battery life and improved durability, but its most interesting feature isn't about listening to music at all.",
+      "article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/06/Marshall-Stockwell-III-3.jpg?resize=1200%2C630",
+          "alt": "Marshall’s new Stockwell III fixes the problem most Bluetooth speakers ignore",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/06/Marshall-Stockwell-III-2.jpg?resize=2100%2C1400",
+          "alt": "Electronics, Radio, Person",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/06/Marshall-Stockwell-III.jpg?resize=2100%2C1400",
+          "alt": "Cup, Electronics, Accessories",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+          "alt": "Add as a preferred source on Google",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.digitaltrends.com/tachyon/2026/06/Marshall-Stockwell-III-3.jpg?resize=1200%2C630",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/06/Marshall-Stockwell-III-2.jpg?resize=2100%2C1400",
+          "alt": "Electronics, Radio, Person"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/06/Marshall-Stockwell-III.jpg?resize=2100%2C1400",
+          "alt": "Cup, Electronics, Accessories"
+        },
+        {
+          "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+          "alt": "Add as a preferred source on Google"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "For years, Bluetooth speakers have followed a familiar formula: better sound, longer battery life, maybe a splash of waterproofing, and then onto the next model. Marshall’s new Stockwell III certainly checks those boxes, but its most interesting upgrade isn’t about audio at all. It’s about staying alive longer. The Stockwell III arrives as Marshall’s first refresh of the portable speaker since 2019, carrying forward the same road-ready design with its signature carrying strap and retro-inspired aesthetic. At first glance, it looks like a predictable update. Underneath, however, Marshall is making a subtle but meaningful shift toward repairability. The battery isn’t the end of the story anymore It comes with a replaceable battery, a rarity in modern portable audio products. While most Bluetooth speakers are effectively on a countdown clock from the day they’re purchased, the Stockwell III offers a way to extend its lifespan as the battery inevitably wears out. Anyone who has owned a portable speaker for several years knows that battery degradation often becomes the reason a perfectly functional device ends up in a drawer. By making the battery replaceable, Marshall is addressing one of the biggest weaknesses of portable electronics. The company has also doubled battery life, increasing the Stockwell III’s playback time from 20 hours to more than 40 hours. That means fewer charging cycles over time and, theoretically, a longer-lasting product overall. Marshall isn’t stopping with the battery, either. Owners can replace the carrying strap, the front and rear grilles, and even the protective outer sleeve. It’s the kind of design philosophy that feels increasingly relevant as consumers become more conscious of electronic waste and the rising cost of replacing gadgets every few years. A speaker that ages a little more gracefully The repair-friendly approach has another benefit: resale value. A worn-out strap, scuffed exterior, or aging battery can make even premium speakers look tired. Being able to swap out those parts could help keep the Stockwell III looking and functioning closer to new, long after purchase. Beyond longevity, Marshall has made several practical upgrades. The speaker now doubles as a USB-C power bank for charging other devices, and its durability has improved with an IP55 rating that offers better protection against dust and water exposure. The brass control panel has also been refreshed with a customizable sound-profile button and dedicated media controls. The Stockwell III still aims to be a portable speaker. It just happens to be one that’s designed to stick around for a lot longer than most.",
+      "full_article_text_chars": 2656,
+      "content_preview": "For years, Bluetooth speakers have followed a familiar formula: better sound, longer battery life, maybe a splash of waterproofing, and then onto the next model. Marshall’s new Stockwell III certainly checks those boxes, but its most interesting upgrade isn’t about audio at all. It’s about staying alive longer. The Stockwell III arrives as Marshall’s first refresh of the portable speaker since 2019, carrying forward the same road-ready design with its signature carrying strap and retro-inspired aesthetic. At first glance, it looks like a predictable update. Underneath, however, Marshall is making a subtle but meaningful shift toward repairability. The battery isn’t the end of the story anymore It comes with a replaceable battery, a rarity in modern portable audio products. While most Bluetooth speakers are effectively on a countdown clock from the day they’re purchased, the Stockwell III offers a way to extend its lifespan as the battery inevitably wears out. Anyone who has owned a portable speaker for several years knows that battery degradation often becomes the reason a perfectly functional device ends up in a drawer. By making the battery replaceable, Marshall is addressing one of the biggest weaknesses of portable electronics. The company has also doubled battery life, increasing the Stockwell III’s playback time from 20 hours to more than 40 hours. That means fewer charging cycles over time and, theoretically, a longer-lasting product overall. Marshall isn’t stopping with the battery, either. Owners can replace the carrying strap, the front and rear grilles, and even the protective outer sleeve. It’s the kind of design philosophy that feels increasingly relevant as consumers become more conscious of electronic waste and the rising cost of replacing gadgets every few years. A speaker that ages a little more gracefully The repair-friendly approach has another benefit: resale value. A worn-out strap, scuffed exterior, or aging battery can make even premium speakers look tired. Being able to swap out those parts could help keep the Stockwell III looking and functioning closer to new, long after purchase. Beyond longevity, Marshall has made several practical upgrades. The speaker now doubles as a USB-C power bank for charging other devices, and its durability has improved with an IP55 rating that offers better protection against dust and water exposure. The brass control panel has also been refreshed with a customizable sound-profile button and dedicated media controls. The Stockwell III still aims to be a portable speaker. It just happens to be one that’s designed to stick around for a lot longer than most.",
+      "content_preview_chars": 2656,
+      "content_fetched_at": "2026-06-09T16:15:48",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "da8802a1fc731940",
+      "source_url_hash": "da8802a1fc731940",
+      "canonical_url": "https://techcrunch.com/2026/06/09/apples-app-store-rolls-out-personalized-recommendations",
+      "title_hash": "6ae931c8e6767bb0",
+      "topic_signature": "e926d54858d6a98362a7",
+      "title": "Apple’s App Store rolls out personalized recommendations",
+      "url": "https://techcrunch.com/2026/06/09/apples-app-store-rolls-out-personalized-recommendations",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-06-09T14:30:17Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.76,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-09T16:15:38",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 98,
+      "affiliate_links_removed_count": 3,
+      "removed_source_links_count": 98,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Apple's App Store rolls out personalized recommendations | TechCrunch",
+      "meta_description": "Apple will now recommend apps based on your downloads and behavior.",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2024/01/app-store-2024-v2.jpg?resize=1200,675",
+          "alt": "Apple's App Store rolls out personalized recommendations | TechCrunch",
+          "source": "og:image_or_twitter"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2024/01/app-store-2024-v2.jpg?resize=1200,675",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "Finding a new app on Apple’s App Store is about to become less about browsing top charts or picking through curated collections from App Store editors. This week, Apple announced a series of discovery features that will personalize app recommendations based on users’ interests and behavior, providing a new way for developers to have their app discovered. At Apple’s Worldwide Developers Conference (WWDC), the iPhone maker introduced Personalized Collections in the App Store, which will showcase recommendations tailored to the individual. These will also include new “App Notes” that explain why the specific apps were recommended to you. Starting this week, you’ll find these new personalized suggestions in various places in the App Store, including the Apps or Games tab or on the Search tab. The suggestions will also evolve over time based on a user’s app usage and downloads. The feature will initially be available in English in the U.S., and will expand to other regions and languages over time, Apple says. It complements a range of other new tools designed to help developers better promote their apps to potential customers and encourage users to return to their apps and games. The update reflects the maturity of the App Store ecosystem, where being featured by Apple’s App Store editors or being made “App of the Week” is no longer enough to drive guaranteed growth. As competition for users’ attention increases, a selection of new tools could help to re-engage existing customers, promote special offers, and package services together in new ways. For instance, developers will now be able to use rich images and videos in their product page header and search results that can highlight their new content or seasonal offerings, which could encourage existing users to return to the app to see what’s new. They can also organize all their different marketing materials in a new Asset Library, where they can store regularly used assets for things like in-app events and special sales or promotions. Developers can also showcase special offers and engage players on the Apple Games app. Apple will also allow App Bundles for developers running subscription businesses, allowing them to partner with other developers to offer groups of subscription apps for a lower price than if bought as separate subscriptions. Under the new system, developers will also be able to sell subscriptions to larger groups and organizations using new options to build multi-user in-app purchase experiences. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Get an inside look at what it takes to scale and succeed from leaders at Mach Industries, Founders Fund, and Shinkei Systems. Through candid fireside chats and high-impact networking, you’ll walk away with valuable insights and new connections. Microsoft’s open source tools were hacked to steal passwords of AI developers Zack Whittaker Microsoft’s open source tools were hacked to steal passwords of AI developers WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence and more Morgan Little Aisha Malik WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence and more Is this the dawn of the Tokenpocalypse? Anthony Ha Is this the dawn of the Tokenpocalypse? Founders share VC horror stories, and some are naming names Julie Bort Founders share VC horror stories, and some are naming names Google will pay SpaceX $920M per month for compute Sean O'Kane Google will pay SpaceX $920M per month for compute Mira Murati steps back into the spotlight, carefully Connie Loizos Mira Murati steps back into the spotlight, carefully Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns Marina Temkin Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns",
+      "full_article_text_chars": 3870,
+      "content_preview": "Finding a new app on Apple’s App Store is about to become less about browsing top charts or picking through curated collections from App Store editors. This week, Apple announced a series of discovery features that will personalize app recommendations based on users’ interests and behavior, providing a new way for developers to have their app discovered. At Apple’s Worldwide Developers Conference (WWDC), the iPhone maker introduced Personalized Collections in the App Store, which will showcase recommendations tailored to the individual. These will also include new “App Notes” that explain why the specific apps were recommended to you. Starting this week, you’ll find these new personalized suggestions in various places in the App Store, including the Apps or Games tab or on the Search tab. The suggestions will also evolve over time based on a user’s app usage and downloads. The feature will initially be available in English in the U.S., and will expand to other regions and languages over time, Apple says. It complements a range of other new tools designed to help developers better promote their apps to potential customers and encourage users to return to their apps and games. The update reflects the maturity of the App Store ecosystem, where being featured by Apple’s App Store editors or being made “App of the Week” is no longer enough to drive guaranteed growth. As competition for users’ attention increases, a selection of new tools could help to re-engage existing customers, promote special offers, and package services together in new ways. For instance, developers will now be able to use rich images and videos in their product page header and search results that can highlight their new content or seasonal offerings, which could encourage existing users to return to the app to see what’s new. They can also organize all their different marketing materials in a new Asset Library, where they can store regularly used assets for things like in-app events and special sales or promotions. Developers can also showcase special offers and engage players on the Apple Games app. Apple will also allow App Bundles for developers running subscription businesses, allowing them to partner with other developers to offer groups of subscription apps for a lower price than if bought as separate subscriptions. Under the new system, developers will also be able to sell subscriptions to larger groups and organizations using new options to build multi-user in-app purchase experiences. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Get an inside look at what it takes to scale and succeed from leaders at Mach Industries, Founders Fund, and Shinkei Systems. Through candid fireside chats and high-impact networking, you’ll walk away with valuable insights and new connections. Microsoft’s open source tools were hacked to steal passwords of AI developers Zack Whittaker Microsoft’s open source tools were hacked to steal passwords of AI developers WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence and more Morgan Little Aisha Malik WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence and more Is this the dawn of the Tokenpocalypse? Anthony Ha Is this the dawn of the Tokenpocalypse? Founders share VC horror stories, and some are naming names Julie Bort Founders share VC horror stories, and some are naming names Google will pay SpaceX $920M per month for compute Sean O'Kane Google will pay SpaceX $920M per month for compute Mira Murati steps back into the spotlight, carefully Connie Loizos Mira Murati steps back into the spotlight, carefully Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns Marina Temkin Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns",
+      "content_preview_chars": 3870,
+      "content_fetched_at": "2026-06-09T16:15:53",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "a192c640f903adc3",
+      "source_url_hash": "a192c640f903adc3",
+      "canonical_url": "https://techcrunch.com/2026/06/09/anker-backed-evotrex-raises-30m-to-build-its-off-grid-rv",
+      "title_hash": "90a16917e279f6f4",
+      "topic_signature": "0730720675ef973c61bf",
+      "title": "Evotrex raises $30M to build the RV that doesn’t need a charging station",
+      "url": "https://techcrunch.com/2026/06/09/anker-backed-evotrex-raises-30m-to-build-its-off-grid-rv",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-06-09T09:00:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 7.26,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-09T16:15:38",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 98,
+      "affiliate_links_removed_count": 3,
+      "removed_source_links_count": 98,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Exclusive: Anker-backed Evotrex raises $30M to build its off-grid RV | TechCrunch",
+      "meta_description": "The startup is one of many entering the RV space, but it's banking on a hybrid power system that can go far beyond campsites.",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/06/Evotrex-PG5_063.jpeg?resize=1200,675",
+          "alt": "Exclusive: Anker-backed Evotrex raises $30M to build its off-grid RV | TechCrunch",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/06/Evotrex-PG5_063.jpeg?w=1024",
+          "alt": "The Evotrex PG5",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2026/06/Evotrex-PG5_063.jpeg?resize=1200,675",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/06/Evotrex-PG5_063.jpeg?w=1024",
+          "alt": "The Evotrex PG5"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Evotrex has been around for just two years, but the startup is already planning to build and sell its first hybrid RV travel trailers next year, targeting around 1,000 units annually. To get there, Evotrex has closed a $30 million Series A funding round, bringing its total raised to $46 million. Much of that came from a consortium of Chinese and Hong Kong-based investment firms, like GSR United Capital, Forebright Concerto Capital, TTGG Ventures, and Pegasus Capital, among others. Anker, the consumer electronics company, is among its seed investors. The L.A.-based startup will need that capital finish building and testing its RV, which it revealed at this year’s Consumer Electronics Show after emerging from stealth mode last year. It will also need it to hold its ground in a crowded field of startups. Legacy manufacturers have been slow to get going. Thor’s first electric vehicle is going to rental fleets rather than dealerships, and Winnebago’s eRV2 has been in field testing since 2023 without reaching consumers. That gap has drawn a wave of startups, and Evotrex is racing to fill it first. Co-founder Alex Xiao told TechCrunch that he is excited about the competition, and is drawing on his experience as a product manager at Anker to help differentiate Evotrex. “We are not afraid of competition, competition is a good thing. We educate the market together, we grow the market together,” he said. “I think in the long term the strongest companies will have many things — you must be very good at product definition, R&D, and supply chain. You also need to be very good at distribution [and] service. Many things together. It’s a very complicated business.” Some RV startups like Lightship and Pebble are pushing all-electric travel trailers. Evotrex is one of the few that is building a hybrid system. Specifically, it’s an RV powered by a battery pack that can be recharged with an onboard gas engine — an approach commonly referred to as an “extended range electric vehicle,” or EREV. The goal, Xiao said, is to create an RV that can really let people live off the grid for extended periods of time — something that’s hard to accomplish with an all-electric power source, or a gas engine that still requires an electric hookup. This has apparently proven popular. Evotrex said that 90% of its existing order book is for the “fully loaded Premium trim” of its PG5 RV, which is priced at around $160,000. Xiao said Evotrex has finished validating a functional version of its first RV, but needs the next 10 to 12 months to thoroughly test the PG5’s durability. It’s a known vulnerability in the industry. RVs have so many moving parts that mechanical integrity isn’t always a guarantee, and Xiao said Evotrex is taking it seriously. As evidence, he pointed to the fact that the company’s first service employee came on board half a year ago, while its first sales employee only joined this past month, suggesting that Evotrex is prioritizing its ability to support customers over the ability to sell to them. Evotrex still plans to manufacture its RVs in China and complete final assembly in California, and Xiao said he’s still locking down locations for both. But he believes a Los Angeles base will give Evotrex access to its target market, as well as a range of nearby climates that are useful for testing. Xiao said he’s leaning on another lesson from Anker, one that helped that company skyrocket in popularity: focusing on the right customers, and getting them to evangelize the product. “The first thing is you need to find the real customer demand,” he said. “The second is you need to deliver a really good product, and third is: the customer will say the story for you.” When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Sean O’Kane is a reporter who has spent a decade covering the rapidly-evolving business and technology of the transportation industry, including Tesla and the many startups chasing Elon Musk. Most recently, he was a reporter at Bloomberg News where he helped break stories about some of the most notorious EV SPAC flops. He previously worked at The Verge, where he also covered consumer technology, hosted many short- and long-form videos, performed product and editorial photography, and once nearly passed out in a Red Bull Air Race plane. You can contact or verify outreach from Sean by emailing sean.okane@techcrunch.com or via encrypted message at okane.01 on Signal. Get an inside look at what it takes to scale and succeed from leaders at Mach Industries, Founders Fund, and Shinkei Systems. Through candid fireside chats and high-impact networking, you’ll walk away with valuable insights and new connections. Microsoft’s open source tools were hacked to steal passwords of AI developers Zack Whittaker Microsoft’s open source tools were hacked to steal passwords of AI developers WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence and more Morgan Little Aisha Malik WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence and more Is this the dawn of the Tokenpocalypse? Anthony Ha Is this the dawn of the Tokenpocalypse? Founders share VC horror stories, and some are naming names Julie Bort Founders share VC horror stories, and some are naming names Google will pay SpaceX $920M per month for compute Sean O'Kane Google will pay SpaceX $920M per month for compute Mira Murati steps back into the spotlight, carefully Connie Loizos Mira Murati steps back into the spotlight, carefully Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns Marina Temkin Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns",
+      "full_article_text_chars": 5739,
+      "content_preview": "Evotrex has been around for just two years, but the startup is already planning to build and sell its first hybrid RV travel trailers next year, targeting around 1,000 units annually. To get there, Evotrex has closed a $30 million Series A funding round, bringing its total raised to $46 million. Much of that came from a consortium of Chinese and Hong Kong-based investment firms, like GSR United Capital, Forebright Concerto Capital, TTGG Ventures, and Pegasus Capital, among others. Anker, the consumer electronics company, is among its seed investors. The L.A.-based startup will need that capital finish building and testing its RV, which it revealed at this year’s Consumer Electronics Show after emerging from stealth mode last year. It will also need it to hold its ground in a crowded field of startups. Legacy manufacturers have been slow to get going. Thor’s first electric vehicle is going to rental fleets rather than dealerships, and Winnebago’s eRV2 has been in field testing since 2023 without reaching consumers. That gap has drawn a wave of startups, and Evotrex is racing to fill it first. Co-founder Alex Xiao told TechCrunch that he is excited about the competition, and is drawing on his experience as a product manager at Anker to help differentiate Evotrex. “We are not afraid of competition, competition is a good thing. We educate the market together, we grow the market together,” he said. “I think in the long term the strongest companies will have many things — you must be very good at product definition, R&D, and supply chain. You also need to be very good at distribution [and] service. Many things together. It’s a very complicated business.” Some RV startups like Lightship and Pebble are pushing all-electric travel trailers. Evotrex is one of the few that is building a hybrid system. Specifically, it’s an RV powered by a battery pack that can be recharged with an onboard gas engine — an approach commonly referred to as an “extended range electric vehicle,” or EREV. The goal, Xiao said, is to create an RV that can really let people live off the grid for extended periods of time — something that’s hard to accomplish with an all-electric power source, or a gas engine that still requires an electric hookup. This has apparently proven popular. Evotrex said that 90% of its existing order book is for the “fully loaded Premium trim” of its PG5 RV, which is priced at around $160,000. Xiao said Evotrex has finished validating a functional version of its first RV, but needs the next 10 to 12 months to thoroughly test the PG5’s durability. It’s a known vulnerability in the industry. RVs have so many moving parts that mechanical integrity isn’t always a guarantee, and Xiao said Evotrex is taking it seriously. As evidence, he pointed to the fact that the company’s first service employee came on board half a year ago, while its first sales employee only joined this past month, suggesting that Evotrex is prioritizing its ability to support customers over the ability to sell to them. Evotrex still plans to manufacture its RVs in China and complete final assembly in California, and Xiao said he’s still locking down locations for both. But he believes a Los Angeles base will give Evotrex access to its target market, as well as a range of nearby climates that are useful for testing. Xiao said he’s leaning on another lesson from Anker, one that helped that company skyrocket in popularity: focusing on the right customers, and getting them to evangelize the product. “The first thing is you need to find the real customer demand,” he said. “The second is you need to deliver a really good product, and third is: the customer will say the story for you.” When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Sean O’Kane is a reporter who has spent a decade covering the rapidly-evolving business and technology of the transportation industry, including Tesla and the many startups chasing Elon Musk. Most recently, he was a reporter at Bloomberg News where he helped break stories about some of the most notorious EV SPAC flops. He previously worked at The Verge, where he also covered consumer technology, hosted many short- and long-form videos, performed product and editorial photography, and once nearly passed out in a Red Bull Air Race plane. You can contact or verify outreach from Sean by emailing sean.okane@techcrunch.com or via encrypted message at okane.01 on Signal. Get an inside look at what it takes to scale and succeed from leaders at Mach Industries, Founders Fund, and Shinkei Systems. Through candid fireside chats and high-impact networking, you’ll walk away with valuable insights and new connections. Microsoft’s open source tools were hacked to steal passwords of AI developers Zack Whittaker Microsoft’s open source tools were hacked to steal passwords of AI developers WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence and more Morgan Little Aisha Malik WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence and more Is this the dawn of the Tokenpocalypse? Anthony Ha Is this the dawn of the Tokenpocalypse? Founders share VC horror stories, and some are naming names Julie Bort Founders share VC horror stories, and some are naming names Google will pay SpaceX $920M per month for compute Sean O'Kane Google will pay SpaceX $920M per month for compute Mira Murati steps back into the spotlight, carefully Connie Loizos Mira Murati steps back into the spotlight, carefully Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns Marina Temkin Ahead of its IPO, Anthropic’s Daniela Amodei shrugs off doubts about AI’s returns",
+      "content_preview_chars": 5739,
+      "content_fetched_at": "2026-06-09T16:15:51",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "4d2896bf5676fe99",
+      "source_url_hash": "4d2896bf5676fe99",
+      "canonical_url": "https://www.digitaltrends.com/movies/action-movies-netflix-perfect-for-summer-2023",
+      "title_hash": "8b0d0ab232b00a80",
+      "topic_signature": "2e4770f624fe24885a4b",
+      "title": "5 great action movies on Netflix that are perfect for the summer",
+      "url": "https://www.digitaltrends.com/movies/action-movies-netflix-perfect-for-summer-2023",
+      "source_name": "Digital Trends",
+      "source_url": "https://www.digitaltrends.com",
+      "source_published_at": "2026-06-08T20:00:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 20.26,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-09T16:15:38",
+      "status": "skipped",
+      "score": 0,
+      "priority": "low",
+      "skip_reason": "non_technical_entertainment_content"
     }
   ],
   "notifications": {
