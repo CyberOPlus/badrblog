@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-11T20:36:25",
+  "updated_at": "2026-06-11T22:35:32",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -1417,12 +1417,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-06-11T20:34:23",
-      "candidate_retry_after": "2026-06-11T20:49:23Z",
+      "content_fetched_at": "2026-06-11T22:27:49",
+      "candidate_retry_after": "2026-06-11T22:42:49Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-06-11T20:34:23",
-      "candidate_failure_count": 31
+      "candidate_failed_at": "2026-06-11T22:27:49",
+      "candidate_failure_count": 32
     },
     {
       "id": "387079dc0a830ad9",
@@ -3328,7 +3328,10 @@
       "content_preview_chars": 2795,
       "content_fetched_at": "2026-06-08T12:07:05",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-11T22:27:02",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "379a44e8b27ea628",
@@ -3444,12 +3447,12 @@
       "removed_source_links_count": 82,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-11T20:34:25",
-      "candidate_retry_after": "2026-06-11T20:49:25Z",
+      "content_fetched_at": "2026-06-11T22:27:51",
+      "candidate_retry_after": "2026-06-11T22:42:51Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-11T20:34:25",
-      "candidate_failure_count": 29
+      "candidate_failed_at": "2026-06-11T22:27:51",
+      "candidate_failure_count": 30
     },
     {
       "id": "561b6316398d7603",
@@ -4433,12 +4436,12 @@
       "removed_source_links_count": 228,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=451 chars/75 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:451chars/75words, page_text:451chars/75words)",
-      "content_fetched_at": "2026-06-11T20:34:28",
-      "candidate_retry_after": "2026-06-11T20:49:28Z",
+      "content_fetched_at": "2026-06-11T22:27:55",
+      "candidate_retry_after": "2026-06-11T22:42:55Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=451 chars/75 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:451chars/75words, page_text:451chars/75words)",
-      "candidate_failed_at": "2026-06-11T20:34:28",
-      "candidate_failure_count": 28
+      "candidate_failed_at": "2026-06-11T22:27:55",
+      "candidate_failure_count": 29
     },
     {
       "id": "c1354558130eaeb3",
@@ -5517,12 +5520,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-11T20:34:28",
-      "candidate_retry_after": "2026-06-11T20:49:28Z",
+      "content_fetched_at": "2026-06-11T22:27:55",
+      "candidate_retry_after": "2026-06-11T22:42:55Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-11T20:34:28",
-      "candidate_failure_count": 27
+      "candidate_failed_at": "2026-06-11T22:27:55",
+      "candidate_failure_count": 28
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -6865,13 +6868,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-06-11T20:34:29",
-      "candidate_retry_after": "2026-06-11T20:49:29Z",
+      "content_fetch_error": "http 520",
+      "content_fetched_at": "2026-06-11T22:28:06",
+      "candidate_retry_after": "2026-06-11T22:43:06Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-06-11T20:34:29",
-      "candidate_failure_count": 25
+      "candidate_failure_reason": "http 520",
+      "candidate_failed_at": "2026-06-11T22:28:06",
+      "candidate_failure_count": 26
     },
     {
       "id": "cc5e99891af35b5e",
@@ -6902,13 +6905,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-06-11T20:34:29",
-      "candidate_retry_after": "2026-06-11T20:49:29Z",
+      "content_fetch_error": "http 520",
+      "content_fetched_at": "2026-06-11T22:28:18",
+      "candidate_retry_after": "2026-06-11T22:43:18Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-06-11T20:34:29",
-      "candidate_failure_count": 25
+      "candidate_failure_reason": "http 520",
+      "candidate_failed_at": "2026-06-11T22:28:18",
+      "candidate_failure_count": 26
     },
     {
       "id": "a6f4ca9464909855",
@@ -6939,13 +6942,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-06-11T20:34:29",
-      "candidate_retry_after": "2026-06-11T20:49:29Z",
+      "content_fetch_error": "http 520",
+      "content_fetched_at": "2026-06-11T22:28:29",
+      "candidate_retry_after": "2026-06-11T22:43:29Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-06-11T20:34:29",
-      "candidate_failure_count": 25
+      "candidate_failure_reason": "http 520",
+      "candidate_failed_at": "2026-06-11T22:28:29",
+      "candidate_failure_count": 26
     },
     {
       "id": "66722f50e91993b6",
@@ -9004,12 +9007,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-11T20:34:29",
-      "candidate_retry_after": "2026-06-11T20:49:29Z",
+      "content_fetched_at": "2026-06-11T22:28:29",
+      "candidate_retry_after": "2026-06-11T22:43:29Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-11T20:34:29",
-      "candidate_failure_count": 21
+      "candidate_failed_at": "2026-06-11T22:28:29",
+      "candidate_failure_count": 22
     },
     {
       "id": "512c2899a98440d2",
@@ -9038,12 +9041,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-11T20:34:29",
-      "candidate_retry_after": "2026-06-11T20:49:29Z",
+      "content_fetched_at": "2026-06-11T22:28:29",
+      "candidate_retry_after": "2026-06-11T22:43:29Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-11T20:34:29",
-      "candidate_failure_count": 21
+      "candidate_failed_at": "2026-06-11T22:28:29",
+      "candidate_failure_count": 22
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -9072,12 +9075,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-11T20:34:29",
-      "candidate_retry_after": "2026-06-11T20:49:29Z",
+      "content_fetched_at": "2026-06-11T22:28:29",
+      "candidate_retry_after": "2026-06-11T22:43:29Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-11T20:34:29",
-      "candidate_failure_count": 21
+      "candidate_failed_at": "2026-06-11T22:28:29",
+      "candidate_failure_count": 22
     },
     {
       "id": "d9a0fa48ccc53ccf",
@@ -10992,12 +10995,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-11T20:34:44",
-      "candidate_retry_after": "2026-06-11T20:49:44Z",
+      "content_fetched_at": "2026-06-11T22:28:37",
+      "candidate_retry_after": "2026-06-11T22:43:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-11T20:34:44",
-      "candidate_failure_count": 17
+      "candidate_failed_at": "2026-06-11T22:28:37",
+      "candidate_failure_count": 18
     },
     {
       "id": "33732dfdc6295ab2",
@@ -11029,12 +11032,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-11T20:34:59",
-      "candidate_retry_after": "2026-06-11T20:49:59Z",
+      "content_fetched_at": "2026-06-11T22:28:49",
+      "candidate_retry_after": "2026-06-11T22:43:49Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-11T20:34:59",
-      "candidate_failure_count": 17
+      "candidate_failed_at": "2026-06-11T22:28:49",
+      "candidate_failure_count": 18
     },
     {
       "id": "aede79193c6b98c9",
@@ -11066,12 +11069,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-11T20:35:13",
-      "candidate_retry_after": "2026-06-11T20:50:13Z",
+      "content_fetched_at": "2026-06-11T22:29:06",
+      "candidate_retry_after": "2026-06-11T22:44:06Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-11T20:35:13",
-      "candidate_failure_count": 17
+      "candidate_failed_at": "2026-06-11T22:29:06",
+      "candidate_failure_count": 18
     },
     {
       "id": "fd4f78fb8656592b",
@@ -11155,11 +11158,11 @@
       "content_fetched_at": "2026-06-09T22:02:17",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-11T11:08:18",
+      "selected_at": "2026-06-11T22:32:46",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-11T11:08:18",
+      "processing_prepared_at": "2026-06-11T22:32:46",
       "ai_input_package": {
         "title": "Speechify Review: Snoop Dogg Read My Paper at 4.5x Speed",
         "url": "https://www.unite.ai/speechify-review",
@@ -11207,20 +11210,20 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "ad/affiliate/sponsored title or summary",
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "ad/affiliate/sponsored title or summary",
-      "ai_rotation_exhausted": false,
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 162.95,
-      "ai_quality_status": "failed_after_retries",
+      "ai_total_time_seconds": 163.59,
+      "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-11T11:26:01Z",
+      "candidate_retry_after": "2026-06-11T22:50:30Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "ad/affiliate/sponsored title or summary",
-      "candidate_failed_at": "2026-06-11T11:11:01",
-      "candidate_failure_count": 3
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-11T22:35:30",
+      "candidate_failure_count": 4
     },
     {
       "id": "b44d734a55ac65da",
@@ -13527,12 +13530,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-06-11T20:35:15",
-      "candidate_retry_after": "2026-06-11T20:50:15Z",
+      "content_fetched_at": "2026-06-11T22:29:09",
+      "candidate_retry_after": "2026-06-11T22:44:09Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-06-11T20:35:15",
-      "candidate_failure_count": 13
+      "candidate_failed_at": "2026-06-11T22:29:09",
+      "candidate_failure_count": 14
     },
     {
       "id": "693fbfabd96b2185",
@@ -13563,12 +13566,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-06-11T20:35:16",
-      "candidate_retry_after": "2026-06-11T20:50:16Z",
+      "content_fetched_at": "2026-06-11T22:29:10",
+      "candidate_retry_after": "2026-06-11T22:44:10Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-06-11T20:35:16",
-      "candidate_failure_count": 13
+      "candidate_failed_at": "2026-06-11T22:29:10",
+      "candidate_failure_count": 14
     },
     {
       "id": "a5f6af5d6b69d4f1",
@@ -16124,11 +16127,11 @@
       "content_fetched_at": "2026-06-10T21:38:27",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-11T11:07:01",
+      "selected_at": "2026-06-11T22:29:10",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-11T11:07:01",
+      "processing_prepared_at": "2026-06-11T22:29:10",
       "ai_input_package": {
         "title": "DocLang Aims to Become the Universal Language for AI-Ready Documents",
         "url": "https://www.unite.ai/doclang-aims-to-become-the-universal-language-for-ai-ready-documents",
@@ -16177,14 +16180,14 @@
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 27.49,
+      "ai_total_time_seconds": 73.41,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-11T11:22:29Z",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-06-11T22:45:24Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-06-11T11:07:29",
-      "candidate_failure_count": 1,
+      "candidate_failed_at": "2026-06-11T22:30:24",
+      "candidate_failure_count": 2,
       "telegram_final_summary_notified_at": "2026-06-11T11:11:55"
     },
     {
@@ -16264,11 +16267,11 @@
       "content_fetched_at": "2026-06-10T21:39:38",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-11T11:07:29",
+      "selected_at": "2026-06-11T22:30:24",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-11T11:07:29",
+      "processing_prepared_at": "2026-06-11T22:30:24",
       "ai_input_package": {
         "title": "Orange Business Deploys Gen AI to Upskill Hospital Staff",
         "url": "https://aimagazine.com/news/orange-business-deploys-gen-ai-to-upskill-hospital-staff",
@@ -16316,14 +16319,14 @@
       "ai_error": "Missing AI output field(s): slug",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 47.44,
+      "ai_total_time_seconds": 140.96,
       "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-11T11:23:18Z",
+      "candidate_retry_after": "2026-06-11T22:47:46Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "Missing AI output field(s): slug",
-      "candidate_failed_at": "2026-06-11T11:08:18",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-06-11T22:32:46",
+      "candidate_failure_count": 2
     },
     {
       "id": "00d6fe6fb09a6b91",
@@ -16402,11 +16405,11 @@
       "content_fetched_at": "2026-06-10T21:39:40",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-11T11:11:01",
+      "selected_at": "2026-06-11T22:35:30",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-11T11:11:02",
+      "processing_prepared_at": "2026-06-11T22:35:30",
       "ai_input_package": {
         "title": "Join The Future of AI in Sustainability Panel in London",
         "url": "https://aimagazine.com/news/join-the-future-of-ai-in-sustainability-panel-in-london",
@@ -16451,17 +16454,18 @@
       },
       "ai_quality_last_error": "Missing AI output field(s): slug",
       "ai_status": "failed",
-      "ai_error": "Missing AI output field(s): slug",
-      "ai_rotation_exhausted": false,
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 51.54,
-      "ai_quality_status": "failed_after_retries",
-      "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-11T11:26:54Z",
+      "ai_total_time_seconds": 1.03,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-06-11T22:50:32Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "Missing AI output field(s): slug",
-      "candidate_failed_at": "2026-06-11T11:11:54",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-11T22:35:32",
+      "candidate_failure_count": 2,
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
     },
     {
       "id": "cf832b4f364e93bd",
@@ -20218,6 +20222,222 @@
       "content_preview": "By: Yuhao Wu Tony Li Hongliang Liu Categories: Malware Threat Research Tags: AI agents Credential exfiltration LLMs OpenClaw Supply chain AI agents now extend their capabilities by installing third-party skills the way smartphones install apps. Anyone can publish a skill to a public registry. Anyone can install one into a production agent. And until now, no automated tool has verified what a skill does before it gains privileged access to credentials, files and shell commands inside that agent. We introduce Behavioral Integrity Verification (BIV), an audit primitive that compares what a skill claims to do against what it does, across all three of its surfaces: Applied at registry scale, BIV finds that most skills deviate from declared behavior. The vast majority of those gaps are sloppy documentation, not malice. But a smaller, dangerous slice carries multi-stage attack chains, where individually benign-looking capabilities combine into credential theft, remote code execution or silent data exfiltration. The agent-skill ecosystem now stands where mobile applications and browser extensions were a decade ago. Extensibility has outpaced the supply-chain audit primitives that should gate it. Security teams running large language model (LLM) agents in production should inventory the third-party skills installed and require a behavioral-integrity check before installation rather than after. Palo Alto Networks customers are better protected from this type of issue through the following products and services: The Unit 42 AI Security Assessment can help empower safe AI use and development. If you think you might have been compromised or have an urgent matter, contact the Unit 42 Incident Response team . LLM , AI Agents , Supply Chain Enterprises now deploy LLM agents to automate tasks across code generation, IT operations, customer support and internal workflows. These agents are extended with skills, the agent equivalent of an app: a small package that bundles executable code with a YAML manifest and a natural-language SKILL.md file telling the agent when and how to use it. Once installed, a skill runs inside the agent's privileged context. It can read environment variables, call external services, write files and execute shell commands on behalf of the organization. Public agent-skill registries now host tens of thousands of these packages. Anyone can publish. Anyone can install. The platforms that came before, package managers, mobile app stores and browser extension marketplaces, all eventually grew automated audit ecosystems after attackers turned the openness against users. The agent-skill ecosystem has not. The audit problem in this ecosystem differs from anything earlier platforms faced. A skill's behavior splits across three modalities: The metadata declares what the skill is supposed to do. The code and instructions together drive what it does. No existing scanner reads all three, and the registry has no automated way to verify that the two sides match. BIV is the audit primitive that compares them. The Method: Declared Vs. Actual Behavior BIV asks one question of every skill: Does what it says match what it does? To answer that question consistently across tens of thousands of skills, BIV needed a shared vocabulary. We used a fixed taxonomy of 29 capabilities organized into seven families: Two parallel tracks populate the taxonomy: The declared track reads the metadata. Deterministic parsers handle structural fields like YAML frontmatter and schemas. An LLM then reads natural-language descriptions ( README, SKILL.md prose) to extract claimed capabilities, ensuring each claim is grounded in a quoted source span. The actual track reads the code and instructions. Static analyzers cover code across multiple scripting languages (Python, JavaScript, shell) using abstract syntax tree (AST)-level taint analysis , regex and pattern matching. Separately, an LLM reads the natural-language instructions to surface prompt-injection and instruction-override motifs that traditional parsers miss. A skill passes when its actual capability set fits inside its declared capability set. A skill fails when it does something it never disclosed (an under-specification, the operationally dangerous direction) or declares a permission it never exercises (an over-specification, almost always benign template residue). Three filters keep the LLM components honest: The first rejects any output that echoes the taxonomy verbatim. The second rejects capability claims not anchored in a quoted source span. The third requires domain-specific keywords in context for high-risk capabilities. The pipeline ships with file-and-line evidence pointers, so every flagged deviation is auditable by hand. Findings in the Wild We crawled the OpenClaw agent-skill registry in early 2026 and ran BIV across all 49,943 listed skills. BIV surfaced 250,706 behavioral deviations, with 80.0% of skills (39,933) showing at least one mismatch between declaration and behavior. A clustering pass over the deviation explanations produced a 137-cluster taxonomy and, notably, four novel compound threat categories. Each is a multi-step pattern: Exfiltration chains ( FILE_READ → base64 → NETWORK_SEND ) Remote code execution (RCE) chains ( download → write → execute ) Code obfuscation ( encoding chain → dynamic eval ) Data lineage violations ( FILE_READ → FILE_WRITE , mostly benign data-pipeline boilerplate) The threat lives in the chain, not the link. A scanner that checks one capability at a time sees a file read in one row and a network send in another and flags neither in isolation. BIV's contribution is the link between them. A capability mismatch tells us that something undeclared is happening, not whether the developer was sloppy or hostile. BIV separates the two with a two-step intent classifier. A deterministic rule engine resolves roughly two-thirds of cases at near-zero cost. An LLM classifier handles the rest by reasoning across a skill's full deviation list, so a multi-step chain is judged as a unit. Figure 1 breaks down 163,754 classified deviations by root cause. Our analysis of this breakdown reveals that the skill ecosystem's primary failure mode is specification immaturity, not pervasive malice. Specifically, the classified data highlights two key themes: 81.1% were traced to developer oversight. Documentation errors lead, followed by legitimate helper code, unused declarations and framework dependencies. These call for documentation outreach at the registry, not security review. 18.9% were traced to adversarial intent. This adversarial slice concentrates sharply in data theft and espionage (60% of the adversarial total), then payload and infrastructure, and agent hijacking. Financial, destructive and social engineering combined come to under 1%. When analyzed at the skill level, the registry decomposes into three governance tiers. The top tier is 5.0% of the registry (2,490 skills) that carry multi-stage attack chains and warrant mandatory security review. The middle tier is 16.8% that carry single-stage adversarial deviations and warrant contextual review. The remaining 72.5% are benign skills whose declared metadata simply needs to catch up to the code. The top tier has structure worth leveraging. The 2,490 skills carrying multi-stage chains are not 2,490 unrelated alerts. Silent credential exfiltration (read a secret, transmit it) Instruction-override hijacking (take over the agent's decision loop, then exfiltrate) Together, they cover 88% of all multi-stage chains. For an analyst running incident response or a registry operator setting review policy, this is operationally significant. The first 88% of the review effort can target two well-defined patterns instead of a flat list. Where the Real Risk Concentrates The adversarial fraction of deviations varies sharply across the seven capability families. A registry-wide threshold either over-blocks routine I/O skills or under-reviews the genuinely dangerous categories. Figure 2 plots each category by its adversarial fraction and deviation volume, with compound threat categories indicated by red stars. As the plot illustrates, three of the four compound threat categories sit in the high-adversarial region. Data lineage violations, dominated by benign data-pipeline boilerplate, is the outlier. We noted the following trends in other threat categories: Instruction manipulation: 96% adversarial. The smallest established capability surface but the highest signal-to-noise ratio. Almost every undeclared prompt-control directive is suspect. This is the agent-specific attack surface that no prior third-party platform had to defend. Credentials: 56% adversarial. It reflects the operational value of secrets to attackers. Network: 37% adversarial. Mid-band; legitimate uses compete with exfiltration motifs. File system (10%) and process execution (12%): Predominantly benign.",
       "content_preview_chars": 8931,
       "content_fetched_at": "2026-06-11T20:34:11",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "7679c99c307e50cd",
+      "source_url_hash": "7679c99c307e50cd",
+      "canonical_url": "https://www.artificialintelligence-news.com/news/visa-chatgpt-integration-enables-ai-agent-retail-purchasing",
+      "title_hash": "f335a8098c01a89a",
+      "topic_signature": "627948b068311cde7bfa",
+      "title": "Visa ChatGPT integration enables AI agent retail purchasing",
+      "url": "https://www.artificialintelligence-news.com/news/visa-chatgpt-integration-enables-ai-agent-retail-purchasing",
+      "source_name": "Artificial Intelligence News",
+      "source_url": "https://www.artificialintelligence-news.com",
+      "source_published_at": "2026-06-11T11:08:17Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 11.31,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-11T22:27:02",
+      "status": "ready",
+      "score": 6,
+      "priority": "medium",
+      "source_links_removed_count": 248,
+      "affiliate_links_removed_count": 7,
+      "removed_source_links_count": 248,
+      "enrichment_fallback_used": "content_container",
+      "fetched_title": "Visa ChatGPT integration enables AI agent retail purchasing",
+      "meta_description": "Visa has linked its payment infrastructure to ChatGPT, enabling AI agents to recommend retail products and execute financial transactions.",
+      "article_images": [
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/visa-chatgpt-integration-payments-retail-agentic-ai-ecommerce-agents-fintech-openai-enterprise-finance.jpg",
+          "alt": "Visa ChatGPT integration enables AI agent retail purchasing",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/visa-chatgpt-integration-payments-retail-agentic-ai-ecommerce-agents-fintech-openai-enterprise-finance-1024x768.jpg",
+          "alt": "Credit card design as Visa has linked its payment infrastructure to ChatGPT, enabling AI agents to recommend retail products and execute financial transactions.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/McDonalds-tests-Google-backed-AI-drive-thru-ordering-system-1024x683.jpg",
+          "alt": "McDonald’s tests Google-backed AI drive-thru ordering system",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/PDF-signer-1024x517.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/visa-chatgpt-integration-payments-retail-agentic-ai-ecommerce-agents-fintech-openai-enterprise-finance.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/visa-chatgpt-integration-payments-retail-agentic-ai-ecommerce-agents-fintech-openai-enterprise-finance-1024x768.jpg",
+          "alt": "Credit card design as Visa has linked its payment infrastructure to ChatGPT, enabling AI agents to recommend retail products and execute financial transactions."
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/McDonalds-tests-Google-backed-AI-drive-thru-ordering-system-1024x683.jpg",
+          "alt": "McDonald’s tests Google-backed AI drive-thru ordering system"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/PDF-signer-1024x517.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Visa has linked its payment infrastructure to ChatGPT, enabling AI agents to recommend retail products and execute financial transactions. The deployment removes human intervention from the final stages of the retail funnel. Autonomous agents will now process user prompts, evaluate merchant catalogues, and complete the checkout process using Visa’s payment rails at any supporting merchant. Previous retail AI integrations restricted automated purchasing to single-vendor environments. Retailers built proprietary chatbots confined entirely to their own inventory. Visa’s integration bypasses closed-loop architecture. The payment giant connects the open-web reasoning capabilities of a large language model directly to a universal transaction network. Users simply command the agent to procure an item, and the model handles the vendor selection, product comparison, and financial settlement. Restructuring retail data for AI agent buyers Marketing departments design campaigns around human psychology, emotional triggers, and visual merchandising. AI agents operate on pure data evaluation. When ChatGPT receives a mandate to purchase a specific product type, it parses technical specifications, aggregated sentiment scores, and pricing structures. Display ads and user interface optimisations hold zero weight in the model’s selection criteria. Retailers will need to expose machine-readable inventory data. Search engine optimisation transitions into language model optimisation. The algorithms driving ChatGPT rely on structured data feeds, clear API documentation, and explicitly-formatted product attributes to evaluate whether an item meets the user’s parameters. Merchants failing to maintain high-quality, structured metadata will find their products invisible to the autonomous agent. Personalisation occurs entirely on the user’s device or within the user’s secure LLM profile. The AI retains the consumer’s past preferences, sizing requirements, budget constraints, and brand affinities. Instead of the retailer attempting to guess the consumer’s needs through tracking cookies and site behaviour, the agent arrives at the digital storefront with a highly-specific procurement mandate. Completing a transaction without human intervention requires a secure, automated handshake between the reasoning engine and the payment gateway. Visa provides the financial layer necessary to establish trust in an inherently untrusted agentic environment. Traditional checkout flows require manual data entry, CAPTCHA verification, and two-factor authentication loops. These mechanisms block autonomous agents. Visa implements programmatic tokenisation to solve the authentication problem. The user pre-authorises the ChatGPT environment with specific spending parameters. When the LLM decides on a purchase, it generates a single-use payment token through the Visa network. The agent transmits this token via API to the merchant’s backend systems. The transaction settles exactly like a standard digital wallet payment, bypassing the visual user interface completely. A digital storefront requiring multi-page navigation or mandatory account creation introduces failure points for the agent. Enterprises actively deploying headless commerce architectures possess an advantage. They can process the agent’s payload, confirm stock levels, and execute the payment token in milliseconds. Enterprises track bounce rates, session durations, and cart abandonment to understand consumer behaviour. An AI agent does not browse—it queries an endpoint, extracts the necessary data, and either executes the payment or terminates the connection. Retailers must develop new telemetry to measure agent interactions. Tracking the frequency of API queries from known LLM IP addresses replaces tracking unique human visitors. Understanding why an agent selected a competitor’s product will require analysing the structural differences in product data feeds rather than running A/B tests on website layouts. Customer retention strategies also need adjustment. An autonomous agent evaluates the market fresh with every prompt unless explicitly instructed by the user to reorder a specific brand. Loyalty programmes must be engineered into the payment token or the user’s LLM profile. If the AI cannot automatically apply a loyalty discount during its background calculation, the merchant loses the pricing advantage intended to secure the repeat purchase. Managing and securing the agentic AI supply chain Prompt injection attacks could theoretically manipulate an agent into purchasing from malicious vendors or authorising inflated transactions. Visa’s network acts as the final validation layer, applying fraud detection models to the incoming token requests. Businesses face the secondary challenge of managing automated returns and customer service queries initiated by the AI. If the delivered product fails to meet the parameters defined in the original prompt, the user can instruct the agent to reverse the transaction. In this scenario, the AI will autonomously navigate the merchant’s return policy, initiate the refund request, and generate the necessary shipping labels. Retail customer service operations must deploy their own automated systems capable of negotiating directly with the consumer’s agent. Visa’s ChatGPT integration confirms the enterprise transition from human-operated software interfaces to autonomous digital proxies. The customer is no longer necessarily a human navigating a web browser, but an algorithm executing a script. See also: Aviva deploys AI to stop £230M in sophisticated insurance fraud Want to learn more about AI and big data from industry leaders? Check out AI & Big Data Expo taking place in Amsterdam, California, and London. The comprehensive event is part of TechEx and is co-located with other leading technology events including the Cyber Security & Cloud Expo . Click here for more information. AI News is powered by TechForge Media . Explore other upcoming enterprise technology events and webinars here .",
+      "full_article_text_chars": 6045,
+      "content_preview": "Visa has linked its payment infrastructure to ChatGPT, enabling AI agents to recommend retail products and execute financial transactions. The deployment removes human intervention from the final stages of the retail funnel. Autonomous agents will now process user prompts, evaluate merchant catalogues, and complete the checkout process using Visa’s payment rails at any supporting merchant. Previous retail AI integrations restricted automated purchasing to single-vendor environments. Retailers built proprietary chatbots confined entirely to their own inventory. Visa’s integration bypasses closed-loop architecture. The payment giant connects the open-web reasoning capabilities of a large language model directly to a universal transaction network. Users simply command the agent to procure an item, and the model handles the vendor selection, product comparison, and financial settlement. Restructuring retail data for AI agent buyers Marketing departments design campaigns around human psychology, emotional triggers, and visual merchandising. AI agents operate on pure data evaluation. When ChatGPT receives a mandate to purchase a specific product type, it parses technical specifications, aggregated sentiment scores, and pricing structures. Display ads and user interface optimisations hold zero weight in the model’s selection criteria. Retailers will need to expose machine-readable inventory data. Search engine optimisation transitions into language model optimisation. The algorithms driving ChatGPT rely on structured data feeds, clear API documentation, and explicitly-formatted product attributes to evaluate whether an item meets the user’s parameters. Merchants failing to maintain high-quality, structured metadata will find their products invisible to the autonomous agent. Personalisation occurs entirely on the user’s device or within the user’s secure LLM profile. The AI retains the consumer’s past preferences, sizing requirements, budget constraints, and brand affinities. Instead of the retailer attempting to guess the consumer’s needs through tracking cookies and site behaviour, the agent arrives at the digital storefront with a highly-specific procurement mandate. Completing a transaction without human intervention requires a secure, automated handshake between the reasoning engine and the payment gateway. Visa provides the financial layer necessary to establish trust in an inherently untrusted agentic environment. Traditional checkout flows require manual data entry, CAPTCHA verification, and two-factor authentication loops. These mechanisms block autonomous agents. Visa implements programmatic tokenisation to solve the authentication problem. The user pre-authorises the ChatGPT environment with specific spending parameters. When the LLM decides on a purchase, it generates a single-use payment token through the Visa network. The agent transmits this token via API to the merchant’s backend systems. The transaction settles exactly like a standard digital wallet payment, bypassing the visual user interface completely. A digital storefront requiring multi-page navigation or mandatory account creation introduces failure points for the agent. Enterprises actively deploying headless commerce architectures possess an advantage. They can process the agent’s payload, confirm stock levels, and execute the payment token in milliseconds. Enterprises track bounce rates, session durations, and cart abandonment to understand consumer behaviour. An AI agent does not browse—it queries an endpoint, extracts the necessary data, and either executes the payment or terminates the connection. Retailers must develop new telemetry to measure agent interactions. Tracking the frequency of API queries from known LLM IP addresses replaces tracking unique human visitors. Understanding why an agent selected a competitor’s product will require analysing the structural differences in product data feeds rather than running A/B tests on website layouts. Customer retention strategies also need adjustment. An autonomous agent evaluates the market fresh with every prompt unless explicitly instructed by the user to reorder a specific brand. Loyalty programmes must be engineered into the payment token or the user’s LLM profile. If the AI cannot automatically apply a loyalty discount during its background calculation, the merchant loses the pricing advantage intended to secure the repeat purchase. Managing and securing the agentic AI supply chain Prompt injection attacks could theoretically manipulate an agent into purchasing from malicious vendors or authorising inflated transactions. Visa’s network acts as the final validation layer, applying fraud detection models to the incoming token requests. Businesses face the secondary challenge of managing automated returns and customer service queries initiated by the AI. If the delivered product fails to meet the parameters defined in the original prompt, the user can instruct the agent to reverse the transaction. In this scenario, the AI will autonomously navigate the merchant’s return policy, initiate the refund request, and generate the necessary shipping labels. Retail customer service operations must deploy their own automated systems capable of negotiating directly with the consumer’s agent. Visa’s ChatGPT integration confirms the enterprise transition from human-operated software interfaces to autonomous digital proxies. The customer is no longer necessarily a human navigating a web browser, but an algorithm executing a script. See also: Aviva deploys AI to stop £230M in sophisticated insurance fraud Want to learn more about AI and big data from industry leaders? Check out AI & Big Data Expo taking place in Amsterdam, California, and London. The comprehensive event is part of TechEx and is co-located with other leading technology events including the Cyber Security & Cloud Expo . Click here for more information. AI News is powered by TechForge Media . Explore other upcoming enterprise technology events and webinars here .",
+      "content_preview_chars": 6045,
+      "content_fetched_at": "2026-06-11T22:27:16",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "6d9fa7af491e4fb5",
+      "source_url_hash": "6d9fa7af491e4fb5",
+      "canonical_url": "https://www.artificialintelligence-news.com/news/xebia-on-building-the-data-foundation-for-ai-agents-and-then-accelerating",
+      "title_hash": "770e7e7e179b43ff",
+      "topic_signature": "77905c1f4dc71adbd59b",
+      "title": "Xebia: Why AI agents fail without the right data foundation",
+      "url": "https://www.artificialintelligence-news.com/news/xebia-on-building-the-data-foundation-for-ai-agents-and-then-accelerating",
+      "source_name": "Artificial Intelligence News",
+      "source_url": "https://www.artificialintelligence-news.com",
+      "source_published_at": "2026-06-11T10:42:38Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 11.74,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-11T22:27:02",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 229,
+      "affiliate_links_removed_count": 9,
+      "removed_source_links_count": 229,
+      "enrichment_fallback_used": "content_container",
+      "fetched_title": "Xebia: Why AI agents fail without the right data foundation",
+      "meta_description": "If your remit is to help your organisation add AI agents to accelerate its processes, you have to start at the foundation – and that means making your data available for AI consumption. Agentic AI scales on data strength, as Niels Zeilemaker, global CTO at Xebia, explains. “If you don’t think about that, you can […]",
+      "article_images": [
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/fabio-oyXis2kALVg-unsplash.jpg",
+          "alt": "Xebia: Why AI agents fail without the right data foundation",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/fabio-oyXis2kALVg-unsplash-1024x768.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2025/02/square.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/McDonalds-tests-Google-backed-AI-drive-thru-ordering-system-1024x683.jpg",
+          "alt": "McDonald’s tests Google-backed AI drive-thru ordering system",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/fabio-oyXis2kALVg-unsplash.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/fabio-oyXis2kALVg-unsplash-1024x768.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2025/02/square.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/06/McDonalds-tests-Google-backed-AI-drive-thru-ordering-system-1024x683.jpg",
+          "alt": "McDonald’s tests Google-backed AI drive-thru ordering system"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "If your remit is to help your organisation add AI agents to accelerate its processes, you have to start at the foundation – and that means making your data available for AI consumption. Agentic AI scales on data strength, as Niels Zeilemaker, global CTO at Xebia, explains. “If you don’t think about that, you can build the best agent, but it will never be able to find the correct data; maybe it will misinterpret the data, maybe it will join different fields together in your data which should never be connected,” explains Zeilemaker. “And these mistakes are not necessarily the fault of the agent. It’s the fault of your foundation, which is not ready for AI agents.” One area to particularly consider, Zeilemaker notes, is data cataloguing. It’s not a new concept, but the game changes for agents. “If you’re setting up a data catalogue for an organisation only consisting of humans, there’s always a fallback,” he says. “If there’s something not really well documented, you can pick up the phone, walk to a colleague, and have a sort of back door, in ‘how should I work with this particular set of data?’ “Agents don’t have such a back door. They have to rely on the data catalogue, what’s written there, and if the description is wrong, the agents will not perform.” Xebia’s focus is to help organisations turn AI strategy into production-ready solutions which drive real transformation faster. The company’s core values include being people first and quality without compromise, but perhaps the most important, as Zeilemaker sees it, is sharing knowledge – such as at events like TechEx Global North America, at which Xebia participated. “I think sharing knowledge is very important for us, and it also allows us to be a bit ahead of the curve, adopt quickly to new changes in the market, because everybody has this eagerness to find out new things, and to share what works, what doesn’t work,” says Zeilemaker. “By pushing a lot into this sharing knowledge and innovation, we try to also pick a couple of domains where we want to be the authority.” Data and AI is evidently one of those areas. At AI & Big Data Expo, Zeilemaker told attendees how to build this AI foundation and unify their fragmented data landscapes. It was an honest account of how combining purpose-built AI agents with expert engineering compresses a 12- to 24-month timeline into a fixed-price, milestone-bound engagement. The overarching thread for this is what Xebia calls Agentic Data Foundation (ADF), which extends the data platform to host agents, and then make use of them both in customer-facing use cases and internal processes. While there has always been a big appetite in migrating from legacy to modern platforms, Xebia is seeing more customers asking for an approach to more quickly – and reliably – migrate into data platforms. Zeilemaker says this is where consultant and customer are co-developing the solution. “Agents have to rely on the data catalogue and what’s written there – and if the description is wrong, the agents will not perform” “After doing migrations the old-fashioned way, and accelerating some with LLM coding, we are now integrating this into the data platform, making use of the additional context it can provide to accelerate migrations even further,” he says. That accumulated experience is what shaped Xebia Axis: Agentic Data Foundation, Xebia’s answer to helping enterprises make their data AI-ready faster than any alternative. Another weapon Xebia has in its arsenal is Xebia ACE: AI-Native Software Engineering, a framework which embeds AI across an organisation’s entire software development lifecycle (SDLC) . Done right, delivery can be accelerated by up to 40%, while legacy transformation costs are cut by up to 70%. Zeilemaker notes that Xebia ACE is particularly useful for larger enterprises who ‘maybe still want to stick to a particular governance or way of working while doing SDLC’. Yet there is a bigger picture here. Zeilemaker uses vibe coding as an example. “If you think about vibe coding, everybody can create an app, but nobody is daring to actually push these apps into production,” he says. “If you adopt ACE, you still get a lot of the benefits of the acceleration of LLMs, but you’re still having the same quality end results as you’re used to in the past. “If you’re looking to make the switch to using LLMs in coding, Xebia ACE will give you a very nice framework to use, without the risk, or any drawbacks of doing dark factory LLM and hoping for the best – and losing a bit of control or governance in the process,” adds Zeilemaker. For enterprises, that control is key. With so much code being generated, the AI-driven SDLC could become a security weakness through vulnerabilities. Zeilemaker argues it’s something the industry still needs to figure out to a degree, but notes with interest the recent move by Anthropic to release a pull request reviewer. “It’s an interesting one, which we’ll probably see more of,” he says. “There will be very lengthy pull request reviews, which you apply whenever you go and try to do a new production release. And then you add a very senior team member in the form of an LLM to your process, which does a sort of third-party review. “I think that’s an interesting angle with what we’re going to see more of in the future.” Ultimately, wherever organisations are in their journey, from assessing their data readiness to being ready to build, Xebia is able to help get the foundations right – and create the transformations on top of it. Want to learn more about AI and big data from industry leaders? Check out taking place in Amsterdam, California, and London. The comprehensive event is part of TechEx and is co-located with other leading technology events, click here for more information. AI News is powered by TechForge Media . Explore other upcoming enterprise technology events and webinars here .",
+      "full_article_text_chars": 5896,
+      "content_preview": "If your remit is to help your organisation add AI agents to accelerate its processes, you have to start at the foundation – and that means making your data available for AI consumption. Agentic AI scales on data strength, as Niels Zeilemaker, global CTO at Xebia, explains. “If you don’t think about that, you can build the best agent, but it will never be able to find the correct data; maybe it will misinterpret the data, maybe it will join different fields together in your data which should never be connected,” explains Zeilemaker. “And these mistakes are not necessarily the fault of the agent. It’s the fault of your foundation, which is not ready for AI agents.” One area to particularly consider, Zeilemaker notes, is data cataloguing. It’s not a new concept, but the game changes for agents. “If you’re setting up a data catalogue for an organisation only consisting of humans, there’s always a fallback,” he says. “If there’s something not really well documented, you can pick up the phone, walk to a colleague, and have a sort of back door, in ‘how should I work with this particular set of data?’ “Agents don’t have such a back door. They have to rely on the data catalogue, what’s written there, and if the description is wrong, the agents will not perform.” Xebia’s focus is to help organisations turn AI strategy into production-ready solutions which drive real transformation faster. The company’s core values include being people first and quality without compromise, but perhaps the most important, as Zeilemaker sees it, is sharing knowledge – such as at events like TechEx Global North America, at which Xebia participated. “I think sharing knowledge is very important for us, and it also allows us to be a bit ahead of the curve, adopt quickly to new changes in the market, because everybody has this eagerness to find out new things, and to share what works, what doesn’t work,” says Zeilemaker. “By pushing a lot into this sharing knowledge and innovation, we try to also pick a couple of domains where we want to be the authority.” Data and AI is evidently one of those areas. At AI & Big Data Expo, Zeilemaker told attendees how to build this AI foundation and unify their fragmented data landscapes. It was an honest account of how combining purpose-built AI agents with expert engineering compresses a 12- to 24-month timeline into a fixed-price, milestone-bound engagement. The overarching thread for this is what Xebia calls Agentic Data Foundation (ADF), which extends the data platform to host agents, and then make use of them both in customer-facing use cases and internal processes. While there has always been a big appetite in migrating from legacy to modern platforms, Xebia is seeing more customers asking for an approach to more quickly – and reliably – migrate into data platforms. Zeilemaker says this is where consultant and customer are co-developing the solution. “Agents have to rely on the data catalogue and what’s written there – and if the description is wrong, the agents will not perform” “After doing migrations the old-fashioned way, and accelerating some with LLM coding, we are now integrating this into the data platform, making use of the additional context it can provide to accelerate migrations even further,” he says. That accumulated experience is what shaped Xebia Axis: Agentic Data Foundation, Xebia’s answer to helping enterprises make their data AI-ready faster than any alternative. Another weapon Xebia has in its arsenal is Xebia ACE: AI-Native Software Engineering, a framework which embeds AI across an organisation’s entire software development lifecycle (SDLC) . Done right, delivery can be accelerated by up to 40%, while legacy transformation costs are cut by up to 70%. Zeilemaker notes that Xebia ACE is particularly useful for larger enterprises who ‘maybe still want to stick to a particular governance or way of working while doing SDLC’. Yet there is a bigger picture here. Zeilemaker uses vibe coding as an example. “If you think about vibe coding, everybody can create an app, but nobody is daring to actually push these apps into production,” he says. “If you adopt ACE, you still get a lot of the benefits of the acceleration of LLMs, but you’re still having the same quality end results as you’re used to in the past. “If you’re looking to make the switch to using LLMs in coding, Xebia ACE will give you a very nice framework to use, without the risk, or any drawbacks of doing dark factory LLM and hoping for the best – and losing a bit of control or governance in the process,” adds Zeilemaker. For enterprises, that control is key. With so much code being generated, the AI-driven SDLC could become a security weakness through vulnerabilities. Zeilemaker argues it’s something the industry still needs to figure out to a degree, but notes with interest the recent move by Anthropic to release a pull request reviewer. “It’s an interesting one, which we’ll probably see more of,” he says. “There will be very lengthy pull request reviews, which you apply whenever you go and try to do a new production release. And then you add a very senior team member in the form of an LLM to your process, which does a sort of third-party review. “I think that’s an interesting angle with what we’re going to see more of in the future.” Ultimately, wherever organisations are in their journey, from assessing their data readiness to being ready to build, Xebia is able to help get the foundations right – and create the transformations on top of it. Want to learn more about AI and big data from industry leaders? Check out taking place in Amsterdam, California, and London. The comprehensive event is part of TechEx and is co-located with other leading technology events, click here for more information. AI News is powered by TechForge Media . Explore other upcoming enterprise technology events and webinars here .",
+      "content_preview_chars": 5896,
+      "content_fetched_at": "2026-06-11T22:27:20",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "7ba3d7901a3a6daa",
+      "source_url_hash": "7ba3d7901a3a6daa",
+      "canonical_url": "https://anthropic.com/news/claude-corps",
+      "title_hash": "353af436d499afb1",
+      "topic_signature": "72a1cf1e2664c1ddf90d",
+      "title": "Announcements Jun 11, 2026 Introducing Claude Corps We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America.",
+      "url": "https://anthropic.com/news/claude-corps",
+      "source_name": "Anthropic News",
+      "source_url": "https://anthropic.com/news",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-11T22:27:02",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 44,
+      "affiliate_links_removed_count": 8,
+      "removed_source_links_count": 44,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Introducing Claude Corps",
+      "meta_description": "We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America.",
+      "article_images": [
+        {
+          "url": "https://cdn.sanity.io/images/4zrzovbb/website/eb5d94573805e24cb381cd0676527cfada75c177-3840x2160.jpg",
+          "alt": "Introducing Claude Corps",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Feb5d94573805e24cb381cd0676527cfada75c177-3840x2160.jpg&w=3840&q=75",
+          "alt": "A diver in a long-sleeve white REEF shirt adjusts scuba gear against a bright blue, cloud-streaked sky.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.sanity.io/images/4zrzovbb/website/eb5d94573805e24cb381cd0676527cfada75c177-3840x2160.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://anthropic.com/_next/image?url=https%3A%2F%2Fwww-cdn.anthropic.com%2Fimages%2F4zrzovbb%2Fwebsite%2Feb5d94573805e24cb381cd0676527cfada75c177-3840x2160.jpg&w=3840&q=75",
+          "alt": "A diver in a long-sleeve white REEF shirt adjusts scuba gear against a bright blue, cloud-streaked sky."
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America. We’ll teach 1,000 fellows how to use Claude well, match them with nonprofits across America, and pay them to spend a year—full-time, in-person—helping host organizations to advance their missions. Our goals are twofold: that host organizations are equipped with valuable tools and systems, and fellows build AI skills that will serve them in their careers. The benefits of transformative AI systems could come at the cost of significant disruption. The companies building this technology have a responsibility to make sure the benefits are fully realized and widely shared, and to invest directly in the workers absorbing the change. As such, we’re committing an initial $150m to this program. If Claude Corps works, we'll have a foundation for something much larger: a model for widening AI's benefits during a period of vast economic change. We’re announcing Claude Corps alongside our policy framework for addressing AI's impact on work. How Claude Corps works Claude Corps is set up as a partnership between three organizations. Anthropic will fund the program, lead its overall strategy, and provide Claude expertise. CodePath , an Anthropic nonprofit partner and America’s largest provider of collegiate computer science education, will act as the fellows’ official employer of record and lead programming during the fellowship. Social Finance , a nonprofit and registered investment advisor, will lead measurement and evaluation, and will build a longer-term financial vehicle to enable the program to scale. The fellow experience Each fellowship lasts for 12 months. At the beginning of the program, Anthropic and CodePath will provide intensive training on using Claude in nonprofit settings. After being placed, fellows will receive five hours of ongoing training each week, with the remainder of their time dedicated to their host organization. Fellows will receive a full-time salary of $85,000 and benefits, support from a CodePath mentor, office hours from Anthropic for their technical questions, an expansive Claude token budget, and professional guidance from their manager at the host organization. Over the next 12 months, at least 400 nonprofits will host Claude Corps Fellows. Host organizations include: Braven (Chicago, Illinois). A nonprofit teaching first-generation and lower-income students how to land a strong first job. Code the Dream (Durham, North Carolina). A nonprofit that provides free coding education and paid software apprenticeships to people seeking the skills they need to build a better life. Heartland Forward (Bentonville, Arkansas). A nonpartisan think-and-do tank focused on accelerating economic growth in the American heartland. Montgomery County Food Bank (Conroe, Texas). A food bank that feeds children, seniors, and families north of Houston through more than 100 local pantries and partner agencies. Team Red, White & Blue (Floyds Knobs, Indiana). A nonprofit that supports veteran health and wellness through events and programs focused on building a healthy lifestyle. Reef Environmental Education Foundation (Key Largo, Florida). A marine conservation nonprofit that conducts underwater surveys to protect reefs. SoundOff (San Antonio, Texas). A nonprofit that provides anonymous access to licensed counselors and peer support for Service Members . StriveTogether (Cincinnati, Ohio). A national nonprofit that supports local partnerships to change the way their communities work together, using data, to help young people thrive. YMCA of Greater Charlotte (Charlotte, North Carolina). The local Y across the Charlotte region, with 14 Centers, three program facilities, and two overnight camps serving nearly 300,000 kids, families, and seniors a year. In 70 communities across the US, we’re working to put more young people on a path to economic opportunity. That requires constantly tracking, analyzing, and sharing data and on-the-ground insights so the strategies that work in one place can take root everywhere. AI changes that equation. With our Claude Corps fellow, we’ll be able to do analysis to connect the dots at a pace that was unimaginable in the past. This sort of dedicated technical talent enables us to move faster on work that directly benefits the millions of young people we serve. Jennifer Blatz StriveTogether , CEO Goodwill Industries International is participating in Claude Corps to help us bridge the gap between AI's potential and its responsible, real-world application. We look forward to learning from peers, sharing our experience and gaining insights that will drive meaningful impact across our work. Steve Preston President & CEO , Goodwill Industries International Team Red, White & Blue has always innovated with technology to enrich veterans’ lives. AI is reshaping the landscape we operate in, and we’re investing in the tools that will define how we deliver our mission for the next decade. For Team RWB, community is the solution. Claude Corps fellows will help us scale it with data, automation, and personalization. Dan Brostek Senior Director of Technology , Team Red, White & Blue Hunger doesn’t wait, and neither can innovation. Food banks need to be as forward-thinking in how we solve problems as we are committed to the people we serve. Claude Corps applies AI talent where it makes an immediate difference, from understanding donors and distribution forecasting to turning data into faster decisions for families counting on us. Scott Burns President and CEO , Montgomery County Food Bank Heartland Forward is committed to ensuring the 20 states in the middle of the country are prepared for an economy that’s changing because of artificial intelligence. From recent graduates to late-career professionals, having the AI skills and knowledge to advance economically has never been more important. Our partnership with Anthropic and Claude Corps helps ensure that the heartland workforce is setting the pace in harnessing the transformative power of AI for good. Krista Cupp Executive Vice President of Partnerships , Heartland Forward At RAINN, the time our team spends on technical infrastructure is time away from helping survivors. Claude Corps will help us expand our secure, private tools for survivors faster, so our staff can focus on what only humans can do: supporting victims in crisis. We aren’t replacing human connection. We’re protecting it. Bill Bondurant CTO , RAINN REEF is excited about the potential for AI to help scale ocean conservation, citizen science, and public engagement. As a grassroots nonprofit managing large marine datasets and conservation technology projects, Claude Corps gives us an opportunity to build tools and workflows that would otherwise be out of reach for a small but highly impactful team. Martha Klitzkie Co-Executive Director , REEF At MyFriendBen, we are a small team tackling big public benefits challenges, and we’re always looking for ways to do more with less. Claude Corps gives us the chance to build real AI capacity within our organization—not just a one-time fix, but lasting skills and workflows that will help us serve our community more effectively for years to come. I know this initiative is going to bring energy and learning to our organization and encourage young, talented folks to support nonprofits and growing teams. Laura Glaab Interim CEO , MyFriendBen AI is reshaping the labor market, and with deep intentionality, it can help level the economic playing field for first-generation and low-income college students. Braven is proud to join Claude Corps’ inaugural cohort to accelerate AI literacy for our fellows, build capacity, and shape how higher education and employers approach the future of entry-level work. Aimée Eubanks Davis Founder and CEO , Braven AI can help us solve urgent problems facing our communities. Claude Corps fellows will make a real difference in the lives of people served by Code the Dream-built technology—students, families seeking healthcare, and farmworkers who keep food on our tables. Dan Rearick and Daisy Magnus-Aryitey Co-Executive Directors , Code the Dream At Year Up United, we believe AI must be both a workforce skill and organizational capability. This partnership reflects our mission in action and will help expand our impact as we adapt to a rapidly changing job market. Claude Corps will strengthen operations, enhance the student journey, and accelerate AI impact. Susan Murray CEO , Year Up United Governments and community organizations trust Code for America because we keep people at the center of everything we do, and we’ve spent years earning that trust. We’re excited to welcome Claude Corps fellows who can share our passion for using responsible AI to solve public service challenges and deliver meaningful, measurable impact. Amanda Renteria CEO , Code for America Claude Corps matters because the YMCA serves millions of people, and our staff deserve tools that give them time back for human connection. Fellows can help us move from one-off AI wins to scalable, values-aligned adoption across associations, especially in staff onboarding, program design, and translating community insight into action. Sophia DiSalvo Wellbeing and Collaborative AI Director , YMCA of Greater Cincinnati PCV unlocks economic opportunity and climate resilience for small businesses and workers in underestimated communities, and therefore any AI use must have unshakeable ethical foundations. Claude Corps fellows will help strengthen our predictive underwriting models and improve the accuracy of our LLM-powered survey tools. The learnings that emerge will help frontier labs and impact firms alike center human agency. Bulbul Gupta CEO , Pacific Community Ventures This initiative gives us the chance to embed engineering talent alongside teams serving people in war and crisis to drive meaningful transformation. From streamlining operations to building AI-powered services that reach people faster and more effectively, Claude Corps fellows can help us rethink how humanitarian organizations deliver impact at scale at the last mile. Jeannie Annan Chief Research and Innovation Officer , International Rescue Committee Sound Off exists to leverage technology to scale care to thousands who wouldn’t otherwise engage. Looking to tech first is in our bones—all the more vital as philanthropic dollars stay finite. We’ve invested in AI since these models emerged. Working with Claude Corps to enhance our pace of software development, automate organizational management, and broadly support our small team—all the while holding costs flat—is a tremendous opportunity for us to impact veterans’ mental health. William Negley Founder and CEO , Sound Off Applications and timeline Fellowship applications are open today, and will close on July 17th for the first cohort of 100, which begins in October 2026. Applications are open on a rolling basis for the next two cohorts, which begin in January 2027 and August 2027. Anyone over 18 with under two years of full-time work experience is welcome to apply, regardless of educational background. The only requirements are that you’re authorized to work in the US, are comfortable working with Claude, and are willing to relocate if necessary. (Relocation support is available as needed.) Host organization applications are also open today for all cohort start dates. For more information about criteria for hosting and what’s involved, see the Claude Corps website. Our ambition is for this program to scale far beyond 1,000 fellows, as we’ve outlined above. We'll be rigorously measuring the extent to which host organizations have advanced their missions, as well as how fellows develop their skills and career prospects, to understand how Claude Corps should evolve. We plan to open-source some of the core technology and infrastructure that enables this program to work, so that others can build out similar initiatives towards what could be a large-scale nationwide effort. And, we’d like to build a model that can be replicated in other countries outside the US. DXC will integrate Claude into the systems banks, airlines, and other regulated industries rely on We’re announcing a multi-year global alliance with DXC Technology, one of the world’s largest IT services companies. Claude Fable 5 and Claude Mythos 5 Our next generation of intelligence for the hardest knowledge work and coding problems. Introducing the Services Track and Partner Hub of the Claude Partner Network",
+      "full_article_text_chars": 12632,
+      "content_preview": "We’re launching Claude Corps, a national fellowship program for people early in their careers who are passionate about extending the benefits of AI to communities across America. We’ll teach 1,000 fellows how to use Claude well, match them with nonprofits across America, and pay them to spend a year—full-time, in-person—helping host organizations to advance their missions. Our goals are twofold: that host organizations are equipped with valuable tools and systems, and fellows build AI skills that will serve them in their careers. The benefits of transformative AI systems could come at the cost of significant disruption. The companies building this technology have a responsibility to make sure the benefits are fully realized and widely shared, and to invest directly in the workers absorbing the change. As such, we’re committing an initial $150m to this program. If Claude Corps works, we'll have a foundation for something much larger: a model for widening AI's benefits during a period of vast economic change. We’re announcing Claude Corps alongside our policy framework for addressing AI's impact on work. How Claude Corps works Claude Corps is set up as a partnership between three organizations. Anthropic will fund the program, lead its overall strategy, and provide Claude expertise. CodePath , an Anthropic nonprofit partner and America’s largest provider of collegiate computer science education, will act as the fellows’ official employer of record and lead programming during the fellowship. Social Finance , a nonprofit and registered investment advisor, will lead measurement and evaluation, and will build a longer-term financial vehicle to enable the program to scale. The fellow experience Each fellowship lasts for 12 months. At the beginning of the program, Anthropic and CodePath will provide intensive training on using Claude in nonprofit settings. After being placed, fellows will receive five hours of ongoing training each week, with the remainder of their time dedicated to their host organization. Fellows will receive a full-time salary of $85,000 and benefits, support from a CodePath mentor, office hours from Anthropic for their technical questions, an expansive Claude token budget, and professional guidance from their manager at the host organization. Over the next 12 months, at least 400 nonprofits will host Claude Corps Fellows. Host organizations include: Braven (Chicago, Illinois). A nonprofit teaching first-generation and lower-income students how to land a strong first job. Code the Dream (Durham, North Carolina). A nonprofit that provides free coding education and paid software apprenticeships to people seeking the skills they need to build a better life. Heartland Forward (Bentonville, Arkansas). A nonpartisan think-and-do tank focused on accelerating economic growth in the American heartland. Montgomery County Food Bank (Conroe, Texas). A food bank that feeds children, seniors, and families north of Houston through more than 100 local pantries and partner agencies. Team Red, White & Blue (Floyds Knobs, Indiana). A nonprofit that supports veteran health and wellness through events and programs focused on building a healthy lifestyle. Reef Environmental Education Foundation (Key Largo, Florida). A marine conservation nonprofit that conducts underwater surveys to protect reefs. SoundOff (San Antonio, Texas). A nonprofit that provides anonymous access to licensed counselors and peer support for Service Members . StriveTogether (Cincinnati, Ohio). A national nonprofit that supports local partnerships to change the way their communities work together, using data, to help young people thrive. YMCA of Greater Charlotte (Charlotte, North Carolina). The local Y across the Charlotte region, with 14 Centers, three program facilities, and two overnight camps serving nearly 300,000 kids, families, and seniors a year. In 70 communities across the US, we’re working to put more young people on a path to economic opportunity. That requires constantly tracking, analyzing, and sharing data and on-the-ground insights so the strategies that work in one place can take root everywhere. AI changes that equation. With our Claude Corps fellow, we’ll be able to do analysis to connect the dots at a pace that was unimaginable in the past. This sort of dedicated technical talent enables us to move faster on work that directly benefits the millions of young people we serve. Jennifer Blatz StriveTogether , CEO Goodwill Industries International is participating in Claude Corps to help us bridge the gap between AI's potential and its responsible, real-world application. We look forward to learning from peers, sharing our experience and gaining insights that will drive meaningful impact across our work. Steve Preston President & CEO , Goodwill Industries International Team Red, White & Blue has always innovated with technology to enrich veterans’ lives. AI is reshaping the landscape we operate in, and we’re investing in the tools that will define how we deliver our mission for the next decade. For Team RWB, community is the solution. Claude Corps fellows will help us scale it with data, automation, and personalization. Dan Brostek Senior Director of Technology , Team Red, White & Blue Hunger doesn’t wait, and neither can innovation. Food banks need to be as forward-thinking in how we solve problems as we are committed to the people we serve. Claude Corps applies AI talent where it makes an immediate difference, from understanding donors and distribution forecasting to turning data into faster decisions for families counting on us. Scott Burns President and CEO , Montgomery County Food Bank Heartland Forward is committed to ensuring the 20 states in the middle of the country are prepared for an economy that’s changing because of artificial intelligence. From recent graduates to late-career professionals, having the AI skills and knowledge to advance economically has never been more important. Our partnership with Anthropic and Claude Corps helps ensure that the heartland workforce is setting the pace in harnessing the transformative power of AI for good. Krista Cupp Executive Vice President of Partnerships , Heartland Forward At RAINN, the time our team spends on technical infrastructure is time away from helping survivors. Claude Corps will help us expand our secure, private tools for survivors faster, so our staff can focus on what only humans can do: supporting victims in crisis. We aren’t replacing human connection. We’re protecting it. Bill Bondurant CTO , RAINN REEF is excited about the potential for AI to help scale ocean conservation, citizen science, and public engagement. As a grassroots nonprofit managing large marine datasets and conservation technology projects, Claude Corps gives us an opportunity to build tools and workflows that would otherwise be out of reach for a small but highly impactful team. Martha Klitzkie Co-Executive Director , REEF At MyFriendBen, we are a small team tackling big public benefits challenges, and we’re always looking for ways to do more with less. Claude Corps gives us the chance to build real AI capacity within our organization—not just a one-time fix, but lasting skills and workflows that will help us serve our community more effectively for years to come. I know this initiative is going to bring energy and learning to our organization and encourage young, talented folks to support nonprofits and growing teams. Laura Glaab Interim CEO , MyFriendBen AI is reshaping the labor market, and with deep intentionality, it can help level the economic playing field for first-generation and low-income college students. Braven is proud to join Claude Corps’ inaugural cohort to accelerate AI literacy for our fellows, build capacity, and shape how higher education and employers approach the future of entry-level work. Aimée Eubanks Davis Founder and CEO , Braven AI can help us solve urgent problems facing our communities. Claude Corps fellows will make a real difference in the lives of people served by Code the Dream-built technology—students, families seeking healthcare, and farmworkers who keep food on our tables. Dan Rearick and Daisy Magnus-Aryitey Co-Executive Directors , Code the Dream At Year Up United, we believe AI must be both a workforce skill and organizational capability. This partnership reflects our mission in action and will help expand our impact as we adapt to a rapidly changing job market. Claude Corps will strengthen operations, enhance the student journey, and accelerate AI impact. Susan Murray CEO , Year Up United Governments and community organizations trust Code for America because we keep people at the center of everything we do, and we’ve spent years earning that trust. We’re excited to welcome Claude Corps fellows who can share our passion for using responsible AI to solve public service challenges and deliver meaningful, measurable impact.",
+      "content_preview_chars": 8943,
+      "content_fetched_at": "2026-06-11T22:27:22",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
     }
