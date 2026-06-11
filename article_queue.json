@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-11T11:11:55",
+  "updated_at": "2026-06-11T14:56:18",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -95,7 +95,10 @@
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-06-08T16:18:18",
       "candidate_failure_count": 2,
-      "telegram_final_summary_notified_at": "2026-06-08T16:19:27"
+      "telegram_final_summary_notified_at": "2026-06-08T16:19:27",
+      "archived": true,
+      "archived_at": "2026-06-11T14:53:21",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "ebff70380f189f7a",
@@ -1411,12 +1414,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-06-11T11:06:31",
-      "candidate_retry_after": "2026-06-11T11:21:31Z",
+      "content_fetched_at": "2026-06-11T14:53:40",
+      "candidate_retry_after": "2026-06-11T15:08:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-06-11T11:06:31",
-      "candidate_failure_count": 28
+      "candidate_failed_at": "2026-06-11T14:53:40",
+      "candidate_failure_count": 29
     },
     {
       "id": "387079dc0a830ad9",
@@ -3438,12 +3441,12 @@
       "removed_source_links_count": 82,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-11T11:06:32",
-      "candidate_retry_after": "2026-06-11T11:21:32Z",
+      "content_fetched_at": "2026-06-11T14:53:41",
+      "candidate_retry_after": "2026-06-11T15:08:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-11T11:06:32",
-      "candidate_failure_count": 26
+      "candidate_failed_at": "2026-06-11T14:53:41",
+      "candidate_failure_count": 27
     },
     {
       "id": "561b6316398d7603",
@@ -4422,17 +4425,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 0,
-      "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 0,
+      "source_links_removed_count": 228,
+      "affiliate_links_removed_count": 5,
+      "removed_source_links_count": 228,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-06-11T11:06:33",
-      "candidate_retry_after": "2026-06-11T11:21:33Z",
+      "content_fetch_error": "weak article body after fallbacks (best=451 chars/75 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:451chars/75words, page_text:451chars/75words)",
+      "content_fetched_at": "2026-06-11T14:53:45",
+      "candidate_retry_after": "2026-06-11T15:08:45Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-06-11T11:06:33",
-      "candidate_failure_count": 25
+      "candidate_failure_reason": "weak article body after fallbacks (best=451 chars/75 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:451chars/75words, page_text:451chars/75words)",
+      "candidate_failed_at": "2026-06-11T14:53:45",
+      "candidate_failure_count": 26
     },
     {
       "id": "c1354558130eaeb3",
@@ -5511,12 +5514,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-11T11:06:33",
-      "candidate_retry_after": "2026-06-11T11:21:33Z",
+      "content_fetched_at": "2026-06-11T14:53:46",
+      "candidate_retry_after": "2026-06-11T15:08:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-11T11:06:33",
-      "candidate_failure_count": 24
+      "candidate_failed_at": "2026-06-11T14:53:46",
+      "candidate_failure_count": 25
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -6860,12 +6863,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-06-11T11:06:34",
-      "candidate_retry_after": "2026-06-11T11:21:34Z",
+      "content_fetched_at": "2026-06-11T14:53:46",
+      "candidate_retry_after": "2026-06-11T15:08:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-06-11T11:06:34",
-      "candidate_failure_count": 22
+      "candidate_failed_at": "2026-06-11T14:53:46",
+      "candidate_failure_count": 23
     },
     {
       "id": "cc5e99891af35b5e",
@@ -6897,12 +6900,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-06-11T11:06:34",
-      "candidate_retry_after": "2026-06-11T11:21:34Z",
+      "content_fetched_at": "2026-06-11T14:53:47",
+      "candidate_retry_after": "2026-06-11T15:08:47Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-06-11T11:06:34",
-      "candidate_failure_count": 22
+      "candidate_failed_at": "2026-06-11T14:53:47",
+      "candidate_failure_count": 23
     },
     {
       "id": "a6f4ca9464909855",
@@ -6934,12 +6937,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-06-11T11:06:35",
-      "candidate_retry_after": "2026-06-11T11:21:35Z",
+      "content_fetched_at": "2026-06-11T14:53:47",
+      "candidate_retry_after": "2026-06-11T15:08:47Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-06-11T11:06:35",
-      "candidate_failure_count": 22
+      "candidate_failed_at": "2026-06-11T14:53:47",
+      "candidate_failure_count": 23
     },
     {
       "id": "66722f50e91993b6",
@@ -8869,7 +8872,10 @@
       "content_preview_chars": 4470,
       "content_fetched_at": "2026-06-09T10:23:43",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-11T14:53:21",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "4145df7baae52db5",
@@ -8951,7 +8957,10 @@
       "content_preview_chars": 8829,
       "content_fetched_at": "2026-06-09T10:23:44",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-11T14:53:21",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "66e86d79e3fa78ab",
@@ -8980,12 +8989,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-11T11:06:35",
-      "candidate_retry_after": "2026-06-11T11:21:35Z",
+      "content_fetched_at": "2026-06-11T14:53:47",
+      "candidate_retry_after": "2026-06-11T15:08:47Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-11T11:06:35",
-      "candidate_failure_count": 18
+      "candidate_failed_at": "2026-06-11T14:53:47",
+      "candidate_failure_count": 19
     },
     {
       "id": "512c2899a98440d2",
@@ -9014,12 +9023,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-11T11:06:35",
-      "candidate_retry_after": "2026-06-11T11:21:35Z",
+      "content_fetched_at": "2026-06-11T14:53:47",
+      "candidate_retry_after": "2026-06-11T15:08:47Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-11T11:06:35",
-      "candidate_failure_count": 18
+      "candidate_failed_at": "2026-06-11T14:53:47",
+      "candidate_failure_count": 19
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -9048,12 +9057,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-11T11:06:35",
-      "candidate_retry_after": "2026-06-11T11:21:35Z",
+      "content_fetched_at": "2026-06-11T14:53:47",
+      "candidate_retry_after": "2026-06-11T15:08:47Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-11T11:06:35",
-      "candidate_failure_count": 18
+      "candidate_failed_at": "2026-06-11T14:53:47",
+      "candidate_failure_count": 19
     },
     {
       "id": "d9a0fa48ccc53ccf",
@@ -10968,12 +10977,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-11T11:06:37",
-      "candidate_retry_after": "2026-06-11T11:21:37Z",
+      "content_fetched_at": "2026-06-11T14:54:05",
+      "candidate_retry_after": "2026-06-11T15:09:05Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-11T11:06:37",
-      "candidate_failure_count": 14
+      "candidate_failed_at": "2026-06-11T14:54:05",
+      "candidate_failure_count": 15
     },
     {
       "id": "33732dfdc6295ab2",
@@ -11005,12 +11014,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-11T11:06:52",
-      "candidate_retry_after": "2026-06-11T11:21:52Z",
+      "content_fetched_at": "2026-06-11T14:54:22",
+      "candidate_retry_after": "2026-06-11T15:09:22Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-11T11:06:52",
-      "candidate_failure_count": 14
+      "candidate_failed_at": "2026-06-11T14:54:22",
+      "candidate_failure_count": 15
     },
     {
       "id": "aede79193c6b98c9",
@@ -11042,12 +11051,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-11T11:06:57",
-      "candidate_retry_after": "2026-06-11T11:21:57Z",
+      "content_fetched_at": "2026-06-11T14:54:24",
+      "candidate_retry_after": "2026-06-11T15:09:24Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-11T11:06:57",
-      "candidate_failure_count": 14
+      "candidate_failed_at": "2026-06-11T14:54:24",
+      "candidate_failure_count": 15
     },
     {
       "id": "fd4f78fb8656592b",
@@ -13503,12 +13512,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-06-11T11:07:00",
-      "candidate_retry_after": "2026-06-11T11:22:00Z",
+      "content_fetched_at": "2026-06-11T14:54:27",
+      "candidate_retry_after": "2026-06-11T15:09:27Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-06-11T11:07:00",
-      "candidate_failure_count": 10
+      "candidate_failed_at": "2026-06-11T14:54:27",
+      "candidate_failure_count": 11
     },
     {
       "id": "693fbfabd96b2185",
@@ -13539,12 +13548,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-06-11T11:07:01",
-      "candidate_retry_after": "2026-06-11T11:22:01Z",
+      "content_fetched_at": "2026-06-11T14:54:28",
+      "candidate_retry_after": "2026-06-11T15:09:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-06-11T11:07:01",
-      "candidate_failure_count": 10
+      "candidate_failed_at": "2026-06-11T14:54:28",
+      "candidate_failure_count": 11
     },
     {
       "id": "a5f6af5d6b69d4f1",
@@ -13761,7 +13770,10 @@
       "content_preview_chars": 8931,
       "content_fetched_at": "2026-06-10T10:33:23",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-11T14:53:21",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "d2f8f42724e381e1",
@@ -16739,7 +16751,52 @@
       "content_preview_chars": 5666,
       "content_fetched_at": "2026-06-10T23:15:05",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-11T14:54:28",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-11T14:54:28",
+      "ai_input_package": {
+        "title": "xAI fired an engineer who raised alarms about Grok safety, new lawsuit claims | TechCrunch",
+        "url": "https://techcrunch.com/2026/06/10/xai-fired-an-engineer-who-raised-alarms-about-grok-safety-new-lawsuit-claims",
+        "source_name": "TechCrunch",
+        "suggested_category": "Tech-News",
+        "main_image": "https://techcrunch.com/wp-content/uploads/2026/03/grok-getty.jpg?resize=1200,800",
+        "article_images": [
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2026/03/grok-getty.jpg?resize=1200,800",
+            "alt": "xAI fired an engineer who raised alarms about Grok safety, new lawsuit claims | TechCrunch",
+            "source": "og:image_or_twitter"
+          }
+        ],
+        "meta_description": "A former xAI engineer is suing the company and SpaceX, alleging he was fired for raising AI safety concerns about Grok days before SpaceX's historic IPO.",
+        "content_preview": "A former engineer at Elon Musk’s xAI has filed suit against the company and its parent SpaceX claiming he was fired for raising concerns about AI safety. Devin Kim, who left xAI in September 2025, filed the suit in a California state court on Tuesday. The complaint comes days before SpaceX is set to join the public markets in what’s shaping up to be the largest IPO in history. According to the lawsuit, which TechCrunch has viewed, Kim became a prominent voice for AI safety while working on Grok, xAI’s AI chatbot. He allegedly complained repeatedly about xAI’s failure to prioritize safety in Grok’s development, a product that has since come under fire for a range of safety and behavioral issues. In particular, Kim was concerned with the possibility that Grok could foment discrimination and help spread information about weapons of mass destruction. “Grok, of course, proved Mr. Kim right by engaging in spectacular displays of online hatred and vitriol, with the model likening itself to Hitler (‘MechaHitler’),” the lawsuit reads. “Following the Hitler debacle, Mr. Kim worked to re-evaluate Grok’s political bias and discriminatory tendencies.” September was my last month at xAI! I joined as one of the first members of the post-training team in 2024 and eventually led research tooling, where we built some of the world’s best systems to accelerate Grok’s development. On my first day, I was at the whiteboard with @ibab … — Devin Kim (@devindkim) October 3, 2025 A few months after Kim departed xAI, Grok made headlines again when the chatbot was used to flood X — Musk’s social media platform that also falls under the xAI umbrella — with nonconsensual sexual imagery. The lawsuit also positions Kim as a whistleblower who was concerned about xAI’s alleged disregard for AI safety as “unlawful” in areas such as internet regulation, consumer protection and unfair business practices, and arms and explosives regulation, among others. xAI and SpaceX did not immediately respond to requests for comment. Kim’s focus on AI safety predates his time at xAI. While working at Scale AI, Kim worked on early safety AI initiatives, like leading a project that produced training data for AI to train systems to detect harmful content and comply with governance policies. Last week, the nonprofit Center for AI Safety, which focuses on AI risks, named Kim as its president. Interestingly, the lawsuit doesn’t implicate Musk himself as a reason for a lack of safety. Rather, Kim’s lawyers describe Musk as having directed xAI to follow the law and implement appropriate safety and testing processes. Instead the claim targets Kim’s supervisor, xAI co-founder Jimmy Ba — who left the company earlier this year — saying that Ba ignored Musk’s directives and retaliated against Kim for pushing for safeguards, in an effort to “silence his repeated complaints about AI safety and biases.” The lawsuit portrays Ba as someone who vehemently opposed AI safety measures, allegedly telling Kim at one point “AI will kill us all anyway,” and who was instead driven by a mission to make xAI the first to reach superintelligence. “In one instance in or around August 2025, Mr. Ba attempted to thwart EU safety regulations during the release of Grok Code 1, misrepresenting aspects of the model in order to avoid legally required testing,” the complaint says. “Mr. Ba indicated that he would rather release an unsafe model than a poor-performing one. Mr. Musk ultimately had to intervene.” According to the lawsuit, Kim intended to give a presentation of his findings the week of September 15, 2025, but Ba called him into a meeting and told him they should “go [their] separate ways” without providing a satisfactory reason. TechCrunch has reached out to Ba for comment. Kim is seeking compensatory and punitive damages, as well as a declaratory judgment that xAI and SpaceX’s conduct was unlawful. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Rebecca Bellan is a senior reporter at TechCrunch where she covers the business, policy, and emerging trends shaping artificial intelligence. Her work has also appeared in Forbes, Bloomberg, The Atlantic, The Daily Beast, and other publications. You can contact or verify outreach from Rebecca by emailing rebecca.bellan@techcrunch.com or via encrypted message at rebeccabellan.491 on Signal. Get an inside look at what it takes to scale and succeed from leaders at Mach Industries, Founders Fund, and Shinkei Systems. Through candid fireside chats and high-impact networking, you’ll walk away with valuable insights and new connections. Google just fired a warning shot in the AI subscription price wars Lucas Ropek Connie Loizos Google just fired a warning shot in the AI subscription price wars WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Morgan Little Aisha Malik WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Anthropic’s Claude Fable 5 is a version of Mythos the public can access today Rebecca Bellan Anthropic’s Claude Fable 5 is a version of Mythos the public can access today It’s not FAANG anymore. It’s MANGOS. Julie Bort It’s not FAANG anymore. It’s MANGOS. Microsoft’s open source tools were hacked to steal passwords of AI developers Zack Whittaker Microsoft’s open source tools were hacked to steal passwords of AI developers Google will pay SpaceX $920M per month for compute Sean O'Kane Google will pay SpaceX $920M per month for compute Mira Murati steps back into the spotlight, carefully Connie Loizos Mira Murati steps back into the spotlight, carefully",
+        "content_preview_chars": 5666,
+        "rss_summary": "",
+        "full_article_text": "A former engineer at Elon Musk’s xAI has filed suit against the company and its parent SpaceX claiming he was fired for raising concerns about AI safety. Devin Kim, who left xAI in September 2025, filed the suit in a California state court on Tuesday. The complaint comes days before SpaceX is set to join the public markets in what’s shaping up to be the largest IPO in history. According to the lawsuit, which TechCrunch has viewed, Kim became a prominent voice for AI safety while working on Grok, xAI’s AI chatbot. He allegedly complained repeatedly about xAI’s failure to prioritize safety in Grok’s development, a product that has since come under fire for a range of safety and behavioral issues. In particular, Kim was concerned with the possibility that Grok could foment discrimination and help spread information about weapons of mass destruction. “Grok, of course, proved Mr. Kim right by engaging in spectacular displays of online hatred and vitriol, with the model likening itself to Hitler (‘MechaHitler’),” the lawsuit reads. “Following the Hitler debacle, Mr. Kim worked to re-evaluate Grok’s political bias and discriminatory tendencies.” September was my last month at xAI! I joined as one of the first members of the post-training team in 2024 and eventually led research tooling, where we built some of the world’s best systems to accelerate Grok’s development. On my first day, I was at the whiteboard with @ibab … — Devin Kim (@devindkim) October 3, 2025 A few months after Kim departed xAI, Grok made headlines again when the chatbot was used to flood X — Musk’s social media platform that also falls under the xAI umbrella — with nonconsensual sexual imagery. The lawsuit also positions Kim as a whistleblower who was concerned about xAI’s alleged disregard for AI safety as “unlawful” in areas such as internet regulation, consumer protection and unfair business practices, and arms and explosives regulation, among others. xAI and SpaceX did not immediately respond to requests for comment. Kim’s focus on AI safety predates his time at xAI. While working at Scale AI, Kim worked on early safety AI initiatives, like leading a project that produced training data for AI to train systems to detect harmful content and comply with governance policies. Last week, the nonprofit Center for AI Safety, which focuses on AI risks, named Kim as its president. Interestingly, the lawsuit doesn’t implicate Musk himself as a reason for a lack of safety. Rather, Kim’s lawyers describe Musk as having directed xAI to follow the law and implement appropriate safety and testing processes. Instead the claim targets Kim’s supervisor, xAI co-founder Jimmy Ba — who left the company earlier this year — saying that Ba ignored Musk’s directives and retaliated against Kim for pushing for safeguards, in an effort to “silence his repeated complaints about AI safety and biases.” The lawsuit portrays Ba as someone who vehemently opposed AI safety measures, allegedly telling Kim at one point “AI will kill us all anyway,” and who was instead driven by a mission to make xAI the first to reach superintelligence. “In one instance in or around August 2025, Mr. Ba attempted to thwart EU safety regulations during the release of Grok Code 1, misrepresenting aspects of the model in order to avoid legally required testing,” the complaint says. “Mr. Ba indicated that he would rather release an unsafe model than a poor-performing one. Mr. Musk ultimately had to intervene.” According to the lawsuit, Kim intended to give a presentation of his findings the week of September 15, 2025, but Ba called him into a meeting and told him they should “go [their] separate ways” without providing a satisfactory reason. TechCrunch has reached out to Ba for comment. Kim is seeking compensatory and punitive damages, as well as a declaratory judgment that xAI and SpaceX’s conduct was unlawful. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Rebecca Bellan is a senior reporter at TechCrunch where she covers the business, policy, and emerging trends shaping artificial intelligence. Her work has also appeared in Forbes, Bloomberg, The Atlantic, The Daily Beast, and other publications. You can contact or verify outreach from Rebecca by emailing rebecca.bellan@techcrunch.com or via encrypted message at rebeccabellan.491 on Signal. Get an inside look at what it takes to scale and succeed from leaders at Mach Industries, Founders Fund, and Shinkei Systems. Through candid fireside chats and high-impact networking, you’ll walk away with valuable insights and new connections. Google just fired a warning shot in the AI subscription price wars Lucas Ropek Connie Loizos Google just fired a warning shot in the AI subscription price wars WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Morgan Little Aisha Malik WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Anthropic’s Claude Fable 5 is a version of Mythos the public can access today Rebecca Bellan Anthropic’s Claude Fable 5 is a version of Mythos the public can access today It’s not FAANG anymore. It’s MANGOS. Julie Bort It’s not FAANG anymore. It’s MANGOS. Microsoft’s open source tools were hacked to steal passwords of AI developers Zack Whittaker Microsoft’s open source tools were hacked to steal passwords of AI developers Google will pay SpaceX $920M per month for compute Sean O'Kane Google will pay SpaceX $920M per month for compute Mira Murati steps back into the spotlight, carefully Connie Loizos Mira Murati steps back into the spotlight, carefully",
+        "full_article_text_chars": 5666,
+        "enrichment_status": "strong",
+        "source_url": "https://techcrunch.com",
+        "source_published_at": "2026-06-10T22:31:19Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.73,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "ad/affiliate/sponsored title or summary",
+      "ai_status": "failed",
+      "ai_error": "ad/affiliate/sponsored title or summary",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 77.75,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-11T15:10:47Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "ad/affiliate/sponsored title or summary",
+      "candidate_failed_at": "2026-06-11T14:55:47",
+      "candidate_failure_count": 1
     },
     {
       "id": "71b8ddb25bfd3103",
@@ -16808,7 +16865,63 @@
       "content_preview_chars": 689,
       "content_fetched_at": "2026-06-10T23:15:07",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-11T14:55:59",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-11T14:55:59",
+      "ai_input_package": {
+        "title": "Why Andrew Yang is building instead of waiting for Washington | TechCrunch",
+        "url": "https://techcrunch.com/video/why-andrew-yang-is-building-instead-of-waiting-for-washington",
+        "source_name": "TechCrunch",
+        "suggested_category": "Tech-News",
+        "main_image": "https://techcrunch.com/wp-content/uploads/2026/06/GettyImages-1239809807.jpg?resize=1200,800",
+        "article_images": [
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2026/06/GettyImages-1239809807.jpg?resize=1200,800",
+            "alt": "Why Andrew Yang is building instead of waiting for Washington | TechCrunch",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2026/05/lightphone.jpg?w=514",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2025/09/NobleMobile_PleasePutYourPhoneDownIntro-1.jpg?w=668",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Watch as Andrew Yang joins the Equity podcast to talk about his startup Noble Mobile, which pays you to use your phone less, ways to combat the “attention economy,” and what startups can do when the government won't move.",
+        "content_preview": "Andrew Yang’s 2020 presidential campaign was based on a warning that automation and AI would hollow out the labor market and concentrate wealth in the hands of a few. At the time, ideas like Universal Basic Income felt fringe. Now Dario Amodei, Sam Altman, and Bernie Sanders are all saying versions of the same thing. An entrepreneur at heart, Yang has found a new way to put money back into the hands of the people — one phone bill at a time. On this episode of TechCrunch’s Equity podcast, Rebecca Bellan talks to Yang about his startup Noble Mobile, which pays you to use your phone less, ways to combat the “attention economy,” and what startups can do when the government won’t move.",
+        "content_preview_chars": 689,
+        "rss_summary": "",
+        "full_article_text": "Andrew Yang’s 2020 presidential campaign was based on a warning that automation and AI would hollow out the labor market and concentrate wealth in the hands of a few. At the time, ideas like Universal Basic Income felt fringe. Now Dario Amodei, Sam Altman, and Bernie Sanders are all saying versions of the same thing. An entrepreneur at heart, Yang has found a new way to put money back into the hands of the people — one phone bill at a time. On this episode of TechCrunch’s Equity podcast, Rebecca Bellan talks to Yang about his startup Noble Mobile, which pays you to use your phone less, ways to combat the “attention economy,” and what startups can do when the government won’t move.",
+        "full_article_text_chars": 689,
+        "enrichment_status": "weak",
+        "source_url": "https://techcrunch.com",
+        "source_published_at": "2026-06-10T22:24:12Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.85,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "html_content has unbalanced <p> tags",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 8.95,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-11T15:11:08Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-11T14:56:08",
+      "candidate_failure_count": 1
     },
     {
       "id": "33c5ddff9aceecb5",
@@ -16886,7 +16999,68 @@
       "content_preview_chars": 4653,
       "content_fetched_at": "2026-06-10T23:15:09",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-11T14:55:47",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-11T14:55:47",
+      "ai_input_package": {
+        "title": "Diabetes org apologizes for ejecting scientists over criticism of Trump",
+        "url": "https://arstechnica.com/health/2026/06/diabetes-org-apologizes-for-ejecting-scientists-over-criticism-of-trump",
+        "source_name": "Ars Technica",
+        "suggested_category": "Tech-News",
+        "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/diabetes1-1152x648-1780778332.jpg",
+        "article_images": [
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/diabetes1-1152x648-1780778332.jpg",
+            "alt": "Diabetes org apologizes for ejecting scientists over criticism of Trump",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/diabetes1-640x428.jpg",
+            "alt": "Police escort Dr. Steven Kahn out of a medical conference in New Orleans for handling out copies",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2016/05/b.mole-45957.jpg",
+            "alt": "Photo of Beth Mole",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+            "alt": "Loading",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "For days after the stunning incident, the ADA had doubled-down on the choice.",
+        "content_preview": "Amid intense backlash, the head of the American Diabetes Association posted a video Wednesday apologizing for the organization’s decision on Friday to forcefully remove five leading diabetes scientists from the association’s annual meeting. The scientists were ejected for handing out copies of an April editorial—published in the ADA’s own journal Diabetes Care—that sharply criticizes the Trump administration for the damage and destruction it’s wreaking on biomedical research. The five scientists included Steven Kahn, professor of medicine at the University of Washington, who is the editor-in-chief of Diabetes Care and a co-author of the editorial. It also included former ADA President Desmond Schatz of the University of Florida. The scientists were distributing the editorial outside the conference’s opening speech, which was originally scheduled to be given by Jay Bhattacharya, head of the National Institutes of Health under Trump. Bhattacharya canceled at the last minute, and senior NIH official Rick Woychik took his place. Within minutes of beginning to hand out the editorial, police reportedly escorted the scientists out of the conference, which was held in New Orleans. The police reportedly shoved at least one scientist, took all of their conference badges, and threatened to arrest them if they tried to return. Louisiana State Police later told media that they acted at the request of the ADA. The ADA subsequently barred the five scientists from the rest of the conference. In the video Wednesday, ADA CEO Charles Henderson personally apologized to the five scientists, including Aaron Kelly, pediatrics professor at the University of Minnesota; Justin Ryder of Northwestern University; and Irl Hirsch, also of the University of Washington, in addition to Kahn and Schatz. “What transpired is not reflective of who I am, the values I hold, or the way I was raised,” Henderson said. “I will work hard to bring our community back together to build on the progress we have collectively made for those affected by diabetes.” While the ousting immediately stunned and outraged members of the diabetes research community, Henderson’s video is in sharp contrast to the ADA’s series of statements over the past several days that tried to justify the decision. At first, a media team for the ADA told MedPage Today that “these attendees were escorted out by our onsite event security because they demonstrated behavior not consistent with this code of conduct” for the conference. “Fatuous nonsense” In an email to ADA members Saturday, the association said the scientists were removed because they didn’t have prior approval to distribute material at the conference and that it was “not because of the viewpoints expressed in those materials,” according to reporting from Science . In a statement Sunday , the organization, which is a nonprofit, said it removed the scientists because it was complying with federal regulations for 501(c)(3) nonprofit, which requires “maintaining a strictly nonpartisan environment at all organizational events and functions while engaging across party affiliations to advance our mission.” However, the federal regulations do not restrict leaders of organizations from sharing political views in a personal capacity or from speaking on important public policy issues. News and video of the incident took off on social media, drawing condemnation and driving a traffic spike to the editorial. Several ADA leaders have resigned amid the backlash. A fiery letter signed by more than 40 ADA officials blasted the decision as “outrageous” and the justifications as “unpersuasive” and “fatuous nonsense.” The community is “overwhelmingly repulsed by the way this unfortunate event has occurred and been excused and justified by the Association leadership,” the leaders wrote. They demanded “an immediate and unconditional public apology,” as well as a review of the incident. An open letter to the ADA, titled “Shame on You,” similarly called for an apology. The attacks from the Trump administration are “bad enough, but the seeming endorsement by the ADA of the current administration’s approach to science and of its attacks on freedom of speech is unconscionable.” The letter has gathered over 6,500 signatures at the time of publication. In addition to apologizing to the five ejected scientists, Henderson apologized to the community as a whole, saying that the ADA would commission a “thorough independent review of the events that occurred as well as the policies, procedures, and decision-making process that guided our actions.” “We want to make sure that such incidents do not reoccur,” he said.",
+        "content_preview_chars": 4653,
+        "rss_summary": "",
+        "full_article_text": "Amid intense backlash, the head of the American Diabetes Association posted a video Wednesday apologizing for the organization’s decision on Friday to forcefully remove five leading diabetes scientists from the association’s annual meeting. The scientists were ejected for handing out copies of an April editorial—published in the ADA’s own journal Diabetes Care—that sharply criticizes the Trump administration for the damage and destruction it’s wreaking on biomedical research. The five scientists included Steven Kahn, professor of medicine at the University of Washington, who is the editor-in-chief of Diabetes Care and a co-author of the editorial. It also included former ADA President Desmond Schatz of the University of Florida. The scientists were distributing the editorial outside the conference’s opening speech, which was originally scheduled to be given by Jay Bhattacharya, head of the National Institutes of Health under Trump. Bhattacharya canceled at the last minute, and senior NIH official Rick Woychik took his place. Within minutes of beginning to hand out the editorial, police reportedly escorted the scientists out of the conference, which was held in New Orleans. The police reportedly shoved at least one scientist, took all of their conference badges, and threatened to arrest them if they tried to return. Louisiana State Police later told media that they acted at the request of the ADA. The ADA subsequently barred the five scientists from the rest of the conference. In the video Wednesday, ADA CEO Charles Henderson personally apologized to the five scientists, including Aaron Kelly, pediatrics professor at the University of Minnesota; Justin Ryder of Northwestern University; and Irl Hirsch, also of the University of Washington, in addition to Kahn and Schatz. “What transpired is not reflective of who I am, the values I hold, or the way I was raised,” Henderson said. “I will work hard to bring our community back together to build on the progress we have collectively made for those affected by diabetes.” While the ousting immediately stunned and outraged members of the diabetes research community, Henderson’s video is in sharp contrast to the ADA’s series of statements over the past several days that tried to justify the decision. At first, a media team for the ADA told MedPage Today that “these attendees were escorted out by our onsite event security because they demonstrated behavior not consistent with this code of conduct” for the conference. “Fatuous nonsense” In an email to ADA members Saturday, the association said the scientists were removed because they didn’t have prior approval to distribute material at the conference and that it was “not because of the viewpoints expressed in those materials,” according to reporting from Science . In a statement Sunday , the organization, which is a nonprofit, said it removed the scientists because it was complying with federal regulations for 501(c)(3) nonprofit, which requires “maintaining a strictly nonpartisan environment at all organizational events and functions while engaging across party affiliations to advance our mission.” However, the federal regulations do not restrict leaders of organizations from sharing political views in a personal capacity or from speaking on important public policy issues. News and video of the incident took off on social media, drawing condemnation and driving a traffic spike to the editorial. Several ADA leaders have resigned amid the backlash. A fiery letter signed by more than 40 ADA officials blasted the decision as “outrageous” and the justifications as “unpersuasive” and “fatuous nonsense.” The community is “overwhelmingly repulsed by the way this unfortunate event has occurred and been excused and justified by the Association leadership,” the leaders wrote. They demanded “an immediate and unconditional public apology,” as well as a review of the incident. An open letter to the ADA, titled “Shame on You,” similarly called for an apology. The attacks from the Trump administration are “bad enough, but the seeming endorsement by the ADA of the current administration’s approach to science and of its attacks on freedom of speech is unconscionable.” The letter has gathered over 6,500 signatures at the time of publication. In addition to apologizing to the five ejected scientists, Henderson apologized to the community as a whole, saying that the ADA would commission a “thorough independent review of the events that occurred as well as the policies, procedures, and decision-making process that guided our actions.” “We want to make sure that such incidents do not reoccur,” he said.",
+        "full_article_text_chars": 4653,
+        "enrichment_status": "strong",
+        "source_url": "https://arstechnica.com",
+        "source_published_at": "2026-06-10T22:16:57Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.97,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (38 words; minimum 700)",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 11.11,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-11T15:10:59Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-11T14:55:59",
+      "candidate_failure_count": 1
     },
     {
       "id": "a6f52e961d5fe712",
@@ -16964,7 +17138,68 @@
       "content_preview_chars": 8948,
       "content_fetched_at": "2026-06-10T23:15:11",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-11T14:56:08",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-11T14:56:08",
+      "ai_input_package": {
+        "title": "Man sues Florida cops over arrest spurred by \"93% match\" in facial recognition",
+        "url": "https://arstechnica.com/tech-policy/2026/06/man-jailed-due-to-faulty-face-recognition-says-florida-cops-ignored-other-evidence",
+        "source_name": "Ars Technica",
+        "suggested_category": "Tech-News",
+        "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2022/02/getty-facial-scan-1152x648.jpg",
+        "article_images": [
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2022/02/getty-facial-scan-1152x648.jpg",
+            "alt": "Man sues Florida cops over arrest spurred by \"93% match\" in facial recognition",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2016/05/j.brodkin-11_2.jpg",
+            "alt": "Photo of Jon Brodkin",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+            "alt": "Loading",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2024/04/getty-starlink-500x500.jpg",
+            "alt": "Listing image for first story in Most Read: Starlink charges $10 monthly hardware fee in move away from one-time purchases",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Lawsuit: \"Police let an error-prone AI system stand in for an investigation.\"",
+        "content_preview": "A man suing Florida police alleges that cops relied on a faulty facial recognition match and concealed exculpatory evidence when they arrested him on a charge of attempting to lure a child in August 2024. The plaintiff, Robert Dillon, was arrested after a facial recognition system flagged him as a 93 percent match to a suspect filmed by a McDonald’s surveillance camera. “This case is about what happens when police let an error-prone artificial intelligence system stand in for an investigation,” said the lawsuit filed today. “A facial recognition algorithm flagged Robert Dillon as the man who tried to lure or entice a child under twelve years old at a Jacksonville Beach McDonald’s. It was wrong. Mr. Dillon, a fifty-two-year-old resident of Fort Myers, had never set foot in Jacksonville Beach. But rather than test the machine’s answer against the evidence that would have cleared him, the officers built a case to confirm it. Mr. Dillon was arrested and prosecuted for one of the most stigmatizing crimes a person can face.” Dillon lives more than 300 miles from Jacksonville Beach, and a police search of a license plate reader database found no evidence he was in the area when the alleged crime was committed, the lawsuit said. Dillon was flagged as the suspect based on a low-quality image, specifically a photo taken of a McDonald’s computer screen that was displaying video surveillance footage, the lawsuit said. The lawsuit was filed today in US District Court for the Middle District of Florida. The defendants are the City of Jacksonville Beach, Jacksonville Beach Police Corporal Scott O’Connell, Jacksonville Sheriff T.K. Waters, Pinellas County Sheriff Bob Gualtieri, and Sergeant James Walters of the Jacksonville Sheriff’s Office. The wrong facial identification match came from the Face Analysis Comparison and Examination System (FACES), “the centralized facial recognition database maintained by the Pinellas County Sheriff’s Office,” the lawsuit said. The Jacksonville Sheriff’s Office has access to the system and uses it to conduct searches for itself and “partner agencies, including the Jacksonville Beach PD,” the lawsuit said. Walters was responsible for conducting or overseeing those searches and for transmitting results to other agencies, the lawsuit said. The prosecution against Dillon was pending for over two months before “the State Attorney’s Office finally dropped all charges,” the lawsuit said. Alleging that Dillon was maliciously prosecuted, the lawsuit demands financial damages and changes in how the police and sheriffs’ offices use facial recognition technology. Evidence showed “he could not have committed the crime” Dillon is represented by the American Civil Liberties Union and the Hoguet Newman Regal & Kenney law firm. “The police relied on an incorrect result from facial recognition technology to get an arrest warrant, while concealing evidence that showed he could not have committed the crime he was being accused of,” the ACLU said . “He is one of 15 known people to have this happen to them in the United States.” The lawsuit said that “Dillon was arrested at his home in front of his wife” and “accused of attempting to lure a child—a charge carrying devastating social stigma and permanent reputational destruction. He was held overnight in jail, forced to borrow money and pledge the title to his truck to post bond, subjected to months of criminal prosecution, and publicly branded with a mugshot that remains accessible online, long after the charges were dropped.” The arrest was carried out by the Lee County Sheriff’s Office and recorded by a deputy’s body camera. Dillon’s wife told the deputy that her husband had never been to Jacksonville Beach, and Dillon told the deputy that he hadn’t left Fort Myers in two years, the lawsuit said. Shortly before midnight on November 2, 2023, Jacksonville Beach Police responded to a report of a man trying to lure or entice a minor inside a McDonald’s, the lawsuit said. A girl under the age of 12 told police “that a man had repeatedly asked her if she wanted to leave the restaurant with him. She told him no. The suspect approached her a second time and asked, ‘Are you sure?’ The victim called her mother, and the suspect left.” The victim’s parents were next door, at a hotel. O’Connell had access to exculpatory and material information that he did not disclose in an affidavit used to obtain an arrest warrant from a magistrate, the lawsuit said. For example, “O’Connell requested a search of automated license plate readers for Mr. Dillon’s two vehicles for the period November 1 through November 3, 2023. The search confirmed that neither vehicle was detected anywhere in Duval County during that period. He omitted this from the warrant,” the lawsuit said. O’Connell had called Dillon months before obtaining the warrant. Dillon “denied any involvement, stated he had never been to Jacksonville Beach, and described a distinctive scar from his hairline to his nose. O’Connell omitted this call and Mr. Dillon’s exculpatory statements entirely,” the lawsuit said. The affidavit also failed to disclose that facial recognition “results cannot constitute a positive identification, are inherently unreliable, and do not constitute probable cause under Jacksonville Beach PD’s own policy,” the lawsuit said. Lawsuit: Officer “did not merely fail to investigate” O’Connell’s warrant affidavit said a McDonald’s manager provided “a similar suspect description as the victim,” giving the impression that she witnessed the crime, according to the lawsuit. “In fact, she did not because she was occupied with her work duties,” the lawsuit said. O’Connell did not merely fail to investigate. He instead affirmatively chose not to pursue readily available investigative avenues that would have confirmed or excluded Mr. Dillon, including: mobile ordering records, payment data, McDonald’s app account records from the night of the incident, older surveillance footage showing the “regular customer’s” prior visits, a comparison of Mr. Dillon’s physical features (including his scar) to the surveillance footage, cell phone location records, time-stamped photographs, and travel or financial records. The man in surveillance footage apparently placed an order in advance, likely doing so online or with the mobile app, the lawsuit said, adding that police did not request mobile ordering records or payment and account data from McDonald’s. The lawsuit faulted Jacksonville Beach Police for hiring and putting O’Connell on a sensitive case despite his own legal history. “O’Connell is an officer with a documented history of volatility and poor judgment, having previously been terminated from the St. Johns County Sheriff’s Office for threatening to ‘blow up’ the agency, later reinstated, then arrested for domestic battery before resigning under the weight of those charges,” the lawsuit said. “Jacksonville Beach PD hired him anyway, assigned him as lead investigator on a sensitive child-luring case, and later promoted him to corporal after his investigation resulted in the wrongful arrest and prosecution of an innocent man.” Man flagged as 93% match FACES contains over 38.5 million images, such as mugshots and driver’s license photos, and at least 196 law enforcement agencies had access to FACES as of 2022, the lawsuit said. Dillon’s face was said to be a 93 percent match with photos of a suspect from the McDonald’s restaurant’s surveillance footage. These were the photos taken of a McDonald’s computer screen that displayed surveillance footage and not a digital extraction from the video file, the lawsuit said. “These photos add another layer of degradation to the poor quality of surveillance footage, including screen glare, reduced resolution, and color distortion inherent in photographing a screen rather than exporting a digital file from the original video,” the lawsuit said. “Says it’s 93 percent accurate. Far as I’m concerned, it’s 100 percent inaccurate,” Dillon told Gulf Coast News for an article about the wrongful arrest. The man in surveillance footage has “black wavy hair. I don’t have wavy hair,” he also said. After the FACES search, “O’Connell requested a photo array from the General Investigations Unit including Mr. Dillon as the person of interest,” the lawsuit said. He presented the photos to a McDonald’s restaurant manager, who identified Dillon as the man “wearing a black trench coat on the night of the incident,” the lawsuit said. The manager had previously described the person in the surveillance footage as a regular customer. In the photo array, Dillon’s face was “surrounded by five fillers—chosen to resemble Mr. Dillon, not the suspect,” so “Dillon became, almost by definition, the person in the array who most closely resembled the suspect” recalled by the McDonald’s manager, the lawsuit said. O’Connell did not display the photo array to the victim, the lawsuit said.",
+        "content_preview_chars": 8948,
+        "rss_summary": "",
+        "full_article_text": "A man suing Florida police alleges that cops relied on a faulty facial recognition match and concealed exculpatory evidence when they arrested him on a charge of attempting to lure a child in August 2024. The plaintiff, Robert Dillon, was arrested after a facial recognition system flagged him as a 93 percent match to a suspect filmed by a McDonald’s surveillance camera. “This case is about what happens when police let an error-prone artificial intelligence system stand in for an investigation,” said the lawsuit filed today. “A facial recognition algorithm flagged Robert Dillon as the man who tried to lure or entice a child under twelve years old at a Jacksonville Beach McDonald’s. It was wrong. Mr. Dillon, a fifty-two-year-old resident of Fort Myers, had never set foot in Jacksonville Beach. But rather than test the machine’s answer against the evidence that would have cleared him, the officers built a case to confirm it. Mr. Dillon was arrested and prosecuted for one of the most stigmatizing crimes a person can face.” Dillon lives more than 300 miles from Jacksonville Beach, and a police search of a license plate reader database found no evidence he was in the area when the alleged crime was committed, the lawsuit said. Dillon was flagged as the suspect based on a low-quality image, specifically a photo taken of a McDonald’s computer screen that was displaying video surveillance footage, the lawsuit said. The lawsuit was filed today in US District Court for the Middle District of Florida. The defendants are the City of Jacksonville Beach, Jacksonville Beach Police Corporal Scott O’Connell, Jacksonville Sheriff T.K. Waters, Pinellas County Sheriff Bob Gualtieri, and Sergeant James Walters of the Jacksonville Sheriff’s Office. The wrong facial identification match came from the Face Analysis Comparison and Examination System (FACES), “the centralized facial recognition database maintained by the Pinellas County Sheriff’s Office,” the lawsuit said. The Jacksonville Sheriff’s Office has access to the system and uses it to conduct searches for itself and “partner agencies, including the Jacksonville Beach PD,” the lawsuit said. Walters was responsible for conducting or overseeing those searches and for transmitting results to other agencies, the lawsuit said. The prosecution against Dillon was pending for over two months before “the State Attorney’s Office finally dropped all charges,” the lawsuit said. Alleging that Dillon was maliciously prosecuted, the lawsuit demands financial damages and changes in how the police and sheriffs’ offices use facial recognition technology. Evidence showed “he could not have committed the crime” Dillon is represented by the American Civil Liberties Union and the Hoguet Newman Regal & Kenney law firm. “The police relied on an incorrect result from facial recognition technology to get an arrest warrant, while concealing evidence that showed he could not have committed the crime he was being accused of,” the ACLU said . “He is one of 15 known people to have this happen to them in the United States.” The lawsuit said that “Dillon was arrested at his home in front of his wife” and “accused of attempting to lure a child—a charge carrying devastating social stigma and permanent reputational destruction. He was held overnight in jail, forced to borrow money and pledge the title to his truck to post bond, subjected to months of criminal prosecution, and publicly branded with a mugshot that remains accessible online, long after the charges were dropped.” The arrest was carried out by the Lee County Sheriff’s Office and recorded by a deputy’s body camera. Dillon’s wife told the deputy that her husband had never been to Jacksonville Beach, and Dillon told the deputy that he hadn’t left Fort Myers in two years, the lawsuit said. Shortly before midnight on November 2, 2023, Jacksonville Beach Police responded to a report of a man trying to lure or entice a minor inside a McDonald’s, the lawsuit said. A girl under the age of 12 told police “that a man had repeatedly asked her if she wanted to leave the restaurant with him. She told him no. The suspect approached her a second time and asked, ‘Are you sure?’ The victim called her mother, and the suspect left.” The victim’s parents were next door, at a hotel. O’Connell had access to exculpatory and material information that he did not disclose in an affidavit used to obtain an arrest warrant from a magistrate, the lawsuit said. For example, “O’Connell requested a search of automated license plate readers for Mr. Dillon’s two vehicles for the period November 1 through November 3, 2023. The search confirmed that neither vehicle was detected anywhere in Duval County during that period. He omitted this from the warrant,” the lawsuit said. O’Connell had called Dillon months before obtaining the warrant. Dillon “denied any involvement, stated he had never been to Jacksonville Beach, and described a distinctive scar from his hairline to his nose. O’Connell omitted this call and Mr. Dillon’s exculpatory statements entirely,” the lawsuit said. The affidavit also failed to disclose that facial recognition “results cannot constitute a positive identification, are inherently unreliable, and do not constitute probable cause under Jacksonville Beach PD’s own policy,” the lawsuit said. Lawsuit: Officer “did not merely fail to investigate” O’Connell’s warrant affidavit said a McDonald’s manager provided “a similar suspect description as the victim,” giving the impression that she witnessed the crime, according to the lawsuit. “In fact, she did not because she was occupied with her work duties,” the lawsuit said. O’Connell did not merely fail to investigate. He instead affirmatively chose not to pursue readily available investigative avenues that would have confirmed or excluded Mr. Dillon, including: mobile ordering records, payment data, McDonald’s app account records from the night of the incident, older surveillance footage showing the “regular customer’s” prior visits, a comparison of Mr. Dillon’s physical features (including his scar) to the surveillance footage, cell phone location records, time-stamped photographs, and travel or financial records. The man in surveillance footage apparently placed an order in advance, likely doing so online or with the mobile app, the lawsuit said, adding that police did not request mobile ordering records or payment and account data from McDonald’s. The lawsuit faulted Jacksonville Beach Police for hiring and putting O’Connell on a sensitive case despite his own legal history. “O’Connell is an officer with a documented history of volatility and poor judgment, having previously been terminated from the St. Johns County Sheriff’s Office for threatening to ‘blow up’ the agency, later reinstated, then arrested for domestic battery before resigning under the weight of those charges,” the lawsuit said. “Jacksonville Beach PD hired him anyway, assigned him as lead investigator on a sensitive child-luring case, and later promoted him to corporal after his investigation resulted in the wrongful arrest and prosecution of an innocent man.” Man flagged as 93% match FACES contains over 38.5 million images, such as mugshots and driver’s license photos, and at least 196 law enforcement agencies had access to FACES as of 2022, the lawsuit said. Dillon’s face was said to be a 93 percent match with photos of a suspect from the McDonald’s restaurant’s surveillance footage. These were the photos taken of a McDonald’s computer screen that displayed surveillance footage and not a digital extraction from the video file, the lawsuit said. “These photos add another layer of degradation to the poor quality of surveillance footage, including screen glare, reduced resolution, and color distortion inherent in photographing a screen rather than exporting a digital file from the original video,” the lawsuit said. “Says it’s 93 percent accurate. Far as I’m concerned, it’s 100 percent inaccurate,” Dillon told Gulf Coast News for an article about the wrongful arrest. The man in surveillance footage has “black wavy hair. I don’t have wavy hair,” he also said. After the FACES search, “O’Connell requested a photo array from the General Investigations Unit including Mr. Dillon as the person of interest,” the lawsuit said. He presented the photos to a McDonald’s restaurant manager, who identified Dillon as the man “wearing a black trench coat on the night of the incident,” the lawsuit said. The manager had previously described the person in the surveillance footage as a regular customer. In the photo array, Dillon’s face was “surrounded by five fillers—chosen to resemble Mr. Dillon, not the suspect,” so “Dillon became, almost by definition, the person in the array who most closely resembled the suspect” recalled by the McDonald’s manager, the lawsuit said. O’Connell did not display the photo array to the victim, the lawsuit said. The 93 percent figure is a confidence score, which “is a measurement of digital proximity between two mathematical templates” and “not a measurement of a probability that the two images depict the same person,” the lawsuit said. Facial recognition algorithms vary based on how they were designed and trained, making it difficult to determine what the score means, the lawsuit said. “An officer presented with a ‘93% match’ from an AI-powered system has no way to evaluate the basis for that score, no way to assess whether the system’s confidence is warranted, and no frame of reference for understanding what ‘93%’ actually means in probabilistic terms,” the lawsuit said. Arrest’s effect on life and work Dillon was self-employed as a commercial crabber and was arrested during a particularly lucrative time of the year for his occupation, the lawsuit said. He didn’t work for about a month because he “was unable to concentrate on anything other than the pending charges and the continued public availability of his mugshot” and “did not want to be in public for fear of being confronted as a suspected child abductor,” the lawsuit said. Dillon fell behind on his monthly rent and returned to work when faced with the possibility of losing his home, the lawsuit said. “Community members still approach him in public to ask about the case,” it said. “He no longer feels comfortable being friendly to children. No law enforcement agency has ever apologized or acknowledged the error.” The ACLU press release quoted Dillon as saying that he “will never get over how terrified and worried I was, wondering if I’d ever go home to my wife and daughter again.” Dillon said police “relied on this dangerous technology instead of doing their jobs and actually investigating.” The Jacksonville Sheriff’s Office declined to comment when contacted by Ars today. We contacted the Jacksonville Beach Police and Pinellas County Sheriff’s Office and will update this article if we receive any response.",
+        "full_article_text_chars": 10938,
+        "enrichment_status": "strong",
+        "source_url": "https://arstechnica.com",
+        "source_published_at": "2026-06-10T21:30:44Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 1.74,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (119 words; minimum 700)",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 8.9,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-11T15:11:18Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-11T14:56:18",
+      "candidate_failure_count": 1
     },
     {
       "id": "988d30450ab7e15d",
@@ -18178,6 +18413,522 @@
       "content_preview": "Microsoft today released software updates to plug nearly 200 security holes across its Windows operating systems and supported software, a record number of fixes for the company’s monthly Patch Tuesday cycle. Nearly three dozen of those bugs earned Microsoft’s most dire “critical” rating, and exploit code for at least three of the weaknesses is now publicly available. The software giant said in a blog post last month that both its engineers and the security community are increasing using artificial intelligence tools to find bugs, meaning this month’s heavy Patch Tuesday may start to become the norm, said Satnam Narang , senior staff research engineer at Tenable . “Some surveys put AI usage among security professionals generally at 90%, so it’s unsurprising that this volume of patches may be the norm,” Narang said. “Pandora’s proverbial box has been opened, and as more advanced AI models become available, we expect the norm to continue upward across the board, not just for Patch Tuesday.” June’s zero-day bugs include CVE-2026-49160 , a denial of service vulnerability affecting a range of web servers, including Microsoft Internet Information Services (IIS). Microsoft says the flaw was reported by OpenAI’s Codex. Two of the zero-days addressed this month appear to stem from recent vulnerability disclosures by Nightmare Eclipse , the nickname chosen by a security researcher who has been dropping exploits for various Windows flaws. One of those, dubbed “GreenPlasma,” leverages an elevation of privilege weakness in the Windows Collaborative Translation Framework, the same framework patched today in CVE-2026-45586 . Nightmare Eclipse also last month released “YellowKey,” an exploit for a Windows BitLocker vulnerability that allows an attacker with physical access to view encrypted data, and CVE-2026-50507 is a patch for an elevation of privilege bug in BitLocker. Microsoft received heavy blowback on social media last month after it said in a blog post that it was considering taking legal action against the security researcher. The company later clarified on Twitter/X that while it has no intention of pursuing legal actions against researchers, it would report them to authorities if they break the law. The advisories for CVE-2026-49160 and CVE-2026-50507 do not credit any researchers in the acknowledgement section, saying only that “Microsoft recognizes the efforts of those in the security community who help us protect customers through coordinated vulnerability disclosure.” Nightmare Eclipse claims to be a former employee of Microsoft, although Microsoft has not responded to questions about this claim. Rapid7 notes that a recent blog post by Nightmare Eclipse included an image of Albert Wesker , a character from the Resident Evil video game series who formerly worked as a researcher for a technology company before going rogue. Nightmare Eclipse has pledged to release even more zero-day exploits for Windows in what they called a “bone shattering” drop planned for July 14 (the same day as next month’s Patch Tuesday). Immediately following the release of Microsoft patches today, the researcher published an exploit for what they claimed was a zero-day bug in Windows Defender. While 200 vulnerabilities may be a record for Patch Tuesday, the actual number of security flaws Microsoft addressed this month is far higher, said Rapid7’s Adam Barnett . “So far this month, Microsoft has provided patches to address 360 browser vulnerabilities, which is an order of magnitude more than has been typical in any given month over the past few years,” Barnett wrote. “As usual, browser [flaws] are not included in the Patch Tuesday count above. Indeed, the vast, and presumably sustained, uptick in the number of browser vulnerabilities has led to Microsoft no longer enumerating Chromium CVEs in the Security Update Guide.” Microsoft also patched a zero-day vulnerability in Visual Studio Code that allows attackers to steal GitHub tokens with a single click. The company was forced to push a stopgap fix for the flaw on June 3, after a researcher published instructions showing how to exploit it. The researcher said they opted not to work with Microsoft because of a recent experience wherein Redmond silently patched a flaw they reported without offering credit or recognition. Microsoft battled its own internal zero-day emergencies last week, after at least 72 of the company’s public code repositories were infected with a variant of the Shai-Hulud worm . Researchers found that all of the affected packages were connected to Microsoft official Azure Durable Task SDK, which got hit by the same Shai-Hulud worm in May. Other major software makers are also shipping outsized update bundles this month. Adobe has released updates to fix a massive number of critical vulnerabilities across a range of products , including Adobe Experience Manager , Acrobat Reader and Cold Fusion . On June 3, Google resolved a whopping 429 vulnerabilities in its latest Chrome browser update (Chrome automatically downloads updates but installing them usually requires a complete restart of the browser). Microsoft’s Security Update Guide Action1’s Patch Tuesday breakdown SANS Internet Storm Center notes on Patch Tuesday",
       "content_preview_chars": 5249,
       "content_fetched_at": "2026-06-11T06:25:00",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "7678b572e1b2174e",
+      "source_url_hash": "7678b572e1b2174e",
+      "canonical_url": "https://www.engadget.com/2189096/tomb-raider-legacy-of-atlantis-is-a-vivid-high-pace-remake-of-a-classic",
+      "title_hash": "9de5ee2705b2b373",
+      "topic_signature": "c2afc2285323e356dccc",
+      "title": "Tomb Raider: Legacy of Atlantis is a vivid, high-pace remake of a classic",
+      "url": "https://www.engadget.com/2189096/tomb-raider-legacy-of-atlantis-is-a-vivid-high-pace-remake-of-a-classic",
+      "source_name": "Engadget",
+      "source_url": "https://www.engadget.com",
+      "source_published_at": "2026-06-11T13:00:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.89,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-11T14:53:21",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 104,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 104,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Tomb Raider: Legacy of Atlantis is a vivid, high-pace remake of a classic - Engadget",
+      "meta_description": "Lara get your gun(s).",
+      "article_images": [
+        {
+          "url": "https://www.engadget.com/img/gallery/tomb-raider-legacy-of-atlantis-is-a-vivid-high-pace-remake-of-a-classic/l-intro-1780874612.jpg",
+          "alt": "Tomb Raider: Legacy of Atlantis is a vivid, high-pace remake of a classic - Engadget",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/tomb-raider-legacy-of-atlantis-is-a-vivid-high-pace-remake-of-a-classic/intro-1780874612.jpg",
+          "alt": "Lara kicks a cog into place while hanging precariously.",
+          "source": "article_content"
+        },
+        {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+          "alt": "Lara Croft poses with her pistols.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.engadget.com/img/gallery/tomb-raider-legacy-of-atlantis-is-a-vivid-high-pace-remake-of-a-classic/l-intro-1780874612.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.engadget.com/img/gallery/tomb-raider-legacy-of-atlantis-is-a-vivid-high-pace-remake-of-a-classic/intro-1780874612.jpg",
+          "alt": "Lara kicks a cog into place while hanging precariously."
+        },
+        {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+          "alt": "Lara Croft poses with her pistols."
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Tomb Raider is back. Again. Lara Croft is back. Yet again. This time, her character is positioned between the \"Survivor\" trilogy of the last decade and her iconic debut in 1996. Yes, 30 years ago. Legacy of Atlantis is a remake of that very first adventure, centered on Atlantean mythology, tomb raiding and, well, a few dinosaurs. At Summer Game Fest 2026, Crystal Dynamics and Flying Wild Hog shared the first gameplay demo, with Unreal Engine 5 adding vivid detail and lushness to Lara's travails. The developers made a clever choice, centering the demo on an early part of the original game. Set in the Peruvian mountainside, my playthrough included a giant cog puzzle I remember from playing the original. There were also several shootouts with a herd of dinosaurs, the same vivid red velociraptor-adjacent creatures from Tomb Raider ( 1996). Retreading the original game's ground gives a clear demonstration of how Legacy of Atlantis will elevate the game from the original, making a relatively insipid cog puzzle (find the giant wheels, bring them together, interrupt the waterfall to make a path) into a more exploratory, exciting experience. Yes, you can swan-dive into the waterfall pool whenever you want. Lara can collect and use healing packs between fights, gathering resources from trees and caves, as well as mythical curios and historical objects. Not all the contemporary gaming changes are welcome: I'm not particularly thrilled with the inclusion of collectible hunting. The Assassin's Creed series has largely moved on and I think a lot of gamers have done the same. Some collectibles, like fangs, can be converted into skill points, meaning I will feel obliged to scour for objects. Lara's PDA (love it: that's some 1996 nonsense) combines encyclopedia entries for everything you find, along with the current task. It also includes a scanner that can be used intermittently to offer some tips on what to do next. I did get lost at times, and that was due to my not paying enough attention. Legacy of Atlantis leans into verticality a lot, and pretty much each time I lost my way, the route forward was either literally above my head (grappling hooks!) or under my feet. (Of course, there's a cave behind that tiny waterfall.) A grappling hook and climbing axe round out the equipment loadout, drawing inspiration from more recent Tomb Raider titles. Besides swinging across chasms, the grappling hook can also be used to pull objects towards the player and is crucial to solving the cog puzzle. After scaling the mountainside and unlocking a route through the waterfall, the demo jumps a little farther forward, deep into the jungle. Dinosaurs soon surround Lara, and she doesn't even blink. While I wasn't able to shoot two targets at once, OG Tomb Raider style, I wouldn't be surprised if that's some kind unlockable skill in the full game — skill trees were blocked in this demo. While there's no shared development core, parts of the game reminded me of another recent game with a connection to the Amazon industrial entertainment complex: 007 First Light . It's not just the detailed environments and quippy British lead but a new skill for Lara. Focus, when pressed during gunfights, slows time, helping you to shoot with more precision or switch to a distant target. Oh, she also does so while doing an aerial (a sort of hands-free cartwheel), reminding me of Max Payne, any of The Matrix' s spin-off games and many others. Thankfully, Lara's dual pistols have infinite ammo and it was easy enough to down the pack of dinosaurs, though not before they gored me a few times. Not long after, a T. rex enters the scene and we're locked into a high-speed set piece as I attempt to escape the dinosaurs without falling to my death. I'm relieved that Legend of Atlantis plays more like the original action-adventure titles, while integrating some of the more advanced game mechanics of the last few games. Lara isn't invincible, but she's now made of sterner stuff. Tomb Raider: Legacy of Atlantis launches on February 12 2027, on PlayStation 5, Xbox Series X/S, Steam and Nintendo Switch 2.",
+      "full_article_text_chars": 4114,
+      "content_preview": "Tomb Raider is back. Again. Lara Croft is back. Yet again. This time, her character is positioned between the \"Survivor\" trilogy of the last decade and her iconic debut in 1996. Yes, 30 years ago. Legacy of Atlantis is a remake of that very first adventure, centered on Atlantean mythology, tomb raiding and, well, a few dinosaurs. At Summer Game Fest 2026, Crystal Dynamics and Flying Wild Hog shared the first gameplay demo, with Unreal Engine 5 adding vivid detail and lushness to Lara's travails. The developers made a clever choice, centering the demo on an early part of the original game. Set in the Peruvian mountainside, my playthrough included a giant cog puzzle I remember from playing the original. There were also several shootouts with a herd of dinosaurs, the same vivid red velociraptor-adjacent creatures from Tomb Raider ( 1996). Retreading the original game's ground gives a clear demonstration of how Legacy of Atlantis will elevate the game from the original, making a relatively insipid cog puzzle (find the giant wheels, bring them together, interrupt the waterfall to make a path) into a more exploratory, exciting experience. Yes, you can swan-dive into the waterfall pool whenever you want. Lara can collect and use healing packs between fights, gathering resources from trees and caves, as well as mythical curios and historical objects. Not all the contemporary gaming changes are welcome: I'm not particularly thrilled with the inclusion of collectible hunting. The Assassin's Creed series has largely moved on and I think a lot of gamers have done the same. Some collectibles, like fangs, can be converted into skill points, meaning I will feel obliged to scour for objects. Lara's PDA (love it: that's some 1996 nonsense) combines encyclopedia entries for everything you find, along with the current task. It also includes a scanner that can be used intermittently to offer some tips on what to do next. I did get lost at times, and that was due to my not paying enough attention. Legacy of Atlantis leans into verticality a lot, and pretty much each time I lost my way, the route forward was either literally above my head (grappling hooks!) or under my feet. (Of course, there's a cave behind that tiny waterfall.) A grappling hook and climbing axe round out the equipment loadout, drawing inspiration from more recent Tomb Raider titles. Besides swinging across chasms, the grappling hook can also be used to pull objects towards the player and is crucial to solving the cog puzzle. After scaling the mountainside and unlocking a route through the waterfall, the demo jumps a little farther forward, deep into the jungle. Dinosaurs soon surround Lara, and she doesn't even blink. While I wasn't able to shoot two targets at once, OG Tomb Raider style, I wouldn't be surprised if that's some kind unlockable skill in the full game — skill trees were blocked in this demo. While there's no shared development core, parts of the game reminded me of another recent game with a connection to the Amazon industrial entertainment complex: 007 First Light . It's not just the detailed environments and quippy British lead but a new skill for Lara. Focus, when pressed during gunfights, slows time, helping you to shoot with more precision or switch to a distant target. Oh, she also does so while doing an aerial (a sort of hands-free cartwheel), reminding me of Max Payne, any of The Matrix' s spin-off games and many others. Thankfully, Lara's dual pistols have infinite ammo and it was easy enough to down the pack of dinosaurs, though not before they gored me a few times. Not long after, a T. rex enters the scene and we're locked into a high-speed set piece as I attempt to escape the dinosaurs without falling to my death. I'm relieved that Legend of Atlantis plays more like the original action-adventure titles, while integrating some of the more advanced game mechanics of the last few games. Lara isn't invincible, but she's now made of sterner stuff. Tomb Raider: Legacy of Atlantis launches on February 12 2027, on PlayStation 5, Xbox Series X/S, Steam and Nintendo Switch 2.",
+      "content_preview_chars": 4114,
+      "content_fetched_at": "2026-06-11T14:53:29",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "aa3f85908846bdd6",
+      "source_url_hash": "aa3f85908846bdd6",
+      "canonical_url": "https://www.engadget.com/2191800/engadget-s-favorite-game-boy-advance-games",
+      "title_hash": "c991dc8a5ec1846d",
+      "topic_signature": "ab351905b485c3059805",
+      "title": "Engadget's favorite Game Boy Advance games",
+      "url": "https://www.engadget.com/2191800/engadget-s-favorite-game-boy-advance-games",
+      "source_name": "Engadget",
+      "source_url": "https://www.engadget.com",
+      "source_published_at": "2026-06-11T12:00:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.89,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-11T14:53:21",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 111,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 111,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Engadget's favorite Game Boy Advance games - Engadget",
+      "meta_description": "Join us for a trip down memory lane on the 25th anniversary of the GBA's US release.",
+      "article_images": [
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-s-favorite-game-boy-advance-games/l-intro-1781182960.jpg",
+          "alt": "Engadget's favorite Game Boy Advance games - Engadget",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-s-favorite-game-boy-advance-games/intro-1781182960.jpg",
+          "alt": "A modded Game Boy Advance plays the intro to Pokémon Emerald",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-s-favorite-game-boy-advance-games/advance-wars-1781182962.jpg",
+          "alt": "Two opposing armies face off in Advance Wars.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-s-favorite-game-boy-advance-games/fire-emblem-1781182962.jpg",
+          "alt": "In this Fire Emblem screenshot, the player prepares to move protagonist Eliwood to challenge an enemy.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.engadget.com/img/gallery/engadget-s-favorite-game-boy-advance-games/l-intro-1781182960.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-s-favorite-game-boy-advance-games/intro-1781182960.jpg",
+          "alt": "A modded Game Boy Advance plays the intro to Pokémon Emerald"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-s-favorite-game-boy-advance-games/advance-wars-1781182962.jpg",
+          "alt": "Two opposing armies face off in Advance Wars."
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-s-favorite-game-boy-advance-games/fire-emblem-1781182962.jpg",
+          "alt": "In this Fire Emblem screenshot, the player prepares to move protagonist Eliwood to challenge an enemy."
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Join us for a trip down memory lane on the 25th anniversary of the GBA's US release. Today marks the 25th anniversary of the Game Boy Advance, so to celebrate we wanted to revisit some of the best and most memorable titles on the platform. We're talking about legendary games like Golden Sun to iconic franchises such as Advance Wars that got their start on the GBA. However, before we get into specific titles, we also wanted to take some time to look back at what is arguably Nintendo's most diverse and interesting pure handheld platform of all time, despite follow-ups like the DS and 3DS. (And yes, technically we're a bit late as the Game Boy Advance originally first went on sale in Japan in March, but folks in the US had to wait another few months for it to finally arrive on June 11, 2001.) Packing a custom SoC with not one but two processors running at a blistering 16.7MHz and up to 8.3MHz (the latter of which was used for backwards compatibility) with a whopping 288 kilobytes of combined RAM, the original GBA represented a massive leap in performance compared to the previous generation. Suddenly, Nintendo had a portable console that could handle SNES-level graphics while also supporting a huge catalog of existing games dating all the way back to 1989. It also had a higher resolution 240 x 160 TFT display that finally brought rich colors to Nintendo's handheld games. This isn't meant as shade to the Game Boy Color, but even as kids, we knew the GBC was merely a stopgap. Meanwhile, Nintendo basically up-ended the original Game Boy's design by shifting from portrait orientation to a horizontal layout, which allowed for the addition of handy new shoulder buttons while keeping the classic cross-shaped D-pad and just two primary face buttons (A and B). And then there were the colors. Between the solid indigo and orange (which was exclusive to Japan) models and the translucent glacier blue and fuchsia versions, you basically had the early 2000s color palette encapsulated in plastic, and it was glorious. But Nintendo didn't stop there, because in 2003, the GBA SP (the SP stands for special) came along and added a wonderful clamshell design and a dedicated backlight. This boosted the handheld's portability even more while letting you play games in any lighting condition without the need for silly attachments. Then came the GBA Micro in 2005, which shrunk the entire system down to Lilliputian proportions and served as the last official Game Boy release on record. In a lot of ways, the Game Boy Advance represented the peak of classic 2D sprite-based graphics long after home consoles like the N64 and PlayStation had moved into the polygonal era. It wasn't the most powerful or sophisticated handheld of its generation, but it was compact, sturdily built and had one of the greatest library games of any system. And with a launch price of $100, which translates to about $190 in today's money, it was relatively affordable too. But enough about the hardware, let's move onto the games. — Sam Rutherford, Senior Reporter Before I played the Fire Emblem series, let alone newer tactical titles like Into The Breach or Mario + Rabbids , it all started with Advance Wars . With cute infantry icons and tanks that squished around grid-based skirmishes, this was Game Boy Does War. Intelligent Systems' Advance Wars series is the perfect first turn-based strategy game. With initially simple rules of what each unit does, contrasting human soldiers to tanks, then bigger tanks, artillery, ships and planes, the game holds your hand throughout. No, you can't just order your units toward the enemy — you have to think it out. The first few levels demonstrate the benefits of fortified structures, high mobility units and setting up your base before pitting you against more capable generals and threats. It's easy to pick up and play, and forgiving enough for beginners to make their first tentative steps into the hugely satisfying tactics genre. Unlike games like Wargroove , which acts as a spiritual successor of sorts for Advance Wars , each move wasn't necessarily make-or-break either. The original Advance Wars knows you're only human, or at least not old enough to drink alcohol. A lot of games were constrained by the limits of the Game Boy Advance, which is a meandering way of saying it had a small screen and not many buttons. Advance Wars didn't really suffer, though: The unit icons and split-screen battles were more than adequate, and you didn't need many buttons to bark orders to your forces. It was streamlined to perfection. I haven't played the original for years (more than a decade, if I'm honest), but it prepared me for the more complicated, richer sequels that came after it, with their increased challenges. Advance Wars is probably why I'm still contending with Into The Breach . In 2021, I wrote about Fire Emblem for our 20th anniversary GBA story. Over the past five years, I've played it from start to finish two times, and can once again confirm that it is my favorite Game Boy Advance game. I hadn't even heard about Fire Emblem as a series until I got into Advance Wars , another Intelligent Systems game. From there, I discovered that a whole series of fantasy-inspired games with similar gameplay existed, but had never been translated into English. Thirsty for more, but with a distinct lack of Japanese language skills, I spent a year getting deep into Final Fantasy Tactics , old Shining Force games, Vandal Hearts and basically anything vaguely Fire Emblem-shaped that was available in English. Then, off the back of Advance Wars ' success, Nintendo decided to release a Fire Emblem game in the west, and simply called it Fire Emblem . Released as Fire Emblem: The Blazing Blade in Japan, Fire Emblem was technically the second GBA FE title and the seventh overall. The battles were challenging, and its RPG elements drew me in much more than Advance Wars ever did. With a vast story full of twists and turns, and a cast of characters I truly cared about, I was instantly hooked. Which made it all the more tough when I encountered perhaps FE's most famous mechanic: permadeath. The loss of a character who's seen you through thick and thin dying a pathetic and meaningless death, all because you left them one square away from safety, is memorable. Despite a few missteps, over the years Fire Emblem became my favorite series, and I am deeply excited by Fortune's Weave finally getting a release date. But I still come back to the GBA game to relive that love-at-first-sight moment. In 2026, I'm so familiar with the game that it's very rare for me to lose a party member by accident. Those once-challenging battles are now more of a warm embrace. Unfortunately, playing it has become harder in recent years. Though I still have my original cart, both my Game Boy Advance and my old DS Lite are really worse for wear. I tried to play on the Switch 2's online library recently, but I think the screen size just isn't a great match for GBA games. In that respect, modern retro handhelds have been a godsend. I spent way too much on the Aya Neo Pocket Micro Classic , a machine with the same aspect ratio of the original GBA, and loved my playthrough of Fire Emblem on that. It does feel weird playing it on anything but a Game Boy Advance, though. I've been saying this for the best part of a decade at this point, but I do wish Nintendo would take advantage of this deep thirst for its old games and produce a bespoke console similar to the Classic Editions of the SNES and NES. — Aaron Souppouris, Editor-in-Chief Final Fantasy Tactics Advance The original Final Fantasy Tactics was my introduction to the wonders of strategy RPGs, with its morally complex characters, excellent soundtrack and rich political intrigue. I eagerly snapped up FFT Advance when it debuted, thinking it was a direct sequel. Boy, was I in for a surprise. Instead of a brutal world of political violence, FFTA focused on children and an imaginary world. At first, it felt like a dumbed-down version of the original game, meant to appeal to younger audiences and portable game sessions. But as I played more of it, I learned to love FFTA for what it did well: Its gorgeous pastel art, its rich class system and yet another banger of a score from Hitoshi Sakimoto. It was the first handheld game that felt like an epic adventure to me, and it was a lesson not to judge games too quickly. — Devindra Hardawar, Senior Editor Golden Sun and Golden Sun: The Lost Age The GBA may be known for ports of classic RPGs like Final Fantasy VI and Breath of Fire , but it also introduced a brand-new franchise that Nintendo has (mostly) slept on for over two decades. I'm talking about Golden Sun and the sequel Golden Sun: The Lost Age . These are fantastic turn-based RPGs, but with a very Nintendo-like emphasis on puzzles. The characters have the usual spate of element-based spells and powers, but they can also be used outside of battle to unlock secrets and pass through dungeons. It's a very fun system that rewards experimentation. The graphics also look great for the time, with a little dash of the company's Mode 7 technology on the world map. The first one ended on a cliffhanger, which is unique for turn-based RPGs, and the sequel used a password system to carry over levels and items. Now how about finishing up that trilogy? It's only been, checks notes , 23 years. At least we get franchise protagonist Isaac popping up in Super Smash Bros. games every now and then. Both of these games are available to play on modern consoles via the Nintendo Switch Online + Expansion Pack membership. — Lawrence Bonk, Contributing Reporter This is the only from the ground-up new Metroid game for the GBA, though the console is home to a remake of the first title. Metroid Fusion is technically the fourth game in the franchise's convoluted timeline and finds Samus Aran exploring the home planet of the titular Metroid aliens when she's infected by an alien parasite. She's saved by an injection of Metroid DNA, but this also creates a deadly doppelganger called SA-X. The gameplay is classic Metroid, with Super Metroid being the most obvious inspiration. The iconic moveset is here, but Samus is also faster than ever before. The controls are so smooth and responsive, which is why Fusion is typically ranked high on lists of the best Metroidvania games . It's just a joy to play and replay. Some people ding Fusion for having a bit more direction than previous installments, as the narrative guides players to the next major objective. There's still plenty of exploration and backtracking to do, though. This is available to play on the Switch and Switch 2 with a Nintendo Switch Online + Expansion Pack subscription. Metroidvania fans should absolutely see what all the fuss is about. Metroid: Zero Mission The original Metroid is one of the most influential games of all time; after all, how many games can claim to have an entire genre half-named after them? But as someone who came to Nintendo's sci-fi series late, I was disappointed to discover that few people recommend playing the 1986 entry now, largely owing to its clunky gameplay and overly punishing design. Luckily, Nintendo clearly acknowledged this, as it eventually gave Samus Aran's debut the full remake treatment on the Game Boy Advance. Metroid: Zero Mission mostly tells the same story as the NES game, introducing us to the enigmatic bounty hunter, Space Pirates and titular alien organisms that have come to define the long-running series. The remake adds all new visuals and plays more like the SNES's Super Metroid , which many still regard as the pinnacle of the series. Nintendo also added a map, which was cruelly lacking in the original. There are a lot of Metroidvanias competing for your attention these days, so it's a testament to Metroid: Zero Mission 's peerlessly intricate design that it still holds its own. Samus feels wonderful to control, every powerup changes the game in a meaningful way, and the difficulty is perfectly pitched. 2021's Metroid Dread might be slickest take on the 2D Metroid formula you can play today, but a lot of its best ideas are present in a GBA game that came out nearly two decades earlier. — Matt Tate, Contributing Reporter Pokémon FireRed and LeafGreen How do you pick just one best GBA Pokémon game when the series was, in many ways, at its best on Nintendo's final Game Boy? Game Freak added so many features and gameplay tweaks with Ruby , Sapphire and later Emerald to tweak the Pokémon formula in new and interesting ways that even with the 3DS remakes of Ruby and Sapphire , Emerald still feels like the definitive Hoenn experience. But as someone who has played Pokémon since the very beginning, there's just something special about the FireRed and LeafGreen remakes. A lot of that had to do with the way Game Freak brought the Kanto region to life using the GBA's new hardware. It felt magical to see your favorite Gen 1 locales and Pokémon rendered in a vibrant pixel art style that has since become iconic. And then there was the gameplay. Game Freak found a way to make the familiar feel new again. And nowhere did that feel more essential than when going back to the original roster of 150 Pokémon. Many people complain there are too many Pokémon now, but the problem with Gen 1 was that there were too few. You can only face so many Pidgey and Rattata before things get boring. On that front, FireRed and LeafGreen greatly benefited from being Gen 3 games, with Ruby and Sapphire introducing mechanics that would become series staples, including Pokémon abilities and natures. Then there was the post-game, which expanded the roster to include all the Pokémon that Game Freak had added up to that point in the series. It's been amazing to watch people rediscover or play for the first FireRed and LeafGreen on the Switch, and come to the conclusion Game Freak was cooking during the GBA era. — Igor Bonifacic, Senior Reporter Super Mario Advance Call me basic, but Super Mario Advance will always have a special place in my heart. Mostly, that's because it was one of the first things I imported from Japan, alongside the Game Boy Advance itself. The console originally launched in Japan on March 21, 2001, and I ended up buying it from a random online store in April. That gave me a few months of geek cred before the GBA's June 11 US debut. I was raised on the NES and SNES, but the latter felt to me like the apex of 2D gaming. So having a system that was just as powerful and small enough to fit in my pocket was simply astounding. I remember playing the GBA on the city bus one day, when a younger kid asked sheepishly if he could check it out. He played around five minutes of Super Mario Advance with a look of sheer wonder on his face. That moment is something I think about often whenever I encounter new tech — can it inspire that same sense of awe? As for the game itself, Super Mario Advance is basically just the souped-up Super Mario All-Stars version of Mario 2 . That means it looks and feels great, and it has a sensibility unlike any other early Mario title. As a kid, I was only able to play Mario 2 for a bit at a friend's house, so it felt like an entirely new adventure when I finally got to play through Super Mario Advance as a teenager. Back then, it was clear that Nintendo had a bright future in handheld consoles — what I didn't know was that it would eventually bet its entire business on a portable system. The Legend of Zelda: The Minish Cap Would you believe me if I told you one of the best Zelda games ever was made not by Nintendo but by Capcom? In North America, The Minish Cap and Resident Evil 4 were released just over two days at the start of 2005. It's a shame then the former is so often glossed over by Zelda fans. Is it a perfect game? No, there are some frustrations, with many of them stemming from the Kinstone system, but what Minish Cap does well, it does great. To start, there's Ezlo, the magical talking cap Link finds toward the start of his adventure. He's one of Link's most memorable companions to date, with a wit that's sarcastic and funny. He also allows our pointy-eared protagonist to glide and shrink down to the size of a Minish. The latter allows Link to explore Hyrule in a way he's never done before or since, and some of Minish Cap's best puzzles require you to switch repeatedly between sizes. The Minish Cap also offers a beautiful rendition of Hyrule, taking equal parts inspiration from A Link to the Past and Ocarina of Time. Let me also just say it's the perfect length, never overstaying its welcome. WarioWare, Inc.: Mega Microgames! Like many people my age, some of my earliest gaming memories revolve around the Game Boy and Game Boy Color, but Santa Claus sadly never deemed me worthy of the Game Boy Advance. Over the last few years, I've had a lot of fun discovering the beloved little handheld's incredible library via Nintendo Switch Online, but one game I wasn't sure I would bother with is WarioWare, Inc.: Mega Microgames ! That isn't because I didn't think I'd like it, nor is it because I knew I'd have to Google its ridiculous full name every time I wrote about it in articles like this one. No, it's because I had already played pretty much every subsequent WarioWare game and assumed the original would be little more than a proof of concept. How wrong I was. While later entries introduced gimmicks tailored to their native hardware, such as motion controls and touchscreen gameplay, the first WarioWare (I will not play your silly game, Nintendo) is ingeniously simple. None of the more than 200 absurd microgames you're given a few seconds to complete require nothing more of you than pressing the A button or the D-Pad, showcasing the wacky series in its purest minimalistic form. The microgames themselves vary wildly, from nose-picking simulators to quickfire bomb defusal games and wacky remixes of classic NES titles. And the whole experience is elevated by the scrappy punk rock art style, which I'd argue has never been better than it was in the GBA entry. If you want to see Nintendo at its most deliriously playful, revisit this game.",
+      "full_article_text_chars": 18214,
+      "content_preview": "Join us for a trip down memory lane on the 25th anniversary of the GBA's US release. Today marks the 25th anniversary of the Game Boy Advance, so to celebrate we wanted to revisit some of the best and most memorable titles on the platform. We're talking about legendary games like Golden Sun to iconic franchises such as Advance Wars that got their start on the GBA. However, before we get into specific titles, we also wanted to take some time to look back at what is arguably Nintendo's most diverse and interesting pure handheld platform of all time, despite follow-ups like the DS and 3DS. (And yes, technically we're a bit late as the Game Boy Advance originally first went on sale in Japan in March, but folks in the US had to wait another few months for it to finally arrive on June 11, 2001.) Packing a custom SoC with not one but two processors running at a blistering 16.7MHz and up to 8.3MHz (the latter of which was used for backwards compatibility) with a whopping 288 kilobytes of combined RAM, the original GBA represented a massive leap in performance compared to the previous generation. Suddenly, Nintendo had a portable console that could handle SNES-level graphics while also supporting a huge catalog of existing games dating all the way back to 1989. It also had a higher resolution 240 x 160 TFT display that finally brought rich colors to Nintendo's handheld games. This isn't meant as shade to the Game Boy Color, but even as kids, we knew the GBC was merely a stopgap. Meanwhile, Nintendo basically up-ended the original Game Boy's design by shifting from portrait orientation to a horizontal layout, which allowed for the addition of handy new shoulder buttons while keeping the classic cross-shaped D-pad and just two primary face buttons (A and B). And then there were the colors. Between the solid indigo and orange (which was exclusive to Japan) models and the translucent glacier blue and fuchsia versions, you basically had the early 2000s color palette encapsulated in plastic, and it was glorious. But Nintendo didn't stop there, because in 2003, the GBA SP (the SP stands for special) came along and added a wonderful clamshell design and a dedicated backlight. This boosted the handheld's portability even more while letting you play games in any lighting condition without the need for silly attachments. Then came the GBA Micro in 2005, which shrunk the entire system down to Lilliputian proportions and served as the last official Game Boy release on record. In a lot of ways, the Game Boy Advance represented the peak of classic 2D sprite-based graphics long after home consoles like the N64 and PlayStation had moved into the polygonal era. It wasn't the most powerful or sophisticated handheld of its generation, but it was compact, sturdily built and had one of the greatest library games of any system. And with a launch price of $100, which translates to about $190 in today's money, it was relatively affordable too. But enough about the hardware, let's move onto the games. — Sam Rutherford, Senior Reporter Before I played the Fire Emblem series, let alone newer tactical titles like Into The Breach or Mario + Rabbids , it all started with Advance Wars . With cute infantry icons and tanks that squished around grid-based skirmishes, this was Game Boy Does War. Intelligent Systems' Advance Wars series is the perfect first turn-based strategy game. With initially simple rules of what each unit does, contrasting human soldiers to tanks, then bigger tanks, artillery, ships and planes, the game holds your hand throughout. No, you can't just order your units toward the enemy — you have to think it out. The first few levels demonstrate the benefits of fortified structures, high mobility units and setting up your base before pitting you against more capable generals and threats. It's easy to pick up and play, and forgiving enough for beginners to make their first tentative steps into the hugely satisfying tactics genre. Unlike games like Wargroove , which acts as a spiritual successor of sorts for Advance Wars , each move wasn't necessarily make-or-break either. The original Advance Wars knows you're only human, or at least not old enough to drink alcohol. A lot of games were constrained by the limits of the Game Boy Advance, which is a meandering way of saying it had a small screen and not many buttons. Advance Wars didn't really suffer, though: The unit icons and split-screen battles were more than adequate, and you didn't need many buttons to bark orders to your forces. It was streamlined to perfection. I haven't played the original for years (more than a decade, if I'm honest), but it prepared me for the more complicated, richer sequels that came after it, with their increased challenges. Advance Wars is probably why I'm still contending with Into The Breach . In 2021, I wrote about Fire Emblem for our 20th anniversary GBA story. Over the past five years, I've played it from start to finish two times, and can once again confirm that it is my favorite Game Boy Advance game. I hadn't even heard about Fire Emblem as a series until I got into Advance Wars , another Intelligent Systems game. From there, I discovered that a whole series of fantasy-inspired games with similar gameplay existed, but had never been translated into English. Thirsty for more, but with a distinct lack of Japanese language skills, I spent a year getting deep into Final Fantasy Tactics , old Shining Force games, Vandal Hearts and basically anything vaguely Fire Emblem-shaped that was available in English. Then, off the back of Advance Wars ' success, Nintendo decided to release a Fire Emblem game in the west, and simply called it Fire Emblem . Released as Fire Emblem: The Blazing Blade in Japan, Fire Emblem was technically the second GBA FE title and the seventh overall. The battles were challenging, and its RPG elements drew me in much more than Advance Wars ever did. With a vast story full of twists and turns, and a cast of characters I truly cared about, I was instantly hooked. Which made it all the more tough when I encountered perhaps FE's most famous mechanic: permadeath. The loss of a character who's seen you through thick and thin dying a pathetic and meaningless death, all because you left them one square away from safety, is memorable. Despite a few missteps, over the years Fire Emblem became my favorite series, and I am deeply excited by Fortune's Weave finally getting a release date. But I still come back to the GBA game to relive that love-at-first-sight moment. In 2026, I'm so familiar with the game that it's very rare for me to lose a party member by accident. Those once-challenging battles are now more of a warm embrace. Unfortunately, playing it has become harder in recent years. Though I still have my original cart, both my Game Boy Advance and my old DS Lite are really worse for wear. I tried to play on the Switch 2's online library recently, but I think the screen size just isn't a great match for GBA games. In that respect, modern retro handhelds have been a godsend. I spent way too much on the Aya Neo Pocket Micro Classic , a machine with the same aspect ratio of the original GBA, and loved my playthrough of Fire Emblem on that. It does feel weird playing it on anything but a Game Boy Advance, though. I've been saying this for the best part of a decade at this point, but I do wish Nintendo would take advantage of this deep thirst for its old games and produce a bespoke console similar to the Classic Editions of the SNES and NES. — Aaron Souppouris, Editor-in-Chief Final Fantasy Tactics Advance The original Final Fantasy Tactics was my introduction to the wonders of strategy RPGs, with its morally complex characters, excellent soundtrack and rich political intrigue. I eagerly snapped up FFT Advance when it debuted, thinking it was a direct sequel. Boy, was I in for a surprise. Instead of a brutal world of political violence, FFTA focused on children and an imaginary world. At first, it felt like a dumbed-down version of the original game, meant to appeal to younger audiences and portable game sessions. But as I played more of it, I learned to love FFTA for what it did well: Its gorgeous pastel art, its rich class system and yet another banger of a score from Hitoshi Sakimoto. It was the first handheld game that felt like an epic adventure to me, and it was a lesson not to judge games too quickly. — Devindra Hardawar, Senior Editor Golden Sun and Golden Sun: The Lost Age The GBA may be known for ports of classic RPGs like Final Fantasy VI and Breath of Fire , but it also introduced a brand-new franchise that Nintendo has (mostly) slept on for over two decades. I'm talking about Golden Sun and the sequel Golden Sun: The Lost Age . These are fantastic turn-based RPGs, but with a very Nintendo-like emphasis on puzzles.",
+      "content_preview_chars": 8860,
+      "content_fetched_at": "2026-06-11T14:53:28",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "64123259e3e44c5a",
+      "source_url_hash": "64123259e3e44c5a",
+      "canonical_url": "https://9to5mac.com/2026/06/10/download-the-new-ios-27-and-ipados-27-wallpapers-here",
+      "title_hash": "96e8250787dd24c8",
+      "topic_signature": "2ac0af2f1e7c5788fc07",
+      "title": "Download the new iOS 27 and iPadOS 27 wallpapers here",
+      "url": "https://9to5mac.com/2026/06/10/download-the-new-ios-27-and-ipados-27-wallpapers-here",
+      "source_name": "9to5Mac",
+      "source_url": "https://9to5mac.com",
+      "source_published_at": "2026-06-10T21:25:17Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 17.47,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-11T14:53:21",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 89,
+      "affiliate_links_removed_count": 8,
+      "removed_source_links_count": 89,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Download the new iOS 27 and iPadOS 27 light and dark wallpapers here - 9to5Mac",
+      "meta_description": "Apple has announced iOS 27 and iPadOS 27, and as usual, they include new wallpapers to mark the transition to the next major software cycle.",
+      "article_images": [
+        {
+          "url": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-ipados-27-wallpapers.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+          "alt": "Download the new iOS 27 and iPadOS 27 light and dark wallpapers here - 9to5Mac",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-ipados-27-wallpapers.jpg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/iPadOS27_Default_Dark_Landscape.png?w=1024",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/iPadOS27_Default_Dark.png?w=768",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-ipados-27-wallpapers.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-ipados-27-wallpapers.jpg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/iPadOS27_Default_Dark_Landscape.png?w=1024",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/iPadOS27_Default_Dark.png?w=768",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2F9to5mac.com"
+        }
+      ],
+      "full_article_text": "During Monday’s WWDC keynote, Apple announced iOS 27 and iPadOS 27, and as usual, both updates include new wallpapers to mark the transition to the next major software cycle. You can download them below. Even though iOS 27 and iPadOS 27 won’t launch for a few more months, you can already get their new wallpapers from the galleries below. As has been the case over the past few years, Apple has created versions of the wallpapers that move dynamically with the device’s motion. For those dynamic versions, you’ll have to wait until the official release. In the meantime, you can download the static versions below in several colors. As with the macOS 27 Golden Gate wallpapers, they feature shapes that form a stylized “27.” iPadOS 27 wallpapers (portrait and landscape) Be sure to click the images and save the full-resolution wallpaper, and then set it as your background image through the Photos app or Settings app if you’re using an iPad or iPhone. iOS 27 and iPadOS 27 introduce the new Siri app, alongside revamped, AI-powered Shortcuts, improved Image Playgrounds, and much more. You can read our roundup of everything new with iOS 27 here, and iPadOS 27 here. For ongoing updates and full coverage of WWDC26, head over to our news hub. Geoffrey Cain – ‘Steve Jobs in Exile’ David Pogue – ’Apple: The First 50 Years’ AirTag (2nd Generation) – 4 Pack FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Marcus Mendes is a Brazilian tech podcaster and journalist who has been closely following Apple since the mid-2000s. He began covering Apple news in Brazilian media in 2012 and later broadened his focus to the wider tech industry, hosting a daily podcast for seven years.",
+      "full_article_text_chars": 1735,
+      "content_preview": "During Monday’s WWDC keynote, Apple announced iOS 27 and iPadOS 27, and as usual, both updates include new wallpapers to mark the transition to the next major software cycle. You can download them below. Even though iOS 27 and iPadOS 27 won’t launch for a few more months, you can already get their new wallpapers from the galleries below. As has been the case over the past few years, Apple has created versions of the wallpapers that move dynamically with the device’s motion. For those dynamic versions, you’ll have to wait until the official release. In the meantime, you can download the static versions below in several colors. As with the macOS 27 Golden Gate wallpapers, they feature shapes that form a stylized “27.” iPadOS 27 wallpapers (portrait and landscape) Be sure to click the images and save the full-resolution wallpaper, and then set it as your background image through the Photos app or Settings app if you’re using an iPad or iPhone. iOS 27 and iPadOS 27 introduce the new Siri app, alongside revamped, AI-powered Shortcuts, improved Image Playgrounds, and much more. You can read our roundup of everything new with iOS 27 here, and iPadOS 27 here. For ongoing updates and full coverage of WWDC26, head over to our news hub. Geoffrey Cain – ‘Steve Jobs in Exile’ David Pogue – ’Apple: The First 50 Years’ AirTag (2nd Generation) – 4 Pack FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Marcus Mendes is a Brazilian tech podcaster and journalist who has been closely following Apple since the mid-2000s. He began covering Apple news in Brazilian media in 2012 and later broadened his focus to the wider tech industry, hosting a daily podcast for seven years.",
+      "content_preview_chars": 1735,
+      "content_fetched_at": "2026-06-11T14:53:32",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "56167ee70c76a7be",
+      "source_url_hash": "56167ee70c76a7be",
+      "canonical_url": "https://9to5mac.com/2026/06/10/airpods-keep-getting-better-and-ios-27s-biggest-upgrade-is-siri",
+      "title_hash": "5368c5d792251e95",
+      "topic_signature": "e76612adee75c1781cc8",
+      "title": "AirPods keep getting better, and iOS 27’s biggest upgrade is Siri",
+      "url": "https://9to5mac.com/2026/06/10/airpods-keep-getting-better-and-ios-27s-biggest-upgrade-is-siri",
+      "source_name": "9to5Mac",
+      "source_url": "https://9to5mac.com",
+      "source_published_at": "2026-06-10T21:01:47Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 17.86,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-11T14:53:21",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 89,
+      "affiliate_links_removed_count": 5,
+      "removed_source_links_count": 89,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "AirPods keep getting better, and iOS 27’s biggest upgrade is Siri - 9to5Mac",
+      "meta_description": "AirPods get new features just like every other Apple device, and in iOS 27 the new Siri AI is set to make AirPods better than ever.",
+      "article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27-device-lineup-apple.jpg?quality=82&strip=all",
+          "alt": "AirPods keep getting better, and iOS 27’s biggest upgrade is Siri - 9to5Mac",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/siri-ai-more-capable.jpg?quality=82&strip=all",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/client-mu-plugins/9to5-core/includes/obfuscate-images/images/9to5mac-default.jpg?quality=82&strip=all&w=140",
+          "alt": "Siri",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2019/03/apple-airpods-1.jpg?quality=82&strip=all&w=140",
+          "alt": "Apple AirPods",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27-device-lineup-apple.jpg?quality=82&strip=all",
+      "main_image_source_type": "article_content",
+      "main_image_extraction_method": "article_content",
+      "extra_article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/siri-ai-more-capable.jpg?quality=82&strip=all",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/client-mu-plugins/9to5-core/includes/obfuscate-images/images/9to5mac-default.jpg?quality=82&strip=all&w=140",
+          "alt": "Siri"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2019/03/apple-airpods-1.jpg?quality=82&strip=all&w=140",
+          "alt": "Apple AirPods"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2F9to5mac.com"
+        }
+      ],
+      "full_article_text": "AirPods get new features just like every other Apple device, including big additions like Live Translation and Hearing Aid. And in iOS 27, the new Siri AI is set to make AirPods better than ever. Siri AI in iOS 27 unlocks more powerful AirPods experiences iOS 27 adds new features for CarPlay, Apple Notes, Messages, Wallet, and a lot more. The update also includes some new AirPods features: custom EQ and GymKit support. AirPods settings have also been revamped with a new design and layout. But the single biggest AirPods upgrade in iOS 27 is easily set to be the new Siri. When Apple demoed Siri AI during the WWDC keynote, it focused on iPhone primarily, but clarified an important detail: “All these updates to Siri extend to CarPlay as well as AirPods.” That means AirPods users are about to benefit from a much smarter, more powerful AI assistant than ever before. Here’s a sampling of iOS 27’s new Siri AI features, via Apple’s website : Conversational : “Siri AI is your conversational AI assistant with entirely new capabilities…Ask open-ended questions, brainstorm ideas for work or creative projects on the go, and engage in natural, back-and-forth conversations.” World Knowledge : “Ask about virtually any topic that’s on your mind, from important facts to recipes and restaurant recommendations. Siri AI can reference information online to give you detailed, up-to-date insights.” Personal Context : “Siri AI can find relevant answers to what you’re looking for just by asking. Search for a photo from years ago, easily locate an email buried in your inbox, or pull up a note you saved on your iPhone.” App Actions : “Siri AI can take actions in apps like Messages, Music, Reminders, and more based on what you’re doing in the moment. Quickly edit a message you just sent or add a song you hear in the car to your workout playlist.” If you have a compatible iPhone, you can even customize Siri’s pace and expressivity to your exact preferences. Siri and AirPods have always been a great match. But it’s not hard to imagine how much more useful AirPods will be with all these new capabilities. It’s still early in the iOS 27 beta, but with everything I’ve seen so far of Siri AI, I’m excited to finally have a more powerful assistant—and even more reason to wear AirPods every day. Best AirPods deals and accessories AirPods Pro 3 ( now only $179 , down from $249) Magnetic strap neckband for preventing lost AirPods AirFly Pro 2 for connecting AirPods to standard headphone jacks AirPods Max 2 ( now only $499 , down from $549) FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Siri is Apple's personal assistant technology th… AirPods offers a cord-free wireless audio experi… Ryan got his start in journalism as an Editor at MacStories, where he worked for four years covering Apple news, writing app reviews, and more. For two years he co-hosted the Adapt podcast on Relay FM, which focused entirely on the iPad. As a result, it should come as no surprise that his favorite Apple device is the iPad Pro.",
+      "full_article_text_chars": 3077,
+      "content_preview": "AirPods get new features just like every other Apple device, including big additions like Live Translation and Hearing Aid. And in iOS 27, the new Siri AI is set to make AirPods better than ever. Siri AI in iOS 27 unlocks more powerful AirPods experiences iOS 27 adds new features for CarPlay, Apple Notes, Messages, Wallet, and a lot more. The update also includes some new AirPods features: custom EQ and GymKit support. AirPods settings have also been revamped with a new design and layout. But the single biggest AirPods upgrade in iOS 27 is easily set to be the new Siri. When Apple demoed Siri AI during the WWDC keynote, it focused on iPhone primarily, but clarified an important detail: “All these updates to Siri extend to CarPlay as well as AirPods.” That means AirPods users are about to benefit from a much smarter, more powerful AI assistant than ever before. Here’s a sampling of iOS 27’s new Siri AI features, via Apple’s website : Conversational : “Siri AI is your conversational AI assistant with entirely new capabilities…Ask open-ended questions, brainstorm ideas for work or creative projects on the go, and engage in natural, back-and-forth conversations.” World Knowledge : “Ask about virtually any topic that’s on your mind, from important facts to recipes and restaurant recommendations. Siri AI can reference information online to give you detailed, up-to-date insights.” Personal Context : “Siri AI can find relevant answers to what you’re looking for just by asking. Search for a photo from years ago, easily locate an email buried in your inbox, or pull up a note you saved on your iPhone.” App Actions : “Siri AI can take actions in apps like Messages, Music, Reminders, and more based on what you’re doing in the moment. Quickly edit a message you just sent or add a song you hear in the car to your workout playlist.” If you have a compatible iPhone, you can even customize Siri’s pace and expressivity to your exact preferences. Siri and AirPods have always been a great match. But it’s not hard to imagine how much more useful AirPods will be with all these new capabilities. It’s still early in the iOS 27 beta, but with everything I’ve seen so far of Siri AI, I’m excited to finally have a more powerful assistant—and even more reason to wear AirPods every day. Best AirPods deals and accessories AirPods Pro 3 ( now only $179 , down from $249) Magnetic strap neckband for preventing lost AirPods AirFly Pro 2 for connecting AirPods to standard headphone jacks AirPods Max 2 ( now only $499 , down from $549) FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Siri is Apple's personal assistant technology th… AirPods offers a cord-free wireless audio experi… Ryan got his start in journalism as an Editor at MacStories, where he worked for four years covering Apple news, writing app reviews, and more. For two years he co-hosted the Adapt podcast on Relay FM, which focused entirely on the iPad. As a result, it should come as no surprise that his favorite Apple device is the iPad Pro.",
+      "content_preview_chars": 3077,
+      "content_fetched_at": "2026-06-11T14:53:34",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "c50f71fcf4a21ace",
+      "source_url_hash": "c50f71fcf4a21ace",
+      "canonical_url": "https://www.engadget.com/2191756/alien-isolation-2-keeps-the-classic-horror-game-s-uncompromising-approach-to-raising-tension",
+      "title_hash": "b4866a0e3525881b",
+      "topic_signature": "a8b569d8d87b94e67874",
+      "title": "Alien: Isolation 2 keeps the classic horror game's uncompromising approach to raising tension",
+      "url": "https://www.engadget.com/2191756/alien-isolation-2-keeps-the-classic-horror-game-s-uncompromising-approach-to-raising-tension",
+      "source_name": "Engadget",
+      "source_url": "https://www.engadget.com",
+      "source_published_at": "2026-06-10T20:00:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 18.89,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-11T14:53:21",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 102,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 102,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Alien: Isolation 2 keeps the classic horror game's uncompromising approach to raising tension - Engadget",
+      "meta_description": "We played the opening prologue of the horror sequel, and it's still got ways to bring the scares.",
+      "article_images": [
+        {
+          "url": "https://www.engadget.com/img/gallery/alien-isolation-2-keeps-the-classic-horror-games-uncompromising-approach-to-raising-tension/l-intro-1781120409.jpg",
+          "alt": "Alien: Isolation 2 keeps the classic horror game's uncompromising approach to raising tension - Engadget",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/alien-isolation-2-keeps-the-classic-horror-games-uncompromising-approach-to-raising-tension/intro-1781120409.jpg",
+          "alt": "A moody scene of exploration from the video game Alien: Isolation 2",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/alien-isolation-2-keeps-the-classic-horror-games-uncompromising-approach-to-raising-tension/the-demo-1781120410.jpg",
+          "alt": "A close-up of a xenomorph, with saliva stringing between its open jaw, from the video game Alien: Isolation 2.",
+          "source": "article_content"
+        },
+        {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+          "alt": "The interior of an off-world colony from the Alien: Isolation 2 video game.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.engadget.com/img/gallery/alien-isolation-2-keeps-the-classic-horror-games-uncompromising-approach-to-raising-tension/l-intro-1781120409.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.engadget.com/img/gallery/alien-isolation-2-keeps-the-classic-horror-games-uncompromising-approach-to-raising-tension/intro-1781120409.jpg",
+          "alt": "A moody scene of exploration from the video game Alien: Isolation 2"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/alien-isolation-2-keeps-the-classic-horror-games-uncompromising-approach-to-raising-tension/the-demo-1781120410.jpg",
+          "alt": "A close-up of a xenomorph, with saliva stringing between its open jaw, from the video game Alien: Isolation 2."
+        },
+        {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+          "alt": "The interior of an off-world colony from the Alien: Isolation 2 video game."
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "We played the opening prologue of the horror sequel, and it's still got ways to bring the scares. One of the best horror games of the 2010s was Creative Assembly's Alien: Isolation , but it certainly took some time for audiences to see it in its proper light. Though it initially received mixed reception for its tense encounters and stark difficulty, it's now seen large reappraisal from horror fans for its uncompromising gameplay and faithful recreation of the tone and experience of the original 1979 Alien film. At Summer Game Fest 2026, Sega and Creative Assembly revealed the full trailer for Alien: Isolation 2 , which not only continues the original's stealth-action survival-horror experience but also brings the scares to a new setting, introducing a new protagonist caught in a cat-and-mouse game with the cunning creature. During the SGF Play Days media event, we got to go hands-on with Alien: Isolation 2 's tense opening prologue. We learned from director Al Hope about how they're building a sequel that's all about getting players immersed in a new setting while facing a familiar foe. \"It's been absolutely amazing [seeing the response] to the trailer, we were on stage when we premiered it and I really wasn't prepared for the noise from the people seeing it for the first time,\" said creative director Al Hope. \"With the first game, we were really doing something different with it, since games from the Alien IP had been really focused on the James Cameron Aliens experience, and that's really cool. We really wanted to do something different and to really transport the player back to Ridley Scott's original 1979 Alien film. It was all about imagining what it would be like to encounter that creature. It was about creating an experience of survival, not killing, and so when we released it, we were super proud of the game.\" Set a few months after the end of Alien: Isolation , the sequel picks up on a remote colony world known as Terrafirma with a crew investigating a mysterious object that crashed from orbit. One of the lead surveyors, Blake, goes out to investigate the crash, only to learn that it's a separated module from the doomed Sevastopol Station. Upon exploring the ship and finding data logs detailing what happened, she encounters a lone xenomorph that stowed away in the derelict, leading to an unrelenting fight for survival on the hostile world. While the original game was very much Amanda Ripley's story of survival, Alien: Isolation 2 brings the focus to a new protagonist. One of the big motivators for shifting perspectives was to lock in on the experience of exploring radically different settings. Instead of the enclosed space station that evokes a sense of claustrophobia, the colony planet, which is quite similar to LV-426's Hadley's Hope from Aliens , emphasizes survival in the outdoors. I got a feel of this new approach from the game's prologue, which acted as an extended tutorial. As Blake, I had to maneuver through the dead woodland area of the planet to reach the crashed module. Compared to the eerie silence of Sevastopol Station, the colony is loud and chaotic, with limited visibility into the world beyond. With the clock ticking to reach the module before a flood came in, I had to carefully maneuver through the debris field to reach the crash site. Inside the module, my memories of playing Alien: Isolation came rushing back. Just like the original film and the 2014 horror game, the interior was that familiar blend of low-fi/high-tech design with working-class workspace. There was even a great jump scare with a wrecked Working Joe android giving one last bit of aggression before powering down. As I explored for scrap to repair the power system, I noticed to the strong sound design, which captured the eerie quiet of the ship and the storm outside. With the power back on, I was able to activate that familiar, slow-acting save station to record my progress. Once I got into the computer room, the alien appeared, which then kick-started the careful sneak back to the exit. Much like the original game, maneuvering past the alien requires patience and careful attention to your surroundings — one wrong move or an ill-advised sprint can alert the beast and send it your way. By hiding under desks and in crawl spaces to avoid its gaze as it lurked about, I was able to reach the exit. As the demo closed, the alien spotted me and went in for the kill, but I was saved by the ensuing flood, which reached the module and sent it careening down a hill. And that's where the demo ended. I found Blake to be a solid choice for a new protagonist, though I would like to know more about their motivations and background. Currently, the character feels a bit too similar to Amanda Ripley's, so I hope the game offers a different spin on Blake's story and experience. According to the creative director, one of the main reasons for the change in protagonist was to create a perspective that makes it feel like a new \"journey of discovery\" in a totally new environment. \"So we obviously love Amanda; she's super important to us as a character from Alien: Isolation ,\" said Hope. \"But I think it was all about thinking about this opportunity to make a sequel from a really high level. We were like, \"Ok, we want to tell a story that's really closely connected to the first game, but we want to tell a new story in a new world that really lends itself to that horror experience. It was all about this journey of discovery and mystery for Blake, and so it just felt like this was the right path to take with this sequel.\" This early look at Alien: Isolation 2 's opening offered up the right amount of scares and tension that made the original game so memorable. But what intrigued me most about this sequel was the new setting. While the demo was very familiar in terms of the original's flow, I really dug the new location, which was such a big departure from Sevastopol Station. It still captured the same sense of dread as the original game, but with the added pressure of navigating a chaotic setting. The devs were unfortunately tight-lipped about how the game's structure changes in a more open environment compared to the original. Still, the new atmosphere it provides offers a new way to experience that full blend of stealth-action and survival horror. I'm a big admirer of the original game, and so far, Alien: Isolation 2 has a great concept for a follow-up to one of the greatest horror games ever. Alien: Isolation 2 is currently in active development, and is planned for release on PC, PS5, Xbox Series X|S, and Nintendo Switch 2.",
+      "full_article_text_chars": 6613,
+      "content_preview": "We played the opening prologue of the horror sequel, and it's still got ways to bring the scares. One of the best horror games of the 2010s was Creative Assembly's Alien: Isolation , but it certainly took some time for audiences to see it in its proper light. Though it initially received mixed reception for its tense encounters and stark difficulty, it's now seen large reappraisal from horror fans for its uncompromising gameplay and faithful recreation of the tone and experience of the original 1979 Alien film. At Summer Game Fest 2026, Sega and Creative Assembly revealed the full trailer for Alien: Isolation 2 , which not only continues the original's stealth-action survival-horror experience but also brings the scares to a new setting, introducing a new protagonist caught in a cat-and-mouse game with the cunning creature. During the SGF Play Days media event, we got to go hands-on with Alien: Isolation 2 's tense opening prologue. We learned from director Al Hope about how they're building a sequel that's all about getting players immersed in a new setting while facing a familiar foe. \"It's been absolutely amazing [seeing the response] to the trailer, we were on stage when we premiered it and I really wasn't prepared for the noise from the people seeing it for the first time,\" said creative director Al Hope. \"With the first game, we were really doing something different with it, since games from the Alien IP had been really focused on the James Cameron Aliens experience, and that's really cool. We really wanted to do something different and to really transport the player back to Ridley Scott's original 1979 Alien film. It was all about imagining what it would be like to encounter that creature. It was about creating an experience of survival, not killing, and so when we released it, we were super proud of the game.\" Set a few months after the end of Alien: Isolation , the sequel picks up on a remote colony world known as Terrafirma with a crew investigating a mysterious object that crashed from orbit. One of the lead surveyors, Blake, goes out to investigate the crash, only to learn that it's a separated module from the doomed Sevastopol Station. Upon exploring the ship and finding data logs detailing what happened, she encounters a lone xenomorph that stowed away in the derelict, leading to an unrelenting fight for survival on the hostile world. While the original game was very much Amanda Ripley's story of survival, Alien: Isolation 2 brings the focus to a new protagonist. One of the big motivators for shifting perspectives was to lock in on the experience of exploring radically different settings. Instead of the enclosed space station that evokes a sense of claustrophobia, the colony planet, which is quite similar to LV-426's Hadley's Hope from Aliens , emphasizes survival in the outdoors. I got a feel of this new approach from the game's prologue, which acted as an extended tutorial. As Blake, I had to maneuver through the dead woodland area of the planet to reach the crashed module. Compared to the eerie silence of Sevastopol Station, the colony is loud and chaotic, with limited visibility into the world beyond. With the clock ticking to reach the module before a flood came in, I had to carefully maneuver through the debris field to reach the crash site. Inside the module, my memories of playing Alien: Isolation came rushing back. Just like the original film and the 2014 horror game, the interior was that familiar blend of low-fi/high-tech design with working-class workspace. There was even a great jump scare with a wrecked Working Joe android giving one last bit of aggression before powering down. As I explored for scrap to repair the power system, I noticed to the strong sound design, which captured the eerie quiet of the ship and the storm outside. With the power back on, I was able to activate that familiar, slow-acting save station to record my progress. Once I got into the computer room, the alien appeared, which then kick-started the careful sneak back to the exit. Much like the original game, maneuvering past the alien requires patience and careful attention to your surroundings — one wrong move or an ill-advised sprint can alert the beast and send it your way. By hiding under desks and in crawl spaces to avoid its gaze as it lurked about, I was able to reach the exit. As the demo closed, the alien spotted me and went in for the kill, but I was saved by the ensuing flood, which reached the module and sent it careening down a hill. And that's where the demo ended. I found Blake to be a solid choice for a new protagonist, though I would like to know more about their motivations and background. Currently, the character feels a bit too similar to Amanda Ripley's, so I hope the game offers a different spin on Blake's story and experience. According to the creative director, one of the main reasons for the change in protagonist was to create a perspective that makes it feel like a new \"journey of discovery\" in a totally new environment. \"So we obviously love Amanda; she's super important to us as a character from Alien: Isolation ,\" said Hope. \"But I think it was all about thinking about this opportunity to make a sequel from a really high level. We were like, \"Ok, we want to tell a story that's really closely connected to the first game, but we want to tell a new story in a new world that really lends itself to that horror experience. It was all about this journey of discovery and mystery for Blake, and so it just felt like this was the right path to take with this sequel.\" This early look at Alien: Isolation 2 's opening offered up the right amount of scares and tension that made the original game so memorable. But what intrigued me most about this sequel was the new setting. While the demo was very familiar in terms of the original's flow, I really dug the new location, which was such a big departure from Sevastopol Station. It still captured the same sense of dread as the original game, but with the added pressure of navigating a chaotic setting. The devs were unfortunately tight-lipped about how the game's structure changes in a more open environment compared to the original. Still, the new atmosphere it provides offers a new way to experience that full blend of stealth-action and survival horror. I'm a big admirer of the original game, and so far, Alien: Isolation 2 has a great concept for a follow-up to one of the greatest horror games ever. Alien: Isolation 2 is currently in active development, and is planned for release on PC, PS5, Xbox Series X|S, and Nintendo Switch 2.",
+      "content_preview_chars": 6613,
+      "content_fetched_at": "2026-06-11T14:53:36",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "e6eb32244ea52c87",
+      "source_url_hash": "e6eb32244ea52c87",
+      "canonical_url": "https://9to5mac.com/2026/06/10/ios-27-just-broke-15-years-of-muscle-memory-on-iphone-and-ipad",
+      "title_hash": "7b03c67f3b9cb960",
+      "topic_signature": "d2e15f1b11b0db71e14f",
+      "title": "iOS 27 just broke 15 years of muscle memory on iPhone and iPad",
+      "url": "https://9to5mac.com/2026/06/10/ios-27-just-broke-15-years-of-muscle-memory-on-iphone-and-ipad",
+      "source_name": "9to5Mac",
+      "source_url": "https://9to5mac.com",
+      "source_published_at": "2026-06-10T17:26:09Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 21.45,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-11T14:53:21",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 86,
+      "affiliate_links_removed_count": 6,
+      "removed_source_links_count": 86,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "iOS 27 just broke 15 years of muscle memory on iPhone and iPad - 9to5Mac",
+      "meta_description": "Since iOS 5 in 2011, the iPhone and iPad have included Notification Center, a central place to find alerts from...",
+      "article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/client-mu-plugins/9to5-core/includes/obfuscate-images/images/9to5mac-default.jpg?quality=82&strip=all&w=140",
+          "alt": "iOS 27 just broke 15 years of muscle memory on iPhone and iPad - 9to5Mac",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2024/10/iphone-16-pro-cameras.jpg?quality=82&strip=all&w=140",
+          "alt": "iPhone",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://9to5mac.com/wp-content/client-mu-plugins/9to5-core/includes/obfuscate-images/images/9to5mac-default.jpg?quality=82&strip=all&w=140",
+      "main_image_source_type": "article_content",
+      "main_image_extraction_method": "article_content",
+      "extra_article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2024/10/iphone-16-pro-cameras.jpg?quality=82&strip=all&w=140",
+          "alt": "iPhone"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2F9to5mac.com"
+        }
+      ],
+      "full_article_text": "Since iOS 5 in 2011, the iPhone and iPad have included Notification Center, a central place to find alerts from various apps in chronological order. Starting with iOS 27, Apple is making a major change to how users open Notification Center on iPhone and iPad. Siri AI takes over the swipe gesture for most of the iPhone and iPad top edge Opening Notification Center is unchanged on iOS 27 and iPadOS 27 by default. However, enabling Siri AI changes a key swipe gesture on both iPhone and iPad. One of the many ways of invoking Siri AI, once enabled, is by swiping down from the center of the top edge of your iPhone or iPad display. This previously opened Notification Center. You can still access Notification Center by swiping down from the top-left corner once Siri AI is enabled. Apple is greatly prioritizing Siri AI access, however, as the majority of the top edge is devoted to invoking the new Siri experience. The last time Apple made a change to accessing Notification Center came when Control Center moved from a swipe up gesture from the bottom to a top-right corner swipe down gesture on iPhone X. Apple later unified this experience across devices. Now it’s Notification Center’s turn to be put in the corner. On the iPad in particular, the area above Home screen app icons is pretty much devoted to invoking Siri AI. The area for opening Notification Center actually shrinks if you disable displaying AM/PM or the date. After 15 years of muscle memory, it’ll take some time to determine if this change is worth it or something that should be reconsidered. In the meantime, early feedback sounds overwhelmingly positive around Apple’s new Siri AI system. Hearing that Siri is good now will also take some getting used to, I’m sure. Do more with your Apple products Apple AirTag 2 | Add Find My tracking to keys, bags, bikes, more AirPods 4 ($99, reg. $129) | Apple’s newest wireless headphones AirPods Pro 3 ($199, reg. $249) | Apple’s best wireless headphones Beats USB-A to USB-C Cable | The official CarPlay cable Wireless CarPlay Adapter | No more plugging in required Withings Body Comp | Best smart scale for Apple Health FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Apple's tablet debuted in 2010. Since the origin… Introduced in 2007 by Steve Jobs, iPhone is Appl… Zac covers Apple news, hosts the 9to5Mac Happy Hour podcast, and created SpaceExplored.com.",
+      "full_article_text_chars": 2438,
+      "content_preview": "Since iOS 5 in 2011, the iPhone and iPad have included Notification Center, a central place to find alerts from various apps in chronological order. Starting with iOS 27, Apple is making a major change to how users open Notification Center on iPhone and iPad. Siri AI takes over the swipe gesture for most of the iPhone and iPad top edge Opening Notification Center is unchanged on iOS 27 and iPadOS 27 by default. However, enabling Siri AI changes a key swipe gesture on both iPhone and iPad. One of the many ways of invoking Siri AI, once enabled, is by swiping down from the center of the top edge of your iPhone or iPad display. This previously opened Notification Center. You can still access Notification Center by swiping down from the top-left corner once Siri AI is enabled. Apple is greatly prioritizing Siri AI access, however, as the majority of the top edge is devoted to invoking the new Siri experience. The last time Apple made a change to accessing Notification Center came when Control Center moved from a swipe up gesture from the bottom to a top-right corner swipe down gesture on iPhone X. Apple later unified this experience across devices. Now it’s Notification Center’s turn to be put in the corner. On the iPad in particular, the area above Home screen app icons is pretty much devoted to invoking Siri AI. The area for opening Notification Center actually shrinks if you disable displaying AM/PM or the date. After 15 years of muscle memory, it’ll take some time to determine if this change is worth it or something that should be reconsidered. In the meantime, early feedback sounds overwhelmingly positive around Apple’s new Siri AI system. Hearing that Siri is good now will also take some getting used to, I’m sure. Do more with your Apple products Apple AirTag 2 | Add Find My tracking to keys, bags, bikes, more AirPods 4 ($99, reg. $129) | Apple’s newest wireless headphones AirPods Pro 3 ($199, reg. $249) | Apple’s best wireless headphones Beats USB-A to USB-C Cable | The official CarPlay cable Wireless CarPlay Adapter | No more plugging in required Withings Body Comp | Best smart scale for Apple Health FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Apple's tablet debuted in 2010. Since the origin… Introduced in 2007 by Steve Jobs, iPhone is Appl… Zac covers Apple news, hosts the 9to5Mac Happy Hour podcast, and created SpaceExplored.com.",
+      "content_preview_chars": 2438,
+      "content_fetched_at": "2026-06-11T14:53:35",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "1bf6b1d4f6465c6e",
+      "source_url_hash": "1bf6b1d4f6465c6e",
+      "canonical_url": "https://www.androidauthority.com/google-killing-nest-mini-mistake-3675878",
+      "title_hash": "0acb7d04029b7b5f",
+      "topic_signature": "d6885bce3a09d4735bd5",
+      "title": "FeaturesGoogle is playing a dangerous game by killing off the Nest MiniBrady Snyder•0",
+      "url": "https://www.androidauthority.com/google-killing-nest-mini-mistake-3675878",
+      "source_name": "Android Authority",
+      "source_url": "https://www.androidauthority.com",
+      "source_published_at": "2026-06-10T09:00:31Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 29.88,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-11T14:53:21",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 19,
+      "affiliate_links_removed_count": 4,
+      "removed_source_links_count": 19,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Google is playing a dangerous game by killing off the Nest Mini",
+      "meta_description": "Google's Nest Mini was my gateway into the Google Home ecosystem. Now, the affordable smart speaker might be discontinued forever.",
+      "article_images": [
+        {
+          "url": "https://clearbuy-cloud.nyc3.digitaloceanspaces.com/media/3594/Google-Nest-Mini-2nd-gen.jpg",
+          "alt": "Google is playing a dangerous game by killing off the Nest Mini",
+          "source": "article_content"
+        },
+        {
+          "url": "https://clearbuy-cloud.nyc3.digitaloceanspaces.com/media/455/aa2020_editors_choice.png",
+          "alt": "AA Editor's Choice",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://clearbuy-cloud.nyc3.digitaloceanspaces.com/media/3594/Google-Nest-Mini-2nd-gen.jpg",
+      "main_image_source_type": "article_content",
+      "main_image_extraction_method": "article_content",
+      "extra_article_images": [
+        {
+          "url": "https://clearbuy-cloud.nyc3.digitaloceanspaces.com/media/455/aa2020_editors_choice.png",
+          "alt": "AA Editor's Choice"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Affiliate links on Android Authority may earn us a commission. Learn more. It’s rare that a tech product is so affordable that it becomes an impulse buy, but that’s exactly what the Google Nest Mini was for the better part of a decade. The tiny smart speaker launched as the Google Home Mini in 2017, was later rebranded to Nest Mini, and got a second-generation successor in 2019. Google largely left the Nest Mini untouched, although that wasn’t much of a problem. The smart speaker continued to serve its purpose as an affordable smart speaker with passable sound and Google Assistant (later Gemini) help. I’ve purchased a few Nest Mini speakers over the years, and I’ve never paid more than $30 for one. Once, I got one for free when I bought a Nest Hub display. That’s the spirit of the Nest Mini in a nutshell. It’s an accessible entry point into the Google Home ecosystem that anyone can try cheaply. As Nest Mini and Nest Audio stock runs out for what could be the final time, it’s clear that the Nest Mini will leave an impossibly big hole for the upcoming Google Home Speaker to fill. Are you going to miss the Nest Mini or Audio? Nest Mini was my Google Home gateway There’s a reason the Nest Mini speaker is so affordable, and it’s not because of Google’s goodwill. The smart speaker costs $50 at retail, but if you wait for annual sales, you could score it regularly for half that. It’s cheap because the Nest Mini is competing with devices like the Amazon Echo Dot or Apple HomePod to become the starting point for your smart home ecosystem. Chances are, if you buy a Nest Mini, you’ll want to complement it with other Google Home and Nest hardware. That’s the point. The first-generation Nest Mini became my personal gateway into the Google Home ecosystem. I later saw the value in having a digital assistant with a screen, so I upgraded to the Google Nest Hub. The Nest Mini speakers I acquired along the way were scattered around my house, and Google Assistant could listen to smart home commands from anywhere. Years later, I still own that Nest Mini and Nest Hub, but I’ve also tacked on a Nest Hub Max, Nest Thermostat, Nest Doorbell Battery, and two Nest Cam Indoor security cameras. Although I’m not sure it’s something to be proud of, I’m a case study in why having a low entry point into a smart home ecosystem matters. Considering I bought my first Nest Mini as a broke student, I doubt I would’ve paid $100 for something like the forthcoming Google Home Speaker to start. Instead, buyers like me will likely flock to competitors such as Amazon. If that ends up being the case, Google won’t just miss out on budget sales today — it could lose out on significant upgrade opportunities down the line. I don’t need Google’s Home Speaker upgrades I’m no longer a broke student clipping coupons to buy a Nest Mini, but that doesn’t mean I want to pay more for the Google Home Speaker. I’ve completely transitioned to the other end of the spectrum. I already own multiple Nest Hub displays, and the Home Speaker won’t replace those in my kitchen or home office. The Home Speaker isn’t a good fit for my living room either, because I have a Dolby Atmos-ready surround-sound speaker system for all my music listening. A smart speaker with marginally better sound than a Nest Mini or Nest Audio offers little value to someone like me. My preferred use case for smart speakers is as listening stations throughout my home. Google Nest Hub screens cover some areas of my home, but the bedroom and bathroom are left out. For less than $50, I can drop a Nest Mini speaker into those areas to listen for my Gemini commands without standing out. Back in the day, I used to hook a Chromecast Audio up to my sound system and set it as the default audio output for my Nest Mini. I’m willing to bet that old setup would sound better than the Home Speaker. If the Nest Mini is truly not long for this world, there won’t be a Google smart speaker priced like an impulse buy. It’s easy to justify adding a Nest Mini to a few rooms of your home at the sub-$50 price point. At double the price of the Nest Mini, the Google Home Speaker doesn’t offer nearly the same value proposition. Somehow, it simultaneously turns off both entry-level buyers who need a cheap smart speaker and power users who have advanced gear. Don’t want to miss the best from Android Authority ? Set us as a favorite source in Google Discover to never miss our latest exclusive reports, expert analysis, and much more. You can also set us as a preferred source in Google Search by clicking the button below. Google is leaving money on the table if it axes Nest Mini There are a handful of things about the Google Home Speaker that catch my attention, like its attractive, friendly design and the colors that match my other Nest products. From a functionality standpoint, I can’t see how Home Speaker meaningfully upgrades the Nest Mini experience. The biggest upgrade will likely be the sound quality, but midrange smart speakers can be hard to sell. Budget buyers won’t want to pay more for sound quality they don’t need, and audiophiles won’t want to pay more for speakers they’ll never use for music. If anything, this is another sign that Google’s Nest hardware lineup is in need of a major refresh. The Google Home Speaker isn’t enough. The Nest Mini, Nest Hub, and Nest Hub Max could all use updates to ensure Google Home products cover every price point and potential use case. Without the Nest Mini covering the basics, I’m worried Google will leave money on the table as new customers and prosumers look elsewhere. Thank you for being part of our community. Read our Comment Policy before posting.",
+      "full_article_text_chars": 5680,
+      "content_preview": "Affiliate links on Android Authority may earn us a commission. Learn more. It’s rare that a tech product is so affordable that it becomes an impulse buy, but that’s exactly what the Google Nest Mini was for the better part of a decade. The tiny smart speaker launched as the Google Home Mini in 2017, was later rebranded to Nest Mini, and got a second-generation successor in 2019. Google largely left the Nest Mini untouched, although that wasn’t much of a problem. The smart speaker continued to serve its purpose as an affordable smart speaker with passable sound and Google Assistant (later Gemini) help. I’ve purchased a few Nest Mini speakers over the years, and I’ve never paid more than $30 for one. Once, I got one for free when I bought a Nest Hub display. That’s the spirit of the Nest Mini in a nutshell. It’s an accessible entry point into the Google Home ecosystem that anyone can try cheaply. As Nest Mini and Nest Audio stock runs out for what could be the final time, it’s clear that the Nest Mini will leave an impossibly big hole for the upcoming Google Home Speaker to fill. Are you going to miss the Nest Mini or Audio? Nest Mini was my Google Home gateway There’s a reason the Nest Mini speaker is so affordable, and it’s not because of Google’s goodwill. The smart speaker costs $50 at retail, but if you wait for annual sales, you could score it regularly for half that. It’s cheap because the Nest Mini is competing with devices like the Amazon Echo Dot or Apple HomePod to become the starting point for your smart home ecosystem. Chances are, if you buy a Nest Mini, you’ll want to complement it with other Google Home and Nest hardware. That’s the point. The first-generation Nest Mini became my personal gateway into the Google Home ecosystem. I later saw the value in having a digital assistant with a screen, so I upgraded to the Google Nest Hub. The Nest Mini speakers I acquired along the way were scattered around my house, and Google Assistant could listen to smart home commands from anywhere. Years later, I still own that Nest Mini and Nest Hub, but I’ve also tacked on a Nest Hub Max, Nest Thermostat, Nest Doorbell Battery, and two Nest Cam Indoor security cameras. Although I’m not sure it’s something to be proud of, I’m a case study in why having a low entry point into a smart home ecosystem matters. Considering I bought my first Nest Mini as a broke student, I doubt I would’ve paid $100 for something like the forthcoming Google Home Speaker to start. Instead, buyers like me will likely flock to competitors such as Amazon. If that ends up being the case, Google won’t just miss out on budget sales today — it could lose out on significant upgrade opportunities down the line. I don’t need Google’s Home Speaker upgrades I’m no longer a broke student clipping coupons to buy a Nest Mini, but that doesn’t mean I want to pay more for the Google Home Speaker. I’ve completely transitioned to the other end of the spectrum. I already own multiple Nest Hub displays, and the Home Speaker won’t replace those in my kitchen or home office. The Home Speaker isn’t a good fit for my living room either, because I have a Dolby Atmos-ready surround-sound speaker system for all my music listening. A smart speaker with marginally better sound than a Nest Mini or Nest Audio offers little value to someone like me. My preferred use case for smart speakers is as listening stations throughout my home. Google Nest Hub screens cover some areas of my home, but the bedroom and bathroom are left out. For less than $50, I can drop a Nest Mini speaker into those areas to listen for my Gemini commands without standing out. Back in the day, I used to hook a Chromecast Audio up to my sound system and set it as the default audio output for my Nest Mini. I’m willing to bet that old setup would sound better than the Home Speaker. If the Nest Mini is truly not long for this world, there won’t be a Google smart speaker priced like an impulse buy. It’s easy to justify adding a Nest Mini to a few rooms of your home at the sub-$50 price point. At double the price of the Nest Mini, the Google Home Speaker doesn’t offer nearly the same value proposition. Somehow, it simultaneously turns off both entry-level buyers who need a cheap smart speaker and power users who have advanced gear. Don’t want to miss the best from Android Authority ? Set us as a favorite source in Google Discover to never miss our latest exclusive reports, expert analysis, and much more. You can also set us as a preferred source in Google Search by clicking the button below. Google is leaving money on the table if it axes Nest Mini There are a handful of things about the Google Home Speaker that catch my attention, like its attractive, friendly design and the colors that match my other Nest products. From a functionality standpoint, I can’t see how Home Speaker meaningfully upgrades the Nest Mini experience. The biggest upgrade will likely be the sound quality, but midrange smart speakers can be hard to sell. Budget buyers won’t want to pay more for sound quality they don’t need, and audiophiles won’t want to pay more for speakers they’ll never use for music. If anything, this is another sign that Google’s Nest hardware lineup is in need of a major refresh. The Google Home Speaker isn’t enough. The Nest Mini, Nest Hub, and Nest Hub Max could all use updates to ensure Google Home products cover every price point and potential use case. Without the Nest Mini covering the basics, I’m worried Google will leave money on the table as new customers and prosumers look elsewhere. Thank you for being part of our community. Read our Comment Policy before posting.",
+      "content_preview_chars": 5680,
+      "content_fetched_at": "2026-06-11T14:53:37",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
     }
