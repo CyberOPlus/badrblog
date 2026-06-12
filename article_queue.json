@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-12T18:00:22",
+  "updated_at": "2026-06-12T19:54:27",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -1416,13 +1416,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-06-12T17:52:38",
-      "candidate_retry_after": "2026-06-12T18:07:38Z",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-06-12T19:52:50",
+      "candidate_retry_after": "2026-06-12T20:07:50Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-06-12T17:52:38",
-      "candidate_failure_count": 38
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-06-12T19:52:50",
+      "candidate_failure_count": 39
     },
     {
       "id": "387079dc0a830ad9",
@@ -3079,7 +3079,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-06-08T22:51:15",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "archived": true,
+      "archived_at": "2026-06-12T19:52:31",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "34695cf6de5c7b9e",
@@ -3453,12 +3456,12 @@
       "removed_source_links_count": 82,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-12T17:52:39",
-      "candidate_retry_after": "2026-06-12T18:07:39Z",
+      "content_fetched_at": "2026-06-12T19:52:52",
+      "candidate_retry_after": "2026-06-12T20:07:52Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-12T17:52:39",
-      "candidate_failure_count": 36
+      "candidate_failed_at": "2026-06-12T19:52:52",
+      "candidate_failure_count": 37
     },
     {
       "id": "561b6316398d7603",
@@ -4445,12 +4448,12 @@
       "removed_source_links_count": 228,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=446 chars/65 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:446chars/65words, page_text:446chars/65words)",
-      "content_fetched_at": "2026-06-12T17:52:42",
-      "candidate_retry_after": "2026-06-12T18:07:42Z",
+      "content_fetched_at": "2026-06-12T19:52:56",
+      "candidate_retry_after": "2026-06-12T20:07:56Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=446 chars/65 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:446chars/65words, page_text:446chars/65words)",
-      "candidate_failed_at": "2026-06-12T17:52:42",
-      "candidate_failure_count": 35
+      "candidate_failed_at": "2026-06-12T19:52:56",
+      "candidate_failure_count": 36
     },
     {
       "id": "c1354558130eaeb3",
@@ -5532,12 +5535,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-12T17:52:43",
-      "candidate_retry_after": "2026-06-12T18:07:43Z",
+      "content_fetched_at": "2026-06-12T19:52:56",
+      "candidate_retry_after": "2026-06-12T20:07:56Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-12T17:52:43",
-      "candidate_failure_count": 34
+      "candidate_failed_at": "2026-06-12T19:52:56",
+      "candidate_failure_count": 35
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -6884,12 +6887,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-06-12T17:52:43",
-      "candidate_retry_after": "2026-06-12T18:07:43Z",
+      "content_fetched_at": "2026-06-12T19:52:57",
+      "candidate_retry_after": "2026-06-12T20:07:57Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-06-12T17:52:43",
-      "candidate_failure_count": 32
+      "candidate_failed_at": "2026-06-12T19:52:57",
+      "candidate_failure_count": 33
     },
     {
       "id": "cc5e99891af35b5e",
@@ -6921,12 +6924,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-06-12T17:52:44",
-      "candidate_retry_after": "2026-06-12T18:07:44Z",
+      "content_fetched_at": "2026-06-12T19:52:57",
+      "candidate_retry_after": "2026-06-12T20:07:57Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-06-12T17:52:44",
-      "candidate_failure_count": 32
+      "candidate_failed_at": "2026-06-12T19:52:57",
+      "candidate_failure_count": 33
     },
     {
       "id": "a6f4ca9464909855",
@@ -6958,12 +6961,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-06-12T17:52:44",
-      "candidate_retry_after": "2026-06-12T18:07:44Z",
+      "content_fetched_at": "2026-06-12T19:52:58",
+      "candidate_retry_after": "2026-06-12T20:07:58Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-06-12T17:52:44",
-      "candidate_failure_count": 32
+      "candidate_failed_at": "2026-06-12T19:52:58",
+      "candidate_failure_count": 33
     },
     {
       "id": "66722f50e91993b6",
@@ -9022,12 +9025,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-12T17:52:44",
-      "candidate_retry_after": "2026-06-12T18:07:44Z",
+      "content_fetched_at": "2026-06-12T19:52:58",
+      "candidate_retry_after": "2026-06-12T20:07:58Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-12T17:52:44",
-      "candidate_failure_count": 28
+      "candidate_failed_at": "2026-06-12T19:52:58",
+      "candidate_failure_count": 29
     },
     {
       "id": "512c2899a98440d2",
@@ -9056,12 +9059,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-12T17:52:44",
-      "candidate_retry_after": "2026-06-12T18:07:44Z",
+      "content_fetched_at": "2026-06-12T19:52:58",
+      "candidate_retry_after": "2026-06-12T20:07:58Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-12T17:52:44",
-      "candidate_failure_count": 28
+      "candidate_failed_at": "2026-06-12T19:52:58",
+      "candidate_failure_count": 29
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -9090,12 +9093,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-12T17:52:44",
-      "candidate_retry_after": "2026-06-12T18:07:44Z",
+      "content_fetched_at": "2026-06-12T19:52:58",
+      "candidate_retry_after": "2026-06-12T20:07:58Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-12T17:52:44",
-      "candidate_failure_count": 28
+      "candidate_failed_at": "2026-06-12T19:52:58",
+      "candidate_failure_count": 29
     },
     {
       "id": "d9a0fa48ccc53ccf",
@@ -11009,13 +11012,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "timeout",
-      "content_fetched_at": "2026-06-12T17:53:06",
-      "candidate_retry_after": "2026-06-12T18:08:06Z",
+      "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
+      "content_fetched_at": "2026-06-12T19:53:00",
+      "candidate_retry_after": "2026-06-12T20:08:00Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "timeout",
-      "candidate_failed_at": "2026-06-12T17:53:06",
-      "candidate_failure_count": 24
+      "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
+      "candidate_failed_at": "2026-06-12T19:53:00",
+      "candidate_failure_count": 25
     },
     {
       "id": "33732dfdc6295ab2",
@@ -11046,13 +11049,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-12T17:53:20",
-      "candidate_retry_after": "2026-06-12T18:08:20Z",
+      "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "content_fetched_at": "2026-06-12T19:53:02",
+      "candidate_retry_after": "2026-06-12T20:08:02Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-12T17:53:20",
-      "candidate_failure_count": 24
+      "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "candidate_failed_at": "2026-06-12T19:53:02",
+      "candidate_failure_count": 25
     },
     {
       "id": "aede79193c6b98c9",
@@ -11083,13 +11086,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-12T17:53:32",
-      "candidate_retry_after": "2026-06-12T18:08:32Z",
+      "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
+      "content_fetched_at": "2026-06-12T19:53:05",
+      "candidate_retry_after": "2026-06-12T20:08:05Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-12T17:53:32",
-      "candidate_failure_count": 24
+      "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
+      "candidate_failed_at": "2026-06-12T19:53:05",
+      "candidate_failure_count": 25
     },
     {
       "id": "fd4f78fb8656592b",
@@ -13545,12 +13548,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-06-12T17:53:35",
-      "candidate_retry_after": "2026-06-12T18:08:35Z",
+      "content_fetched_at": "2026-06-12T19:53:08",
+      "candidate_retry_after": "2026-06-12T20:08:08Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-06-12T17:53:35",
-      "candidate_failure_count": 20
+      "candidate_failed_at": "2026-06-12T19:53:08",
+      "candidate_failure_count": 21
     },
     {
       "id": "693fbfabd96b2185",
@@ -13581,12 +13584,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-06-12T17:53:36",
-      "candidate_retry_after": "2026-06-12T18:08:36Z",
+      "content_fetched_at": "2026-06-12T19:53:09",
+      "candidate_retry_after": "2026-06-12T20:08:09Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-06-12T17:53:36",
-      "candidate_failure_count": 20
+      "candidate_failed_at": "2026-06-12T19:53:09",
+      "candidate_failure_count": 21
     },
     {
       "id": "a5f6af5d6b69d4f1",
@@ -18554,11 +18557,11 @@
       "content_fetched_at": "2026-06-11T06:24:55",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-12T08:42:51",
+      "selected_at": "2026-06-12T19:54:14",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-12T08:42:52",
+      "processing_prepared_at": "2026-06-12T19:54:14",
       "ai_input_package": {
         "title": "Anthropic's Claude Fable 5 Jailbroken to Generate Stack Exploits",
         "url": "https://cybersecuritynews.com/anthropics-claude-fable-5-jailbroken",
@@ -18612,17 +18615,18 @@
       },
       "ai_quality_last_error": "article older than 24 hours",
       "ai_status": "failed",
-      "ai_error": "article older than 24 hours",
-      "ai_rotation_exhausted": false,
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 131.54,
-      "ai_quality_status": "failed_after_retries",
-      "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-12T09:00:04Z",
+      "ai_total_time_seconds": 1.23,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-06-12T20:09:16Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "article older than 24 hours",
-      "candidate_failed_at": "2026-06-12T08:45:04",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-12T19:54:16",
+      "candidate_failure_count": 2,
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
     },
     {
       "id": "24c9245dd15e4172",
@@ -20670,11 +20674,11 @@
       "content_fetched_at": "2026-06-11T20:34:08",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-12T08:41:05",
+      "selected_at": "2026-06-12T19:53:10",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-12T08:41:05",
+      "processing_prepared_at": "2026-06-12T19:53:10",
       "ai_input_package": {
         "title": "A tale of two eras",
         "url": "https://blog.talosintelligence.com/a-tale-of-two-eras",
@@ -20723,20 +20727,21 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "too much English inside article paragraphs",
+      "ai_quality_last_error": "Missing AI output field(s): slug",
       "ai_status": "failed",
-      "ai_error": "too much English inside article paragraphs",
+      "ai_error": "Missing AI output field(s): slug",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 106.14,
+      "ai_total_time_seconds": 61.48,
       "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-12T08:57:51Z",
+      "candidate_retry_after": "2026-06-12T20:09:12Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "too much English inside article paragraphs",
-      "candidate_failed_at": "2026-06-12T08:42:51",
-      "candidate_failure_count": 1,
-      "telegram_final_summary_notified_at": "2026-06-12T08:50:21"
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-06-12T19:54:12",
+      "candidate_failure_count": 2,
+      "telegram_final_summary_notified_at": "2026-06-12T08:50:21",
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"openai/gpt-oss-20b:free is temporarily rate-limited upstre"
     },
     {
       "id": "de942f365bf04d85",
@@ -22870,7 +22875,62 @@
       "content_preview_chars": 4234,
       "content_fetched_at": "2026-06-12T08:40:37",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-12T19:54:12",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-12T19:54:12",
+      "ai_input_package": {
+        "title": "Google can be liable for false AI Overviews, court rules",
+        "url": "https://www.malwarebytes.com/blog/ai/2026/06/google-can-be-liable-for-false-ai-overviews-court-rules",
+        "source_name": "Malwarebytes Blog",
+        "suggested_category": "Cyber-Security",
+        "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Google.jpg",
+        "article_images": [
+          {
+            "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Google.jpg",
+            "alt": "Google can be liable for false AI Overviews, court rules",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Google.jpg?w=600",
+            "alt": "Google",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "\"AI can make mistakes\" isn't a good enough legal defense for defamatory or incorrect AI Overviews, a German court has ruled.",
+        "content_preview": "A German court has ruled that Google can be held directly responsible for defamatory claims produced by its AI Overviews. Basically, the court said that telling people they should double-check AI search results is not enough to deny liability for what those results say. The Munich Regional Court issued a preliminary injunction against Google after two German publishers discovered that AI Overviews falsely portrayed them as involved in scams and “dubious business practices,” even though the linked articles did not support those claims. The decision could echo far beyond Germany. The court effectively found that Google can be held directly liable for defamatory content generated by its AI Overviews. The court cut through the usual “it’s just AI, don’t trust it too much” messaging and made one thing clear: If you build a system that confidently smears people or companies, you may be responsible for what it says, even when the content was “hallucinated” by AI. AI Overviews are not harmless suggestions. In this case, the court treated them as Google’s own statements, with all the legal baggage that comes with that. When the publishers sent a cease-and-desist letter, Google did not promptly stop similar claims from appearing. That detail turned out to be crucial in the ruling. The court noted that, unlike traditional search results, which simply list third-party content, AI Overviews generate “independent, new, and substantive statements.” And since only Google can adjust the models and the logic that create those statements, only Google can reliably stop the system from repeating the same or similar falsehoods. In this case, the court found that Google can be held responsible. For years, search engines have enjoyed broad protection under the logic that some harmful content is unavoidable when indexing the open web at scale. Showing a search result does not mean endorsing it. The search engine is a channel, not a publisher. That changes when an AI Overview summarizes, rephrases, and sometimes invents facts, then publishes them at the top of search results. AI Overviews are an extra feature, not essential to how search works. However, the appeal of AI summaries is their fast, confident answers, which is exactly what makes them dangerous. When those answers are wrong, many users may not click through to check the sources. The ruling is preliminary and may be appealed, but the signal is clear: AI search output is not magic dust that makes liability disappear. Disclaimers about possible mistakes may not be enough when a system is deployed at scale, creates new content, and is designed to be trusted. Google AI Overviews are powered by Gemini, Google’s AI model. Like other AI systems, it can produce confident answers that are wrong or poorly supported. Pew Research studied browsing data from hundreds of users and found that when an AI Overview appears on a Google results page, clicks to traditional search results drop from around 15% to about 8%. A New York Times analysis of AI Overviews found that they were accurate roughly nine out of ten times. But with Google processing more than five trillion searches a year, even a small error rate could mean millions of wrong answers. And those mistakes are not always due to bad sources. Even when Google links to a page with the correct information, its AI can still produce a false answer. More than half of the accurate responses were classified as “ungrounded,” meaning the websites cited by the AI Overview did not fully support the information it provided. The main lesson here is to double-check AI search responses. Don’t trust an answer just because it’s presented confidently and includes links. Users can be steered toward real threats, or away from effective protections, simply because an AI system sounded convincing on a search page. If you find false or defamatory AI summaries about yourself or your company, document them thoroughly. Take screenshots, save the search terms, file correction requests, and keep records of the platform’s response. Or the lack of one. Scammers don’t need to hack you. They just need you to click once. Malwarebytes Identity Theft Protection catches suspicious activity before it becomes a problem.",
+        "content_preview_chars": 4234,
+        "rss_summary": "",
+        "full_article_text": "A German court has ruled that Google can be held directly responsible for defamatory claims produced by its AI Overviews. Basically, the court said that telling people they should double-check AI search results is not enough to deny liability for what those results say. The Munich Regional Court issued a preliminary injunction against Google after two German publishers discovered that AI Overviews falsely portrayed them as involved in scams and “dubious business practices,” even though the linked articles did not support those claims. The decision could echo far beyond Germany. The court effectively found that Google can be held directly liable for defamatory content generated by its AI Overviews. The court cut through the usual “it’s just AI, don’t trust it too much” messaging and made one thing clear: If you build a system that confidently smears people or companies, you may be responsible for what it says, even when the content was “hallucinated” by AI. AI Overviews are not harmless suggestions. In this case, the court treated them as Google’s own statements, with all the legal baggage that comes with that. When the publishers sent a cease-and-desist letter, Google did not promptly stop similar claims from appearing. That detail turned out to be crucial in the ruling. The court noted that, unlike traditional search results, which simply list third-party content, AI Overviews generate “independent, new, and substantive statements.” And since only Google can adjust the models and the logic that create those statements, only Google can reliably stop the system from repeating the same or similar falsehoods. In this case, the court found that Google can be held responsible. For years, search engines have enjoyed broad protection under the logic that some harmful content is unavoidable when indexing the open web at scale. Showing a search result does not mean endorsing it. The search engine is a channel, not a publisher. That changes when an AI Overview summarizes, rephrases, and sometimes invents facts, then publishes them at the top of search results. AI Overviews are an extra feature, not essential to how search works. However, the appeal of AI summaries is their fast, confident answers, which is exactly what makes them dangerous. When those answers are wrong, many users may not click through to check the sources. The ruling is preliminary and may be appealed, but the signal is clear: AI search output is not magic dust that makes liability disappear. Disclaimers about possible mistakes may not be enough when a system is deployed at scale, creates new content, and is designed to be trusted. Google AI Overviews are powered by Gemini, Google’s AI model. Like other AI systems, it can produce confident answers that are wrong or poorly supported. Pew Research studied browsing data from hundreds of users and found that when an AI Overview appears on a Google results page, clicks to traditional search results drop from around 15% to about 8%. A New York Times analysis of AI Overviews found that they were accurate roughly nine out of ten times. But with Google processing more than five trillion searches a year, even a small error rate could mean millions of wrong answers. And those mistakes are not always due to bad sources. Even when Google links to a page with the correct information, its AI can still produce a false answer. More than half of the accurate responses were classified as “ungrounded,” meaning the websites cited by the AI Overview did not fully support the information it provided. The main lesson here is to double-check AI search responses. Don’t trust an answer just because it’s presented confidently and includes links. Users can be steered toward real threats, or away from effective protections, simply because an AI system sounded convincing on a search page. If you find false or defamatory AI summaries about yourself or your company, document them thoroughly. Take screenshots, save the search terms, file correction requests, and keep records of the platform’s response. Or the lack of one. Scammers don’t need to hack you. They just need you to click once. Malwarebytes Identity Theft Protection catches suspicious activity before it becomes a problem.",
+        "full_article_text_chars": 4234,
+        "enrichment_status": "strong",
+        "source_url": "https://www.malwarebytes.com/blog",
+        "source_published_at": "2026-06-11T16:09:13Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 16.52,
+        "trusted_references": [
+          {
+            "title": "google.com",
+            "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.malwarebytes.com"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 0.84,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-06-12T20:09:14Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-12T19:54:14",
+      "candidate_failure_count": 1
     },
     {
       "id": "19d5f4bc24f82a7c",
@@ -22926,7 +22986,57 @@
       "content_preview_chars": 3670,
       "content_fetched_at": "2026-06-12T08:40:39",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-12T19:54:16",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-12T19:54:16",
+      "ai_input_package": {
+        "title": "VRChat says reported data breach never happened",
+        "url": "https://www.malwarebytes.com/blog/data-breaches/2026/06/data-of-2-4-million-vrchat-users-stolen",
+        "source_name": "Malwarebytes Blog",
+        "suggested_category": "Cyber-Security",
+        "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Google.jpg?w=1200",
+        "article_images": [
+          {
+            "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Google.jpg?w=1200",
+            "alt": "VRChat says reported data breach never happened",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "We explain what data was exposed, the potential risks, and the steps you should take now.",
+        "content_preview": "A data breach notice has been filed with the Maine Attorney General, saying more than 2.4 million users of VRChat have had their data breached. The question is, was it VRChat who filed the breach notice, or did someone pretending to represent the company post it instead? On Reddit, a VRChat representative posted: VRChat did not submit this Notice of Data Incident, and we have no reason to believe that our systems have been compromised. We are in the process of contacting the Maine Attorney General’s office to have this removed. The breach notice states that VRChat experienced unauthorized access to some account data between May 10 and May 12, 2026. The access supposedly happened in VRChat’s cloud environment and involved user profile and login-related data. According to the notice, the information exposed varied by account, but may have included: Email address associated with the VRChat account Login history, including device information, hardware identifiers, and IP addresses VRChat is a social platform designed primarily for virtual reality headsets, allowing users to interact with others through user-created 3D avatars and worlds. Users can access VRChat through Steam for PC, the Meta Quest Store, or as an Android app for compatible devices. The notice states that no passwords or payment card data was exposed. However, even without passwords or card details, there are still potential risks when it comes to other breached data. Cybercriminals may use usernames and email addresses in targeted phishing attempts. For example, users may receive phishing emails or in‑platform messages claiming to be from “Support,” with fake security alerts or prompts to “confirm your age” via a malicious link. Knowledge of subscription status could make scams more convincing. A scammer could send tailored lures like “billing issue with your subscription” or refund scams, which tend to have higher click-through rates among paying users. Cybercriminals may combine usernames and email addresses from one breach with passwords stolen in other data breaches and try them against accounts. This technique, known as credential stuffing, takes advantage of people who reuse passwords across multiple sites. Valuable accounts may then be sold to other players or used for scams. Identity correlation Steam and Meta user IDs linked to breached accounts can help cybercriminals connect identities across gaming and social platforms, especially if the same email or profile name is reused. IP addresses, login history, device information, and other identifiers can also help build a more detailed advertising or tracking profile of a user. Whether or not the breach turns out to be an actual breach, here are some steps you can take to protect yourself: First and foremost, be cautious of emails, texts, or calls claiming to come from VRChat or the gaming platforms you used it on, as cybercriminals often exploit breaches with phishing scams. If you’ve used your VRChat password anywhere else, change those accounts immediately, and set up two-factor authentication (2FA) on your VRChat account if you haven’t already. More general advice can be found in our article on what to do when you find out you’re involved in a data breach. Update June 11, 2026: Article was updated to reflect VRChat’s post on Reddit. Before publishing our original article, we tried to contact VRChat on two separate email addresses but received no meaningful response. Let’s face it, an incognito window can only do so much. Breaches, dark web trading, credit fraud. Malwarebytes Identity Theft Protection monitors for all of it, alerts you fast, and comes with identity theft insurance.",
+        "content_preview_chars": 3670,
+        "rss_summary": "",
+        "full_article_text": "A data breach notice has been filed with the Maine Attorney General, saying more than 2.4 million users of VRChat have had their data breached. The question is, was it VRChat who filed the breach notice, or did someone pretending to represent the company post it instead? On Reddit, a VRChat representative posted: VRChat did not submit this Notice of Data Incident, and we have no reason to believe that our systems have been compromised. We are in the process of contacting the Maine Attorney General’s office to have this removed. The breach notice states that VRChat experienced unauthorized access to some account data between May 10 and May 12, 2026. The access supposedly happened in VRChat’s cloud environment and involved user profile and login-related data. According to the notice, the information exposed varied by account, but may have included: Email address associated with the VRChat account Login history, including device information, hardware identifiers, and IP addresses VRChat is a social platform designed primarily for virtual reality headsets, allowing users to interact with others through user-created 3D avatars and worlds. Users can access VRChat through Steam for PC, the Meta Quest Store, or as an Android app for compatible devices. The notice states that no passwords or payment card data was exposed. However, even without passwords or card details, there are still potential risks when it comes to other breached data. Cybercriminals may use usernames and email addresses in targeted phishing attempts. For example, users may receive phishing emails or in‑platform messages claiming to be from “Support,” with fake security alerts or prompts to “confirm your age” via a malicious link. Knowledge of subscription status could make scams more convincing. A scammer could send tailored lures like “billing issue with your subscription” or refund scams, which tend to have higher click-through rates among paying users. Cybercriminals may combine usernames and email addresses from one breach with passwords stolen in other data breaches and try them against accounts. This technique, known as credential stuffing, takes advantage of people who reuse passwords across multiple sites. Valuable accounts may then be sold to other players or used for scams. Identity correlation Steam and Meta user IDs linked to breached accounts can help cybercriminals connect identities across gaming and social platforms, especially if the same email or profile name is reused. IP addresses, login history, device information, and other identifiers can also help build a more detailed advertising or tracking profile of a user. Whether or not the breach turns out to be an actual breach, here are some steps you can take to protect yourself: First and foremost, be cautious of emails, texts, or calls claiming to come from VRChat or the gaming platforms you used it on, as cybercriminals often exploit breaches with phishing scams. If you’ve used your VRChat password anywhere else, change those accounts immediately, and set up two-factor authentication (2FA) on your VRChat account if you haven’t already. More general advice can be found in our article on what to do when you find out you’re involved in a data breach. Update June 11, 2026: Article was updated to reflect VRChat’s post on Reddit. Before publishing our original article, we tried to contact VRChat on two separate email addresses but received no meaningful response. Let’s face it, an incognito window can only do so much. Breaches, dark web trading, credit fraud. Malwarebytes Identity Theft Protection monitors for all of it, alerts you fast, and comes with identity theft insurance.",
+        "full_article_text_chars": 3670,
+        "enrichment_status": "strong",
+        "source_url": "https://www.malwarebytes.com/blog",
+        "source_published_at": "2026-06-11T11:31:01Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 21.16,
+        "trusted_references": [
+          {
+            "title": "google.com",
+            "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.malwarebytes.com"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 9.83,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-06-12T20:09:27Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-12T19:54:27",
+      "candidate_failure_count": 1
     },
     {
       "id": "8f84fcf75e1d5694",
@@ -23033,12 +23143,12 @@
       "removed_source_links_count": 18,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, page_text:593chars/104words)",
-      "content_fetched_at": "2026-06-12T17:53:37",
-      "candidate_retry_after": "2026-06-12T18:08:37Z",
+      "content_fetched_at": "2026-06-12T19:53:10",
+      "candidate_retry_after": "2026-06-12T20:08:10Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, pag",
-      "candidate_failed_at": "2026-06-12T17:53:37",
-      "candidate_failure_count": 4
+      "candidate_failed_at": "2026-06-12T19:53:10",
+      "candidate_failure_count": 5
     },
     {
       "id": "63f62895c7723e75",
@@ -24453,6 +24563,140 @@
       "score": 0,
       "priority": "low",
       "skip_reason": "non_technical_entertainment_content"
+    },
+    {
+      "id": "ea07d528cd1d1e03",
+      "source_url_hash": "ea07d528cd1d1e03",
+      "canonical_url": "https://www.cisa.gov/news-events/alerts/2026/06/12/cisa-adds-one-known-exploited-vulnerability-catalog",
+      "title_hash": "c3c34c12e9b174fb",
+      "topic_signature": "b4a9e214765e2a8a0a6b",
+      "title": "CISA Adds One Known Exploited Vulnerability to Catalog",
+      "url": "https://www.cisa.gov/news-events/alerts/2026/06/12/cisa-adds-one-known-exploited-vulnerability-catalog",
+      "source_name": "CISA Cybersecurity Advisories",
+      "source_url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
+      "source_published_at": "2026-06-12T15:00:27Z",
+      "published_at_source": "feed",
+      "article_age_hours": 4.86,
+      "rss_summary": "<span>CISA Adds One Known Exploited Vulnerability to Catalog</span> <span><span>awallace</span></span> <span><time datetime=\"2026-06-12T11:00:27-04:00\" title=\"Friday, June 12, 2026\">Jun 12, 2026</time> </span> <div class=\"c-field c-field--name-field-release-date c-field--type-datetime c-field--label-above\"> <div class=\"c-field__label\">Release Date</div><div class=\"c-field__content\"><time datetime=\"2026-06-12T12:00:00Z\">June 12, 2026</time></div></div> <div class=\"c-field c-field--name-field-description c-field--type-text-long c-field--label-above\"> <div class=\"c-field__label\">Description</div><div class=\"c-field__content\"><p>CISA has added one new vulnerability to its <a href=\"/known-exploited-vulnerabilities-catalog\">Known Exploited Vulnerabilities (KEV) Catalog</a>, based on evidence of active exploitation.</p><ul><li><a href=\"https://www.cve.org/CVERecord?id=CVE-2026-35273\" target=\"_blank\">CVE-2026-35273</a> Oracle PeopleSoft Enterprise PeopleTools Missing Authentication for Critical Function Vulnerability</li></ul><p>This type of vulnerability is a frequent attack vector for malicious cyber actors and poses significant risks to the federal enterprise.</p><p><a href=\"/news-events/directives/bod-26-04-implementation-guidance-prioritizing-security-updates-based-risk\">Binding Operational Directive (BOD) 26-04: Prioritizing Security Updates Based on Risk</a> establishes vulnerability management requirements for Federal Civilian Executive Branch (FCEB) agencies, updating <a href=\"/news-events/directives/bod-22-01-reducing-significant-risk-known-exploited-vulnerabilities-revoked\">BOD 22-01</a>. BOD 26-04 reinforces the importance of the KEV catalog and requires federal agencies to prioritize rapid remediation of high-risk vulnerabilities, specifically those identified by Common Vulnerabilities and Exposures (CVEs) listed in CISA’s Known Exploited Vulnerabilities (KEV) catalog on publicly exposed assets that grant total control of the asset post-exploitation, while deferring action for lower-risk vulnerabilities. BOD 26-04 further establishes basic expectations for when agencies must check whether threat actors compromised the system before the patch was applied.</p><p>While BOD 26-04 applies only to FCEB agencies, CISA encourages all organizations to adopt risk-based vulnerability management and prioritize remediation of <a href=\"/known-exploited-vulnerabilities-catalog\">KEV catalog vulnerabilities</a>. CISA will continue to add vulnerabilities to the catalog that meet the <a href=\"/known-exploited-vulnerabilities-catalog/reducing-significant-risk-known-exploited-vulnerabilities\">specified criteria</a>.</p><p>Aware of an exploited vulnerability not currently listed in the KEV catalog? Submit for potential addition: <a href=\"https://cisasurvey.gov1.qualtrics.com/jfe/form/SV_1Zwu52kgK2OYf3w\" target=\"_blank\">KEV Nomination Form</a>. Potential KEV additions must have a CVE ID, evidence of exploitation, and clear mitigation guidance.&nbsp;</p></div></div> <div class=\"c-field c-field--name-field-advisory-type c-field--type-entity-reference c-field--label-above\"> <div class=\"c-field__label\">Advisory Type</div><div class=\"c-field__content\">Alert</div></div> <div class=\"c-field c-field--name-field-key-takeaways-toggle c-field--type-boolean c-field--label-above\"> <div class=\"c-field__label\">Show &#039;Key Takeaways&#039; block</div><div class=\"c-field__content\">Off</div></div>",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-12T19:52:31",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 4,
+      "priority": "low",
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 0,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "CISA Adds One Known Exploited Vulnerability to Catalog | CISA",
+      "meta_description": "",
+      "image_warning": "missing downloadable article image",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "fallback",
+      "main_image_extraction_method": "",
+      "extra_article_images": [],
+      "trusted_references": [
+        {
+          "title": "Known Exploited Vulnerabilities (KEV) Catalog",
+          "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+        },
+        {
+          "title": "CVE-2026-35273",
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-35273"
+        },
+        {
+          "title": "Binding Operational Directive (BOD) 26-04: Prioritizing Security Updates Based on Risk",
+          "url": "https://www.cisa.gov/news-events/directives/bod-26-04-implementation-guidance-prioritizing-security-updates-based-risk"
+        },
+        {
+          "title": "BOD 22-01",
+          "url": "https://www.cisa.gov/news-events/directives/bod-22-01-reducing-significant-risk-known-exploited-vulnerabilities-revoked"
+        },
+        {
+          "title": "specified criteria",
+          "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog/reducing-significant-risk-known-exploited-vulnerabilities"
+        }
+      ],
+      "full_article_text": "CISA has added one new vulnerability to its Known Exploited Vulnerabilities (KEV) Catalog , based on evidence of active exploitation. CVE-2026-35273 Oracle PeopleSoft Enterprise PeopleTools Missing Authentication for Critical Function Vulnerability This type of vulnerability is a frequent attack vector for malicious cyber actors and poses significant risks to the federal enterprise. Binding Operational Directive (BOD) 26-04: Prioritizing Security Updates Based on Risk establishes vulnerability management requirements for Federal Civilian Executive Branch (FCEB) agencies, updating BOD 22-01 . BOD 26-04 reinforces the importance of the KEV catalog and requires federal agencies to prioritize rapid remediation of high-risk vulnerabilities, specifically those identified by Common Vulnerabilities and Exposures (CVEs) listed in CISA’s Known Exploited Vulnerabilities (KEV) catalog on publicly exposed assets that grant total control of the asset post-exploitation, while deferring action for lower-risk vulnerabilities. BOD 26-04 further establishes basic expectations for when agencies must check whether threat actors compromised the system before the patch was applied. While BOD 26-04 applies only to FCEB agencies, CISA encourages all organizations to adopt risk-based vulnerability management and prioritize remediation of KEV catalog vulnerabilities . CISA will continue to add vulnerabilities to the catalog that meet the specified criteria . Aware of an exploited vulnerability not currently listed in the KEV catalog? Submit for potential addition: KEV Nomination Form . Potential KEV additions must have a CVE ID, evidence of exploitation, and clear mitigation guidance. This product is provided subject to this Notification and this Privacy & Use policy. Please share your thoughts We recently updated our anonymous product survey ; we welcome your feedback.",
+      "full_article_text_chars": 1875,
+      "content_preview": "CISA has added one new vulnerability to its Known Exploited Vulnerabilities (KEV) Catalog , based on evidence of active exploitation. CVE-2026-35273 Oracle PeopleSoft Enterprise PeopleTools Missing Authentication for Critical Function Vulnerability This type of vulnerability is a frequent attack vector for malicious cyber actors and poses significant risks to the federal enterprise. Binding Operational Directive (BOD) 26-04: Prioritizing Security Updates Based on Risk establishes vulnerability management requirements for Federal Civilian Executive Branch (FCEB) agencies, updating BOD 22-01 . BOD 26-04 reinforces the importance of the KEV catalog and requires federal agencies to prioritize rapid remediation of high-risk vulnerabilities, specifically those identified by Common Vulnerabilities and Exposures (CVEs) listed in CISA’s Known Exploited Vulnerabilities (KEV) catalog on publicly exposed assets that grant total control of the asset post-exploitation, while deferring action for lower-risk vulnerabilities. BOD 26-04 further establishes basic expectations for when agencies must check whether threat actors compromised the system before the patch was applied. While BOD 26-04 applies only to FCEB agencies, CISA encourages all organizations to adopt risk-based vulnerability management and prioritize remediation of KEV catalog vulnerabilities . CISA will continue to add vulnerabilities to the catalog that meet the specified criteria . Aware of an exploited vulnerability not currently listed in the KEV catalog? Submit for potential addition: KEV Nomination Form . Potential KEV additions must have a CVE ID, evidence of exploitation, and clear mitigation guidance. This product is provided subject to this Notification and this Privacy & Use policy. Please share your thoughts We recently updated our anonymous product survey ; we welcome your feedback.",
+      "content_preview_chars": 1875,
+      "content_fetched_at": "2026-06-12T19:52:43",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "b40d58f71e2e76a5",
+      "source_url_hash": "b40d58f71e2e76a5",
+      "canonical_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-162-03",
+      "title_hash": "9193f839ca955e0f",
+      "topic_signature": "9193f839ca955e0f9094",
+      "title": "Brickcom Cameras",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-162-03",
+      "source_name": "CISA Cybersecurity Advisories",
+      "source_url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
+      "source_published_at": "2026-06-11T14:48:56Z",
+      "published_at_source": "feed",
+      "article_age_hours": 29.06,
+      "rss_summary": "<span>Brickcom Cameras</span> <span><span>apeterson</span></span> <span><time datetime=\"2026-06-11T10:48:56-04:00\" title=\"Thursday, June 11, 2026\">Jun 11, 2026</time> </span> <div class=\"c-field c-field--name-field-release-date c-field--type-datetime c-field--label-above\"> <div class=\"c-field__label\">Release Date</div><div class=\"c-field__content\"><time datetime=\"2026-06-11T12:00:00Z\">June 11, 2026</time></div></div> <div class=\"c-field c-field--name-field-description c-field--type-text-long c-field--label-above\"> <div class=\"c-field__label\">Description</div><div class=\"c-field__content\"><p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-162-03.json\"><strong>View CSAF</strong></a></p><h2>Summary</h2><p><strong>Successful exploitation of these vulnerabilities could allow a remote unauthenticated attacker to gain unauthorized access to live video feeds, retrieve sensitive visual information from affected premises, and obtain administrative control of the device.</strong></p><p>The following versions of Brickcom Cameras are affected:</p><ul><li>Brickcom Cube 3.2.3.5.6</li><li>Brickcom Dome 3.2.3.5.6&nbsp;</li><li>Brickcom Bullet 3.2.3.5.6&nbsp;</li><li>Brickcom Box 3.2.3.5.6</li></ul><div class=\"csaf-table\"><table class=\"tablesaw tablesaw-stack\" data-tablesaw-mode=\"stack\" data-tablesaw-minimap><thead><tr><th role=\"columnheader\" data-tablesaw-priority=\"persist\">CVSS</th><th role=\"columnheader\">Vendor</th><th role=\"columnheader\">Equipment</th><th role=\"columnheader\">Vulnerabilities</th></tr></thead><tbody><tr><td>v3 7.7</td><td>Brickcom</td><td>Brickcom Cameras</td><td>Missing Authentication for Critical Function, Use of Default Credentials</td></tr></tbody></table></div><h3>Background</h3><ul><li><strong>Critical Infrastructure Sectors: </strong>Commercial Facilities, Critical Manufacturing, Financial Services, Healthcare and Public Health</li><li><strong>Countries/Areas Deployed: </strong>Worldwide</li><li><strong>Company Headquarters Location: </strong>Taiwan</li></ul><hr><h2>Vulnerabilities</h2><div class=\"csaf-accordion\"><p><a class=\"csaf-accordion-toggle-all\" href=\"#\">Expand All +</a></p><div class=\"csaf-accordion-item\"><h3><a class=\"csaf-accordion-toggle\" href=\"#\">CVE-2026-50245</a></h3><div class=\"csaf-accordion-content\"><p>The affected product allows unauthenticated access to live snapshot images via the /ONVIF endpoint and no authentication is required to retrieve still images from the camera feed.</p><p><a href=\"https://www.cve.org/CVERecord?id=CVE-2026-50245\">View CVE Details</a></p><hr><h4>Affected Products</h4><h5>Brickcom Cameras</h5><div class=\"ics-vendor-version-status\"><div class=\"ics-vendor\"><strong>Vendor:</strong><br>Brickcom</div><div class=\"ics-version\"><strong>Product Version:</strong><br>Brickcom Brickcom Cube: 3.2.3.5.6, Brickcom Brickcom Dome: 3.2.3.5.6, Brickcom Brickcom Bullet: 3.2.3.5.6, Brickcom Brickcom Box: 3.2.3.5.6</div><div class=\"ics-status\"><strong>Product Status:</strong><br>known_affected</div></div><div class=\"ics-remediations\"><h6>Remediations</h6><p><strong>Mitigation</strong><br>Brickcom did not respond to CISAs request for coordination. Users are encouraged to reach out to Brickcom for support https://www.brickcom.com/case/<br><a href=\"https://www.brickcom.com/case/\">https://www.brickcom.com/case/</a></p></div><p><strong>Relevant CWE:</strong><a href=\"https://cwe.mitre.org/data/definitions/306.html\">CWE-306 Missing Authentication for Critical Function</a></p><hr><h4>Metrics</h4><div class=\"csaf-table csaf-metrics-table\"><table class=\"tablesaw tablesaw-stack\" data-tablesaw-mode=\"stack\" data-tablesaw-minimap><thead><tr><th role=\"columnheader\" data-tablesaw-priority=\"persist\">CVSS Version</th><th role=\"columnheader\">Base Score</th><th role=\"columnheader\">Base Severity</th><th role=\"columnheader\">Vector String</th></tr></thead><tbody><tr><td>3.1</td><td>7.7</td><td>HIGH</td><td><a href=\"https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N\">CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N</a></td></tr><tr><td>4.0</td><td>8.3</td><td>HIGH</td><td><a href=\"https://www.first.org/cvss/calculator/4.0#CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:H/SI:H/SA:N\">CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:H/SI:H/SA:N</a></td></tr></tbody></table></div></div></div><div class=\"csaf-accordion-item\"><h3><a class=\"csaf-accordion-toggle\" href=\"#\">CVE-2026-50005</a></h3><div class=\"csaf-accordion-content\"><p>The affected product ships with default credentials that allows any unauthenticated remote attacker to silently access camera feeds.</p><p><a href=\"https://www.cve.org/CVERecord?id=CVE-2026-50005\">View CVE Details</a></p><hr><h4>Affected Products</h4><h5>Brickcom Cameras</h5><div class=\"ics-vendor-version-status\"><div class=\"ics-vendor\"><strong>Vendor:</strong><br>Brickcom</div><div class=\"ics-version\"><strong>Product Version:</strong><br>Brickcom Brickcom Cube: 3.2.3.5.6, Brickcom Brickcom Dome: 3.2.3.5.6, Brickcom Brickcom Bullet: 3.2.3.5.6, Brickcom Brickcom Box: 3.2.3.5.6</div><div class=\"ics-status\"><strong>Product Status:</strong><br>known_affected</div></div><div class=\"ics-remediations\"><h6>Remediations</h6><p><strong>Mitigation</strong><br>Brickcom did not respond to CISAs request for coordination. Users are encouraged to reach out to Brickcom for support https://www.brickcom.com/case/<br><a href=\"https://www.brickcom.com/case/\">https://www.brickcom.com/case/</a></p></div><p><strong>Relevant CWE:</strong><a href=\"https://cwe.mitre.org/data/definitions/1392.html\">CWE-1392 Use of Default Credentials</a></p><hr><h4>Metrics</h4><div class=\"csaf-table csaf-metrics-table\"><table class=\"tablesaw tablesaw-stack\" data-tablesaw-mode=\"stack\" data-tablesaw-minimap><thead><tr><th role=\"columnheader\" data-tablesaw-priority=\"persist\">CVSS Version</th><th role=\"columnheader\">Base Score</th><th role=\"columnheader\">Base Severity</th><th role=\"columnheader\">Vector String</th></tr></thead><tbody><tr><td>3.1</td><td>7.7</td><td>HIGH</td><td><a href=\"https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N\">CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N</a></td></tr><tr><td>4.0</td><td>8.3</td><td>HIGH</td><td><a href=\"https://www.first.org/cvss/calculator/4.0#CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:H/SI:H/SA:N\">CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:H/SI:H/SA:N</a></td></tr></tbody></table></div></div></div></div><hr><h2>Acknowledgments</h2><ul><li>CISA discovered the PoCs (Proof of Concept) as authored by parsa rezaie khiabanloo</li></ul><hr><h2>Legal Notice and Terms of Use</h2><p>This product is provided subject to this Notification (https://www.cisa.gov/notification) and this Privacy &amp; Use policy (https://www.cisa.gov/privacy-policy).</p><hr><h2>Recommended Practices</h2><p>CISA recommends users take defensive measures to minimize the risk of exploitation of these vulnerabilities.</p><p>Minimize network exposure for all control system devices and/or systems, ensuring they are not accessible from the internet.</p><p>Locate control system networks and remote devices behind firewalls and isolating them from business networks.</p><p>When remote access is required, use more secure methods, such as Virtual Private Networks (VPNs), recognizing VPNs may have vulnerabilities and should be updated to the most current version available. Also recognize VPN is only as secure as the connected devices.</p><p>CISA reminds organizations to perform proper impact analysis and risk assessment prior to deploying defensive measures.</p><p>CISA also provides a section for control systems security recommended practices on the ICS webpage on cisa.gov/ics. Several CISA products detailing cyber defense best practices are available for reading and download, including Improving Industrial Control Systems Cybersecurity with Defense-in-Depth Strategies.</p><p>CISA encourages organizations to implement recommended cybersecurity strategies for proactive defense of ICS assets.</p><p>Additional mitigation guidance and recommended practices are publicly available on the ICS webpage at cisa.gov/ics in the technical information paper, ICS-TIP-12-146-01B--Targeted Cyber Intrusion Detection and Mitigation Strategies.</p><p>Organizations observing suspected malicious activity should follow established internal procedures and report findings to CISA for tracking and correlation against other incidents.</p><p>CISA also recommends users take the following measures to protect themselves from social engineering attacks:</p><p>Do not click web links or open attachments in unsolicited email messages.</p><p>Refer to Recognizing and Avoiding Email Scams for more information on avoiding email scams.</p><p>Refer to Avoiding Social Engineering and Phishing Attacks for more information on social engineering attacks.</p><p>No known public exploitation specifically targeting these vulnerabilities has been reported to CISA at this time. These vulnerabilities are not exploitable remotely.</p><hr><h2>Revision History</h2><ul><li><strong>Initial Release Date: </strong>2026-06-11</li></ul><table class=\"tablesaw tablesaw-stack\" data-tablesaw-mode=\"stack\" data-tablesaw-minimap><thead><tr><th role=\"columnheader\" data-tablesaw-priority=\"persist\">Date</th><th role=\"columnheader\">Revision</th><th role=\"columnheader\">Summary</th></tr></thead><tbody><tr><td>2026-06-11</td><td>1</td><td>Initial Publication</td></tr></tbody></table><hr><h2>Legal Notice and Terms of Use</h2></div></div> <div class=\"c-field c-field--name-field-advisory-type c-field--type-entity-reference c-field--label-above\"> <div class=\"c-field__label\">Advisory Type</div><div class=\"c-field__content\">ICS Advisory</div></div> <div class=\"c-field c-field--name-field-topics c-field--type-entity-reference c-field--label-inline\"> <div class=\"c-field__label is-inline\">Topics</div><div class=\"c-field__content\"><a href=\"/topics/industrial-control-systems/industrial-control-system-vulnerabilities\">Industrial Control System Vulnerabilities</a>, <a href=\"/topics/industrial-control-systems\">Industrial Control Systems</a></div></div> <div class=\"c-field c-field--name-field-alert-code c-field--type-string c-field--label-above\"> <div class=\"c-field__label\">Alert Code</div><div class=\"c-field__content\">ICSA-26-162-03</div></div> <div class=\"c-field c-field--name-field-sector c-field--type-entity-reference c-field--label-inline\"> <div class=\"c-field__label is-inline\">Sector</div><div class=\"c-field__content\"><a href=\"/topics/critical-infrastructure-security-and-resilience/critical-infrastructure-sectors/commercial-facilities-sector\" hreflang=\"en\">Commercial Facilities Sector</a>, <a href=\"/topics/critical-infrastructure-security-and-resilience/critical-infrastructure-sectors/critical-manufacturing-sector\" hreflang=\"en\">Critical Manufacturing Sector</a>, <a href=\"/topics/critical-infrastructure-security-and-resilience/critical-infrastructure-sectors/financial-services-sector\" hreflang=\"en\">Financial Services Sector</a>, <a href=\"/topics/critical-infrastructure-security-and-resilience/critical-infrastructure-sectors/healthcare-and-public-health-sector\" hreflang=\"en\">Healthcare and Public Health Sector</a></div></div> <div class=\"c-field c-field--name-field-key-takeaways-toggle c-field--type-boolean c-field--label-above\"> <div class=\"c-field__label\">Show &#039;Key Takeaways&#039; block</div><div class=\"c-field__content\">Off</div></div> <div class=\"c-field c-field--name-field-imported c-field--type-boolean c-field--label-hidden\"> <div class=\"c-field__content\">On</div></div>",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-12T19:52:31",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 1,
+      "priority": "low",
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 0,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Brickcom Cameras | CISA",
+      "meta_description": "",
+      "image_warning": "missing downloadable article image",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "fallback",
+      "main_image_extraction_method": "",
+      "extra_article_images": [],
+      "trusted_references": [
+        {
+          "title": "Industrial Control System Vulnerabilities",
+          "url": "https://www.cisa.gov/topics/industrial-control-systems/industrial-control-system-vulnerabilities"
+        },
+        {
+          "title": "Industrial Control Systems",
+          "url": "https://www.cisa.gov/topics/industrial-control-systems"
+        },
+        {
+          "title": "View CSAF",
+          "url": "https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-162-03.json"
+        },
+        {
+          "title": "Expand All +",
+          "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-162-03"
+        },
+        {
+          "title": "View CVE Details",
+          "url": "https://www.cve.org/CVERecord?id=CVE-2026-50245"
+        }
+      ],
+      "full_article_text": "Successful exploitation of these vulnerabilities could allow a remote unauthenticated attacker to gain unauthorized access to live video feeds, retrieve sensitive visual information from affected premises, and obtain administrative control of the device. The following versions of Brickcom Cameras are affected: Missing Authentication for Critical Function, Use of Default Credentials Critical Infrastructure Sectors: Commercial Facilities, Critical Manufacturing, Financial Services, Healthcare and Public Health Countries/Areas Deployed: Worldwide Company Headquarters Location: Taiwan The affected product allows unauthenticated access to live snapshot images via the /ONVIF endpoint and no authentication is required to retrieve still images from the camera feed. Mitigation Brickcom did not respond to CISAs request for coordination. Users are encouraged to reach out to Brickcom for support https://www.brickcom.com/case/ https://www.brickcom.com/case/ Relevant CWE: CWE-306 Missing Authentication for Critical Function CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:H/SI:H/SA:N The affected product ships with default credentials that allows any unauthenticated remote attacker to silently access camera feeds. Relevant CWE: CWE-1392 Use of Default Credentials CISA discovered the PoCs (Proof of Concept) as authored by parsa rezaie khiabanloo Legal Notice and Terms of Use This product is provided subject to this Notification (https://www.cisa.gov/notification) and this Privacy & Use policy (https://www.cisa.gov/privacy-policy). Recommended Practices CISA recommends users take defensive measures to minimize the risk of exploitation of these vulnerabilities. Minimize network exposure for all control system devices and/or systems, ensuring they are not accessible from the internet. Locate control system networks and remote devices behind firewalls and isolating them from business networks. When remote access is required, use more secure methods, such as Virtual Private Networks (VPNs), recognizing VPNs may have vulnerabilities and should be updated to the most current version available. Also recognize VPN is only as secure as the connected devices. CISA reminds organizations to perform proper impact analysis and risk assessment prior to deploying defensive measures. CISA also provides a section for control systems security recommended practices on the ICS webpage on cisa.gov/ics. Several CISA products detailing cyber defense best practices are available for reading and download, including Improving Industrial Control Systems Cybersecurity with Defense-in-Depth Strategies. CISA encourages organizations to implement recommended cybersecurity strategies for proactive defense of ICS assets. Additional mitigation guidance and recommended practices are publicly available on the ICS webpage at cisa.gov/ics in the technical information paper, ICS-TIP-12-146-01B--Targeted Cyber Intrusion Detection and Mitigation Strategies. Organizations observing suspected malicious activity should follow established internal procedures and report findings to CISA for tracking and correlation against other incidents. CISA also recommends users take the following measures to protect themselves from social engineering attacks: Do not click web links or open attachments in unsolicited email messages. Refer to Recognizing and Avoiding Email Scams for more information on avoiding email scams. Refer to Avoiding Social Engineering and Phishing Attacks for more information on social engineering attacks. No known public exploitation specifically targeting these vulnerabilities has been reported to CISA at this time. These vulnerabilities are not exploitable remotely. Initial Release Date: 2026-06-11 This product is provided subject to this Notification and this Privacy & Use policy. Please share your thoughts We recently updated our anonymous product survey ; we welcome your feedback. Related Advisories Naxclow IoT Platform Yarbo Android/iOS Mobile Application and Cloud Infrastructure Schneider Electric EcoStruxure Panel Server Siemens KACO Blueplanet Inverters",
+      "full_article_text_chars": 4136,
+      "content_preview": "Successful exploitation of these vulnerabilities could allow a remote unauthenticated attacker to gain unauthorized access to live video feeds, retrieve sensitive visual information from affected premises, and obtain administrative control of the device. The following versions of Brickcom Cameras are affected: Missing Authentication for Critical Function, Use of Default Credentials Critical Infrastructure Sectors: Commercial Facilities, Critical Manufacturing, Financial Services, Healthcare and Public Health Countries/Areas Deployed: Worldwide Company Headquarters Location: Taiwan The affected product allows unauthenticated access to live snapshot images via the /ONVIF endpoint and no authentication is required to retrieve still images from the camera feed. Mitigation Brickcom did not respond to CISAs request for coordination. Users are encouraged to reach out to Brickcom for support https://www.brickcom.com/case/ https://www.brickcom.com/case/ Relevant CWE: CWE-306 Missing Authentication for Critical Function CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N CVSS:4.0/AV:L/AC:L/AT:N/PR:N/UI:N/VC:H/VI:N/VA:N/SC:H/SI:H/SA:N The affected product ships with default credentials that allows any unauthenticated remote attacker to silently access camera feeds. Relevant CWE: CWE-1392 Use of Default Credentials CISA discovered the PoCs (Proof of Concept) as authored by parsa rezaie khiabanloo Legal Notice and Terms of Use This product is provided subject to this Notification (https://www.cisa.gov/notification) and this Privacy & Use policy (https://www.cisa.gov/privacy-policy). Recommended Practices CISA recommends users take defensive measures to minimize the risk of exploitation of these vulnerabilities. Minimize network exposure for all control system devices and/or systems, ensuring they are not accessible from the internet. Locate control system networks and remote devices behind firewalls and isolating them from business networks. When remote access is required, use more secure methods, such as Virtual Private Networks (VPNs), recognizing VPNs may have vulnerabilities and should be updated to the most current version available. Also recognize VPN is only as secure as the connected devices. CISA reminds organizations to perform proper impact analysis and risk assessment prior to deploying defensive measures. CISA also provides a section for control systems security recommended practices on the ICS webpage on cisa.gov/ics. Several CISA products detailing cyber defense best practices are available for reading and download, including Improving Industrial Control Systems Cybersecurity with Defense-in-Depth Strategies. CISA encourages organizations to implement recommended cybersecurity strategies for proactive defense of ICS assets. Additional mitigation guidance and recommended practices are publicly available on the ICS webpage at cisa.gov/ics in the technical information paper, ICS-TIP-12-146-01B--Targeted Cyber Intrusion Detection and Mitigation Strategies. Organizations observing suspected malicious activity should follow established internal procedures and report findings to CISA for tracking and correlation against other incidents. CISA also recommends users take the following measures to protect themselves from social engineering attacks: Do not click web links or open attachments in unsolicited email messages. Refer to Recognizing and Avoiding Email Scams for more information on avoiding email scams. Refer to Avoiding Social Engineering and Phishing Attacks for more information on social engineering attacks. No known public exploitation specifically targeting these vulnerabilities has been reported to CISA at this time. These vulnerabilities are not exploitable remotely. Initial Release Date: 2026-06-11 This product is provided subject to this Notification and this Privacy & Use policy. Please share your thoughts We recently updated our anonymous product survey ; we welcome your feedback. Related Advisories Naxclow IoT Platform Yarbo Android/iOS Mobile Application and Cloud Infrastructure Schneider Electric EcoStruxure Panel Server Siemens KACO Blueplanet Inverters",
+      "content_preview_chars": 4136,
+      "content_fetched_at": "2026-06-12T19:52:44",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
     }
   ],
   "notifications": {
