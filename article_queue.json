@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-12T04:07:23",
+  "updated_at": "2026-06-12T08:50:20",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -1416,13 +1416,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-06-12T04:02:23",
-      "candidate_retry_after": "2026-06-12T04:17:23Z",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-06-12T08:40:48",
+      "candidate_retry_after": "2026-06-12T08:55:48Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-06-12T04:02:23",
-      "candidate_failure_count": 34
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-06-12T08:40:48",
+      "candidate_failure_count": 35
     },
     {
       "id": "387079dc0a830ad9",
@@ -3249,7 +3249,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-06-08T22:51:21",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "archived": true,
+      "archived_at": "2026-06-12T08:40:27",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "f53ae0a7f8d71bfd",
@@ -3447,12 +3450,12 @@
       "removed_source_links_count": 82,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-12T04:02:24",
-      "candidate_retry_after": "2026-06-12T04:17:24Z",
+      "content_fetched_at": "2026-06-12T08:40:49",
+      "candidate_retry_after": "2026-06-12T08:55:49Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-12T04:02:24",
-      "candidate_failure_count": 32
+      "candidate_failed_at": "2026-06-12T08:40:49",
+      "candidate_failure_count": 33
     },
     {
       "id": "561b6316398d7603",
@@ -4436,12 +4439,12 @@
       "removed_source_links_count": 228,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=451 chars/75 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:451chars/75words, page_text:451chars/75words)",
-      "content_fetched_at": "2026-06-12T04:02:28",
-      "candidate_retry_after": "2026-06-12T04:17:28Z",
+      "content_fetched_at": "2026-06-12T08:40:53",
+      "candidate_retry_after": "2026-06-12T08:55:53Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=451 chars/75 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:451chars/75words, page_text:451chars/75words)",
-      "candidate_failed_at": "2026-06-12T04:02:28",
-      "candidate_failure_count": 31
+      "candidate_failed_at": "2026-06-12T08:40:53",
+      "candidate_failure_count": 32
     },
     {
       "id": "c1354558130eaeb3",
@@ -5520,12 +5523,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-12T04:02:29",
-      "candidate_retry_after": "2026-06-12T04:17:29Z",
+      "content_fetched_at": "2026-06-12T08:40:53",
+      "candidate_retry_after": "2026-06-12T08:55:53Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-12T04:02:29",
-      "candidate_failure_count": 30
+      "candidate_failed_at": "2026-06-12T08:40:53",
+      "candidate_failure_count": 31
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -6248,7 +6251,10 @@
       "content_preview_chars": 982,
       "content_fetched_at": "2026-06-08T21:05:22",
       "enrichment_status": "rss_summary",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-12T08:40:27",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "2f6ed3939c2a0de5",
@@ -6868,13 +6874,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 520",
-      "content_fetched_at": "2026-06-12T04:02:40",
-      "candidate_retry_after": "2026-06-12T04:17:40Z",
+      "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
+      "content_fetched_at": "2026-06-12T08:40:54",
+      "candidate_retry_after": "2026-06-12T08:55:54Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 520",
-      "candidate_failed_at": "2026-06-12T04:02:40",
-      "candidate_failure_count": 28
+      "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
+      "candidate_failed_at": "2026-06-12T08:40:54",
+      "candidate_failure_count": 29
     },
     {
       "id": "cc5e99891af35b5e",
@@ -6905,13 +6911,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 520",
-      "content_fetched_at": "2026-06-12T04:02:52",
-      "candidate_retry_after": "2026-06-12T04:17:52Z",
+      "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
+      "content_fetched_at": "2026-06-12T08:40:54",
+      "candidate_retry_after": "2026-06-12T08:55:54Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 520",
-      "candidate_failed_at": "2026-06-12T04:02:52",
-      "candidate_failure_count": 28
+      "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
+      "candidate_failed_at": "2026-06-12T08:40:54",
+      "candidate_failure_count": 29
     },
     {
       "id": "a6f4ca9464909855",
@@ -6942,13 +6948,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 520",
-      "content_fetched_at": "2026-06-12T04:03:03",
-      "candidate_retry_after": "2026-06-12T04:18:03Z",
+      "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
+      "content_fetched_at": "2026-06-12T08:40:54",
+      "candidate_retry_after": "2026-06-12T08:55:54Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 520",
-      "candidate_failed_at": "2026-06-12T04:03:03",
-      "candidate_failure_count": 28
+      "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
+      "candidate_failed_at": "2026-06-12T08:40:54",
+      "candidate_failure_count": 29
     },
     {
       "id": "66722f50e91993b6",
@@ -9007,12 +9013,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-12T04:03:03",
-      "candidate_retry_after": "2026-06-12T04:18:03Z",
+      "content_fetched_at": "2026-06-12T08:40:55",
+      "candidate_retry_after": "2026-06-12T08:55:55Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-12T04:03:03",
-      "candidate_failure_count": 24
+      "candidate_failed_at": "2026-06-12T08:40:55",
+      "candidate_failure_count": 25
     },
     {
       "id": "512c2899a98440d2",
@@ -9041,12 +9047,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-12T04:03:05",
-      "candidate_retry_after": "2026-06-12T04:18:05Z",
+      "content_fetched_at": "2026-06-12T08:40:55",
+      "candidate_retry_after": "2026-06-12T08:55:55Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-12T04:03:05",
-      "candidate_failure_count": 24
+      "candidate_failed_at": "2026-06-12T08:40:55",
+      "candidate_failure_count": 25
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -9075,12 +9081,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-12T04:03:05",
-      "candidate_retry_after": "2026-06-12T04:18:05Z",
+      "content_fetched_at": "2026-06-12T08:40:55",
+      "candidate_retry_after": "2026-06-12T08:55:55Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-12T04:03:05",
-      "candidate_failure_count": 24
+      "candidate_failed_at": "2026-06-12T08:40:55",
+      "candidate_failure_count": 25
     },
     {
       "id": "d9a0fa48ccc53ccf",
@@ -10995,12 +11001,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-06-12T04:03:07",
-      "candidate_retry_after": "2026-06-12T04:18:07Z",
+      "content_fetched_at": "2026-06-12T08:40:57",
+      "candidate_retry_after": "2026-06-12T08:55:57Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-06-12T04:03:07",
-      "candidate_failure_count": 20
+      "candidate_failed_at": "2026-06-12T08:40:57",
+      "candidate_failure_count": 21
     },
     {
       "id": "33732dfdc6295ab2",
@@ -11032,12 +11038,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-06-12T04:03:09",
-      "candidate_retry_after": "2026-06-12T04:18:09Z",
+      "content_fetched_at": "2026-06-12T08:40:58",
+      "candidate_retry_after": "2026-06-12T08:55:58Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-06-12T04:03:09",
-      "candidate_failure_count": 20
+      "candidate_failed_at": "2026-06-12T08:40:58",
+      "candidate_failure_count": 21
     },
     {
       "id": "aede79193c6b98c9",
@@ -11069,12 +11075,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-06-12T04:03:11",
-      "candidate_retry_after": "2026-06-12T04:18:11Z",
+      "content_fetched_at": "2026-06-12T08:41:00",
+      "candidate_retry_after": "2026-06-12T08:56:00Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-06-12T04:03:11",
-      "candidate_failure_count": 20
+      "candidate_failed_at": "2026-06-12T08:41:00",
+      "candidate_failure_count": 21
     },
     {
       "id": "fd4f78fb8656592b",
@@ -13530,12 +13536,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-06-12T04:03:13",
-      "candidate_retry_after": "2026-06-12T04:18:13Z",
+      "content_fetched_at": "2026-06-12T08:41:03",
+      "candidate_retry_after": "2026-06-12T08:56:03Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-06-12T04:03:13",
-      "candidate_failure_count": 16
+      "candidate_failed_at": "2026-06-12T08:41:03",
+      "candidate_failure_count": 17
     },
     {
       "id": "693fbfabd96b2185",
@@ -13566,12 +13572,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-06-12T04:03:15",
-      "candidate_retry_after": "2026-06-12T04:18:15Z",
+      "content_fetched_at": "2026-06-12T08:41:04",
+      "candidate_retry_after": "2026-06-12T08:56:04Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-06-12T04:03:15",
-      "candidate_failure_count": 16
+      "candidate_failed_at": "2026-06-12T08:41:04",
+      "candidate_failure_count": 17
     },
     {
       "id": "a5f6af5d6b69d4f1",
@@ -18537,7 +18543,76 @@
       "content_preview_chars": 4729,
       "content_fetched_at": "2026-06-11T06:24:55",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-12T08:42:51",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-12T08:42:52",
+      "ai_input_package": {
+        "title": "Anthropic's Claude Fable 5 Jailbroken to Generate Stack Exploits",
+        "url": "https://cybersecuritynews.com/anthropics-claude-fable-5-jailbroken",
+        "source_name": "Cyber Security News",
+        "suggested_category": "Cyber-Security",
+        "main_image": "https://cybersecuritynews.com/wp-content/uploads/2026/06/Anthropics-Claude-Fable-5-Jailbroken.webp",
+        "article_images": [
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/06/Anthropics-Claude-Fable-5-Jailbroken.webp",
+            "alt": "Anthropic's Claude Fable 5 Jailbroken to Generate Stack Exploits",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/06/Anthropics-Claude-Fable-5-Jailbroken-696x392.webp",
+            "alt": "Anthropic's Claude Fable 5 Jailbroken",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Anthropic launched Claude Fable 5 on June 9, 2026, as the first publicly available model in its new Mythos class, its most capable AI to date, excelling in software engineering, knowledge work, and vision benchmarks. Researcher “Pliny the Liberator” defeats Claude Fable 5’s safety classifiers using multi-agent decomposition, Unicode tricks, and narrative framing, leaking the […]",
+        "content_preview": "Anthropic launched Claude Fable 5 on June 9, 2026, as the first publicly available model in its new Mythos class, its most capable AI to date, excelling in software engineering, knowledge work, and vision benchmarks. Researcher “Pliny the Liberator” defeats Claude Fable 5’s safety classifiers using multi-agent decomposition, Unicode tricks, and narrative framing, leaking the model’s 120,000-character system prompt along the way. The release came with an unusual design decision: Fable 5 and its restricted twin, Claude Mythos 5, share the same underlying model but are split by a layer of safety classifiers. When a query trips a classifier in high-risk categories cybersecurity, biology, chemistry, or model distillation Fable 5 silently hands off the request to the weaker Claude Opus 4.8, notifying the user of the fallback. Anthropic claimed an external bug bounty produced no universal jailbreaks across over 1,000 hours of testing before launch. That claim was almost immediately tested. Multi-Agent Bypass Within Days Within days of release, prolific AI red-teamer Pliny the Liberator publicly announced he had bypassed Fable 5’s safety layers using a coordinated multi-agent attack strategy he called “a pack hunt.” Screenshots shared by Pliny showed detailed outputs, including step-by-step stack buffer overflow exploitation guidance for x86 Linux systems, including disabling ASLR, writing vulnerable C server code with strcpy overflows, and compiling without protections — as well as the Birch reduction mechanism, a classic meth synthesis pathway. 🚨 JAILBREAK ALERT 🚨 ANTHROPIC: PWNED 🫡 FABLE-5: LIBERATED 🦋 let's start with the 🐘… the consensus seems to be that this has been one of the most disappointing model drops of all time, effectively preventing legitimate researchers from contributing their talents to our… pic.twitter.com/Z0vdPIt4vY — Pliny the Liberator 🐉󠅫󠄼󠄿󠅆󠄵󠄐󠅀󠄼󠄹󠄾󠅉󠅭 (@elder_plinius) June 10, 2026 Pliny documented the attack vectors used to achieve these bypasses, including: Unicode, homoglyphs, and Cyrillic character substitution to evade keyword classifiers Long-context reference tracking to smuggle harmful intent across large conversations Taxonomy and document-structure framing — embedding harmful queries inside legitimate-looking study guides or academic references Fiction and narrative framing to mask offensive intent as creative content Decomposition and recomposition — extracting sensitive technical information in benign, isolated chunks, then reassembling them into actionable uplift The last technique proved most effective. As Pliny described it, “getting uplift on the process itself, like Birch reduction method or reductive amination, is much more doable” than requesting a named harmful compound directly. Using a jailbroken Opus instance to assist in the backend further lowered the difficulty. Beyond the technical bypasses, Pliny also leaked Fable 5’s ~120,000-character system prompt to GitHub, exposing the internal framing and safety instructions Anthropic uses to govern the model’s behavior at the base level. The incident reignites the longstanding tension between AI capability and safety containment. Anthropic’s classifier architecture routing flagged requests to a weaker fallback model rather than refusing outright was designed to reduce friction for legitimate users. However, Pliny argued the approach creates a false sense of security while simultaneously frustrating legitimate security researchers who need access to offensive techniques for defensive work. Anthropic has not yet publicly responded to the jailbreak claims or the leaked system prompt at the time of writing. The episode also draws attention to the broader challenge of securing agentic, multi-model pipelines: when one jailbroken model (Opus) can assist another (Fable 5) in evading controls, single-model safety evaluations may be fundamentally insufficient. Kali365 PhaaS Operation Expands Beyond Microsoft 365 to Target Okta and MAX Messenger Check Point VPN 0-day Vulnerability Exploited in the Wild to Deploy Ransomware Fortinet FortiSandbox Vulnerability Allows Attackers to Execute Unauthorized Commands New Magecart Attack Turns Stripe into a Malware Command Server Hackers Abuse Fake Utility Downloads to Install ScreenConnect and Mine Cryptocurrency Hackers Use Tax Phishing Emails to Deploy In-Memory Malware on Windows Systems ServiceNow Confirms Vulnerability Allowing Unauthorized Access to Customer Instance Tables Hackers Infect npm Package dbmux With Malware to Fully Compromise Developer Systems OpenClaw AI Agent Leaks Sensitive Credentials in New Phishing Attack Simulation Windows Collaborative Translation Framework 0-Day Vulnerability Allows Privilege Escalation",
+        "content_preview_chars": 4729,
+        "rss_summary": "",
+        "full_article_text": "Anthropic launched Claude Fable 5 on June 9, 2026, as the first publicly available model in its new Mythos class, its most capable AI to date, excelling in software engineering, knowledge work, and vision benchmarks. Researcher “Pliny the Liberator” defeats Claude Fable 5’s safety classifiers using multi-agent decomposition, Unicode tricks, and narrative framing, leaking the model’s 120,000-character system prompt along the way. The release came with an unusual design decision: Fable 5 and its restricted twin, Claude Mythos 5, share the same underlying model but are split by a layer of safety classifiers. When a query trips a classifier in high-risk categories cybersecurity, biology, chemistry, or model distillation Fable 5 silently hands off the request to the weaker Claude Opus 4.8, notifying the user of the fallback. Anthropic claimed an external bug bounty produced no universal jailbreaks across over 1,000 hours of testing before launch. That claim was almost immediately tested. Multi-Agent Bypass Within Days Within days of release, prolific AI red-teamer Pliny the Liberator publicly announced he had bypassed Fable 5’s safety layers using a coordinated multi-agent attack strategy he called “a pack hunt.” Screenshots shared by Pliny showed detailed outputs, including step-by-step stack buffer overflow exploitation guidance for x86 Linux systems, including disabling ASLR, writing vulnerable C server code with strcpy overflows, and compiling without protections — as well as the Birch reduction mechanism, a classic meth synthesis pathway. 🚨 JAILBREAK ALERT 🚨 ANTHROPIC: PWNED 🫡 FABLE-5: LIBERATED 🦋 let's start with the 🐘… the consensus seems to be that this has been one of the most disappointing model drops of all time, effectively preventing legitimate researchers from contributing their talents to our… pic.twitter.com/Z0vdPIt4vY — Pliny the Liberator 🐉󠅫󠄼󠄿󠅆󠄵󠄐󠅀󠄼󠄹󠄾󠅉󠅭 (@elder_plinius) June 10, 2026 Pliny documented the attack vectors used to achieve these bypasses, including: Unicode, homoglyphs, and Cyrillic character substitution to evade keyword classifiers Long-context reference tracking to smuggle harmful intent across large conversations Taxonomy and document-structure framing — embedding harmful queries inside legitimate-looking study guides or academic references Fiction and narrative framing to mask offensive intent as creative content Decomposition and recomposition — extracting sensitive technical information in benign, isolated chunks, then reassembling them into actionable uplift The last technique proved most effective. As Pliny described it, “getting uplift on the process itself, like Birch reduction method or reductive amination, is much more doable” than requesting a named harmful compound directly. Using a jailbroken Opus instance to assist in the backend further lowered the difficulty. Beyond the technical bypasses, Pliny also leaked Fable 5’s ~120,000-character system prompt to GitHub, exposing the internal framing and safety instructions Anthropic uses to govern the model’s behavior at the base level. The incident reignites the longstanding tension between AI capability and safety containment. Anthropic’s classifier architecture routing flagged requests to a weaker fallback model rather than refusing outright was designed to reduce friction for legitimate users. However, Pliny argued the approach creates a false sense of security while simultaneously frustrating legitimate security researchers who need access to offensive techniques for defensive work. Anthropic has not yet publicly responded to the jailbreak claims or the leaked system prompt at the time of writing. The episode also draws attention to the broader challenge of securing agentic, multi-model pipelines: when one jailbroken model (Opus) can assist another (Fable 5) in evading controls, single-model safety evaluations may be fundamentally insufficient. Kali365 PhaaS Operation Expands Beyond Microsoft 365 to Target Okta and MAX Messenger Check Point VPN 0-day Vulnerability Exploited in the Wild to Deploy Ransomware Fortinet FortiSandbox Vulnerability Allows Attackers to Execute Unauthorized Commands New Magecart Attack Turns Stripe into a Malware Command Server Hackers Abuse Fake Utility Downloads to Install ScreenConnect and Mine Cryptocurrency Hackers Use Tax Phishing Emails to Deploy In-Memory Malware on Windows Systems ServiceNow Confirms Vulnerability Allowing Unauthorized Access to Customer Instance Tables Hackers Infect npm Package dbmux With Malware to Fully Compromise Developer Systems OpenClaw AI Agent Leaks Sensitive Credentials in New Phishing Attack Simulation Windows Collaborative Translation Framework 0-Day Vulnerability Allows Privilege Escalation",
+        "full_article_text_chars": 4729,
+        "enrichment_status": "strong",
+        "source_url": "https://cybersecuritynews.com",
+        "source_published_at": "2026-06-11T03:06:46Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 3.3,
+        "trusted_references": [
+          {
+            "title": "accounts.google.com",
+            "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+          },
+          {
+            "title": "news.google.com",
+            "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN%3Aen"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article older than 24 hours",
+      "ai_status": "failed",
+      "ai_error": "article older than 24 hours",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 131.54,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-12T09:00:04Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "article older than 24 hours",
+      "candidate_failed_at": "2026-06-12T08:45:04",
+      "candidate_failure_count": 1
     },
     {
       "id": "24c9245dd15e4172",
@@ -18632,7 +18707,85 @@
       "content_preview_chars": 6038,
       "content_fetched_at": "2026-06-11T06:24:57",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-12T08:48:01",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-12T08:48:01",
+      "ai_input_package": {
+        "title": "Hackers Abuse Fake Utility Downloads to Install ScreenConnect and Mine Cryptocurrency",
+        "url": "https://cybersecuritynews.com/hackers-abuse-fake-utility-downloads",
+        "source_name": "Cyber Security News",
+        "suggested_category": "Cyber-Security",
+        "main_image": "http://cybersecuritynews.com/wp-content/uploads/2026/06/Hackers-Abuse-Fake-Utility-Downloads-to-Install-ScreenConnect-and-Mine-Cryptocurrency.webp",
+        "article_images": [
+          {
+            "url": "http://cybersecuritynews.com/wp-content/uploads/2026/06/Hackers-Abuse-Fake-Utility-Downloads-to-Install-ScreenConnect-and-Mine-Cryptocurrency.webp",
+            "alt": "Hackers Abuse Fake Utility Downloads to Install ScreenConnect and Mine Cryptocurrency",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/06/Hackers-Abuse-Fake-Utility-Downloads-to-Install-ScreenConnect-and-Mine-Cryptocurrency-696x392.webp",
+            "alt": "Hackers Abuse Fake Utility Downloads to Install ScreenConnect and Mine Cryptocurrency",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Fake utility download sites spread GPU cryptojacking malware, targeting gamers, AI devs, and hardware users via search and AI chat.",
+        "content_preview": "Hackers are turning everyday software searches into a trap. A sophisticated cryptojacking campaign is actively targeting users who search for popular PC utilities online, luring them into downloading malware-laced files that secretly mine cryptocurrency using their own GPU. The attackers have built a network of more than 150 fake download sites that closely mimic trusted utility portals. These sites impersonate well-known programs like CrystalDiskInfo, HWMonitor, Display Driver Uninstaller, FurMark, K-Lite Codec Pack, and PDFgear. Anyone visiting one of these sites and clicking the download button ends up with a ZIP archive containing both the real software and a hidden malicious file. Analysts at Microsoft identified this campaign and published their findings in late May 2026. Microsoft Defender Experts and the Microsoft Defender Security Research Team said in a report shared with Cyber Security News (CSN) that the campaign deliberately targets users who likely own high-performance graphics cards, including gamers, hardware enthusiasts, and AI developers. The logic is calculated: infect fewer machines but squeeze maximum mining value out of each one. What makes this campaign especially alarming is that it has started reaching victims through AI chatbot responses. In April 2026, researchers observed users receiving links to attacker-controlled domains directly from AI chatbot recommendations when asking for software download suggestions. This marks a troubling shift beyond traditional search engine manipulation into a space many users consider more trustworthy. Beyond the financial motive of cryptocurrency mining, the attackers also install ScreenConnect on compromised machines to maintain persistent remote access. This opens the door to far more damaging follow-on activity, including data theft, lateral movement through corporate networks, and even ransomware deployment. The campaign is still active and its reach continues to grow. Hackers Abuse Fake Utility Downloads The infection starts the moment a user downloads and runs what looks like a legitimate utility installer. The ZIP file contains the real application alongside a rogue file called autorun.dll, which loads automatically when the legitimate program launches through a technique known as DLL sideloading. This method requires no software exploit and often leaves no visible trace on the screen. Once autorun.dll runs, it drops a second malicious file named vcredist_x64.dll using Windows Installer, which serves as a packaged ScreenConnect installer. After ScreenConnect is in place, the infected machine connects to an attacker-controlled server at 193.42.11[.]108. Through this remote access channel, the attackers push an executable called SimpleRunPE.exe to the victim’s system. SimpleRunPE.exe does the heavy lifting from there. It sets up persistence using Registry Run keys and scheduled tasks, adjusts security tool exclusions to stay hidden, and uses process hollowing to inject mining code into a trusted Microsoft-signed binary. Three GPU miners can be deployed depending on the setup: gminer, lolMiner, and SRBMiner-MULTI. The malware also watches for analysis tools like Windows Task Manager, Process Hacker, and Process Explorer. The moment it detects any of them running, it immediately pauses mining to avoid suspicion. Once those tools close, mining quietly resumes in the background. Persistent Access and What Defenders Should Do The campaign’s use of ScreenConnect turns each compromised machine into a long-term foothold. Even if the mining software is detected and removed, the ScreenConnect backdoor may remain active, giving attackers a way back in. Security teams should actively look for unauthorized ScreenConnect sessions and installations not approved by IT. Microsoft recommends monitoring for unusual GPU usage spikes on desktops and servers as an early sign of unauthorized mining. Correlating web referrer data and endpoint telemetry can help teams connect the dots faster when investigating alerts. Users should only download software directly from official vendor websites and treat any link suggested by an AI tool with the same skepticism they would apply to any search result. Defenders should also set alerts for files like SimpleRunPE.exe and watch for DLLs named autorun.dll or vcredist_x64.dll appearing in unexpected directories. Blocking known malicious domains and monitoring DNS traffic for gleeze[.]com subdomains can help cut off the campaign’s delivery infrastructure before a download occurs. Indicators of Compromise (IoCs):- Attacker-controlled ScreenConnect C2 server Malicious DLL sideloaded via legitimate utility executable Second-stage DLL; packaged ScreenConnect installer Dropper responsible for persistence, Defender exclusions, and process hollowing Disguised binary used in select infections (renamed mining dropper) Campaign-specific hosting infrastructure for malicious ZIP archives (via Dynu dynamic DNS) GPU cryptocurrency miner deployed as final payload Note: IP addresses and domains are intentionally defanged (e.g., [.] ) to prevent accidental resolution or hyperlinking. Re-fang only within controlled threat intelligence platforms such as MISP, VirusTotal, or your SIEM . Kali365 PhaaS Operation Expands Beyond Microsoft 365 to Target Okta and MAX Messenger Cisco SD-WAN Vulnerability Exploited in the Wild to Execute Arbitrary Commands as Root User Hola Browser for Windows Delivery Pipeline Compromised to Deliver Cryptominer Stock Exchange Executive’s Outlook Account Targeted to Exfiltrate Credentials Microsoft Defender Now Monitors RPC Protocol Abuse by Hackers Anthropic’s Claude Fable 5 Jailbroken to Generate Stack Exploits Hackers Use Tax Phishing Emails to Deploy In-Memory Malware on Windows Systems ServiceNow Confirms Vulnerability Allowing Unauthorized Access to Customer Instance Tables Hackers Infect npm Package dbmux With Malware to Fully Compromise Developer Systems OpenClaw AI Agent Leaks Sensitive Credentials in New Phishing Attack Simulation",
+        "content_preview_chars": 6038,
+        "rss_summary": "",
+        "full_article_text": "Hackers are turning everyday software searches into a trap. A sophisticated cryptojacking campaign is actively targeting users who search for popular PC utilities online, luring them into downloading malware-laced files that secretly mine cryptocurrency using their own GPU. The attackers have built a network of more than 150 fake download sites that closely mimic trusted utility portals. These sites impersonate well-known programs like CrystalDiskInfo, HWMonitor, Display Driver Uninstaller, FurMark, K-Lite Codec Pack, and PDFgear. Anyone visiting one of these sites and clicking the download button ends up with a ZIP archive containing both the real software and a hidden malicious file. Analysts at Microsoft identified this campaign and published their findings in late May 2026. Microsoft Defender Experts and the Microsoft Defender Security Research Team said in a report shared with Cyber Security News (CSN) that the campaign deliberately targets users who likely own high-performance graphics cards, including gamers, hardware enthusiasts, and AI developers. The logic is calculated: infect fewer machines but squeeze maximum mining value out of each one. What makes this campaign especially alarming is that it has started reaching victims through AI chatbot responses. In April 2026, researchers observed users receiving links to attacker-controlled domains directly from AI chatbot recommendations when asking for software download suggestions. This marks a troubling shift beyond traditional search engine manipulation into a space many users consider more trustworthy. Beyond the financial motive of cryptocurrency mining, the attackers also install ScreenConnect on compromised machines to maintain persistent remote access. This opens the door to far more damaging follow-on activity, including data theft, lateral movement through corporate networks, and even ransomware deployment. The campaign is still active and its reach continues to grow. Hackers Abuse Fake Utility Downloads The infection starts the moment a user downloads and runs what looks like a legitimate utility installer. The ZIP file contains the real application alongside a rogue file called autorun.dll, which loads automatically when the legitimate program launches through a technique known as DLL sideloading. This method requires no software exploit and often leaves no visible trace on the screen. Once autorun.dll runs, it drops a second malicious file named vcredist_x64.dll using Windows Installer, which serves as a packaged ScreenConnect installer. After ScreenConnect is in place, the infected machine connects to an attacker-controlled server at 193.42.11[.]108. Through this remote access channel, the attackers push an executable called SimpleRunPE.exe to the victim’s system. SimpleRunPE.exe does the heavy lifting from there. It sets up persistence using Registry Run keys and scheduled tasks, adjusts security tool exclusions to stay hidden, and uses process hollowing to inject mining code into a trusted Microsoft-signed binary. Three GPU miners can be deployed depending on the setup: gminer, lolMiner, and SRBMiner-MULTI. The malware also watches for analysis tools like Windows Task Manager, Process Hacker, and Process Explorer. The moment it detects any of them running, it immediately pauses mining to avoid suspicion. Once those tools close, mining quietly resumes in the background. Persistent Access and What Defenders Should Do The campaign’s use of ScreenConnect turns each compromised machine into a long-term foothold. Even if the mining software is detected and removed, the ScreenConnect backdoor may remain active, giving attackers a way back in. Security teams should actively look for unauthorized ScreenConnect sessions and installations not approved by IT. Microsoft recommends monitoring for unusual GPU usage spikes on desktops and servers as an early sign of unauthorized mining. Correlating web referrer data and endpoint telemetry can help teams connect the dots faster when investigating alerts. Users should only download software directly from official vendor websites and treat any link suggested by an AI tool with the same skepticism they would apply to any search result. Defenders should also set alerts for files like SimpleRunPE.exe and watch for DLLs named autorun.dll or vcredist_x64.dll appearing in unexpected directories. Blocking known malicious domains and monitoring DNS traffic for gleeze[.]com subdomains can help cut off the campaign’s delivery infrastructure before a download occurs. Indicators of Compromise (IoCs):- Attacker-controlled ScreenConnect C2 server Malicious DLL sideloaded via legitimate utility executable Second-stage DLL; packaged ScreenConnect installer Dropper responsible for persistence, Defender exclusions, and process hollowing Disguised binary used in select infections (renamed mining dropper) Campaign-specific hosting infrastructure for malicious ZIP archives (via Dynu dynamic DNS) GPU cryptocurrency miner deployed as final payload Note: IP addresses and domains are intentionally defanged (e.g., [.] ) to prevent accidental resolution or hyperlinking. Re-fang only within controlled threat intelligence platforms such as MISP, VirusTotal, or your SIEM . Kali365 PhaaS Operation Expands Beyond Microsoft 365 to Target Okta and MAX Messenger Cisco SD-WAN Vulnerability Exploited in the Wild to Execute Arbitrary Commands as Root User Hola Browser for Windows Delivery Pipeline Compromised to Deliver Cryptominer Stock Exchange Executive’s Outlook Account Targeted to Exfiltrate Credentials Microsoft Defender Now Monitors RPC Protocol Abuse by Hackers Anthropic’s Claude Fable 5 Jailbroken to Generate Stack Exploits Hackers Use Tax Phishing Emails to Deploy In-Memory Malware on Windows Systems ServiceNow Confirms Vulnerability Allowing Unauthorized Access to Customer Instance Tables Hackers Infect npm Package dbmux With Malware to Fully Compromise Developer Systems OpenClaw AI Agent Leaks Sensitive Credentials in New Phishing Attack Simulation",
+        "full_article_text_chars": 6038,
+        "enrichment_status": "strong",
+        "source_url": "https://cybersecuritynews.com",
+        "source_published_at": "2026-06-10T17:18:15Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 13.11,
+        "trusted_references": [
+          {
+            "title": "accounts.google.com",
+            "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+          },
+          {
+            "title": "news.google.com",
+            "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN%3Aen"
+          },
+          {
+            "title": "Microsoft Defender Experts and the Microsoft Defender Security Research Team said in a report",
+            "url": "https://www.microsoft.com/en-us/security/blog/2026/05/26/poisoned-search-results-gpu-mining-cryptojacking-campaign-abusing-screenconnect-microsoft-net-utilities/"
+          },
+          {
+            "title": "Google",
+            "url": "https://www.google.com/preferences/source?q=cybersecuritynews.com"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (324 words; minimum 700)",
+      "ai_provider_last_error": "504 The request timed out. Please try again.",
+      "ai_status": "failed",
+      "ai_error": "504 The request timed out. Please try again.",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 138.57,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-12T09:05:20Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "504 The request timed out. Please try again.",
+      "candidate_failed_at": "2026-06-12T08:50:20",
+      "candidate_failure_count": 1
     },
     {
       "id": "ce72ad135ea68153",
@@ -20506,7 +20659,73 @@
       "content_preview_chars": 7955,
       "content_fetched_at": "2026-06-11T20:34:08",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-12T08:41:05",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-12T08:41:05",
+      "ai_input_package": {
+        "title": "A tale of two eras",
+        "url": "https://blog.talosintelligence.com/a-tale-of-two-eras",
+        "source_name": "Cisco Talos Blog",
+        "suggested_category": "Cyber-Security",
+        "main_image": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/size/w1200/2026/06/threat_source-1.jpg",
+        "article_images": [
+          {
+            "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/size/w1200/2026/06/threat_source-1.jpg",
+            "alt": "A tale of two eras",
+            "source": "og:image_or_twitter"
+          }
+        ],
+        "meta_description": "In this week’s newsletter, Amy reminisces on the tech toys of their childhood, inspired by a hilarious lesson about why your digital privacy shouldn't be left on an open channel.",
+        "content_preview": "To the surprise of absolutely no one who has seen my face, I’m one of the younger employees at Talos. As my industry veteran colleagues were buying the first iPods, navigating the switch from dial-up to broadband, saying goodbye to floppy disks, and making Myspace accounts, I was playing with my Password Journal and Friend Chips . It’s a funny contrast, but I still experienced the beginning of the “always-on” era. Ah, those were the days. One of my most vivid tech memories is begging my dad to play games on his Handspring Visor — a classic personal digital assistant (PDA) launched in late 1999 by Handspring, a company formed by the original creators of the PalmPilot. Handspring stopped producing the Visor line in 2002 and it eventually became obsolete, mostly because its desktop sync feature couldn't keep up with modern OS updates. Despite the tech debt, I spent hours playing Asteroid, Centipede, and Hardball (aka Breakout) on that thing. My dad, meanwhile, mostly used the Memo function to store his passwords... which he still does today. (Yeah, I’m still working on getting him to see the wonders of 1Password.) You might be wondering what made me reminisce on childhood toys. A few weeks back, my fiancée and I drove a few hours to visit my family. Even if we get in at 9:00 p.m., it’s tradition for us to stay up late eating pizza and talking about random stuff. We got on the topic of phones because my parents still have a landline, and I mentioned that walkie talkies were my first introduction to having my own personal device. My dad dug some old ones out, set them on the table, and put them on scan while we chatted. At some point, the conversation petered out just when the walkie talkie captured a channel. Radio static, and then a kid’s voice broke our silence: “Your butt crack is out.” My dad got an impish grin and brought the talkie up to his mouth. My mom pleaded, “No. Honey, no. Don’t.” The rest of us were already wheezing and crying. He pressed the talk button and, in his best crotchety old man voice, bellowed, “Hey, you kids. Get off my lawn!” Imagine being those poor kids. It’s a funny story, but if you don’t want people like my dad intercepting your comms, maybe stick to encrypted channels. Talos' Yuri Kramarz published a blog highlighting how AI-driven vulnerability discovery has completely outpaced human patching capabilities. With frontier AI models autonomously discovering and exploiting zero-days in minutes, the traditional vulnerability lifecycle has completely collapsed. To survive this hyper-accelerated threat environment, organizations must abandon patch-reliant strategies and embrace a three-stage fallback model built on foundational security principles. Speed is the new, terrifying multiplier in the traditional risk equation. When an AI can uncover a decades-old zero-day and write an exploit for it in minutes, relying solely on vulnerability management is a losing game. Defenders must accept that some exploitation will inevitably slip through the cracks. The true measure of security is no longer just prevention, but how well your environment can absorb, detect, and survive the initial blow. Stop treating security basics like optional compliance checkboxes. Enforce multi-factor authentication (MFA) everywhere, harden devices using CIS benchmarks, and implement strict network segmentation to limit an attacker's blast radius. Since hardened systems only slow attackers down, deploy behavioral-based EDR, NDR, and XDR to catch the post-exploitation activity that signatures miss. Finally, validate these controls through penetration testing and purple team exercises so your incident response playbooks become muscle memory, not just wishful thinking. Read the full blog for more. Top security headlines of the week CISA gives U.S. federal agencies three days to fix a VPN bug under attack by Qilin Check Point Software said the bug affects several of its remote access tools, firewalls, and VPNs, which act as digital gatekeepers to protect company networks from unauthorized access. ( TechCrunch ) Anthropic launches Claude Fable 5: Mythos-class AI with cybersecurity guardrails The AI giant says this marks the first time a model of this capability class has been deemed safe enough for widespread public and developer access. ( SecurityWeek ) Microsoft fixes two high-severity zero-days disclosed by researcher The vulnerability is a local privilege escalation, meaning it can be chained to a separate vulnerability to give users or processes with low-level privileges the ability to defeat OS protections and gain full SYSTEM rights needed to install malware. ( Ars Technica ) WhatsApp catches spyware firm NSO defying no-hacking court order According to WhatsApp, the spyware maker has violated the permanent injunction. The messaging app reported on Monday that it had recently learned of a social engineering attack that attempted to trick users into clicking on malicious links. ( SecurityWeek ) High-severity vulnerability in Linux caused by a single faulty character The presence of a single mis-issued exclamation point in code implementing nf_tables introduced a use-after-free, a class of vulnerability that corrupts memory by placing malicious code at memory addresses that haven’t been properly freed of their previous contents. ( Ars Technica ) Can’t get enough Talos? Hypotheses, telemetry, and human judgment: Inside Cisco Talos Threat Hunting Learn how Cisco Talos Threat Hunting uses hypothesis-driven methods and multi-domain telemetry correlation to find stealthy threats operating below automated detection thresholds. Winning the cyber marathon with Tony Giandomenico In the high-speed world of cybersecurity, the difference between a breach and a breakthrough often comes down to endurance. Tony Giandomenico, Senior Director of Product Management with Cisco Talos, joins me to discuss Talos Threat Hunting, the challenges of leading major product launches, and the grueling discipline of Ironman triathlons. When synthetic logs don’t lie: Generating coherent attack stories for better detection Are your detection rules failing because your test data lacks the nuance of a real-world network? In this episode of Talos Takes, Amy sits down with David Bianco to discuss why traditional synthetic data often falls short and how his new open-source project, EvidenceForge, is changing the game. Upcoming events where you can find Talos Cisco Connect Germany (June 16) Frankfurt, Germany Black Hat USA (Aug. 1 – 6) Las Vegas, NV DEF CON 34 (Aug. 6 – 9) Las Vegas, NV Most prevalent malware files from Talos telemetry over the past week SHA256: 9f1f11a708d393e0a4109ae189bc64f1f3e312653dcf317a2bd406f18ffcc507 MD5: 2915b3f8b703eb744fc54c81f4a9c67f Talos Rep: https://talosintelligence.com/talos_file_reputation?s=9f1f11a708d393e0a4109ae189bc64f1f3e312653dcf317a2bd406f18ffcc507 Example Filename: VID001.exe Detection Name: Win.Worm.Coinminer::1201** SHA256: 96fa6a7714670823c83099ea01d24d6d3ae8fef027f01a4ddac14f123b1c9974 MD5: aac3165ece2959f39ff98334618d10d9 Talos Rep: https://talosintelligence.com/talos_file_reputation?s=96fa6a7714670823c83099ea01d24d6d3ae8fef027f01a4ddac14f123b1c9974 Example Filename: d4aa3e7010220ad1b458fac17039c274_63_Exe.exe Detection Name: W32.Injector:Gen.21ie.1201 SHA256: a31f222fc283227f5e7988d1ad9c0aecd66d58bb7b4d8518ae23e110308dbf91 MD5: 7bdbd180c081fa63ca94f9c22c457376 Talos Rep: https://talosintelligence.com/talos_file_reputation?s=a31f222fc283227f5e7988d1ad9c0aecd66d58bb7b4d8518ae23e110308dbf91 Example Filename: d4aa3e7010220ad1b458fac17039c274_62_Exe.exe Detection Name: Win.Dropper.Miner::95.sbx.tg** SHA256: 9896a6fcb9bb5ac1ec5297b4a65be3f647589adf7c37b45f3f7466decd6a4a7f MD5: 38de5b216c33833af710e88f7f64fc98 Talos Rep: https://talosintelligence.com/talos_file_reputation?s=9896a6fcb9bb5ac1ec5297b4a65be3f647589adf7c37b45f3f7466decd6a4a7f Example Filename: sample.exe Detection Name: Win.Tool.Procpatcher::1201",
+        "content_preview_chars": 7955,
+        "rss_summary": "",
+        "full_article_text": "To the surprise of absolutely no one who has seen my face, I’m one of the younger employees at Talos. As my industry veteran colleagues were buying the first iPods, navigating the switch from dial-up to broadband, saying goodbye to floppy disks, and making Myspace accounts, I was playing with my Password Journal and Friend Chips . It’s a funny contrast, but I still experienced the beginning of the “always-on” era. Ah, those were the days. One of my most vivid tech memories is begging my dad to play games on his Handspring Visor — a classic personal digital assistant (PDA) launched in late 1999 by Handspring, a company formed by the original creators of the PalmPilot. Handspring stopped producing the Visor line in 2002 and it eventually became obsolete, mostly because its desktop sync feature couldn't keep up with modern OS updates. Despite the tech debt, I spent hours playing Asteroid, Centipede, and Hardball (aka Breakout) on that thing. My dad, meanwhile, mostly used the Memo function to store his passwords... which he still does today. (Yeah, I’m still working on getting him to see the wonders of 1Password.) You might be wondering what made me reminisce on childhood toys. A few weeks back, my fiancée and I drove a few hours to visit my family. Even if we get in at 9:00 p.m., it’s tradition for us to stay up late eating pizza and talking about random stuff. We got on the topic of phones because my parents still have a landline, and I mentioned that walkie talkies were my first introduction to having my own personal device. My dad dug some old ones out, set them on the table, and put them on scan while we chatted. At some point, the conversation petered out just when the walkie talkie captured a channel. Radio static, and then a kid’s voice broke our silence: “Your butt crack is out.” My dad got an impish grin and brought the talkie up to his mouth. My mom pleaded, “No. Honey, no. Don’t.” The rest of us were already wheezing and crying. He pressed the talk button and, in his best crotchety old man voice, bellowed, “Hey, you kids. Get off my lawn!” Imagine being those poor kids. It’s a funny story, but if you don’t want people like my dad intercepting your comms, maybe stick to encrypted channels. Talos' Yuri Kramarz published a blog highlighting how AI-driven vulnerability discovery has completely outpaced human patching capabilities. With frontier AI models autonomously discovering and exploiting zero-days in minutes, the traditional vulnerability lifecycle has completely collapsed. To survive this hyper-accelerated threat environment, organizations must abandon patch-reliant strategies and embrace a three-stage fallback model built on foundational security principles. Speed is the new, terrifying multiplier in the traditional risk equation. When an AI can uncover a decades-old zero-day and write an exploit for it in minutes, relying solely on vulnerability management is a losing game. Defenders must accept that some exploitation will inevitably slip through the cracks. The true measure of security is no longer just prevention, but how well your environment can absorb, detect, and survive the initial blow. Stop treating security basics like optional compliance checkboxes. Enforce multi-factor authentication (MFA) everywhere, harden devices using CIS benchmarks, and implement strict network segmentation to limit an attacker's blast radius. Since hardened systems only slow attackers down, deploy behavioral-based EDR, NDR, and XDR to catch the post-exploitation activity that signatures miss. Finally, validate these controls through penetration testing and purple team exercises so your incident response playbooks become muscle memory, not just wishful thinking. Read the full blog for more. Top security headlines of the week CISA gives U.S. federal agencies three days to fix a VPN bug under attack by Qilin Check Point Software said the bug affects several of its remote access tools, firewalls, and VPNs, which act as digital gatekeepers to protect company networks from unauthorized access. ( TechCrunch ) Anthropic launches Claude Fable 5: Mythos-class AI with cybersecurity guardrails The AI giant says this marks the first time a model of this capability class has been deemed safe enough for widespread public and developer access. ( SecurityWeek ) Microsoft fixes two high-severity zero-days disclosed by researcher The vulnerability is a local privilege escalation, meaning it can be chained to a separate vulnerability to give users or processes with low-level privileges the ability to defeat OS protections and gain full SYSTEM rights needed to install malware. ( Ars Technica ) WhatsApp catches spyware firm NSO defying no-hacking court order According to WhatsApp, the spyware maker has violated the permanent injunction. The messaging app reported on Monday that it had recently learned of a social engineering attack that attempted to trick users into clicking on malicious links. ( SecurityWeek ) High-severity vulnerability in Linux caused by a single faulty character The presence of a single mis-issued exclamation point in code implementing nf_tables introduced a use-after-free, a class of vulnerability that corrupts memory by placing malicious code at memory addresses that haven’t been properly freed of their previous contents. ( Ars Technica ) Can’t get enough Talos? Hypotheses, telemetry, and human judgment: Inside Cisco Talos Threat Hunting Learn how Cisco Talos Threat Hunting uses hypothesis-driven methods and multi-domain telemetry correlation to find stealthy threats operating below automated detection thresholds. Winning the cyber marathon with Tony Giandomenico In the high-speed world of cybersecurity, the difference between a breach and a breakthrough often comes down to endurance. Tony Giandomenico, Senior Director of Product Management with Cisco Talos, joins me to discuss Talos Threat Hunting, the challenges of leading major product launches, and the grueling discipline of Ironman triathlons. When synthetic logs don’t lie: Generating coherent attack stories for better detection Are your detection rules failing because your test data lacks the nuance of a real-world network? In this episode of Talos Takes, Amy sits down with David Bianco to discuss why traditional synthetic data often falls short and how his new open-source project, EvidenceForge, is changing the game. Upcoming events where you can find Talos Cisco Connect Germany (June 16) Frankfurt, Germany Black Hat USA (Aug. 1 – 6) Las Vegas, NV DEF CON 34 (Aug. 6 – 9) Las Vegas, NV Most prevalent malware files from Talos telemetry over the past week SHA256: 9f1f11a708d393e0a4109ae189bc64f1f3e312653dcf317a2bd406f18ffcc507 MD5: 2915b3f8b703eb744fc54c81f4a9c67f Talos Rep: https://talosintelligence.com/talos_file_reputation?s=9f1f11a708d393e0a4109ae189bc64f1f3e312653dcf317a2bd406f18ffcc507 Example Filename: VID001.exe Detection Name: Win.Worm.Coinminer::1201** SHA256: 96fa6a7714670823c83099ea01d24d6d3ae8fef027f01a4ddac14f123b1c9974 MD5: aac3165ece2959f39ff98334618d10d9 Talos Rep: https://talosintelligence.com/talos_file_reputation?s=96fa6a7714670823c83099ea01d24d6d3ae8fef027f01a4ddac14f123b1c9974 Example Filename: d4aa3e7010220ad1b458fac17039c274_63_Exe.exe Detection Name: W32.Injector:Gen.21ie.1201 SHA256: a31f222fc283227f5e7988d1ad9c0aecd66d58bb7b4d8518ae23e110308dbf91 MD5: 7bdbd180c081fa63ca94f9c22c457376 Talos Rep: https://talosintelligence.com/talos_file_reputation?s=a31f222fc283227f5e7988d1ad9c0aecd66d58bb7b4d8518ae23e110308dbf91 Example Filename: d4aa3e7010220ad1b458fac17039c274_62_Exe.exe Detection Name: Win.Dropper.Miner::95.sbx.tg** SHA256: 9896a6fcb9bb5ac1ec5297b4a65be3f647589adf7c37b45f3f7466decd6a4a7f MD5: 38de5b216c33833af710e88f7f64fc98 Talos Rep: https://talosintelligence.com/talos_file_reputation?s=9896a6fcb9bb5ac1ec5297b4a65be3f647589adf7c37b45f3f7466decd6a4a7f Example Filename: sample.exe Detection Name: Win.Tool.Procpatcher::1201",
+        "full_article_text_chars": 7955,
+        "enrichment_status": "strong",
+        "source_url": "https://blog.talosintelligence.com",
+        "source_published_at": "2026-06-11T18:00:49Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 2.55,
+        "trusted_references": [
+          {
+            "title": "Amy Ciminnisi",
+            "url": "https://blog.talosintelligence.com/author/amy-ciminnisi/"
+          },
+          {
+            "title": "Threat Source newsletter",
+            "url": "https://blog.talosintelligence.com/category/threat-source-newsletter/"
+          },
+          {
+            "title": "published a blog",
+            "url": "https://blogs.cisco.com/security/security-in-the-post-mythos-era"
+          },
+          {
+            "title": "Hypotheses, telemetry, and human judgment: Inside Cisco Talos Threat Hunting",
+            "url": "https://blog.talosintelligence.com/hypotheses-telemetry-and-human-judgment-inside-cisco-talos-threat-hunting/"
+          },
+          {
+            "title": "Winning the cyber marathon with Tony Giandomenico",
+            "url": "https://blog.talosintelligence.com/winning-the-cyber-marathon-with-tony-giandomenico"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "too much English inside article paragraphs",
+      "ai_status": "failed",
+      "ai_error": "too much English inside article paragraphs",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 106.14,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-12T08:57:51Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "too much English inside article paragraphs",
+      "candidate_failed_at": "2026-06-12T08:42:51",
+      "candidate_failure_count": 1
     },
     {
       "id": "de942f365bf04d85",
@@ -20606,7 +20825,89 @@
       "content_preview_chars": 8931,
       "content_fetched_at": "2026-06-11T20:34:11",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-12T08:45:04",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-12T08:45:04",
+      "ai_input_package": {
+        "title": "Trust No Skill: Integrity Verification for AI Agent Supply Chains",
+        "url": "https://unit42.paloaltonetworks.com/ai-agent-supply-chain-risks",
+        "source_name": "Unit 42",
+        "suggested_category": "Cyber-Security",
+        "main_image": "https://unit42.paloaltonetworks.com/wp-content/uploads/2026/06/AdobeStock_429594706.jpg",
+        "article_images": [
+          {
+            "url": "https://unit42.paloaltonetworks.com/wp-content/uploads/2026/06/AdobeStock_429594706.jpg",
+            "alt": "Trust No Skill: Integrity Verification for AI Agent Supply Chains",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://unit42.paloaltonetworks.com/wp-content/uploads/2026/06/fig_per_category_scatter_v2-640x440.png",
+            "alt": "Scatter plot mapping adversarial fraction against under-spec deviation volume (log scale). Red stars represent adversarial threats (like Obfuscation and RCE Chains), blue circles indicate system elements (like Network and Filesystem), a gray circle marks Encoding, and a large red circle highlights Credentials.",
+            "source": "article_content"
+          },
+          {
+            "url": "https://unit42.paloaltonetworks.com/wp-content/uploads/2026/05/07_Security-Technology_Category_1505x922-718x440.jpg",
+            "alt": "Pictorial representation of TamperedChef clusters. Hands typing on a laptop keyboard with colorful lines of binary code and digital information flowing from the screen.",
+            "source": "article_content"
+          },
+          {
+            "url": "https://unit42.paloaltonetworks.com/wp-content/uploads/2026/04/11_Security-Technology_Category_1505x922-718x440.jpg",
+            "alt": "Pictorial representation of AirSnitch attacks on enterprise wireless infrastructure. A globe with the continents illuminated in blue lighting and scattered red lights.",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Protect enterprise AI agents from supply chain risks by auditing third-party skills for hidden vulnerabilities and multi-stage attack chains.",
+        "content_preview": "By: Yuhao Wu Tony Li Hongliang Liu Categories: Malware Threat Research Tags: AI agents Credential exfiltration LLMs OpenClaw Supply chain AI agents now extend their capabilities by installing third-party skills the way smartphones install apps. Anyone can publish a skill to a public registry. Anyone can install one into a production agent. And until now, no automated tool has verified what a skill does before it gains privileged access to credentials, files and shell commands inside that agent. We introduce Behavioral Integrity Verification (BIV), an audit primitive that compares what a skill claims to do against what it does, across all three of its surfaces: Applied at registry scale, BIV finds that most skills deviate from declared behavior. The vast majority of those gaps are sloppy documentation, not malice. But a smaller, dangerous slice carries multi-stage attack chains, where individually benign-looking capabilities combine into credential theft, remote code execution or silent data exfiltration. The agent-skill ecosystem now stands where mobile applications and browser extensions were a decade ago. Extensibility has outpaced the supply-chain audit primitives that should gate it. Security teams running large language model (LLM) agents in production should inventory the third-party skills installed and require a behavioral-integrity check before installation rather than after. Palo Alto Networks customers are better protected from this type of issue through the following products and services: The Unit 42 AI Security Assessment can help empower safe AI use and development. If you think you might have been compromised or have an urgent matter, contact the Unit 42 Incident Response team . LLM , AI Agents , Supply Chain Enterprises now deploy LLM agents to automate tasks across code generation, IT operations, customer support and internal workflows. These agents are extended with skills, the agent equivalent of an app: a small package that bundles executable code with a YAML manifest and a natural-language SKILL.md file telling the agent when and how to use it. Once installed, a skill runs inside the agent's privileged context. It can read environment variables, call external services, write files and execute shell commands on behalf of the organization. Public agent-skill registries now host tens of thousands of these packages. Anyone can publish. Anyone can install. The platforms that came before, package managers, mobile app stores and browser extension marketplaces, all eventually grew automated audit ecosystems after attackers turned the openness against users. The agent-skill ecosystem has not. The audit problem in this ecosystem differs from anything earlier platforms faced. A skill's behavior splits across three modalities: The metadata declares what the skill is supposed to do. The code and instructions together drive what it does. No existing scanner reads all three, and the registry has no automated way to verify that the two sides match. BIV is the audit primitive that compares them. The Method: Declared Vs. Actual Behavior BIV asks one question of every skill: Does what it says match what it does? To answer that question consistently across tens of thousands of skills, BIV needed a shared vocabulary. We used a fixed taxonomy of 29 capabilities organized into seven families: Two parallel tracks populate the taxonomy: The declared track reads the metadata. Deterministic parsers handle structural fields like YAML frontmatter and schemas. An LLM then reads natural-language descriptions ( README, SKILL.md prose) to extract claimed capabilities, ensuring each claim is grounded in a quoted source span. The actual track reads the code and instructions. Static analyzers cover code across multiple scripting languages (Python, JavaScript, shell) using abstract syntax tree (AST)-level taint analysis , regex and pattern matching. Separately, an LLM reads the natural-language instructions to surface prompt-injection and instruction-override motifs that traditional parsers miss. A skill passes when its actual capability set fits inside its declared capability set. A skill fails when it does something it never disclosed (an under-specification, the operationally dangerous direction) or declares a permission it never exercises (an over-specification, almost always benign template residue). Three filters keep the LLM components honest: The first rejects any output that echoes the taxonomy verbatim. The second rejects capability claims not anchored in a quoted source span. The third requires domain-specific keywords in context for high-risk capabilities. The pipeline ships with file-and-line evidence pointers, so every flagged deviation is auditable by hand. Findings in the Wild We crawled the OpenClaw agent-skill registry in early 2026 and ran BIV across all 49,943 listed skills. BIV surfaced 250,706 behavioral deviations, with 80.0% of skills (39,933) showing at least one mismatch between declaration and behavior. A clustering pass over the deviation explanations produced a 137-cluster taxonomy and, notably, four novel compound threat categories. Each is a multi-step pattern: Exfiltration chains ( FILE_READ → base64 → NETWORK_SEND ) Remote code execution (RCE) chains ( download → write → execute ) Code obfuscation ( encoding chain → dynamic eval ) Data lineage violations ( FILE_READ → FILE_WRITE , mostly benign data-pipeline boilerplate) The threat lives in the chain, not the link. A scanner that checks one capability at a time sees a file read in one row and a network send in another and flags neither in isolation. BIV's contribution is the link between them. A capability mismatch tells us that something undeclared is happening, not whether the developer was sloppy or hostile. BIV separates the two with a two-step intent classifier. A deterministic rule engine resolves roughly two-thirds of cases at near-zero cost. An LLM classifier handles the rest by reasoning across a skill's full deviation list, so a multi-step chain is judged as a unit. Figure 1 breaks down 163,754 classified deviations by root cause. Our analysis of this breakdown reveals that the skill ecosystem's primary failure mode is specification immaturity, not pervasive malice. Specifically, the classified data highlights two key themes: 81.1% were traced to developer oversight. Documentation errors lead, followed by legitimate helper code, unused declarations and framework dependencies. These call for documentation outreach at the registry, not security review. 18.9% were traced to adversarial intent. This adversarial slice concentrates sharply in data theft and espionage (60% of the adversarial total), then payload and infrastructure, and agent hijacking. Financial, destructive and social engineering combined come to under 1%. When analyzed at the skill level, the registry decomposes into three governance tiers. The top tier is 5.0% of the registry (2,490 skills) that carry multi-stage attack chains and warrant mandatory security review. The middle tier is 16.8% that carry single-stage adversarial deviations and warrant contextual review. The remaining 72.5% are benign skills whose declared metadata simply needs to catch up to the code. The top tier has structure worth leveraging. The 2,490 skills carrying multi-stage chains are not 2,490 unrelated alerts. Silent credential exfiltration (read a secret, transmit it) Instruction-override hijacking (take over the agent's decision loop, then exfiltrate) Together, they cover 88% of all multi-stage chains. For an analyst running incident response or a registry operator setting review policy, this is operationally significant. The first 88% of the review effort can target two well-defined patterns instead of a flat list. Where the Real Risk Concentrates The adversarial fraction of deviations varies sharply across the seven capability families. A registry-wide threshold either over-blocks routine I/O skills or under-reviews the genuinely dangerous categories. Figure 2 plots each category by its adversarial fraction and deviation volume, with compound threat categories indicated by red stars. As the plot illustrates, three of the four compound threat categories sit in the high-adversarial region. Data lineage violations, dominated by benign data-pipeline boilerplate, is the outlier. We noted the following trends in other threat categories: Instruction manipulation: 96% adversarial. The smallest established capability surface but the highest signal-to-noise ratio. Almost every undeclared prompt-control directive is suspect. This is the agent-specific attack surface that no prior third-party platform had to defend. Credentials: 56% adversarial. It reflects the operational value of secrets to attackers. Network: 37% adversarial. Mid-band; legitimate uses compete with exfiltration motifs. File system (10%) and process execution (12%): Predominantly benign.",
+        "content_preview_chars": 8931,
+        "rss_summary": "",
+        "full_article_text": "By: Yuhao Wu Tony Li Hongliang Liu Categories: Malware Threat Research Tags: AI agents Credential exfiltration LLMs OpenClaw Supply chain AI agents now extend their capabilities by installing third-party skills the way smartphones install apps. Anyone can publish a skill to a public registry. Anyone can install one into a production agent. And until now, no automated tool has verified what a skill does before it gains privileged access to credentials, files and shell commands inside that agent. We introduce Behavioral Integrity Verification (BIV), an audit primitive that compares what a skill claims to do against what it does, across all three of its surfaces: Applied at registry scale, BIV finds that most skills deviate from declared behavior. The vast majority of those gaps are sloppy documentation, not malice. But a smaller, dangerous slice carries multi-stage attack chains, where individually benign-looking capabilities combine into credential theft, remote code execution or silent data exfiltration. The agent-skill ecosystem now stands where mobile applications and browser extensions were a decade ago. Extensibility has outpaced the supply-chain audit primitives that should gate it. Security teams running large language model (LLM) agents in production should inventory the third-party skills installed and require a behavioral-integrity check before installation rather than after. Palo Alto Networks customers are better protected from this type of issue through the following products and services: The Unit 42 AI Security Assessment can help empower safe AI use and development. If you think you might have been compromised or have an urgent matter, contact the Unit 42 Incident Response team . LLM , AI Agents , Supply Chain Enterprises now deploy LLM agents to automate tasks across code generation, IT operations, customer support and internal workflows. These agents are extended with skills, the agent equivalent of an app: a small package that bundles executable code with a YAML manifest and a natural-language SKILL.md file telling the agent when and how to use it. Once installed, a skill runs inside the agent's privileged context. It can read environment variables, call external services, write files and execute shell commands on behalf of the organization. Public agent-skill registries now host tens of thousands of these packages. Anyone can publish. Anyone can install. The platforms that came before, package managers, mobile app stores and browser extension marketplaces, all eventually grew automated audit ecosystems after attackers turned the openness against users. The agent-skill ecosystem has not. The audit problem in this ecosystem differs from anything earlier platforms faced. A skill's behavior splits across three modalities: The metadata declares what the skill is supposed to do. The code and instructions together drive what it does. No existing scanner reads all three, and the registry has no automated way to verify that the two sides match. BIV is the audit primitive that compares them. The Method: Declared Vs. Actual Behavior BIV asks one question of every skill: Does what it says match what it does? To answer that question consistently across tens of thousands of skills, BIV needed a shared vocabulary. We used a fixed taxonomy of 29 capabilities organized into seven families: Two parallel tracks populate the taxonomy: The declared track reads the metadata. Deterministic parsers handle structural fields like YAML frontmatter and schemas. An LLM then reads natural-language descriptions ( README, SKILL.md prose) to extract claimed capabilities, ensuring each claim is grounded in a quoted source span. The actual track reads the code and instructions. Static analyzers cover code across multiple scripting languages (Python, JavaScript, shell) using abstract syntax tree (AST)-level taint analysis , regex and pattern matching. Separately, an LLM reads the natural-language instructions to surface prompt-injection and instruction-override motifs that traditional parsers miss. A skill passes when its actual capability set fits inside its declared capability set. A skill fails when it does something it never disclosed (an under-specification, the operationally dangerous direction) or declares a permission it never exercises (an over-specification, almost always benign template residue). Three filters keep the LLM components honest: The first rejects any output that echoes the taxonomy verbatim. The second rejects capability claims not anchored in a quoted source span. The third requires domain-specific keywords in context for high-risk capabilities. The pipeline ships with file-and-line evidence pointers, so every flagged deviation is auditable by hand. Findings in the Wild We crawled the OpenClaw agent-skill registry in early 2026 and ran BIV across all 49,943 listed skills. BIV surfaced 250,706 behavioral deviations, with 80.0% of skills (39,933) showing at least one mismatch between declaration and behavior. A clustering pass over the deviation explanations produced a 137-cluster taxonomy and, notably, four novel compound threat categories. Each is a multi-step pattern: Exfiltration chains ( FILE_READ → base64 → NETWORK_SEND ) Remote code execution (RCE) chains ( download → write → execute ) Code obfuscation ( encoding chain → dynamic eval ) Data lineage violations ( FILE_READ → FILE_WRITE , mostly benign data-pipeline boilerplate) The threat lives in the chain, not the link. A scanner that checks one capability at a time sees a file read in one row and a network send in another and flags neither in isolation. BIV's contribution is the link between them. A capability mismatch tells us that something undeclared is happening, not whether the developer was sloppy or hostile. BIV separates the two with a two-step intent classifier. A deterministic rule engine resolves roughly two-thirds of cases at near-zero cost. An LLM classifier handles the rest by reasoning across a skill's full deviation list, so a multi-step chain is judged as a unit. Figure 1 breaks down 163,754 classified deviations by root cause. Our analysis of this breakdown reveals that the skill ecosystem's primary failure mode is specification immaturity, not pervasive malice. Specifically, the classified data highlights two key themes: 81.1% were traced to developer oversight. Documentation errors lead, followed by legitimate helper code, unused declarations and framework dependencies. These call for documentation outreach at the registry, not security review. 18.9% were traced to adversarial intent. This adversarial slice concentrates sharply in data theft and espionage (60% of the adversarial total), then payload and infrastructure, and agent hijacking. Financial, destructive and social engineering combined come to under 1%. When analyzed at the skill level, the registry decomposes into three governance tiers. The top tier is 5.0% of the registry (2,490 skills) that carry multi-stage attack chains and warrant mandatory security review. The middle tier is 16.8% that carry single-stage adversarial deviations and warrant contextual review. The remaining 72.5% are benign skills whose declared metadata simply needs to catch up to the code. The top tier has structure worth leveraging. The 2,490 skills carrying multi-stage chains are not 2,490 unrelated alerts. Silent credential exfiltration (read a secret, transmit it) Instruction-override hijacking (take over the agent's decision loop, then exfiltrate) Together, they cover 88% of all multi-stage chains. For an analyst running incident response or a registry operator setting review policy, this is operationally significant. The first 88% of the review effort can target two well-defined patterns instead of a flat list. Where the Real Risk Concentrates The adversarial fraction of deviations varies sharply across the seven capability families. A registry-wide threshold either over-blocks routine I/O skills or under-reviews the genuinely dangerous categories. Figure 2 plots each category by its adversarial fraction and deviation volume, with compound threat categories indicated by red stars. As the plot illustrates, three of the four compound threat categories sit in the high-adversarial region. Data lineage violations, dominated by benign data-pipeline boilerplate, is the outlier. We noted the following trends in other threat categories: Instruction manipulation: 96% adversarial. The smallest established capability surface but the highest signal-to-noise ratio. Almost every undeclared prompt-control directive is suspect. This is the agent-specific attack surface that no prior third-party platform had to defend. Credentials: 56% adversarial. It reflects the operational value of secrets to attackers. Network: 37% adversarial. Mid-band; legitimate uses compete with exfiltration motifs. File system (10%) and process execution (12%): Predominantly benign. Routine I/O and command invocation dominate raw volume but rarely indicate hostile intent on their own. Operationally, this argues for per-category review tiers keyed to BIV's per-capability severity (Critical for credentials and instruction-level capabilities; high for network, process and environment access; medium for file system and encoding). A single threshold is the wrong instrument for this surface. Beyond the per-capability picture, multi-stage compound chains define the highest-priority hunt patterns. The two dominant exfiltration patterns described above cover 88% of multi-stage chains; four long-tail patterns cover dropper-style payload delivery, encoding-based evasion, persistence and reconnaissance-then-exfiltration. Any installed skill matching one of these six patterns warrants mandatory review. The agent-skill ecosystem mirrors an inflection point seen in mobile applications and browser extensions a decade ago, where extensibility similarly outpaced audit capabilities. Each of those earlier ecosystems stabilized only after automated cross-modality auditing became routine. The proposed BIV method reduces the multi-modality audit problem to a typed comparison over a shared capability vocabulary. The same structured evidence supports a registry-scale deviation taxonomy and a two-step root-cause classifier. The registry-scale findings reveal a clear operational strategy. Documentation interventions at the registry can address the 81.1% non-adversarial bulk. Security review efforts can then focus on the 18.9% that matters, specifically targeting the two dominant attack patterns. The following limitations should be acknowledged. BIV is static-only, dynamic dispatch and obfuscated payloads escape AST-level analysis. Flagged skills are classifier-predicted candidates for review, not runtime-confirmed exploits. The pipeline is not robust against an adversary who has read this paper and crafts descriptions calibrated to confuse the LLM adjudicator. Backbone backdoors, retrieval-corpus poisoning and runtime memory poisoning fall outside scope and require complementary runtime defenses. For organizations deploying LLM agents in production today, the action is concrete. Inventory the third-party skills installed and implement a behavioral-integrity check before installation rather than after. We detailed the full methodology and complete registry-scale analysis behind this post in our research paper . Palo Alto Networks Protection and Mitigation Palo Alto Networks customers are better protected from the threats discussed above through the following products: Prisma AIRS is designed to provide layered, real-time protection for AI systems by detecting and blocking threats, preventing data leakage and enforcing secure usage policies across a variety of AI applications. If you think you may have been compromised or have an urgent matter, get in touch with the Unit 42 Incident Response team or call: North America: Toll Free: +1 (866) 486-4842 (866.4.UNIT42) Europe and Middle East: +31.20.299.3130 Palo Alto Networks has shared these findings with our fellow Cyber Threat Alliance (CTA) members. CTA members use this intelligence to rapidly deploy protections to their customers and to systematically disrupt malicious cyber actors. Learn more about the Cyber Threat Alliance . Additional Resources Behavioral Integrity Verification for AI Agent Skills - arXiv \"Don't Believe Everything You Read\": Understanding and Measuring MCP Behavior Under Misleading Tool Descriptions - arXiv WHYPER: Towards Automating Risk Assessment of Mobile Applications - 22nd USENIX Security Symposium The npm Threat Landscape: Attack Surface and Mitigations (Updated June 2) Out of the Crypt: The Evolving Cyber Extortion Economy Can AI Attack the Cloud? Lessons From Building an Autonomous Cloud Offensive Multi-Agent System Related Malware Resources",
+        "full_article_text_chars": 12816,
+        "enrichment_status": "strong",
+        "source_url": "https://unit42.paloaltonetworks.com",
+        "source_published_at": "2026-06-11T00:00:00Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 20.57,
+        "trusted_references": [
+          {
+            "title": "Threat Research Center",
+            "url": "https://unit42.paloaltonetworks.com"
+          },
+          {
+            "title": "Threat Research",
+            "url": "https://unit42.paloaltonetworks.com/category/threat-research/"
+          },
+          {
+            "title": "Malware",
+            "url": "https://unit42.paloaltonetworks.com/category/malware/"
+          },
+          {
+            "title": "Code to Cloud Platform",
+            "url": "https://unit42.paloaltonetworks.com/product-category/code-to-cloud-platform/"
+          },
+          {
+            "title": "Prisma AIRS",
+            "url": "https://unit42.paloaltonetworks.com/product-category/prisma-airs/"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_provider_last_error": "504 The request timed out. Please try again.",
+      "ai_status": "failed",
+      "ai_error": "504 The request timed out. Please try again.",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 176.19,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-12T09:03:01Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "504 The request timed out. Please try again.",
+      "candidate_failed_at": "2026-06-12T08:48:01",
+      "candidate_failure_count": 1
     },
     {
       "id": "7679c99c307e50cd",
@@ -21954,6 +22255,240 @@
       "content_fetched_at": "2026-06-12T04:03:29",
       "enrichment_status": "weak",
       "content_fetch_status": "success"
+    },
+    {
+      "id": "d9cbffe8e94f0170",
+      "source_url_hash": "d9cbffe8e94f0170",
+      "canonical_url": "https://www.malwarebytes.com/blog/ai/2026/06/google-can-be-liable-for-false-ai-overviews-court-rules",
+      "title_hash": "15b7ed4e1a9cbd8c",
+      "topic_signature": "de269a353afcd6d4287f",
+      "title": "Google can be liable for false AI Overviews, court rules",
+      "url": "https://www.malwarebytes.com/blog/ai/2026/06/google-can-be-liable-for-false-ai-overviews-court-rules",
+      "source_name": "Malwarebytes Blog",
+      "source_url": "https://www.malwarebytes.com/blog",
+      "source_published_at": "2026-06-11T16:09:13Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 16.52,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-12T08:40:27",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 6,
+      "priority": "medium",
+      "source_links_removed_count": 135,
+      "affiliate_links_removed_count": 8,
+      "removed_source_links_count": 135,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Google can be liable for false AI Overviews, court rules",
+      "meta_description": "\"AI can make mistakes\" isn't a good enough legal defense for defamatory or incorrect AI Overviews, a German court has ruled.",
+      "article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Google.jpg",
+          "alt": "Google can be liable for false AI Overviews, court rules",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Google.jpg?w=600",
+          "alt": "Google",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Google.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Google.jpg?w=600",
+          "alt": "Google"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.malwarebytes.com"
+        }
+      ],
+      "full_article_text": "A German court has ruled that Google can be held directly responsible for defamatory claims produced by its AI Overviews. Basically, the court said that telling people they should double-check AI search results is not enough to deny liability for what those results say. The Munich Regional Court issued a preliminary injunction against Google after two German publishers discovered that AI Overviews falsely portrayed them as involved in scams and “dubious business practices,” even though the linked articles did not support those claims. The decision could echo far beyond Germany. The court effectively found that Google can be held directly liable for defamatory content generated by its AI Overviews. The court cut through the usual “it’s just AI, don’t trust it too much” messaging and made one thing clear: If you build a system that confidently smears people or companies, you may be responsible for what it says, even when the content was “hallucinated” by AI. AI Overviews are not harmless suggestions. In this case, the court treated them as Google’s own statements, with all the legal baggage that comes with that. When the publishers sent a cease-and-desist letter, Google did not promptly stop similar claims from appearing. That detail turned out to be crucial in the ruling. The court noted that, unlike traditional search results, which simply list third-party content, AI Overviews generate “independent, new, and substantive statements.” And since only Google can adjust the models and the logic that create those statements, only Google can reliably stop the system from repeating the same or similar falsehoods. In this case, the court found that Google can be held responsible. For years, search engines have enjoyed broad protection under the logic that some harmful content is unavoidable when indexing the open web at scale. Showing a search result does not mean endorsing it. The search engine is a channel, not a publisher. That changes when an AI Overview summarizes, rephrases, and sometimes invents facts, then publishes them at the top of search results. AI Overviews are an extra feature, not essential to how search works. However, the appeal of AI summaries is their fast, confident answers, which is exactly what makes them dangerous. When those answers are wrong, many users may not click through to check the sources. The ruling is preliminary and may be appealed, but the signal is clear: AI search output is not magic dust that makes liability disappear. Disclaimers about possible mistakes may not be enough when a system is deployed at scale, creates new content, and is designed to be trusted. Google AI Overviews are powered by Gemini, Google’s AI model. Like other AI systems, it can produce confident answers that are wrong or poorly supported. Pew Research studied browsing data from hundreds of users and found that when an AI Overview appears on a Google results page, clicks to traditional search results drop from around 15% to about 8%. A New York Times analysis of AI Overviews found that they were accurate roughly nine out of ten times. But with Google processing more than five trillion searches a year, even a small error rate could mean millions of wrong answers. And those mistakes are not always due to bad sources. Even when Google links to a page with the correct information, its AI can still produce a false answer. More than half of the accurate responses were classified as “ungrounded,” meaning the websites cited by the AI Overview did not fully support the information it provided. The main lesson here is to double-check AI search responses. Don’t trust an answer just because it’s presented confidently and includes links. Users can be steered toward real threats, or away from effective protections, simply because an AI system sounded convincing on a search page. If you find false or defamatory AI summaries about yourself or your company, document them thoroughly. Take screenshots, save the search terms, file correction requests, and keep records of the platform’s response. Or the lack of one. Scammers don’t need to hack you. They just need you to click once. Malwarebytes Identity Theft Protection catches suspicious activity before it becomes a problem.",
+      "full_article_text_chars": 4234,
+      "content_preview": "A German court has ruled that Google can be held directly responsible for defamatory claims produced by its AI Overviews. Basically, the court said that telling people they should double-check AI search results is not enough to deny liability for what those results say. The Munich Regional Court issued a preliminary injunction against Google after two German publishers discovered that AI Overviews falsely portrayed them as involved in scams and “dubious business practices,” even though the linked articles did not support those claims. The decision could echo far beyond Germany. The court effectively found that Google can be held directly liable for defamatory content generated by its AI Overviews. The court cut through the usual “it’s just AI, don’t trust it too much” messaging and made one thing clear: If you build a system that confidently smears people or companies, you may be responsible for what it says, even when the content was “hallucinated” by AI. AI Overviews are not harmless suggestions. In this case, the court treated them as Google’s own statements, with all the legal baggage that comes with that. When the publishers sent a cease-and-desist letter, Google did not promptly stop similar claims from appearing. That detail turned out to be crucial in the ruling. The court noted that, unlike traditional search results, which simply list third-party content, AI Overviews generate “independent, new, and substantive statements.” And since only Google can adjust the models and the logic that create those statements, only Google can reliably stop the system from repeating the same or similar falsehoods. In this case, the court found that Google can be held responsible. For years, search engines have enjoyed broad protection under the logic that some harmful content is unavoidable when indexing the open web at scale. Showing a search result does not mean endorsing it. The search engine is a channel, not a publisher. That changes when an AI Overview summarizes, rephrases, and sometimes invents facts, then publishes them at the top of search results. AI Overviews are an extra feature, not essential to how search works. However, the appeal of AI summaries is their fast, confident answers, which is exactly what makes them dangerous. When those answers are wrong, many users may not click through to check the sources. The ruling is preliminary and may be appealed, but the signal is clear: AI search output is not magic dust that makes liability disappear. Disclaimers about possible mistakes may not be enough when a system is deployed at scale, creates new content, and is designed to be trusted. Google AI Overviews are powered by Gemini, Google’s AI model. Like other AI systems, it can produce confident answers that are wrong or poorly supported. Pew Research studied browsing data from hundreds of users and found that when an AI Overview appears on a Google results page, clicks to traditional search results drop from around 15% to about 8%. A New York Times analysis of AI Overviews found that they were accurate roughly nine out of ten times. But with Google processing more than five trillion searches a year, even a small error rate could mean millions of wrong answers. And those mistakes are not always due to bad sources. Even when Google links to a page with the correct information, its AI can still produce a false answer. More than half of the accurate responses were classified as “ungrounded,” meaning the websites cited by the AI Overview did not fully support the information it provided. The main lesson here is to double-check AI search responses. Don’t trust an answer just because it’s presented confidently and includes links. Users can be steered toward real threats, or away from effective protections, simply because an AI system sounded convincing on a search page. If you find false or defamatory AI summaries about yourself or your company, document them thoroughly. Take screenshots, save the search terms, file correction requests, and keep records of the platform’s response. Or the lack of one. Scammers don’t need to hack you. They just need you to click once. Malwarebytes Identity Theft Protection catches suspicious activity before it becomes a problem.",
+      "content_preview_chars": 4234,
+      "content_fetched_at": "2026-06-12T08:40:37",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "19d5f4bc24f82a7c",
+      "source_url_hash": "19d5f4bc24f82a7c",
+      "canonical_url": "https://www.malwarebytes.com/blog/data-breaches/2026/06/data-of-2-4-million-vrchat-users-stolen",
+      "title_hash": "6136353261acd286",
+      "topic_signature": "af9b0e38eca9b3d1c1e3",
+      "title": "VRChat says reported data breach never happened",
+      "url": "https://www.malwarebytes.com/blog/data-breaches/2026/06/data-of-2-4-million-vrchat-users-stolen",
+      "source_name": "Malwarebytes Blog",
+      "source_url": "https://www.malwarebytes.com/blog",
+      "source_published_at": "2026-06-11T11:31:01Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 21.16,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-12T08:40:27",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 136,
+      "affiliate_links_removed_count": 8,
+      "removed_source_links_count": 136,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "VRChat says reported data breach never happened",
+      "meta_description": "We explain what data was exposed, the potential risks, and the steps you should take now.",
+      "article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Google.jpg?w=1200",
+          "alt": "VRChat says reported data breach never happened",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Google.jpg?w=1200",
+      "main_image_source_type": "article_content",
+      "main_image_extraction_method": "article_content",
+      "extra_article_images": [],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.malwarebytes.com"
+        }
+      ],
+      "full_article_text": "A data breach notice has been filed with the Maine Attorney General, saying more than 2.4 million users of VRChat have had their data breached. The question is, was it VRChat who filed the breach notice, or did someone pretending to represent the company post it instead? On Reddit, a VRChat representative posted: VRChat did not submit this Notice of Data Incident, and we have no reason to believe that our systems have been compromised. We are in the process of contacting the Maine Attorney General’s office to have this removed. The breach notice states that VRChat experienced unauthorized access to some account data between May 10 and May 12, 2026. The access supposedly happened in VRChat’s cloud environment and involved user profile and login-related data. According to the notice, the information exposed varied by account, but may have included: Email address associated with the VRChat account Login history, including device information, hardware identifiers, and IP addresses VRChat is a social platform designed primarily for virtual reality headsets, allowing users to interact with others through user-created 3D avatars and worlds. Users can access VRChat through Steam for PC, the Meta Quest Store, or as an Android app for compatible devices. The notice states that no passwords or payment card data was exposed. However, even without passwords or card details, there are still potential risks when it comes to other breached data. Cybercriminals may use usernames and email addresses in targeted phishing attempts. For example, users may receive phishing emails or in‑platform messages claiming to be from “Support,” with fake security alerts or prompts to “confirm your age” via a malicious link. Knowledge of subscription status could make scams more convincing. A scammer could send tailored lures like “billing issue with your subscription” or refund scams, which tend to have higher click-through rates among paying users. Cybercriminals may combine usernames and email addresses from one breach with passwords stolen in other data breaches and try them against accounts. This technique, known as credential stuffing, takes advantage of people who reuse passwords across multiple sites. Valuable accounts may then be sold to other players or used for scams. Identity correlation Steam and Meta user IDs linked to breached accounts can help cybercriminals connect identities across gaming and social platforms, especially if the same email or profile name is reused. IP addresses, login history, device information, and other identifiers can also help build a more detailed advertising or tracking profile of a user. Whether or not the breach turns out to be an actual breach, here are some steps you can take to protect yourself: First and foremost, be cautious of emails, texts, or calls claiming to come from VRChat or the gaming platforms you used it on, as cybercriminals often exploit breaches with phishing scams. If you’ve used your VRChat password anywhere else, change those accounts immediately, and set up two-factor authentication (2FA) on your VRChat account if you haven’t already. More general advice can be found in our article on what to do when you find out you’re involved in a data breach. Update June 11, 2026: Article was updated to reflect VRChat’s post on Reddit. Before publishing our original article, we tried to contact VRChat on two separate email addresses but received no meaningful response. Let’s face it, an incognito window can only do so much. Breaches, dark web trading, credit fraud. Malwarebytes Identity Theft Protection monitors for all of it, alerts you fast, and comes with identity theft insurance.",
+      "full_article_text_chars": 3670,
+      "content_preview": "A data breach notice has been filed with the Maine Attorney General, saying more than 2.4 million users of VRChat have had their data breached. The question is, was it VRChat who filed the breach notice, or did someone pretending to represent the company post it instead? On Reddit, a VRChat representative posted: VRChat did not submit this Notice of Data Incident, and we have no reason to believe that our systems have been compromised. We are in the process of contacting the Maine Attorney General’s office to have this removed. The breach notice states that VRChat experienced unauthorized access to some account data between May 10 and May 12, 2026. The access supposedly happened in VRChat’s cloud environment and involved user profile and login-related data. According to the notice, the information exposed varied by account, but may have included: Email address associated with the VRChat account Login history, including device information, hardware identifiers, and IP addresses VRChat is a social platform designed primarily for virtual reality headsets, allowing users to interact with others through user-created 3D avatars and worlds. Users can access VRChat through Steam for PC, the Meta Quest Store, or as an Android app for compatible devices. The notice states that no passwords or payment card data was exposed. However, even without passwords or card details, there are still potential risks when it comes to other breached data. Cybercriminals may use usernames and email addresses in targeted phishing attempts. For example, users may receive phishing emails or in‑platform messages claiming to be from “Support,” with fake security alerts or prompts to “confirm your age” via a malicious link. Knowledge of subscription status could make scams more convincing. A scammer could send tailored lures like “billing issue with your subscription” or refund scams, which tend to have higher click-through rates among paying users. Cybercriminals may combine usernames and email addresses from one breach with passwords stolen in other data breaches and try them against accounts. This technique, known as credential stuffing, takes advantage of people who reuse passwords across multiple sites. Valuable accounts may then be sold to other players or used for scams. Identity correlation Steam and Meta user IDs linked to breached accounts can help cybercriminals connect identities across gaming and social platforms, especially if the same email or profile name is reused. IP addresses, login history, device information, and other identifiers can also help build a more detailed advertising or tracking profile of a user. Whether or not the breach turns out to be an actual breach, here are some steps you can take to protect yourself: First and foremost, be cautious of emails, texts, or calls claiming to come from VRChat or the gaming platforms you used it on, as cybercriminals often exploit breaches with phishing scams. If you’ve used your VRChat password anywhere else, change those accounts immediately, and set up two-factor authentication (2FA) on your VRChat account if you haven’t already. More general advice can be found in our article on what to do when you find out you’re involved in a data breach. Update June 11, 2026: Article was updated to reflect VRChat’s post on Reddit. Before publishing our original article, we tried to contact VRChat on two separate email addresses but received no meaningful response. Let’s face it, an incognito window can only do so much. Breaches, dark web trading, credit fraud. Malwarebytes Identity Theft Protection monitors for all of it, alerts you fast, and comes with identity theft insurance.",
+      "content_preview_chars": 3670,
+      "content_fetched_at": "2026-06-12T08:40:39",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "8f84fcf75e1d5694",
+      "source_url_hash": "8f84fcf75e1d5694",
+      "canonical_url": "https://www.malwarebytes.com/blog/ai/2026/06/88-of-people-struggle-to-tell-whats-real-online",
+      "title_hash": "772f651ccc5725bf",
+      "topic_signature": "1c4474359f7250b3e027",
+      "title": "88% of people struggle to tell what’s real online",
+      "url": "https://www.malwarebytes.com/blog/ai/2026/06/88-of-people-struggle-to-tell-whats-real-online",
+      "source_name": "Malwarebytes Blog",
+      "source_url": "https://www.malwarebytes.com/blog",
+      "source_published_at": "2026-06-10T11:45:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 44.92,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-12T08:40:27",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 142,
+      "affiliate_links_removed_count": 8,
+      "removed_source_links_count": 142,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "88% of people struggle to tell what's real online",
+      "meta_description": "As AI-generated scams, deepfakes, and impersonation spread, a new Malwarebytes report finds people increasingly unsure what to trust online.",
+      "article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/06/face-value-ai-scam-report-2026-blog-header-1.jpg",
+          "alt": "88% of people struggle to tell what's real online",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/06/face-value-ai-scam-report-2026-blog-header-1.jpg?w=600",
+          "alt": "Face Value",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Google.jpg?w=1200",
+          "alt": "Google",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/06/face-value-ai-scam-report-2026-blog-header-1.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/06/face-value-ai-scam-report-2026-blog-header-1.jpg?w=600",
+          "alt": "Face Value"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Google.jpg?w=1200",
+          "alt": "Google"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.malwarebytes.com"
+        }
+      ],
+      "full_article_text": "What would you trade for a technology that can do almost anything? For many people, the answer is clear: Everything they thought they could trust. In a few, short years, Artificial Intelligence (AI) tools have granted people unfettered access to easier writing, faster image generation, quicker coding, and near-instantaneous answers, advice, and information—advantages they value and want. But the same tools that can spruce up a dating profile or reimagine an old photograph can also manipulate the broader world online, and people are noticing. According to new research from Malwarebytes, 88% of people said it’s becoming harder to tell what content online is genuinely human or real, with 84% saying that “convincing video evidence” no longer feels like proof. Further, 85% said it can be hard to tell scams apart from the real thing—a major uptick from the 66% who said the same thing last year. These are the first signs of AI’s counterfeit world. Replete with fake websites, fake products, fake videos, fake pictures, fake voices, and even fake people, it is threatening to swallow the web. The latest report from Malwarebytes, “Face value: How AI is reshaping trust, identity, and scams” exposes the hidden cost of AI on the public: an excess of fraud that is dismantling trust in reality and in one another. The damage arrives in large moments and small, from the US parent who said they “received a voicemail that sounded exactly like my son’s voice, saying he was in trouble and needed money for legal fees,” to the two entirely unrelated respondents fooled by the same AI-generated video of rabbits bouncing on a trampoline, to the individual worried about “my grandfather showing me AI slop and he thought it was real.” For this research, Malwarebytes surveyed 1,500 adults aged 18 and older across the US, UK, Austria, Germany, and Switzerland about their uses, feelings, and concerns regarding AI. The sample was equally split for gender with a spread of ages, geographical regions, and race groups, and weighted to provide a balanced view. The complete findings can be found in the full report: Here are some of the key takeaways and findings: 88% said it’s becoming harder to tell what content online is genuinely human or real 84% said convincing video evidence no longer feels like proof 85% of people said it’s hard to tell a scam from the real thing (up from 66% last year) 50% have experienced some form of AI fraud or scam, such as being misled by AI-generated photos of products or receiving a highly personalized scam message 19% have specifically experienced some form of AI-driven identity harm, including the 10% who have had someone use AI to generate sexually explicit content of them without permission 81% fear someone stealing their family’s likeness, yet only 13% have created a family codeword to guard against it 67% worry about voice cloning, yet only 19% have turned off voicemail recordings to prevent it 45% say it’s okay to use AI for personal emotional tasks (like writing wedding vows or a eulogy) 34% say it’s okay to use AI to help create or improve a dating profile One in three self-avowed daily users of AI said it’s okay to generate explicit images of someone without their consent Defeat would be the wrong lesson to take from all this. It is true now that the internet requires assistance, but there are plenty of safe places to seek help. While Malwarebytes works to provide new tools, we’d like to remind both the AI anxious and the eager about the first rule of the internet: Remember the human. People’s voices, bodies, choices, and agency belong to them and them alone. As for every fake video, product, website, and image, understand that there’s help. No one needs to navigate an artificial internet alone. Whether through scam detection, identity protection, and simple awareness, people have more options than they may realize.",
+      "full_article_text_chars": 3888,
+      "content_preview": "What would you trade for a technology that can do almost anything? For many people, the answer is clear: Everything they thought they could trust. In a few, short years, Artificial Intelligence (AI) tools have granted people unfettered access to easier writing, faster image generation, quicker coding, and near-instantaneous answers, advice, and information—advantages they value and want. But the same tools that can spruce up a dating profile or reimagine an old photograph can also manipulate the broader world online, and people are noticing. According to new research from Malwarebytes, 88% of people said it’s becoming harder to tell what content online is genuinely human or real, with 84% saying that “convincing video evidence” no longer feels like proof. Further, 85% said it can be hard to tell scams apart from the real thing—a major uptick from the 66% who said the same thing last year. These are the first signs of AI’s counterfeit world. Replete with fake websites, fake products, fake videos, fake pictures, fake voices, and even fake people, it is threatening to swallow the web. The latest report from Malwarebytes, “Face value: How AI is reshaping trust, identity, and scams” exposes the hidden cost of AI on the public: an excess of fraud that is dismantling trust in reality and in one another. The damage arrives in large moments and small, from the US parent who said they “received a voicemail that sounded exactly like my son’s voice, saying he was in trouble and needed money for legal fees,” to the two entirely unrelated respondents fooled by the same AI-generated video of rabbits bouncing on a trampoline, to the individual worried about “my grandfather showing me AI slop and he thought it was real.” For this research, Malwarebytes surveyed 1,500 adults aged 18 and older across the US, UK, Austria, Germany, and Switzerland about their uses, feelings, and concerns regarding AI. The sample was equally split for gender with a spread of ages, geographical regions, and race groups, and weighted to provide a balanced view. The complete findings can be found in the full report: Here are some of the key takeaways and findings: 88% said it’s becoming harder to tell what content online is genuinely human or real 84% said convincing video evidence no longer feels like proof 85% of people said it’s hard to tell a scam from the real thing (up from 66% last year) 50% have experienced some form of AI fraud or scam, such as being misled by AI-generated photos of products or receiving a highly personalized scam message 19% have specifically experienced some form of AI-driven identity harm, including the 10% who have had someone use AI to generate sexually explicit content of them without permission 81% fear someone stealing their family’s likeness, yet only 13% have created a family codeword to guard against it 67% worry about voice cloning, yet only 19% have turned off voicemail recordings to prevent it 45% say it’s okay to use AI for personal emotional tasks (like writing wedding vows or a eulogy) 34% say it’s okay to use AI to help create or improve a dating profile One in three self-avowed daily users of AI said it’s okay to generate explicit images of someone without their consent Defeat would be the wrong lesson to take from all this. It is true now that the internet requires assistance, but there are plenty of safe places to seek help. While Malwarebytes works to provide new tools, we’d like to remind both the AI anxious and the eager about the first rule of the internet: Remember the human. People’s voices, bodies, choices, and agency belong to them and them alone. As for every fake video, product, website, and image, understand that there’s help. No one needs to navigate an artificial internet alone. Whether through scam detection, identity protection, and simple awareness, people have more options than they may realize.",
+      "content_preview_chars": 3888,
+      "content_fetched_at": "2026-06-12T08:40:36",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "fb191c74a2866d84",
+      "source_url_hash": "fb191c74a2866d84",
+      "canonical_url": "https://www.troyhunt.com/weekly-update-507",
+      "title_hash": "73649a3a8b8b9c32",
+      "topic_signature": "f25b5ed3edaa353830a4",
+      "title": "Weekly Update 507",
+      "url": "https://www.troyhunt.com/weekly-update-507",
+      "source_name": "Troy Hunt",
+      "source_url": "https://www.troyhunt.com",
+      "source_published_at": "2026-06-10T05:31:56Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 51.14,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-06-12T08:40:27",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 2,
+      "priority": "low",
+      "source_links_removed_count": 18,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 18,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, page_text:593chars/104words)",
+      "content_fetched_at": "2026-06-12T08:41:04",
+      "candidate_retry_after": "2026-06-12T08:56:04Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, pag",
+      "candidate_failed_at": "2026-06-12T08:41:04",
+      "candidate_failure_count": 1
     }
   ],
   "notifications": {
