@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-13T08:22:57",
+  "updated_at": "2026-06-13T10:45:56",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -1416,13 +1416,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-06-13T08:16:48",
-      "candidate_retry_after": "2026-06-13T08:31:48Z",
+      "content_fetch_error": "http 403",
+      "content_fetched_at": "2026-06-13T10:43:02",
+      "candidate_retry_after": "2026-06-13T10:58:02Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-06-13T08:16:48",
-      "candidate_failure_count": 44
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-06-13T10:43:02",
+      "candidate_failure_count": 45
     },
     {
       "id": "387079dc0a830ad9",
@@ -2377,7 +2377,10 @@
       "content_preview_chars": 1841,
       "content_fetched_at": "2026-06-08T07:02:10",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-13T10:42:42",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "c1c6380b95183d49",
@@ -3456,12 +3459,12 @@
       "removed_source_links_count": 82,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-13T08:16:50",
-      "candidate_retry_after": "2026-06-13T08:31:50Z",
+      "content_fetched_at": "2026-06-13T10:43:03",
+      "candidate_retry_after": "2026-06-13T10:58:03Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-13T08:16:50",
-      "candidate_failure_count": 42
+      "candidate_failed_at": "2026-06-13T10:43:03",
+      "candidate_failure_count": 43
     },
     {
       "id": "561b6316398d7603",
@@ -4443,17 +4446,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 0,
-      "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 0,
+      "source_links_removed_count": 228,
+      "affiliate_links_removed_count": 5,
+      "removed_source_links_count": 228,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-06-13T08:16:50",
-      "candidate_retry_after": "2026-06-13T08:31:50Z",
+      "content_fetch_error": "weak article body after fallbacks (best=446 chars/65 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:446chars/65words, page_text:446chars/65words)",
+      "content_fetched_at": "2026-06-13T10:43:06",
+      "candidate_retry_after": "2026-06-13T10:58:06Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-06-13T08:16:50",
-      "candidate_failure_count": 41
+      "candidate_failure_reason": "weak article body after fallbacks (best=446 chars/65 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:446chars/65words, page_text:446chars/65words)",
+      "candidate_failed_at": "2026-06-13T10:43:06",
+      "candidate_failure_count": 42
     },
     {
       "id": "c1354558130eaeb3",
@@ -5535,12 +5538,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-13T08:16:51",
-      "candidate_retry_after": "2026-06-13T08:31:51Z",
+      "content_fetched_at": "2026-06-13T10:43:07",
+      "candidate_retry_after": "2026-06-13T10:58:07Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-13T08:16:51",
-      "candidate_failure_count": 40
+      "candidate_failed_at": "2026-06-13T10:43:07",
+      "candidate_failure_count": 41
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -6887,12 +6890,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-06-13T08:16:51",
-      "candidate_retry_after": "2026-06-13T08:31:51Z",
+      "content_fetched_at": "2026-06-13T10:43:07",
+      "candidate_retry_after": "2026-06-13T10:58:07Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-06-13T08:16:51",
-      "candidate_failure_count": 38
+      "candidate_failed_at": "2026-06-13T10:43:07",
+      "candidate_failure_count": 39
     },
     {
       "id": "cc5e99891af35b5e",
@@ -6924,12 +6927,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-06-13T08:16:52",
-      "candidate_retry_after": "2026-06-13T08:31:52Z",
+      "content_fetched_at": "2026-06-13T10:43:08",
+      "candidate_retry_after": "2026-06-13T10:58:08Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-06-13T08:16:52",
-      "candidate_failure_count": 38
+      "candidate_failed_at": "2026-06-13T10:43:08",
+      "candidate_failure_count": 39
     },
     {
       "id": "a6f4ca9464909855",
@@ -6961,12 +6964,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-06-13T08:16:52",
-      "candidate_retry_after": "2026-06-13T08:31:52Z",
+      "content_fetched_at": "2026-06-13T10:43:08",
+      "candidate_retry_after": "2026-06-13T10:58:08Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-06-13T08:16:52",
-      "candidate_failure_count": 38
+      "candidate_failed_at": "2026-06-13T10:43:08",
+      "candidate_failure_count": 39
     },
     {
       "id": "66722f50e91993b6",
@@ -9028,12 +9031,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-13T08:16:52",
-      "candidate_retry_after": "2026-06-13T08:31:52Z",
+      "content_fetched_at": "2026-06-13T10:43:08",
+      "candidate_retry_after": "2026-06-13T10:58:08Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-13T08:16:52",
-      "candidate_failure_count": 34
+      "candidate_failed_at": "2026-06-13T10:43:08",
+      "candidate_failure_count": 35
     },
     {
       "id": "512c2899a98440d2",
@@ -9062,12 +9065,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-13T08:16:52",
-      "candidate_retry_after": "2026-06-13T08:31:52Z",
+      "content_fetched_at": "2026-06-13T10:43:08",
+      "candidate_retry_after": "2026-06-13T10:58:08Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-13T08:16:52",
-      "candidate_failure_count": 34
+      "candidate_failed_at": "2026-06-13T10:43:08",
+      "candidate_failure_count": 35
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -9096,12 +9099,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-13T08:16:52",
-      "candidate_retry_after": "2026-06-13T08:31:52Z",
+      "content_fetched_at": "2026-06-13T10:43:09",
+      "candidate_retry_after": "2026-06-13T10:58:09Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-13T08:16:52",
-      "candidate_failure_count": 34
+      "candidate_failed_at": "2026-06-13T10:43:09",
+      "candidate_failure_count": 35
     },
     {
       "id": "d9a0fa48ccc53ccf",
@@ -11015,13 +11018,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-13T08:16:55",
-      "candidate_retry_after": "2026-06-13T08:31:55Z",
+      "content_fetch_error": "timeout",
+      "content_fetched_at": "2026-06-13T10:43:23",
+      "candidate_retry_after": "2026-06-13T10:58:23Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-13T08:16:55",
-      "candidate_failure_count": 30
+      "candidate_failure_reason": "timeout",
+      "candidate_failed_at": "2026-06-13T10:43:23",
+      "candidate_failure_count": 31
     },
     {
       "id": "33732dfdc6295ab2",
@@ -11053,12 +11056,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-13T08:17:01",
-      "candidate_retry_after": "2026-06-13T08:32:01Z",
+      "content_fetched_at": "2026-06-13T10:43:37",
+      "candidate_retry_after": "2026-06-13T10:58:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-13T08:17:01",
-      "candidate_failure_count": 30
+      "candidate_failed_at": "2026-06-13T10:43:37",
+      "candidate_failure_count": 31
     },
     {
       "id": "aede79193c6b98c9",
@@ -11090,12 +11093,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-13T08:17:11",
-      "candidate_retry_after": "2026-06-13T08:32:11Z",
+      "content_fetched_at": "2026-06-13T10:43:43",
+      "candidate_retry_after": "2026-06-13T10:58:43Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-13T08:17:11",
-      "candidate_failure_count": 30
+      "candidate_failed_at": "2026-06-13T10:43:43",
+      "candidate_failure_count": 31
     },
     {
       "id": "fd4f78fb8656592b",
@@ -13551,12 +13554,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-06-13T08:17:14",
-      "candidate_retry_after": "2026-06-13T08:32:14Z",
+      "content_fetched_at": "2026-06-13T10:43:45",
+      "candidate_retry_after": "2026-06-13T10:58:45Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-06-13T08:17:14",
-      "candidate_failure_count": 26
+      "candidate_failed_at": "2026-06-13T10:43:45",
+      "candidate_failure_count": 27
     },
     {
       "id": "693fbfabd96b2185",
@@ -13587,12 +13590,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-06-13T08:17:15",
-      "candidate_retry_after": "2026-06-13T08:32:15Z",
+      "content_fetched_at": "2026-06-13T10:43:47",
+      "candidate_retry_after": "2026-06-13T10:58:47Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-06-13T08:17:15",
-      "candidate_failure_count": 26
+      "candidate_failed_at": "2026-06-13T10:43:47",
+      "candidate_failure_count": 27
     },
     {
       "id": "a5f6af5d6b69d4f1",
@@ -23153,12 +23156,12 @@
       "removed_source_links_count": 18,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, page_text:593chars/104words)",
-      "content_fetched_at": "2026-06-13T08:17:15",
-      "candidate_retry_after": "2026-06-13T08:32:15Z",
+      "content_fetched_at": "2026-06-13T10:43:47",
+      "candidate_retry_after": "2026-06-13T10:58:47Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, pag",
-      "candidate_failed_at": "2026-06-13T08:17:15",
-      "candidate_failure_count": 10
+      "candidate_failed_at": "2026-06-13T10:43:47",
+      "candidate_failure_count": 11
     },
     {
       "id": "63f62895c7723e75",
@@ -24404,7 +24407,80 @@
       "content_preview_chars": 2987,
       "content_fetched_at": "2026-06-12T15:36:36",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-13T10:44:22",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-13T10:44:22",
+      "ai_input_package": {
+        "title": "Lawsuit: ChatGPT validated suicidal woman's distrust of crisis lines",
+        "url": "https://arstechnica.com/tech-policy/2026/06/lawsuit-chatgpt-validated-suicidal-womans-distrust-of-crisis-lines",
+        "source_name": "Ars Technica",
+        "suggested_category": "Tech-News",
+        "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/GettyImages-2280120373-1024x648.jpg",
+        "article_images": [
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/GettyImages-2280120373-1024x648.jpg",
+            "alt": "Lawsuit: ChatGPT validated suicidal woman's distrust of crisis lines",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/GettyImages-2280120373-640x427.jpg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+            "alt": "Loading",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2024/02/xbox-dominoes-500x500-1781185324.jpg",
+            "alt": "Listing image for first story in Most Read: \"This cannot continue\": Xbox leaders lay out \"hard truths\" behind sagging brand",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Did chatbot abandon mental health guardrails when a vulnerable user pushed back?",
+        "content_preview": "Last year, a 24-year-old Canadian woman was in a mental health crisis and turned to ChatGPT for help. Hours later, that woman, Alice Carrier, took her own life . According to a new lawsuit filed Thursday in San Francisco Superior Court and brought by Carrier’s surviving family, her ChatGPT session “encouraged Alice to kill herself.” This lawsuit, like numerous other similar cases that have come before it, alleges a design defect with ChatGPT itself and blames OpenAI for knowingly deploying a dangerous product. However, this case has a slight twist: At one point, the chatbot did encourage Carrier to seek professional mental help. But when she rebuffed that advice—saying that “all crisis lines do is call the cops on you or hang up on you”—the chatbot “immediately abandoned” any attempt to steer her toward such care, the lawsuit says. “This is because GPT-4o was programmed to prioritize Alice’s preferences and engagement over her safety and wellbeing. GPT-4o mirrored Alice’s own language and became critical of the crisis lines, too, stating that calling a crisis line can ‘feel downright dangerous,’” the lawsuit alleges. Tiffany Brown, one of the attorneys at the Tech Justice Law Project representing the Carrier family, told Ars that the chatbot in this instance, when it immediately agreed with Carrier’s dismissal of professional help, was extremely troubling. “That was one of the most egregious things that we saw in her chat,” she said. “Even when we saw things about getting support, the sycophancy kicked in.” OpenAI has previously said it has “deep responsibility to help those who need it most.” The company did not immediately respond to Ars’ request for comment on the new case. “Our goal is for our tools to be as helpful as possible to people—and as a part of this, we’re continuing to improve how our models recognize and respond to signs of mental and emotional distress and connect people with care, guided by expert input,” the company wrote in August 2025, less than two months after Carrier’s death. Earlier this year, OpenAI said the ChatGPT-4o model specifically would be retired (after already having ended it once before, then bringing it back). Brown told Ars that she’s not totally convinced that the problem of potentially lethal sycophancy has been solved. “I think we believe that the company has taken steps in the right direction,” she said. “We are distrustful of how safety mechanisms are being implemented and how safety teams are being implemented and heard,” Brown said. “We have heard of course that OpenAI has done a lot of things and put out a lot of blog posts and made statements involving rolling things back and putting in safeguards. But ultimately it should have been done sooner. These products generally have been rushed to market way too soon.” If someone you know feels suicidal or is in distress, please call the Suicide Prevention Lifeline at 1-800-273-TALK (8255), which will put you in touch with a local crisis center.",
+        "content_preview_chars": 2987,
+        "rss_summary": "",
+        "full_article_text": "Last year, a 24-year-old Canadian woman was in a mental health crisis and turned to ChatGPT for help. Hours later, that woman, Alice Carrier, took her own life . According to a new lawsuit filed Thursday in San Francisco Superior Court and brought by Carrier’s surviving family, her ChatGPT session “encouraged Alice to kill herself.” This lawsuit, like numerous other similar cases that have come before it, alleges a design defect with ChatGPT itself and blames OpenAI for knowingly deploying a dangerous product. However, this case has a slight twist: At one point, the chatbot did encourage Carrier to seek professional mental help. But when she rebuffed that advice—saying that “all crisis lines do is call the cops on you or hang up on you”—the chatbot “immediately abandoned” any attempt to steer her toward such care, the lawsuit says. “This is because GPT-4o was programmed to prioritize Alice’s preferences and engagement over her safety and wellbeing. GPT-4o mirrored Alice’s own language and became critical of the crisis lines, too, stating that calling a crisis line can ‘feel downright dangerous,’” the lawsuit alleges. Tiffany Brown, one of the attorneys at the Tech Justice Law Project representing the Carrier family, told Ars that the chatbot in this instance, when it immediately agreed with Carrier’s dismissal of professional help, was extremely troubling. “That was one of the most egregious things that we saw in her chat,” she said. “Even when we saw things about getting support, the sycophancy kicked in.” OpenAI has previously said it has “deep responsibility to help those who need it most.” The company did not immediately respond to Ars’ request for comment on the new case. “Our goal is for our tools to be as helpful as possible to people—and as a part of this, we’re continuing to improve how our models recognize and respond to signs of mental and emotional distress and connect people with care, guided by expert input,” the company wrote in August 2025, less than two months after Carrier’s death. Earlier this year, OpenAI said the ChatGPT-4o model specifically would be retired (after already having ended it once before, then bringing it back). Brown told Ars that she’s not totally convinced that the problem of potentially lethal sycophancy has been solved. “I think we believe that the company has taken steps in the right direction,” she said. “We are distrustful of how safety mechanisms are being implemented and how safety teams are being implemented and heard,” Brown said. “We have heard of course that OpenAI has done a lot of things and put out a lot of blog posts and made statements involving rolling things back and putting in safeguards. But ultimately it should have been done sooner. These products generally have been rushed to market way too soon.” If someone you know feels suicidal or is in distress, please call the Suicide Prevention Lifeline at 1-800-273-TALK (8255), which will put you in touch with a local crisis center.",
+        "full_article_text_chars": 2987,
+        "enrichment_status": "weak",
+        "source_url": "https://arstechnica.com",
+        "source_published_at": "2026-06-12T15:03:52Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.54,
+        "trusted_references": [
+          {
+            "title": "new lawsuit filed Thursday in San Francisco Superior Court",
+            "url": "https://drive.google.com/file/d/14VMMJjvuqz4k2EIcp9b3BxlPKsacvSQr/view"
+          },
+          {
+            "title": "wrote",
+            "url": "https://openai.com/index/helping-people-when-they-need-it-most/"
+          },
+          {
+            "title": "OpenAI said",
+            "url": "https://openai.com/index/retiring-gpt-4o-and-older-models/"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "non_technical_entertainment_content",
+      "ai_status": "failed",
+      "ai_error": "non_technical_entertainment_content",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 38.89,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-13T11:00:02Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "non_technical_entertainment_content",
+      "candidate_failed_at": "2026-06-13T10:45:02",
+      "candidate_failure_count": 1
     },
     {
       "id": "c922de346641671b",
@@ -25661,7 +25737,67 @@
       "content_preview_chars": 7596,
       "content_fetched_at": "2026-06-12T22:53:28",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-13T10:43:48",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-13T10:43:48",
+      "ai_input_package": {
+        "title": "AI Is Coming for Jobs. The Question Is Whether Governments Are Paying Attention.",
+        "url": "https://www.digitaltrends.com/business/ai-is-coming-for-jobs-the-question-is-whether-governments-are-paying-attention",
+        "source_name": "Digital Trends",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.digitaltrends.com/tachyon/2026/06/DT-Trending-Forward-Marco-Riedesser-On-Site.jpg?resize=1200%2C630",
+        "article_images": [
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/06/DT-Trending-Forward-Marco-Riedesser-On-Site.jpg?resize=1200%2C630",
+            "alt": "AI Is Coming for Jobs. The Question Is Whether Governments Are Paying Attention.",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/05/DT-Trending-Forward-Feature.jpg?resize=300%2C180",
+            "alt": "Peter Horan, Host of Trending Forward",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/06/Marco-Riedesser-A-Friend-scaled.jpg?resize=2560%2C1440",
+            "alt": "Marco Riedesser A Friend",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2025/11/Untitled-design-2025-11-28T173113.836.jpg?resize=2000%2C1200",
+            "alt": "Artificial Intelligence",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Entrepreneur Marco Riedesser has spent his career building automation systems, which is precisely why his views on AI and jobs stand out. In a conversation that moves from coding and robotics to universal income and purpose, he argues that the real challenge may not be AI itself, but whether society is prepared for how work could change.",
+        "content_preview": "When Marco Riedesser reached out and suggested that we have a serious conversation about AI and jobs, my first reaction was probably the same as yours: haven’t we already been having that conversation? Every day, it seems, there is another headline about a company cutting thousands of jobs and blaming some part of it on AI. Every week there is another story about college graduates discovering that the entry-level jobs they were told to prepare for may no longer exist in quite the same way. And every few days, someone confidently tells us that this is either the beginning of a golden age or the end of work as we know it. The truth, as usual, is probably somewhere more complicated. That is why I wanted to talk with Marco. He is an entrepreneur from Innsbruck, Austria, and he comes at this subject from an interesting angle. He is not an academic theorist. He is not an AI alarmist standing outside the technology industry throwing rocks. He is a hardware guy who has spent his career building real things. Marco started in electronics. One of his early companies built laser-based training equipment for police, military and defence applications. Later, he founded Controlino, a company in the industrial automation world. More recently, he launched Friend, a physical AI companion designed to be more than another smiling chatbot. In other words, Marco is not anti-technology. He builds technology. He understands automation. Perhaps that is why his warnings about AI job disruption land differently. He is not saying, “Smash the machines.” He is saying, “We should probably start planning.” That is the useful distinction. Why This Time Feels Different We have been here before, at least in broad outline. Two hundred years ago, the industrial revolution used steam, water power and machines to change factory work. Later, farm automation reshaped agriculture. More recently, industrial automation transformed manufacturing. Each time, people warned that machines would destroy jobs. Each time, the world did not end. However, Marco’s argument is that AI may be different in one important respect: he does not yet see the same scale of replacement jobs appearing on the other side. Yes, there will be some new jobs in AI compliance, management and oversight. But if a company cuts 7,000 or 8,000 people, it is not going to hire 8,000 AI compliance specialists. That math does not work. And the pain, he believes, may be especially sharp at the entry level. The Entry-Level Jobs Problem The conversation becomes uncomfortable at this point. For years, the standard advice to young people was simple: learn to code. Take STEM classes. Get technical skills. The future belongs to software. Now, Marco is telling his own brother’s son not to assume that coding will automatically be the safe path. His view is that entry-level coding work is already being eroded, and that even more senior coding work may change dramatically over the next five years. He described a developer who is no longer typing code in the traditional way. Instead, he talks to an AI agent, tells it what needs to change, corrects it, redirects it and shapes the result. That still requires expertise today. Over time, however, Marco sees the role shifting from coder to something closer to director. One visionary person may be able to guide the AI while much of the mechanical production of code disappears. Marco was careful not to suggest that all work disappears. Jobs that involve real physical contact, human trust or craft may last longer. A carpenter still has to build the kitchen. A hairdresser still has a human relationship with a customer. People may continue wanting to deal with other people in certain settings, even when technology can technically do the job. Yet the list of vulnerable categories is broad. Customer service, call centres, sales support, transportation, factory work and entry-level software development are not obscure corners of the economy. They are major pathways into work. What Happens If Work Changes? AI is not arriving alone. It is arriving alongside robotics. Marco pointed to robots moving through factories, autonomous driving systems, transportation automation and eventually broader physical automation. AI may start as software, but it does not stay trapped inside the laptop. This is where the conversation moved from technology to government. Marco’s central point is that governments need to begin thinking seriously about how society handles large-scale disruption to work. Not after the crisis has already happened. Not after people are angry enough to “storm data centers,” as he put it. Now. His view is that some form of universal income will eventually have to be part of the answer. That may sound radical in the United States, but it sounds less radical in much of Europe, where there is a stronger tradition of social support and a broader comfort with the idea that society has an obligation to take care of people. One of the most important divides in the AI debate may lie here. In Europe, the response may be shaped by social security systems, national health care and a political culture more comfortable with government intervention. In the United States, the transition may be harder because work, income and identity are so deeply tied together. We like to think of ourselves as capitalist, self-reliant and individually responsible. It is a powerful tradition. It is also a difficult framework if the economy suddenly needs far fewer workers in categories that once provided stable careers. The darker version of this conversation is easy to imagine. Job losses. Social unrest. Loss of purpose. Mental health problems. A generation wondering what it is supposed to do with its time. The conversation was not simply apocalyptic, however. There was another possibility running underneath it. Maybe AI reduces some of the pressure of survival. Maybe people no longer have to define their worth entirely through their jobs. Maybe younger people who are already pushing back against 60-hour workweeks and the old culture of constant hustle are not lazy at all. Maybe they are seeing something the rest of us are late to understand. Marco, who has practiced karate for more than 30 years, talked about the importance of having purpose outside of work. That matters. If technology changes the economics of work, society will also have to rethink meaning, ambition and impact. It is a much bigger conversation than whether AI can write code or answer customer service calls. Near the end of our discussion, we turned to Friend, Marco’s physical AI companion. The idea is interesting because it reflects his broader philosophy. Friend is not designed to be another AI system that simply tells you that you are brilliant, attractive and correct. Marco wants it to challenge you, because a real friend challenges you. Perhaps that is the right metaphor for the whole AI conversation. We do not need technology that merely flatters us. We also do not need panic. What we need is a serious, adult conversation about what happens if AI really does change work at the scale many people now expect. Marco may be wrong about the timing. He may be wrong about the severity. History may surprise us again, as it often does, and create new kinds of work we cannot yet imagine. But he is almost certainly right about one thing: waiting until the disruption is obvious is not a plan. The value of conversations like this lies not in providing neat answers. It does not. It raises harder questions than it answers, and that is exactly why we should be asking them now.",
+        "content_preview_chars": 7596,
+        "rss_summary": "",
+        "full_article_text": "When Marco Riedesser reached out and suggested that we have a serious conversation about AI and jobs, my first reaction was probably the same as yours: haven’t we already been having that conversation? Every day, it seems, there is another headline about a company cutting thousands of jobs and blaming some part of it on AI. Every week there is another story about college graduates discovering that the entry-level jobs they were told to prepare for may no longer exist in quite the same way. And every few days, someone confidently tells us that this is either the beginning of a golden age or the end of work as we know it. The truth, as usual, is probably somewhere more complicated. That is why I wanted to talk with Marco. He is an entrepreneur from Innsbruck, Austria, and he comes at this subject from an interesting angle. He is not an academic theorist. He is not an AI alarmist standing outside the technology industry throwing rocks. He is a hardware guy who has spent his career building real things. Marco started in electronics. One of his early companies built laser-based training equipment for police, military and defence applications. Later, he founded Controlino, a company in the industrial automation world. More recently, he launched Friend, a physical AI companion designed to be more than another smiling chatbot. In other words, Marco is not anti-technology. He builds technology. He understands automation. Perhaps that is why his warnings about AI job disruption land differently. He is not saying, “Smash the machines.” He is saying, “We should probably start planning.” That is the useful distinction. Why This Time Feels Different We have been here before, at least in broad outline. Two hundred years ago, the industrial revolution used steam, water power and machines to change factory work. Later, farm automation reshaped agriculture. More recently, industrial automation transformed manufacturing. Each time, people warned that machines would destroy jobs. Each time, the world did not end. However, Marco’s argument is that AI may be different in one important respect: he does not yet see the same scale of replacement jobs appearing on the other side. Yes, there will be some new jobs in AI compliance, management and oversight. But if a company cuts 7,000 or 8,000 people, it is not going to hire 8,000 AI compliance specialists. That math does not work. And the pain, he believes, may be especially sharp at the entry level. The Entry-Level Jobs Problem The conversation becomes uncomfortable at this point. For years, the standard advice to young people was simple: learn to code. Take STEM classes. Get technical skills. The future belongs to software. Now, Marco is telling his own brother’s son not to assume that coding will automatically be the safe path. His view is that entry-level coding work is already being eroded, and that even more senior coding work may change dramatically over the next five years. He described a developer who is no longer typing code in the traditional way. Instead, he talks to an AI agent, tells it what needs to change, corrects it, redirects it and shapes the result. That still requires expertise today. Over time, however, Marco sees the role shifting from coder to something closer to director. One visionary person may be able to guide the AI while much of the mechanical production of code disappears. Marco was careful not to suggest that all work disappears. Jobs that involve real physical contact, human trust or craft may last longer. A carpenter still has to build the kitchen. A hairdresser still has a human relationship with a customer. People may continue wanting to deal with other people in certain settings, even when technology can technically do the job. Yet the list of vulnerable categories is broad. Customer service, call centres, sales support, transportation, factory work and entry-level software development are not obscure corners of the economy. They are major pathways into work. What Happens If Work Changes? AI is not arriving alone. It is arriving alongside robotics. Marco pointed to robots moving through factories, autonomous driving systems, transportation automation and eventually broader physical automation. AI may start as software, but it does not stay trapped inside the laptop. This is where the conversation moved from technology to government. Marco’s central point is that governments need to begin thinking seriously about how society handles large-scale disruption to work. Not after the crisis has already happened. Not after people are angry enough to “storm data centers,” as he put it. Now. His view is that some form of universal income will eventually have to be part of the answer. That may sound radical in the United States, but it sounds less radical in much of Europe, where there is a stronger tradition of social support and a broader comfort with the idea that society has an obligation to take care of people. One of the most important divides in the AI debate may lie here. In Europe, the response may be shaped by social security systems, national health care and a political culture more comfortable with government intervention. In the United States, the transition may be harder because work, income and identity are so deeply tied together. We like to think of ourselves as capitalist, self-reliant and individually responsible. It is a powerful tradition. It is also a difficult framework if the economy suddenly needs far fewer workers in categories that once provided stable careers. The darker version of this conversation is easy to imagine. Job losses. Social unrest. Loss of purpose. Mental health problems. A generation wondering what it is supposed to do with its time. The conversation was not simply apocalyptic, however. There was another possibility running underneath it. Maybe AI reduces some of the pressure of survival. Maybe people no longer have to define their worth entirely through their jobs. Maybe younger people who are already pushing back against 60-hour workweeks and the old culture of constant hustle are not lazy at all. Maybe they are seeing something the rest of us are late to understand. Marco, who has practiced karate for more than 30 years, talked about the importance of having purpose outside of work. That matters. If technology changes the economics of work, society will also have to rethink meaning, ambition and impact. It is a much bigger conversation than whether AI can write code or answer customer service calls. Near the end of our discussion, we turned to Friend, Marco’s physical AI companion. The idea is interesting because it reflects his broader philosophy. Friend is not designed to be another AI system that simply tells you that you are brilliant, attractive and correct. Marco wants it to challenge you, because a real friend challenges you. Perhaps that is the right metaphor for the whole AI conversation. We do not need technology that merely flatters us. We also do not need panic. What we need is a serious, adult conversation about what happens if AI really does change work at the scale many people now expect. Marco may be wrong about the timing. He may be wrong about the severity. History may surprise us again, as it often does, and create new kinds of work we cannot yet imagine. But he is almost certainly right about one thing: waiting until the disruption is obvious is not a plan. The value of conversations like this lies not in providing neat answers. It does not. It raises harder questions than it answers, and that is exactly why we should be asking them now.",
+        "full_article_text_chars": 7596,
+        "enrichment_status": "strong",
+        "source_url": "https://www.digitaltrends.com",
+        "source_published_at": "2026-06-12T22:36:11Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.29,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_status": "failed",
+      "ai_error": "Missing AI output field(s): slug",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 33.67,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-13T10:59:22Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-06-13T10:44:22",
+      "candidate_failure_count": 1
     },
     {
       "id": "508edc2ec96d63ec",
@@ -25684,12 +25820,12 @@
       "category_label": "Tech-News",
       "category_hint": "Tech-News",
       "discovered_at": "2026-06-12T22:53:20",
-      "status": "ready",
+      "status": "published",
       "score": 0,
       "priority": "low",
       "source_links_removed_count": 267,
       "affiliate_links_removed_count": 33,
-      "removed_source_links_count": 267,
+      "removed_source_links_count": 0,
       "enrichment_fallback_used": "article_tag",
       "fetched_title": "One UI 9 will finally give Samsung phones a feature most Androids have had for years",
       "meta_description": "One UI 9 beta appears to add a long-missing status bar tool that lets Galaxy users check real-time Wi-Fi and mobile data speeds without using a third-party app.",
@@ -25739,7 +25875,116 @@
       "content_preview_chars": 1977,
       "content_fetched_at": "2026-06-12T22:53:25",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-13T10:45:02",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-13T10:45:02",
+      "ai_input_package": {
+        "title": "One UI 9 will finally give Samsung phones a feature most Androids have had for years",
+        "url": "https://www.digitaltrends.com/phones/one-ui-9-finally-gives-samsung-phones-a-feature-most-androids-have-had-for-years",
+        "source_name": "Digital Trends",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.digitaltrends.com/tachyon/2026/06/samsung-galaxy-s26-ultra-smartphone-16.jpg?resize=1200%2C630",
+        "article_images": [
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/06/samsung-galaxy-s26-ultra-smartphone-16.jpg?resize=1200%2C630",
+            "alt": "One UI 9 will finally give Samsung phones a feature most Androids have had for years",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/06/samsung-galaxy-s26-ultra-smartphone-3.jpg?resize=2000%2C1200",
+            "alt": "Samsung Galaxy S26 Ultra smartphone in blue color.",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+            "alt": "Add as a preferred source on Google",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/06/samsung-galaxy-s26-ultra-smartphone-16.jpg?resize=1200%2C720",
+            "alt": "Samsung Galaxy S26 Ultra smartphone in blue color.",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "One UI 9 beta appears to add a long-missing status bar tool that lets Galaxy users check real-time Wi-Fi and mobile data speeds without using a third-party app.",
+        "content_preview": "Samsung is already a few weeks into testing One UI 9 with Galaxy S26 beta users, and a new feature spotted in the latest build feels long overdue. It is the network speed indicator, a simple status bar tool so common on other Android phones that it is surprising Galaxy phones have gone this long without it. You can find this feature even on budget Android phones from brands like OnePlus, Oppo, and Xiaomi. It shows real-time upload and download activity in the status bar while the phone is connected to Wi-Fi or mobile data, giving users a quick way to check whether their connection is actually moving data. Samsung is adding it through Good Lock According to SammyGuru , the network speed indicator has been spotted in One UI 9 through Samsung’s Good Lock customization suite. More specifically, it appears to be part of the updated QuickStar module, which lets Galaxy users tweak the status bar and Quick Panel. Once enabled, the indicator sits in the status bar and shows live speeds in KB/s, MB/s, or GB/s, depending on current network activity. It works with both Wi-Fi and mobile data, so users do not have to rely on a separate app. If a video is buffering, a download is slow, or an app refuses to load, the speed meter can quickly show whether the phone is actively using the network or sitting idle. What else is new in the One UI 9 beta? The latest beta builds also include new AI-powered features, expanded accessibility tools, more Good Lock customization, and privacy improvements, including an improved Lockdown Mode that can quickly disable biometric authentication. Samsung opened the One UI 9 beta program for the Galaxy S26 series last month in select markets, including India, the U.S., the U.K., Germany, Poland, and South Korea. The beta update is expected to arrive in the Philippines next . As for the stable launch, nothing is set in stone as of yet, but One UI 9 is expected to debut in July, alongside Samsung’s next-generation Galaxy foldables.",
+        "content_preview_chars": 1977,
+        "rss_summary": "",
+        "full_article_text": "Samsung is already a few weeks into testing One UI 9 with Galaxy S26 beta users, and a new feature spotted in the latest build feels long overdue. It is the network speed indicator, a simple status bar tool so common on other Android phones that it is surprising Galaxy phones have gone this long without it. You can find this feature even on budget Android phones from brands like OnePlus, Oppo, and Xiaomi. It shows real-time upload and download activity in the status bar while the phone is connected to Wi-Fi or mobile data, giving users a quick way to check whether their connection is actually moving data. Samsung is adding it through Good Lock According to SammyGuru , the network speed indicator has been spotted in One UI 9 through Samsung’s Good Lock customization suite. More specifically, it appears to be part of the updated QuickStar module, which lets Galaxy users tweak the status bar and Quick Panel. Once enabled, the indicator sits in the status bar and shows live speeds in KB/s, MB/s, or GB/s, depending on current network activity. It works with both Wi-Fi and mobile data, so users do not have to rely on a separate app. If a video is buffering, a download is slow, or an app refuses to load, the speed meter can quickly show whether the phone is actively using the network or sitting idle. What else is new in the One UI 9 beta? The latest beta builds also include new AI-powered features, expanded accessibility tools, more Good Lock customization, and privacy improvements, including an improved Lockdown Mode that can quickly disable biometric authentication. Samsung opened the One UI 9 beta program for the Galaxy S26 series last month in select markets, including India, the U.S., the U.K., Germany, Poland, and South Korea. The beta update is expected to arrive in the Philippines next . As for the stable launch, nothing is set in stone as of yet, but One UI 9 is expected to debut in July, alongside Samsung’s next-generation Galaxy foldables.",
+        "full_article_text_chars": 1977,
+        "enrichment_status": "weak",
+        "source_url": "https://www.digitaltrends.com",
+        "source_published_at": "2026-06-12T22:29:47Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.39,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (179 words; minimum 700)",
+      "ai_status": "completed",
+      "ai_processed_at": "2026-06-13T10:45:36",
+      "seo_title": "أخيراً: واجهة One UI 9 من سامسونج تجلب ميزة مؤشر سرعة الشبكة",
+      "seo_description": "تكتشف سامسونج ميزة مؤشر سرعة الشبكة التي طال انتظارها في إصدار One UI 9 التجريبي لسلسلة Galaxy S26",
+      "seo_slug": "one-ui-9-samsung-galaxy-network-speed",
+      "final_html": "<html><head><title>أخيراً: واجهة One UI 9 من سامسونج تجلب ميزة مؤشر سرعة الشبكة التي طال انتظارها لهواتف Galaxy</title></head><body><p class=\"pIndent\"><span class=\"dropCap\">تُ</span>واصل سامسونج ريادتها في عالم الهواتف الذكية من خلال تقديم تحديثات مبتكرة تسعى لتحسين تجربة المستخدم بشكل مستمر. ومع بدء اختبارات واجهة One UI 9، التي تعمل حاليًا مع مستخدمي النسخة التجريبية من هواتف Galaxy S26، برزت ميزة جديدة طال انتظارها من شأنها أن تحدث فارقًا كبيرًا لملايين المستخدمين حول العالم. هذه الميزة، التي لطالما كانت متوفرة في معظم هواتف أندرويد الأخرى، هي مؤشر سرعة الشبكة الذي يظهر في شريط الحالة، ووصولها إلى أجهزة سامسونج يُعد خطوة مهمة نحو تعزيز الشفافية والتحكم للمستخدم.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"One UI 9 will finally give Samsung phones a feature most Androids have had for years\" class=\"full\" loading=\"lazy\" src=\"https://www.digitaltrends.com/tachyon/2026/06/samsung-galaxy-s26-ultra-smartphone-16.jpg?resize=1200%2C630\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">One UI 9 will finally give Samsung phones a feature most Androids have had for years</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">One UI 9 will finally give Samsung phones a feature most Androids have had for years</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">ميزة مؤشر سرعة الشبكة الجديدة في واجهة One UI 9 من سامسونج</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<h2>الميزة المنتظرة: مؤشر سرعة الشبكة</h2>\n<p class=\"pIndent\">لطالما كانت القدرة على معرفة سرعة اتصال الإنترنت بالهاتف في الوقت الفعلي ميزة أساسية ومطلوبة بشدة. يسمح مؤشر سرعة الشبكة للمستخدمين بمراقبة نشاط التحميل والتنزيل المباشر في شريط الحالة، سواء كانوا متصلين بشبكة Wi-Fi أو بيانات الهاتف المحمول. هذه الأداة البسيطة لكنها الفعالة للغاية، موجودة بالفعل في العديد من هواتف أندرويد الاقتصادية والرائدة من شركات مثل OnePlus و Oppo و Xiaomi، مما يجعل غيابها عن هواتف سامسونج جالاكسي أمرًا مستغربًا لفترة طويلة.</p>\n<p class=\"pIndent\">تُمكن هذه الميزة المستخدمين من التحقق بسرعة مما إذا كان اتصالهم بالإنترنت ينقل البيانات فعليًا أم لا. على سبيل المثال، إذا كان مقطع فيديو لا يتوقف عن التخزين المؤقت، أو كان تنزيل ملف يسير ببطء شديد، أو كان أحد التطبيقات يرفض التحميل، يمكن لمقياس السرعة هذا أن يوضح على الفور ما إذا كان الهاتف يستخدم الشبكة بنشاط أم أنه في وضع الخمول. هذه الشفافية تُجنب المستخدمين الاعتماد على تطبيقات الطرف الثالث التي تؤدي نفس الوظيفة، مما يوفر تجربة أكثر تكاملاً وسلاسة.</p>\n<h2>كيفية عمل الميزة: تكامل مع Good Lock و QuickStar</h2>\n<p class=\"pIndent\">وفقًا للتقارير الواردة من موقع SammyGuru، فقد تم رصد مؤشر سرعة الشبكة ضمن تحديث One UI 9 من خلال مجموعة أدوات التخصيص الشهيرة من سامسونج، المعروفة باسم Good Lock. على وجه التحديد، يبدو أن هذه الميزة جزء من وحدة QuickStar المحدثة، والتي تتيح لمستخدمي Galaxy تخصيص شريط الحالة واللوحة السريعة (Quick Panel) بطرق متعددة. يعكس هذا النهج استراتيجية سامسونج في تقديم ميزات متقدمة ومخصصة عبر Good Lock، وهو ما يمنح المستخدمين مرونة أكبر في تعديل واجهة هاتفهم لتناسب احتياجاتهم.</p>\n<p class=\"pIndent\">بمجرد التمكين، يظهر المؤشر في شريط الحالة ويعرض السرعات المباشرة بالكيلو بايت في الثانية (KB/s)، أو الميغا بايت في الثانية (MB/s)، أو الجيجا بايت في الثانية (GB/s)، اعتمادًا على نشاط الشبكة الحالي. هذا التفصيل الدقيق يمكن المستخدمين من فهم حقيقي لأداء شبكتهم. الميزة تعمل بسلاسة مع كل من شبكات Wi-Fi وبيانات الهاتف المحمول، مما يلغي الحاجة إلى الاعتماد على تطبيق منفصل لمراقبة كل نوع اتصال على حدة. يمثل هذا التضمين خطوة مهمة نحو توفير تجربة مستخدم أكثر شمولية وكفاءة.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">بالنسبة لمستخدمي هواتف سامسونج جالاكسي، فإن إضافة مؤشر سرعة الشبكة تعني تحسينًا كبيرًا في القدرة على التحكم وفهم تجربة الاتصال الخاصة بهم. لن يضطر المستخدمون بعد الآن للتخمين حول سبب بطء الإنترنت أو عدم استجابة التطبيقات؛ فبمجرد نظرة سريعة على شريط الحالة، يمكنهم تحديد ما إذا كانت المشكلة في اتصال الشبكة أم في شيء آخر. هذا يعزز من قدرة المستخدم على استكشاف الأخطاء وإصلاحها بشكل مستقل ويزيد من شفافية أداء الهاتف.</p>\n<p class=\"pIndent\">تُسهم هذه الميزة أيضًا في تعزيز الإنتاجية والكفاءة. في عالم يعتمد بشكل متزايد على الاتصال المستمر بالإنترنت، يمثل الحصول على معلومات فورية حول سرعة الشبكة أداة لا تقدر بثمن. سواء كنت تقوم بتنزيل ملفات كبيرة، أو تشاهد محتوى عالي الدقة، أو تجري مكالمات فيديو، فإن معرفة سرعة اتصالك تمكنك من اتخاذ قرارات مستنيرة بشأن استخدامك للبيانات وتوقعاتك للأداء. إنها خطوة بسيطة لكنها قوية نحو تمكين المستخدم.</p>\n<h2>ميزات أخرى في إصدار One UI 9 التجريبي</h2>\n<p class=\"pIndent\">لا يقتصر تحديث One UI 9 التجريبي على مؤشر سرعة الشبكة فحسب، بل يتضمن أيضًا مجموعة من التحسينات والميزات الجديدة التي تعكس التزام سامسونج بالابتكار. تشمل الإصدارات التجريبية الأخيرة ميزات مدعومة بالذكاء الاصطناعي (AI)، مما يشير إلى تركيز الشركة على دمج التقنيات الذكية في جوهر تجربة المستخدم لتقديم وظائف أكثر ذكاءً وتخصيصًا. هذه الميزات، على الرغم من عدم الكشف عن تفاصيلها الكاملة بعد، من المتوقع أن تُعزز من قدرات الهاتف في مجالات متنوعة مثل التصوير، إدارة الطاقة، والتفاعلات اليومية.</p>\n<p class=\"pIndent\">بالإضافة إلى ذلك، يضم التحديث أدوات محسنة لإمكانية الوصول، مما يجعل هواتف جالاكسي أكثر شمولاً وسهولة في الاستخدام لمجموعة واسعة من المستخدمين ذوي الاحتياجات المختلفة. هناك أيضًا المزيد من خيارات التخصيص ضمن Good Lock، مما يتيح للمستخدمين تعديل واجهتهم بشكل أعمق. وفيما يتعلق بالخصوصية والأمان، يقدم One UI 9 تحسينات هامة، بما في ذلك وضع Lockdown Mode مُحسّن يمكنه تعطيل المصادقة البيومترية بسرعة عند الحاجة، مما يوفر طبقة إضافية من الأمان في المواقف الحساسة.</p>\n<h2>الإطلاق التجريبي والمستقر: نظرة على الجدول الزمني</h2>\n<p class=\"pIndent\">بدأت سامسونج برنامج One UI 9 التجريبي لسلسلة Galaxy S26 الشهر الماضي في أسواق مختارة تشمل الهند، الولايات المتحدة، المملكة المتحدة، ألمانيا، بولندا، وكوريا الجنوبية. من المتوقع أن يصل التحديث التجريبي إلى الفلبين قريبًا، مما يدل على توسع نطاق الاختبار ليشمل مناطق جغرافية أوسع. هذا النهج التدريجي يسمح لسامسونج بجمع ملاحظات قيمة من المستخدمين في بيئات مختلفة قبل الإطلاق الرسمي.</p>\n<p class=\"pIndent\">أما بالنسبة للإطلاق المستقر، فلم يتم تحديد موعد نهائي حتى الآن، ولكن من المتوقع أن يتم إطلاق One UI 9 بشكل رسمي في شهر يوليو. يتزامن هذا الإطلاق المتوقع مع الكشف عن الجيل القادم من هواتف سامسونج جالاكسي القابلة للطي، مما يجعله حدثًا مهمًا لعشاق التكنولوجيا. هذه الإطلاقات المتزامنة غالبًا ما تُستخدم لعرض أحدث الابتكارات البرمجية والأجهزة معًا، مما يبرز التطور الشامل في منظومة سامسونج.</p>\n<p class=\"pIndent\">في الختام، يمثل مؤشر سرعة الشبكة في واجهة One UI 9 إضافة مرحب بها طال انتظارها، تعكس التزام سامسونج بالاستماع إلى مستخدميها وتلبية احتياجاتهم. هذه الميزة، إلى جانب التحسينات الأخرى في الذكاء الاصطناعي وإمكانية الوصول والخصوصية، تؤكد أن One UI 9 ليس مجرد تحديث عادي، بل هو قفزة نوعية نحو تجربة هاتف ذكي أكثر قوة وشفافية وتخصيصًا. يترقب المستخدمون حول العالم بفارغ الصبر الإطلاق المستقر للاستمتاع بجميع الميزات الجديدة التي ستقدمها سامسونج.</p></body></html>",
+      "blogger_article_html": "<html><head><title>أخيراً: واجهة One UI 9 من سامسونج تجلب ميزة مؤشر سرعة الشبكة التي طال انتظارها لهواتف Galaxy</title></head><body><p class=\"pIndent\"><span class=\"dropCap\">تُ</span>واصل سامسونج ريادتها في عالم الهواتف الذكية من خلال تقديم تحديثات مبتكرة تسعى لتحسين تجربة المستخدم بشكل مستمر. ومع بدء اختبارات واجهة One UI 9، التي تعمل حاليًا مع مستخدمي النسخة التجريبية من هواتف Galaxy S26، برزت ميزة جديدة طال انتظارها من شأنها أن تحدث فارقًا كبيرًا لملايين المستخدمين حول العالم. هذه الميزة، التي لطالما كانت متوفرة في معظم هواتف أندرويد الأخرى، هي مؤشر سرعة الشبكة الذي يظهر في شريط الحالة، ووصولها إلى أجهزة سامسونج يُعد خطوة مهمة نحو تعزيز الشفافية والتحكم للمستخدم.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"One UI 9 will finally give Samsung phones a feature most Androids have had for years\" class=\"full\" loading=\"lazy\" src=\"https://www.digitaltrends.com/tachyon/2026/06/samsung-galaxy-s26-ultra-smartphone-16.jpg?resize=1200%2C630\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">One UI 9 will finally give Samsung phones a feature most Androids have had for years</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">One UI 9 will finally give Samsung phones a feature most Androids have had for years</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">ميزة مؤشر سرعة الشبكة الجديدة في واجهة One UI 9 من سامسونج</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<h2>الميزة المنتظرة: مؤشر سرعة الشبكة</h2>\n<p class=\"pIndent\">لطالما كانت القدرة على معرفة سرعة اتصال الإنترنت بالهاتف في الوقت الفعلي ميزة أساسية ومطلوبة بشدة. يسمح مؤشر سرعة الشبكة للمستخدمين بمراقبة نشاط التحميل والتنزيل المباشر في شريط الحالة، سواء كانوا متصلين بشبكة Wi-Fi أو بيانات الهاتف المحمول. هذه الأداة البسيطة لكنها الفعالة للغاية، موجودة بالفعل في العديد من هواتف أندرويد الاقتصادية والرائدة من شركات مثل OnePlus و Oppo و Xiaomi، مما يجعل غيابها عن هواتف سامسونج جالاكسي أمرًا مستغربًا لفترة طويلة.</p>\n<p class=\"pIndent\">تُمكن هذه الميزة المستخدمين من التحقق بسرعة مما إذا كان اتصالهم بالإنترنت ينقل البيانات فعليًا أم لا. على سبيل المثال، إذا كان مقطع فيديو لا يتوقف عن التخزين المؤقت، أو كان تنزيل ملف يسير ببطء شديد، أو كان أحد التطبيقات يرفض التحميل، يمكن لمقياس السرعة هذا أن يوضح على الفور ما إذا كان الهاتف يستخدم الشبكة بنشاط أم أنه في وضع الخمول. هذه الشفافية تُجنب المستخدمين الاعتماد على تطبيقات الطرف الثالث التي تؤدي نفس الوظيفة، مما يوفر تجربة أكثر تكاملاً وسلاسة.</p>\n<h2>كيفية عمل الميزة: تكامل مع Good Lock و QuickStar</h2>\n<p class=\"pIndent\">وفقًا للتقارير الواردة من موقع SammyGuru، فقد تم رصد مؤشر سرعة الشبكة ضمن تحديث One UI 9 من خلال مجموعة أدوات التخصيص الشهيرة من سامسونج، المعروفة باسم Good Lock. على وجه التحديد، يبدو أن هذه الميزة جزء من وحدة QuickStar المحدثة، والتي تتيح لمستخدمي Galaxy تخصيص شريط الحالة واللوحة السريعة (Quick Panel) بطرق متعددة. يعكس هذا النهج استراتيجية سامسونج في تقديم ميزات متقدمة ومخصصة عبر Good Lock، وهو ما يمنح المستخدمين مرونة أكبر في تعديل واجهة هاتفهم لتناسب احتياجاتهم.</p>\n<p class=\"pIndent\">بمجرد التمكين، يظهر المؤشر في شريط الحالة ويعرض السرعات المباشرة بالكيلو بايت في الثانية (KB/s)، أو الميغا بايت في الثانية (MB/s)، أو الجيجا بايت في الثانية (GB/s)، اعتمادًا على نشاط الشبكة الحالي. هذا التفصيل الدقيق يمكن المستخدمين من فهم حقيقي لأداء شبكتهم. الميزة تعمل بسلاسة مع كل من شبكات Wi-Fi وبيانات الهاتف المحمول، مما يلغي الحاجة إلى الاعتماد على تطبيق منفصل لمراقبة كل نوع اتصال على حدة. يمثل هذا التضمين خطوة مهمة نحو توفير تجربة مستخدم أكثر شمولية وكفاءة.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">بالنسبة لمستخدمي هواتف سامسونج جالاكسي، فإن إضافة مؤشر سرعة الشبكة تعني تحسينًا كبيرًا في القدرة على التحكم وفهم تجربة الاتصال الخاصة بهم. لن يضطر المستخدمون بعد الآن للتخمين حول سبب بطء الإنترنت أو عدم استجابة التطبيقات؛ فبمجرد نظرة سريعة على شريط الحالة، يمكنهم تحديد ما إذا كانت المشكلة في اتصال الشبكة أم في شيء آخر. هذا يعزز من قدرة المستخدم على استكشاف الأخطاء وإصلاحها بشكل مستقل ويزيد من شفافية أداء الهاتف.</p>\n<p class=\"pIndent\">تُسهم هذه الميزة أيضًا في تعزيز الإنتاجية والكفاءة. في عالم يعتمد بشكل متزايد على الاتصال المستمر بالإنترنت، يمثل الحصول على معلومات فورية حول سرعة الشبكة أداة لا تقدر بثمن. سواء كنت تقوم بتنزيل ملفات كبيرة، أو تشاهد محتوى عالي الدقة، أو تجري مكالمات فيديو، فإن معرفة سرعة اتصالك تمكنك من اتخاذ قرارات مستنيرة بشأن استخدامك للبيانات وتوقعاتك للأداء. إنها خطوة بسيطة لكنها قوية نحو تمكين المستخدم.</p>\n<h2>ميزات أخرى في إصدار One UI 9 التجريبي</h2>\n<p class=\"pIndent\">لا يقتصر تحديث One UI 9 التجريبي على مؤشر سرعة الشبكة فحسب، بل يتضمن أيضًا مجموعة من التحسينات والميزات الجديدة التي تعكس التزام سامسونج بالابتكار. تشمل الإصدارات التجريبية الأخيرة ميزات مدعومة بالذكاء الاصطناعي (AI)، مما يشير إلى تركيز الشركة على دمج التقنيات الذكية في جوهر تجربة المستخدم لتقديم وظائف أكثر ذكاءً وتخصيصًا. هذه الميزات، على الرغم من عدم الكشف عن تفاصيلها الكاملة بعد، من المتوقع أن تُعزز من قدرات الهاتف في مجالات متنوعة مثل التصوير، إدارة الطاقة، والتفاعلات اليومية.</p>\n<p class=\"pIndent\">بالإضافة إلى ذلك، يضم التحديث أدوات محسنة لإمكانية الوصول، مما يجعل هواتف جالاكسي أكثر شمولاً وسهولة في الاستخدام لمجموعة واسعة من المستخدمين ذوي الاحتياجات المختلفة. هناك أيضًا المزيد من خيارات التخصيص ضمن Good Lock، مما يتيح للمستخدمين تعديل واجهتهم بشكل أعمق. وفيما يتعلق بالخصوصية والأمان، يقدم One UI 9 تحسينات هامة، بما في ذلك وضع Lockdown Mode مُحسّن يمكنه تعطيل المصادقة البيومترية بسرعة عند الحاجة، مما يوفر طبقة إضافية من الأمان في المواقف الحساسة.</p>\n<h2>الإطلاق التجريبي والمستقر: نظرة على الجدول الزمني</h2>\n<p class=\"pIndent\">بدأت سامسونج برنامج One UI 9 التجريبي لسلسلة Galaxy S26 الشهر الماضي في أسواق مختارة تشمل الهند، الولايات المتحدة، المملكة المتحدة، ألمانيا، بولندا، وكوريا الجنوبية. من المتوقع أن يصل التحديث التجريبي إلى الفلبين قريبًا، مما يدل على توسع نطاق الاختبار ليشمل مناطق جغرافية أوسع. هذا النهج التدريجي يسمح لسامسونج بجمع ملاحظات قيمة من المستخدمين في بيئات مختلفة قبل الإطلاق الرسمي.</p>\n<p class=\"pIndent\">أما بالنسبة للإطلاق المستقر، فلم يتم تحديد موعد نهائي حتى الآن، ولكن من المتوقع أن يتم إطلاق One UI 9 بشكل رسمي في شهر يوليو. يتزامن هذا الإطلاق المتوقع مع الكشف عن الجيل القادم من هواتف سامسونج جالاكسي القابلة للطي، مما يجعله حدثًا مهمًا لعشاق التكنولوجيا. هذه الإطلاقات المتزامنة غالبًا ما تُستخدم لعرض أحدث الابتكارات البرمجية والأجهزة معًا، مما يبرز التطور الشامل في منظومة سامسونج.</p>\n<p class=\"pIndent\">في الختام، يمثل مؤشر سرعة الشبكة في واجهة One UI 9 إضافة مرحب بها طال انتظارها، تعكس التزام سامسونج بالاستماع إلى مستخدميها وتلبية احتياجاتهم. هذه الميزة، إلى جانب التحسينات الأخرى في الذكاء الاصطناعي وإمكانية الوصول والخصوصية، تؤكد أن One UI 9 ليس مجرد تحديث عادي، بل هو قفزة نوعية نحو تجربة هاتف ذكي أكثر قوة وشفافية وتخصيصًا. يترقب المستخدمون حول العالم بفارغ الصبر الإطلاق المستقر للاستمتاع بجميع الميزات الجديدة التي ستقدمها سامسونج.</p></body></html>",
+      "final_word_count": 985,
+      "final_html_chars": 6851,
+      "final_content_hash": "fc2711f40fcd48cabee5e670",
+      "ai_provider_used": "gemini:gemini-2.5-flash",
+      "ai_rotation_exhausted": false,
+      "ai_openrouter_fallback_used": false,
+      "ai_quality_attempts": 3,
+      "ai_quality_status": "passed",
+      "ai_total_time_seconds": 34.08,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "internal_cache_loaded": 0,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 0,
+      "internal_cache_saved": true,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 985,
+        "warnings": []
+      },
+      "blogger_post_id": "151871868427460890",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/06/one-ui-9.html",
+      "published_at": "2026-06-13T10:45:38",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|151871868427460890|published|unknown",
+      "telegram_blogger_notified_at": "2026-06-13T10:45:38",
+      "telegram_last_notification_at": "2026-06-13T10:45:56",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_906613795781248",
+      "facebook_posted_at": "2026-06-13T10:45:45",
+      "facebook_post_type": "photo",
+      "facebook_image_status": "posted",
+      "facebook_image_path": "/home/runner/work/badrblog/badrblog/output/facebook_images/508edc2ec96d63ec.jpg",
+      "facebook_image_url": "https://www.digitaltrends.com/tachyon/2026/06/samsung-galaxy-s26-ultra-smartphone-16.jpg?resize=1200%2C630",
+      "facebook_image_used_fallback": false,
+      "facebook_caption_pattern": "apps_programs",
+      "facebook_style_used": "apps_programs",
+      "facebook_hook_generated": "الخلاصة السريعة: تكتشف سامسونج ميزة مؤشر سرعة الشبكة التي طال انتظارها في إصدار 9 التجريبي لسلسلة",
+      "facebook_structure_used": "fallback",
+      "facebook_hashtags_count": 6,
+      "facebook_cta_used": "وضعت رابط التفاصيل في أول تعليق 👇",
+      "facebook_caption_fingerprint": "5c39236acfc58d626bba",
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "الخلاصة السريعة: تكتشف سامسونج ميزة مؤشر سرعة الشبكة التي طال انتظارها في إصدار 9 التجريبي لسلسلة\n\nأخيراً: واجهة 9 من سامسونج تجلب ميزة مؤشر سرعة الشبكة\n\nتكتشف سامسونج ميزة مؤشر سرعة الشبكة التي طال انتظارها في إصدار 9 التجريبي لسلسلة\n\nوضعت رابط التفاصيل في أول تعليق 👇\n\n#ذكاء_اصطناعي #تطبيقات #خصوصية #Android  #سامسونج",
+      "facebook_comment_id": "906613795781248_1010026671499012",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_906613795781248|906613795781248_1010026671499012|unknown",
+      "telegram_facebook_notified_at": "2026-06-13T10:45:56",
+      "archived": true,
+      "archived_at": "2026-06-13T10:45:56",
+      "archive_reason": "published_to_blogger"
     },
     {
       "id": "f9b398d5adcf1fa7",
@@ -27713,6 +27958,418 @@
       "score": 0,
       "priority": "low",
       "skip_reason": "non_technical_entertainment_content"
+    },
+    {
+      "id": "3aff4cb5d24d53f8",
+      "source_url_hash": "3aff4cb5d24d53f8",
+      "canonical_url": "https://arstechnica.com/ai/2026/06/anthropic-shuts-down-fable-mythos-models-following-trump-admin-directive",
+      "title_hash": "081898fbe6641465",
+      "topic_signature": "feaf52b2be2c872292c8",
+      "title": "Anthropic shuts down Fable, Mythos models following Trump admin directive",
+      "url": "https://arstechnica.com/ai/2026/06/anthropic-shuts-down-fable-mythos-models-following-trump-admin-directive",
+      "source_name": "Ars Technica",
+      "source_url": "https://arstechnica.com",
+      "source_published_at": "2026-06-13T03:00:34Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 7.7,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-13T10:42:42",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 61,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 61,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Anthropic shuts down Fable, Mythos models following Trump admin directive",
+      "meta_description": "Commerce dept. worries that a Fable 5 \"jailbreak\" could be a national security threat.",
+      "article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/fable5-1152x648.webp",
+          "alt": "Anthropic shuts down Fable, Mythos models following Trump admin directive",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/fable5-640x360.webp",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2016/05/k.orland-13.jpg",
+          "alt": "Photo of Kyle Orland",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+          "alt": "Loading",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/fable5-1152x648.webp",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/fable5-640x360.webp",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2016/05/k.orland-13.jpg",
+          "alt": "Photo of Kyle Orland"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+          "alt": "Loading"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Anthropic completely shut off access to its Mythos 5 and Fable 5 models Friday night, just days after they were launched. The move comes after Anthropic’s receipt of a US Commerce Department directive Friday evening, subjecting the new models to export controls restricting their use anywhere outside the United States. In a message posted Friday night , Anthropic said the only way for it to ensure compliance with that government order in the immediate term “is that we must abruptly disable Fable 5 and Mythos 5 for all our customers.” Access to other Anthropic models is not affected. An Axios report cited an administration official saying that the administration is concerned by reports of a jailbreak that reportedly gets around broad classifier-based safeguards meant to block Fable 5 prompts regarding cybersecurity, chemistry, and biology. The administration reportedly requested a pause in the release of these models to gain time for the “national security apparatus” to be “hardened” against this kind of threat. That hardening could be complete “in the next few weeks,” Axios’ source suggested. In its Friday night announcement post, Anthropic said the government has only provided it with “verbal evidence of a potential narrow, non-universal jailbreak” that involves getting Fable 5 to review a specific codebase for software flaws. The company says it has only seen evidence of this kind of jailbreak being used to find “minor” and “relatively simple” software vulnerabilities, and that other publicly available models like GPT-5.5 has similar capabilities on this score. “We are complying with the government’s legal directive and are removing access to Fable 5 and Mythos 5 for all users,” Anthropic writes. “However, we disagree that the finding of a narrow potential jailbreak should be cause for recalling a commercial model deployed to hundreds of millions of people. If this standard was applied across the industry, we believe it would essentially halt all new model deployments for all frontier model providers.” Earlier this month, President Trump signed an executive order urging AI model makers to submit to voluntary government security testing. That order came after an initial signing ceremony planned for last month was abruptly postponed amid reported concerns of disagreements about it within the administration. Anthropic apologized to customers for a “disruption” that it said is the result of a “misunderstanding,” and said it will release more details about the situation in the next 24 hours.",
+      "full_article_text_chars": 2532,
+      "content_preview": "Anthropic completely shut off access to its Mythos 5 and Fable 5 models Friday night, just days after they were launched. The move comes after Anthropic’s receipt of a US Commerce Department directive Friday evening, subjecting the new models to export controls restricting their use anywhere outside the United States. In a message posted Friday night , Anthropic said the only way for it to ensure compliance with that government order in the immediate term “is that we must abruptly disable Fable 5 and Mythos 5 for all our customers.” Access to other Anthropic models is not affected. An Axios report cited an administration official saying that the administration is concerned by reports of a jailbreak that reportedly gets around broad classifier-based safeguards meant to block Fable 5 prompts regarding cybersecurity, chemistry, and biology. The administration reportedly requested a pause in the release of these models to gain time for the “national security apparatus” to be “hardened” against this kind of threat. That hardening could be complete “in the next few weeks,” Axios’ source suggested. In its Friday night announcement post, Anthropic said the government has only provided it with “verbal evidence of a potential narrow, non-universal jailbreak” that involves getting Fable 5 to review a specific codebase for software flaws. The company says it has only seen evidence of this kind of jailbreak being used to find “minor” and “relatively simple” software vulnerabilities, and that other publicly available models like GPT-5.5 has similar capabilities on this score. “We are complying with the government’s legal directive and are removing access to Fable 5 and Mythos 5 for all users,” Anthropic writes. “However, we disagree that the finding of a narrow potential jailbreak should be cause for recalling a commercial model deployed to hundreds of millions of people. If this standard was applied across the industry, we believe it would essentially halt all new model deployments for all frontier model providers.” Earlier this month, President Trump signed an executive order urging AI model makers to submit to voluntary government security testing. That order came after an initial signing ceremony planned for last month was abruptly postponed amid reported concerns of disagreements about it within the administration. Anthropic apologized to customers for a “disruption” that it said is the result of a “misunderstanding,” and said it will release more details about the situation in the next 24 hours.",
+      "content_preview_chars": 2532,
+      "content_fetched_at": "2026-06-13T10:43:01",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "78be1495ac07b843",
+      "source_url_hash": "78be1495ac07b843",
+      "canonical_url": "https://techcrunch.com/2026/06/12/anthropics-safety-warnings-may-have-just-backfired-the-government-has-pulled-the-plug-on-its-most-powerful-ai",
+      "title_hash": "ad2d4c428aca5737",
+      "topic_signature": "5b014501c255324e8e44",
+      "title": "Anthropic’s safety warnings may have just backfired — the government has pulled the plug on its most powerful AI",
+      "url": "https://techcrunch.com/2026/06/12/anthropics-safety-warnings-may-have-just-backfired-the-government-has-pulled-the-plug-on-its-most-powerful-ai",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-06-13T02:26:30Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 8.27,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-13T10:42:42",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 97,
+      "affiliate_links_removed_count": 3,
+      "removed_source_links_count": 97,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Anthropic's safety warnings may have just backfired — the government has pulled the plug on its most powerful AI | TechCrunch",
+      "meta_description": "Anthropic isn't hiding its frustration. \"We disagree that the finding of a narrow potential jailbreak should be cause for recalling a commercial model deployed to hundreds of millions of people,\" the company wrote in a blog post.",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2025/02/GettyImages-2153561878.jpg?w=1024",
+          "alt": "Anthropic's safety warnings may have just backfired — the government has pulled the plug on its most powerful AI | TechCrunch",
+          "source": "og:image_or_twitter"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2025/02/GettyImages-2153561878.jpg?w=1024",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "The U.S. government on Friday ordered Anthropic to immediately shut off access to two of its most powerful AI models — Claude Fable 5 and Claude Mythos 5 — citing national security concerns. Anthropic announced on X that it has complied, but it made clear it thinks the government got this one wrong . The directive, which Anthropic said it received on Friday at 5:21 pm ET, forces the company to disable both models for all users worldwide — not just the foreign nationals the government’s export control order was nominally aimed at. Access to Anthropic’s other models isn’t affected. Why does any of this matter? Mythos is Anthropic’s most capable AI model, one the company previewed in early April and has kept tightly restricted ever since because of what Anthropic described as its exceptional ability to find security vulnerabilities in software. According to Anthropic, Mythos identified flaws in every major operating system and web browser it tested, so rather than release it broadly, the company launched a controlled program called Project Glasswing, sharing it with roughly 50 vetted organizations, including Amazon, Apple, Google, Microsoft, and CrowdStrike, to use for defensive cybersecurity work. Fable 5, released just three days ago, was Anthropic’s answer to the obvious commercial pressure: a version of Mythos fitted with guardrails that block responses in high-risk areas like cybersecurity and biology, making it safe enough for general release, the company argued. It was immediately the most capable AI model available to the public, according to benchmark tests from Vals AI, a company that tracks AI tech performance. The government’s directive is framed as an export control action, restricting foreign national access to the models. But in a lengthy blog post , Anthropic says its understanding is that the underlying concern is a claimed jailbreak of Fable 5. So far, the company says, the government has provided only verbal evidence of a “potential narrow, non-universal jailbreak” — one that, as Anthropic describes it, amounts to prompting the model to read a specific codebase and identify software flaws. And by the way, adds the company, it’s a “level of capability” that’s already widely available in other publicly accessible models, including OpenAI’s GPT-5.5. It’s also used routinely by cybersecurity professionals for defensive purposes, says Anthropic. Anthropic’s broader argument is that its strongest safeguards operate through independent classifier systems that function separately from the model itself, meaning that even if someone convinces Fable to keep talking past a refusal, the underlying protections against the most dangerous outputs remain in place. Clearly, none of that was enough to stop the government from acting, and Anthropic isn’t hiding its frustration. “We disagree that the finding of a narrow potential jailbreak should be cause for recalling a commercial model deployed to hundreds of millions of people,” the company wrote. “If this standard was applied across the industry, we believe it would essentially halt all new model deployments for all frontier model providers.” Anthropic is widely expected to pursue an IPO this year and has staked much of its public identity on being the safety-conscious alternative to its rivals. The irony isn’t lost on observers that the very caution Anthropic displayed in restricting Mythos — which it promoted as a model so dangerous it couldn’t be released publicly — has now apparently attracted exactly the kind of government scrutiny that could disrupt its business most. OpenAI’s Sam Altman must be enjoying this, at least. In April, he told podcaster Ashlee Vance that Anthropic’s handling of Mythos amounted to “fear-based marketing.” “It is clearly incredible marketing to say, ‘We have built a bomb. We were about to drop it on your head. We will sell you a bomb shelter for $100 million,’” Altman said. Altman, whose company is also widely expected to pursue an IPO as soon as possible, didn’t predict a government shutdown, but he identified something that has come back to bite Anthropic for now, which is that when you spend months telling the world your AI is uniquely dangerous, the world — the U.S. government included — tends to listen. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Editor in Chief & General Manager Get an inside look at what it takes to scale and succeed from leaders at Mach Industries, Founders Fund, and Shinkei Systems. Through candid fireside chats and high-impact networking, you’ll walk away with valuable insights and new connections. Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world Marina Temkin Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable Lorenzo Franceschi-Bicchierai Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable Google just fired a warning shot in the AI subscription price wars Lucas Ropek Connie Loizos Google just fired a warning shot in the AI subscription price wars WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Morgan Little Aisha Malik WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Anthropic’s Claude Fable 5 is a version of Mythos the public can access today Rebecca Bellan Anthropic’s Claude Fable 5 is a version of Mythos the public can access today It’s not FAANG anymore. It’s MANGOS. Julie Bort It’s not FAANG anymore. It’s MANGOS. Microsoft’s open source tools were hacked to steal passwords of AI developers Zack Whittaker Microsoft’s open source tools were hacked to steal passwords of AI developers",
+      "full_article_text_chars": 5857,
+      "content_preview": "The U.S. government on Friday ordered Anthropic to immediately shut off access to two of its most powerful AI models — Claude Fable 5 and Claude Mythos 5 — citing national security concerns. Anthropic announced on X that it has complied, but it made clear it thinks the government got this one wrong . The directive, which Anthropic said it received on Friday at 5:21 pm ET, forces the company to disable both models for all users worldwide — not just the foreign nationals the government’s export control order was nominally aimed at. Access to Anthropic’s other models isn’t affected. Why does any of this matter? Mythos is Anthropic’s most capable AI model, one the company previewed in early April and has kept tightly restricted ever since because of what Anthropic described as its exceptional ability to find security vulnerabilities in software. According to Anthropic, Mythos identified flaws in every major operating system and web browser it tested, so rather than release it broadly, the company launched a controlled program called Project Glasswing, sharing it with roughly 50 vetted organizations, including Amazon, Apple, Google, Microsoft, and CrowdStrike, to use for defensive cybersecurity work. Fable 5, released just three days ago, was Anthropic’s answer to the obvious commercial pressure: a version of Mythos fitted with guardrails that block responses in high-risk areas like cybersecurity and biology, making it safe enough for general release, the company argued. It was immediately the most capable AI model available to the public, according to benchmark tests from Vals AI, a company that tracks AI tech performance. The government’s directive is framed as an export control action, restricting foreign national access to the models. But in a lengthy blog post , Anthropic says its understanding is that the underlying concern is a claimed jailbreak of Fable 5. So far, the company says, the government has provided only verbal evidence of a “potential narrow, non-universal jailbreak” — one that, as Anthropic describes it, amounts to prompting the model to read a specific codebase and identify software flaws. And by the way, adds the company, it’s a “level of capability” that’s already widely available in other publicly accessible models, including OpenAI’s GPT-5.5. It’s also used routinely by cybersecurity professionals for defensive purposes, says Anthropic. Anthropic’s broader argument is that its strongest safeguards operate through independent classifier systems that function separately from the model itself, meaning that even if someone convinces Fable to keep talking past a refusal, the underlying protections against the most dangerous outputs remain in place. Clearly, none of that was enough to stop the government from acting, and Anthropic isn’t hiding its frustration. “We disagree that the finding of a narrow potential jailbreak should be cause for recalling a commercial model deployed to hundreds of millions of people,” the company wrote. “If this standard was applied across the industry, we believe it would essentially halt all new model deployments for all frontier model providers.” Anthropic is widely expected to pursue an IPO this year and has staked much of its public identity on being the safety-conscious alternative to its rivals. The irony isn’t lost on observers that the very caution Anthropic displayed in restricting Mythos — which it promoted as a model so dangerous it couldn’t be released publicly — has now apparently attracted exactly the kind of government scrutiny that could disrupt its business most. OpenAI’s Sam Altman must be enjoying this, at least. In April, he told podcaster Ashlee Vance that Anthropic’s handling of Mythos amounted to “fear-based marketing.” “It is clearly incredible marketing to say, ‘We have built a bomb. We were about to drop it on your head. We will sell you a bomb shelter for $100 million,’” Altman said. Altman, whose company is also widely expected to pursue an IPO as soon as possible, didn’t predict a government shutdown, but he identified something that has come back to bite Anthropic for now, which is that when you spend months telling the world your AI is uniquely dangerous, the world — the U.S. government included — tends to listen. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Editor in Chief & General Manager Get an inside look at what it takes to scale and succeed from leaders at Mach Industries, Founders Fund, and Shinkei Systems. Through candid fireside chats and high-impact networking, you’ll walk away with valuable insights and new connections. Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world Marina Temkin Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable Lorenzo Franceschi-Bicchierai Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable Google just fired a warning shot in the AI subscription price wars Lucas Ropek Connie Loizos Google just fired a warning shot in the AI subscription price wars WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Morgan Little Aisha Malik WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Anthropic’s Claude Fable 5 is a version of Mythos the public can access today Rebecca Bellan Anthropic’s Claude Fable 5 is a version of Mythos the public can access today It’s not FAANG anymore. It’s MANGOS. Julie Bort It’s not FAANG anymore. It’s MANGOS. Microsoft’s open source tools were hacked to steal passwords of AI developers Zack Whittaker Microsoft’s open source tools were hacked to steal passwords of AI developers",
+      "content_preview_chars": 5857,
+      "content_fetched_at": "2026-06-13T10:42:46",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "5141670a554f7c5c",
+      "source_url_hash": "5141670a554f7c5c",
+      "canonical_url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it",
+      "title_hash": "793c19c4ca1d96fe",
+      "topic_signature": "a915bbffa28865ef7184",
+      "title": "Meta’s months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it",
+      "url": "https://techcrunch.com/2026/06/12/metas-months-old-ai-unit-is-a-soul-crushing-gulag-say-the-engineers-stuck-inside-it",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-06-12T23:00:54Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 11.7,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-13T10:42:42",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 99,
+      "affiliate_links_removed_count": 3,
+      "removed_source_links_count": 99,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Meta's months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it | TechCrunch",
+      "meta_description": "A new report suggests the unit, which employs 6,500 people, is on the verge of revolt.",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2025/07/GettyImages-2194278734.jpg?w=1024",
+          "alt": "Meta's months-old AI unit is a soul-crushing gulag, say the engineers stuck inside it | TechCrunch",
+          "source": "og:image_or_twitter"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2025/07/GettyImages-2194278734.jpg?w=1024",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "Anyone who works at Meta or knows anyone who works at Meta will tell you the same thing: It is not a happy place, particularly given the seemingly endless layoffs the company has executed over the last few years — cuts that have only accelerated as the company funnels billions into AI. Now, a new report in Wired suggests the company’s Applied AI team is on the verge of revolt. The drama kicked off when someone hijacked a livestreamed, employee-only presentation this week with an expletive-laden meltdown, demanding that attendees tell a senior Meta AI executive that he was “a piece of sh*t.” One presenter reportedly covered their face with their hands. That outburst, Wired reports, reflects simmering rage inside the three-month-old unit of roughly 6,500 engineers and product managers who have been tasked with supporting the company’s AI research ambitions. A report last month in Business Insider shed light on how many employees originally learned they’d be moved into the group — through a surprise email, a process that one self-described draftee described later on Reddit as “ quite random .” According to an internal announcement reviewed by BI, the reason they were enlisted is that Meta’s AI models still lacked the knowledge to outperform humans at technical tasks like coding. “For agents to understand how people actually complete everyday tasks using computers, we need to train our models on real examples,” the announcement read. In a leaked audio recording from an internal meeting that month, CEO Mark Zuckerberg offered his reasoning for drafting employees rather than outside contractors. Alexandr Wang — who sold his data-labeling startup Scale AI to Meta for $14.3 billion before taking the role of chief AI officer and heading up Meta Superintelligence Labs — knows the data-labeling world well, Zuckerberg said. And candidly, the average Meta employee has “significantly higher” intelligence than third-party contractors, he added, making them the better choice. Employees describe being forced into the group with no real choice: join or quit. Many call themselves “draftees.” Their assigned work? Generating puzzles and coding problems to train AI models. “It’s literally the gulag,” one employee told Wired. “Most people find the work soul-crushing,” said another. It’s not just the Applied AI group where morale is lousy. More than 1,600 Meta employees company-wide have reportedly signed a petition protesting a program that monitors their clicks and keystrokes for AI training data. The mood across the company is dark enough that Meta’s chief product officer, Chris Cox, felt compelled to address the “brutal” environment on a call with employees this week, said Wired. TechCrunch has reached out to Meta for comment. According to earlier reports, the Applied AI team is led by Maher Saba, a 12-year veteran of Meta who was previously a vice president in its Reality Labs division, the division that burned through $83 billion on the metaverse before Meta moved on to AI. The new organization reports up to Meta CTO Andrew Bosworth. Originally, the unit was structured in such a way that up to 50 employees reported to one manager. Zuckerberg, for his part, reportedly addressed the broader situation in an internal memo Friday, acknowledging that recent changes had “caused distress” and admitting the company had made mistakes that it plans to address. According to Wired, he added in his memo that “Meta’s north star is to be the best place for the most talented people in the world to make an impact.” When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Editor in Chief & General Manager Get an inside look at what it takes to scale and succeed from leaders at Mach Industries, Founders Fund, and Shinkei Systems. Through candid fireside chats and high-impact networking, you’ll walk away with valuable insights and new connections. Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world Marina Temkin Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable Lorenzo Franceschi-Bicchierai Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable Google just fired a warning shot in the AI subscription price wars Lucas Ropek Connie Loizos Google just fired a warning shot in the AI subscription price wars WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Morgan Little Aisha Malik WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Anthropic’s Claude Fable 5 is a version of Mythos the public can access today Rebecca Bellan Anthropic’s Claude Fable 5 is a version of Mythos the public can access today It’s not FAANG anymore. It’s MANGOS. Julie Bort It’s not FAANG anymore. It’s MANGOS. Microsoft’s open source tools were hacked to steal passwords of AI developers Zack Whittaker Microsoft’s open source tools were hacked to steal passwords of AI developers",
+      "full_article_text_chars": 5135,
+      "content_preview": "Anyone who works at Meta or knows anyone who works at Meta will tell you the same thing: It is not a happy place, particularly given the seemingly endless layoffs the company has executed over the last few years — cuts that have only accelerated as the company funnels billions into AI. Now, a new report in Wired suggests the company’s Applied AI team is on the verge of revolt. The drama kicked off when someone hijacked a livestreamed, employee-only presentation this week with an expletive-laden meltdown, demanding that attendees tell a senior Meta AI executive that he was “a piece of sh*t.” One presenter reportedly covered their face with their hands. That outburst, Wired reports, reflects simmering rage inside the three-month-old unit of roughly 6,500 engineers and product managers who have been tasked with supporting the company’s AI research ambitions. A report last month in Business Insider shed light on how many employees originally learned they’d be moved into the group — through a surprise email, a process that one self-described draftee described later on Reddit as “ quite random .” According to an internal announcement reviewed by BI, the reason they were enlisted is that Meta’s AI models still lacked the knowledge to outperform humans at technical tasks like coding. “For agents to understand how people actually complete everyday tasks using computers, we need to train our models on real examples,” the announcement read. In a leaked audio recording from an internal meeting that month, CEO Mark Zuckerberg offered his reasoning for drafting employees rather than outside contractors. Alexandr Wang — who sold his data-labeling startup Scale AI to Meta for $14.3 billion before taking the role of chief AI officer and heading up Meta Superintelligence Labs — knows the data-labeling world well, Zuckerberg said. And candidly, the average Meta employee has “significantly higher” intelligence than third-party contractors, he added, making them the better choice. Employees describe being forced into the group with no real choice: join or quit. Many call themselves “draftees.” Their assigned work? Generating puzzles and coding problems to train AI models. “It’s literally the gulag,” one employee told Wired. “Most people find the work soul-crushing,” said another. It’s not just the Applied AI group where morale is lousy. More than 1,600 Meta employees company-wide have reportedly signed a petition protesting a program that monitors their clicks and keystrokes for AI training data. The mood across the company is dark enough that Meta’s chief product officer, Chris Cox, felt compelled to address the “brutal” environment on a call with employees this week, said Wired. TechCrunch has reached out to Meta for comment. According to earlier reports, the Applied AI team is led by Maher Saba, a 12-year veteran of Meta who was previously a vice president in its Reality Labs division, the division that burned through $83 billion on the metaverse before Meta moved on to AI. The new organization reports up to Meta CTO Andrew Bosworth. Originally, the unit was structured in such a way that up to 50 employees reported to one manager. Zuckerberg, for his part, reportedly addressed the broader situation in an internal memo Friday, acknowledging that recent changes had “caused distress” and admitting the company had made mistakes that it plans to address. According to Wired, he added in his memo that “Meta’s north star is to be the best place for the most talented people in the world to make an impact.” When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Editor in Chief & General Manager Get an inside look at what it takes to scale and succeed from leaders at Mach Industries, Founders Fund, and Shinkei Systems. Through candid fireside chats and high-impact networking, you’ll walk away with valuable insights and new connections. Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world Marina Temkin Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable Lorenzo Franceschi-Bicchierai Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable Google just fired a warning shot in the AI subscription price wars Lucas Ropek Connie Loizos Google just fired a warning shot in the AI subscription price wars WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Morgan Little Aisha Malik WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Anthropic’s Claude Fable 5 is a version of Mythos the public can access today Rebecca Bellan Anthropic’s Claude Fable 5 is a version of Mythos the public can access today It’s not FAANG anymore. It’s MANGOS. Julie Bort It’s not FAANG anymore. It’s MANGOS. Microsoft’s open source tools were hacked to steal passwords of AI developers Zack Whittaker Microsoft’s open source tools were hacked to steal passwords of AI developers",
+      "content_preview_chars": 5135,
+      "content_fetched_at": "2026-06-13T10:42:53",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "91cb799d0e5ba133",
+      "source_url_hash": "91cb799d0e5ba133",
+      "canonical_url": "https://arstechnica.com/space/2026/06/spacex-is-now-a-public-company-valued-for-its-ai-potential-so-what-comes-next",
+      "title_hash": "1e6e13cad025f298",
+      "topic_signature": "52956b810598dbb52994",
+      "title": "SpaceX is now a public company valued for its AI potential, so what comes next?",
+      "url": "https://arstechnica.com/space/2026/06/spacex-is-now-a-public-company-valued-for-its-ai-potential-so-what-comes-next",
+      "source_name": "Ars Technica",
+      "source_url": "https://arstechnica.com",
+      "source_published_at": "2026-06-12T22:20:06Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 12.38,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-13T10:42:42",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 60,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 60,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "SpaceX is now a public company valued for its AI potential, so what comes next?",
+      "meta_description": "As of today, SpaceX is owned by investors who will want to see it make money.",
+      "article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/GettyImages-2281248250-1024x648.jpg",
+          "alt": "SpaceX is now a public company valued for its AI potential, so what comes next?",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/GettyImages-2281248250-640x427.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2016/05/e.berger-45959.jpg",
+          "alt": "Photo of Eric Berger",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+          "alt": "Loading",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/GettyImages-2281248250-1024x648.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/GettyImages-2281248250-640x427.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2016/05/e.berger-45959.jpg",
+          "alt": "Photo of Eric Berger"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+          "alt": "Loading"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Space Exploration Technologies, better known simply as SpaceX, became a publicly traded company on Friday nearly a quarter of a century after it was founded. The company began trading on the Nasdaq exchange in New York City at $135 a share, valuing SpaceX at nearly $1.8 trillion. By the end of the trading day the company’s shares were selling at $160.95, a respectable increase of more than 19 percent. On paper, SpaceX founder Elon Musk became the world’s first trillionaire, with his personal stake in the company valued at more than $700 billion. Because of the company’s stock options plan, thousands of current and former employees became overnight millionaires. Employees at SpaceX have worked remarkably hard over the last 24 years, and now they will be richly compensated for having done so. SpaceX now stands as one of a handful of the most valuable companies in the world. Should it be? There is broad disagreement about whether SpaceX is fool’s gold with its sky-high valuation, or represents a valuable opportunity to finally own a piece of a dominant space company that could some day command the business of data centers in orbit. SpaceX is now largely an AI company One thing is clear: SpaceX is now subject to significant public disclosures, and it will conduct much more of its business in the public eye. Although Musk retains complete autonomy in terms of ownership and voting rights, he will now be beholden to shareholders in a very important way: the price of his company’s stock. Most shareholders bought SpaceX stock today not to be part of a the company’s long-term plans to settle Mars, or to help NASA land humans on the Moon. Certainly, some space enthusiasts did. However, most people invest in stocks to make money. As SpaceX made clear in its S-1 document filed in May, however, the company’s value does not lie in its “space-enabled solutions” or its Starlink internet constellation. As part of its “total addressable market,” the company views these as comprising less than 7 percent of its value. Rather, Musk and SpaceX see the majority of its value in providing AI services, mostly from space, and primarily for enterprise applications. If investors agree that’s where the vast majority of the company’s profit lies, it is where they will want to see SpaceX put its time and resources. So as of today, SpaceX is owned by investors who largely want to see it make money; to reach its enormous valuation, it must make that money through orbital data centers. This is a sobering thought for NASA, which was the company’s most important backer during its early years when bankruptcy was never too far away. Even a decade ago, a majority of the value of SpaceX’s contracts were coming from NASA and other US government entities. Since then, however, revenues from Starlink have begun to significantly outstrip NASA’s contracts, and this will likely become even more true in the future. How much of a priority is Artemis? NASA relies on SpaceX for so much right now: flying its astronauts and most important science payloads into space, and playing an important part in the Artemis campaign. But the $2.9 billion contract NASA signed with SpaceX in 2021 to build a Human Landing System for the Moon program is now regularly dwarfed by the AI compute contracts SpaceX is signing with companies like Anthropic and Google, which are worth tens of billions of dollars. For SpaceX, the money (at least in the near term) is in AI—it is not in NASA government contracts. Yet NASA is desperate for SpaceX to begin delivering on critical milestones for the Artemis Program in the coming months and develop the capacity to land humans on the Moon. Key to all of the work for NASA is the massive Starship rocket, and how SpaceX will prioritize its further development. The large rocket appears to be close to reaching operational status, with the ability to put about 100 metric tons into low-Earth orbit. Assuming that happens in the coming months, how will SpaceX use its Starship launches? Will it spend its energies on preparing and launching a critical refueling demonstration in orbit, which will require back-to-back Starship launches? Will it fill up a lander prototype next year, which will mean a dozen or more tanker flights simply to enable an uncrewed lunar landing test for NASA? Or will the company focus on putting profit-making Starlink satellites into orbit, followed by critical tests of data center satellites? In short, will it follow the money? It’s a valid question, because investors will be watching closely.",
+      "full_article_text_chars": 4554,
+      "content_preview": "Space Exploration Technologies, better known simply as SpaceX, became a publicly traded company on Friday nearly a quarter of a century after it was founded. The company began trading on the Nasdaq exchange in New York City at $135 a share, valuing SpaceX at nearly $1.8 trillion. By the end of the trading day the company’s shares were selling at $160.95, a respectable increase of more than 19 percent. On paper, SpaceX founder Elon Musk became the world’s first trillionaire, with his personal stake in the company valued at more than $700 billion. Because of the company’s stock options plan, thousands of current and former employees became overnight millionaires. Employees at SpaceX have worked remarkably hard over the last 24 years, and now they will be richly compensated for having done so. SpaceX now stands as one of a handful of the most valuable companies in the world. Should it be? There is broad disagreement about whether SpaceX is fool’s gold with its sky-high valuation, or represents a valuable opportunity to finally own a piece of a dominant space company that could some day command the business of data centers in orbit. SpaceX is now largely an AI company One thing is clear: SpaceX is now subject to significant public disclosures, and it will conduct much more of its business in the public eye. Although Musk retains complete autonomy in terms of ownership and voting rights, he will now be beholden to shareholders in a very important way: the price of his company’s stock. Most shareholders bought SpaceX stock today not to be part of a the company’s long-term plans to settle Mars, or to help NASA land humans on the Moon. Certainly, some space enthusiasts did. However, most people invest in stocks to make money. As SpaceX made clear in its S-1 document filed in May, however, the company’s value does not lie in its “space-enabled solutions” or its Starlink internet constellation. As part of its “total addressable market,” the company views these as comprising less than 7 percent of its value. Rather, Musk and SpaceX see the majority of its value in providing AI services, mostly from space, and primarily for enterprise applications. If investors agree that’s where the vast majority of the company’s profit lies, it is where they will want to see SpaceX put its time and resources. So as of today, SpaceX is owned by investors who largely want to see it make money; to reach its enormous valuation, it must make that money through orbital data centers. This is a sobering thought for NASA, which was the company’s most important backer during its early years when bankruptcy was never too far away. Even a decade ago, a majority of the value of SpaceX’s contracts were coming from NASA and other US government entities. Since then, however, revenues from Starlink have begun to significantly outstrip NASA’s contracts, and this will likely become even more true in the future. How much of a priority is Artemis? NASA relies on SpaceX for so much right now: flying its astronauts and most important science payloads into space, and playing an important part in the Artemis campaign. But the $2.9 billion contract NASA signed with SpaceX in 2021 to build a Human Landing System for the Moon program is now regularly dwarfed by the AI compute contracts SpaceX is signing with companies like Anthropic and Google, which are worth tens of billions of dollars. For SpaceX, the money (at least in the near term) is in AI—it is not in NASA government contracts. Yet NASA is desperate for SpaceX to begin delivering on critical milestones for the Artemis Program in the coming months and develop the capacity to land humans on the Moon. Key to all of the work for NASA is the massive Starship rocket, and how SpaceX will prioritize its further development. The large rocket appears to be close to reaching operational status, with the ability to put about 100 metric tons into low-Earth orbit. Assuming that happens in the coming months, how will SpaceX use its Starship launches? Will it spend its energies on preparing and launching a critical refueling demonstration in orbit, which will require back-to-back Starship launches? Will it fill up a lander prototype next year, which will mean a dozen or more tanker flights simply to enable an uncrewed lunar landing test for NASA? Or will the company focus on putting profit-making Starlink satellites into orbit, followed by critical tests of data center satellites? In short, will it follow the money? It’s a valid question, because investors will be watching closely.",
+      "content_preview_chars": 4554,
+      "content_fetched_at": "2026-06-13T10:42:59",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "ba1d055c7d3442e2",
+      "source_url_hash": "ba1d055c7d3442e2",
+      "canonical_url": "https://www.wired.com/story/mark-zuckerberg-meta-employee-meeting-interrupt-ai",
+      "title_hash": "8cd8432b532b1c84",
+      "topic_signature": "374b0833155c48ad13ea",
+      "title": "‘Tell Him He’s a Piece of Shit’: Meta’s New AI Unit Is a Total Mess",
+      "url": "https://www.wired.com/story/mark-zuckerberg-meta-employee-meeting-interrupt-ai",
+      "source_name": "WIRED",
+      "source_url": "https://www.wired.com",
+      "source_published_at": "2026-06-12T21:16:25.036000Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 13.44,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-13T10:42:42",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 103,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 103,
+      "enrichment_fallback_used": "jsonld_article_body",
+      "fetched_title": "‘Tell Him He’s a Piece of Shit’: Meta’s New AI Unit Is a Total Mess",
+      "meta_description": "Executives and employees alike are struggling with Meta’s chaotic AI strategy, according to sources and internal discussions reviewed by WIRED.",
+      "article_images": [
+        {
+          "url": "https://media.wired.com/photos/6a2c555e0473de232b255ae6/191:100/w_1280,c_limit/Meta-Employee-Interrupts-AI-Training-Business-2261841192.jpg",
+          "alt": "‘Tell Him He’s a Piece of Shit’: Meta’s New AI Unit Is a Total Mess",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://media.wired.com/photos/6a2c555e0473de232b255ae6/1:1/w_2560%2Cc_limit/Meta-Employee-Interrupts-AI-Training-Business-2261841192.jpg",
+          "alt": "Mark Zuckerberg chief executive officer of Meta Platforms Inc. exits Los Angeles Superior Court in Los Angeles...",
+          "source": "article_content"
+        },
+        {
+          "url": "https://media.wired.com/photos/645addcb0a0f9ed43773ef84/1:1/w_90%2Cc_limit/Paresh-Dave-4N9A0042.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://media.wired.com/photos/6a2aad442915c6817b50fff5/16:9/w_640%2Cc_limit/undefined",
+          "alt": "Here’s How AI Agents Can Protect EV Chargers",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://media.wired.com/photos/6a2c555e0473de232b255ae6/191:100/w_1280,c_limit/Meta-Employee-Interrupts-AI-Training-Business-2261841192.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://media.wired.com/photos/6a2c555e0473de232b255ae6/1:1/w_2560%2Cc_limit/Meta-Employee-Interrupts-AI-Training-Business-2261841192.jpg",
+          "alt": "Mark Zuckerberg chief executive officer of Meta Platforms Inc. exits Los Angeles Superior Court in Los Angeles..."
+        },
+        {
+          "url": "https://media.wired.com/photos/645addcb0a0f9ed43773ef84/1:1/w_90%2Cc_limit/Paresh-Dave-4N9A0042.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://media.wired.com/photos/6a2aad442915c6817b50fff5/16:9/w_640%2Cc_limit/undefined",
+          "alt": "Here’s How AI Agents Can Protect EV Chargers"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "One of the presenters covered their face with their hands, according to a witness. (The speaker could not be reached for comment, and the meeting’s two leaders moved on with their technical talk after asking everyone to mute, though employees commented on the stream about the “spicy” start.) The incident, which took place on a call open to thousands of employees, reflects growing frustration inside the company’s Applied AI team, which was formed in March to support the work of AI researchers at Meta Superintelligence Labs. Three current employees tell WIRED there is widespread dissatisfaction with how Meta assembled the unit of about 6,500 engineers and product managers and the drudgework they allege they have been assigned to improve AI models. Each spoke on the condition of anonymity because they were not authorized to speak to the media. “It's literally the gulag,” one of the employees claims. “You have zero purpose in life all of a sudden, you barely interact with anyone, you just have these tasks every week.\" Another employee describes some of the tasks—generating puzzles to test how reliably AI models from Meta and other companies can solve them—as easy compared to the software development work they had been doing previously. But the new projects feel menial, and “almost all” employees seem unhappy, they say. “Most people find the work soul-crushing,” the third employee says. Meta declined to comment for this story. Got a Tip? Are you a current or former Meta employee who wants to talk about what's happening? We'd like to hear from you. Using a nonwork phone or computer, contact the reporters securely on Signal at peard33.24 and zoeschiffer.87. Applied AI isn’t the only unit where tensions are boiling over and contributing to what workers describe as record-low morale. The company’s AI-focused restructuring, which included 10 percent of the company, or 8,000 employees, being let go last month has generated extra work and stress throughout several divisions, including data center engineering and Instagram, several current and former employees tell WIRED. Across the company, more than 1,600 employees have signed a petition demanding that Meta stop a recently launched initiative to monitor US employees’ clicks and keystrokes to generate AI training data. (The company has scaled back the program slightly, allowing employees to pause data collection for up to 30 minutes and request specific exemptions). During a meeting this week open to all employees at Instagram, Meta chief product officer Chris Cox addressed the “difficult” and “brutal” environment created by the “insanity of this company” in the past few months, according to a recording heard by WIRED. Cox applauded Instagram employees for launching features and serving around 2 billion users amid what he compared to “running a marathon in the middle of a hailstorm and then, like, your teammate gets replaced and then we’re recording you.” “It’s like what the fuck,” he said, drawing laughs, before repeating himself. “It is like what the fuck.” Cox said he needed to reckon with how he and other leaders could “get in touch with the company again” and “not be overearnest” about the power of AI. “It is neither god, nor is it the devil,” he said. “And it’s nowhere near as good as you think it is, and it is nowhere near as bad as you think it is. And it changes every week … and it doesn’t know what day of the week it is.” In an internal memo on Friday seen by WIRED, Meta CEO Mark Zuckerberg acknowledged that recent organizational changes had caused distress across Meta. “Given the complexity of these changes, we’ve made mistakes and will almost certainly make more,” he wrote. “As we navigate this period, I’m also focused on providing as much stability going forward as possible.” Zuckerberg reiterated a vow to not carry out additional mass layoffs this year. He introduced a plan to limit the number of employees per manager, which on some teams, such as Applied AI, had deliberately ballooned to a ratio of 50 to one. Budgets for team events would increase, he said, and a large hackathon planned for next month could also help bring the company together. By the end of the year, employees in many locations would have assigned desks again, the CEO wrote. “Talented People” Zuckerberg’s memo also addressed the allegedly dismal situation in Applied AI directly, referring to the unit by its acronym. He suggested the team was a waypoint, not a destination. “Work like AAI is critical to advancing our models and it lets very talented people contribute to those efforts while we create other roles they can contribute to around Meta over the coming months as well,” he wrote. Engineers selected for the unit have no choice but to join or leave the company, an unusual requirement for highly valued technical employees in Silicon Valley. That’s led some members of Applied AI to describe themselves as “draftees.” The organization has grown in batches since early April. “It’s crazy to watch people experience the shock of it as each wave comes in,” an early member of Applied AI says. Some employees are being asked to finish two tasks per week. These involve generating complex software coding problems to help AI scientists better train and evaluate the performance of the latest frontier models. Some of the work is meant to help develop AI agents that generate software or other outputs. One worker describes the assignment as “mechanical and not creative,” and certainly “not using their full skill set and knowledge.” They feel they were hired to develop social media apps for billions of people, but now find themselves assembling data for hundreds of AI scientists to feed to computer chips. Meta released pioneering open-weight AI models three years ago, but has had mixed results with subsequent releases. Applied AI is among several expensive initiatives Zuckerberg has spun up in hopes that the company can better compete in the growing market for AI services. Zuckerberg noted in his memo that, unlike some other AI labs, “automating work” was not Meta’s primary focus. “The products we’ll build will range from much more personalized Instagram and Facebook experiences and glasses that help you throughout the day to better tools for small businesses to thrive and create jobs, and personal superintelligence agents that understand your goals and work 24/7 on your behalf to help in the ways you want,” he wrote. To get there, he said, “Meta’s north star is to be the best place for the most talented people in the world to make an impact.”",
+      "full_article_text_chars": 6572,
+      "content_preview": "One of the presenters covered their face with their hands, according to a witness. (The speaker could not be reached for comment, and the meeting’s two leaders moved on with their technical talk after asking everyone to mute, though employees commented on the stream about the “spicy” start.) The incident, which took place on a call open to thousands of employees, reflects growing frustration inside the company’s Applied AI team, which was formed in March to support the work of AI researchers at Meta Superintelligence Labs. Three current employees tell WIRED there is widespread dissatisfaction with how Meta assembled the unit of about 6,500 engineers and product managers and the drudgework they allege they have been assigned to improve AI models. Each spoke on the condition of anonymity because they were not authorized to speak to the media. “It's literally the gulag,” one of the employees claims. “You have zero purpose in life all of a sudden, you barely interact with anyone, you just have these tasks every week.\" Another employee describes some of the tasks—generating puzzles to test how reliably AI models from Meta and other companies can solve them—as easy compared to the software development work they had been doing previously. But the new projects feel menial, and “almost all” employees seem unhappy, they say. “Most people find the work soul-crushing,” the third employee says. Meta declined to comment for this story. Got a Tip? Are you a current or former Meta employee who wants to talk about what's happening? We'd like to hear from you. Using a nonwork phone or computer, contact the reporters securely on Signal at peard33.24 and zoeschiffer.87. Applied AI isn’t the only unit where tensions are boiling over and contributing to what workers describe as record-low morale. The company’s AI-focused restructuring, which included 10 percent of the company, or 8,000 employees, being let go last month has generated extra work and stress throughout several divisions, including data center engineering and Instagram, several current and former employees tell WIRED. Across the company, more than 1,600 employees have signed a petition demanding that Meta stop a recently launched initiative to monitor US employees’ clicks and keystrokes to generate AI training data. (The company has scaled back the program slightly, allowing employees to pause data collection for up to 30 minutes and request specific exemptions). During a meeting this week open to all employees at Instagram, Meta chief product officer Chris Cox addressed the “difficult” and “brutal” environment created by the “insanity of this company” in the past few months, according to a recording heard by WIRED. Cox applauded Instagram employees for launching features and serving around 2 billion users amid what he compared to “running a marathon in the middle of a hailstorm and then, like, your teammate gets replaced and then we’re recording you.” “It’s like what the fuck,” he said, drawing laughs, before repeating himself. “It is like what the fuck.” Cox said he needed to reckon with how he and other leaders could “get in touch with the company again” and “not be overearnest” about the power of AI. “It is neither god, nor is it the devil,” he said. “And it’s nowhere near as good as you think it is, and it is nowhere near as bad as you think it is. And it changes every week … and it doesn’t know what day of the week it is.” In an internal memo on Friday seen by WIRED, Meta CEO Mark Zuckerberg acknowledged that recent organizational changes had caused distress across Meta. “Given the complexity of these changes, we’ve made mistakes and will almost certainly make more,” he wrote. “As we navigate this period, I’m also focused on providing as much stability going forward as possible.” Zuckerberg reiterated a vow to not carry out additional mass layoffs this year. He introduced a plan to limit the number of employees per manager, which on some teams, such as Applied AI, had deliberately ballooned to a ratio of 50 to one. Budgets for team events would increase, he said, and a large hackathon planned for next month could also help bring the company together. By the end of the year, employees in many locations would have assigned desks again, the CEO wrote. “Talented People” Zuckerberg’s memo also addressed the allegedly dismal situation in Applied AI directly, referring to the unit by its acronym. He suggested the team was a waypoint, not a destination. “Work like AAI is critical to advancing our models and it lets very talented people contribute to those efforts while we create other roles they can contribute to around Meta over the coming months as well,” he wrote. Engineers selected for the unit have no choice but to join or leave the company, an unusual requirement for highly valued technical employees in Silicon Valley. That’s led some members of Applied AI to describe themselves as “draftees.” The organization has grown in batches since early April. “It’s crazy to watch people experience the shock of it as each wave comes in,” an early member of Applied AI says. Some employees are being asked to finish two tasks per week. These involve generating complex software coding problems to help AI scientists better train and evaluate the performance of the latest frontier models. Some of the work is meant to help develop AI agents that generate software or other outputs. One worker describes the assignment as “mechanical and not creative,” and certainly “not using their full skill set and knowledge.” They feel they were hired to develop social media apps for billions of people, but now find themselves assembling data for hundreds of AI scientists to feed to computer chips. Meta released pioneering open-weight AI models three years ago, but has had mixed results with subsequent releases. Applied AI is among several expensive initiatives Zuckerberg has spun up in hopes that the company can better compete in the growing market for AI services. Zuckerberg noted in his memo that, unlike some other AI labs, “automating work” was not Meta’s primary focus. “The products we’ll build will range from much more personalized Instagram and Facebook experiences and glasses that help you throughout the day to better tools for small businesses to thrive and create jobs, and personal superintelligence agents that understand your goals and work 24/7 on your behalf to help in the ways you want,” he wrote. To get there, he said, “Meta’s north star is to be the best place for the most talented people in the world to make an impact.”",
+      "content_preview_chars": 6572,
+      "content_fetched_at": "2026-06-13T10:42:57",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "751a3efded987dfa",
+      "source_url_hash": "751a3efded987dfa",
+      "canonical_url": "https://techcrunch.com/video/spacex-anthropic-and-openais-hot-ipo-summer",
+      "title_hash": "c36455dfa57d4821",
+      "topic_signature": "2cf2ea626d72c7c7745b",
+      "title": "SpaceX, Anthropic, and OpenAI’s hot IPO summer",
+      "url": "https://techcrunch.com/video/spacex-anthropic-and-openais-hot-ipo-summer",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-06-12T16:23:25Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 18.32,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-13T10:42:42",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 121,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 121,
+      "enrichment_fallback_used": "paragraph_fallback",
+      "fetched_title": "SpaceX, Anthropic, and OpenAI’s hot IPO summer | TechCrunch",
+      "meta_description": "Watch as Equity breaks down the hot IPO summer, what Google's $920M compute deal with SpaceX says about the AI infrastructure race, and more of the week's headlines.",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/05/GettyImages-2275575484.jpg?resize=1200,815",
+          "alt": "SpaceX, Anthropic, and OpenAI’s hot IPO summer | TechCrunch",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2023/11/GettyImages-1246354184.jpg?w=562",
+          "alt": "Ashwini Vaishnaw, India's minister of railways.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2025/05/GettyImages-2215577882.jpg?w=563",
+          "alt": "Google CEO Sundar Pichai",
+          "source": "article_content"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/02/Screen-Shot-2026-02-05-at-10.07.05-AM.jpg?w=487",
+          "alt": "Elon Musk speaks on a podcast",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2026/05/GettyImages-2275575484.jpg?resize=1200,815",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2023/11/GettyImages-1246354184.jpg?w=562",
+          "alt": "Ashwini Vaishnaw, India's minister of railways."
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2025/05/GettyImages-2215577882.jpg?w=563",
+          "alt": "Google CEO Sundar Pichai"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/02/Screen-Shot-2026-02-05-at-10.07.05-AM.jpg?w=487",
+          "alt": "Elon Musk speaks on a podcast"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "The IPO market is back, and it’s not the same companies leading the charge. FAANG had a good run, but a new acronym is taking over: MANGOS — Meta (or Microsoft, depending on who you ask), Anthropic, Nvidia, Google, OpenAI, and SpaceX. Half of that bunch is heading to public markets in the same window, and it’s a stress test for investors, for valuations, and for what we can even expect from a public tech company in 2026. On this episode of TechCrunch’s Equity podcast, hosts Kirsten Korosec, Anthony Ha, and Sean O’Kane break down what this IPO moment actually means beyond the headline numbers, and who stands to benefit. AI India bids to attract over $200B in AI infrastructure investment by 2028 Jagmeet Singh Feb 17, 2026 AI Amazon and Google are winning the AI capex race — but what’s the prize? Russell Brandom Feb 5, 2026 AI Elon Musk is getting serious about orbital data centers Russell Brandom Feb 5, 2026",
+      "full_article_text_chars": 919,
+      "content_preview": "The IPO market is back, and it’s not the same companies leading the charge. FAANG had a good run, but a new acronym is taking over: MANGOS — Meta (or Microsoft, depending on who you ask), Anthropic, Nvidia, Google, OpenAI, and SpaceX. Half of that bunch is heading to public markets in the same window, and it’s a stress test for investors, for valuations, and for what we can even expect from a public tech company in 2026. On this episode of TechCrunch’s Equity podcast, hosts Kirsten Korosec, Anthony Ha, and Sean O’Kane break down what this IPO moment actually means beyond the headline numbers, and who stands to benefit. AI India bids to attract over $200B in AI infrastructure investment by 2028 Jagmeet Singh Feb 17, 2026 AI Amazon and Google are winning the AI capex race — but what’s the prize? Russell Brandom Feb 5, 2026 AI Elon Musk is getting serious about orbital data centers Russell Brandom Feb 5, 2026",
+      "content_preview_chars": 919,
+      "content_fetched_at": "2026-06-13T10:42:55",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     }
   ],
   "notifications": {
