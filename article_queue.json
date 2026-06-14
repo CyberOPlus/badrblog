@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-14T17:48:25",
+  "updated_at": "2026-06-14T19:07:25",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -1134,7 +1134,10 @@
       "candidate_failure_reason": "article older than 24 hours",
       "candidate_failed_at": "2026-06-08T18:42:33",
       "candidate_failure_count": 1,
-      "telegram_final_summary_notified_at": "2026-06-08T18:43:34"
+      "telegram_final_summary_notified_at": "2026-06-08T18:43:34",
+      "archived": true,
+      "archived_at": "2026-06-14T18:58:05",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "c4dc072a2cb4102b",
@@ -1420,12 +1423,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-06-14T17:45:19",
-      "candidate_retry_after": "2026-06-14T18:00:19Z",
+      "content_fetched_at": "2026-06-14T18:58:31",
+      "candidate_retry_after": "2026-06-14T19:13:31Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-06-14T17:45:19",
-      "candidate_failure_count": 61
+      "candidate_failed_at": "2026-06-14T18:58:31",
+      "candidate_failure_count": 62
     },
     {
       "id": "387079dc0a830ad9",
@@ -2131,7 +2134,10 @@
       "status": "skipped",
       "score": 0,
       "priority": "low",
-      "skip_reason": "non_technical_entertainment_content"
+      "skip_reason": "non_technical_entertainment_content",
+      "archived": true,
+      "archived_at": "2026-06-14T18:58:05",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "a36e70e702566e44",
@@ -3468,12 +3474,12 @@
       "removed_source_links_count": 82,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-14T17:45:20",
-      "candidate_retry_after": "2026-06-14T18:00:20Z",
+      "content_fetched_at": "2026-06-14T18:58:32",
+      "candidate_retry_after": "2026-06-14T19:13:32Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-14T17:45:20",
-      "candidate_failure_count": 59
+      "candidate_failed_at": "2026-06-14T18:58:32",
+      "candidate_failure_count": 60
     },
     {
       "id": "561b6316398d7603",
@@ -4455,17 +4461,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 228,
-      "affiliate_links_removed_count": 5,
-      "removed_source_links_count": 228,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=446 chars/65 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:446chars/65words, page_text:446chars/65words)",
-      "content_fetched_at": "2026-06-14T17:45:25",
-      "candidate_retry_after": "2026-06-14T18:00:25Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-06-14T18:58:32",
+      "candidate_retry_after": "2026-06-14T19:13:32Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=446 chars/65 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:446chars/65words, page_text:446chars/65words)",
-      "candidate_failed_at": "2026-06-14T17:45:25",
-      "candidate_failure_count": 58
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-06-14T18:58:32",
+      "candidate_failure_count": 59
     },
     {
       "id": "c1354558130eaeb3",
@@ -5550,12 +5556,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-14T17:45:26",
-      "candidate_retry_after": "2026-06-14T18:00:26Z",
+      "content_fetched_at": "2026-06-14T18:58:33",
+      "candidate_retry_after": "2026-06-14T19:13:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-14T17:45:26",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-06-14T18:58:33",
+      "candidate_failure_count": 58
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -6902,12 +6908,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-06-14T17:45:26",
-      "candidate_retry_after": "2026-06-14T18:00:26Z",
+      "content_fetched_at": "2026-06-14T18:58:34",
+      "candidate_retry_after": "2026-06-14T19:13:34Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-06-14T17:45:26",
-      "candidate_failure_count": 55
+      "candidate_failed_at": "2026-06-14T18:58:34",
+      "candidate_failure_count": 56
     },
     {
       "id": "cc5e99891af35b5e",
@@ -6939,12 +6945,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-06-14T17:45:27",
-      "candidate_retry_after": "2026-06-14T18:00:27Z",
+      "content_fetched_at": "2026-06-14T18:58:34",
+      "candidate_retry_after": "2026-06-14T19:13:34Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-06-14T17:45:27",
-      "candidate_failure_count": 55
+      "candidate_failed_at": "2026-06-14T18:58:34",
+      "candidate_failure_count": 56
     },
     {
       "id": "a6f4ca9464909855",
@@ -6976,12 +6982,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-06-14T17:45:27",
-      "candidate_retry_after": "2026-06-14T18:00:27Z",
+      "content_fetched_at": "2026-06-14T18:58:34",
+      "candidate_retry_after": "2026-06-14T19:13:34Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-06-14T17:45:27",
-      "candidate_failure_count": 55
+      "candidate_failed_at": "2026-06-14T18:58:34",
+      "candidate_failure_count": 56
     },
     {
       "id": "66722f50e91993b6",
@@ -9043,12 +9049,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-14T17:45:27",
-      "candidate_retry_after": "2026-06-14T18:00:27Z",
+      "content_fetched_at": "2026-06-14T18:58:35",
+      "candidate_retry_after": "2026-06-14T19:13:35Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-14T17:45:27",
-      "candidate_failure_count": 51
+      "candidate_failed_at": "2026-06-14T18:58:35",
+      "candidate_failure_count": 52
     },
     {
       "id": "512c2899a98440d2",
@@ -9077,12 +9083,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-14T17:45:28",
-      "candidate_retry_after": "2026-06-14T18:00:28Z",
+      "content_fetched_at": "2026-06-14T18:58:35",
+      "candidate_retry_after": "2026-06-14T19:13:35Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-14T17:45:28",
-      "candidate_failure_count": 51
+      "candidate_failed_at": "2026-06-14T18:58:35",
+      "candidate_failure_count": 52
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -9111,12 +9117,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-14T17:45:28",
-      "candidate_retry_after": "2026-06-14T18:00:28Z",
+      "content_fetched_at": "2026-06-14T18:58:35",
+      "candidate_retry_after": "2026-06-14T19:13:35Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-14T17:45:28",
-      "candidate_failure_count": 51
+      "candidate_failed_at": "2026-06-14T18:58:35",
+      "candidate_failure_count": 52
     },
     {
       "id": "d9a0fa48ccc53ccf",
@@ -11030,13 +11036,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-14T17:45:34",
-      "candidate_retry_after": "2026-06-14T18:00:34Z",
+      "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
+      "content_fetched_at": "2026-06-14T18:58:37",
+      "candidate_retry_after": "2026-06-14T19:13:37Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-14T17:45:34",
-      "candidate_failure_count": 47
+      "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
+      "candidate_failed_at": "2026-06-14T18:58:37",
+      "candidate_failure_count": 48
     },
     {
       "id": "33732dfdc6295ab2",
@@ -11067,13 +11073,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-14T17:45:39",
-      "candidate_retry_after": "2026-06-14T18:00:39Z",
+      "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "content_fetched_at": "2026-06-14T18:58:38",
+      "candidate_retry_after": "2026-06-14T19:13:38Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-14T17:45:39",
-      "candidate_failure_count": 47
+      "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "candidate_failed_at": "2026-06-14T18:58:38",
+      "candidate_failure_count": 48
     },
     {
       "id": "aede79193c6b98c9",
@@ -11104,13 +11110,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-06-14T17:45:46",
-      "candidate_retry_after": "2026-06-14T18:00:46Z",
+      "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
+      "content_fetched_at": "2026-06-14T18:58:40",
+      "candidate_retry_after": "2026-06-14T19:13:40Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-06-14T17:45:46",
-      "candidate_failure_count": 47
+      "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
+      "candidate_failed_at": "2026-06-14T18:58:40",
+      "candidate_failure_count": 48
     },
     {
       "id": "fd4f78fb8656592b",
@@ -13566,12 +13572,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-06-14T17:45:49",
-      "candidate_retry_after": "2026-06-14T18:00:49Z",
+      "content_fetched_at": "2026-06-14T18:58:43",
+      "candidate_retry_after": "2026-06-14T19:13:43Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-06-14T17:45:49",
-      "candidate_failure_count": 43
+      "candidate_failed_at": "2026-06-14T18:58:43",
+      "candidate_failure_count": 44
     },
     {
       "id": "693fbfabd96b2185",
@@ -13602,12 +13608,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-06-14T17:45:50",
-      "candidate_retry_after": "2026-06-14T18:00:50Z",
+      "content_fetched_at": "2026-06-14T18:58:44",
+      "candidate_retry_after": "2026-06-14T19:13:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-06-14T17:45:50",
-      "candidate_failure_count": 43
+      "candidate_failed_at": "2026-06-14T18:58:44",
+      "candidate_failure_count": 44
     },
     {
       "id": "a5f6af5d6b69d4f1",
@@ -23168,12 +23174,12 @@
       "removed_source_links_count": 18,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, page_text:593chars/104words)",
-      "content_fetched_at": "2026-06-14T17:45:51",
-      "candidate_retry_after": "2026-06-14T18:00:51Z",
+      "content_fetched_at": "2026-06-14T18:58:45",
+      "candidate_retry_after": "2026-06-14T19:13:45Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, pag",
-      "candidate_failed_at": "2026-06-14T17:45:51",
-      "candidate_failure_count": 27
+      "candidate_failed_at": "2026-06-14T18:58:45",
+      "candidate_failure_count": 28
     },
     {
       "id": "63f62895c7723e75",
@@ -29810,12 +29816,12 @@
       "removed_source_links_count": 24,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=626 chars/90 words; required=80 chars/120 words; tried=main_tag:626chars/90words, paragraph_fallback:387chars/54words, article_body:387chars/54words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_text:387chars/54words)",
-      "content_fetched_at": "2026-06-14T17:45:52",
-      "candidate_retry_after": "2026-06-14T18:00:52Z",
+      "content_fetched_at": "2026-06-14T18:58:46",
+      "candidate_retry_after": "2026-06-14T19:13:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=626 chars/90 words; required=80 chars/120 words; tried=main_tag:626chars/90words, paragraph_fallback:387chars/54words, article_body:387chars/54words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_tex",
-      "candidate_failed_at": "2026-06-14T17:45:52",
-      "candidate_failure_count": 16
+      "candidate_failed_at": "2026-06-14T18:58:46",
+      "candidate_failure_count": 17
     },
     {
       "id": "f3d06cfb2540f37e",
@@ -30420,11 +30426,11 @@
       "content_fetched_at": "2026-06-13T18:43:16",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-14T12:29:02",
+      "selected_at": "2026-06-14T19:04:25",
       "suggested_category": "Apps-Programs",
       "selection_reason": "category rotation newest fresh article: Apps-Programs",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-14T12:29:02",
+      "processing_prepared_at": "2026-06-14T19:04:25",
       "ai_input_package": {
         "title": "I turned my old router into a backyard Wi-Fi extender—no mesh system needed",
         "url": "https://www.howtogeek.com/stop-buying-mesh-routers-heres-how-to-extend-wifi-to-your-backyard-with-what-you-already-have",
@@ -30472,19 +30478,19 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "article too short (53 words; minimum 700)",
+      "ai_quality_last_error": "article older than 24 hours",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "article older than 24 hours",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 12.89,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 178.62,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-14T12:44:16Z",
+      "candidate_retry_after": "2026-06-14T19:22:24Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-06-14T12:29:16",
-      "candidate_failure_count": 2,
+      "candidate_failure_reason": "article older than 24 hours",
+      "candidate_failed_at": "2026-06-14T19:07:24",
+      "candidate_failure_count": 3,
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
     },
     {
@@ -32256,11 +32262,11 @@
       "content_fetched_at": "2026-06-13T23:48:44",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-14T12:28:26",
+      "selected_at": "2026-06-14T18:58:48",
       "suggested_category": "Apps-Programs",
       "selection_reason": "category rotation newest fresh article: Apps-Programs",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-14T12:28:26",
+      "processing_prepared_at": "2026-06-14T18:58:48",
       "ai_input_package": {
         "title": "Microsoft released Windows 11 KB5094149 / KB5095971 / KB5094156 Setup, Recovery updates",
         "url": "https://www.neowin.net/news/microsoft-released-windows-11-kb5094149--kb5095971--kb5094156-setup-recovery-updates",
@@ -32312,19 +32318,19 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "too much English inside article paragraphs",
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
       "ai_status": "failed",
-      "ai_error": "too much English inside article paragraphs",
+      "ai_error": "ai_time_budget_exceeded",
       "ai_rotation_exhausted": false,
-      "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 35.56,
-      "ai_quality_status": "failed_after_retries",
+      "ai_time_budget_exceeded": true,
+      "ai_total_time_seconds": 336.47,
+      "ai_quality_status": "time_budget_exceeded",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-14T12:44:02Z",
+      "candidate_retry_after": "2026-06-14T19:19:25Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "too much English inside article paragraphs",
-      "candidate_failed_at": "2026-06-14T12:29:02",
-      "candidate_failure_count": 1,
+      "candidate_failure_reason": "ai_time_budget_exceeded",
+      "candidate_failed_at": "2026-06-14T19:04:25",
+      "candidate_failure_count": 2,
       "telegram_final_summary_notified_at": "2026-06-14T12:29:43"
     },
     {
@@ -32348,7 +32354,7 @@
       "category_label": "Apps-Programs",
       "category_hint": "Apps-Programs",
       "discovered_at": "2026-06-13T23:47:50",
-      "status": "ready",
+      "status": "selected",
       "score": 0,
       "priority": "low",
       "source_links_removed_count": 211,
@@ -32413,11 +32419,11 @@
       "content_fetched_at": "2026-06-13T23:48:48",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-14T12:29:16",
+      "selected_at": "2026-06-14T19:07:24",
       "suggested_category": "Apps-Programs",
       "selection_reason": "category rotation newest fresh article: Apps-Programs",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-14T12:29:16",
+      "processing_prepared_at": "2026-06-14T19:07:25",
       "ai_input_package": {
         "title": "Bose QuietComfort Ultra Gen 2 headphones are down to lowest price in over a month",
         "url": "https://www.neowin.net/deals/bose-quietcomfort-ultra-gen-2-headphones-are-down-to-lowest-price-in-over-a-month",
@@ -33855,6 +33861,603 @@
       "content_preview_chars": 3774,
       "content_fetched_at": "2026-06-14T17:45:17",
       "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "7466d0f355e23db3",
+      "source_url_hash": "7466d0f355e23db3",
+      "canonical_url": "https://www.howtogeek.com/these-x-open-source-gallery-apps-are-completely-private-and-offline",
+      "title_hash": "6f0cf1071d9e671b",
+      "topic_signature": "79c1835f8e16cea2a718",
+      "title": "I ditched Google Photos for these 3 open-source apps—and I'm never going back",
+      "url": "https://www.howtogeek.com/these-x-open-source-gallery-apps-are-completely-private-and-offline",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-06-14T18:46:17Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.2,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-06-14T18:58:05",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 88,
+      "affiliate_links_removed_count": 8,
+      "removed_source_links_count": 88,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "I ditched Google Photos for these 3 open-source apps—and I'm never going back",
+      "meta_description": "They're all fully offline and private. One of them is my new favorite gallery app.",
+      "article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/06/gemini_generated_image_rjjsmrrjjsmrrjjs-clean.png?w=1200&h=675&fit=crop",
+          "alt": "I ditched Google Photos for these 3 open-source apps—and I'm never going back",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/11/terramaster-f4-ssd-nas.jpg?q=70&fit=contain&w=420&dpr=1",
+          "alt": "TerraMaster F4 SSD NAS.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/06/gemini_generated_image_rjjsmrrjjsmrrjjs-clean.png?w=1200&h=675&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/11/terramaster-f4-ssd-nas.jpg?q=70&fit=contain&w=420&dpr=1",
+          "alt": "TerraMaster F4 SSD NAS."
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Us On",
+          "url": "https://www.google.com/preferences/source?q=howtogeek.com"
+        },
+        {
+          "title": "official GitHub repo",
+          "url": "https://github.com/IacobIonut01/ReFra"
+        }
+      ],
+      "full_article_text": "If like me, you've been looking for an alternative to Google's cloud-first and AI-first Photos app, this list should end your search. These are free and open-source apps without any ads or intrusive AI or cloud features. Gallery app done right This is perhaps the closest you can get to the stock Google Photos experience with a polished open-source app. And it's my favorite on this list. On the first launch, it shows you all the permissions it needs and why. It needs media access for obvious reasons, including location permissions to read the location metadata in your media files (sometimes the camera app tags photos with the location they were captured). After that quick setup, it drops you into the gallery, which feels a lot like a simplified version of Google Photos. You have a search bar at the top, next to a button for the favorites. There are three tabs at the bottom: one for the gallery view, one for the folders or albums, and another for shortcuts and categories (more on this in a few). Flip through your gallery like Instagram stories The gallery view also has these category carousels that I love. It shows on-device media split into folders and categories like nature, architecture, night, sunset, etc., depending on what's in your gallery. Tapping on one of these cards lets you flip through its contents. It looks and works a lot like Instagram stories. You can tap the heart icon here to save any of the media in these story-like carousels to your favorites folder. The gallery itself is segmented into a timeline, just like in Google Photos. Media from the current day and yesterday appear at the top, and the rest of the timeline follows it. The grid that showcases the media isn't uniform. It dynamically resizes some of the thumbnails to break the monotony. I enjoy this off-kilter style, but if you prefer a straight-edge square grid, you can switch to that in the settings. It has a satisfying built-in image editor One feature that a lot of free and open-source (FOSS) gallery apps lack is a dedicated image editor. Even Immich (arguably the most popular gallery app in this category) doesn't have its own image editor. But ReFra does. You can tap the little pencil icon on any photo to open it. To me, it feels like a more pragmatic and elegant version of the Google Photos editor. You can crop, flip, and rotate photos with a single tap. Adjust brightness, tone, contrast, black or white point, shadows, and highlights with these satisfying sliders. To round the image adjustments off, the editor has similar sliders for saturation, warmth, skin tone, and blue tone. There are also some prebuilt filters. Annotate with text, highlighter, or pen. I don't edit photos on my phone often, but this app makes me want to because it feels fun. On-device intelligence for automatically sorting your collection The album folder shows your folders as media collections. You can start your own collections too by adding albums to them. There's also one more feature that caught my eye that's worth mentioning. You might have noticed that ReFra automatically creates these categories and sorts your media into them. It actually uses a local, on-device AI model to do that. If you grant ReFra, the network permission, it can download the model and intelligently create these categories for you. It is strictly opt-in and not enabled by default. The library works perfectly fine without network permissions. Has a private vault On the shortcuts tab, you'll see tiles for opening the recycle bin, the favorites' folder, and the vault. The vault can encrypt your media and let you access it via password or biometrics. Whatever you lock in this private folder will not show up in any other gallery app or system scan. You will only be able to access it via ReFra's vault. The ignored folder is where you can add albums that you don't want appearing in the main timeline or the collections tab. There are tons of customization features so you can change how the timeline looks, where buttons appear, what the media viewer should look like, default screens, and so on. You can even turn the recycle bin off, so the media you delete is erased permanently right away. ReFra is also stable and performant. It loads the files instantly and feels buttery smooth. It was a welcome surprise because some of the FOSS apps I tested felt really laggy and unpolished. On the Play Store, this app is paid, but you can install it for free using the F-Droid store or the official GitHub repo . For most people, I would only recommend ReFra because there is no other drop-in replacement for Google Photos right now. There are a couple of more niche cases where ReFra might not cut it. I'm sharing two here. Bonus app #1: Fossify Just a simple gallery app Not everyone is a fan of Google Photos. Some might just want a basic, no-frills gallery app. If that's you, your search might end with Fossify Gallery. This gallery is part of a bigger Fossify project that aims to replace the bloatware most Android manufacturers ship. There is a Fossify Phone, Calendar, Contacts, Messages, Music, Notes, Camera, Clock, and so on. The motivation behind the project is to simplify everyday Android apps. There are no trackers, ads, telemetry, or extra permission requests in these apps. In fact, they work completely offline, including the Fossify Gallery. Like the rest of these Fossify apps, Fossify Gallery feels pretty lightweight and simple. When you open it, it'll just show you your media folders. You can tap the image icon at the top to switch to the grid gallery view. There are some basic filters and sorting options. If you go into settings, you'll see some customization options. You can set a lock for the whole app for maximum privacy, but the media will still show up in other galleries and system scans. Fossify Gallery also lets you turn the recycling bin off. It even has a basic image editor for cropping and rotating images, but that's all it can do. For older phones or for someone who doesn't want anything more than a basic gallery app, Fossify is the perfect choice. Bonus app #2: Aves Library Good for organizing large collections For people who care more about organizing their media, Aves Libre is a great choice. It functions as a regular media gallery too, but where it shines the most is in its organization features. You can edit the image metadata, add your own tags to images, edit their location, and the date or time. It can even strip images of their metadata completely. Swipe right to see lists of recently added files and tags. You can search and create collections based on these tags. You can even convert images on the fly to change their formats or dimensions. There is a map feature for seeing the exact coordinates of the photos. And there is a stats screen which shows you details like how many images you have, which formats they are, how much space each album is taking, etc. Score Phone & Mobile Deals for Better Photo Workflows For larger collections, this app should do a great job of organizing and tagging your media. Flipping through the gallery lagged when I tested it on one of my older devices, but it worked fine on a newer phone. You might see this glitch too, so consider this a heads-up before you start organizing your gallery with Aves Libre. ReFra should do nicely for most people For a modern, everyday gallery app that's private and offline, I could not find a better option than ReFra. However, if you want something more basic, give Fossify a try. For people who want to organize their large media collection, Aves Libre and these other FOSS apps will cut their work in half.",
+      "full_article_text_chars": 7636,
+      "content_preview": "If like me, you've been looking for an alternative to Google's cloud-first and AI-first Photos app, this list should end your search. These are free and open-source apps without any ads or intrusive AI or cloud features. Gallery app done right This is perhaps the closest you can get to the stock Google Photos experience with a polished open-source app. And it's my favorite on this list. On the first launch, it shows you all the permissions it needs and why. It needs media access for obvious reasons, including location permissions to read the location metadata in your media files (sometimes the camera app tags photos with the location they were captured). After that quick setup, it drops you into the gallery, which feels a lot like a simplified version of Google Photos. You have a search bar at the top, next to a button for the favorites. There are three tabs at the bottom: one for the gallery view, one for the folders or albums, and another for shortcuts and categories (more on this in a few). Flip through your gallery like Instagram stories The gallery view also has these category carousels that I love. It shows on-device media split into folders and categories like nature, architecture, night, sunset, etc., depending on what's in your gallery. Tapping on one of these cards lets you flip through its contents. It looks and works a lot like Instagram stories. You can tap the heart icon here to save any of the media in these story-like carousels to your favorites folder. The gallery itself is segmented into a timeline, just like in Google Photos. Media from the current day and yesterday appear at the top, and the rest of the timeline follows it. The grid that showcases the media isn't uniform. It dynamically resizes some of the thumbnails to break the monotony. I enjoy this off-kilter style, but if you prefer a straight-edge square grid, you can switch to that in the settings. It has a satisfying built-in image editor One feature that a lot of free and open-source (FOSS) gallery apps lack is a dedicated image editor. Even Immich (arguably the most popular gallery app in this category) doesn't have its own image editor. But ReFra does. You can tap the little pencil icon on any photo to open it. To me, it feels like a more pragmatic and elegant version of the Google Photos editor. You can crop, flip, and rotate photos with a single tap. Adjust brightness, tone, contrast, black or white point, shadows, and highlights with these satisfying sliders. To round the image adjustments off, the editor has similar sliders for saturation, warmth, skin tone, and blue tone. There are also some prebuilt filters. Annotate with text, highlighter, or pen. I don't edit photos on my phone often, but this app makes me want to because it feels fun. On-device intelligence for automatically sorting your collection The album folder shows your folders as media collections. You can start your own collections too by adding albums to them. There's also one more feature that caught my eye that's worth mentioning. You might have noticed that ReFra automatically creates these categories and sorts your media into them. It actually uses a local, on-device AI model to do that. If you grant ReFra, the network permission, it can download the model and intelligently create these categories for you. It is strictly opt-in and not enabled by default. The library works perfectly fine without network permissions. Has a private vault On the shortcuts tab, you'll see tiles for opening the recycle bin, the favorites' folder, and the vault. The vault can encrypt your media and let you access it via password or biometrics. Whatever you lock in this private folder will not show up in any other gallery app or system scan. You will only be able to access it via ReFra's vault. The ignored folder is where you can add albums that you don't want appearing in the main timeline or the collections tab. There are tons of customization features so you can change how the timeline looks, where buttons appear, what the media viewer should look like, default screens, and so on. You can even turn the recycle bin off, so the media you delete is erased permanently right away. ReFra is also stable and performant. It loads the files instantly and feels buttery smooth. It was a welcome surprise because some of the FOSS apps I tested felt really laggy and unpolished. On the Play Store, this app is paid, but you can install it for free using the F-Droid store or the official GitHub repo . For most people, I would only recommend ReFra because there is no other drop-in replacement for Google Photos right now. There are a couple of more niche cases where ReFra might not cut it. I'm sharing two here. Bonus app #1: Fossify Just a simple gallery app Not everyone is a fan of Google Photos. Some might just want a basic, no-frills gallery app. If that's you, your search might end with Fossify Gallery. This gallery is part of a bigger Fossify project that aims to replace the bloatware most Android manufacturers ship. There is a Fossify Phone, Calendar, Contacts, Messages, Music, Notes, Camera, Clock, and so on. The motivation behind the project is to simplify everyday Android apps. There are no trackers, ads, telemetry, or extra permission requests in these apps. In fact, they work completely offline, including the Fossify Gallery. Like the rest of these Fossify apps, Fossify Gallery feels pretty lightweight and simple. When you open it, it'll just show you your media folders. You can tap the image icon at the top to switch to the grid gallery view. There are some basic filters and sorting options. If you go into settings, you'll see some customization options. You can set a lock for the whole app for maximum privacy, but the media will still show up in other galleries and system scans. Fossify Gallery also lets you turn the recycling bin off. It even has a basic image editor for cropping and rotating images, but that's all it can do. For older phones or for someone who doesn't want anything more than a basic gallery app, Fossify is the perfect choice. Bonus app #2: Aves Library Good for organizing large collections For people who care more about organizing their media, Aves Libre is a great choice. It functions as a regular media gallery too, but where it shines the most is in its organization features. You can edit the image metadata, add your own tags to images, edit their location, and the date or time. It can even strip images of their metadata completely. Swipe right to see lists of recently added files and tags. You can search and create collections based on these tags. You can even convert images on the fly to change their formats or dimensions. There is a map feature for seeing the exact coordinates of the photos. And there is a stats screen which shows you details like how many images you have, which formats they are, how much space each album is taking, etc. Score Phone & Mobile Deals for Better Photo Workflows For larger collections, this app should do a great job of organizing and tagging your media. Flipping through the gallery lagged when I tested it on one of my older devices, but it worked fine on a newer phone. You might see this glitch too, so consider this a heads-up before you start organizing your gallery with Aves Libre. ReFra should do nicely for most people For a modern, everyday gallery app that's private and offline, I could not find a better option than ReFra. However, if you want something more basic, give Fossify a try. For people who want to organize their large media collection, Aves Libre and these other FOSS apps will cut their work in half.",
+      "content_preview_chars": 7636,
+      "content_fetched_at": "2026-06-14T18:58:18",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "4c50a348779d0158",
+      "source_url_hash": "4c50a348779d0158",
+      "canonical_url": "https://www.howtogeek.com/the-most-important-router-security-alerts-you-need-to-enable-right-now",
+      "title_hash": "c96f1d425ecdf5c2",
+      "topic_signature": "7b3f069346df0ba7cded",
+      "title": "Stop letting devices sneak onto your Wi-Fi: How to enable hidden router alerts",
+      "url": "https://www.howtogeek.com/the-most-important-router-security-alerts-you-need-to-enable-right-now",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-06-14T18:30:17Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.46,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-06-14T18:58:05",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 90,
+      "affiliate_links_removed_count": 5,
+      "removed_source_links_count": 90,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Stop letting devices sneak onto your Wi-Fi: How to enable hidden router alerts",
+      "meta_description": "Your Wi-Fi network isn't truly secure until you change this one router setting",
+      "article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/02/the-netgear-nighthawk-5g-m7-mh7150-mobile-wi-fi-router-s-display-homepage.jpg?w=1600&h=900&fit=crop",
+          "alt": "Stop letting devices sneak onto your Wi-Fi: How to enable hidden router alerts",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/02/the-netgear-nighthawk-5g-m7-mh7150-mobile-wi-fi-router-s-display-homepage.jpg?&fit=crop&w=1600&h=900",
+          "alt": "The NETGEAR Nighthawk 5G M7 (MH7150) mobile Wi-Fi router's display homepage.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2023/11/netgear-orbi-970-1.png?q=70&fit=contain&w=420&dpr=1",
+          "alt": "NETGEAR Orbi 970 1",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/05/img20260513151533.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "A Mercusys Wi-Fi 7 router.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/02/the-netgear-nighthawk-5g-m7-mh7150-mobile-wi-fi-router-s-display-homepage.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/02/the-netgear-nighthawk-5g-m7-mh7150-mobile-wi-fi-router-s-display-homepage.jpg?&fit=crop&w=1600&h=900",
+          "alt": "The NETGEAR Nighthawk 5G M7 (MH7150) mobile Wi-Fi router's display homepage."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2023/11/netgear-orbi-970-1.png?q=70&fit=contain&w=420&dpr=1",
+          "alt": "NETGEAR Orbi 970 1"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/05/img20260513151533.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "A Mercusys Wi-Fi 7 router."
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Us On",
+          "url": "https://www.google.com/preferences/source?q=howtogeek.com"
+        }
+      ],
+      "full_article_text": "Troubleshooting router issues almost always starts with simple advice along the lines of 'have you tried turning it off and then on again,' but when you have to dig deeper, it's the wild, wild west out there. One of the more important pieces of advice that I don't see cropping up often is that you should actually set up router alerts to know what's happening to your network at all times. Given how important most things on our networks are, I'm surprised that more people don't tap into this option. Here's how it works and how to check whether you can set it up, too. New device alerts should be the first thing you enable You don't want anything joining your network without a clear invitation Before going further, it's important to note that these alert settings aren't universal. Some routers give you a neat app toggle for them, some bury them in a web interface, some tie the better alerts to a paid security suite, and some older ISP-provided routers may not offer much beyond a basic device list and system log. That doesn't make this any less useful, though; it's just that you have to start by checking what your router can actually do. Start with your router's companion app, because that's where most consumer brands put these options now. Brands like TP-Link, Netgear, Google, and Asus have their proprietary software, and as it's proprietary, the exact path to these settings will differ. You can usually find it under something like \"Connection alerts\" or \"New device alerts.\" The new device alert is indeed the one I'd enable first, because it gives you the simplest possible warning that something has changed. Most homes have enough connected devices that it's easy to miss one more joining the network. That's a problem. If a device joins and you recognize it, awesome, nothing to do about it. If you don't, that alert gives you a reason to check your guest network, change your Wi-Fi password, and investigate further. While far from cheap, the Netgear Orbi 970 is everything you could want from a Wi-Fi 7 mesh system. Netgear's Nighthawk/Orbi app gives new device joined alerts without a subscription. Known-device alerts are useful for the devices that matter the most Some devices shouldn't just quietly disappear New device alerts tell you when something sneaks into your network, but known-device alerts tell you when something important drops off of it. That's important, too. This is most useful for the devices you actually rely on, such as a NAS, home server, security camera, smart home hub, work PC, or what have you. TP-Link Deco routers, for instance, let you set up known-device alerts so you can be notified when certain devices go online or offline. Wi-Fi standards moved on, but your old router can still do something useful Threat and infected-device alerts are the ones you hope never appear Let your router flag suspicious behavior This is where router alerts become extremely useful. Some routers and mesh systems can warn you about suspicious network behavior, blocked threats, infected device detections, or vulnerability issues. However, this is where the paywalls and brand differences really start to matter, as many routers don't offer these alerts by default. Some brands give you more advanced protection features and alerts if you pay a monthly subscription. These alerts won't replace antivirus software or common sense, but they're still worth enabling if you have them. Firmware, vulnerability, and account alerts are easy to ignore but worth enabling If you can enable them, you probably should Firmware and account alerts may not sound as urgent as a strange device joining your network, but they're still worth turning on wherever they're available. Routers are easy to forget about once they work, which is exactly how they end up running outdated firmware for months or years. Some router security suites can warn you about available firmware updates, failed security checks, or vulnerability scan results, while other account alerts can tell you when someone logs into the account tied to your router app. Netgear Armor, for example, includes more advanced security notifications for supported routers, while Asus AiProtection has a router security assessment feature. Blocked site and parental control alerts can double as security warnings A blocked click can tell you a lot Blocked site alerts are often presented as a parental control feature, but they can be useful even if you're not trying to keep tabs on anyone else's browsing habits. If your router or security suite can tell you when a device tries to reach a blocked, suspicious, or malicious site, that gives you another clue about what is happening on your network. One bad click might not mean much, especially if someone landed on a sketchy ad. But repeated alerts from the same device are definitely worth a closer look. What to do if your router doesn't have these alerts OpenWrt can help, but it's not that simple If your router doesn't have these alerts built in, don't assume you've missed some hidden setting. A lot of older routers, ISP gateways, and cheaper models just don't offer this kind of notification system, at least not in a user-friendly way. It's still worth checking the router's mobile app, the web interface, and the firmware update page, but if all you can find is a connected device list and a basic log, that might just be as far as your router goes. Aftermarket firmware like OpenWrt can help on supported routers, although it's a more hands-on solution. It doesn't usually give you a polished \"new device alert\" toggle like a proprietary app might. Instead, you can set up monitoring with things like DHCP hotplug scripts, system logs, email alerts, or webhook services that notify you when a new device gets an address. That's useful, but it's a lot more work. If this is available, it's always worth using Router alerts won't secure your network all by themselves, but they'll help you keep tabs on what's happening to it without actively monitoring it by yourself. It's always worth checking whether any of these are available on your device.",
+      "full_article_text_chars": 6101,
+      "content_preview": "Troubleshooting router issues almost always starts with simple advice along the lines of 'have you tried turning it off and then on again,' but when you have to dig deeper, it's the wild, wild west out there. One of the more important pieces of advice that I don't see cropping up often is that you should actually set up router alerts to know what's happening to your network at all times. Given how important most things on our networks are, I'm surprised that more people don't tap into this option. Here's how it works and how to check whether you can set it up, too. New device alerts should be the first thing you enable You don't want anything joining your network without a clear invitation Before going further, it's important to note that these alert settings aren't universal. Some routers give you a neat app toggle for them, some bury them in a web interface, some tie the better alerts to a paid security suite, and some older ISP-provided routers may not offer much beyond a basic device list and system log. That doesn't make this any less useful, though; it's just that you have to start by checking what your router can actually do. Start with your router's companion app, because that's where most consumer brands put these options now. Brands like TP-Link, Netgear, Google, and Asus have their proprietary software, and as it's proprietary, the exact path to these settings will differ. You can usually find it under something like \"Connection alerts\" or \"New device alerts.\" The new device alert is indeed the one I'd enable first, because it gives you the simplest possible warning that something has changed. Most homes have enough connected devices that it's easy to miss one more joining the network. That's a problem. If a device joins and you recognize it, awesome, nothing to do about it. If you don't, that alert gives you a reason to check your guest network, change your Wi-Fi password, and investigate further. While far from cheap, the Netgear Orbi 970 is everything you could want from a Wi-Fi 7 mesh system. Netgear's Nighthawk/Orbi app gives new device joined alerts without a subscription. Known-device alerts are useful for the devices that matter the most Some devices shouldn't just quietly disappear New device alerts tell you when something sneaks into your network, but known-device alerts tell you when something important drops off of it. That's important, too. This is most useful for the devices you actually rely on, such as a NAS, home server, security camera, smart home hub, work PC, or what have you. TP-Link Deco routers, for instance, let you set up known-device alerts so you can be notified when certain devices go online or offline. Wi-Fi standards moved on, but your old router can still do something useful Threat and infected-device alerts are the ones you hope never appear Let your router flag suspicious behavior This is where router alerts become extremely useful. Some routers and mesh systems can warn you about suspicious network behavior, blocked threats, infected device detections, or vulnerability issues. However, this is where the paywalls and brand differences really start to matter, as many routers don't offer these alerts by default. Some brands give you more advanced protection features and alerts if you pay a monthly subscription. These alerts won't replace antivirus software or common sense, but they're still worth enabling if you have them. Firmware, vulnerability, and account alerts are easy to ignore but worth enabling If you can enable them, you probably should Firmware and account alerts may not sound as urgent as a strange device joining your network, but they're still worth turning on wherever they're available. Routers are easy to forget about once they work, which is exactly how they end up running outdated firmware for months or years. Some router security suites can warn you about available firmware updates, failed security checks, or vulnerability scan results, while other account alerts can tell you when someone logs into the account tied to your router app. Netgear Armor, for example, includes more advanced security notifications for supported routers, while Asus AiProtection has a router security assessment feature. Blocked site and parental control alerts can double as security warnings A blocked click can tell you a lot Blocked site alerts are often presented as a parental control feature, but they can be useful even if you're not trying to keep tabs on anyone else's browsing habits. If your router or security suite can tell you when a device tries to reach a blocked, suspicious, or malicious site, that gives you another clue about what is happening on your network. One bad click might not mean much, especially if someone landed on a sketchy ad. But repeated alerts from the same device are definitely worth a closer look. What to do if your router doesn't have these alerts OpenWrt can help, but it's not that simple If your router doesn't have these alerts built in, don't assume you've missed some hidden setting. A lot of older routers, ISP gateways, and cheaper models just don't offer this kind of notification system, at least not in a user-friendly way. It's still worth checking the router's mobile app, the web interface, and the firmware update page, but if all you can find is a connected device list and a basic log, that might just be as far as your router goes. Aftermarket firmware like OpenWrt can help on supported routers, although it's a more hands-on solution. It doesn't usually give you a polished \"new device alert\" toggle like a proprietary app might. Instead, you can set up monitoring with things like DHCP hotplug scripts, system logs, email alerts, or webhook services that notify you when a new device gets an address. That's useful, but it's a lot more work. If this is available, it's always worth using Router alerts won't secure your network all by themselves, but they'll help you keep tabs on what's happening to it without actively monitoring it by yourself. It's always worth checking whether any of these are available on your device.",
+      "content_preview_chars": 6101,
+      "content_fetched_at": "2026-06-14T18:58:24",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "054ff7fdac4c1484",
+      "source_url_hash": "054ff7fdac4c1484",
+      "canonical_url": "https://www.makeuseof.com/linux-gaming-has-one-enemy-proton-still-cant-beat",
+      "title_hash": "118e2490df80a821",
+      "topic_signature": "270d8e56a6c641a45b35",
+      "title": "Linux gaming has one enemy Proton still can’t beat",
+      "url": "https://www.makeuseof.com/linux-gaming-has-one-enemy-proton-still-cant-beat",
+      "source_name": "MakeUseOf",
+      "source_url": "https://www.makeuseof.com",
+      "source_published_at": "2026-06-14T18:00:19Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.96,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-06-14T18:58:05",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 78,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 78,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Linux gaming has one enemy Proton still can’t beat",
+      "meta_description": "It’s not Valve’s fault.",
+      "article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/marathon-linux-incompatible.jpg?w=1600&h=900&fit=crop",
+          "alt": "Linux gaming has one enemy Proton still can’t beat",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/marathon-linux-incompatible.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Marathon not working on Linux",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/asus-rog-ally-running-cachyos.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+          "alt": "ASUS ROG Ally running CachyOS",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/02/battlefield-6-anti-cheat.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Battlefield 6 Anti-cheat",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/marathon-linux-incompatible.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/marathon-linux-incompatible.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Marathon not working on Linux"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/asus-rog-ally-running-cachyos.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+          "alt": "ASUS ROG Ally running CachyOS"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/02/battlefield-6-anti-cheat.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Battlefield 6 Anti-cheat"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Us On",
+          "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+        }
+      ],
+      "full_article_text": "Linux gaming has come a long way. Back in the days before Wine and Proton, gaming was a convoluted, niche hobby for Linux users. It required a ton of manual tweaking, but efforts from both Valve and the open-source community have brought it into a much, much better state. The magic sauce is undoubtedly Proton, a compatibility layer built by Valve (based on Wine) that lets Windows games run directly on Linux-based operating systems. The list of supported games grows by the minute, and almost all PC games are playable using the translation layer. Almost. Unfortunately, anti-cheat solutions still pose a major problem for Proton and Wine, and there simply isn’t an easy way to get these games working on Linux. Kernel-level anti-cheat is the Achilles' heel This is where it all starts to fall apart Proton is a legitimately impressive piece of software. It essentially translates Windows executables and games into formats that can be directly read and used by a Linux system, with almost negligible performance overhead. In fact, in certain cases, a game running through Proton has a good chance of running better than on a standard Windows 11 installation, largely thanks to the excess bloat in the latter. That being said, anti-cheat is where it all starts to fall apart. Almost all modern AAA live-service titles (such as Call of Duty and Battlefield, along with Marathon — to name a few) are entirely incompatible with Proton. There is simply no way to play these multiplayer-focused titles on Linux systems. At least not easily, but I’m getting way ahead of myself here. Which is quite a shame, really. Some of the best multiplayer experiences are still held hostage by Windows, and there doesn’t seem to be much effort to port them to Linux in the name of “security”. That’s not to say Proton is entirely incompatible with anti-cheat software It’s up to the developers Proton is not inherently incompatible with anti-cheat solutions. We’ve already seen many games run just fine on Linux, with Arc Raiders being a very recent example. In most cases, the anti-cheat software deliberately blocks Linux installs, and enabling it is as simple as flicking a switch. Unfortunately, many publishers simply forgo Linux systems in the name of security. Their reasoning is that Linux systems can be used by malicious actors to disrupt friendly matches, which is true to some extent. However, this does not change the fact that anti-cheat software essentially does nothing to permanently stop cheaters from ruining a game. Hacks have and will continue to exist, and punishing a now-growing subset of legitimate players who simply do not want to change operating systems isn’t particularly palatable. We’ve seen time and time again how teams have abandoned Linux support to curb cheaters, only for it to go terribly wrong and do basically nothing — as seen in Apex Legends. The bottom line is, anti-cheat solutions are always a bit of a cat-and-mouse game. Weeding out exploits is a difficult business, and you really can’t single out one operating system and expect it to all work out, even more so when the ones using these tools on Linux are far fewer than the ones running exploits within Windows. Alternatives and some rather strange rabbit holes A cat-and-mouse game That being said, there are ways to circumvent these blockades. The first method is the most obvious, which goes for the dual-boot method. You’ll essentially boot Windows and Linux on the same machine, preferably on two separate drives. In my experience, dual-booting is simply not worth it, more so if you have the two operating systems installed on the same drive. Things break, and they break spectacularly whenever Windows decides to push an update. The next, slightly pricier solution is to opt for a secondary machine that runs Windows. This could be an existing computer or an older laptop. If you’re not exactly keen on switching setups physically, you could always look into Moonlight and Sunshine streaming to play these games remotely, which works out better than you’d think. The final, more drastic solution is to try running games on a Windows virtual machine. Some titles have been reported to work just fine with GPU passthrough, although many of these games can also detect a VM and block you from playing, regardless. Hopeful for the future While it’s certainly not the year of the Linux desktop just yet, we are slowly approaching it. Desktop Linux adoption has grown markedly in the past few years alone, and we’re seeing steady gains, especially in gaming. Gaming works better than it ever did before on Linux, and there has been some serious effort into bridging anti-cheat compatibility on Linux and Windows systems. As Linux grows in popularity, expect the list to steadily increase over time. Until then, I’ll remain hopeful for a better future and remain content with my single-player games, which work fantastically well right now. Wine is a compatibility layer that lets you run Windows programs and executables on Linux. It's particularly great for games and is what Proton bases itself upon.",
+      "full_article_text_chars": 5091,
+      "content_preview": "Linux gaming has come a long way. Back in the days before Wine and Proton, gaming was a convoluted, niche hobby for Linux users. It required a ton of manual tweaking, but efforts from both Valve and the open-source community have brought it into a much, much better state. The magic sauce is undoubtedly Proton, a compatibility layer built by Valve (based on Wine) that lets Windows games run directly on Linux-based operating systems. The list of supported games grows by the minute, and almost all PC games are playable using the translation layer. Almost. Unfortunately, anti-cheat solutions still pose a major problem for Proton and Wine, and there simply isn’t an easy way to get these games working on Linux. Kernel-level anti-cheat is the Achilles' heel This is where it all starts to fall apart Proton is a legitimately impressive piece of software. It essentially translates Windows executables and games into formats that can be directly read and used by a Linux system, with almost negligible performance overhead. In fact, in certain cases, a game running through Proton has a good chance of running better than on a standard Windows 11 installation, largely thanks to the excess bloat in the latter. That being said, anti-cheat is where it all starts to fall apart. Almost all modern AAA live-service titles (such as Call of Duty and Battlefield, along with Marathon — to name a few) are entirely incompatible with Proton. There is simply no way to play these multiplayer-focused titles on Linux systems. At least not easily, but I’m getting way ahead of myself here. Which is quite a shame, really. Some of the best multiplayer experiences are still held hostage by Windows, and there doesn’t seem to be much effort to port them to Linux in the name of “security”. That’s not to say Proton is entirely incompatible with anti-cheat software It’s up to the developers Proton is not inherently incompatible with anti-cheat solutions. We’ve already seen many games run just fine on Linux, with Arc Raiders being a very recent example. In most cases, the anti-cheat software deliberately blocks Linux installs, and enabling it is as simple as flicking a switch. Unfortunately, many publishers simply forgo Linux systems in the name of security. Their reasoning is that Linux systems can be used by malicious actors to disrupt friendly matches, which is true to some extent. However, this does not change the fact that anti-cheat software essentially does nothing to permanently stop cheaters from ruining a game. Hacks have and will continue to exist, and punishing a now-growing subset of legitimate players who simply do not want to change operating systems isn’t particularly palatable. We’ve seen time and time again how teams have abandoned Linux support to curb cheaters, only for it to go terribly wrong and do basically nothing — as seen in Apex Legends. The bottom line is, anti-cheat solutions are always a bit of a cat-and-mouse game. Weeding out exploits is a difficult business, and you really can’t single out one operating system and expect it to all work out, even more so when the ones using these tools on Linux are far fewer than the ones running exploits within Windows. Alternatives and some rather strange rabbit holes A cat-and-mouse game That being said, there are ways to circumvent these blockades. The first method is the most obvious, which goes for the dual-boot method. You’ll essentially boot Windows and Linux on the same machine, preferably on two separate drives. In my experience, dual-booting is simply not worth it, more so if you have the two operating systems installed on the same drive. Things break, and they break spectacularly whenever Windows decides to push an update. The next, slightly pricier solution is to opt for a secondary machine that runs Windows. This could be an existing computer or an older laptop. If you’re not exactly keen on switching setups physically, you could always look into Moonlight and Sunshine streaming to play these games remotely, which works out better than you’d think. The final, more drastic solution is to try running games on a Windows virtual machine. Some titles have been reported to work just fine with GPU passthrough, although many of these games can also detect a VM and block you from playing, regardless. Hopeful for the future While it’s certainly not the year of the Linux desktop just yet, we are slowly approaching it. Desktop Linux adoption has grown markedly in the past few years alone, and we’re seeing steady gains, especially in gaming. Gaming works better than it ever did before on Linux, and there has been some serious effort into bridging anti-cheat compatibility on Linux and Windows systems. As Linux grows in popularity, expect the list to steadily increase over time. Until then, I’ll remain hopeful for a better future and remain content with my single-player games, which work fantastically well right now. Wine is a compatibility layer that lets you run Windows programs and executables on Linux. It's particularly great for games and is what Proton bases itself upon.",
+      "content_preview_chars": 5091,
+      "content_fetched_at": "2026-06-14T18:58:21",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "8c26701e78894c04",
+      "source_url_hash": "8c26701e78894c04",
+      "canonical_url": "https://www.howtogeek.com/i-changed-my-binge-watching-habits-after-trying-these-alternative-streaming-strategies",
+      "title_hash": "fe2eeeee99c4cbff",
+      "topic_signature": "892b1d5baafc82efc024",
+      "title": "I changed my binge-watching habits after trying these 3 alternative streaming strategies",
+      "url": "https://www.howtogeek.com/i-changed-my-binge-watching-habits-after-trying-these-alternative-streaming-strategies",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-06-14T18:00:18Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.96,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-06-14T18:58:05",
+      "status": "skipped",
+      "score": 0,
+      "priority": "low",
+      "skip_reason": "non_technical_entertainment_content"
+    },
+    {
+      "id": "c772a218ee685600",
+      "source_url_hash": "c772a218ee685600",
+      "canonical_url": "https://www.makeuseof.com/stopped-using-cloud-image-editors-found-self-hosted-alternative",
+      "title_hash": "e79533f6f42d8c86",
+      "topic_signature": "3139bfda0f320a851e28",
+      "title": "I stopped using cloud image editors after I found this self-hosted alternative",
+      "url": "https://www.makeuseof.com/stopped-using-cloud-image-editors-found-self-hosted-alternative",
+      "source_name": "MakeUseOf",
+      "source_url": "https://www.makeuseof.com",
+      "source_published_at": "2026-06-14T17:30:18Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.46,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-06-14T18:58:05",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 77,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 77,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "I stopped using cloud image editors after I found this self-hosted alternative",
+      "meta_description": "Cloud image editors are now much harder to justify.",
+      "article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/snaootter-image-editor-tool-running-on-windows.JPG?w=1600&h=900&fit=crop",
+          "alt": "I stopped using cloud image editors after I found this self-hosted alternative",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/snaootter-image-editor-tool-running-on-windows.JPG?&fit=crop&w=1600&h=900",
+          "alt": "SnaoOtter image editor tool running on Windows.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/snapotter-installing-docker-image-in-linux-mint.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "SnapOtter installing Docker image in Linux Mint.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/closeup-of-snapotter-home-page.JPG?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Closeup of SnapOtter Home page.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/snaootter-image-editor-tool-running-on-windows.JPG?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/snaootter-image-editor-tool-running-on-windows.JPG?&fit=crop&w=1600&h=900",
+          "alt": "SnaoOtter image editor tool running on Windows."
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/snapotter-installing-docker-image-in-linux-mint.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "SnapOtter installing Docker image in Linux Mint."
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/closeup-of-snapotter-home-page.JPG?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Closeup of SnapOtter Home page."
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Us On",
+          "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+        },
+        {
+          "title": "See at GitHub",
+          "url": "https://github.com/snapotter-hq/snapotter"
+        }
+      ],
+      "full_article_text": "If you've spent any time managing images and don't have a suite of professional software (or the hardware to run it) ready to go, making changes can get hectic. You use one web tool for compression, another for removing the background, and another to convert formats, and hope for the best when it comes to each tool's data retention policies. Now there are command-line tools that can edit images faster than any GUIs I've used, but they require learning commands. Nothing too difficult, but not everyone's cup of tea either. Well, if you've got a home server running, this Docker container might just be the answer to all your image management problems. The self-hosted image editor nobody talks about What SnapOtter is and why it replaced cloud tools for me SnapOtter is an open-source, self-hosted image toolkit that packages essentially everything you'd need for image processing into one container. We're talking resize, crop, compress, convert, watermark, color adjustments, GIF tools, collage builders, meme generators, duplicate finders, passport photo generators, and the list goes on. You name a task, and SnapOtter likely has a tool for it. The project is licensed under AGPLv3, which means it's free to self-host forever. It's built as a TypeScript monorepo with a Python layer for the AI features, and the entire stack compiles into a single Docker image. No Redis, no Postgres, no external services to babysit — just a single handy Docker container quietly humming away on your home server. SnapOtter is an open-source, self-hosted image editing and processing platform with 50+ tools, local AI features, pipelines, and a REST API that runs entirely on your own hardware. You'll have it running faster than expected Deployment that doesn't require hours of troubleshooting The quick start command for SnapOtter is literally one line: docker run -d --name snapotter -p 1349:1349 -v snapotter-data:/data snapotter/snapotter:latest That's it. Once the image pulls and the container starts, you can open your browser to http://localhost:1349 or your home server's local IP address, followed by the 1349 port number if you're accessing it from another machine, and you're off to the races. You'll be asked to log in with the default credentials, change your password, and the entire tool library will immediately be available via a clean web UI. If you have an Nvidia GPU (and have already installed the Nvidia Container Toolkit), you can add --gpus all to the command above to unlock hardware-accelerated AI processing. SnapOtter also runs on ARM64, which means it can run just fine on a Raspberry Pi if that's your home server of choice. Do keep in mind, though, that you'll need the more powerful Pis (Pi 4 or Pi 5) for this, as the Raspberry Pi 3B+ is a bit too limited for these kinds of tasks. The Nvidia Container Toolkit should already be installed on your computer in addition to the appropriate GPU drivers, especially if you're on Linux. Incorrect or missing drivers can cause the container to fail. Emit the --gpus all flag if you haven't set up your GPU on your home server. SnapOtter's actual tool library is nothing short of impressive. You get your standard manipulation tools that can cover resize by pixels, percentage, or social media presets; freeform and aspect-ratio cropping; format conversion; file compression with quality controls; web optimization; metadata stripping and editing; and bulk renaming, to name a few. Apart from that, there's a favicon generator, a color blindness simulator, an HTML-to-image capture tool, a QR code generator with custom styling, a barcode reader, a PDF-to-image converter, a screenshot beautifier that adds gradient backgrounds and device frames, and tools for splitting images into grids or stitching them back together. The collage builder alone comes with over 25 templates. The built-in AI is genuinely useful Local image processing without sending files to the cloud I can use Claude to edit images in Darktable, but I had to build my own MCP server to get the two tools to talk to each other. With SnapOptter, you get an AI feature set that can hold its own against paid cloud services, running locally on your hardware. It does, however, need to make an extra download that can be anywhere from 500 MB to 4-5GB for each individual AI feature you want to use. There's background removal, image upscaling with super-resolution, object erasure, face blur for personally-identifiable information (PII) redaction, OCR text extraction, AI colorization for black-and-white photos, photo restoration for damaged or scratched images, face enhancement, noise removal, red eye correction, content-aware resizing with seam carving, and AI canvas expansion, among others. There are no API keys, no rate limits to worry about, no subscription fees to look out for, and no images heading off to a third-party server. You can remove the background from a thousand images in a batch without spending a cent or worrying what some company is doing with your images. The API is where things get interesting Building automated image workflows with pipelines and integrations Another rather useful feature you get with SnapOtter is its pipeline system. You can chain multiple tools together into reusable workflows, save them, and run them against unlimited images, all in a single batch. For example, if you want to compress an image, then strip metadata, convert it to WebP, and save it, you can create a pipeline in SnapOtter that can process any number of images in that order with a single command. Every single tool in SnapOtter is also available via a REST API with API key authentication, with a full interactive OpenAPI docs page also built into the container and hosted at /api/docks . This lets you wire SnapOtter into any existing automation stack like a home server dashboard, a locally hosted (or cloud-based) LLM, or a custom script and trigger image processing workflows without ever touching the UI. Your photos never leave your server The privacy-first approach that cloud editors can't match SnapOtter processes everything locally, with the only data being sent out being optional telemetry with anonymous usage data about which tools are used and what errors occur. It never sends your files over to a third-party sensor, and all data collection is disabled by default. You don't need to spend your hard-earned cash to enjoy a premium AI experience. For anyone running a home server because they care about data sovereignty, that philosophy is exactly what you want from a tool that'll handle potentially sensitive images. If you're already running a home server, SnapOtter is a no-brainer addition. The Docker command takes less than a minute, the resource footprint is quite reasonable, and you immediately retire a whole pile of cloud bookmarks and potentially even paid services.",
+      "full_article_text_chars": 6858,
+      "content_preview": "If you've spent any time managing images and don't have a suite of professional software (or the hardware to run it) ready to go, making changes can get hectic. You use one web tool for compression, another for removing the background, and another to convert formats, and hope for the best when it comes to each tool's data retention policies. Now there are command-line tools that can edit images faster than any GUIs I've used, but they require learning commands. Nothing too difficult, but not everyone's cup of tea either. Well, if you've got a home server running, this Docker container might just be the answer to all your image management problems. The self-hosted image editor nobody talks about What SnapOtter is and why it replaced cloud tools for me SnapOtter is an open-source, self-hosted image toolkit that packages essentially everything you'd need for image processing into one container. We're talking resize, crop, compress, convert, watermark, color adjustments, GIF tools, collage builders, meme generators, duplicate finders, passport photo generators, and the list goes on. You name a task, and SnapOtter likely has a tool for it. The project is licensed under AGPLv3, which means it's free to self-host forever. It's built as a TypeScript monorepo with a Python layer for the AI features, and the entire stack compiles into a single Docker image. No Redis, no Postgres, no external services to babysit — just a single handy Docker container quietly humming away on your home server. SnapOtter is an open-source, self-hosted image editing and processing platform with 50+ tools, local AI features, pipelines, and a REST API that runs entirely on your own hardware. You'll have it running faster than expected Deployment that doesn't require hours of troubleshooting The quick start command for SnapOtter is literally one line: docker run -d --name snapotter -p 1349:1349 -v snapotter-data:/data snapotter/snapotter:latest That's it. Once the image pulls and the container starts, you can open your browser to http://localhost:1349 or your home server's local IP address, followed by the 1349 port number if you're accessing it from another machine, and you're off to the races. You'll be asked to log in with the default credentials, change your password, and the entire tool library will immediately be available via a clean web UI. If you have an Nvidia GPU (and have already installed the Nvidia Container Toolkit), you can add --gpus all to the command above to unlock hardware-accelerated AI processing. SnapOtter also runs on ARM64, which means it can run just fine on a Raspberry Pi if that's your home server of choice. Do keep in mind, though, that you'll need the more powerful Pis (Pi 4 or Pi 5) for this, as the Raspberry Pi 3B+ is a bit too limited for these kinds of tasks. The Nvidia Container Toolkit should already be installed on your computer in addition to the appropriate GPU drivers, especially if you're on Linux. Incorrect or missing drivers can cause the container to fail. Emit the --gpus all flag if you haven't set up your GPU on your home server. SnapOtter's actual tool library is nothing short of impressive. You get your standard manipulation tools that can cover resize by pixels, percentage, or social media presets; freeform and aspect-ratio cropping; format conversion; file compression with quality controls; web optimization; metadata stripping and editing; and bulk renaming, to name a few. Apart from that, there's a favicon generator, a color blindness simulator, an HTML-to-image capture tool, a QR code generator with custom styling, a barcode reader, a PDF-to-image converter, a screenshot beautifier that adds gradient backgrounds and device frames, and tools for splitting images into grids or stitching them back together. The collage builder alone comes with over 25 templates. The built-in AI is genuinely useful Local image processing without sending files to the cloud I can use Claude to edit images in Darktable, but I had to build my own MCP server to get the two tools to talk to each other. With SnapOptter, you get an AI feature set that can hold its own against paid cloud services, running locally on your hardware. It does, however, need to make an extra download that can be anywhere from 500 MB to 4-5GB for each individual AI feature you want to use. There's background removal, image upscaling with super-resolution, object erasure, face blur for personally-identifiable information (PII) redaction, OCR text extraction, AI colorization for black-and-white photos, photo restoration for damaged or scratched images, face enhancement, noise removal, red eye correction, content-aware resizing with seam carving, and AI canvas expansion, among others. There are no API keys, no rate limits to worry about, no subscription fees to look out for, and no images heading off to a third-party server. You can remove the background from a thousand images in a batch without spending a cent or worrying what some company is doing with your images. The API is where things get interesting Building automated image workflows with pipelines and integrations Another rather useful feature you get with SnapOtter is its pipeline system. You can chain multiple tools together into reusable workflows, save them, and run them against unlimited images, all in a single batch. For example, if you want to compress an image, then strip metadata, convert it to WebP, and save it, you can create a pipeline in SnapOtter that can process any number of images in that order with a single command. Every single tool in SnapOtter is also available via a REST API with API key authentication, with a full interactive OpenAPI docs page also built into the container and hosted at /api/docks . This lets you wire SnapOtter into any existing automation stack like a home server dashboard, a locally hosted (or cloud-based) LLM, or a custom script and trigger image processing workflows without ever touching the UI. Your photos never leave your server The privacy-first approach that cloud editors can't match SnapOtter processes everything locally, with the only data being sent out being optional telemetry with anonymous usage data about which tools are used and what errors occur. It never sends your files over to a third-party sensor, and all data collection is disabled by default. You don't need to spend your hard-earned cash to enjoy a premium AI experience. For anyone running a home server because they care about data sovereignty, that philosophy is exactly what you want from a tool that'll handle potentially sensitive images. If you're already running a home server, SnapOtter is a no-brainer addition. The Docker command takes less than a minute, the resource footprint is quite reasonable, and you immediately retire a whole pile of cloud bookmarks and potentially even paid services.",
+      "content_preview_chars": 6858,
+      "content_fetched_at": "2026-06-14T18:58:29",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "60bc17c4b0960528",
+      "source_url_hash": "60bc17c4b0960528",
+      "canonical_url": "https://www.makeuseof.com/pc-had-frame-drops-couldnt-explain-until-found-hidden-cpu-bios-setting",
+      "title_hash": "1dab6d32c3584a6a",
+      "topic_signature": "4c77d2a7799e600db9d3",
+      "title": "My PC had annoying frame drops I couldn't explain — until I found this hidden CPU BIOS setting",
+      "url": "https://www.makeuseof.com/pc-had-frame-drops-couldnt-explain-until-found-hidden-cpu-bios-setting",
+      "source_name": "MakeUseOf",
+      "source_url": "https://www.makeuseof.com",
+      "source_published_at": "2026-06-14T17:00:19Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.96,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-06-14T18:58:05",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 79,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 79,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "My PC had annoying frame drops I couldn't explain — until I found this hidden CPU BIOS setting",
+      "meta_description": "Your CPU is half-asleep even during the most heavy workloads — here's how to wake it up.",
+      "article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/04/cyberpunk-2077-dynamic-mfg.jpg?w=1600&h=900&fit=crop",
+          "alt": "My PC had annoying frame drops I couldn't explain — until I found this hidden CPU BIOS setting",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/04/cyberpunk-2077-dynamic-mfg.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Cyberpunk 2077 using Dynamic Multi Frame Generation on a gaming laptop",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2024/06/amd-ryzen-cpu-in-red-light.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+          "alt": "amd ryzen cpu in red light",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/frame-gen-007-first-light.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Frame gen in 007: First Light",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/04/cyberpunk-2077-dynamic-mfg.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/04/cyberpunk-2077-dynamic-mfg.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Cyberpunk 2077 using Dynamic Multi Frame Generation on a gaming laptop"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2024/06/amd-ryzen-cpu-in-red-light.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+          "alt": "amd ryzen cpu in red light"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/06/frame-gen-007-first-light.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Frame gen in 007: First Light"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Us On",
+          "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+        }
+      ],
+      "full_article_text": "Squeezing every ounce of your CPU's power can be hard, considering Windows hides performance-boosting settings in a new feature that may not be apparent to most users. There's also another important CPU setting that lies dormant deep in the BIOS menu, one you might have already overlooked. Beyond these tweaks, I came across another setting — C-States, a CPU power management feature that determines how aggressively your processor sleeps when it's not under load, which is why my frames weren't smooth. It wasn't until I disabled this setting that I fixed my annoying frame stutter. If you've got a good CPU and don't mind some warmth, give this a try. Understanding CPU C-States Your processor doesn't stay awake all the time — it sleeps in stages Modern CPUs come with an abundance of circuitry inside. For instance, P-cores (Performance Cores) have high raw computing power and are best for heavy workloads like rendering or gaming, whereas E-cores (Efficiency Cores) are low-power cores that best handle less demanding tasks like background services. Depending on your needs, a CPU enters different power-saving modes, called C-states, in which parts of the processor are powered down. There are multiple C-states, and they differ by CPU, but generally, C0 represents full CPU activity, whereas C1 to C7 represent parts of the CPU going to sleep; higher numbers indicate deeper sleep. C8-C10 are the deepest CPU idle states. To list each scenario of C-state: C0 could be your CPU fully awake, out in tasks like heavy workloads, like gaming or heavy 3D rendering, and depending on medium usage, your CPU can shift to C1–C7 states, lighter activity as you go up the numbers, and C8-C10 is when most of the power to the processor is cut off. C-states vary across CPUs, so it's important to check your manufacturer's manual to confirm. C-States may quietly be killing your frame times The tiny delay in waking up is enough to mess up your entire frame pacing Now, depending on whether you're a gamer, latency matters a lot in your hardware. Between the hundreds of frames and the constant communication between input and processes, every millisecond counts, and even the slightest delay causes hiccups that hurt performance, resulting in frame drops and stutters. How does this relate to C-state? Well, your CPU doesn't demand maximum utilization all the time — that completely depends on the game, and it might demand more resources in areas where it's asset-dense or moving through the world. The idea is that your CPU still constantly shifts between C-States during gaming, but returning to C0 isn't instantaneous — there's a slight delay in waking the whole processor, and the penalty increases depending on whether the CPU is returning from a higher C-state. This delay then causes frame-rate dips and stutters because frame timing gets disrupted. For me, I couldn't figure out why I was getting micro-stutters and sudden frame dips in games where I had to change location or when there were suddenly more elements on my screen. The temperatures were normal, and the CPU usage wasn't consistently at maximum, so thermal throttle was also out of the equation. That was until I found out what C-State meant, and once I disabled them, my frames became smooth. To disable C-States, you'll need to follow these steps: Enter the BIOS via the F2/Delete button on startup. Navigate to Advanced/EZ Mode , depending on the motherboard brand. Now, look for CPU Configuration/Power Management , once again, different naming conventions for different motherboards. Over there, you'll find Intel C-State/CPU C-State/Package C-State Limit/Global C-State Control depending on your CPU brand: AMD/Intel. Disabling C-States has some important caveats that need to be considered Don't do it without decent cooling Now, the idea of disabling C-state seems enticing since you'll be unlocking your CPU's maximum capabilities 100% of the time as it remains active throughout. However, your entire CPU being fully awake also means that it will draw more power consistently, ultimately meaning that your system will also run hotter even when it's idling. Moreover, switching between C-states allows your processor to cool down, and being active in C0 leaves no room to chill, so temperatures might exceed the safe limit to the point that your CPU starts thermal throttling, adversely impacting performance. Therefore, I highly recommend not disabling C-State if you don't have a decent cooling setup. I have a decent cooler for my Ryzen 7 7700X, and even with C-State disabled, I was able to control the temperatures and make the most out of my processor. The right call depends on your setup C-states are among the many BIOS settings that PC users tend to overlook, and they can fine-tune your PC to suit your daily needs, whether for maximizing performance or efficiency. Regardless, C-State is one of the most overlooked settings when it comes to finding the culprit for those annoying frame drops and low 1%. Anyhow, disabling C-State or keeping it enabled is entirely up to the user — it's not universally right or wrong. As I mentioned earlier, if you want your PC to deliver maximum performance at all times, have a decent cooling system, and aren't worried about the electricity bill, disabling C-State might be beneficial. If you're on a laptop, the power draw alone is a reason to leave C-State enabled. The AMD Ryzen 7 7700X comes in at a mid-range price, and while it's not as powerful as the AMD Ryzen 9 7950X, it's still powerful enough for even the most demanding games.",
+      "full_article_text_chars": 5567,
+      "content_preview": "Squeezing every ounce of your CPU's power can be hard, considering Windows hides performance-boosting settings in a new feature that may not be apparent to most users. There's also another important CPU setting that lies dormant deep in the BIOS menu, one you might have already overlooked. Beyond these tweaks, I came across another setting — C-States, a CPU power management feature that determines how aggressively your processor sleeps when it's not under load, which is why my frames weren't smooth. It wasn't until I disabled this setting that I fixed my annoying frame stutter. If you've got a good CPU and don't mind some warmth, give this a try. Understanding CPU C-States Your processor doesn't stay awake all the time — it sleeps in stages Modern CPUs come with an abundance of circuitry inside. For instance, P-cores (Performance Cores) have high raw computing power and are best for heavy workloads like rendering or gaming, whereas E-cores (Efficiency Cores) are low-power cores that best handle less demanding tasks like background services. Depending on your needs, a CPU enters different power-saving modes, called C-states, in which parts of the processor are powered down. There are multiple C-states, and they differ by CPU, but generally, C0 represents full CPU activity, whereas C1 to C7 represent parts of the CPU going to sleep; higher numbers indicate deeper sleep. C8-C10 are the deepest CPU idle states. To list each scenario of C-state: C0 could be your CPU fully awake, out in tasks like heavy workloads, like gaming or heavy 3D rendering, and depending on medium usage, your CPU can shift to C1–C7 states, lighter activity as you go up the numbers, and C8-C10 is when most of the power to the processor is cut off. C-states vary across CPUs, so it's important to check your manufacturer's manual to confirm. C-States may quietly be killing your frame times The tiny delay in waking up is enough to mess up your entire frame pacing Now, depending on whether you're a gamer, latency matters a lot in your hardware. Between the hundreds of frames and the constant communication between input and processes, every millisecond counts, and even the slightest delay causes hiccups that hurt performance, resulting in frame drops and stutters. How does this relate to C-state? Well, your CPU doesn't demand maximum utilization all the time — that completely depends on the game, and it might demand more resources in areas where it's asset-dense or moving through the world. The idea is that your CPU still constantly shifts between C-States during gaming, but returning to C0 isn't instantaneous — there's a slight delay in waking the whole processor, and the penalty increases depending on whether the CPU is returning from a higher C-state. This delay then causes frame-rate dips and stutters because frame timing gets disrupted. For me, I couldn't figure out why I was getting micro-stutters and sudden frame dips in games where I had to change location or when there were suddenly more elements on my screen. The temperatures were normal, and the CPU usage wasn't consistently at maximum, so thermal throttle was also out of the equation. That was until I found out what C-State meant, and once I disabled them, my frames became smooth. To disable C-States, you'll need to follow these steps: Enter the BIOS via the F2/Delete button on startup. Navigate to Advanced/EZ Mode , depending on the motherboard brand. Now, look for CPU Configuration/Power Management , once again, different naming conventions for different motherboards. Over there, you'll find Intel C-State/CPU C-State/Package C-State Limit/Global C-State Control depending on your CPU brand: AMD/Intel. Disabling C-States has some important caveats that need to be considered Don't do it without decent cooling Now, the idea of disabling C-state seems enticing since you'll be unlocking your CPU's maximum capabilities 100% of the time as it remains active throughout. However, your entire CPU being fully awake also means that it will draw more power consistently, ultimately meaning that your system will also run hotter even when it's idling. Moreover, switching between C-states allows your processor to cool down, and being active in C0 leaves no room to chill, so temperatures might exceed the safe limit to the point that your CPU starts thermal throttling, adversely impacting performance. Therefore, I highly recommend not disabling C-State if you don't have a decent cooling setup. I have a decent cooler for my Ryzen 7 7700X, and even with C-State disabled, I was able to control the temperatures and make the most out of my processor. The right call depends on your setup C-states are among the many BIOS settings that PC users tend to overlook, and they can fine-tune your PC to suit your daily needs, whether for maximizing performance or efficiency. Regardless, C-State is one of the most overlooked settings when it comes to finding the culprit for those annoying frame drops and low 1%. Anyhow, disabling C-State or keeping it enabled is entirely up to the user — it's not universally right or wrong. As I mentioned earlier, if you want your PC to deliver maximum performance at all times, have a decent cooling system, and aren't worried about the electricity bill, disabling C-State might be beneficial. If you're on a laptop, the power draw alone is a reason to leave C-State enabled. The AMD Ryzen 7 7700X comes in at a mid-range price, and while it's not as powerful as the AMD Ryzen 9 7950X, it's still powerful enough for even the most demanding games.",
+      "content_preview_chars": 5567,
+      "content_fetched_at": "2026-06-14T18:58:27",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "111893cc8d6211a6",
+      "source_url_hash": "111893cc8d6211a6",
+      "canonical_url": "https://www.ghacks.net/2026/06/14/chatgpt-reaches-1-billion-monthly-app-users-in-3-5-years-the-fastest-in-app-history",
+      "title_hash": "9755a0f6dcb5ffda",
+      "topic_signature": "17a8e6daf1cd6488a21c",
+      "title": "ChatGPT Reaches 1 Billion Monthly App Users in 3.5 Years, the Fastest in App History",
+      "url": "https://www.ghacks.net/2026/06/14/chatgpt-reaches-1-billion-monthly-app-users-in-3-5-years-the-fastest-in-app-history",
+      "source_name": "Ghacks",
+      "source_url": "https://www.ghacks.net",
+      "source_published_at": "2026-06-14T06:49:27Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 12.14,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-06-14T18:58:05",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 38,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 38,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "ChatGPT Reaches 1 Billion Monthly App Users in 3.5 Years, the Fastest in App History - gHacks Tech News",
+      "meta_description": "ChatGPT has reached 1 billion monthly app users in 3.5 years, becoming the fastest app to hit the milestone, surpassing Google Maps which took 5 years.",
+      "article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-14T094424.235.png",
+          "alt": "ChatGPT Reaches 1 Billion Monthly App Users in 3.5 Years, the Fastest in App History - gHacks Tech News",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-13T112103.819.png",
+          "alt": "US Government Suspends Anthropic’s Claude Fable 5 and Mythos 5 Over Security and Jailbreak Concerns",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-12T141301.378.png",
+          "alt": "Visa Now Connects ChatGPT to Its Payment Network for Agent-Initiated Retail Purchases",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-12T140557.186.png",
+          "alt": "Instagram Expands Your Algorithm Controls to Main Feed, Letting Users Adjust Recommended Topics",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-14T094424.235.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-13T112103.819.png",
+          "alt": "US Government Suspends Anthropic’s Claude Fable 5 and Mythos 5 Over Security and Jailbreak Concerns"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-12T141301.378.png",
+          "alt": "Visa Now Connects ChatGPT to Its Payment Network for Agent-Initiated Retail Purchases"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-12T140557.186.png",
+          "alt": "Instagram Expands Your Algorithm Controls to Main Feed, Letting Users Adjust Recommended Topics"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.ghacks.net%2F"
+        }
+      ],
+      "full_article_text": "ChatGPT has reached 1 billion monthly active users on its app, making it the fastest application in history to hit that milestone. The figures come from market intelligence firm Sensor Tower, which previously held Google Maps as the record holder. Google Maps took approximately five years to reach 1 billion monthly users. ChatGPT reached the same number in roughly 3.5 years since its November 2022 launch. The figure specifically refers to monthly app users rather than total users across all surfaces, including the web. Growth Across the AI Chatbot Market While ChatGPT remains the dominant player in the market, the growth rates of competing chatbots are increasing more rapidly in percentage terms: ChatGPT: 62% year-on-year growth Anthropic Claude: 640% year-on-year growth Meta AI: 973% year-on-year growth Abe Yousef, senior insights analyst at Sensor Tower, told CNBC that improvements in the models and more positive market sentiment toward rival companies have contributed to the rise of competing apps. Despite the significant percentage differences, ChatGPT's user base is still much larger than its competitors in absolute numbers. How Government Deals and Public Sentiment Are Shaping ChatGPT’s Adoption OpenAI signed a deal with the Pentagon earlier this year as part of a larger set of contracts between US tech companies and the Department of Defense. The agreement drew criticism from the public. In response, CEO Sam Altman promised additional safeguards to prevent the technology from being used for surveillance of US citizens. On February 28, the day after the Pentagon deal was announced, there was a sharp increase in ChatGPT uninstalls, rising approximately 295% compared to the previous day. During the same period, Anthropic's Claude became the top free app on the US App Store. Anthropic has refused to allow the government to use its models for mass domestic surveillance or fully autonomous weapons. This stance led the company to be labeled a \"supply chain risk\" by the Pentagon. Despite this, reports suggest that the NSA is using Claude Mythos for offensive cyber operations, even amid public disagreements. The increase in AI chatbot usage is happening alongside growing public concerns about AI. Polls show that roughly 70% of Americans oppose the construction of AI data centers. Worries about AI's effect on jobs also remain, although recent analyses suggest that the predicted large-scale job losses haven't yet materialized. OpenAI released a report this week stating that accounts linked to China have used ChatGPT to spread anti-data center sentiments in the United States. The company said these efforts had limited impact. The contrast between rising adoption and declining public opinion is a key feature of the current AI landscape. With ChatGPT reaching one billion monthly users, many see its practical value as outweighing concerns, even as debates about AI's risks and benefits continue to grow.",
+      "full_article_text_chars": 2947,
+      "content_preview": "ChatGPT has reached 1 billion monthly active users on its app, making it the fastest application in history to hit that milestone. The figures come from market intelligence firm Sensor Tower, which previously held Google Maps as the record holder. Google Maps took approximately five years to reach 1 billion monthly users. ChatGPT reached the same number in roughly 3.5 years since its November 2022 launch. The figure specifically refers to monthly app users rather than total users across all surfaces, including the web. Growth Across the AI Chatbot Market While ChatGPT remains the dominant player in the market, the growth rates of competing chatbots are increasing more rapidly in percentage terms: ChatGPT: 62% year-on-year growth Anthropic Claude: 640% year-on-year growth Meta AI: 973% year-on-year growth Abe Yousef, senior insights analyst at Sensor Tower, told CNBC that improvements in the models and more positive market sentiment toward rival companies have contributed to the rise of competing apps. Despite the significant percentage differences, ChatGPT's user base is still much larger than its competitors in absolute numbers. How Government Deals and Public Sentiment Are Shaping ChatGPT’s Adoption OpenAI signed a deal with the Pentagon earlier this year as part of a larger set of contracts between US tech companies and the Department of Defense. The agreement drew criticism from the public. In response, CEO Sam Altman promised additional safeguards to prevent the technology from being used for surveillance of US citizens. On February 28, the day after the Pentagon deal was announced, there was a sharp increase in ChatGPT uninstalls, rising approximately 295% compared to the previous day. During the same period, Anthropic's Claude became the top free app on the US App Store. Anthropic has refused to allow the government to use its models for mass domestic surveillance or fully autonomous weapons. This stance led the company to be labeled a \"supply chain risk\" by the Pentagon. Despite this, reports suggest that the NSA is using Claude Mythos for offensive cyber operations, even amid public disagreements. The increase in AI chatbot usage is happening alongside growing public concerns about AI. Polls show that roughly 70% of Americans oppose the construction of AI data centers. Worries about AI's effect on jobs also remain, although recent analyses suggest that the predicted large-scale job losses haven't yet materialized. OpenAI released a report this week stating that accounts linked to China have used ChatGPT to spread anti-data center sentiments in the United States. The company said these efforts had limited impact. The contrast between rising adoption and declining public opinion is a key feature of the current AI landscape. With ChatGPT reaching one billion monthly users, many see its practical value as outweighing concerns, even as debates about AI's risks and benefits continue to grow.",
+      "content_preview_chars": 2947,
+      "content_fetched_at": "2026-06-14T18:58:46",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "f5e01f602cfd96d8",
+      "source_url_hash": "f5e01f602cfd96d8",
+      "canonical_url": "https://www.ghacks.net/2026/06/14/call-of-duty-modern-warfare-4-adds-7-day-campaign-early-access-for-digital-preorders",
+      "title_hash": "bab5716b41a27c0d",
+      "topic_signature": "dcf79fcfa7a53ef3e2fc",
+      "title": "Call of Duty: Modern Warfare 4 Adds 7-Day Campaign Early Access for Digital Preorders",
+      "url": "https://www.ghacks.net/2026/06/14/call-of-duty-modern-warfare-4-adds-7-day-campaign-early-access-for-digital-preorders",
+      "source_name": "Ghacks",
+      "source_url": "https://www.ghacks.net",
+      "source_published_at": "2026-06-14T06:39:35Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 12.31,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-06-14T18:58:05",
+      "status": "ready",
+      "score": 2,
+      "priority": "low",
+      "source_links_removed_count": 39,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 39,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Call of Duty: Modern Warfare 4 Adds 7-Day Campaign Early Access for Digital Preorders - gHacks Tech News",
+      "meta_description": "Activision is offering 7-day early access to the Call of Duty: Modern Warfare 4 campaign for digital preorders.",
+      "article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-14T093557.473.png",
+          "alt": "Call of Duty: Modern Warfare 4 Adds 7-Day Campaign Early Access for Digital Preorders - gHacks Tech News",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-13T112103.819.png",
+          "alt": "US Government Suspends Anthropic’s Claude Fable 5 and Mythos 5 Over Security and Jailbreak Concerns",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-12T141301.378.png",
+          "alt": "Visa Now Connects ChatGPT to Its Payment Network for Agent-Initiated Retail Purchases",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-12T140557.186.png",
+          "alt": "Instagram Expands Your Algorithm Controls to Main Feed, Letting Users Adjust Recommended Topics",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-14T093557.473.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-13T112103.819.png",
+          "alt": "US Government Suspends Anthropic’s Claude Fable 5 and Mythos 5 Over Security and Jailbreak Concerns"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-12T141301.378.png",
+          "alt": "Visa Now Connects ChatGPT to Its Payment Network for Agent-Initiated Retail Purchases"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/06/gHacks-articles-2026-06-12T140557.186.png",
+          "alt": "Instagram Expands Your Algorithm Controls to Main Feed, Letting Users Adjust Recommended Topics"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.ghacks.net%2F"
+        }
+      ],
+      "full_article_text": "Activision and Infinity Ward have announced that digital preorders of Call of Duty: Modern Warfare 4 will grant early access to the campaign starting October 16, a week before the game's official release on October 23. This early access is exclusive to digital preorders. Modern Warfare 4 is the first Call of Duty game to skip last-generation consoles. It will be available on Xbox Series X|S, PlayStation 5, Nintendo Switch 2, and PC through platforms such as Xbox on PC, Steam, and Battle.net. What the Digital Preorder Includes, and the Game Pass Delay Digital preorders unlock the following on October 16: access to the full Modern Warfare 4 campaign one week before the public launch, the preorder operator bundles already announced, and standard launch-day access to multiplayer and DMZ modes on October 23. The early access does not apply to physical preorders. Despite being a first-party title from Microsoft, Modern Warfare 4 will not be available on Xbox Game Pass or PC Game Pass until October 23, 2027, which is one year after its launch. Additionally, new Call of Duty releases were removed from day-one Game Pass availability as part of the reduction in the Game Pass Ultimate subscription price to $22.99 per month. Campaign Storyline, Spoiler Risk, and Trailer Performance The campaign shifts its focus to Private Park, a young soldier from South Korea facing live combat after North Korea launches a full-scale invasion of the South. The conflict becomes the campaign's front line. Captain Price returns, voiced by Barry Sloane, driven by revenge for the death of Soap MacTavish at the hands of the series antagonist, Makarov. The reveal trailer shows Price working with former TF141 adversary Valeria \"El Sin Nombre\" Garza. It also features an exchange between Price and Ghost, where Ghost accuses Price of breaking rules. Price replies, \"No more rules.\" Infinity Ward has been unusually transparent about the campaign's story during its pre-release marketing. Now that campaign early access is available a week before the official launch, players who wait until the public release face a higher risk of encountering spoilers through streams, social media, and discussion forums during the early access period. The reveal trailer for Modern Warfare 4 has been viewed 58 million times on YouTube within two weeks. This surpasses the 49 million views that the Call of Duty: Black Ops 7 trailer received nine months earlier. The positive response has led to discussions about the game's potential commercial success. Call of Duty: Modern Warfare 4 is now available for pre-order through participating retailers, platform stores, or on CallofDuty.com.",
+      "full_article_text_chars": 2667,
+      "content_preview": "Activision and Infinity Ward have announced that digital preorders of Call of Duty: Modern Warfare 4 will grant early access to the campaign starting October 16, a week before the game's official release on October 23. This early access is exclusive to digital preorders. Modern Warfare 4 is the first Call of Duty game to skip last-generation consoles. It will be available on Xbox Series X|S, PlayStation 5, Nintendo Switch 2, and PC through platforms such as Xbox on PC, Steam, and Battle.net. What the Digital Preorder Includes, and the Game Pass Delay Digital preorders unlock the following on October 16: access to the full Modern Warfare 4 campaign one week before the public launch, the preorder operator bundles already announced, and standard launch-day access to multiplayer and DMZ modes on October 23. The early access does not apply to physical preorders. Despite being a first-party title from Microsoft, Modern Warfare 4 will not be available on Xbox Game Pass or PC Game Pass until October 23, 2027, which is one year after its launch. Additionally, new Call of Duty releases were removed from day-one Game Pass availability as part of the reduction in the Game Pass Ultimate subscription price to $22.99 per month. Campaign Storyline, Spoiler Risk, and Trailer Performance The campaign shifts its focus to Private Park, a young soldier from South Korea facing live combat after North Korea launches a full-scale invasion of the South. The conflict becomes the campaign's front line. Captain Price returns, voiced by Barry Sloane, driven by revenge for the death of Soap MacTavish at the hands of the series antagonist, Makarov. The reveal trailer shows Price working with former TF141 adversary Valeria \"El Sin Nombre\" Garza. It also features an exchange between Price and Ghost, where Ghost accuses Price of breaking rules. Price replies, \"No more rules.\" Infinity Ward has been unusually transparent about the campaign's story during its pre-release marketing. Now that campaign early access is available a week before the official launch, players who wait until the public release face a higher risk of encountering spoilers through streams, social media, and discussion forums during the early access period. The reveal trailer for Modern Warfare 4 has been viewed 58 million times on YouTube within two weeks. This surpasses the 49 million views that the Call of Duty: Black Ops 7 trailer received nine months earlier. The positive response has led to discussions about the game's potential commercial success. Call of Duty: Modern Warfare 4 is now available for pre-order through participating retailers, platform stores, or on CallofDuty.com.",
+      "content_preview_chars": 2667,
+      "content_fetched_at": "2026-06-14T18:58:48",
+      "enrichment_status": "weak",
       "content_fetch_status": "success"
     }
   ],
