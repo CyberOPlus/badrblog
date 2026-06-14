@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-14T07:13:36",
+  "updated_at": "2026-06-14T10:33:08",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -1416,13 +1416,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-06-14T07:09:31",
-      "candidate_retry_after": "2026-06-14T07:24:31Z",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-06-14T10:31:21",
+      "candidate_retry_after": "2026-06-14T10:46:21Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-06-14T07:09:31",
-      "candidate_failure_count": 56
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-06-14T10:31:21",
+      "candidate_failure_count": 57
     },
     {
       "id": "387079dc0a830ad9",
@@ -2211,7 +2211,10 @@
       "content_preview_chars": 2048,
       "content_fetched_at": "2026-06-08T07:02:08",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-14T10:31:06",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "51b13fa2d719b245",
@@ -2294,7 +2297,10 @@
       "content_preview_chars": 2813,
       "content_fetched_at": "2026-06-08T07:02:09",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-14T10:31:06",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "632ee3708fcf3541",
@@ -3459,12 +3465,12 @@
       "removed_source_links_count": 82,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-14T07:09:32",
-      "candidate_retry_after": "2026-06-14T07:24:32Z",
+      "content_fetched_at": "2026-06-14T10:31:22",
+      "candidate_retry_after": "2026-06-14T10:46:22Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-14T07:09:32",
-      "candidate_failure_count": 54
+      "candidate_failed_at": "2026-06-14T10:31:22",
+      "candidate_failure_count": 55
     },
     {
       "id": "561b6316398d7603",
@@ -4446,17 +4452,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 228,
-      "affiliate_links_removed_count": 5,
-      "removed_source_links_count": 228,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=446 chars/65 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:446chars/65words, page_text:446chars/65words)",
-      "content_fetched_at": "2026-06-14T07:09:36",
-      "candidate_retry_after": "2026-06-14T07:24:36Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-06-14T10:31:23",
+      "candidate_retry_after": "2026-06-14T10:46:23Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=446 chars/65 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:446chars/65words, page_text:446chars/65words)",
-      "candidate_failed_at": "2026-06-14T07:09:36",
-      "candidate_failure_count": 53
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-06-14T10:31:23",
+      "candidate_failure_count": 54
     },
     {
       "id": "c1354558130eaeb3",
@@ -5541,12 +5547,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-14T07:09:36",
-      "candidate_retry_after": "2026-06-14T07:24:36Z",
+      "content_fetched_at": "2026-06-14T10:31:23",
+      "candidate_retry_after": "2026-06-14T10:46:23Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-14T07:09:36",
-      "candidate_failure_count": 52
+      "candidate_failed_at": "2026-06-14T10:31:23",
+      "candidate_failure_count": 53
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -6892,13 +6898,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-06-14T07:09:37",
-      "candidate_retry_after": "2026-06-14T07:24:37Z",
+      "content_fetch_error": "http 520",
+      "content_fetched_at": "2026-06-14T10:31:35",
+      "candidate_retry_after": "2026-06-14T10:46:35Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-06-14T07:09:37",
-      "candidate_failure_count": 50
+      "candidate_failure_reason": "http 520",
+      "candidate_failed_at": "2026-06-14T10:31:35",
+      "candidate_failure_count": 51
     },
     {
       "id": "cc5e99891af35b5e",
@@ -6929,13 +6935,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-06-14T07:09:37",
-      "candidate_retry_after": "2026-06-14T07:24:37Z",
+      "content_fetch_error": "http 520",
+      "content_fetched_at": "2026-06-14T10:31:46",
+      "candidate_retry_after": "2026-06-14T10:46:46Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-06-14T07:09:37",
-      "candidate_failure_count": 50
+      "candidate_failure_reason": "http 520",
+      "candidate_failed_at": "2026-06-14T10:31:46",
+      "candidate_failure_count": 51
     },
     {
       "id": "a6f4ca9464909855",
@@ -6966,13 +6972,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-06-14T07:09:37",
-      "candidate_retry_after": "2026-06-14T07:24:37Z",
+      "content_fetch_error": "http 520",
+      "content_fetched_at": "2026-06-14T10:31:57",
+      "candidate_retry_after": "2026-06-14T10:46:57Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-06-14T07:09:37",
-      "candidate_failure_count": 50
+      "candidate_failure_reason": "http 520",
+      "candidate_failed_at": "2026-06-14T10:31:57",
+      "candidate_failure_count": 51
     },
     {
       "id": "66722f50e91993b6",
@@ -9034,12 +9040,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-14T07:09:38",
-      "candidate_retry_after": "2026-06-14T07:24:38Z",
+      "content_fetched_at": "2026-06-14T10:31:57",
+      "candidate_retry_after": "2026-06-14T10:46:57Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-14T07:09:38",
-      "candidate_failure_count": 46
+      "candidate_failed_at": "2026-06-14T10:31:57",
+      "candidate_failure_count": 47
     },
     {
       "id": "512c2899a98440d2",
@@ -9068,12 +9074,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-14T07:09:38",
-      "candidate_retry_after": "2026-06-14T07:24:38Z",
+      "content_fetched_at": "2026-06-14T10:31:57",
+      "candidate_retry_after": "2026-06-14T10:46:57Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-14T07:09:38",
-      "candidate_failure_count": 46
+      "candidate_failed_at": "2026-06-14T10:31:57",
+      "candidate_failure_count": 47
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -9102,12 +9108,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-14T07:09:38",
-      "candidate_retry_after": "2026-06-14T07:24:38Z",
+      "content_fetched_at": "2026-06-14T10:31:58",
+      "candidate_retry_after": "2026-06-14T10:46:58Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-14T07:09:38",
-      "candidate_failure_count": 46
+      "candidate_failed_at": "2026-06-14T10:31:58",
+      "candidate_failure_count": 47
     },
     {
       "id": "d9a0fa48ccc53ccf",
@@ -11022,12 +11028,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-06-14T07:09:40",
-      "candidate_retry_after": "2026-06-14T07:24:40Z",
+      "content_fetched_at": "2026-06-14T10:31:59",
+      "candidate_retry_after": "2026-06-14T10:46:59Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-06-14T07:09:40",
-      "candidate_failure_count": 42
+      "candidate_failed_at": "2026-06-14T10:31:59",
+      "candidate_failure_count": 43
     },
     {
       "id": "33732dfdc6295ab2",
@@ -11059,12 +11065,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-06-14T07:09:41",
-      "candidate_retry_after": "2026-06-14T07:24:41Z",
+      "content_fetched_at": "2026-06-14T10:32:01",
+      "candidate_retry_after": "2026-06-14T10:47:01Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-06-14T07:09:41",
-      "candidate_failure_count": 42
+      "candidate_failed_at": "2026-06-14T10:32:01",
+      "candidate_failure_count": 43
     },
     {
       "id": "aede79193c6b98c9",
@@ -11096,12 +11102,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-06-14T07:09:42",
-      "candidate_retry_after": "2026-06-14T07:24:42Z",
+      "content_fetched_at": "2026-06-14T10:32:03",
+      "candidate_retry_after": "2026-06-14T10:47:03Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-06-14T07:09:42",
-      "candidate_failure_count": 42
+      "candidate_failed_at": "2026-06-14T10:32:03",
+      "candidate_failure_count": 43
     },
     {
       "id": "fd4f78fb8656592b",
@@ -13557,12 +13563,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-06-14T07:09:45",
-      "candidate_retry_after": "2026-06-14T07:24:45Z",
+      "content_fetched_at": "2026-06-14T10:32:06",
+      "candidate_retry_after": "2026-06-14T10:47:06Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-06-14T07:09:45",
-      "candidate_failure_count": 38
+      "candidate_failed_at": "2026-06-14T10:32:06",
+      "candidate_failure_count": 39
     },
     {
       "id": "693fbfabd96b2185",
@@ -13593,12 +13599,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-06-14T07:09:46",
-      "candidate_retry_after": "2026-06-14T07:24:46Z",
+      "content_fetched_at": "2026-06-14T10:32:07",
+      "candidate_retry_after": "2026-06-14T10:47:07Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-06-14T07:09:46",
-      "candidate_failure_count": 38
+      "candidate_failed_at": "2026-06-14T10:32:07",
+      "candidate_failure_count": 39
     },
     {
       "id": "a5f6af5d6b69d4f1",
@@ -23159,12 +23165,12 @@
       "removed_source_links_count": 18,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, page_text:593chars/104words)",
-      "content_fetched_at": "2026-06-14T07:09:47",
-      "candidate_retry_after": "2026-06-14T07:24:47Z",
+      "content_fetched_at": "2026-06-14T10:32:08",
+      "candidate_retry_after": "2026-06-14T10:47:08Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, pag",
-      "candidate_failed_at": "2026-06-14T07:09:47",
-      "candidate_failure_count": 22
+      "candidate_failed_at": "2026-06-14T10:32:08",
+      "candidate_failure_count": 23
     },
     {
       "id": "63f62895c7723e75",
@@ -29794,16 +29800,16 @@
       "score": 0,
       "priority": "low",
       "source_links_removed_count": 24,
-      "affiliate_links_removed_count": 0,
+      "affiliate_links_removed_count": 2,
       "removed_source_links_count": 24,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=606 chars/86 words; required=80 chars/120 words; tried=main_tag:606chars/86words, paragraph_fallback:367chars/50words, article_body:367chars/50words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_text:367chars/50words)",
-      "content_fetched_at": "2026-06-14T07:09:47",
-      "candidate_retry_after": "2026-06-14T07:24:47Z",
+      "content_fetch_error": "weak article body after fallbacks (best=626 chars/90 words; required=80 chars/120 words; tried=main_tag:626chars/90words, paragraph_fallback:387chars/54words, article_body:387chars/54words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_text:387chars/54words)",
+      "content_fetched_at": "2026-06-14T10:32:09",
+      "candidate_retry_after": "2026-06-14T10:47:09Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=606 chars/86 words; required=80 chars/120 words; tried=main_tag:606chars/86words, paragraph_fallback:367chars/50words, article_body:367chars/50words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_tex",
-      "candidate_failed_at": "2026-06-14T07:09:47",
-      "candidate_failure_count": 11
+      "candidate_failure_reason": "weak article body after fallbacks (best=626 chars/90 words; required=80 chars/120 words; tried=main_tag:626chars/90words, paragraph_fallback:387chars/54words, article_body:387chars/54words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_tex",
+      "candidate_failed_at": "2026-06-14T10:32:09",
+      "candidate_failure_count": 12
     },
     {
       "id": "f3d06cfb2540f37e",
@@ -31513,12 +31519,12 @@
       "category_label": "Tech-News",
       "category_hint": "Tech-News",
       "discovered_at": "2026-06-13T22:44:23",
-      "status": "ready",
+      "status": "published",
       "score": 0,
       "priority": "low",
       "source_links_removed_count": 264,
       "affiliate_links_removed_count": 32,
-      "removed_source_links_count": 264,
+      "removed_source_links_count": 0,
       "enrichment_fallback_used": "article_tag",
       "fetched_title": "Wear OS 7 looks ready to land on Pixel Watchs soon",
       "meta_description": "Pixel Watch 2, Pixel Watch 3, and Pixel Watch 4 may soon receive Wear OS 7, according to updated Verizon support pages spotted before the rollout.",
@@ -31568,7 +31574,116 @@
       "content_preview_chars": 2102,
       "content_fetched_at": "2026-06-13T22:44:32",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-14T10:32:09",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-14T10:32:09",
+      "ai_input_package": {
+        "title": "Wear OS 7 looks ready to land on Pixel Watchs soon",
+        "url": "https://www.digitaltrends.com/wearables/wear-os-7-looks-ready-to-land-on-pixel-watchs-soon",
+        "source_name": "Digital Trends",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.digitaltrends.com/tachyon/2025/08/Google-Pixel-Watch-4-hands-on-29.jpg?resize=1200%2C630",
+        "article_images": [
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2025/08/Google-Pixel-Watch-4-hands-on-29.jpg?resize=1200%2C630",
+            "alt": "Wear OS 7 looks ready to land on Pixel Watchs soon",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2025/08/Google-Pixel-Watch-4-hands-on-36.jpg?resize=2000%2C1500",
+            "alt": "Google Pixel Watch 4 in black in the hand",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/05/Wear-OS-7-featured-image.jpg?resize=2000%2C1200",
+            "alt": "Sphere, Person, Gauge",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+            "alt": "Add as a preferred source on Google",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Pixel Watch 2, Pixel Watch 3, and Pixel Watch 4 may soon receive Wear OS 7, according to updated Verizon support pages spotted before the rollout.",
+        "content_preview": "Google may be preparing to roll out Wear OS 7 to Pixel Watch users sooner than expected. Verizon’s official support pages for the Pixel Watch 2, Pixel Watch 3, and Pixel Watch 4 have been updated with references to the next major Wear OS update, suggesting the release could be close. The pages, first spotted by Droid-Life , list Wear OS 7 alongside the June 2026 security patch and software version CP2A.260603.001. Verizon’s changelog also mentions performance and stability improvements, which is standard language for these kinds of carrier support pages. There is one odd detail. The pages reportedly mention a June 9 release date, but the update does not appear to have started rolling out yet. Google has also not made an official announcement, so this should still be treated as a placeholder. Which Pixel Watches could get Wear OS 7 first? It appears that the Wear OS 7 update will be available on all Pixel watches other than the first one, which launched back in 2022. This may disappoint users of the original Pixel Watch, but since the device’s guaranteed software updates ended in October 2025, the exclusion isn’t surprising. Wear OS 7 was announced at Google I/O 2026 and brings some of the biggest changes to Google’s smartwatch platform in years. Google says watches upgrading from Wear OS 6 can expect up to 10% better battery life, which could make a noticeable difference on devices that already need careful daily charging. Widgets, Live Updates, and Gemini caveats The most visible change is the arrival of Wear Widgets, which replace the old full-screen Tiles with more flexible 2×1 and 2×2 widget layouts. Live Updates are also coming, bringing real-time information such as delivery progress, sports scores, and other ongoing alerts directly to the watch face. Wear OS 7 also lays the groundwork for Gemini Intelligence on the wrist, though Google has said that feature will arrive on select smartwatch models later in the year. That means existing Pixel Watch owners may get the core Wear OS 7 upgrade soon, but the full AI experience could remain limited to newer hardware.",
+        "content_preview_chars": 2102,
+        "rss_summary": "",
+        "full_article_text": "Google may be preparing to roll out Wear OS 7 to Pixel Watch users sooner than expected. Verizon’s official support pages for the Pixel Watch 2, Pixel Watch 3, and Pixel Watch 4 have been updated with references to the next major Wear OS update, suggesting the release could be close. The pages, first spotted by Droid-Life , list Wear OS 7 alongside the June 2026 security patch and software version CP2A.260603.001. Verizon’s changelog also mentions performance and stability improvements, which is standard language for these kinds of carrier support pages. There is one odd detail. The pages reportedly mention a June 9 release date, but the update does not appear to have started rolling out yet. Google has also not made an official announcement, so this should still be treated as a placeholder. Which Pixel Watches could get Wear OS 7 first? It appears that the Wear OS 7 update will be available on all Pixel watches other than the first one, which launched back in 2022. This may disappoint users of the original Pixel Watch, but since the device’s guaranteed software updates ended in October 2025, the exclusion isn’t surprising. Wear OS 7 was announced at Google I/O 2026 and brings some of the biggest changes to Google’s smartwatch platform in years. Google says watches upgrading from Wear OS 6 can expect up to 10% better battery life, which could make a noticeable difference on devices that already need careful daily charging. Widgets, Live Updates, and Gemini caveats The most visible change is the arrival of Wear Widgets, which replace the old full-screen Tiles with more flexible 2×1 and 2×2 widget layouts. Live Updates are also coming, bringing real-time information such as delivery progress, sports scores, and other ongoing alerts directly to the watch face. Wear OS 7 also lays the groundwork for Gemini Intelligence on the wrist, though Google has said that feature will arrive on select smartwatch models later in the year. That means existing Pixel Watch owners may get the core Wear OS 7 upgrade soon, but the full AI experience could remain limited to newer hardware.",
+        "full_article_text_chars": 2102,
+        "enrichment_status": "weak",
+        "source_url": "https://www.digitaltrends.com",
+        "source_published_at": "2026-06-13T22:33:36Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.18,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (90 words; minimum 700)",
+      "ai_status": "completed",
+      "ai_processed_at": "2026-06-14T10:32:52",
+      "seo_title": "إطلاق وشيك لنظام Wear OS 7 على ساعات Pixel Watch مع تحسينات ثورية",
+      "seo_description": "تكشف صفحات دعم Verizon عن اقتراب وصول نظام Wear OS 7 لساعات Pixel Watch 2 و3 و4، حاملاً تحسينات كبيرة في عمر البطارية، واجهات مستخدم جديدة، ودعم Gemini AI",
+      "seo_slug": "wear-os-7-pixel-watch-imminent-launch",
+      "final_html": "<html dir=\"rtl\" lang=\"ar\"><head><meta charset=\"utf-8\"/><title>إطلاق وشيك لنظام Wear OS 7 على ساعات Pixel Watch مع تحسينات ثورية</title><base href=\"https://www.digitaltrends.com/\"/></head><body><div class=\"post-body entry-content float-container\" id=\"post-body-2144346853381861782\"><h1 class=\"post-title entry-title\" style=\"text-align: right;\">إطلاق وشيك لنظام Wear OS 7 على ساعات Pixel Watch مع تحسينات ثورية</h1><p class=\"pIndent\" style=\"text-align: right;\"><span class=\"dropCap\">ت</span>ستعد شركة جوجل لإطلاق تحديث رئيسي لنظام تشغيل ساعاتها الذكية، Wear OS 7، والذي يبدو أنه في طريقه للوصول إلى ساعات Pixel Watch في وقت أقرب مما كان متوقعاً. كشفت صفحات الدعم الرسمية لشركة Verizon عن تفاصيل مثيرة حول هذا التحديث، مما يشير إلى أن مالكي ساعات Pixel Watch 2 و3 و4 قد يكونون على موعد مع تجربة محسّنة بشكل كبير في الأداء وعمر البطارية والميزات الذكية. يأتي هذا التطور ليؤكد التزام جوجل بتعزيز منصتها للساعات الذكية، وتقديم تجربة مستخدم أكثر سلاسة وذكاءً.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Wear OS 7 looks ready to land on Pixel Watchs soon\" class=\"full\" loading=\"lazy\" src=\"https://www.digitaltrends.com/tachyon/2025/08/Google-Pixel-Watch-4-hands-on-29.jpg?resize=1200%2C630\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Wear OS 7 looks ready to land on Pixel Watchs soon</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Wear OS 7 looks ready to land on Pixel Watchs soon</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\"><figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px; text-align: center;\">ساعة جوجل بيكسل ووتش 4، إحدى الساعات التي ستتلقى تحديث Wear OS 7 المرتقب.</figcaption></figure><h2 style=\"text-align: right;\">تفاصيل التحديث المرتقب ومصدر المعلومات</h2><p class=\"pIndent\" style=\"text-align: right;\">تم رصد الإشارات الأولى لوجود تحديث Wear OS 7 على وشك الظهور عبر صفحات الدعم الرسمية لشركة الاتصالات الأمريكية Verizon. هذه الصفحات، التي لاحظها موقع Droid-Life المتخصص في أخبار أندرويد، ذكرت تحديث Wear OS 7 بجانب تصحيح الأمان لشهر يونيو 2026 وإصدار البرنامج CP2A.260603.001. عادةً ما تكون صفحات دعم شركات الاتصالات مصدراً موثوقاً للمعلومات حول تحديثات البرامج قبل الإعلان الرسمي عنها من قبل الشركات المصنعة، مما يضيف مصداقية قوية لهذه التقارير.</p><p class=\"pIndent\" style=\"text-align: right;\">تشير سجلات التغيير الخاصة بـ Verizon أيضاً إلى تحسينات في الأداء والاستقرار، وهي عبارات قياسية تُستخدم عادةً في وصف تحديثات البرامج. ومع ذلك، كان هناك تفصيل غريب واحد لفت الانتباه: ذكرت الصفحات تاريخ إصدار مقترح وهو 9 يونيو، ولكن التحديث لم يبدأ في الظهور حتى الآن، ولم تصدر جوجل أي إعلان رسمي بخصوصه. هذا يعني أنه يجب التعامل مع تاريخ الإصدار هذا كعنصر نائب أو تقديري وليس كتأكيد نهائي، وينبغي للمستخدمين انتظار الإعلان الرسمي من جوجل لتأكيد الموعد الدقيق.</p><h2 style=\"text-align: right;\">ما هي ساعات Pixel Watch التي ستحصل على Wear OS 7؟</h2><p class=\"pIndent\" style=\"text-align: right;\">وفقاً للمعلومات المتوفرة، سيتاح تحديث Wear OS 7 لجميع ساعات Pixel Watch باستثناء الجيل الأول الذي تم إطلاقه في عام 2022. قد يشكل هذا الخبر خيبة أمل لمالكي ساعة Pixel Watch الأصلية، ولكن هذا الاستبعاد ليس مفاجئاً بالنظر إلى أن دعم تحديثات البرامج المضمونة للجهاز قد انتهى في أكتوبر 2025. تلتزم جوجل بتقديم دعم طويل الأمد لأجهزتها، ولكن لكل جهاز دورة حياة محددة لضمان التوافق مع أحدث التقنيات والميزات. لذا، فإن التركيز سينصب على الأجيال الأحدث: Pixel Watch 2 وPixel Watch 3 وPixel Watch 4، والتي ستتمكن من الاستفادة الكاملة من التحسينات الجديدة.</p><h2 style=\"text-align: right;\">أبرز الميزات الجديدة في Wear OS 7</h2><p class=\"pIndent\" style=\"text-align: right;\">تم الإعلان عن Wear OS 7 لأول مرة في مؤتمر Google I/O 2026، ويجلب هذا التحديث بعضاً من أكبر التغييرات على منصة جوجل للساعات الذكية منذ سنوات. من بين أبرز هذه التغييرات:</p><ul style=\"text-align: right; direction: rtl;\"><li style=\"text-align: right;\"><strong>عمر بطارية أفضل:</strong> وعدت جوجل بأن الساعات التي ستنتقل من Wear OS 6 إلى Wear OS 7 يمكن أن تتوقع تحسناً يصل إلى 10% في عمر البطارية. قد يحدث هذا فرقاً ملحوظاً في الأجهزة التي تحتاج بالفعل إلى شحن يومي دقيق، مما يوفر راحة أكبر للمستخدمين ويقلل من القلق بشأن نفاد البطارية خلال اليوم.</li><li style=\"text-align: right;\"><strong>عناصر واجهة المستخدم الجديدة (Wear Widgets):</strong> التغيير الأكثر وضوحاً هو وصول \"Wear Widgets\" التي ستحل محل \"Tiles\" القديمة بملء الشاشة، وتوفر تخطيطات أدوات أكثر مرونة بأحجام 2x1 و2x2. ستسمح هذه الأدوات للمستخدمين بتخصيص شاشات ساعتهم بشكل أفضل والوصول إلى المعلومات الهامة بسرعة وفعالية أكبر.</li><li style=\"text-align: right;\"><strong>التحديثات المباشرة (Live Updates):</strong> ستأتي التحديثات المباشرة أيضاً، وستجلب معلومات فورية مثل تقدم تسليم الطلبات، ونتائج المباريات الرياضية، والتنبيهات المستمرة الأخرى مباشرة إلى واجهة الساعة. هذه الميزة ستعزز من قدرة الساعة على توفير المعلومات في الوقت الفعلي دون الحاجة إلى فتح تطبيقات معينة.</li><li style=\"text-align: right;\"><strong>أسس ذكاء Gemini:</strong> يمهد Wear OS 7 الطريق أيضاً لدمج ذكاء Gemini على المعصم. ومع ذلك، صرحت جوجل أن هذه الميزة ستصل إلى طرازات مختارة من الساعات الذكية في وقت لاحق من العام. هذا يعني أن مالكي Pixel Watch الحاليين قد يحصلون على الترقية الأساسية لـ Wear OS 7 قريباً، ولكن تجربة الذكاء الاصطناعي الكاملة قد تظل مقتصرة على الأجهزة الأحدث التي تدعم هذه التقنية بشكل أفضل.</li></ul><h2 style=\"text-align: right;\">التأثير المحتمل على تجربة المستخدم</h2><p class=\"pIndent\" style=\"text-align: right;\">يمثل تحديث Wear OS 7 قفزة نوعية لمنصة جوجل للساعات الذكية. التحسينات في عمر البطارية وحدها كافية لجذب انتباه العديد من المستخدمين الذين يعانون من الحاجة إلى شحن ساعتهم يومياً. ومع ذلك، فإن إدخال Wear Widgets الجديدة والتحديثات المباشرة سيغير طريقة تفاعل المستخدمين مع معلوماتهم الأكثر أهمية. ستصبح الساعة أكثر من مجرد جهاز للإشعارات، لتتحول إلى مركز معلومات شخصي يمكن تخصيصه ليتناسب مع احتياجات كل فرد. القدرة على عرض معلومات فورية حول التسليمات أو نتائج المباريات الرياضية أو حتى تحديثات الطقس بلمحة سريعة دون الحاجة إلى التمرير عبر قوائم طويلة سيوفر وقتاً وجهداً كبيراً.</p><p class=\"pIndent\" style=\"text-align: right;\">الاستعداد لدمج Gemini AI يفتح الأبواب أمام مستقبل أكثر ذكاءً للساعات الذكية. على الرغم من أن هذه الميزة لن تكون متاحة فوراً لجميع الأجهزة، إلا أنها تشير إلى رؤية جوجل لتقديم تجارب أكثر تخصيصاً وتفاعلية تعتمد على الذكاء الاصطناعي، مما يجعل الساعات الذكية رفيقاً أكثر قدرة وفهماً لاحتياجات المستخدمين.</p><h2 style=\"text-align: right;\">ماذا يعني هذا لك؟</h2><p class=\"pIndent\" style=\"text-align: right;\">بالنسبة لمالكي ساعات Pixel Watch 2 و3 و4، فإن هذا التحديث يعني تجربة مستخدم محسّنة بشكل كبير. ستحصل ساعتكم على دفعة في الأداء، وعمر بطارية أطول، وواجهة مستخدم أكثر مرونة وقابلية للتخصيص. سيتعين عليكم ترقب الإعلان الرسمي من جوجل حول موعد الإطلاق الفعلي للتحديث، والذي قد يأتي في أي لحظة. تأكدوا من أن ساعاتكم مشحونة بالكامل ومتصلة بالإنترنت عند توفر التحديث لتنزيله وتثبيته بسلاسة.</p><p class=\"pIndent\" style=\"text-align: right;\">أما بالنسبة لمالكي ساعة Pixel Watch الأصلية، فمن المهم ملاحظة أن ساعتكم لن تتلقى هذا التحديث. هذا لا يعني أنها ستتوقف عن العمل، ولكنها لن تستفيد من الميزات والتحسينات الجديدة في Wear OS 7. قد يكون هذا وقتاً مناسباً للنظر في الترقية إلى أحد الأجيال الأحدث من ساعات Pixel Watch إذا كنتم ترغبون في الاستفادة من أحدث التقنيات والميزات التي تقدمها جوجل في عالم الساعات الذكية.</p><h2 style=\"text-align: right;\">خاتمة</h2><p class=\"pIndent\" style=\"text-align: right;\">مع اقتراب إطلاق Wear OS 7، تتجه أنظار عشاق الساعات الذكية نحو جوجل وما ستقدمه من ابتكارات. يبدو أن التحديث يركز على تلبية الاحتياجات الأساسية للمستخدمين، مثل عمر البطارية الأطول، مع إدخال ميزات متطورة مثل Wear Widgets والتحديثات المباشرة، وتمهيد الطريق لمستقبل ذكاء Gemini. بينما ننتظر الإعلان الرسمي وتفاصيل الإطلاق، يظل الحماس سيد الموقف لما يمكن أن يجلبه هذا التحديث من تغيير إيجابي لتجربة استخدام ساعات Pixel Watch. من المؤكد أن هذا التحديث سيعزز مكانة جوجل في سوق الساعات الذكية التنافسي، ويقدم قيمة مضافة حقيقية لمستخدميها.</p></div></body></html>",
+      "blogger_article_html": "<html dir=\"rtl\" lang=\"ar\"><head><meta charset=\"utf-8\"/><title>إطلاق وشيك لنظام Wear OS 7 على ساعات Pixel Watch مع تحسينات ثورية</title><base href=\"https://www.digitaltrends.com/\"/></head><body><div class=\"post-body entry-content float-container\" id=\"post-body-2144346853381861782\"><h1 class=\"post-title entry-title\" style=\"text-align: right;\">إطلاق وشيك لنظام Wear OS 7 على ساعات Pixel Watch مع تحسينات ثورية</h1><p class=\"pIndent\" style=\"text-align: right;\"><span class=\"dropCap\">ت</span>ستعد شركة جوجل لإطلاق تحديث رئيسي لنظام تشغيل ساعاتها الذكية، Wear OS 7، والذي يبدو أنه في طريقه للوصول إلى ساعات Pixel Watch في وقت أقرب مما كان متوقعاً. كشفت صفحات الدعم الرسمية لشركة Verizon عن تفاصيل مثيرة حول هذا التحديث، مما يشير إلى أن مالكي ساعات Pixel Watch 2 و3 و4 قد يكونون على موعد مع تجربة محسّنة بشكل كبير في الأداء وعمر البطارية والميزات الذكية. يأتي هذا التطور ليؤكد التزام جوجل بتعزيز منصتها للساعات الذكية، وتقديم تجربة مستخدم أكثر سلاسة وذكاءً.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Wear OS 7 looks ready to land on Pixel Watchs soon\" class=\"full\" loading=\"lazy\" src=\"https://www.digitaltrends.com/tachyon/2025/08/Google-Pixel-Watch-4-hands-on-29.jpg?resize=1200%2C630\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Wear OS 7 looks ready to land on Pixel Watchs soon</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Wear OS 7 looks ready to land on Pixel Watchs soon</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\"><figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px; text-align: center;\">ساعة جوجل بيكسل ووتش 4، إحدى الساعات التي ستتلقى تحديث Wear OS 7 المرتقب.</figcaption></figure><h2 style=\"text-align: right;\">تفاصيل التحديث المرتقب ومصدر المعلومات</h2><p class=\"pIndent\" style=\"text-align: right;\">تم رصد الإشارات الأولى لوجود تحديث Wear OS 7 على وشك الظهور عبر صفحات الدعم الرسمية لشركة الاتصالات الأمريكية Verizon. هذه الصفحات، التي لاحظها موقع Droid-Life المتخصص في أخبار أندرويد، ذكرت تحديث Wear OS 7 بجانب تصحيح الأمان لشهر يونيو 2026 وإصدار البرنامج CP2A.260603.001. عادةً ما تكون صفحات دعم شركات الاتصالات مصدراً موثوقاً للمعلومات حول تحديثات البرامج قبل الإعلان الرسمي عنها من قبل الشركات المصنعة، مما يضيف مصداقية قوية لهذه التقارير.</p><p class=\"pIndent\" style=\"text-align: right;\">تشير سجلات التغيير الخاصة بـ Verizon أيضاً إلى تحسينات في الأداء والاستقرار، وهي عبارات قياسية تُستخدم عادةً في وصف تحديثات البرامج. ومع ذلك، كان هناك تفصيل غريب واحد لفت الانتباه: ذكرت الصفحات تاريخ إصدار مقترح وهو 9 يونيو، ولكن التحديث لم يبدأ في الظهور حتى الآن، ولم تصدر جوجل أي إعلان رسمي بخصوصه. هذا يعني أنه يجب التعامل مع تاريخ الإصدار هذا كعنصر نائب أو تقديري وليس كتأكيد نهائي، وينبغي للمستخدمين انتظار الإعلان الرسمي من جوجل لتأكيد الموعد الدقيق.</p><h2 style=\"text-align: right;\">ما هي ساعات Pixel Watch التي ستحصل على Wear OS 7؟</h2><p class=\"pIndent\" style=\"text-align: right;\">وفقاً للمعلومات المتوفرة، سيتاح تحديث Wear OS 7 لجميع ساعات Pixel Watch باستثناء الجيل الأول الذي تم إطلاقه في عام 2022. قد يشكل هذا الخبر خيبة أمل لمالكي ساعة Pixel Watch الأصلية، ولكن هذا الاستبعاد ليس مفاجئاً بالنظر إلى أن دعم تحديثات البرامج المضمونة للجهاز قد انتهى في أكتوبر 2025. تلتزم جوجل بتقديم دعم طويل الأمد لأجهزتها، ولكن لكل جهاز دورة حياة محددة لضمان التوافق مع أحدث التقنيات والميزات. لذا، فإن التركيز سينصب على الأجيال الأحدث: Pixel Watch 2 وPixel Watch 3 وPixel Watch 4، والتي ستتمكن من الاستفادة الكاملة من التحسينات الجديدة.</p><h2 style=\"text-align: right;\">أبرز الميزات الجديدة في Wear OS 7</h2><p class=\"pIndent\" style=\"text-align: right;\">تم الإعلان عن Wear OS 7 لأول مرة في مؤتمر Google I/O 2026، ويجلب هذا التحديث بعضاً من أكبر التغييرات على منصة جوجل للساعات الذكية منذ سنوات. من بين أبرز هذه التغييرات:</p><ul style=\"text-align: right; direction: rtl;\"><li style=\"text-align: right;\"><strong>عمر بطارية أفضل:</strong> وعدت جوجل بأن الساعات التي ستنتقل من Wear OS 6 إلى Wear OS 7 يمكن أن تتوقع تحسناً يصل إلى 10% في عمر البطارية. قد يحدث هذا فرقاً ملحوظاً في الأجهزة التي تحتاج بالفعل إلى شحن يومي دقيق، مما يوفر راحة أكبر للمستخدمين ويقلل من القلق بشأن نفاد البطارية خلال اليوم.</li><li style=\"text-align: right;\"><strong>عناصر واجهة المستخدم الجديدة (Wear Widgets):</strong> التغيير الأكثر وضوحاً هو وصول \"Wear Widgets\" التي ستحل محل \"Tiles\" القديمة بملء الشاشة، وتوفر تخطيطات أدوات أكثر مرونة بأحجام 2x1 و2x2. ستسمح هذه الأدوات للمستخدمين بتخصيص شاشات ساعتهم بشكل أفضل والوصول إلى المعلومات الهامة بسرعة وفعالية أكبر.</li><li style=\"text-align: right;\"><strong>التحديثات المباشرة (Live Updates):</strong> ستأتي التحديثات المباشرة أيضاً، وستجلب معلومات فورية مثل تقدم تسليم الطلبات، ونتائج المباريات الرياضية، والتنبيهات المستمرة الأخرى مباشرة إلى واجهة الساعة. هذه الميزة ستعزز من قدرة الساعة على توفير المعلومات في الوقت الفعلي دون الحاجة إلى فتح تطبيقات معينة.</li><li style=\"text-align: right;\"><strong>أسس ذكاء Gemini:</strong> يمهد Wear OS 7 الطريق أيضاً لدمج ذكاء Gemini على المعصم. ومع ذلك، صرحت جوجل أن هذه الميزة ستصل إلى طرازات مختارة من الساعات الذكية في وقت لاحق من العام. هذا يعني أن مالكي Pixel Watch الحاليين قد يحصلون على الترقية الأساسية لـ Wear OS 7 قريباً، ولكن تجربة الذكاء الاصطناعي الكاملة قد تظل مقتصرة على الأجهزة الأحدث التي تدعم هذه التقنية بشكل أفضل.</li></ul><h2 style=\"text-align: right;\">التأثير المحتمل على تجربة المستخدم</h2><p class=\"pIndent\" style=\"text-align: right;\">يمثل تحديث Wear OS 7 قفزة نوعية لمنصة جوجل للساعات الذكية. التحسينات في عمر البطارية وحدها كافية لجذب انتباه العديد من المستخدمين الذين يعانون من الحاجة إلى شحن ساعتهم يومياً. ومع ذلك، فإن إدخال Wear Widgets الجديدة والتحديثات المباشرة سيغير طريقة تفاعل المستخدمين مع معلوماتهم الأكثر أهمية. ستصبح الساعة أكثر من مجرد جهاز للإشعارات، لتتحول إلى مركز معلومات شخصي يمكن تخصيصه ليتناسب مع احتياجات كل فرد. القدرة على عرض معلومات فورية حول التسليمات أو نتائج المباريات الرياضية أو حتى تحديثات الطقس بلمحة سريعة دون الحاجة إلى التمرير عبر قوائم طويلة سيوفر وقتاً وجهداً كبيراً.</p><p class=\"pIndent\" style=\"text-align: right;\">الاستعداد لدمج Gemini AI يفتح الأبواب أمام مستقبل أكثر ذكاءً للساعات الذكية. على الرغم من أن هذه الميزة لن تكون متاحة فوراً لجميع الأجهزة، إلا أنها تشير إلى رؤية جوجل لتقديم تجارب أكثر تخصيصاً وتفاعلية تعتمد على الذكاء الاصطناعي، مما يجعل الساعات الذكية رفيقاً أكثر قدرة وفهماً لاحتياجات المستخدمين.</p><h2 style=\"text-align: right;\">ماذا يعني هذا لك؟</h2><p class=\"pIndent\" style=\"text-align: right;\">بالنسبة لمالكي ساعات Pixel Watch 2 و3 و4، فإن هذا التحديث يعني تجربة مستخدم محسّنة بشكل كبير. ستحصل ساعتكم على دفعة في الأداء، وعمر بطارية أطول، وواجهة مستخدم أكثر مرونة وقابلية للتخصيص. سيتعين عليكم ترقب الإعلان الرسمي من جوجل حول موعد الإطلاق الفعلي للتحديث، والذي قد يأتي في أي لحظة. تأكدوا من أن ساعاتكم مشحونة بالكامل ومتصلة بالإنترنت عند توفر التحديث لتنزيله وتثبيته بسلاسة.</p><p class=\"pIndent\" style=\"text-align: right;\">أما بالنسبة لمالكي ساعة Pixel Watch الأصلية، فمن المهم ملاحظة أن ساعتكم لن تتلقى هذا التحديث. هذا لا يعني أنها ستتوقف عن العمل، ولكنها لن تستفيد من الميزات والتحسينات الجديدة في Wear OS 7. قد يكون هذا وقتاً مناسباً للنظر في الترقية إلى أحد الأجيال الأحدث من ساعات Pixel Watch إذا كنتم ترغبون في الاستفادة من أحدث التقنيات والميزات التي تقدمها جوجل في عالم الساعات الذكية.</p><h2 style=\"text-align: right;\">خاتمة</h2><p class=\"pIndent\" style=\"text-align: right;\">مع اقتراب إطلاق Wear OS 7، تتجه أنظار عشاق الساعات الذكية نحو جوجل وما ستقدمه من ابتكارات. يبدو أن التحديث يركز على تلبية الاحتياجات الأساسية للمستخدمين، مثل عمر البطارية الأطول، مع إدخال ميزات متطورة مثل Wear Widgets والتحديثات المباشرة، وتمهيد الطريق لمستقبل ذكاء Gemini. بينما ننتظر الإعلان الرسمي وتفاصيل الإطلاق، يظل الحماس سيد الموقف لما يمكن أن يجلبه هذا التحديث من تغيير إيجابي لتجربة استخدام ساعات Pixel Watch. من المؤكد أن هذا التحديث سيعزز مكانة جوجل في سوق الساعات الذكية التنافسي، ويقدم قيمة مضافة حقيقية لمستخدميها.</p></div></body></html>",
+      "final_word_count": 1025,
+      "final_html_chars": 7808,
+      "final_content_hash": "dc4d786a68df8321e5199860",
+      "ai_provider_used": "gemini:gemini-2.5-flash",
+      "ai_rotation_exhausted": false,
+      "ai_openrouter_fallback_used": false,
+      "ai_quality_attempts": 3,
+      "ai_quality_status": "passed",
+      "ai_total_time_seconds": 43.06,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "internal_cache_loaded": 0,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 0,
+      "internal_cache_saved": true,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 1025,
+        "warnings": []
+      },
+      "blogger_post_id": "5959366522729100408",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/06/wear-os-7-pixel-watch.html",
+      "published_at": "2026-06-14T10:32:54",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|5959366522729100408|published|unknown",
+      "telegram_blogger_notified_at": "2026-06-14T10:32:55",
+      "telegram_last_notification_at": "2026-06-14T10:33:08",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_907459309030030",
+      "facebook_posted_at": "2026-06-14T10:33:00",
+      "facebook_post_type": "photo",
+      "facebook_image_status": "posted",
+      "facebook_image_path": "/home/runner/work/badrblog/badrblog/output/facebook_images/036afb9b1a873ae5.jpg",
+      "facebook_image_url": "https://www.digitaltrends.com/tachyon/2025/08/Google-Pixel-Watch-4-hands-on-29.jpg?resize=1200%2C630",
+      "facebook_image_used_fallback": false,
+      "facebook_caption_pattern": "apps_programs",
+      "facebook_style_used": "apps_programs",
+      "facebook_hook_generated": "الخلاصة السريعة: تكشف صفحات دعم عن اقتراب وصول نظام 7 لساعات 2 و3 و4، حاملاً تحسينات كبيرة...",
+      "facebook_structure_used": "fallback",
+      "facebook_hashtags_count": 6,
+      "facebook_cta_used": "لمن يريد القراءة الكاملة، الرابط في أول تعليق 👇",
+      "facebook_caption_fingerprint": "371f11fe408764628f7e",
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "الخلاصة السريعة: تكشف صفحات دعم عن اقتراب وصول نظام 7 لساعات 2 و3 و4، حاملاً تحسينات كبيرة...\n\nإطلاق وشيك لنظام 7 على ساعات مع تحسينات ثورية\n\nتكشف صفحات دعم عن اقتراب وصول نظام 7 لساعات 2 و3 و4، حاملاً تحسينات كبيرة في عمر البطارية، واجهات مستخدم جديدة، ودعم AI\n\nلمن يريد القراءة الكاملة، الرابط في أول تعليق 👇\n\n#ذكاء_اصطناعي #تطبيقات #برامج #Google  #جوجل",
+      "facebook_comment_id": "907459309030030_1394094485888057",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_907459309030030|907459309030030_1394094485888057|unknown",
+      "telegram_facebook_notified_at": "2026-06-14T10:33:08",
+      "archived": true,
+      "archived_at": "2026-06-14T10:33:08",
+      "archive_reason": "published_to_blogger"
     },
     {
       "id": "3e6603792fbd96c3",
@@ -32794,6 +32909,153 @@
       "content_preview": "In this tutorial, we implement a QwenPaw workflow that provides a practical environment for building and testing an agent-powered assistant. We install and initialize QwenPaw, configure its working directory, set up authentication, connect optional model providers via Colab secrets, and create a structured workspace with custom skills and local knowledge files. We also launch the QwenPaw Console via a Colab-accessible URL, expose it through an optional Cloudflare tunnel, and test the streaming chat API programmatically, enabling us to use QwenPaw both as an interactive assistant and as an API-driven agent framework. We start by importing all required Python modules and setting up the main directories for the QwenPaw Colab workspace. We configure environment variables for authentication, logging, working paths, and secure access to the QwenPaw Console. We also define helper functions to run shell commands, check ports, stop old app processes, and read API keys from Colab secrets or environment variables. We initialize the QwenPaw working directory and prepare the base configuration file for the default agent. We define multiple model-provider options, such as OpenAI, OpenRouter, DashScope, DeepSeek, and Gemini, so the setup can adapt to whichever API key we provide. We then update the QwenPaw configuration with the default agent profile, workspace path, API settings, and timezone. We create the default QwenPaw agent configuration with console access, memory support, streaming output, and guarded tool execution. We automatically configure the selected model provider when a supported API key is available in Colab secrets or environment variables. We save the active model and agent settings so QwenPaw can use the configured provider during chat and API-based interactions. We create a custom research_brief skill inside the QwenPaw workspace to guide the agent toward structured research outputs. We add demo knowledge files that explain the Colab setup and provide the agent with a local workspace context to inspect. We then print the prepared workspace paths and run QwenPaw commands to verify the daemon, available models, and registered skills. We stop any previous QwenPaw app process and launch a fresh QwenPaw Console server on the configured Colab port. We wait until the server becomes available, then print the login credentials, the local URL, the log path, and the Colab proxy URL. We also optionally start a Cloudflare tunnel so the QwenPaw Console can be accessed through a temporary public link. We define a streaming API client that sends messages to QwenPaw through the /api/console/chat endpoint. We test the configured agent by asking it to read the local workspace notes and summarize the Colab setup, including advanced experimental ideas. We finish by printing the final access details, workspace path, log location, tunnel URL if available, and a command to stop the running server. In conclusion, we have a complete Colab-ready QwenPaw setup that goes beyond basic installation and demonstrates how we can configure, extend, launch, and test an agent workspace in a reproducible way. We created a secure, authenticated assistant environment, added a custom research skill, prepared local workspace knowledge, and verified the system through both the web Console and REST API calls. It provides us a strong foundation for experimenting with QwenPaw as a local-first agent platform for research workflows, file-aware assistants, custom skills, and advanced automation-style agent applications. Need to partner with us for promoting your GitHub Repo OR Hugging Face Page OR Product Release OR Webinar etc.? Connect with us Sana Hassan, a consulting intern at Marktechpost and dual-degree student at IIT Madras, is passionate about applying technology and AI to address real-world challenges. With a keen interest in solving practical problems, he brings a fresh perspective to the intersection of AI and real-life solutions.",
       "content_preview_chars": 3972,
       "content_fetched_at": "2026-06-14T07:09:29",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "4f023cd38de753b4",
+      "source_url_hash": "4f023cd38de753b4",
+      "canonical_url": "https://arstechnica.com/culture/2026/06/review-disclosure-day-is-big-on-action-light-on-ideas",
+      "title_hash": "7fa1e58cf7baf9d1",
+      "topic_signature": "5c41311e9b43ed5b9c06",
+      "title": "Review:Disclosure Dayis big on action, light on ideas",
+      "url": "https://arstechnica.com/culture/2026/06/review-disclosure-day-is-big-on-action-light-on-ideas",
+      "source_name": "Ars Technica",
+      "source_url": "https://arstechnica.com",
+      "source_published_at": "2026-06-13T17:17:44Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 17.22,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-14T10:31:06",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 58,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 58,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Review: Disclosure Day is big on action, light on ideas",
+      "meta_description": "There's nothing new or surprising, but it's still an entertaining film from one of our greatest directors.",
+      "article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/day7-1152x648.jpg",
+          "alt": "Review: Disclosure Day is big on action, light on ideas",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/day7-640x361.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/day5.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/day2-1024x566.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/day7-1152x648.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/day7-640x361.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/day5.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/day2-1024x566.jpg",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "The summer blockbuster season has kicked off in earnest with the theatrical release of Disclosure Day , director Steven Spielberg’s highly anticipated return to his “aliens are among us” sci-fi roots. Verdict: there’s not much fresh or original here as movies about aliens go, but it’s a fast-paced film with a luminous performance by Emily Blunt that won’t fail to entertain. (Some spoilers below but no major reveals.) The first half of the film is essentially a political thriller—shades of 1974’s The Parallax View and similar films—as global tensions have the world teetering on the brink of World War III. A cybersecurity specialist named Daniel (Josh O’Connor) has stolen a piece of alien technology and highly classified files from his employer, Wardex Corporation, a top-secret extension of the US government led by Noah Scanlon (Colin Firth). Scanlon flushes out Daniel by holding his girlfriend Jane (Eve Hewson) hostage. At the tradeoff, Daniel double-crosses them and escapes with Jane, and the two go on the run as Scanlon declares Daniel a traitor. Meanwhile, Kansas City TV meteorologist Margaret (Emily Blunt) is having breakfast with her boyfriend Jackson (Wyatt Russell) when a cardinal flies through the window and locks eyes with her before flying away. Margaret resumes her conversation with Jackson, only in Russian—a language she has never learned. On the way to work, she finds she can read the thoughts and feeling of other people, and converse in their native languages. And then—in a pivotal moment featured in all the trailers—Margaret starts her live weather report, only to lapse into an alien language on air. That moment immediately goes viral. This brings her to Scanlon’s attention, as well as that of Scanlon’s Wardex colleague Hugo Wakefield (Colman Domingo). Hugo is the one pulling the strings behind the scenes to arrange for Daniel’s theft of the top secret materials. His goal: reveal their contents—detailing human-alien encounters over the last 80 years—to the world. Scanlon is equally intent on stopping the truth from ever getting out, and it becomes a high-stakes race against time as Daniel and Margaret try to evade his minions and find each other. I won’t say much about the final 30 minutes or so, because it would be giving too much away (although the final trailer gave some pretty strong hints). Suffice to say there is a pronounced vibe shift toward the mystical as the plot threads converge. In Spielberg’s capable hands, it works, although some have criticized the CGI, particularly for the animals. Given what those animals turn out to represent, I think it was the right decision to make them look otherworldly, as if they were stepping out of a fairly tale into our darker, grittier world. Spielberg has assembled an excellent cast, but it’s Blunt who anchors the film. Her performance has been garnering critical raves and the kudos are well-deserved. Blunt is an accomplished and versatile actress and she brings all that experience to bear to portray Margaret, as the character discovers the full range of her abilities—and accesses some long-dormant childhood memories in the process. Blunt even used her vocal training as an actor to produce the alien language guttural clicks and pops in a single four-minute take, refusing to let the filmmakers rely on AI-based post-processing to do so. This is a nearly two-and-a-half-hour film but Spielberg’s expert pacing keeps it from feeling overlong. With a few notable exceptions, the plot mostly makes sense and it all works best when the film is in full thriller mode. But the underlying themes and ideas aren’t particularly deep, and the big final reveal is decidedly underwhelming. There is nothing here we haven’t seen a million times before; we’ve seen it from Spielberg himself, in fact. Honestly, it’s not clear why Spielberg wanted to make another alien movie when he already made two of the most seminal films in the genre: Close Encounters of the Third Kind and E.T . Spielberg has credited a 2017 New York Times feature on the Pentagon’s UFO program for re-igniting his interest and declared himself even more convinced that intelligent alien life exists somewhere in our vast universe. Fair enough; plenty of scientists would agree it’s possible. But it doesn’t seem like he has anything new to say about it. Disclosure Day is closer in tone to Close Encounters , a fine film in its own right. But E.T. is arguably a perfect film, which is why it’s stood the test of time. How can you improve on perfection? The short answer is you can’t, and Disclosure Day doesn’t. But it’s still an eminently watchable, impeccably crafted film from one of our greatest directors. If you just want an entertaining ride and can block out all the nagging inconsistencies, Disclosure Day checks all the boxes. Or you can just rewatch E.T. Disclosure Day is now playing in theaters.",
+      "full_article_text_chars": 4886,
+      "content_preview": "The summer blockbuster season has kicked off in earnest with the theatrical release of Disclosure Day , director Steven Spielberg’s highly anticipated return to his “aliens are among us” sci-fi roots. Verdict: there’s not much fresh or original here as movies about aliens go, but it’s a fast-paced film with a luminous performance by Emily Blunt that won’t fail to entertain. (Some spoilers below but no major reveals.) The first half of the film is essentially a political thriller—shades of 1974’s The Parallax View and similar films—as global tensions have the world teetering on the brink of World War III. A cybersecurity specialist named Daniel (Josh O’Connor) has stolen a piece of alien technology and highly classified files from his employer, Wardex Corporation, a top-secret extension of the US government led by Noah Scanlon (Colin Firth). Scanlon flushes out Daniel by holding his girlfriend Jane (Eve Hewson) hostage. At the tradeoff, Daniel double-crosses them and escapes with Jane, and the two go on the run as Scanlon declares Daniel a traitor. Meanwhile, Kansas City TV meteorologist Margaret (Emily Blunt) is having breakfast with her boyfriend Jackson (Wyatt Russell) when a cardinal flies through the window and locks eyes with her before flying away. Margaret resumes her conversation with Jackson, only in Russian—a language she has never learned. On the way to work, she finds she can read the thoughts and feeling of other people, and converse in their native languages. And then—in a pivotal moment featured in all the trailers—Margaret starts her live weather report, only to lapse into an alien language on air. That moment immediately goes viral. This brings her to Scanlon’s attention, as well as that of Scanlon’s Wardex colleague Hugo Wakefield (Colman Domingo). Hugo is the one pulling the strings behind the scenes to arrange for Daniel’s theft of the top secret materials. His goal: reveal their contents—detailing human-alien encounters over the last 80 years—to the world. Scanlon is equally intent on stopping the truth from ever getting out, and it becomes a high-stakes race against time as Daniel and Margaret try to evade his minions and find each other. I won’t say much about the final 30 minutes or so, because it would be giving too much away (although the final trailer gave some pretty strong hints). Suffice to say there is a pronounced vibe shift toward the mystical as the plot threads converge. In Spielberg’s capable hands, it works, although some have criticized the CGI, particularly for the animals. Given what those animals turn out to represent, I think it was the right decision to make them look otherworldly, as if they were stepping out of a fairly tale into our darker, grittier world. Spielberg has assembled an excellent cast, but it’s Blunt who anchors the film. Her performance has been garnering critical raves and the kudos are well-deserved. Blunt is an accomplished and versatile actress and she brings all that experience to bear to portray Margaret, as the character discovers the full range of her abilities—and accesses some long-dormant childhood memories in the process. Blunt even used her vocal training as an actor to produce the alien language guttural clicks and pops in a single four-minute take, refusing to let the filmmakers rely on AI-based post-processing to do so. This is a nearly two-and-a-half-hour film but Spielberg’s expert pacing keeps it from feeling overlong. With a few notable exceptions, the plot mostly makes sense and it all works best when the film is in full thriller mode. But the underlying themes and ideas aren’t particularly deep, and the big final reveal is decidedly underwhelming. There is nothing here we haven’t seen a million times before; we’ve seen it from Spielberg himself, in fact. Honestly, it’s not clear why Spielberg wanted to make another alien movie when he already made two of the most seminal films in the genre: Close Encounters of the Third Kind and E.T . Spielberg has credited a 2017 New York Times feature on the Pentagon’s UFO program for re-igniting his interest and declared himself even more convinced that intelligent alien life exists somewhere in our vast universe. Fair enough; plenty of scientists would agree it’s possible. But it doesn’t seem like he has anything new to say about it. Disclosure Day is closer in tone to Close Encounters , a fine film in its own right. But E.T. is arguably a perfect film, which is why it’s stood the test of time. How can you improve on perfection? The short answer is you can’t, and Disclosure Day doesn’t. But it’s still an eminently watchable, impeccably crafted film from one of our greatest directors. If you just want an entertaining ride and can block out all the nagging inconsistencies, Disclosure Day checks all the boxes. Or you can just rewatch E.T. Disclosure Day is now playing in theaters.",
+      "content_preview_chars": 4886,
+      "content_fetched_at": "2026-06-14T10:31:18",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "d5752a976f4f0192",
+      "source_url_hash": "d5752a976f4f0192",
+      "canonical_url": "https://arstechnica.com/science/2026/06/threads-of-underground-fungal-networks-are-long-enough-to-reach-beyond-the-solar-system",
+      "title_hash": "954f3636275a9fdd",
+      "topic_signature": "eee687b413cd7e33027e",
+      "title": "Threads of underground fungal networks are long enough to reach beyond the Solar System",
+      "url": "https://arstechnica.com/science/2026/06/threads-of-underground-fungal-networks-are-long-enough-to-reach-beyond-the-solar-system",
+      "source_name": "Ars Technica",
+      "source_url": "https://arstechnica.com",
+      "source_published_at": "2026-06-13T11:18:42Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 23.21,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-14T10:31:06",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 61,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 61,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Threads of underground fungal networks are long enough to reach beyond the Solar System",
+      "meta_description": "Researchers have quantified the length and mass of arbuscular mycorrhizal fungal networks globally.",
+      "article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/GettyImages-1164060198-2560x1440.jpg",
+          "alt": "Threads of underground fungal networks are long enough to reach beyond the Solar System",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/GettyImages-1164060198.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+          "alt": "Loading",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/GettyImages-1164060198-2560x1440.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/GettyImages-1164060198.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+          "alt": "Loading"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Hidden underground around the world lie 110 quadrillion kilometers of arbuscular mycorrhizal fungal networks—webs of ultra-thin threads that, if connected in a single line, would stretch almost a billion times the distance between the Earth and the sun, according to new research published in Science on Thursday. These fungal communities form intimate relationships with the roots of plants, which they provide with nutrients like phosphorus and nitrogen in exchange for carbon, 1 billion tons of which the networks sequester underground annually, previous research has found. If the fungal network wasn’t storing it, that carbon would be warming the atmosphere. But those networks have never been mapped globally until now. The new study led by Society for the Protection of Underground Networks , or SPUN, an organization founded to map mycorrhizal fungi networks, used a combination of literature review, soil samples from around the globe, machine learning and laboratory testing to estimate the distribution and mass of these systems and map where they are densest. “This is the moment where we went from knowing that this system exists to really knowing where it is, how dense it is and where it’s been,” said Toby Kiers, executive director and co-founder of SPUN and a co-author of the study. For decades, researchers have known arbuscular mycorrhizal fungi form intimate symbiotic relationships with roughly 80 percent of the globe’s plant species and are found nearly everywhere plants are. But the extent of those networks and where they are densest, such as grasslands, and where they are being lost, like in agricultural areas, hasn’t been well understood until now. “[The study] helps us come to grips with how important these below ground organisms can be to everything that we see above ground,” said James Bever, a professor of ecology and evolutionary biology at the University of Kansas who studies the interactions between plants and microbes like fungi in soils but was not involved in the new study. Justin Stewart, an evolutionary ecologist at SPUN and lead author of the study, said previous studies the team had done on biodiversity of fungi were similar to asking someone to describe the forest outside their home. “They could say ‘well there are three tree species in it.’ That’s great. That tells me about the biodiversity,” he said. “But you don’t actually know how big the forest is, how far apart the trees are. You don’t have information on its structure.” Mycorrhizal fungal networks are made up of hyphae, each smaller than a strand of human hair. These living pipes transport the nutrients and carbon between the plants and fungi. Because they are so long and thin, Stewart said, they can reach deeper into soils than roots, getting nutrients deep underground that plants can’t reach, while simultaneously storing carbon where it can stay put for a long time under the right conditions. “You’re getting a win-win,” Stewart said. “The plants are growing better, and carbon’s being drawn down. That all depends on having dense fungal networks and soils that are active and alive.” Quantifying these fungal networks started with a review of existing studies on mycorrhizal fungi. Those studies contained 16,000 core samples taken from ecosystems around the world to understand the length of the fungal threads in a volume of soil. Each sample was geolocated, and from there the team was able to use machine learning to create predictive maps of fungal networks globally, and identify where the model is performing well and where uncertainties show more data is needed. Working with AMOLF, a research institute in Amsterdam, they developed a technique using a robot with a camera that recorded fungal networks growing over time in a lab, to get better estimates of their widths. From there, the team was able to calculate the network’s mass, which amounted to about five times the weight of all humans on Earth. The study only covers living arbuscular mycorrhizal fungal networks, Stewart said, and doesn’t include dead fungal networks, which also help to store carbon and add to the total biomass and influence of the networks on ecosystems. Research into dead fungal networks is still being explored. The study also found where these networks are most threatened. Fungal network densities across croplands are about half of what they are in wild ecosystems. Meanwhile, wild grassland ecosystems hold about 40 percent of the world’s arbuscular mycorrhizal biomass. Yet those grasslands are among Earth’s least protected ecosystems, and they are converted into farmland at four times the rate of forests, posing a potential threat to these networks and the benefits they bring to plant life and carbon storage. Previous research from SPUN has found 90 percent of fungal communities across the globe are unprotected , and many ecosystems, like the deserts of the American Southwest, are understudied . What exactly is driving mycorrhizal fungi losses, and the consequences of that decline, need to be explored next, the researchers said, which is why the SPUN team will be at this year’s United Nations Climate Change Conference—COP31—to present to policymakers about the importance of the networks and the role they could play in protecting ecosystems and sequestering carbon. Understanding mycorrhizal fungi more deeply at the ground level is key, said Corentin Bisot, an AMOLF biophysicist and co-author of the study. “We’re still far from completely understanding how, if you have a grassland next door, and you want to [increase] microbes and fungi there,” Bisot said. “We don’t have the toolbox for you to do it.” This study, Stewart said, is just the first map. And like the first maps the Spaniards drew of California—which presented the state as an island, he said, there will be new discoveries about the density of fungi networks around the globe to grow the public’s understanding of them.",
+      "full_article_text_chars": 5931,
+      "content_preview": "Hidden underground around the world lie 110 quadrillion kilometers of arbuscular mycorrhizal fungal networks—webs of ultra-thin threads that, if connected in a single line, would stretch almost a billion times the distance between the Earth and the sun, according to new research published in Science on Thursday. These fungal communities form intimate relationships with the roots of plants, which they provide with nutrients like phosphorus and nitrogen in exchange for carbon, 1 billion tons of which the networks sequester underground annually, previous research has found. If the fungal network wasn’t storing it, that carbon would be warming the atmosphere. But those networks have never been mapped globally until now. The new study led by Society for the Protection of Underground Networks , or SPUN, an organization founded to map mycorrhizal fungi networks, used a combination of literature review, soil samples from around the globe, machine learning and laboratory testing to estimate the distribution and mass of these systems and map where they are densest. “This is the moment where we went from knowing that this system exists to really knowing where it is, how dense it is and where it’s been,” said Toby Kiers, executive director and co-founder of SPUN and a co-author of the study. For decades, researchers have known arbuscular mycorrhizal fungi form intimate symbiotic relationships with roughly 80 percent of the globe’s plant species and are found nearly everywhere plants are. But the extent of those networks and where they are densest, such as grasslands, and where they are being lost, like in agricultural areas, hasn’t been well understood until now. “[The study] helps us come to grips with how important these below ground organisms can be to everything that we see above ground,” said James Bever, a professor of ecology and evolutionary biology at the University of Kansas who studies the interactions between plants and microbes like fungi in soils but was not involved in the new study. Justin Stewart, an evolutionary ecologist at SPUN and lead author of the study, said previous studies the team had done on biodiversity of fungi were similar to asking someone to describe the forest outside their home. “They could say ‘well there are three tree species in it.’ That’s great. That tells me about the biodiversity,” he said. “But you don’t actually know how big the forest is, how far apart the trees are. You don’t have information on its structure.” Mycorrhizal fungal networks are made up of hyphae, each smaller than a strand of human hair. These living pipes transport the nutrients and carbon between the plants and fungi. Because they are so long and thin, Stewart said, they can reach deeper into soils than roots, getting nutrients deep underground that plants can’t reach, while simultaneously storing carbon where it can stay put for a long time under the right conditions. “You’re getting a win-win,” Stewart said. “The plants are growing better, and carbon’s being drawn down. That all depends on having dense fungal networks and soils that are active and alive.” Quantifying these fungal networks started with a review of existing studies on mycorrhizal fungi. Those studies contained 16,000 core samples taken from ecosystems around the world to understand the length of the fungal threads in a volume of soil. Each sample was geolocated, and from there the team was able to use machine learning to create predictive maps of fungal networks globally, and identify where the model is performing well and where uncertainties show more data is needed. Working with AMOLF, a research institute in Amsterdam, they developed a technique using a robot with a camera that recorded fungal networks growing over time in a lab, to get better estimates of their widths. From there, the team was able to calculate the network’s mass, which amounted to about five times the weight of all humans on Earth. The study only covers living arbuscular mycorrhizal fungal networks, Stewart said, and doesn’t include dead fungal networks, which also help to store carbon and add to the total biomass and influence of the networks on ecosystems. Research into dead fungal networks is still being explored. The study also found where these networks are most threatened. Fungal network densities across croplands are about half of what they are in wild ecosystems. Meanwhile, wild grassland ecosystems hold about 40 percent of the world’s arbuscular mycorrhizal biomass. Yet those grasslands are among Earth’s least protected ecosystems, and they are converted into farmland at four times the rate of forests, posing a potential threat to these networks and the benefits they bring to plant life and carbon storage. Previous research from SPUN has found 90 percent of fungal communities across the globe are unprotected , and many ecosystems, like the deserts of the American Southwest, are understudied . What exactly is driving mycorrhizal fungi losses, and the consequences of that decline, need to be explored next, the researchers said, which is why the SPUN team will be at this year’s United Nations Climate Change Conference—COP31—to present to policymakers about the importance of the networks and the role they could play in protecting ecosystems and sequestering carbon. Understanding mycorrhizal fungi more deeply at the ground level is key, said Corentin Bisot, an AMOLF biophysicist and co-author of the study. “We’re still far from completely understanding how, if you have a grassland next door, and you want to [increase] microbes and fungi there,” Bisot said. “We don’t have the toolbox for you to do it.” This study, Stewart said, is just the first map. And like the first maps the Spaniards drew of California—which presented the state as an island, he said, there will be new discoveries about the density of fungi networks around the globe to grow the public’s understanding of them.",
+      "content_preview_chars": 5931,
+      "content_fetched_at": "2026-06-14T10:31:19",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
     }
