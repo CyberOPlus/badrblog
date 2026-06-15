@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-15T11:32:54",
+  "updated_at": "2026-06-15T16:29:24",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -1219,11 +1219,11 @@
       "content_fetched_at": "2026-06-08T02:01:50",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-14T23:03:30",
+      "selected_at": "2026-06-15T16:28:32",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-14T23:03:30",
+      "processing_prepared_at": "2026-06-15T16:28:32",
       "ai_input_package": {
         "title": "3D Printing",
         "url": "https://www.tomshardware.com/3d-printing",
@@ -1266,19 +1266,19 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_quality_last_error": "Missing AI output field(s): slug",
       "ai_status": "failed",
-      "ai_error": "ai_time_budget_exceeded",
+      "ai_error": "Missing AI output field(s): slug",
       "ai_rotation_exhausted": false,
-      "ai_time_budget_exceeded": true,
-      "ai_total_time_seconds": 264.47,
-      "ai_quality_status": "time_budget_exceeded",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-06-14T23:22:55Z",
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 51.6,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-15T16:44:24Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "ai_time_budget_exceeded",
-      "candidate_failed_at": "2026-06-14T23:07:55",
-      "candidate_failure_count": 3,
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-06-15T16:29:24",
+      "candidate_failure_count": 4,
       "archived": true,
       "archived_at": "2026-06-14T12:28:09",
       "archive_reason": "expired_recent_window"
@@ -1428,13 +1428,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-06-15T11:27:22",
-      "candidate_retry_after": "2026-06-15T11:42:22Z",
+      "content_fetch_error": "http 403",
+      "content_fetched_at": "2026-06-15T16:24:18",
+      "candidate_retry_after": "2026-06-15T16:39:18Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-06-15T11:27:22",
-      "candidate_failure_count": 68
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-06-15T16:24:18",
+      "candidate_failure_count": 69
     },
     {
       "id": "387079dc0a830ad9",
@@ -3496,17 +3496,17 @@
       "content_filter_bypass_message": "Trusted source bypass applied",
       "score": 1,
       "priority": "low",
-      "source_links_removed_count": 82,
+      "source_links_removed_count": 83,
       "affiliate_links_removed_count": 1,
-      "removed_source_links_count": 82,
+      "removed_source_links_count": 83,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-15T11:27:23",
-      "candidate_retry_after": "2026-06-15T11:42:23Z",
+      "content_fetched_at": "2026-06-15T16:24:19",
+      "candidate_retry_after": "2026-06-15T16:39:19Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-15T11:27:23",
-      "candidate_failure_count": 66
+      "candidate_failed_at": "2026-06-15T16:24:19",
+      "candidate_failure_count": 67
     },
     {
       "id": "561b6316398d7603",
@@ -3730,7 +3730,10 @@
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-06-09T22:05:10",
       "candidate_failure_count": 3,
-      "telegram_final_summary_notified_at": "2026-06-09T00:05:21"
+      "telegram_final_summary_notified_at": "2026-06-09T00:05:21",
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "de56bb646f0ef8b3",
@@ -3869,7 +3872,10 @@
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-06-09T22:06:29",
       "candidate_failure_count": 3,
-      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "a25819defcc59340",
@@ -4008,7 +4014,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-06-09T00:04:17",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "cdcff652b50a8887",
@@ -4086,7 +4095,10 @@
       "content_preview_chars": 5091,
       "content_fetched_at": "2026-06-08T16:17:38",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "704e9b2f373f44d5",
@@ -4225,7 +4237,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-06-09T00:05:20",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "55956cfd111429d3",
@@ -4303,7 +4318,10 @@
       "content_preview_chars": 7603,
       "content_fetched_at": "2026-06-08T16:17:30",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "2880528100644bc4",
@@ -4496,12 +4514,12 @@
       "removed_source_links_count": 231,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=486 chars/76 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:486chars/76words, page_text:486chars/76words)",
-      "content_fetched_at": "2026-06-15T11:27:27",
-      "candidate_retry_after": "2026-06-15T11:42:27Z",
+      "content_fetched_at": "2026-06-15T16:24:23",
+      "candidate_retry_after": "2026-06-15T16:39:23Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=486 chars/76 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:486chars/76words, page_text:486chars/76words)",
-      "candidate_failed_at": "2026-06-15T11:27:27",
-      "candidate_failure_count": 65
+      "candidate_failed_at": "2026-06-15T16:24:23",
+      "candidate_failure_count": 66
     },
     {
       "id": "c1354558130eaeb3",
@@ -5228,7 +5246,10 @@
       "content_preview_chars": 5234,
       "content_fetched_at": "2026-06-08T18:40:30",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "c71d88520f65b8a6",
@@ -5315,7 +5336,10 @@
       "content_preview_chars": 6409,
       "content_fetched_at": "2026-06-08T18:40:40",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "9649c72ceb54a6d7",
@@ -5589,12 +5613,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-15T11:27:27",
-      "candidate_retry_after": "2026-06-15T11:42:27Z",
+      "content_fetched_at": "2026-06-15T16:24:24",
+      "candidate_retry_after": "2026-06-15T16:39:24Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-15T11:27:27",
-      "candidate_failure_count": 64
+      "candidate_failed_at": "2026-06-15T16:24:24",
+      "candidate_failure_count": 65
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -6212,7 +6236,10 @@
       "content_preview_chars": 2492,
       "content_fetched_at": "2026-06-08T21:05:24",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "55968d9c31b6de63",
@@ -6277,7 +6304,10 @@
       "content_preview_chars": 2574,
       "content_fetched_at": "2026-06-08T21:05:25",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "c5bdea5b2e54c2c2",
@@ -6941,12 +6971,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-06-15T11:27:28",
-      "candidate_retry_after": "2026-06-15T11:42:28Z",
+      "content_fetched_at": "2026-06-15T16:24:24",
+      "candidate_retry_after": "2026-06-15T16:39:24Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-06-15T11:27:28",
-      "candidate_failure_count": 62
+      "candidate_failed_at": "2026-06-15T16:24:24",
+      "candidate_failure_count": 63
     },
     {
       "id": "cc5e99891af35b5e",
@@ -6978,12 +7008,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-06-15T11:27:28",
-      "candidate_retry_after": "2026-06-15T11:42:28Z",
+      "content_fetched_at": "2026-06-15T16:24:25",
+      "candidate_retry_after": "2026-06-15T16:39:25Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-06-15T11:27:28",
-      "candidate_failure_count": 62
+      "candidate_failed_at": "2026-06-15T16:24:25",
+      "candidate_failure_count": 63
     },
     {
       "id": "a6f4ca9464909855",
@@ -7015,12 +7045,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-06-15T11:27:28",
-      "candidate_retry_after": "2026-06-15T11:42:28Z",
+      "content_fetched_at": "2026-06-15T16:24:25",
+      "candidate_retry_after": "2026-06-15T16:39:25Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-06-15T11:27:28",
-      "candidate_failure_count": 62
+      "candidate_failed_at": "2026-06-15T16:24:25",
+      "candidate_failure_count": 63
     },
     {
       "id": "66722f50e91993b6",
@@ -7831,7 +7861,10 @@
       "content_preview_chars": 3145,
       "content_fetched_at": "2026-06-09T02:39:42",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "317c1e04f7a4c205",
@@ -7900,7 +7933,10 @@
       "content_preview_chars": 3197,
       "content_fetched_at": "2026-06-09T02:39:46",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "7c2f09893ff16886",
@@ -8489,7 +8525,10 @@
       "content_preview_chars": 4711,
       "content_fetched_at": "2026-06-09T06:35:33",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "a01b3ef68bec0be6",
@@ -9094,12 +9133,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-15T11:27:28",
-      "candidate_retry_after": "2026-06-15T11:42:28Z",
+      "content_fetched_at": "2026-06-15T16:24:25",
+      "candidate_retry_after": "2026-06-15T16:39:25Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-15T11:27:28",
-      "candidate_failure_count": 58
+      "candidate_failed_at": "2026-06-15T16:24:25",
+      "candidate_failure_count": 59
     },
     {
       "id": "512c2899a98440d2",
@@ -9128,12 +9167,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-15T11:27:28",
-      "candidate_retry_after": "2026-06-15T11:42:28Z",
+      "content_fetched_at": "2026-06-15T16:24:26",
+      "candidate_retry_after": "2026-06-15T16:39:26Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-15T11:27:28",
-      "candidate_failure_count": 58
+      "candidate_failed_at": "2026-06-15T16:24:26",
+      "candidate_failure_count": 59
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -9162,12 +9201,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-15T11:27:28",
-      "candidate_retry_after": "2026-06-15T11:42:28Z",
+      "content_fetched_at": "2026-06-15T16:24:26",
+      "candidate_retry_after": "2026-06-15T16:39:26Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-15T11:27:28",
-      "candidate_failure_count": 58
+      "candidate_failed_at": "2026-06-15T16:24:26",
+      "candidate_failure_count": 59
     },
     {
       "id": "d9a0fa48ccc53ccf",
@@ -10996,7 +11035,10 @@
       "content_preview_chars": 2916,
       "content_fetched_at": "2026-06-09T20:25:32",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T16:23:58",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "5291afba30ccbc75",
@@ -11082,12 +11124,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-06-15T11:27:30",
-      "candidate_retry_after": "2026-06-15T11:42:30Z",
+      "content_fetched_at": "2026-06-15T16:24:27",
+      "candidate_retry_after": "2026-06-15T16:39:27Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-06-15T11:27:30",
-      "candidate_failure_count": 54
+      "candidate_failed_at": "2026-06-15T16:24:27",
+      "candidate_failure_count": 55
     },
     {
       "id": "33732dfdc6295ab2",
@@ -11119,12 +11161,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-06-15T11:27:32",
-      "candidate_retry_after": "2026-06-15T11:42:32Z",
+      "content_fetched_at": "2026-06-15T16:24:29",
+      "candidate_retry_after": "2026-06-15T16:39:29Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-06-15T11:27:32",
-      "candidate_failure_count": 54
+      "candidate_failed_at": "2026-06-15T16:24:29",
+      "candidate_failure_count": 55
     },
     {
       "id": "aede79193c6b98c9",
@@ -11156,12 +11198,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-06-15T11:27:33",
-      "candidate_retry_after": "2026-06-15T11:42:33Z",
+      "content_fetched_at": "2026-06-15T16:24:31",
+      "candidate_retry_after": "2026-06-15T16:39:31Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-06-15T11:27:33",
-      "candidate_failure_count": 54
+      "candidate_failed_at": "2026-06-15T16:24:31",
+      "candidate_failure_count": 55
     },
     {
       "id": "fd4f78fb8656592b",
@@ -13616,13 +13658,13 @@
       "affiliate_links_removed_count": 5,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-06-15T11:27:36",
-      "candidate_retry_after": "2026-06-15T11:42:36Z",
+      "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
+      "content_fetched_at": "2026-06-15T16:24:34",
+      "candidate_retry_after": "2026-06-15T16:39:34Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-06-15T11:27:36",
-      "candidate_failure_count": 50
+      "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
+      "candidate_failed_at": "2026-06-15T16:24:34",
+      "candidate_failure_count": 51
     },
     {
       "id": "693fbfabd96b2185",
@@ -13653,12 +13695,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-06-15T11:27:37",
-      "candidate_retry_after": "2026-06-15T11:42:37Z",
+      "content_fetched_at": "2026-06-15T16:24:35",
+      "candidate_retry_after": "2026-06-15T16:39:35Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-06-15T11:27:37",
-      "candidate_failure_count": 50
+      "candidate_failed_at": "2026-06-15T16:24:35",
+      "candidate_failure_count": 51
     },
     {
       "id": "a5f6af5d6b69d4f1",
@@ -23219,12 +23261,12 @@
       "removed_source_links_count": 19,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, page_text:593chars/104words)",
-      "content_fetched_at": "2026-06-15T11:27:38",
-      "candidate_retry_after": "2026-06-15T11:42:38Z",
+      "content_fetched_at": "2026-06-15T16:24:36",
+      "candidate_retry_after": "2026-06-15T16:39:36Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, pag",
-      "candidate_failed_at": "2026-06-15T11:27:38",
-      "candidate_failure_count": 34
+      "candidate_failed_at": "2026-06-15T16:24:36",
+      "candidate_failure_count": 35
     },
     {
       "id": "63f62895c7723e75",
@@ -29861,12 +29903,12 @@
       "removed_source_links_count": 24,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=626 chars/90 words; required=80 chars/120 words; tried=main_tag:626chars/90words, paragraph_fallback:387chars/54words, article_body:387chars/54words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_text:387chars/54words)",
-      "content_fetched_at": "2026-06-15T11:27:39",
-      "candidate_retry_after": "2026-06-15T11:42:39Z",
+      "content_fetched_at": "2026-06-15T16:24:36",
+      "candidate_retry_after": "2026-06-15T16:39:36Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=626 chars/90 words; required=80 chars/120 words; tried=main_tag:626chars/90words, paragraph_fallback:387chars/54words, article_body:387chars/54words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_tex",
-      "candidate_failed_at": "2026-06-15T11:27:39",
-      "candidate_failure_count": 23
+      "candidate_failed_at": "2026-06-15T16:24:36",
+      "candidate_failure_count": 24
     },
     {
       "id": "f3d06cfb2540f37e",
@@ -33638,11 +33680,11 @@
       "content_fetched_at": "2026-06-14T17:44:59",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-14T22:59:56",
+      "selected_at": "2026-06-15T16:27:44",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-14T22:59:56",
+      "processing_prepared_at": "2026-06-15T16:27:44",
       "ai_input_package": {
         "title": "Everything new coming to CarPlay in iOS 27",
         "url": "https://www.digitaltrends.com/cars/everything-new-coming-to-carplay-with-ios-27",
@@ -33685,19 +33727,19 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_quality_last_error": "article older than 24 hours",
       "ai_status": "failed",
-      "ai_error": "ai_time_budget_exceeded",
+      "ai_error": "article older than 24 hours",
       "ai_rotation_exhausted": false,
-      "ai_time_budget_exceeded": true,
-      "ai_total_time_seconds": 213.1,
-      "ai_quality_status": "time_budget_exceeded",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-06-14T23:18:30Z",
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 46.66,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-15T16:43:31Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "ai_time_budget_exceeded",
-      "candidate_failed_at": "2026-06-14T23:03:30",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "article older than 24 hours",
+      "candidate_failed_at": "2026-06-15T16:28:31",
+      "candidate_failure_count": 2
     },
     {
       "id": "c870c83da2325638",
@@ -35611,7 +35653,52 @@
       "content_preview_chars": 3928,
       "content_fetched_at": "2026-06-14T22:59:17",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-15T16:24:37",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-15T16:24:37",
+      "ai_input_package": {
+        "title": "UK may ban social media for children under 16 | TechCrunch",
+        "url": "https://techcrunch.com/2026/06/14/uk-may-ban-social-media-for-children-under-16",
+        "source_name": "TechCrunch",
+        "suggested_category": "Tech-News",
+        "main_image": "https://techcrunch.com/wp-content/uploads/2026/04/GettyImages-2270785056.jpg?w=1024",
+        "article_images": [
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2026/04/GettyImages-2270785056.jpg?w=1024",
+            "alt": "UK may ban social media for children under 16 | TechCrunch",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "The U.K. seems to be following Australia's lead in banning a wide swath of social media for teens.",
+        "content_preview": "U.K. Prime Minister Keir Starmer is about to announce a ban on social media usage for children under the age of 16, according to multiple reports. While the government had previously revealed that it was studying options around a ban, both the Guardian and the Financial Times said that Starmer is now ready to unveil the policy in a speech on Monday. Government sources told the Guardian that the U.K. ban will cover a similar range of social platforms as Australia, where TikTok, YouTube, Instagram, Reddit, Facebook, X, Threads, Snapchat, Twitch, and Kick are all banned for users under 16. Other products, such as gaming apps, would not be banned outright, but for their younger users, they’d need to remove features like the ability to chat with strangers. The policy would also prohibit users under 18 from accessing romantic and sexual chatbots and seek to prevent late-night scrolling. The government can use its existing regulatory powers to enforce some aspects of a ban, but new legislation may also be required, the Guardian said. The U.K. is one of a number of countries following Australia’s lead by considering bans on social media use by children. The U.K. already passed an age verification law that was similarly touted as protecting the safety of children online. These bans come amidst growing discussion around the effect of social media usage on teens and children — for example, the mother of murdered teen Brianna Ghey has called for a teen social media ban in the U.K. and said her daughter’s eating order and self-harming behavior were “significantly exacerbated by the harmful content she was consuming online.” At the same time, these bans have been criticized for potentially violating user privacy and isolating children, while offering unproven benefits to their mental health. Age verification laws — which, unlike outright bans, have taken effect in multiple U.S. states — have also been criticized as threats to online privacy and anonymity. And the verification methods aren’t exactly foolproof. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Anthony Ha is TechCrunch’s weekend editor. Previously, he worked as a tech reporter at Adweek, a senior editor at VentureBeat, a local government reporter at the Hollister Free Lance, and vice president of content at a VC firm. He lives in New York City. You can contact or verify outreach from Anthony by emailing anthony.ha@techcrunch.com . Get an inside look at what it takes to scale and succeed from leaders at Mach Industries, Founders Fund, and Shinkei Systems. Through candid fireside chats and high-impact networking, you’ll walk away with valuable insights and new connections. The FBI built its own replica small town to simulate real-world cyberattacks Zack Whittaker The FBI built its own replica small town to simulate real-world cyberattacks Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world Marina Temkin Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable Lorenzo Franceschi-Bicchierai Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable Google just fired a warning shot in the AI subscription price wars Lucas Ropek Connie Loizos Google just fired a warning shot in the AI subscription price wars WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Morgan Little Aisha Malik WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Anthropic’s Claude Fable 5 is a version of Mythos the public can access today Rebecca Bellan Anthropic’s Claude Fable 5 is a version of Mythos the public can access today It’s not FAANG anymore. It’s MANGOS. Julie Bort It’s not FAANG anymore. It’s MANGOS.",
+        "content_preview_chars": 3928,
+        "rss_summary": "",
+        "full_article_text": "U.K. Prime Minister Keir Starmer is about to announce a ban on social media usage for children under the age of 16, according to multiple reports. While the government had previously revealed that it was studying options around a ban, both the Guardian and the Financial Times said that Starmer is now ready to unveil the policy in a speech on Monday. Government sources told the Guardian that the U.K. ban will cover a similar range of social platforms as Australia, where TikTok, YouTube, Instagram, Reddit, Facebook, X, Threads, Snapchat, Twitch, and Kick are all banned for users under 16. Other products, such as gaming apps, would not be banned outright, but for their younger users, they’d need to remove features like the ability to chat with strangers. The policy would also prohibit users under 18 from accessing romantic and sexual chatbots and seek to prevent late-night scrolling. The government can use its existing regulatory powers to enforce some aspects of a ban, but new legislation may also be required, the Guardian said. The U.K. is one of a number of countries following Australia’s lead by considering bans on social media use by children. The U.K. already passed an age verification law that was similarly touted as protecting the safety of children online. These bans come amidst growing discussion around the effect of social media usage on teens and children — for example, the mother of murdered teen Brianna Ghey has called for a teen social media ban in the U.K. and said her daughter’s eating order and self-harming behavior were “significantly exacerbated by the harmful content she was consuming online.” At the same time, these bans have been criticized for potentially violating user privacy and isolating children, while offering unproven benefits to their mental health. Age verification laws — which, unlike outright bans, have taken effect in multiple U.S. states — have also been criticized as threats to online privacy and anonymity. And the verification methods aren’t exactly foolproof. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Anthony Ha is TechCrunch’s weekend editor. Previously, he worked as a tech reporter at Adweek, a senior editor at VentureBeat, a local government reporter at the Hollister Free Lance, and vice president of content at a VC firm. He lives in New York City. You can contact or verify outreach from Anthony by emailing anthony.ha@techcrunch.com . Get an inside look at what it takes to scale and succeed from leaders at Mach Industries, Founders Fund, and Shinkei Systems. Through candid fireside chats and high-impact networking, you’ll walk away with valuable insights and new connections. The FBI built its own replica small town to simulate real-world cyberattacks Zack Whittaker The FBI built its own replica small town to simulate real-world cyberattacks Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world Marina Temkin Jeff Bezos’s Prometheus raises $12B to build an ‘artificial general engineer’ for the physical world Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable Lorenzo Franceschi-Bicchierai Cybersecurity researchers aren’t happy about the guardrails on Anthropic’s Fable Google just fired a warning shot in the AI subscription price wars Lucas Ropek Connie Loizos Google just fired a warning shot in the AI subscription price wars WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Morgan Little Aisha Malik WWDC 2026: Everything announced on Siri AI, iOS 27, Apple Intelligence, and more Anthropic’s Claude Fable 5 is a version of Mythos the public can access today Rebecca Bellan Anthropic’s Claude Fable 5 is a version of Mythos the public can access today It’s not FAANG anymore. It’s MANGOS. Julie Bort It’s not FAANG anymore. It’s MANGOS.",
+        "full_article_text_chars": 3928,
+        "enrichment_status": "strong",
+        "source_url": "https://techcrunch.com",
+        "source_published_at": "2026-06-14T20:17:00Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 2.7,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "ad/affiliate/sponsored title or summary",
+      "ai_status": "failed",
+      "ai_error": "ad/affiliate/sponsored title or summary",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 136.33,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-15T16:41:54Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "ad/affiliate/sponsored title or summary",
+      "candidate_failed_at": "2026-06-15T16:26:54",
+      "candidate_failure_count": 1
     },
     {
       "id": "c8c4992a2ceb4299",
@@ -35689,7 +35776,67 @@
       "content_preview_chars": 3162,
       "content_fetched_at": "2026-06-14T22:59:22",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-15T16:26:54",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-15T16:26:54",
+      "ai_input_package": {
+        "title": "Did a medieval flying monk spot Halley's comet, twice? It's complicated",
+        "url": "https://arstechnica.com/science/2026/06/did-a-medieval-flying-monk-spot-halleys-comet-twice-its-complicated",
+        "source_name": "Ars Technica",
+        "suggested_category": "Tech-News",
+        "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/eilmer-1152x648-1781448851.jpg",
+        "article_images": [
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/eilmer-1152x648-1781448851.jpg",
+            "alt": "Did a medieval flying monk spot Halley's comet, twice? It's complicated",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/06/eilmer-640x458.jpg",
+            "alt": "Cropped image of Stained glass window showing Eilmer, installed in Malmesbury Abbey in 1920",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2018/08/arspic300.jpg",
+            "alt": "Photo of Jennifer Ouellette",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+            "alt": "Loading",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "University of Leicester historian thinks Eilmer of Malmesbury saw two different comets: in 1018 and 1066...",
+        "content_preview": "Early in the 11th century, a young Benedictine monk named Eilmer jumped from the 150-foot tower of his abbey in the small English town of Malmesbury, wearing a pair of crude wings he’d fashioned from willow wood and cloth. Eilmer managed to glide a good 600 feet, passing over the city wall before crash-landing in a small valley near the river Avon. The fall broke both his legs, crippling him. Malmesbury Abbey still boasts a stained-glass window in honor of Brother Eilmer. This legendary experiment in medieval aviation comes to us via 12th-century historian William of Malmesbury in an account written circa 1125, although William neglected to provide future historians with an exact date for the feat. But William does mention another key episode in Eilmer’s life when the monk was “advanced in years”: Eilmer witnessed Halley’s comet in 1066, commenting, “It is long since I saw you.” Some historians have interpreted this to mean that Eilmer saw Halley’s comet on an earlier fly-by in 989, when he would have been a young boy. Assuming Eilmer was at least five years would in 989, he would have been born no later than 984. This would make Eilmer in his 80s in 1066, with his attempt at flight—which occurred when he was “in his first youth”—likely falling between 1000 and 1010. However, it’s an estimate that is based on a lot of assumption, according to James Aitcheson of the University of Leicester, who argues in a paper published in the journal Notes and Queries that Eilmer may have seen a different comet altogether in his youth—the comet of 1018. If so, he would have been born much later and the date of his flight would have occurred between the 1020s and 1040s. The comet of 1018 would have been visible in the British isles for about two weeks in the fall, per Aitcheson, and Eilmer may have merely assumed that it was the same as his 1066 observation of Halley’s comet, which left him “crouching in terror at the gleaming star.” Aitcheson suggests Eilmer could have been born in the early 1010s, making him over 50 in 1066, technically still consistent with William of Malmesbury’s description of Eilmer as being advanced in years. This would also challenge recent speculation that Eilmer understood the periodicity of Halley’s comet centuries before the late 17th century astronomer Edmund Halley. So should it really be Eilmer’s Comet? Aitcheson thinks not. He acknowledges that Eilmer could have had access to historical records of comet sightings in Britain and Europe, and thus could have spotted the pattern of its cycle among all the other records of comet appearances. But the only record we have of Eilmer is through William of Malmesbury, who doesn’t say anything about whether Eilmer was an amateur astronomer. “Indeed, it is not clear that sky-watchers in the Early Middle Ages were able to tell one comet apart from another,” Aitcheseon writes in his paper. A later date for Eilmer’s birth also makes it just possible that the monk lived long enough (to age 90) to meet William in person and “directly passed on the story of his pioneering feats of aviation.” DOI: Notes and Queries, 2026. 10.1093/notesj/gjag066 (About DOIs).",
+        "content_preview_chars": 3162,
+        "rss_summary": "",
+        "full_article_text": "Early in the 11th century, a young Benedictine monk named Eilmer jumped from the 150-foot tower of his abbey in the small English town of Malmesbury, wearing a pair of crude wings he’d fashioned from willow wood and cloth. Eilmer managed to glide a good 600 feet, passing over the city wall before crash-landing in a small valley near the river Avon. The fall broke both his legs, crippling him. Malmesbury Abbey still boasts a stained-glass window in honor of Brother Eilmer. This legendary experiment in medieval aviation comes to us via 12th-century historian William of Malmesbury in an account written circa 1125, although William neglected to provide future historians with an exact date for the feat. But William does mention another key episode in Eilmer’s life when the monk was “advanced in years”: Eilmer witnessed Halley’s comet in 1066, commenting, “It is long since I saw you.” Some historians have interpreted this to mean that Eilmer saw Halley’s comet on an earlier fly-by in 989, when he would have been a young boy. Assuming Eilmer was at least five years would in 989, he would have been born no later than 984. This would make Eilmer in his 80s in 1066, with his attempt at flight—which occurred when he was “in his first youth”—likely falling between 1000 and 1010. However, it’s an estimate that is based on a lot of assumption, according to James Aitcheson of the University of Leicester, who argues in a paper published in the journal Notes and Queries that Eilmer may have seen a different comet altogether in his youth—the comet of 1018. If so, he would have been born much later and the date of his flight would have occurred between the 1020s and 1040s. The comet of 1018 would have been visible in the British isles for about two weeks in the fall, per Aitcheson, and Eilmer may have merely assumed that it was the same as his 1066 observation of Halley’s comet, which left him “crouching in terror at the gleaming star.” Aitcheson suggests Eilmer could have been born in the early 1010s, making him over 50 in 1066, technically still consistent with William of Malmesbury’s description of Eilmer as being advanced in years. This would also challenge recent speculation that Eilmer understood the periodicity of Halley’s comet centuries before the late 17th century astronomer Edmund Halley. So should it really be Eilmer’s Comet? Aitcheson thinks not. He acknowledges that Eilmer could have had access to historical records of comet sightings in Britain and Europe, and thus could have spotted the pattern of its cycle among all the other records of comet appearances. But the only record we have of Eilmer is through William of Malmesbury, who doesn’t say anything about whether Eilmer was an amateur astronomer. “Indeed, it is not clear that sky-watchers in the Early Middle Ages were able to tell one comet apart from another,” Aitcheseon writes in his paper. A later date for Eilmer’s birth also makes it just possible that the monk lived long enough (to age 90) to meet William in person and “directly passed on the story of his pioneering feats of aviation.” DOI: Notes and Queries, 2026. 10.1093/notesj/gjag066 (About DOIs).",
+        "full_article_text_chars": 3162,
+        "enrichment_status": "weak",
+        "source_url": "https://arstechnica.com",
+        "source_published_at": "2026-06-14T16:02:53Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 6.94,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_status": "failed",
+      "ai_error": "Missing AI output field(s): slug",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 48.61,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-15T16:42:44Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-06-15T16:27:44",
+      "candidate_failure_count": 1
     },
     {
       "id": "03e93adaa6b7993e",
@@ -36413,6 +36560,449 @@
       "content_fetched_at": "2026-06-15T11:27:03",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
+    },
+    {
+      "id": "c67ad795ece7d670",
+      "source_url_hash": "c67ad795ece7d670",
+      "canonical_url": "https://www.androidauthority.com/android-updates-dont-matter-2026-3676154",
+      "title_hash": "866b9ec74bc3dfbe",
+      "topic_signature": "f5f5da3a2d1b98cd0ea8",
+      "title": "FeaturesAndroid updates don’t matter anymore, and it’s all Google’s faultZac Kew-Denniss•0",
+      "url": "https://www.androidauthority.com/android-updates-dont-matter-2026-3676154",
+      "source_name": "Android Authority",
+      "source_url": "https://www.androidauthority.com",
+      "source_published_at": "2026-06-15T09:00:52Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 7.38,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-15T16:23:58",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 17,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 17,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Android updates don't matter anymore, and it's all Google's fault",
+      "meta_description": "Android updates used to be something I got excited for every year, but now they don't matter like they used to.",
+      "image_warning": "missing downloadable article image",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "fallback",
+      "main_image_extraction_method": "",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "Affiliate links on Android Authority may earn us a commission. Learn more. Android updates don’t matter. I know that’s a provocative thing to say. Android updates fix bugs, address security vulnerabilities, and add new features to your phone. Yet, I stand by my statement. Android updates don’t matter, at least not in the same way they used to. The way Google does things in 2026 is not the same as the way it did things back in 2008, and that’s not always a bad thing. When was the last time an Android OS update changed how you use your phone? New features aren’t a part of Android Gemini launched in 2023, the same year as Android 14. So, would you be right in thinking that you need Android 14 to use Gemini? No. The minimum requirement to use Gemini on Android is Android 9.0 Pie, released in 2018. The original Google Pixel was updated to Android 10, so every Pixel phone Google has ever made supports what is arguably one of the most important additions to Android ever. That’s one example of many. In the last year, Google gave us Ask Maps and Ask Photos, two incredibly useful features. The minimum Android version needed? Android 8.0 Oreo, so even the Nexus 5X and 6P have access. There’s a theme emerging here. Most of the new things Google announces for Android each year aren’t tied to an Android version — it’s dependent on the app that feature is a part of, and it rarely requires the latest Android update to be compatible. This isn’t only the case for apps like Gemini or Google Photos. Google and most Android manufacturers update important apps, including system applications, through the Play Store, Galaxy Store, or whatever app store the phone comes with. This is a great way to handle updates because bugs and glitches can be squashed quickly without the user having to install an update and reboot their phone, and it skips the need for Android OEMs to prep the update for the dozens of phones they support. Apple updates some apps via the App Store, such as GarageBand and iMovie. But important apps like Messages, the camera, Safari, and even Apple Music are updated via a full system update. So while Google can fix a bug in Google Messages or YouTube Music with a quick update on the Play Store that can reach every Android phone seamlessly, Apple has to send a full iOS update to supported devices. I know plenty of iOS and Android users who hate updating their phones and put it off for as long as possible — and only one of those groups will get new features and bug fixes to core apps without changing their ways. When Apple inevitably releases a chart showing how many of its devices are on the latest version of iOS versus how many Android phones are on their latest OS version, remember that it isn’t as simple as that. The majority of Android phones have access to all of the latest features. As for vulnerabilities, Google, Samsung, and most other OEMs release security patches independently of major OS updates, and Google’s Play System Updates do the same — right from the Play Store on phones running Android 10 or newer. That’s not to say Android updates don’t bring anything new. Obviously, they do. Android 17 added app bubbles, one of my favorite new features in years, and Material 3 Expressive looks fantastic on Android 16 and 17. But major Android updates don’t excite in the same way they used to, and most new features don’t require them. Hardware matters more than ever Google is devaluing Android updates in new ways this year. Gemini Intelligence took up a lot of the screen time during The Android Show in May. Love it or hate it, AI features like this are the future of smartphones, unless the AI bubble (hopefully) bursts. Gemini Intelligence requires Android 17, but rather than disproving my point, the rest of its requirements prove my argument. When Google Now was unveiled, every phone and tablet that got Android 4.1 Jelly Bean got it. Gemini Intelligence is the opposite. To use Gemini Intelligence, your phone will need a flagship processor, at least 12GB of RAM, Android 17, Android AICore, Gemini Nano v3 or higher, at least five years of major Android upgrades, and at least six years of security patches. To put into perspective how stringent those requirements are, only the 10 series of Pixel phones will be compatible, excluding the 10a. Likewise, the only existing Samsung models to get it are the S26 handsets, so even the $2,900 Galaxy TriFold won’t get what you could describe as the biggest new Android feature in years. It’s the same story with OnePlus, Honor, and other Android OEMs. In a time when memory pricing is out of control and hardware in general is only getting more expensive, Google is making high-end hardware essential for the best Android experience and devaluing its own budget Pixels in a way it never has before. Maybe I’m on my own here, but Android updates and new features have been getting less exciting for years now, and strict hardware requirements that lock most people out of using them only make matters worse. It also makes me feel less positive about my Pixel 10 Pro. If all Pixel 9 users are getting locked out of important features so soon, will the same happen to the Pixel 10 series? Do seven years of Android updates mean anything if the best features aren’t included? I don’t have the answers to those questions, and I don’t think Google does, either. Don’t want to miss the best from Android Authority ? Set us as a favorite source in Google Discover to never miss our latest exclusive reports, expert analysis, and much more. You can also set us as a preferred source in Google Search by clicking the button below. Thank you for being part of our community. Read our Comment Policy before posting.",
+      "full_article_text_chars": 5714,
+      "content_preview": "Affiliate links on Android Authority may earn us a commission. Learn more. Android updates don’t matter. I know that’s a provocative thing to say. Android updates fix bugs, address security vulnerabilities, and add new features to your phone. Yet, I stand by my statement. Android updates don’t matter, at least not in the same way they used to. The way Google does things in 2026 is not the same as the way it did things back in 2008, and that’s not always a bad thing. When was the last time an Android OS update changed how you use your phone? New features aren’t a part of Android Gemini launched in 2023, the same year as Android 14. So, would you be right in thinking that you need Android 14 to use Gemini? No. The minimum requirement to use Gemini on Android is Android 9.0 Pie, released in 2018. The original Google Pixel was updated to Android 10, so every Pixel phone Google has ever made supports what is arguably one of the most important additions to Android ever. That’s one example of many. In the last year, Google gave us Ask Maps and Ask Photos, two incredibly useful features. The minimum Android version needed? Android 8.0 Oreo, so even the Nexus 5X and 6P have access. There’s a theme emerging here. Most of the new things Google announces for Android each year aren’t tied to an Android version — it’s dependent on the app that feature is a part of, and it rarely requires the latest Android update to be compatible. This isn’t only the case for apps like Gemini or Google Photos. Google and most Android manufacturers update important apps, including system applications, through the Play Store, Galaxy Store, or whatever app store the phone comes with. This is a great way to handle updates because bugs and glitches can be squashed quickly without the user having to install an update and reboot their phone, and it skips the need for Android OEMs to prep the update for the dozens of phones they support. Apple updates some apps via the App Store, such as GarageBand and iMovie. But important apps like Messages, the camera, Safari, and even Apple Music are updated via a full system update. So while Google can fix a bug in Google Messages or YouTube Music with a quick update on the Play Store that can reach every Android phone seamlessly, Apple has to send a full iOS update to supported devices. I know plenty of iOS and Android users who hate updating their phones and put it off for as long as possible — and only one of those groups will get new features and bug fixes to core apps without changing their ways. When Apple inevitably releases a chart showing how many of its devices are on the latest version of iOS versus how many Android phones are on their latest OS version, remember that it isn’t as simple as that. The majority of Android phones have access to all of the latest features. As for vulnerabilities, Google, Samsung, and most other OEMs release security patches independently of major OS updates, and Google’s Play System Updates do the same — right from the Play Store on phones running Android 10 or newer. That’s not to say Android updates don’t bring anything new. Obviously, they do. Android 17 added app bubbles, one of my favorite new features in years, and Material 3 Expressive looks fantastic on Android 16 and 17. But major Android updates don’t excite in the same way they used to, and most new features don’t require them. Hardware matters more than ever Google is devaluing Android updates in new ways this year. Gemini Intelligence took up a lot of the screen time during The Android Show in May. Love it or hate it, AI features like this are the future of smartphones, unless the AI bubble (hopefully) bursts. Gemini Intelligence requires Android 17, but rather than disproving my point, the rest of its requirements prove my argument. When Google Now was unveiled, every phone and tablet that got Android 4.1 Jelly Bean got it. Gemini Intelligence is the opposite. To use Gemini Intelligence, your phone will need a flagship processor, at least 12GB of RAM, Android 17, Android AICore, Gemini Nano v3 or higher, at least five years of major Android upgrades, and at least six years of security patches. To put into perspective how stringent those requirements are, only the 10 series of Pixel phones will be compatible, excluding the 10a. Likewise, the only existing Samsung models to get it are the S26 handsets, so even the $2,900 Galaxy TriFold won’t get what you could describe as the biggest new Android feature in years. It’s the same story with OnePlus, Honor, and other Android OEMs. In a time when memory pricing is out of control and hardware in general is only getting more expensive, Google is making high-end hardware essential for the best Android experience and devaluing its own budget Pixels in a way it never has before. Maybe I’m on my own here, but Android updates and new features have been getting less exciting for years now, and strict hardware requirements that lock most people out of using them only make matters worse. It also makes me feel less positive about my Pixel 10 Pro. If all Pixel 9 users are getting locked out of important features so soon, will the same happen to the Pixel 10 series? Do seven years of Android updates mean anything if the best features aren’t included? I don’t have the answers to those questions, and I don’t think Google does, either. Don’t want to miss the best from Android Authority ? Set us as a favorite source in Google Discover to never miss our latest exclusive reports, expert analysis, and much more. You can also set us as a preferred source in Google Search by clicking the button below. Thank you for being part of our community. Read our Comment Policy before posting.",
+      "content_preview_chars": 5714,
+      "content_fetched_at": "2026-06-15T16:24:05",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "4cc1e39521cd9d14",
+      "source_url_hash": "4cc1e39521cd9d14",
+      "canonical_url": "https://www.engadget.com/2194005/uk-will-ban-social-media-for-children-under-16",
+      "title_hash": "d9cb7ed1001f3318",
+      "topic_signature": "7f857b9283aede80b90e",
+      "title": "UK will ban social media for children under 16",
+      "url": "https://www.engadget.com/2194005/uk-will-ban-social-media-for-children-under-16",
+      "source_name": "Engadget",
+      "source_url": "https://www.engadget.com",
+      "source_published_at": "2026-06-15T08:48:59Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 7.58,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-15T16:23:58",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 105,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 105,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "UK will ban social media for children under 16 - Engadget",
+      "meta_description": "The UK is following Australia by banning young people under 16 from TikTok, Instagram and other social media platforms.",
+      "image_warning": "missing downloadable article image",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "fallback",
+      "main_image_extraction_method": "",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "'Tech giants had their chance and failed, but we're stepping in to protect children,' said Prime Minister Keir Starmer. Following a consultation, the UK is banning young people under 16 from social media platforms like TikTok and Instagram, Prime Minister Keir Starmer announced . \"This is a line in the sand,\" the PM said in a speech at his Downing Street residence. \"Tech giants had their chance and failed, but we're stepping in to protect children, back parents and set a new normal for future generations.\" The government aims to pass the legislation by the end of this year and start enforcing it in the spring of 2027. The plan includes not only a ban from major social media platforms, but also restrictions on gaming apps as well. Those include barring children under 16 from chatting with strangers, live streaming or using romantic chatbots. \"These restrictions... go further than any other country,\" the government press release states. The UK will follow a similar model as the social media ban in Australia. Platforms like Snapchat, TikTok, YouTube, Instagram, Facebook and X will be required to disable access for under-16 users by default. Chat apps like WhatsApp or Telegram will note be affected. The government is also looking at limited restrictions for youths under 18, like overnight curfews and breaks in infinite scrolling. Starmer acknowledged that kids will find ways around the ban, but said that wasn't a good excuse for not enacting a law. \"We don't say, 'Oh, look, a teenager managed to get a drink somehow, so let's not bother banning alcohol sales for children,\" he said. \"Our laws are rules, but they're also an expression of our values. They shape the social contract, and so this will change the conversations that parents have and the expectations of children over time.\" In January, the UK government launched the \" Growing up in the online world \" consultation into social media for kids, requesting feedback on whether and how to enforce that limit. The country's ministers also went to Australia to study the effects of that nation's social media ban, which went into effect on December 10, 2025. Only a month after it was enacted, Meta had shut down as many as 550,000 Australian accounts to comply with the law. The results of the UK consultation showed that nine in 10 parents supported a minimum age of 16 for accessing social media apps, the government said. At the same time, the PM added that the ban doesn't mean the UK is anti-tech. \"I do not accept, and I will never accept that you can't be both pro tech and AI, and at the same time say we must protect our children,\" he said in the speech. Creation of detailed rules and enforcement of the ban will be conducted by the UK's tech regulator Ofcom in consultation with lawmakers. \"So far, Ofcom has driven some of the strongest changes of any online safety regulation in the world, from widespread age checks to grooming protections for children. But the industry needs to go much further to make people safe,\" Ofcom said in an official statement . The government has yet to release details on ID or other enforcement mechanisms.",
+      "full_article_text_chars": 3129,
+      "content_preview": "'Tech giants had their chance and failed, but we're stepping in to protect children,' said Prime Minister Keir Starmer. Following a consultation, the UK is banning young people under 16 from social media platforms like TikTok and Instagram, Prime Minister Keir Starmer announced . \"This is a line in the sand,\" the PM said in a speech at his Downing Street residence. \"Tech giants had their chance and failed, but we're stepping in to protect children, back parents and set a new normal for future generations.\" The government aims to pass the legislation by the end of this year and start enforcing it in the spring of 2027. The plan includes not only a ban from major social media platforms, but also restrictions on gaming apps as well. Those include barring children under 16 from chatting with strangers, live streaming or using romantic chatbots. \"These restrictions... go further than any other country,\" the government press release states. The UK will follow a similar model as the social media ban in Australia. Platforms like Snapchat, TikTok, YouTube, Instagram, Facebook and X will be required to disable access for under-16 users by default. Chat apps like WhatsApp or Telegram will note be affected. The government is also looking at limited restrictions for youths under 18, like overnight curfews and breaks in infinite scrolling. Starmer acknowledged that kids will find ways around the ban, but said that wasn't a good excuse for not enacting a law. \"We don't say, 'Oh, look, a teenager managed to get a drink somehow, so let's not bother banning alcohol sales for children,\" he said. \"Our laws are rules, but they're also an expression of our values. They shape the social contract, and so this will change the conversations that parents have and the expectations of children over time.\" In January, the UK government launched the \" Growing up in the online world \" consultation into social media for kids, requesting feedback on whether and how to enforce that limit. The country's ministers also went to Australia to study the effects of that nation's social media ban, which went into effect on December 10, 2025. Only a month after it was enacted, Meta had shut down as many as 550,000 Australian accounts to comply with the law. The results of the UK consultation showed that nine in 10 parents supported a minimum age of 16 for accessing social media apps, the government said. At the same time, the PM added that the ban doesn't mean the UK is anti-tech. \"I do not accept, and I will never accept that you can't be both pro tech and AI, and at the same time say we must protect our children,\" he said in the speech. Creation of detailed rules and enforcement of the ban will be conducted by the UK's tech regulator Ofcom in consultation with lawmakers. \"So far, Ofcom has driven some of the strongest changes of any online safety regulation in the world, from widespread age checks to grooming protections for children. But the industry needs to go much further to make people safe,\" Ofcom said in an official statement . The government has yet to release details on ID or other enforcement mechanisms.",
+      "content_preview_chars": 3129,
+      "content_fetched_at": "2026-06-15T16:24:05",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "1dd935adbb66e895",
+      "source_url_hash": "1dd935adbb66e895",
+      "canonical_url": "https://9to5mac.com/2026/06/14/three-major-unannounced-ios-27-features-coming-soon",
+      "title_hash": "3aa704b9395c1c50",
+      "topic_signature": "42769caeed21e14e348d",
+      "title": "Apple still has more iOS 27 and watchOS 27 features in the pipeline: report",
+      "url": "https://9to5mac.com/2026/06/14/three-major-unannounced-ios-27-features-coming-soon",
+      "source_name": "9to5Mac",
+      "source_url": "https://9to5mac.com",
+      "source_published_at": "2026-06-14T14:41:31Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 25.71,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-15T16:23:58",
+      "status": "ready",
+      "score": 5,
+      "priority": "medium",
+      "source_links_removed_count": 79,
+      "affiliate_links_removed_count": 9,
+      "removed_source_links_count": 79,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Apple still has more iOS 27 and watchOS 27 features in the pipeline: report - 9to5Mac",
+      "meta_description": "Apple wrapped up its WWDC 2026 keynote this week, outlining all of its major new software features for the coming...",
+      "article_images": [
+        {
+          "url": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27-three-iphones-fi.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+          "alt": "Apple still has more iOS 27 and watchOS 27 features in the pipeline: report - 9to5Mac",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27-three-iphones-fi.jpg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2025/10/modular-ultra-face-apple-watch-ultra-3.jpg?quality=82&strip=all&w=1024",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/themes/ninetofive/dist/images/default-9to5mac-guide.png",
+          "alt": "iOS 27",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27-three-iphones-fi.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27-three-iphones-fi.jpg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2025/10/modular-ultra-face-apple-watch-ultra-3.jpg?quality=82&strip=all&w=1024",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/themes/ninetofive/dist/images/default-9to5mac-guide.png",
+          "alt": "iOS 27"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2F9to5mac.com"
+        }
+      ],
+      "full_article_text": "Apple wrapped up its WWDC 2026 keynote this week, outlining all of its major new software features for the coming year, with Siri AI and improved stability taking the spotlight. That said, there are a few new features that are reportedly still in the works, and we should still see them by September, per Bloomberg’s Mark Gurman . Simplified Modular Ultra face Apple reportedly developed a simpler version of its popular Apple Watch Ultra-exclusive watchface. It would embrace the large clock of Modular Ultra, but would lack a second row of complications. This wasn’t unveiled at WWDC, but it’ll likely be revealed in September alongside the new Apple Watch releases. As someone who used to own an Apple Watch Ultra, I will say I did end up missing this face a little once I switched to the Series 10, so having a simplified version of it would be nice. Additional Siri extensions One of the major rumors for iOS 27 was that Siri would support other chatbots, like ChatGPT, Gemini, and Claude. Currently, Apple still supports ChatGPT as a result of its initial partnership with OpenAI from 2024 for the initial Siri integration. However, it’s not quite the same as what Apple is aiming for with the eventual feature. In iOS 27, Apple wanted to allow apps to integrate with Siri directly through an Extensions API, rather than having a bespoke deal with each company that wanted to integrate with Siri. The main difference here is that this will just be a straight-up third party integration, so it likely won’t have the same privacy guarantee that the original ChatGPT deal did – since this isn’t a partnership. Apple is working to move ChatGPT to this new integration model, though nothing has materialized quite yet. From Bloomberg : Apple has already held discussions with OpenAI, Anthropic and Google about supporting this new system, including specifics about an entitlement they’d need to apply for and integrate into their apps, and I have no doubt it’ll still arrive at some point. Gurman speculates that there’s four key reasons it hasn’t yet arrived: It wouldn’t work alongside Apple’s campaign against the DMA in the European Union If better models were integrated from day one, Siri AI would have less of a spotlight Apple may want to avoid litigation with OpenAI, which the company has threatened Doing additional third party integration alongside the Gemini partnership may cause for unnecessary confusion Nonetheless, as September comes closer, we’ll likely hear more about how these extensions will work. In theory, any notable AI company will be able to implement it – and you’ll be able to tap into their features with Siri. Customizable Camera app Lastly, iOS 27 was supposed to feature a fully customizable camera app, where users can move their controls to a place they prefer. That didn’t materialize in the initial developer beta, though other features like Siri in the Camera app did. This will most definitely appear in September alongside the release of the iPhone 18 Pro, just to make that release cycle sound slightly more interesting. My favorite Apple accessory recommendations: Anker MagSafe/Qi2 Ultra-Slim Battery Pack AirPods Pro 3 (2x ANC vs AirPods Pro 2!) Anker Nano 45W Fast Charger with Smart Display Anker Nano 13-in-1 MacBook Docking Station Logitech MX Master 4 Mouse for Mac Belkin Qi2 3-in-1 MagSafe Charging Stand Follow Michael: X/Twitter , Bluesky , Instagram FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Michael is 9to5Mac’s Weekend Editor, keeping up with all of the latest Apple news on Saturday and Sunday. He got started in the world of Apple news during the pandemic, and it became a growing hobby. He’s also an indie iOS developer in his free time, and has published numerous apps over the years. Michael Burkhardt's favorite gear Featuring two built in cables, a built in display, multiple ports, a 25,000mAh capacity, and up to 100W of output - this is one of the best battery banks for recharging your entire Apple ecosystem on the go. Despite a new version reportedly being around a corner, I still personally believe AirPods Pro 2 are a great deal. They're already equipped with USB-C, and continually gain new software features. With them consistently going on sale, it's a great purchase to make. Features like Adaptive Audio are incredible.",
+      "full_article_text_chars": 4362,
+      "content_preview": "Apple wrapped up its WWDC 2026 keynote this week, outlining all of its major new software features for the coming year, with Siri AI and improved stability taking the spotlight. That said, there are a few new features that are reportedly still in the works, and we should still see them by September, per Bloomberg’s Mark Gurman . Simplified Modular Ultra face Apple reportedly developed a simpler version of its popular Apple Watch Ultra-exclusive watchface. It would embrace the large clock of Modular Ultra, but would lack a second row of complications. This wasn’t unveiled at WWDC, but it’ll likely be revealed in September alongside the new Apple Watch releases. As someone who used to own an Apple Watch Ultra, I will say I did end up missing this face a little once I switched to the Series 10, so having a simplified version of it would be nice. Additional Siri extensions One of the major rumors for iOS 27 was that Siri would support other chatbots, like ChatGPT, Gemini, and Claude. Currently, Apple still supports ChatGPT as a result of its initial partnership with OpenAI from 2024 for the initial Siri integration. However, it’s not quite the same as what Apple is aiming for with the eventual feature. In iOS 27, Apple wanted to allow apps to integrate with Siri directly through an Extensions API, rather than having a bespoke deal with each company that wanted to integrate with Siri. The main difference here is that this will just be a straight-up third party integration, so it likely won’t have the same privacy guarantee that the original ChatGPT deal did – since this isn’t a partnership. Apple is working to move ChatGPT to this new integration model, though nothing has materialized quite yet. From Bloomberg : Apple has already held discussions with OpenAI, Anthropic and Google about supporting this new system, including specifics about an entitlement they’d need to apply for and integrate into their apps, and I have no doubt it’ll still arrive at some point. Gurman speculates that there’s four key reasons it hasn’t yet arrived: It wouldn’t work alongside Apple’s campaign against the DMA in the European Union If better models were integrated from day one, Siri AI would have less of a spotlight Apple may want to avoid litigation with OpenAI, which the company has threatened Doing additional third party integration alongside the Gemini partnership may cause for unnecessary confusion Nonetheless, as September comes closer, we’ll likely hear more about how these extensions will work. In theory, any notable AI company will be able to implement it – and you’ll be able to tap into their features with Siri. Customizable Camera app Lastly, iOS 27 was supposed to feature a fully customizable camera app, where users can move their controls to a place they prefer. That didn’t materialize in the initial developer beta, though other features like Siri in the Camera app did. This will most definitely appear in September alongside the release of the iPhone 18 Pro, just to make that release cycle sound slightly more interesting. My favorite Apple accessory recommendations: Anker MagSafe/Qi2 Ultra-Slim Battery Pack AirPods Pro 3 (2x ANC vs AirPods Pro 2!) Anker Nano 45W Fast Charger with Smart Display Anker Nano 13-in-1 MacBook Docking Station Logitech MX Master 4 Mouse for Mac Belkin Qi2 3-in-1 MagSafe Charging Stand Follow Michael: X/Twitter , Bluesky , Instagram FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Michael is 9to5Mac’s Weekend Editor, keeping up with all of the latest Apple news on Saturday and Sunday. He got started in the world of Apple news during the pandemic, and it became a growing hobby. He’s also an indie iOS developer in his free time, and has published numerous apps over the years. Michael Burkhardt's favorite gear Featuring two built in cables, a built in display, multiple ports, a 25,000mAh capacity, and up to 100W of output - this is one of the best battery banks for recharging your entire Apple ecosystem on the go. Despite a new version reportedly being around a corner, I still personally believe AirPods Pro 2 are a great deal. They're already equipped with USB-C, and continually gain new software features. With them consistently going on sale, it's a great purchase to make. Features like Adaptive Audio are incredible.",
+      "content_preview_chars": 4362,
+      "content_fetched_at": "2026-06-15T16:24:16",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "01f5fa21b1315164",
+      "source_url_hash": "01f5fa21b1315164",
+      "canonical_url": "https://9to5mac.com/2026/06/13/ios-27-makes-it-easier-to-switch-between-apple-pay-cards",
+      "title_hash": "a06073c4109cc205",
+      "topic_signature": "cee099722f51de442973",
+      "title": "iOS 27 makes it easier to switch between Apple Pay cards",
+      "url": "https://9to5mac.com/2026/06/13/ios-27-makes-it-easier-to-switch-between-apple-pay-cards",
+      "source_name": "9to5Mac",
+      "source_url": "https://9to5mac.com",
+      "source_published_at": "2026-06-13T13:14:10Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 51.16,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-15T16:23:58",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 81,
+      "affiliate_links_removed_count": 7,
+      "removed_source_links_count": 81,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "iOS 27 makes it easier to switch between Apple Pay cards - 9to5Mac",
+      "meta_description": "iOS 27 redesigns the Apple Pay checkout experience with easier card switching, a new card picker, and more payment details at a glance.",
+      "article_images": [
+        {
+          "url": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/06/apple-pay-ios-27.jpeg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+          "alt": "iOS 27 makes it easier to switch between Apple Pay cards - 9to5Mac",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/apple-pay-ios-27.jpeg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27-apple-pay1.jpeg?quality=82&strip=all&w=1024",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/client-mu-plugins/9to5-core/includes/obfuscate-images/images/9to5mac-default.jpg?quality=82&strip=all&w=140",
+          "alt": "iOS",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/06/apple-pay-ios-27.jpeg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/apple-pay-ios-27.jpeg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27-apple-pay1.jpeg?quality=82&strip=all&w=1024",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/client-mu-plugins/9to5-core/includes/obfuscate-images/images/9to5mac-default.jpg?quality=82&strip=all&w=140",
+          "alt": "iOS"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2F9to5mac.com"
+        }
+      ],
+      "full_article_text": "Apple has redesigned the Apple Pay checkout flow in iOS 27 for apps and websites. The changes make it easier to switch between different payment cards and see key details about the order you’re placing. In iOS 27, you can now swipe between payment cards right on the main Apple Pay interface. You can also tap a card to view a grid-style interface that shows all your available Apple Pay cards in one place. Apple Pay is introducing an updated design for users when they check out on the web and in apps. The design allows them to seamlessly swipe to switch cards, conveniently surfacing important information about their eligible cards in Apple Wallet — including rewards, balances, debit account balance, pay later options, and more — so they can make more informed payment decisions. Merchants and developers have control over what appears on the Apple Pay payment sheet, depending on the exact information they need to complete your order. The iOS 26 version of the Apple Pay checkout flow has been criticized for being unintuitive. For instance, people often tapped the wrong thing when trying to switch between payment cards. The instinct is to tap the card itself, but in iOS 26, that would take you to the address-editing interface. You’d have to tap a separate button at the bottom to actually switch to a different card. iOS 27 streamlines all of this and makes it a lot clearer. AirPods Pro 3: $179 (Reg. $249): Lowest price ever! Bring wireless CarPlay to any car “Apple: The First 50 Years” by David Pogue Beats Woven USB-C Charging Cables Follow Chance : Threads , Bluesky , Instagram , and Mastodon . FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: iOS is Apple's mobile operating system that runs… Apple Pay is Apple's mobile payments solution fi… Chance is the editor-in-chief of 9to5Mac, overseeing the entire site’s operations. He also hosts the 9to5Mac Daily and 9to5Mac Happy Hour podcasts. You can send tips, questions, and typos to chance@9to5mac.com.",
+      "full_article_text_chars": 2031,
+      "content_preview": "Apple has redesigned the Apple Pay checkout flow in iOS 27 for apps and websites. The changes make it easier to switch between different payment cards and see key details about the order you’re placing. In iOS 27, you can now swipe between payment cards right on the main Apple Pay interface. You can also tap a card to view a grid-style interface that shows all your available Apple Pay cards in one place. Apple Pay is introducing an updated design for users when they check out on the web and in apps. The design allows them to seamlessly swipe to switch cards, conveniently surfacing important information about their eligible cards in Apple Wallet — including rewards, balances, debit account balance, pay later options, and more — so they can make more informed payment decisions. Merchants and developers have control over what appears on the Apple Pay payment sheet, depending on the exact information they need to complete your order. The iOS 26 version of the Apple Pay checkout flow has been criticized for being unintuitive. For instance, people often tapped the wrong thing when trying to switch between payment cards. The instinct is to tap the card itself, but in iOS 26, that would take you to the address-editing interface. You’d have to tap a separate button at the bottom to actually switch to a different card. iOS 27 streamlines all of this and makes it a lot clearer. AirPods Pro 3: $179 (Reg. $249): Lowest price ever! Bring wireless CarPlay to any car “Apple: The First 50 Years” by David Pogue Beats Woven USB-C Charging Cables Follow Chance : Threads , Bluesky , Instagram , and Mastodon . FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: iOS is Apple's mobile operating system that runs… Apple Pay is Apple's mobile payments solution fi… Chance is the editor-in-chief of 9to5Mac, overseeing the entire site’s operations. He also hosts the 9to5Mac Daily and 9to5Mac Happy Hour podcasts. You can send tips, questions, and typos to chance@9to5mac.com.",
+      "content_preview_chars": 2031,
+      "content_fetched_at": "2026-06-15T16:24:15",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "6dd1c0574e61ef81",
+      "source_url_hash": "6dd1c0574e61ef81",
+      "canonical_url": "https://www.engadget.com/2193149/engadget-review-recap-razr-ultra-amd-radeon-rx-9070-gre-and-more",
+      "title_hash": "50a41b3d86be73f3",
+      "topic_signature": "287f070e5d49597d1167",
+      "title": "Engadget review recap: Razr Ultra, AMD Radeon RX 9070 GRE and more",
+      "url": "https://www.engadget.com/2193149/engadget-review-recap-razr-ultra-amd-radeon-rx-9070-gre-and-more",
+      "source_name": "Engadget",
+      "source_url": "https://www.engadget.com",
+      "source_published_at": "2026-06-13T12:00:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 52.4,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-15T16:23:58",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 108,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 108,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Engadget review recap: Razr Ultra, AMD Radeon RX 9070 GRE and more - Engadget",
+      "meta_description": "A roundup of recent reviews published by Engadget.",
+      "article_images": [
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-review-recap-razr-ultra-amd-radeon-rx-9070-gre-and-more/l-intro-1781359280.jpg",
+          "alt": "Engadget review recap: Razr Ultra, AMD Radeon RX 9070 GRE and more - Engadget",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-review-recap-razr-ultra-amd-radeon-rx-9070-gre-and-more/intro-1781359280.jpg",
+          "alt": "Motorola Razr Ultra",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-review-recap-razr-ultra-amd-radeon-rx-9070-gre-and-more/amd-radeon-rx-9070-gre-1781359281.jpg",
+          "alt": "AMD Radeon RX 9070 GRE",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-review-recap-razr-ultra-amd-radeon-rx-9070-gre-and-more/honor-magic-v6-1781359282.jpg",
+          "alt": "Honor Magic V6",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.engadget.com/img/gallery/engadget-review-recap-razr-ultra-amd-radeon-rx-9070-gre-and-more/l-intro-1781359280.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-review-recap-razr-ultra-amd-radeon-rx-9070-gre-and-more/intro-1781359280.jpg",
+          "alt": "Motorola Razr Ultra"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-review-recap-razr-ultra-amd-radeon-rx-9070-gre-and-more/amd-radeon-rx-9070-gre-1781359281.jpg",
+          "alt": "AMD Radeon RX 9070 GRE"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/engadget-review-recap-razr-ultra-amd-radeon-rx-9070-gre-and-more/honor-magic-v6-1781359282.jpg",
+          "alt": "Honor Magic V6"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "A roundup of recent reviews published by Engadget. It's as hot as the surface of the sun here in the southeast US, and we've got another batch of freshly baked reviews for you to catch up on. If you've missed any of our team's in-depth testing over the last two weeks, read on for a full rundown of all of our latest impressions on foldable phones, an affordable GPU, headphones and more. Motorola Razr Ultra In case you've been living under a rock, Motorola turned its iconic Razr phone into a set of foldables. Now on the second iteration of the Razr Ultra, the company hasn't done enough to justify a pricier follow-up. \"With Samsung expected to announce a new Z Flip before the end of the summer, buying a Razr Ultra right now at full price feels like a bit of a trap,\" writer Sam Rutherford said. \"It's a good phone, I just wish it cost less.\" AMD Radeon RX 9070 GRE It's not a great time to buy a GPU, but AMD has a unique solution for the budget crunch. With the RX 9070 GRE, the company offers older tech for less money, but you'll have to make some sacrifices along the way. \"Given the times we're in, I can't easily recommend that you run out and buy the Radeon RX 9070 GRE,\" writer Devindra Hardawar said. \"But if you're in desperate need of an upgrade, and you can't wait until next year, it's a solid choice for midrange 1440p gaming.\" Honor just launched the Magic V5 last August, but it announced the Magic V6 in March. Editor Daniel Cooper argues the company rushed out a successor to maintain its claim of the world's thinnest foldable. \"The tragedy of this device is that you can throw a rock and hit an issue with the UI design or software that you would expect to have been caught during the QA period,\" he said. \"Some of these would be forgivable in a cheaper handset, but not in an ultra-premium flagship of this caliber.\" Marshall Milton ANC Although over-ear ANC headphones are aplenty, noise-canceling on-ear headphones are much more rare. Marshall has a new take on the on-ear formula, balancing its product lines with a dash of distraction blocking on the Milton ANC. \"The heritage of the popular Major line clearly has been put to good use here to make an on-ear headphone for the more discerning listener,\" writer James Trew said. \"The ANC capabilities are strong for the form-factor, even if they might be considered more mid-pack if they were over ears.\" Logitech Mobi Fold Is a folding mouse the ultimate travel accessory? For a certain set of people, Logitech's Mobi Fold may prove that answer to be a resounding \"yes.\" \"I'm faster and more productive when using a physical mouse and I'm more than willing to carry one with me, just as long as it doesn't weigh things down too much,\" Sam said. \"And with the Mobi Fold, Logitech has created one of the most travel-friendly pointers on the market.\" 2027 Rivian R2 first drive While we await an opportunity for extended testing, you can read some initial impressions from behind the wheel of Rivian's R2 SUV. \"[The] R2 is very much a standard SUV, but one that proved both capable and comfortable in all conditions,\" writer Tim Stevens said. \"After a day of driving, I found myself liking it a lot more than the R1S. In other words, there's no sophomore slump here, and now I'm even more excited about the R3X.\"",
+      "full_article_text_chars": 3291,
+      "content_preview": "A roundup of recent reviews published by Engadget. It's as hot as the surface of the sun here in the southeast US, and we've got another batch of freshly baked reviews for you to catch up on. If you've missed any of our team's in-depth testing over the last two weeks, read on for a full rundown of all of our latest impressions on foldable phones, an affordable GPU, headphones and more. Motorola Razr Ultra In case you've been living under a rock, Motorola turned its iconic Razr phone into a set of foldables. Now on the second iteration of the Razr Ultra, the company hasn't done enough to justify a pricier follow-up. \"With Samsung expected to announce a new Z Flip before the end of the summer, buying a Razr Ultra right now at full price feels like a bit of a trap,\" writer Sam Rutherford said. \"It's a good phone, I just wish it cost less.\" AMD Radeon RX 9070 GRE It's not a great time to buy a GPU, but AMD has a unique solution for the budget crunch. With the RX 9070 GRE, the company offers older tech for less money, but you'll have to make some sacrifices along the way. \"Given the times we're in, I can't easily recommend that you run out and buy the Radeon RX 9070 GRE,\" writer Devindra Hardawar said. \"But if you're in desperate need of an upgrade, and you can't wait until next year, it's a solid choice for midrange 1440p gaming.\" Honor just launched the Magic V5 last August, but it announced the Magic V6 in March. Editor Daniel Cooper argues the company rushed out a successor to maintain its claim of the world's thinnest foldable. \"The tragedy of this device is that you can throw a rock and hit an issue with the UI design or software that you would expect to have been caught during the QA period,\" he said. \"Some of these would be forgivable in a cheaper handset, but not in an ultra-premium flagship of this caliber.\" Marshall Milton ANC Although over-ear ANC headphones are aplenty, noise-canceling on-ear headphones are much more rare. Marshall has a new take on the on-ear formula, balancing its product lines with a dash of distraction blocking on the Milton ANC. \"The heritage of the popular Major line clearly has been put to good use here to make an on-ear headphone for the more discerning listener,\" writer James Trew said. \"The ANC capabilities are strong for the form-factor, even if they might be considered more mid-pack if they were over ears.\" Logitech Mobi Fold Is a folding mouse the ultimate travel accessory? For a certain set of people, Logitech's Mobi Fold may prove that answer to be a resounding \"yes.\" \"I'm faster and more productive when using a physical mouse and I'm more than willing to carry one with me, just as long as it doesn't weigh things down too much,\" Sam said. \"And with the Mobi Fold, Logitech has created one of the most travel-friendly pointers on the market.\" 2027 Rivian R2 first drive While we await an opportunity for extended testing, you can read some initial impressions from behind the wheel of Rivian's R2 SUV. \"[The] R2 is very much a standard SUV, but one that proved both capable and comfortable in all conditions,\" writer Tim Stevens said. \"After a day of driving, I found myself liking it a lot more than the R1S. In other words, there's no sophomore slump here, and now I'm even more excited about the R3X.\"",
+      "content_preview_chars": 3291,
+      "content_fetched_at": "2026-06-15T16:24:12",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "e0139c4728f4f90c",
+      "source_url_hash": "e0139c4728f4f90c",
+      "canonical_url": "https://9to5mac.com/2026/06/12/heres-everything-new-in-ios-27-and-more-per-apples-keynote-list",
+      "title_hash": "e3c001a6be8d7b5c",
+      "topic_signature": "b1e0421e3fbdde5cae1b",
+      "title": "Here’s everything new in iOS 27 and more, per Apple’s keynote list",
+      "url": "https://9to5mac.com/2026/06/12/heres-everything-new-in-ios-27-and-more-per-apples-keynote-list",
+      "source_name": "9to5Mac",
+      "source_url": "https://9to5mac.com",
+      "source_published_at": "2026-06-12T17:57:16Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 70.44,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-15T16:23:58",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 87,
+      "affiliate_links_removed_count": 8,
+      "removed_source_links_count": 87,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Here’s everything new in iOS 27 and more, per Apple’s keynote list - 9to5Mac",
+      "meta_description": "Here are all the iOS 27 features Apple listed on its big keynote slide. Even more changes are coming, but this is everything from that slide.",
+      "article_images": [
+        {
+          "url": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27-wwdc-slide-feature-list.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+          "alt": "Here’s everything new in iOS 27 and more, per Apple’s keynote list - 9to5Mac",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27-wwdc-slide-feature-list.jpg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/04/apple-iOS-27-lineup-devices.jpg?quality=82&strip=all",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27.jpg?quality=82&strip=all",
+          "alt": "iOS macOS 27",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27-wwdc-slide-feature-list.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27-wwdc-slide-feature-list.jpg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/04/apple-iOS-27-lineup-devices.jpg?quality=82&strip=all",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/06/ios-27.jpg?quality=82&strip=all",
+          "alt": "iOS macOS 27"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2F9to5mac.com"
+        }
+      ],
+      "full_article_text": "Apple’s WWDC keynote revealed a lot of new features in iOS 27, macOS Golden Gate, and more—most of which were displayed on a single slide for just a moment. Here are all of those listed features in a more accessible, organized format. There are even more changes coming in iOS 27, but this is everything Apple listed on that big keynote slide. Add keywords to photos and videos in Photos Search returns more pleasing photos of people and pets in Photos Search for photos and videos using additional metadata Customize slideshows in Photos Save any slideshow as a video in Photos Filter photos and videos in Shared Albums Recent activity in Shared Albums React with any emoji in Shared Albums Full-resolution photos and videos in iCloud Shared Albums Additional participant permissions in Shared Albums Captured by Me collection in Photos Faster loading of new captures in Photos Choose a specific pet in Photo Shuffle Option to include photos of yourself in Photo Shuffle Participate in iCloud Shared Albums from Android and Windows Option to prioritize syncing to iCloud Photos Easier to invite others in Shared Albums Easier to save photos from Shared Albums More accurate photo orientation Faster to open full-screen view from Photos widget Faster rendering of Collections tab in Photos Identity Documents collection in Photos Faster to start uploading to iCloud Photos All options displayed in Camera settings Camera uses less power in Low Power Mode Faster Camera launch in Low Power Mode Smoother camera switching when zooming in video Easier-to-reach Camera experience Messages and FaceTime Improved Messages syncing across devices Failed messages automatically retry sending Continuous sending of photos, videos, and texts in Messages Find offloaded media in Messages Thumbnails displayed for offloaded media in Messages Search for conversations in Messages by phone number or contact’s nickname Consolidated notifications for multiple Tapbacks in Messages Faster to add recent camera captures in Messages Improved FaceTime quality on poor connections Faster start page content loading in Safari Faster web application performance in Safari Smoother animations and graphics in Safari Faster handling of JavaScript in Safari Smoother start page resizing in Safari Enhanced power efficiency for Safari in iOS and macOS Web audio no longer interrupts system audio Mail, Notes, Calendar Faster message loading in Mail More reliable search indexing in Mail Improved list formatting in Mail Improved unread badge accuracy in Mail Copy and paste as Markdown in Notes Modify multiple Calendar events Streamlined Calendar event details Stylized notes from third-party Calendar accounts Expanded Get What’s On Screen capabilities in Shortcuts Group conversation support in Shortcuts Screenshot and notification automations in Shortcuts More accurate Visited Places in Maps Offline Maps update improvements Natural language search for routing in Maps View streams from compatible cameras simultaneously in the Home app Support for 4K camera recordings in the Home app More reliable HomeKit camera storage Faster HomeKit accessory pairing Faster smart home accessory updates Improved connectivity for Thread home accessories Apple Music and Podcasts Improved reliability of Apple Music streaming Refreshed album pages in Apple Music Faster Now Playing view loading in Music Refreshed artist pages in Apple Music Faster Apple Music playback start Search within shows in Podcasts Updated video podcasts experience in macOS Redesigned Podcasts app for tvOS Apple News, Find My, Freeform Improved performance in Apple News Smoother animations in News and Stocks articles Live Activity for Precision Finding with Friends More flexible sharing options in Find My Faster board previews in Freeform More reliable right-to-left text editing in Freeform Smoother Freeform board performance Dark Mode adaptive canvas in Freeform Collaborative folders in Freeform Health, Fitness, and Journal Perimenopause and menopause symptom logging in the Health app Perimenopause and menopause education in the Health app Perimenopause and menopause support in the Health app Fitness+ workouts for perimenopause and menopause Faster data updates in the Health app Synced step count in the Health and Fitness apps More accurate route maps in the Fitness app after workouts Improved distance accuracy during treadmill workouts GymKit on iPhone and AirPods Pro 3 Support for time zone changes in Sleep Journal and Weather More intuitive journaling streaks iCloud sync status for Journal entries Increased attachment limits in Journal Time stamps for Journal entries Updated hourly and 10-day views in Weather Operating Systems & Platforms Optional persistent menu bar on iPad Faster browsing and transfers in Files in iPadOS Faster menu bar access in iPadOS Faster window switching in iPadOS Faster window closing in iPadOS Undo and redo Home Screen edits in iPadOS Extra-large widgets in Today view in iPadOS Expanded touch support in Sidecar Faster user account creation in macOS Swipe down to refresh in macOS Smoother animations in Mission Control and Spaces More high-resolution and high-refresh-rate display modes for external displays More consistent window positioning persistence on external displays Ethernet status in menu bar in macOS Control Center access in iPhone Mirroring DRM video support in iPhone Mirroring Support for Mac mirroring in 5K resolution Consolidated Find My app in watchOS Redesigned settings in the Apple Watch app New Smart Stack suggestions in watchOS Maps Parked Car widget in Smart Stack Transit cards and IDs in Smart Stack in watchOS View card balance in Wallet in watchOS More accurate step tracking on Apple Watch Faster media playback in watchOS Better battery efficiency on Apple Watch Improved Wi-Fi connectivity in watchOS Faster app extension launch in watchOS More efficient water detection on Apple Watch AppleCare coverage details in Settings in tvOS More responsive Control Center in tvOS Smoother animations and app launches in tvOS Use your panoramas for Environments in visionOS Extra-small widget option in visionOS Improved Control Center in visionOS Look and tap to view and respond to notifications in visionOS Spatial scene support for panoramas in visionOS Widget for Mac Virtual Display in visionOS New windows with curvature in visionOS Multiple tab views in Safari in visionOS Faster boot and connect to Wi-Fi in visionOS Audio scrubbing in CarPlay Now Playing Improved navigation heading and GPS accuracy in CarPlay Improved wireless CarPlay reliability Everything Else: Design, Performance, and more Liquid Glass, Home Screen, Lock Screen, and more Real-time updates for widgets when app is open Smoother paging between Home Screen pages Smoother scrolling in Control Center and Control Gallery Smoother scrolling in App Library Smoother scrolling in the widget gallery Lock Screen consistently stays awake while scrolling notifications Live Activities in Dynamic Island in landscape Faster AirPlay connections to Apple TV and HomePod More seamless transitions between Wi-Fi and cellular networks Improved RDMA over Thunderbolt More power-efficient Personal Hotspot on N1 devices Improved Bluetooth power management Faster and more reliable NFC reading Improved game controller settings Improved PlayStation Access controller support Improved navigation in Game Overlay Richer iCloud collaboration link previews Access requests for items shared via iCloud More easily accessible share link for iCloud collaboration Faster access to shared content on iCloud.com Easier reading and editing of PDFs using VoiceOver Faster Voice Control response in iOS Streamlined Assistive Access setup Faster entry and exit from Assistive Access and Guided Access modes Streamlined setup for Touch Accommodations in iOS and iPadOS Pairing and handoff improvements for MFi hearing devices Show Borders for macOS accessibility Switch between two iPhone devices with the same phone number More efficient emergency alert monitoring More document formats in Preview More relevant Spotlight search suggestions Faster shortcuts and actions indexing in Spotlight Faster Text Recognition in photos and documents Content-based recipient suggestions for sharing photos and links Faster Rapid Return to Service Support for media sharing from third-party apps Faster loading of emoji and sticker keyboards Automatic punctuation when typing on multilingual keyboards",
+      "full_article_text_chars": 8469,
+      "content_preview": "Apple’s WWDC keynote revealed a lot of new features in iOS 27, macOS Golden Gate, and more—most of which were displayed on a single slide for just a moment. Here are all of those listed features in a more accessible, organized format. There are even more changes coming in iOS 27, but this is everything Apple listed on that big keynote slide. Add keywords to photos and videos in Photos Search returns more pleasing photos of people and pets in Photos Search for photos and videos using additional metadata Customize slideshows in Photos Save any slideshow as a video in Photos Filter photos and videos in Shared Albums Recent activity in Shared Albums React with any emoji in Shared Albums Full-resolution photos and videos in iCloud Shared Albums Additional participant permissions in Shared Albums Captured by Me collection in Photos Faster loading of new captures in Photos Choose a specific pet in Photo Shuffle Option to include photos of yourself in Photo Shuffle Participate in iCloud Shared Albums from Android and Windows Option to prioritize syncing to iCloud Photos Easier to invite others in Shared Albums Easier to save photos from Shared Albums More accurate photo orientation Faster to open full-screen view from Photos widget Faster rendering of Collections tab in Photos Identity Documents collection in Photos Faster to start uploading to iCloud Photos All options displayed in Camera settings Camera uses less power in Low Power Mode Faster Camera launch in Low Power Mode Smoother camera switching when zooming in video Easier-to-reach Camera experience Messages and FaceTime Improved Messages syncing across devices Failed messages automatically retry sending Continuous sending of photos, videos, and texts in Messages Find offloaded media in Messages Thumbnails displayed for offloaded media in Messages Search for conversations in Messages by phone number or contact’s nickname Consolidated notifications for multiple Tapbacks in Messages Faster to add recent camera captures in Messages Improved FaceTime quality on poor connections Faster start page content loading in Safari Faster web application performance in Safari Smoother animations and graphics in Safari Faster handling of JavaScript in Safari Smoother start page resizing in Safari Enhanced power efficiency for Safari in iOS and macOS Web audio no longer interrupts system audio Mail, Notes, Calendar Faster message loading in Mail More reliable search indexing in Mail Improved list formatting in Mail Improved unread badge accuracy in Mail Copy and paste as Markdown in Notes Modify multiple Calendar events Streamlined Calendar event details Stylized notes from third-party Calendar accounts Expanded Get What’s On Screen capabilities in Shortcuts Group conversation support in Shortcuts Screenshot and notification automations in Shortcuts More accurate Visited Places in Maps Offline Maps update improvements Natural language search for routing in Maps View streams from compatible cameras simultaneously in the Home app Support for 4K camera recordings in the Home app More reliable HomeKit camera storage Faster HomeKit accessory pairing Faster smart home accessory updates Improved connectivity for Thread home accessories Apple Music and Podcasts Improved reliability of Apple Music streaming Refreshed album pages in Apple Music Faster Now Playing view loading in Music Refreshed artist pages in Apple Music Faster Apple Music playback start Search within shows in Podcasts Updated video podcasts experience in macOS Redesigned Podcasts app for tvOS Apple News, Find My, Freeform Improved performance in Apple News Smoother animations in News and Stocks articles Live Activity for Precision Finding with Friends More flexible sharing options in Find My Faster board previews in Freeform More reliable right-to-left text editing in Freeform Smoother Freeform board performance Dark Mode adaptive canvas in Freeform Collaborative folders in Freeform Health, Fitness, and Journal Perimenopause and menopause symptom logging in the Health app Perimenopause and menopause education in the Health app Perimenopause and menopause support in the Health app Fitness+ workouts for perimenopause and menopause Faster data updates in the Health app Synced step count in the Health and Fitness apps More accurate route maps in the Fitness app after workouts Improved distance accuracy during treadmill workouts GymKit on iPhone and AirPods Pro 3 Support for time zone changes in Sleep Journal and Weather More intuitive journaling streaks iCloud sync status for Journal entries Increased attachment limits in Journal Time stamps for Journal entries Updated hourly and 10-day views in Weather Operating Systems & Platforms Optional persistent menu bar on iPad Faster browsing and transfers in Files in iPadOS Faster menu bar access in iPadOS Faster window switching in iPadOS Faster window closing in iPadOS Undo and redo Home Screen edits in iPadOS Extra-large widgets in Today view in iPadOS Expanded touch support in Sidecar Faster user account creation in macOS Swipe down to refresh in macOS Smoother animations in Mission Control and Spaces More high-resolution and high-refresh-rate display modes for external displays More consistent window positioning persistence on external displays Ethernet status in menu bar in macOS Control Center access in iPhone Mirroring DRM video support in iPhone Mirroring Support for Mac mirroring in 5K resolution Consolidated Find My app in watchOS Redesigned settings in the Apple Watch app New Smart Stack suggestions in watchOS Maps Parked Car widget in Smart Stack Transit cards and IDs in Smart Stack in watchOS View card balance in Wallet in watchOS More accurate step tracking on Apple Watch Faster media playback in watchOS Better battery efficiency on Apple Watch Improved Wi-Fi connectivity in watchOS Faster app extension launch in watchOS More efficient water detection on Apple Watch AppleCare coverage details in Settings in tvOS More responsive Control Center in tvOS Smoother animations and app launches in tvOS Use your panoramas for Environments in visionOS Extra-small widget option in visionOS Improved Control Center in visionOS Look and tap to view and respond to notifications in visionOS Spatial scene support for panoramas in visionOS Widget for Mac Virtual Display in visionOS New windows with curvature in visionOS Multiple tab views in Safari in visionOS Faster boot and connect to Wi-Fi in visionOS Audio scrubbing in CarPlay Now Playing Improved navigation heading and GPS accuracy in CarPlay Improved wireless CarPlay reliability Everything Else: Design, Performance, and more Liquid Glass, Home Screen, Lock Screen, and more Real-time updates for widgets when app is open Smoother paging between Home Screen pages Smoother scrolling in Control Center and Control Gallery Smoother scrolling in App Library Smoother scrolling in the widget gallery Lock Screen consistently stays awake while scrolling notifications Live Activities in Dynamic Island in landscape Faster AirPlay connections to Apple TV and HomePod More seamless transitions between Wi-Fi and cellular networks Improved RDMA over Thunderbolt More power-efficient Personal Hotspot on N1 devices Improved Bluetooth power management Faster and more reliable NFC reading Improved game controller settings Improved PlayStation Access controller support Improved navigation in Game Overlay Richer iCloud collaboration link previews Access requests for items shared via iCloud More easily accessible share link for iCloud collaboration Faster access to shared content on iCloud.com Easier reading and editing of PDFs using VoiceOver Faster Voice Control response in iOS Streamlined Assistive Access setup Faster entry and exit from Assistive Access and Guided Access modes Streamlined setup for Touch Accommodations in iOS and iPadOS Pairing and handoff improvements for MFi hearing devices Show Borders for macOS accessibility Switch between two iPhone devices with the same phone number More efficient emergency alert monitoring More document formats in Preview More relevant Spotlight search suggestions Faster shortcuts and actions indexing in Spotlight Faster Text Recognition in photos and documents Content-based recipient suggestions for sharing photos and links Faster Rapid Return to Service Support for media sharing from third-party apps Faster loading of emoji and sticker keyboards Automatic punctuation when typing on multilingual keyboards",
+      "content_preview_chars": 8469,
+      "content_fetched_at": "2026-06-15T16:24:14",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "42e249ee78d532cf",
+      "source_url_hash": "42e249ee78d532cf",
+      "canonical_url": "https://www.androidauthority.com/deals",
+      "title_hash": "bfcf7fd1bcb33952",
+      "topic_signature": "ae30c68208c0f66107a6",
+      "title": "Best daily deals",
+      "url": "https://www.androidauthority.com/deals",
+      "source_name": "Android Authority",
+      "source_url": "https://www.androidauthority.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-06-15T16:23:58",
+      "status": "skipped",
+      "score": 0,
+      "priority": "low",
+      "skip_reason": "non_technical_entertainment_content"
     }
   ],
   "notifications": {
