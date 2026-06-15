@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-15T20:04:48",
+  "updated_at": "2026-06-15T22:23:15",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -1428,13 +1428,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-06-15T20:00:42",
-      "candidate_retry_after": "2026-06-15T20:15:42Z",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-06-15T22:22:13",
+      "candidate_retry_after": "2026-06-15T22:37:13Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-06-15T20:00:42",
-      "candidate_failure_count": 70
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-06-15T22:22:13",
+      "candidate_failure_count": 71
     },
     {
       "id": "387079dc0a830ad9",
@@ -3501,12 +3501,12 @@
       "removed_source_links_count": 83,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-15T20:00:43",
-      "candidate_retry_after": "2026-06-15T20:15:43Z",
+      "content_fetched_at": "2026-06-15T22:22:15",
+      "candidate_retry_after": "2026-06-15T22:37:15Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-15T20:00:43",
-      "candidate_failure_count": 68
+      "candidate_failed_at": "2026-06-15T22:22:15",
+      "candidate_failure_count": 69
     },
     {
       "id": "561b6316398d7603",
@@ -4514,12 +4514,12 @@
       "removed_source_links_count": 231,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=480 chars/77 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:480chars/77words, page_text:480chars/77words)",
-      "content_fetched_at": "2026-06-15T20:00:46",
-      "candidate_retry_after": "2026-06-15T20:15:46Z",
+      "content_fetched_at": "2026-06-15T22:22:19",
+      "candidate_retry_after": "2026-06-15T22:37:19Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=480 chars/77 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:480chars/77words, page_text:480chars/77words)",
-      "candidate_failed_at": "2026-06-15T20:00:46",
-      "candidate_failure_count": 67
+      "candidate_failed_at": "2026-06-15T22:22:19",
+      "candidate_failure_count": 68
     },
     {
       "id": "c1354558130eaeb3",
@@ -5625,12 +5625,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-15T20:00:47",
-      "candidate_retry_after": "2026-06-15T20:15:47Z",
+      "content_fetched_at": "2026-06-15T22:22:20",
+      "candidate_retry_after": "2026-06-15T22:37:20Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-15T20:00:47",
-      "candidate_failure_count": 66
+      "candidate_failed_at": "2026-06-15T22:22:20",
+      "candidate_failure_count": 67
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -5656,7 +5656,10 @@
       "status": "skipped",
       "score": 0,
       "priority": "low",
-      "skip_reason": "non_technical_entertainment_content"
+      "skip_reason": "non_technical_entertainment_content",
+      "archived": true,
+      "archived_at": "2026-06-15T22:21:45",
+      "archive_reason": "skipped_older_than_7_days"
     },
     {
       "id": "3cd0943579fba443",
@@ -5814,7 +5817,10 @@
       "candidate_failed_at": "2026-06-09T18:31:42",
       "candidate_failure_count": 2,
       "telegram_final_summary_notified_at": "2026-06-09T06:36:49",
-      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "archived": true,
+      "archived_at": "2026-06-15T22:22:02",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "b189a0c037ce2e16",
@@ -7001,12 +7007,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-06-15T20:00:47",
-      "candidate_retry_after": "2026-06-15T20:15:47Z",
+      "content_fetched_at": "2026-06-15T22:22:20",
+      "candidate_retry_after": "2026-06-15T22:37:20Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-06-15T20:00:47",
-      "candidate_failure_count": 64
+      "candidate_failed_at": "2026-06-15T22:22:20",
+      "candidate_failure_count": 65
     },
     {
       "id": "cc5e99891af35b5e",
@@ -7038,12 +7044,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-06-15T20:00:48",
-      "candidate_retry_after": "2026-06-15T20:15:48Z",
+      "content_fetched_at": "2026-06-15T22:22:20",
+      "candidate_retry_after": "2026-06-15T22:37:20Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-06-15T20:00:48",
-      "candidate_failure_count": 64
+      "candidate_failed_at": "2026-06-15T22:22:20",
+      "candidate_failure_count": 65
     },
     {
       "id": "a6f4ca9464909855",
@@ -7075,12 +7081,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-06-15T20:00:48",
-      "candidate_retry_after": "2026-06-15T20:15:48Z",
+      "content_fetched_at": "2026-06-15T22:22:21",
+      "candidate_retry_after": "2026-06-15T22:37:21Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-06-15T20:00:48",
-      "candidate_failure_count": 64
+      "candidate_failed_at": "2026-06-15T22:22:21",
+      "candidate_failure_count": 65
     },
     {
       "id": "66722f50e91993b6",
@@ -7657,7 +7663,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-06-09T16:16:16",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "archived": true,
+      "archived_at": "2026-06-15T22:22:02",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "e5f973964a8261d7",
@@ -8159,7 +8168,10 @@
       "status": "skipped",
       "score": 0,
       "priority": "low",
-      "skip_reason": "non_technical_entertainment_content"
+      "skip_reason": "non_technical_entertainment_content",
+      "archived": true,
+      "archived_at": "2026-06-15T22:22:02",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "b433b7e349a9354b",
@@ -8309,7 +8321,10 @@
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-06-09T18:29:04",
       "candidate_failure_count": 1,
-      "telegram_final_summary_notified_at": "2026-06-09T18:31:44"
+      "telegram_final_summary_notified_at": "2026-06-09T18:31:44",
+      "archived": true,
+      "archived_at": "2026-06-15T22:22:02",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "9b1ce859c14f2ffa",
@@ -8335,7 +8350,10 @@
       "status": "skipped",
       "score": 0,
       "priority": "low",
-      "skip_reason": "non_technical_entertainment_content"
+      "skip_reason": "non_technical_entertainment_content",
+      "archived": true,
+      "archived_at": "2026-06-15T22:22:02",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "b95909b8bf9ae264",
@@ -8484,7 +8502,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-06-09T18:29:13",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "archived": true,
+      "archived_at": "2026-06-15T22:22:02",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "5b876653021f1267",
@@ -9175,12 +9196,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-15T20:00:48",
-      "candidate_retry_after": "2026-06-15T20:15:48Z",
+      "content_fetched_at": "2026-06-15T22:22:21",
+      "candidate_retry_after": "2026-06-15T22:37:21Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-15T20:00:48",
-      "candidate_failure_count": 60
+      "candidate_failed_at": "2026-06-15T22:22:21",
+      "candidate_failure_count": 61
     },
     {
       "id": "512c2899a98440d2",
@@ -9209,12 +9230,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-15T20:00:48",
-      "candidate_retry_after": "2026-06-15T20:15:48Z",
+      "content_fetched_at": "2026-06-15T22:22:21",
+      "candidate_retry_after": "2026-06-15T22:37:21Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-15T20:00:48",
-      "candidate_failure_count": 60
+      "candidate_failed_at": "2026-06-15T22:22:21",
+      "candidate_failure_count": 61
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -9243,12 +9264,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-15T20:00:48",
-      "candidate_retry_after": "2026-06-15T20:15:48Z",
+      "content_fetched_at": "2026-06-15T22:22:21",
+      "candidate_retry_after": "2026-06-15T22:37:21Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-15T20:00:48",
-      "candidate_failure_count": 60
+      "candidate_failed_at": "2026-06-15T22:22:21",
+      "candidate_failure_count": 61
     },
     {
       "id": "d9a0fa48ccc53ccf",
@@ -11168,13 +11189,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-06-15T20:00:50",
-      "candidate_retry_after": "2026-06-15T20:15:50Z",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-06-15T22:22:28",
+      "candidate_retry_after": "2026-06-15T22:37:28Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-06-15T20:00:50",
-      "candidate_failure_count": 56
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-06-15T22:22:28",
+      "candidate_failure_count": 57
     },
     {
       "id": "33732dfdc6295ab2",
@@ -11205,13 +11226,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-06-15T20:00:51",
-      "candidate_retry_after": "2026-06-15T20:15:51Z",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-06-15T22:22:30",
+      "candidate_retry_after": "2026-06-15T22:37:30Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-06-15T20:00:51",
-      "candidate_failure_count": 56
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-06-15T22:22:30",
+      "candidate_failure_count": 57
     },
     {
       "id": "aede79193c6b98c9",
@@ -11242,13 +11263,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-06-15T20:00:53",
-      "candidate_retry_after": "2026-06-15T20:15:53Z",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-06-15T22:22:34",
+      "candidate_retry_after": "2026-06-15T22:37:34Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-06-15T20:00:53",
-      "candidate_failure_count": 56
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-06-15T22:22:34",
+      "candidate_failure_count": 57
     },
     {
       "id": "fd4f78fb8656592b",
@@ -13704,12 +13725,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-06-15T20:00:55",
-      "candidate_retry_after": "2026-06-15T20:15:55Z",
+      "content_fetched_at": "2026-06-15T22:22:37",
+      "candidate_retry_after": "2026-06-15T22:37:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-06-15T20:00:55",
-      "candidate_failure_count": 52
+      "candidate_failed_at": "2026-06-15T22:22:37",
+      "candidate_failure_count": 53
     },
     {
       "id": "693fbfabd96b2185",
@@ -13740,12 +13761,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-06-15T20:00:57",
-      "candidate_retry_after": "2026-06-15T20:15:57Z",
+      "content_fetched_at": "2026-06-15T22:22:38",
+      "candidate_retry_after": "2026-06-15T22:37:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-06-15T20:00:57",
-      "candidate_failure_count": 52
+      "candidate_failed_at": "2026-06-15T22:22:38",
+      "candidate_failure_count": 53
     },
     {
       "id": "a5f6af5d6b69d4f1",
@@ -23309,12 +23330,12 @@
       "removed_source_links_count": 19,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, page_text:593chars/104words)",
-      "content_fetched_at": "2026-06-15T20:00:57",
-      "candidate_retry_after": "2026-06-15T20:15:57Z",
+      "content_fetched_at": "2026-06-15T22:22:39",
+      "candidate_retry_after": "2026-06-15T22:37:39Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, pag",
-      "candidate_failed_at": "2026-06-15T20:00:57",
-      "candidate_failure_count": 36
+      "candidate_failed_at": "2026-06-15T22:22:39",
+      "candidate_failure_count": 37
     },
     {
       "id": "63f62895c7723e75",
@@ -25364,11 +25385,11 @@
       "content_fetched_at": "2026-06-12T19:52:43",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-15T05:27:45",
+      "selected_at": "2026-06-15T22:23:11",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-15T05:27:45",
+      "processing_prepared_at": "2026-06-15T22:23:11",
       "ai_input_package": {
         "title": "CISA Adds One Known Exploited Vulnerability to Catalog | CISA",
         "url": "https://www.cisa.gov/news-events/alerts/2026/06/12/cisa-adds-one-known-exploited-vulnerability-catalog",
@@ -25416,14 +25437,14 @@
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 6.8,
+      "ai_total_time_seconds": 2.71,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-15T05:42:53Z",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-06-15T22:38:15Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-06-15T05:27:53",
-      "candidate_failure_count": 6,
+      "candidate_failed_at": "2026-06-15T22:23:15",
+      "candidate_failure_count": 7,
       "telegram_final_summary_notified_at": "2026-06-14T20:25:35",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
     },
@@ -29951,12 +29972,12 @@
       "removed_source_links_count": 24,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=626 chars/90 words; required=80 chars/120 words; tried=main_tag:626chars/90words, paragraph_fallback:387chars/54words, article_body:387chars/54words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_text:387chars/54words)",
-      "content_fetched_at": "2026-06-15T20:00:58",
-      "candidate_retry_after": "2026-06-15T20:15:58Z",
+      "content_fetched_at": "2026-06-15T22:22:40",
+      "candidate_retry_after": "2026-06-15T22:37:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=626 chars/90 words; required=80 chars/120 words; tried=main_tag:626chars/90words, paragraph_fallback:387chars/54words, article_body:387chars/54words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_tex",
-      "candidate_failed_at": "2026-06-15T20:00:58",
-      "candidate_failure_count": 25
+      "candidate_failed_at": "2026-06-15T22:22:40",
+      "candidate_failure_count": 26
     },
     {
       "id": "f3d06cfb2540f37e",
@@ -35090,11 +35111,11 @@
       "content_fetched_at": "2026-06-14T20:17:02",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-15T05:25:54",
+      "selected_at": "2026-06-15T22:22:40",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-15T05:25:54",
+      "processing_prepared_at": "2026-06-15T22:22:40",
       "ai_input_package": {
         "title": "NPM 12 Will Change Script Execution Behavior to Prevent Supply Chain Attacks",
         "url": "https://www.securityweek.com/npm-12-will-change-script-execution-behavior-to-prevent-supply-chain-attacks",
@@ -35134,18 +35155,19 @@
       },
       "ai_quality_last_error": "article older than 24 hours",
       "ai_status": "failed",
-      "ai_error": "article older than 24 hours",
-      "ai_rotation_exhausted": false,
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 50.01,
-      "ai_quality_status": "failed_after_retries",
-      "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-15T05:41:44Z",
+      "ai_total_time_seconds": 25.18,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-06-15T22:38:06Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "article older than 24 hours",
-      "candidate_failed_at": "2026-06-15T05:26:44",
-      "candidate_failure_count": 1,
-      "telegram_final_summary_notified_at": "2026-06-15T05:27:55"
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-15T22:23:06",
+      "candidate_failure_count": 2,
+      "telegram_final_summary_notified_at": "2026-06-15T05:27:55",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
     },
     {
       "id": "ef41fc3b6048b8fe",
@@ -35216,11 +35238,11 @@
       "content_fetched_at": "2026-06-14T20:17:04",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-15T05:27:36",
+      "selected_at": "2026-06-15T22:23:09",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-15T05:27:36",
+      "processing_prepared_at": "2026-06-15T22:23:09",
       "ai_input_package": {
         "title": "Anthropic Says It Has Taken Its Latest AI Models Offline to Comply With New Export Controls",
         "url": "https://www.securityweek.com/anthropic-says-it-has-taken-its-latest-ai-models-offline-to-comply-with-new-export-controls",
@@ -35264,14 +35286,14 @@
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 8.16,
+      "ai_total_time_seconds": 1.33,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-15T05:42:45Z",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-06-15T22:38:11Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-06-15T05:27:45",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-06-15T22:23:11",
+      "candidate_failure_count": 2
     },
     {
       "id": "2666665762c0cdd3",
@@ -35356,11 +35378,11 @@
       "content_fetched_at": "2026-06-14T20:16:35",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-15T05:26:45",
+      "selected_at": "2026-06-15T22:23:06",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-15T05:26:45",
+      "processing_prepared_at": "2026-06-15T22:23:06",
       "ai_input_package": {
         "title": "Over 400 Arch Linux packages compromised to push rootkit, infostealer",
         "url": "https://www.bleepingcomputer.com/news/security/over-400-arch-linux-packages-compromised-to-push-rootkit-infostealer",
@@ -35410,17 +35432,18 @@
       },
       "ai_quality_last_error": "article older than 24 hours",
       "ai_status": "failed",
-      "ai_error": "article older than 24 hours",
-      "ai_rotation_exhausted": false,
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 50.43,
-      "ai_quality_status": "failed_after_retries",
-      "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-15T05:42:36Z",
+      "ai_total_time_seconds": 1.54,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-06-15T22:38:09Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "article older than 24 hours",
-      "candidate_failed_at": "2026-06-15T05:27:36",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-06-15T22:23:09",
+      "candidate_failure_count": 2,
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
     },
     {
       "id": "c4a6c435f0f706e4",
