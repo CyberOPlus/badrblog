@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-15T05:27:55",
+  "updated_at": "2026-06-15T11:32:52",
   "articles": [
     {
       "id": "4fed9886527c9106",
@@ -1428,13 +1428,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-06-15T05:25:40",
-      "candidate_retry_after": "2026-06-15T05:40:40Z",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-06-15T11:27:22",
+      "candidate_retry_after": "2026-06-15T11:42:22Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-06-15T05:25:40",
-      "candidate_failure_count": 67
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-06-15T11:27:22",
+      "candidate_failure_count": 68
     },
     {
       "id": "387079dc0a830ad9",
@@ -2814,7 +2814,10 @@
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-06-09T20:28:22",
       "candidate_failure_count": 3,
-      "telegram_final_summary_notified_at": "2026-06-08T22:51:23"
+      "telegram_final_summary_notified_at": "2026-06-08T22:51:23",
+      "archived": true,
+      "archived_at": "2026-06-15T11:26:51",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "e71125d8cec96408",
@@ -2958,7 +2961,10 @@
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-06-09T20:29:59",
       "candidate_failure_count": 2,
-      "ai_quality_last_error": "article older than 24 hours"
+      "ai_quality_last_error": "article older than 24 hours",
+      "archived": true,
+      "archived_at": "2026-06-15T11:26:51",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "417932b810466aba",
@@ -3495,12 +3501,12 @@
       "removed_source_links_count": 82,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "content_fetched_at": "2026-06-15T05:25:41",
-      "candidate_retry_after": "2026-06-15T05:40:41Z",
+      "content_fetched_at": "2026-06-15T11:27:23",
+      "candidate_retry_after": "2026-06-15T11:42:23Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=448 chars/67 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:448chars/67words, paragraph_fallback:333chars/50words, article_body:448chars/67words, meta_description:53chars/7words, page_text:448chars/67words)",
-      "candidate_failed_at": "2026-06-15T05:25:41",
-      "candidate_failure_count": 65
+      "candidate_failed_at": "2026-06-15T11:27:23",
+      "candidate_failure_count": 66
     },
     {
       "id": "561b6316398d7603",
@@ -4375,7 +4381,10 @@
       "content_preview_chars": 4203,
       "content_fetched_at": "2026-06-08T16:17:25",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T11:26:51",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "7d27dd5174777dfd",
@@ -4482,17 +4491,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 0,
-      "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 0,
+      "source_links_removed_count": 231,
+      "affiliate_links_removed_count": 5,
+      "removed_source_links_count": 231,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-06-15T05:25:42",
-      "candidate_retry_after": "2026-06-15T05:40:42Z",
+      "content_fetch_error": "weak article body after fallbacks (best=486 chars/76 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:486chars/76words, page_text:486chars/76words)",
+      "content_fetched_at": "2026-06-15T11:27:27",
+      "candidate_retry_after": "2026-06-15T11:42:27Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-06-15T05:25:42",
-      "candidate_failure_count": 64
+      "candidate_failure_reason": "weak article body after fallbacks (best=486 chars/76 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:486chars/76words, page_text:486chars/76words)",
+      "candidate_failed_at": "2026-06-15T11:27:27",
+      "candidate_failure_count": 65
     },
     {
       "id": "c1354558130eaeb3",
@@ -5384,7 +5393,10 @@
       "content_preview_chars": 8969,
       "content_fetched_at": "2026-06-08T18:40:49",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T11:26:51",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "ee0434be74f9a9ea",
@@ -5577,12 +5589,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-06-15T05:25:42",
-      "candidate_retry_after": "2026-06-15T05:40:42Z",
+      "content_fetched_at": "2026-06-15T11:27:27",
+      "candidate_retry_after": "2026-06-15T11:42:27Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-06-15T05:25:42",
-      "candidate_failure_count": 63
+      "candidate_failed_at": "2026-06-15T11:27:27",
+      "candidate_failure_count": 64
     },
     {
       "id": "0c0e20d8a16e4867",
@@ -6929,12 +6941,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-06-15T05:25:43",
-      "candidate_retry_after": "2026-06-15T05:40:43Z",
+      "content_fetched_at": "2026-06-15T11:27:28",
+      "candidate_retry_after": "2026-06-15T11:42:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-06-15T05:25:43",
-      "candidate_failure_count": 61
+      "candidate_failed_at": "2026-06-15T11:27:28",
+      "candidate_failure_count": 62
     },
     {
       "id": "cc5e99891af35b5e",
@@ -6966,12 +6978,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-06-15T05:25:43",
-      "candidate_retry_after": "2026-06-15T05:40:43Z",
+      "content_fetched_at": "2026-06-15T11:27:28",
+      "candidate_retry_after": "2026-06-15T11:42:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-06-15T05:25:43",
-      "candidate_failure_count": 61
+      "candidate_failed_at": "2026-06-15T11:27:28",
+      "candidate_failure_count": 62
     },
     {
       "id": "a6f4ca9464909855",
@@ -7003,12 +7015,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-06-15T05:25:43",
-      "candidate_retry_after": "2026-06-15T05:40:43Z",
+      "content_fetched_at": "2026-06-15T11:27:28",
+      "candidate_retry_after": "2026-06-15T11:42:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-06-15T05:25:43",
-      "candidate_failure_count": 61
+      "candidate_failed_at": "2026-06-15T11:27:28",
+      "candidate_failure_count": 62
     },
     {
       "id": "66722f50e91993b6",
@@ -7380,7 +7392,10 @@
       "content_preview_chars": 4403,
       "content_fetched_at": "2026-06-08T23:57:48",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T11:26:51",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "7e7a33f04b4d1032",
@@ -7963,7 +7978,10 @@
       "content_preview_chars": 8952,
       "content_fetched_at": "2026-06-09T02:39:52",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T11:26:51",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "c5aa2e8ed6d36dc9",
@@ -8008,7 +8026,10 @@
       "content_preview_chars": 6182,
       "content_fetched_at": "2026-06-09T02:39:55",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-06-15T11:26:51",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "7a5aee7c8a892080",
@@ -9073,12 +9094,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-15T05:25:44",
-      "candidate_retry_after": "2026-06-15T05:40:44Z",
+      "content_fetched_at": "2026-06-15T11:27:28",
+      "candidate_retry_after": "2026-06-15T11:42:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-15T05:25:44",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-06-15T11:27:28",
+      "candidate_failure_count": 58
     },
     {
       "id": "512c2899a98440d2",
@@ -9107,12 +9128,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-15T05:25:44",
-      "candidate_retry_after": "2026-06-15T05:40:44Z",
+      "content_fetched_at": "2026-06-15T11:27:28",
+      "candidate_retry_after": "2026-06-15T11:42:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-15T05:25:44",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-06-15T11:27:28",
+      "candidate_failure_count": 58
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -9141,12 +9162,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-06-15T05:25:44",
-      "candidate_retry_after": "2026-06-15T05:40:44Z",
+      "content_fetched_at": "2026-06-15T11:27:28",
+      "candidate_retry_after": "2026-06-15T11:42:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-06-15T05:25:44",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-06-15T11:27:28",
+      "candidate_failure_count": 58
     },
     {
       "id": "d9a0fa48ccc53ccf",
@@ -11061,12 +11082,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-06-15T05:25:45",
-      "candidate_retry_after": "2026-06-15T05:40:45Z",
+      "content_fetched_at": "2026-06-15T11:27:30",
+      "candidate_retry_after": "2026-06-15T11:42:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-06-15T05:25:45",
-      "candidate_failure_count": 53
+      "candidate_failed_at": "2026-06-15T11:27:30",
+      "candidate_failure_count": 54
     },
     {
       "id": "33732dfdc6295ab2",
@@ -11098,12 +11119,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-06-15T05:25:47",
-      "candidate_retry_after": "2026-06-15T05:40:47Z",
+      "content_fetched_at": "2026-06-15T11:27:32",
+      "candidate_retry_after": "2026-06-15T11:42:32Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-06-15T05:25:47",
-      "candidate_failure_count": 53
+      "candidate_failed_at": "2026-06-15T11:27:32",
+      "candidate_failure_count": 54
     },
     {
       "id": "aede79193c6b98c9",
@@ -11135,12 +11156,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-06-15T05:25:48",
-      "candidate_retry_after": "2026-06-15T05:40:48Z",
+      "content_fetched_at": "2026-06-15T11:27:33",
+      "candidate_retry_after": "2026-06-15T11:42:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-06-15T05:25:48",
-      "candidate_failure_count": 53
+      "candidate_failed_at": "2026-06-15T11:27:33",
+      "candidate_failure_count": 54
     },
     {
       "id": "fd4f78fb8656592b",
@@ -13596,12 +13617,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-06-15T05:25:51",
-      "candidate_retry_after": "2026-06-15T05:40:51Z",
+      "content_fetched_at": "2026-06-15T11:27:36",
+      "candidate_retry_after": "2026-06-15T11:42:36Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=695 chars/108 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:695chars/108words, article_body:695chars/108words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-06-15T05:25:51",
-      "candidate_failure_count": 49
+      "candidate_failed_at": "2026-06-15T11:27:36",
+      "candidate_failure_count": 50
     },
     {
       "id": "693fbfabd96b2185",
@@ -13632,12 +13653,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-06-15T05:25:52",
-      "candidate_retry_after": "2026-06-15T05:40:52Z",
+      "content_fetched_at": "2026-06-15T11:27:37",
+      "candidate_retry_after": "2026-06-15T11:42:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-06-15T05:25:52",
-      "candidate_failure_count": 49
+      "candidate_failed_at": "2026-06-15T11:27:37",
+      "candidate_failure_count": 50
     },
     {
       "id": "a5f6af5d6b69d4f1",
@@ -23198,12 +23219,12 @@
       "removed_source_links_count": 19,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, page_text:593chars/104words)",
-      "content_fetched_at": "2026-06-15T05:25:53",
-      "candidate_retry_after": "2026-06-15T05:40:53Z",
+      "content_fetched_at": "2026-06-15T11:27:38",
+      "candidate_retry_after": "2026-06-15T11:42:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=593 chars/104 words; required=80 chars/120 words; tried=article_tag:593chars/104words, main_tag:593chars/104words, paragraph_fallback:593chars/104words, article_body:593chars/104words, jsonld_description:520chars/94words, meta_description:295chars/47words, pag",
-      "candidate_failed_at": "2026-06-15T05:25:53",
-      "candidate_failure_count": 33
+      "candidate_failed_at": "2026-06-15T11:27:38",
+      "candidate_failure_count": 34
     },
     {
       "id": "63f62895c7723e75",
@@ -28456,11 +28477,11 @@
       "content_fetched_at": "2026-06-13T08:16:46",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-14T16:12:56",
+      "selected_at": "2026-06-15T11:29:13",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-14T16:12:56",
+      "processing_prepared_at": "2026-06-15T11:29:14",
       "ai_input_package": {
         "title": "Ankit Arya, Head of AI at Inscope – Interview Series",
         "url": "https://www.unite.ai/ankit-arya-head-of-ai-at-inscope-interview-series",
@@ -28503,19 +28524,19 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_quality_last_error": "article older than 24 hours",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "article older than 24 hours",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 113.38,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 118.29,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-14T16:29:50Z",
+      "candidate_retry_after": "2026-06-15T11:46:13Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-06-14T16:14:50",
-      "candidate_failure_count": 3,
+      "candidate_failure_reason": "article older than 24 hours",
+      "candidate_failed_at": "2026-06-15T11:31:13",
+      "candidate_failure_count": 4,
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
     },
     {
@@ -29836,16 +29857,16 @@
       "score": 0,
       "priority": "low",
       "source_links_removed_count": 24,
-      "affiliate_links_removed_count": 0,
+      "affiliate_links_removed_count": 2,
       "removed_source_links_count": 24,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=606 chars/86 words; required=80 chars/120 words; tried=main_tag:606chars/86words, paragraph_fallback:367chars/50words, article_body:367chars/50words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_text:367chars/50words)",
-      "content_fetched_at": "2026-06-15T05:25:53",
-      "candidate_retry_after": "2026-06-15T05:40:53Z",
+      "content_fetch_error": "weak article body after fallbacks (best=626 chars/90 words; required=80 chars/120 words; tried=main_tag:626chars/90words, paragraph_fallback:387chars/54words, article_body:387chars/54words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_text:387chars/54words)",
+      "content_fetched_at": "2026-06-15T11:27:39",
+      "candidate_retry_after": "2026-06-15T11:42:39Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=606 chars/86 words; required=80 chars/120 words; tried=main_tag:606chars/86words, paragraph_fallback:367chars/50words, article_body:367chars/50words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_tex",
-      "candidate_failed_at": "2026-06-15T05:25:53",
-      "candidate_failure_count": 22
+      "candidate_failure_reason": "weak article body after fallbacks (best=626 chars/90 words; required=80 chars/120 words; tried=main_tag:626chars/90words, paragraph_fallback:387chars/54words, article_body:387chars/54words, rss_summary:403chars/53words, jsonld_description:147chars/20words, meta_description:147chars/20words, page_tex",
+      "candidate_failed_at": "2026-06-15T11:27:39",
+      "candidate_failure_count": 23
     },
     {
       "id": "f3d06cfb2540f37e",
@@ -29924,11 +29945,11 @@
       "content_fetched_at": "2026-06-13T15:56:17",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-14T07:09:48",
+      "selected_at": "2026-06-15T11:31:13",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-14T07:09:48",
+      "processing_prepared_at": "2026-06-15T11:31:13",
       "ai_input_package": {
         "title": "Anthropic Disables Claude Fable 5 and Mythos 5 After US Government Order",
         "url": "https://www.marktechpost.com/2026/06/13/anthropic-disables-claude-fable-5-and-mythos-5-after-us-government-order",
@@ -29971,20 +29992,20 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "article too short (74 words; minimum 700)",
+      "ai_quality_last_error": "article older than 24 hours",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "article older than 24 hours",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 152.4,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 97.99,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-14T07:27:21Z",
+      "candidate_retry_after": "2026-06-15T11:47:52Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-06-14T07:12:21",
-      "candidate_failure_count": 2,
+      "candidate_failure_reason": "article older than 24 hours",
+      "candidate_failed_at": "2026-06-15T11:32:52",
+      "candidate_failure_count": 3,
       "telegram_final_summary_notified_at": "2026-06-14T07:13:36"
     },
     {
@@ -33322,11 +33343,11 @@
       "content_fetched_at": "2026-06-14T07:09:29",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-06-14T16:14:51",
+      "selected_at": "2026-06-15T11:28:25",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-06-14T16:14:51",
+      "processing_prepared_at": "2026-06-15T11:28:25",
       "ai_input_package": {
         "title": "How to Build a QwenPaw Agent Workspace with Custom Skills, Model Providers, Console Access, and Streaming API Testing",
         "url": "https://www.marktechpost.com/2026/06/13/how-to-build-a-qwenpaw-agent-workspace-with-custom-skills-model-providers-console-access-and-streaming-api-testing",
@@ -33378,20 +33399,20 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_quality_last_error": "article older than 24 hours",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "article older than 24 hours",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 79.95,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 47.43,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-06-14T16:31:11Z",
+      "candidate_retry_after": "2026-06-15T11:44:13Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-06-14T16:16:11",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "article older than 24 hours",
+      "candidate_failed_at": "2026-06-15T11:29:13",
+      "candidate_failure_count": 2
     },
     {
       "id": "4f023cd38de753b4",
@@ -35479,7 +35500,67 @@
       "content_preview_chars": 3523,
       "content_fetched_at": "2026-06-14T21:48:58",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-06-15T11:27:39",
+      "suggested_category": "AI-Tools",
+      "selection_reason": "category rotation newest fresh article: AI-Tools",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-06-15T11:27:39",
+      "ai_input_package": {
+        "title": "How Visa’s AI Task Force Disrupted US$2.6bn of Scams",
+        "url": "https://aimagazine.com/news/how-visas-ai-task-force-disrupted-us-2-6bn-of-scams",
+        "source_name": "AI Magazine",
+        "suggested_category": "AI-Tools",
+        "main_image": "https://assets.bizclikmedia.net/1200/4bba6a72dcad3af7c783a6122b241c3c:8c4aeb4acd91f16f5345e9d28df01c25/visa-building-exterior-desktop-1920x1080.jpg.jpg",
+        "article_images": [
+          {
+            "url": "https://assets.bizclikmedia.net/1200/4bba6a72dcad3af7c783a6122b241c3c:8c4aeb4acd91f16f5345e9d28df01c25/visa-building-exterior-desktop-1920x1080.jpg.jpg",
+            "alt": "How Visa’s AI Task Force Disrupted US$2.6bn of Scams",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://assets.bizclikmedia.net/138/41c6c9a8ddc2bbd6c5585e8f04f3d210:c99718ce5cc4a87e63ef8e55e54a58c1/visa-building-exterior-desktop-1920x1080.webp",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://i.ytimg.com/vi/TmYoScdhXyc/hqdefault.jpg",
+            "alt": "Youtube Placeholder",
+            "source": "article_content"
+          },
+          {
+            "url": "https://i.ytimg.com/vi/2AGVEi7yewk/hqdefault.jpg",
+            "alt": "Youtube Placeholder",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Visa Scam Disruption (VSD) specialist team uses AI and data to proactively identify and dismantle global fraud networks threatening consumers",
+        "content_preview": "In an era where digital scams are increasingly sophisticated, Visa has revealed a major milestone in the fight against financial crime. The company’s specialised Visa Scam Disruption (VSD) team has identified and helped to stop more than US$2.6bn worth of fraudulent activity in just over two years of operation. This announcement, made around the time of the Global Anti-Scam Alliance Summit in Lisbon, Portugal, highlights the escalating threat and the need for proactive, AI-driven disruption. The soaring figures demonstrate the rapid expansion of scam activity across international markets. A new breed of fraud fighters The VSD team is at the heart of this success. Visa has assembled a unique task force for the modern age of cybercrime. This group includes data scientists, engineers, AI developers and professionals with backgrounds in law enforcement and the military. This fusion of expertise is critical for tackling the complex, multi-layered scams that define today's digital world. David Capezza, Chief Risk Officer at Visa Europe, says: “Every day, members of the VSD team work tirelessly to identify and help dismantle global criminal networks that target unsuspecting consumers around the world. “The work they do to protect consumers ensures a stronger, more resilient ecosystem that benefits everyone.” How AI connects the dots from data to takedowns The VSD team’s primary weapon is the vast, anonymised data flowing through Visa's global network. The team employs network-level data and Gen AI tools to analyse immense volumes of information. The AI models are trained to identify subtle patterns that signal organised criminal operations. This intelligence enables investigators to connect seemingly unrelated fraudulent activities, revealing the full scope of a criminal network. By detecting these patterns early, the team can work with banks and law enforcement to dismantle operations before they inflict significant financial harm on consumers. Unmasking the European scam network A prime example of VSD’s impact was the takedown of a social media ‘survey scam’ in Europe. The operation targeted consumers across multiple markets, luring them with heavily discounted products such as beauty boxes and digital cameras. After an initial small purchase, however, victims were unknowingly enrolled in costly recurring payment subscriptions. Following a detailed investigation, Visa identified a complex web of approximately 1,000 fraudulent merchants. This intelligence-led operation was eventually dismantled, shutting down a network responsible for an estimated US$100m in fraudulent earnings. AI and collaboration are the future of fraud prevention As online scams become more organised and international, the fight against them requires a synchronised, global response. Michael Jabarra, Senior VP, Payment Ecosystem Risk and Control at Visa, says: “Scams are global, adaptive and fast-moving. Fighting them requires the same. “Visa’s Scam Disruption practice uses intelligence from across our global network to connect signals across markets, detect evolving threats earlier using AI-enabled capabilities and help stop scams with key ecosystem partners before they harm consumers.” The US$2.6bn in identified scam activity shows both the scale of the challenge and the value of using technology to disrupt it at the source, creating a safer digital economy for everyone. David Capezza Chief Risk Officer Michael Jabbara SVP, Payment Ecosystem Risk & Control SVP, Payment Ecosystem Risk & Control",
+        "content_preview_chars": 3523,
+        "rss_summary": "",
+        "full_article_text": "In an era where digital scams are increasingly sophisticated, Visa has revealed a major milestone in the fight against financial crime. The company’s specialised Visa Scam Disruption (VSD) team has identified and helped to stop more than US$2.6bn worth of fraudulent activity in just over two years of operation. This announcement, made around the time of the Global Anti-Scam Alliance Summit in Lisbon, Portugal, highlights the escalating threat and the need for proactive, AI-driven disruption. The soaring figures demonstrate the rapid expansion of scam activity across international markets. A new breed of fraud fighters The VSD team is at the heart of this success. Visa has assembled a unique task force for the modern age of cybercrime. This group includes data scientists, engineers, AI developers and professionals with backgrounds in law enforcement and the military. This fusion of expertise is critical for tackling the complex, multi-layered scams that define today's digital world. David Capezza, Chief Risk Officer at Visa Europe, says: “Every day, members of the VSD team work tirelessly to identify and help dismantle global criminal networks that target unsuspecting consumers around the world. “The work they do to protect consumers ensures a stronger, more resilient ecosystem that benefits everyone.” How AI connects the dots from data to takedowns The VSD team’s primary weapon is the vast, anonymised data flowing through Visa's global network. The team employs network-level data and Gen AI tools to analyse immense volumes of information. The AI models are trained to identify subtle patterns that signal organised criminal operations. This intelligence enables investigators to connect seemingly unrelated fraudulent activities, revealing the full scope of a criminal network. By detecting these patterns early, the team can work with banks and law enforcement to dismantle operations before they inflict significant financial harm on consumers. Unmasking the European scam network A prime example of VSD’s impact was the takedown of a social media ‘survey scam’ in Europe. The operation targeted consumers across multiple markets, luring them with heavily discounted products such as beauty boxes and digital cameras. After an initial small purchase, however, victims were unknowingly enrolled in costly recurring payment subscriptions. Following a detailed investigation, Visa identified a complex web of approximately 1,000 fraudulent merchants. This intelligence-led operation was eventually dismantled, shutting down a network responsible for an estimated US$100m in fraudulent earnings. AI and collaboration are the future of fraud prevention As online scams become more organised and international, the fight against them requires a synchronised, global response. Michael Jabarra, Senior VP, Payment Ecosystem Risk and Control at Visa, says: “Scams are global, adaptive and fast-moving. Fighting them requires the same. “Visa’s Scam Disruption practice uses intelligence from across our global network to connect signals across markets, detect evolving threats earlier using AI-enabled capabilities and help stop scams with key ecosystem partners before they harm consumers.” The US$2.6bn in identified scam activity shows both the scale of the challenge and the value of using technology to disrupt it at the source, creating a safer digital economy for everyone. David Capezza Chief Risk Officer Michael Jabbara SVP, Payment Ecosystem Risk & Control SVP, Payment Ecosystem Risk & Control",
+        "full_article_text_chars": 3523,
+        "enrichment_status": "strong",
+        "source_url": "https://aimagazine.com",
+        "source_published_at": "2026-06-14T08:00:08Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 13.81,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article older than 24 hours",
+      "ai_status": "failed",
+      "ai_error": "article older than 24 hours",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 45.21,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-06-15T11:43:25Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "article older than 24 hours",
+      "candidate_failed_at": "2026-06-15T11:28:25",
+      "candidate_failure_count": 1
     },
     {
       "id": "d04f3d6985907e92",
@@ -35995,6 +36076,340 @@
       "content_preview": "Windows enthusiasts often look for ways to extract as much performance out of their systems as possible, and it's often the case that they try and do so while trying to minimize the heat and power consumption. This is especially relevant in the case of mobile Windows PCs since laptops and notebooks tend to get hot and management of that heat and power is harder in such a form factor. As such users often turn to techniques like under-volting which can be used to squeeze out the maximum capabilities of a chip while also maintaining lowered power levels. There are official apps from AMD and Intel with the likes of Ryzen Master and XTU (Extreme Tuning Utility). While these are quite handy, most enthusiasts probably prefer to dig into the BIOS and play around with settings there like Curve Optimizer on Ryzen, which lets users set various frequency-voltage scaling values. These are essentially called P-States. If you are not familiar with them, Processor Power Management is done through Advanced Configuration and Power Interface (ACPI) P-states and C-states. While P-states or performance pwoer states handle CPU voltage-frequency scaling, C-states deal with CPU sleep states so that some of the CPU functions, which are not necessary at that moment, can be disabled. The P-states and C-states work together to make the processor run more efficiently. It helps the OS and apps determine which cores can be parked and which should be boosted. Of course not every user is an enthusiast or knows the technicalities and integrities of how things like overclocking or undervolting work. Thankfully for them Windows itself offers something pretty cool, though it is hidden by default on all systems. By default, Windows only has two P-States, \"Minimum Processor State\" and \"Maximum Processor State.\" However, this can be changed with a Registry trick to expand the options under a secret \"Processor performance boost mode\" dropdown. This essentially enables the HWP or hardware P-States available on a device, and these are not controlled just by the OS itself as the underlying hardware gets involved too. In total there are five Processor Performance Boost Mode profiles that control how Windows requests and allows CPU turbo/boost behavior under the different power policies. They are: Disabled : In this mode, processor boosting is effectively turned off. The CPU will avoid entering turbo or boost frequencies and instead operate closer to its base frequency ceiling. This can significantly reduce power consumption and heat output, but at the cost of reduced burst performance and responsiveness in short workloads. Enabled : This is the standard behavior where boost functionality is allowed under normal conditions. The processor can opportunistically increase frequency when workload demands it, balancing performance gains with power and thermal constraints as managed by the system. Aggressive : Aggressive mode favors performance more heavily, allowing the CPU to enter higher boost states more readily and sustain them longer. This should in theory improve responsiveness under bursty or heavy workloads but increases power draw and thermal output compared to the default enabled behavior. Efficient Enabled: This mode still allows boosting, but with a stronger bias toward energy efficiency. The system attempts to use boost more selectively, avoiding unnecessary frequency spikes when the performance gain is marginal. Efficient Aggressive : This is a hybrid approach where boost is still performance-responsive, but the system continuously weighs efficiency more heavily than in Aggressive mode. It aims to deliver noticeable performance improvements while reducing wasted power in less demanding scenarios. Here's how to enable the Processor performance boost mode: Open Registry Editor: Press Win+R, type regedit, and click OK. Go to: HKLM\\SYSTEM\\CurrentControlSet\\Control\\Power\\PowerSettings\\54533251-82be-4824-96c1-47b60b740d00\\be337238-0d82-4146-a960-4f3749d470c7 (where HKLM stands for HKEY_LOCAL_MACHINE_) Modify the value of Attributes from 1 to 2 (you can find modify option by right-clicking) After that, exit Registry, you should now be able to see the new \"Processor performance boost mode\" dropdown menu: As you can see there are now five new P-States or CPPC states or power profile available that help define the boost mode processor setting on your PC. Wrapping it up here's a quick run-down of the settings as defined by Microsoft itself. The corresponding P-state-based behaviour is disabled. Collaborative Processor Performance Control (CPPC) behaviour is disabled. The corresponding P-state-based behaviour is enabled. CPPC behaviour is Efficient Enabled. The corresponding P-state-based behaviour is enabled. CPPC behaviour is Aggressive. The corresponding P-state-based behaviour is Efficient. CPPC behaviour is Efficient Enabled. The corresponding P-state-based behaviour is Efficient. CPPC behaviour is Aggressive. Windows calculates the desired extra performance above the guaranteed performance level, and asks the processor to deliver that specific performance level. Efficient Aggressive At Guaranteed Windows always asks the processor to deliver the highest possible performance above the guaranteed performance level. In the next part we shall be comparing these settings to explore how much of a benefit or regression they can provide in terms of performance and power efficiency. If you decide to change the values on your system and are experiencing problems like crashes or an overheating PC, make sure to revert the steps back to the original state.",
       "content_preview_chars": 5604,
       "content_fetched_at": "2026-06-15T00:11:08",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "dd3dba306dd4c42a",
+      "source_url_hash": "dd3dba306dd4c42a",
+      "canonical_url": "https://www.marktechpost.com/2026/06/15/meet-flash-kmeans-an-io-aware-exact-k-means-that-runs-over-200x-faster-than-faiss-on-gpus",
+      "title_hash": "a3fbc84677d0e1c3",
+      "topic_signature": "d8612406dcf64127d4b4",
+      "title": "Meet Flash-KMeans: An IO-Aware, Exact K-Means That Runs Over 200× Faster Than FAISS on GPUs",
+      "url": "https://www.marktechpost.com/2026/06/15/meet-flash-kmeans-an-io-aware-exact-k-means-that-runs-over-200x-faster-than-faiss-on-gpus",
+      "source_name": "MarkTechPost",
+      "source_url": "https://www.marktechpost.com",
+      "source_published_at": "2026-06-15T09:16:09Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.18,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-15T11:26:51",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 96,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 96,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Meet Flash-KMeans: An IO-Aware, Exact K-Means That Runs Over 200× Faster Than FAISS on GPUs",
+      "meta_description": "Flash-KMeans is an IO-aware, exact K-Means that uses FlashAssign and Sort-Inverse Update to outperform FAISS by over 200×.",
+      "article_images": [
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/06/blog191.png",
+          "alt": "Meet Flash-KMeans: An IO-Aware, Exact K-Means That Runs Over 200× Faster Than FAISS on GPUs",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/06/300x400-1-768x1024.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.marktechpost.com/wp-content/uploads/2026/06/blog191.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/06/300x400-1-768x1024.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "github.com/svg-project/flash-kmeans",
+          "url": "https://github.com/svg-project/flash-kmeans"
+        }
+      ],
+      "full_article_text": "k-means has been an offline tool for decades. You run it once to preprocess data, then move on. A team of researchers from UC Berkeley and UT Austin released Flash-KMeans, a new open-source library that targets a different setting. Modern AI pipelines now call k-means inside training and inference loops. At that frequency, latency per call matters more than theoretical FLOPs. Flash-KMeans is an IO-aware implementation of standard Lloyd’s k-means. It does not change the math, and it does not approximate. It only restructures how the algorithm moves data on a GPU. On an NVIDIA H200, the research team reported up to 17.9× end-to-end speedup over the best baseline. Against NVIDIA cuML they report 33×. Against FAISS they report over 200×. What is Flash-KMeans Flash-KMeans is a batched k-means library written in Triton GPU kernels. It ships under Apache 2.0 and installs with pip install flash-kmeans . The output is mathematically identical to standard Lloyd’s k-means. The speedup comes from kernel-level dataflow, not from skipping work. That separates it from algorithmic methods like triangle-inequality pruning or coreset sampling. A standard Lloyd iteration has two stages. The assignment stage computes each point’s distance to every centroid, then picks the nearest. The update stage averages the points in each cluster to form new centroids. Both stages are simple arithmetic. On GPUs, both are bottlenecked by memory, not compute. The Two Bottlenecks It Attacks The first bottleneck is the assignment stage. Standard code builds a full distance matrix D of shape N×K in High Bandwidth Memory (HBM). It writes the matrix, then reads it back to run argmin. For N=65536, K=1024, d=128, B=32, the distance math takes 2.6ms. Writing and consuming D takes about 23ms. The matrix is the cost, not the arithmetic. Flash-KMeans replaces this with FlashAssign. The design borrows from FlashAttention. FlashAssign streams tiles of points and centroids from HBM into on-chip SRAM. It fuses distance computation with an online argmin. The full N×K matrix is never materialized. This cuts the dominant IO complexity from O(NK) to O(Nd + Kd). At the kernel level, FlashAssign reaches up to 21.2×. In one case it cut assignment from 122.5ms to 5.8ms. The second bottleneck is the centroid update stage. Standard code uses scatter-style atomic adds. Each thread adds its point into a shared sum buffer keyed by cluster id. Many threads hit the same ‘hot’ cluster at once. That causes atomic contention and hardware serialization. The research team measured only 50 GB/s effective bandwidth here on an H200. Flash-KMeans replaces this with Sort-Inverse Update. It sorts the 1D assignment vector by cluster id using argsort. Identical cluster ids then form contiguous segments. Each thread block reduces a segment on-chip, then issues one atomic add per segment. The heavy point matrix is never physically permuted. Atomic operations drop from ( O ( ( K + N B N ) d ) ) (O((K + \\frac{N}{B_N})d)) . The kernel reaches up to 6.3×. The research team test it on an H200 with CUDA 12.8, FP16 data, and d=128. They sweep N, K, and batch size B. They compare against four optimized baselines: fast_pytorch_kmeans, fastkmeans, cuML, and FAISS. N=8M, K=1024 (large N, small K) One failure mode matters for context. Standard PyTorch implementations run out of memory in large-K regimes. They cannot materialize the N×K matrix. FAISS is the industry-standard library under many production vector-search systems. The library also runs out-of-core. On one billion points (K=32768, d=128), it finishes an iteration in 41.4s, against 261.8s for the baseline. It uses chunked stream overlap to hide PCIe transfer behind compute. A cache-aware compile heuristic also cuts tuning overhead by up to 175×, within 0.3% of tuned speed. MTP Interactive Explainer Flash-KMeans: exact k-means, rebuilt around GPU memory Same Lloyd’s math as standard k-means — faster only because of dataflow. Run clustering live, watch the update bottleneck, and size the IO it removes. This runs real Lloyd’s k-means in your browser on 2-D points. The algorithm is identical to what Flash-KMeans accelerates — only the GPU dataflow differs. Each step = one assignment + one centroid update. Press play. Standard scatter-update serializes when blocks write the same “hot” centroid (red stalls). Sort-Inverse Update sorts cluster IDs first, so each block merges contiguous segments with one atomic add — no conflict. Standard updates issue one atomic add per token . Many threads hit the same centroid at once, causing contention. Sorting by cluster ID turns scatters into segment-level reductions in on-chip memory. Standard k-means writes then reads a full N×K distance matrix in HBM. FlashAssign never builds it — it reads X and C once and writes assignments once. Bars show relative HBM round-trips, FP16. Faster exact k-means changes what you can run online, not just offline. Vector search indexing : FAISS builds its search indices with k-means. Faster k-means lets you re-index as data shifts, instead of rebuilding overnight. Sparse attention routing : Routing Transformers and Tactic cluster tokens to route attention. Millisecond k-means makes this viable inside the inference loop. KV-cache compression : ClusterKV clusters tokens in semantic space to compress the cache. Cheaper clustering makes per-layer, per-step compression practical. Low-bit KV quantization : Recent methods cluster KV entries into codebooks, repeatedly. Faster clustering shrinks that preprocessing cost. Diffusion Transformers : Sparse VideoGen2 calls batched k-means during forward passes. It permutes tokens by semantic similarity to exploit sparsity. The API mirrors faiss and sklearn. The call below clusters a batched (B, N, d) tensor. A scikit-learn-style interface is also available. The kernel auto-dispatches by shape and dtype. A small-D path handles d≤512. A split-D path handles larger d without materializing the distance matrix. Multi-GPU runs trigger automatically for large-N data held in CPU memory. Flash-KMeans is exact, not approximate — same Lloyd’s math, sped up purely by GPU dataflow. FlashAssign fuses distance + online argmin, cutting assignment IO from O(NK) to O(Nd+Kd) — up to 21.2×. Sort-Inverse Update sorts cluster IDs into segments, replacing scatter atomics — up to 6.3×. Reports up to 17.9× end-to-end , 33× over cuML, and over 200× over FAISS on an H200. Scales out-of-core to one billion points and cuts tuning overhead up to 175×. Need to partner with us for promoting your GitHub Repo OR Hugging Face Page OR Product Release OR Webinar etc.? Connect with us",
+      "full_article_text_chars": 6639,
+      "content_preview": "k-means has been an offline tool for decades. You run it once to preprocess data, then move on. A team of researchers from UC Berkeley and UT Austin released Flash-KMeans, a new open-source library that targets a different setting. Modern AI pipelines now call k-means inside training and inference loops. At that frequency, latency per call matters more than theoretical FLOPs. Flash-KMeans is an IO-aware implementation of standard Lloyd’s k-means. It does not change the math, and it does not approximate. It only restructures how the algorithm moves data on a GPU. On an NVIDIA H200, the research team reported up to 17.9× end-to-end speedup over the best baseline. Against NVIDIA cuML they report 33×. Against FAISS they report over 200×. What is Flash-KMeans Flash-KMeans is a batched k-means library written in Triton GPU kernels. It ships under Apache 2.0 and installs with pip install flash-kmeans . The output is mathematically identical to standard Lloyd’s k-means. The speedup comes from kernel-level dataflow, not from skipping work. That separates it from algorithmic methods like triangle-inequality pruning or coreset sampling. A standard Lloyd iteration has two stages. The assignment stage computes each point’s distance to every centroid, then picks the nearest. The update stage averages the points in each cluster to form new centroids. Both stages are simple arithmetic. On GPUs, both are bottlenecked by memory, not compute. The Two Bottlenecks It Attacks The first bottleneck is the assignment stage. Standard code builds a full distance matrix D of shape N×K in High Bandwidth Memory (HBM). It writes the matrix, then reads it back to run argmin. For N=65536, K=1024, d=128, B=32, the distance math takes 2.6ms. Writing and consuming D takes about 23ms. The matrix is the cost, not the arithmetic. Flash-KMeans replaces this with FlashAssign. The design borrows from FlashAttention. FlashAssign streams tiles of points and centroids from HBM into on-chip SRAM. It fuses distance computation with an online argmin. The full N×K matrix is never materialized. This cuts the dominant IO complexity from O(NK) to O(Nd + Kd). At the kernel level, FlashAssign reaches up to 21.2×. In one case it cut assignment from 122.5ms to 5.8ms. The second bottleneck is the centroid update stage. Standard code uses scatter-style atomic adds. Each thread adds its point into a shared sum buffer keyed by cluster id. Many threads hit the same ‘hot’ cluster at once. That causes atomic contention and hardware serialization. The research team measured only 50 GB/s effective bandwidth here on an H200. Flash-KMeans replaces this with Sort-Inverse Update. It sorts the 1D assignment vector by cluster id using argsort. Identical cluster ids then form contiguous segments. Each thread block reduces a segment on-chip, then issues one atomic add per segment. The heavy point matrix is never physically permuted. Atomic operations drop from ( O ( ( K + N B N ) d ) ) (O((K + \\frac{N}{B_N})d)) . The kernel reaches up to 6.3×. The research team test it on an H200 with CUDA 12.8, FP16 data, and d=128. They sweep N, K, and batch size B. They compare against four optimized baselines: fast_pytorch_kmeans, fastkmeans, cuML, and FAISS. N=8M, K=1024 (large N, small K) One failure mode matters for context. Standard PyTorch implementations run out of memory in large-K regimes. They cannot materialize the N×K matrix. FAISS is the industry-standard library under many production vector-search systems. The library also runs out-of-core. On one billion points (K=32768, d=128), it finishes an iteration in 41.4s, against 261.8s for the baseline. It uses chunked stream overlap to hide PCIe transfer behind compute. A cache-aware compile heuristic also cuts tuning overhead by up to 175×, within 0.3% of tuned speed. MTP Interactive Explainer Flash-KMeans: exact k-means, rebuilt around GPU memory Same Lloyd’s math as standard k-means — faster only because of dataflow. Run clustering live, watch the update bottleneck, and size the IO it removes. This runs real Lloyd’s k-means in your browser on 2-D points. The algorithm is identical to what Flash-KMeans accelerates — only the GPU dataflow differs. Each step = one assignment + one centroid update. Press play. Standard scatter-update serializes when blocks write the same “hot” centroid (red stalls). Sort-Inverse Update sorts cluster IDs first, so each block merges contiguous segments with one atomic add — no conflict. Standard updates issue one atomic add per token . Many threads hit the same centroid at once, causing contention. Sorting by cluster ID turns scatters into segment-level reductions in on-chip memory. Standard k-means writes then reads a full N×K distance matrix in HBM. FlashAssign never builds it — it reads X and C once and writes assignments once. Bars show relative HBM round-trips, FP16. Faster exact k-means changes what you can run online, not just offline. Vector search indexing : FAISS builds its search indices with k-means. Faster k-means lets you re-index as data shifts, instead of rebuilding overnight. Sparse attention routing : Routing Transformers and Tactic cluster tokens to route attention. Millisecond k-means makes this viable inside the inference loop. KV-cache compression : ClusterKV clusters tokens in semantic space to compress the cache. Cheaper clustering makes per-layer, per-step compression practical. Low-bit KV quantization : Recent methods cluster KV entries into codebooks, repeatedly. Faster clustering shrinks that preprocessing cost. Diffusion Transformers : Sparse VideoGen2 calls batched k-means during forward passes. It permutes tokens by semantic similarity to exploit sparsity. The API mirrors faiss and sklearn. The call below clusters a batched (B, N, d) tensor. A scikit-learn-style interface is also available. The kernel auto-dispatches by shape and dtype. A small-D path handles d≤512. A split-D path handles larger d without materializing the distance matrix. Multi-GPU runs trigger automatically for large-N data held in CPU memory. Flash-KMeans is exact, not approximate — same Lloyd’s math, sped up purely by GPU dataflow. FlashAssign fuses distance + online argmin, cutting assignment IO from O(NK) to O(Nd+Kd) — up to 21.2×. Sort-Inverse Update sorts cluster IDs into segments, replacing scatter atomics — up to 6.3×. Reports up to 17.9× end-to-end , 33× over cuML, and over 200× over FAISS on an H200. Scales out-of-core to one billion points and cuts tuning overhead up to 175×. Need to partner with us for promoting your GitHub Repo OR Hugging Face Page OR Product Release OR Webinar etc.? Connect with us",
+      "content_preview_chars": 6639,
+      "content_fetched_at": "2026-06-15T11:27:07",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "65c2113039da8e2a",
+      "source_url_hash": "65c2113039da8e2a",
+      "canonical_url": "https://www.marktechpost.com/2026/06/14/z-ai-launches-glm-5-2-with-a-usable-1m-token-context-two-thinking-effort-levels-and-no-benchmarks-at-launch",
+      "title_hash": "b8d431ffccfb8fbc",
+      "topic_signature": "7e530b527f459628a805",
+      "title": "Z.ai Launches GLM-5.2 With a Usable 1M-Token Context, Two Thinking-Effort Levels, and No Benchmarks at Launch",
+      "url": "https://www.marktechpost.com/2026/06/14/z-ai-launches-glm-5-2-with-a-usable-1m-token-context-two-thinking-effort-levels-and-no-benchmarks-at-launch",
+      "source_name": "MarkTechPost",
+      "source_url": "https://www.marktechpost.com",
+      "source_published_at": "2026-06-15T06:10:23Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 5.27,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-15T11:26:51",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 409,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 409,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Z.ai Launches GLM-5.2 With a Usable 1M-Token Context, Two Thinking-Effort Levels, and No Benchmarks at Launch",
+      "meta_description": "Z.ai released GLM-5.2 with a usable 1-million-token context window across all GLM Coding Plan tiers; MIT weights pending.",
+      "article_images": [
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/06/blog19-1.png",
+          "alt": "Z.ai Launches GLM-5.2 With a Usable 1M-Token Context, Two Thinking-Effort Levels, and No Benchmarks at Launch",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/06/300x400-1-768x1024.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.marktechpost.com/wp-content/uploads/2026/06/blog19-1.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/06/300x400-1-768x1024.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "GLM-5.2 is the latest large language model from Z.ai, becoming the third major release in the GLM-5 line. It follows GLM-5 (February 11), GLM-5-Turbo (March 15), and GLM-5.1 (April 7). That makes four flagship-tier coding releases in roughly four months. Usable 1M-Token Context Window GLM-5.2’s standout spec is a 1,000,000-token context window. Z.ai labels the variant glm-5.2[1m] in its own configuration. Each response can return up to 131,072 output tokens. That is roughly a 5x jump from GLM-5.1’s 200,000-token window. A 1M-token window changes how a coding agent works in practice. The agent can hold an entire mid-sized repository in working memory. That includes source files, tests, configuration, and conversation history. It avoids the constant summarization that smaller windows force. The release also adds two thinking-effort levels: High and Max. Z.ai recommends Max effort for complex, multi-step coding work. In Claude Code, the /effort command controls this setting. The xhigh, max, and ultracode options all map to GLM-5.2’s Max effort. Architecture and What Changed Z.ai did not specify GLM-5.2’s architecture in its launch materials. But based on community notes, the GLM-5 base is a 744-billion-parameter Mixture-of-Experts model. It activates 40 billion parameters per token. GLM-5.1 kept that same backbone with retargeted post-training. MTP Explainer Playground GLM-5.2 Setup Generator & Context Visualizer Pick your agent and effort mode. Copy the exact config. See what 1M tokens buys you. Context window: GLM-5.1 vs GLM-5.2 The Benchmark Question Here is the important caveat. Z.ai published no benchmark scores for GLM-5.2 at launch. There is no SWE-bench, Terminal-Bench, or Code Arena number yet. The announcement focused on availability, context, and the open-source roadmap. Specification Comparison: GLM-5.2 vs GLM-5.1 1,000,000 tokens ( glm-5.2[1m] ) Not specified at launch (GLM-5 lineage) MIT (weights pending next week) Use Cases With Examples Whole-repository refactors : Load a mid-sized repo into one context window. The agent tracks cross-file dependencies without re-fetching. Example: refactor a 40-file Python data pipeline in a single session. Long-horizon agent runs : GLM-5.2 targets sustained plan, execute, test, fix loops. GLM-5.1 sustained roughly 1,700 agent steps in one session. It ran autonomous loops for up to eight hours. GLM-5.2 inherits that trajectory, though its own numbers are pending. Drop-in Claude Code replacement : Swap the base URL and model identifier only. Keep your existing agent harness and workflow. This matters when frontier API access is disrupted. Large-document analysis : Feed long specs, logs, or transcripts past 200K tokens. The 1M window holds material that smaller models truncate. How to Set Up GLM-5.2 For Claude Code, edit ~/.claude/settings.json . Point the Sonnet and Opus slots at the 1M variant. Raise the auto-compact window so the agent uses the full context. Alternatively, set the endpoint through environment variables. The Anthropic-compatible endpoint accepts a base-URL swap. Then run /effort in a session and select max . Run /status to confirm GLM-5.2 is active. For Cline, choose the OpenAI Compatible provider. Set the base URL to https://api.z.ai/api/coding/paas/v4 . Enter the custom model glm-5.2 and set context to 1,000,000. GLM-5.2 is compatible with eight agentic coding tools from day one. The list includes Claude Code, Cline, OpenCode, and OpenClaw. Z.ai shipped GLM-5.2 on June 13, 2026, live immediately across all GLM Coding Plan tiers (Lite, Pro, Max, Team). 1M-token context window ( glm-5.2[1m] ) with up to 131,072 output tokens. No benchmarks were published at launch It drops into Claude Code, Cline, and OpenClaw via an Anthropic-compatible endpoint with just a base-URL and model swap. Intelligence should be open, accessible, and ready to build with, empowering every developer, everywhere. GLM-5.2 is now available to all GLM Coding Plan users, including Lite, Pro, Max, and Team plans. https://t.co/aOKcqZD5EJ As our new flagship model, GLM-5.2 delivers… — Z.ai (@Zai_org) June 13, 2026 Need to partner with us for promoting your GitHub Repo OR Hugging Face Page OR Product Release OR Webinar etc.? Connect with us Michal Sutter is a data science professional with a Master of Science in Data Science from the University of Padova. With a solid foundation in statistical analysis, machine learning, and data engineering, Michal excels at transforming complex datasets into actionable insights. Michal Sutter Claude Code Guide 2026: 25 Features with Examples + Demo Michal Sutter Perplexity Moves Deep Research Into Computer, Routing Research Subtasks Across 20+ Frontier Models For Reports, Decks, And Dashboards Michal Sutter xAI Ships Grok Build Plugin Marketplace With MongoDB, Vercel, Sentry, Chrome DevTools, Cloudflare, and Superpowers Plugins at Launch Michal Sutter Nous Research Ships Hermes Agent Profile Builder: Identity, Model, Skills, and MCP Servers in One Dashboard Flow Michal Sutter Top AI Coding Agents and Development Platforms in 2026: Atoms, Devin, Windsurf, Cursor, Warp, and More Compared Michal Sutter Google Research Adds Agentic RAG to Gemini Enterprise Agent Platform with a Sufficient Context Agent for multi-hop queries Michal Sutter Best 21 Low-Code and No-Code AI Tools in 2026 Michal Sutter Moonshot AI Releases Kimi Code CLI: A Terminal AI Coding Agent Built in TypeScript for Next-Gen Agents Michal Sutter Perplexity AI Introduces Hybrid Local-Server Inference Orchestrator for Personal Computer: Automatic On-Device and Cloud Task Routing Michal Sutter Nous Research Releases Hermes Desktop: A Native Cross-Platform Front End for Hermes Agent v0.15.2 with Streaming Tool Output Michal Sutter Alibaba’s Qwen Team Launches Qwen3.7-Plus, Adding Vision, Deep Reasoning, Tool Invocation, and Autonomous Iteration on the Bailian Platform Michal Sutter Meet Memory OS: A 6-Layer Open-Source Memory Stack Built on Top of Hermes Agent Michal Sutter Trajectory Releases a Concurrent Multi-LoRA Training Stack for Continual Learning, Reporting a 2.81× Experiment-Throughput Gain Michal Sutter Genesis AI Releases Nyx, Quadrants, and Genesis World 1.0 Physics Platform for Scalable Robotics Foundation Model Evaluation Michal Sutter Anthropic Ships Claude Opus 4.8 Alongside Dynamic Workflows and Cheaper Fast Mode, With Workflows Capped at 1,000 Subagents Michal Sutter Meet EAGLE 3.1: The Speculative Decoding Algorithm That Fixes Attention Drift in LLM Inference Michal Sutter Meet OmniVoice Studio: A Local, Open-Source Alternative to ElevenLabs Michal Sutter StepFun Releases StepAudio 2.5 Realtime: An End-to-End Voice Model with Roleplay-Specific RLHF and Paralinguistic Comprehension Michal Sutter Tencent Open-Sources TencentDB Agent Memory: A 4-Tier Local Memory Pipeline for AI Agents Michal Sutter The Ultimate Guide to Vibe Coding: Benefits, Tools, and Future Trends Michal Sutter Cohere Releases Command A+: A 218B Sparse MoE Model for Agentic Workflows That Runs on as Few as Two H100 GPUs Michal Sutter What is a Forward Deployed Engineer: The AI Role OpenAI, Anthropic, and Google Are Hiring in 2026 Michal Sutter Google Introduces Gemini 3.5 Flash at I/O 2026: A Faster and Cheaper Model for AI Agents and Coding Michal Sutter Upstash for Redis vs Supabase vs Neon: Which One Fits Vibe Coding Workflows in 2026? Michal Sutter Google Launches Antigravity 2.0 at I/O 2026: A Standalone Agent-First Platform with CLI, SDK, Managed Execution, and Enterprise Support Michal Sutter Vercel Labs Introduces Zero, a Systems Programming Language Designed So AI Agents Can Read, Repair, and Ship Native Programs Michal Sutter Enterprise AI Governance in 2026: Why the Tools Employees Use Are Ahead of the Policies That Cover Them Michal Sutter Google DeepMind Introduces an AI-Enabled Mouse Pointer Powered by Gemini That Captures Visual and Semantic Context Around the Cursor Michal Sutter OpenAI Introduces Daybreak: A Cybersecurity Initiative That Puts Codex Security at the Center of Vulnerability Detection and Patch Validation Michal Sutter Best Vector Databases in 2026: Pricing, Scale Limits, and Architecture Tradeoffs Across Nine Leading Systems Michal Sutter OpenClaw vs Hermes Agent: Why Nous Research’s Self-Improving Agent Now Leads OpenRouter’s Global Rankings Michal Sutter NVIDIA AI Just Released cuda-oxide: An Experimental Rust-to-CUDA Compiler Backend that Compiles SIMT GPU Kernels Directly to PTX Michal Sutter OpenAI Introduces MRC (Multipath Reliable Connection): A New Open Networking Protocol for Large-Scale AI Supercomputer Training Clusters Michal Sutter Google Adds Event-Driven Webhooks to the Gemini API, Eliminating the Need for Polling in Long-Running AI Jobs Michal Sutter Microsoft Research’s World-R1 Uses Flow-GRPO and 3D-Aware Rewards to Inject Geometric Consistency Into Wan 2.1 Without Architectural Changes Michal Sutter Cursor Introduces a TypeScript SDK for Building Programmatic Coding Agents With Sandboxed Cloud VMs, Subagents, Hooks, and Token-Based Pricing Michal Sutter Top 10 KV Cache Compression Techniques for LLM Inference: Reducing Memory Overhead Across Eviction, Quantization, and Low-Rank Methods Michal Sutter smol-audio: A Colab-Friendly Notebook Collection for Fine-Tuning Whisper, Parakeet, Voxtral, Granite Speech, and Audio Flamingo 3 Michal Sutter xAI Launches grok-voice-think-fast-1.0: Topping τ-voice Bench at 67.3%, Outperforming Gemini, GPT Realtime, and More Michal Sutter Google DeepMind Introduces Vision Banana: An Instruction-Tuned Image Generator That Beats SAM 3 on Segmentation and Depth Anything V3 on Metric Depth Estimation Michal Sutter OpenAI Releases GPT-5.5, a Fully Retrained Agentic Model That Scores 82.7% on Terminal-Bench 2.0 and 84.9% on GDPval Michal Sutter Next Leap to Harness Engineering: JiuwenClaw Pioneers ‘Coordination Engineering’ Michal Sutter OpenAI Scales Trusted Access for Cyber Defense With GPT-5.4-Cyber: a Fine-Tuned Model Built for Verified Security Defenders Michal Sutter xAI Launches Standalone Grok Speech-to-Text and Text-to-Speech APIs, Targeting Enterprise Voice Developers Michal Sutter A Coding Tutorial for Running PrismML Bonsai 1-Bit LLM on CUDA with GGUF, Benchmarking, Chat, JSON, and RAG Michal Sutter Top 19 AI Red Teaming Tools (2026): Secure Your ML Models Michal Sutter A Coding Guide to Build a Production-Grade Background Task Processing System Using Huey with SQLite, Scheduling, Retries, Pipelines, and Concurrency Control Michal Sutter Google AI Launches Gemini 3.1 Flash TTS: A New Benchmark in Expressive and Controllable AI Voice Michal Sutter A Coding Implementation of Crawl4AI for Web Crawling, Markdown Generation, JavaScript Execution, and LLM-Based Structured Extraction Michal Sutter Google AI Research Proposes Vantage: An LLM-Based Protocol for Measuring Collaboration, Creativity, and Critical Thinking Michal Sutter Meta AI and KAUST Researchers Propose Neural Computers That Fold Computation, Memory, and I/O Into One Learned Model Michal Sutter A Coding Implementation of MolmoAct for Depth-Aware Spatial Reasoning, Visual Trajectory Tracing, and Robotic Action Prediction Michal Sutter Alibaba’s Tongyi Lab Releases VimRAG: a Multimodal RAG Framework that Uses a Memory Graph to Navigate Massive Visual Contexts Michal Sutter A Coding Guide to Markerless 3D Human Kinematics with Pose2Sim, RTMPose, and OpenSim Michal Sutter A Comprehensive Implementation Guide to ModelScope for Model Search, Inference, Fine-Tuning, Evaluation, and Export Michal Sutter How to Combine Google Search, Google Maps, and Custom Functions in a Single Gemini API Call With Context Circulation, Parallel Tool IDs, and Multi-Step Agentic Chains Michal Sutter How to Deploy Open WebUI with Secure OpenAI API Integration, Public Tunneling, and Browser-Based Chat Access Michal Sutter Netflix AI Team Just Open-Sourced VOID: an AI Model That Erases Objects From Videos — Physics and All Michal Sutter Google DeepMind’s Research Lets an LLM Rewrite Its Own Game Theory Algorithms — And It Outperformed the Experts Michal Sutter Hugging Face Releases TRL v1.0: A Unified Post-Training Stack for SFT, Reward Modeling, DPO, and GRPO Workflows Michal Sutter Google AI Releases Veo 3.1 Lite: Giving Developers Low Cost High Speed Video Generation via The Gemini API Michal Sutter Agent-Infra Releases AIO Sandbox: An All-in-One Runtime for AI Agents with Browser, Shell, Shared Filesystem, and MCP Michal Sutter Google-Agent vs Googlebot: Google Defines the Technical Boundary Between User Triggered AI Access and Search Crawling Systems Today Michal Sutter A Coding Guide to Exploring nanobot’s Full Agent Pipeline, from Wiring Up Tools and Memory to Skills, Subagents, and Cron Scheduling Michal Sutter An Implementation of IWE’s Context Bridge as an AI-Powered Knowledge Graph with Agentic RAG, OpenAI Function Calling, and Graph Traversal Michal Sutter Meta Releases TRIBE v2: A Brain Encoding Model That Predicts fMRI Responses Across Video, Audio, and Text Stimuli Michal Sutter Tencent AI Open Sources Covo-Audio: A 7B Speech Language Model and Inference Pipeline for Real-Time Audio Conversations and Reasoning Michal Sutter A Coding Implementation to Design Self-Evolving Skill Engine with OpenSpace for Skill Learning, Token Efficiency, and Collective Intelligence Michal Sutter Luma Labs Launches Uni-1: The Autoregressive Transformer Model that Reasons through Intentions Before Generating Images Michal Sutter Meet GitAgent: The Docker for AI Agents that is Finally Solving the Fragmentation between LangChain, AutoGen, and Claude Code Michal Sutter A Coding Implementation for Building and Analyzing Crystal Structures Using Pymatgen for Symmetry Analysis, Phase Diagrams, Surface Generation, and Materials Project Integration Michal Sutter A Coding Implementation Showcasing ClawTeam’s Multi-Agent Swarm Orchestration with OpenAI Function Calling Michal Sutter A Coding Guide to Implement Advanced Differential Equation Solvers, Stochastic Simulations, and Neural Ordinary Differential Equations Using Diffrax and JAX Michal Sutter Baidu Qianfan Team Releases Qianfan-OCR: A 4B-Parameter Unified Document Intelligence Model Michal Sutter Google AI Releases WAXAL: A Multilingual African Speech Dataset for Training Automatic Speech Recognition and Text-to-Speech Models Michal Sutter LangChain Releases Deep Agents: A Structured Runtime for Planning, Memory, and Context Isolation in Multi-Step AI Agents Michal Sutter Google DeepMind Introduces Aletheia: The AI Agent Moving from Math Competitions to Fully Autonomous Professional Research Discoveries Michal Sutter Google AI Introduces ‘Groundsource’: A New Methodology that Uses Gemini Model to Transform Unstructured Global News into Actionable, Historical Data Michal Sutter How to Build a Self-Designing Meta-Agent That Automatically Constructs, Instantiates, and Refines Task-Specific AI Agents Michal Sutter A Coding Guide to Build a Complete Single Cell RNA Sequencing Analysis Pipeline Using Scanpy for Clustering Visualization and Cell Type Annotation Michal Sutter How to Build Progress Monitoring Using Advanced tqdm for Async, Parallel, Pandas, Logging, and High-Performance Workflows Michal Sutter Google Launches TensorFlow 2.21 And LiteRT: Faster GPU Performance, New NPU Acceleration, And Seamless PyTorch Edge Deployment Upgrades Michal Sutter OpenAI Introduces Codex Security in Research Preview for Context-Aware Vulnerability Detection, Validation, and Patch Generation Across Codebases Michal Sutter A Coding Guide to Build a Scalable End-to-End Machine Learning Data Pipeline Using Daft for High-Performance Structured and Image Data Processing Michal Sutter How to Build an EverMem-Style Persistent AI Agent OS with Hierarchical Memory, FAISS Vector Retrieval, SQLite Storage, and Automated Memory Consolidation Michal Sutter Meet NullClaw: The 678 KB Zig AI Agent Framework Running on 1 MB RAM and Booting in Two Milliseconds Michal Sutter How to Build an Explainable AI Analysis Pipeline Using SHAP-IQ to Understand Feature Importance, Interaction Effects, and Model Decision Breakdown Michal Sutter A Complete End-to-End Coding Guide to MLflow Experiment Tracking, Hyperparameter Optimization, Model Evaluation, and Live Model Deployment Michal Sutter A Coding Implementation to Build a Hierarchical Planner AI Agent Using Open-Source LLMs with Tool Execution and Structured Multi-Agent Reasoning Michal Sutter Microsoft Research Introduces CORPGEN To Manage Multi Horizon Tasks For Autonomous AI Agents Using Hierarchical Planning and Memory Michal Sutter Google AI Just Released Nano-Banana 2: The New AI Model Featuring Advanced Subject Consistency and Sub-Second 4K Image Synthesis Performance Michal Sutter How to Build an Elastic Vector Database with Consistent Hashing, Sharding, and Live Ring Visualization for RAG Systems Michal Sutter Beyond Simple API Requests: How OpenAI’s WebSocket Mode Changes the Game for Low Latency Voice Powered AI Experiences Michal Sutter VectifyAI Launches Mafin 2.5 and PageIndex: Achieving 98.7% Financial RAG Accuracy with a New Open-Source Vectorless Tree Indexing. Michal Sutter A Coding Guide to Instrumenting, Tracing, and Evaluating LLM Applications Using TruLens and OpenAI Models Michal Sutter How to Build Transparent AI Agents: Traceable Decision-Making with Audit Trails and Human Gates Michal Sutter [Tutorial] Building a Visual Document Retrieval Pipeline with ColPali and Late Interaction Scoring Michal Sutter Google Introduces Jetpack Compose Glimmer: A New Spatial UI Framework Designed Specifically for the Next Generation of AI Glasses Michal Sutter Agoda Open Sources APIAgent to Convert Any REST pr GraphQL API into an MCP Server with Zero Code Michal Sutter How to Build Human-in-the-Loop Plan-and-Execute AI Agents with Explicit User Approval Using LangGraph and Streamlit Michal Sutter Google DeepMind Proposes New Framework for Intelligent AI Delegation to Secure the Emerging Agentic Web for Future Economies Michal Sutter Moonshot AI Launches Kimi Claw: Native OpenClaw on Kimi.com with 5,000 Community Skills and 40GB Cloud Storage Now Michal Sutter Meet ‘Kani-TTS-2’: A 400M Param Open Source Text-to-Speech Model that Runs in 3GB VRAM with Voice Cloning Support Michal Sutter Google AI Introduces the WebMCP to Enable Direct and Structured Website Interactions for New AI Agents Michal Sutter [In-Depth Guide] The Complete CTGAN + SDV Pipeline for High-Fidelity Synthetic Data Michal Sutter Is This AGI? Google’s Gemini 3 Deep Think Shatters Humanity’s Last Exam And Hits 84.6% On ARC-AGI-2 Performance Today Michal Sutter Meet OAT: The New Action Tokenizer Bringing LLM-Style Scaling and Flexible, Anytime Inference to the Robotics World Michal Sutter Waymo Introduces the Waymo World Model: A New Frontier Simulator Model for Autonomous Driving and Built on Top of Genie 3 Michal Sutter Mistral AI Launches Voxtral Transcribe 2: Pairing Batch Diarization And Open Realtime ASR For Multilingual Production Workloads At Scale Michal Sutter Google Introduces Agentic Vision in Gemini 3 Flash for Active Image Understanding Michal Sutter Google Releases Conductor: a context driven Gemini CLI extension that stores knowledge as Markdown and orchestrates agentic workflows Michal Sutter Microsoft Unveils Maia 200, An FP4 and FP8 Optimized AI Inference Accelerator for Azure Datacenters Michal Sutter DeepSeek AI Releases DeepSeek-OCR 2 with Causal Visual Flow Encoder for Layout Aware Document Understanding Michal Sutter Alibaba Introduces Qwen3-Max-Thinking, a Test Time Scaled Reasoning Model with Native Tool Use Powering Agentic Workloads Michal Sutter Tencent Hunyuan Releases HPC-Ops: A High Performance LLM Inference Operator Library Michal Sutter DSGym Offers a Reusable Container Based Substrate for Building and Benchmarking Data Science Agents Michal Sutter What is Clawdbot? How a Local First Agent Stack Turns Chats into Real Automations Michal Sutter GitHub Releases Copilot-SDK to Embed Its Agentic Runtime in Any App Michal Sutter Salesforce AI Introduces FOFPred: A Language-Driven Future Optical Flow Prediction Framework that Enables Improved Robot Control and Video Generation Michal Sutter Zhipu AI Releases GLM-4.7-Flash: A 30B-A3B MoE Model for Efficient Local Coding and Agents Michal Sutter A Coding Guide to Understanding How Retries Trigger Failure Cascades in RPC and Event-Driven Architectures Michal Sutter Vercel Releases Agent Skills: A Package Manager For AI Coding Agents With 10 Years of React and Next.js Optimisation Rules Michal Sutter Black Forest Labs Releases FLUX.2 [klein]: Compact Flow Models for Interactive Visual Intelligence Michal Sutter Meet SETA: Open Source Training Reinforcement Learning Environments for Terminal Agents with 400 Tasks and CAMEL Toolkit Michal Sutter A Coding Implementation to Build a Unified Apache Beam Pipeline Demonstrating Batch and Stream Processing with Event-Time Windowing Using DirectRunner Michal Sutter Tencent Researchers Release Tencent HY-MT1.5: A New Translation Models Featuring 1.8B and 7B Models Designed for Seamless on-Device and Cloud Deployment Michal Sutter How Cloudflare’s tokio-quiche Makes QUIC and HTTP/3 a First Class Citizen in Rust Backends Michal Sutter How to Build a Robust Multi-Agent Pipeline Using CAMEL with Planning, Web-Augmented Reasoning, Critique, and Persistent Memory Michal Sutter NVIDIA AI Researchers Release NitroGen: An Open Vision Action Foundation Model For Generalist Gaming Agents Michal Sutter This AI Paper from Stanford and Harvard Explains Why Most ‘Agentic AI’ Systems Feel Impressive in Demos and then Completely Fall Apart in Real Use Michal Sutter Google DeepMind Researchers Release Gemma Scope 2 as a Full Stack Interpretability Suite for Gemma 3 Models Michal Sutter How to Build a Fully Autonomous Local Fleet-Maintenance Analysis Agent Using SmolAgents and Qwen Model Michal Sutter Mistral AI Releases OCR 3: A Smaller Optical Character Recognition (OCR) Model for Structured Document AI at Scale Michal Sutter Nanbeige4-3B-Thinking: How a 23T Token Pipeline Pushes 3B Models Past 30B Class Reasoning Michal Sutter The Machine Learning Divide: Marktechpost’s Latest ML Global Impact Report Reveals Geographic Asymmetry Between ML Tool Origins and Research Adoption Michal Sutter Google LiteRT NeuroPilot Stack Turns MediaTek Dimensity NPUs into First Class Targets for on Device LLMs Michal Sutter From Transformers to Associative Memory, How Titans and MIRAS Rethink Long Context Modeling Michal Sutter Google Colab Integrates KaggleHub for One Click Access to Kaggle Datasets, Models and Competitions Michal Sutter OpenAGI Foundation Launches Lux: A Foundation Computer Use Model that Tops Online Mind2Web with OSGym At Scale Michal Sutter Google DeepMind Researchers Introduce Evo-Memory Benchmark and ReMem Framework for Experience Reuse in LLM Agents Michal Sutter Meta AI Researchers Introduce Matrix: A Ray Native a Decentralized Framework for Multi Agent Synthetic Data Generation Michal Sutter Black Forest Labs Releases FLUX.2: A 32B Flow Matching Transformer for Production Image Pipelines Michal Sutter Agent0: A Fully Autonomous AI Framework that Evolves High-Performing Agents without External Data through Multi-Step Co-Evolution Michal Sutter Google DeepMind Introduces Nano Banana Pro: the Gemini 3 Pro Image Model for Text Accurate and Studio Grade Visuals Michal Sutter Allen Institute for AI (AI2) Introduces Olmo 3: An Open Source 7B and 32B LLM Family Built on the Dolma 3 and Dolci Stack Michal Sutter vLLM vs TensorRT-LLM vs HF TGI vs LMDeploy, A Deep Technical Comparison for Production LLM Inference Michal Sutter OpenAI Debuts GPT-5.1-Codex-Max, a Long-Horizon Agentic Coding Model With Compaction for Multi-Window Workflows Michal Sutter Google Antigravity Makes the IDE a Control Plane for Agentic Coding Michal Sutter xAI’s Grok 4.1 Pushes Toward Higher Emotional Intelligence, Lower Hallucinations and Tighter Safety Controls Michal Sutter Google DeepMind’s WeatherNext 2 Uses Functional Generative Networks For 8x Faster Probabilistic Weather Forecasts Michal Sutter Comparing the Top 4 Agentic AI Browsers in 2025: Atlas vs Copilot Mode vs Dia vs Comet Michal Sutter OpenAI Researchers Train Weight Sparse Transformers to Expose Interpretable Circuits Michal Sutter Comparing the Top 6 Agent-Native Rails for the Agentic Internet: MCP, A2A, AP2, ACP, x402, and Kite Michal Sutter OpenAI Introduces GPT-5.1: Combining Adaptive Reasoning, Account Level Personalization, And Updated Safety Metrics In The GPT-5 Stack Michal Sutter Meta AI Releases Omnilingual ASR: A Suite of Open-Source Multilingual Speech Recognition Models for 1600+ Languages Michal Sutter Moonshot AI Releases Kosong: The LLM Abstraction Layer that Powers Kimi CLI Michal Sutter Comparing Memory Systems for LLM Agents: Vector, Graph, and Event Logs Michal Sutter Meet Kosmos: An AI Scientist that Automates Data-Driven Discovery Michal Sutter Anthropic Turns MCP Agents Into Code First Systems With ‘Code Execution With MCP’ Approach Michal Sutter Why Spatial Supersensing is Emerging as the Core Capability for Multimodal AI Systems? Michal Sutter Comparing the Top 6 Inference Runtimes for LLM Serving in 2025 Michal Sutter OpenAI Introduces IndQA: A Culture Aware Benchmark For Indian Languages Michal Sutter Comparing the Top 7 Large Language Models LLMs/Systems for Coding in 2025 Michal Sutter Anyscale and NovaSky Team Releases SkyRL tx v0.1.0: Bringing Tinker Compatible Reinforcement Learning RL Engine To Local GPU Clusters Michal Sutter LongCat-Flash-Omni: A SOTA Open-Source Omni-Modal Model with 560B Parameters with 27B activated, Excelling at Real-Time Audio-Visual Interaction Michal Sutter Comparing the Top 6 OCR (Optical Character Recognition) Models/Systems in 2025 Michal Sutter Anthropic’s New Research Shows Claude can Detect Injected Concepts, but only in Controlled Layers Michal Sutter OpenAI Releases Research Preview of ‘gpt-oss-safeguard’: Two Open-Weight Reasoning Models for Safety Classification Tasks Michal Sutter Microsoft Releases Agent Lightning: A New AI Framework that Enables Reinforcement Learning (RL)-based Training of LLMs for Any AI Agent Michal Sutter MiniMax Releases MiniMax M2: A Mini Open Model Built for Max Coding and Agentic Workflows at 8% Claude Sonnet Price and ~2x Faster Michal Sutter Google vs OpenAI vs Anthropic: The Agentic AI Arms Race Breakdown Michal Sutter Liquid AI’s LFM2-VL-3B Brings a 3B Parameter Vision Language Model (VLM) to Edge-Class Devices Michal Sutter UltraCUA: A Foundation Computer-Use Agents Model that Bridges the Gap between General-Purpose GUI Agents and Specialized API-based Agents Michal Sutter Anthrogen Introduces Odyssey: A 102B Parameter Protein Language Model that Replaces Attention with Consensus and Trains with Discrete Diffusion Michal Sutter OpenAI Introduces ChatGPT Atlas: A Chromium-based browser with a built-in AI agent",
+      "full_article_text_chars": 27012,
+      "content_preview": "GLM-5.2 is the latest large language model from Z.ai, becoming the third major release in the GLM-5 line. It follows GLM-5 (February 11), GLM-5-Turbo (March 15), and GLM-5.1 (April 7). That makes four flagship-tier coding releases in roughly four months. Usable 1M-Token Context Window GLM-5.2’s standout spec is a 1,000,000-token context window. Z.ai labels the variant glm-5.2[1m] in its own configuration. Each response can return up to 131,072 output tokens. That is roughly a 5x jump from GLM-5.1’s 200,000-token window. A 1M-token window changes how a coding agent works in practice. The agent can hold an entire mid-sized repository in working memory. That includes source files, tests, configuration, and conversation history. It avoids the constant summarization that smaller windows force. The release also adds two thinking-effort levels: High and Max. Z.ai recommends Max effort for complex, multi-step coding work. In Claude Code, the /effort command controls this setting. The xhigh, max, and ultracode options all map to GLM-5.2’s Max effort. Architecture and What Changed Z.ai did not specify GLM-5.2’s architecture in its launch materials. But based on community notes, the GLM-5 base is a 744-billion-parameter Mixture-of-Experts model. It activates 40 billion parameters per token. GLM-5.1 kept that same backbone with retargeted post-training. MTP Explainer Playground GLM-5.2 Setup Generator & Context Visualizer Pick your agent and effort mode. Copy the exact config. See what 1M tokens buys you. Context window: GLM-5.1 vs GLM-5.2 The Benchmark Question Here is the important caveat. Z.ai published no benchmark scores for GLM-5.2 at launch. There is no SWE-bench, Terminal-Bench, or Code Arena number yet. The announcement focused on availability, context, and the open-source roadmap. Specification Comparison: GLM-5.2 vs GLM-5.1 1,000,000 tokens ( glm-5.2[1m] ) Not specified at launch (GLM-5 lineage) MIT (weights pending next week) Use Cases With Examples Whole-repository refactors : Load a mid-sized repo into one context window. The agent tracks cross-file dependencies without re-fetching. Example: refactor a 40-file Python data pipeline in a single session. Long-horizon agent runs : GLM-5.2 targets sustained plan, execute, test, fix loops. GLM-5.1 sustained roughly 1,700 agent steps in one session. It ran autonomous loops for up to eight hours. GLM-5.2 inherits that trajectory, though its own numbers are pending. Drop-in Claude Code replacement : Swap the base URL and model identifier only. Keep your existing agent harness and workflow. This matters when frontier API access is disrupted. Large-document analysis : Feed long specs, logs, or transcripts past 200K tokens. The 1M window holds material that smaller models truncate. How to Set Up GLM-5.2 For Claude Code, edit ~/.claude/settings.json . Point the Sonnet and Opus slots at the 1M variant. Raise the auto-compact window so the agent uses the full context. Alternatively, set the endpoint through environment variables. The Anthropic-compatible endpoint accepts a base-URL swap. Then run /effort in a session and select max . Run /status to confirm GLM-5.2 is active. For Cline, choose the OpenAI Compatible provider. Set the base URL to https://api.z.ai/api/coding/paas/v4 . Enter the custom model glm-5.2 and set context to 1,000,000. GLM-5.2 is compatible with eight agentic coding tools from day one. The list includes Claude Code, Cline, OpenCode, and OpenClaw. Z.ai shipped GLM-5.2 on June 13, 2026, live immediately across all GLM Coding Plan tiers (Lite, Pro, Max, Team). 1M-token context window ( glm-5.2[1m] ) with up to 131,072 output tokens. No benchmarks were published at launch It drops into Claude Code, Cline, and OpenClaw via an Anthropic-compatible endpoint with just a base-URL and model swap. Intelligence should be open, accessible, and ready to build with, empowering every developer, everywhere. GLM-5.2 is now available to all GLM Coding Plan users, including Lite, Pro, Max, and Team plans. https://t.co/aOKcqZD5EJ As our new flagship model, GLM-5.2 delivers… — Z.ai (@Zai_org) June 13, 2026 Need to partner with us for promoting your GitHub Repo OR Hugging Face Page OR Product Release OR Webinar etc.? Connect with us Michal Sutter is a data science professional with a Master of Science in Data Science from the University of Padova. With a solid foundation in statistical analysis, machine learning, and data engineering, Michal excels at transforming complex datasets into actionable insights.",
+      "content_preview_chars": 4526,
+      "content_fetched_at": "2026-06-15T11:27:21",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "0c9ebc8e0b8fe4dd",
+      "source_url_hash": "0c9ebc8e0b8fe4dd",
+      "canonical_url": "https://www.marktechpost.com/2026/06/14/claude-code-guide-2026-25-features-with-examples-demo",
+      "title_hash": "1e5abaed8b6190c0",
+      "topic_signature": "cef320f47e6834fba64a",
+      "title": "Claude Code Guide 2026: 25 Features with Examples + Demo",
+      "url": "https://www.marktechpost.com/2026/06/14/claude-code-guide-2026-25-features-with-examples-demo",
+      "source_name": "MarkTechPost",
+      "source_url": "https://www.marktechpost.com",
+      "source_published_at": "2026-06-15T01:04:53Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 10.36,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-15T11:26:51",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 403,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 403,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Claude Code Guide 2026: 25 Features with Examples + Demo",
+      "meta_description": "Claude Code explained: 25 features and strategies, including subagents, hooks, MCP, and Auto Mode, with examples and demo.",
+      "article_images": [
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/06/blog19.png",
+          "alt": "Claude Code Guide 2026: 25 Features with Examples + Demo",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/06/300x400-1-768x1024.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.marktechpost.com/wp-content/uploads/2026/06/blog19.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/06/300x400-1-768x1024.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Claude Code started as a terminal coding assistant. It now runs as a layered agentic system. Underneath, Claude Code separates memory, hooks, skills, subagents, plugins, and MCP into distinct layers. Each layer changes what the model can see or do. This article covers 25 features and strategies for scaling Claude Code. It is written for AI engineers, software engineers, and data scientists. Every code example follows a documented format and runs as written. Each item is labeled by status, so you know what ships with Claude Code and what does not. What is Claude Code Claude Code is Anthropic’s agentic coding tool. It works in the terminal, the desktop app, and your IDE. It can read files, run commands, edit code, and call external tools. Under the hood, it runs an agentic loop. That loop chooses tools, accumulates context, and manages long sessions through compaction. Safety boundaries come from permission modes, checkpoints, sandboxing, and managed settings. The same loop is exposed programmatically through the Agent SDK. Developers extend the tool with a small set of primitives. Those primitives are CLAUDE.md, skills, subagents, slash commands, hooks, and MCP servers. Plugins bundle these primitives into one installable unit. The 25 Features and Strategies Each feature/strategy is labeled. ‘Official’ means documented Anthropic functionality. ‘Community technique’ means a workflow pattern, not a shipped feature. ‘Third-party tool’ means software built outside Anthropic. CLAUDE.md memory file (Official). This file is the agent’s constitution for your repository. Claude reads it every session to anchor conventions and commands. Skills (Official). A skill is a SKILL.md file with frontmatter under .claude/skills/<name>/ . It supports /name invocation and autonomous invocation by Claude. Subagents (Official). Subagents are specialized instances with their own context windows. Verbose work stays isolated, so your main conversation stays focused. Slash commands (Official). These are typed shortcuts starting with / . Built-ins include /init , /compact , /context , /review , and /security-review . Hooks (Official). Hooks are deterministic scripts that fire at defined lifecycle points. PreToolUse is the primary security checkpoint before any tool runs. MCP servers (Official). Model Context Protocol connects Claude Code to GitHub, databases, and browsers. The server handles integration; Claude reasons about what to do. Plugins (Official). A plugin is a versioned bundle of skills, subagents, commands, hooks, and MCP definitions. One /plugin command installs the whole set. Checkpoints (Official). Claude Code snapshots state automatically before changes. Press Escape twice to rewind when something breaks. Plan mode (Official). Plan mode explores and proposes without executing. It is ideal for scoping work before committing edits. Permission modes (Official). Default mode asks before each file write and shell command. Other modes trade oversight for speed. Auto Mode (Official, research preview). A separate Sonnet 4.6 classifier reviews each action first. Safe actions proceed; risky ones get blocked or escalated. Context compaction (Official). /compact condenses long sessions to preserve usable context. /context reports current context usage. Background tasks (Official). Long shell commands run with the run_in_background flag on the Bash tool. Claude polls output without blocking the conversation. Agent SDK (Official). The SDK exposes the same loop programmatically through query() . You can send slash commands like /code-review and process results. Headless CLI (Official). claude -p \"query\" runs a one-shot process and exits. Piped input like cat logs.txt | claude -p also works. GitHub Action and scheduled jobs (Official). Claude Code runs as a one-shot process without a TTY. This enables CI integration, scheduled jobs, and pre-commit hooks. Output styles and statusLine (Official). Output styles change response formatting. A custom statusLine renderer surfaces session state in the terminal. Remote Control and mobile push (Official). You can drive Claude Code from mobile or web surfaces. Claude can send push notifications when tasks finish. Away summary (Official). This session-level feature surfaces context when you return to a paused session. It is enabled by default and can be opted out. Sandboxing (Official). The sandboxed Bash tool enforces OS-level filesystem and network isolation. Commands run without prompts inside boundaries you define. Structured context folders (Community technique). Organize task-specific folders for brand guidelines, client data, or legal terminology. The right context loads for each task, improving output relevance. Dynamic workflows (Community technique). Break complex tasks into smaller steps using sub-agents. Common patterns include ‘classify and act’ and ‘fan out and synthesize.’ Modular skill pipelines (Community technique). Chain reusable skills into end-to-end workflows. A support pipeline can combine categorization, response generation, and escalation skills. External memory layers (Third-party tool). Tools such as Mem Search or Hermes extend recall across long projects. They sit outside Claude Code’s built-in memory. Resilience techniques (Community technique). Practitioners reset and retry tasks when output quality degrades. This avoids context pollution and keeps results consistent. Try the Interactive Demo How the Extensibility Primitives Compare Devs/AI Professionals often confuse skills, subagents, slash commands, and hooks. The table below separates them by where they live and how they run. .claude/skills/<name>/SKILL.md Domain logic with shipped files Settings, skill, or subagent frontmatter Event-driven at lifecycle points Enforcing rules without hallucination The rule of thumb is simple. Use a slash command for a prompt template. Use a skill when there is real domain logic or helper files. Use a subagent for isolated, parallel work. Use a hook to enforce a rule with code. Use Cases With Examples Codebase onboarding : Join a new team and run an Explore subagent. It is read-only, so it maps the repo without editing files. Pair it with a CLAUDE.md that lists build, lint, and test commands. Automated code review : Run /review for general feedback or /security-review for vulnerabilities. On Team and Enterprise plans, multi-agent review can split the work across subagents. Overnight refactors : Enable Auto Mode for a clearly scoped task in an isolated environment. Combine it with background tasks and checkpoints. If output drifts, rewind with Escape twice and retry. Customer feedback classification : Build a dynamic ‘classify and act’ workflow. Claude reads feedback, categorizes responses, and generates insights in one pass. This suits high-volume, repetitive operations. Continuous integration. Use the headless CLI inside a GitHub Action. Run claude -p on each pull request to lint, test, or summarize diffs without a terminal. Scheduled jobs can run the same command nightly. Combine this with hooks to enforce team policy automatically. These snippets are illustrative and faithful to documented formats. Start with a minimal CLAUDE.md. A skill is a folder with a SKILL.md and frontmatter. A subagent restricts its tools to stay read-only and safe. A PreToolUse hook blocks dangerous Bash before it runs. Add a maintained MCP server, then run a headless query for CI. Claude Code is a layered agentic system, not a single chat prompt. Six primitives drive extensibility: CLAUDE.md, skills, subagents, slash commands, hooks, and MCP. Auto Mode is a research-preview permission mode gated by a Sonnet 4.6 classifier. Not every ‘Claude Code’ tip is official; some rely on third-party tools. Michal Sutter is a data science professional with a Master of Science in Data Science from the University of Padova. With a solid foundation in statistical analysis, machine learning, and data engineering, Michal excels at transforming complex datasets into actionable insights. Michal Sutter Z.ai Launches GLM-5.2 With a Usable 1M-Token Context, Two Thinking-Effort Levels, and No Benchmarks at Launch Michal Sutter Perplexity Moves Deep Research Into Computer, Routing Research Subtasks Across 20+ Frontier Models For Reports, Decks, And Dashboards Michal Sutter xAI Ships Grok Build Plugin Marketplace With MongoDB, Vercel, Sentry, Chrome DevTools, Cloudflare, and Superpowers Plugins at Launch Michal Sutter Nous Research Ships Hermes Agent Profile Builder: Identity, Model, Skills, and MCP Servers in One Dashboard Flow Michal Sutter Top AI Coding Agents and Development Platforms in 2026: Atoms, Devin, Windsurf, Cursor, Warp, and More Compared Michal Sutter Google Research Adds Agentic RAG to Gemini Enterprise Agent Platform with a Sufficient Context Agent for multi-hop queries Michal Sutter Best 21 Low-Code and No-Code AI Tools in 2026 Michal Sutter Moonshot AI Releases Kimi Code CLI: A Terminal AI Coding Agent Built in TypeScript for Next-Gen Agents Michal Sutter Perplexity AI Introduces Hybrid Local-Server Inference Orchestrator for Personal Computer: Automatic On-Device and Cloud Task Routing Michal Sutter Nous Research Releases Hermes Desktop: A Native Cross-Platform Front End for Hermes Agent v0.15.2 with Streaming Tool Output Michal Sutter Alibaba’s Qwen Team Launches Qwen3.7-Plus, Adding Vision, Deep Reasoning, Tool Invocation, and Autonomous Iteration on the Bailian Platform Michal Sutter Meet Memory OS: A 6-Layer Open-Source Memory Stack Built on Top of Hermes Agent Michal Sutter Trajectory Releases a Concurrent Multi-LoRA Training Stack for Continual Learning, Reporting a 2.81× Experiment-Throughput Gain Michal Sutter Genesis AI Releases Nyx, Quadrants, and Genesis World 1.0 Physics Platform for Scalable Robotics Foundation Model Evaluation Michal Sutter Anthropic Ships Claude Opus 4.8 Alongside Dynamic Workflows and Cheaper Fast Mode, With Workflows Capped at 1,000 Subagents Michal Sutter Meet EAGLE 3.1: The Speculative Decoding Algorithm That Fixes Attention Drift in LLM Inference Michal Sutter Meet OmniVoice Studio: A Local, Open-Source Alternative to ElevenLabs Michal Sutter StepFun Releases StepAudio 2.5 Realtime: An End-to-End Voice Model with Roleplay-Specific RLHF and Paralinguistic Comprehension Michal Sutter Tencent Open-Sources TencentDB Agent Memory: A 4-Tier Local Memory Pipeline for AI Agents Michal Sutter The Ultimate Guide to Vibe Coding: Benefits, Tools, and Future Trends Michal Sutter Cohere Releases Command A+: A 218B Sparse MoE Model for Agentic Workflows That Runs on as Few as Two H100 GPUs Michal Sutter What is a Forward Deployed Engineer: The AI Role OpenAI, Anthropic, and Google Are Hiring in 2026 Michal Sutter Google Introduces Gemini 3.5 Flash at I/O 2026: A Faster and Cheaper Model for AI Agents and Coding Michal Sutter Upstash for Redis vs Supabase vs Neon: Which One Fits Vibe Coding Workflows in 2026? Michal Sutter Google Launches Antigravity 2.0 at I/O 2026: A Standalone Agent-First Platform with CLI, SDK, Managed Execution, and Enterprise Support Michal Sutter Vercel Labs Introduces Zero, a Systems Programming Language Designed So AI Agents Can Read, Repair, and Ship Native Programs Michal Sutter Enterprise AI Governance in 2026: Why the Tools Employees Use Are Ahead of the Policies That Cover Them Michal Sutter Google DeepMind Introduces an AI-Enabled Mouse Pointer Powered by Gemini That Captures Visual and Semantic Context Around the Cursor Michal Sutter OpenAI Introduces Daybreak: A Cybersecurity Initiative That Puts Codex Security at the Center of Vulnerability Detection and Patch Validation Michal Sutter Best Vector Databases in 2026: Pricing, Scale Limits, and Architecture Tradeoffs Across Nine Leading Systems Michal Sutter OpenClaw vs Hermes Agent: Why Nous Research’s Self-Improving Agent Now Leads OpenRouter’s Global Rankings Michal Sutter NVIDIA AI Just Released cuda-oxide: An Experimental Rust-to-CUDA Compiler Backend that Compiles SIMT GPU Kernels Directly to PTX Michal Sutter OpenAI Introduces MRC (Multipath Reliable Connection): A New Open Networking Protocol for Large-Scale AI Supercomputer Training Clusters Michal Sutter Google Adds Event-Driven Webhooks to the Gemini API, Eliminating the Need for Polling in Long-Running AI Jobs Michal Sutter Microsoft Research’s World-R1 Uses Flow-GRPO and 3D-Aware Rewards to Inject Geometric Consistency Into Wan 2.1 Without Architectural Changes Michal Sutter Cursor Introduces a TypeScript SDK for Building Programmatic Coding Agents With Sandboxed Cloud VMs, Subagents, Hooks, and Token-Based Pricing Michal Sutter Top 10 KV Cache Compression Techniques for LLM Inference: Reducing Memory Overhead Across Eviction, Quantization, and Low-Rank Methods Michal Sutter smol-audio: A Colab-Friendly Notebook Collection for Fine-Tuning Whisper, Parakeet, Voxtral, Granite Speech, and Audio Flamingo 3 Michal Sutter xAI Launches grok-voice-think-fast-1.0: Topping τ-voice Bench at 67.3%, Outperforming Gemini, GPT Realtime, and More Michal Sutter Google DeepMind Introduces Vision Banana: An Instruction-Tuned Image Generator That Beats SAM 3 on Segmentation and Depth Anything V3 on Metric Depth Estimation Michal Sutter OpenAI Releases GPT-5.5, a Fully Retrained Agentic Model That Scores 82.7% on Terminal-Bench 2.0 and 84.9% on GDPval Michal Sutter Next Leap to Harness Engineering: JiuwenClaw Pioneers ‘Coordination Engineering’ Michal Sutter OpenAI Scales Trusted Access for Cyber Defense With GPT-5.4-Cyber: a Fine-Tuned Model Built for Verified Security Defenders Michal Sutter xAI Launches Standalone Grok Speech-to-Text and Text-to-Speech APIs, Targeting Enterprise Voice Developers Michal Sutter A Coding Tutorial for Running PrismML Bonsai 1-Bit LLM on CUDA with GGUF, Benchmarking, Chat, JSON, and RAG Michal Sutter Top 19 AI Red Teaming Tools (2026): Secure Your ML Models Michal Sutter A Coding Guide to Build a Production-Grade Background Task Processing System Using Huey with SQLite, Scheduling, Retries, Pipelines, and Concurrency Control Michal Sutter Google AI Launches Gemini 3.1 Flash TTS: A New Benchmark in Expressive and Controllable AI Voice Michal Sutter A Coding Implementation of Crawl4AI for Web Crawling, Markdown Generation, JavaScript Execution, and LLM-Based Structured Extraction Michal Sutter Google AI Research Proposes Vantage: An LLM-Based Protocol for Measuring Collaboration, Creativity, and Critical Thinking Michal Sutter Meta AI and KAUST Researchers Propose Neural Computers That Fold Computation, Memory, and I/O Into One Learned Model Michal Sutter A Coding Implementation of MolmoAct for Depth-Aware Spatial Reasoning, Visual Trajectory Tracing, and Robotic Action Prediction Michal Sutter Alibaba’s Tongyi Lab Releases VimRAG: a Multimodal RAG Framework that Uses a Memory Graph to Navigate Massive Visual Contexts Michal Sutter A Coding Guide to Markerless 3D Human Kinematics with Pose2Sim, RTMPose, and OpenSim Michal Sutter A Comprehensive Implementation Guide to ModelScope for Model Search, Inference, Fine-Tuning, Evaluation, and Export Michal Sutter How to Combine Google Search, Google Maps, and Custom Functions in a Single Gemini API Call With Context Circulation, Parallel Tool IDs, and Multi-Step Agentic Chains Michal Sutter How to Deploy Open WebUI with Secure OpenAI API Integration, Public Tunneling, and Browser-Based Chat Access Michal Sutter Netflix AI Team Just Open-Sourced VOID: an AI Model That Erases Objects From Videos — Physics and All Michal Sutter Google DeepMind’s Research Lets an LLM Rewrite Its Own Game Theory Algorithms — And It Outperformed the Experts Michal Sutter Hugging Face Releases TRL v1.0: A Unified Post-Training Stack for SFT, Reward Modeling, DPO, and GRPO Workflows Michal Sutter Google AI Releases Veo 3.1 Lite: Giving Developers Low Cost High Speed Video Generation via The Gemini API Michal Sutter Agent-Infra Releases AIO Sandbox: An All-in-One Runtime for AI Agents with Browser, Shell, Shared Filesystem, and MCP Michal Sutter Google-Agent vs Googlebot: Google Defines the Technical Boundary Between User Triggered AI Access and Search Crawling Systems Today Michal Sutter A Coding Guide to Exploring nanobot’s Full Agent Pipeline, from Wiring Up Tools and Memory to Skills, Subagents, and Cron Scheduling Michal Sutter An Implementation of IWE’s Context Bridge as an AI-Powered Knowledge Graph with Agentic RAG, OpenAI Function Calling, and Graph Traversal Michal Sutter Meta Releases TRIBE v2: A Brain Encoding Model That Predicts fMRI Responses Across Video, Audio, and Text Stimuli Michal Sutter Tencent AI Open Sources Covo-Audio: A 7B Speech Language Model and Inference Pipeline for Real-Time Audio Conversations and Reasoning Michal Sutter A Coding Implementation to Design Self-Evolving Skill Engine with OpenSpace for Skill Learning, Token Efficiency, and Collective Intelligence Michal Sutter Luma Labs Launches Uni-1: The Autoregressive Transformer Model that Reasons through Intentions Before Generating Images Michal Sutter Meet GitAgent: The Docker for AI Agents that is Finally Solving the Fragmentation between LangChain, AutoGen, and Claude Code Michal Sutter A Coding Implementation for Building and Analyzing Crystal Structures Using Pymatgen for Symmetry Analysis, Phase Diagrams, Surface Generation, and Materials Project Integration Michal Sutter A Coding Implementation Showcasing ClawTeam’s Multi-Agent Swarm Orchestration with OpenAI Function Calling Michal Sutter A Coding Guide to Implement Advanced Differential Equation Solvers, Stochastic Simulations, and Neural Ordinary Differential Equations Using Diffrax and JAX Michal Sutter Baidu Qianfan Team Releases Qianfan-OCR: A 4B-Parameter Unified Document Intelligence Model Michal Sutter Google AI Releases WAXAL: A Multilingual African Speech Dataset for Training Automatic Speech Recognition and Text-to-Speech Models Michal Sutter LangChain Releases Deep Agents: A Structured Runtime for Planning, Memory, and Context Isolation in Multi-Step AI Agents Michal Sutter Google DeepMind Introduces Aletheia: The AI Agent Moving from Math Competitions to Fully Autonomous Professional Research Discoveries Michal Sutter Google AI Introduces ‘Groundsource’: A New Methodology that Uses Gemini Model to Transform Unstructured Global News into Actionable, Historical Data Michal Sutter How to Build a Self-Designing Meta-Agent That Automatically Constructs, Instantiates, and Refines Task-Specific AI Agents Michal Sutter A Coding Guide to Build a Complete Single Cell RNA Sequencing Analysis Pipeline Using Scanpy for Clustering Visualization and Cell Type Annotation Michal Sutter How to Build Progress Monitoring Using Advanced tqdm for Async, Parallel, Pandas, Logging, and High-Performance Workflows Michal Sutter Google Launches TensorFlow 2.21 And LiteRT: Faster GPU Performance, New NPU Acceleration, And Seamless PyTorch Edge Deployment Upgrades Michal Sutter OpenAI Introduces Codex Security in Research Preview for Context-Aware Vulnerability Detection, Validation, and Patch Generation Across Codebases Michal Sutter A Coding Guide to Build a Scalable End-to-End Machine Learning Data Pipeline Using Daft for High-Performance Structured and Image Data Processing Michal Sutter How to Build an EverMem-Style Persistent AI Agent OS with Hierarchical Memory, FAISS Vector Retrieval, SQLite Storage, and Automated Memory Consolidation Michal Sutter Meet NullClaw: The 678 KB Zig AI Agent Framework Running on 1 MB RAM and Booting in Two Milliseconds Michal Sutter How to Build an Explainable AI Analysis Pipeline Using SHAP-IQ to Understand Feature Importance, Interaction Effects, and Model Decision Breakdown Michal Sutter A Complete End-to-End Coding Guide to MLflow Experiment Tracking, Hyperparameter Optimization, Model Evaluation, and Live Model Deployment Michal Sutter A Coding Implementation to Build a Hierarchical Planner AI Agent Using Open-Source LLMs with Tool Execution and Structured Multi-Agent Reasoning Michal Sutter Microsoft Research Introduces CORPGEN To Manage Multi Horizon Tasks For Autonomous AI Agents Using Hierarchical Planning and Memory Michal Sutter Google AI Just Released Nano-Banana 2: The New AI Model Featuring Advanced Subject Consistency and Sub-Second 4K Image Synthesis Performance Michal Sutter How to Build an Elastic Vector Database with Consistent Hashing, Sharding, and Live Ring Visualization for RAG Systems Michal Sutter Beyond Simple API Requests: How OpenAI’s WebSocket Mode Changes the Game for Low Latency Voice Powered AI Experiences Michal Sutter VectifyAI Launches Mafin 2.5 and PageIndex: Achieving 98.7% Financial RAG Accuracy with a New Open-Source Vectorless Tree Indexing. Michal Sutter A Coding Guide to Instrumenting, Tracing, and Evaluating LLM Applications Using TruLens and OpenAI Models Michal Sutter How to Build Transparent AI Agents: Traceable Decision-Making with Audit Trails and Human Gates Michal Sutter [Tutorial] Building a Visual Document Retrieval Pipeline with ColPali and Late Interaction Scoring Michal Sutter Google Introduces Jetpack Compose Glimmer: A New Spatial UI Framework Designed Specifically for the Next Generation of AI Glasses Michal Sutter Agoda Open Sources APIAgent to Convert Any REST pr GraphQL API into an MCP Server with Zero Code Michal Sutter How to Build Human-in-the-Loop Plan-and-Execute AI Agents with Explicit User Approval Using LangGraph and Streamlit Michal Sutter Google DeepMind Proposes New Framework for Intelligent AI Delegation to Secure the Emerging Agentic Web for Future Economies Michal Sutter Moonshot AI Launches Kimi Claw: Native OpenClaw on Kimi.com with 5,000 Community Skills and 40GB Cloud Storage Now Michal Sutter Meet ‘Kani-TTS-2’: A 400M Param Open Source Text-to-Speech Model that Runs in 3GB VRAM with Voice Cloning Support Michal Sutter Google AI Introduces the WebMCP to Enable Direct and Structured Website Interactions for New AI Agents Michal Sutter [In-Depth Guide] The Complete CTGAN + SDV Pipeline for High-Fidelity Synthetic Data Michal Sutter Is This AGI? Google’s Gemini 3 Deep Think Shatters Humanity’s Last Exam And Hits 84.6% On ARC-AGI-2 Performance Today Michal Sutter Meet OAT: The New Action Tokenizer Bringing LLM-Style Scaling and Flexible, Anytime Inference to the Robotics World Michal Sutter Waymo Introduces the Waymo World Model: A New Frontier Simulator Model for Autonomous Driving and Built on Top of Genie 3 Michal Sutter Mistral AI Launches Voxtral Transcribe 2: Pairing Batch Diarization And Open Realtime ASR For Multilingual Production Workloads At Scale Michal Sutter Google Introduces Agentic Vision in Gemini 3 Flash for Active Image Understanding Michal Sutter Google Releases Conductor: a context driven Gemini CLI extension that stores knowledge as Markdown and orchestrates agentic workflows Michal Sutter Microsoft Unveils Maia 200, An FP4 and FP8 Optimized AI Inference Accelerator for Azure Datacenters Michal Sutter DeepSeek AI Releases DeepSeek-OCR 2 with Causal Visual Flow Encoder for Layout Aware Document Understanding Michal Sutter Alibaba Introduces Qwen3-Max-Thinking, a Test Time Scaled Reasoning Model with Native Tool Use Powering Agentic Workloads Michal Sutter Tencent Hunyuan Releases HPC-Ops: A High Performance LLM Inference Operator Library Michal Sutter DSGym Offers a Reusable Container Based Substrate for Building and Benchmarking Data Science Agents Michal Sutter What is Clawdbot? How a Local First Agent Stack Turns Chats into Real Automations Michal Sutter GitHub Releases Copilot-SDK to Embed Its Agentic Runtime in Any App Michal Sutter Salesforce AI Introduces FOFPred: A Language-Driven Future Optical Flow Prediction Framework that Enables Improved Robot Control and Video Generation Michal Sutter Zhipu AI Releases GLM-4.7-Flash: A 30B-A3B MoE Model for Efficient Local Coding and Agents Michal Sutter A Coding Guide to Understanding How Retries Trigger Failure Cascades in RPC and Event-Driven Architectures Michal Sutter Vercel Releases Agent Skills: A Package Manager For AI Coding Agents With 10 Years of React and Next.js Optimisation Rules Michal Sutter Black Forest Labs Releases FLUX.2 [klein]: Compact Flow Models for Interactive Visual Intelligence Michal Sutter Meet SETA: Open Source Training Reinforcement Learning Environments for Terminal Agents with 400 Tasks and CAMEL Toolkit Michal Sutter A Coding Implementation to Build a Unified Apache Beam Pipeline Demonstrating Batch and Stream Processing with Event-Time Windowing Using DirectRunner Michal Sutter Tencent Researchers Release Tencent HY-MT1.5: A New Translation Models Featuring 1.8B and 7B Models Designed for Seamless on-Device and Cloud Deployment Michal Sutter How Cloudflare’s tokio-quiche Makes QUIC and HTTP/3 a First Class Citizen in Rust Backends Michal Sutter How to Build a Robust Multi-Agent Pipeline Using CAMEL with Planning, Web-Augmented Reasoning, Critique, and Persistent Memory Michal Sutter NVIDIA AI Researchers Release NitroGen: An Open Vision Action Foundation Model For Generalist Gaming Agents Michal Sutter This AI Paper from Stanford and Harvard Explains Why Most ‘Agentic AI’ Systems Feel Impressive in Demos and then Completely Fall Apart in Real Use Michal Sutter Google DeepMind Researchers Release Gemma Scope 2 as a Full Stack Interpretability Suite for Gemma 3 Models Michal Sutter How to Build a Fully Autonomous Local Fleet-Maintenance Analysis Agent Using SmolAgents and Qwen Model Michal Sutter Mistral AI Releases OCR 3: A Smaller Optical Character Recognition (OCR) Model for Structured Document AI at Scale Michal Sutter Nanbeige4-3B-Thinking: How a 23T Token Pipeline Pushes 3B Models Past 30B Class Reasoning Michal Sutter The Machine Learning Divide: Marktechpost’s Latest ML Global Impact Report Reveals Geographic Asymmetry Between ML Tool Origins and Research Adoption Michal Sutter Google LiteRT NeuroPilot Stack Turns MediaTek Dimensity NPUs into First Class Targets for on Device LLMs Michal Sutter From Transformers to Associative Memory, How Titans and MIRAS Rethink Long Context Modeling Michal Sutter Google Colab Integrates KaggleHub for One Click Access to Kaggle Datasets, Models and Competitions Michal Sutter OpenAGI Foundation Launches Lux: A Foundation Computer Use Model that Tops Online Mind2Web with OSGym At Scale Michal Sutter Google DeepMind Researchers Introduce Evo-Memory Benchmark and ReMem Framework for Experience Reuse in LLM Agents Michal Sutter Meta AI Researchers Introduce Matrix: A Ray Native a Decentralized Framework for Multi Agent Synthetic Data Generation Michal Sutter Black Forest Labs Releases FLUX.2: A 32B Flow Matching Transformer for Production Image Pipelines Michal Sutter Agent0: A Fully Autonomous AI Framework that Evolves High-Performing Agents without External Data through Multi-Step Co-Evolution Michal Sutter Google DeepMind Introduces Nano Banana Pro: the Gemini 3 Pro Image Model for Text Accurate and Studio Grade Visuals Michal Sutter Allen Institute for AI (AI2) Introduces Olmo 3: An Open Source 7B and 32B LLM Family Built on the Dolma 3 and Dolci Stack Michal Sutter vLLM vs TensorRT-LLM vs HF TGI vs LMDeploy, A Deep Technical Comparison for Production LLM Inference Michal Sutter OpenAI Debuts GPT-5.1-Codex-Max, a Long-Horizon Agentic Coding Model With Compaction for Multi-Window Workflows Michal Sutter Google Antigravity Makes the IDE a Control Plane for Agentic Coding Michal Sutter xAI’s Grok 4.1 Pushes Toward Higher Emotional Intelligence, Lower Hallucinations and Tighter Safety Controls Michal Sutter Google DeepMind’s WeatherNext 2 Uses Functional Generative Networks For 8x Faster Probabilistic Weather Forecasts Michal Sutter Comparing the Top 4 Agentic AI Browsers in 2025: Atlas vs Copilot Mode vs Dia vs Comet Michal Sutter OpenAI Researchers Train Weight Sparse Transformers to Expose Interpretable Circuits Michal Sutter Comparing the Top 6 Agent-Native Rails for the Agentic Internet: MCP, A2A, AP2, ACP, x402, and Kite Michal Sutter OpenAI Introduces GPT-5.1: Combining Adaptive Reasoning, Account Level Personalization, And Updated Safety Metrics In The GPT-5 Stack Michal Sutter Meta AI Releases Omnilingual ASR: A Suite of Open-Source Multilingual Speech Recognition Models for 1600+ Languages Michal Sutter Moonshot AI Releases Kosong: The LLM Abstraction Layer that Powers Kimi CLI Michal Sutter Comparing Memory Systems for LLM Agents: Vector, Graph, and Event Logs Michal Sutter Meet Kosmos: An AI Scientist that Automates Data-Driven Discovery Michal Sutter Anthropic Turns MCP Agents Into Code First Systems With ‘Code Execution With MCP’ Approach Michal Sutter Why Spatial Supersensing is Emerging as the Core Capability for Multimodal AI Systems? Michal Sutter Comparing the Top 6 Inference Runtimes for LLM Serving in 2025 Michal Sutter OpenAI Introduces IndQA: A Culture Aware Benchmark For Indian Languages",
+      "full_article_text_chars": 28935,
+      "content_preview": "Claude Code started as a terminal coding assistant. It now runs as a layered agentic system. Underneath, Claude Code separates memory, hooks, skills, subagents, plugins, and MCP into distinct layers. Each layer changes what the model can see or do. This article covers 25 features and strategies for scaling Claude Code. It is written for AI engineers, software engineers, and data scientists. Every code example follows a documented format and runs as written. Each item is labeled by status, so you know what ships with Claude Code and what does not. What is Claude Code Claude Code is Anthropic’s agentic coding tool. It works in the terminal, the desktop app, and your IDE. It can read files, run commands, edit code, and call external tools. Under the hood, it runs an agentic loop. That loop chooses tools, accumulates context, and manages long sessions through compaction. Safety boundaries come from permission modes, checkpoints, sandboxing, and managed settings. The same loop is exposed programmatically through the Agent SDK. Developers extend the tool with a small set of primitives. Those primitives are CLAUDE.md, skills, subagents, slash commands, hooks, and MCP servers. Plugins bundle these primitives into one installable unit. The 25 Features and Strategies Each feature/strategy is labeled. ‘Official’ means documented Anthropic functionality. ‘Community technique’ means a workflow pattern, not a shipped feature. ‘Third-party tool’ means software built outside Anthropic. CLAUDE.md memory file (Official). This file is the agent’s constitution for your repository. Claude reads it every session to anchor conventions and commands. Skills (Official). A skill is a SKILL.md file with frontmatter under .claude/skills/<name>/ . It supports /name invocation and autonomous invocation by Claude. Subagents (Official). Subagents are specialized instances with their own context windows. Verbose work stays isolated, so your main conversation stays focused. Slash commands (Official). These are typed shortcuts starting with / . Built-ins include /init , /compact , /context , /review , and /security-review . Hooks (Official). Hooks are deterministic scripts that fire at defined lifecycle points. PreToolUse is the primary security checkpoint before any tool runs. MCP servers (Official). Model Context Protocol connects Claude Code to GitHub, databases, and browsers. The server handles integration; Claude reasons about what to do. Plugins (Official). A plugin is a versioned bundle of skills, subagents, commands, hooks, and MCP definitions. One /plugin command installs the whole set. Checkpoints (Official). Claude Code snapshots state automatically before changes. Press Escape twice to rewind when something breaks. Plan mode (Official). Plan mode explores and proposes without executing. It is ideal for scoping work before committing edits. Permission modes (Official). Default mode asks before each file write and shell command. Other modes trade oversight for speed. Auto Mode (Official, research preview). A separate Sonnet 4.6 classifier reviews each action first. Safe actions proceed; risky ones get blocked or escalated. Context compaction (Official). /compact condenses long sessions to preserve usable context. /context reports current context usage. Background tasks (Official). Long shell commands run with the run_in_background flag on the Bash tool. Claude polls output without blocking the conversation. Agent SDK (Official). The SDK exposes the same loop programmatically through query() . You can send slash commands like /code-review and process results. Headless CLI (Official). claude -p \"query\" runs a one-shot process and exits. Piped input like cat logs.txt | claude -p also works. GitHub Action and scheduled jobs (Official). Claude Code runs as a one-shot process without a TTY. This enables CI integration, scheduled jobs, and pre-commit hooks. Output styles and statusLine (Official). Output styles change response formatting. A custom statusLine renderer surfaces session state in the terminal. Remote Control and mobile push (Official). You can drive Claude Code from mobile or web surfaces. Claude can send push notifications when tasks finish. Away summary (Official). This session-level feature surfaces context when you return to a paused session. It is enabled by default and can be opted out. Sandboxing (Official). The sandboxed Bash tool enforces OS-level filesystem and network isolation. Commands run without prompts inside boundaries you define. Structured context folders (Community technique). Organize task-specific folders for brand guidelines, client data, or legal terminology. The right context loads for each task, improving output relevance. Dynamic workflows (Community technique). Break complex tasks into smaller steps using sub-agents. Common patterns include ‘classify and act’ and ‘fan out and synthesize.’ Modular skill pipelines (Community technique). Chain reusable skills into end-to-end workflows. A support pipeline can combine categorization, response generation, and escalation skills. External memory layers (Third-party tool). Tools such as Mem Search or Hermes extend recall across long projects. They sit outside Claude Code’s built-in memory. Resilience techniques (Community technique). Practitioners reset and retry tasks when output quality degrades. This avoids context pollution and keeps results consistent. Try the Interactive Demo How the Extensibility Primitives Compare Devs/AI Professionals often confuse skills, subagents, slash commands, and hooks. The table below separates them by where they live and how they run. .claude/skills/<name>/SKILL.md Domain logic with shipped files Settings, skill, or subagent frontmatter Event-driven at lifecycle points Enforcing rules without hallucination The rule of thumb is simple. Use a slash command for a prompt template. Use a skill when there is real domain logic or helper files. Use a subagent for isolated, parallel work. Use a hook to enforce a rule with code. Use Cases With Examples Codebase onboarding : Join a new team and run an Explore subagent. It is read-only, so it maps the repo without editing files. Pair it with a CLAUDE.md that lists build, lint, and test commands. Automated code review : Run /review for general feedback or /security-review for vulnerabilities. On Team and Enterprise plans, multi-agent review can split the work across subagents. Overnight refactors : Enable Auto Mode for a clearly scoped task in an isolated environment. Combine it with background tasks and checkpoints. If output drifts, rewind with Escape twice and retry. Customer feedback classification : Build a dynamic ‘classify and act’ workflow. Claude reads feedback, categorizes responses, and generates insights in one pass. This suits high-volume, repetitive operations. Continuous integration. Use the headless CLI inside a GitHub Action. Run claude -p on each pull request to lint, test, or summarize diffs without a terminal. Scheduled jobs can run the same command nightly. Combine this with hooks to enforce team policy automatically. These snippets are illustrative and faithful to documented formats. Start with a minimal CLAUDE.md. A skill is a folder with a SKILL.md and frontmatter. A subagent restricts its tools to stay read-only and safe. A PreToolUse hook blocks dangerous Bash before it runs. Add a maintained MCP server, then run a headless query for CI. Claude Code is a layered agentic system, not a single chat prompt. Six primitives drive extensibility: CLAUDE.md, skills, subagents, slash commands, hooks, and MCP. Auto Mode is a research-preview permission mode gated by a Sonnet 4.6 classifier. Not every ‘Claude Code’ tip is official; some rely on third-party tools. Michal Sutter is a data science professional with a Master of Science in Data Science from the University of Padova. With a solid foundation in statistical analysis, machine learning, and data engineering, Michal excels at transforming complex datasets into actionable insights.",
+      "content_preview_chars": 8023,
+      "content_fetched_at": "2026-06-15T11:27:14",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "3b631680ec0a9301",
+      "source_url_hash": "3b631680ec0a9301",
+      "canonical_url": "https://huggingface.co/blog/CohereLabs/introducing-north-mini-code",
+      "title_hash": "1be6f3166d3f5069",
+      "topic_signature": "a16efeab877f20b42f66",
+      "title": "Introducing North Mini Code: Cohere’s First Model For DevelopersCohereLabs•6 days ago•62",
+      "url": "https://huggingface.co/blog/CohereLabs/introducing-north-mini-code",
+      "source_name": "Hugging Face Blog",
+      "source_url": "https://huggingface.co/blog",
+      "source_published_at": "2026-06-09T15:56:23.961000Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 139.51,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-06-15T11:26:51",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 85,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 85,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Introducing North Mini Code: Cohere’s First Model For Developers",
+      "meta_description": "A Blog post by Cohere Labs on Hugging Face",
+      "article_images": [
+        {
+          "url": "https://cdn-uploads.huggingface.co/production/uploads/6361a793c12a09b8a3184bff/f8NXK5yKtc6xE-hJ4XWbd.png",
+          "alt": "Introducing North Mini Code: Cohere’s First Model For Developers",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn-uploads.huggingface.co/production/uploads/6361a793c12a09b8a3184bff/g-SYXPG1oIxHEwnItd3he.png",
+          "alt": "image2",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn-uploads.huggingface.co/production/uploads/6361a793c12a09b8a3184bff/8DQUkAkjo7Afat2Z4L7ue.png",
+          "alt": "image3",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn-uploads.huggingface.co/production/uploads/6361a793c12a09b8a3184bff/xPc4PSWREdLtTS62tfl8L.png",
+          "alt": "image4",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn-uploads.huggingface.co/production/uploads/6361a793c12a09b8a3184bff/f8NXK5yKtc6xE-hJ4XWbd.png",
+      "main_image_source_type": "article_content",
+      "main_image_extraction_method": "article_content",
+      "extra_article_images": [
+        {
+          "url": "https://cdn-uploads.huggingface.co/production/uploads/6361a793c12a09b8a3184bff/g-SYXPG1oIxHEwnItd3he.png",
+          "alt": "image2"
+        },
+        {
+          "url": "https://cdn-uploads.huggingface.co/production/uploads/6361a793c12a09b8a3184bff/8DQUkAkjo7Afat2Z4L7ue.png",
+          "alt": "image3"
+        },
+        {
+          "url": "https://cdn-uploads.huggingface.co/production/uploads/6361a793c12a09b8a3184bff/xPc4PSWREdLtTS62tfl8L.png",
+          "alt": "image4"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Terminal-Bench: A Benchmark for AI Agents in Terminal Environments",
+          "url": "https://github.com/laude-institute/terminal-bench"
+        },
+        {
+          "title": "https://github.com/SWE-agent/mini-swe-agent",
+          "url": "https://github.com/SWE-agent/mini-swe-agent"
+        },
+        {
+          "title": "https://github.com/anomalyco/opencode",
+          "url": "https://github.com/anomalyco/opencode"
+        },
+        {
+          "title": "Harbor: A Framework for Evaluating and Optimizing Agents and Models in Container Environments",
+          "url": "https://github.com/laude-institute/harbor"
+        }
+      ],
+      "full_article_text": "Architecture Post-Training for Coding Excellence Robustness Across Harnesses Asynchronous RL for Agentic Coding Internal Human Evaluation Benchmark Get Started Extended Author List Benchmarking Methodology Citation References Footnotes All co-authors listed below Today, we are releasing North Mini Code, a 30B-parameter Mixture-of-Experts model with 3B active parameters with powerful agentic coding capabilities, available on Hugging Face under the Apache 2.0 license. North Mini Code is the first model in Cohere’s new family of models, and is specifically designed and trained for agentic software engineering tasks. Figure 1: North Mini Code’s performance in agentic coding tasks and complex code generation benchmarks, compared to leading open-source models of similar size. See here for the details of our benchmarking methodology. North Mini Code is optimized for complex software engineering workflows, terminal-based agentic tasks, and high-quality code generation. On Artificial Analysis’ Coding Index, North Mini Code achieves a score of 33.4, outperforming Qwen3.5 (35B-A3B), Gemma 4 (26B-A4B), Devstral Small 2 (24B Dense), and even substantially larger models such as Nemotron 3 Super (120B-A12B), Mistral Small 4 (119B-A6B), and Devstral 2 (123B). 1 It ranks among the strongest open-source coding models in its size class. Try North Mini Code in OpenCode Real-world code agents depend on model quality and robustness across agent harnesses. We trained North Mini Code using multiple scaffolds rather than optimizing for a single one. This approach enables North Mini Code to serve as a reliable foundation for coding agents such as OpenCode. Figure 2: North Mini Code is a Mixture-of-Experts Transformer decoder with interleaved sliding-window self-attention and full self-attention. North Mini Code is a decoder-only Transformer-based sparse Mixture-of-Experts model. It uses our efficient attention implementation, interleaved between sliding-window attention with RoPE and global attention with no positional embeddings, in a 3:1 ratio [ 1 ]. The feed-forward block is an MoE block with 128 experts, of which 8 are activated per token. Each expert block is an FFN block with SwiGLU activation. The router applies a sigmoid activation function to the logits before the top-k selection. We also use a single dense layer before the sparse layers. Post-Training for Coding Excellence Figure 3: The post-training pipeline is made up of two phases of supervised fine-tuning (SFT) and a phase of agentic reinforcement learning with verifiable rewards (RLVR) targeting software engineering and terminal tasks. We post-train North Mini Code using a two-stage cascaded supervised fine-tuning (SFT) followed by reinforcement learning with verifiable rewards (RLVR), focusing on agentic coding. Our first stage SFT data focuses on coding capabilities that are integrated within a wider mix for robustness and usability. The datamix includes programming, reasoning, and instruction following across a large variety of domains where the code datasets correspond to 70% of trainable tokens, 43% agentic tool-use data, and 27% single-turn competitive or scientific programming data. In the second stage SFT, we use a 4.5 billion token data mixture from only agentic and reasoning-driven samples, where code data forms 61% of trainable tokens. This mixture comprises our highest-quality data across coding and wider agentic tasks where tool calls and completions are verified as executable and correct. Our internal data pipeline heavily relies on containerised agentic coding environments. We maintain a disjoint subset of these environments for use in synthetic SFT data generation and RLVR. The majority are based on software engineering tasks from real-world repositories, while the rest are terminal-based agentic tasks sourced from open-source and internal datasets. In total, we used over 70k verifiable tasks across ~5k unique repositories. We deduplicate our environments against the repository sources from SWE-Bench [ 2 ] and SWE-Bench-Pro [ 3 ] to avoid source leakage during evaluation [ 4 ]. We used 64K and 128K context lengths for the first and second stages of SFT, respectively. This “long-to-longer” cascade approach (similar to [ 5 , 6 ]) enables bipartite training on valuable shorter data, establishing a robust performance baseline, followed by targeted long-context training only on high-quality verified samples. Without multi-stage training, the 20B non-code tokens during the initial training stage often dominated the 1.5B tokens of high-quality code data in later training, producing poorer performance and higher behavioral conflicts from data trends differing between stages. Anecdotally, training on a near-complete length distribution of samples produced shorter final trajectories during evaluation than training on a truncated distribution up to 64K only. Instead of optimising North Mini Code towards quantitative metrics during SFT, we adopted an approach strictly using SFT as priming for RLVR. The data mixture optimises sampling diversity and pass@K (for high K) in downstream stages. We use sample-level filtering to remove any pathologies such as invalid tool calls, erroneous whitespace generation, malformed special tokens, or hallucinated citations. Artifacts or hyperparameters producing undesirable RLVR behaviours (e.g., low entropy, invalid structured generations) were pruned via ablations. The final SFT model achieves 80.2% pass@10 on SWE-Bench Verified [ 2 ] and 55.1% pass@10 on Terminal-Bench v2 [ 7 ]. Robustness Across Harnesses Harness robustness improves model usability in realistic software development settings, where agents encounter diverse and unpredictable tooling environments. These environments differ not just in prompting but in fundamental tool-use modality, For instance, SWE-Agent [ 8 ] exposes a relatively rich agent-CLI interface with specialized commands ( bash , str_replace_editor and submit tools) and templated observations; mini-SWE-agent [ 9 ] strips this down to a single bash tool, with raw stdout from shell as the only feedback; and OpenCode [ 10 ] uses fine-grained individually typed tools ( edit , grep , todowrite and task etc) returning structured JSON responses. Figure 4: To power a variety of agentic coding harnesses, North Mini Code is exposed to a variety of coding harnesses during the second SFT stage. We address cross-harness generalization by introducing a small amount of additional benchmark harness data (6% of the SFT mix, compared to 50% of the chosen SWE-Agent harness) during the second SFT stage. Specifically, this data mix yields a 10% gain on the evaluation with OpenCode harness while maintaining performance with SWE-Agent on SWE-Bench Verified, demonstrating that cross-harness transfer can be cheaply acquired without degrading benchmark performance. Notably, North-Code-Mini achieves 61.0% pass@1 using mini-SWE-Agent, where the improvement emerged for free in the cross-task, cross-harness settings, suggesting that harnesses with overlapping tool capabilities share enough representational structure for positive transfer. We also observe minimal data conflict when training on hybrid harness data, indicating that skills required by different harnesses are usually complementary rather than contradictory. Similarly, the official Terminal-Bench uses its own Terminus 2 harness, where all the agent-CLI interactions are communicated via plain-text chat turns (instead of native tool calling). In order to prime our models on Terminus 2, we include a small amount of data (less than 20%) in a plain-text format in the data mixture, which has proved sufficient for the model to naturally generalise across. Interestingly, we also find that it’s crucial to introduce sufficient variations in the various harnesses (akin to data augmentation) in order to force the model to properly establish the link between instructions and behaviours rather than simply regurgitating a fixed template without understanding, and this is especially important when the harnesses appear similar to each other. Asynchronous RL for Agentic Coding Coding-agent rollouts are long and highly variable in length, with the slowest trajectories routinely an order of magnitude longer than the median. A synchronous RL loop would idle the trainer waiting for those trials to be generated for every batch, so we decouple sampling from learning: a trainer runs alongside a vLLM sidecar that serves rollouts continuously . Policy weights are exported into vLLM every few learner steps (K=4), so the sampler is at most slightly off-policy at any moment. The residual mismatch is then corrected at the loss level. To unblock the learner process from waiting on the longest rollouts while simultaneously avoiding a misbalance of data distribution across tasks, we used a windowed First-in-First-Out (FIFO) queue (trainer↔sampler) [ 11 ]: a small fraction at the head of the queue is consumed in completion order to drain stragglers, with the rest staying in input order. Empirically, this recovers most of the throughput of a completion-order scheme without measurably hindering training stability. We train using CISPO [ 12 ], a log-likelihood objective with token-level importance sampling correction. CISPO differs from PPO and GRPO in that the importance weight multiplies a log-likelihood rather than a probability ratio and enhances RLOO [ 13 ] with stronger regularization. We aggregate the loss at the token level rather than the prompt level, so the gradient signal scales with trajectory length and long agentic traces (where most of the credit-assignment signal lives) are not down-weighted relative to short ones. A single multi-environment RL train – We run a single multi-environment online RL training run spanning two task environments: Terminal-based tasks and software engineering tasks. Each training batch consists of 512 rollouts with a group size of 8 rollouts sampled per prompt. All rollouts share a global context window of 128K tokens. To account for differing task complexity, each task is assigned a distinct agentic-step budget. These per-task budgets were set based on pass@k filtering performed prior to RLVR, ensuring the budgets are appropriately calibrated to the difficulty of each task distribution. We observe that granting the model a turn budget substantially larger than necessary encourages unnecessary verbosity and hoppiness in its rollouts. For Terminal-based tasks, we configure the agent with a simple ReAct harness employing a single terminal-use tool based on Harbor's Tmux session implementation [ 14 ], whereas for SWE tasks, we employ the SWE-agent [ 8 ] harness. Both environments provide the agent with a pre-built Docker image encoding the environment state, a natural language user prompt, and a set of unit tests used for verification. We train on a combination of internal and open-source datasets, filtered to retain only problems with an acceptable pass@k rate, i.e., excluding trivially solved and completely unsolvable instances. We use binary rewards derived from the unit-test-based verifier. In addition, the model receives a reward of 0 for generating invalid tool calls or unparseable outputs, enabling a sharp drop in the rate of hallucinated or malformed tool calls within the first training steps. Figure 5: The multi-environment RL training run improves model performance on benchmarks like SWE-Bench Verified and Terminal-Bench v2. Learning curves are displayed on the left across the RLVR training process. Higher performance and robustness with online RL – RLVR training improved the performance of the final model from the SFT initialization by 7.9% (absolute) pass@1 in Terminal-Bench v2 and 3.0% (absolute) in SWE-Bench. We observe that joint training across both environments yields stronger results than training on each separately, and also generalizes better to out-of-distribution tasks. Beyond correctness scores, we observe significant improvements in agent robustness where the RLVR model produces shorter trajectories and fewer invalid or failing tool calls. The final model also exhibits less repetitive tool-call looping, reliably concluding its trajectory by submitting a solution or responding to the user. Internal Human Evaluation Benchmark Complementary to existing coding benchmarks, we also developed our own internal benchmark suite to measure model performance on out-of-distribution problems in pairwise evaluation with human annotators. In line with other benchmark setups, we evaluated the iterations of our models harnessed in OpenCode through Harbor. To understand model performance, we benchmark on four distinct functionalities: Code Explanation: Models are asked to explain particular technical aspects of a given code repository within a README file, or directly to the user. Code Editing: Models are tasked to implement a feature based on an existing code base. Data Visualization: Given data samples, models are tasked to create certain visualizations with a particular framework; no additional code is given. Implementation from Scratch: Given only design specifications and the packages to use, models are tasked to create a project from scratch, focused primarily on front-end design. Evaluators are provided with rubric-based scoring questions to help them assess individual response criteria and rate individual attempts first, before giving a final preference rating between the two model trajectories. 2 We share evaluation results of North Mini Code, comparing the SFT checkpoint with the final model release checkpoint. Figure 6: Pairwise preference results for human evaluation comparing the final North Mini Code checkpoint after RLVR against the SFT-only checkpoint across 85 samples. Our evaluations show that RLVR especially improves model performance on code editing tasks, resulting in an aggregate win rate of 66.1% across subsets for the final model against its SFT-only counterpart. North Mini Code models are available in OpenCode, Cohere API, and in HuggingFace with BF16 and FP8 (quantized) weights: bf16, fp8 Extended Author List Code Agents Team and North Mini Code Group: Jay Alammar, Sophia Althammer, Dennis Aumiller, Leon Engländer, Yannis Flet-Berliac, Eden Gilbert, Sarra Habchi, Kylie He, Dhruti Joshi, Jozef Mokrý, David Mora, Josh Netto-Rosen, Deniz Qian, Lawrence Rodgers, Willem Röpke, Tom Sherborne, Ahmet Üstün, Minjie Xu Pre-training and Inference Team: Diana Abagyan, Sammie Bae, Björn Bebensee, Walter Beller-Morales, Sepideh Shaterian Bidgoli, Bas Büller, David Cairuz, Kris Cao, Roman Castagné, Giannis Chatziveroglou, Tim Chung, Felipe Cruz, Rishit Dholakia, Ali Edalati, Nikolas Gritsch, Kilian Haefeli, Prashant Kumar, Simon Lehnerer, Tony Liu, Alex McKinney, Ekagra Ranjan, Dev Shah, Zewen Shen, Sylvie Shi, Dwarak Talupuru, Komal Teru, Robin Vaaler, Bharat Venkitesh, Donglu Wang, Terrence Zhao, Leo Zhou, Conway Zhu Management and Leadership: Phil Blunsom, Nick Frosst, Aidan Gomez, Manoj Govindassamy, Nick Jakobi, Patrick Lewis, Acyr Locatelli, Joelle Pineau, Ivan Zhang Benchmarking Methodology Our core agentic capabilities are measured using SWE-Bench Verified, SWE-Bench Pro, Terminal-Bench v2, and Terminal-Bench Hard. North-Code-Mini was evaluated, using the Swe-Agent harness v1.1.0 for SWE-Bench, and a simple ReAct harness employing a single terminal-use tool based on Harbor’s Tmux session implementation for Terminal-Bench v2. For Terminal Bench Hard, we directly used Terminus-2, following the same methodology as the Artificial Analysis Intelligence Index to compare North Mini Code with the other models. We follow benchmarks’ official timeout and hardware resource limit settings wherever specified. We additionally track code generation capabilities in SciCode [ 15 ], which measures coding performance for scientific problems, and LiveCodeBench v6 [ 16 ], which requires strong algorithmic reasoning capabilities for coding performance outside of tool use. We run each benchmark with 3 different seeds and report the average benchmark performance, using temperature=1.0 and top_p=0.95. Competitor results – We used publicly reported scores for competitor models, either from original reports or the Artificial Analysis Intelligence Index, where available. Additionally, Gemma4’s scores for agentic coding tasks were reported by Qwen team \\[ 17 ]. For benchmark results that any public report is missing, denoted by (*) in Figure 1, we run them internally using the recommended model configuration. [1] RoPE to NoPE and Back Again: A New Hybrid Attention Strategy [2] SWE-bench: Can Language Models Resolve Real-World GitHub Issues? [3] SWE-Bench Pro: Can AI Agents Solve Long-Horizon Software Engineering Tasks? [4] On Leakage of Code Generation Evaluation Datasets [5] Nemotron-Cascade: Scaling Cascaded Reinforcement Learning for General-Purpose Reasoning Models [6] Nemotron-Cascade 2: Post-Training LLMs with Cascade RL and Multi-Domain On-Policy Distillation [7] Terminal-Bench: A Benchmark for AI Agents in Terminal Environments [8] SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering [9] https://github.com/SWE-agent/mini-swe-agent [10] https://github.com/anomalyco/opencode [11] Forge: Scalable Agent RL Framework and Algorithm [12] MiniMax-M1: Scaling Test-Time Compute Efficiently with Lightning Attention [13] Back to Basics: Revisiting REINFORCE-Style Optimization for Learning from Human Feedback in LLMs [14] Harbor: A Framework for Evaluating and Optimizing Agents and Models in Container Environments [15] SciCode: A Research Coding Benchmark Curated by Scientists [16] LiveCodeBench: Holistic and Contamination Free Evaluation of Large Language Models for Code [17] Qwen3.6-35B-A3B: Agentic Coding Power, Now Open to All 1. AAII Coding Index includes Terminal Bench Hard as an agentic coding task and SciCode as code generation benchmark for scientific problems. ↩ 2. Both individual ratings and preferences are assessed on a five-point Likert scale. ↩ Models mentioned in this article 2 Build Small Hackathon With Cohere Models Introducing Cohere-transcribe: state-of-the-art speech recognition @ coherecode Thank you for sharing! In our internal test DSV4 is really good as baseline , so it will be good that we could sft/RL over DSV4 (we have ran though whole pipeline in week 0 support, and it will take 2 days to finish trainining over 10k+ tool calls/coding corpus) ? I wonder if dsv4+ coding corpus can generate new record in coding (for agents).",
+      "full_article_text_chars": 18556,
+      "content_preview": "Architecture Post-Training for Coding Excellence Robustness Across Harnesses Asynchronous RL for Agentic Coding Internal Human Evaluation Benchmark Get Started Extended Author List Benchmarking Methodology Citation References Footnotes All co-authors listed below Today, we are releasing North Mini Code, a 30B-parameter Mixture-of-Experts model with 3B active parameters with powerful agentic coding capabilities, available on Hugging Face under the Apache 2.0 license. North Mini Code is the first model in Cohere’s new family of models, and is specifically designed and trained for agentic software engineering tasks. Figure 1: North Mini Code’s performance in agentic coding tasks and complex code generation benchmarks, compared to leading open-source models of similar size. See here for the details of our benchmarking methodology. North Mini Code is optimized for complex software engineering workflows, terminal-based agentic tasks, and high-quality code generation. On Artificial Analysis’ Coding Index, North Mini Code achieves a score of 33.4, outperforming Qwen3.5 (35B-A3B), Gemma 4 (26B-A4B), Devstral Small 2 (24B Dense), and even substantially larger models such as Nemotron 3 Super (120B-A12B), Mistral Small 4 (119B-A6B), and Devstral 2 (123B). 1 It ranks among the strongest open-source coding models in its size class. Try North Mini Code in OpenCode Real-world code agents depend on model quality and robustness across agent harnesses. We trained North Mini Code using multiple scaffolds rather than optimizing for a single one. This approach enables North Mini Code to serve as a reliable foundation for coding agents such as OpenCode. Figure 2: North Mini Code is a Mixture-of-Experts Transformer decoder with interleaved sliding-window self-attention and full self-attention. North Mini Code is a decoder-only Transformer-based sparse Mixture-of-Experts model. It uses our efficient attention implementation, interleaved between sliding-window attention with RoPE and global attention with no positional embeddings, in a 3:1 ratio [ 1 ]. The feed-forward block is an MoE block with 128 experts, of which 8 are activated per token. Each expert block is an FFN block with SwiGLU activation. The router applies a sigmoid activation function to the logits before the top-k selection. We also use a single dense layer before the sparse layers. Post-Training for Coding Excellence Figure 3: The post-training pipeline is made up of two phases of supervised fine-tuning (SFT) and a phase of agentic reinforcement learning with verifiable rewards (RLVR) targeting software engineering and terminal tasks. We post-train North Mini Code using a two-stage cascaded supervised fine-tuning (SFT) followed by reinforcement learning with verifiable rewards (RLVR), focusing on agentic coding. Our first stage SFT data focuses on coding capabilities that are integrated within a wider mix for robustness and usability. The datamix includes programming, reasoning, and instruction following across a large variety of domains where the code datasets correspond to 70% of trainable tokens, 43% agentic tool-use data, and 27% single-turn competitive or scientific programming data. In the second stage SFT, we use a 4.5 billion token data mixture from only agentic and reasoning-driven samples, where code data forms 61% of trainable tokens. This mixture comprises our highest-quality data across coding and wider agentic tasks where tool calls and completions are verified as executable and correct. Our internal data pipeline heavily relies on containerised agentic coding environments. We maintain a disjoint subset of these environments for use in synthetic SFT data generation and RLVR. The majority are based on software engineering tasks from real-world repositories, while the rest are terminal-based agentic tasks sourced from open-source and internal datasets. In total, we used over 70k verifiable tasks across ~5k unique repositories. We deduplicate our environments against the repository sources from SWE-Bench [ 2 ] and SWE-Bench-Pro [ 3 ] to avoid source leakage during evaluation [ 4 ]. We used 64K and 128K context lengths for the first and second stages of SFT, respectively. This “long-to-longer” cascade approach (similar to [ 5 , 6 ]) enables bipartite training on valuable shorter data, establishing a robust performance baseline, followed by targeted long-context training only on high-quality verified samples. Without multi-stage training, the 20B non-code tokens during the initial training stage often dominated the 1.5B tokens of high-quality code data in later training, producing poorer performance and higher behavioral conflicts from data trends differing between stages. Anecdotally, training on a near-complete length distribution of samples produced shorter final trajectories during evaluation than training on a truncated distribution up to 64K only. Instead of optimising North Mini Code towards quantitative metrics during SFT, we adopted an approach strictly using SFT as priming for RLVR. The data mixture optimises sampling diversity and pass@K (for high K) in downstream stages. We use sample-level filtering to remove any pathologies such as invalid tool calls, erroneous whitespace generation, malformed special tokens, or hallucinated citations. Artifacts or hyperparameters producing undesirable RLVR behaviours (e.g., low entropy, invalid structured generations) were pruned via ablations. The final SFT model achieves 80.2% pass@10 on SWE-Bench Verified [ 2 ] and 55.1% pass@10 on Terminal-Bench v2 [ 7 ]. Robustness Across Harnesses Harness robustness improves model usability in realistic software development settings, where agents encounter diverse and unpredictable tooling environments. These environments differ not just in prompting but in fundamental tool-use modality, For instance, SWE-Agent [ 8 ] exposes a relatively rich agent-CLI interface with specialized commands ( bash , str_replace_editor and submit tools) and templated observations; mini-SWE-agent [ 9 ] strips this down to a single bash tool, with raw stdout from shell as the only feedback; and OpenCode [ 10 ] uses fine-grained individually typed tools ( edit , grep , todowrite and task etc) returning structured JSON responses. Figure 4: To power a variety of agentic coding harnesses, North Mini Code is exposed to a variety of coding harnesses during the second SFT stage. We address cross-harness generalization by introducing a small amount of additional benchmark harness data (6% of the SFT mix, compared to 50% of the chosen SWE-Agent harness) during the second SFT stage. Specifically, this data mix yields a 10% gain on the evaluation with OpenCode harness while maintaining performance with SWE-Agent on SWE-Bench Verified, demonstrating that cross-harness transfer can be cheaply acquired without degrading benchmark performance. Notably, North-Code-Mini achieves 61.0% pass@1 using mini-SWE-Agent, where the improvement emerged for free in the cross-task, cross-harness settings, suggesting that harnesses with overlapping tool capabilities share enough representational structure for positive transfer. We also observe minimal data conflict when training on hybrid harness data, indicating that skills required by different harnesses are usually complementary rather than contradictory. Similarly, the official Terminal-Bench uses its own Terminus 2 harness, where all the agent-CLI interactions are communicated via plain-text chat turns (instead of native tool calling). In order to prime our models on Terminus 2, we include a small amount of data (less than 20%) in a plain-text format in the data mixture, which has proved sufficient for the model to naturally generalise across. Interestingly, we also find that it’s crucial to introduce sufficient variations in the various harnesses (akin to data augmentation) in order to force the model to properly establish the link between instructions and behaviours rather than simply regurgitating a fixed template without understanding, and this is especially important when the harnesses appear similar to each other. Asynchronous RL for Agentic Coding Coding-agent rollouts are long and highly variable in length, with the slowest trajectories routinely an order of magnitude longer than the median. A synchronous RL loop would idle the trainer waiting for those trials to be generated for every batch, so we decouple sampling from learning: a trainer runs alongside a vLLM sidecar that serves rollouts continuously . Policy weights are exported into vLLM every few learner steps (K=4), so the sampler is at most slightly off-policy at any moment. The residual mismatch is then corrected at the loss level.",
+      "content_preview_chars": 8703,
+      "content_fetched_at": "2026-06-15T11:27:03",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
     }
