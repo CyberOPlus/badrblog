@@ -2,50 +2,42 @@
   "avg_time": 0.0,
   "cooldowns": {
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
-      "failed_at": "2026-07-13T15:35:31",
+      "failed_at": "2026-07-13T17:36:30",
       "key_id": "e5c3515f5b",
       "model": "inclusionai/ling-2.6-flash:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 404: {\"error\":{\"message\":\"Ling-2.6-flash is no longer available as a free model. It has transitioned to a paid model. Continue using it her",
-      "until": 1783958732.5249825
+      "until": 1783965993.8338273
     },
     "openrouter:liquid/lfm-2.5-1.2b-instruct:free:e5c3515f5b": {
-      "failed_at": "2026-07-13T15:35:31",
+      "failed_at": "2026-07-13T17:36:30",
       "key_id": "e5c3515f5b",
       "model": "liquid/lfm-2.5-1.2b-instruct:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 404: {\"error\":{\"message\":\"No endpoints found for liquid/lfm-2.5-1.2b-instruct:free.\",\"code\":404},\"user_id\":\"user_3Co2ewJ6Lxandjbd0PWPNTCGEG",
-      "until": 1783958733.0444968
+      "until": 1783965992.6979833
     },
     "openrouter:nvidia/nemotron-3-nano-30b-a3b:free:e5c3515f5b": {
-      "failed_at": "2026-07-13T15:35:31",
+      "failed_at": "2026-07-13T17:36:30",
       "key_id": "e5c3515f5b",
       "model": "nvidia/nemotron-3-nano-30b-a3b:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "until": 1783958733.2907026
-    },
-    "openrouter:openai/gpt-oss-20b:free:e5c3515f5b": {
-      "failed_at": "2026-07-13T15:36:51",
-      "key_id": "e5c3515f5b",
-      "model": "openai/gpt-oss-20b:free",
-      "provider": "openrouter",
-      "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "until": 1783958813.0791836
+      "until": 1783965993.1732278
     }
   },
   "fastest_success_model": "openrouter:inclusionai/ling-2.6-flash:free",
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 31.7046,
+      "avg_time": 31.704,
       "failures": 1251,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-07-13T06:52:54",
-      "last_success_at": "2026-07-13T15:37:22",
+      "last_success_at": "2026-07-13T17:43:50",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 1163,
-      "total_success_time": 36872.4779
+      "successes": 1168,
+      "total_success_time": 37030.2414
     },
     "gemini:gemini-2.5-flash:75c7824eb0": {
       "failures": 5,
@@ -56,9 +48,9 @@
     },
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
       "avg_time": 0.0,
-      "failures": 767,
+      "failures": 768,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-07-13T15:35:31",
+      "last_failure_at": "2026-07-13T17:36:30",
       "last_success_at": "2026-04-29T02:57:32",
       "model": "inclusionai/ling-2.6-flash:free",
       "provider": "openrouter",
@@ -67,9 +59,9 @@
     },
     "openrouter:liquid/lfm-2.5-1.2b-instruct:free:e5c3515f5b": {
       "avg_time": 7.8845,
-      "failures": 453,
+      "failures": 454,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-07-13T15:35:31",
+      "last_failure_at": "2026-07-13T17:36:30",
       "last_success_at": "2026-07-07T07:55:39",
       "model": "liquid/lfm-2.5-1.2b-instruct:free",
       "provider": "openrouter",
@@ -78,9 +70,9 @@
     },
     "openrouter:nvidia/nemotron-3-nano-30b-a3b:free:e5c3515f5b": {
       "avg_time": 41.5564,
-      "failures": 410,
+      "failures": 411,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-07-13T15:35:31",
+      "last_failure_at": "2026-07-13T17:36:30",
       "last_success_at": "2026-07-13T12:45:17",
       "model": "nvidia/nemotron-3-nano-30b-a3b:free",
       "provider": "openrouter",
@@ -88,15 +80,15 @@
       "total_success_time": 9059.2902
     },
     "openrouter:openai/gpt-oss-20b:free:e5c3515f5b": {
-      "avg_time": 57.4823,
-      "failures": 754,
+      "avg_time": 57.4127,
+      "failures": 755,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-07-13T15:36:51",
-      "last_success_at": "2026-07-13T15:35:37",
+      "last_failure_at": "2026-07-13T17:38:16",
+      "last_success_at": "2026-07-13T17:43:19",
       "model": "openai/gpt-oss-20b:free",
       "provider": "openrouter",
-      "successes": 1094,
-      "total_success_time": 62885.6459
+      "successes": 1100,
+      "total_success_time": 63153.992
     }
   }
 }
