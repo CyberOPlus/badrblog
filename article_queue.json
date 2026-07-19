@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-19T12:14:08",
+  "updated_at": "2026-07-19T13:54:29",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -1806,11 +1806,11 @@
       "content_fetched_at": "2026-07-19T08:40:50",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T08:40:56",
+      "selected_at": "2026-07-19T13:52:38",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T08:40:56",
+      "processing_prepared_at": "2026-07-19T13:52:38",
       "ai_input_package": {
         "title": "Three Steps to the Terminal: A Siemens ROX II Zero-Day Trilogy",
         "url": "https://unit42.paloaltonetworks.com/siemens-rox-ii-zero-day-vulnerabilities",
@@ -1874,14 +1874,15 @@
       "ai_error": "article older than 24 hours",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 177.26,
+      "ai_total_time_seconds": 67.81,
       "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-19T08:58:54Z",
+      "candidate_retry_after": "2026-07-19T14:08:47Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "article older than 24 hours",
-      "candidate_failed_at": "2026-07-19T08:43:54",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-19T13:53:47",
+      "candidate_failure_count": 2,
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\""
     },
     {
       "id": "3d691c0ef37ef760",
@@ -1954,11 +1955,11 @@
       "content_fetched_at": "2026-07-19T08:40:56",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T08:43:54",
+      "selected_at": "2026-07-19T13:53:47",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T08:43:54",
+      "processing_prepared_at": "2026-07-19T13:53:47",
       "ai_input_package": {
         "title": "The Hunter's Paradox: Is it time to embrace automated threat hunting?",
         "url": "https://blog.talosintelligence.com/the-hunters-paradox-is-it-time-to-embrace-automated-threat-hunting",
@@ -2007,19 +2008,20 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_quality_last_error": "article older than 24 hours",
       "ai_status": "failed",
-      "ai_error": "Missing AI output field(s): slug",
-      "ai_rotation_exhausted": false,
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 136.82,
-      "ai_quality_status": "failed_after_retries",
+      "ai_total_time_seconds": 39.86,
+      "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-19T09:01:12Z",
+      "candidate_retry_after": "2026-07-19T14:09:27Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "Missing AI output field(s): slug",
-      "candidate_failed_at": "2026-07-19T08:46:12",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-19T13:54:27",
+      "candidate_failure_count": 2,
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
     },
     {
       "id": "aa0c74c30b28fa2f",
@@ -2042,7 +2044,7 @@
       "category_label": "Cyber-Security",
       "category_hint": "Cyber-Security",
       "discovered_at": "2026-07-19T08:40:41",
-      "status": "selected",
+      "status": "ready",
       "content_filter_bypass_message": "Trusted source bypass applied",
       "score": 3,
       "priority": "low",
@@ -2124,7 +2126,7 @@
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T08:49:34",
+      "processing_prepared_at": "2026-07-19T13:54:28",
       "ai_input_package": {
         "title": "UAT-11795 deploys novel Starland RAT and bespoke WLDR C2 implant in financially motivated campaign",
         "url": "https://blog.talosintelligence.com/uat-11795-deploys-novel-starland-rat-and-bespoke-wldr-c2-implant-in-financially-motivated-campaign",
@@ -2187,7 +2189,20 @@
           }
         ],
         "related_posts": []
-      }
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 0.22,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-07-19T14:09:29Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-19T13:54:29",
+      "candidate_failure_count": 1
     },
     {
       "id": "125241f1d52d386c",
@@ -2288,11 +2303,11 @@
       "content_fetched_at": "2026-07-19T08:40:47",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T08:46:12",
+      "selected_at": "2026-07-19T13:54:27",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T08:46:12",
+      "processing_prepared_at": "2026-07-19T13:54:27",
       "ai_input_package": {
         "title": "The npm Threat Landscape: Attack Surface and Mitigations (Updated July 15)",
         "url": "https://unit42.paloaltonetworks.com/monitoring-npm-supply-chain-attacks",
@@ -2358,17 +2373,18 @@
       },
       "ai_quality_last_error": "AI article response returned incomplete JSON.",
       "ai_status": "failed",
-      "ai_error": "ai_time_budget_exceeded",
-      "ai_rotation_exhausted": false,
-      "ai_time_budget_exceeded": true,
-      "ai_total_time_seconds": 201.88,
-      "ai_quality_status": "time_budget_exceeded",
-      "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-19T09:04:34Z",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 0.26,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-07-19T14:09:28Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "ai_time_budget_exceeded",
-      "candidate_failed_at": "2026-07-19T08:49:34",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-19T13:54:28",
+      "candidate_failure_count": 2,
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
     },
     {
       "id": "f5ca234af1bb502e",
@@ -2479,12 +2495,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-19T12:13:08",
-      "candidate_retry_after": "2026-07-19T12:28:08Z",
+      "content_fetched_at": "2026-07-19T13:52:28",
+      "candidate_retry_after": "2026-07-19T14:07:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-19T12:13:08",
-      "candidate_failure_count": 4
+      "candidate_failed_at": "2026-07-19T13:52:28",
+      "candidate_failure_count": 5
     },
     {
       "id": "512c2899a98440d2",
@@ -2513,12 +2529,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-19T12:13:08",
-      "candidate_retry_after": "2026-07-19T12:28:08Z",
+      "content_fetched_at": "2026-07-19T13:52:28",
+      "candidate_retry_after": "2026-07-19T14:07:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-19T12:13:08",
-      "candidate_failure_count": 4
+      "candidate_failed_at": "2026-07-19T13:52:28",
+      "candidate_failure_count": 5
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2547,12 +2563,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-19T12:13:09",
-      "candidate_retry_after": "2026-07-19T12:28:09Z",
+      "content_fetched_at": "2026-07-19T13:52:28",
+      "candidate_retry_after": "2026-07-19T14:07:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-19T12:13:09",
-      "candidate_failure_count": 4
+      "candidate_failed_at": "2026-07-19T13:52:28",
+      "candidate_failure_count": 5
     },
     {
       "id": "d900f1574fddfab4",
@@ -3365,12 +3381,12 @@
       "removed_source_links_count": 226,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=462 chars/68 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:462chars/68words, page_text:462chars/68words)",
-      "content_fetched_at": "2026-07-19T12:13:11",
-      "candidate_retry_after": "2026-07-19T12:28:11Z",
+      "content_fetched_at": "2026-07-19T13:52:33",
+      "candidate_retry_after": "2026-07-19T14:07:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=462 chars/68 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:462chars/68words, page_text:462chars/68words)",
-      "candidate_failed_at": "2026-07-19T12:13:11",
-      "candidate_failure_count": 3
+      "candidate_failed_at": "2026-07-19T13:52:33",
+      "candidate_failure_count": 4
     },
     {
       "id": "8d2678d87487d729",
@@ -4000,13 +4016,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-07-19T12:13:12",
-      "candidate_retry_after": "2026-07-19T12:28:12Z",
+      "content_fetch_error": "http 403",
+      "content_fetched_at": "2026-07-19T13:52:33",
+      "candidate_retry_after": "2026-07-19T14:07:33Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-07-19T12:13:12",
-      "candidate_failure_count": 2
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-07-19T13:52:33",
+      "candidate_failure_count": 3
     },
     {
       "id": "45429302676bf4c5",
@@ -4533,6 +4549,337 @@
       "content_fetched_at": "2026-07-19T12:13:04",
       "enrichment_status": "weak",
       "content_fetch_status": "success"
+    },
+    {
+      "id": "3f93716f6f873d9d",
+      "source_url_hash": "3f93716f6f873d9d",
+      "canonical_url": "https://www.malwarebytes.com/blog/news/2026/07/shark-vacuum-flaw-exposes-cameras-home-maps-and-wi-fi-passwords",
+      "title_hash": "8e2d7fc5f4aca322",
+      "topic_signature": "fce60eb5f0e684fbfe2e",
+      "title": "Shark vacuum flaw exposes cameras, home maps and Wi-Fi passwords",
+      "url": "https://www.malwarebytes.com/blog/news/2026/07/shark-vacuum-flaw-exposes-cameras-home-maps-and-wi-fi-passwords",
+      "source_name": "Malwarebytes Blog",
+      "source_url": "https://www.malwarebytes.com/blog",
+      "source_published_at": "2026-07-17T12:29:56Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 49.37,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-07-19T13:52:15",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 136,
+      "affiliate_links_removed_count": 8,
+      "removed_source_links_count": 136,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Shark vacuum flaw exposes cameras, home maps and Wi-Fi passwords",
+      "meta_description": "One compromised Shark robot vacuum could unlock remote access to many others.",
+      "article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/07/Shark.jpg",
+          "alt": "Shark vacuum flaw exposes cameras, home maps and Wi-Fi passwords",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/11/flock-alpr.jpg?w=1200",
+          "alt": "Flock ALPR camera",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/07/Shark.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/11/flock-alpr.jpg?w=1200",
+          "alt": "Flock ALPR camera"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "www.google.com",
+          "url": "https://www.google.com/preferences/source?q=malwarebytes.com"
+        }
+      ],
+      "full_article_text": "Shark’s cloud-connected robot vacuums are currently exposed by an unpatched AWS (Amazon Web Services) IoT (Internet of Things) policy flaw that could turn one compromised device into a remote-control skeleton key for many others in the same region, with access to cameras, maps, and Wi‑Fi passwords. An AWS Region is a distinct geographical location where Amazon clusters its cloud data centers. Each AWS Region is completely isolated from the others. There are currently 39 AWS Regions worldwide. By design, AWS provides per-device “shadows” that store state such as configuration and commands. However, Shark’s overly permissive Message Queuing Telemetry Transport (MQTT) policy lets a stolen certificate talk to other vacuums’ shadows as well. Simply put, this means that each vacuum is supposed to have its own private “inbox” in the cloud. Because Shark’s cloud rules are too broad, a certificate stolen from one vacuum can also send commands to other vacuums’ inboxes. While the certificate was extracted from the vacuum using physical access and a debug console, meaning the initial compromise requires hands‑on access, the subsequent abuse is remote and cloud‑based. For owners, this is not just about someone starting your vacuum at 3:00 am. According to the researcher, an attacker with that cloud access could: Watch from the vacuum’s camera, turning it into a mobile surveillance device inside your home. Steal the Wi‑Fi password, which the researcher says is stored in plaintext, potentially giving them a foothold on your local network. Copy the vacuum’s map of your house, revealing room layouts and how frequently different areas are used. We have seen before how “smart” vacuums can become privacy and safety risks when vendors cut corners on security. Malwarebytes Labs has covered how Ecovacs robot vacuums could be hijacked to play obscene messages and spy on users through their speakers and sensors, showing how quickly a helpful household appliance can become an unwanted house guest. Using the certificate from his own vacuum, the researcher was able to monitor traffic from Shark devices in the same AWS Region and determine which ones supported remote command execution. During a 24‑hour period in a single AWS Region, the researcher observed 1,517,605 unique Shark serial numbers and observed 673,816 devices (about 44%) responded in a way that indicated support for the remote command execution feature. “It is difficult to estimate the exact number of affected devices and even more difficult to find which devices have these misconfigured certificates that allow cross-device publishing.” “A very large number of SharkNinja IoT devices are affected by this vulnerability.” The problem at the heart of this issue is a cloud-side policy that is not strict enough. That makes this a server-side problem, not a firmware bug you can patch yourself. According to the researcher, SharkNinja has not fixed the vulnerability despite being notified more than six months ago. Until that changes, owners should: Put pressure on Shark to fix the issue. Disable remote control for the vacuum or disconnect it from Wi-Fi if you do not need its smart features. Watch for announcements from Shark about a fix, CVE, or recall. Browse like no one’s watching. Malwarebytes Privacy VPN encrypts your connection and never logs what you do, so the next story you read doesn’t have to feel personal. Try it free →",
+      "full_article_text_chars": 3419,
+      "content_preview": "Shark’s cloud-connected robot vacuums are currently exposed by an unpatched AWS (Amazon Web Services) IoT (Internet of Things) policy flaw that could turn one compromised device into a remote-control skeleton key for many others in the same region, with access to cameras, maps, and Wi‑Fi passwords. An AWS Region is a distinct geographical location where Amazon clusters its cloud data centers. Each AWS Region is completely isolated from the others. There are currently 39 AWS Regions worldwide. By design, AWS provides per-device “shadows” that store state such as configuration and commands. However, Shark’s overly permissive Message Queuing Telemetry Transport (MQTT) policy lets a stolen certificate talk to other vacuums’ shadows as well. Simply put, this means that each vacuum is supposed to have its own private “inbox” in the cloud. Because Shark’s cloud rules are too broad, a certificate stolen from one vacuum can also send commands to other vacuums’ inboxes. While the certificate was extracted from the vacuum using physical access and a debug console, meaning the initial compromise requires hands‑on access, the subsequent abuse is remote and cloud‑based. For owners, this is not just about someone starting your vacuum at 3:00 am. According to the researcher, an attacker with that cloud access could: Watch from the vacuum’s camera, turning it into a mobile surveillance device inside your home. Steal the Wi‑Fi password, which the researcher says is stored in plaintext, potentially giving them a foothold on your local network. Copy the vacuum’s map of your house, revealing room layouts and how frequently different areas are used. We have seen before how “smart” vacuums can become privacy and safety risks when vendors cut corners on security. Malwarebytes Labs has covered how Ecovacs robot vacuums could be hijacked to play obscene messages and spy on users through their speakers and sensors, showing how quickly a helpful household appliance can become an unwanted house guest. Using the certificate from his own vacuum, the researcher was able to monitor traffic from Shark devices in the same AWS Region and determine which ones supported remote command execution. During a 24‑hour period in a single AWS Region, the researcher observed 1,517,605 unique Shark serial numbers and observed 673,816 devices (about 44%) responded in a way that indicated support for the remote command execution feature. “It is difficult to estimate the exact number of affected devices and even more difficult to find which devices have these misconfigured certificates that allow cross-device publishing.” “A very large number of SharkNinja IoT devices are affected by this vulnerability.” The problem at the heart of this issue is a cloud-side policy that is not strict enough. That makes this a server-side problem, not a firmware bug you can patch yourself. According to the researcher, SharkNinja has not fixed the vulnerability despite being notified more than six months ago. Until that changes, owners should: Put pressure on Shark to fix the issue. Disable remote control for the vacuum or disconnect it from Wi-Fi if you do not need its smart features. Watch for announcements from Shark about a fix, CVE, or recall. Browse like no one’s watching. Malwarebytes Privacy VPN encrypts your connection and never logs what you do, so the next story you read doesn’t have to feel personal. Try it free →",
+      "content_preview_chars": 3419,
+      "content_fetched_at": "2026-07-19T13:52:19",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "d61269eeb876bd22",
+      "source_url_hash": "d61269eeb876bd22",
+      "canonical_url": "https://www.malwarebytes.com/blog/bugs/2026/07/security-updates-available-for-adobe-chrome-firefox-vmware-and-zoom",
+      "title_hash": "25a307315c596549",
+      "topic_signature": "e2d5d6af55e86f313408",
+      "title": "Security updates available for Adobe, Chrome, Firefox, VMWare, and Zoom",
+      "url": "https://www.malwarebytes.com/blog/bugs/2026/07/security-updates-available-for-adobe-chrome-firefox-vmware-and-zoom",
+      "source_name": "Malwarebytes Blog",
+      "source_url": "https://www.malwarebytes.com/blog",
+      "source_published_at": "2026-07-16T10:47:22Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 75.08,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-07-19T13:52:15",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 135,
+      "affiliate_links_removed_count": 8,
+      "removed_source_links_count": 135,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Security updates available for Adobe, Chrome, Firefox, VMWare, and Zoom",
+      "meta_description": "Several software updates have been made available including those for Adobe, Chrome, Firefox, VMWare, and Zoom",
+      "article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/07/updates_available_0a3d8b.png",
+          "alt": "Security updates available for Adobe, Chrome, Firefox, VMWare, and Zoom",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/CNET_Editors_Choice.png?w=819",
+          "alt": "CNET Editors' Choice Award 2026",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/11/flock-alpr.jpg?w=1200",
+          "alt": "Flock ALPR camera",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/07/updates_available_0a3d8b.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/04/CNET_Editors_Choice.png?w=819",
+          "alt": "CNET Editors' Choice Award 2026"
+        },
+        {
+          "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2025/11/flock-alpr.jpg?w=1200",
+          "alt": "Flock ALPR camera"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "www.google.com",
+          "url": "https://www.google.com/preferences/source?q=malwarebytes.com"
+        }
+      ],
+      "full_article_text": "Security updates are not just for enterprises with a dedicated security team and a change-management calendar. For consumers and small businesses, they are one of the simplest ways to shut down known attack paths before criminals get a chance to use them. That matters because attackers love these flaws. because browser bugs, code execution issues, authentication bypasses, and privilege-escalation problems can be turned into a foothold, a data theft opportunity, or a full system compromise if left unpatched. If you only do one thing after reading a security advisory, make it this: update the affected software promptly, restart when required, and verify the version afterward. Adobe released a large batch of security updates covering ColdFusion , Commerce/Magento Open Source , and Experience Manager . The ColdFusion bulletin alone includes multiple critical flaws that could lead to arbitrary code execution. The updates and instructions can be found on the pages we linked to. Google patched 15 security flaws in Chrome, including two critical use-after-free bugs in Ozone. The fixes are in Chrome 150.0.7871.124/.125 , depending on platform. You can find an explanation of the version numbering system and step-by-step instructions in our guide to how to update Chrome on every operating system. Mozilla fixed two critical Firefox flaws in Firefox 152.0.6 , and it says public exploit code exists for both issues. One affects JavaScript/WebAssembly and the other involves DOM navigation and site isolation, which makes this more than routine housekeeping. Users should update Firefox to version 152.0.6 as soon as possible. For most users this can simply be done by restarting the browser. If you see the “What’s new” tab, the update is complete. Broadcom released a fix for a critical authentication bypass in VMware Avi Load Balancer, tracked as CVE-2026-47865. The issue could allow a network-accessible attacker to reach the Avi Control Plane, which makes it especially important in environments that expose management services or rely on load balancers at the edge. Updates and the instructions to apply them can be found in the Security Advisory . Zoom Security Bulletin ZSB-26014 covers a critical issue in Zoom Workplace for Windows, described as improper input validation. The public record identifies the issue as CVE-2026-53412. For users, the action item is to update Zoom Workplace for Windows to the vendor-fixed release as soon as it is available in your environment. For small businesses, that means updating not just the app on employee laptops, but also any centralized deployment package so the old build doesn’t come right back on the next install cycle. “One of the best cybersecurity suites on the planet.” According to CNET. Read their review →",
+      "full_article_text_chars": 2778,
+      "content_preview": "Security updates are not just for enterprises with a dedicated security team and a change-management calendar. For consumers and small businesses, they are one of the simplest ways to shut down known attack paths before criminals get a chance to use them. That matters because attackers love these flaws. because browser bugs, code execution issues, authentication bypasses, and privilege-escalation problems can be turned into a foothold, a data theft opportunity, or a full system compromise if left unpatched. If you only do one thing after reading a security advisory, make it this: update the affected software promptly, restart when required, and verify the version afterward. Adobe released a large batch of security updates covering ColdFusion , Commerce/Magento Open Source , and Experience Manager . The ColdFusion bulletin alone includes multiple critical flaws that could lead to arbitrary code execution. The updates and instructions can be found on the pages we linked to. Google patched 15 security flaws in Chrome, including two critical use-after-free bugs in Ozone. The fixes are in Chrome 150.0.7871.124/.125 , depending on platform. You can find an explanation of the version numbering system and step-by-step instructions in our guide to how to update Chrome on every operating system. Mozilla fixed two critical Firefox flaws in Firefox 152.0.6 , and it says public exploit code exists for both issues. One affects JavaScript/WebAssembly and the other involves DOM navigation and site isolation, which makes this more than routine housekeeping. Users should update Firefox to version 152.0.6 as soon as possible. For most users this can simply be done by restarting the browser. If you see the “What’s new” tab, the update is complete. Broadcom released a fix for a critical authentication bypass in VMware Avi Load Balancer, tracked as CVE-2026-47865. The issue could allow a network-accessible attacker to reach the Avi Control Plane, which makes it especially important in environments that expose management services or rely on load balancers at the edge. Updates and the instructions to apply them can be found in the Security Advisory . Zoom Security Bulletin ZSB-26014 covers a critical issue in Zoom Workplace for Windows, described as improper input validation. The public record identifies the issue as CVE-2026-53412. For users, the action item is to update Zoom Workplace for Windows to the vendor-fixed release as soon as it is available in your environment. For small businesses, that means updating not just the app on employee laptops, but also any centralized deployment package so the old build doesn’t come right back on the next install cycle. “One of the best cybersecurity suites on the planet.” According to CNET. Read their review →",
+      "content_preview_chars": 2778,
+      "content_fetched_at": "2026-07-19T13:52:17",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "59ddc0939c3ece29",
+      "source_url_hash": "59ddc0939c3ece29",
+      "canonical_url": "https://www.troyhunt.com/weekly-update-512",
+      "title_hash": "9eea6a3503268199",
+      "topic_signature": "ce4717b86fce23e570d3",
+      "title": "Weekly Update 512: IoT Lockout Fail",
+      "url": "https://www.troyhunt.com/weekly-update-512",
+      "source_name": "Troy Hunt",
+      "source_url": "https://www.troyhunt.com",
+      "source_published_at": "2026-07-15T00:35:38Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 109.28,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-07-19T13:52:15",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 2,
+      "priority": "low",
+      "source_links_removed_count": 18,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 18,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Weekly Update 512: IoT Lockout Fail",
+      "meta_description": "\"Build a smart home\", they said. \"It'll make life so much better\", they said. Well, life wasn't very bloody good at 23:00 the other night after travelling 33 hours from Paris only to find the IoT doorlock batteries dead and the 9V \"jump start\" procedure completely failing!",
+      "article_images": [
+        {
+          "url": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2026/07/Splash-Template@1x_1.jpg",
+          "alt": "Weekly Update 512: IoT Lockout Fail",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2018/05/Listen-on-Apple-Podcasts.svg",
+          "alt": "Listen on Apple Podcasts",
+          "source": "article_content"
+        },
+        {
+          "url": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2024/09/Watch-and-Listen-on-YouTube.svg",
+          "alt": "Watch and Listen on YouTube",
+          "source": "article_content"
+        },
+        {
+          "url": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2019/10/spotify.svg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2026/07/Splash-Template@1x_1.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2018/05/Listen-on-Apple-Podcasts.svg",
+          "alt": "Listen on Apple Podcasts"
+        },
+        {
+          "url": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2024/09/Watch-and-Listen-on-YouTube.svg",
+          "alt": "Watch and Listen on YouTube"
+        },
+        {
+          "url": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2019/10/spotify.svg",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "\"Build a smart home\", they said. \"It'll make life so much better\", they said. Well, life wasn't very bloody good at 23:00 the other night after travelling 33 hours from Paris only to find the IoT doorlock batteries dead and the 9V \"jump start\" procedure completely failing! Eventually, the locksmith arrived and opened an old-school physical lock on another door in an alarmingly short time. So, lessons: Battery-powered locks suck and will eventually lock you out of your house Don't trust a fallback mechanism as rudimentary as \"hold a 9V battery on some terminals\" Always have an old school manual backup approach, AKA \"a key\" As I say in the video, we do have other doors that have keys, and if it weren't for the complacency we developed, we would have had one of these accessible. But alas, we didn't. The path forward is to take a deep dive into Ubiquiti's Access ecosystem , which I've flagged in the past, and by pure coincidence, I already had a meeting lined up with them to discuss just this. So, the hardware is on the way, and I'll have something entirely new to play with in the coming weeks. Stay tuned!",
+      "full_article_text_chars": 1119,
+      "content_preview": "\"Build a smart home\", they said. \"It'll make life so much better\", they said. Well, life wasn't very bloody good at 23:00 the other night after travelling 33 hours from Paris only to find the IoT doorlock batteries dead and the 9V \"jump start\" procedure completely failing! Eventually, the locksmith arrived and opened an old-school physical lock on another door in an alarmingly short time. So, lessons: Battery-powered locks suck and will eventually lock you out of your house Don't trust a fallback mechanism as rudimentary as \"hold a 9V battery on some terminals\" Always have an old school manual backup approach, AKA \"a key\" As I say in the video, we do have other doors that have keys, and if it weren't for the complacency we developed, we would have had one of these accessible. But alas, we didn't. The path forward is to take a deep dive into Ubiquiti's Access ecosystem , which I've flagged in the past, and by pure coincidence, I already had a meeting lined up with them to discuss just this. So, the hardware is on the way, and I'll have something entirely new to play with in the coming weeks. Stay tuned!",
+      "content_preview_chars": 1119,
+      "content_fetched_at": "2026-07-19T13:52:19",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "621d8f209ee9cdb9",
+      "source_url_hash": "621d8f209ee9cdb9",
+      "canonical_url": "https://www.exploit-db.com/shellcodes",
+      "title_hash": "91ff2b751d7f7f77",
+      "topic_signature": "91ff2b751d7f7f7781db",
+      "title": "Shellcodes",
+      "url": "https://www.exploit-db.com/shellcodes",
+      "source_name": "Exploit-DB",
+      "source_url": "https://www.exploit-db.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-07-19T13:52:15",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 48,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 48,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
+      "content_fetched_at": "2026-07-19T13:52:35",
+      "candidate_retry_after": "2026-07-19T14:07:35Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
+      "candidate_failed_at": "2026-07-19T13:52:35",
+      "candidate_failure_count": 1
+    },
+    {
+      "id": "33732dfdc6295ab2",
+      "source_url_hash": "33732dfdc6295ab2",
+      "canonical_url": "https://www.exploit-db.com/submit",
+      "title_hash": "8729316a873bb7df",
+      "topic_signature": "8729316a873bb7df7d83",
+      "title": "Submissions",
+      "url": "https://www.exploit-db.com/submit",
+      "source_name": "Exploit-DB",
+      "source_url": "https://www.exploit-db.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-07-19T13:52:15",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 48,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 48,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "content_fetched_at": "2026-07-19T13:52:37",
+      "candidate_retry_after": "2026-07-19T14:07:37Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "candidate_failed_at": "2026-07-19T13:52:37",
+      "candidate_failure_count": 1
+    },
+    {
+      "id": "aede79193c6b98c9",
+      "source_url_hash": "aede79193c6b98c9",
+      "canonical_url": "https://www.exploit-db.com/history",
+      "title_hash": "89741e45a34270f7",
+      "topic_signature": "2c5f122106145812fb49",
+      "title": "Exploit-DB History",
+      "url": "https://www.exploit-db.com/history",
+      "source_name": "Exploit-DB",
+      "source_url": "https://www.exploit-db.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-07-19T13:52:15",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 49,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 49,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
+      "content_fetched_at": "2026-07-19T13:52:38",
+      "candidate_retry_after": "2026-07-19T14:07:38Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
+      "candidate_failed_at": "2026-07-19T13:52:38",
+      "candidate_failure_count": 1
     }
   ],
   "notifications": {
