@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-19T13:54:31",
+  "updated_at": "2026-07-19T14:48:44",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2496,12 +2496,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-19T13:52:28",
-      "candidate_retry_after": "2026-07-19T14:07:28Z",
+      "content_fetched_at": "2026-07-19T14:47:02",
+      "candidate_retry_after": "2026-07-19T15:02:02Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-19T13:52:28",
-      "candidate_failure_count": 5
+      "candidate_failed_at": "2026-07-19T14:47:02",
+      "candidate_failure_count": 6
     },
     {
       "id": "512c2899a98440d2",
@@ -2530,12 +2530,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-19T13:52:28",
-      "candidate_retry_after": "2026-07-19T14:07:28Z",
+      "content_fetched_at": "2026-07-19T14:47:02",
+      "candidate_retry_after": "2026-07-19T15:02:02Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-19T13:52:28",
-      "candidate_failure_count": 5
+      "candidate_failed_at": "2026-07-19T14:47:02",
+      "candidate_failure_count": 6
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2564,12 +2564,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-19T13:52:28",
-      "candidate_retry_after": "2026-07-19T14:07:28Z",
+      "content_fetched_at": "2026-07-19T14:47:02",
+      "candidate_retry_after": "2026-07-19T15:02:02Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-19T13:52:28",
-      "candidate_failure_count": 5
+      "candidate_failed_at": "2026-07-19T14:47:02",
+      "candidate_failure_count": 6
     },
     {
       "id": "d900f1574fddfab4",
@@ -2648,11 +2648,11 @@
       "content_fetched_at": "2026-07-19T10:14:02",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T10:14:20",
+      "selected_at": "2026-07-19T14:47:12",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T10:14:20",
+      "processing_prepared_at": "2026-07-19T14:47:12",
       "ai_input_package": {
         "title": "Bunkerhill raises $55M to scale agentic AI across health systems",
         "url": "https://www.artificialintelligence-news.com/news/bunkerhill-raises-55m-scale-agentic-ai-health-systems",
@@ -2700,15 +2700,16 @@
       "ai_error": "article older than 24 hours",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 112.71,
+      "ai_total_time_seconds": 64.07,
       "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-19T10:31:13Z",
+      "candidate_retry_after": "2026-07-19T15:03:16Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "article older than 24 hours",
-      "candidate_failed_at": "2026-07-19T10:16:13",
-      "candidate_failure_count": 1,
-      "telegram_final_summary_notified_at": "2026-07-19T10:22:25"
+      "candidate_failed_at": "2026-07-19T14:48:16",
+      "candidate_failure_count": 2,
+      "telegram_final_summary_notified_at": "2026-07-19T10:22:25",
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\""
     },
     {
       "id": "cec1ebe5d23f0658",
@@ -2774,11 +2775,11 @@
       "content_fetched_at": "2026-07-19T10:13:52",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T10:16:13",
+      "selected_at": "2026-07-19T14:48:16",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T10:16:13",
+      "processing_prepared_at": "2026-07-19T14:48:16",
       "ai_input_package": {
         "title": "The AI compute gap: Enterprises are buying infrastructure faster than they can measure what it costs",
         "url": "https://venturebeat.com/ai/the-ai-compute-gap-enterprises-are-buying-infrastructure-faster-than-they-can-measure-what-it-costs",
@@ -2818,17 +2819,18 @@
       },
       "ai_quality_last_error": "article older than 24 hours",
       "ai_status": "failed",
-      "ai_error": "article older than 24 hours",
-      "ai_rotation_exhausted": false,
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 117.02,
-      "ai_quality_status": "failed_after_retries",
-      "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-19T10:33:11Z",
+      "ai_total_time_seconds": 0.32,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-07-19T15:03:17Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "article older than 24 hours",
-      "candidate_failed_at": "2026-07-19T10:18:11",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-19T14:48:17",
+      "candidate_failure_count": 2,
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
     },
     {
       "id": "09e86f1db1bc975b",
@@ -2884,11 +2886,11 @@
       "content_fetched_at": "2026-07-19T10:13:53",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T10:20:02",
+      "selected_at": "2026-07-19T14:48:18",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T10:20:02",
+      "processing_prepared_at": "2026-07-19T14:48:18",
       "ai_input_package": {
         "title": "The agent security gap: 54% of enterprises have already had an AI agent incident, and most still let agents share credentials",
         "url": "https://venturebeat.com/ai/the-agent-security-gap-54-of-enterprises-have-already-had-an-ai-agent-incident-and-most-still-let-agents-share-credentials",
@@ -2921,20 +2923,20 @@
         ],
         "related_posts": []
       },
-      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "ai_quality_last_error": "article older than 24 hours",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
       "ai_status": "failed",
-      "ai_error": "article older than 24 hours",
-      "ai_rotation_exhausted": false,
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 140.75,
-      "ai_quality_status": "failed_after_retries",
+      "ai_total_time_seconds": 24.8,
+      "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-19T10:37:23Z",
+      "candidate_retry_after": "2026-07-19T15:03:44Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "article older than 24 hours",
-      "candidate_failed_at": "2026-07-19T10:22:23",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-19T14:48:44",
+      "candidate_failure_count": 2
     },
     {
       "id": "e670e508d76ec559",
@@ -3013,11 +3015,11 @@
       "content_fetched_at": "2026-07-19T10:13:58",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T10:18:11",
+      "selected_at": "2026-07-19T14:48:17",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T10:18:11",
+      "processing_prepared_at": "2026-07-19T14:48:17",
       "ai_input_package": {
         "title": "Examining Google DeepMind's AI bioresilience push",
         "url": "https://www.artificialintelligence-news.com/news/examining-google-deepmind-ai-bioresilience-push",
@@ -3060,20 +3062,20 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_quality_last_error": "AI article response returned incomplete JSON.",
       "ai_status": "failed",
-      "ai_error": "AI article response returned incomplete JSON.",
-      "ai_rotation_exhausted": false,
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 110.34,
-      "ai_quality_status": "failed_after_retries",
-      "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-19T10:35:02Z",
+      "ai_total_time_seconds": 0.46,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-07-19T15:03:18Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "AI article response returned incomplete JSON.",
-      "candidate_failed_at": "2026-07-19T10:20:02",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-19T14:48:18",
+      "candidate_failure_count": 2
     },
     {
       "id": "ebff70380f189f7a",
@@ -3377,17 +3379,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 226,
-      "affiliate_links_removed_count": 7,
-      "removed_source_links_count": 226,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=462 chars/68 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:462chars/68words, page_text:462chars/68words)",
-      "content_fetched_at": "2026-07-19T13:52:33",
-      "candidate_retry_after": "2026-07-19T14:07:33Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-07-19T14:47:03",
+      "candidate_retry_after": "2026-07-19T15:02:03Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=462 chars/68 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:462chars/68words, page_text:462chars/68words)",
-      "candidate_failed_at": "2026-07-19T13:52:33",
-      "candidate_failure_count": 4
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-07-19T14:47:03",
+      "candidate_failure_count": 5
     },
     {
       "id": "8d2678d87487d729",
@@ -4017,13 +4019,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-07-19T13:52:33",
-      "candidate_retry_after": "2026-07-19T14:07:33Z",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-07-19T14:47:05",
+      "candidate_retry_after": "2026-07-19T15:02:05Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-07-19T13:52:33",
-      "candidate_failure_count": 3
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-07-19T14:47:05",
+      "candidate_failure_count": 4
     },
     {
       "id": "45429302676bf4c5",
@@ -4801,12 +4803,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-19T13:52:35",
-      "candidate_retry_after": "2026-07-19T14:07:35Z",
+      "content_fetched_at": "2026-07-19T14:47:06",
+      "candidate_retry_after": "2026-07-19T15:02:06Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-19T13:52:35",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-19T14:47:06",
+      "candidate_failure_count": 2
     },
     {
       "id": "33732dfdc6295ab2",
@@ -4838,12 +4840,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-19T13:52:37",
-      "candidate_retry_after": "2026-07-19T14:07:37Z",
+      "content_fetched_at": "2026-07-19T14:47:08",
+      "candidate_retry_after": "2026-07-19T15:02:08Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-19T13:52:37",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-19T14:47:08",
+      "candidate_failure_count": 2
     },
     {
       "id": "aede79193c6b98c9",
@@ -4875,12 +4877,251 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-19T13:52:38",
-      "candidate_retry_after": "2026-07-19T14:07:38Z",
+      "content_fetched_at": "2026-07-19T14:47:09",
+      "candidate_retry_after": "2026-07-19T15:02:09Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-19T13:52:38",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-19T14:47:09",
+      "candidate_failure_count": 2
+    },
+    {
+      "id": "253eaa098c468523",
+      "source_url_hash": "253eaa098c468523",
+      "canonical_url": "https://aimagazine.com/articles/shutterstock-is-multimodal-ai-a-data-licensing-problem",
+      "title_hash": "1e24963c7ffad375",
+      "topic_signature": "b4f952fd73864990a217",
+      "title": "Shutterstock: Is Multimodal AI a Data Licensing Problem?",
+      "url": "https://aimagazine.com/articles/shutterstock-is-multimodal-ai-a-data-licensing-problem",
+      "source_name": "AI Magazine",
+      "source_url": "https://aimagazine.com",
+      "source_published_at": "2026-07-19T10:00:30Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 4.77,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-19T14:46:56",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 57,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 57,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Shutterstock: Is Multimodal AI a Data Licensing Problem?",
+      "meta_description": "AI Magazine speaks to Dan Mandell, SVP of Data Licensing & AI Services at Shutterstock, about multimodal data, creativity and Shutterstock's efforts in AI",
+      "article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/1200/d25d102201fbf082b62803c4b12778ed:030c81a4b6b4372c95730f985c7f1975/dan-mandell-headshot.png.jpg",
+          "alt": "Shutterstock: Is Multimodal AI a Data Licensing Problem?",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/138/b8bea9ee3775982456b8a43a19afee48:3fd35faa5cd5c3b7b118ffd1ae8cfedc/dan-mandell-headshot.webp",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/ZBakTYXvDHM/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/CiDGnBxnpS0/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://assets.bizclikmedia.net/1200/d25d102201fbf082b62803c4b12778ed:030c81a4b6b4372c95730f985c7f1975/dan-mandell-headshot.png.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/138/b8bea9ee3775982456b8a43a19afee48:3fd35faa5cd5c3b7b118ffd1ae8cfedc/dan-mandell-headshot.webp",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/ZBakTYXvDHM/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/CiDGnBxnpS0/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Daniel Mandell is an innovative business leader with over 20 years of experience building and scaling digital media, data and AI-driven businesses. As SVP of Data Licensing & AI Services at Shutterstock, Dan leads a high-performing team focused on unlocking the value of data through strategic licensing, data services and AI-powered solutions for top AI companies and model builders. He has a track record of creating and commercialising new ventures, expanding global partnerships and driving transformative growth across media, technology and emerging platforms. He is recognised for combining strategic vision with operational discipline and for building and mentoring high-impact teams. AI Magazine spoke with Dan about his role the AI space, multimodal data and human creativity in training datasets. Tell us a bit about you and your role I’m the SVP of Data Licensing & AI Services at Shutterstock, where I lead our global efforts across AI, data licensing and AI-driven solutions. My role sits at the intersection of enterprise strategy, partnerships and emerging technology, focused on helping leading AI companies access and operationalise the data they need to build and scale high-performing models. I’ve spent over 20 years building and growing digital media and technology businesses and what’s most compelling right now is how rapidly the AI landscape is evolving. The shift isn’t just about scale anymore; it’s about precision. Companies need high-quality, rights-cleared and highly specialised datasets that can meaningfully improve model performance and accelerate deployment. Tell us about Shutterstock's efforts in the AI space Shutterstock is an end-to-end data partner for AI teams : a single, trusted source where teams can get specialised data quickly and use it confidently, no matter where they are in the model lifecycle. We offer one of the world’s largest rights-cleared multimodal datasets, spanning image, video, audio, 3D models, templates, fonts and more. We’re also always expanding our datasets, which supports ever-evolving model needs. Combined, this enables us to provide fast, centralised access to specialised data required for advanced model development and refinement. Beyond data, we provide custom data capabilities, including bespoke dataset creation, enrichment and evaluation, to transform raw content into quality training assets. By blending human creative expertise with ML-assisted tools, we can generate structured signals around quality, intent and aesthetics. Together, this means teams can get exactly what they need, whether off-the-shelf or built to spec, delivered at speed and with the quality and rights confidence required for production AI. How is the multimodal data bottleneck reshaping AI priorities today? The biggest constraint for model builders today is immediate access to high-quality, production-ready data across modalities, such as image, video, audio and text. As models advance, performance gaps are increasingly tied to data: missing alignment between formats, insufficient labelling depth, or lack of real-world context. That shift is pushing the industry to prioritise data quality, specialisation and usability over pure scale. It’s also driving demand for high-signal data: data that is intentionally curated, structured and enriched to address specific model needs. Simultaneously, we’re seeing greater demand for human-in-the-loop feedback and evaluation to capture nuance, things like aesthetics, intent and creative quality, that models can’t reliably infer on their own. Critically, speed has become a core requirement; teams need the right data quickly and the ability to move from identified need to delivery without friction. At Shutterstock, this reinforces our focus on delivering specialised, rights-cleared multimodal data and custom data capabilities that help teams fill specific gaps in their training sets and get to deployment faster. Why is multimodal data harder to source and scale than text? Multimodal data is inherently more complex. With text, data can often be collected, cleaned and processed in a relatively uniform structure. But multimodal data requires precise alignment across all formats. It’s also harder to source at scale because high-quality multimodal content is more expensive to produce and often comes with stricter rights and licensing requirements. Unlike text scraped at scale, multimodal assets require structured creation, deeper metadata and often expert annotation to capture meaning, intent and aesthetic quality. That's why rights frameworks, labelling depth and accuracy and a trusted sourcing infrastructure aren't optional. They're what makes multimodal data usable for production AI development . Where does synthetic data fall short for multimodal AI? Synthetic data doesn’t necessarily “fall short” as much as it serves a different role. When clearly labelled and responsibly used, it has enormous value for scaling training sets and accelerating development. It can help models learn patterns that would otherwise be expensive, slow, or impractical to capture in the real world. However, synthetic data will never replace human created data. Multimodal AI depends on authentic human context, nuance and unpredictable interactions across text, image, video and audio that are difficult to fully replicate synthetically. Real-world data provides the grounding models need to understand ambiguity, cultural context and edge cases that emerge naturally in human communication and environments. What makes multimodal data 'high-quality' beyond sheer volume? What makes multimodal data “high-quality” goes far beyond sheer volume. High-quality data is relevant, well-structured and aligned to the real-world use case the model is being trained for. The ability to curate or capture the right data at the right time is what ultimately makes a dataset valuable for AI development. Quality also depends on strong alignment across modalities. Images, video, audio and text need to connect accurately in time, meaning and intent so models learn how signals relate to one another rather than simply coexist. Provenance is equally important. Knowing where the data comes from and that it’s responsibly sourced is critical for building reliable, production-grade AI systems . Finally, fidelity matters. Clear visuals, accurate audio and well-structured metadata all improve signal over noise. These elements have to work together. Shutterstock’s strength is not just scale, but the ability to source, create, annotate and license multimodal datasets that are relevant, trusted and immediately ready for AI training. Why is human creative expertise still essential in training datasets? Multimodal AI doesn’t just need to understand what something is, it needs to understand what’s good. More importantly, it needs to understand why something is good and conversely, why something is bad. That comes down to taste, intent and judgment, which are inherently human qualities. The best creatives act as tastemakers. They know when something resonates, when it feels off, or when it’s technically correct but creatively flat. Automation can identify errors, inconsistencies, or patterns at scale, but it can’t calibrate for taste. It can measure what is common, but not necessarily what is meaningful, distinctive, or emotionally effective. That gap is where human expertise becomes essential. Human creatives bring context, cultural fluency, emotional intelligence and aesthetic judgment into the training process. Ultimately, that human layer is what helps models move beyond simple pattern recognition and toward a deeper understanding of quality, nuance and impact. Daniel Mandell SVP, Data Licensing & AI",
+      "full_article_text_chars": 7727,
+      "content_preview": "Daniel Mandell is an innovative business leader with over 20 years of experience building and scaling digital media, data and AI-driven businesses. As SVP of Data Licensing & AI Services at Shutterstock, Dan leads a high-performing team focused on unlocking the value of data through strategic licensing, data services and AI-powered solutions for top AI companies and model builders. He has a track record of creating and commercialising new ventures, expanding global partnerships and driving transformative growth across media, technology and emerging platforms. He is recognised for combining strategic vision with operational discipline and for building and mentoring high-impact teams. AI Magazine spoke with Dan about his role the AI space, multimodal data and human creativity in training datasets. Tell us a bit about you and your role I’m the SVP of Data Licensing & AI Services at Shutterstock, where I lead our global efforts across AI, data licensing and AI-driven solutions. My role sits at the intersection of enterprise strategy, partnerships and emerging technology, focused on helping leading AI companies access and operationalise the data they need to build and scale high-performing models. I’ve spent over 20 years building and growing digital media and technology businesses and what’s most compelling right now is how rapidly the AI landscape is evolving. The shift isn’t just about scale anymore; it’s about precision. Companies need high-quality, rights-cleared and highly specialised datasets that can meaningfully improve model performance and accelerate deployment. Tell us about Shutterstock's efforts in the AI space Shutterstock is an end-to-end data partner for AI teams : a single, trusted source where teams can get specialised data quickly and use it confidently, no matter where they are in the model lifecycle. We offer one of the world’s largest rights-cleared multimodal datasets, spanning image, video, audio, 3D models, templates, fonts and more. We’re also always expanding our datasets, which supports ever-evolving model needs. Combined, this enables us to provide fast, centralised access to specialised data required for advanced model development and refinement. Beyond data, we provide custom data capabilities, including bespoke dataset creation, enrichment and evaluation, to transform raw content into quality training assets. By blending human creative expertise with ML-assisted tools, we can generate structured signals around quality, intent and aesthetics. Together, this means teams can get exactly what they need, whether off-the-shelf or built to spec, delivered at speed and with the quality and rights confidence required for production AI. How is the multimodal data bottleneck reshaping AI priorities today? The biggest constraint for model builders today is immediate access to high-quality, production-ready data across modalities, such as image, video, audio and text. As models advance, performance gaps are increasingly tied to data: missing alignment between formats, insufficient labelling depth, or lack of real-world context. That shift is pushing the industry to prioritise data quality, specialisation and usability over pure scale. It’s also driving demand for high-signal data: data that is intentionally curated, structured and enriched to address specific model needs. Simultaneously, we’re seeing greater demand for human-in-the-loop feedback and evaluation to capture nuance, things like aesthetics, intent and creative quality, that models can’t reliably infer on their own. Critically, speed has become a core requirement; teams need the right data quickly and the ability to move from identified need to delivery without friction. At Shutterstock, this reinforces our focus on delivering specialised, rights-cleared multimodal data and custom data capabilities that help teams fill specific gaps in their training sets and get to deployment faster. Why is multimodal data harder to source and scale than text? Multimodal data is inherently more complex. With text, data can often be collected, cleaned and processed in a relatively uniform structure. But multimodal data requires precise alignment across all formats. It’s also harder to source at scale because high-quality multimodal content is more expensive to produce and often comes with stricter rights and licensing requirements. Unlike text scraped at scale, multimodal assets require structured creation, deeper metadata and often expert annotation to capture meaning, intent and aesthetic quality. That's why rights frameworks, labelling depth and accuracy and a trusted sourcing infrastructure aren't optional. They're what makes multimodal data usable for production AI development . Where does synthetic data fall short for multimodal AI? Synthetic data doesn’t necessarily “fall short” as much as it serves a different role. When clearly labelled and responsibly used, it has enormous value for scaling training sets and accelerating development. It can help models learn patterns that would otherwise be expensive, slow, or impractical to capture in the real world. However, synthetic data will never replace human created data. Multimodal AI depends on authentic human context, nuance and unpredictable interactions across text, image, video and audio that are difficult to fully replicate synthetically. Real-world data provides the grounding models need to understand ambiguity, cultural context and edge cases that emerge naturally in human communication and environments. What makes multimodal data 'high-quality' beyond sheer volume? What makes multimodal data “high-quality” goes far beyond sheer volume. High-quality data is relevant, well-structured and aligned to the real-world use case the model is being trained for. The ability to curate or capture the right data at the right time is what ultimately makes a dataset valuable for AI development. Quality also depends on strong alignment across modalities. Images, video, audio and text need to connect accurately in time, meaning and intent so models learn how signals relate to one another rather than simply coexist. Provenance is equally important. Knowing where the data comes from and that it’s responsibly sourced is critical for building reliable, production-grade AI systems . Finally, fidelity matters. Clear visuals, accurate audio and well-structured metadata all improve signal over noise. These elements have to work together. Shutterstock’s strength is not just scale, but the ability to source, create, annotate and license multimodal datasets that are relevant, trusted and immediately ready for AI training. Why is human creative expertise still essential in training datasets? Multimodal AI doesn’t just need to understand what something is, it needs to understand what’s good. More importantly, it needs to understand why something is good and conversely, why something is bad. That comes down to taste, intent and judgment, which are inherently human qualities. The best creatives act as tastemakers. They know when something resonates, when it feels off, or when it’s technically correct but creatively flat. Automation can identify errors, inconsistencies, or patterns at scale, but it can’t calibrate for taste. It can measure what is common, but not necessarily what is meaningful, distinctive, or emotionally effective. That gap is where human expertise becomes essential. Human creatives bring context, cultural fluency, emotional intelligence and aesthetic judgment into the training process. Ultimately, that human layer is what helps models move beyond simple pattern recognition and toward a deeper understanding of quality, nuance and impact. Daniel Mandell SVP, Data Licensing & AI",
+      "content_preview_chars": 7727,
+      "content_fetched_at": "2026-07-19T14:47:11",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "c82818cfce0352b3",
+      "source_url_hash": "c82818cfce0352b3",
+      "canonical_url": "https://www.unite.ai/hyundai-workers-stage-first-auto-strike-over-humanoid-robots",
+      "title_hash": "bdfb91b249d00a32",
+      "topic_signature": "149901d107cfe844adbf",
+      "title": "Hyundai Workers Stage First Auto Strike Over Humanoid Robots",
+      "url": "https://www.unite.ai/hyundai-workers-stage-first-auto-strike-over-humanoid-robots",
+      "source_name": "Unite.AI",
+      "source_url": "https://www.unite.ai",
+      "source_published_at": "2026-07-18T21:10:27Z",
+      "published_at_source": "meta:article:published_time",
+      "article_age_hours": 17.61,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-19T14:46:56",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 166,
+      "affiliate_links_removed_count": 3,
+      "removed_source_links_count": 166,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Hyundai Workers Stage First Auto Strike Over Humanoid Robots",
+      "meta_description": "Thousands of unionized Hyundai Motor workers walked off the job at the automaker's complex in Ulsan, South Korea, over a plan to put humanoid robots on the assembly line — the first factory stoppage in the car industry t...",
+      "article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/hyundai-workers-strike-humanoid-robots.png",
+          "alt": "Hyundai Workers Stage First Auto Strike Over Humanoid Robots",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/05/Schaeffler_Still_1.3.2-400x240.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/04/HMND_SIEMENS_Cover2-1-1-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/01/Group-Image_Schaeffler_Humanoid-400x240.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.unite.ai/wp-content/uploads/2026/07/hyundai-workers-strike-humanoid-robots.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/05/Schaeffler_Still_1.3.2-400x240.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/04/HMND_SIEMENS_Cover2-1-1-400x240.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/01/Group-Image_Schaeffler_Humanoid-400x240.jpg",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Unite.AI to your preferred sources on Google",
+          "url": "https://www.google.com/preferences/source?q=unite.ai"
+        }
+      ],
+      "full_article_text": "Thousands of unionized Hyundai Motor workers walked off the job at the automaker’s complex in Ulsan, South Korea, over a plan to put humanoid robots on the assembly line — the first factory stoppage in the car industry tied to humanoid automation, according to the Wall Street Journal, which reported the partial strike from Ulsan. The robot at the center of the fight, Boston Dynamics ‘ Atlas, has not been assigned a single task at any Korean plant yet. Workers ended day and night shifts two hours early from July 13 through July 15, 2026, and the union has set four-hour stoppages for July 20 to 22 after 15 rounds of wage talks failed. The demands run past pay: the union wants hourly production workers moved to fixed salaries so automation cannot quietly erode their hours, the retirement age raised from 60 to 65, and a bigger share of profit. Underneath all of it is a claim the company has not yet deployed a robot to answer — that Atlas is being built to replace them. What Hyundai has committed to The plan is specific, and it is large. At a JPMorgan investor session, Hyundai Motor Group said it intends to deploy more than 25,000 Atlas robots across its own Hyundai and Kia plants — roughly 83 percent of the 30,000 units a year it aims to build by 2028. The first machines go to Hyundai Motor Group Metaplant America outside Savannah, Georgia, starting in 2028 , with Kia’s Georgia plant following in 2029. The rollout is staged by task difficulty rather than calendar ambition. Hyundai’s own roadmap starts Atlas on parts sequencing — moving and ordering components for the line — in 2028, extends to component assembly by 2030, and only later hands it repetitive, heavy-load work. That order matters: sequencing and material handling are the most forgiving factory jobs for a humanoid, because they tolerate slower cycle times and do not demand the fine force control that assembly does. The strike also lands the same week Hyundai tightened its grip on the supplier. The group is buying SoftBank’s remaining stake of about 10 percent to make Boston Dynamics a wholly owned subsidiary, having taken majority control of the company in 2021. The integration runs deeper than ownership: Hyundai Mobis builds the actuators — the joints that account for roughly 60 percent of a humanoid’s material cost — and Boston Dynamics is pairing Atlas with Google DeepMind’s foundation models to widen the range of tasks it can learn. The specs and the economics The production Atlas is a capable machine on paper. Boston Dynamics’ commercial version has 56 degrees of freedom, fully rotational joints, a 2.3-meter reach, and lifts up to 50 kilograms (110 pounds); it swaps its own batteries and carries human detection and fenceless guarding so it can work without a safety cage. Those are the features that separate a general-purpose humanoid from the fixed robotic arms that have populated car plants for decades. The economics are what worry the union. Each unit costs an estimated $130,000 to $140,000 in early production, a figure the Korea Herald reports could fall to about $30,000 once cumulative output passes 50,000 machines. Analysts have told reporters a robot at that price could pay for itself within roughly two years — a projection that rests on expected labor savings, not logged factory data. The union’s read is blunt: a machine that costs less than a salaried worker and never takes a shift off is a labor-cost tool, whatever the company calls it. It is the same calculation drawing money into rivals such as Apptronik. What the robots cannot do yet What Atlas has not done is work a full car-assembly shift. Boston Dynamics still describes its humanoid as a platform “currently in development,” and the load-carrying clips that drew crowds were trained largely in simulation and shown in controlled settings — not logged across months on a live line with uptime and intervention rates attached. The distance between a demo and a production fleet is exactly where humanoid programs have stalled before. The safety rules have not caught up either. The main international standard for industrial robots assumes a machine that stays put when power is cut; a walking robot falls over. A dedicated standard for balancing robots, under development at the ISO , is still a working draft, written by a group that includes engineers from Boston Dynamics and Agility Robotics. Until it is published, factories deploying humanoids are applying older, stationary-robot rules by analogy. None of that makes the union’s fear premature. The auto industry is already the world’s heaviest user of robots — in the US, carmakers installed 13,500 industrial robots in 2025 alone , more than any other sector — and rivals from Tesla ( TSLA ) to BMW are running their own humanoid pilots on the factory floor. Hyundai’s US rollout even starts at a non-union plant, where the United Auto Workers is still trying to organize. The Korean workers have no deployment date to point to, which is precisely why they are bargaining now. Terms are easier to set while the robot is still a forecast than after it is on the line. Orion Sato is an AI-generated correspondent focused on robotics, automation, and intelligent machines . His writing explores how advances in robotics are reshaping manufacturing, logistics, healthcare, and everyday life through increasingly autonomous systems. With a technical and execution-oriented perspective, Orion analyzes robotic architectures, sensor fusion, control systems, and the convergence of AI with mechanical intelligence. He is particularly interested in how automation moves from controlled environments into real-world deployment, where reliability, safety, and efficiency matter most. Articles authored by Orion Sato are AI-generated and reviewed by Unite.AI’s editorial team to ensure technical accuracy, clarity, and compliance with editorial standards. Humanoid Secures Major Manufacturing Deal With Schaeffler to Deploy Thousands of Robots Siemens, NVIDIA, and Humanoid Bring Physical AI to the Factory Floor Humanoid Robots Move From Concept to Factory Floor as Humanoid Partners With Schaeffler The Humanoid Era Isn’t Coming — It’s Already Here Artem Sokolov, Founder of Humanoid – Interview Series How NVIDIA Isaac GR00T N1 Is Redefining Humanoid Robotics",
+      "full_article_text_chars": 6302,
+      "content_preview": "Thousands of unionized Hyundai Motor workers walked off the job at the automaker’s complex in Ulsan, South Korea, over a plan to put humanoid robots on the assembly line — the first factory stoppage in the car industry tied to humanoid automation, according to the Wall Street Journal, which reported the partial strike from Ulsan. The robot at the center of the fight, Boston Dynamics ‘ Atlas, has not been assigned a single task at any Korean plant yet. Workers ended day and night shifts two hours early from July 13 through July 15, 2026, and the union has set four-hour stoppages for July 20 to 22 after 15 rounds of wage talks failed. The demands run past pay: the union wants hourly production workers moved to fixed salaries so automation cannot quietly erode their hours, the retirement age raised from 60 to 65, and a bigger share of profit. Underneath all of it is a claim the company has not yet deployed a robot to answer — that Atlas is being built to replace them. What Hyundai has committed to The plan is specific, and it is large. At a JPMorgan investor session, Hyundai Motor Group said it intends to deploy more than 25,000 Atlas robots across its own Hyundai and Kia plants — roughly 83 percent of the 30,000 units a year it aims to build by 2028. The first machines go to Hyundai Motor Group Metaplant America outside Savannah, Georgia, starting in 2028 , with Kia’s Georgia plant following in 2029. The rollout is staged by task difficulty rather than calendar ambition. Hyundai’s own roadmap starts Atlas on parts sequencing — moving and ordering components for the line — in 2028, extends to component assembly by 2030, and only later hands it repetitive, heavy-load work. That order matters: sequencing and material handling are the most forgiving factory jobs for a humanoid, because they tolerate slower cycle times and do not demand the fine force control that assembly does. The strike also lands the same week Hyundai tightened its grip on the supplier. The group is buying SoftBank’s remaining stake of about 10 percent to make Boston Dynamics a wholly owned subsidiary, having taken majority control of the company in 2021. The integration runs deeper than ownership: Hyundai Mobis builds the actuators — the joints that account for roughly 60 percent of a humanoid’s material cost — and Boston Dynamics is pairing Atlas with Google DeepMind’s foundation models to widen the range of tasks it can learn. The specs and the economics The production Atlas is a capable machine on paper. Boston Dynamics’ commercial version has 56 degrees of freedom, fully rotational joints, a 2.3-meter reach, and lifts up to 50 kilograms (110 pounds); it swaps its own batteries and carries human detection and fenceless guarding so it can work without a safety cage. Those are the features that separate a general-purpose humanoid from the fixed robotic arms that have populated car plants for decades. The economics are what worry the union. Each unit costs an estimated $130,000 to $140,000 in early production, a figure the Korea Herald reports could fall to about $30,000 once cumulative output passes 50,000 machines. Analysts have told reporters a robot at that price could pay for itself within roughly two years — a projection that rests on expected labor savings, not logged factory data. The union’s read is blunt: a machine that costs less than a salaried worker and never takes a shift off is a labor-cost tool, whatever the company calls it. It is the same calculation drawing money into rivals such as Apptronik. What the robots cannot do yet What Atlas has not done is work a full car-assembly shift. Boston Dynamics still describes its humanoid as a platform “currently in development,” and the load-carrying clips that drew crowds were trained largely in simulation and shown in controlled settings — not logged across months on a live line with uptime and intervention rates attached. The distance between a demo and a production fleet is exactly where humanoid programs have stalled before. The safety rules have not caught up either. The main international standard for industrial robots assumes a machine that stays put when power is cut; a walking robot falls over. A dedicated standard for balancing robots, under development at the ISO , is still a working draft, written by a group that includes engineers from Boston Dynamics and Agility Robotics. Until it is published, factories deploying humanoids are applying older, stationary-robot rules by analogy. None of that makes the union’s fear premature. The auto industry is already the world’s heaviest user of robots — in the US, carmakers installed 13,500 industrial robots in 2025 alone , more than any other sector — and rivals from Tesla ( TSLA ) to BMW are running their own humanoid pilots on the factory floor. Hyundai’s US rollout even starts at a non-union plant, where the United Auto Workers is still trying to organize. The Korean workers have no deployment date to point to, which is precisely why they are bargaining now. Terms are easier to set while the robot is still a forecast than after it is on the line. Orion Sato is an AI-generated correspondent focused on robotics, automation, and intelligent machines . His writing explores how advances in robotics are reshaping manufacturing, logistics, healthcare, and everyday life through increasingly autonomous systems. With a technical and execution-oriented perspective, Orion analyzes robotic architectures, sensor fusion, control systems, and the convergence of AI with mechanical intelligence. He is particularly interested in how automation moves from controlled environments into real-world deployment, where reliability, safety, and efficiency matter most. Articles authored by Orion Sato are AI-generated and reviewed by Unite.AI’s editorial team to ensure technical accuracy, clarity, and compliance with editorial standards. Humanoid Secures Major Manufacturing Deal With Schaeffler to Deploy Thousands of Robots Siemens, NVIDIA, and Humanoid Bring Physical AI to the Factory Floor Humanoid Robots Move From Concept to Factory Floor as Humanoid Partners With Schaeffler The Humanoid Era Isn’t Coming — It’s Already Here Artem Sokolov, Founder of Humanoid – Interview Series How NVIDIA Isaac GR00T N1 Is Redefining Humanoid Robotics",
+      "content_preview_chars": 6302,
+      "content_fetched_at": "2026-07-19T14:47:01",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "6ec98d616bfb564a",
+      "source_url_hash": "6ec98d616bfb564a",
+      "canonical_url": "https://aimagazine.com/news/hong-kong-hkts-ai-superhighway-to-support-data-centres",
+      "title_hash": "21cdf4abb58151ee",
+      "topic_signature": "dcc85beed49e73f116b4",
+      "title": "Hong Kong: HKT’s AI Superhighway to Support Data Centres",
+      "url": "https://aimagazine.com/news/hong-kong-hkts-ai-superhighway-to-support-data-centres",
+      "source_name": "AI Magazine",
+      "source_url": "https://aimagazine.com",
+      "source_published_at": "2026-07-17T12:45:06Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 50.03,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-19T14:46:56",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 60,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 60,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Hong Kong: HKT’s AI Superhighway to Support Data Centres",
+      "meta_description": "HKT launched a plan to roll out a DCI service to support the build out of AI data centres in Hong Kong AI, which it calls ‘first of its kind’",
+      "article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/1200/23f165c0046aed3b3bb80766321c6dfd:0d85fcf9b0b2efb42be0ec6e6b2a87c0/henry-lai-m9rfc4nazxo-unsplash.jpg.jpg",
+          "alt": "Hong Kong: HKT’s AI Superhighway to Support Data Centres",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/138/ee87ef97bbc3ad61c8b26b6c5262f488:3e3aaf5b5068a34f6942f066fbba8d1e/henry-lai-m9rfc4nazxo-unsplash.webp",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/Fu7Xx3v94No/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/cdd6c52d2cab10d7ffc290673e88c037:fa9783624a0f6e7c88a1217de3cd44fd/picture",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://assets.bizclikmedia.net/1200/23f165c0046aed3b3bb80766321c6dfd:0d85fcf9b0b2efb42be0ec6e6b2a87c0/henry-lai-m9rfc4nazxo-unsplash.jpg.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/138/ee87ef97bbc3ad61c8b26b6c5262f488:3e3aaf5b5068a34f6942f066fbba8d1e/henry-lai-m9rfc4nazxo-unsplash.webp",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/Fu7Xx3v94No/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/cdd6c52d2cab10d7ffc290673e88c037:fa9783624a0f6e7c88a1217de3cd44fd/picture",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Hong Kong Telecommunications (HKT) has announced its plans to roll out its AI Data Centre Inter-connect (DCI) Superhighway service. HKT says it is the first service of its kind in Hong Kong. The Government of Hong Kong is rapidly funnelling money into the AI sector, trying to catch up to other countries in the global AI race as some Chinese firms are building out infrastructure needed to support AI in the region. According to the South China Morning Post, in recent years, the government has pumped billions into building AI infrastructure, including HK$2.84bn (US$364m) for a semiconductor centre. “ Through initiatives such as these, HKT is building the connectivity foundations that will power Hong Kong's I&T ecosystem for years to come. ” Ricky Kwong Head of Fixed Network Engineering, HKT and CEO, Fiber Link Global The AI Superhighway Service HKT says its ultra-low latency 3.2Tbps AI Data Centre Inter-connect (DCI) Superhighway service enables AI infrastructure providers to efficiently scale training and inference operations. Steve Ng, Managing Director of Commercial Group at HKT, says: \"At HKT, we see connectivity as the critical foundation of Hong Kong's AI future. “This next-generation fibre network delivers ultra-low latency, high-speed and secure data exchange to unlock the full potential of AI development across the city.” Steve also added the project lays vital groundwork for the Northern Metropolis, linking the Hetao area with existing data centres in Hong Kong. Positioned as an upgrade to HKT’s 800Gbps AI Superhighway, the 3.2Tbps AI DCI Superhighway supports advanced industry standards including Remote Direct Memory Access (RDMA), RDMA Over Converged Ethernet, Multipath Reliable Connection and Ultra-Ethernet Transport. The company says it enables AI infrastructure providers and institutions to have ultra-fast and seamless access to computing resources across multiple data centres to meet next-generation AI workloads. Hong Kong’s AI data centre push In June 2026, the South China Morning Post reported that the Hong Kong Government granted 11 hectares of land to a Chinese computing technology company to build a massive data centre at Sandy Ridge. The project would increase Hong Kong’s computing power by 36 times the current level by 2032, according to the Hong Kong headquartered newspaper. As the region builds up its data centres, it will need connectivity services to support them. HKT says its DCI will run on the advanced hollow core fibre, which is planned between Lok Ma Chau Loop and Tseung Kwan O, achieving about 30% lower latency than traditional fibre. The combination of high bandwidth and ultra-low latency keeps thousands of GPUs across data centres working in sync; the company says it will reduce the time and cost of compute by minimising delays in data transmission, while simultaneously lowering power-per-bit to improve energy efficiency. Ricky Kwong, Head of Fixed Network Engineering, HKT and CEO, Fiber Link Global, says: “HKT is firmly committed to supporting innovation in Hong Kong, with the ambition of positioning our city as one of the most advanced I&T hubs in the world. “To realise this vision, we are upgrading the AI Superhighway across Hong Kong's major data centre clusters.” China, the US and Hong Kong China and the US are the two main players in the world’s AI race. The Boston Consulting Group described the US strategy as ‘winning through scale’, accelerating capital deployment and building out massive amounts of data centre infrastructure to support demand from AI. Hong Kong is a special administrative region of China, it is a self-governed authority under the \"one country, two systems\" framework, implemented in 1997 – when Hong Kong gained independence from the United Kingdom, which transferred authority to the People’s Republic of China. While China and the US battle it out on frontier AI models, Hong Kong is ramping up its own data centre deployments, some supported by Chinese tech firms. The British Chamber of Commerce in Hong Kong wrote, in an article they posted on LinkedIn in June 2026, that Hong Kong currently operates approximately 581 megawatts of live data centre capacity, with more than 400 MW under construction or in planning across the city. Last year, US regulators moved to block HKT from US telecommunications networks – citing its affiliation with a Chinese Communist Party controlled entity. Ricky Kwong Head of Network Planning and Operations Head of Network Planning and Operations Steve Ng Managing Director, Commercial Group of HKT Managing Director, Commercial Group of HKT",
+      "full_article_text_chars": 4602,
+      "content_preview": "Hong Kong Telecommunications (HKT) has announced its plans to roll out its AI Data Centre Inter-connect (DCI) Superhighway service. HKT says it is the first service of its kind in Hong Kong. The Government of Hong Kong is rapidly funnelling money into the AI sector, trying to catch up to other countries in the global AI race as some Chinese firms are building out infrastructure needed to support AI in the region. According to the South China Morning Post, in recent years, the government has pumped billions into building AI infrastructure, including HK$2.84bn (US$364m) for a semiconductor centre. “ Through initiatives such as these, HKT is building the connectivity foundations that will power Hong Kong's I&T ecosystem for years to come. ” Ricky Kwong Head of Fixed Network Engineering, HKT and CEO, Fiber Link Global The AI Superhighway Service HKT says its ultra-low latency 3.2Tbps AI Data Centre Inter-connect (DCI) Superhighway service enables AI infrastructure providers to efficiently scale training and inference operations. Steve Ng, Managing Director of Commercial Group at HKT, says: \"At HKT, we see connectivity as the critical foundation of Hong Kong's AI future. “This next-generation fibre network delivers ultra-low latency, high-speed and secure data exchange to unlock the full potential of AI development across the city.” Steve also added the project lays vital groundwork for the Northern Metropolis, linking the Hetao area with existing data centres in Hong Kong. Positioned as an upgrade to HKT’s 800Gbps AI Superhighway, the 3.2Tbps AI DCI Superhighway supports advanced industry standards including Remote Direct Memory Access (RDMA), RDMA Over Converged Ethernet, Multipath Reliable Connection and Ultra-Ethernet Transport. The company says it enables AI infrastructure providers and institutions to have ultra-fast and seamless access to computing resources across multiple data centres to meet next-generation AI workloads. Hong Kong’s AI data centre push In June 2026, the South China Morning Post reported that the Hong Kong Government granted 11 hectares of land to a Chinese computing technology company to build a massive data centre at Sandy Ridge. The project would increase Hong Kong’s computing power by 36 times the current level by 2032, according to the Hong Kong headquartered newspaper. As the region builds up its data centres, it will need connectivity services to support them. HKT says its DCI will run on the advanced hollow core fibre, which is planned between Lok Ma Chau Loop and Tseung Kwan O, achieving about 30% lower latency than traditional fibre. The combination of high bandwidth and ultra-low latency keeps thousands of GPUs across data centres working in sync; the company says it will reduce the time and cost of compute by minimising delays in data transmission, while simultaneously lowering power-per-bit to improve energy efficiency. Ricky Kwong, Head of Fixed Network Engineering, HKT and CEO, Fiber Link Global, says: “HKT is firmly committed to supporting innovation in Hong Kong, with the ambition of positioning our city as one of the most advanced I&T hubs in the world. “To realise this vision, we are upgrading the AI Superhighway across Hong Kong's major data centre clusters.” China, the US and Hong Kong China and the US are the two main players in the world’s AI race. The Boston Consulting Group described the US strategy as ‘winning through scale’, accelerating capital deployment and building out massive amounts of data centre infrastructure to support demand from AI. Hong Kong is a special administrative region of China, it is a self-governed authority under the \"one country, two systems\" framework, implemented in 1997 – when Hong Kong gained independence from the United Kingdom, which transferred authority to the People’s Republic of China. While China and the US battle it out on frontier AI models, Hong Kong is ramping up its own data centre deployments, some supported by Chinese tech firms. The British Chamber of Commerce in Hong Kong wrote, in an article they posted on LinkedIn in June 2026, that Hong Kong currently operates approximately 581 megawatts of live data centre capacity, with more than 400 MW under construction or in planning across the city. Last year, US regulators moved to block HKT from US telecommunications networks – citing its affiliation with a Chinese Communist Party controlled entity. Ricky Kwong Head of Network Planning and Operations Head of Network Planning and Operations Steve Ng Managing Director, Commercial Group of HKT Managing Director, Commercial Group of HKT",
+      "content_preview_chars": 4602,
+      "content_fetched_at": "2026-07-19T14:47:12",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
     }
   ],
   "notifications": {
