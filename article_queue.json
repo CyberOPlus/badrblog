@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-19T10:22:25",
+  "updated_at": "2026-07-19T11:33:13",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -55,11 +55,11 @@
       "content_fetched_at": "2026-07-19T03:49:29",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T03:51:53",
+      "selected_at": "2026-07-19T11:29:23",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T03:51:53",
+      "processing_prepared_at": "2026-07-19T11:29:23",
       "ai_input_package": {
         "title": "Apple raises iCloud+ subscription prices in several countries - 9to5Mac",
         "url": "https://9to5mac.com/2026/07/17/apple-raises-icloud-subscription-prices-in-several-countries",
@@ -92,20 +92,20 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content",
-      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_quality_last_error": "ad/affiliate/sponsored title or summary",
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "ad/affiliate/sponsored title or summary",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 109.69,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 41.84,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-19T04:08:43Z",
+      "candidate_retry_after": "2026-07-19T11:45:05Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-19T03:53:43",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "ad/affiliate/sponsored title or summary",
+      "candidate_failed_at": "2026-07-19T11:30:05",
+      "candidate_failure_count": 2
     },
     {
       "id": "b45b7a6f67e8a509",
@@ -180,11 +180,11 @@
       "content_fetched_at": "2026-07-19T03:49:31",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T03:54:22",
+      "selected_at": "2026-07-19T11:31:15",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T03:54:22",
+      "processing_prepared_at": "2026-07-19T11:31:15",
       "ai_input_package": {
         "title": "Apple raises prices for Apple Music and Apple One subscriptions - 9to5Mac",
         "url": "https://9to5mac.com/2026/07/17/apple-raises-prices-for-apple-music-and-apple-one-subscriptions",
@@ -227,19 +227,20 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_quality_last_error": "ad/affiliate/sponsored title or summary",
       "ai_status": "failed",
-      "ai_error": "AI article response returned incomplete JSON.",
+      "ai_error": "ad/affiliate/sponsored title or summary",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 77.5,
+      "ai_total_time_seconds": 54.0,
       "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-19T04:10:40Z",
+      "candidate_retry_after": "2026-07-19T11:47:09Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "AI article response returned incomplete JSON.",
-      "candidate_failed_at": "2026-07-19T03:55:40",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "ad/affiliate/sponsored title or summary",
+      "candidate_failed_at": "2026-07-19T11:32:09",
+      "candidate_failure_count": 2,
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\""
     },
     {
       "id": "43987882f4376bd3",
@@ -406,11 +407,11 @@
       "content_fetched_at": "2026-07-19T03:49:33",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T03:49:34",
+      "selected_at": "2026-07-19T11:30:05",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T03:49:34",
+      "processing_prepared_at": "2026-07-19T11:30:05",
       "ai_input_package": {
         "title": "Xreal XBX a01+ review: Astoundingly bright, lightweight AR glasses for $299 - Engadget",
         "url": "https://www.engadget.com/2217308/xreal-xbx-a01-review",
@@ -463,15 +464,16 @@
       "ai_error": "article older than 24 hours",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 138.78,
+      "ai_total_time_seconds": 68.61,
       "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-19T04:06:53Z",
+      "candidate_retry_after": "2026-07-19T11:46:15Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "article older than 24 hours",
-      "candidate_failed_at": "2026-07-19T03:51:53",
-      "candidate_failure_count": 1,
-      "telegram_final_summary_notified_at": "2026-07-19T03:55:41"
+      "candidate_failed_at": "2026-07-19T11:31:15",
+      "candidate_failure_count": 2,
+      "telegram_final_summary_notified_at": "2026-07-19T03:55:41",
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\""
     },
     {
       "id": "1c6f2acfd6db9c11",
@@ -522,11 +524,11 @@
       "content_fetched_at": "2026-07-19T03:49:34",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T03:53:43",
+      "selected_at": "2026-07-19T11:32:09",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T03:53:43",
+      "processing_prepared_at": "2026-07-19T11:32:09",
       "ai_input_package": {
         "title": "Smart speakers could help OpenAI lose even more money - Engadget",
         "url": "https://www.engadget.com/2216556/smart-speakers-could-help-openai-lose-even-more-money",
@@ -554,20 +556,20 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content",
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 38.42,
+      "ai_total_time_seconds": 63.12,
       "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-19T04:09:22Z",
+      "candidate_retry_after": "2026-07-19T11:48:13Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-19T03:54:22",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-19T11:33:13",
+      "candidate_failure_count": 2
     },
     {
       "id": "4fe674828c78bb0a",
@@ -2419,12 +2421,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-19T10:14:14",
-      "candidate_retry_after": "2026-07-19T10:29:14Z",
+      "content_fetched_at": "2026-07-19T11:29:21",
+      "candidate_retry_after": "2026-07-19T11:44:21Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-19T10:14:14",
-      "candidate_failure_count": 2
+      "candidate_failed_at": "2026-07-19T11:29:21",
+      "candidate_failure_count": 3
     },
     {
       "id": "512c2899a98440d2",
@@ -2453,12 +2455,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-19T10:14:14",
-      "candidate_retry_after": "2026-07-19T10:29:14Z",
+      "content_fetched_at": "2026-07-19T11:29:21",
+      "candidate_retry_after": "2026-07-19T11:44:21Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-19T10:14:14",
-      "candidate_failure_count": 2
+      "candidate_failed_at": "2026-07-19T11:29:21",
+      "candidate_failure_count": 3
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2487,12 +2489,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-19T10:14:14",
-      "candidate_retry_after": "2026-07-19T10:29:14Z",
+      "content_fetched_at": "2026-07-19T11:29:22",
+      "candidate_retry_after": "2026-07-19T11:44:22Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-19T10:14:14",
-      "candidate_failure_count": 2
+      "candidate_failed_at": "2026-07-19T11:29:22",
+      "candidate_failure_count": 3
     },
     {
       "id": "d900f1574fddfab4",
@@ -3300,16 +3302,652 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 226,
-      "affiliate_links_removed_count": 7,
-      "removed_source_links_count": 226,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=462 chars/68 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:462chars/68words, page_text:462chars/68words)",
-      "content_fetched_at": "2026-07-19T10:14:20",
-      "candidate_retry_after": "2026-07-19T10:29:20Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-07-19T11:29:22",
+      "candidate_retry_after": "2026-07-19T11:44:22Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=462 chars/68 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:462chars/68words, page_text:462chars/68words)",
-      "candidate_failed_at": "2026-07-19T10:14:20",
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-07-19T11:29:22",
+      "candidate_failure_count": 2
+    },
+    {
+      "id": "8d2678d87487d729",
+      "source_url_hash": "8d2678d87487d729",
+      "canonical_url": "https://www.digitaltrends.com/phones/oneplus-is-gone-and-android-phones-just-became-more-boring-in-the-us",
+      "title_hash": "1f37598fcf37a0c6",
+      "topic_signature": "99d4de61a1113c679258",
+      "title": "OnePlus is gone, and Android phones just became more boring in the US",
+      "url": "https://www.digitaltrends.com/phones/oneplus-is-gone-and-android-phones-just-became-more-boring-in-the-us",
+      "source_name": "Digital Trends",
+      "source_url": "https://www.digitaltrends.com",
+      "source_published_at": "2026-07-19T08:30:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.98,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-19T11:29:03",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 272,
+      "affiliate_links_removed_count": 32,
+      "removed_source_links_count": 272,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "OnePlus is gone, and Android phones just became more boring in the US",
+      "meta_description": "Samsung and Google will be just fine, but Android has lost the brand that wasn't afraid to try something different.",
+      "article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2025/03/OnePlus-13-vs-OnePlus-11.jpg?resize=1200%2C630",
+          "alt": "OnePlus is gone, and Android phones just became more boring in the US",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2014/07/oneplus-one-camera.jpg?resize=1500%2C1000",
+          "alt": "Phone",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2015/11/OnePlus-X-With-OnePlus-2.jpg?resize=1500%2C1000",
+          "alt": "Phone",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2019/10/oneplus-7t-pro-mclaren-edition-pop-up-camera.jpg?resize=1500%2C1000",
+          "alt": "OnePlus 7T Pro McLaren Edition",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.digitaltrends.com/tachyon/2025/03/OnePlus-13-vs-OnePlus-11.jpg?resize=1200%2C630",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2014/07/oneplus-one-camera.jpg?resize=1500%2C1000",
+          "alt": "Phone"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2015/11/OnePlus-X-With-OnePlus-2.jpg?resize=1500%2C1000",
+          "alt": "Phone"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2019/10/oneplus-7t-pro-mclaren-edition-pop-up-camera.jpg?resize=1500%2C1000",
+          "alt": "OnePlus 7T Pro McLaren Edition"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "I wasn’t expecting a smartphone brand’s exit to hit me this hard, but OnePlus leaving the US and Europe genuinely did. The company has already confirmed that it will no longer launch new products in either market, although existing customers will continue receiving software updates and after-sales support. So while OnePlus isn’t disappearing altogether, it is walking away from two of the biggest smartphone markets in the world. To be honest, the Android market in the US already feels limited. If you’re shopping for a flagship, your realistic choices almost always begin with Samsung and end with Google. OnePlus was one of the very few brands sitting in between, offering something that didn’t quite look or feel like everything else. And that’s exactly what I’m going to miss. Looking back, I don’t think I ever waited for a OnePlus launch because I wanted faster performance or another camera upgrade — of course it came along. But I really waited to see what the company had come up with this time in terms of design, material, or a finish. OnePlus made smartphone launches feel unpredictable, and that’s something very few brands manage today. The brand that made phones feel different Whenever I think about the original OnePlus One, I don’t remember its processor or how much RAM it had. I remember the Sandstone back. It was rough, grippy, and unlike anything else I’d ever held. At a time when almost every phone felt either glossy or slippery, the OnePlus One actually made you notice its texture the moment you picked it up. Then came the StyleSwap covers. Suddenly, your phone could be made of bamboo instead of plastic or glass. It sounds ordinary today, but back then it genuinely felt fresh. Instead of asking you to cover your phone with another case, OnePlus wanted the phone itself to feel different. That was the thing about early OnePlus phones — they were memorable for their personality. And the company never really lost that curiosity until the launch of the OnePlus 15, either. Every few years, it reinvented itself The OnePlus 2 doubled down on the whole idea of customization with bamboo, rosewood, Kevlar, and Sandstone back covers. Then, just as it seemed textured finishes were becoming its identity, the company changed direction completely. The OnePlus X couldn’t have been more different — it traded rugged textures for glossy glass, polished metal, and even a ceramic version that took weeks to manufacture. It looked elegant, expensive, and unlike anything OnePlus had made before. A few years later, the company embraced aluminum unibodies before returning to glass again with the OnePlus 6. On paper, they were all just glass phones. In reality, Mirror Black, Midnight Black, Silk White, and that gorgeous red edition all felt like completely different devices. That was always the fun part; just when you thought OnePlus had settled on a design language, it would surprise you again. Remember when phones had personality? If there’s one phone that perfectly sums up why I loved OnePlus’ approach to design, it’s the OnePlus 7T Pro. Even today, I think it’s one of the most beautiful smartphones ever made. Its pop-up selfie camera meant there wasn’t a notch or a punch-hole interrupting the display. The screen stretched from edge to edge, and whenever you wanted to take a selfie, the camera rose from the frame before disappearing again a few seconds later. It felt really magical. Pair that with the deep blue finish on the back, and the phone looked futuristic without trying too hard. Years later, I still remember how satisfying it was to unlock it and watch that uninterrupted display light up. OnePlus carried that same mindset into the Concept One, too. It covered the rear with McLaren-inspired leather and used electrochromic glass that could hide the rear cameras when they weren’t in use. Did anyone really need invisible cameras? Probably not. But that’s what made OnePlus exciting. It wasn’t afraid to ask questions that no one else was asking. Risky? Absolutely. Boring? Never. Not every OnePlus design became an instant classic. Some were divisive, and a few borrowed a little too much from the competition. But even then, the company rarely settled for being anonymous. The giant circular camera module on the OnePlus 11 immediately stood out. The OnePlus 12’s Flowy Emerald finish looked like water frozen beneath glass. The OnePlus Open offered a choice between sleek matte glass and understated vegan leather. Even the OnePlus 13 arrived with finishes inspired by silk and natural wood textures, while the Nord 4 brought metal back at a time when almost everyone else had abandoned it. Whether you loved those designs or hated them, they always gave you something to talk about. Samsung and Google play it much safer That’s also why losing OnePlus feels bigger than simply losing another smartphone brand. Look at Samsung today — its Galaxy phones are incredibly polished, and I genuinely think they’re among the best Android phones you can buy. But they’ve also become very predictable. Every new generation feels like a careful refinement of the last one. Google has done something similar with the Pixel. The camera bar has become one of the most recognizable smartphone designs around, and every new Pixel simply builds on that identity. There’s absolutely nothing wrong with either approach. In fact, consistency is part of what makes both brands successful. But consistency rarely surprises you. OnePlus did — it kept changing materials, finishes, textures, camera layouts, and even the way cameras worked. You never really knew what the next OnePlus phone would look or feel like, and that’s something the Android market doesn’t have much of anymore. Goodbye to Android’s biggest risk-taker The Android market in the US will be just fine. Samsung isn’t slowing down, and Google will keep pushing the Pixel forward. People will continue buying both, and they have every reason to — they’re two of the best Android phones you can buy. But I’ll still miss the brand that wasn’t afraid to have a little fun. This is the company that gave us Sandstone backs, bamboo covers, ceramic finishes, leather phones, metal unibodies, pop-up selfie cameras, cameras that disappeared when you weren’t using them, and textures that almost begged you to pick the phone up just to feel them. Sure, not every experiment landed. Some designs divided opinion, while others felt a little too ambitious. But that’s exactly what made OnePlus special. It kept trying new ideas when everyone else seemed happy playing it safe. And that’s why its exit from the US and Europe feels like more than just another company leaving the market. Android hasn’t simply lost another name on a retailer’s shelf. It’s lost one of the very few brands that still believed smartphones could have a personality of their own.",
+      "full_article_text_chars": 6850,
+      "content_preview": "I wasn’t expecting a smartphone brand’s exit to hit me this hard, but OnePlus leaving the US and Europe genuinely did. The company has already confirmed that it will no longer launch new products in either market, although existing customers will continue receiving software updates and after-sales support. So while OnePlus isn’t disappearing altogether, it is walking away from two of the biggest smartphone markets in the world. To be honest, the Android market in the US already feels limited. If you’re shopping for a flagship, your realistic choices almost always begin with Samsung and end with Google. OnePlus was one of the very few brands sitting in between, offering something that didn’t quite look or feel like everything else. And that’s exactly what I’m going to miss. Looking back, I don’t think I ever waited for a OnePlus launch because I wanted faster performance or another camera upgrade — of course it came along. But I really waited to see what the company had come up with this time in terms of design, material, or a finish. OnePlus made smartphone launches feel unpredictable, and that’s something very few brands manage today. The brand that made phones feel different Whenever I think about the original OnePlus One, I don’t remember its processor or how much RAM it had. I remember the Sandstone back. It was rough, grippy, and unlike anything else I’d ever held. At a time when almost every phone felt either glossy or slippery, the OnePlus One actually made you notice its texture the moment you picked it up. Then came the StyleSwap covers. Suddenly, your phone could be made of bamboo instead of plastic or glass. It sounds ordinary today, but back then it genuinely felt fresh. Instead of asking you to cover your phone with another case, OnePlus wanted the phone itself to feel different. That was the thing about early OnePlus phones — they were memorable for their personality. And the company never really lost that curiosity until the launch of the OnePlus 15, either. Every few years, it reinvented itself The OnePlus 2 doubled down on the whole idea of customization with bamboo, rosewood, Kevlar, and Sandstone back covers. Then, just as it seemed textured finishes were becoming its identity, the company changed direction completely. The OnePlus X couldn’t have been more different — it traded rugged textures for glossy glass, polished metal, and even a ceramic version that took weeks to manufacture. It looked elegant, expensive, and unlike anything OnePlus had made before. A few years later, the company embraced aluminum unibodies before returning to glass again with the OnePlus 6. On paper, they were all just glass phones. In reality, Mirror Black, Midnight Black, Silk White, and that gorgeous red edition all felt like completely different devices. That was always the fun part; just when you thought OnePlus had settled on a design language, it would surprise you again. Remember when phones had personality? If there’s one phone that perfectly sums up why I loved OnePlus’ approach to design, it’s the OnePlus 7T Pro. Even today, I think it’s one of the most beautiful smartphones ever made. Its pop-up selfie camera meant there wasn’t a notch or a punch-hole interrupting the display. The screen stretched from edge to edge, and whenever you wanted to take a selfie, the camera rose from the frame before disappearing again a few seconds later. It felt really magical. Pair that with the deep blue finish on the back, and the phone looked futuristic without trying too hard. Years later, I still remember how satisfying it was to unlock it and watch that uninterrupted display light up. OnePlus carried that same mindset into the Concept One, too. It covered the rear with McLaren-inspired leather and used electrochromic glass that could hide the rear cameras when they weren’t in use. Did anyone really need invisible cameras? Probably not. But that’s what made OnePlus exciting. It wasn’t afraid to ask questions that no one else was asking. Risky? Absolutely. Boring? Never. Not every OnePlus design became an instant classic. Some were divisive, and a few borrowed a little too much from the competition. But even then, the company rarely settled for being anonymous. The giant circular camera module on the OnePlus 11 immediately stood out. The OnePlus 12’s Flowy Emerald finish looked like water frozen beneath glass. The OnePlus Open offered a choice between sleek matte glass and understated vegan leather. Even the OnePlus 13 arrived with finishes inspired by silk and natural wood textures, while the Nord 4 brought metal back at a time when almost everyone else had abandoned it. Whether you loved those designs or hated them, they always gave you something to talk about. Samsung and Google play it much safer That’s also why losing OnePlus feels bigger than simply losing another smartphone brand. Look at Samsung today — its Galaxy phones are incredibly polished, and I genuinely think they’re among the best Android phones you can buy. But they’ve also become very predictable. Every new generation feels like a careful refinement of the last one. Google has done something similar with the Pixel. The camera bar has become one of the most recognizable smartphone designs around, and every new Pixel simply builds on that identity. There’s absolutely nothing wrong with either approach. In fact, consistency is part of what makes both brands successful. But consistency rarely surprises you. OnePlus did — it kept changing materials, finishes, textures, camera layouts, and even the way cameras worked. You never really knew what the next OnePlus phone would look or feel like, and that’s something the Android market doesn’t have much of anymore. Goodbye to Android’s biggest risk-taker The Android market in the US will be just fine. Samsung isn’t slowing down, and Google will keep pushing the Pixel forward. People will continue buying both, and they have every reason to — they’re two of the best Android phones you can buy. But I’ll still miss the brand that wasn’t afraid to have a little fun. This is the company that gave us Sandstone backs, bamboo covers, ceramic finishes, leather phones, metal unibodies, pop-up selfie cameras, cameras that disappeared when you weren’t using them, and textures that almost begged you to pick the phone up just to feel them. Sure, not every experiment landed. Some designs divided opinion, while others felt a little too ambitious. But that’s exactly what made OnePlus special. It kept trying new ideas when everyone else seemed happy playing it safe. And that’s why its exit from the US and Europe feels like more than just another company leaving the market. Android hasn’t simply lost another name on a retailer’s shelf. It’s lost one of the very few brands that still believed smartphones could have a personality of their own.",
+      "content_preview_chars": 6850,
+      "content_fetched_at": "2026-07-19T11:29:11",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "8b719a0ecd6d9726",
+      "source_url_hash": "8b719a0ecd6d9726",
+      "canonical_url": "https://www.digitaltrends.com/phones/a-niche-iphone-browser-quietly-fixes-my-biggest-problem-with-google-search",
+      "title_hash": "036b894376c0b5aa",
+      "topic_signature": "0d4b34d36c1d03888ddc",
+      "title": "A niche iPhone browser quietly fixes my biggest problem with Google Search",
+      "url": "https://www.digitaltrends.com/phones/a-niche-iphone-browser-quietly-fixes-my-biggest-problem-with-google-search",
+      "source_name": "Digital Trends",
+      "source_url": "https://www.digitaltrends.com",
+      "source_published_at": "2026-07-19T06:21:59Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 5.12,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-19T11:29:03",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 268,
+      "affiliate_links_removed_count": 32,
+      "removed_source_links_count": 268,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "A niche iPhone browser quietly fixes my biggest problem with Google Search",
+      "meta_description": "Quiche Browser already had me hooked with its obsessive customization. Now it is killing AI overviews in search results by default, and that sealed the deal.",
+      "article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/07/Quiche-Browser-open-on-iPhone.jpg?resize=1200%2C630",
+          "alt": "A niche iPhone browser quietly fixes my biggest problem with Google Search",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/07/No-Google-Search-AI-overview-in-Quiche-Browser.jpeg?resize=2000%2C1391",
+          "alt": "No Google Search AI overview in Quiche Browser",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/07/Quiche-Browser-Tabs-overview.jpeg?resize=2000%2C1391",
+          "alt": "Quiche Browser Tabs overview",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/07/No-Google-Search-AI-overview-in-Quiche-Browser.jpg?resize=2000%2C1200",
+          "alt": "No Google Search AI overview in Quiche Browser",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.digitaltrends.com/tachyon/2026/07/Quiche-Browser-open-on-iPhone.jpg?resize=1200%2C630",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/07/No-Google-Search-AI-overview-in-Quiche-Browser.jpeg?resize=2000%2C1391",
+          "alt": "No Google Search AI overview in Quiche Browser"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/07/Quiche-Browser-Tabs-overview.jpeg?resize=2000%2C1391",
+          "alt": "Quiche Browser Tabs overview"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/07/No-Google-Search-AI-overview-in-Quiche-Browser.jpg?resize=2000%2C1200",
+          "alt": "No Google Search AI overview in Quiche Browser"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "If there’s a new browser, email app, or note-taking app to try, chances are I’ve already installed it. Like every other productivity nerd, I’m always chasing the perfect setup. That’s how I stumbled upon Quiche Browser. It was already close to replacing the Arc Search for me on the iPhone, but its latest update finally pushed it over the edge, earning it a spot as my default browser. What makes Quiche so good Quiche Browser is developed by a solo indie developer named Greg de J, who runs it under Quiche Industries . The headline feature of Quiche is its customizability. Nearly every button in Quiche can be moved, rearranged, or removed entirely, both in the bottom toolbar and the main menu. If that sounds like too much tinkering, the Toolbar Gallery gives you ready-made presets to start from, so you can go minimal or fully loaded without building anything from scratch. The tab switcher is another strength for this app. I can view your tabs as a grid or a list. I like that Quiche will even estimate how long an article takes to read, showing that time right under the tab title. I can group the tabs by domain or sort by read time, which honestly makes the browser feel like it doubles as a read-later app if you let it. One of my favorite features of Quiche Browser is the JavaScript toggle that sits right in the toolbar. With a single tap, I can kill JavaScript on whatever site I am visiting, and it is wild how much snappier and cleaner most pages become the moment you do it. The feature that sealed the deal All of that alone would be enough to recommend Quiche, but here is the part that really got me excited. Quiche now disables AI overviews in your search results by default, right out of the box. Starting today, Quiche Browser disables AI overviews in search results by default, out of the box.Compare how much space and time they waste. I love the web too much to let that nonsense bury links to real websites made by humans.Why no other browser does that is beyond me. — Quiche Industries (@quiche.industries) 2026-07-14T13:01:07.615Z The moment you search using Google, DuckDuckGo, Bing, or other default search engine, Quiche quietly sends you to the AI-free version of those results instead. There is no content blocker trick involved either. You still get the real, unfiltered list of links, just without a giant AI summary taking over the top of your screen before you even see a single website. Several studies have revealed how AI search overviews are harmful, sometimes delivering outright wrong information. A recent report from Common Sense Media even called it out for failing a major kids’ safety test. Not to mention that these summaries are causing harm to website authors and publishers whose work is scraped without compensation. So this feature alone was enough to make Quiche my default iPhone browser. If you actually want AI overviews back, you can turn them on again from Settings, then Search. But I love that the default here favors real websites made by real people. Search results have gotten so cluttered with AI-generated summaries that actual pages keep getting pushed further down, and Quiche taking a stand on that feels like a small but meaningful win for anyone who still loves browsing the actual web.",
+      "full_article_text_chars": 3263,
+      "content_preview": "If there’s a new browser, email app, or note-taking app to try, chances are I’ve already installed it. Like every other productivity nerd, I’m always chasing the perfect setup. That’s how I stumbled upon Quiche Browser. It was already close to replacing the Arc Search for me on the iPhone, but its latest update finally pushed it over the edge, earning it a spot as my default browser. What makes Quiche so good Quiche Browser is developed by a solo indie developer named Greg de J, who runs it under Quiche Industries . The headline feature of Quiche is its customizability. Nearly every button in Quiche can be moved, rearranged, or removed entirely, both in the bottom toolbar and the main menu. If that sounds like too much tinkering, the Toolbar Gallery gives you ready-made presets to start from, so you can go minimal or fully loaded without building anything from scratch. The tab switcher is another strength for this app. I can view your tabs as a grid or a list. I like that Quiche will even estimate how long an article takes to read, showing that time right under the tab title. I can group the tabs by domain or sort by read time, which honestly makes the browser feel like it doubles as a read-later app if you let it. One of my favorite features of Quiche Browser is the JavaScript toggle that sits right in the toolbar. With a single tap, I can kill JavaScript on whatever site I am visiting, and it is wild how much snappier and cleaner most pages become the moment you do it. The feature that sealed the deal All of that alone would be enough to recommend Quiche, but here is the part that really got me excited. Quiche now disables AI overviews in your search results by default, right out of the box. Starting today, Quiche Browser disables AI overviews in search results by default, out of the box.Compare how much space and time they waste. I love the web too much to let that nonsense bury links to real websites made by humans.Why no other browser does that is beyond me. — Quiche Industries (@quiche.industries) 2026-07-14T13:01:07.615Z The moment you search using Google, DuckDuckGo, Bing, or other default search engine, Quiche quietly sends you to the AI-free version of those results instead. There is no content blocker trick involved either. You still get the real, unfiltered list of links, just without a giant AI summary taking over the top of your screen before you even see a single website. Several studies have revealed how AI search overviews are harmful, sometimes delivering outright wrong information. A recent report from Common Sense Media even called it out for failing a major kids’ safety test. Not to mention that these summaries are causing harm to website authors and publishers whose work is scraped without compensation. So this feature alone was enough to make Quiche my default iPhone browser. If you actually want AI overviews back, you can turn them on again from Settings, then Search. But I love that the default here favors real websites made by real people. Search results have gotten so cluttered with AI-generated summaries that actual pages keep getting pushed further down, and Quiche taking a stand on that feels like a small but meaningful win for anyone who still loves browsing the actual web.",
+      "content_preview_chars": 3263,
+      "content_fetched_at": "2026-07-19T11:29:08",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "3c0a854fd107c944",
+      "source_url_hash": "3c0a854fd107c944",
+      "canonical_url": "https://www.digitaltrends.com/gaming/if-you-absolutely-love-pinball-this-app-will-find-you-a-table-wherever-you-go",
+      "title_hash": "daf3cf549cbbf9d0",
+      "topic_signature": "4cb4cb8a3e84d1e3fd58",
+      "title": "If you absolutely love pinball, this app will find you a table wherever you go",
+      "url": "https://www.digitaltrends.com/gaming/if-you-absolutely-love-pinball-this-app-will-find-you-a-table-wherever-you-go",
+      "source_name": "Digital Trends",
+      "source_url": "https://www.digitaltrends.com",
+      "source_published_at": "2026-07-19T03:57:17Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 7.53,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-19T11:29:03",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 263,
+      "affiliate_links_removed_count": 32,
+      "removed_source_links_count": 263,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "If you absolutely love pinball, this app will find you a table wherever you go",
+      "meta_description": "Pinball Map is a free, community-powered app that helps players locate pinball machines at arcades, bars, restaurants and other venues worldwide.",
+      "article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/07/DT-2026-07-19T084746.699.jpg?resize=1200%2C630",
+          "alt": "If you absolutely love pinball, this app will find you a table wherever you go",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/07/DT-2026-07-19T084736.326.jpg?resize=2000%2C1200",
+          "alt": "Pinball",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/07/DT-2026-07-19T084727.572.jpg?resize=2000%2C1200",
+          "alt": "Pinball",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+          "alt": "Add as a preferred source on Google",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.digitaltrends.com/tachyon/2026/07/DT-2026-07-19T084746.699.jpg?resize=1200%2C630",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/07/DT-2026-07-19T084736.326.jpg?resize=2000%2C1200",
+          "alt": "Pinball"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/07/DT-2026-07-19T084727.572.jpg?resize=2000%2C1200",
+          "alt": "Pinball"
+        },
+        {
+          "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+          "alt": "Add as a preferred source on Google"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "If you’re the kind of person who plans vacations around vintage arcades, hunts down rare pinball machines, or misses that one table you played years ago, there’s now a surprisingly useful tool built just for you. Called Pinball Map , the free website and mobile app does exactly what its name suggests. It helps players locate public pinball machines almost anywhere in the world, whether they’re tucked away inside dedicated arcades, neighborhood bars, restaurants, museums, breweries, or even campgrounds. Think of it as Google Maps, but instead of helping you find coffee shops, it points you to your next pinball game. The platform has quietly become one of the internet’s best-kept hobbyist projects, powered not by a tech giant but by a community of volunteers determined to keep the global pinball scene alive. A community-built map for pinball lovers Users can either search for nearby venues that host pinball machines or look up a specific table by name to find where it’s currently available. Selecting a location reveals useful information including the venue’s address, contact details, website, and a complete list of machines available on-site. According to community discussions, the project has been running for nearly two decades and remains entirely donation-supported, with developers deliberately avoiding advertising or commercial partnerships. Pinball occupies a unique place in gaming. Unlike classic arcade titles that have largely survived through emulators and digital collections, authentic pinball remains tied to physical machines packed with mechanical components. Unless you own one yourself, the only way to experience a particular table is to find it in the real world. For enthusiasts, it transforms travel into a scavenger hunt, making it easy to discover hidden machines in unfamiliar cities or revisit favorite tables from years past. The platform also encourages players to support local arcades, bars, and independent venues that continue to invest in maintaining these increasingly rare machines. The timing is particularly interesting as pinball continues enjoying something of a renaissance. Modern manufacturers are producing new licensed machines, while collectors and younger players alike have embraced the hobby, helping sustain a niche that many once assumed would disappear. As more venues add machines and volunteers continue expanding the database, Pinball Map is becoming more than just a locator app. It’s evolving into a living archive of one of gaming’s oldest and most tactile experiences, ensuring that no matter where you travel, your next game might be just around the corner.",
+      "full_article_text_chars": 2636,
+      "content_preview": "If you’re the kind of person who plans vacations around vintage arcades, hunts down rare pinball machines, or misses that one table you played years ago, there’s now a surprisingly useful tool built just for you. Called Pinball Map , the free website and mobile app does exactly what its name suggests. It helps players locate public pinball machines almost anywhere in the world, whether they’re tucked away inside dedicated arcades, neighborhood bars, restaurants, museums, breweries, or even campgrounds. Think of it as Google Maps, but instead of helping you find coffee shops, it points you to your next pinball game. The platform has quietly become one of the internet’s best-kept hobbyist projects, powered not by a tech giant but by a community of volunteers determined to keep the global pinball scene alive. A community-built map for pinball lovers Users can either search for nearby venues that host pinball machines or look up a specific table by name to find where it’s currently available. Selecting a location reveals useful information including the venue’s address, contact details, website, and a complete list of machines available on-site. According to community discussions, the project has been running for nearly two decades and remains entirely donation-supported, with developers deliberately avoiding advertising or commercial partnerships. Pinball occupies a unique place in gaming. Unlike classic arcade titles that have largely survived through emulators and digital collections, authentic pinball remains tied to physical machines packed with mechanical components. Unless you own one yourself, the only way to experience a particular table is to find it in the real world. For enthusiasts, it transforms travel into a scavenger hunt, making it easy to discover hidden machines in unfamiliar cities or revisit favorite tables from years past. The platform also encourages players to support local arcades, bars, and independent venues that continue to invest in maintaining these increasingly rare machines. The timing is particularly interesting as pinball continues enjoying something of a renaissance. Modern manufacturers are producing new licensed machines, while collectors and younger players alike have embraced the hobby, helping sustain a niche that many once assumed would disappear. As more venues add machines and volunteers continue expanding the database, Pinball Map is becoming more than just a locator app. It’s evolving into a living archive of one of gaming’s oldest and most tactile experiences, ensuring that no matter where you travel, your next game might be just around the corner.",
+      "content_preview_chars": 2636,
+      "content_fetched_at": "2026-07-19T11:29:07",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "c60035e6bb3c677d",
+      "source_url_hash": "c60035e6bb3c677d",
+      "canonical_url": "https://techcrunch.com/2026/07/18/kimi-threat-or-menace",
+      "title_hash": "2dd5259be3ee8ea4",
+      "topic_signature": "a27574142fc45fee4b93",
+      "title": "Kimi: Threat or menace?",
+      "url": "https://techcrunch.com/2026/07/18/kimi-threat-or-menace",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-07-18T18:51:07Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 16.63,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-19T11:29:03",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 103,
+      "affiliate_links_removed_count": 3,
+      "removed_source_links_count": 103,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Kimi: Threat or menace? | TechCrunch",
+      "meta_description": "Chinese company Moonshot AI released a new version of its Kimi model this week, prompting concern about \"full AI communism.\"",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/01/GettyImages-2254580342.jpg?w=1024",
+          "alt": "Kimi: Threat or menace? | TechCrunch",
+          "source": "og:image_or_twitter"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2026/01/GettyImages-2254580342.jpg?w=1024",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "Chinese company Moonshot AI released a new version of its Kimi model this week, leading to a perhaps-inevitable wave of discourse about China and open source AI. Moonshot said that although Kimi K3 “still trails the most powerful proprietary models, Claude Fable 5 and GPT 5.6 Sol,” the new open source model “demonstrated frontier-level performance across our evaluation suite, consistently outperforming other tested models.” Independent analyses from Arena.ai and Vals AI also suggested that Kimi is competitive with flagship frontier models. The announcement, which coincided with a speech from Chinese president Xi Jinping at the World AI Conference in Shanghai, seems to have spooked Wall Street, with the Nasdaq dropping about 1% on Friday as investors sold off stocks in chip companies like Nvidia. Many of the resulting posts from tech industry figures will sound familiar to those who remember the debate after another Chinese company, DeepSeek, released its open source R1 model in January 2025. Except now, everything seems heightened after the Trump administration’s tariff war with China, repeated fights over the national security threat supposedly posed by Anthropic, and as major AI companies prepare to finally go public. For example, David Sacks — the Trump administration’s former AI czar and now co-chair of the President’s Council of Advisors on Science and Technology — contrasted Kimi’s progress with a United States that is “tying itself in knots: politicians and bureaucrats are banning new data centers, piling on state regulations, and pushing for new federal agencies to pre-approve frontier models. This is how you lose the AI race.” (The news also gave him an excuse to take a dig at Anthropic, calling Claude an example of “woke lobotomized models” that are “the enemy American competitiveness.”) And former Uber CEO Travis Kalanick echoed complaints that Chinese are “distilling off” (i.e., being trained on the outputs of) American AI models. “If distillation isn’t enforced against, then everyone should be able to distill from everyone else.. otherwise one arm [would be] tied behind American models’ backs,” Kalanick wrote. (Of course, American models have also been built on top of Chinese ones, specifically Kimi.) Meanwhile, OpenAI’s head of strategic futures Dean Ball said that Kimi is “a very good model” whose performance probably can’t be “explained away by distillation or anything like that,” adding that he’s “personally surprised the Chinese state continues to allow the open sourcing of models this good, given potential risks.” In fact, Ball suggested that “probable outcome of an open-weight-model-dominant world is full AI communism,” where AI is treated as “a ‘public good’ which will ultimately be provided by the state as a kind of ‘digital public infrastructure.’” “This future strikes me as a dystopian hellscape, but I’ve never met an open-weight models advocate who doesn’t ultimately concede this is where things end,” said Ball. He even suggested that the Trump administration ( which he used to work for ) will eventually realize it needs to “create large amounts of regulatory risk around the use of open-weight Chinese models.” “You don’t need to ‘ban open source’ (one of the dumber motifs of AI policy discussion),” Ball said. “You just need to direct every agency to issue soft law that creates FUD [fear, uncertainty, and doubt]. ‘A Federal Reserve Advisory Bulletin found that there may be backdoors in Chinese AI models.’ It needn’t be that well justified. You just create enough regulatory risk that every regulated enterprise backs off.” However, Shakeel Hashim, editor of the AI-focused publication Transformer, argued that much of the worry is overblown , both because Kimi “likely does not have dangerous cyber capabilities,” and because the Chinese government will face “extremely similar incentives” to restrict open Chinese models once they develop those capabilities. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Anthony Ha is TechCrunch’s weekend editor. Previously, he worked as a tech reporter at Adweek, a senior editor at VentureBeat, a local government reporter at the Hollister Free Lance, and vice president of content at a VC firm. He lives in New York City. You can contact or verify outreach from Anthony by emailing anthony.ha@techcrunch.com . Last chance to save up to $190 on TechCrunch Founder Summit. Join 1,000+ founders and VCs at all stages for real-world scaling insights and connections that move the needle. Savings end June 26, 11:59 p.m. PT . Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Sean O'Kane Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex Lucas Ropek Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex OpenAI’s first hardware device is reportedly a screenless speaker that can move Lucas Ropek OpenAI’s first hardware device is reportedly a screenless speaker that can move Anthropic’s newest ad is creeping people out Lucas Ropek Anthropic’s newest ad is creeping people out Satya Nadella has issued a shocking warning to companies using AI Julie Bort Satya Nadella has issued a shocking warning to companies using AI The wildest allegations in Apple’s trade secrets lawsuit against OpenAI Sarah Perez The wildest allegations in Apple’s trade secrets lawsuit against OpenAI Anthropic starts localizing Claude pricing for India, its biggest market after the US Jagmeet Singh Anthropic starts localizing Claude pricing for India, its biggest market after the US",
+      "full_article_text_chars": 5701,
+      "content_preview": "Chinese company Moonshot AI released a new version of its Kimi model this week, leading to a perhaps-inevitable wave of discourse about China and open source AI. Moonshot said that although Kimi K3 “still trails the most powerful proprietary models, Claude Fable 5 and GPT 5.6 Sol,” the new open source model “demonstrated frontier-level performance across our evaluation suite, consistently outperforming other tested models.” Independent analyses from Arena.ai and Vals AI also suggested that Kimi is competitive with flagship frontier models. The announcement, which coincided with a speech from Chinese president Xi Jinping at the World AI Conference in Shanghai, seems to have spooked Wall Street, with the Nasdaq dropping about 1% on Friday as investors sold off stocks in chip companies like Nvidia. Many of the resulting posts from tech industry figures will sound familiar to those who remember the debate after another Chinese company, DeepSeek, released its open source R1 model in January 2025. Except now, everything seems heightened after the Trump administration’s tariff war with China, repeated fights over the national security threat supposedly posed by Anthropic, and as major AI companies prepare to finally go public. For example, David Sacks — the Trump administration’s former AI czar and now co-chair of the President’s Council of Advisors on Science and Technology — contrasted Kimi’s progress with a United States that is “tying itself in knots: politicians and bureaucrats are banning new data centers, piling on state regulations, and pushing for new federal agencies to pre-approve frontier models. This is how you lose the AI race.” (The news also gave him an excuse to take a dig at Anthropic, calling Claude an example of “woke lobotomized models” that are “the enemy American competitiveness.”) And former Uber CEO Travis Kalanick echoed complaints that Chinese are “distilling off” (i.e., being trained on the outputs of) American AI models. “If distillation isn’t enforced against, then everyone should be able to distill from everyone else.. otherwise one arm [would be] tied behind American models’ backs,” Kalanick wrote. (Of course, American models have also been built on top of Chinese ones, specifically Kimi.) Meanwhile, OpenAI’s head of strategic futures Dean Ball said that Kimi is “a very good model” whose performance probably can’t be “explained away by distillation or anything like that,” adding that he’s “personally surprised the Chinese state continues to allow the open sourcing of models this good, given potential risks.” In fact, Ball suggested that “probable outcome of an open-weight-model-dominant world is full AI communism,” where AI is treated as “a ‘public good’ which will ultimately be provided by the state as a kind of ‘digital public infrastructure.’” “This future strikes me as a dystopian hellscape, but I’ve never met an open-weight models advocate who doesn’t ultimately concede this is where things end,” said Ball. He even suggested that the Trump administration ( which he used to work for ) will eventually realize it needs to “create large amounts of regulatory risk around the use of open-weight Chinese models.” “You don’t need to ‘ban open source’ (one of the dumber motifs of AI policy discussion),” Ball said. “You just need to direct every agency to issue soft law that creates FUD [fear, uncertainty, and doubt]. ‘A Federal Reserve Advisory Bulletin found that there may be backdoors in Chinese AI models.’ It needn’t be that well justified. You just create enough regulatory risk that every regulated enterprise backs off.” However, Shakeel Hashim, editor of the AI-focused publication Transformer, argued that much of the worry is overblown , both because Kimi “likely does not have dangerous cyber capabilities,” and because the Chinese government will face “extremely similar incentives” to restrict open Chinese models once they develop those capabilities. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Anthony Ha is TechCrunch’s weekend editor. Previously, he worked as a tech reporter at Adweek, a senior editor at VentureBeat, a local government reporter at the Hollister Free Lance, and vice president of content at a VC firm. He lives in New York City. You can contact or verify outreach from Anthony by emailing anthony.ha@techcrunch.com . Last chance to save up to $190 on TechCrunch Founder Summit. Join 1,000+ founders and VCs at all stages for real-world scaling insights and connections that move the needle. Savings end June 26, 11:59 p.m. PT . Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Sean O'Kane Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex Lucas Ropek Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex OpenAI’s first hardware device is reportedly a screenless speaker that can move Lucas Ropek OpenAI’s first hardware device is reportedly a screenless speaker that can move Anthropic’s newest ad is creeping people out Lucas Ropek Anthropic’s newest ad is creeping people out Satya Nadella has issued a shocking warning to companies using AI Julie Bort Satya Nadella has issued a shocking warning to companies using AI The wildest allegations in Apple’s trade secrets lawsuit against OpenAI Sarah Perez The wildest allegations in Apple’s trade secrets lawsuit against OpenAI Anthropic starts localizing Claude pricing for India, its biggest market after the US Jagmeet Singh Anthropic starts localizing Claude pricing for India, its biggest market after the US",
+      "content_preview_chars": 5701,
+      "content_fetched_at": "2026-07-19T11:29:05",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "90766fec1d19218d",
+      "source_url_hash": "90766fec1d19218d",
+      "canonical_url": "https://techcrunch.com/2026/07/18/all-the-evs-that-were-discontinued-or-killed-off-in-the-u-s-this-year",
+      "title_hash": "4bc44c067c867fe8",
+      "topic_signature": "113e67e8bc061aeb5630",
+      "title": "All the EVs that were discontinued or killed off in the U.S. this year",
+      "url": "https://techcrunch.com/2026/07/18/all-the-evs-that-were-discontinued-or-killed-off-in-the-u-s-this-year",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-07-18T16:30:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 18.98,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-19T11:29:03",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 109,
+      "affiliate_links_removed_count": 3,
+      "removed_source_links_count": 109,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "All the EVs that were discontinued or killed off in the U.S. this year | TechCrunch",
+      "meta_description": "Th Honda Prologue will no longer be sold in the U.S., joining a growing list of EV models to exit the market this year.",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/Honda-Prologue-at-Tesla-Supercharger1.jpg?resize=1200,801",
+          "alt": "All the EVs that were discontinued or killed off in the U.S. this year | TechCrunch",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/sony-honda-afeela-getty.jpg?w=680",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2025/01/10-Honda-0-SUV-side.jpg?w=680",
+          "alt": "Honda 0 SUV",
+          "source": "article_content"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/hyundai-ioniq-6.jpg?w=680",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2026/07/Honda-Prologue-at-Tesla-Supercharger1.jpg?resize=1200,801",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/sony-honda-afeela-getty.jpg?w=680",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2025/01/10-Honda-0-SUV-side.jpg?w=680",
+          "alt": "Honda 0 SUV"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/hyundai-ioniq-6.jpg?w=680",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "The Honda Prologue, you may have heard, is officially dead — a decision the company confirmed to TechCrunch, removing the last all-electric vehicle from the automaker’s U.S. portfolio. The Prologue’s departure signals more than Honda’s EV backpedaling. It also illustrates a broader EV industry retreat from the U.S. market (in stark contrast to the rest of the world). The demise of the Honda Prologue got us thinking: What other EVs have left the U.S., and why? The end of the $7,500 federal tax credit had an outsized effect on EV sales in the United States. But there are other reasons behind the winnowing choices, including tariffs, changing consumer tastes, costs, company priorities, and regulatory action. According to data published in July by Kelley Blue Book and Cox Automotive , 247,226 EVs were sold in the second quarter or about 5.8% of the total market. While EV sales grew between the first and second quarters of 2026, they are still down from the same period last year (and before that tax credit ended in fall 2025). Still Americans are still buying EVs, and there are new EVs entering the U.S. market — the Rivian R2 is one example. And there are signs of a slow recovery. Fourth quarter 2025 sales were 36% lower than the same period in 2024. This year that gap has narrowed, albeit still below sales figures from the previous year. For example, EV sales in Q2 were 20.5% lower than the same period in 2025. Even with a recovery underway, automakers are pulling the plug on many EV modes. Here are those ones that have left or are leaving. TechCrunch will periodically update this list of EVs that have left, or are leaving, the U.S. market in 2026. Ah, Afeela we never even knew ya. The Afeela got its start as the Vision S, a prototype announced by Sony in 2020 at the Consumer Electronics and that ended up being one of the big, surprising reveals of the annual tech trade show. Honda entered the picture in 2022 when the two Japanese conglomerates announced a joint venture; they showed off an Afeela-branded prototype the following year. In the months and years that followed, there was constant barrage of updates about the Afeela, which seemed to be everywhere, and yet nowhere. It was even displayed at TechCrunch Disrupt one year. The Afeela, despite the marketing blitz, never made it into production. In March 2026, the joint venture gave up on the two Afeela-branded EVs. The move followed Honda’s decision, announced just a two weeks before, to cancel three EVs planned for the U.S. market. Honda (and Acura!) It was just a couple of years ago that Honda declared its EV ambitions with its O Series, including a mid-sized SUV prototype that debuted at the CES 2025 tech trade show and its futuristic Saloon and Space-Hub concepts the year before. The SUV, which was slated for production at Honda’s “EV Hub” factory in Ohio, was supposed to debut in North America in the first half of 2026. Honda stopped development of the Acura RDX, Honda O sedan and SUV in March 2026 as part of a major overhaul of the company’s EV plans. The company blamed U.S. tariffs and Chinese competition for the decision. There was also chatter at the time that Honda was planning to stop production of the Prologue, but there was no official announcement until July 16 when CarBuzz was the first to report that the Prologue program was ending. TechCrunch confirmed with Honda that the Prologue was going out of production. The death of the Series 0 is difficult to measure since it never went into production. The Prologue represented more grounded goals than the O Series, and one that actually went into production and sold to U.S. consumers. The Prologue was a product of a partnership with General Motors — it is built at GM’s Ramos Assembly Plant in Mexico — and closely related to the Chevrolet Blazer EV. And it did OK for awhile, selling roughly 33,000 units in 2024 and 39,000 in 2025, before the tax credit ended and sales went into a free fall. The Korean automaker has actually done quite well selling EVs to Americans. But it has made a few changes based on changing economics. In March, the company said it would no longer sell the Hyundai Ioniq 6 in the U.S., a decision that was likely tied to tariffs. The Ioniq 6 is made in South Korean and imported to the U.S., while its Ioniq 5 and Ioniq 9 models are assembled at its Georgia factory. The company has said it will continue to import its more expensive, lower volume N-model of the Ioniq 6. Nissan decided last year it would not produce a 2026 model year of its all-electric Ariya SUV for the U.S. market. And it doesn’t appear to be returning. Nissan first unveiled the Ariya in 2020 and planned to start selling it in Japan the following year. The Ariya was the first all-electric to come out of Nissan since the early EV pioneer introduced the Leaf hatchback a decade ago. Swedish EV maker Polestar, owned by Chinese automotive giant Geely, has been forced to leave U.S. over the country’s ban on Chinese-connected vehicle technology. Polestar needed specific authorization from the U.S. Department of Commerce to continue importing and selling its vehicles in the United States. Without it, Polestar has been effectively banned from the United States. The company said it would continue selling its existing stock of Polestar 3 and Polestar 4 vehicles in the U.S., and that it will “continue to support customers, including providing access to its service network.” The Polestar 3 was assembled at a factory in South Carolina and in Chengdu, China . Volvo Cars, Polestar’s sibling company that is also owned by Geely, did receive the authorization. Tesla Model S and Tesla Model X Tesla announced in January that it would end production of the Model S sedan and Model X SUV to make way for what the company views is the future. And it’s not a traditional electric sedan or SUV. In Tesla’s view, the future is AI, autonomy, and robots. It’s worth noting that sales of the S and X have fallen steadily over the years as consumers turned to its high volume and cheaper vehicles, the Model 3 and Model Y. The last Model S and X vehicles rolled off the assembly line this spring. The company recently removed the assembly lines for the S and X at its Fremont, California factory to make room for production of its Optimus robots. Volkswagen has pulled back on the ID. 4 electric SUV and the ID Buzz. In April, Volkswagen said it would no longer produce the ID.4 at its U.S. factory in Chattanooga, Tennessee in a shift to high-volume vehicles like its upcoming gas-powered Atlas SUV. The company said, at the time, U.S. customers will be able to buy the ID.4 until the current inventory runs out. VW said it expects U.S. inventory to last into 2027. To be clear, Volkswagen has said the ID Buzz is merely on a hiatus and will return in 2027. But there is no 2026 model. There are, however self-driving versions of the ID buzz currently being tested in the United States. Volkswagen subsidiary MOIA America and Uber started testing autonomous microbuses in Los Angeles in April in preparation for a robotaxi service that is supposed to launch in late 2026. When the service initially launches there the vehicles will have himan safety operators. Volvo decided in March that it would pull its subcompact EX30 and EX30 Cross Country variant from the U.S. market. The company said at the time that production for the U.S. would end sfter the summer. The EX30 had a promising start. It recieved a lot of attention prior to it official entry into the U.S. in 2025, and it was the company’s more affordable EV option. Volvo does plan to continue selling the larger, all-electric EX60 and EX90 SUVs in the United States. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Last chance to save up to $190 on TechCrunch Founder Summit. Join 1,000+ founders and VCs at all stages for real-world scaling insights and connections that move the needle. Savings end June 26, 11:59 p.m. PT . Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Sean O'Kane Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex Lucas Ropek Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex OpenAI’s first hardware device is reportedly a screenless speaker that can move Lucas Ropek OpenAI’s first hardware device is reportedly a screenless speaker that can move Anthropic’s newest ad is creeping people out Lucas Ropek Anthropic’s newest ad is creeping people out Satya Nadella has issued a shocking warning to companies using AI Julie Bort Satya Nadella has issued a shocking warning to companies using AI The wildest allegations in Apple’s trade secrets lawsuit against OpenAI Sarah Perez The wildest allegations in Apple’s trade secrets lawsuit against OpenAI Anthropic starts localizing Claude pricing for India, its biggest market after the US Jagmeet Singh Anthropic starts localizing Claude pricing for India, its biggest market after the US",
+      "full_article_text_chars": 9107,
+      "content_preview": "The Honda Prologue, you may have heard, is officially dead — a decision the company confirmed to TechCrunch, removing the last all-electric vehicle from the automaker’s U.S. portfolio. The Prologue’s departure signals more than Honda’s EV backpedaling. It also illustrates a broader EV industry retreat from the U.S. market (in stark contrast to the rest of the world). The demise of the Honda Prologue got us thinking: What other EVs have left the U.S., and why? The end of the $7,500 federal tax credit had an outsized effect on EV sales in the United States. But there are other reasons behind the winnowing choices, including tariffs, changing consumer tastes, costs, company priorities, and regulatory action. According to data published in July by Kelley Blue Book and Cox Automotive , 247,226 EVs were sold in the second quarter or about 5.8% of the total market. While EV sales grew between the first and second quarters of 2026, they are still down from the same period last year (and before that tax credit ended in fall 2025). Still Americans are still buying EVs, and there are new EVs entering the U.S. market — the Rivian R2 is one example. And there are signs of a slow recovery. Fourth quarter 2025 sales were 36% lower than the same period in 2024. This year that gap has narrowed, albeit still below sales figures from the previous year. For example, EV sales in Q2 were 20.5% lower than the same period in 2025. Even with a recovery underway, automakers are pulling the plug on many EV modes. Here are those ones that have left or are leaving. TechCrunch will periodically update this list of EVs that have left, or are leaving, the U.S. market in 2026. Ah, Afeela we never even knew ya. The Afeela got its start as the Vision S, a prototype announced by Sony in 2020 at the Consumer Electronics and that ended up being one of the big, surprising reveals of the annual tech trade show. Honda entered the picture in 2022 when the two Japanese conglomerates announced a joint venture; they showed off an Afeela-branded prototype the following year. In the months and years that followed, there was constant barrage of updates about the Afeela, which seemed to be everywhere, and yet nowhere. It was even displayed at TechCrunch Disrupt one year. The Afeela, despite the marketing blitz, never made it into production. In March 2026, the joint venture gave up on the two Afeela-branded EVs. The move followed Honda’s decision, announced just a two weeks before, to cancel three EVs planned for the U.S. market. Honda (and Acura!) It was just a couple of years ago that Honda declared its EV ambitions with its O Series, including a mid-sized SUV prototype that debuted at the CES 2025 tech trade show and its futuristic Saloon and Space-Hub concepts the year before. The SUV, which was slated for production at Honda’s “EV Hub” factory in Ohio, was supposed to debut in North America in the first half of 2026. Honda stopped development of the Acura RDX, Honda O sedan and SUV in March 2026 as part of a major overhaul of the company’s EV plans. The company blamed U.S. tariffs and Chinese competition for the decision. There was also chatter at the time that Honda was planning to stop production of the Prologue, but there was no official announcement until July 16 when CarBuzz was the first to report that the Prologue program was ending. TechCrunch confirmed with Honda that the Prologue was going out of production. The death of the Series 0 is difficult to measure since it never went into production. The Prologue represented more grounded goals than the O Series, and one that actually went into production and sold to U.S. consumers. The Prologue was a product of a partnership with General Motors — it is built at GM’s Ramos Assembly Plant in Mexico — and closely related to the Chevrolet Blazer EV. And it did OK for awhile, selling roughly 33,000 units in 2024 and 39,000 in 2025, before the tax credit ended and sales went into a free fall. The Korean automaker has actually done quite well selling EVs to Americans. But it has made a few changes based on changing economics. In March, the company said it would no longer sell the Hyundai Ioniq 6 in the U.S., a decision that was likely tied to tariffs. The Ioniq 6 is made in South Korean and imported to the U.S., while its Ioniq 5 and Ioniq 9 models are assembled at its Georgia factory. The company has said it will continue to import its more expensive, lower volume N-model of the Ioniq 6. Nissan decided last year it would not produce a 2026 model year of its all-electric Ariya SUV for the U.S. market. And it doesn’t appear to be returning. Nissan first unveiled the Ariya in 2020 and planned to start selling it in Japan the following year. The Ariya was the first all-electric to come out of Nissan since the early EV pioneer introduced the Leaf hatchback a decade ago. Swedish EV maker Polestar, owned by Chinese automotive giant Geely, has been forced to leave U.S. over the country’s ban on Chinese-connected vehicle technology. Polestar needed specific authorization from the U.S. Department of Commerce to continue importing and selling its vehicles in the United States. Without it, Polestar has been effectively banned from the United States. The company said it would continue selling its existing stock of Polestar 3 and Polestar 4 vehicles in the U.S., and that it will “continue to support customers, including providing access to its service network.” The Polestar 3 was assembled at a factory in South Carolina and in Chengdu, China . Volvo Cars, Polestar’s sibling company that is also owned by Geely, did receive the authorization. Tesla Model S and Tesla Model X Tesla announced in January that it would end production of the Model S sedan and Model X SUV to make way for what the company views is the future. And it’s not a traditional electric sedan or SUV. In Tesla’s view, the future is AI, autonomy, and robots. It’s worth noting that sales of the S and X have fallen steadily over the years as consumers turned to its high volume and cheaper vehicles, the Model 3 and Model Y. The last Model S and X vehicles rolled off the assembly line this spring. The company recently removed the assembly lines for the S and X at its Fremont, California factory to make room for production of its Optimus robots. Volkswagen has pulled back on the ID. 4 electric SUV and the ID Buzz. In April, Volkswagen said it would no longer produce the ID.4 at its U.S. factory in Chattanooga, Tennessee in a shift to high-volume vehicles like its upcoming gas-powered Atlas SUV. The company said, at the time, U.S. customers will be able to buy the ID.4 until the current inventory runs out. VW said it expects U.S. inventory to last into 2027. To be clear, Volkswagen has said the ID Buzz is merely on a hiatus and will return in 2027. But there is no 2026 model. There are, however self-driving versions of the ID buzz currently being tested in the United States. Volkswagen subsidiary MOIA America and Uber started testing autonomous microbuses in Los Angeles in April in preparation for a robotaxi service that is supposed to launch in late 2026. When the service initially launches there the vehicles will have himan safety operators. Volvo decided in March that it would pull its subcompact EX30 and EX30 Cross Country variant from the U.S. market. The company said at the time that production for the U.S. would end sfter the summer. The EX30 had a promising start. It recieved a lot of attention prior to it official entry into the U.S. in 2025, and it was the company’s more affordable EV option. Volvo does plan to continue selling the larger, all-electric EX60 and EX90 SUVs in the United States. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Last chance to save up to $190 on TechCrunch Founder Summit. Join 1,000+ founders and VCs at all stages for real-world scaling insights and connections that move the needle. Savings end June 26, 11:59 p.m. PT .",
+      "content_preview_chars": 8036,
+      "content_fetched_at": "2026-07-19T11:29:12",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "ac7be8d09d06872b",
+      "source_url_hash": "ac7be8d09d06872b",
+      "canonical_url": "https://techcrunch.com/video/how-apples-big-lawsuit-could-disrupt-openais-ipo-plans",
+      "title_hash": "a3a48959b9fe4ea5",
+      "topic_signature": "d394255818b5a15828c2",
+      "title": "How Apple’s big lawsuit could disrupt OpenAI’s IPO plans",
+      "url": "https://techcrunch.com/video/how-apples-big-lawsuit-could-disrupt-openais-ipo-plans",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-07-17T17:45:46Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 41.72,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-19T11:29:03",
+      "status": "ready",
+      "score": 6,
+      "priority": "medium",
+      "source_links_removed_count": 109,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 109,
+      "enrichment_fallback_used": "content_container",
+      "fetched_title": "How Apple's big lawsuit could disrupt OpenAI's IPO plans | TechCrunch",
+      "meta_description": "Watch as Equity digs into what the lawsuit could mean for OpenAI's hardware ambitions and IPO timeline, plus a bigger theme running through the week's news: how much should anyone trust AI companies with their data?",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/02/GettyImages-2236544077.jpg?resize=1200,800",
+          "alt": "How Apple's big lawsuit could disrupt OpenAI's IPO plans | TechCrunch",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/samsung-india-tariffs-2227140805.jpg?w=563",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/04/GettyImages-2255009714.jpg?w=563",
+          "alt": "aerial of Apple Park",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2026/02/GettyImages-2236544077.jpg?resize=1200,800",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/samsung-india-tariffs-2227140805.jpg?w=563",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/04/GettyImages-2255009714.jpg?w=563",
+          "alt": "aerial of Apple Park"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Apple filed a trade secrets lawsuit against OpenAI last Friday, and it’s not messing around. The complaint alleges a pattern of misconduct reaching all the way up to OpenAI’s chief hardware officer and claims more than 400 former Apple employees now work at the company. OpenAI’s response so far has been carefully hedged, and the timing couldn’t be worse with the company reportedly eyeing an IPO as early as later this year. On this episode of TechCrunch’s Equity podcast, hosts Kirsten Korosec, Anthony Ha, and Sean O’Kane dig into what the lawsuit could mean for OpenAI’s own hardware ambitions and IPO timeline, plus a bigger theme running through the week’s news: how much should anyone trust AI companies with their data?",
+      "full_article_text_chars": 728,
+      "content_preview": "Apple filed a trade secrets lawsuit against OpenAI last Friday, and it’s not messing around. The complaint alleges a pattern of misconduct reaching all the way up to OpenAI’s chief hardware officer and claims more than 400 former Apple employees now work at the company. OpenAI’s response so far has been carefully hedged, and the timing couldn’t be worse with the company reportedly eyeing an IPO as early as later this year. On this episode of TechCrunch’s Equity podcast, hosts Kirsten Korosec, Anthony Ha, and Sean O’Kane dig into what the lawsuit could mean for OpenAI’s own hardware ambitions and IPO timeline, plus a bigger theme running through the week’s news: how much should anyone trust AI companies with their data?",
+      "content_preview_chars": 728,
+      "content_fetched_at": "2026-07-19T11:29:14",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "43120316c634d523",
+      "source_url_hash": "43120316c634d523",
+      "canonical_url": "https://www.tomshardware.com/best-picks",
+      "title_hash": "40e91027f1df638a",
+      "topic_signature": "97493836caa5ff9f66e1",
+      "title": "VIEW MORE",
+      "url": "https://www.tomshardware.com/best-picks",
+      "source_name": "Tom's Hardware",
+      "source_url": "https://www.tomshardware.com",
+      "source_published_at": "2026-07-16T15:10:13Z",
+      "published_at_source": "time",
+      "article_age_hours": 68.31,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-19T11:29:03",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 411,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 411,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Best Picks",
+      "meta_description": "Find the best computer hardware for your budget. We award hardware when it offers uncompromising performance or excellent value. | Tom's Hardware",
+      "article_images": [
+        {
+          "url": "https://cdn.mos.cms.futurecdn.net/mp5Y3GYj2Qr5d6jgR7fecT-320-80.jpg",
+          "alt": "Best Picks",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.mos.cms.futurecdn.net/zSC7KamvrhmL3aumd56atn-320-80.jpg",
+          "alt": "Best MicroSD Express Cards",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.mos.cms.futurecdn.net/aFrdtqm8QLfdsRBkwhDjcC-320-80.jpg",
+          "alt": "Best RAM for gaming",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.mos.cms.futurecdn.net/yKFPFk6xt9y8YVfJT3cAxY-320-80.jpg",
+          "alt": "Best College Laptops",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.mos.cms.futurecdn.net/mp5Y3GYj2Qr5d6jgR7fecT-320-80.jpg",
+      "main_image_source_type": "article_content",
+      "main_image_extraction_method": "article_content",
+      "extra_article_images": [
+        {
+          "url": "https://cdn.mos.cms.futurecdn.net/zSC7KamvrhmL3aumd56atn-320-80.jpg",
+          "alt": "Best MicroSD Express Cards"
+        },
+        {
+          "url": "https://cdn.mos.cms.futurecdn.net/aFrdtqm8QLfdsRBkwhDjcC-320-80.jpg",
+          "alt": "Best RAM for gaming"
+        },
+        {
+          "url": "https://cdn.mos.cms.futurecdn.net/yKFPFk6xt9y8YVfJT3cAxY-320-80.jpg",
+          "alt": "Best College Laptops"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Explore Best Picks 3D Printing Best Picks Cooling Best Picks External HDDs Best Picks External SSDs Best Picks Gaming Headsets Best Picks Gaming Keyboards Best Picks Gaming Laptops Best Picks Gaming Mice Best Picks Gaming Monitors Best Picks Gaming PCs Best Picks Keyboards Best Picks Laptops Best Picks Maker and STEM Best Picks Mechanical Keyboards Best Picks Monitors Best Picks Motherboards Best Picks PC Building Best Picks PC Cases Best Picks PC Gaming Best Picks Portable Monitors Best Picks Power Supplies Best Picks Routers Best Picks Speakers Best Picks Webcams Best Picks Here are our favorite handheld gaming PCs, based on our testing and reviews. We’ve carefully chosen the best microSD Express cards to meet the needs and budgets of all Switch 2 owners, based on our detailed lab testing. Here is the best RAM for gaming we’ve tested: computer memory that is ideal for video editing and graphics-heavy applications. College laptops fit for any student. We test dozens of laptops a year for their performance, screen quality, and battery life, to find the best laptops right now across Windows, macOS, Intel, AMD, and Qualcomm notebooks. We test the best gaming PCs with our typical gauntlet of real-world and synthetic benchmarks to measure overall prebuilt system performance. These are the best portable monitors to ponder if you're looking to expand real estate for your laptop. OLEDs are the new hot thing in gaming monitors, and prices are starting to cool off enough to make them attractive options for enthusiasts. These are the best 4K gaming monitors available in 2025, including 144Hz, curved and HDR options. These are the best Wi-Fi 6, Wi-Fi 6E, and Wi-Fi 7 wireless adapters to use with your desktop computer. Get Tom's Hardware's best news and in-depth reviews, straight to your inbox.",
+      "full_article_text_chars": 1813,
+      "content_preview": "Explore Best Picks 3D Printing Best Picks Cooling Best Picks External HDDs Best Picks External SSDs Best Picks Gaming Headsets Best Picks Gaming Keyboards Best Picks Gaming Laptops Best Picks Gaming Mice Best Picks Gaming Monitors Best Picks Gaming PCs Best Picks Keyboards Best Picks Laptops Best Picks Maker and STEM Best Picks Mechanical Keyboards Best Picks Monitors Best Picks Motherboards Best Picks PC Building Best Picks PC Cases Best Picks PC Gaming Best Picks Portable Monitors Best Picks Power Supplies Best Picks Routers Best Picks Speakers Best Picks Webcams Best Picks Here are our favorite handheld gaming PCs, based on our testing and reviews. We’ve carefully chosen the best microSD Express cards to meet the needs and budgets of all Switch 2 owners, based on our detailed lab testing. Here is the best RAM for gaming we’ve tested: computer memory that is ideal for video editing and graphics-heavy applications. College laptops fit for any student. We test dozens of laptops a year for their performance, screen quality, and battery life, to find the best laptops right now across Windows, macOS, Intel, AMD, and Qualcomm notebooks. We test the best gaming PCs with our typical gauntlet of real-world and synthetic benchmarks to measure overall prebuilt system performance. These are the best portable monitors to ponder if you're looking to expand real estate for your laptop. OLEDs are the new hot thing in gaming monitors, and prices are starting to cool off enough to make them attractive options for enthusiasts. These are the best 4K gaming monitors available in 2025, including 144Hz, curved and HDR options. These are the best Wi-Fi 6, Wi-Fi 6E, and Wi-Fi 7 wireless adapters to use with your desktop computer. Get Tom's Hardware's best news and in-depth reviews, straight to your inbox.",
+      "content_preview_chars": 1813,
+      "content_fetched_at": "2026-07-19T11:29:20",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "ee0434be74f9a9ea",
+      "source_url_hash": "ee0434be74f9a9ea",
+      "canonical_url": "https://www.theverge.com/entertainment",
+      "title_hash": "c32b941d4ed063de",
+      "topic_signature": "c32b941d4ed063de2f7f",
+      "title": "Entertainment",
+      "url": "https://www.theverge.com/entertainment",
+      "source_name": "The Verge",
+      "source_url": "https://www.theverge.com",
+      "source_published_at": "2026-07-15T13:00:00Z",
+      "published_at_source": "time",
+      "article_age_hours": 94.48,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-19T11:29:03",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 175,
+      "affiliate_links_removed_count": 5,
+      "removed_source_links_count": 175,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Entertainment",
+      "meta_description": "The Verge’s entertainment section collects the latest news from the worlds of pop culture, music, movies, television, and video games. Whether you want to know what to watch on Netflix or how to make the most of your streaming service budget, the entertainment section acts a reliable source. There’s simply too much to read, watch, hear, and play. Let us be your tour guide.",
+      "article_images": [
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/Screenshot-2026-07-14-at-3.55.09-PM.png?quality=90&strip=all&crop=10.258176757133%2C0%2C79.483646485734%2C100&w=1200",
+          "alt": "Entertainment",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/Screenshot-2026-07-14-at-3.55.09-PM.png?quality=90&strip=all&crop=18.789144050104%2C0%2C62.421711899791%2C100&w=2400",
+          "alt": "AI slop movies are the new direct-to-video cash grabs",
+          "source": "article_content"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/ss_00027-copy.jpg?quality=90&strip=all&crop=20%2C0%2C60%2C100&w=2400",
+          "alt": "The tiniest MMO",
+          "source": "article_content"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25080261/111323_PlayStation_Portal_ADiBenedetto_0001.jpg?quality=90&strip=all&crop=16.666666666667%2C0%2C66.666666666667%2C100&w=2400",
+          "alt": "The PS6 sure sounds like a handheld",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/Screenshot-2026-07-14-at-3.55.09-PM.png?quality=90&strip=all&crop=10.258176757133%2C0%2C79.483646485734%2C100&w=1200",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/Screenshot-2026-07-14-at-3.55.09-PM.png?quality=90&strip=all&crop=18.789144050104%2C0%2C62.421711899791%2C100&w=2400",
+          "alt": "AI slop movies are the new direct-to-video cash grabs"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/2026/07/ss_00027-copy.jpg?quality=90&strip=all&crop=20%2C0%2C60%2C100&w=2400",
+          "alt": "The tiniest MMO"
+        },
+        {
+          "url": "https://platform.theverge.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/25080261/111323_PlayStation_Portal_ADiBenedetto_0001.jpg?quality=90&strip=all&crop=16.666666666667%2C0%2C66.666666666667%2C100&w=2400",
+          "alt": "The PS6 sure sounds like a handheld"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "might someday be bangers",
+          "url": "https://docs.google.com/presentation/d/1IBsXklyijpHV2Q9BqcIge-USUIXmxSnJ564WkYQb4G0/edit?slide=id.g3f517ddb94f_0_7"
+        },
+        {
+          "title": "Privacy Policy",
+          "url": "https://policies.google.com/privacy"
+        },
+        {
+          "title": "Terms of Service",
+          "url": "https://policies.google.com/terms"
+        }
+      ],
+      "full_article_text": "The Verge’s entertainment section collects the latest news from the worlds of pop culture, music, movies, television, and video games. Whether you want to know what to watch on Netflix or how to make the most of your streaming service budget, the entertainment section acts a reliable source. There’s simply too much to read, watch, hear, and play. Let us be your tour guide. Projects like Odysseus: The Fall highlight how the AI hype machine is powered by stunts and stolen valor. Latest In Entertainment As reported by The Wrap , A24 says it won’t, after all, go after a creator for using a Backrooms -adjacent wallpaper. You know, the generically yellow one. Smart move. After a Reddit user reported getting a complaint on behalf of A24, Backrooms director Kane Parsons said it “should not be happening.” A24 then said in a statement it “makes no claim over ownership over the yellow wallpaper.” Backrooms is at the forefront of horror’s YouTube wave There’s a Tascam Portastudio 424 MK III! He’s also got a Telepathic Instruments Orchid (review incoming), a couple of Chase Bliss pedals (Lost & Found and Mood MKII), a Hologram Electronics Chroma Console, a Moog Sub37, and an Ableton Move. Proving, once again, that you don’t need piles of fancy gear to make music. Watch the full interview here . The author of The Second Coming lives for French press and splurges on concert tickets. “Up to” 32 staffers have been served redundancy or at-risk notices, ZA/UM says . The studio has been the subject of a lot of controversy following the launch of Disco Elysium , and it released a new game this year, Zero Parades: For Dead Spies . However, the Zero Parades ’ “commercial performance has not enabled us to sustain a studio of our current size.“ Software makes up “less than 12 percent of the business,” while collectibles are “over half,” Ryan Cohen said in a Bloomberg interview . “So it’s totally, totally irrelevant.” The numbers differ a bit in GameStop’s latest quarterly report , where collectibles were 41.8 percent of sales in Q1 2026. But they’re a growing part of GameStop’s business — the Q1 collectibles figure was a jump from 28.9 percent in Q1 2025 — which could soften the blow from the dire future for discs. Following its wildly successful theatrical run, Curry Barker’s Obsession is now streaming on Peacock for everyone who wants to be scared silly at home. If you buy something from a Verge link, Vox Media may earn a commission. See our ethics statement. the need for speed brand partnerships. EA’s original live-action trailer for Battlefield 6 immediately killed off celebrities like Zac Efron as a joke, but now the game is embracing Hollywood. Battlefield is partnering with Paramount to include Top Gun heroes (Tom Cruise excluded) as part of its upcoming season 4 update. I might just hop back in to fly the F-14 Tomcat. Game of Thrones: War for Westeros , announced last year for a 2026 release, is now set to launch in early 2027. “We remain unwavering in our mission to deliver a real-time strategy game set in the world of Westeros that meets the expectations of both RTS players and Game of Thrones fans,” says developer PlaySide. “This decision gives us the time needed to continue building towards that goal and ensure that the game reaches the high level of quality we are aiming for.” PlayStation uploaded new trailers for Marvel’s Wolverine and Marvel Tōkon: Fighting Souls today, but the comment sections are pretty much all about PlayStation’s plan to kill discs. And this isn’t exactly a new phenomenon . Can’t wait to see what people make using them . Hopefully some cool front plates? Aftermath wrote about a rally on Wednesday at ZeniMax’s office in Rockville, MD. ZeniMax, which oversees studios like Bethesda, was hit with 379 cuts in the state of Maryland as part of the broader Xbox layoffs. If you’re planning another Jurassic Park rewatch this week you’ll want to keep this detailed breakdown of all the computers featured in the film on hand. Developer Fabien Sanglard identifies and shares interesting details on all the fictional park’s hardware from SGI workstations to a full-on Thinking Machines CM-5 supercomputer. The streamer announced its next TV game, called straightforwardly Netflix Minigolf , which is described as pinball meets minigolf, and features courses based on shows like Stranger Things and Squid Game . It launches on July 28th, and follows other recent experiments like the interactive horror game Unhinged . 379 positions were cut in the state, according to a WARN notice obtained by Game Developer ’s Chris Kerr . The cuts include major layoffs in Rockville, where the Bethesda Game Studios HQ is located. Game File reported on the changes as well, including senior leadership departures at Zenimax Online Studios. Update: Added Game File ’s report. Applications open on July 22nd at 10AM ET, and you’ll need to have a Switch 2 and an active Nintendo Switch Online membership to participate. Applications will be accepted in “the order that they are received,” so if you want a chance to try it, be ready on this page that day. Selections will be announced on August 7th at 9AM ET. The test will run at specific times from August 21st through August 23rd. On Pablo Torre Finds Out , comedian Dan Soder talks about the backlash that pushed EA to remove microtransaction paywalls it had added to single-player modes. We’ll see how long that holds, but as the crew of Shutdown Fullcast points out , EA could sell things people want, like a SWAC addition, or what I want: a Pony Excess DLC pack that lets me recruit Eric Dickerson with cash and cars. Matt Reeves’ follow-up to The Batman has been delayed once again, and Warner Bros. now plays for the film to debut on Feb. 18, 2028 . In the meantime, you can check out this new screen test from the film. Spotify gave free users the ability to separate out their kids’ listening habits in May, but limited the initial rollout to Argentina, Colombia, Denmark, Italy, New Zealand, and Sweden. Now Spotify is expanding the feature to free users in the US, UK, Australia, France, Germany, and the Netherlands. As Polygon reports, buying something from Crunchyroll’s store will require a Mega or Ultimate subscription, which got a price increase earlier this year. The basic Fan subscription tier isn’t included. Crunchyroll also says its updated store will focus more on convention-style products, like “collectibles, curated drops, and limited-release products.” In an interview with A Rabbit’s Foot , the man who loves pushing technological boundries enough to anger his fans with controversial remasters had this to say about people who oppose artificial intelligence in film making: “It’s very much like sitting here saying, ‘Well, I believe the horse and the buggy is really where it’s at. These cars, they break down, they need gas, there’s all kinds of problems with them and pretty soon they’ll be making them into tanks, and then they’ll be killing people. It’s terrible.’ There’s nothing you can do about it. That’s progress, it’s the future.” Alongside an upgraded version of its towering Skelly, Home Depot is introducing several new animatronics this year, including a $179 six-foot-tall hipster bartender — err, mixologist — with tattoos and a well coiffed beard and mustache. John the Last Call Mixologist also stirs a drink in a hand while speaking one of five different prerecorded phrases. The WGAE and WGAW are jointly filing a lawsuit alleging the merger violates antitrust law, following a similar lawsuit filed by a dozen state attorneys general. The WGA says it has “opposed the merger since day one,” adding: [T]he proposed Paramount-Warner Bros. merger would reduce competition between buyers of film and television writing services, giving the combined entity increased incentive and ability to suppress writers’ compensation, erode deal terms, create new barriers for emerging writers to build sustainable careers and diminish the volume and diversity of content reaching audiences. Disclosure: The Verge ’s editorial staff is also unionized with the Writers Guild of America, East. According to the Hollywood Reporter , the partnership also includes new episodes of Mythical Kitchen and Last Meals , and follows similar deals to bring other YouTube shows to Netflix, like content from digital media brands. Mythical Entertainment’s shows will begin premiering on the same day on both platforms starting September 7th. AI-generated music is suddenly everywhere. On social media, music streaming services, and elsewhere, stuff made on Suno is becoming unavoidable. The Verge ’s Terrence O’Brien joins David to talk about where Suno came from, whether it can truly change the way we create and consume music, and how we can and should respond to AI music. We also have some thoughts on whether these songs might someday be bangers . Dave Eggers told OpenAI staff that ChatGPT was ‘silencing an entire generation’ Sony’s flagship RGB LED TV is incredible The apps, gadgets, and tools every reader needs Fine, electric mountain bikes don’t suck The PS6 sure sounds like a handheld This is the title for the native ad",
+      "full_article_text_chars": 9163,
+      "content_preview": "The Verge’s entertainment section collects the latest news from the worlds of pop culture, music, movies, television, and video games. Whether you want to know what to watch on Netflix or how to make the most of your streaming service budget, the entertainment section acts a reliable source. There’s simply too much to read, watch, hear, and play. Let us be your tour guide. Projects like Odysseus: The Fall highlight how the AI hype machine is powered by stunts and stolen valor. Latest In Entertainment As reported by The Wrap , A24 says it won’t, after all, go after a creator for using a Backrooms -adjacent wallpaper. You know, the generically yellow one. Smart move. After a Reddit user reported getting a complaint on behalf of A24, Backrooms director Kane Parsons said it “should not be happening.” A24 then said in a statement it “makes no claim over ownership over the yellow wallpaper.” Backrooms is at the forefront of horror’s YouTube wave There’s a Tascam Portastudio 424 MK III! He’s also got a Telepathic Instruments Orchid (review incoming), a couple of Chase Bliss pedals (Lost & Found and Mood MKII), a Hologram Electronics Chroma Console, a Moog Sub37, and an Ableton Move. Proving, once again, that you don’t need piles of fancy gear to make music. Watch the full interview here . The author of The Second Coming lives for French press and splurges on concert tickets. “Up to” 32 staffers have been served redundancy or at-risk notices, ZA/UM says . The studio has been the subject of a lot of controversy following the launch of Disco Elysium , and it released a new game this year, Zero Parades: For Dead Spies . However, the Zero Parades ’ “commercial performance has not enabled us to sustain a studio of our current size.“ Software makes up “less than 12 percent of the business,” while collectibles are “over half,” Ryan Cohen said in a Bloomberg interview . “So it’s totally, totally irrelevant.” The numbers differ a bit in GameStop’s latest quarterly report , where collectibles were 41.8 percent of sales in Q1 2026. But they’re a growing part of GameStop’s business — the Q1 collectibles figure was a jump from 28.9 percent in Q1 2025 — which could soften the blow from the dire future for discs. Following its wildly successful theatrical run, Curry Barker’s Obsession is now streaming on Peacock for everyone who wants to be scared silly at home. If you buy something from a Verge link, Vox Media may earn a commission. See our ethics statement. the need for speed brand partnerships. EA’s original live-action trailer for Battlefield 6 immediately killed off celebrities like Zac Efron as a joke, but now the game is embracing Hollywood. Battlefield is partnering with Paramount to include Top Gun heroes (Tom Cruise excluded) as part of its upcoming season 4 update. I might just hop back in to fly the F-14 Tomcat. Game of Thrones: War for Westeros , announced last year for a 2026 release, is now set to launch in early 2027. “We remain unwavering in our mission to deliver a real-time strategy game set in the world of Westeros that meets the expectations of both RTS players and Game of Thrones fans,” says developer PlaySide. “This decision gives us the time needed to continue building towards that goal and ensure that the game reaches the high level of quality we are aiming for.” PlayStation uploaded new trailers for Marvel’s Wolverine and Marvel Tōkon: Fighting Souls today, but the comment sections are pretty much all about PlayStation’s plan to kill discs. And this isn’t exactly a new phenomenon . Can’t wait to see what people make using them . Hopefully some cool front plates? Aftermath wrote about a rally on Wednesday at ZeniMax’s office in Rockville, MD. ZeniMax, which oversees studios like Bethesda, was hit with 379 cuts in the state of Maryland as part of the broader Xbox layoffs. If you’re planning another Jurassic Park rewatch this week you’ll want to keep this detailed breakdown of all the computers featured in the film on hand. Developer Fabien Sanglard identifies and shares interesting details on all the fictional park’s hardware from SGI workstations to a full-on Thinking Machines CM-5 supercomputer. The streamer announced its next TV game, called straightforwardly Netflix Minigolf , which is described as pinball meets minigolf, and features courses based on shows like Stranger Things and Squid Game . It launches on July 28th, and follows other recent experiments like the interactive horror game Unhinged . 379 positions were cut in the state, according to a WARN notice obtained by Game Developer ’s Chris Kerr . The cuts include major layoffs in Rockville, where the Bethesda Game Studios HQ is located. Game File reported on the changes as well, including senior leadership departures at Zenimax Online Studios. Update: Added Game File ’s report. Applications open on July 22nd at 10AM ET, and you’ll need to have a Switch 2 and an active Nintendo Switch Online membership to participate. Applications will be accepted in “the order that they are received,” so if you want a chance to try it, be ready on this page that day. Selections will be announced on August 7th at 9AM ET. The test will run at specific times from August 21st through August 23rd. On Pablo Torre Finds Out , comedian Dan Soder talks about the backlash that pushed EA to remove microtransaction paywalls it had added to single-player modes. We’ll see how long that holds, but as the crew of Shutdown Fullcast points out , EA could sell things people want, like a SWAC addition, or what I want: a Pony Excess DLC pack that lets me recruit Eric Dickerson with cash and cars. Matt Reeves’ follow-up to The Batman has been delayed once again, and Warner Bros. now plays for the film to debut on Feb. 18, 2028 . In the meantime, you can check out this new screen test from the film. Spotify gave free users the ability to separate out their kids’ listening habits in May, but limited the initial rollout to Argentina, Colombia, Denmark, Italy, New Zealand, and Sweden. Now Spotify is expanding the feature to free users in the US, UK, Australia, France, Germany, and the Netherlands. As Polygon reports, buying something from Crunchyroll’s store will require a Mega or Ultimate subscription, which got a price increase earlier this year. The basic Fan subscription tier isn’t included. Crunchyroll also says its updated store will focus more on convention-style products, like “collectibles, curated drops, and limited-release products.” In an interview with A Rabbit’s Foot , the man who loves pushing technological boundries enough to anger his fans with controversial remasters had this to say about people who oppose artificial intelligence in film making: “It’s very much like sitting here saying, ‘Well, I believe the horse and the buggy is really where it’s at. These cars, they break down, they need gas, there’s all kinds of problems with them and pretty soon they’ll be making them into tanks, and then they’ll be killing people. It’s terrible.’ There’s nothing you can do about it. That’s progress, it’s the future.” Alongside an upgraded version of its towering Skelly, Home Depot is introducing several new animatronics this year, including a $179 six-foot-tall hipster bartender — err, mixologist — with tattoos and a well coiffed beard and mustache. John the Last Call Mixologist also stirs a drink in a hand while speaking one of five different prerecorded phrases. The WGAE and WGAW are jointly filing a lawsuit alleging the merger violates antitrust law, following a similar lawsuit filed by a dozen state attorneys general. The WGA says it has “opposed the merger since day one,” adding: [T]he proposed Paramount-Warner Bros. merger would reduce competition between buyers of film and television writing services, giving the combined entity increased incentive and ability to suppress writers’ compensation, erode deal terms, create new barriers for emerging writers to build sustainable careers and diminish the volume and diversity of content reaching audiences. Disclosure: The Verge ’s editorial staff is also unionized with the Writers Guild of America, East. According to the Hollywood Reporter , the partnership also includes new episodes of Mythical Kitchen and Last Meals , and follows similar deals to bring other YouTube shows to Netflix, like content from digital media brands. Mythical Entertainment’s shows will begin premiering on the same day on both platforms starting September 7th. AI-generated music is suddenly everywhere. On social media, music streaming services, and elsewhere, stuff made on Suno is becoming unavoidable. The Verge ’s Terrence O’Brien joins David to talk about where Suno came from, whether it can truly change the way we create and consume music, and how we can and should respond to AI music. We also have some thoughts on whether these songs might someday be bangers .",
+      "content_preview_chars": 8881,
+      "content_fetched_at": "2026-07-19T11:29:17",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "7037ab8858645206",
+      "source_url_hash": "7037ab8858645206",
+      "canonical_url": "https://forums.tomshardware.com/threads/hammerbot-feedback-round-2.3819352",
+      "title_hash": "45d461448e85b5e0",
+      "topic_signature": "85a89487cd5729371b65",
+      "title": "this forum thread",
+      "url": "https://forums.tomshardware.com/threads/hammerbot-feedback-round-2.3819352",
+      "source_name": "Tom's Hardware",
+      "source_url": "https://www.tomshardware.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-19T11:29:03",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
+      "content_fetch_status": "failed",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-07-19T11:29:23",
+      "candidate_retry_after": "2026-07-19T11:44:23Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-07-19T11:29:23",
       "candidate_failure_count": 1
     }
   ],
