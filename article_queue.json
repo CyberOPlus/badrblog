@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-19T03:55:40",
+  "updated_at": "2026-07-19T03:55:41",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -470,7 +470,8 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "article older than 24 hours",
       "candidate_failed_at": "2026-07-19T03:51:53",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "telegram_final_summary_notified_at": "2026-07-19T03:55:41"
     },
     {
       "id": "1c6f2acfd6db9c11",
@@ -700,5 +701,9 @@
       "skip_reason": "non_technical_entertainment_content"
     }
   ],
-  "notifications": {}
+  "notifications": {
+    "telegram_final_summary_event_key": "20260719034920377123",
+    "telegram_final_summary_notified_at": "2026-07-19T03:55:41",
+    "last_notification_at": "2026-07-19T03:55:41"
+  }
 }
