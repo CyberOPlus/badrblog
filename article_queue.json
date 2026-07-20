@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-20T12:59:52",
+  "updated_at": "2026-07-20T15:09:13",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2496,12 +2496,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-20T12:54:47",
-      "candidate_retry_after": "2026-07-20T13:09:47Z",
+      "content_fetched_at": "2026-07-20T15:02:05",
+      "candidate_retry_after": "2026-07-20T15:17:05Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-20T12:54:47",
-      "candidate_failure_count": 20
+      "candidate_failed_at": "2026-07-20T15:02:05",
+      "candidate_failure_count": 21
     },
     {
       "id": "512c2899a98440d2",
@@ -2530,12 +2530,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-20T12:54:47",
-      "candidate_retry_after": "2026-07-20T13:09:47Z",
+      "content_fetched_at": "2026-07-20T15:02:05",
+      "candidate_retry_after": "2026-07-20T15:17:05Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-20T12:54:47",
-      "candidate_failure_count": 20
+      "candidate_failed_at": "2026-07-20T15:02:05",
+      "candidate_failure_count": 21
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2564,12 +2564,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-20T12:54:47",
-      "candidate_retry_after": "2026-07-20T13:09:47Z",
+      "content_fetched_at": "2026-07-20T15:02:05",
+      "candidate_retry_after": "2026-07-20T15:17:05Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-20T12:54:47",
-      "candidate_failure_count": 20
+      "candidate_failed_at": "2026-07-20T15:02:05",
+      "candidate_failure_count": 21
     },
     {
       "id": "d900f1574fddfab4",
@@ -3379,17 +3379,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 0,
-      "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 0,
+      "source_links_removed_count": 229,
+      "affiliate_links_removed_count": 7,
+      "removed_source_links_count": 229,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-07-20T12:54:48",
-      "candidate_retry_after": "2026-07-20T13:09:48Z",
+      "content_fetch_error": "weak article body after fallbacks (best=559 chars/88 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:559chars/88words, page_text:559chars/88words)",
+      "content_fetched_at": "2026-07-20T15:02:09",
+      "candidate_retry_after": "2026-07-20T15:17:09Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-07-20T12:54:48",
-      "candidate_failure_count": 19
+      "candidate_failure_reason": "weak article body after fallbacks (best=559 chars/88 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:559chars/88words, page_text:559chars/88words)",
+      "candidate_failed_at": "2026-07-20T15:02:09",
+      "candidate_failure_count": 20
     },
     {
       "id": "8d2678d87487d729",
@@ -4246,12 +4246,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-07-20T12:54:49",
-      "candidate_retry_after": "2026-07-20T13:09:49Z",
+      "content_fetched_at": "2026-07-20T15:02:10",
+      "candidate_retry_after": "2026-07-20T15:17:10Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-07-20T12:54:49",
-      "candidate_failure_count": 18
+      "candidate_failed_at": "2026-07-20T15:02:10",
+      "candidate_failure_count": 19
     },
     {
       "id": "45429302676bf4c5",
@@ -4909,7 +4909,10 @@
       "content_preview_chars": 1269,
       "content_fetched_at": "2026-07-19T12:13:04",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-20T15:01:49",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "3f93716f6f873d9d",
@@ -5279,12 +5282,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-20T12:54:50",
-      "candidate_retry_after": "2026-07-20T13:09:50Z",
+      "content_fetched_at": "2026-07-20T15:02:12",
+      "candidate_retry_after": "2026-07-20T15:17:12Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-20T12:54:50",
-      "candidate_failure_count": 16
+      "candidate_failed_at": "2026-07-20T15:02:12",
+      "candidate_failure_count": 17
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5316,12 +5319,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-20T12:54:52",
-      "candidate_retry_after": "2026-07-20T13:09:52Z",
+      "content_fetched_at": "2026-07-20T15:02:14",
+      "candidate_retry_after": "2026-07-20T15:17:14Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-20T12:54:52",
-      "candidate_failure_count": 16
+      "candidate_failed_at": "2026-07-20T15:02:14",
+      "candidate_failure_count": 17
     },
     {
       "id": "aede79193c6b98c9",
@@ -5353,12 +5356,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-20T12:54:54",
-      "candidate_retry_after": "2026-07-20T13:09:54Z",
+      "content_fetched_at": "2026-07-20T15:02:16",
+      "candidate_retry_after": "2026-07-20T15:17:16Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-20T12:54:54",
-      "candidate_failure_count": 16
+      "candidate_failed_at": "2026-07-20T15:02:16",
+      "candidate_failure_count": 17
     },
     {
       "id": "253eaa098c468523",
@@ -6286,12 +6289,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-20T12:54:54",
-      "candidate_retry_after": "2026-07-20T13:09:54Z",
+      "content_fetched_at": "2026-07-20T15:02:17",
+      "candidate_retry_after": "2026-07-20T15:17:17Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-20T12:54:54",
-      "candidate_failure_count": 14
+      "candidate_failed_at": "2026-07-20T15:02:17",
+      "candidate_failure_count": 15
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6668,12 +6671,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-20T12:54:57",
-      "candidate_retry_after": "2026-07-20T13:09:57Z",
+      "content_fetched_at": "2026-07-20T15:02:19",
+      "candidate_retry_after": "2026-07-20T15:17:19Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-20T12:54:57",
-      "candidate_failure_count": 12
+      "candidate_failed_at": "2026-07-20T15:02:19",
+      "candidate_failure_count": 13
     },
     {
       "id": "693fbfabd96b2185",
@@ -6704,12 +6707,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-20T12:54:59",
-      "candidate_retry_after": "2026-07-20T13:09:59Z",
+      "content_fetched_at": "2026-07-20T15:02:21",
+      "candidate_retry_after": "2026-07-20T15:17:21Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-20T12:54:59",
-      "candidate_failure_count": 12
+      "candidate_failed_at": "2026-07-20T15:02:21",
+      "candidate_failure_count": 13
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -6980,7 +6983,10 @@
       "content_preview_chars": 8976,
       "content_fetched_at": "2026-07-19T18:36:56",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-20T15:01:49",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "fe2a5fe4e3e5583e",
@@ -8257,11 +8263,11 @@
       "content_fetched_at": "2026-07-19T21:32:44",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-20T04:50:54",
+      "selected_at": "2026-07-20T15:04:28",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-20T04:50:54",
+      "processing_prepared_at": "2026-07-20T15:04:28",
       "ai_input_package": {
         "title": "WordPress Core \"wp2shell\" RCE flaws get public exploits, patch now",
         "url": "https://www.bleepingcomputer.com/news/security/wordpress-core-wp2shell-rce-flaws-get-public-exploits-patch-now",
@@ -8318,14 +8324,14 @@
       "ai_error": "article older than 24 hours",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 131.98,
+      "ai_total_time_seconds": 134.85,
       "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-20T05:08:07Z",
+      "candidate_retry_after": "2026-07-20T15:21:43Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "article older than 24 hours",
-      "candidate_failed_at": "2026-07-20T04:53:07",
-      "candidate_failure_count": 1,
+      "candidate_failed_at": "2026-07-20T15:06:43",
+      "candidate_failure_count": 2,
       "telegram_final_summary_notified_at": "2026-07-20T04:58:13"
     },
     {
@@ -8397,11 +8403,11 @@
       "content_fetched_at": "2026-07-19T21:32:49",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-20T04:55:08",
+      "selected_at": "2026-07-20T15:07:40",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-20T04:55:08",
+      "processing_prepared_at": "2026-07-20T15:07:40",
       "ai_input_package": {
         "title": "Abbott probes two cyber incidents amid extortion claims",
         "url": "https://www.bleepingcomputer.com/news/security/abbott-laboratories-probes-two-cyber-incidents-amid-extortion-claims",
@@ -8439,20 +8445,20 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content",
+      "ai_quality_last_error": "html_content has unbalanced <h2> tags",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 58.44,
+      "ai_total_time_seconds": 92.41,
       "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-20T05:11:07Z",
+      "candidate_retry_after": "2026-07-20T15:24:13Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-20T04:56:07",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-20T15:09:13",
+      "candidate_failure_count": 2
     },
     {
       "id": "e3297d51481e4116",
@@ -9088,12 +9094,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=395 chars/58 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:395chars/58words, paragraph_fallback:280chars/41words, article_body:395chars/58words, meta_description:53chars/7words, page_text:395chars/58words)",
-      "content_fetched_at": "2026-07-20T12:55:00",
-      "candidate_retry_after": "2026-07-20T13:10:00Z",
+      "content_fetched_at": "2026-07-20T15:02:22",
+      "candidate_retry_after": "2026-07-20T15:17:22Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=395 chars/58 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:395chars/58words, paragraph_fallback:280chars/41words, article_body:395chars/58words, meta_description:53chars/7words, page_text:395chars/58words)",
-      "candidate_failed_at": "2026-07-20T12:55:00",
-      "candidate_failure_count": 8
+      "candidate_failed_at": "2026-07-20T15:02:22",
+      "candidate_failure_count": 9
     },
     {
       "id": "561b6316398d7603",
@@ -9527,7 +9533,80 @@
       "content_preview_chars": 4984,
       "content_fetched_at": "2026-07-20T04:50:33",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-20T15:02:23",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-20T15:02:23",
+      "ai_input_package": {
+        "title": "15-Year-Old NGINX Vulnerability Lets Attackers Crash Workers and Achieve Remote Code Execution",
+        "url": "https://cybersecuritynews.com/15-year-old-nginx-vulnerability",
+        "source_name": "Cyber Security News",
+        "suggested_category": "Cyber-Security",
+        "main_image": "http://cybersecuritynews.com/wp-content/uploads/2026/07/15-Year-Old-NGINX-Vulnerability.webp",
+        "article_images": [
+          {
+            "url": "http://cybersecuritynews.com/wp-content/uploads/2026/07/15-Year-Old-NGINX-Vulnerability.webp",
+            "alt": "15-Year-Old NGINX Vulnerability Lets Attackers Crash Workers and Achieve Remote Code Execution",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/07/15-Year-Old-NGINX-Vulnerability-696x392.webp",
+            "alt": "15-Year-Old NGINX Vulnerability",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "A newly disclosed flaw tracked as CVE-2026-42533 affects nginx's script engine and has been silently exploitable since March 2011, when the map directive gained regex support.",
+        "content_preview": "A newly disclosed flaw tracked as CVE-2026-42533 affects nginx’s script engine and has been silently exploitable since March 2011, when the map directive gained regex support. Security researcher Stan Shaw reported the bug to F5 SIRT, which coordinated a fix released in nginx 1.30.4 (stable) and 1.31.3 (mainline), along with corresponding patches for NGINX Plus R33–R36 (fixed in R36 P7) and 37.0.0.1–37.0.2.1 (fixed in 37.0.3.1). The vulnerability is a pre-authentication remote code execution flaw rooted in a missing save/restore of PCRE capture state in nginx’s internal script engine. nginx evaluates expressions in two passes a LEN pass to measure buffer size and a VALUE pass to write the actual data, and both rely on a shared, mutable array called r->captures . When a map directive with a regex pattern executes between two references to a capture group (like $1 ), it silently overwrites that shared state, causing the LEN and VALUE passes to disagree on size. 15-Year-Old NGINX Vulnerability This mismatch produces two distinct attack primitives: Heap buffer overflow: when the clobbered capture is larger than the original, the VALUE pass writes more data than the buffer was sized for, corrupting adjacent heap memory with fully attacker-controlled content. Information leak: when the clobbered capture is smaller, the buffer is oversized, and the response leaks uninitialized heap bytes — including libc and heap pointers sufficient to defeat ASLR in a single unauthenticated GET request. Chained together, these two primitives allow an attacker to achieve reliable RCE using roughly one leak request, about 40 spray connections, and one overflow-triggering request reported at 10/10 reliability on Ubuntu 24.04 with full ASLR enabled. According to the Cyberstan report , the bug isn’t limited to a single directive. It spans at least 13 independent call sites across 9 source files, affecting both the HTTP and stream modules. Any configuration combining a regex capture source ( location , server_name , rewrite , or if blocks) with a regex-based map variable evaluated afterward in the same request context is potentially exploitable — even across separate directives in the same location block. Commonly affected directives include: proxy_set_header , proxy_method , proxy_pass , fastcgi_param , uwsgi_param , scgi_param grpc_set_header , return , add_header , rewrite , set root , alias , access_log , and several others A separate, independently exploitable variant exists through named capture groups ( (?P<name>...) ), which are cached differently and won’t be fixed by a patch that only addresses numbered captures. Notably, recent fixes for other nginx bugs — CVE-2026-42945, CVE-2026-9256, CVE-2026-42055, and CVE-2026-48142 — do not address this issue, meaning organizations that patched for those flaws remain exposed. Remarkably, this exact tricky behavior was first flagged over a decade ago in a 2014 nginx trac ticket, where developer Maxim Dounin acknowledged it as a defect, but it was never fully remediated as a security-critical issue. The researcher has released a static config scanner on GitHub (0xCyberstan/CVE-2026-42533-Config-Scanner) that identifies vulnerable directive orderings without exploiting anything, giving defenders a way to audit exposure immediately. The full proof-of-concept and exploitation write-up are being withheld for 21 days after the patch to give administrators time to update, a decision informed by the rapid weaponization seen after CVE-2026-42945 (“NGINX Rift”) went public. Tactical Security Recommendations Upgrade immediately to nginx 1.30.4, 1.31.3, or the corresponding patched NGINX Plus release. Run the static scanner against production configs to identify vulnerable directive orderings. Audit any location block combining regex captures with regex-based map variables, and restructure configs to avoid capture references appearing before or after map variable evaluation. Treat this as urgent even if HTTP/3 or other recently patched modules are not in use, since this flaw is independent of those fixes. Strengthen Your SOC by Accelerating Threat Detection & Rapid Investigations. -> Integrate ANY.RUN With Your SOC Now . New TuxBot v3 IoT Botnet Uses LLM-Generated Code to Hijack Devices and Launch DDoS Attacks New ClickLock macOS Stealer Kills Every App to Force Password Entry NadMesh Uses Shodan to Find and Hijack Exposed AI and MCP Infrastructure Ransomware Attack on Coca-Cola-Owned Fairlife Halts Production Across the United States WhatsApp GhostPairing Lets Scammers Hijack Accounts Without Stealing Passwords Hugging Face Confirms AI-Driven Breach: Attackers used Autonomous Agents, defenders countered with AI New Spirals Ransomware Uses IIS Web Shell and PsExec to Encrypt IT Firm in Under 24 Hours Citrix Secure Access and Endpoint Client for Windows Vulnerability Enables Privilege Escalation New wp2shell RCE Vulnerability Hits Millions of WordPress Sites, Emergency Patch Released",
+        "content_preview_chars": 4984,
+        "rss_summary": "",
+        "full_article_text": "A newly disclosed flaw tracked as CVE-2026-42533 affects nginx’s script engine and has been silently exploitable since March 2011, when the map directive gained regex support. Security researcher Stan Shaw reported the bug to F5 SIRT, which coordinated a fix released in nginx 1.30.4 (stable) and 1.31.3 (mainline), along with corresponding patches for NGINX Plus R33–R36 (fixed in R36 P7) and 37.0.0.1–37.0.2.1 (fixed in 37.0.3.1). The vulnerability is a pre-authentication remote code execution flaw rooted in a missing save/restore of PCRE capture state in nginx’s internal script engine. nginx evaluates expressions in two passes a LEN pass to measure buffer size and a VALUE pass to write the actual data, and both rely on a shared, mutable array called r->captures . When a map directive with a regex pattern executes between two references to a capture group (like $1 ), it silently overwrites that shared state, causing the LEN and VALUE passes to disagree on size. 15-Year-Old NGINX Vulnerability This mismatch produces two distinct attack primitives: Heap buffer overflow: when the clobbered capture is larger than the original, the VALUE pass writes more data than the buffer was sized for, corrupting adjacent heap memory with fully attacker-controlled content. Information leak: when the clobbered capture is smaller, the buffer is oversized, and the response leaks uninitialized heap bytes — including libc and heap pointers sufficient to defeat ASLR in a single unauthenticated GET request. Chained together, these two primitives allow an attacker to achieve reliable RCE using roughly one leak request, about 40 spray connections, and one overflow-triggering request reported at 10/10 reliability on Ubuntu 24.04 with full ASLR enabled. According to the Cyberstan report , the bug isn’t limited to a single directive. It spans at least 13 independent call sites across 9 source files, affecting both the HTTP and stream modules. Any configuration combining a regex capture source ( location , server_name , rewrite , or if blocks) with a regex-based map variable evaluated afterward in the same request context is potentially exploitable — even across separate directives in the same location block. Commonly affected directives include: proxy_set_header , proxy_method , proxy_pass , fastcgi_param , uwsgi_param , scgi_param grpc_set_header , return , add_header , rewrite , set root , alias , access_log , and several others A separate, independently exploitable variant exists through named capture groups ( (?P<name>...) ), which are cached differently and won’t be fixed by a patch that only addresses numbered captures. Notably, recent fixes for other nginx bugs — CVE-2026-42945, CVE-2026-9256, CVE-2026-42055, and CVE-2026-48142 — do not address this issue, meaning organizations that patched for those flaws remain exposed. Remarkably, this exact tricky behavior was first flagged over a decade ago in a 2014 nginx trac ticket, where developer Maxim Dounin acknowledged it as a defect, but it was never fully remediated as a security-critical issue. The researcher has released a static config scanner on GitHub (0xCyberstan/CVE-2026-42533-Config-Scanner) that identifies vulnerable directive orderings without exploiting anything, giving defenders a way to audit exposure immediately. The full proof-of-concept and exploitation write-up are being withheld for 21 days after the patch to give administrators time to update, a decision informed by the rapid weaponization seen after CVE-2026-42945 (“NGINX Rift”) went public. Tactical Security Recommendations Upgrade immediately to nginx 1.30.4, 1.31.3, or the corresponding patched NGINX Plus release. Run the static scanner against production configs to identify vulnerable directive orderings. Audit any location block combining regex captures with regex-based map variables, and restructure configs to avoid capture references appearing before or after map variable evaluation. Treat this as urgent even if HTTP/3 or other recently patched modules are not in use, since this flaw is independent of those fixes. Strengthen Your SOC by Accelerating Threat Detection & Rapid Investigations. -> Integrate ANY.RUN With Your SOC Now . New TuxBot v3 IoT Botnet Uses LLM-Generated Code to Hijack Devices and Launch DDoS Attacks New ClickLock macOS Stealer Kills Every App to Force Password Entry NadMesh Uses Shodan to Find and Hijack Exposed AI and MCP Infrastructure Ransomware Attack on Coca-Cola-Owned Fairlife Halts Production Across the United States WhatsApp GhostPairing Lets Scammers Hijack Accounts Without Stealing Passwords Hugging Face Confirms AI-Driven Breach: Attackers used Autonomous Agents, defenders countered with AI New Spirals Ransomware Uses IIS Web Shell and PsExec to Encrypt IT Firm in Under 24 Hours Citrix Secure Access and Endpoint Client for Windows Vulnerability Enables Privilege Escalation New wp2shell RCE Vulnerability Hits Millions of WordPress Sites, Emergency Patch Released",
+        "full_article_text_chars": 4984,
+        "enrichment_status": "strong",
+        "source_url": "https://cybersecuritynews.com",
+        "source_published_at": "2026-07-20T03:14:39Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 1.59,
+        "trusted_references": [
+          {
+            "title": "accounts.google.com",
+            "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+          },
+          {
+            "title": "news.google.com",
+            "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN%3Aen"
+          },
+          {
+            "title": "GitHub (0xCyberstan/CVE-2026-42533-Config-Scanner)",
+            "url": "https://github.com/0xCyberstan/CVE-2026-42533-Config-Scanner"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_status": "failed",
+      "ai_error": "AI article response returned incomplete JSON.",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 124.02,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-20T15:19:28Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "AI article response returned incomplete JSON.",
+      "candidate_failed_at": "2026-07-20T15:04:28",
+      "candidate_failure_count": 1
     },
     {
       "id": "d3f04ad962433c48",
@@ -9614,7 +9693,77 @@
       "content_preview_chars": 6492,
       "content_fetched_at": "2026-07-20T04:50:31",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-20T15:06:43",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-20T15:06:43",
+      "ai_input_package": {
+        "title": "Weekly Cyber Security Newsletter Bulletin – EY Breach, Wpzshell Exploit, Notepad++ Flaws +20 Stories",
+        "url": "https://cybersecuritynews.com/weekly-cyber-security-newsletter-bulletin",
+        "source_name": "Cyber Security News",
+        "suggested_category": "Cyber-Security",
+        "main_image": "http://cybersecuritynews.com/wp-content/uploads/2026/07/Weekly-Cyber-Security-Newsletter-Bulletin.webp",
+        "article_images": [
+          {
+            "url": "http://cybersecuritynews.com/wp-content/uploads/2026/07/Weekly-Cyber-Security-Newsletter-Bulletin.webp",
+            "alt": "Weekly Cyber Security Newsletter Bulletin – EY Breach, Wpzshell Exploit, Notepad++ Flaws +20 Stories",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/07/Weekly-Cyber-Security-Newsletter-Bulletin-696x392.webp",
+            "alt": "Weekly Cyber Security Newsletter Bulletin",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "This week's cybersecurity situation shows a clear reality: every part of technology, from identity systems to common productivity tools, can be hacked or compromised.",
+        "content_preview": "This week’s cybersecurity situation shows a clear reality: every part of technology, from identity systems to common productivity tools, can be hacked or compromised. Microsoft’s July Patch Tuesday alone addressed roughly 570 vulnerabilities, including two zero-days already being exploited in the wild against SharePoint Server and Active Directory Federation Services, signaling that attackers are moving faster than ever from disclosure to weaponization. Meanwhile, the wp2shell RCE vulnerability puts more than 500 million WordPress sites at risk of unauthenticated takeover, and Ernst & Young’s disclosure of a breach affecting client tax and investment data reminds us that even the largest professional services firms remain attractive targets. Beyond traditional vulnerabilities, this issue also captures a growing trend: AI systems themselves are becoming attack surfaces. From a flaw in Claude for Chrome to the novel GhostCommit technique hiding malicious prompts inside code commits, and an exploit chain pairing GPT-5/6 models with Chrome, adversaries are actively probing AI-integrated workflows. Rounding out this edition are critical patches from Fortinet, F5, Splunk, and Dell, plus a malicious Chrome extension caught exfiltrating browsing data from over a million users. Here’s your complete rundown of this week’s 20+ stories shaping the threat landscape. Massive Microsoft Patch Tuesday: 570 Vulnerabilities Fixed Microsoft’s July 2026 Patch Tuesday addressed roughly 570 vulnerabilities, including two actively exploited zero-days — CVE-2026-56164 in SharePoint Server and CVE-2026-56155 in Active Directory Federation Services — plus a publicly disclosed BitLocker bypass bug. New wp2shell RCE Vulnerability Hits WordPress A critical pre-authentication RCE flaw dubbed “wp2shell,” tracked as CVE-2026-60137 and CVE-2026-63030, exposes over 500 million WordPress sites to unauthenticated takeover via a REST API batch-route SQL injection chain. LegacyHive Windows Zero-Day PoC Released Researcher Nightmare-Eclipse released a proof-of-concept called LegacyHive that exploits the Windows User Profile Service to let a standard user load another account’s registry hive, working even on systems with July 2026 patches applied. macOS Stealer Mimics Apple Crash Reports This story details a new macOS information-stealing malware campaign that disguises its payload as legitimate Apple crash-report dialogs to trick users into granting access or credentials. EY Data Breach Exposes Client Tax Data Ernst & Young confirmed an unauthorized third party accessed its IT support ticket platform between March 28 and April 12, 2026, downloading client tax and investment-holding documents before detection nearly three weeks later . ModHeader Chrome Extension Pulled Over Data Exfiltration Code The popular ModHeader extension, with 1.6 million installs, was removed from Chrome and Edge stores after researchers found dormant code capable of encrypting and uploading users’ browsing history to an external server . Notepad++ Patches Command Injection and Four Other Flaws Notepad++ v8.9.7 fixes a high-risk installer-time PowerShell command injection bug alongside a stack buffer overflow, a Zip Slip path traversal issue, a session-validation bypass, and a macro integrity bypass . Active Directory Zero-Day Exploited in the Wild This report covers active exploitation of a zero-day flaw in Active Directory-related services, highlighting risks to enterprise identity infrastructure. Dell BIOS Flaw Exposes Admin Passwords A vulnerability in Dell BIOS firmware reportedly allows exposure or extraction of administrator passwords, raising concerns for enterprise device fleets. 7-Zip Vulnerability Enables Code Execution A flaw in the widely used 7-Zip archiving tool allows attackers to achieve code execution, likely through crafted archive files. F5 Patches Multiple Nginx Vulnerabilities F5 has issued patches addressing several vulnerabilities affecting Nginx components within its product line, closing off potential exploitation vectors. Claude for Chrome Vulnerability Disclosed A security flaw was identified in the Claude for Chrome browser integration, raising concerns about AI-assistant browser extensions and their attack surface. GhostCommit Attack Hides Malicious Prompts The “GhostCommit” technique conceals malicious AI prompts within code commits, potentially manipulating AI coding assistants without developer awareness. GPT-5/6 “Sol” Chrome Exploit Chain Uncovered Researchers detail an exploit chain combining GPT-5/6-era AI models (“Sol”) with Chrome browser vulnerabilities, illustrating emerging AI-assisted attack techniques. Multiple Splunk Enterprise Vulnerabilities Patched Splunk has released fixes for several vulnerabilities in its Enterprise product, addressing issues that could affect data integrity and platform security. Fortinet Patches Seven Vulnerabilities Fortinet issued patches for seven vulnerabilities across its security product portfolio, part of its routine advisory cycle. Dell Laptops Shutting Down After July Update A separate Dell issue is causing laptops to unexpectedly shut down following the July 2026 update, distinct from the BIOS password flaw reported elsewhere this week. AWS Cost Explorer Bug Raises Security Concerns A bug discovered in AWS Cost Explorer reportedly creates unintended security or data-exposure risks for cloud customers monitoring billing data. TP-Link Cameras Vulnerability Disclosed A security flaw affecting TP-Link camera devices could allow attackers to compromise device functionality or access video feeds. Pro-Iran Hacktivists Use Telegram-Coordinated DDoS and Hack-and-Leak Attacks Massive Microsoft Patch Tuesday Update: 570 Vulnerabilities Fixed, Including 3 Zero-Days UK and Allies Warn of Russian Hackers Actively Hacking Organizations’ Routers Worldwide Critical WordPress Plugin Vulnerability Allows Attackers to Gain Full Control Over Website 150+ npm Packages Promise Wi-Fi Bypass for Students Using Their Systems for DDoS Attacks NadMesh Uses Shodan to Find and Hijack Exposed AI and MCP Infrastructure Hugging Face Confirms AI-Driven Breach: Attackers used Autonomous Agents, defenders countered with AI New Spirals Ransomware Uses IIS Web Shell and PsExec to Encrypt IT Firm in Under 24 Hours Citrix Secure Access and Endpoint Client for Windows Vulnerability Enables Privilege Escalation New wp2shell RCE Vulnerability Hits Millions of WordPress Sites, Emergency Patch Released",
+        "content_preview_chars": 6492,
+        "rss_summary": "",
+        "full_article_text": "This week’s cybersecurity situation shows a clear reality: every part of technology, from identity systems to common productivity tools, can be hacked or compromised. Microsoft’s July Patch Tuesday alone addressed roughly 570 vulnerabilities, including two zero-days already being exploited in the wild against SharePoint Server and Active Directory Federation Services, signaling that attackers are moving faster than ever from disclosure to weaponization. Meanwhile, the wp2shell RCE vulnerability puts more than 500 million WordPress sites at risk of unauthenticated takeover, and Ernst & Young’s disclosure of a breach affecting client tax and investment data reminds us that even the largest professional services firms remain attractive targets. Beyond traditional vulnerabilities, this issue also captures a growing trend: AI systems themselves are becoming attack surfaces. From a flaw in Claude for Chrome to the novel GhostCommit technique hiding malicious prompts inside code commits, and an exploit chain pairing GPT-5/6 models with Chrome, adversaries are actively probing AI-integrated workflows. Rounding out this edition are critical patches from Fortinet, F5, Splunk, and Dell, plus a malicious Chrome extension caught exfiltrating browsing data from over a million users. Here’s your complete rundown of this week’s 20+ stories shaping the threat landscape. Massive Microsoft Patch Tuesday: 570 Vulnerabilities Fixed Microsoft’s July 2026 Patch Tuesday addressed roughly 570 vulnerabilities, including two actively exploited zero-days — CVE-2026-56164 in SharePoint Server and CVE-2026-56155 in Active Directory Federation Services — plus a publicly disclosed BitLocker bypass bug. New wp2shell RCE Vulnerability Hits WordPress A critical pre-authentication RCE flaw dubbed “wp2shell,” tracked as CVE-2026-60137 and CVE-2026-63030, exposes over 500 million WordPress sites to unauthenticated takeover via a REST API batch-route SQL injection chain. LegacyHive Windows Zero-Day PoC Released Researcher Nightmare-Eclipse released a proof-of-concept called LegacyHive that exploits the Windows User Profile Service to let a standard user load another account’s registry hive, working even on systems with July 2026 patches applied. macOS Stealer Mimics Apple Crash Reports This story details a new macOS information-stealing malware campaign that disguises its payload as legitimate Apple crash-report dialogs to trick users into granting access or credentials. EY Data Breach Exposes Client Tax Data Ernst & Young confirmed an unauthorized third party accessed its IT support ticket platform between March 28 and April 12, 2026, downloading client tax and investment-holding documents before detection nearly three weeks later . ModHeader Chrome Extension Pulled Over Data Exfiltration Code The popular ModHeader extension, with 1.6 million installs, was removed from Chrome and Edge stores after researchers found dormant code capable of encrypting and uploading users’ browsing history to an external server . Notepad++ Patches Command Injection and Four Other Flaws Notepad++ v8.9.7 fixes a high-risk installer-time PowerShell command injection bug alongside a stack buffer overflow, a Zip Slip path traversal issue, a session-validation bypass, and a macro integrity bypass . Active Directory Zero-Day Exploited in the Wild This report covers active exploitation of a zero-day flaw in Active Directory-related services, highlighting risks to enterprise identity infrastructure. Dell BIOS Flaw Exposes Admin Passwords A vulnerability in Dell BIOS firmware reportedly allows exposure or extraction of administrator passwords, raising concerns for enterprise device fleets. 7-Zip Vulnerability Enables Code Execution A flaw in the widely used 7-Zip archiving tool allows attackers to achieve code execution, likely through crafted archive files. F5 Patches Multiple Nginx Vulnerabilities F5 has issued patches addressing several vulnerabilities affecting Nginx components within its product line, closing off potential exploitation vectors. Claude for Chrome Vulnerability Disclosed A security flaw was identified in the Claude for Chrome browser integration, raising concerns about AI-assistant browser extensions and their attack surface. GhostCommit Attack Hides Malicious Prompts The “GhostCommit” technique conceals malicious AI prompts within code commits, potentially manipulating AI coding assistants without developer awareness. GPT-5/6 “Sol” Chrome Exploit Chain Uncovered Researchers detail an exploit chain combining GPT-5/6-era AI models (“Sol”) with Chrome browser vulnerabilities, illustrating emerging AI-assisted attack techniques. Multiple Splunk Enterprise Vulnerabilities Patched Splunk has released fixes for several vulnerabilities in its Enterprise product, addressing issues that could affect data integrity and platform security. Fortinet Patches Seven Vulnerabilities Fortinet issued patches for seven vulnerabilities across its security product portfolio, part of its routine advisory cycle. Dell Laptops Shutting Down After July Update A separate Dell issue is causing laptops to unexpectedly shut down following the July 2026 update, distinct from the BIOS password flaw reported elsewhere this week. AWS Cost Explorer Bug Raises Security Concerns A bug discovered in AWS Cost Explorer reportedly creates unintended security or data-exposure risks for cloud customers monitoring billing data. TP-Link Cameras Vulnerability Disclosed A security flaw affecting TP-Link camera devices could allow attackers to compromise device functionality or access video feeds. Pro-Iran Hacktivists Use Telegram-Coordinated DDoS and Hack-and-Leak Attacks Massive Microsoft Patch Tuesday Update: 570 Vulnerabilities Fixed, Including 3 Zero-Days UK and Allies Warn of Russian Hackers Actively Hacking Organizations’ Routers Worldwide Critical WordPress Plugin Vulnerability Allows Attackers to Gain Full Control Over Website 150+ npm Packages Promise Wi-Fi Bypass for Students Using Their Systems for DDoS Attacks NadMesh Uses Shodan to Find and Hijack Exposed AI and MCP Infrastructure Hugging Face Confirms AI-Driven Breach: Attackers used Autonomous Agents, defenders countered with AI New Spirals Ransomware Uses IIS Web Shell and PsExec to Encrypt IT Firm in Under 24 Hours Citrix Secure Access and Endpoint Client for Windows Vulnerability Enables Privilege Escalation New wp2shell RCE Vulnerability Hits Millions of WordPress Sites, Emergency Patch Released",
+        "full_article_text_chars": 6492,
+        "enrichment_status": "strong",
+        "source_url": "https://cybersecuritynews.com",
+        "source_published_at": "2026-07-19T15:12:44Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 13.63,
+        "trusted_references": [
+          {
+            "title": "accounts.google.com",
+            "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+          },
+          {
+            "title": "news.google.com",
+            "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN%3Aen"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "html_content ended before a tag was closed",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 56.19,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-20T15:22:40Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-20T15:07:40",
+      "candidate_failure_count": 1
     },
     {
       "id": "2f73e4a42f3d9453",
@@ -9917,12 +10066,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-20T12:55:00",
-      "candidate_retry_after": "2026-07-20T13:10:00Z",
+      "content_fetched_at": "2026-07-20T15:02:22",
+      "candidate_retry_after": "2026-07-20T15:17:22Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-20T12:55:00",
-      "candidate_failure_count": 4
+      "candidate_failed_at": "2026-07-20T15:02:22",
+      "candidate_failure_count": 5
     },
     {
       "id": "cc5e99891af35b5e",
@@ -9954,12 +10103,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-20T12:55:00",
-      "candidate_retry_after": "2026-07-20T13:10:00Z",
+      "content_fetched_at": "2026-07-20T15:02:23",
+      "candidate_retry_after": "2026-07-20T15:17:23Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-20T12:55:00",
-      "candidate_failure_count": 4
+      "candidate_failed_at": "2026-07-20T15:02:23",
+      "candidate_failure_count": 5
     },
     {
       "id": "a6f4ca9464909855",
@@ -9991,12 +10140,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-20T12:55:01",
-      "candidate_retry_after": "2026-07-20T13:10:01Z",
+      "content_fetched_at": "2026-07-20T15:02:23",
+      "candidate_retry_after": "2026-07-20T15:17:23Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-20T12:55:01",
-      "candidate_failure_count": 4
+      "candidate_failed_at": "2026-07-20T15:02:23",
+      "candidate_failure_count": 5
     },
     {
       "id": "71463c25ac92daaa",
