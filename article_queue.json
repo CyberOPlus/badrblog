@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-20T04:58:13",
+  "updated_at": "2026-07-20T08:01:03",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2496,12 +2496,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-20T04:50:39",
-      "candidate_retry_after": "2026-07-20T05:05:39Z",
+      "content_fetched_at": "2026-07-20T07:51:58",
+      "candidate_retry_after": "2026-07-20T08:06:58Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-20T04:50:39",
-      "candidate_failure_count": 17
+      "candidate_failed_at": "2026-07-20T07:51:58",
+      "candidate_failure_count": 18
     },
     {
       "id": "512c2899a98440d2",
@@ -2530,12 +2530,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-20T04:50:40",
-      "candidate_retry_after": "2026-07-20T05:05:40Z",
+      "content_fetched_at": "2026-07-20T07:51:58",
+      "candidate_retry_after": "2026-07-20T08:06:58Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-20T04:50:40",
-      "candidate_failure_count": 17
+      "candidate_failed_at": "2026-07-20T07:51:58",
+      "candidate_failure_count": 18
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2564,12 +2564,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-20T04:50:40",
-      "candidate_retry_after": "2026-07-20T05:05:40Z",
+      "content_fetched_at": "2026-07-20T07:51:58",
+      "candidate_retry_after": "2026-07-20T08:06:58Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-20T04:50:40",
-      "candidate_failure_count": 17
+      "candidate_failed_at": "2026-07-20T07:51:58",
+      "candidate_failure_count": 18
     },
     {
       "id": "d900f1574fddfab4",
@@ -2648,11 +2648,11 @@
       "content_fetched_at": "2026-07-19T10:14:02",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T22:33:06",
+      "selected_at": "2026-07-20T07:55:17",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T22:33:06",
+      "processing_prepared_at": "2026-07-20T07:55:17",
       "ai_input_package": {
         "title": "Bunkerhill raises $55M to scale agentic AI across health systems",
         "url": "https://www.artificialintelligence-news.com/news/bunkerhill-raises-55m-scale-agentic-ai-health-systems",
@@ -2695,21 +2695,21 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "article older than 24 hours",
+      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content",
       "ai_status": "failed",
-      "ai_error": "article older than 24 hours",
-      "ai_rotation_exhausted": false,
+      "ai_error": "504 The request timed out. Please try again.",
+      "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 45.6,
-      "ai_quality_status": "failed_after_retries",
+      "ai_total_time_seconds": 179.2,
+      "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-19T22:48:52Z",
+      "candidate_retry_after": "2026-07-20T08:13:17Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "article older than 24 hours",
-      "candidate_failed_at": "2026-07-19T22:33:52",
-      "candidate_failure_count": 3,
+      "candidate_failure_reason": "504 The request timed out. Please try again.",
+      "candidate_failed_at": "2026-07-20T07:58:17",
+      "candidate_failure_count": 4,
       "telegram_final_summary_notified_at": "2026-07-19T14:48:45",
-      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\""
+      "ai_provider_last_error": "504 The request timed out. Please try again."
     },
     {
       "id": "cec1ebe5d23f0658",
@@ -3384,12 +3384,12 @@
       "removed_source_links_count": 226,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=462 chars/68 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:462chars/68words, page_text:462chars/68words)",
-      "content_fetched_at": "2026-07-20T04:50:43",
-      "candidate_retry_after": "2026-07-20T05:05:43Z",
+      "content_fetched_at": "2026-07-20T07:52:02",
+      "candidate_retry_after": "2026-07-20T08:07:02Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=462 chars/68 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:462chars/68words, page_text:462chars/68words)",
-      "candidate_failed_at": "2026-07-20T04:50:43",
-      "candidate_failure_count": 16
+      "candidate_failed_at": "2026-07-20T07:52:02",
+      "candidate_failure_count": 17
     },
     {
       "id": "8d2678d87487d729",
@@ -4245,13 +4245,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-07-20T04:50:43",
-      "candidate_retry_after": "2026-07-20T05:05:43Z",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-07-20T07:52:03",
+      "candidate_retry_after": "2026-07-20T08:07:03Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-07-20T04:50:43",
-      "candidate_failure_count": 15
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-07-20T07:52:03",
+      "candidate_failure_count": 16
     },
     {
       "id": "45429302676bf4c5",
@@ -5279,12 +5279,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-20T04:50:45",
-      "candidate_retry_after": "2026-07-20T05:05:45Z",
+      "content_fetched_at": "2026-07-20T07:52:05",
+      "candidate_retry_after": "2026-07-20T08:07:05Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-20T04:50:45",
-      "candidate_failure_count": 13
+      "candidate_failed_at": "2026-07-20T07:52:05",
+      "candidate_failure_count": 14
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5316,12 +5316,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-20T04:50:46",
-      "candidate_retry_after": "2026-07-20T05:05:46Z",
+      "content_fetched_at": "2026-07-20T07:52:07",
+      "candidate_retry_after": "2026-07-20T08:07:07Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-20T04:50:46",
-      "candidate_failure_count": 13
+      "candidate_failed_at": "2026-07-20T07:52:07",
+      "candidate_failure_count": 14
     },
     {
       "id": "aede79193c6b98c9",
@@ -5353,12 +5353,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-20T04:50:48",
-      "candidate_retry_after": "2026-07-20T05:05:48Z",
+      "content_fetched_at": "2026-07-20T07:52:09",
+      "candidate_retry_after": "2026-07-20T08:07:09Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-20T04:50:48",
-      "candidate_failure_count": 13
+      "candidate_failed_at": "2026-07-20T07:52:09",
+      "candidate_failure_count": 14
     },
     {
       "id": "253eaa098c468523",
@@ -5630,11 +5630,11 @@
       "content_fetched_at": "2026-07-19T14:47:01",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T22:33:05",
+      "selected_at": "2026-07-20T07:52:16",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T22:33:05",
+      "processing_prepared_at": "2026-07-20T07:52:16",
       "ai_input_package": {
         "title": "Hyundai Workers Stage First Auto Strike Over Humanoid Robots",
         "url": "https://www.unite.ai/hyundai-workers-stage-first-auto-strike-over-humanoid-robots",
@@ -5682,20 +5682,21 @@
         ],
         "related_posts": []
       },
-      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_provider_last_error": "504 The request timed out. Please try again.",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_error": "504 The request timed out. Please try again.",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 1.0,
+      "ai_total_time_seconds": 180.65,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-07-19T22:48:06Z",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-20T08:10:17Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-19T22:33:06",
-      "candidate_failure_count": 1,
-      "telegram_final_summary_notified_at": "2026-07-19T22:33:56"
+      "candidate_failure_reason": "504 The request timed out. Please try again.",
+      "candidate_failed_at": "2026-07-20T07:55:17",
+      "candidate_failure_count": 2,
+      "telegram_final_summary_notified_at": "2026-07-19T22:33:56",
+      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content"
     },
     {
       "id": "6ec98d616bfb564a",
@@ -5774,11 +5775,11 @@
       "content_fetched_at": "2026-07-19T14:47:12",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T22:33:53",
+      "selected_at": "2026-07-20T07:59:50",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T22:33:53",
+      "processing_prepared_at": "2026-07-20T07:59:50",
       "ai_input_package": {
         "title": "Hong Kong: HKT’s AI Superhighway to Support Data Centres",
         "url": "https://aimagazine.com/news/hong-kong-hkts-ai-superhighway-to-support-data-centres",
@@ -5823,17 +5824,18 @@
       },
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "article older than 24 hours",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.25,
-      "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-07-19T22:48:54Z",
+      "ai_total_time_seconds": 72.54,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-20T08:16:03Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-19T22:33:54",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "article older than 24 hours",
+      "candidate_failed_at": "2026-07-20T08:01:03",
+      "candidate_failure_count": 2,
+      "ai_quality_last_error": "article older than 24 hours"
     },
     {
       "id": "815f384dcf081211",
@@ -6284,12 +6286,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-20T04:50:48",
-      "candidate_retry_after": "2026-07-20T05:05:48Z",
+      "content_fetched_at": "2026-07-20T07:52:09",
+      "candidate_retry_after": "2026-07-20T08:07:09Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-20T04:50:48",
-      "candidate_failure_count": 11
+      "candidate_failed_at": "2026-07-20T07:52:09",
+      "candidate_failure_count": 12
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6666,12 +6668,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-20T04:50:50",
-      "candidate_retry_after": "2026-07-20T05:05:50Z",
+      "content_fetched_at": "2026-07-20T07:52:12",
+      "candidate_retry_after": "2026-07-20T08:07:12Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-20T04:50:50",
-      "candidate_failure_count": 9
+      "candidate_failed_at": "2026-07-20T07:52:12",
+      "candidate_failure_count": 10
     },
     {
       "id": "693fbfabd96b2185",
@@ -6702,12 +6704,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-20T04:50:52",
-      "candidate_retry_after": "2026-07-20T05:05:52Z",
+      "content_fetched_at": "2026-07-20T07:52:14",
+      "candidate_retry_after": "2026-07-20T08:07:14Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-20T04:50:52",
-      "candidate_failure_count": 9
+      "candidate_failed_at": "2026-07-20T07:52:14",
+      "candidate_failure_count": 10
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -6753,11 +6755,11 @@
       "content_fetched_at": "2026-07-19T18:36:42",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-19T22:33:52",
+      "selected_at": "2026-07-20T07:58:17",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-19T22:33:52",
+      "processing_prepared_at": "2026-07-20T07:58:17",
       "ai_input_package": {
         "title": "Kimi K3 Model Overview: 2.8T Parameters, MXFP4 Quantization, and What the Open Weights Mean for the Community",
         "url": "https://huggingface.co/blog/ResterChed/kimi-k3-model-overview-mxfp4-quantization-open-wei",
@@ -6781,17 +6783,18 @@
       },
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "article older than 24 hours",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.37,
-      "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-07-19T22:48:53Z",
+      "ai_total_time_seconds": 92.27,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-20T08:14:50Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-19T22:33:53",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "article older than 24 hours",
+      "candidate_failed_at": "2026-07-20T07:59:50",
+      "candidate_failure_count": 2,
+      "ai_quality_last_error": "article older than 24 hours"
     },
     {
       "id": "ff8c14b3821e60f1",
@@ -8982,12 +8985,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=395 chars/58 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:395chars/58words, paragraph_fallback:280chars/41words, article_body:395chars/58words, meta_description:53chars/7words, page_text:395chars/58words)",
-      "content_fetched_at": "2026-07-20T04:50:53",
-      "candidate_retry_after": "2026-07-20T05:05:53Z",
+      "content_fetched_at": "2026-07-20T07:52:15",
+      "candidate_retry_after": "2026-07-20T08:07:15Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=395 chars/58 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:395chars/58words, paragraph_fallback:280chars/41words, article_body:395chars/58words, meta_description:53chars/7words, page_text:395chars/58words)",
-      "candidate_failed_at": "2026-07-20T04:50:53",
-      "candidate_failure_count": 5
+      "candidate_failed_at": "2026-07-20T07:52:15",
+      "candidate_failure_count": 6
     },
     {
       "id": "561b6316398d7603",
@@ -9706,12 +9709,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-20T04:50:53",
-      "candidate_retry_after": "2026-07-20T05:05:53Z",
+      "content_fetched_at": "2026-07-20T07:52:15",
+      "candidate_retry_after": "2026-07-20T08:07:15Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-20T04:50:53",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-20T07:52:15",
+      "candidate_failure_count": 2
     },
     {
       "id": "cc5e99891af35b5e",
@@ -9743,12 +9746,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-20T04:50:53",
-      "candidate_retry_after": "2026-07-20T05:05:53Z",
+      "content_fetched_at": "2026-07-20T07:52:16",
+      "candidate_retry_after": "2026-07-20T08:07:16Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-20T04:50:53",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-20T07:52:16",
+      "candidate_failure_count": 2
     },
     {
       "id": "a6f4ca9464909855",
@@ -9780,12 +9783,277 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-20T04:50:54",
-      "candidate_retry_after": "2026-07-20T05:05:54Z",
+      "content_fetched_at": "2026-07-20T07:52:16",
+      "candidate_retry_after": "2026-07-20T08:07:16Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-20T04:50:54",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-20T07:52:16",
+      "candidate_failure_count": 2
+    },
+    {
+      "id": "71463c25ac92daaa",
+      "source_url_hash": "71463c25ac92daaa",
+      "canonical_url": "https://www.marktechpost.com/2026/07/19/someone-fine-tuned-openbmbs-minicpm5-1b-on-claude-fable-5-traces-to-ship-a-657mb-local-thinking-model",
+      "title_hash": "4e9224778859e7d5",
+      "topic_signature": "490d4c33bc8146b5fe24",
+      "title": "Someone Fine-Tuned OpenBMB’s MiniCPM5-1B on Claude Fable 5 Traces to Ship a 657MB Local Thinking Model",
+      "url": "https://www.marktechpost.com/2026/07/19/someone-fine-tuned-openbmbs-minicpm5-1b-on-claude-fable-5-traces-to-ship-a-657mb-local-thinking-model",
+      "source_name": "MarkTechPost",
+      "source_url": "https://www.marktechpost.com",
+      "source_published_at": "2026-07-20T01:56:50Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 5.91,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-20T07:51:37",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 63,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 63,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Someone Fine-Tuned OpenBMB's MiniCPM5-1B on Claude Fable 5 Traces to Ship a 657MB Local Thinking Model",
+      "meta_description": "A developer fine-tuned MiniCPM5-1B on Claude Fable 5 traces into a 657MB local thinking model with visible reasoning.",
+      "article_images": [
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-40-1024x731.png",
+          "alt": "Someone Fine-Tuned OpenBMB's MiniCPM5-1B on Claude Fable 5 Traces to Ship a 657MB Local Thinking Model",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-40-1024x731.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "OpenBMB",
+          "url": "https://github.com/OpenBMB/MiniCPM"
+        }
+      ],
+      "full_article_text": "A community developer, GnLOLot , has published a 1B model that runs fully on local hardware. The model is MiniCPM5-1B-Claude-Opus-Fable5-Thinking , with GGUF builds for llama.cpp-compatible runtimes. It needs no API key and makes no cloud calls. The Proposed Model The model is built on openbmb/MiniCPM5-1B . That base is a real, documented release from OpenBMB . It is a dense 1.08B-parameter model using a standard LlamaForCausalLM architecture. It has 24 layers, grouped-query attention, and a 131,072-token context length. OpenBMB reports 1B-class open-source SOTA within its own comparison set. The base already ships a native thinking template. Reasoning is toggled through enable_thinking , giving both a Think and a No Think mode. The derivative model keeps that template and MiniCPM5’s tool-call format. On top of that base, the developer applied a fine-tune. The card states the model is ‘further fine-tuned on Fable 5 data’ to improve coding and instruction following. The GGUF card repeats this as ‘post-trained on Fable 5 data.’ How it is actually built The described method is not classical distillation. You do not shrink the original model. Instead you generate many conversations with a teacher model. You capture its replies and reasoning traces as text. You then supervised-fine-tune a smaller base model on those traces. This distinction is important for accuracy. Classical distillation transfers signal from a teacher’s logits or weights. No one has access to Claude’s weights or logits. So this is supervised fine-tuning on generated outputs, not weight-level distillation. OpenBMB’s own base model, by contrast, uses a documented On-Policy Distillation stage between its own teacher and student checkpoints. The practical effect is that the 1B model learns to imitate response format and style. It does not absorb the teacher’s underlying capability. A 1B parameter budget cannot hold frontier-scale reasoning. The specs that check out The context window is 128K tokens, inherited from the base config.json (131,072). The GGUF repository ships four quantizations. Q4_K_M is roughly 657MB and is labeled the smallest footprint. Q5_K_M is roughly 751MB. Q8_0 is roughly 1.1GB and is the maintainer’s recommended default. F16 is roughly 2.1GB. The ‘657MB footprint’ is the smallest quant, not the default build. The model loads directly in llama.cpp, Ollama , LM Studio, jan, and KoboldCpp. Interactive: how the build works The explainer below walks the build pipeline, the footprint tradeoffs, and the honest split of what a fine-tune can and cannot carry over. The GGUF card gives a one-line path through Ollama: The same repository documents llama.cpp, LM Studio, jan, and KoboldCpp. Recommended sampling for Think mode is temperature=0.9, top_p=0.95 . The model may emit reasoning blocks before the final answer, which downstream apps can strip. The model is a supervised fine-tune of OpenBMB’s MiniCPM5-1B on Claude Fable 5 traces, not a weight-level distillation. Real specs: 128K context, GGUF quants from ~657MB (Q4_K_M) to ~2.1GB (F16), Q8_0 the recommended default. Fine-tuning on outputs transfers format and style, not frontier reasoning or broad knowledge. No benchmarks or training dataset are published, so capability claims are currently unverifiable. Apache-2.0 covers the base weights only; training on Claude outputs raises a licensing question the card leaves open. Michal Sutter is a data science professional with a Master of Science in Data Science from the University of Padova. With a solid foundation in statistical analysis, machine learning, and data engineering, Michal excels at transforming complex datasets into actionable insights. Michal Sutter Best Local LLMs You Can Run on a Single 24GB GPU in 2026: Qwen, Gemma, Mistral, DeepSeek Compared Michal Sutter 10 Open-Source No-Code AI Platforms for Building LLM Apps, RAG Systems, and AI Agents Michal Sutter Kimi K3 vs DeepSeek V4 Pro vs GLM-5.2: Open Trillion-Scale MoE Models Compared on Benchmarks, License, and Serving Cost Michal Sutter Google Cloud’s Always-On Memory Agent Replaces RAG and Embeddings With Continuous LLM Consolidation on Gemini 3.1 Flash-Lite",
+      "full_article_text_chars": 4170,
+      "content_preview": "A community developer, GnLOLot , has published a 1B model that runs fully on local hardware. The model is MiniCPM5-1B-Claude-Opus-Fable5-Thinking , with GGUF builds for llama.cpp-compatible runtimes. It needs no API key and makes no cloud calls. The Proposed Model The model is built on openbmb/MiniCPM5-1B . That base is a real, documented release from OpenBMB . It is a dense 1.08B-parameter model using a standard LlamaForCausalLM architecture. It has 24 layers, grouped-query attention, and a 131,072-token context length. OpenBMB reports 1B-class open-source SOTA within its own comparison set. The base already ships a native thinking template. Reasoning is toggled through enable_thinking , giving both a Think and a No Think mode. The derivative model keeps that template and MiniCPM5’s tool-call format. On top of that base, the developer applied a fine-tune. The card states the model is ‘further fine-tuned on Fable 5 data’ to improve coding and instruction following. The GGUF card repeats this as ‘post-trained on Fable 5 data.’ How it is actually built The described method is not classical distillation. You do not shrink the original model. Instead you generate many conversations with a teacher model. You capture its replies and reasoning traces as text. You then supervised-fine-tune a smaller base model on those traces. This distinction is important for accuracy. Classical distillation transfers signal from a teacher’s logits or weights. No one has access to Claude’s weights or logits. So this is supervised fine-tuning on generated outputs, not weight-level distillation. OpenBMB’s own base model, by contrast, uses a documented On-Policy Distillation stage between its own teacher and student checkpoints. The practical effect is that the 1B model learns to imitate response format and style. It does not absorb the teacher’s underlying capability. A 1B parameter budget cannot hold frontier-scale reasoning. The specs that check out The context window is 128K tokens, inherited from the base config.json (131,072). The GGUF repository ships four quantizations. Q4_K_M is roughly 657MB and is labeled the smallest footprint. Q5_K_M is roughly 751MB. Q8_0 is roughly 1.1GB and is the maintainer’s recommended default. F16 is roughly 2.1GB. The ‘657MB footprint’ is the smallest quant, not the default build. The model loads directly in llama.cpp, Ollama , LM Studio, jan, and KoboldCpp. Interactive: how the build works The explainer below walks the build pipeline, the footprint tradeoffs, and the honest split of what a fine-tune can and cannot carry over. The GGUF card gives a one-line path through Ollama: The same repository documents llama.cpp, LM Studio, jan, and KoboldCpp. Recommended sampling for Think mode is temperature=0.9, top_p=0.95 . The model may emit reasoning blocks before the final answer, which downstream apps can strip. The model is a supervised fine-tune of OpenBMB’s MiniCPM5-1B on Claude Fable 5 traces, not a weight-level distillation. Real specs: 128K context, GGUF quants from ~657MB (Q4_K_M) to ~2.1GB (F16), Q8_0 the recommended default. Fine-tuning on outputs transfers format and style, not frontier reasoning or broad knowledge. No benchmarks or training dataset are published, so capability claims are currently unverifiable. Apache-2.0 covers the base weights only; training on Claude outputs raises a licensing question the card leaves open. Michal Sutter is a data science professional with a Master of Science in Data Science from the University of Padova. With a solid foundation in statistical analysis, machine learning, and data engineering, Michal excels at transforming complex datasets into actionable insights. Michal Sutter Best Local LLMs You Can Run on a Single 24GB GPU in 2026: Qwen, Gemma, Mistral, DeepSeek Compared Michal Sutter 10 Open-Source No-Code AI Platforms for Building LLM Apps, RAG Systems, and AI Agents Michal Sutter Kimi K3 vs DeepSeek V4 Pro vs GLM-5.2: Open Trillion-Scale MoE Models Compared on Benchmarks, License, and Serving Cost Michal Sutter Google Cloud’s Always-On Memory Agent Replaces RAG and Embeddings With Continuous LLM Consolidation on Gemini 3.1 Flash-Lite",
+      "content_preview_chars": 4170,
+      "content_fetched_at": "2026-07-20T07:51:52",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "2abf9f989e506cbf",
+      "source_url_hash": "2abf9f989e506cbf",
+      "canonical_url": "https://www.marktechpost.com/2026/07/19/best-local-llms-you-can-run-on-a-single-24gb-gpu-in-2026-qwen-gemma-mistral-deepseek-compared",
+      "title_hash": "e4a7c7dbba06455f",
+      "topic_signature": "68f1324829efcbe20225",
+      "title": "Best Local LLMs You Can Run on a Single 24GB GPU in 2026: Qwen, Gemma, Mistral, DeepSeek Compared",
+      "url": "https://www.marktechpost.com/2026/07/19/best-local-llms-you-can-run-on-a-single-24gb-gpu-in-2026-qwen-gemma-mistral-deepseek-compared",
+      "source_name": "MarkTechPost",
+      "source_url": "https://www.marktechpost.com",
+      "source_published_at": "2026-07-20T01:18:46Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 6.54,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-20T07:51:37",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 65,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 65,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Best Local LLMs You Can Run on a Single 24GB GPU in 2026: Qwen, Gemma, Mistral, DeepSeek Compared",
+      "meta_description": "Compare the best local LLMs that fit a single 24GB GPU in 2026 — Qwen, Gemma, Mistral, and DeepSeek and more analysis in detail",
+      "article_images": [
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-39-1024x731.png",
+          "alt": "Best Local LLMs You Can Run on a Single 24GB GPU in 2026: Qwen, Gemma, Mistral, DeepSeek Compared",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-39-1024x731.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Qwen3.6 GitHub repository",
+          "url": "https://github.com/QwenLM/Qwen3.6"
+        },
+        {
+          "title": "gpt-oss-20b",
+          "url": "https://openai.com/index/introducing-gpt-oss/"
+        },
+        {
+          "title": "llama.cpp",
+          "url": "https://github.com/ggml-org/llama.cpp"
+        },
+        {
+          "title": "vLLM",
+          "url": "https://github.com/vllm-project/vllm"
+        }
+      ],
+      "full_article_text": "A single 24GB card is the practical floor for serious local inference. It is enough for genuinely capable models, and small enough to sit on one GPU. An RTX 3090 or RTX 4090 both land in this tier. The card you own matters less than the models you pick for it. The old hobbyist move was to squeeze the biggest 70B quant onto the card. That advice is now outdated. The stronger 2026 strategy uses modern 20B–35B-class models that fit cleanly. These leave room for context, and still respond fast enough for coding, chat, and agents. This guide covers the models that actually fit, why each is worth running, and how 24GB gets spent. How 24GB of VRAM actually gets spent Three things consume memory during inference. Getting the split right decides whether a model fits. The first is model weights . Their size depends on parameter count and quantization. At Q4_K_M, a common home-inference default, each parameter costs roughly 0.58 bytes. A 32B model therefore needs about 18–20GB in weights alone. Mixtral-style Mixture-of-Experts (MoE) models are the common trap here. Every expert stays resident in VRAM even when only a few route per token. So you size MoE memory by total parameters, never active parameters. The second is the KV cache , which grows with context length. Longer prompts and longer sessions eat more VRAM. The third is runtime overhead from the serving stack . A safe rule of thumb adds roughly 1–2GB for the KV cache and runtime at short context. Quantization is the lever that makes 24GB workable. Q4_K_M is the standard balance of quality and footprint. Q5_K_M and Q6_K raise quality at a memory cost. Q8_0 and BF16 are usually too large for 30B-class models on a single 24GB card. The interactive tool below lets you switch quantization and see each model’s fit change live. The six best local LLMs for a 24GB GPU Every model below carries a permissive license, either Apache 2.0 or MIT. All of them fit a single 24GB card at Q4_K_M with room for context. They are grouped by the job each one does best. Qwen3.6-27B — best all-around and agentic coding Alibaba’s Qwen3.6-27B is the strongest single default for the card. It is a dense 27B model released in April 2026 under Apache 2.0. The release focuses on agentic coding, repository-level reasoning, and frontend workflows. At Q4_K_M it needs roughly 16GB, leaving comfortable headroom for context. Full model cards and the changelog sit in the Qwen3.6 GitHub repository . Qwen3.6-35B-A3B — fastest general-purpose option The Qwen3.6-35B-A3B is a Mixture-of-Experts model with 35B total parameters and about 3B active per token. It decodes far faster than a dense 35B model because only a fraction of weights fire each step. The memory footprint still tracks total parameters, so plan for roughly 20GB at Q4_K_M. That makes it a tight but valid fit, best when you want speed for general chat and tool use. Gemma 4 26B — multimodal and multilingual Google DeepMind released Gemma 4 on April 2, 2026, under Apache 2.0. It was the first Gemma generation to ship with a fully open license, per the DeepMind Gemma page . The family spans edge models, a 12B unified multimodal model, a 26B MoE with 3.8B active, and a larger dense flagship. The 26B MoE is the natural 24GB pick when you need vision input and 140+ language coverage. Mistral Small 3.2 24B — polished daily assistant Mistral’s Small line targets the everyday assistant workload with low latency. Mistral Small 3.1 added multimodal input and a longer context window, and Small 3.2 refined instruction following. It is a 24B dense model under Apache 2.0, and the lightest footprint in this list at roughly 14GB at Q4_K_M. That headroom lets you push context further than the heavier 32B options allow. In 2026 Mistral also shipped larger successors, but those sit above the single-card tier. gpt-oss-20b — the easy reasoning fallback OpenAI’s gpt-oss-20b is an open-weight reasoning model under Apache 2.0. It is a Mixture-of-Experts design with 21B total parameters and 3.6B active per token. It ships in a native MXFP4 4-bit format, loading in roughly 14GB with generous headroom. It is strong at structured reasoning and tool use, and weaker on broad world knowledge. DeepSeek-R1-Distill-Qwen-32B — deepest reasoning, tightest fit DeepSeek distilled its R1 reasoning traces into smaller dense models. The DeepSeek-R1-Distill-Qwen-32B is the 32B variant, built on a Qwen2.5 base and released under an MIT license. At Q4_K_M it uses about 18–20GB, which is the tightest fit in this guide. It exposes its chain of thought through visible reasoning tokens, which is useful for slow, deliberate problems. Ready-made GGUF builds are available from bartowski on Hugging Face . What does not fit on 24GB The frontier open models of 2026 are large sparse MoE systems. They are quite good in performance and reasoning, but they do not run on one consumer card. GLM-5.2 from Z.ai is a roughly 753B-total MoE. Moonshot’s Kimi K2.7 is around 1T total. DeepSeek shipped V4 as a public preview in April 2026, with a V4-Pro checkpoint near 1.6T parameters. Alibaba’s Qwen3.5-397B and Mistral Large 3 sit in the same server-class range. Because MoE memory tracks total parameters, all of these need multi-GPU rigs or high-memory unified systems. They are worth knowing as API options. They do not change what runs on a single 24GB card. How to run these models locally Three runtimes cover almost every setup. Ollama is the simplest path, with automatic quantization selection and an OpenAI-compatible API. llama.cpp gives fine control over GGUF quantization and offload. vLLM is the throughput-focused server for heavier concurrent workloads. Start with one model that matches your main job, not the biggest file you can load. Keep context under control, and let the card do what it does best. Run serious local AI without sending a single token to a cloud endpoint. 24GB is the practical floor: run right-sized 20B–35B models, not the biggest 70B quant you can squeeze in. Qwen3.6-27B is the strongest single default; DeepSeek-R1-Distill-Qwen-32B is the tightest fit at ~18–20GB. MoE memory tracks total parameters, so every expert stays resident even when only a few route per token. Quantization is the fit lever: Q4_K_M is the home default; Q8_0 and BF16 rarely fit a 30B model on one card. GLM-5.2, Kimi K2.7, DeepSeek V4, and Mistral Large 3 are server-class and will not run on a single 24GB GPU. Michal Sutter is a data science professional with a Master of Science in Data Science from the University of Padova. With a solid foundation in statistical analysis, machine learning, and data engineering, Michal excels at transforming complex datasets into actionable insights. Michal Sutter Someone Fine-Tuned OpenBMB’s MiniCPM5-1B on Claude Fable 5 Traces to Ship a 657MB Local Thinking Model Michal Sutter 10 Open-Source No-Code AI Platforms for Building LLM Apps, RAG Systems, and AI Agents Michal Sutter Kimi K3 vs DeepSeek V4 Pro vs GLM-5.2: Open Trillion-Scale MoE Models Compared on Benchmarks, License, and Serving Cost Michal Sutter Google Cloud’s Always-On Memory Agent Replaces RAG and Embeddings With Continuous LLM Consolidation on Gemini 3.1 Flash-Lite",
+      "full_article_text_chars": 7193,
+      "content_preview": "A single 24GB card is the practical floor for serious local inference. It is enough for genuinely capable models, and small enough to sit on one GPU. An RTX 3090 or RTX 4090 both land in this tier. The card you own matters less than the models you pick for it. The old hobbyist move was to squeeze the biggest 70B quant onto the card. That advice is now outdated. The stronger 2026 strategy uses modern 20B–35B-class models that fit cleanly. These leave room for context, and still respond fast enough for coding, chat, and agents. This guide covers the models that actually fit, why each is worth running, and how 24GB gets spent. How 24GB of VRAM actually gets spent Three things consume memory during inference. Getting the split right decides whether a model fits. The first is model weights . Their size depends on parameter count and quantization. At Q4_K_M, a common home-inference default, each parameter costs roughly 0.58 bytes. A 32B model therefore needs about 18–20GB in weights alone. Mixtral-style Mixture-of-Experts (MoE) models are the common trap here. Every expert stays resident in VRAM even when only a few route per token. So you size MoE memory by total parameters, never active parameters. The second is the KV cache , which grows with context length. Longer prompts and longer sessions eat more VRAM. The third is runtime overhead from the serving stack . A safe rule of thumb adds roughly 1–2GB for the KV cache and runtime at short context. Quantization is the lever that makes 24GB workable. Q4_K_M is the standard balance of quality and footprint. Q5_K_M and Q6_K raise quality at a memory cost. Q8_0 and BF16 are usually too large for 30B-class models on a single 24GB card. The interactive tool below lets you switch quantization and see each model’s fit change live. The six best local LLMs for a 24GB GPU Every model below carries a permissive license, either Apache 2.0 or MIT. All of them fit a single 24GB card at Q4_K_M with room for context. They are grouped by the job each one does best. Qwen3.6-27B — best all-around and agentic coding Alibaba’s Qwen3.6-27B is the strongest single default for the card. It is a dense 27B model released in April 2026 under Apache 2.0. The release focuses on agentic coding, repository-level reasoning, and frontend workflows. At Q4_K_M it needs roughly 16GB, leaving comfortable headroom for context. Full model cards and the changelog sit in the Qwen3.6 GitHub repository . Qwen3.6-35B-A3B — fastest general-purpose option The Qwen3.6-35B-A3B is a Mixture-of-Experts model with 35B total parameters and about 3B active per token. It decodes far faster than a dense 35B model because only a fraction of weights fire each step. The memory footprint still tracks total parameters, so plan for roughly 20GB at Q4_K_M. That makes it a tight but valid fit, best when you want speed for general chat and tool use. Gemma 4 26B — multimodal and multilingual Google DeepMind released Gemma 4 on April 2, 2026, under Apache 2.0. It was the first Gemma generation to ship with a fully open license, per the DeepMind Gemma page . The family spans edge models, a 12B unified multimodal model, a 26B MoE with 3.8B active, and a larger dense flagship. The 26B MoE is the natural 24GB pick when you need vision input and 140+ language coverage. Mistral Small 3.2 24B — polished daily assistant Mistral’s Small line targets the everyday assistant workload with low latency. Mistral Small 3.1 added multimodal input and a longer context window, and Small 3.2 refined instruction following. It is a 24B dense model under Apache 2.0, and the lightest footprint in this list at roughly 14GB at Q4_K_M. That headroom lets you push context further than the heavier 32B options allow. In 2026 Mistral also shipped larger successors, but those sit above the single-card tier. gpt-oss-20b — the easy reasoning fallback OpenAI’s gpt-oss-20b is an open-weight reasoning model under Apache 2.0. It is a Mixture-of-Experts design with 21B total parameters and 3.6B active per token. It ships in a native MXFP4 4-bit format, loading in roughly 14GB with generous headroom. It is strong at structured reasoning and tool use, and weaker on broad world knowledge. DeepSeek-R1-Distill-Qwen-32B — deepest reasoning, tightest fit DeepSeek distilled its R1 reasoning traces into smaller dense models. The DeepSeek-R1-Distill-Qwen-32B is the 32B variant, built on a Qwen2.5 base and released under an MIT license. At Q4_K_M it uses about 18–20GB, which is the tightest fit in this guide. It exposes its chain of thought through visible reasoning tokens, which is useful for slow, deliberate problems. Ready-made GGUF builds are available from bartowski on Hugging Face . What does not fit on 24GB The frontier open models of 2026 are large sparse MoE systems. They are quite good in performance and reasoning, but they do not run on one consumer card. GLM-5.2 from Z.ai is a roughly 753B-total MoE. Moonshot’s Kimi K2.7 is around 1T total. DeepSeek shipped V4 as a public preview in April 2026, with a V4-Pro checkpoint near 1.6T parameters. Alibaba’s Qwen3.5-397B and Mistral Large 3 sit in the same server-class range. Because MoE memory tracks total parameters, all of these need multi-GPU rigs or high-memory unified systems. They are worth knowing as API options. They do not change what runs on a single 24GB card. How to run these models locally Three runtimes cover almost every setup. Ollama is the simplest path, with automatic quantization selection and an OpenAI-compatible API. llama.cpp gives fine control over GGUF quantization and offload. vLLM is the throughput-focused server for heavier concurrent workloads. Start with one model that matches your main job, not the biggest file you can load. Keep context under control, and let the card do what it does best. Run serious local AI without sending a single token to a cloud endpoint. 24GB is the practical floor: run right-sized 20B–35B models, not the biggest 70B quant you can squeeze in. Qwen3.6-27B is the strongest single default; DeepSeek-R1-Distill-Qwen-32B is the tightest fit at ~18–20GB. MoE memory tracks total parameters, so every expert stays resident even when only a few route per token. Quantization is the fit lever: Q4_K_M is the home default; Q8_0 and BF16 rarely fit a 30B model on one card. GLM-5.2, Kimi K2.7, DeepSeek V4, and Mistral Large 3 are server-class and will not run on a single 24GB GPU. Michal Sutter is a data science professional with a Master of Science in Data Science from the University of Padova. With a solid foundation in statistical analysis, machine learning, and data engineering, Michal excels at transforming complex datasets into actionable insights. Michal Sutter Someone Fine-Tuned OpenBMB’s MiniCPM5-1B on Claude Fable 5 Traces to Ship a 657MB Local Thinking Model Michal Sutter 10 Open-Source No-Code AI Platforms for Building LLM Apps, RAG Systems, and AI Agents Michal Sutter Kimi K3 vs DeepSeek V4 Pro vs GLM-5.2: Open Trillion-Scale MoE Models Compared on Benchmarks, License, and Serving Cost Michal Sutter Google Cloud’s Always-On Memory Agent Replaces RAG and Embeddings With Continuous LLM Consolidation on Gemini 3.1 Flash-Lite",
+      "content_preview_chars": 7193,
+      "content_fetched_at": "2026-07-20T07:51:54",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "4a6225ccbd6b0adb",
+      "source_url_hash": "4a6225ccbd6b0adb",
+      "canonical_url": "https://www.marktechpost.com/2026/07/19/feyn-ai-releases-sqrl-a-text-to-sql-model-family-that-inspects-the-database-before-writing-a-query",
+      "title_hash": "c34ece5a095840ca",
+      "topic_signature": "3881937ff88254532b7b",
+      "title": "Feyn AI Releases SQRL, a Text-to-SQL Model Family That Inspects the Database Before Writing a Query",
+      "url": "https://www.marktechpost.com/2026/07/19/feyn-ai-releases-sqrl-a-text-to-sql-model-family-that-inspects-the-database-before-writing-a-query",
+      "source_name": "MarkTechPost",
+      "source_url": "https://www.marktechpost.com",
+      "source_published_at": "2026-07-19T22:20:23Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 9.52,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-20T07:51:37",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 67,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 67,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Feyn AI Releases SQRL, a Text-to-SQL Model Family That Inspects the Database Before Writing a Query",
+      "meta_description": "Feyn Labs releases SQRL, text-to-SQL models that inspect the database before writing SQL, reaching 70.6% execution accuracy on BIRD Dev.",
+      "article_images": [
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-38.png",
+          "alt": "Feyn AI Releases SQRL, a Text-to-SQL Model Family That Inspects the Database Before Writing a Query",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-38.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "vLLM",
+          "url": "https://github.com/vllm-project/vllm"
+        },
+        {
+          "title": "GitHub",
+          "url": "https://github.com/feyninc"
+        }
+      ],
+      "full_article_text": "Most text-to-SQL systems treat the task as translation. Feyn AI (YC-backed startup) reframes it around inspection. The Feyn team has released SQRL , a family of models that turn natural language questions into SQL. Instead of generating a query immediately, SQRL can inspect the database first. This lets it resolve ambiguity and write only queries the data actually supports. Feyn team reports that the flagship SQRL-35B-A3B reaches 70.6% execution accuracy on BIRD Dev . That figure edges Claude Opus 4.6 at 68.77% under the same evaluation. Three checkpoints ship openly on Hugging Face : SQRL-4B , SQRL-9B , and SQRL-35B-A3B . A query can be valid SQL and still be wrong Text-to-SQL is often described as a translation problem, but that framing misses the hardest part. A query can be perfectly valid SQL and still return the wrong answer. It can join the wrong tables, read an ambiguous column incorrectly, or filter for values that do not exist. None of these mistakes throws an error, so none is caught by execution alone. Schema information does not prevent them. A schema lists tables, columns, types, and sometimes relationships. It does not reveal whether a county is stored as Alameda , Alameda County , or ALAMEDA . It cannot tell you which join produces duplicate rows. The BIRD benchmark makes these failures measurable. Its databases span real domains and contain imperfect values, ambiguous columns, and nontrivial relationships. A system is scored by executing its SQL and comparing the returned rows against a reference result. For query languages, syntactic correctness is not enough. Feyn’s core insight is that the missing information already lives inside the database. The model simply needs permission to ask for it. SQRL inspects before it answers SQRL receives a question, its schema, and optional evidence about the database. If that context is enough, it returns a query at once. If something remains ambiguous, it runs read-only queries and uses the returned rows to draft its final answer. The decision to inspect is circumstantial. Counting rows in a single table needs no lookup, so SQRL answers directly. The interaction uses two distinct actions. An <sql> block requests an observation from the database. An <answer> block commits to the final query. The harness executes exploration queries in read-only mode and returns their rows inside <observation> tags. SQRL can inspect up to five times, though most questions finish in fewer steps. The explainer below walks through both behaviors on real examples, then compares the family against frontier models on BIRD Dev. One model that folds in both traditional strategies Text-to-SQL has historically followed two approaches, and each trades away something important. Single-shot models generate the entire query in one turn. They are inexpensive to serve, but they must infer everything from the schema, which can produce logically incorrect queries. Frontier pipelines instead retrieve context, generate candidates, critique them, and then select an answer. This can maximize accuracy, but every question requires several expensive frontier calls and multiple database round trips. That cost makes such pipelines hard to place on the hot path. SQRL combines both in a single model. Easy questions stay short, while ambiguous questions earn an inspection. The model pays the cost of looking only when the question needs it. Training the decision to inspect Giving a model database access does not teach it when or how to look. That behavior has to be trained, and execution-based training is unforgiving. If a reference query is itself wrong, a correct model answer receives the wrong reward. Feyn therefore cleaned the training pool first. Starting from BIRD and Spider , it removed examples whose reference SQL produced no usable result. Three model judges then reviewed the remaining pairs and dropped any query that did not answer its question as written. The test split combines a held-out Spider split with BIRD dev, and the rest of the data went into training. The 35B-A3B teacher trained directly with CISPO , a reinforcement learning method from MiniMax’s M1 work . CISPO clips the importance-sampling weights rather than the policy ratio, which preserves gradient signal from rare but decisive tokens. For each question, the model produced eight complete trajectories. Feyn executed every final query and rewarded a result that matched the reference, a binary signal that ignores wording and checks only the returned rows. Group-relative training needs variation inside each group. Eight correct or eight failed attempts carry no signal about which decisions helped. Feyn therefore trained on the ‘mixed zone,’ where only some of the eight attempts succeeded, so every group could reinforce the choices that separated a correct trajectory from an incorrect one. That is how the teacher learned when to inspect. To make the behavior deployable, Feyn team sampled complete teacher trajectories and kept only runs whose final SQL returned the correct result. This produced about 10,200 examples, each preserving the reasoning, exploration queries, observations, and final answer. The 4B and 9B students were fine-tuned on these trajectories, then refined with the same CISPO execution reward. SQRL builds on the Qwen3.5 and Qwen3.6 model families. Performance across the family Feyn evaluated SQRL on BIRD Dev, scoring a query correct when it returns the same result as the reference. SQRL-35B-A3B scores 70.60% and activates about 3B parameters per token. The 9B student holds nearly all of that at 69.80%. SQRL-4B reaches 68.80%, matching Claude Opus 4.6 on this evaluation in a model small enough to host anywhere, so your schema, queries, and observations stay on infrastructure you control. In Feyn’s reported comparison, the frontier field trails: Claude 4.5 Sonnet at 67.34%, Qwen3-Coder-480B-A35B at 66.17%, GLM-4.7 at 63.82%, DeepSeek-R1 at 61.67%, and Kimi-K2-Thinking at 60.63%. Feyn recommends SQRL-9B as the default checkpoint, with SQRL-4B for the tightest budgets and SQRL-35B-A3B for the highest accuracy. The 9B model serves with vLLM : The application loop is small. Keep database execution read-only, and return each observation to the model until it emits an answer. One caveat matters. Do not enable a serving-layer reasoning parser. The action protocol appears in the content after the closing </think> tag, so stripping that content removes the model’s <sql> or <answer> action. Parse the raw message content and preserve everything after the final think tag. The model cards contain the complete system prompt and a reference harness. SQRL is a text-to-SQL model family that runs read-only probes to inspect a database before committing to a final query. Feyn reports SQRL-35B-A3B at 70.6% execution accuracy on BIRD Dev, above Claude Opus 4.6 at 68.77% in the same evaluation. The flagship distills into 4B and 9B students; SQRL-4B matches Opus on this test while staying self-hostable. Training cleaned BIRD and Spider, rewarded execution matches, and used CISPO plus distillation to teach the model when to inspect. All three checkpoints are open on Hugging Face and serve with vLLM through a read-only harness that feeds observations back to the model. SQRL is built by Feyn. You can find the team on GitHub , Hugging Face , and X . Asif Razzaq is the CEO of Marktechpost Media Inc.. As a visionary entrepreneur and engineer, Asif is committed to harnessing the potential of Artificial Intelligence for social good. His most recent endeavor is the launch of an Artificial Intelligence Media Platform, Marktechpost, which stands out for its in-depth coverage of machine learning and deep learning news that is both technically sound and easily understandable by a wide audience. The platform boasts of over 2 million monthly views, illustrating its popularity among audiences. Asif Razzaq Alibaba Previews Qwen3.8-Max, a 2.4 Trillion-Parameter Multimodal Model, Days After Moonshot’s Kimi K3 Open-Weight Launch Asif Razzaq Perplexity AI Releases WANDR: An Open Benchmark Evaluating Research Agents That Must Search Wide And Deep Asif Razzaq NVIDIA Released DeepStream 9.1: Bringing Agentic AI to Vision AI With 13 Skills and Multi-View 3D Tracking Asif Razzaq Sakana AI’s Error Diffusion Trains Dale-Compliant Dual-Stream Networks, Reaching 96.7% MNIST and 61.7% CIFAR-10 Without Backpropagation",
+      "full_article_text_chars": 8413,
+      "content_preview": "Most text-to-SQL systems treat the task as translation. Feyn AI (YC-backed startup) reframes it around inspection. The Feyn team has released SQRL , a family of models that turn natural language questions into SQL. Instead of generating a query immediately, SQRL can inspect the database first. This lets it resolve ambiguity and write only queries the data actually supports. Feyn team reports that the flagship SQRL-35B-A3B reaches 70.6% execution accuracy on BIRD Dev . That figure edges Claude Opus 4.6 at 68.77% under the same evaluation. Three checkpoints ship openly on Hugging Face : SQRL-4B , SQRL-9B , and SQRL-35B-A3B . A query can be valid SQL and still be wrong Text-to-SQL is often described as a translation problem, but that framing misses the hardest part. A query can be perfectly valid SQL and still return the wrong answer. It can join the wrong tables, read an ambiguous column incorrectly, or filter for values that do not exist. None of these mistakes throws an error, so none is caught by execution alone. Schema information does not prevent them. A schema lists tables, columns, types, and sometimes relationships. It does not reveal whether a county is stored as Alameda , Alameda County , or ALAMEDA . It cannot tell you which join produces duplicate rows. The BIRD benchmark makes these failures measurable. Its databases span real domains and contain imperfect values, ambiguous columns, and nontrivial relationships. A system is scored by executing its SQL and comparing the returned rows against a reference result. For query languages, syntactic correctness is not enough. Feyn’s core insight is that the missing information already lives inside the database. The model simply needs permission to ask for it. SQRL inspects before it answers SQRL receives a question, its schema, and optional evidence about the database. If that context is enough, it returns a query at once. If something remains ambiguous, it runs read-only queries and uses the returned rows to draft its final answer. The decision to inspect is circumstantial. Counting rows in a single table needs no lookup, so SQRL answers directly. The interaction uses two distinct actions. An <sql> block requests an observation from the database. An <answer> block commits to the final query. The harness executes exploration queries in read-only mode and returns their rows inside <observation> tags. SQRL can inspect up to five times, though most questions finish in fewer steps. The explainer below walks through both behaviors on real examples, then compares the family against frontier models on BIRD Dev. One model that folds in both traditional strategies Text-to-SQL has historically followed two approaches, and each trades away something important. Single-shot models generate the entire query in one turn. They are inexpensive to serve, but they must infer everything from the schema, which can produce logically incorrect queries. Frontier pipelines instead retrieve context, generate candidates, critique them, and then select an answer. This can maximize accuracy, but every question requires several expensive frontier calls and multiple database round trips. That cost makes such pipelines hard to place on the hot path. SQRL combines both in a single model. Easy questions stay short, while ambiguous questions earn an inspection. The model pays the cost of looking only when the question needs it. Training the decision to inspect Giving a model database access does not teach it when or how to look. That behavior has to be trained, and execution-based training is unforgiving. If a reference query is itself wrong, a correct model answer receives the wrong reward. Feyn therefore cleaned the training pool first. Starting from BIRD and Spider , it removed examples whose reference SQL produced no usable result. Three model judges then reviewed the remaining pairs and dropped any query that did not answer its question as written. The test split combines a held-out Spider split with BIRD dev, and the rest of the data went into training. The 35B-A3B teacher trained directly with CISPO , a reinforcement learning method from MiniMax’s M1 work . CISPO clips the importance-sampling weights rather than the policy ratio, which preserves gradient signal from rare but decisive tokens. For each question, the model produced eight complete trajectories. Feyn executed every final query and rewarded a result that matched the reference, a binary signal that ignores wording and checks only the returned rows. Group-relative training needs variation inside each group. Eight correct or eight failed attempts carry no signal about which decisions helped. Feyn therefore trained on the ‘mixed zone,’ where only some of the eight attempts succeeded, so every group could reinforce the choices that separated a correct trajectory from an incorrect one. That is how the teacher learned when to inspect. To make the behavior deployable, Feyn team sampled complete teacher trajectories and kept only runs whose final SQL returned the correct result. This produced about 10,200 examples, each preserving the reasoning, exploration queries, observations, and final answer. The 4B and 9B students were fine-tuned on these trajectories, then refined with the same CISPO execution reward. SQRL builds on the Qwen3.5 and Qwen3.6 model families. Performance across the family Feyn evaluated SQRL on BIRD Dev, scoring a query correct when it returns the same result as the reference. SQRL-35B-A3B scores 70.60% and activates about 3B parameters per token. The 9B student holds nearly all of that at 69.80%. SQRL-4B reaches 68.80%, matching Claude Opus 4.6 on this evaluation in a model small enough to host anywhere, so your schema, queries, and observations stay on infrastructure you control. In Feyn’s reported comparison, the frontier field trails: Claude 4.5 Sonnet at 67.34%, Qwen3-Coder-480B-A35B at 66.17%, GLM-4.7 at 63.82%, DeepSeek-R1 at 61.67%, and Kimi-K2-Thinking at 60.63%. Feyn recommends SQRL-9B as the default checkpoint, with SQRL-4B for the tightest budgets and SQRL-35B-A3B for the highest accuracy. The 9B model serves with vLLM : The application loop is small. Keep database execution read-only, and return each observation to the model until it emits an answer. One caveat matters. Do not enable a serving-layer reasoning parser. The action protocol appears in the content after the closing </think> tag, so stripping that content removes the model’s <sql> or <answer> action. Parse the raw message content and preserve everything after the final think tag. The model cards contain the complete system prompt and a reference harness. SQRL is a text-to-SQL model family that runs read-only probes to inspect a database before committing to a final query. Feyn reports SQRL-35B-A3B at 70.6% execution accuracy on BIRD Dev, above Claude Opus 4.6 at 68.77% in the same evaluation. The flagship distills into 4B and 9B students; SQRL-4B matches Opus on this test while staying self-hostable. Training cleaned BIRD and Spider, rewarded execution matches, and used CISPO plus distillation to teach the model when to inspect. All three checkpoints are open on Hugging Face and serve with vLLM through a read-only harness that feeds observations back to the model. SQRL is built by Feyn. You can find the team on GitHub , Hugging Face , and X . Asif Razzaq is the CEO of Marktechpost Media Inc.. As a visionary entrepreneur and engineer, Asif is committed to harnessing the potential of Artificial Intelligence for social good. His most recent endeavor is the launch of an Artificial Intelligence Media Platform, Marktechpost, which stands out for its in-depth coverage of machine learning and deep learning news that is both technically sound and easily understandable by a wide audience. The platform boasts of over 2 million monthly views, illustrating its popularity among audiences. Asif Razzaq Alibaba Previews Qwen3.8-Max, a 2.4 Trillion-Parameter Multimodal Model, Days After Moonshot’s Kimi K3 Open-Weight Launch Asif Razzaq Perplexity AI Releases WANDR: An Open Benchmark Evaluating Research Agents That Must Search Wide And Deep Asif Razzaq NVIDIA Released DeepStream 9.1: Bringing Agentic AI to Vision AI With 13 Skills and Multi-View 3D Tracking Asif Razzaq Sakana AI’s Error Diffusion Trains Dale-Compliant Dual-Stream Networks, Reaching 96.7% MNIST and 61.7% CIFAR-10 Without Backpropagation",
+      "content_preview_chars": 8413,
+      "content_fetched_at": "2026-07-20T07:51:50",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
     }
   ],
   "notifications": {
