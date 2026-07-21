@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-21T09:45:11",
+  "updated_at": "2026-07-21T11:35:54",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2467,7 +2467,10 @@
       "content_preview_chars": 1334,
       "content_fetched_at": "2026-07-19T08:40:51",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-21T11:27:27",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "66e86d79e3fa78ab",
@@ -2496,12 +2499,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-21T09:36:44",
-      "candidate_retry_after": "2026-07-21T09:51:44Z",
+      "content_fetched_at": "2026-07-21T11:27:50",
+      "candidate_retry_after": "2026-07-21T11:42:50Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-21T09:36:44",
-      "candidate_failure_count": 31
+      "candidate_failed_at": "2026-07-21T11:27:50",
+      "candidate_failure_count": 32
     },
     {
       "id": "512c2899a98440d2",
@@ -2530,12 +2533,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-21T09:36:44",
-      "candidate_retry_after": "2026-07-21T09:51:44Z",
+      "content_fetched_at": "2026-07-21T11:27:50",
+      "candidate_retry_after": "2026-07-21T11:42:50Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-21T09:36:44",
-      "candidate_failure_count": 31
+      "candidate_failed_at": "2026-07-21T11:27:50",
+      "candidate_failure_count": 32
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2564,12 +2567,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-21T09:36:44",
-      "candidate_retry_after": "2026-07-21T09:51:44Z",
+      "content_fetched_at": "2026-07-21T11:27:50",
+      "candidate_retry_after": "2026-07-21T11:42:50Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-21T09:36:44",
-      "candidate_failure_count": 31
+      "candidate_failed_at": "2026-07-21T11:27:50",
+      "candidate_failure_count": 32
     },
     {
       "id": "d900f1574fddfab4",
@@ -3379,17 +3382,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 225,
-      "affiliate_links_removed_count": 5,
-      "removed_source_links_count": 225,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=492 chars/76 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:492chars/76words, page_text:492chars/76words)",
-      "content_fetched_at": "2026-07-21T09:36:47",
-      "candidate_retry_after": "2026-07-21T09:51:47Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-07-21T11:27:51",
+      "candidate_retry_after": "2026-07-21T11:42:51Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=492 chars/76 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:492chars/76words, page_text:492chars/76words)",
-      "candidate_failed_at": "2026-07-21T09:36:47",
-      "candidate_failure_count": 30
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-07-21T11:27:51",
+      "candidate_failure_count": 31
     },
     {
       "id": "8d2678d87487d729",
@@ -4246,12 +4249,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-07-21T09:36:48",
-      "candidate_retry_after": "2026-07-21T09:51:48Z",
+      "content_fetched_at": "2026-07-21T11:27:51",
+      "candidate_retry_after": "2026-07-21T11:42:51Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-07-21T09:36:48",
-      "candidate_failure_count": 29
+      "candidate_failed_at": "2026-07-21T11:27:51",
+      "candidate_failure_count": 30
     },
     {
       "id": "45429302676bf4c5",
@@ -5282,12 +5285,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-21T09:36:49",
-      "candidate_retry_after": "2026-07-21T09:51:49Z",
+      "content_fetched_at": "2026-07-21T11:27:53",
+      "candidate_retry_after": "2026-07-21T11:42:53Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-21T09:36:49",
-      "candidate_failure_count": 27
+      "candidate_failed_at": "2026-07-21T11:27:53",
+      "candidate_failure_count": 28
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5319,12 +5322,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-21T09:36:50",
-      "candidate_retry_after": "2026-07-21T09:51:50Z",
+      "content_fetched_at": "2026-07-21T11:27:55",
+      "candidate_retry_after": "2026-07-21T11:42:55Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-21T09:36:50",
-      "candidate_failure_count": 27
+      "candidate_failed_at": "2026-07-21T11:27:55",
+      "candidate_failure_count": 28
     },
     {
       "id": "aede79193c6b98c9",
@@ -5356,12 +5359,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-21T09:36:51",
-      "candidate_retry_after": "2026-07-21T09:51:51Z",
+      "content_fetched_at": "2026-07-21T11:27:56",
+      "candidate_retry_after": "2026-07-21T11:42:56Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-21T09:36:51",
-      "candidate_failure_count": 27
+      "candidate_failed_at": "2026-07-21T11:27:56",
+      "candidate_failure_count": 28
     },
     {
       "id": "253eaa098c468523",
@@ -6289,12 +6292,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-21T09:36:52",
-      "candidate_retry_after": "2026-07-21T09:51:52Z",
+      "content_fetched_at": "2026-07-21T11:27:57",
+      "candidate_retry_after": "2026-07-21T11:42:57Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-21T09:36:52",
-      "candidate_failure_count": 25
+      "candidate_failed_at": "2026-07-21T11:27:57",
+      "candidate_failure_count": 26
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6671,12 +6674,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-21T09:36:54",
-      "candidate_retry_after": "2026-07-21T09:51:54Z",
+      "content_fetched_at": "2026-07-21T11:27:59",
+      "candidate_retry_after": "2026-07-21T11:42:59Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-21T09:36:54",
-      "candidate_failure_count": 23
+      "candidate_failed_at": "2026-07-21T11:27:59",
+      "candidate_failure_count": 24
     },
     {
       "id": "693fbfabd96b2185",
@@ -6707,12 +6710,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-21T09:36:55",
-      "candidate_retry_after": "2026-07-21T09:51:55Z",
+      "content_fetched_at": "2026-07-21T11:28:01",
+      "candidate_retry_after": "2026-07-21T11:43:01Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-21T09:36:55",
-      "candidate_failure_count": 23
+      "candidate_failed_at": "2026-07-21T11:28:01",
+      "candidate_failure_count": 24
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9108,12 +9111,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=395 chars/58 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:395chars/58words, paragraph_fallback:280chars/41words, article_body:395chars/58words, meta_description:53chars/7words, page_text:395chars/58words)",
-      "content_fetched_at": "2026-07-21T09:36:56",
-      "candidate_retry_after": "2026-07-21T09:51:56Z",
+      "content_fetched_at": "2026-07-21T11:28:02",
+      "candidate_retry_after": "2026-07-21T11:43:02Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=395 chars/58 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:395chars/58words, paragraph_fallback:280chars/41words, article_body:395chars/58words, meta_description:53chars/7words, page_text:395chars/58words)",
-      "candidate_failed_at": "2026-07-21T09:36:56",
-      "candidate_failure_count": 19
+      "candidate_failed_at": "2026-07-21T11:28:02",
+      "candidate_failure_count": 20
     },
     {
       "id": "561b6316398d7603",
@@ -10197,12 +10200,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-21T09:36:56",
-      "candidate_retry_after": "2026-07-21T09:51:56Z",
+      "content_fetched_at": "2026-07-21T11:28:02",
+      "candidate_retry_after": "2026-07-21T11:43:02Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-21T09:36:56",
-      "candidate_failure_count": 15
+      "candidate_failed_at": "2026-07-21T11:28:02",
+      "candidate_failure_count": 16
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10234,12 +10237,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-21T09:36:56",
-      "candidate_retry_after": "2026-07-21T09:51:56Z",
+      "content_fetched_at": "2026-07-21T11:28:02",
+      "candidate_retry_after": "2026-07-21T11:43:02Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-21T09:36:56",
-      "candidate_failure_count": 15
+      "candidate_failed_at": "2026-07-21T11:28:02",
+      "candidate_failure_count": 16
     },
     {
       "id": "a6f4ca9464909855",
@@ -10271,12 +10274,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-21T09:36:57",
-      "candidate_retry_after": "2026-07-21T09:51:57Z",
+      "content_fetched_at": "2026-07-21T11:28:03",
+      "candidate_retry_after": "2026-07-21T11:43:03Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-21T09:36:57",
-      "candidate_failure_count": 15
+      "candidate_failed_at": "2026-07-21T11:28:03",
+      "candidate_failure_count": 16
     },
     {
       "id": "71463c25ac92daaa",
@@ -10943,11 +10946,11 @@
       "content_fetched_at": "2026-07-20T12:54:38",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-20T20:11:43",
+      "selected_at": "2026-07-21T11:32:53",
       "suggested_category": "Apps-Programs",
       "selection_reason": "category rotation newest fresh article: Apps-Programs",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-20T20:11:43",
+      "processing_prepared_at": "2026-07-21T11:32:53",
       "ai_input_package": {
         "title": "My Bluetooth mouse kept disconnecting until I changed one Device Manager setting",
         "url": "https://www.howtogeek.com/this-change-instantly-fixed-my-windows-laptops-bluetooth-dropouts",
@@ -10999,21 +11002,21 @@
         ],
         "related_posts": []
       },
-      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "ai_quality_last_error": "too much English inside article paragraphs",
+      "ai_provider_last_error": "ai_time_budget_exceeded",
+      "ai_quality_last_error": "html_content has unbalanced <p> tags",
       "ai_excess_english_retry_used": true,
       "ai_status": "failed",
-      "ai_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "ai_rotation_exhausted": true,
-      "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 29.89,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_error": "ai_time_budget_exceeded",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": true,
+      "ai_total_time_seconds": 181.07,
+      "ai_quality_status": "time_budget_exceeded",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-20T20:27:14Z",
+      "candidate_retry_after": "2026-07-21T11:50:54Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "candidate_failed_at": "2026-07-20T20:12:14",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "ai_time_budget_exceeded",
+      "candidate_failed_at": "2026-07-21T11:35:54",
+      "candidate_failure_count": 2
     },
     {
       "id": "0d358144d3488296",
@@ -12589,7 +12592,7 @@
       "priority": "low",
       "source_links_removed_count": 35,
       "affiliate_links_removed_count": 2,
-      "removed_source_links_count": 35,
+      "removed_source_links_count": 0,
       "enrichment_fallback_used": "main_tag",
       "fetched_title": "Double Commander 1.2 brings support for high-DPI, cloud providers, JPEG XL, GTK 3 and more",
       "meta_description": "Double Commander 1.2, an open-source dual-pane file manager, enhances cross-platform usability with GTK 3 support, iCloud Drive access, and cloud service integration. It also introduces a new GIF-viewer engine, YAML syntax highlighting, and better high-DPI support.",
@@ -12630,7 +12633,94 @@
       "content_preview_chars": 2400,
       "content_fetched_at": "2026-07-20T20:11:23",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-21T11:28:08",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "category rotation newest fresh article: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-21T11:28:08",
+      "ai_input_package": {
+        "title": "Double Commander 1.2 brings support for high-DPI, cloud providers, JPEG XL, GTK 3 and more",
+        "url": "https://alternativeto.net/news/2026/7/double-commander-1-2-brings-support-for-high-dpi-cloud-providers-jpeg-xl-gtk-3-and-more",
+        "source_name": "AlternativeTo News",
+        "suggested_category": "Apps-Programs",
+        "main_image": "https://img.alternativeto.net/news/1200x630/jpeg/1784483815354.png",
+        "article_images": [
+          {
+            "url": "https://img.alternativeto.net/news/1200x630/jpeg/1784483815354.png",
+            "alt": "Double Commander 1.2 brings support for high-DPI, cloud providers, JPEG XL, GTK 3 and more",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://img.alternativeto.net/news/760x380/jpeg/1784483815354.png",
+            "alt": "Double Commander 1.2 brings support for high-DPI, cloud providers, JPEG XL, GTK 3 and more",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Double Commander 1.2, an open-source dual-pane file manager, enhances cross-platform usability with GTK 3 support, iCloud Drive access, and cloud service integration. It also introduces a new GIF-viewer engine, YAML syntax highlighting, and better high-DPI support.",
+        "content_preview": "High speed private VPN protected by strong Swiss privacy laws Double Commander 1.2 has been released as the latest version of this open source file manager with two panels side by side, inspired by Total Commander. This release advances cross-platform usability by adding GTK 3 support and improved high-DPI compatibility across Cocoa, Qt6, and Wayland environments. For users on macOS, this version delivers iCloud Drive access, broader support for popular cloud services including Dropbox, OneDrive, Box, and Amazon S3, Finder tag integration, smart folder browsing, APFS file cloning, file sharing, and a modernized interface. Following the UI and macOS improvements, file management functions have been enhanced with a new GIF-viewer engine and JPEG XL image format support through the libjxl library. The update also provides a YAML syntax highlighter to aid in editing configuration files, and debuts a new dialog for calculating checksums. These workflow upgrades are complemented by hashing improvements: Double Commander can now calculate and verify XXH128 hashes, and create checksum files for each directory. Performance enhancements include faster tarball handling, BLAKE3 optimizations with NEON on ARM64, accelerated SHA256 using ARM64CE on ARM64, and improved SHA3 and SHA512 with AVX2 on x86_64 processors. While expanding compatibility, the release adds support for Brotli-compressed BR and TAR.BR archives, a 7-Zip plugin for Linux, and new options such as multi-rename in file extensions, in-place file navigation during rename, and additional plugin API functions. Double Commander is a cross-platform file manager inspired by Total Commander, featuring a dual-panel design for efficient file operations. It offers advanced searching, tabbed browsing, and plugin support, enhancing file management tasks. Rated 4, its notable features include dual pane support, a two-panel file manager, and folder synchronization. Double Commander Nov 12, 2024 Double Commander 1.1.20: improvements and fixes Double Commander: Changes in version 1.2.0 GitHub • Official source It's great to see Double Commander continuing to improve across all major platforms instead of focusing on just one. The new macOS features are especially impressive, and better high-DPI support is always welcome. It's nice to have a powerful open-source alternative for users who prefer the classic dual-pane workflow",
+        "content_preview_chars": 2400,
+        "rss_summary": "<p><a href=\"https://alternativeto.net/software/double-commander/about/\">Double Commander 1.2</a> has been released as the latest version of this open source file manager with two panels side by side, inspired by <a href=\"https://alternativeto.net/software/total-commander/about/\">Total Commander</a>. This release advances cross-platform usability by adding GTK 3 support and improved high-DPI compatibility across Cocoa, Qt6, and Wayland environments. For users on macOS, this version delivers <a href=\"https://alternativeto.net/software/icloud/about/\">iCloud Drive</a> access, broader support for popular cloud services including <a href=\"https://alternativeto.net/software/dropbox/about/\">Dropbox</a>, <a href=\"https://alternativeto.net/software/microsoft-onedrive/about/\">OneDrive</a>, <a href=\"https://alternativeto.net/software/amazon-simple-storage-service-amazon-s3-/about/\">Box</a>, and <a href=\"https://alternativeto.net/software/amazon-simple-storage-service-amazon-s3-/about/\">Amazon S3</a>, <a href=\"https://alternativeto.net/software/finder/about/\">Finder</a> tag integration, smart folder browsing, APFS file cloning, file sharing, and a modernized interface.</p> <p>Following the UI and macOS improvements, file management functions have been enhanced with a new GIF-viewer engine and JPEG XL image format support through the <code>libjxl</code> library. The update also provides a <a href=\"https://alternativeto.net/software/yaml/about/\">YAML</a> syntax highlighter to aid in editing configuration files, and debuts a new dialog for calculating checksums.</p> <p>These workflow upgrades are complemented by hashing improvements: Double Commander can now calculate and verify XXH128 hashes, and create checksum files for each directory. Performance enhancements include faster tarball handling, BLAKE3 optimizations with NEON on ARM64, accelerated SHA256 using ARM64CE on ARM64, and improved SHA3 and SHA512 with AVX2 on x86_64 processors.</p> <p>While expanding compatibility, the release adds support for Brotli-compressed BR and TAR.BR archives, a <a href=\"https://alternativeto.net/software/7-zip/about/\">7-Zip</a> plugin for Linux, and new options such as multi-rename in file extensions, in-place file navigation during rename, and additional plugin API functions.</p> <p><a href=\"https://alternativeto.net/news/2026/7/double-commander-1-2-brings-support-for-high-dpi-cloud-providers-jpeg-xl-gtk-3-and-more/\">View article on AlternativeTo &raquo;</a></p><p><a href=\"https://alternativeto.net/software/double-commander/about/\">More about Double Commander</a>&nbsp;|&nbsp;<a href=\"https://alternativeto.net/software/double-commander/\">Double Commander Alternatives</a></p>",
+        "full_article_text": "High speed private VPN protected by strong Swiss privacy laws Double Commander 1.2 has been released as the latest version of this open source file manager with two panels side by side, inspired by Total Commander. This release advances cross-platform usability by adding GTK 3 support and improved high-DPI compatibility across Cocoa, Qt6, and Wayland environments. For users on macOS, this version delivers iCloud Drive access, broader support for popular cloud services including Dropbox, OneDrive, Box, and Amazon S3, Finder tag integration, smart folder browsing, APFS file cloning, file sharing, and a modernized interface. Following the UI and macOS improvements, file management functions have been enhanced with a new GIF-viewer engine and JPEG XL image format support through the libjxl library. The update also provides a YAML syntax highlighter to aid in editing configuration files, and debuts a new dialog for calculating checksums. These workflow upgrades are complemented by hashing improvements: Double Commander can now calculate and verify XXH128 hashes, and create checksum files for each directory. Performance enhancements include faster tarball handling, BLAKE3 optimizations with NEON on ARM64, accelerated SHA256 using ARM64CE on ARM64, and improved SHA3 and SHA512 with AVX2 on x86_64 processors. While expanding compatibility, the release adds support for Brotli-compressed BR and TAR.BR archives, a 7-Zip plugin for Linux, and new options such as multi-rename in file extensions, in-place file navigation during rename, and additional plugin API functions. Double Commander is a cross-platform file manager inspired by Total Commander, featuring a dual-panel design for efficient file operations. It offers advanced searching, tabbed browsing, and plugin support, enhancing file management tasks. Rated 4, its notable features include dual pane support, a two-panel file manager, and folder synchronization. Double Commander Nov 12, 2024 Double Commander 1.1.20: improvements and fixes Double Commander: Changes in version 1.2.0 GitHub • Official source It's great to see Double Commander continuing to improve across all major platforms instead of focusing on just one. The new macOS features are especially impressive, and better high-DPI support is always welcome. It's nice to have a powerful open-source alternative for users who prefer the classic dual-pane workflow",
+        "full_article_text_chars": 2400,
+        "enrichment_status": "weak",
+        "source_url": "https://alternativeto.net/news",
+        "source_published_at": "2026-07-20T15:00:00Z",
+        "published_at_source": "feed",
+        "article_age_hours": 5.19,
+        "trusted_references": [
+          {
+            "title": "google.com",
+            "url": "https://google.com/preferences/source?q=alternativeto.net"
+          },
+          {
+            "title": "Double Commander: Changes in version 1.2.0",
+            "url": "https://github.com/doublecmd/doublecmd/wiki/Changes-in-version-1.2.0"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response is missing required field(s): title",
+      "ai_status": "completed",
+      "ai_processed_at": "2026-07-21T11:30:34",
+      "seo_title": "Double Commander 1.2: قفزة نوعية في إدارة الملفات متعددة المنصات",
+      "seo_description": "الإصدار الجديد Double Commander 1.2 يجلب تحسينات هائلة، بما في ذلك دعم الشاشات عالية الدقة، تكامل الخدمات السحابية الواسع، دعم JPEG XL",
+      "seo_slug": "double-commander-1-2-tahsinat-idarat-al",
+      "final_html": "<div class=\"post-body entry-content\" id=\"post-body-XXXXXX\">\n<p class=\"pIndent\">\n<span class=\"dropCap\">ي</span>ُعتبر برنامج <b><a class=\"extL\" href=\"https://github.com/doublecmd/doublecmd/wiki/Changes-in-version-1.2.0\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">Double</a> Commander</b> من الأدوات الأساسية لملايين المستخدمين الذين يبحثون عن حل فعال ومفتوح المصدر لإدارة الملفات. ومع إطلاق الإصدار 1.2 الأخير، يحقق هذا المدير المزدوج الألواح للوصول إلى مستوى جديد من الأداء والوظائف، مستلهمًا من النجاح الباهر لبرنامج Total Commander. هذا التحديث لا يقتصر على مجرد إصلاحات أو تحسينات طفيفة، بل يقدم مجموعة واسعة من الميزات التي تعزز تجربة المستخدم بشكل جذري، لا سيما في بيئات متعددة المنصات، ويوفر دعمًا أوسع للتقنيات الحديثة والخدمات السحابية. في هذه المقالة، سنستعرض أبرز هذه التحسينات وكيف يمكن أن تحدث فرقًا لمستخدمي Double Commander.\n  </p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Double Commander 1.2 brings support for high-DPI, cloud providers, JPEG XL, GTK 3 and more\" class=\"full\" loading=\"lazy\" src=\"https://img.alternativeto.net/news/1200x630/jpeg/1784483815354.png\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Double Commander 1.2 brings support for high-DPI, cloud providers, JPEG XL, GTK 3 and more</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Double Commander 1.2 brings support for high-DPI, cloud providers, JPEG XL, GTK 3 and more</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<h2>تحسينات شاملة لتجربة المستخدم والواجهة الرسومية</h2>\n<p class=\"pIndent\">\n    إحدى الركائز الأساسية لهذا الإصدار هي التركيز على تعزيز قابلية الاستخدام عبر مختلف الأنظمة. يأتي Double Commander 1.2 بدعم محسن للشاشات عالية الدقة (High-DPI) عبر بيئات Cocoa وQt6 وWayland. هذا يعني أن المستخدمين سيتمتعون بواجهة مستخدم أكثر وضوحًا وتفصيلاً، خالية من الضبابية أو التشويه الذي قد يظهر على الشاشات الحديثة ذات الكثافة البكسلية العالية. بالإضافة إلى ذلك، يضيف الإصدار دعمًا لـ GTK 3، وهو تحسين حيوي لمستخدمي لينكس وغيره من الأنظمة التي تعتمد على هذه المكتبة الرسومية، مما يضمن تكاملًا أفضل ومظهرًا أكثر حداثة وتوافقًا مع سمات النظام. هذه التحسينات مجتمعة تضمن تجربة بصرية سلسة وممتعة بغض النظر عن المنصة أو نوع الشاشة المستخدمة.\n  </p>\n<h2>قفزة نوعية لمستخدمي macOS</h2>\n<p class=\"pIndent\">\n    لقد أولى مطورو Double Commander اهتمامًا خاصًا لمستخدمي نظام التشغيل macOS في هذا الإصدار، حيث تم تضمين مجموعة واسعة من الميزات المصممة خصيصًا لهم. يوفر الإصدار 1.2 الآن وصولاً مباشرًا إلى iCloud Drive، مما يسهل إدارة الملفات المخزنة في سحابة أبل. لم يتوقف الدعم السحابي عند هذا الحد، بل توسع ليشمل دمجًا أوسع مع خدمات سحابية شائعة أخرى مثل Dropbox وOneDrive وBox وAmazon S3، مما يتيح للمستخدمين التعامل مع ملفاتهم السحابية مباشرة من خلال مدير الملفات.\n  </p>\n<p class=\"pIndent\">\n    تشمل التحسينات الأخرى في macOS دمجًا كاملاً مع علامات Finder (Finder tags)، مما يسمح بتنظيم الملفات وتصفيتها بكفاءة أكبر. كما أصبح تصفح المجلدات الذكية (smart folder browsing) متاحًا، مما يوفر طرقًا أكثر ذكاءً للوصول إلى المحتوى. وبالنسبة للمستخدمين الذين يتعاملون مع نظام ملفات APFS، يقدم الإصدار الجديد ميزات مثل استنساخ الملفات (APFS file cloning) ومشاركة الملفات (file sharing) بسلاسة. كل هذه الإضافات، إلى جانب واجهة مستخدم محدثة، تجعل Double Commander 1.2 خيارًا قويًا وجذابًا لمستخدمي macOS الذين يفضلون سير عمل مدير الملفات ثنائي الألواح.\n  </p>\n<h2>إدارة ملفات أكثر كفاءة ودعم صيغ جديدة</h2>\n<p class=\"pIndent\">\n    لم يغفل التحديث الجوانب الأساسية لإدارة الملفات. تم تعزيز وظائف إدارة الملفات من خلال محرك جديد لعرض ملفات GIF، مما يوفر تجربة مشاهدة أفضل للرسوم المتحركة. والأهم من ذلك، يضيف الإصدار دعمًا لتنسيق الصور JPEG XL من خلال مكتبة libjxl، وهو تنسيق حديث يوفر ضغطًا عالي الجودة مع الحفاظ على تفاصيل الصورة، مما يعد إضافة قيمة للمصممين والمصورين.\n  </p>\n<p class=\"pIndent\">\n    بالنسبة للمطورين ومسؤولي الأنظمة، يقدم Double Commander 1.2 أداة تمييز بناء جملة (syntax highlighter) لملفات YAML، وهي ميزة لا غنى عنها لتحرير ملفات التكوين بسهولة وفعالية. كما يتميز الإصدار بإدخال مربع حوار جديد لحساب المجموع الاختباري (checksums)، مما يسهل التحقق من سلامة الملفات ومطابقتها.\n  </p>\n<h2>أداء معزز وأمن محسّن</h2>\n<p class=\"pIndent\">\n    تتجاوز التحسينات مجرد الميزات السطحية لتصل إلى صميم الأداء والأمان. تم استكمال ترقيات سير العمل بتحسينات جوهرية في وظائف التجزئة (hashing). يمكن لبرنامج Double Commander الآن حساب والتحقق من تجزئات XXH128، وهي خوارزمية تجزئة سريعة وفعالة. كما أصبح بإمكانه إنشاء ملفات مجموع اختباري لكل دليل (directory)، مما يوفر طريقة شاملة للتحقق من تكامل البيانات للمجلدات بأكملها.\n  </p>\n<p class=\"pIndent\">\n    على صعيد الأداء، شهد الإصدار 1.2 تسريعًا ملحوظًا في التعامل مع ملفات tarball. وتم تطبيق تحسينات BLAKE3 باستخدام تقنية NEON على معالجات ARM64، وتسريع SHA256 باستخدام ARM64CE على معالجات ARM64، وتحسين خوارزميات SHA3 وSHA512 باستخدام AVX2 على معالجات x86_64. هذه التحسينات المعمارية تترجم إلى عمليات أسرع وأكثر كفاءة، مما يوفر وقت المستخدم ويحسن إنتاجيته بشكل عام.\n  </p>\n<h2>توسيع آفاق التوافقية والمرونة</h2>\n<p class=\"pIndent\">\n    يواصل Double Commander توسيع نطاق توافقه مع مختلف التنسيقات والأدوات. يضيف الإصدار دعمًا لأرشيفات BR وTAR.BR المضغوطة باستخدام Brotli، مما يزيد من مرونة التعامل مع الملفات المضغوطة. كما تم تضمين مكون إضافي (plugin) لبرنامج 7-Zip خصيصًا لنظام لينكس، مما يوفر دعمًا أفضل لهذا المعيار الشائع لضغط الملفات.\n  </p>\n<p class=\"pIndent\">\n    تم إضافة خيارات جديدة لتعزيز مرونة سير العمل، مثل خيار إعادة تسمية متعددة في امتدادات الملفات (multi-rename in file extensions)، والتنقل في الملفات في نفس الموضع أثناء إعادة التسمية (in-place file navigation during rename)، بالإضافة إلى وظائف إضافية لواجهة برمجة تطبيقات المكونات الإضافية (plugin API functions)، مما يتيح للمطورين إنشاء مكونات إضافية أكثر قوة وتكاملًا.\n  </p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">\n    بالنسبة لمستخدمي Double Commander الحاليين، يمثل هذا التحديث ترقية إلزامية. التحسينات في دعم الشاشات عالية الدقة وGTK 3 ستوفر تجربة بصرية أكثر راحة وحداثة، خاصة على الأنظمة الحديثة.\n  </p>\n<p class=\"pIndent\">\n    إذا كنت من مستخدمي macOS، فإن الميزات الجديدة المخصصة، مثل تكامل iCloud Drive والخدمات السحابية الأخرى، ودمج علامات Finder، ستغير طريقة تفاعلك مع ملفاتك بشكل جذري، مما يجعله مدير ملفات أكثر قوة واندماجًا مع نظام التشغيل.\n  </p>\n<p class=\"pIndent\">\n    أما المطورون ومسؤولو الأنظمة، فسيقدرون دعم YAML syntax highlighter وميزات التحقق من المجموع الاختباري المحسنة، والتي ستجعل إدارة ملفات التكوين والتحقق من سلامة البيانات أسهل بكثير.\n  </p>\n<p class=\"pIndent\">\n    بشكل عام، تعني هذه التحديثات أن Double Commander أصبح الآن أكثر قوة، وأسرع، وأكثر توافقًا، ومرونة من أي وقت مضى، مما يجعله أداة لا غنى عنها لأي شخص يبحث عن تحكم كامل في ملفاته عبر أي منصة.\n  </p>\n<p class=\"pIndent\">\n    في الختام، يثبت الإصدار 1.2 من Double Commander التزام المطورين بتقديم مدير ملفات مفتوح المصدر يتسم بالقوة والمرونة والابتكار. من خلال تحسينات واسعة النطاق تشمل الواجهة الرسومية، ودعم المنصات، وتكامل الخدمات السحابية، وتعزيز الأداء والأمان، لا يزال Double Commander يترسخ كبديل ممتاز لبرامج إدارة الملفات التقليدية. هذا الإصدار لا يخدم قاعدة المستخدمين الحالية فحسب، بل يجذب أيضًا مستخدمين جددًا يبحثون عن حلول متقدمة وفعالة لإدارة بياناتهم الرقمية بكفاءة عالية. إنه حقًا خطوة مهمة إلى الأمام تعزز مكانة Double Commander في عالم برامج إدارة الملفات.\n  </p>\n</div>\n<p class=\"pRef\">المراجع:<br/><a class=\"extL\" href=\"https://google.com/preferences/source?q=alternativeto.net\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">google.com</a><br/><a class=\"extL\" href=\"https://github.com/doublecmd/doublecmd/wiki/Changes-in-version-1.2.0\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">Double Commander: Changes in version 1.2.0</a></p>",
+      "blogger_article_html": "<div class=\"post-body entry-content\" id=\"post-body-XXXXXX\">\n<p class=\"pIndent\">\n<span class=\"dropCap\">ي</span>ُعتبر برنامج <b><a class=\"extL\" href=\"https://github.com/doublecmd/doublecmd/wiki/Changes-in-version-1.2.0\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">Double</a> Commander</b> من الأدوات الأساسية لملايين المستخدمين الذين يبحثون عن حل فعال ومفتوح المصدر لإدارة الملفات. ومع إطلاق الإصدار 1.2 الأخير، يحقق هذا المدير المزدوج الألواح للوصول إلى مستوى جديد من الأداء والوظائف، مستلهمًا من النجاح الباهر لبرنامج Total Commander. هذا التحديث لا يقتصر على مجرد إصلاحات أو تحسينات طفيفة، بل يقدم مجموعة واسعة من الميزات التي تعزز تجربة المستخدم بشكل جذري، لا سيما في بيئات متعددة المنصات، ويوفر دعمًا أوسع للتقنيات الحديثة والخدمات السحابية. في هذه المقالة، سنستعرض أبرز هذه التحسينات وكيف يمكن أن تحدث فرقًا لمستخدمي Double Commander.\n  </p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Double Commander 1.2 brings support for high-DPI, cloud providers, JPEG XL, GTK 3 and more\" class=\"full\" loading=\"lazy\" src=\"https://img.alternativeto.net/news/1200x630/jpeg/1784483815354.png\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Double Commander 1.2 brings support for high-DPI, cloud providers, JPEG XL, GTK 3 and more</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Double Commander 1.2 brings support for high-DPI, cloud providers, JPEG XL, GTK 3 and more</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<h2>تحسينات شاملة لتجربة المستخدم والواجهة الرسومية</h2>\n<p class=\"pIndent\">\n    إحدى الركائز الأساسية لهذا الإصدار هي التركيز على تعزيز قابلية الاستخدام عبر مختلف الأنظمة. يأتي Double Commander 1.2 بدعم محسن للشاشات عالية الدقة (High-DPI) عبر بيئات Cocoa وQt6 وWayland. هذا يعني أن المستخدمين سيتمتعون بواجهة مستخدم أكثر وضوحًا وتفصيلاً، خالية من الضبابية أو التشويه الذي قد يظهر على الشاشات الحديثة ذات الكثافة البكسلية العالية. بالإضافة إلى ذلك، يضيف الإصدار دعمًا لـ GTK 3، وهو تحسين حيوي لمستخدمي لينكس وغيره من الأنظمة التي تعتمد على هذه المكتبة الرسومية، مما يضمن تكاملًا أفضل ومظهرًا أكثر حداثة وتوافقًا مع سمات النظام. هذه التحسينات مجتمعة تضمن تجربة بصرية سلسة وممتعة بغض النظر عن المنصة أو نوع الشاشة المستخدمة.\n  </p>\n<h2>قفزة نوعية لمستخدمي macOS</h2>\n<p class=\"pIndent\">\n    لقد أولى مطورو Double Commander اهتمامًا خاصًا لمستخدمي نظام التشغيل macOS في هذا الإصدار، حيث تم تضمين مجموعة واسعة من الميزات المصممة خصيصًا لهم. يوفر الإصدار 1.2 الآن وصولاً مباشرًا إلى iCloud Drive، مما يسهل إدارة الملفات المخزنة في سحابة أبل. لم يتوقف الدعم السحابي عند هذا الحد، بل توسع ليشمل دمجًا أوسع مع خدمات سحابية شائعة أخرى مثل Dropbox وOneDrive وBox وAmazon S3، مما يتيح للمستخدمين التعامل مع ملفاتهم السحابية مباشرة من خلال مدير الملفات.\n  </p>\n<p class=\"pIndent\">\n    تشمل التحسينات الأخرى في macOS دمجًا كاملاً مع علامات Finder (Finder tags)، مما يسمح بتنظيم الملفات وتصفيتها بكفاءة أكبر. كما أصبح تصفح المجلدات الذكية (smart folder browsing) متاحًا، مما يوفر طرقًا أكثر ذكاءً للوصول إلى المحتوى. وبالنسبة للمستخدمين الذين يتعاملون مع نظام ملفات APFS، يقدم الإصدار الجديد ميزات مثل استنساخ الملفات (APFS file cloning) ومشاركة الملفات (file sharing) بسلاسة. كل هذه الإضافات، إلى جانب واجهة مستخدم محدثة، تجعل Double Commander 1.2 خيارًا قويًا وجذابًا لمستخدمي macOS الذين يفضلون سير عمل مدير الملفات ثنائي الألواح.\n  </p>\n<h2>إدارة ملفات أكثر كفاءة ودعم صيغ جديدة</h2>\n<p class=\"pIndent\">\n    لم يغفل التحديث الجوانب الأساسية لإدارة الملفات. تم تعزيز وظائف إدارة الملفات من خلال محرك جديد لعرض ملفات GIF، مما يوفر تجربة مشاهدة أفضل للرسوم المتحركة. والأهم من ذلك، يضيف الإصدار دعمًا لتنسيق الصور JPEG XL من خلال مكتبة libjxl، وهو تنسيق حديث يوفر ضغطًا عالي الجودة مع الحفاظ على تفاصيل الصورة، مما يعد إضافة قيمة للمصممين والمصورين.\n  </p>\n<p class=\"pIndent\">\n    بالنسبة للمطورين ومسؤولي الأنظمة، يقدم Double Commander 1.2 أداة تمييز بناء جملة (syntax highlighter) لملفات YAML، وهي ميزة لا غنى عنها لتحرير ملفات التكوين بسهولة وفعالية. كما يتميز الإصدار بإدخال مربع حوار جديد لحساب المجموع الاختباري (checksums)، مما يسهل التحقق من سلامة الملفات ومطابقتها.\n  </p>\n<h2>أداء معزز وأمن محسّن</h2>\n<p class=\"pIndent\">\n    تتجاوز التحسينات مجرد الميزات السطحية لتصل إلى صميم الأداء والأمان. تم استكمال ترقيات سير العمل بتحسينات جوهرية في وظائف التجزئة (hashing). يمكن لبرنامج Double Commander الآن حساب والتحقق من تجزئات XXH128، وهي خوارزمية تجزئة سريعة وفعالة. كما أصبح بإمكانه إنشاء ملفات مجموع اختباري لكل دليل (directory)، مما يوفر طريقة شاملة للتحقق من تكامل البيانات للمجلدات بأكملها.\n  </p>\n<p class=\"pIndent\">\n    على صعيد الأداء، شهد الإصدار 1.2 تسريعًا ملحوظًا في التعامل مع ملفات tarball. وتم تطبيق تحسينات BLAKE3 باستخدام تقنية NEON على معالجات ARM64، وتسريع SHA256 باستخدام ARM64CE على معالجات ARM64، وتحسين خوارزميات SHA3 وSHA512 باستخدام AVX2 على معالجات x86_64. هذه التحسينات المعمارية تترجم إلى عمليات أسرع وأكثر كفاءة، مما يوفر وقت المستخدم ويحسن إنتاجيته بشكل عام.\n  </p>\n<h2>توسيع آفاق التوافقية والمرونة</h2>\n<p class=\"pIndent\">\n    يواصل Double Commander توسيع نطاق توافقه مع مختلف التنسيقات والأدوات. يضيف الإصدار دعمًا لأرشيفات BR وTAR.BR المضغوطة باستخدام Brotli، مما يزيد من مرونة التعامل مع الملفات المضغوطة. كما تم تضمين مكون إضافي (plugin) لبرنامج 7-Zip خصيصًا لنظام لينكس، مما يوفر دعمًا أفضل لهذا المعيار الشائع لضغط الملفات.\n  </p>\n<p class=\"pIndent\">\n    تم إضافة خيارات جديدة لتعزيز مرونة سير العمل، مثل خيار إعادة تسمية متعددة في امتدادات الملفات (multi-rename in file extensions)، والتنقل في الملفات في نفس الموضع أثناء إعادة التسمية (in-place file navigation during rename)، بالإضافة إلى وظائف إضافية لواجهة برمجة تطبيقات المكونات الإضافية (plugin API functions)، مما يتيح للمطورين إنشاء مكونات إضافية أكثر قوة وتكاملًا.\n  </p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">\n    بالنسبة لمستخدمي Double Commander الحاليين، يمثل هذا التحديث ترقية إلزامية. التحسينات في دعم الشاشات عالية الدقة وGTK 3 ستوفر تجربة بصرية أكثر راحة وحداثة، خاصة على الأنظمة الحديثة.\n  </p>\n<p class=\"pIndent\">\n    إذا كنت من مستخدمي macOS، فإن الميزات الجديدة المخصصة، مثل تكامل iCloud Drive والخدمات السحابية الأخرى، ودمج علامات Finder، ستغير طريقة تفاعلك مع ملفاتك بشكل جذري، مما يجعله مدير ملفات أكثر قوة واندماجًا مع نظام التشغيل.\n  </p>\n<p class=\"pIndent\">\n    أما المطورون ومسؤولو الأنظمة، فسيقدرون دعم YAML syntax highlighter وميزات التحقق من المجموع الاختباري المحسنة، والتي ستجعل إدارة ملفات التكوين والتحقق من سلامة البيانات أسهل بكثير.\n  </p>\n<p class=\"pIndent\">\n    بشكل عام، تعني هذه التحديثات أن Double Commander أصبح الآن أكثر قوة، وأسرع، وأكثر توافقًا، ومرونة من أي وقت مضى، مما يجعله أداة لا غنى عنها لأي شخص يبحث عن تحكم كامل في ملفاته عبر أي منصة.\n  </p>\n<p class=\"pIndent\">\n    في الختام، يثبت الإصدار 1.2 من Double Commander التزام المطورين بتقديم مدير ملفات مفتوح المصدر يتسم بالقوة والمرونة والابتكار. من خلال تحسينات واسعة النطاق تشمل الواجهة الرسومية، ودعم المنصات، وتكامل الخدمات السحابية، وتعزيز الأداء والأمان، لا يزال Double Commander يترسخ كبديل ممتاز لبرامج إدارة الملفات التقليدية. هذا الإصدار لا يخدم قاعدة المستخدمين الحالية فحسب، بل يجذب أيضًا مستخدمين جددًا يبحثون عن حلول متقدمة وفعالة لإدارة بياناتهم الرقمية بكفاءة عالية. إنه حقًا خطوة مهمة إلى الأمام تعزز مكانة Double Commander في عالم برامج إدارة الملفات.\n  </p>\n</div>\n<p class=\"pRef\">المراجع:<br/><a class=\"extL\" href=\"https://google.com/preferences/source?q=alternativeto.net\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">google.com</a><br/><a class=\"extL\" href=\"https://github.com/doublecmd/doublecmd/wiki/Changes-in-version-1.2.0\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">Double Commander: Changes in version 1.2.0</a></p>",
+      "final_word_count": 976,
+      "final_html_chars": 7239,
+      "final_content_hash": "f6d8ac71a525f4e1d952c34c",
+      "ai_provider_used": "gemini:gemini-2.5-flash",
+      "ai_rotation_exhausted": false,
+      "ai_openrouter_fallback_used": false,
+      "ai_quality_attempts": 3,
+      "ai_quality_status": "passed",
+      "ai_total_time_seconds": 146.31,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "internal_cache_loaded": 0,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 1,
+      "internal_cache_saved": false,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 976,
+        "warnings": []
+      },
+      "publish_status": "failed",
+      "publish_error": "Publish blocked: too much English inside article paragraphs",
+      "publish_blocked_reason": "too much English inside article paragraphs",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "failed|quality gate||failed|Publish blocked: too much English inside article paragraphs",
+      "telegram_blogger_notified_at": "2026-07-21T11:30:35",
+      "telegram_last_notification_at": "2026-07-21T11:30:35",
+      "candidate_retry_after": "2026-07-21T11:45:35Z",
+      "candidate_failure_stage": "publish",
+      "candidate_failure_reason": "Publish blocked: too much English inside article paragraphs",
+      "candidate_failed_at": "2026-07-21T11:30:35",
+      "candidate_failure_count": 1
     },
     {
       "id": "de172353a1726671",
@@ -14803,12 +14893,12 @@
       "removed_source_links_count": 81,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:85chars/16words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-21T09:36:58",
-      "candidate_retry_after": "2026-07-21T09:51:58Z",
+      "content_fetched_at": "2026-07-21T11:28:04",
+      "candidate_retry_after": "2026-07-21T11:43:04Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:85chars/16words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_de",
-      "candidate_failed_at": "2026-07-21T09:36:58",
-      "candidate_failure_count": 4
+      "candidate_failed_at": "2026-07-21T11:28:04",
+      "candidate_failure_count": 5
     },
     {
       "id": "41b7b918ab3966e4",
@@ -14879,7 +14969,73 @@
       "content_preview_chars": 3333,
       "content_fetched_at": "2026-07-21T00:59:46",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-21T11:30:35",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "category rotation newest fresh article: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-21T11:30:35",
+      "ai_input_package": {
+        "title": "Google releases Android 17 QPR2 Beta 1 for Pixel",
+        "url": "https://9to5google.com/2026/07/20/android-17-qpr2-beta-1-pixel",
+        "source_name": "9to5Google",
+        "suggested_category": "Apps-Programs",
+        "main_image": "https://9to5google.com/wp-content/themes/ninetofive/dist/images/default-9to5google-guide.png",
+        "article_images": [
+          {
+            "url": "https://9to5google.com/wp-content/themes/ninetofive/dist/images/default-9to5google-guide.png",
+            "alt": "Google releases Android 17 QPR2 Beta 1 for Pixel",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "With the QPR1 preview winding down, Google today is rolling out Android 17 QPR2 Beta 1 for Pixel devices...",
+        "content_preview": "With the QPR1 preview winding down, Google today is rolling out Android 17 QPR2 Beta 1 for Pixel devices. This is the Q4 2026 (December) release and includes a minor SDK release for developers. The following issues have been addressed in Android 17 QPR2 Beta 1: Bluetooth re-pairing fails silently following a remote bond loss. ( Issue #412524057 ) Media player controls briefly flashed on the lock screen upon waking the device despite the app’s notifications being disabled. ( Issue #484607701 ) A system crash causing Pixel devices to unexpectedly reboot when invoking Gemini. ( Issue #505750489 ) Initiating a drag-and-drop gesture with multiple fingers caused the source application to stop receiving subsequent touch events. ( Issue #516836306 ) Notifications randomly became invisible in the notification shade until a system restart. ( Issue #526139207 , Issue #522657034 ) ML-DSA key generation fails with an exception when using the “NONE” string digest instead of the class constant. ( Issue #525612735 ) An issue in AccessibilityNodeInfo.toString() where window bounds were incorrectly logged using screen bounds, which caused misleading accessibility debugging data. ( Issue #520428442 ) Window-level UI blur effects failed to render and the “Allow window-level blurs” developer toggle reset after rebooting. ( Issue #527376569 ) You can leave feedback with Android Beta Feedback on Pixel devices. Access it from the app drawer or Quick Settings to file bugs in the Google issue tracker. There’s also the Android Beta community on Reddit . Android 17 QPR2 Beta 1 system images are available for the Pixel 6a, Pixel 7, Pixel 7 Pro, Pixel 7a, Pixel Tablet, Pixel Fold, Pixel 8, Pixel 8 Pro, Pixel 8a, Pixel 9, Pixel 9 Pro, Pixel 9 Pro XL, Pixel 9 Pro Fold, Pixel 9a, Pixel 10, Pixel 10 Pro, Pixel 10 Pro XL, Pixel 10 Pro Fold, and Pixel 10a as well as the Android Emulator. Pixel 6 and 6Pro users will not be getting this OTA since the device will reach End of Life and Android 17 QPR1 beta series will be the last for these devices. You can easily join via the Android Beta Program to get an on-device OTA. Do not install this update if you want the stable QPR1 release in the coming weeks. If you prefer to leave the Beta program and receive the public stable release of Android 17 QPR1, you can do so without wiping your device by opting out and not installing today’s QPR2 Beta 1 update *. If you opt-out of the program* after installing Beta 1 or any future updates, all user data on the device will get wiped per usual program guidelines. Opting out will trigger a ‘Downgrade’ OTA. Ignore this update and wait for the Android 17 public release instead. If you prefer to leave the Beta program and receive the public stable release of Android 17 QPR1, you can do so without wiping your device by opting out and not installing today’s QPR2 Beta 1 update *. If you opt-out of the program* after installing Beta 1 or any future updates, all user data on the device will get wiped per usual program guidelines. Opting out will trigger a ‘Downgrade’ OTA. Ignore this update and wait for the Android 17 public release instead. FTC: We use income earning auto affiliate links. More. Check out 9to5Google on YouTube for more news: Editor-in-chief. Interested in the minutiae of Google and Alphabet. Tips/talk: abner@9to5g.com",
+        "content_preview_chars": 3333,
+        "rss_summary": "",
+        "full_article_text": "With the QPR1 preview winding down, Google today is rolling out Android 17 QPR2 Beta 1 for Pixel devices. This is the Q4 2026 (December) release and includes a minor SDK release for developers. The following issues have been addressed in Android 17 QPR2 Beta 1: Bluetooth re-pairing fails silently following a remote bond loss. ( Issue #412524057 ) Media player controls briefly flashed on the lock screen upon waking the device despite the app’s notifications being disabled. ( Issue #484607701 ) A system crash causing Pixel devices to unexpectedly reboot when invoking Gemini. ( Issue #505750489 ) Initiating a drag-and-drop gesture with multiple fingers caused the source application to stop receiving subsequent touch events. ( Issue #516836306 ) Notifications randomly became invisible in the notification shade until a system restart. ( Issue #526139207 , Issue #522657034 ) ML-DSA key generation fails with an exception when using the “NONE” string digest instead of the class constant. ( Issue #525612735 ) An issue in AccessibilityNodeInfo.toString() where window bounds were incorrectly logged using screen bounds, which caused misleading accessibility debugging data. ( Issue #520428442 ) Window-level UI blur effects failed to render and the “Allow window-level blurs” developer toggle reset after rebooting. ( Issue #527376569 ) You can leave feedback with Android Beta Feedback on Pixel devices. Access it from the app drawer or Quick Settings to file bugs in the Google issue tracker. There’s also the Android Beta community on Reddit . Android 17 QPR2 Beta 1 system images are available for the Pixel 6a, Pixel 7, Pixel 7 Pro, Pixel 7a, Pixel Tablet, Pixel Fold, Pixel 8, Pixel 8 Pro, Pixel 8a, Pixel 9, Pixel 9 Pro, Pixel 9 Pro XL, Pixel 9 Pro Fold, Pixel 9a, Pixel 10, Pixel 10 Pro, Pixel 10 Pro XL, Pixel 10 Pro Fold, and Pixel 10a as well as the Android Emulator. Pixel 6 and 6Pro users will not be getting this OTA since the device will reach End of Life and Android 17 QPR1 beta series will be the last for these devices. You can easily join via the Android Beta Program to get an on-device OTA. Do not install this update if you want the stable QPR1 release in the coming weeks. If you prefer to leave the Beta program and receive the public stable release of Android 17 QPR1, you can do so without wiping your device by opting out and not installing today’s QPR2 Beta 1 update *. If you opt-out of the program* after installing Beta 1 or any future updates, all user data on the device will get wiped per usual program guidelines. Opting out will trigger a ‘Downgrade’ OTA. Ignore this update and wait for the Android 17 public release instead. If you prefer to leave the Beta program and receive the public stable release of Android 17 QPR1, you can do so without wiping your device by opting out and not installing today’s QPR2 Beta 1 update *. If you opt-out of the program* after installing Beta 1 or any future updates, all user data on the device will get wiped per usual program guidelines. Opting out will trigger a ‘Downgrade’ OTA. Ignore this update and wait for the Android 17 public release instead. FTC: We use income earning auto affiliate links. More. Check out 9to5Google on YouTube for more news: Editor-in-chief. Interested in the minutiae of Google and Alphabet. Tips/talk: abner@9to5g.com",
+        "full_article_text_chars": 3333,
+        "enrichment_status": "weak",
+        "source_url": "https://9to5google.com",
+        "source_published_at": "2026-07-20T18:10:28Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 6.82,
+        "trusted_references": [
+          {
+            "title": "Issue #412524057",
+            "url": "https://issuetracker.google.com/issues/412524057"
+          },
+          {
+            "title": "Issue #484607701",
+            "url": "https://issuetracker.google.com/issues/484607701"
+          },
+          {
+            "title": "Issue #505750489",
+            "url": "https://issuetracker.google.com/issues/505750489"
+          },
+          {
+            "title": "Issue #516836306",
+            "url": "https://issuetracker.google.com/issues/516836306"
+          },
+          {
+            "title": "Issue #526139207",
+            "url": "https://issuetracker.google.com/issues/526139207"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "ad/affiliate/sponsored title or summary",
+      "ai_status": "failed",
+      "ai_error": "ad/affiliate/sponsored title or summary",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 136.04,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-21T11:47:52Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "ad/affiliate/sponsored title or summary",
+      "candidate_failed_at": "2026-07-21T11:32:52",
+      "candidate_failure_count": 1
     },
     {
       "id": "615ffb60e1402445",
@@ -14902,7 +15058,7 @@
       "category_label": "Apps-Programs",
       "category_hint": "Apps-Programs",
       "discovered_at": "2026-07-21T00:59:38",
-      "status": "ready",
+      "status": "selected",
       "score": 3,
       "priority": "low",
       "source_links_removed_count": 76,
@@ -14929,7 +15085,38 @@
       "content_preview_chars": 1980,
       "content_fetched_at": "2026-07-21T00:59:51",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-21T11:35:54",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "category rotation newest fresh article: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-21T11:35:54",
+      "ai_input_package": {
+        "title": "Do you prefer Google's 3D emoji or the classic style? [Poll]",
+        "url": "https://9to5google.com/2026/07/20/do-you-prefer-googles-3d-emoji-or-the-classic-style-poll",
+        "source_name": "9to5Google",
+        "suggested_category": "Apps-Programs",
+        "main_image": "",
+        "article_images": [],
+        "meta_description": "What do you think of Google's brand new 3D Emoji designs that are coming to Android 17 later this year? Tell us your thoughts here.",
+        "content_preview": "In the wake of World Emoji Day – yes, that is a thing – Google gave us some insight into why we’re switching over to the “Noto 3D” collection, but we’re wondering how people feel about the new designs. First previewed at The Android Show, the new “Noto 3D” collection completely redesigns all 3,977 characters away from the playful aesthetic that has been a signature for Google’s emoji design for the best part of 10 years. By adding physical depth and shifting away from flat graphics, the new Google 3D emoji library ends up looking a lot less cartoonish and a lot more like the emojis found on iOS and Samsung devices. While this uniformity will undoubtedly make cross-platform communication much easier to translate from phone to phone, I think that is it comes at the cost of Google’s unique software identity. There’s a little bit of character lost in this change but some of the OG stylings are still visible. That said, you only really see the emoji when you’re using a Pixel or on other phones when using first-party apps like Gboard, Google Messages, as other platforms default to the in-app style, or in the case of WhatsApp, the iOS style is adopted even on Android. The new designs will land on Pixel phones later this year with Android 17 before rolling out across all other Google products. There’s definitely a case for uniformity in emoji as when sending from device to device nothing can be lost in translation. It does hurt to see some of the best designs disappear. Emoji Kitchen is hopefully going to stick around as this is one of the most fun additions to Gboard in recent years. I’m 100% team blob turtle and I hope he hangs around in some form for long time to come. FTC: We use income earning auto affiliate links. More. Check out 9to5Google on YouTube for more news: Damien is a UK-based video producer for 9to5Google. Find him on Threads: @damienwildeyt Email: damien@9to5mac.com / secure email: damienwilde@protonmail.com Damien Wilde's favorite gear",
+        "content_preview_chars": 1980,
+        "rss_summary": "",
+        "full_article_text": "In the wake of World Emoji Day – yes, that is a thing – Google gave us some insight into why we’re switching over to the “Noto 3D” collection, but we’re wondering how people feel about the new designs. First previewed at The Android Show, the new “Noto 3D” collection completely redesigns all 3,977 characters away from the playful aesthetic that has been a signature for Google’s emoji design for the best part of 10 years. By adding physical depth and shifting away from flat graphics, the new Google 3D emoji library ends up looking a lot less cartoonish and a lot more like the emojis found on iOS and Samsung devices. While this uniformity will undoubtedly make cross-platform communication much easier to translate from phone to phone, I think that is it comes at the cost of Google’s unique software identity. There’s a little bit of character lost in this change but some of the OG stylings are still visible. That said, you only really see the emoji when you’re using a Pixel or on other phones when using first-party apps like Gboard, Google Messages, as other platforms default to the in-app style, or in the case of WhatsApp, the iOS style is adopted even on Android. The new designs will land on Pixel phones later this year with Android 17 before rolling out across all other Google products. There’s definitely a case for uniformity in emoji as when sending from device to device nothing can be lost in translation. It does hurt to see some of the best designs disappear. Emoji Kitchen is hopefully going to stick around as this is one of the most fun additions to Gboard in recent years. I’m 100% team blob turtle and I hope he hangs around in some form for long time to come. FTC: We use income earning auto affiliate links. More. Check out 9to5Google on YouTube for more news: Damien is a UK-based video producer for 9to5Google. Find him on Threads: @damienwildeyt Email: damien@9to5mac.com / secure email: damienwilde@protonmail.com Damien Wilde's favorite gear",
+        "full_article_text_chars": 1980,
+        "enrichment_status": "weak",
+        "source_url": "https://9to5google.com",
+        "source_published_at": "2026-07-20T13:00:00Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 11.99,
+        "trusted_references": [
+          {
+            "title": "google.com",
+            "url": "https://google.com/preferences/source?q=https%3A%2F%2F9to5google.com"
+          }
+        ],
+        "related_posts": []
+      }
     },
     {
       "id": "a0a5aafa57fdb017",
@@ -15332,6 +15519,708 @@
       "content_fetched_at": "2026-07-21T09:36:41",
       "enrichment_status": "weak",
       "content_fetch_status": "success"
+    },
+    {
+      "id": "37362e3ac253fc01",
+      "source_url_hash": "37362e3ac253fc01",
+      "canonical_url": "https://www.makeuseof.com/make-cheap-android-tablet-worth-using",
+      "title_hash": "ed43552555862345",
+      "topic_signature": "2f16cd53c34f10a972e7",
+      "title": "4 free apps that make a cheap Android tablet worth keeping",
+      "url": "https://www.makeuseof.com/make-cheap-android-tablet-worth-using",
+      "source_name": "MakeUseOf",
+      "source_url": "https://www.makeuseof.com",
+      "source_published_at": "2026-07-21T11:01:12Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.44,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-21T11:27:27",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 93,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 93,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "4 free apps that make a cheap Android tablet worth keeping",
+      "meta_description": "Free apps turn your tablet into expensive gadgets",
+      "article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/touch-portal-connection-qr-code.png?q=49&fit=contain&w=1922&h=1082&dpr=2",
+          "alt": "4 free apps that make a cheap Android tablet worth keeping",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2026/01/spacedesk.png?q=70&fit=contain&w=420&dpr=1",
+          "alt": "spacedesk",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/touch-portal-connection-qr-code.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "Touch Portal Connection QR Code",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/adding-item-to-touch-portal.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "Adding item to Touch Portal",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/touch-portal-connection-qr-code.png?q=49&fit=contain&w=1922&h=1082&dpr=2",
+      "main_image_source_type": "article_content",
+      "main_image_extraction_method": "article_content",
+      "extra_article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2026/01/spacedesk.png?q=70&fit=contain&w=420&dpr=1",
+          "alt": "spacedesk"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/touch-portal-connection-qr-code.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "Touch Portal Connection QR Code"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/adding-item-to-touch-portal.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "Adding item to Touch Portal"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Us",
+          "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+        }
+      ],
+      "full_article_text": "Tashreef's fascination with consumer technology began in the school library when he stumbled upon a tech magazine, CHIP, which ultimately inspired him to pursue a degree in Computer Science. Since 2012, Tashreef has professionally authored over a thousand how-to articles, contributing to Windows Report and How-To Geek. He currently focuses on Microsoft Windows content at MakeUseOf, which he has been using since 2007. With hands-on experience building websites and technology blogs, he brings practical developer insights to his technical writing. You can view his complete work portfolio at itashreef.com. You might also stumble upon his short how-to video explainers, simplifying complex topics. Beyond writing, Tashreef enjoys creating short explainer videos, gaming, and exploring animated shows. Tablets are a great way to watch movies and play games on the go. You could do the same on your phone, but the screen is too small to enjoy much of anything. When I upgraded to a tablet with better specs, though, my cheap Android tablet stopped finding a place in my backpack. It was still working perfectly, so instead of letting it collect dust, I dug it out and found ways to give it a new life. Four free apps later, each one has saved me from buying another piece of hardware. Turn your tablet into a digital photo frame A photo frame on your desk or living room shelf adds a nice personal touch. A digital photo frame that cycles through your favorite memories is even better. But a decent one with a 10-inch HD display runs anywhere from $60 to $80. My old tablet already has a higher resolution screen, touch input, and more storage than most dedicated frames, so it was not difficult to see the use case here. The missing piece, however, was an app that could loop customizable slideshows from my gallery, and that's where Fotoo comes in. It's a freemium Android app that turns your tablet or TV into a digital photo frame. You can pull photos from cloud storage like Google Photos, Dropbox, and OneDrive, or just use the images already on your tablet. The free version limits you to a single pan-style transition, which works but isn't the prettiest. The premium upgrade unlocks over 15 transition effects, non-stop slideshows, and a date and time overlay that gives the whole setup an authentic photo frame look. You can even schedule the app to auto-start and set a timer to save battery. For what it costs, the upgrade is worth considering if you plan to leave the tablet on your desk full-time. Fotoo turns your old tablet, phone, or TV into a beautiful digital photo frame and slideshow player, streaming pictures from your gallery or cloud with music, transitions, and weather/time overlays. Use your tablet as a second screen for your PC If you have a 10-inch or larger tablet, Spacedesk can turn it into a second monitor for your Windows PC. There's no hard screen size requirement, but a secondary display still needs enough real estate to be useful, and anything smaller than 10 inches starts to feel cramped. Install the Spacedesk driver on your Windows machine and the free viewer app on your tablet. Connect both devices to the same Wi-Fi network, and the tablet will automatically detect your PC. From Windows Display Settings , set the new display to Extend and drag it to match where your tablet is sitting. That's it. In practice, tapping the tablet screen interacts with whatever Windows window is showing on it. It's not mouse-level precise, but for scrolling through a reference page or tapping a link, it works well enough. For productivity tasks like keeping Slack or a document open on the side, the experience feels like sitting at a dual-monitor setup, just smaller. The catch is that performance depends heavily on your Wi-Fi. On a stable home network, the lag is barely noticeable. On a busy or weak connection, you'll see stutters and compression artifacts, especially with video. It's best suited for static content like documents and chat apps rather than media playback. If you're looking for an alternative, GlideX by ASUS does the same thing and adds support for wired USB connections, which can help with stability. SpaceDesk is a free app that turns any Android, iOS, or Windows device into a wireless second monitor for your Windows PC. It works over Wi-Fi or USB, requires no account or subscription, and takes about ten minutes to set up. Useful if you already own a tablet and want more screen real estate without buying dedicated hardware. A free Stream Deck-like macro controller image credit - self captured (Tashreef Shareef) - No Attribution Required One app that has saved me at least $140 in the last year is Touch Portal . I'd been eyeing an Elgato Stream Deck for months, mostly for productivity rather than streaming. But before pulling the trigger, I figured I'd see if my tablet could do the same thing, and Touch Portal turned out to be exactly what I needed. It's a free app that turns your phone or tablet into a customizable control surface. You install a companion desktop app on your PC, pair both devices over Wi-Fi, and then build pages of tappable buttons that can launch apps, trigger keyboard shortcuts, or run multi-step macros. Think of it as a software Stream Deck without the dedicated hardware. Setting up Touch Portal isn't the most intuitive process, though. You need to pair the devices by scanning a QR code from the desktop app, then click empty button slots to assign actions. For a basic app launcher setup, select Launch Apps & Games in the button editor, pick your app, and assign an icon. The IKON pack from Touch Portal's asset store gives your buttons a polished, Stream Deck-like look. The free version limits you to a 4x2 grid and two pages, which is enough for a basic productivity layout. My setup has buttons for Slack, Spotify, my browser, file manager, and a few apps I use daily. The Pro upgrade is a one-time $13.99 purchase that offers unlimited pages and up to 110 buttons that you can customize. For my needs, the free version does everything I want, though I wish background color customization weren't locked behind the paywall. Touch Portal turns your phone or tablet into a highly customizable macro control deck, letting you trigger shortcuts, multi-action macros, and integrate with streaming, editing, and automation tools to boost workflow efficiency. Your old tablet as a dedicated e-book reader An old Android tablet makes a better e-reader than you'd think. I never considered mine for reading until I realized it had one advantage over my phone: a screen large enough to read comfortably without constant zooming and scrolling. And unlike a Kindle, it isn't locked into a single ecosystem. Libby is what makes this work. It's a free app by OverDrive that connects to your local public library, giving you access to thousands of e-books, audiobooks, and magazines. All you need is a library card. There are no subscription fees, no late fees, and borrowed titles return themselves automatically when the lending period ends. What I like about using Libby on a tablet instead of a phone is the reading experience. Text is large enough to read without strain, and you can adjust fonts, margins, and background color to suit your preference. If you're into manga or graphic novels, a tablet is noticeably better than an e-reader because you get full color and faster page rendering. The one downside compared to a dedicated e-reader is screen fatigue. E-ink displays are easier on the eyes during long reading sessions. If you read for hours at a stretch, you'll feel the difference. But for shorter sessions or mixed-media reading like magazines and comics, the tablet holds its own. Libby is a free app from OverDrive that gives you instant access to thousands of ebooks, audiobooks, and magazines from your local public library: no subscription fees, no late fees, ever. Download the app, sign in with your library card, and start borrowing titles immediately. Free apps to make your tablet useful again These apps can breathe new life into your old tablets, devices that often get sidelined not because the hardware is bad, but because the manufacturer has stopped releasing software updates. They can even replace a gadget you were planning to purchase, so you might save some money, all for free.",
+      "full_article_text_chars": 8315,
+      "content_preview": "Tashreef's fascination with consumer technology began in the school library when he stumbled upon a tech magazine, CHIP, which ultimately inspired him to pursue a degree in Computer Science. Since 2012, Tashreef has professionally authored over a thousand how-to articles, contributing to Windows Report and How-To Geek. He currently focuses on Microsoft Windows content at MakeUseOf, which he has been using since 2007. With hands-on experience building websites and technology blogs, he brings practical developer insights to his technical writing. You can view his complete work portfolio at itashreef.com. You might also stumble upon his short how-to video explainers, simplifying complex topics. Beyond writing, Tashreef enjoys creating short explainer videos, gaming, and exploring animated shows. Tablets are a great way to watch movies and play games on the go. You could do the same on your phone, but the screen is too small to enjoy much of anything. When I upgraded to a tablet with better specs, though, my cheap Android tablet stopped finding a place in my backpack. It was still working perfectly, so instead of letting it collect dust, I dug it out and found ways to give it a new life. Four free apps later, each one has saved me from buying another piece of hardware. Turn your tablet into a digital photo frame A photo frame on your desk or living room shelf adds a nice personal touch. A digital photo frame that cycles through your favorite memories is even better. But a decent one with a 10-inch HD display runs anywhere from $60 to $80. My old tablet already has a higher resolution screen, touch input, and more storage than most dedicated frames, so it was not difficult to see the use case here. The missing piece, however, was an app that could loop customizable slideshows from my gallery, and that's where Fotoo comes in. It's a freemium Android app that turns your tablet or TV into a digital photo frame. You can pull photos from cloud storage like Google Photos, Dropbox, and OneDrive, or just use the images already on your tablet. The free version limits you to a single pan-style transition, which works but isn't the prettiest. The premium upgrade unlocks over 15 transition effects, non-stop slideshows, and a date and time overlay that gives the whole setup an authentic photo frame look. You can even schedule the app to auto-start and set a timer to save battery. For what it costs, the upgrade is worth considering if you plan to leave the tablet on your desk full-time. Fotoo turns your old tablet, phone, or TV into a beautiful digital photo frame and slideshow player, streaming pictures from your gallery or cloud with music, transitions, and weather/time overlays. Use your tablet as a second screen for your PC If you have a 10-inch or larger tablet, Spacedesk can turn it into a second monitor for your Windows PC. There's no hard screen size requirement, but a secondary display still needs enough real estate to be useful, and anything smaller than 10 inches starts to feel cramped. Install the Spacedesk driver on your Windows machine and the free viewer app on your tablet. Connect both devices to the same Wi-Fi network, and the tablet will automatically detect your PC. From Windows Display Settings , set the new display to Extend and drag it to match where your tablet is sitting. That's it. In practice, tapping the tablet screen interacts with whatever Windows window is showing on it. It's not mouse-level precise, but for scrolling through a reference page or tapping a link, it works well enough. For productivity tasks like keeping Slack or a document open on the side, the experience feels like sitting at a dual-monitor setup, just smaller. The catch is that performance depends heavily on your Wi-Fi. On a stable home network, the lag is barely noticeable. On a busy or weak connection, you'll see stutters and compression artifacts, especially with video. It's best suited for static content like documents and chat apps rather than media playback. If you're looking for an alternative, GlideX by ASUS does the same thing and adds support for wired USB connections, which can help with stability. SpaceDesk is a free app that turns any Android, iOS, or Windows device into a wireless second monitor for your Windows PC. It works over Wi-Fi or USB, requires no account or subscription, and takes about ten minutes to set up. Useful if you already own a tablet and want more screen real estate without buying dedicated hardware. A free Stream Deck-like macro controller image credit - self captured (Tashreef Shareef) - No Attribution Required One app that has saved me at least $140 in the last year is Touch Portal . I'd been eyeing an Elgato Stream Deck for months, mostly for productivity rather than streaming. But before pulling the trigger, I figured I'd see if my tablet could do the same thing, and Touch Portal turned out to be exactly what I needed. It's a free app that turns your phone or tablet into a customizable control surface. You install a companion desktop app on your PC, pair both devices over Wi-Fi, and then build pages of tappable buttons that can launch apps, trigger keyboard shortcuts, or run multi-step macros. Think of it as a software Stream Deck without the dedicated hardware. Setting up Touch Portal isn't the most intuitive process, though. You need to pair the devices by scanning a QR code from the desktop app, then click empty button slots to assign actions. For a basic app launcher setup, select Launch Apps & Games in the button editor, pick your app, and assign an icon. The IKON pack from Touch Portal's asset store gives your buttons a polished, Stream Deck-like look. The free version limits you to a 4x2 grid and two pages, which is enough for a basic productivity layout. My setup has buttons for Slack, Spotify, my browser, file manager, and a few apps I use daily. The Pro upgrade is a one-time $13.99 purchase that offers unlimited pages and up to 110 buttons that you can customize. For my needs, the free version does everything I want, though I wish background color customization weren't locked behind the paywall. Touch Portal turns your phone or tablet into a highly customizable macro control deck, letting you trigger shortcuts, multi-action macros, and integrate with streaming, editing, and automation tools to boost workflow efficiency. Your old tablet as a dedicated e-book reader An old Android tablet makes a better e-reader than you'd think. I never considered mine for reading until I realized it had one advantage over my phone: a screen large enough to read comfortably without constant zooming and scrolling. And unlike a Kindle, it isn't locked into a single ecosystem. Libby is what makes this work. It's a free app by OverDrive that connects to your local public library, giving you access to thousands of e-books, audiobooks, and magazines. All you need is a library card. There are no subscription fees, no late fees, and borrowed titles return themselves automatically when the lending period ends. What I like about using Libby on a tablet instead of a phone is the reading experience. Text is large enough to read without strain, and you can adjust fonts, margins, and background color to suit your preference. If you're into manga or graphic novels, a tablet is noticeably better than an e-reader because you get full color and faster page rendering. The one downside compared to a dedicated e-reader is screen fatigue. E-ink displays are easier on the eyes during long reading sessions. If you read for hours at a stretch, you'll feel the difference. But for shorter sessions or mixed-media reading like magazines and comics, the tablet holds its own. Libby is a free app from OverDrive that gives you instant access to thousands of ebooks, audiobooks, and magazines from your local public library: no subscription fees, no late fees, ever. Download the app, sign in with your library card, and start borrowing titles immediately. Free apps to make your tablet useful again These apps can breathe new life into your old tablets, devices that often get sidelined not because the hardware is bad, but because the manufacturer has stopped releasing software updates. They can even replace a gadget you were planning to purchase, so you might save some money, all for free.",
+      "content_preview_chars": 8315,
+      "content_fetched_at": "2026-07-21T11:27:38",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "b3b3a6e2cf9c84b4",
+      "source_url_hash": "b3b3a6e2cf9c84b4",
+      "canonical_url": "https://www.howtogeek.com/dewalts-battery-lineup-has-a-compatibility-trap-most-buyers-miss",
+      "title_hash": "7e8f84fdf2d35d00",
+      "topic_signature": "5bf0f44d3615980d316d",
+      "title": "DeWalt's battery lineup has a compatibility trap most buyers miss",
+      "url": "https://www.howtogeek.com/dewalts-battery-lineup-has-a-compatibility-trap-most-buyers-miss",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-07-21T11:00:13Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.45,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-21T11:27:27",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 106,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 106,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "DeWalt's battery lineup has a compatibility trap most buyers miss",
+      "meta_description": "DeWalt's ecosystem lock-in works exactly like this, and most buyers don't see it coming.",
+      "article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/dewalt-20v-max-battery-powered-impact-driver.jpg?w=1600&h=900&fit=crop",
+          "alt": "DeWalt's battery lineup has a compatibility trap most buyers miss",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/dewalt-20v-max-battery-powered-impact-driver.jpg?&fit=crop&w=1600&h=900",
+          "alt": "DeWALT 20V MAX battery-powered impact driver.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/05/dewalt-tire-inflator.jpg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "DeWALT tire inflator on a tailgate",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/05/dewalt-drywall-cut-tool.jpg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "DeWALT drywall cut tool",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/dewalt-20v-max-battery-powered-impact-driver.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/dewalt-20v-max-battery-powered-impact-driver.jpg?&fit=crop&w=1600&h=900",
+          "alt": "DeWALT 20V MAX battery-powered impact driver."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/05/dewalt-tire-inflator.jpg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "DeWALT tire inflator on a tailgate"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/05/dewalt-drywall-cut-tool.jpg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "DeWALT drywall cut tool"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Us",
+          "url": "https://www.google.com/preferences/source?q=howtogeek.com"
+        }
+      ],
+      "full_article_text": "Buying into a tool ecosystem is supposed to mean your gear works together. That's the whole point of sticking with one brand. DeWalt has leaned hard on that idea with FlexVolt. Unfortunately, it does come with a lot of stipulations, and it can feel like a trap if you don't know any better. While I like DeWalt, and they can be budget friendly, I think it could be clearer in its marketing for its batteries. DeWalt doesn't make it clear that your batteries don't work together The compatibility only goes one way The FlexVolt battery platform from DeWalt was made to cut the cord on heavy-duty job site tools, and it worked well with the 20V MAX tools people already owned. That backward compatibility was the whole pitch. The idea was that you wouldn't have to throw out your existing investment to step up to a more powerful system. One battery ecosystem, and that sounds awesome for buyers. That promise did its job. It made people comfortable buying in because they believed their 20V MAX batteries weren't going anywhere. Unfortunately, the compatibility only runs in one direction. A FlexVolt 60V battery will drop right into a 20V MAX tool without issue, but not the other way around. DeWalt physically molds plastic tabs into the battery slots of its 60V tools that stop a 20V MAX pack from even sliding in. It's not a software limitation or a firmware lock; there's literally a piece of plastic in there specifically designed to block it. This becomes a real problem when you buy bare tools. Bare tools are sold without a battery or charger, and they make sense when you already have compatible batteries sitting on the shelf. If you buy a 60V FlexVolt chainsaw or circular saw and assume your 20V MAX packs will run it, you won't find out otherwise until you're standing there with the box open. At that point, you're looking at spending another $150 to $250 per battery. That's before you think about a compatible charger like the DCB118, just to use the tool you already bought. The whole setup where one 60V bare tool quietly forces you into buying an entirely new battery system is exactly how ecosystem lock-in works in practice. The original marketing never lied outright, but it could be interpreted as leaving people with the impression of a shared platform that doesn't really exist the moment you try to run a 60V tool on a 20V battery. FlexVolt batteries change how they work depending on the tool Regular batteries do not have the parts to run bigger tools A standard 20V MAX pack uses five lithium-ion cells wired in series . A FlexVolt pack is a much bigger animal because it contains 15 cells , split into three groups of five. What makes the FlexVolt clever is a spring-loaded mechanical slider built into the battery itself. When you drop a FlexVolt pack into a regular 20V tool, actuators inside the tool’s slot mechanically press the switch. This forces the three cell groups to wire in parallel. The battery outputs 20V, the same as any standard pack, but with three times the capacity. This is why you can throw a big FlexVolt battery onto a regular drill and run it all day. When that same battery goes into a 60V FlexVolt tool, things work differently. The 60V tool leaves that switch alone, so the battery can stay in its default state where the cell groups can be wired in series, which stacks the voltages and delivers 60V to the motor. The tool also has copper bridging terminals that connect the cell groups to complete the circuit. A standard 20V pack just can't do any of this. It doesn't have 15 cells, so it can't give you 60V no matter how it's wired. It has no internal switching mechanism. And it doesn't have the terminal layout that a 60V tool needs to function. That's why the plastic tab is there. The extra power needs a different kind of battery to stay safe You end up stuck buying expensive batteries or managing two systems The engineering side of the argument is hard to dispute. Running an 1800-watt tool on a standard 18- or 20-volt battery would mean pulling around 100 amps of continuous current, and that's just not practical. You'd need wiring so thick it would barely fit inside the tool; the heat generated would be enormous, and your battery cells would burn out fast. Bumping up to the 60V MAX platform drops that draw, so it is more manageable. Less current means less heat, less wear, and motors that can actually run the way they're supposed to. The physical key that stops a 20V battery from going into a 60V tool isn't difficult. It's there because plugging the wrong battery in could cause a serious failure. If you're thinking about going deeper into this ecosystem, it's worth knowing what you're actually signing up for. The batteries can be pricey, but the weight adds up with the design, too. You can technically throw one of these into a compact drill or impact driver, but it throws off the balance badly, and your arm will feel it after an hour, especially when working overhead. The bottom line is you're choosing between two less-than-ideal options. You either get to spend the money to standardize everything on FlexVolt batteries or live with two separate battery systems that don't talk to each other. Don't fall for the Dewalt Trap None of this makes DeWalt a bad choice. The FlexVolt platform is genuinely well-engineered. It was not invented to push you toward a more expensive battery. If you're buying into 60V tools, go in knowing you're committing to a separate battery system with expensive batteries. If you're okay with that, go all in on it. Get two DeWALT 20V MAX battery packs and a charger for one low price. And for a limited time, Home Depot will give you free tools when you buy this kit.",
+      "full_article_text_chars": 5690,
+      "content_preview": "Buying into a tool ecosystem is supposed to mean your gear works together. That's the whole point of sticking with one brand. DeWalt has leaned hard on that idea with FlexVolt. Unfortunately, it does come with a lot of stipulations, and it can feel like a trap if you don't know any better. While I like DeWalt, and they can be budget friendly, I think it could be clearer in its marketing for its batteries. DeWalt doesn't make it clear that your batteries don't work together The compatibility only goes one way The FlexVolt battery platform from DeWalt was made to cut the cord on heavy-duty job site tools, and it worked well with the 20V MAX tools people already owned. That backward compatibility was the whole pitch. The idea was that you wouldn't have to throw out your existing investment to step up to a more powerful system. One battery ecosystem, and that sounds awesome for buyers. That promise did its job. It made people comfortable buying in because they believed their 20V MAX batteries weren't going anywhere. Unfortunately, the compatibility only runs in one direction. A FlexVolt 60V battery will drop right into a 20V MAX tool without issue, but not the other way around. DeWalt physically molds plastic tabs into the battery slots of its 60V tools that stop a 20V MAX pack from even sliding in. It's not a software limitation or a firmware lock; there's literally a piece of plastic in there specifically designed to block it. This becomes a real problem when you buy bare tools. Bare tools are sold without a battery or charger, and they make sense when you already have compatible batteries sitting on the shelf. If you buy a 60V FlexVolt chainsaw or circular saw and assume your 20V MAX packs will run it, you won't find out otherwise until you're standing there with the box open. At that point, you're looking at spending another $150 to $250 per battery. That's before you think about a compatible charger like the DCB118, just to use the tool you already bought. The whole setup where one 60V bare tool quietly forces you into buying an entirely new battery system is exactly how ecosystem lock-in works in practice. The original marketing never lied outright, but it could be interpreted as leaving people with the impression of a shared platform that doesn't really exist the moment you try to run a 60V tool on a 20V battery. FlexVolt batteries change how they work depending on the tool Regular batteries do not have the parts to run bigger tools A standard 20V MAX pack uses five lithium-ion cells wired in series . A FlexVolt pack is a much bigger animal because it contains 15 cells , split into three groups of five. What makes the FlexVolt clever is a spring-loaded mechanical slider built into the battery itself. When you drop a FlexVolt pack into a regular 20V tool, actuators inside the tool’s slot mechanically press the switch. This forces the three cell groups to wire in parallel. The battery outputs 20V, the same as any standard pack, but with three times the capacity. This is why you can throw a big FlexVolt battery onto a regular drill and run it all day. When that same battery goes into a 60V FlexVolt tool, things work differently. The 60V tool leaves that switch alone, so the battery can stay in its default state where the cell groups can be wired in series, which stacks the voltages and delivers 60V to the motor. The tool also has copper bridging terminals that connect the cell groups to complete the circuit. A standard 20V pack just can't do any of this. It doesn't have 15 cells, so it can't give you 60V no matter how it's wired. It has no internal switching mechanism. And it doesn't have the terminal layout that a 60V tool needs to function. That's why the plastic tab is there. The extra power needs a different kind of battery to stay safe You end up stuck buying expensive batteries or managing two systems The engineering side of the argument is hard to dispute. Running an 1800-watt tool on a standard 18- or 20-volt battery would mean pulling around 100 amps of continuous current, and that's just not practical. You'd need wiring so thick it would barely fit inside the tool; the heat generated would be enormous, and your battery cells would burn out fast. Bumping up to the 60V MAX platform drops that draw, so it is more manageable. Less current means less heat, less wear, and motors that can actually run the way they're supposed to. The physical key that stops a 20V battery from going into a 60V tool isn't difficult. It's there because plugging the wrong battery in could cause a serious failure. If you're thinking about going deeper into this ecosystem, it's worth knowing what you're actually signing up for. The batteries can be pricey, but the weight adds up with the design, too. You can technically throw one of these into a compact drill or impact driver, but it throws off the balance badly, and your arm will feel it after an hour, especially when working overhead. The bottom line is you're choosing between two less-than-ideal options. You either get to spend the money to standardize everything on FlexVolt batteries or live with two separate battery systems that don't talk to each other. Don't fall for the Dewalt Trap None of this makes DeWalt a bad choice. The FlexVolt platform is genuinely well-engineered. It was not invented to push you toward a more expensive battery. If you're buying into 60V tools, go in knowing you're committing to a separate battery system with expensive batteries. If you're okay with that, go all in on it. Get two DeWALT 20V MAX battery packs and a charger for one low price. And for a limited time, Home Depot will give you free tools when you buy this kit.",
+      "content_preview_chars": 5690,
+      "content_fetched_at": "2026-07-21T11:27:41",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "9947d06e6cd97ca5",
+      "source_url_hash": "9947d06e6cd97ca5",
+      "canonical_url": "https://www.howtogeek.com/microsoft-excel-overlooked-image-function-spreadsheets-like-apps",
+      "title_hash": "037b11108c3db8d8",
+      "topic_signature": "8bd60f8fdb1713bd5581",
+      "title": "I use this overlooked Excel function to turn my boring worksheets into lightweight apps",
+      "url": "https://www.howtogeek.com/microsoft-excel-overlooked-image-function-spreadsheets-like-apps",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-07-21T10:30:15Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.95,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-21T11:27:27",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 112,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 112,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "I use this overlooked Excel function to turn my boring worksheets into lightweight apps",
+      "meta_description": "Combining IMAGE with a handful of familiar Excel features unlocked interactive tools I never expected to build.",
+      "article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/laptop-screen-showing-an-excel-worksheet-with-an-image-of-a-tablet-in-a-product-preview.jpg?w=1600&h=900&fit=crop",
+          "alt": "I use this overlooked Excel function to turn my boring worksheets into lightweight apps",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/laptop-screen-showing-an-excel-worksheet-with-an-image-of-a-tablet-in-a-product-preview.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Laptop screen showing an Excel worksheet with an image of a tablet in a product preview.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/a-dropbox-link-in-cell-a1-of-an-otherwise-blank-excel-workbook.png?q=70&fit=contain&w=750&h=422&dpr=1",
+          "alt": "A Dropbox link in cell A1 of an otherwise blank Excel workbook.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/the-beginning-of-an-image-formula-is-typed-into-cell-b1-of-an-excel-worksheet-with-the-intellisense-displaying-the-arguments.png?q=70&fit=contain&w=750&h=422&dpr=1",
+          "alt": "The beginning of an IMAGE formula is typed into cell B1 of an Excel worksheet, with the IntelliSense displaying the arguments.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/laptop-screen-showing-an-excel-worksheet-with-an-image-of-a-tablet-in-a-product-preview.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/laptop-screen-showing-an-excel-worksheet-with-an-image-of-a-tablet-in-a-product-preview.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Laptop screen showing an Excel worksheet with an image of a tablet in a product preview."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/a-dropbox-link-in-cell-a1-of-an-otherwise-blank-excel-workbook.png?q=70&fit=contain&w=750&h=422&dpr=1",
+          "alt": "A Dropbox link in cell A1 of an otherwise blank Excel workbook."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/the-beginning-of-an-image-formula-is-typed-into-cell-b1-of-an-excel-worksheet-with-the-intellisense-displaying-the-arguments.png?q=70&fit=contain&w=750&h=422&dpr=1",
+          "alt": "The beginning of an IMAGE formula is typed into cell B1 of an Excel worksheet, with the IntelliSense displaying the arguments."
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Us",
+          "url": "https://www.google.com/preferences/source?q=howtogeek.com"
+        },
+        {
+          "title": "$100 at Microsoft",
+          "url": "https://www.microsoft.com/en-us/microsoft-365/p/microsoft-365-personal/cfq7ttc0k5bf"
+        },
+        {
+          "title": "ENCODEURL",
+          "url": "https://support.microsoft.com/en-us/excel/functions/encodeurl-function"
+        }
+      ],
+      "full_article_text": "Excel isn't known for being pretty, but the overlooked IMAGE function changes that. I'd used the IMAGE function before for simple visuals, but I wanted to see how far it could go. So I put it to the test by building a couple of interactive tools, and by the end, my spreadsheets felt more like apps than worksheets. IMAGE is more powerful than it looks One argument does the heavy lifting The setup turned out to be much easier than I expected. At its core, the IMAGE function lets Excel display an image inside a cell using a direct image URL. It includes five arguments: =IMAGE(source, [alt_text], [sizing], [height], [width]) However, for these experiments, I only needed the first argument. I didn't need the optional alt_text argument because the focus was on building a visual interface. And for the sizing arguments, since Excel automatically scales the image to fit the cell, this default behavior worked well for the tools I wanted to build. The main limitation is that IMAGE depends on external URLs. If an image is moved, deleted, or locked behind a sign-in page, Excel won't be able to retrieve it. Since each image is retrieved from a web address, using lots of high-resolution images may make larger workbooks slower to load. For the small, focused tools I built, however, any performance impact was negligible. The other thing is that IMAGE is only available in newer versions of Excel, including Microsoft 365, Excel 2024, and the mobile app. Since I was using Excel for Microsoft 365 on my Windows PC, I knew it could handle everything I wanted to test. Microsoft 365 includes access to Office apps like Word, Excel, and PowerPoint on up to five devices, 1 TB of OneDrive storage, and more. I turned a boring drop-down into a visual picker My first test made Excel feel interactive I started with a simple question: could I replace a standard, text-only product list with something more visual? Rather than reading through a list of items and imagining what each one looks like, I wanted the spreadsheet to display the image automatically. I began by creating an Excel table named \"Products,\" with columns for the product name, image URL, and image. I uploaded my product photos to Dropbox and pasted the links into the Image URL column, expecting =IMAGE([@[Image URL]]) to display them immediately. Instead, the formula returned a #VALUE! error. It turned out IMAGE needs a direct link to the image itself, not a Dropbox preview page. Replacing dl=0 with raw=1 in each URL converted the links into direct image sources that Excel could retrieve. Once I'd made that change, the formula instantly transformed the table into a visual product catalog. I was now ready to build a separate table, named \"Picker,\" with a data validation drop-down list that displayed the matching image when I selected an item. To do this, I created a named range for the product column in the Products table so the drop-down list would expand as I added new items. Then, in my Picker table, I entered: =IMAGE(XLOOKUP([@Product],Products[Product],Products[Image URL])) This worked when a product was selected, but the empty dashboard initially returned an #N/A error. To handle that empty state, I wrapped the formula inside IFERROR and added a custom \"Select product\" message to appear in the drop-down cell if the selection cell was empty: =IFERROR(IMAGE(XLOOKUP([@Product],Products[Product],Products[Image URL])),\"Select product\") The final step was making it feel less like a spreadsheet. I added a large \"Product Preview\" title, hid the gridlines and headings, added buffer space around the layout, and resized the cells to create a cleaner interface. These small changes completely changed how the worksheet felt. Instead of looking like a spreadsheet with pictures, it felt more like a lightweight app. Now that I know what the IMAGE function can do, I can see myself using this approach anywhere an image communicates more than a text label—from product catalogs and inventory systems to equipment trackers and internal dashboards. I built a QR code generator inside Excel A simple API made it possible For my second tool, I wanted to see whether Excel could generate QR codes that updated automatically alongside my data. Creating a one-off QR code is easy enough, but keeping it synchronized with changing information usually means creating a new image each time. I wanted something that behaved like a live part of the spreadsheet. To make this work, I combined the IMAGE and ENCODEURL functions with a free QR code generator API . The service creates a QR code from whatever information is added to the data parameter in its URL, while ENCODEURL handles the formatting behind the scenes by converting spaces and special characters into a format the service can read correctly. With the text I wanted to encode stored in cell A2, the formula looked like this: =IMAGE(\"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=\"&ENCODEURL(A2)) The part I found most interesting was how naturally the QR code fit into the worksheet—it became part of the spreadsheet itself, changing instantly whenever the source cell changed. I was also surprised by how little the QR code cared about the source data. It doesn't have to contain a web address—it can hold almost any text. A phone number can generate a contact QR code, a URL can provide a quick link to a website or document, and even a search term can serve as a shortcut for finding information. The main consideration was deciding what information to send through the external API. Because the QR code is generated online, Excel sends the cell contents to that service as part of the request. For things like inventory labels, Wi-Fi sharing sheets, and document links, this approach is practical, but sensitive data would require more thought. After increasing the row height and column width, the QR code became much easier to scan. But where this tool became truly valuable was in being able to take that automatically generated QR code and use it elsewhere. By copying the generated image, pasting it as a value, and using Excel's Place over Cells option, I could separate the QR code from the worksheet layout, then save it as a picture or paste it into another worksheet or program. This meant Excel was not just creating QR codes inside a spreadsheet—it was giving me a quick way to generate reusable ones whenever I needed them. The biggest takeaway was that I didn't need VBA, add-ins, or complicated tools. Everything came from one underused function working alongside features already built into Excel. More than anything, it reminded me that getting more out of Excel isn't always about mastering its most advanced features. Sometimes it's the functions you've overlooked that have the most to offer. I found the same thing when I discovered how combining FILTER, UNIQUE, and SORTBY in a single cell could transform the way I organized data—proving that a few simple features can go much further than you'd expect.",
+      "full_article_text_chars": 6986,
+      "content_preview": "Excel isn't known for being pretty, but the overlooked IMAGE function changes that. I'd used the IMAGE function before for simple visuals, but I wanted to see how far it could go. So I put it to the test by building a couple of interactive tools, and by the end, my spreadsheets felt more like apps than worksheets. IMAGE is more powerful than it looks One argument does the heavy lifting The setup turned out to be much easier than I expected. At its core, the IMAGE function lets Excel display an image inside a cell using a direct image URL. It includes five arguments: =IMAGE(source, [alt_text], [sizing], [height], [width]) However, for these experiments, I only needed the first argument. I didn't need the optional alt_text argument because the focus was on building a visual interface. And for the sizing arguments, since Excel automatically scales the image to fit the cell, this default behavior worked well for the tools I wanted to build. The main limitation is that IMAGE depends on external URLs. If an image is moved, deleted, or locked behind a sign-in page, Excel won't be able to retrieve it. Since each image is retrieved from a web address, using lots of high-resolution images may make larger workbooks slower to load. For the small, focused tools I built, however, any performance impact was negligible. The other thing is that IMAGE is only available in newer versions of Excel, including Microsoft 365, Excel 2024, and the mobile app. Since I was using Excel for Microsoft 365 on my Windows PC, I knew it could handle everything I wanted to test. Microsoft 365 includes access to Office apps like Word, Excel, and PowerPoint on up to five devices, 1 TB of OneDrive storage, and more. I turned a boring drop-down into a visual picker My first test made Excel feel interactive I started with a simple question: could I replace a standard, text-only product list with something more visual? Rather than reading through a list of items and imagining what each one looks like, I wanted the spreadsheet to display the image automatically. I began by creating an Excel table named \"Products,\" with columns for the product name, image URL, and image. I uploaded my product photos to Dropbox and pasted the links into the Image URL column, expecting =IMAGE([@[Image URL]]) to display them immediately. Instead, the formula returned a #VALUE! error. It turned out IMAGE needs a direct link to the image itself, not a Dropbox preview page. Replacing dl=0 with raw=1 in each URL converted the links into direct image sources that Excel could retrieve. Once I'd made that change, the formula instantly transformed the table into a visual product catalog. I was now ready to build a separate table, named \"Picker,\" with a data validation drop-down list that displayed the matching image when I selected an item. To do this, I created a named range for the product column in the Products table so the drop-down list would expand as I added new items. Then, in my Picker table, I entered: =IMAGE(XLOOKUP([@Product],Products[Product],Products[Image URL])) This worked when a product was selected, but the empty dashboard initially returned an #N/A error. To handle that empty state, I wrapped the formula inside IFERROR and added a custom \"Select product\" message to appear in the drop-down cell if the selection cell was empty: =IFERROR(IMAGE(XLOOKUP([@Product],Products[Product],Products[Image URL])),\"Select product\") The final step was making it feel less like a spreadsheet. I added a large \"Product Preview\" title, hid the gridlines and headings, added buffer space around the layout, and resized the cells to create a cleaner interface. These small changes completely changed how the worksheet felt. Instead of looking like a spreadsheet with pictures, it felt more like a lightweight app. Now that I know what the IMAGE function can do, I can see myself using this approach anywhere an image communicates more than a text label—from product catalogs and inventory systems to equipment trackers and internal dashboards. I built a QR code generator inside Excel A simple API made it possible For my second tool, I wanted to see whether Excel could generate QR codes that updated automatically alongside my data. Creating a one-off QR code is easy enough, but keeping it synchronized with changing information usually means creating a new image each time. I wanted something that behaved like a live part of the spreadsheet. To make this work, I combined the IMAGE and ENCODEURL functions with a free QR code generator API . The service creates a QR code from whatever information is added to the data parameter in its URL, while ENCODEURL handles the formatting behind the scenes by converting spaces and special characters into a format the service can read correctly. With the text I wanted to encode stored in cell A2, the formula looked like this: =IMAGE(\"https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=\"&ENCODEURL(A2)) The part I found most interesting was how naturally the QR code fit into the worksheet—it became part of the spreadsheet itself, changing instantly whenever the source cell changed. I was also surprised by how little the QR code cared about the source data. It doesn't have to contain a web address—it can hold almost any text. A phone number can generate a contact QR code, a URL can provide a quick link to a website or document, and even a search term can serve as a shortcut for finding information. The main consideration was deciding what information to send through the external API. Because the QR code is generated online, Excel sends the cell contents to that service as part of the request. For things like inventory labels, Wi-Fi sharing sheets, and document links, this approach is practical, but sensitive data would require more thought. After increasing the row height and column width, the QR code became much easier to scan. But where this tool became truly valuable was in being able to take that automatically generated QR code and use it elsewhere. By copying the generated image, pasting it as a value, and using Excel's Place over Cells option, I could separate the QR code from the worksheet layout, then save it as a picture or paste it into another worksheet or program. This meant Excel was not just creating QR codes inside a spreadsheet—it was giving me a quick way to generate reusable ones whenever I needed them. The biggest takeaway was that I didn't need VBA, add-ins, or complicated tools. Everything came from one underused function working alongside features already built into Excel. More than anything, it reminded me that getting more out of Excel isn't always about mastering its most advanced features. Sometimes it's the functions you've overlooked that have the most to offer. I found the same thing when I discovered how combining FILTER, UNIQUE, and SORTBY in a single cell could transform the way I organized data—proving that a few simple features can go much further than you'd expect.",
+      "content_preview_chars": 6986,
+      "content_fetched_at": "2026-07-21T11:27:44",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "5a6c96b450aa836a",
+      "source_url_hash": "5a6c96b450aa836a",
+      "canonical_url": "https://www.makeuseof.com/i-replaced-paid-windows-apps-with-built-in-free-features",
+      "title_hash": "f493dd232a17ea77",
+      "topic_signature": "4dfa8dff01d855faa318",
+      "title": "Windows finally has 3 built-in features that make expensive third-party apps pointless",
+      "url": "https://www.makeuseof.com/i-replaced-paid-windows-apps-with-built-in-free-features",
+      "source_name": "MakeUseOf",
+      "source_url": "https://www.makeuseof.com",
+      "source_published_at": "2026-07-21T10:01:12Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.44,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-21T11:27:27",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 91,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 91,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Windows finally has 3 built-in features that make expensive third-party apps pointless",
+      "meta_description": "Thanks to built-in features of Windows 11, I don't need to download or pay for these other tools for screenshots, captioning, and file compression.",
+      "article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/feat-10.jpeg?w=1600&h=900&fit=crop",
+          "alt": "Windows finally has 3 built-in features that make expensive third-party apps pointless",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/feat-10.jpeg?&fit=crop&w=1600&h=900",
+          "alt": "marking up snipping tool in windows",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/snag5.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "snipping tool shapes",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/snip1.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "snipping tool markup",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/feat-10.jpeg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/feat-10.jpeg?&fit=crop&w=1600&h=900",
+          "alt": "marking up snipping tool in windows"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/snag5.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "snipping tool shapes"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/snip1.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "snipping tool markup"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Us",
+          "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+        },
+        {
+          "title": "FireShot",
+          "url": "https://chromewebstore.google.com/detail/take-webpage-screenshots/mcbpblocgmgfnpjjppndjkmgjaogfceg?hl=en&pli=1"
+        }
+      ],
+      "full_article_text": "Setting up a new Windows PC used to mean a download session: a screenshot tool, an archive utility (which could have major security concerns), something to handle captions. I paid real money for some of them — one was costing me over $30 a year. Then I realized Windows 11 had quietly absorbed most of what I was paying for. Here are three apps I've stopped downloading entirely, because they're already built in. Screen snipping and capture is built in No more paying for Snagit For many years I've paid for a fabulous screenshot tool called Snagit. It lets you take precise screenshots of isolated parts of the screen, it can record videos using your device's microphone to capture audio (perfect for demonstrations), and you can set a custom hotkey to launch various Snagit tools. Currently, Snagit is $31.20 per year (the price fluctuates with discounts), which I was happy to pay because this kind of marking up of screenshots is an important thing in my line of work and this app makes it so easy. It even has one-click upload to my Google Drive, so I can capture, cloud save, and share a screenshot or screen recording all within the same interface. But thanks to Windows 11's Snipping Tool, I don't pay for Snagit anymore because most of the key things I use Snagit for are native to Windows 11 for free. To use it, just press the Print Screen button on your keyboard, or press Windows key + Shift + S . All the basics are there. Pressing the hotkey will start a snip and bring up a selection tool. Then, right after you take the snip, you get a \"markup and share\" button which brings you to an editor. From the editor, you can mark up the screenshot with a pen, highlighter, or shape tool. If you are using a PC with a pen, Snipping Tool lets you use your pen or stylus to mark up screenshots. You can even pull text with OCR from any screenshot, then one-click copy the text to your clipboard. Then, you can instantly share your screenshot with whatever sharing endpoint you want via the Windows share UI. But Snipping Tool isn't as powerful as Snagit especially when it comes to sharing. While you can easily upload your screenshot to OneDrive, there's no way to directly upload to Google Drive (like I can with SnagIt), which is frustrating, but there are workaround like using Google Drive for Desktop to keep a folder on your PC synced with the cloud. Another thing that my paid Snagit has that Snipping Tool doesn't is the ability to take scrolling screenshots. For scrolling web screenshots, I use a free Chrome plugin called FireShot which does the same thing. But for most things, the built-in screenshot tool in Windows, Snipping Tool, gets the job done. Folder compression is another tool I can't live without. File Explorer finally opens the archives it always should have No more need for WinZip, WinRAR, or 7-Zip For years, installing Windows also meant installing a proper file archiving tool, like WinRAR or WinZip, both of which allow you to create and extract compressed ZIP or RAR files. But back in 2023, Microsoft added an open-source library to Windows 11 File Explorer that lets Windows natively extract other compressed file formats like .rar, .7z, .tar, .gz, and .tgz. The honest caveat here is that you can still only create .zip archives natively. If you need to make a .7z file, or password-protect an archive, you still need something like 7-Zip where you also get superior compression with the .7z file format, plus industrial-grade encryption and faster performance. But for me and my relatively simple needs to quickly and easily open compressed files, the built-in functionality in File Explorer is good enough such that I no longer need to buy or download something more fancy. There's one more built-in feature that replaced a paid tool for me: Live Captions. I stopped uploading audio to transcription sites — Windows does it locally Windows Live Captions transcribes all audio natively There are so many times when I can't play audio out loud on my laptop. Perhaps I want to watch a sports game or YouTube video without my whole family hearing. Previous to Windows 11, you had to rely on third-party apps, closed captioning toggles, or audio transcription sites to get text overlays on content. But in Windows 11, it's baked right in, like it is on Android. To start Live Captions in Windows, just press Windows key + Control + L . Live Captions uses on-device processing that utilizes a language pack that is downloaded the first time you use this feature, which means that Live Captions works without an internet connection. It's a 50-150MB download and it only happens once. Then, if you press the settings cog for Live Captions, you can adjust the placement of the text. My favorite is \"below screen\", so the text doesn't get in the way of the contents. Windows finally does more You don't need to buy or download third-party apps as much Windows still has plenty of room to improve, but Microsoft has done a good job filling in the gaps. Between file compression, Live Captions, and screenshots, that's three apps I no longer download — or pay for.",
+      "full_article_text_chars": 5099,
+      "content_preview": "Setting up a new Windows PC used to mean a download session: a screenshot tool, an archive utility (which could have major security concerns), something to handle captions. I paid real money for some of them — one was costing me over $30 a year. Then I realized Windows 11 had quietly absorbed most of what I was paying for. Here are three apps I've stopped downloading entirely, because they're already built in. Screen snipping and capture is built in No more paying for Snagit For many years I've paid for a fabulous screenshot tool called Snagit. It lets you take precise screenshots of isolated parts of the screen, it can record videos using your device's microphone to capture audio (perfect for demonstrations), and you can set a custom hotkey to launch various Snagit tools. Currently, Snagit is $31.20 per year (the price fluctuates with discounts), which I was happy to pay because this kind of marking up of screenshots is an important thing in my line of work and this app makes it so easy. It even has one-click upload to my Google Drive, so I can capture, cloud save, and share a screenshot or screen recording all within the same interface. But thanks to Windows 11's Snipping Tool, I don't pay for Snagit anymore because most of the key things I use Snagit for are native to Windows 11 for free. To use it, just press the Print Screen button on your keyboard, or press Windows key + Shift + S . All the basics are there. Pressing the hotkey will start a snip and bring up a selection tool. Then, right after you take the snip, you get a \"markup and share\" button which brings you to an editor. From the editor, you can mark up the screenshot with a pen, highlighter, or shape tool. If you are using a PC with a pen, Snipping Tool lets you use your pen or stylus to mark up screenshots. You can even pull text with OCR from any screenshot, then one-click copy the text to your clipboard. Then, you can instantly share your screenshot with whatever sharing endpoint you want via the Windows share UI. But Snipping Tool isn't as powerful as Snagit especially when it comes to sharing. While you can easily upload your screenshot to OneDrive, there's no way to directly upload to Google Drive (like I can with SnagIt), which is frustrating, but there are workaround like using Google Drive for Desktop to keep a folder on your PC synced with the cloud. Another thing that my paid Snagit has that Snipping Tool doesn't is the ability to take scrolling screenshots. For scrolling web screenshots, I use a free Chrome plugin called FireShot which does the same thing. But for most things, the built-in screenshot tool in Windows, Snipping Tool, gets the job done. Folder compression is another tool I can't live without. File Explorer finally opens the archives it always should have No more need for WinZip, WinRAR, or 7-Zip For years, installing Windows also meant installing a proper file archiving tool, like WinRAR or WinZip, both of which allow you to create and extract compressed ZIP or RAR files. But back in 2023, Microsoft added an open-source library to Windows 11 File Explorer that lets Windows natively extract other compressed file formats like .rar, .7z, .tar, .gz, and .tgz. The honest caveat here is that you can still only create .zip archives natively. If you need to make a .7z file, or password-protect an archive, you still need something like 7-Zip where you also get superior compression with the .7z file format, plus industrial-grade encryption and faster performance. But for me and my relatively simple needs to quickly and easily open compressed files, the built-in functionality in File Explorer is good enough such that I no longer need to buy or download something more fancy. There's one more built-in feature that replaced a paid tool for me: Live Captions. I stopped uploading audio to transcription sites — Windows does it locally Windows Live Captions transcribes all audio natively There are so many times when I can't play audio out loud on my laptop. Perhaps I want to watch a sports game or YouTube video without my whole family hearing. Previous to Windows 11, you had to rely on third-party apps, closed captioning toggles, or audio transcription sites to get text overlays on content. But in Windows 11, it's baked right in, like it is on Android. To start Live Captions in Windows, just press Windows key + Control + L . Live Captions uses on-device processing that utilizes a language pack that is downloaded the first time you use this feature, which means that Live Captions works without an internet connection. It's a 50-150MB download and it only happens once. Then, if you press the settings cog for Live Captions, you can adjust the placement of the text. My favorite is \"below screen\", so the text doesn't get in the way of the contents. Windows finally does more You don't need to buy or download third-party apps as much Windows still has plenty of room to improve, but Microsoft has done a good job filling in the gaps. Between file compression, Live Captions, and screenshots, that's three apps I no longer download — or pay for.",
+      "content_preview_chars": 5099,
+      "content_fetched_at": "2026-07-21T11:27:45",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "fa48be54dd963b68",
+      "source_url_hash": "fa48be54dd963b68",
+      "canonical_url": "https://www.ghacks.net/2026/07/21/oneplus-to-exit-us-and-europe-as-oppo-restructures-with-full-shutdown-in-china-and-india-expected-by-2027",
+      "title_hash": "04646e5a5a71a43e",
+      "topic_signature": "cb36fdd8c0f3f92e2587",
+      "title": "OnePlus to Exit US and Europe as Oppo Restructures, With Full Shutdown in China and India Expected by 2027",
+      "url": "https://www.ghacks.net/2026/07/21/oneplus-to-exit-us-and-europe-as-oppo-restructures-with-full-shutdown-in-china-and-india-expected-by-2027",
+      "source_name": "Ghacks",
+      "source_url": "https://www.ghacks.net",
+      "source_published_at": "2026-07-21T08:56:15Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.52,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-21T11:27:27",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 34,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 34,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "OnePlus to Exit US and Europe as Oppo Restructures, With Full Shutdown in China and India Expected by 2027 - gHacks Tech News",
+      "meta_description": "Oppo is reorganizing its smartphone division, reportedly ending sales and operations for OnePlus in the United States and Europe as soon as this week, according",
+      "article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-21T115651.246.png",
+          "alt": "OnePlus to Exit US and Europe as Oppo Restructures, With Full Shutdown in China and India Expected by 2027 - gHacks Tech News",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-20T112203.475.png",
+          "alt": "Windows 11 Version 26H2 Ships as an Enablement Package With No New Features Over 25H2",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-20T115458.379.png",
+          "alt": "Ubisoft Launches Ghost Recon: Wildlands Definitive Edition on PS5 and Xbox Series X",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-19T130153.305.png",
+          "alt": "San Francisco Orders Apple and Google to Remove Nudify Apps From App Stores",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-21T115651.246.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-20T112203.475.png",
+          "alt": "Windows 11 Version 26H2 Ships as an Enablement Package With No New Features Over 25H2"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-20T115458.379.png",
+          "alt": "Ubisoft Launches Ghost Recon: Wildlands Definitive Edition on PS5 and Xbox Series X"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-19T130153.305.png",
+          "alt": "San Francisco Orders Apple and Google to Remove Nudify Apps From App Stores"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.ghacks.net%2F"
+        }
+      ],
+      "full_article_text": "Oppo is reorganizing its smartphone division, reportedly ending sales and operations for OnePlus in the United States and Europe as soon as this week, according to a Bloomberg report cited by BetaNews. The report also states that OnePlus plans to wind down in China and India by 2027, marking the end of the brand that launched in 2013 with competitively priced Android flagships. Additionally, Realme, another brand owned by Oppo, will exit the Chinese market. The restructuring is linked to ongoing challenges caused by the global memory shortage, which has increased component costs across the smartphone industry. Oppo’s Plan to Wind Down OnePlus and Realme Bloomberg reports that OnePlus plans to start shutting down operations in the US and Europe within a few days, according to a person familiar with the matter who requested anonymity due to the private nature of the plan. This move is part of a broader restructuring at the parent company Oppo, officially known as Guangdong Oppo Mobile Telecommunications Corporation Ltd. BetaNews states that no new OnePlus devices will be released in the US or European markets after the company's exit. The timeline for the wider shutdown in China and India has not been publicly confirmed by Oppo, and Bloomberg suggests that more details are likely to be announced in the coming weeks and months. The restructuring also impacts Realme. Bloomberg reports that Realme will soon exit the Chinese market and shift its device sales focus to Nordic countries. Oppo will now prioritize its main market presence in Central Europe. This three-brand restructuring will significantly reduce Oppo's global footprint. Before the changes, OnePlus, Realme, and Oppo sold products in overlapping regions, with OnePlus targeting performance enthusiasts, Realme focusing on entry-level and mid-range devices, and Oppo serving mainstream consumers. Memory Shortage Fallout and What OnePlus Owners Should Do Oppo is the latest smartphone manufacturer to publicly cite a memory shortage as a factor in a major business decision. Prices for DRAM and NAND memory chips have increased through 2025 and into 2026, squeezing margins on lower-priced Android devices where component costs account for a larger part of the retail price. BetaNews notes that the immediate impact of the shortage is being felt first in the US and European OnePlus markets. Oppo has not released a detailed statement outlining the full timeline, affected product lines, or how existing device warranties and software support will be managed in markets where OnePlus is exiting. For users currently using OnePlus devices in the US or Europe, it is advisable to take a few practical steps while the transition unfolds, based on the information available so far: Check the warranty status of each device and note the purchase date and retailer, as warranty claim processes may change as regional operations wind down. Save copies of driver files, unlock tools, and firmware images related to your specific model, since download servers linked to regional stores could be affected by the restructuring. Back up your device data locally and to a cloud service not tied to your OnePlus account, in case support services are consolidated or migrated to Oppo infrastructure. Avoid making major accessory purchases for unreleased OnePlus devices in these regions, as no new product launches are expected there. Keep an eye on Oppo's official announcements for updates on ongoing software and security support for existing OnePlus phones in the affected areas. Oppo has not confirmed whether existing OnePlus devices in the US and Europe will continue to receive Android updates and security patches on schedule or if support periods will be shortened as part of the restructuring. Unanswered Questions About Oppo’s Restructuring and OnePlus’s Future Bloomberg's source suggests that the exit from the US and Europe could start as early as this week. While reports indicate that OnePlus might shut down in China and India by 2027, Oppo has not officially confirmed this, and no formal statement has been issued regarding the sequence of market exits, staff impact, or the future of the OnePlus brand following the restructuring. Similarly, reports based on Bloomberg's information indicate that Realme is leaving the Chinese market and refocusing on the Nordic region, but Oppo has not officially announced these plans. More details are expected in the coming weeks as Oppo continues to formalize its restructuring.",
+      "full_article_text_chars": 4506,
+      "content_preview": "Oppo is reorganizing its smartphone division, reportedly ending sales and operations for OnePlus in the United States and Europe as soon as this week, according to a Bloomberg report cited by BetaNews. The report also states that OnePlus plans to wind down in China and India by 2027, marking the end of the brand that launched in 2013 with competitively priced Android flagships. Additionally, Realme, another brand owned by Oppo, will exit the Chinese market. The restructuring is linked to ongoing challenges caused by the global memory shortage, which has increased component costs across the smartphone industry. Oppo’s Plan to Wind Down OnePlus and Realme Bloomberg reports that OnePlus plans to start shutting down operations in the US and Europe within a few days, according to a person familiar with the matter who requested anonymity due to the private nature of the plan. This move is part of a broader restructuring at the parent company Oppo, officially known as Guangdong Oppo Mobile Telecommunications Corporation Ltd. BetaNews states that no new OnePlus devices will be released in the US or European markets after the company's exit. The timeline for the wider shutdown in China and India has not been publicly confirmed by Oppo, and Bloomberg suggests that more details are likely to be announced in the coming weeks and months. The restructuring also impacts Realme. Bloomberg reports that Realme will soon exit the Chinese market and shift its device sales focus to Nordic countries. Oppo will now prioritize its main market presence in Central Europe. This three-brand restructuring will significantly reduce Oppo's global footprint. Before the changes, OnePlus, Realme, and Oppo sold products in overlapping regions, with OnePlus targeting performance enthusiasts, Realme focusing on entry-level and mid-range devices, and Oppo serving mainstream consumers. Memory Shortage Fallout and What OnePlus Owners Should Do Oppo is the latest smartphone manufacturer to publicly cite a memory shortage as a factor in a major business decision. Prices for DRAM and NAND memory chips have increased through 2025 and into 2026, squeezing margins on lower-priced Android devices where component costs account for a larger part of the retail price. BetaNews notes that the immediate impact of the shortage is being felt first in the US and European OnePlus markets. Oppo has not released a detailed statement outlining the full timeline, affected product lines, or how existing device warranties and software support will be managed in markets where OnePlus is exiting. For users currently using OnePlus devices in the US or Europe, it is advisable to take a few practical steps while the transition unfolds, based on the information available so far: Check the warranty status of each device and note the purchase date and retailer, as warranty claim processes may change as regional operations wind down. Save copies of driver files, unlock tools, and firmware images related to your specific model, since download servers linked to regional stores could be affected by the restructuring. Back up your device data locally and to a cloud service not tied to your OnePlus account, in case support services are consolidated or migrated to Oppo infrastructure. Avoid making major accessory purchases for unreleased OnePlus devices in these regions, as no new product launches are expected there. Keep an eye on Oppo's official announcements for updates on ongoing software and security support for existing OnePlus phones in the affected areas. Oppo has not confirmed whether existing OnePlus devices in the US and Europe will continue to receive Android updates and security patches on schedule or if support periods will be shortened as part of the restructuring. Unanswered Questions About Oppo’s Restructuring and OnePlus’s Future Bloomberg's source suggests that the exit from the US and Europe could start as early as this week. While reports indicate that OnePlus might shut down in China and India by 2027, Oppo has not officially confirmed this, and no formal statement has been issued regarding the sequence of market exits, staff impact, or the future of the OnePlus brand following the restructuring. Similarly, reports based on Bloomberg's information indicate that Realme is leaving the Chinese market and refocusing on the Nordic region, but Oppo has not officially announced these plans. More details are expected in the coming weeks as Oppo continues to formalize its restructuring.",
+      "content_preview_chars": 4506,
+      "content_fetched_at": "2026-07-21T11:28:05",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "7fa9044a7d5d79ae",
+      "source_url_hash": "7fa9044a7d5d79ae",
+      "canonical_url": "https://www.ghacks.net/2026/07/21/book-writers-sue-google-over-alleged-use-of-copyrighted-books-to-train-gemini",
+      "title_hash": "f3e219755a339e28",
+      "topic_signature": "e96ce867eaecb8b3ecda",
+      "title": "Book Writers Sue Google Over Alleged Use of Copyrighted Books to Train Gemini",
+      "url": "https://www.ghacks.net/2026/07/21/book-writers-sue-google-over-alleged-use-of-copyrighted-books-to-train-gemini",
+      "source_name": "Ghacks",
+      "source_url": "https://www.ghacks.net",
+      "source_published_at": "2026-07-21T08:53:28Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.57,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-21T11:27:27",
+      "status": "ready",
+      "score": 6,
+      "priority": "medium",
+      "source_links_removed_count": 36,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 36,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Book Writers Sue Google Over Alleged Use of Copyrighted Books to Train Gemini - gHacks Tech News",
+      "meta_description": "Publishers and author Scott Turow filed a proposed class action accusing Google of using copyrighted books to train Gemini.",
+      "article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-21T114609.059.png",
+          "alt": "Book Writers Sue Google Over Alleged Use of Copyrighted Books to Train Gemini - gHacks Tech News",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-20T112203.475.png",
+          "alt": "Windows 11 Version 26H2 Ships as an Enablement Package With No New Features Over 25H2",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-20T115458.379.png",
+          "alt": "Ubisoft Launches Ghost Recon: Wildlands Definitive Edition on PS5 and Xbox Series X",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-19T130153.305.png",
+          "alt": "San Francisco Orders Apple and Google to Remove Nudify Apps From App Stores",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-21T114609.059.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-20T112203.475.png",
+          "alt": "Windows 11 Version 26H2 Ships as an Enablement Package With No New Features Over 25H2"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-20T115458.379.png",
+          "alt": "Ubisoft Launches Ghost Recon: Wildlands Definitive Edition on PS5 and Xbox Series X"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-19T130153.305.png",
+          "alt": "San Francisco Orders Apple and Google to Remove Nudify Apps From App Stores"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.ghacks.net%2F"
+        }
+      ],
+      "full_article_text": "Hachette Book Group, Cengage Learning, Elsevier, author Scott Turow, and S.C.R.I.B.E., Inc. have filed a proposed federal class-action lawsuit against Google. They accuse the company of copying copyrighted books and journal articles without permission to train its Gemini AI models. The lawsuit was filed on July 10, 2026. The case, Hachette Book Group Inc. et al. v. Google LLC, is under case number 1:26-cv-05870 in the U.S. District Court for the Southern District of New York. The complaint describes Google's alleged actions as \"one of the most prolific infringements of copyrighted materials in history.\" However, these allegations have not been proven in court, and no ruling has been issued on Google's liability. The Legal Claims and Publisher Deals at the Heart of the Gemini Lawsuit The plaintiffs allege four legal claims: direct copyright infringement, contributory copyright infringement, removal or alteration of copyright-management information, and violations of the Digital Millennium Copyright Act. They argue that Google obtained protected material through its book services, internet scraping, and other sources before using the content to train Gemini. Publishers provided books and journal articles to Google Books, Google Play Books, and Google Scholar under agreements that covered specific uses, such as displaying searchable excerpts, distributing ebooks, and helping users discover academic publications. The plaintiffs claim that these agreements did not authorize Google to copy entire works into datasets used for commercial generative AI development, and that Google repurposed material received through established publishing relationships for uses not covered by the contracts. The complaint also states that Google collected books and other protected material through extensive internet scraping, including sources such as pirate websites and publications behind subscription or paywalls. How This Gemini Case Differs from Google Books, and What Internal Emails Say Google previously won a copyright case related to digitizing books for search and snippet previews. In 2015, a federal appellate court ruled that these uses were transformative and protected under fair use. The plaintiffs argue that this earlier ruling covered searchable book databases and limited excerpts, not the use of entire books to train generative AI models. They claim that AI training serves a different commercial purpose and results in systems that can compete with the original works involved in training. The key difference, they say, lies between search-focused digitization and the training of generative models, which is central to their case. According to the complaint, a Google employee warned during an internal discussion that using books submitted through Google Play publishing agreements for AI development could create serious legal risks. The employee reportedly estimated that such practices could lead to fines ranging from ten to one hundred billion dollars. Other internal documents described in the complaint suggest that Google sought professionally written books to enhance the performance of its Gemini AI system. The plaintiffs claim that tests showed models trained only on public domain books performed worse than those trained on collections that included copyrighted works. The complaint states that Google aimed to include works with curated facts, organized analyses, fictional narratives, and professionally edited writing. Works Cited in the Complaint and What Gemini Is Accused of Generating The complaint highlights several works as examples. Hachette lists Peter Brown's The Wild Robot, N.K. Jemisin's The Fifth Season, Becky Lomax's Moon Glacier National Park, and Lemony Snicket's Who Could That Be at This Hour? It also mentions Turow's Innocent. Cengage includes Cognitive Psychology, Principles of Economics, Milady Standard Barbering, Nutrition: Concepts and Controversies, and Calculus: Early Transcendentals. Elsevier points to copyrighted journal articles in its section of the complaint. Turow and S.C.R.I.B.E. reference Presumed Innocent, Innocent, and Testimony. The plaintiffs claim these examples are only a sample of the books and articles allegedly copied in connection with Gemini. The filing presents examples to show that Gemini can produce material related to specific protected books. It claims the system generated content based on The Fifth Season and produced responses involving characters, events, and details from Who Could That Be at This Hour? The plaintiffs also argue Gemini can generate low-cost substitutes for professionally published works. They estimate the service could produce a 100-page murder mystery set in a quiet seaside town in approximately 20 minutes for 39 cents. The complaint states, \"No publisher or author can compete with that.\" These time and cost figures are allegations from the plaintiffs and have not been verified by the court. Who Might Join the Class and What Remedies the Plaintiffs Are Seeking The proposed class would include owners of registered copyrights in books that have International Standard Book Numbers, as well as journal articles identified through Digital Object Identifiers or International Standard Serial Numbers. To be part of the class, members would need to show that Google copied their works from one of its services, obtained them through web scraping, or used them in connection with Gemini training. The court has not yet certified this proposed class. The plaintiffs are seeking statutory damages or compensation based on their claimed losses and Google's alleged profits, along with legal fees and other remedies available under federal copyright law. They are asking the court to stop Google from continuing what they allege to be unauthorized copying through an injunction that would restrict the use of protected books and articles in Gemini training and related AI development. The complaint also requests an accounting of the works and methods Google used to train Gemini. This includes details about the materials obtained, where they were sourced from, and how they were incorporated into Google's systems. The plaintiffs seek a court-supervised destruction of infringing copies and datasets derived from their works. It remains unclear whether such an order would be legally feasible or appropriate in this case. Publishers, authors, and academic rights holders who might be part of the proposed class should take some practical steps as the case develops. They should verify which of their titles are registered with the U.S. Copyright Office since the proposed class depends on registered works marked with ISBNs, DOIs, or ISSNs. It is also advisable to review existing agreements with Google Books, Google Play Books, and Google Scholar to understand what uses those contracts permit. Additionally, they should keep records of publication dates, distribution channels, and any communications with Google regarding the use of their works in AI training datasets. Tracking the progress of the class certification could also be important, as inclusion in any potential class will depend on the court's decision. Where the Hachette and Cengage Lawsuit Against Google Stands Now Hachette and Cengage had previously attempted to join a separate copyright lawsuit filed against Google in California in 2023, which involved authors and visual artists. Google opposed their participation, and the publishers later withdrew that effort before submitting the current case in New York. Google has not yet issued a detailed public response to the specific allegations in the New York complaint. The company will have the opportunity to respond as the case moves forward through motions, potential discovery, and class-certification processes. No trial date has been set, and the court has not ruled on any of the four claims.",
+      "full_article_text_chars": 7862,
+      "content_preview": "Hachette Book Group, Cengage Learning, Elsevier, author Scott Turow, and S.C.R.I.B.E., Inc. have filed a proposed federal class-action lawsuit against Google. They accuse the company of copying copyrighted books and journal articles without permission to train its Gemini AI models. The lawsuit was filed on July 10, 2026. The case, Hachette Book Group Inc. et al. v. Google LLC, is under case number 1:26-cv-05870 in the U.S. District Court for the Southern District of New York. The complaint describes Google's alleged actions as \"one of the most prolific infringements of copyrighted materials in history.\" However, these allegations have not been proven in court, and no ruling has been issued on Google's liability. The Legal Claims and Publisher Deals at the Heart of the Gemini Lawsuit The plaintiffs allege four legal claims: direct copyright infringement, contributory copyright infringement, removal or alteration of copyright-management information, and violations of the Digital Millennium Copyright Act. They argue that Google obtained protected material through its book services, internet scraping, and other sources before using the content to train Gemini. Publishers provided books and journal articles to Google Books, Google Play Books, and Google Scholar under agreements that covered specific uses, such as displaying searchable excerpts, distributing ebooks, and helping users discover academic publications. The plaintiffs claim that these agreements did not authorize Google to copy entire works into datasets used for commercial generative AI development, and that Google repurposed material received through established publishing relationships for uses not covered by the contracts. The complaint also states that Google collected books and other protected material through extensive internet scraping, including sources such as pirate websites and publications behind subscription or paywalls. How This Gemini Case Differs from Google Books, and What Internal Emails Say Google previously won a copyright case related to digitizing books for search and snippet previews. In 2015, a federal appellate court ruled that these uses were transformative and protected under fair use. The plaintiffs argue that this earlier ruling covered searchable book databases and limited excerpts, not the use of entire books to train generative AI models. They claim that AI training serves a different commercial purpose and results in systems that can compete with the original works involved in training. The key difference, they say, lies between search-focused digitization and the training of generative models, which is central to their case. According to the complaint, a Google employee warned during an internal discussion that using books submitted through Google Play publishing agreements for AI development could create serious legal risks. The employee reportedly estimated that such practices could lead to fines ranging from ten to one hundred billion dollars. Other internal documents described in the complaint suggest that Google sought professionally written books to enhance the performance of its Gemini AI system. The plaintiffs claim that tests showed models trained only on public domain books performed worse than those trained on collections that included copyrighted works. The complaint states that Google aimed to include works with curated facts, organized analyses, fictional narratives, and professionally edited writing. Works Cited in the Complaint and What Gemini Is Accused of Generating The complaint highlights several works as examples. Hachette lists Peter Brown's The Wild Robot, N.K. Jemisin's The Fifth Season, Becky Lomax's Moon Glacier National Park, and Lemony Snicket's Who Could That Be at This Hour? It also mentions Turow's Innocent. Cengage includes Cognitive Psychology, Principles of Economics, Milady Standard Barbering, Nutrition: Concepts and Controversies, and Calculus: Early Transcendentals. Elsevier points to copyrighted journal articles in its section of the complaint. Turow and S.C.R.I.B.E. reference Presumed Innocent, Innocent, and Testimony. The plaintiffs claim these examples are only a sample of the books and articles allegedly copied in connection with Gemini. The filing presents examples to show that Gemini can produce material related to specific protected books. It claims the system generated content based on The Fifth Season and produced responses involving characters, events, and details from Who Could That Be at This Hour? The plaintiffs also argue Gemini can generate low-cost substitutes for professionally published works. They estimate the service could produce a 100-page murder mystery set in a quiet seaside town in approximately 20 minutes for 39 cents. The complaint states, \"No publisher or author can compete with that.\" These time and cost figures are allegations from the plaintiffs and have not been verified by the court. Who Might Join the Class and What Remedies the Plaintiffs Are Seeking The proposed class would include owners of registered copyrights in books that have International Standard Book Numbers, as well as journal articles identified through Digital Object Identifiers or International Standard Serial Numbers. To be part of the class, members would need to show that Google copied their works from one of its services, obtained them through web scraping, or used them in connection with Gemini training. The court has not yet certified this proposed class. The plaintiffs are seeking statutory damages or compensation based on their claimed losses and Google's alleged profits, along with legal fees and other remedies available under federal copyright law. They are asking the court to stop Google from continuing what they allege to be unauthorized copying through an injunction that would restrict the use of protected books and articles in Gemini training and related AI development. The complaint also requests an accounting of the works and methods Google used to train Gemini. This includes details about the materials obtained, where they were sourced from, and how they were incorporated into Google's systems. The plaintiffs seek a court-supervised destruction of infringing copies and datasets derived from their works. It remains unclear whether such an order would be legally feasible or appropriate in this case. Publishers, authors, and academic rights holders who might be part of the proposed class should take some practical steps as the case develops. They should verify which of their titles are registered with the U.S. Copyright Office since the proposed class depends on registered works marked with ISBNs, DOIs, or ISSNs. It is also advisable to review existing agreements with Google Books, Google Play Books, and Google Scholar to understand what uses those contracts permit. Additionally, they should keep records of publication dates, distribution channels, and any communications with Google regarding the use of their works in AI training datasets. Tracking the progress of the class certification could also be important, as inclusion in any potential class will depend on the court's decision. Where the Hachette and Cengage Lawsuit Against Google Stands Now Hachette and Cengage had previously attempted to join a separate copyright lawsuit filed against Google in California in 2023, which involved authors and visual artists. Google opposed their participation, and the publishers later withdrew that effort before submitting the current case in New York. Google has not yet issued a detailed public response to the specific allegations in the New York complaint. The company will have the opportunity to respond as the case moves forward through motions, potential discovery, and class-certification processes. No trial date has been set, and the court has not ruled on any of the four claims.",
+      "content_preview_chars": 7862,
+      "content_fetched_at": "2026-07-21T11:28:06",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "ad8ea816f1e48ed6",
+      "source_url_hash": "ad8ea816f1e48ed6",
+      "canonical_url": "https://www.ghacks.net/2026/07/21/chromeos-150-adds-gemini-in-class-tools-local-pin-authentication-and-ends-chrome-apps-in-kiosk-mode",
+      "title_hash": "cac89ba5432aa8be",
+      "topic_signature": "21dade89495c85a93554",
+      "title": "ChromeOS 150 Adds Gemini in Class Tools, Local PIN Authentication, and Ends Chrome Apps in Kiosk Mode",
+      "url": "https://www.ghacks.net/2026/07/21/chromeos-150-adds-gemini-in-class-tools-local-pin-authentication-and-ends-chrome-apps-in-kiosk-mode",
+      "source_name": "Ghacks",
+      "source_url": "https://www.ghacks.net",
+      "source_published_at": "2026-07-21T08:44:23Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.72,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-21T11:27:27",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 37,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 37,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "ChromeOS 150 Adds Gemini in Class Tools, Local PIN Authentication, and Ends Chrome Apps in Kiosk Mode - gHacks Tech News",
+      "meta_description": "ChromeOS 150 rolls out Gemini classroom controls, local PIN policies, and marks the end of Chrome Apps in Kiosk mode.",
+      "article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-21T114033.584.png",
+          "alt": "ChromeOS 150 Adds Gemini in Class Tools, Local PIN Authentication, and Ends Chrome Apps in Kiosk Mode - gHacks Tech News",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-20T112203.475.png",
+          "alt": "Windows 11 Version 26H2 Ships as an Enablement Package With No New Features Over 25H2",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-20T115458.379.png",
+          "alt": "Ubisoft Launches Ghost Recon: Wildlands Definitive Edition on PS5 and Xbox Series X",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-19T130153.305.png",
+          "alt": "San Francisco Orders Apple and Google to Remove Nudify Apps From App Stores",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-21T114033.584.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-20T112203.475.png",
+          "alt": "Windows 11 Version 26H2 Ships as an Enablement Package With No New Features Over 25H2"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-20T115458.379.png",
+          "alt": "Ubisoft Launches Ghost Recon: Wildlands Definitive Edition on PS5 and Xbox Series X"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-19T130153.305.png",
+          "alt": "San Francisco Orders Apple and Google to Remove Nudify Apps From App Stores"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.ghacks.net%2F"
+        }
+      ],
+      "full_article_text": "Google is rolling out ChromeOS 150 to compatible Chromebooks, introducing new Gemini-based classroom management tools and two enterprise policies for local PIN and password authentication. This update also marks the final release before Chrome Apps cease functioning in Kiosk mode, according to Google's official release notes and coverage from Chrome Unboxed. The update is mainly aimed at managed education and enterprise settings and includes a scheduled deprecation plan for legacy Chrome Apps and older Chromebook Flex hardware. The release notes additionally detail upcoming changes for ChromeOS 151 and 154 that will impact update eligibility and version numbering. Gemini in Class Tools and New Local Sign?In Policies in ChromeOS 150 The latest major update to ChromeOS 150 introduces Gemini in Class Tools, a new set of classroom management features integrated with Google Classroom. Teachers now have the ability to restrict student devices to Gemini's Guided Learning mode during class, which limits interactions with the assistant to a focused learning experience rather than open-ended queries. Google explains that this integration works across all Google Classroom features. Educators can lock student screens to Gemini Notebook, formerly known as NotebookLM, for research assignments, restrict device usage during test preparation, or prevent students from navigating beyond Google Search. These controls are accessed through the existing Class Tools interface within Google Classroom. ChromeOS 150 also adds two new enterprise policies that allow local PIN and password authentication on managed Chromebooks. Administrators can customize the complexity requirements to meet their organization's security standards. Both policies are configured through the Google Admin console. Additionally, Google is automatically migrating a small group of managed Enterprise and Education users who added accounts and set up local PINs in late June 2026. Affected users will be reverted to standard online password authentication when signing in to ChromeOS 150. Google states that these users will see a one-time informational screen at sign-in, and no local files or profile data will be affected during the migration. Chrome Apps Exit Kiosk Mode and Isolated Web Apps Arrive ChromeOS 150 is the final release to support legacy Chrome Apps in Kiosk sessions. Starting with ChromeOS 151, Chrome Apps will no longer function in Kiosk mode at all. Organizations that depend on Kiosk mode should plan to migrate affected workflows to Progressive Web Apps before the rollout of ChromeOS 151. Force-installed Chrome Apps in Managed Guest Sessions and standard user sessions will continue to work as before. This deprecation only impacts Kiosk sessions. Administrators now have the option to allow users to manually install Isolated Web Apps on managed devices. This feature is controlled by the new IsolatedWebAppUserInstallationEnabled policy, which is managed through the Google Admin console under Devices, then Chrome, then Apps & Extensions, and finally User app settings. The policy is disabled by default and needs to be enabled by an administrator before users can install Isolated Web Apps outside of the force-install list. Google has also improved how ChromeOS verifies and retrieves token handles stored against user accounts. The update aims to reduce unexpected re-authentication prompts on the login screen. Admin Checklist for Deploying ChromeOS 150 in Schools and Enterprises IT administrators managing ChromeOS fleets in education or enterprise settings should check the following before deploying updates to their devices: Review all Kiosk sessions for Chrome Apps that should be replaced with Progressive Web Apps before ChromeOS 151 is released. Examine the new local authentication policies in the Google Admin console to decide whether to enable local PIN or password authentication, and set the appropriate complexity requirements: Notify managed Enterprise and Education users who set up local PINs in late June 2026 that their authentication method will revert to online passwords and that they will see a one-time informational message at first sign-in. Decide whether to enable the IsolatedWebAppUserInstallationEnabled policy, which controls user-initiated installations of Isolated Web Apps. Confirm that documentation exists for deploying Managed Guest Sessions and standard user session Chrome Apps, as these workflows remain supported but are potential candidates for future deprecation. Teachers using Class Tools should verify that the Gemini restriction options appear in Google Classroom after devices update, since their availability depends on the ChromeOS version installed on each student device. ChromeOS 151/154: Flex Hardware Limits and Version Number Changes Ahead Google's release notes also mention upcoming features planned for future versions. Accessibility will include an option for an inverted color mouse cursor that allows users to see content underneath an enlarged pointer. The notes referenced by Chrome Unboxed did not specify a target version for this accessibility update. Starting with ChromeOS 151, updates will be blocked on non-certified Chromebook Flex devices that use legacy graphics hardware. This includes Intel and AMD graphics from 2010 and earlier, as well as Nvidia graphics from 2014 and earlier. Devices affected by this change will stay on their current ChromeOS version and will not receive further updates. From ChromeOS 154 onward, version numbers will increase by two every four weeks. This change aligns more closely with the Chrome browser update schedule. Administrators should consider this faster version cycle when planning to track compatibility milestones for testing purposes. Google has not announced specific release dates for ChromeOS 151 and 154. The rollout of ChromeOS 150 is happening gradually, so not all eligible Chromebooks will receive the update immediately.",
+      "full_article_text_chars": 5960,
+      "content_preview": "Google is rolling out ChromeOS 150 to compatible Chromebooks, introducing new Gemini-based classroom management tools and two enterprise policies for local PIN and password authentication. This update also marks the final release before Chrome Apps cease functioning in Kiosk mode, according to Google's official release notes and coverage from Chrome Unboxed. The update is mainly aimed at managed education and enterprise settings and includes a scheduled deprecation plan for legacy Chrome Apps and older Chromebook Flex hardware. The release notes additionally detail upcoming changes for ChromeOS 151 and 154 that will impact update eligibility and version numbering. Gemini in Class Tools and New Local Sign?In Policies in ChromeOS 150 The latest major update to ChromeOS 150 introduces Gemini in Class Tools, a new set of classroom management features integrated with Google Classroom. Teachers now have the ability to restrict student devices to Gemini's Guided Learning mode during class, which limits interactions with the assistant to a focused learning experience rather than open-ended queries. Google explains that this integration works across all Google Classroom features. Educators can lock student screens to Gemini Notebook, formerly known as NotebookLM, for research assignments, restrict device usage during test preparation, or prevent students from navigating beyond Google Search. These controls are accessed through the existing Class Tools interface within Google Classroom. ChromeOS 150 also adds two new enterprise policies that allow local PIN and password authentication on managed Chromebooks. Administrators can customize the complexity requirements to meet their organization's security standards. Both policies are configured through the Google Admin console. Additionally, Google is automatically migrating a small group of managed Enterprise and Education users who added accounts and set up local PINs in late June 2026. Affected users will be reverted to standard online password authentication when signing in to ChromeOS 150. Google states that these users will see a one-time informational screen at sign-in, and no local files or profile data will be affected during the migration. Chrome Apps Exit Kiosk Mode and Isolated Web Apps Arrive ChromeOS 150 is the final release to support legacy Chrome Apps in Kiosk sessions. Starting with ChromeOS 151, Chrome Apps will no longer function in Kiosk mode at all. Organizations that depend on Kiosk mode should plan to migrate affected workflows to Progressive Web Apps before the rollout of ChromeOS 151. Force-installed Chrome Apps in Managed Guest Sessions and standard user sessions will continue to work as before. This deprecation only impacts Kiosk sessions. Administrators now have the option to allow users to manually install Isolated Web Apps on managed devices. This feature is controlled by the new IsolatedWebAppUserInstallationEnabled policy, which is managed through the Google Admin console under Devices, then Chrome, then Apps & Extensions, and finally User app settings. The policy is disabled by default and needs to be enabled by an administrator before users can install Isolated Web Apps outside of the force-install list. Google has also improved how ChromeOS verifies and retrieves token handles stored against user accounts. The update aims to reduce unexpected re-authentication prompts on the login screen. Admin Checklist for Deploying ChromeOS 150 in Schools and Enterprises IT administrators managing ChromeOS fleets in education or enterprise settings should check the following before deploying updates to their devices: Review all Kiosk sessions for Chrome Apps that should be replaced with Progressive Web Apps before ChromeOS 151 is released. Examine the new local authentication policies in the Google Admin console to decide whether to enable local PIN or password authentication, and set the appropriate complexity requirements: Notify managed Enterprise and Education users who set up local PINs in late June 2026 that their authentication method will revert to online passwords and that they will see a one-time informational message at first sign-in. Decide whether to enable the IsolatedWebAppUserInstallationEnabled policy, which controls user-initiated installations of Isolated Web Apps. Confirm that documentation exists for deploying Managed Guest Sessions and standard user session Chrome Apps, as these workflows remain supported but are potential candidates for future deprecation. Teachers using Class Tools should verify that the Gemini restriction options appear in Google Classroom after devices update, since their availability depends on the ChromeOS version installed on each student device. ChromeOS 151/154: Flex Hardware Limits and Version Number Changes Ahead Google's release notes also mention upcoming features planned for future versions. Accessibility will include an option for an inverted color mouse cursor that allows users to see content underneath an enlarged pointer. The notes referenced by Chrome Unboxed did not specify a target version for this accessibility update. Starting with ChromeOS 151, updates will be blocked on non-certified Chromebook Flex devices that use legacy graphics hardware. This includes Intel and AMD graphics from 2010 and earlier, as well as Nvidia graphics from 2014 and earlier. Devices affected by this change will stay on their current ChromeOS version and will not receive further updates. From ChromeOS 154 onward, version numbers will increase by two every four weeks. This change aligns more closely with the Chrome browser update schedule. Administrators should consider this faster version cycle when planning to track compatibility milestones for testing purposes. Google has not announced specific release dates for ChromeOS 151 and 154. The rollout of ChromeOS 150 is happening gradually, so not all eligible Chromebooks will receive the update immediately.",
+      "content_preview_chars": 5960,
+      "content_fetched_at": "2026-07-21T11:28:07",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "ee9d9eab618a2953",
+      "source_url_hash": "ee9d9eab618a2953",
+      "canonical_url": "https://www.makeuseof.com/f-droid-app-store-android-fire-tv",
+      "title_hash": "d54939d387d76081",
+      "topic_signature": "fe49bb838f058f018199",
+      "title": "Your TV's manufacturer doesn't want you to open this app store",
+      "url": "https://www.makeuseof.com/f-droid-app-store-android-fire-tv",
+      "source_name": "MakeUseOf",
+      "source_url": "https://www.makeuseof.com",
+      "source_published_at": "2026-07-20T23:01:12Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 12.44,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-21T11:27:27",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 92,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 92,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Your TV's manufacturer doesn't want you to open this app store",
+      "meta_description": "Enjoy more apps and privacy than ever before.",
+      "article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/flicky-app-store-on-tcl-google-tv.jpg?w=1600&h=900&fit=crop",
+          "alt": "Your TV's manufacturer doesn't want you to open this app store",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/flicky-app-store-on-tcl-google-tv.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Flicky app store on TCL Google TV",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2024/08/an-android-tv-with-a-hand-holding-a-remote-control.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+          "alt": "An Android TV with a hand holding a remote control.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2023/06/tv-display-with-android-google-play-search-for-panda-calendar-2.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Android TV with Google Play Store search query to access Panda Calendar",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/flicky-app-store-on-tcl-google-tv.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/flicky-app-store-on-tcl-google-tv.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Flicky app store on TCL Google TV"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2024/08/an-android-tv-with-a-hand-holding-a-remote-control.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+          "alt": "An Android TV with a hand holding a remote control."
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2023/06/tv-display-with-android-google-play-search-for-panda-calendar-2.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Android TV with Google Play Store search query to access Panda Calendar"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Us",
+          "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+        }
+      ],
+      "full_article_text": "Pankil is a Civil Engineer turned freelance writer from Ahmedabad, India. As a long-time Windows and Android user, he has extensive knowledge of both operating systems and specializes in creating how-tos and troubleshooting guides. Pankil has been writing about Windows, Android, and iOS since 2021. He has written over 1200 articles across reputable publications like MakeUseOf, GuidingTech , and TechWiser . Outside of his writing endeavors, Pankil is an avid football fan and loves to plan his international travels with his wife in his free time. The Play Store on your Android TV or Google TV may look like the whole story. It isn’t. You don’t have to limit your TV experience to what Google has approved for your model and region. You can try almost every app made for Android TV, including those that aren’t available officially. And no, I’m not talking about sideloading apps one by one. You can grab an alternative app store like F-Droid and unlock hundreds more apps at once. F-Droid is an open-source app store that doesn’t require an account, is community-driven, and only lists apps that don’t have trackers or ads. The Play Store isn’t your TV’s only app store It’s time to break free Play Store is a great place for grabbing the best apps for your Android TV, but there’s a big catch. It’s Google that decides what apps are available for your specific model and region. With a third-party app store, you get more choices simply because there are almost no such restrictions. It’s not just about having more options, though. Privacy is another huge benefit. Every app you download through the Play Store is tied to your Google account and folded into the profile Google builds. That's not the case with alternative app stores. And since it’s Android under the hood, you have several solid choices too. Aurora Store is a great option if you want to download Play Store apps without using a Google account. Aptoide TV has its own catalog of over 2500 apps. Its best trick is version control, so if an update breaks something, you can roll back to an older build without jumping through hoops. Uptodown is one to reach for apps that aren’t available in your region. The one I like the most, though, is F-Droid. It doesn’t try to compete with the Play Store at all. If you're already an avid Android user, you probably know about it. It’s built for privacy and also fun for exploring apps that aren’t available on the Play Store. F-Droid unlocks apps I can’t get from the Play Store It’s all about privacy Screenshot by Pankil Shah -- No attribution required Getting F-Droid on your TV is slightly different from installing it on your phone. You need to download Flicky, which is an F-Droid client built specifically for TV. Once you’ve downloaded its APK file on your phone, transfer it to the TV, and install it as usual. That part isn’t any different from sideloading apps in general. Once Flicky is installed, you can use it just like the Play Store — search for apps, download the ones you like, and keep everything updated. The big difference is that you won’t need to create an account or worry about privacy. Now, let’s talk about the fun stuff. There are hundreds of interesting apps on F-Droid, but a few are absolutely worth trying first. SmartTube is a popular YouTube client built for TVs. It’s completely free, doesn’t show any ads, and has SponsorBlock support. NewPipe is another YouTube client along similar lines. Fennec is a Firefox fork that doesn’t collect any data. So if you want to browse on your TV, it’s worth a shot. The only thing is Flicky will list the entire F-Droid catalog, so you’ll also see apps that are made only for Android phones and tablets. That part can be annoying, but you'll get complete privacy while browsing or downloading apps. The TCL Q6 is an affordable 4K Google TV with Dolby Vision and 120Hz gaming support. You can use it on older Fire TV devices too Sadly, Amazon is closing the door on this F-Droid isn’t just for Android TV and Google TV devices. Since Fire TV OS is also powered by Android, F-Droid works there too. You can sideload it pretty much the same way. The catch is that this only applies to older Fire TV models. Amazon switched to its own VegaOS on newer Fire TV sticks, which doesn't run on Android, so F-Droid won’t work there. And since all future Fire TV Sticks are said to run VegaOS, there’ll be no more Android or sideloading on new models either. To be fair, most other smart TV platforms are also fully closed. Samsung’s Tizen OS and LG’s webOS have their own curated stores, and that’s where it ends. Roku and Apple TV aren’t much different. The reason is simple. Having a single app store lets your manufacturer decide what’s available, what gets updated, and what gets pulled. Alternative app stores are a threat to that model, which is why most platforms don’t allow them. Flicky is an unofficial F-Droid client built specifically for TVs.",
+      "full_article_text_chars": 4932,
+      "content_preview": "Pankil is a Civil Engineer turned freelance writer from Ahmedabad, India. As a long-time Windows and Android user, he has extensive knowledge of both operating systems and specializes in creating how-tos and troubleshooting guides. Pankil has been writing about Windows, Android, and iOS since 2021. He has written over 1200 articles across reputable publications like MakeUseOf, GuidingTech , and TechWiser . Outside of his writing endeavors, Pankil is an avid football fan and loves to plan his international travels with his wife in his free time. The Play Store on your Android TV or Google TV may look like the whole story. It isn’t. You don’t have to limit your TV experience to what Google has approved for your model and region. You can try almost every app made for Android TV, including those that aren’t available officially. And no, I’m not talking about sideloading apps one by one. You can grab an alternative app store like F-Droid and unlock hundreds more apps at once. F-Droid is an open-source app store that doesn’t require an account, is community-driven, and only lists apps that don’t have trackers or ads. The Play Store isn’t your TV’s only app store It’s time to break free Play Store is a great place for grabbing the best apps for your Android TV, but there’s a big catch. It’s Google that decides what apps are available for your specific model and region. With a third-party app store, you get more choices simply because there are almost no such restrictions. It’s not just about having more options, though. Privacy is another huge benefit. Every app you download through the Play Store is tied to your Google account and folded into the profile Google builds. That's not the case with alternative app stores. And since it’s Android under the hood, you have several solid choices too. Aurora Store is a great option if you want to download Play Store apps without using a Google account. Aptoide TV has its own catalog of over 2500 apps. Its best trick is version control, so if an update breaks something, you can roll back to an older build without jumping through hoops. Uptodown is one to reach for apps that aren’t available in your region. The one I like the most, though, is F-Droid. It doesn’t try to compete with the Play Store at all. If you're already an avid Android user, you probably know about it. It’s built for privacy and also fun for exploring apps that aren’t available on the Play Store. F-Droid unlocks apps I can’t get from the Play Store It’s all about privacy Screenshot by Pankil Shah -- No attribution required Getting F-Droid on your TV is slightly different from installing it on your phone. You need to download Flicky, which is an F-Droid client built specifically for TV. Once you’ve downloaded its APK file on your phone, transfer it to the TV, and install it as usual. That part isn’t any different from sideloading apps in general. Once Flicky is installed, you can use it just like the Play Store — search for apps, download the ones you like, and keep everything updated. The big difference is that you won’t need to create an account or worry about privacy. Now, let’s talk about the fun stuff. There are hundreds of interesting apps on F-Droid, but a few are absolutely worth trying first. SmartTube is a popular YouTube client built for TVs. It’s completely free, doesn’t show any ads, and has SponsorBlock support. NewPipe is another YouTube client along similar lines. Fennec is a Firefox fork that doesn’t collect any data. So if you want to browse on your TV, it’s worth a shot. The only thing is Flicky will list the entire F-Droid catalog, so you’ll also see apps that are made only for Android phones and tablets. That part can be annoying, but you'll get complete privacy while browsing or downloading apps. The TCL Q6 is an affordable 4K Google TV with Dolby Vision and 120Hz gaming support. You can use it on older Fire TV devices too Sadly, Amazon is closing the door on this F-Droid isn’t just for Android TV and Google TV devices. Since Fire TV OS is also powered by Android, F-Droid works there too. You can sideload it pretty much the same way. The catch is that this only applies to older Fire TV models. Amazon switched to its own VegaOS on newer Fire TV sticks, which doesn't run on Android, so F-Droid won’t work there. And since all future Fire TV Sticks are said to run VegaOS, there’ll be no more Android or sideloading on new models either. To be fair, most other smart TV platforms are also fully closed. Samsung’s Tizen OS and LG’s webOS have their own curated stores, and that’s where it ends. Roku and Apple TV aren’t much different. The reason is simple. Having a single app store lets your manufacturer decide what’s available, what gets updated, and what gets pulled. Alternative app stores are a threat to that model, which is why most platforms don’t allow them. Flicky is an unofficial F-Droid client built specifically for TVs.",
+      "content_preview_chars": 4932,
+      "content_fetched_at": "2026-07-21T11:27:47",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "3884594e936695d4",
+      "source_url_hash": "3884594e936695d4",
+      "canonical_url": "https://www.howtogeek.com/paramount-plus-movies-to-watch-this-week-july-20",
+      "title_hash": "4528c962ef2754f5",
+      "topic_signature": "3399552b4e46386763d9",
+      "title": "4 great Paramount+ movies to watch this week (July 20-26)",
+      "url": "https://www.howtogeek.com/paramount-plus-movies-to-watch-this-week-july-20",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-07-20T22:00:13Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 13.45,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-21T11:27:27",
+      "status": "skipped",
+      "score": 0,
+      "priority": "low",
+      "skip_reason": "non_technical_entertainment_content"
     }
   ],
   "notifications": {
