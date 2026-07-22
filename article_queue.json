@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-22T11:38:54",
+  "updated_at": "2026-07-22T15:15:01",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2502,12 +2502,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-22T11:30:54",
-      "candidate_retry_after": "2026-07-22T11:45:54Z",
+      "content_fetched_at": "2026-07-22T15:05:28",
+      "candidate_retry_after": "2026-07-22T15:20:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-22T11:30:54",
-      "candidate_failure_count": 46
+      "candidate_failed_at": "2026-07-22T15:05:28",
+      "candidate_failure_count": 47
     },
     {
       "id": "512c2899a98440d2",
@@ -2536,12 +2536,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-22T11:30:54",
-      "candidate_retry_after": "2026-07-22T11:45:54Z",
+      "content_fetched_at": "2026-07-22T15:05:28",
+      "candidate_retry_after": "2026-07-22T15:20:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-22T11:30:54",
-      "candidate_failure_count": 46
+      "candidate_failed_at": "2026-07-22T15:05:28",
+      "candidate_failure_count": 47
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2570,12 +2570,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-22T11:30:54",
-      "candidate_retry_after": "2026-07-22T11:45:54Z",
+      "content_fetched_at": "2026-07-22T15:05:28",
+      "candidate_retry_after": "2026-07-22T15:20:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-22T11:30:54",
-      "candidate_failure_count": 46
+      "candidate_failed_at": "2026-07-22T15:05:28",
+      "candidate_failure_count": 47
     },
     {
       "id": "d900f1574fddfab4",
@@ -3393,12 +3393,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-07-22T11:30:55",
-      "candidate_retry_after": "2026-07-22T11:45:55Z",
+      "content_fetched_at": "2026-07-22T15:05:29",
+      "candidate_retry_after": "2026-07-22T15:20:29Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-07-22T11:30:55",
-      "candidate_failure_count": 45
+      "candidate_failed_at": "2026-07-22T15:05:29",
+      "candidate_failure_count": 46
     },
     {
       "id": "8d2678d87487d729",
@@ -4224,7 +4224,10 @@
       "content_preview_chars": 8881,
       "content_fetched_at": "2026-07-19T11:29:17",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-22T15:05:11",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "7037ab8858645206",
@@ -4254,13 +4257,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-07-22T11:30:56",
-      "candidate_retry_after": "2026-07-22T11:45:56Z",
+      "content_fetch_error": "http 403",
+      "content_fetched_at": "2026-07-22T15:05:29",
+      "candidate_retry_after": "2026-07-22T15:20:29Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-07-22T11:30:56",
-      "candidate_failure_count": 44
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-07-22T15:05:29",
+      "candidate_failure_count": 45
     },
     {
       "id": "45429302676bf4c5",
@@ -5294,12 +5297,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-22T11:30:58",
-      "candidate_retry_after": "2026-07-22T11:45:58Z",
+      "content_fetched_at": "2026-07-22T15:05:30",
+      "candidate_retry_after": "2026-07-22T15:20:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-22T11:30:58",
-      "candidate_failure_count": 42
+      "candidate_failed_at": "2026-07-22T15:05:30",
+      "candidate_failure_count": 43
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5331,12 +5334,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-22T11:30:59",
-      "candidate_retry_after": "2026-07-22T11:45:59Z",
+      "content_fetched_at": "2026-07-22T15:05:32",
+      "candidate_retry_after": "2026-07-22T15:20:32Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-22T11:30:59",
-      "candidate_failure_count": 42
+      "candidate_failed_at": "2026-07-22T15:05:32",
+      "candidate_failure_count": 43
     },
     {
       "id": "aede79193c6b98c9",
@@ -5368,12 +5371,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-22T11:31:01",
-      "candidate_retry_after": "2026-07-22T11:46:01Z",
+      "content_fetched_at": "2026-07-22T15:05:33",
+      "candidate_retry_after": "2026-07-22T15:20:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-22T11:31:01",
-      "candidate_failure_count": 42
+      "candidate_failed_at": "2026-07-22T15:05:33",
+      "candidate_failure_count": 43
     },
     {
       "id": "253eaa098c468523",
@@ -6301,12 +6304,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-22T11:31:02",
-      "candidate_retry_after": "2026-07-22T11:46:02Z",
+      "content_fetched_at": "2026-07-22T15:05:33",
+      "candidate_retry_after": "2026-07-22T15:20:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-22T11:31:02",
-      "candidate_failure_count": 40
+      "candidate_failed_at": "2026-07-22T15:05:33",
+      "candidate_failure_count": 41
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6686,12 +6689,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-22T11:31:05",
-      "candidate_retry_after": "2026-07-22T11:46:05Z",
+      "content_fetched_at": "2026-07-22T15:05:36",
+      "candidate_retry_after": "2026-07-22T15:20:36Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-22T11:31:05",
-      "candidate_failure_count": 38
+      "candidate_failed_at": "2026-07-22T15:05:36",
+      "candidate_failure_count": 39
     },
     {
       "id": "693fbfabd96b2185",
@@ -6722,12 +6725,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-22T11:31:06",
-      "candidate_retry_after": "2026-07-22T11:46:06Z",
+      "content_fetched_at": "2026-07-22T15:05:37",
+      "candidate_retry_after": "2026-07-22T15:20:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-22T11:31:06",
-      "candidate_failure_count": 38
+      "candidate_failed_at": "2026-07-22T15:05:37",
+      "candidate_failure_count": 39
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9126,12 +9129,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=453 chars/70 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:453chars/70words, paragraph_fallback:338chars/53words, article_body:453chars/70words, meta_description:53chars/7words, page_text:453chars/70words)",
-      "content_fetched_at": "2026-07-22T11:31:08",
-      "candidate_retry_after": "2026-07-22T11:46:08Z",
+      "content_fetched_at": "2026-07-22T15:05:38",
+      "candidate_retry_after": "2026-07-22T15:20:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=453 chars/70 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:453chars/70words, paragraph_fallback:338chars/53words, article_body:453chars/70words, meta_description:53chars/7words, page_text:453chars/70words)",
-      "candidate_failed_at": "2026-07-22T11:31:08",
-      "candidate_failure_count": 34
+      "candidate_failed_at": "2026-07-22T15:05:38",
+      "candidate_failure_count": 35
     },
     {
       "id": "561b6316398d7603",
@@ -10218,12 +10221,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-22T11:31:09",
-      "candidate_retry_after": "2026-07-22T11:46:09Z",
+      "content_fetched_at": "2026-07-22T15:05:38",
+      "candidate_retry_after": "2026-07-22T15:20:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-22T11:31:09",
-      "candidate_failure_count": 30
+      "candidate_failed_at": "2026-07-22T15:05:38",
+      "candidate_failure_count": 31
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10255,12 +10258,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-22T11:31:09",
-      "candidate_retry_after": "2026-07-22T11:46:09Z",
+      "content_fetched_at": "2026-07-22T15:05:39",
+      "candidate_retry_after": "2026-07-22T15:20:39Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-22T11:31:09",
-      "candidate_failure_count": 30
+      "candidate_failed_at": "2026-07-22T15:05:39",
+      "candidate_failure_count": 31
     },
     {
       "id": "a6f4ca9464909855",
@@ -10292,12 +10295,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-22T11:31:10",
-      "candidate_retry_after": "2026-07-22T11:46:10Z",
+      "content_fetched_at": "2026-07-22T15:05:39",
+      "candidate_retry_after": "2026-07-22T15:20:39Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-22T11:31:10",
-      "candidate_failure_count": 30
+      "candidate_failed_at": "2026-07-22T15:05:39",
+      "candidate_failure_count": 31
     },
     {
       "id": "71463c25ac92daaa",
@@ -14927,13 +14930,13 @@
       "affiliate_links_removed_count": 3,
       "removed_source_links_count": 81,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:89chars/16words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-22T11:31:11",
-      "candidate_retry_after": "2026-07-22T11:46:11Z",
+      "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
+      "content_fetched_at": "2026-07-22T15:05:40",
+      "candidate_retry_after": "2026-07-22T15:20:40Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:89chars/16words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_de",
-      "candidate_failed_at": "2026-07-22T11:31:11",
-      "candidate_failure_count": 19
+      "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
+      "candidate_failed_at": "2026-07-22T15:05:40",
+      "candidate_failure_count": 20
     },
     {
       "id": "41b7b918ab3966e4",
@@ -20716,7 +20719,67 @@
       "content_preview_chars": 2066,
       "content_fetched_at": "2026-07-22T04:31:17",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-22T15:05:41",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-22T15:05:41",
+      "ai_input_package": {
+        "title": "TSMC might set up a price hike that could come straight for your next phone, laptop, or tablet",
+        "url": "https://www.digitaltrends.com/computing/tsmc-just-quietly-set-up-a-price-hike-thats-coming-straight-for-your-next-phone",
+        "source_name": "Digital Trends",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.digitaltrends.com/tachyon/2026/06/TSMC-Fab-image.jpg?resize=1200%2C630",
+        "article_images": [
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/06/TSMC-Fab-image.jpg?resize=1200%2C630",
+            "alt": "TSMC might set up a price hike that could come straight for your next phone, laptop, or tablet",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2025/09/Apple-iPhone-17-Air-Apple-A19-Pro-6.jpg?resize=2560%2C1440",
+            "alt": "Apple A19 Pro in the iPhone Air",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/02/Snapdragon-8-Elite-Gen-5-for-Galaxy.jpg?resize=2000%2C1200",
+            "alt": "Snapdragon 8 Elite Gen 5 for Galaxy spec wall.",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+            "alt": "Add as a preferred source on Google",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Reports suggest TSMC plans to hike chip prices by up to 10% in 2027, a change that could ripple into the cost of nearly every device you buy.",
+        "content_preview": "My wallet flinched the second I saw the words “TSMC” and “price increase” in the same headline, and honestly, yours should too. Turns out the company behind the silicon powering basically every flagship device out there, including Apple’s A-series and Qualcomm’s Snapdragon processors, is reportedly about to make all of it a little pricier. So how big of a price hike are we actually talking about? According to Nikkei Asia , later confirmed by Reuters , sources familiar with TSMC’s pricing strategy say the company plans to raise chip prices between 5% and 10%, depending on the customer and the chip, starting in 2027. That number only sounds forgettable until you run the math. A single 3nm wafer from TSMC (the one that is sliced into individual chips) currently runs around $19,500. Bump that up 10%, and you’re suddenly looking at roughly $21,450 per wafer. Now multiply that by the hundreds or thousands of wafers a company like Apple or Qualcomm contracts out each year, and that “small” percentage turns into a genuinely massive number. We could be talking about millions of dollars worth of additional cost here. TSMC hasn’t confirmed anything officially, telling reporters it doesn’t comment on pricing strategy, though a spokesperson did admit the company’s approach is “strategic, not opportunistic.” Is this actually happening, or just rumor mill noise? I wouldn’t bet against it. TSMC’s own CEO has already said prices could climb, pointing to AI chip demand that won’t be satisfied for years, while insisting increases won’t happen “abruptly.” TSMC has raised prices before, so this fits a pattern rather than breaking one. Manufacturers unwilling to eat the cost do have an alternative in Samsung’s 2nm process (the one that forms the base of the Exynos 2600 chipset), though switching foundries isn’t exactly a quick fix. I’ve watched memory and storage prices already squeeze device costs upward this year. Stack a TSMC hike on top of that, and 2027 is shaping up to be an even more expensive year to upgrade anything with a good chip inside it.",
+        "content_preview_chars": 2066,
+        "rss_summary": "",
+        "full_article_text": "My wallet flinched the second I saw the words “TSMC” and “price increase” in the same headline, and honestly, yours should too. Turns out the company behind the silicon powering basically every flagship device out there, including Apple’s A-series and Qualcomm’s Snapdragon processors, is reportedly about to make all of it a little pricier. So how big of a price hike are we actually talking about? According to Nikkei Asia , later confirmed by Reuters , sources familiar with TSMC’s pricing strategy say the company plans to raise chip prices between 5% and 10%, depending on the customer and the chip, starting in 2027. That number only sounds forgettable until you run the math. A single 3nm wafer from TSMC (the one that is sliced into individual chips) currently runs around $19,500. Bump that up 10%, and you’re suddenly looking at roughly $21,450 per wafer. Now multiply that by the hundreds or thousands of wafers a company like Apple or Qualcomm contracts out each year, and that “small” percentage turns into a genuinely massive number. We could be talking about millions of dollars worth of additional cost here. TSMC hasn’t confirmed anything officially, telling reporters it doesn’t comment on pricing strategy, though a spokesperson did admit the company’s approach is “strategic, not opportunistic.” Is this actually happening, or just rumor mill noise? I wouldn’t bet against it. TSMC’s own CEO has already said prices could climb, pointing to AI chip demand that won’t be satisfied for years, while insisting increases won’t happen “abruptly.” TSMC has raised prices before, so this fits a pattern rather than breaking one. Manufacturers unwilling to eat the cost do have an alternative in Samsung’s 2nm process (the one that forms the base of the Exynos 2600 chipset), though switching foundries isn’t exactly a quick fix. I’ve watched memory and storage prices already squeeze device costs upward this year. Stack a TSMC hike on top of that, and 2027 is shaping up to be an even more expensive year to upgrade anything with a good chip inside it.",
+        "full_article_text_chars": 2066,
+        "enrichment_status": "weak",
+        "source_url": "https://www.digitaltrends.com",
+        "source_published_at": "2026-07-21T21:31:02Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 7.0,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_status": "failed",
+      "ai_error": "ai_time_budget_exceeded",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": true,
+      "ai_total_time_seconds": 210.83,
+      "ai_quality_status": "time_budget_exceeded",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-22T15:24:12Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "ai_time_budget_exceeded",
+      "candidate_failed_at": "2026-07-22T15:09:12",
+      "candidate_failure_count": 1
     },
     {
       "id": "f69a5794ddac7ba3",
@@ -20794,7 +20857,68 @@
       "content_preview_chars": 2097,
       "content_fetched_at": "2026-07-22T04:31:21",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-22T15:11:59",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-22T15:11:59",
+      "ai_input_package": {
+        "title": "Samsung’s free storage doubling for preorders is gone in Austria, and the replacement isn’t as sweet",
+        "url": "https://www.digitaltrends.com/phones/samsungs-free-storage-doubling-for-preorders-is-gone-in-austria-and-the-replacement-isnt-as-sweet",
+        "source_name": "Digital Trends",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.digitaltrends.com/tachyon/2025/07/Galaxy-Z-Fold-7-hands-on-1.jpg?resize=1200%2C630",
+        "article_images": [
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2025/07/Galaxy-Z-Fold-7-hands-on-1.jpg?resize=1200%2C630",
+            "alt": "Samsung’s free storage doubling for preorders is gone in Austria, and the replacement isn’t as sweet",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2025/01/galaxy-unpacked-2025-feature.jpg?resize=300%2C180",
+            "alt": "galaxy unpacked 2025",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/07/Samsung-pre-orders-Austria.jpg?resize=2000%2C1200",
+            "alt": "Text, Business Card, Paper",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/07/Galaxy-Z-Fold-8-Ultra-camera.jpg?resize=2000%2C1200",
+            "alt": "Sphere, Electronics, Light",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Samsung's classic pre-order perk of doubled storage for free is gone for Austria, replaced by discounted upgrades on the Galaxy Z Fold 8 and Z Flip 8.",
+        "content_preview": "If you’ve pre-ordered a Samsung foldable purely for the free storage bump, tomorrow’s Unpacked event might sting a little. For years, pre-ordering a new Galaxy meant automatically getting double the storage at no additional charge. Buy the 128GB model, walk away with 256GB for the same price. The same applied to the 256GB and 512GB models. However, that might change at the upcoming Galaxy Unpacked event. So what exactly is Samsung ending here? In other words, those pre-ordering the Galaxy Z Fold 8 Ultra, Galaxy Z Fold 8, and Galaxy Z Flip 8 won’t get a free storage upgrade in return for showing interest in the new smartphones and getting their units reserved ahead of the general sales. This isn’t a surprise exactly; an industry insider called this months ago, but seeing it in writing still feels like the end of an era. What do you get instead, and is it still worth it? Rather than free storage, Samsung Austria is going down the discounted upgrade path. Choosing the 512GB model during pre-order gets you a €100 deduction, while jumping to 1TB knocks €200 off. Based on leaked European pricing, that works out to roughly half of what the storage upgrade will cost once the pre-order window closes. So it’s not nothing, but it’s a real step down from getting double the space for free. Samsung hasn’t confirmed whether this exact structure applies outside Austria. However, given how much worse the global memory crisis is, and how companies have been passing on the additional cost to consumers (even Apple), I can’t say with absolute certainty that Samsung US won’t follow the same approach. What could Samsung do in the US? Samsung has two ways to deal with this. First, it can absorb the rising bill of materials by reducing its effective margin on the products and retain the free storage-upgrade offer for its buyers in the US. However, it could meet the customers in the middle and offer them discounts on higher storage tiers. Until official US pre-order terms are announced, these two paths reflect the balancing act between protecting margins and preserving buyer incentives.",
+        "content_preview_chars": 2097,
+        "rss_summary": "",
+        "full_article_text": "If you’ve pre-ordered a Samsung foldable purely for the free storage bump, tomorrow’s Unpacked event might sting a little. For years, pre-ordering a new Galaxy meant automatically getting double the storage at no additional charge. Buy the 128GB model, walk away with 256GB for the same price. The same applied to the 256GB and 512GB models. However, that might change at the upcoming Galaxy Unpacked event. So what exactly is Samsung ending here? In other words, those pre-ordering the Galaxy Z Fold 8 Ultra, Galaxy Z Fold 8, and Galaxy Z Flip 8 won’t get a free storage upgrade in return for showing interest in the new smartphones and getting their units reserved ahead of the general sales. This isn’t a surprise exactly; an industry insider called this months ago, but seeing it in writing still feels like the end of an era. What do you get instead, and is it still worth it? Rather than free storage, Samsung Austria is going down the discounted upgrade path. Choosing the 512GB model during pre-order gets you a €100 deduction, while jumping to 1TB knocks €200 off. Based on leaked European pricing, that works out to roughly half of what the storage upgrade will cost once the pre-order window closes. So it’s not nothing, but it’s a real step down from getting double the space for free. Samsung hasn’t confirmed whether this exact structure applies outside Austria. However, given how much worse the global memory crisis is, and how companies have been passing on the additional cost to consumers (even Apple), I can’t say with absolute certainty that Samsung US won’t follow the same approach. What could Samsung do in the US? Samsung has two ways to deal with this. First, it can absorb the rising bill of materials by reducing its effective margin on the products and retain the free storage-upgrade offer for its buyers in the US. However, it could meet the customers in the middle and offer them discounts on higher storage tiers. Until official US pre-order terms are announced, these two paths reflect the balancing act between protecting margins and preserving buyer incentives.",
+        "full_article_text_chars": 2097,
+        "enrichment_status": "weak",
+        "source_url": "https://www.digitaltrends.com",
+        "source_published_at": "2026-07-21T21:10:17Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 7.35,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (662 words; minimum 700)",
+      "ai_provider_last_error": "ai_time_budget_exceeded",
+      "ai_status": "failed",
+      "ai_error": "ai_time_budget_exceeded",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": true,
+      "ai_total_time_seconds": 181.46,
+      "ai_quality_status": "time_budget_exceeded",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-22T15:30:01Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "ai_time_budget_exceeded",
+      "candidate_failed_at": "2026-07-22T15:15:01",
+      "candidate_failure_count": 1
     },
     {
       "id": "3fdc40a5e56bd575",
@@ -20849,7 +20973,57 @@
       "content_preview_chars": 4616,
       "content_fetched_at": "2026-07-22T04:31:28",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-22T15:09:12",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-22T15:09:12",
+      "ai_input_package": {
+        "title": "OpenAI says Hugging Face was breached by its pre-release models | TechCrunch",
+        "url": "https://techcrunch.com/2026/07/21/openai-says-hugging-face-was-breached-by-its-pre-release-models",
+        "source_name": "TechCrunch",
+        "suggested_category": "Tech-News",
+        "main_image": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-1849294862.jpg?w=1024",
+        "article_images": [
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-1849294862.jpg?w=1024",
+            "alt": "OpenAI says Hugging Face was breached by its pre-release models | TechCrunch",
+            "source": "og:image_or_twitter"
+          }
+        ],
+        "meta_description": "OpenAI has come forward to claim responsibility for the Hugging Face breach, saying it was the result of internal testing gone awry.",
+        "content_preview": "OpenAI admitted Tuesday that one of its AI models breached the systems of Hugging Face, the unaffiliated AI hosting platform, during an internal cybersecurity test that went awry. The models reportedly escaped their isolated testing environment and reached Hugging Face’s systems from there. Hugging Face initially attributed the breach to an “external AI agent.” In a blog post published Tuesday afternoon , OpenAI detailed the steps that led the models to compromise the service. “After investigating, we now know that this particular incident was driven by a combination of OpenAI models — including GPT‑5.6 Sol and an even more capable pre-release model, all with reduced cyber refusals for evaluation purposes — while being internally tested on a benchmark⁠ of cyber capabilities,” the post reads. In particular, the breach appears to have focused on ExploitGym , a publicly hosted benchmark measuring models’ ability to execute attacks based on existing vulnerabilities. Benchmarks like ExploitGym are commonly used in model training to refine specific skills, but this is the first known incident in which that testing resulted in an actual cyberattack. In this case, the model in question should not have even had internet access, outside of a specific tool that enabled models to install software packages they might need to complete their task. Instead, the model was able to find an undisclosed vulnerability in the package-installer program, which it used to access the broader internet at will. “The models were hyperfocused on finding a solution for ExploitGym, going to extreme lengths to achieve a rather narrow testing goal,” OpenAI’s post reads. “After gaining Internet access, the models inferred that Hugging Face potentially hosted models, datasets and solutions for ExploitGym. Knowing this, the model searched for and successfully found ways to gain access to secret information that it could use to cheat the evaluation.” Ultimately, the models found vulnerabilities in Hugging Face’s infrastructure that allowed them to “obtain test solutions directly from Hugging Face’s production database,” effectively providing the answers to the benchmark. For Hugging Face, the apparent result was a sophisticated and aggressive cyberattack, with “many thousands of individual actions across a swarm of short-lived sandboxes, with self-migrating command-and-control staged on public services,” as the company stated in its initial disclosure. OpenAI has identified and reported the vulnerabilities in the package installer and is working with Hugging Face to investigate the incident further. The company also said it would implement new controls on both model testing and the related infrastructure, meant to prevent similar incidents in the future. It’s unclear whether OpenAI will face any legal consequences as a result of the breach, although it’s likely that the models’ actions violated the Computer Fraud and Abuse Act. Nevertheless, the result is an unusually vivid illustration of the power and dangers of frontier AI models operating on long time horizons. As OpenAI researcher Micah Carroll posted in response to the news , “If this doesn’t convince you that misalignment risks are going to be a key concern going forward, I don’t know what will.” When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! Anthropic’s landmark $1.5B copyright settlement is approved Kirsten Korosec Anthropic’s landmark $1.5B copyright settlement is approved Judge pauses $110B Paramount-Warner Bros. merger Aisha Malik Judge pauses $110B Paramount-Warner Bros. merger Apple and Google ordered to purge ‘nudify’ apps from App Stores Lucas Ropek Apple and Google ordered to purge ‘nudify’ apps from App Stores Coca-Cola suspended production at its Fairlife dairy after a ransomware attack Zack Whittaker Coca-Cola suspended production at its Fairlife dairy after a ransomware attack Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Sean O'Kane Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex Lucas Ropek Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex Anthropic, Blackstone bet the next trillion-dollar AI business is implementation, not just models Rebecca Bellan Anthropic, Blackstone bet the next trillion-dollar AI business is implementation, not just models",
+        "content_preview_chars": 4616,
+        "rss_summary": "",
+        "full_article_text": "OpenAI admitted Tuesday that one of its AI models breached the systems of Hugging Face, the unaffiliated AI hosting platform, during an internal cybersecurity test that went awry. The models reportedly escaped their isolated testing environment and reached Hugging Face’s systems from there. Hugging Face initially attributed the breach to an “external AI agent.” In a blog post published Tuesday afternoon , OpenAI detailed the steps that led the models to compromise the service. “After investigating, we now know that this particular incident was driven by a combination of OpenAI models — including GPT‑5.6 Sol and an even more capable pre-release model, all with reduced cyber refusals for evaluation purposes — while being internally tested on a benchmark⁠ of cyber capabilities,” the post reads. In particular, the breach appears to have focused on ExploitGym , a publicly hosted benchmark measuring models’ ability to execute attacks based on existing vulnerabilities. Benchmarks like ExploitGym are commonly used in model training to refine specific skills, but this is the first known incident in which that testing resulted in an actual cyberattack. In this case, the model in question should not have even had internet access, outside of a specific tool that enabled models to install software packages they might need to complete their task. Instead, the model was able to find an undisclosed vulnerability in the package-installer program, which it used to access the broader internet at will. “The models were hyperfocused on finding a solution for ExploitGym, going to extreme lengths to achieve a rather narrow testing goal,” OpenAI’s post reads. “After gaining Internet access, the models inferred that Hugging Face potentially hosted models, datasets and solutions for ExploitGym. Knowing this, the model searched for and successfully found ways to gain access to secret information that it could use to cheat the evaluation.” Ultimately, the models found vulnerabilities in Hugging Face’s infrastructure that allowed them to “obtain test solutions directly from Hugging Face’s production database,” effectively providing the answers to the benchmark. For Hugging Face, the apparent result was a sophisticated and aggressive cyberattack, with “many thousands of individual actions across a swarm of short-lived sandboxes, with self-migrating command-and-control staged on public services,” as the company stated in its initial disclosure. OpenAI has identified and reported the vulnerabilities in the package installer and is working with Hugging Face to investigate the incident further. The company also said it would implement new controls on both model testing and the related infrastructure, meant to prevent similar incidents in the future. It’s unclear whether OpenAI will face any legal consequences as a result of the breach, although it’s likely that the models’ actions violated the Computer Fraud and Abuse Act. Nevertheless, the result is an unusually vivid illustration of the power and dangers of frontier AI models operating on long time horizons. As OpenAI researcher Micah Carroll posted in response to the news , “If this doesn’t convince you that misalignment risks are going to be a key concern going forward, I don’t know what will.” When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! Anthropic’s landmark $1.5B copyright settlement is approved Kirsten Korosec Anthropic’s landmark $1.5B copyright settlement is approved Judge pauses $110B Paramount-Warner Bros. merger Aisha Malik Judge pauses $110B Paramount-Warner Bros. merger Apple and Google ordered to purge ‘nudify’ apps from App Stores Lucas Ropek Apple and Google ordered to purge ‘nudify’ apps from App Stores Coca-Cola suspended production at its Fairlife dairy after a ransomware attack Zack Whittaker Coca-Cola suspended production at its Fairlife dairy after a ransomware attack Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Sean O'Kane Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex Lucas Ropek Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex Anthropic, Blackstone bet the next trillion-dollar AI business is implementation, not just models Rebecca Bellan Anthropic, Blackstone bet the next trillion-dollar AI business is implementation, not just models",
+        "full_article_text_chars": 4616,
+        "enrichment_status": "strong",
+        "source_url": "https://techcrunch.com",
+        "source_published_at": "2026-07-21T20:56:55Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 7.57,
+        "trusted_references": [
+          {
+            "title": "a blog post published Tuesday afternoon",
+            "url": "https://openai.com/index/hugging-face-model-evaluation-security-incident/"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "ad/affiliate/sponsored title or summary",
+      "ai_status": "failed",
+      "ai_error": "ad/affiliate/sponsored title or summary",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 164.89,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-22T15:26:58Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "ad/affiliate/sponsored title or summary",
+      "candidate_failed_at": "2026-07-22T15:11:58",
+      "candidate_failure_count": 1
     },
     {
       "id": "a57dd77c97f9da26",
@@ -20950,7 +21124,7 @@
       "category_label": "Tech-News",
       "category_hint": "Tech-News",
       "discovered_at": "2026-07-22T04:31:06",
-      "status": "ready",
+      "status": "selected",
       "score": 3,
       "priority": "low",
       "source_links_removed_count": 93,
@@ -20996,7 +21170,49 @@
       "content_preview_chars": 4783,
       "content_fetched_at": "2026-07-22T04:31:26",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-22T15:15:01",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-22T15:15:01",
+      "ai_input_package": {
+        "title": "Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents | TechCrunch",
+        "url": "https://techcrunch.com/2026/07/21/jack-dorsey-is-taking-on-slack-with-buzz-a-group-chat-platform-for-teams-and-their-ai-agents",
+        "source_name": "TechCrunch",
+        "suggested_category": "Tech-News",
+        "main_image": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-638007236.jpg?resize=1200,798",
+        "article_images": [
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-638007236.jpg?resize=1200,798",
+            "alt": "Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents | TechCrunch",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2026/07/Screenshot-2026-07-21-at-3.09.35-PM.png?w=680",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2026/07/GettyImages-638007236.jpg?w=1024",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Buzz is a group chat platform for the workplace that puts humans and their AI agents in the same conversation.",
+        "content_preview": "Twitter and Block co-founder Jack Dorsey announced a new app on Tuesday called Buzz . Positioned as a challenger to Slack and GitHub, Buzz is a group chat platform for the workplace that puts humans and their AI agents in the same conversations. Dorsey wrote on X that Buzz is “model-agnostic, decentralized, self-sovereign, and open source.” This product seems to be more than just a Dorsey passion project. According to its website, Buzz was built by Dorsey’s company Block, which also operates products like Square, Cash App, Afterpay, and Tidal. we're launching BUZZ! a new groupchat platform for teams of people and agents of all sizes, built to reduce our dependency on slack and github. model-agnostic, decentralized, self-sovereign, and open source. 🐝 https://t.co/8IaMVeTQNo — jack (@jack) July 21, 2026 As startups increasingly rely on AI agents to get work done, it can be challenging for employees to collaborate on various tasks across different platforms. Buzz’s utility is that it merges several different workflows into one workspace. It looks a lot like Slack, but with native AI agents and the ability to manage GitHub projects all from the same window. Since the platform is open source, developers can make their own Buzz instance feel more customized to the needs and workflows of their specific team. If a team needs a new feature, they can build it and deploy it on their own, since they have full access to the source code. Dorsey isn’t the only entrepreneur trying to pursue AI-native alternatives or additions to Slack. Paradigm partner and CTO Georgios Konstantopoulos recently unveiled a similar open source product called Centaur , which he describes as a “ virtual employee ” that runs either inside of Slack or via an API. “There’s a lot of room for improvement for agents that live in Slack and can do more work than just coding for teams. In the enterprise setting, this means that you’ll want to self-host for security and control, and you want people to use it in Slack,” Konstantopoulos wrote on X. Read our blog to get a deep dive on Why Centaur and How It Works. My TL;DR is that Centaur is the best way to AGI pill your team and to 100x your team's productivity. There's a lot of room for improvement for agents that live in Slack and can do more work than just coding for… — Georgios Konstantopoulos (@gakonst) May 21, 2026 For newer startups that are using AI agents and don’t have an established presence on Slack, Buzz (or its competitors) could be worth investigating. But Buzz itself admits that it is in its “early stages,” so it’s probably not a good idea to port your team over just yet. Buzz’s free desktop app is available now for macOS, Windows, and Linux, and the code for the app has been uploaded to GitHub. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Amanda Silberling is a senior writer at TechCrunch covering the intersection of technology and culture. She has also written for publications like Polygon, MTV, the Kenyon Review, NPR, and Business Insider. She is the co-host of Wow If True, a podcast about internet culture, with science fiction author Isabel J. Kim. Prior to joining TechCrunch, she worked as a grassroots organizer, museum educator, and film festival coordinator. She holds a B.A. in English from the University of Pennsylvania and served as a Princeton in Asia Fellow in Laos. You can contact or verify outreach from Amanda by emailing amanda@techcrunch.com or via encrypted message at @amanda.100 on Signal. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! Anthropic’s landmark $1.5B copyright settlement is approved Kirsten Korosec Anthropic’s landmark $1.5B copyright settlement is approved Judge pauses $110B Paramount-Warner Bros. merger Aisha Malik Judge pauses $110B Paramount-Warner Bros. merger Apple and Google ordered to purge ‘nudify’ apps from App Stores Lucas Ropek Apple and Google ordered to purge ‘nudify’ apps from App Stores Coca-Cola suspended production at its Fairlife dairy after a ransomware attack Zack Whittaker Coca-Cola suspended production at its Fairlife dairy after a ransomware attack Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Sean O'Kane Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex Lucas Ropek Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex Anthropic, Blackstone bet the next trillion-dollar AI business is implementation, not just models Rebecca Bellan Anthropic, Blackstone bet the next trillion-dollar AI business is implementation, not just models",
+        "content_preview_chars": 4783,
+        "rss_summary": "",
+        "full_article_text": "Twitter and Block co-founder Jack Dorsey announced a new app on Tuesday called Buzz . Positioned as a challenger to Slack and GitHub, Buzz is a group chat platform for the workplace that puts humans and their AI agents in the same conversations. Dorsey wrote on X that Buzz is “model-agnostic, decentralized, self-sovereign, and open source.” This product seems to be more than just a Dorsey passion project. According to its website, Buzz was built by Dorsey’s company Block, which also operates products like Square, Cash App, Afterpay, and Tidal. we're launching BUZZ! a new groupchat platform for teams of people and agents of all sizes, built to reduce our dependency on slack and github. model-agnostic, decentralized, self-sovereign, and open source. 🐝 https://t.co/8IaMVeTQNo — jack (@jack) July 21, 2026 As startups increasingly rely on AI agents to get work done, it can be challenging for employees to collaborate on various tasks across different platforms. Buzz’s utility is that it merges several different workflows into one workspace. It looks a lot like Slack, but with native AI agents and the ability to manage GitHub projects all from the same window. Since the platform is open source, developers can make their own Buzz instance feel more customized to the needs and workflows of their specific team. If a team needs a new feature, they can build it and deploy it on their own, since they have full access to the source code. Dorsey isn’t the only entrepreneur trying to pursue AI-native alternatives or additions to Slack. Paradigm partner and CTO Georgios Konstantopoulos recently unveiled a similar open source product called Centaur , which he describes as a “ virtual employee ” that runs either inside of Slack or via an API. “There’s a lot of room for improvement for agents that live in Slack and can do more work than just coding for teams. In the enterprise setting, this means that you’ll want to self-host for security and control, and you want people to use it in Slack,” Konstantopoulos wrote on X. Read our blog to get a deep dive on Why Centaur and How It Works. My TL;DR is that Centaur is the best way to AGI pill your team and to 100x your team's productivity. There's a lot of room for improvement for agents that live in Slack and can do more work than just coding for… — Georgios Konstantopoulos (@gakonst) May 21, 2026 For newer startups that are using AI agents and don’t have an established presence on Slack, Buzz (or its competitors) could be worth investigating. But Buzz itself admits that it is in its “early stages,” so it’s probably not a good idea to port your team over just yet. Buzz’s free desktop app is available now for macOS, Windows, and Linux, and the code for the app has been uploaded to GitHub. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Amanda Silberling is a senior writer at TechCrunch covering the intersection of technology and culture. She has also written for publications like Polygon, MTV, the Kenyon Review, NPR, and Business Insider. She is the co-host of Wow If True, a podcast about internet culture, with science fiction author Isabel J. Kim. Prior to joining TechCrunch, she worked as a grassroots organizer, museum educator, and film festival coordinator. She holds a B.A. in English from the University of Pennsylvania and served as a Princeton in Asia Fellow in Laos. You can contact or verify outreach from Amanda by emailing amanda@techcrunch.com or via encrypted message at @amanda.100 on Signal. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! Anthropic’s landmark $1.5B copyright settlement is approved Kirsten Korosec Anthropic’s landmark $1.5B copyright settlement is approved Judge pauses $110B Paramount-Warner Bros. merger Aisha Malik Judge pauses $110B Paramount-Warner Bros. merger Apple and Google ordered to purge ‘nudify’ apps from App Stores Lucas Ropek Apple and Google ordered to purge ‘nudify’ apps from App Stores Coca-Cola suspended production at its Fairlife dairy after a ransomware attack Zack Whittaker Coca-Cola suspended production at its Fairlife dairy after a ransomware attack Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Sean O'Kane Tesla driver in fatal Texas crash pressed accelerator 100%, NTSB confirms Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex Lucas Ropek Amid hardware legal battle, OpenAI releases a $230 keyboard for Codex Anthropic, Blackstone bet the next trillion-dollar AI business is implementation, not just models Rebecca Bellan Anthropic, Blackstone bet the next trillion-dollar AI business is implementation, not just models",
+        "full_article_text_chars": 4783,
+        "enrichment_status": "strong",
+        "source_url": "https://techcrunch.com",
+        "source_published_at": "2026-07-21T19:43:41Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 8.79,
+        "trusted_references": [],
+        "related_posts": []
+      }
     },
     {
       "id": "1a6317e0897d5477",
@@ -21893,6 +22109,644 @@
       "content_preview_chars": 5833,
       "content_fetched_at": "2026-07-22T11:30:53",
       "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "26ed96238d6f112e",
+      "source_url_hash": "26ed96238d6f112e",
+      "canonical_url": "https://arstechnica.com/science/2026/07/what-happens-when-you-try-to-chop-a-photon-in-half",
+      "title_hash": "c6489d5d64454039",
+      "topic_signature": "96e4541324936378c482",
+      "title": "What happens when you try to chop a photon in half?",
+      "url": "https://arstechnica.com/science/2026/07/what-happens-when-you-try-to-chop-a-photon-in-half",
+      "source_name": "Ars Technica",
+      "source_url": "https://arstechnica.com",
+      "source_published_at": "2026-07-22T14:17:08Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.8,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-22T15:05:11",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 58,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 58,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "What happens when you try to chop a photon in half?",
+      "meta_description": "A mirror that moves mid-photon could release a shower of new photons.",
+      "article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/GettyImages-2263112099-1152x648-1784657388.jpg",
+          "alt": "What happens when you try to chop a photon in half?",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/GettyImages-2263112099-640x333.jpg",
+          "alt": "a single bright, white source of light against a black background, with lens flare and a prism effect creating a complex mix of different colored light rays.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/02/john-timmer-300x300.jpg",
+          "alt": "Photo of John Timmer",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+          "alt": "Loading",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/GettyImages-2263112099-1152x648-1784657388.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/GettyImages-2263112099-640x333.jpg",
+          "alt": "a single bright, white source of light against a black background, with lens flare and a prism effect creating a complex mix of different colored light rays."
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/02/john-timmer-300x300.jpg",
+          "alt": "Photo of John Timmer"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+          "alt": "Loading"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "A photon is a single particle of light, and under normal circumstances, it can’t be divided. But a photon is also not a particle, in the sense that it does not have a specific location. Instead, it is an extended object. So if a photon is only partway through the process of reflecting from a perfect mirror and you yank the mirror away, what happens? The answer, from a trio of Norwegian physicists, turns out ( arxiv.org link ) to be more complex than I expected. Let’s first talk briefly about dividing and combining photons. If this were a common experience in our lives, then shining a single color of light through a piece of glass or reflecting it from a surface might cause photons to divide or combine. This would lead to an amazing array of colors: Our universe would be the most fantastic and legal LSD trip you could imagine. But this doesn’t generally happen, hence LSD. What does happen is that photons can divide and combine under the right circumstances—essentially, the medium through which the light travels has to change in response to the light. This can lead to a rainbow of colors from a single color source. Technically, we would say that the light interactions we see around us are linear, and the combination/division of photons is a nonlinear process. Typically, to overcome that nonlinearity, you need either a very sensitive medium or a very high-intensity light source, like a laser. The sudden removal of the mirror while a photon is reflecting is not nonlinear in the way that I would normally think about it. But if you give it more than a moment’s thought, it’s clearly a nonlinear event. This line of thinking is obscured by how we think about single photons at mirrors, though, as I will illustrate below. A single photon goes through the looking glass Let’s start with the example of a partially reflective mirror. When a single photon hits that mirror, it will either go through the mirror or reflect from the mirror. The photon is considered to enter a superposition state of having both reflected and passed through (the probabilities of each path depending on how reflective the mirror is). If we place detectors in the path of the reflected and transmitted photons, when one clicks, it collapses the superposition, and the other potential path disappears. There are no circumstances in which both detectors will click at the same time. We do not record half a photon each way. Naively, we could make the same argument for a fully reflective mirror that is removed midway through reflection. In this argument, the photon enters a superposition state of transmitted and reflected, with the probability determined by when the mirror was removed compared to the “size” of the photon. Again, when we try to measure which way the photon went, we’d expect the superposition to collapse, and only one detector would click. When I actually stopped to think about it, it was obvious that this was wrong. But to understand why, we need some extra theoretical baggage. A photonic thunder clap Time and frequency are two sides of the same coin. If we play a note on a piano, there is a time-domain picture: a regular variation in pressure with time that continues for quite a while. This note can be described by a single frequency with a single amplitude (how loud it is). More complicated sounds (chords, staccato notes) have a complicated structure in time and are described by more complicated combinations of frequencies, each with its own amplitude (phase also matters, but we will ignore that). This picture is universal and applies to all time-varying signals—and far more than those, too. When I was growing up on the farm, listening to AM radio on an old-fashioned (even then) tube radio, the music was always interrupted by a clicking noise. The clicking was from our electric fence, which was always zapping some errant grass, a misbehaving sheep, or a horny bull. That short-sharp current generated a short electromagnetic pulse (and an angry bull). The very short pulse (in time) was present across a very broad spectrum, including, to my annoyance, the AM broadcast spectrum. The shorter an event in time, the more frequency spectrum is required to support it. On the flipside, a single tone that does not change for a very long time requires very little spectrum (only the tone itself). This rule also applies to photons reflecting from mirrors. The photon is reflecting from the mirror, and the electromagnetic field is varying regularly and smoothly changing from the incoming to the reflected wave. The transmitted wave doesn’t exist, so the amplitude is a happy zero. Then the mirror is yanked away. The reflected wave’s amplitude abruptly drops to zero, and the transmitted wave suddenly jumps from zero. Those are two sharp transitions that require a lot more bandwidth than the original photon had. Our photon that has been cut off is still in a superposition of reflected and transmitted. But it also has a sharp edge, which requires a multitude of photons at different frequencies. Cutting a photon in half generates a rainbow. And as far as I can tell, the generated photons are in a superposition of both reflected and transmitted light. But since there are potentially many photons, both transmitted and reflected light could be measured simultaneously. Can we do it for real? This will be a complex experiment to perform. Researchers will need a source that generates single photons on demand with a very narrow spectral bandwidth. This will spread them out in time so that any additional photons that come from cutting it off are observable. They then need to be able to trigger the mirror at the right time. This won’t be done with something like a bathroom mirror. The authors calculate that the transition from reflective to transmission needs to take place in about 10 femtoseconds (a femtosecond is 10 -15 s), which is insufficient time to move a physical mirror. Some materials, like semiconductors, can be driven from reflective to transmission quite rapidly (30-100 fs) using ultrafast laser pulses as the switch. Unfortunately, that laser pulse gets in the way. It will be quite difficult to filter out the big laser pulse used to remove the mirror so that the photons generated by cutting the long single photon are observable though. We already have some evidence that this works, though. The mirrors I described above are used to shorten ultrashort pulses, which means that the reflected pulses have more frequencies after reflection, and new photons must therefore be generated. We just haven’t observed it for single photons yet. But give it about a year, and I’d bet we will. Physical Review Letters , 2026, DOI: 10.1103/94pm-hp34",
+      "full_article_text_chars": 6703,
+      "content_preview": "A photon is a single particle of light, and under normal circumstances, it can’t be divided. But a photon is also not a particle, in the sense that it does not have a specific location. Instead, it is an extended object. So if a photon is only partway through the process of reflecting from a perfect mirror and you yank the mirror away, what happens? The answer, from a trio of Norwegian physicists, turns out ( arxiv.org link ) to be more complex than I expected. Let’s first talk briefly about dividing and combining photons. If this were a common experience in our lives, then shining a single color of light through a piece of glass or reflecting it from a surface might cause photons to divide or combine. This would lead to an amazing array of colors: Our universe would be the most fantastic and legal LSD trip you could imagine. But this doesn’t generally happen, hence LSD. What does happen is that photons can divide and combine under the right circumstances—essentially, the medium through which the light travels has to change in response to the light. This can lead to a rainbow of colors from a single color source. Technically, we would say that the light interactions we see around us are linear, and the combination/division of photons is a nonlinear process. Typically, to overcome that nonlinearity, you need either a very sensitive medium or a very high-intensity light source, like a laser. The sudden removal of the mirror while a photon is reflecting is not nonlinear in the way that I would normally think about it. But if you give it more than a moment’s thought, it’s clearly a nonlinear event. This line of thinking is obscured by how we think about single photons at mirrors, though, as I will illustrate below. A single photon goes through the looking glass Let’s start with the example of a partially reflective mirror. When a single photon hits that mirror, it will either go through the mirror or reflect from the mirror. The photon is considered to enter a superposition state of having both reflected and passed through (the probabilities of each path depending on how reflective the mirror is). If we place detectors in the path of the reflected and transmitted photons, when one clicks, it collapses the superposition, and the other potential path disappears. There are no circumstances in which both detectors will click at the same time. We do not record half a photon each way. Naively, we could make the same argument for a fully reflective mirror that is removed midway through reflection. In this argument, the photon enters a superposition state of transmitted and reflected, with the probability determined by when the mirror was removed compared to the “size” of the photon. Again, when we try to measure which way the photon went, we’d expect the superposition to collapse, and only one detector would click. When I actually stopped to think about it, it was obvious that this was wrong. But to understand why, we need some extra theoretical baggage. A photonic thunder clap Time and frequency are two sides of the same coin. If we play a note on a piano, there is a time-domain picture: a regular variation in pressure with time that continues for quite a while. This note can be described by a single frequency with a single amplitude (how loud it is). More complicated sounds (chords, staccato notes) have a complicated structure in time and are described by more complicated combinations of frequencies, each with its own amplitude (phase also matters, but we will ignore that). This picture is universal and applies to all time-varying signals—and far more than those, too. When I was growing up on the farm, listening to AM radio on an old-fashioned (even then) tube radio, the music was always interrupted by a clicking noise. The clicking was from our electric fence, which was always zapping some errant grass, a misbehaving sheep, or a horny bull. That short-sharp current generated a short electromagnetic pulse (and an angry bull). The very short pulse (in time) was present across a very broad spectrum, including, to my annoyance, the AM broadcast spectrum. The shorter an event in time, the more frequency spectrum is required to support it. On the flipside, a single tone that does not change for a very long time requires very little spectrum (only the tone itself). This rule also applies to photons reflecting from mirrors. The photon is reflecting from the mirror, and the electromagnetic field is varying regularly and smoothly changing from the incoming to the reflected wave. The transmitted wave doesn’t exist, so the amplitude is a happy zero. Then the mirror is yanked away. The reflected wave’s amplitude abruptly drops to zero, and the transmitted wave suddenly jumps from zero. Those are two sharp transitions that require a lot more bandwidth than the original photon had. Our photon that has been cut off is still in a superposition of reflected and transmitted. But it also has a sharp edge, which requires a multitude of photons at different frequencies. Cutting a photon in half generates a rainbow. And as far as I can tell, the generated photons are in a superposition of both reflected and transmitted light. But since there are potentially many photons, both transmitted and reflected light could be measured simultaneously. Can we do it for real? This will be a complex experiment to perform. Researchers will need a source that generates single photons on demand with a very narrow spectral bandwidth. This will spread them out in time so that any additional photons that come from cutting it off are observable. They then need to be able to trigger the mirror at the right time. This won’t be done with something like a bathroom mirror. The authors calculate that the transition from reflective to transmission needs to take place in about 10 femtoseconds (a femtosecond is 10 -15 s), which is insufficient time to move a physical mirror. Some materials, like semiconductors, can be driven from reflective to transmission quite rapidly (30-100 fs) using ultrafast laser pulses as the switch. Unfortunately, that laser pulse gets in the way. It will be quite difficult to filter out the big laser pulse used to remove the mirror so that the photons generated by cutting the long single photon are observable though. We already have some evidence that this works, though. The mirrors I described above are used to shorten ultrashort pulses, which means that the reflected pulses have more frequencies after reflection, and new photons must therefore be generated. We just haven’t observed it for single photons yet. But give it about a year, and I’d bet we will. Physical Review Letters , 2026, DOI: 10.1103/94pm-hp34",
+      "content_preview_chars": 6703,
+      "content_fetched_at": "2026-07-22T15:05:21",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "e43eead5ef6e6521",
+      "source_url_hash": "e43eead5ef6e6521",
+      "canonical_url": "https://arstechnica.com/gadgets/2026/07/samsung-unveils-new-galaxy-z8-foldables-and-galaxy-watches-available-august-7",
+      "title_hash": "23486cca73e0dd28",
+      "topic_signature": "f377565b4fd49a06a6a1",
+      "title": "Samsung unveils new Galaxy Z8 foldables and Galaxy Watches, available August 7",
+      "url": "https://arstechnica.com/gadgets/2026/07/samsung-unveils-new-galaxy-z8-foldables-and-galaxy-watches-available-august-7",
+      "source_name": "Ars Technica",
+      "source_url": "https://arstechnica.com",
+      "source_published_at": "2026-07-22T13:58:24Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.11,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-22T15:05:11",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 61,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 61,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Samsung unveils new Galaxy Z8 foldables and Galaxy Watches, available August 7",
+      "meta_description": "Samsung's new foldables are slimmer, faster, and more expensive.",
+      "article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/1.Samsung-Galaxy-Z-Fold8-Ultra-Fold8-and-Flip8-1152x648.jpg",
+          "alt": "Samsung unveils new Galaxy Z8 foldables and Galaxy Watches, available August 7",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/1.Samsung-Galaxy-Z-Fold8-Ultra-Fold8-and-Flip8-640x360.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/2.Samsung-Galaxy-Z-Fold8_Content-native-ratio.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/12.Samsung-Galaxy-Z-Flip8_Camera_FlexCam.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/1.Samsung-Galaxy-Z-Fold8-Ultra-Fold8-and-Flip8-1152x648.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/1.Samsung-Galaxy-Z-Fold8-Ultra-Fold8-and-Flip8-640x360.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/2.Samsung-Galaxy-Z-Fold8_Content-native-ratio.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/12.Samsung-Galaxy-Z-Flip8_Camera_FlexCam.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "The rumors haven’t left much to the imagination, but Samsung has unfurled its 2026 foldable lineup today. There are three models for the first time in Samsung’s eight-gen foldable family, including the top-of-the-line Z Fold 8 Ultra. That phone is the successor to last year’s Galaxy Z Fold 7, but the Z Fold 8 is new—the company’s first wide-body foldable designed for media over multitasking. And then there’s a new, thinner flip phone, plus a pair of smartwatches. You can preorder Samsung’s new hardware today, but the component shortage has made these already spendy product lines more expensive this year. Even the Z Flip 8 is now well over a grand, and the Ultra costs almost twice as much. Specs at a glance: Galaxy Z8 series Galaxy Z Fold 8 Ultra ($2,100) Snapdragon 8 Elite Gen 5 for Galaxy Main: 6.9″ Dynamic AMOLED 2X (1080 x 2520) 400ppi, 120Hz; Cover: 4.1″ AMOLED (948 x 1048) 342 ppi, 60/120Hz Main: 7.6″ Dynamic AMOLED 2X (1848 x 2448) 403ppi, 120Hz; Cover: 5.5″ Dynamic AMOLED 2X (1248 x 1972) 428ppi, 120Hz Main: 8.0″ QXGA+ Dynamic AMOLED 2X (2504 x 2256) 422ppi, 120Hz; Cover: 6.5″ FHD+ Dynamic AMOLED 2X (1080 x 2520) 422ppi, 120Hz Rear: 50MP Wide (F1.8, OIS), 12MP Ultra Wide (F2.2); Selfie: 10MP (F2.2) Rear: 50MP Wide (F1.8, OIS), 50MP Ultra Wide (F1.9); Main/Cover Selfie: 10MP (F2.2) Rear: 200MP Wide (F1.7, OIS), 50MP Ultra Wide (F1.9), 10MP Tele (3x Optical, F2.4, OIS); Main/Cover Selfie: 10MP (F2.2) 4,300 mAh, up to 55% charge in ~30 min with 25W Adapter, 15W Wireless Charging 4,800 mAh, up to 67% charge in ~30 min with 45W Adapter, 20W Wireless Charging 5,000 mAh, up to 63% charge in ~30 min with 45W Adapter, 20W Wireless Charging 5G, LTE, Wi-Fi 7, Bluetooth v5.4, SIM+eSIM 5G, LTE, Wi-Fi 7, Bluetooth v6.0, SIM+eSIM Unfolded: 166.9 × 75.4 × 6.1 mm Folded: 85.7 × 75.4 × 13.1 mm, 180g Unfolded: 123.9 × 161.4 × 4.5 mm Folded: 123.9 × 81.9 × 9.7 mm, 201g Unfolded: 158.4 × 143.2 × 4.1 mm Folded: 158.4 × 72.8 × 8.9 mm, 215g Pink, Graphite, Cream, Mint (online) Lavender, Graphite, Cream, Pistachio (online) Violet Shadow, Graphite, Cream, Green Shadow (online) The Z Fold 8 Ultra has the same basic form factor as the last few Samsung tablet-style foldables. A 6.5-inch OLED on the outside is about the same ratio as a standard smartphone screen. Open it up, and you get an 8-inch display that’s roughly twice as wide. That makes the main display close to square. While the Ultra’s display is perfect for running two phone apps side by side, it’s not ideal for content consumption. The 5.5-inch cover display has a chunky 10:16 ratio. Unfold it, and the Z Fold 8 becomes a 7.6-inch 4:3 display. This gives widescreen videos a little more breathing room with smaller black bars, and it’s allegedly an ideal shape for reading documents in portrait orientation. Both the Ultra and wide-body Folds are impressively thin at 4.1 mm and 4.5 mm (unfolded), respectively. Samsung’s larger foldables should have noticeably better battery life. The Z Fold 8 has a 4,800 mAh cell, and the Ultra goes all the way to 5,000 mAh. The Z Fold 7, which slimmed down Samsung’s foldable silhouette considerably, only managed to fit 4,400 mAh. The Z Flip 8 is slightly slimmer than past devices of its type, and the battery capacity remains at 4,300 mAh. Samsung has mercifully improved charging speeds this year, but only for the tablet-style foldables. Both those phones now max out at 45 W instead of 25 W, where the Z Flip 8 remains. All of Samsung’s new foldables feature a design element the company calls “Flex Titanium.” No, it’s not going back to titanium frames. Flex Titanium consists of a titanium alloy film under the flexible OLED panels. Samsung says this makes the screen more resistant to impact and smoother to open, and it reduces the visibility of the dreaded foldable crease. There’s also a new low-reflection finish on the displays that should make them more usable outdoors. If you want that wide screen, you’ll have to compromise on cameras. The Ultra has a triple lens setup like last year’s big foldable: a 200 MP primary, a 10 MP 3x telephoto, and a 50 MP ultrawide. The Z Fold 8 has only two rear cameras: a 50 MP primary and a 50 MP ultrawide. The Flip 8 has the same primary but swaps in a 12 MP sensor for the ultrawide. The new phones will ship with Android 17 and One UI 9, which Samsung says has been further optimized for the AI era. Now Brief can make more suggestions, including for security and privacy insights. That could potentially mean more alerts from Now Nudge, which proactively offers AI help across the device. The phones also ship with Gemini Notebook (formerly NotebookLM), with support for enhanced foldable multitasking. The price hikes this year aren’t that much in the grand scheme, but Samsung’s foldables were already very expensive. The Ultra and Flip are only $100 more than their 2025 counterparts, but foldables were already seeing price bumps even before the RAMpocalypse. A $1,200 price tag will make the Flip 8 a tough sell when Motorola has Razr phones for hundreds less, even if they aren’t as fast. At $2,100, the Z Fold 8 Ultra will be the most spendy foldable in most markets, but anyone who’s going to spend $2,000 on one can probably justify another $100. Preorders are live today, and Samsung has enhanced trade-in values to help take the sting out of the prices. The phones ship on August 7. Plus some new wearables Samsung also has some new wearables to pair with its foldable trio. Like the phones, Samsung’s new watches have substantial feature sets and price tags. The Galaxy Watch Ultra 2 will cost a whopping $700, and the Galaxy Watch 9 will start at $380. Both are running on the Snapdragon Wear Elite platform. The Ultra 2 is, naturally, Samsung’s updated take on the Apple Watch Ultra. The device is larger than the Watch 9 at 47 mm, and it has a more rugged look. It has a titanium case, more battery capacity, and a brighter display, and it’s rated IP69K for water and dust. That equates to 10ATM water protection versus just 5ATM (IP68) for the Watch 9. Samsung says it expects to release a diving app for the Ultra 2 later this year. The Galaxy Watch 9 comes in 40 mm and 44 mm case sizes. This watch is aluminum, featuring the squircle case design Samsung first debuted on the first Ultra watch. There will be LTE and Bluetooth versions of the watch—the version with mobile data starts at $430. Like the new phones, Samsung’s watches are available for preorder today and will ship on August 7.",
+      "full_article_text_chars": 6492,
+      "content_preview": "The rumors haven’t left much to the imagination, but Samsung has unfurled its 2026 foldable lineup today. There are three models for the first time in Samsung’s eight-gen foldable family, including the top-of-the-line Z Fold 8 Ultra. That phone is the successor to last year’s Galaxy Z Fold 7, but the Z Fold 8 is new—the company’s first wide-body foldable designed for media over multitasking. And then there’s a new, thinner flip phone, plus a pair of smartwatches. You can preorder Samsung’s new hardware today, but the component shortage has made these already spendy product lines more expensive this year. Even the Z Flip 8 is now well over a grand, and the Ultra costs almost twice as much. Specs at a glance: Galaxy Z8 series Galaxy Z Fold 8 Ultra ($2,100) Snapdragon 8 Elite Gen 5 for Galaxy Main: 6.9″ Dynamic AMOLED 2X (1080 x 2520) 400ppi, 120Hz; Cover: 4.1″ AMOLED (948 x 1048) 342 ppi, 60/120Hz Main: 7.6″ Dynamic AMOLED 2X (1848 x 2448) 403ppi, 120Hz; Cover: 5.5″ Dynamic AMOLED 2X (1248 x 1972) 428ppi, 120Hz Main: 8.0″ QXGA+ Dynamic AMOLED 2X (2504 x 2256) 422ppi, 120Hz; Cover: 6.5″ FHD+ Dynamic AMOLED 2X (1080 x 2520) 422ppi, 120Hz Rear: 50MP Wide (F1.8, OIS), 12MP Ultra Wide (F2.2); Selfie: 10MP (F2.2) Rear: 50MP Wide (F1.8, OIS), 50MP Ultra Wide (F1.9); Main/Cover Selfie: 10MP (F2.2) Rear: 200MP Wide (F1.7, OIS), 50MP Ultra Wide (F1.9), 10MP Tele (3x Optical, F2.4, OIS); Main/Cover Selfie: 10MP (F2.2) 4,300 mAh, up to 55% charge in ~30 min with 25W Adapter, 15W Wireless Charging 4,800 mAh, up to 67% charge in ~30 min with 45W Adapter, 20W Wireless Charging 5,000 mAh, up to 63% charge in ~30 min with 45W Adapter, 20W Wireless Charging 5G, LTE, Wi-Fi 7, Bluetooth v5.4, SIM+eSIM 5G, LTE, Wi-Fi 7, Bluetooth v6.0, SIM+eSIM Unfolded: 166.9 × 75.4 × 6.1 mm Folded: 85.7 × 75.4 × 13.1 mm, 180g Unfolded: 123.9 × 161.4 × 4.5 mm Folded: 123.9 × 81.9 × 9.7 mm, 201g Unfolded: 158.4 × 143.2 × 4.1 mm Folded: 158.4 × 72.8 × 8.9 mm, 215g Pink, Graphite, Cream, Mint (online) Lavender, Graphite, Cream, Pistachio (online) Violet Shadow, Graphite, Cream, Green Shadow (online) The Z Fold 8 Ultra has the same basic form factor as the last few Samsung tablet-style foldables. A 6.5-inch OLED on the outside is about the same ratio as a standard smartphone screen. Open it up, and you get an 8-inch display that’s roughly twice as wide. That makes the main display close to square. While the Ultra’s display is perfect for running two phone apps side by side, it’s not ideal for content consumption. The 5.5-inch cover display has a chunky 10:16 ratio. Unfold it, and the Z Fold 8 becomes a 7.6-inch 4:3 display. This gives widescreen videos a little more breathing room with smaller black bars, and it’s allegedly an ideal shape for reading documents in portrait orientation. Both the Ultra and wide-body Folds are impressively thin at 4.1 mm and 4.5 mm (unfolded), respectively. Samsung’s larger foldables should have noticeably better battery life. The Z Fold 8 has a 4,800 mAh cell, and the Ultra goes all the way to 5,000 mAh. The Z Fold 7, which slimmed down Samsung’s foldable silhouette considerably, only managed to fit 4,400 mAh. The Z Flip 8 is slightly slimmer than past devices of its type, and the battery capacity remains at 4,300 mAh. Samsung has mercifully improved charging speeds this year, but only for the tablet-style foldables. Both those phones now max out at 45 W instead of 25 W, where the Z Flip 8 remains. All of Samsung’s new foldables feature a design element the company calls “Flex Titanium.” No, it’s not going back to titanium frames. Flex Titanium consists of a titanium alloy film under the flexible OLED panels. Samsung says this makes the screen more resistant to impact and smoother to open, and it reduces the visibility of the dreaded foldable crease. There’s also a new low-reflection finish on the displays that should make them more usable outdoors. If you want that wide screen, you’ll have to compromise on cameras. The Ultra has a triple lens setup like last year’s big foldable: a 200 MP primary, a 10 MP 3x telephoto, and a 50 MP ultrawide. The Z Fold 8 has only two rear cameras: a 50 MP primary and a 50 MP ultrawide. The Flip 8 has the same primary but swaps in a 12 MP sensor for the ultrawide. The new phones will ship with Android 17 and One UI 9, which Samsung says has been further optimized for the AI era. Now Brief can make more suggestions, including for security and privacy insights. That could potentially mean more alerts from Now Nudge, which proactively offers AI help across the device. The phones also ship with Gemini Notebook (formerly NotebookLM), with support for enhanced foldable multitasking. The price hikes this year aren’t that much in the grand scheme, but Samsung’s foldables were already very expensive. The Ultra and Flip are only $100 more than their 2025 counterparts, but foldables were already seeing price bumps even before the RAMpocalypse. A $1,200 price tag will make the Flip 8 a tough sell when Motorola has Razr phones for hundreds less, even if they aren’t as fast. At $2,100, the Z Fold 8 Ultra will be the most spendy foldable in most markets, but anyone who’s going to spend $2,000 on one can probably justify another $100. Preorders are live today, and Samsung has enhanced trade-in values to help take the sting out of the prices. The phones ship on August 7. Plus some new wearables Samsung also has some new wearables to pair with its foldable trio. Like the phones, Samsung’s new watches have substantial feature sets and price tags. The Galaxy Watch Ultra 2 will cost a whopping $700, and the Galaxy Watch 9 will start at $380. Both are running on the Snapdragon Wear Elite platform. The Ultra 2 is, naturally, Samsung’s updated take on the Apple Watch Ultra. The device is larger than the Watch 9 at 47 mm, and it has a more rugged look. It has a titanium case, more battery capacity, and a brighter display, and it’s rated IP69K for water and dust. That equates to 10ATM water protection versus just 5ATM (IP68) for the Watch 9. Samsung says it expects to release a diving app for the Ultra 2 later this year. The Galaxy Watch 9 comes in 40 mm and 44 mm case sizes. This watch is aluminum, featuring the squircle case design Samsung first debuted on the first Ultra watch. There will be LTE and Bluetooth versions of the watch—the version with mobile data starts at $430. Like the new phones, Samsung’s watches are available for preorder today and will ship on August 7.",
+      "content_preview_chars": 6492,
+      "content_fetched_at": "2026-07-22T15:05:27",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "931732caf487c785",
+      "source_url_hash": "931732caf487c785",
+      "canonical_url": "https://www.engadget.com/2219559/samsung-galaxy-z-flip-8-hands-on",
+      "title_hash": "3f32818e13202c3f",
+      "topic_signature": "8b656faddff0330be9cc",
+      "title": "Samsung Galaxy Z Flip 8 hands-on: Slightly thinner, but more expensive",
+      "url": "https://www.engadget.com/2219559/samsung-galaxy-z-flip-8-hands-on",
+      "source_name": "Engadget",
+      "source_url": "https://www.engadget.com",
+      "source_published_at": "2026-07-22T13:00:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.09,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-22T15:05:11",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 116,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 116,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Samsung Galaxy Z Flip 8 hands-on: Slightly thinner, but more expensive - Engadget",
+      "meta_description": "It’s a year of minor upgrades for the Z Flip series.",
+      "article_images": [
+        {
+          "url": "https://www.engadget.com/img/gallery/samsung-galaxy-z-flip-8-hands-on-slightly-thinner-but-more-expensive/l-intro-1784639710.jpg",
+          "alt": "Samsung Galaxy Z Flip 8 hands-on: Slightly thinner, but more expensive - Engadget",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/samsung-galaxy-z-flip-8-hands-on-slightly-thinner-but-more-expensive/intro-1784639710.jpg",
+          "alt": "The Galaxy Z Flip 8, showing new custom cards.",
+          "source": "article_content"
+        },
+        {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+          "alt": "The Galaxy Z Flip 8's cover display's new Mirror Mode.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/samsung-galaxy-z-flip-8-hands-on-slightly-thinner-but-more-expensive/cover-screen-upgrades-1784639711.jpg",
+          "alt": "Samsung Galaxy Z Flip 8 Cover screen custom cards.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.engadget.com/img/gallery/samsung-galaxy-z-flip-8-hands-on-slightly-thinner-but-more-expensive/l-intro-1784639710.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.engadget.com/img/gallery/samsung-galaxy-z-flip-8-hands-on-slightly-thinner-but-more-expensive/intro-1784639710.jpg",
+          "alt": "The Galaxy Z Flip 8, showing new custom cards."
+        },
+        {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+          "alt": "The Galaxy Z Flip 8's cover display's new Mirror Mode."
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/samsung-galaxy-z-flip-8-hands-on-slightly-thinner-but-more-expensive/cover-screen-upgrades-1784639711.jpg",
+          "alt": "Samsung Galaxy Z Flip 8 Cover screen custom cards."
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "It’s a year of minor upgrades for the Z Flip series. With no fewer than three new foldables, Samsung's newest pocketable Flip runs the risk of living in the shadow of the Fold 8 Ultra and the redesigned Fold 8. Once again, Samsung's gone for iterative improvements — some welcome, some less notable. It also arrives amid higher electronics prices and RAM shortages: the Z Flip 8 is $1,200, 100 bucks more than last year's Samsung flip phone. This is the company's thinnest and lightest Flip smartphone yet. It's 6.1mm thick unfolded, 13.1mm folded and weighs 6.35 ounces (180g), although those are relatively small improvements on last year's 6.63-ounce, 6.5-mm Z Flip 7. Samsung is leaning into pocketability for its new Flip. Alongside those size reductions, the Flip 8 now has substantially more beveled edges. Even during my limited preview time, these are particularly useful in this form factor for opening the phone single-handed, especially with its noticeably stronger hinge. Samsung's newest Flip has the same new Flex Titanium hinge structure as the Fold 8 devices. This includes a titanium alloy film that sits beneath the OLED panel, which Samsung says helps to create a more durable display with a less noticeable crease — all while being thinner too. Sadly, unlike the Fold 8 series, there's been no boost in screen brightness, with the Fold 8 Pro maxing out at 2,600 nits. The Z Flip 8's cameras match its predecessor's specs, too: a 50-megapixel primary camera and a 12MP ultrawide. Samsung has added a horizontal lock to the camera, which should help keep video footage looking more uniform, especially if you're capturing it with a camcorder-style grip. The company has also introduced a new MyFan cam feature, an AI post-processing mode that lets you choose one person to track throughout video footage. You can choose the screen ratio the video outputs to, helping scale the person you're tracking within the footage. Since it affects existing clips, you'll be able to generate different MyFan cam videos for different people in the same video. For now, it can only track and crop human subjects. Another software addition is mirror mode, which uses the front display. This crops into the camera sensor while it's facing the user so that they can see their face in more detail, and at a higher frame rate. Samsung says it designed the mode for Flip 8 users who might use the selfie cameras to apply makeup. You can even take a temporary shot in this mode (the image is saved on-device), pinch to zoom in, then return to the digital \"mirror.\" The Z Flip 8 is powered by a Qualcomm's Snapdragon 8 Elite Gen 5 for Galaxy. However, in some regions (including the UK) it will have Samsung's own chipset, the 2nm Exynos 2600, which was inside the Galaxy S26 and S26+ phones released earlier this year. While the company's homemade chips have improved in recent years, it's frustrating that it won't offer more powerful (Qualcomm-made) chips worldwide. You're also getting the same-sized battery in the Galaxy Z Flip 8 as last year's Flip 7. Cover screen upgrades There are a smattering of software improvements, and Samsung is addressing what many of us want: more functionality to the Flip series' front display. This includes Now Brief improvements, its own dedicated app tray with recently used apps and entirely customizable panels. It doesn't reach the functionality of the half-sized Android experience you get on, say, Motorola's recent flip phones, but it does lean further into Gemini. You can use more sophisticated Gemini features from the front display, assigning it agentic and automation tasks, such as booking a vacation based on a picture of a region. My demo involved a picture of the Eiffel Tower, triggering research and booking a hotel in the background. It will then notify users with a final price and details of the prospective itinerary. I'm not sure many of us are prepared to relinquish vacation decision-making to Gemini AI based on a picture and wishful thinking, but you can . Now Brief is richer, too, with a greater ability to add customized cards to your daily (or twice daily) brief of news, notifications and more. Custom card options are separated into three categories: health, weather and videos. While that may sound a little limiting (Why no news customization? Social media summaries?), there's some degree of flexibility; you can choose at what time to include these custom cards in your Now Brief, as well as cadence. For example, if you want YouTube highlights only on weekends, when you have time to go down that rabbit hole of the science behind the Pringles can design and learn what a hyperbolic paraboloid is, you can set it up that way too. You can also choose to include meditation videos, which sound like a smart addition to your daily summaries. The Z Flip 8 is priced at $1,200 and will land in four different colors: pink, cream, graphite and the online-only (nicest!) mint. There will be 256GB and 512GB storage options, and buyers will also get six months of Google AI Pro to test out Google's agentic AI in practice. The phones are available for pre-order now, and go on sale August 7.",
+      "full_article_text_chars": 5158,
+      "content_preview": "It’s a year of minor upgrades for the Z Flip series. With no fewer than three new foldables, Samsung's newest pocketable Flip runs the risk of living in the shadow of the Fold 8 Ultra and the redesigned Fold 8. Once again, Samsung's gone for iterative improvements — some welcome, some less notable. It also arrives amid higher electronics prices and RAM shortages: the Z Flip 8 is $1,200, 100 bucks more than last year's Samsung flip phone. This is the company's thinnest and lightest Flip smartphone yet. It's 6.1mm thick unfolded, 13.1mm folded and weighs 6.35 ounces (180g), although those are relatively small improvements on last year's 6.63-ounce, 6.5-mm Z Flip 7. Samsung is leaning into pocketability for its new Flip. Alongside those size reductions, the Flip 8 now has substantially more beveled edges. Even during my limited preview time, these are particularly useful in this form factor for opening the phone single-handed, especially with its noticeably stronger hinge. Samsung's newest Flip has the same new Flex Titanium hinge structure as the Fold 8 devices. This includes a titanium alloy film that sits beneath the OLED panel, which Samsung says helps to create a more durable display with a less noticeable crease — all while being thinner too. Sadly, unlike the Fold 8 series, there's been no boost in screen brightness, with the Fold 8 Pro maxing out at 2,600 nits. The Z Flip 8's cameras match its predecessor's specs, too: a 50-megapixel primary camera and a 12MP ultrawide. Samsung has added a horizontal lock to the camera, which should help keep video footage looking more uniform, especially if you're capturing it with a camcorder-style grip. The company has also introduced a new MyFan cam feature, an AI post-processing mode that lets you choose one person to track throughout video footage. You can choose the screen ratio the video outputs to, helping scale the person you're tracking within the footage. Since it affects existing clips, you'll be able to generate different MyFan cam videos for different people in the same video. For now, it can only track and crop human subjects. Another software addition is mirror mode, which uses the front display. This crops into the camera sensor while it's facing the user so that they can see their face in more detail, and at a higher frame rate. Samsung says it designed the mode for Flip 8 users who might use the selfie cameras to apply makeup. You can even take a temporary shot in this mode (the image is saved on-device), pinch to zoom in, then return to the digital \"mirror.\" The Z Flip 8 is powered by a Qualcomm's Snapdragon 8 Elite Gen 5 for Galaxy. However, in some regions (including the UK) it will have Samsung's own chipset, the 2nm Exynos 2600, which was inside the Galaxy S26 and S26+ phones released earlier this year. While the company's homemade chips have improved in recent years, it's frustrating that it won't offer more powerful (Qualcomm-made) chips worldwide. You're also getting the same-sized battery in the Galaxy Z Flip 8 as last year's Flip 7. Cover screen upgrades There are a smattering of software improvements, and Samsung is addressing what many of us want: more functionality to the Flip series' front display. This includes Now Brief improvements, its own dedicated app tray with recently used apps and entirely customizable panels. It doesn't reach the functionality of the half-sized Android experience you get on, say, Motorola's recent flip phones, but it does lean further into Gemini. You can use more sophisticated Gemini features from the front display, assigning it agentic and automation tasks, such as booking a vacation based on a picture of a region. My demo involved a picture of the Eiffel Tower, triggering research and booking a hotel in the background. It will then notify users with a final price and details of the prospective itinerary. I'm not sure many of us are prepared to relinquish vacation decision-making to Gemini AI based on a picture and wishful thinking, but you can . Now Brief is richer, too, with a greater ability to add customized cards to your daily (or twice daily) brief of news, notifications and more. Custom card options are separated into three categories: health, weather and videos. While that may sound a little limiting (Why no news customization? Social media summaries?), there's some degree of flexibility; you can choose at what time to include these custom cards in your Now Brief, as well as cadence. For example, if you want YouTube highlights only on weekends, when you have time to go down that rabbit hole of the science behind the Pringles can design and learn what a hyperbolic paraboloid is, you can set it up that way too. You can also choose to include meditation videos, which sound like a smart addition to your daily summaries. The Z Flip 8 is priced at $1,200 and will land in four different colors: pink, cream, graphite and the online-only (nicest!) mint. There will be 256GB and 512GB storage options, and buyers will also get six months of Google AI Pro to test out Google's agentic AI in practice. The phones are available for pre-order now, and go on sale August 7.",
+      "content_preview_chars": 5158,
+      "content_fetched_at": "2026-07-22T15:05:20",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "baaba2eb2b97e589",
+      "source_url_hash": "baaba2eb2b97e589",
+      "canonical_url": "https://www.engadget.com/2220551/samsung-galaxy-watch-ultra-2-first-week-testing",
+      "title_hash": "f71799a9f5c56179",
+      "topic_signature": "51b013817b9447bb6616",
+      "title": "A week with the Samsung Galaxy Watch Ultra 2: Big, bright and sometimes helpful",
+      "url": "https://www.engadget.com/2220551/samsung-galaxy-watch-ultra-2-first-week-testing",
+      "source_name": "Engadget",
+      "source_url": "https://www.engadget.com",
+      "source_published_at": "2026-07-22T13:00:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.09,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-22T15:05:11",
+      "status": "skipped",
+      "score": 0,
+      "priority": "low",
+      "skip_reason": "non_technical_entertainment_content"
+    },
+    {
+      "id": "63e0f9f6d840bf04",
+      "source_url_hash": "63e0f9f6d840bf04",
+      "canonical_url": "https://www.engadget.com/2219687/samsung-galaxy-z-fold-8-hands-on",
+      "title_hash": "8acbba4c694f2102",
+      "topic_signature": "78d54a432ca705b56619",
+      "title": "Samsung Galaxy Z Fold 8 hands-on: Wider is better",
+      "url": "https://www.engadget.com/2219687/samsung-galaxy-z-fold-8-hands-on",
+      "source_name": "Engadget",
+      "source_url": "https://www.engadget.com",
+      "source_published_at": "2026-07-22T13:00:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.09,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-22T15:05:11",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 121,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 121,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Samsung Galaxy Z Fold 8 hands-on: Wider is better - Engadget",
+      "meta_description": "The new base version of the Z Fold 8 has reworked aspect ratios for both its interior and exterior displays.",
+      "article_images": [
+        {
+          "url": "https://www.engadget.com/img/gallery/samsung-galaxy-z-fold-8-hands-on/l-intro-1784726436.jpg",
+          "alt": "Samsung Galaxy Z Fold 8 hands-on: Wider is better - Engadget",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.engadget.com/img/gallery/samsung-galaxy-z-fold-8-hands-on/intro-1784726436.jpg",
+          "alt": "The all-new and wider base version of the Samsung Galaxy Z Fold 8.",
+          "source": "article_content"
+        },
+        {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+          "alt": "The wider design of the new Galaxy Z Fold 8 (right) compared to the Z Fold 8 Ultra (left).",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.engadget.com/img/gallery/samsung-galaxy-z-fold-8-hands-on/l-intro-1784726436.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.engadget.com/img/gallery/samsung-galaxy-z-fold-8-hands-on/intro-1784726436.jpg",
+          "alt": "The all-new and wider base version of the Samsung Galaxy Z Fold 8."
+        },
+        {
+          "url": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
+          "alt": "The wider design of the new Galaxy Z Fold 8 (right) compared to the Z Fold 8 Ultra (left)."
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "It’s like a Z Fold and the original Pixel Fold had a baby. After seven generations, Samsung is making one of the biggest changes to its flagship book-style foldable phone line since the original came out in 2019: It's making not one but two different versions of the Galaxy Z Fold 8. Sitting at the top of the range is the Galaxy Z Fold 8 Ultra, which features a very familiar design alongside improvements to its performance, battery life, ultra-wide camera and more. However, despite its $2,100 price tag, it's actually the least interesting addition to the family. That's because slotting in right underneath the Ultra is a new base version of the Z Fold 8 starting at $1,900. It sports reworked aspect ratios for both its interior and exterior displays that has me thinking that wider really is better. Instead of a long, skinny device that opens up to reveal a nearly square flexible screen, it seems like Samsung has taken a cue from the original Pixel Fold, while simultaneously getting out in front of rumors about the iPhone Ultra, by creating a broader device shaped more like a passport. The result is a squatter device with a 5.5-inch 120Hz AMOLED panel with a 10:16 aspect ratio on the outside that transforms into a small 7.6-inch tablet with a 4:3 aspect ratio on the inside. Now, I will admit that compared to the Ultra, the difference between 4:3 and 1.1:1 doesn't seem like a major change — especially when the Ultra still has a slightly larger overall panel at 8-inches across — but in practice, the impact is unmistakable. For things like watching movies and TV shows, the Z Fold 8 has noticeably less letterboxing at the top and bottom of its main display, which simply means there's more content to enjoy. This was Samsung's main goal for this new base model, as recent versions of the Z Fold have leaned more heavily on the phone's multitasking capabilities. That said, I would argue that opening two apps side-by-side on the standard Z Fold 8's 7.6-inch panel is just as useful, while the wider dimensions of its cover screen makes it even easier to use for quickly checking messages, looking up directions and more. And you can do so without feeling like you need to open the phone to get to its main display. Internally, Samsung also says both versions of the Z Fold 8 come with a new flexible titanium alloy that's combined with the existing titanium plate to create an even stronger support system for the phones' bendy displays. This means there should be even less gaps or air bubbles that form between the various layers of the display while also reducing the appearance of a crease. To be clear, there's still a very shallow trough that runs down the center of the screen, but unless you're really looking for it, it's not something that becomes distracting during general use. Another thing I noticed is that despite the base Z Fold 8 being a touch thicker than its more expensive sibling (at 9.7mm vs 8.9mm), it weighs just 201 grams (vs 215g for the Ultra), which actually makes the standard model the lightest Z Fold ever made. Meanwhile, you still get a very sleek chassis with an aluminum frame, IP48 dust and water resistance, a side-mounted fingerprint reader built into its power button and max brightness that tops out at 3,000 nits — all the same as the Z Fold 8 Ultra. Of course, Samsung cut a few corners in order to create a device that costs $200 less than the Ultra (or $100 less than the launch price of the Z Fold 7), which in some ways is quite impressive considering the going price of memory these days. The most notable of these is that the base Z Fold 8 only features two rear cameras instead of three. There's a 50-megapixel main shooter and a 50MP ultra-wide, but no telephoto, which is definitely a bummer as I find I use my phone's zoom lens much more than my ultra-wide. But your mileage may vary. It also has a smaller 7.6-inch main display and lower capacity battery than what you get on the Ultra (5,000mAh). But when considering that 4,800mAh is still better than last year's Z Fold 7 (4,400mAh), it's hard to get too upset. But that's kind of it for compromises, which is significant when you factor in that both the base Z Fold 8 and the Ultra are packing a new Snapdragon 8 Elite Gen 5 for Galaxy chip, up to 16GB of RAM, 1TB of storage and support for 8K video recording. The two models have even received the same boost to charging speeds, which now stands at up to 45 watts when using a wire or 20 watts wirelessly. Unfortunately, as part of Samsung's focus on thinness, the company still hasn't bothered to put magnetic rings inside the phone, which means the Z Fold 8 is merely \"Qi 2 ready\" instead of fully supporting the spec without help from accessories. The one saving grace to this is that Samsung claims most of its first-party cases will have an embedded magnet, so as long you're not adamant about your phone being naked, functionality remains the same. After around two hours of checking out the base Galaxy Z Fold 8, my one complaint has more to do with the Ultra than this model. That's because what I really want is a mix of features from both devices. I want the wider aspect ratio displays from the standard version, but with a larger 8-inch (or bigger) flexible panel and all the extra bells and whistles from the Ultra — most notably those three rear cameras. That said, with the base model coming in a bit cheaper, Samsung has created a really compelling device for anyone thinking that it's time to give foldable phones a go. One last small quirk with the base Z Fold 8 is the due to the springs in its hinge, it can't convert into tabletop mode when bent in half, as the phone will naturally close itself. That's a very small annoyance for anyone who likes to prop their phone up and watch videos while cooking, doing chores and more. Thankfully, you can still position the handset in tent mode, which effectively does the same thing but in a slightly different way. The Galaxy Z Fold 8 will be available in four colors: lavender, cream, graphite and pistachio (the latter of which is an online exclusive on Samsung.com ). Pre-orders are live now, with official sales slated for August 7.",
+      "full_article_text_chars": 6180,
+      "content_preview": "It’s like a Z Fold and the original Pixel Fold had a baby. After seven generations, Samsung is making one of the biggest changes to its flagship book-style foldable phone line since the original came out in 2019: It's making not one but two different versions of the Galaxy Z Fold 8. Sitting at the top of the range is the Galaxy Z Fold 8 Ultra, which features a very familiar design alongside improvements to its performance, battery life, ultra-wide camera and more. However, despite its $2,100 price tag, it's actually the least interesting addition to the family. That's because slotting in right underneath the Ultra is a new base version of the Z Fold 8 starting at $1,900. It sports reworked aspect ratios for both its interior and exterior displays that has me thinking that wider really is better. Instead of a long, skinny device that opens up to reveal a nearly square flexible screen, it seems like Samsung has taken a cue from the original Pixel Fold, while simultaneously getting out in front of rumors about the iPhone Ultra, by creating a broader device shaped more like a passport. The result is a squatter device with a 5.5-inch 120Hz AMOLED panel with a 10:16 aspect ratio on the outside that transforms into a small 7.6-inch tablet with a 4:3 aspect ratio on the inside. Now, I will admit that compared to the Ultra, the difference between 4:3 and 1.1:1 doesn't seem like a major change — especially when the Ultra still has a slightly larger overall panel at 8-inches across — but in practice, the impact is unmistakable. For things like watching movies and TV shows, the Z Fold 8 has noticeably less letterboxing at the top and bottom of its main display, which simply means there's more content to enjoy. This was Samsung's main goal for this new base model, as recent versions of the Z Fold have leaned more heavily on the phone's multitasking capabilities. That said, I would argue that opening two apps side-by-side on the standard Z Fold 8's 7.6-inch panel is just as useful, while the wider dimensions of its cover screen makes it even easier to use for quickly checking messages, looking up directions and more. And you can do so without feeling like you need to open the phone to get to its main display. Internally, Samsung also says both versions of the Z Fold 8 come with a new flexible titanium alloy that's combined with the existing titanium plate to create an even stronger support system for the phones' bendy displays. This means there should be even less gaps or air bubbles that form between the various layers of the display while also reducing the appearance of a crease. To be clear, there's still a very shallow trough that runs down the center of the screen, but unless you're really looking for it, it's not something that becomes distracting during general use. Another thing I noticed is that despite the base Z Fold 8 being a touch thicker than its more expensive sibling (at 9.7mm vs 8.9mm), it weighs just 201 grams (vs 215g for the Ultra), which actually makes the standard model the lightest Z Fold ever made. Meanwhile, you still get a very sleek chassis with an aluminum frame, IP48 dust and water resistance, a side-mounted fingerprint reader built into its power button and max brightness that tops out at 3,000 nits — all the same as the Z Fold 8 Ultra. Of course, Samsung cut a few corners in order to create a device that costs $200 less than the Ultra (or $100 less than the launch price of the Z Fold 7), which in some ways is quite impressive considering the going price of memory these days. The most notable of these is that the base Z Fold 8 only features two rear cameras instead of three. There's a 50-megapixel main shooter and a 50MP ultra-wide, but no telephoto, which is definitely a bummer as I find I use my phone's zoom lens much more than my ultra-wide. But your mileage may vary. It also has a smaller 7.6-inch main display and lower capacity battery than what you get on the Ultra (5,000mAh). But when considering that 4,800mAh is still better than last year's Z Fold 7 (4,400mAh), it's hard to get too upset. But that's kind of it for compromises, which is significant when you factor in that both the base Z Fold 8 and the Ultra are packing a new Snapdragon 8 Elite Gen 5 for Galaxy chip, up to 16GB of RAM, 1TB of storage and support for 8K video recording. The two models have even received the same boost to charging speeds, which now stands at up to 45 watts when using a wire or 20 watts wirelessly. Unfortunately, as part of Samsung's focus on thinness, the company still hasn't bothered to put magnetic rings inside the phone, which means the Z Fold 8 is merely \"Qi 2 ready\" instead of fully supporting the spec without help from accessories. The one saving grace to this is that Samsung claims most of its first-party cases will have an embedded magnet, so as long you're not adamant about your phone being naked, functionality remains the same. After around two hours of checking out the base Galaxy Z Fold 8, my one complaint has more to do with the Ultra than this model. That's because what I really want is a mix of features from both devices. I want the wider aspect ratio displays from the standard version, but with a larger 8-inch (or bigger) flexible panel and all the extra bells and whistles from the Ultra — most notably those three rear cameras. That said, with the base model coming in a bit cheaper, Samsung has created a really compelling device for anyone thinking that it's time to give foldable phones a go. One last small quirk with the base Z Fold 8 is the due to the springs in its hinge, it can't convert into tabletop mode when bent in half, as the phone will naturally close itself. That's a very small annoyance for anyone who likes to prop their phone up and watch videos while cooking, doing chores and more. Thankfully, you can still position the handset in tent mode, which effectively does the same thing but in a slightly different way. The Galaxy Z Fold 8 will be available in four colors: lavender, cream, graphite and pistachio (the latter of which is an online exclusive on Samsung.com ). Pre-orders are live now, with official sales slated for August 7.",
+      "content_preview_chars": 6180,
+      "content_fetched_at": "2026-07-22T15:05:22",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "d2ffd10561f9a0d6",
+      "source_url_hash": "d2ffd10561f9a0d6",
+      "canonical_url": "https://www.wired.com/story/epstein-files-redwood-bark-school-newspaper",
+      "title_hash": "be87177cc51e5ee0",
+      "topic_signature": "2df9abafb3072303ac97",
+      "title": "A Teen Reporter Searched for His Community in the Epstein Files. Adults Freaked Out",
+      "url": "https://www.wired.com/story/epstein-files-redwood-bark-school-newspaper",
+      "source_name": "WIRED",
+      "source_url": "https://www.wired.com",
+      "source_published_at": "2026-07-22T10:00:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 5.09,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-22T15:05:11",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 93,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 93,
+      "enrichment_fallback_used": "jsonld_article_body",
+      "fetched_title": "A Teen Reporter Searched for His Community in the Epstein Files. Adults Freaked Out",
+      "meta_description": "An Instagram post turned one California student newspaper into a free-speech flash point. The students say they were just doing their homework.",
+      "article_images": [
+        {
+          "url": "https://media.wired.com/photos/6a4ff016bb93ef8a90a3ad41/191:100/w_1280,c_limit/WEB_26-06-26_ed_Amy%20Harrity_WIRED%20Epstein_1960.jpg",
+          "alt": "A Teen Reporter Searched for His Community in the Epstein Files. Adults Freaked Out",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://media.wired.com/photos/6a4ff016bb93ef8a90a3ad41/master/w_2560%2Cc_limit/WEB_26-06-26_ed_Amy%2520Harrity_WIRED%2520Epstein_1960.jpg",
+          "alt": "Ben Mueller.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://media.wired.com/photos/6a4ff27a8259a7956a7b92dd/master/w_1600%2Cc_limit/WEB_26-06-26_ed_Amy%2520Harrity_WIRED%2520Epstein_1716.jpg",
+          "alt": "The Redwood Bark won eighth place last year in a major national competition run by the National Scholastic Press...",
+          "source": "article_content"
+        },
+        {
+          "url": "https://media.wired.com/photos/6a4ff2c9b8bb367703f05ac7/master/w_1600%2Cc_limit/WEB_GettyImages-453501818.jpg",
+          "alt": "Redwood High School.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://media.wired.com/photos/6a4ff016bb93ef8a90a3ad41/191:100/w_1280,c_limit/WEB_26-06-26_ed_Amy%20Harrity_WIRED%20Epstein_1960.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://media.wired.com/photos/6a4ff016bb93ef8a90a3ad41/master/w_2560%2Cc_limit/WEB_26-06-26_ed_Amy%2520Harrity_WIRED%2520Epstein_1960.jpg",
+          "alt": "Ben Mueller."
+        },
+        {
+          "url": "https://media.wired.com/photos/6a4ff27a8259a7956a7b92dd/master/w_1600%2Cc_limit/WEB_26-06-26_ed_Amy%2520Harrity_WIRED%2520Epstein_1716.jpg",
+          "alt": "The Redwood Bark won eighth place last year in a major national competition run by the National Scholastic Press..."
+        },
+        {
+          "url": "https://media.wired.com/photos/6a4ff2c9b8bb367703f05ac7/master/w_1600%2Cc_limit/WEB_GettyImages-453501818.jpg",
+          "alt": "Redwood High School."
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "After allowing himself a few minutes of procrastination—scouting prospective college campuses on Google Earth—Mueller navigated over to the Department of Justice’s Epstein Library portal and clicked through the page asking whether he was 18 or older (he was, just barely). Then he began poking around for ideas in the 3 million pages of Epstein files that had been added 11 days earlier. Mueller really liked working in his bedroom, with its beanbag chair and view of people strolling and biking along one of Marin County, California’s sun-dappled waterways. Having lived his whole life in one of the wealthiest parts of America, Mueller couldn’t help thinking his area probably had some ties to Jeffrey Epstein. “I think it’s very difficult to get an immense amount of money without—this is my opinion—without doing something a little shady,” Mueller says. So he sat on his bedroom floor and spent the next five hours combing the federal database for links to the towns and cities of Marin. He found thousands. Most of them were trivial (Epstein liked to shop online at Restoration Hardware, headquartered in nearby Corte Madera). But a few things stood out: a 2014 art gala in Sausalito that Epstein helped promote; a meeting with Woody Allen in Tiburon; and—above all—a 2013 email exchange between Epstein and a woman from a modeling agency called Mill Valley Connection. “Regarding Hannah, my Austrian model,” the woman wrote in one particularly chilling message, “we can come and see you this evening if you are interested, and in that case let me know how I can get my fees.” Two days later, on February 12, Mueller posted his story to the Instagram feed of the Redwood Bark, his school’s student-run publication. It was a carousel-style slideshow pitched at readers across the county. “Which Marin towns were mentioned in the Epstein files?” the first panel reads. “Scroll to see how many times your town was mentioned.” Rather than quote from the most alarming document he’d found, Mueller kept his descriptions fairly general and brief: “Mill Valley was mentioned in the context of providing models to Epstein from a woman named Gisele Attias Bonnouvrier.” More than 4,000 people liked the story. The comments filled up with praise: “This is the kind of journalism we need.” “Higher quality reporting than local outlets.” “High schoolers doing better reporting than national news.” “Didn’t think I’d be following a random CA HS newspaper in 2026 for their breaking reporting but here we are.” As Mueller watched the numbers climb, he felt excited but also a little perplexed. “I didn’t really think I was doing groundbreaking journalism,” he says. “I was just like, this is another piece of homework that I have to do today, and I’ve just got to get it done—but also be thorough, because people are going to see it on the internet.” About a week and a half later, Mueller was home sick with a light fever and cough when the phone rang. It was his journalism teacher, Erin Schneider, with bad news. “This person mentioned in your post is now threatening to sue the district,” she said. On Monday, February 23, Bonnouvrier, the modeling agent, had sent an email to the principal of Redwood High School, calling Mueller’s post defamatory, demanding its immediate removal, and promising legal action if the school did not comply within 48 hours. And now the district superintendent was demanding that the Bark either redact Bonnouvrier’s name or delete the slide entirely. Bishop and Mueller both arrived on the Bark staff during a time of experimentation. Over the previous decade, Schneider and her students had pushed the Bark beyond old-school print and basic web articles, expanding into Instagram, Facebook, TikTok, LinkedIn, and a podcast. Then during the first few weeks of this past school year, Schneider says, they flipped the switch toward being “social-media first”—publishing some full stories directly to the platforms. As the Bark’s social media manager, Bishop oversaw the transition, which she saw as a kind of power move: Social media wasn’t just where all the Bark’s students got their news, it’s where kids have the most natural authority. “It gives us a space to have a leg up from adults,” she says. “It really lets them sit down and listen and absorb what we have to say, because we are the quote-unquote professionals.” Case in point: As soon as the Bark leaders saw the superintendent’s demands, they knew Instagram wouldn’t allow them to edit an already published slide; simply redacting Bonnouvrier’s name, in other words, was not a viable option. Another problem was that Redwood High’s principal was out of the country and unable to meet. With the pressure of a 48-hour legal threat looming over them, they would have to decide how to respond to the district on their own. Once everyone was back at school on Tuesday, the high schoolers lawyered up during their lunch hour. Gathered around the speakerphone in Schneider’s office, Bishop and Mueller consulted an attorney with the national Student Press Law Center. When he heard the students’ problem, the lawyer laughed, Schneider recalls. “If this woman thinks she’s going to sue your school district, she’s got another thing coming,” he said. “Her name is in the Epstein files—no lawyer is going to represent her in this case.” The students also consulted Mueller’s parents—both lawyers—and another attorney, who all concluded that the Bark had done nothing wrong. Increasingly convinced that they hadn’t defamed anyone, the Bark staffers weighed their options. After school, Mueller, Schneider, Bishop, and another Bark editor sat down on the blue couches in their newsroom for a grueling four-hour debate. Painstakingly, they double-checked every single word on Mueller’s slide, verifying it against the federal documents. They were on the verge of deciding to leave the Instagram post alone. But after Schneider headed out for the evening, the students kept second-guessing themselves. They ended up deciding to temporarily archive Mueller’s most controversial slide until they could meet with school officials in person. “I think at the end of the day, the kids felt such pressure from the administration that they were almost looking for a reason to get out from under it,” says Schneider, who had butted heads with school officials several times that year over the Bark. (Schneider is also someone I’ve known for years; I’m a massage therapist in Marin County, and Schneider used to be an occasional client before I started working as a journalist.) That evening, the students wrote a note advising Schneider what they wanted to communicate to the principal; they framed their takedown of Mueller’s slide as entirely their own prerogative. “We want to be clear that the removal was not in response to your request,” they wrote. “Our choice was based on our own ethical considerations and editorial standards.” The message was puzzling to Schneider, who saw the administrators’ demand as a pretty clear example of censorship. But the Bark reporters didn’t see themselves as having given in. Goode opened by explaining that the district couldn’t possibly afford a legal battle. Mueller and Bishop stayed quiet, letting the administrators finish before asking them to clarify exactly what was libelous about the post. The administrators, it turned out, were primarily worried that Mueller had reported something that simply wasn’t true. The district’s own research, Goode explained, had found no evidence that Bonnouvrier was connected to providing models to Epstein. “You need to link your source to this,” Goode said. Realizing the adults had likely just done a basic Google search, which couldn’t access files deep in the federal Epstein database, Mueller pulled out his phone and opened to the specific document, showing his screen. “The source is just the Epstein files,” Mueller said. “It is true, because it says it right here in a government document.” On the screen was Bonnouvrier’s email about her “Austrian model,” which seemed to take the two men aback. The high schoolers then launched into a breakdown of California Education Code 48907, reminding the administrators of state law. Unless content is obscene, incites violence or illegal activity, or is false or libelous, student journalists have total freedom of expression without administrative oversight. “Well, you know, I just had to make sure that we weren’t going to get sued,” Goode said, according to Schneider’s notes. “With all due respect,” Schneider remembers Bishop replying, “under California’s student press law, being afraid of a lawsuit or backlash is not a valid reason to call for the takedown of content.” Bishop described the 30-minute meeting as “a very open conversation” that ended with everyone “on the same page that the post legally does not have to be taken down.” (In a statement to WIRED, Goode said the post was “briefly paused” until “it was determined that the information referenced was factual and publicly available.”) The next day, Mueller and Bishop went back to the newsroom and restored the archived Instagram slide. Bonnouvrier, who declined to comment on this story, never made good on her legal threat. But the fallout was far from over. About two weeks after the meeting, Schneider sent an email to all Bark students and their parents. “I am writing to let you know that I will be stepping away on a leave from the journalism program effective today, Monday, March 9,” she wrote. For Schneider, the clash over Mueller’s post had been one of the final straws in what she regarded as a yearlong battle over administrative interference. In another recent incident, the Bark had published a cover image of a student protest against the Trump administration held in San Francisco. The demonstrators in the photo are holding up a banner that says “Students Fight Back.” In smaller print, the banner includes the words “Against Zionism.” After reader objections rolled in, including one Instagram comment comparing the Bark to the Ku Klux Klan, the school district announced it was opening a mandatory investigation; board policy required as much, they said, in any case of public complaints. “The work of defending First Amendment rights and helping young journalists report responsibly on real-world topics is work I believe in deeply,” Schneider wrote in her farewell email. “It is also work that has met significant resistance.” Her departure caught the Bark staff completely by surprise. In a newsroom meeting that morning, the paper’s student leaders broke the news to their colleagues through tears. It wasn’t until more than a month later, after emotions had cooled and the Redwood students had returned from spring break, that the story of Mueller’s post blew up beyond Marin. “Small High School Sparks Fury Over Witch Hunt Into Student Paper for Exposing Woman’s Link to Epstein,” ran a headline in the News Corp.–owned California Post. “High school administrators censored a student newspaper,” began a post by the Foundation for Individual Rights and Expression, a campus free-speech watchdog, which also posted a video about the incident to social media. Stories also ran on California Public Radio and the news site EdSource. To some commenters, the Redwood High dispute was a case of liberal elite corruption in Governor Gavin Newsom’s California. (Newsom is a Redwood alum.) To others it mirrored a broader national climate of intimidation and administrative crackdowns on every level of American life. Indeed, the Student Press Law Center says it has experienced a 42 percent increase in legal defense requests from school newspapers to its legal hotline over the past two years—as students use confidential sources to report on hot-button topics (immigration raids, Gaza, campus protests, the Epstein files) and administrators try to keep a low profile by clamping down. The Redwood High students found most of the coverage annoying. Mueller and the other Bark staffers felt increasingly uncomfortable being cast as victims. “Calling it censorship really convolutes the story,” says Mueller, who didn’t like being painted as “weak and submissive” and scared of a principal. In an editorial note posted on May 27, the Bark staff stressed that they had briefly removed their slide by choice, calling the standoff with administrators a “simple misunderstanding” rather than a high-handed abuse of power. But mostly—with AP classes and Bark assignments and graduation looming—Mueller just wanted to put the story behind him. “It was a little tiring just to see it come back up,” he says. “People are making a big deal about this because it feels like something more serious than it is.” As it happened, Bishop had spent much of the school year reporting on student journalism controversies. She’d made a short documentary on the censorship-driven collapse of nearby Novato High’s newspaper, covered the forced reassignment of a journalism adviser at Lowell High School in San Francisco, and reported on a Virginia student newsroom that successfully resisted administrative control—and for all that work, Bishop had earned third place in a competition for California Student Journalist of the Year. But she didn’t really see the Bark controversy in the same light. The students had kept hold of the reins, in her mind, through one adult intervention after another. “At the end of the day, all decisions are final by the students,” she said this spring. “I know sometimes it can get distracting with external, adult conflicts. They disagree. They want this taken down. They’re leaving. But it is a student-run class, and students are the voice of the paper.” In June, Mueller and Bishop themselves edged closer to the world of adults who have no business telling Bark staffers what to report. On the 11th, they both graduated. Bishop is heading to the University of Southern California to study journalism. Mueller is set to attend William and Mary in Virginia. He’s keeping his options open but says he might check out the college paper. Let us know what you think about this article. Submit a letter to the editor at mail@wired.com.",
+      "full_article_text_chars": 14140,
+      "content_preview": "After allowing himself a few minutes of procrastination—scouting prospective college campuses on Google Earth—Mueller navigated over to the Department of Justice’s Epstein Library portal and clicked through the page asking whether he was 18 or older (he was, just barely). Then he began poking around for ideas in the 3 million pages of Epstein files that had been added 11 days earlier. Mueller really liked working in his bedroom, with its beanbag chair and view of people strolling and biking along one of Marin County, California’s sun-dappled waterways. Having lived his whole life in one of the wealthiest parts of America, Mueller couldn’t help thinking his area probably had some ties to Jeffrey Epstein. “I think it’s very difficult to get an immense amount of money without—this is my opinion—without doing something a little shady,” Mueller says. So he sat on his bedroom floor and spent the next five hours combing the federal database for links to the towns and cities of Marin. He found thousands. Most of them were trivial (Epstein liked to shop online at Restoration Hardware, headquartered in nearby Corte Madera). But a few things stood out: a 2014 art gala in Sausalito that Epstein helped promote; a meeting with Woody Allen in Tiburon; and—above all—a 2013 email exchange between Epstein and a woman from a modeling agency called Mill Valley Connection. “Regarding Hannah, my Austrian model,” the woman wrote in one particularly chilling message, “we can come and see you this evening if you are interested, and in that case let me know how I can get my fees.” Two days later, on February 12, Mueller posted his story to the Instagram feed of the Redwood Bark, his school’s student-run publication. It was a carousel-style slideshow pitched at readers across the county. “Which Marin towns were mentioned in the Epstein files?” the first panel reads. “Scroll to see how many times your town was mentioned.” Rather than quote from the most alarming document he’d found, Mueller kept his descriptions fairly general and brief: “Mill Valley was mentioned in the context of providing models to Epstein from a woman named Gisele Attias Bonnouvrier.” More than 4,000 people liked the story. The comments filled up with praise: “This is the kind of journalism we need.” “Higher quality reporting than local outlets.” “High schoolers doing better reporting than national news.” “Didn’t think I’d be following a random CA HS newspaper in 2026 for their breaking reporting but here we are.” As Mueller watched the numbers climb, he felt excited but also a little perplexed. “I didn’t really think I was doing groundbreaking journalism,” he says. “I was just like, this is another piece of homework that I have to do today, and I’ve just got to get it done—but also be thorough, because people are going to see it on the internet.” About a week and a half later, Mueller was home sick with a light fever and cough when the phone rang. It was his journalism teacher, Erin Schneider, with bad news. “This person mentioned in your post is now threatening to sue the district,” she said. On Monday, February 23, Bonnouvrier, the modeling agent, had sent an email to the principal of Redwood High School, calling Mueller’s post defamatory, demanding its immediate removal, and promising legal action if the school did not comply within 48 hours. And now the district superintendent was demanding that the Bark either redact Bonnouvrier’s name or delete the slide entirely. Bishop and Mueller both arrived on the Bark staff during a time of experimentation. Over the previous decade, Schneider and her students had pushed the Bark beyond old-school print and basic web articles, expanding into Instagram, Facebook, TikTok, LinkedIn, and a podcast. Then during the first few weeks of this past school year, Schneider says, they flipped the switch toward being “social-media first”—publishing some full stories directly to the platforms. As the Bark’s social media manager, Bishop oversaw the transition, which she saw as a kind of power move: Social media wasn’t just where all the Bark’s students got their news, it’s where kids have the most natural authority. “It gives us a space to have a leg up from adults,” she says. “It really lets them sit down and listen and absorb what we have to say, because we are the quote-unquote professionals.” Case in point: As soon as the Bark leaders saw the superintendent’s demands, they knew Instagram wouldn’t allow them to edit an already published slide; simply redacting Bonnouvrier’s name, in other words, was not a viable option. Another problem was that Redwood High’s principal was out of the country and unable to meet. With the pressure of a 48-hour legal threat looming over them, they would have to decide how to respond to the district on their own. Once everyone was back at school on Tuesday, the high schoolers lawyered up during their lunch hour. Gathered around the speakerphone in Schneider’s office, Bishop and Mueller consulted an attorney with the national Student Press Law Center. When he heard the students’ problem, the lawyer laughed, Schneider recalls. “If this woman thinks she’s going to sue your school district, she’s got another thing coming,” he said. “Her name is in the Epstein files—no lawyer is going to represent her in this case.” The students also consulted Mueller’s parents—both lawyers—and another attorney, who all concluded that the Bark had done nothing wrong. Increasingly convinced that they hadn’t defamed anyone, the Bark staffers weighed their options. After school, Mueller, Schneider, Bishop, and another Bark editor sat down on the blue couches in their newsroom for a grueling four-hour debate. Painstakingly, they double-checked every single word on Mueller’s slide, verifying it against the federal documents. They were on the verge of deciding to leave the Instagram post alone. But after Schneider headed out for the evening, the students kept second-guessing themselves. They ended up deciding to temporarily archive Mueller’s most controversial slide until they could meet with school officials in person. “I think at the end of the day, the kids felt such pressure from the administration that they were almost looking for a reason to get out from under it,” says Schneider, who had butted heads with school officials several times that year over the Bark. (Schneider is also someone I’ve known for years; I’m a massage therapist in Marin County, and Schneider used to be an occasional client before I started working as a journalist.) That evening, the students wrote a note advising Schneider what they wanted to communicate to the principal; they framed their takedown of Mueller’s slide as entirely their own prerogative. “We want to be clear that the removal was not in response to your request,” they wrote. “Our choice was based on our own ethical considerations and editorial standards.” The message was puzzling to Schneider, who saw the administrators’ demand as a pretty clear example of censorship. But the Bark reporters didn’t see themselves as having given in. Goode opened by explaining that the district couldn’t possibly afford a legal battle. Mueller and Bishop stayed quiet, letting the administrators finish before asking them to clarify exactly what was libelous about the post. The administrators, it turned out, were primarily worried that Mueller had reported something that simply wasn’t true. The district’s own research, Goode explained, had found no evidence that Bonnouvrier was connected to providing models to Epstein. “You need to link your source to this,” Goode said. Realizing the adults had likely just done a basic Google search, which couldn’t access files deep in the federal Epstein database, Mueller pulled out his phone and opened to the specific document, showing his screen. “The source is just the Epstein files,” Mueller said. “It is true, because it says it right here in a government document.” On the screen was Bonnouvrier’s email about her “Austrian model,” which seemed to take the two men aback. The high schoolers then launched into a breakdown of California Education Code 48907, reminding the administrators of state law. Unless content is obscene, incites violence or illegal activity, or is false or libelous, student journalists have total freedom of expression without administrative oversight. “Well, you know, I just had to make sure that we weren’t going to get sued,” Goode said, according to Schneider’s notes.",
+      "content_preview_chars": 8484,
+      "content_fetched_at": "2026-07-22T15:05:24",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "28022bed5cc3f926",
+      "source_url_hash": "28022bed5cc3f926",
+      "canonical_url": "https://9to5mac.com/2026/07/21/ios-27-code-suggests-apple-could-restrict-leased-devices-after-missed-payments",
+      "title_hash": "20623e15ed98fe85",
+      "topic_signature": "e949df39dfffc1937cd0",
+      "title": "iOS 27 code suggests Apple could restrict leased devices after missed payments",
+      "url": "https://9to5mac.com/2026/07/21/ios-27-code-suggests-apple-could-restrict-leased-devices-after-missed-payments",
+      "source_name": "9to5Mac",
+      "source_url": "https://9to5mac.com",
+      "source_published_at": "2026-07-21T20:28:19Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 18.61,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-22T15:05:11",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 80,
+      "affiliate_links_removed_count": 8,
+      "removed_source_links_count": 80,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "iOS 27 code suggests Apple could restrict leased devices after missed payments - 9to5Mac",
+      "meta_description": "Code found in the iOS 27 beta suggests Apple has built a system that could restrict leased devices when customers fall behind on payments.",
+      "article_images": [
+        {
+          "url": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/07/restricted.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+          "alt": "iOS 27 code suggests Apple could restrict leased devices after missed payments - 9to5Mac",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/07/restricted.jpg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2021/03/apple-park-tim-cook-2021.webp?w=140",
+          "alt": "AAPL Company",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/themes/ninetofive/dist/images/default-9to5mac-guide.png",
+          "alt": "iOS 27",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/07/restricted.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/07/restricted.jpg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2021/03/apple-park-tim-cook-2021.webp?w=140",
+          "alt": "AAPL Company"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/themes/ninetofive/dist/images/default-9to5mac-guide.png",
+          "alt": "iOS 27"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2F9to5mac.com"
+        }
+      ],
+      "full_article_text": "Code found in the iOS 27 beta suggests Apple has built a system that could restrict leased devices when customers fall behind on payments. Here are the details. Earlier today, Bloomberg reported that Apple may soon debut a new “Apple Upgrade” leasing program in the US, allowing customers to make lower monthly payments for hardware purchases. According to the report, Apple is partnering with Klarna to finance the program, which would cover most iPhone, Mac, iPad, and Apple Watch models. Leases for iPhones and Apple Watches would reportedly run for 24 months, while Mac and iPad leases would last 36 months. Bloomberg says customers would be able to pay off their device or upgrade to a new model before the lease ends, potentially for an additional fee. At the end of the term, they could either keep the device or return it, much like a car lease. What iOS 27 reveals 9to5Mac can now confirm that code found in the iOS 27 beta appears to reveal a broader system for managing a financed iPhone, including the ability to restrict apps and services when payments are missed. The code describes a system called App Managed Features, which allows an authorized financing or provider app to enroll an iPhone and perform ongoing status checks. If the contract is no longer in good standing, Apple’s system services can place the iPhone in “Restricted Mode,” which blocks access to most apps until the payment or contract issue is resolved, while keeping a small set of apps available. The fixed allowlist currently found in the iOS 27 beta includes: The Restricted Mode interface itself Apps that can send critical alerts, such as Messages, Home, and certain medication or safety apps, may also remain accessible. However, the provider appears to have some control over those exceptions. The code does not appear to cancel, suspend, or otherwise modify App Store subscriptions associated with blocked apps. As a result, a subscription could continue billing even while access to its app is restricted. Additionally, there isn’t a fixed number of missed payments that automatically triggers the restrictions. The financing provider’s app decides when to lock the device based on its own policies. Finally, the new framework also introduces a new type of activation lock called “Partner Finance Lock,” which is meant to prevent users from erasing, reselling, or stripping a restricted device for parts. This framework lives inside Find My, but to be clear, the financing partner does not have access to the device’s location. The integration is only there to keep the finance lock in place, even if the device is erased or restored. In light of Bloomberg ’s report that Apple Upgrade will launch next week, 9to5Mac looked for these code references in the iOS 26.6 RC released yesterday, but could not find them. This likely means the company will either add the necessary code to the final iOS 26.6 release, or launch Apple Upgrade at a later date. It is also important to note that these findings are based on the current implementation of frameworks included in the iOS 27 beta, so some details may change before release. However, the references described above are unequivocally present in the current code. Geoffrey Cain – ‘Steve Jobs in Exile’ David Pogue – ’Apple: The First 50 Years’ AirTag (2nd Generation) – 4 Pack FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Breaking news from Cupertino. We’ll give you t… Marcus Mendes is a Brazilian tech podcaster and journalist who has been closely following Apple since the mid-2000s. He began covering Apple news in Brazilian media in 2012 and later broadened his focus to the wider tech industry, hosting a daily podcast for seven years.",
+      "full_article_text_chars": 3745,
+      "content_preview": "Code found in the iOS 27 beta suggests Apple has built a system that could restrict leased devices when customers fall behind on payments. Here are the details. Earlier today, Bloomberg reported that Apple may soon debut a new “Apple Upgrade” leasing program in the US, allowing customers to make lower monthly payments for hardware purchases. According to the report, Apple is partnering with Klarna to finance the program, which would cover most iPhone, Mac, iPad, and Apple Watch models. Leases for iPhones and Apple Watches would reportedly run for 24 months, while Mac and iPad leases would last 36 months. Bloomberg says customers would be able to pay off their device or upgrade to a new model before the lease ends, potentially for an additional fee. At the end of the term, they could either keep the device or return it, much like a car lease. What iOS 27 reveals 9to5Mac can now confirm that code found in the iOS 27 beta appears to reveal a broader system for managing a financed iPhone, including the ability to restrict apps and services when payments are missed. The code describes a system called App Managed Features, which allows an authorized financing or provider app to enroll an iPhone and perform ongoing status checks. If the contract is no longer in good standing, Apple’s system services can place the iPhone in “Restricted Mode,” which blocks access to most apps until the payment or contract issue is resolved, while keeping a small set of apps available. The fixed allowlist currently found in the iOS 27 beta includes: The Restricted Mode interface itself Apps that can send critical alerts, such as Messages, Home, and certain medication or safety apps, may also remain accessible. However, the provider appears to have some control over those exceptions. The code does not appear to cancel, suspend, or otherwise modify App Store subscriptions associated with blocked apps. As a result, a subscription could continue billing even while access to its app is restricted. Additionally, there isn’t a fixed number of missed payments that automatically triggers the restrictions. The financing provider’s app decides when to lock the device based on its own policies. Finally, the new framework also introduces a new type of activation lock called “Partner Finance Lock,” which is meant to prevent users from erasing, reselling, or stripping a restricted device for parts. This framework lives inside Find My, but to be clear, the financing partner does not have access to the device’s location. The integration is only there to keep the finance lock in place, even if the device is erased or restored. In light of Bloomberg ’s report that Apple Upgrade will launch next week, 9to5Mac looked for these code references in the iOS 26.6 RC released yesterday, but could not find them. This likely means the company will either add the necessary code to the final iOS 26.6 release, or launch Apple Upgrade at a later date. It is also important to note that these findings are based on the current implementation of frameworks included in the iOS 27 beta, so some details may change before release. However, the references described above are unequivocally present in the current code. Geoffrey Cain – ‘Steve Jobs in Exile’ David Pogue – ’Apple: The First 50 Years’ AirTag (2nd Generation) – 4 Pack FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Breaking news from Cupertino. We’ll give you t… Marcus Mendes is a Brazilian tech podcaster and journalist who has been closely following Apple since the mid-2000s. He began covering Apple news in Brazilian media in 2012 and later broadened his focus to the wider tech industry, hosting a daily podcast for seven years.",
+      "content_preview_chars": 3745,
+      "content_fetched_at": "2026-07-22T15:05:25",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "0221098814653e1d",
+      "source_url_hash": "0221098814653e1d",
+      "canonical_url": "https://9to5mac.com/2026/07/21/apple-debuting-new-apple-upgrade-leasing-program-next-week-per-report",
+      "title_hash": "e3aa0caf5106f514",
+      "topic_signature": "cd3cc24ae543ded8c268",
+      "title": "Apple debuting new ‘Apple Upgrade’ leasing program next week, per report",
+      "url": "https://9to5mac.com/2026/07/21/apple-debuting-new-apple-upgrade-leasing-program-next-week-per-report",
+      "source_name": "9to5Mac",
+      "source_url": "https://9to5mac.com",
+      "source_published_at": "2026-07-21T15:26:56Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 23.64,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-22T15:05:11",
+      "status": "ready",
+      "score": 5,
+      "priority": "medium",
+      "source_links_removed_count": 78,
+      "affiliate_links_removed_count": 6,
+      "removed_source_links_count": 78,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Apple debuting new ‘Apple Upgrade’ leasing program next week, per report - 9to5Mac",
+      "meta_description": "Apple will reportedly launch 'Apple Upgrade' on July 28, a new leasing program with lower monthly payments. Here's how it works.",
+      "article_images": [
+        {
+          "url": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/07/iphone-18-pro-pro-max-mockup-di.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+          "alt": "Apple debuting new ‘Apple Upgrade’ leasing program next week, per report - 9to5Mac",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/07/iphone-18-pro-pro-max-mockup-di.jpg?quality=82&strip=all&w=1600",
+          "alt": "iPhone 18 Pro reportedly enters mass production ahead of September launch | Image shows a render of the iPhone 18 Pro Max",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2021/03/apple-park-tim-cook-2021.webp?w=140",
+          "alt": "AAPL Company",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/07/iphone-18-pro-pro-max-mockup-di.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/07/iphone-18-pro-pro-max-mockup-di.jpg?quality=82&strip=all&w=1600",
+          "alt": "iPhone 18 Pro reportedly enters mass production ahead of September launch | Image shows a render of the iPhone 18 Pro Max"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2021/03/apple-park-tim-cook-2021.webp?w=140",
+          "alt": "AAPL Company"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2F9to5mac.com"
+        }
+      ],
+      "full_article_text": "Apple will launch a new “Apple Upgrade” leasing program later this month in the US, according to a new report from Bloomberg . It marks “one of the biggest-ever changes to how the company sells devices,” the report says. Lower monthly payments for hardware purchases Apple is teaming up with Klarna to power the new Apple Upgrade program. It will require a soft credit check for shoppers. Apple Upgrade will reportedly work “like a subscription” for iPhone, iPad, Mac, and Apple Watch purchases. There will be some limitations, though. The report says the Apple Watch SE, base model iPad, iPhone 16, and MacBook Neo won’t be eligible for Apple Upgrade. iPhone and Apple Watch leases will reportedly run for 24 months, while Mac leases will run for 36 months. The Apple Upgrade service will work like a subscription and users can pay off the device early during their term, upgrade early to a new model or keep it at the end of the leasing period. In certain cases, those transactions will incur an additional fee. Like a car lease, it can also be returned at the end of the term. Apple Upgrade doesn’t include AppleCare coverage, unlike the iPhone Upgrade Program. In fact, Bloomberg says Apple is planning to discontinue new signups for the iPhone Upgrade Program as part of the launch of Apple Upgrade. Apple Upgrade will reportedly launch one week from today, on July 28. Apple raised prices for iPads and Macs last month, while the new iPhones launching in September are also expected to be more expensive. Apple Upgrade will give customers a way to weather those higher prices if they so choose. My favorite iPhone accessories: Anker Nano USB-C wall charger with built-in screen AirPods Pro 3: Check the current sale price Charge all your Apple gear at the same time Bring wireless CarPlay to any car USB-C cable that shows how fast you’re charging Follow Chance : Threads , Bluesky , Instagram , and Mastodon . FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Breaking news from Cupertino. We’ll give you t… Chance is the editor-in-chief of 9to5Mac, overseeing the entire site’s operations. He also hosts the 9to5Mac Daily and 9to5Mac Happy Hour podcasts. You can send tips, questions, and typos to chance@9to5mac.com.",
+      "full_article_text_chars": 2280,
+      "content_preview": "Apple will launch a new “Apple Upgrade” leasing program later this month in the US, according to a new report from Bloomberg . It marks “one of the biggest-ever changes to how the company sells devices,” the report says. Lower monthly payments for hardware purchases Apple is teaming up with Klarna to power the new Apple Upgrade program. It will require a soft credit check for shoppers. Apple Upgrade will reportedly work “like a subscription” for iPhone, iPad, Mac, and Apple Watch purchases. There will be some limitations, though. The report says the Apple Watch SE, base model iPad, iPhone 16, and MacBook Neo won’t be eligible for Apple Upgrade. iPhone and Apple Watch leases will reportedly run for 24 months, while Mac leases will run for 36 months. The Apple Upgrade service will work like a subscription and users can pay off the device early during their term, upgrade early to a new model or keep it at the end of the leasing period. In certain cases, those transactions will incur an additional fee. Like a car lease, it can also be returned at the end of the term. Apple Upgrade doesn’t include AppleCare coverage, unlike the iPhone Upgrade Program. In fact, Bloomberg says Apple is planning to discontinue new signups for the iPhone Upgrade Program as part of the launch of Apple Upgrade. Apple Upgrade will reportedly launch one week from today, on July 28. Apple raised prices for iPads and Macs last month, while the new iPhones launching in September are also expected to be more expensive. Apple Upgrade will give customers a way to weather those higher prices if they so choose. My favorite iPhone accessories: Anker Nano USB-C wall charger with built-in screen AirPods Pro 3: Check the current sale price Charge all your Apple gear at the same time Bring wireless CarPlay to any car USB-C cable that shows how fast you’re charging Follow Chance : Threads , Bluesky , Instagram , and Mastodon . FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Breaking news from Cupertino. We’ll give you t… Chance is the editor-in-chief of 9to5Mac, overseeing the entire site’s operations. He also hosts the 9to5Mac Daily and 9to5Mac Happy Hour podcasts. You can send tips, questions, and typos to chance@9to5mac.com.",
+      "content_preview_chars": 2280,
+      "content_fetched_at": "2026-07-22T15:05:26",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "90a7f571a1947438",
+      "source_url_hash": "90a7f571a1947438",
+      "canonical_url": "https://9to5mac.com/2026/07/21/this-macos-27-change-is-my-top-quality-of-life-improvement",
+      "title_hash": "9c8c9a819e47125d",
+      "topic_signature": "330b7722fd2547ca0478",
+      "title": "This macOS 27 change is my top quality-of-life improvement",
+      "url": "https://9to5mac.com/2026/07/21/this-macos-27-change-is-my-top-quality-of-life-improvement",
+      "source_name": "9to5Mac",
+      "source_url": "https://9to5mac.com",
+      "source_published_at": "2026-07-21T15:11:29Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 23.89,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-22T15:05:11",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 81,
+      "affiliate_links_removed_count": 5,
+      "removed_source_links_count": 81,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "This macOS 27 change is my top quality-of-life improvement - 9to5Mac",
+      "meta_description": "macOS 27 Golden Gate‘s top quality-of-life improvement for me so far involves a welcome Messages fix when logging in to my Mac.",
+      "article_images": [
+        {
+          "url": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/07/macos-27-golden-gate-wallpaper-bridge.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+          "alt": "This macOS 27 change is my top quality-of-life improvement - 9to5Mac",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/07/macos-27-golden-gate-wallpaper-bridge.jpg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/themes/ninetofive/dist/images/default-9to5mac-guide.png",
+          "alt": "Messages",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://i0.wp.com/9to5mac.com/wp-content/uploads/sites/6/2026/07/macos-27-golden-gate-wallpaper-bridge.jpg?resize=1200%2C628&quality=82&strip=all&ssl=1",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://9to5mac.com/wp-content/uploads/sites/6/2026/07/macos-27-golden-gate-wallpaper-bridge.jpg?quality=82&strip=all&w=1600",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://9to5mac.com/wp-content/themes/ninetofive/dist/images/default-9to5mac-guide.png",
+          "alt": "Messages"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2F9to5mac.com"
+        }
+      ],
+      "full_article_text": "In macOS 27 Golden Gate, Apple has put extra effort into bug fixes and performance enhancements. And so far in the beta, my top quality-of-life improvement involves a Messages fix when logging in to my Mac. Messages should be up to date and synced already when logging in to your Mac on macOS Golden Gate One of the Mac’s best selling points over PCs is that it works tremendously well with the iPhone. Continuity features like Universal Clipboard, iPhone Mirroring, and Handoff make working between an iPhone and Mac feel seamless. But there’s one way macOS has long struggled to deliver that seamless Continuity experience: when Messages are temporarily out of sync after you first log in. We’ve all experienced it. You log in to your Mac, and immediately start getting dinged with Messages notifications in the top-right corner for messages you’ve already read. In macOS Golden Gate though, as part of its focus on performance and refinement, Apple has greatly improved Messages syncing across devices. The company says that sync now happens more efficiently, such that when your Mac comes online, your unread message count will immediately be more accurate, and you won’t be notified about messages you’ve already read. I use an iPad Pro as my primary computer, with the Mac serving a secondary role for me. And I’ve rarely had any issues with Messages sync across my iPhone and iPad. As a result, it’s always bothered me how the Mac has offered an inferior experience. Now with macOS Golden Gate, that annoyance should be a thing of the past. And so far in the beta, Apple truly seems to have delivered. Best Mac accessories AirPods Pro 3 ( now only $199 , down from $249) 100W USB-C fast charging power adapter tomtoc protective MacBook sleeve bag Twelve South aluminum laptop stand for MacBooks Anker Docking Station USB-C with Ethernet, HDMI, SD, more FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Ryan got his start in journalism as an Editor at MacStories, where he worked for four years covering Apple news, writing app reviews, and more. For two years he co-hosted the Adapt podcast on Relay FM, which focused entirely on the iPad. As a result, it should come as no surprise that his favorite Apple device is the iPad Pro.",
+      "full_article_text_chars": 2293,
+      "content_preview": "In macOS 27 Golden Gate, Apple has put extra effort into bug fixes and performance enhancements. And so far in the beta, my top quality-of-life improvement involves a Messages fix when logging in to my Mac. Messages should be up to date and synced already when logging in to your Mac on macOS Golden Gate One of the Mac’s best selling points over PCs is that it works tremendously well with the iPhone. Continuity features like Universal Clipboard, iPhone Mirroring, and Handoff make working between an iPhone and Mac feel seamless. But there’s one way macOS has long struggled to deliver that seamless Continuity experience: when Messages are temporarily out of sync after you first log in. We’ve all experienced it. You log in to your Mac, and immediately start getting dinged with Messages notifications in the top-right corner for messages you’ve already read. In macOS Golden Gate though, as part of its focus on performance and refinement, Apple has greatly improved Messages syncing across devices. The company says that sync now happens more efficiently, such that when your Mac comes online, your unread message count will immediately be more accurate, and you won’t be notified about messages you’ve already read. I use an iPad Pro as my primary computer, with the Mac serving a secondary role for me. And I’ve rarely had any issues with Messages sync across my iPhone and iPad. As a result, it’s always bothered me how the Mac has offered an inferior experience. Now with macOS Golden Gate, that annoyance should be a thing of the past. And so far in the beta, Apple truly seems to have delivered. Best Mac accessories AirPods Pro 3 ( now only $199 , down from $249) 100W USB-C fast charging power adapter tomtoc protective MacBook sleeve bag Twelve South aluminum laptop stand for MacBooks Anker Docking Station USB-C with Ethernet, HDMI, SD, more FTC: We use income earning auto affiliate links. More. Check out 9to5Mac on YouTube for more Apple news: Ryan got his start in journalism as an Editor at MacStories, where he worked for four years covering Apple news, writing app reviews, and more. For two years he co-hosted the Adapt podcast on Relay FM, which focused entirely on the iPad. As a result, it should come as no surprise that his favorite Apple device is the iPad Pro.",
+      "content_preview_chars": 2293,
+      "content_fetched_at": "2026-07-22T15:05:28",
+      "enrichment_status": "weak",
       "content_fetch_status": "success"
     }
   ],
