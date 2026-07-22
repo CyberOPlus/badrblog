@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-22T09:51:09",
+  "updated_at": "2026-07-22T11:38:54",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2502,12 +2502,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-22T09:45:30",
-      "candidate_retry_after": "2026-07-22T10:00:30Z",
+      "content_fetched_at": "2026-07-22T11:30:54",
+      "candidate_retry_after": "2026-07-22T11:45:54Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-22T09:45:30",
-      "candidate_failure_count": 45
+      "candidate_failed_at": "2026-07-22T11:30:54",
+      "candidate_failure_count": 46
     },
     {
       "id": "512c2899a98440d2",
@@ -2536,12 +2536,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-22T09:45:31",
-      "candidate_retry_after": "2026-07-22T10:00:31Z",
+      "content_fetched_at": "2026-07-22T11:30:54",
+      "candidate_retry_after": "2026-07-22T11:45:54Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-22T09:45:31",
-      "candidate_failure_count": 45
+      "candidate_failed_at": "2026-07-22T11:30:54",
+      "candidate_failure_count": 46
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2570,12 +2570,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-22T09:45:31",
-      "candidate_retry_after": "2026-07-22T10:00:31Z",
+      "content_fetched_at": "2026-07-22T11:30:54",
+      "candidate_retry_after": "2026-07-22T11:45:54Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-22T09:45:31",
-      "candidate_failure_count": 45
+      "candidate_failed_at": "2026-07-22T11:30:54",
+      "candidate_failure_count": 46
     },
     {
       "id": "d900f1574fddfab4",
@@ -3180,7 +3180,10 @@
       "content_preview_chars": 768,
       "content_fetched_at": "2026-07-19T10:14:16",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-22T11:30:36",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "81d3f5c40586497e",
@@ -3385,17 +3388,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 228,
-      "affiliate_links_removed_count": 5,
-      "removed_source_links_count": 228,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=514 chars/79 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:514chars/79words, page_text:514chars/79words)",
-      "content_fetched_at": "2026-07-22T09:45:34",
-      "candidate_retry_after": "2026-07-22T10:00:34Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-07-22T11:30:55",
+      "candidate_retry_after": "2026-07-22T11:45:55Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=514 chars/79 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:514chars/79words, page_text:514chars/79words)",
-      "candidate_failed_at": "2026-07-22T09:45:34",
-      "candidate_failure_count": 44
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-07-22T11:30:55",
+      "candidate_failure_count": 45
     },
     {
       "id": "8d2678d87487d729",
@@ -4252,12 +4255,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-07-22T09:45:36",
-      "candidate_retry_after": "2026-07-22T10:00:36Z",
+      "content_fetched_at": "2026-07-22T11:30:56",
+      "candidate_retry_after": "2026-07-22T11:45:56Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-07-22T09:45:36",
-      "candidate_failure_count": 43
+      "candidate_failed_at": "2026-07-22T11:30:56",
+      "candidate_failure_count": 44
     },
     {
       "id": "45429302676bf4c5",
@@ -5291,12 +5294,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-22T09:45:38",
-      "candidate_retry_after": "2026-07-22T10:00:38Z",
+      "content_fetched_at": "2026-07-22T11:30:58",
+      "candidate_retry_after": "2026-07-22T11:45:58Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-22T09:45:38",
-      "candidate_failure_count": 41
+      "candidate_failed_at": "2026-07-22T11:30:58",
+      "candidate_failure_count": 42
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5328,12 +5331,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-22T09:45:39",
-      "candidate_retry_after": "2026-07-22T10:00:39Z",
+      "content_fetched_at": "2026-07-22T11:30:59",
+      "candidate_retry_after": "2026-07-22T11:45:59Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-22T09:45:39",
-      "candidate_failure_count": 41
+      "candidate_failed_at": "2026-07-22T11:30:59",
+      "candidate_failure_count": 42
     },
     {
       "id": "aede79193c6b98c9",
@@ -5365,12 +5368,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-22T09:45:41",
-      "candidate_retry_after": "2026-07-22T10:00:41Z",
+      "content_fetched_at": "2026-07-22T11:31:01",
+      "candidate_retry_after": "2026-07-22T11:46:01Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-22T09:45:41",
-      "candidate_failure_count": 41
+      "candidate_failed_at": "2026-07-22T11:31:01",
+      "candidate_failure_count": 42
     },
     {
       "id": "253eaa098c468523",
@@ -6298,12 +6301,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-22T09:45:42",
-      "candidate_retry_after": "2026-07-22T10:00:42Z",
+      "content_fetched_at": "2026-07-22T11:31:02",
+      "candidate_retry_after": "2026-07-22T11:46:02Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-22T09:45:42",
-      "candidate_failure_count": 39
+      "candidate_failed_at": "2026-07-22T11:31:02",
+      "candidate_failure_count": 40
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6683,12 +6686,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-22T09:45:45",
-      "candidate_retry_after": "2026-07-22T10:00:45Z",
+      "content_fetched_at": "2026-07-22T11:31:05",
+      "candidate_retry_after": "2026-07-22T11:46:05Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-22T09:45:45",
-      "candidate_failure_count": 37
+      "candidate_failed_at": "2026-07-22T11:31:05",
+      "candidate_failure_count": 38
     },
     {
       "id": "693fbfabd96b2185",
@@ -6719,12 +6722,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-22T09:45:46",
-      "candidate_retry_after": "2026-07-22T10:00:46Z",
+      "content_fetched_at": "2026-07-22T11:31:06",
+      "candidate_retry_after": "2026-07-22T11:46:06Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-22T09:45:46",
-      "candidate_failure_count": 37
+      "candidate_failed_at": "2026-07-22T11:31:06",
+      "candidate_failure_count": 38
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9123,12 +9126,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=453 chars/70 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:453chars/70words, paragraph_fallback:338chars/53words, article_body:453chars/70words, meta_description:53chars/7words, page_text:453chars/70words)",
-      "content_fetched_at": "2026-07-22T09:45:47",
-      "candidate_retry_after": "2026-07-22T10:00:47Z",
+      "content_fetched_at": "2026-07-22T11:31:08",
+      "candidate_retry_after": "2026-07-22T11:46:08Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=453 chars/70 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:453chars/70words, paragraph_fallback:338chars/53words, article_body:453chars/70words, meta_description:53chars/7words, page_text:453chars/70words)",
-      "candidate_failed_at": "2026-07-22T09:45:47",
-      "candidate_failure_count": 33
+      "candidate_failed_at": "2026-07-22T11:31:08",
+      "candidate_failure_count": 34
     },
     {
       "id": "561b6316398d7603",
@@ -10215,12 +10218,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-22T09:45:47",
-      "candidate_retry_after": "2026-07-22T10:00:47Z",
+      "content_fetched_at": "2026-07-22T11:31:09",
+      "candidate_retry_after": "2026-07-22T11:46:09Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-22T09:45:47",
-      "candidate_failure_count": 29
+      "candidate_failed_at": "2026-07-22T11:31:09",
+      "candidate_failure_count": 30
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10252,12 +10255,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-22T09:45:48",
-      "candidate_retry_after": "2026-07-22T10:00:48Z",
+      "content_fetched_at": "2026-07-22T11:31:09",
+      "candidate_retry_after": "2026-07-22T11:46:09Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-22T09:45:48",
-      "candidate_failure_count": 29
+      "candidate_failed_at": "2026-07-22T11:31:09",
+      "candidate_failure_count": 30
     },
     {
       "id": "a6f4ca9464909855",
@@ -10289,12 +10292,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-22T09:45:48",
-      "candidate_retry_after": "2026-07-22T10:00:48Z",
+      "content_fetched_at": "2026-07-22T11:31:10",
+      "candidate_retry_after": "2026-07-22T11:46:10Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-22T09:45:48",
-      "candidate_failure_count": 29
+      "candidate_failed_at": "2026-07-22T11:31:10",
+      "candidate_failure_count": 30
     },
     {
       "id": "71463c25ac92daaa",
@@ -14925,12 +14928,12 @@
       "removed_source_links_count": 81,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:89chars/16words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-22T09:45:49",
-      "candidate_retry_after": "2026-07-22T10:00:49Z",
+      "content_fetched_at": "2026-07-22T11:31:11",
+      "candidate_retry_after": "2026-07-22T11:46:11Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:89chars/16words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_de",
-      "candidate_failed_at": "2026-07-22T09:45:49",
-      "candidate_failure_count": 18
+      "candidate_failed_at": "2026-07-22T11:31:11",
+      "candidate_failure_count": 19
     },
     {
       "id": "41b7b918ab3966e4",
@@ -17189,11 +17192,11 @@
       "content_fetched_at": "2026-07-21T14:55:40",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-22T01:05:00",
+      "selected_at": "2026-07-22T11:31:17",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-22T01:05:00",
+      "processing_prepared_at": "2026-07-22T11:31:17",
       "ai_input_package": {
         "title": "Spectro Cloud Launches PaletteAI Inference Launchpad to Help Enterprises Control AI Token Costs",
         "url": "https://www.unite.ai/spectro-cloud-launches-paletteai-inference-launchpad-to-help-enterprises-control-ai-token-costs",
@@ -17243,19 +17246,19 @@
       },
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
-      "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 160.28,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_error": "ai_time_budget_exceeded",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": true,
+      "ai_total_time_seconds": 215.67,
+      "ai_quality_status": "time_budget_exceeded",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-22T01:22:41Z",
+      "candidate_retry_after": "2026-07-22T11:49:53Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-22T01:07:41",
-      "candidate_failure_count": 2,
+      "candidate_failure_reason": "ai_time_budget_exceeded",
+      "candidate_failed_at": "2026-07-22T11:34:53",
+      "candidate_failure_count": 3,
       "telegram_final_summary_notified_at": "2026-07-22T01:13:45",
-      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content"
+      "ai_quality_last_error": "AI article response returned incomplete JSON."
     },
     {
       "id": "b1bd70995b57dd3d",
@@ -17334,11 +17337,11 @@
       "content_fetched_at": "2026-07-21T14:56:16",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-22T01:07:41",
+      "selected_at": "2026-07-22T11:34:54",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-22T01:07:41",
+      "processing_prepared_at": "2026-07-22T11:34:54",
       "ai_input_package": {
         "title": "AI LIVE London to Explore the Future of Enterprise AI",
         "url": "https://aimagazine.com/news/ai-live-the-london-summit-future-of-enterprise-ai",
@@ -17383,18 +17386,18 @@
       },
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "original source name appears in article text",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 73.16,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 140.81,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-22T01:23:55Z",
+      "candidate_retry_after": "2026-07-22T11:52:15Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-22T01:08:55",
-      "candidate_failure_count": 2,
-      "ai_quality_last_error": "html_content has unbalanced <p> tags"
+      "candidate_failure_reason": "original source name appears in article text",
+      "candidate_failed_at": "2026-07-22T11:37:15",
+      "candidate_failure_count": 3,
+      "ai_quality_last_error": "original source name appears in article text"
     },
     {
       "id": "b19e375ed3a599ff",
@@ -17486,11 +17489,11 @@
       "content_fetched_at": "2026-07-21T14:55:42",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-22T01:08:55",
+      "selected_at": "2026-07-22T11:37:16",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-22T01:08:55",
+      "processing_prepared_at": "2026-07-22T11:37:16",
       "ai_input_package": {
         "title": "OpenAI Says Codex and ChatGPT Work Hit 10 Million Users",
         "url": "https://www.unite.ai/openai-says-codex-and-chatgpt-work-hit-10-million-users",
@@ -17547,19 +17550,19 @@
         "related_posts": []
       },
       "ai_provider_last_error": "ai_time_budget_exceeded",
-      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_quality_last_error": "too much English inside article paragraphs",
       "ai_status": "failed",
-      "ai_error": "ai_time_budget_exceeded",
+      "ai_error": "too much English inside article paragraphs",
       "ai_rotation_exhausted": false,
-      "ai_time_budget_exceeded": true,
-      "ai_total_time_seconds": 181.11,
-      "ai_quality_status": "time_budget_exceeded",
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 97.26,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-22T01:26:57Z",
+      "candidate_retry_after": "2026-07-22T11:53:54Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "ai_time_budget_exceeded",
-      "candidate_failed_at": "2026-07-22T01:11:57",
-      "candidate_failure_count": 2
+      "candidate_failure_reason": "too much English inside article paragraphs",
+      "candidate_failed_at": "2026-07-22T11:38:54",
+      "candidate_failure_count": 3
     },
     {
       "id": "4bd39eb21fd1a312",
@@ -17582,7 +17585,7 @@
       "category_label": "AI-Tools",
       "category_hint": "AI-Tools",
       "discovered_at": "2026-07-21T14:55:24",
-      "status": "ready",
+      "status": "selected",
       "score": 3,
       "priority": "low",
       "source_links_removed_count": 242,
@@ -17638,11 +17641,11 @@
       "content_fetched_at": "2026-07-21T14:55:47",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-22T01:11:57",
+      "selected_at": "2026-07-22T11:38:54",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-22T01:11:57",
+      "processing_prepared_at": "2026-07-22T11:38:54",
       "ai_input_package": {
         "title": "The AI Slot Machine Effect: Why Generative Feeds Disrupt Deep Work And How to Reclaim Focus",
         "url": "https://www.artificialintelligence-news.com/news/the-ai-slot-machine-effect-why-generative-feeds-disrupt-deep-work-and-how-to-reclaim-focus",
@@ -21406,6 +21409,489 @@
       "content_preview": "Christopher Nolan’s The Odyssey is one of the biggest movie releases of the year and scammers wasted no time taking advantage of it. Within hours of the film’s release, we found scams targeting people looking for pirated copies. Some used fake browser warnings on piracy sites, while others disguised malware as movie downloads. Some used fake browser error messages designed to funnel people through malvertising networks. Others offered what appeared to be movie downloads that were actually Windows executables disguised as video files. Neither scam has anything to do with the movie itself. They’re simply taking advantage of people searching for a popular new release. The Odyssey piracy scams we found One used fake pop-ups claiming your browser was missing a required “component.” Clicking Fix It Now didn’t solve any problem. It simply routed visitors into a malvertising network. Exactly where those redirects ended depended on whatever campaign the network was serving at the time. The second involved a file advertised as The Odyssey 2026 1080p WEBRip-LAMA . Once downloaded, however, it turned out to be an .exe file. That’s a Windows application, not a video. Movies don’t need to run as programs. If a supposed movie download ends in .exe , it isn’t a movie. The fake “Browser Issue Detected” warning On cloned piracy sites listing The Odyssey torrents, we encountered a fake browser pop-up claiming Browser Issue Detected . It warned that a “missing component” was preventing full access. It presented a prominent Fix It Now button, with a much smaller Close and Continue Browsing option underneath. There was no missing browser component. The entire pop-up was part of the webpage itself, designed to look like a genuine browser warning. What made this particularly interesting was how consistently it appeared. We found the same overlay—identical wording, identical layout, with only the branding colors changed—across multiple cloned torrent sites. These were not the genuine torrent trackers, but convincing copies designed to impersonate well-known piracy sites that reproduced real listing layouts, artwork, and cast information for The Odyssey , then displayed the fake browser warning on top. Taken together, the cloned websites and identical pop-ups strongly suggest a coordinated campaign built to capture searches for a major new release, rather than legitimate torrent sites that had been compromised. Clicking Fix It Now typically sends visitors through one or more advertising redirects. Depending on which campaign is active at that moment, users may eventually land on: Scareware urging them to call a fake technical support number Another redirect attempting to deliver malware The final destination can vary from one visit to the next because the underlying ad network changes what it serves over time. A movie that was actually a program The second scam targeted people who actually tried to download the movie. We also found a listing named The Odyssey 2026 1080p WEBRip-LAMA.exe , advertised as a 1080p WEBRip release with 597 seeders and 520 leechers. Windows immediately identified the download as an Application , confirming what the file extension had already revealed. Legitimate movie downloads use video containers such as .mkv , .mp4 , or .avi . These files are opened by a media player, they do not execute code. Several other details stood out. The file description read “wireless bus Business Controller,” which has nothing to do with video playback and was likely leftover metadata from whatever software was originally used to build the executable. The file also displayed VLC Media Player’s familiar orange traffic cone icon, despite being an application rather than a video file. That’s a classic social engineering trick. VLC is one of the world’s most widely used media players, so many people instinctively associate its icon with a harmless video. In a downloads folder, the file looks like something you can safely double-click when, in reality, doing so executes an unknown program with your own user permissions. Files packaged this way (with misleading extensions, spoofed icons, and inconsistent metadata) are a well-established malware delivery technique. Picked up something you shouldn’t have? What runs after the user launches the file depends on the campaign. It could be: A Trojan that opens a backdoor into the system An infostealer that steals saved passwords and browser sessions A loader that downloads additional malware It’s also worth remembering that large numbers of seeders don’t prove a file is safe. They only indicate that many people are sharing it, and plenty of people unknowingly distribute malicious files. Why these scams work Neither scam relied on exploiting a software vulnerability. Instead, both relied on convincing someone to take the next step: clicking a fake browser warning or running what they believed was a movie. That’s much harder for security software to prevent completely, because browsers can’t reliably distinguish between a genuine browser message and one rendered entirely in a webpage’s HTML. Likewise, antivirus software can’t flag every executable simply because it uses a misleading icon or contains unusual metadata, as many legitimate applications do too. Security software still plays an important role. It can block known malicious websites, detect malware after it’s identified, and stop many malicious downloads or redirects before they complete. But recognizing that a “movie” ending in .exe is never really a movie remains one of the simplest and most effective security checks users can make themselves. What to do if you may have been affected If you clicked Fix It Now and something unexpected downloaded or opened afterward, run a full Malwarebytes scan. If you ran a supposed movie that turned out to be an .exe , disconnect the computer from the network, perform a full malware scan, and avoid using the device for banking, email, or other sensitive accounts until you’re confident it’s clean. Check your browser for extensions you don’t remember installing and remove anything unfamiliar. If you executed an unknown program, change passwords for important accounts from a separate, trusted device. Treat any pirated “movie” that isn’t a standard video format as suspicious. There is no legitimate reason for a movie download to be a Windows application. Piracy-adjacent malvertising and fake-movie droppers persist because they don’t need to be sophisticated. They only need a title popular enough to guarantee search traffic. A $250 million IMAX epic with a year of ticket pre-sales behind it is about as close to guaranteed traffic as the piracy economy gets, which is why these scams surfaced within hours of release day rather than weeks later. If you’re downloading a film and it asks you to install something, fix your browser, or run an .exe , you’re almost certainly not getting a movie. You’re downloading software that could infect your computer. Stop threats before they can do any harm. Malwarebytes Browser Guard blocks phishing pages and malicious sites automatically. Free, one click to install. Add it to your browser →",
       "content_preview_chars": 7162,
       "content_fetched_at": "2026-07-22T09:45:23",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "5260a6816b3eb76c",
+      "source_url_hash": "5260a6816b3eb76c",
+      "canonical_url": "https://aimagazine.com/news/microsoft-mistrals-multibillion-dollar-european-ai-deal",
+      "title_hash": "ef8ab757878453cc",
+      "topic_signature": "591dfcc4a9c9080dd1b9",
+      "title": "Microsoft & Mistral’s Multi-Billion-Dollar European AI Deal",
+      "url": "https://aimagazine.com/news/microsoft-mistrals-multibillion-dollar-european-ai-deal",
+      "source_name": "AI Magazine",
+      "source_url": "https://aimagazine.com",
+      "source_published_at": "2026-07-22T11:12:29Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.3,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-22T11:30:36",
+      "status": "ready",
+      "score": 6,
+      "priority": "medium",
+      "source_links_removed_count": 68,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 68,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Microsoft & Mistral’s Multi-Billion-Dollar European AI Deal",
+      "meta_description": "Microsoft and French AI company Mistral have announced a multi-billion-dollar deal aimed at strengthening European AI infrastructure",
+      "article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/1200/d5ae4138f3b9dc455fc17491373e68cd:067ea672c09a0d854233943268736a5a/mistral-featured-image.jpg.jpg",
+          "alt": "Microsoft & Mistral’s Multi-Billion-Dollar European AI Deal",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/138/f4b9dc556d0d11fecec4ebf908fda161:b0ca5837d4dc4eddece3c3b20ca49786/mistral-featured-image.webp",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/xr4VUV-7rN0/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/bEt4wczgGR8/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://assets.bizclikmedia.net/1200/d5ae4138f3b9dc455fc17491373e68cd:067ea672c09a0d854233943268736a5a/mistral-featured-image.jpg.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/138/f4b9dc556d0d11fecec4ebf908fda161:b0ca5837d4dc4eddece3c3b20ca49786/mistral-featured-image.webp",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/xr4VUV-7rN0/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/bEt4wczgGR8/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Microsoft and Mistral, a French AI company that develops advanced LLMs, announced a new agreement to expand AI infrastructure in Europe. The deal, which represents a significant expansion of the companies' existing partnership, will also see Mistral’s AI models integrated across Microsoft's products. The partnership is positioned to help the French company build data centres in Europe and is slated to help both companies build a larger base of European customers. Currently, the two main players in the AI race are the US and China, with Europe lagging behind. Now, however, Microsoft looks to be seriously backing a European-led competitor in the AI race, despite its status at cloud partner of American firm OpenAI. The French AI start-up is also reportedly in talks with the South Korean giant Samsung, it recently emerged. The multi-billion-dollar AI deal Part of the deal covers integrating Mistral’s AI Models into Microsoft’s products. Mistral Medium 3.5 and OCR 4 are now available in Microsoft Foundry while Mistral Medium 3.5 is now in Microsoft Copilot Studio. “Our mission has always been to put frontier AI in the hands of every organisation while keeping them in control of their technology,” says Arthur Mensch, Co-Founder and CEO of Mistral. “With Microsoft as our partner, our models reach enterprises and public institutions at global scale, delivered through a platform trusted for the most demanding, regulated workloads and available everywhere our customers operate.” Mistral’s OCR 4 supports structured document-processing pipelines and agentic workflows and can be used for automation applications. Mistral Medium 3.5 brings an open-weight model that enables developers and enterprises to build, customise and deploy AI applications with control and sovereign deployment options. The agreement builds upon the companies’ existing partnership, which was announced in 2024. European data centres Underpinning the partnership is a multi-billion-dollar agreement focused on expanding AI infrastructure in Europe. Earlier this year, Mistral said it would invest US$1.43bn in new data centres in Sweden. Last year, Microsoft announced plans to increase its European data centre capacity by 40% over the next two years. Microsoft says the agreement strengthens Europe’s AI infrastructure while helping it meet growing demand for cloud and AI services. To support the infrastructure buildout, Mistral is adding GPU capacity to increase compute power, drawing on thousands of NVIDIA Vera Rubin GPUs. Ian Buck, Vice President of Hyperscale and High-Performance Computing, NVIDIA, says: “Agentic AI is driving unprecedented demand for high-performance, energy-efficient AI infrastructure. “By deploying NVIDIA Vera Rubin systems at scale, Mistral and Microsoft will give customers the computing foundation they need to build and run the next generation of AI across Europe and beyond.” European sovereign AI Mistral is positioned as a European-centric sovereign AI that can help firms to reduce their dependence on American AI. Brad Smith, Vice Chair and President, Microsoft, says: “Europe should have access to the world’s most capable AI without compromising control over their data, operations or digital future. “By bringing Mistral’s frontier European models into our sovereign cloud portfolio and enabling them across public cloud, cloud-connected and fully disconnected environments, we are honoring the European Digital Commitments we made and giving customers a trusted foundation for AI they can operate on their own terms.” The EU is incredibly dependent on the US for AI services. In June, the Guardian reported that the EU Commission wants to ensure no foreign government or company has access to a “kill switch” to turn off or disrupt vital tech services across the continent, as part of an effort to cut dependencies on the US and China. McKinsey recently argued that the biggest impediments to AI adoption across Europe are concerns over trust, security, and national dependency. In an article titled Accelerating Europe’s AI adoption: The role of sovereign AI , the consulting firm suggested that sovereign AI capabilities potentially provide greater flexibility in the form of national, economic, operational and technical independence. Samsung’s reported talks with Mistral The Financial Times reported that Samsung is in talks to invest ‘hundreds of millions of euros’ in Mistral. It said Samsung could invest as much as €1bn (US$1.14bn) in the French AI group that is seeking to be a leading alternative to US tech. “Companies such as Mistral and Lovable have been vocal about the importance of sovereign European technologies, and this shift in market sentiment is increasingly being reflected in capital allocation decisions.” The FT said the huge South Korean company is discussing an investment in Mistral as part of a broader fundraising round that could value the group at roughly €20bn (US$22.8bn), citing people familiar with the matter. Arthur Mensch Co-founder & CEO Brad Smith Vice Chair and President",
+      "full_article_text_chars": 5051,
+      "content_preview": "Microsoft and Mistral, a French AI company that develops advanced LLMs, announced a new agreement to expand AI infrastructure in Europe. The deal, which represents a significant expansion of the companies' existing partnership, will also see Mistral’s AI models integrated across Microsoft's products. The partnership is positioned to help the French company build data centres in Europe and is slated to help both companies build a larger base of European customers. Currently, the two main players in the AI race are the US and China, with Europe lagging behind. Now, however, Microsoft looks to be seriously backing a European-led competitor in the AI race, despite its status at cloud partner of American firm OpenAI. The French AI start-up is also reportedly in talks with the South Korean giant Samsung, it recently emerged. The multi-billion-dollar AI deal Part of the deal covers integrating Mistral’s AI Models into Microsoft’s products. Mistral Medium 3.5 and OCR 4 are now available in Microsoft Foundry while Mistral Medium 3.5 is now in Microsoft Copilot Studio. “Our mission has always been to put frontier AI in the hands of every organisation while keeping them in control of their technology,” says Arthur Mensch, Co-Founder and CEO of Mistral. “With Microsoft as our partner, our models reach enterprises and public institutions at global scale, delivered through a platform trusted for the most demanding, regulated workloads and available everywhere our customers operate.” Mistral’s OCR 4 supports structured document-processing pipelines and agentic workflows and can be used for automation applications. Mistral Medium 3.5 brings an open-weight model that enables developers and enterprises to build, customise and deploy AI applications with control and sovereign deployment options. The agreement builds upon the companies’ existing partnership, which was announced in 2024. European data centres Underpinning the partnership is a multi-billion-dollar agreement focused on expanding AI infrastructure in Europe. Earlier this year, Mistral said it would invest US$1.43bn in new data centres in Sweden. Last year, Microsoft announced plans to increase its European data centre capacity by 40% over the next two years. Microsoft says the agreement strengthens Europe’s AI infrastructure while helping it meet growing demand for cloud and AI services. To support the infrastructure buildout, Mistral is adding GPU capacity to increase compute power, drawing on thousands of NVIDIA Vera Rubin GPUs. Ian Buck, Vice President of Hyperscale and High-Performance Computing, NVIDIA, says: “Agentic AI is driving unprecedented demand for high-performance, energy-efficient AI infrastructure. “By deploying NVIDIA Vera Rubin systems at scale, Mistral and Microsoft will give customers the computing foundation they need to build and run the next generation of AI across Europe and beyond.” European sovereign AI Mistral is positioned as a European-centric sovereign AI that can help firms to reduce their dependence on American AI. Brad Smith, Vice Chair and President, Microsoft, says: “Europe should have access to the world’s most capable AI without compromising control over their data, operations or digital future. “By bringing Mistral’s frontier European models into our sovereign cloud portfolio and enabling them across public cloud, cloud-connected and fully disconnected environments, we are honoring the European Digital Commitments we made and giving customers a trusted foundation for AI they can operate on their own terms.” The EU is incredibly dependent on the US for AI services. In June, the Guardian reported that the EU Commission wants to ensure no foreign government or company has access to a “kill switch” to turn off or disrupt vital tech services across the continent, as part of an effort to cut dependencies on the US and China. McKinsey recently argued that the biggest impediments to AI adoption across Europe are concerns over trust, security, and national dependency. In an article titled Accelerating Europe’s AI adoption: The role of sovereign AI , the consulting firm suggested that sovereign AI capabilities potentially provide greater flexibility in the form of national, economic, operational and technical independence. Samsung’s reported talks with Mistral The Financial Times reported that Samsung is in talks to invest ‘hundreds of millions of euros’ in Mistral. It said Samsung could invest as much as €1bn (US$1.14bn) in the French AI group that is seeking to be a leading alternative to US tech. “Companies such as Mistral and Lovable have been vocal about the importance of sovereign European technologies, and this shift in market sentiment is increasingly being reflected in capital allocation decisions.” The FT said the huge South Korean company is discussing an investment in Mistral as part of a broader fundraising round that could value the group at roughly €20bn (US$22.8bn), citing people familiar with the matter. Arthur Mensch Co-founder & CEO Brad Smith Vice Chair and President",
+      "content_preview_chars": 5051,
+      "content_fetched_at": "2026-07-22T11:31:13",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "eaa0a7fba1b87c0c",
+      "source_url_hash": "eaa0a7fba1b87c0c",
+      "canonical_url": "https://aimagazine.com/news/how-bms-uses-nvidia-ai-to-discover-new-drugs",
+      "title_hash": "c660c55c47bdf1f7",
+      "topic_signature": "03c8b5e11e2a96cb99db",
+      "title": "How BMS is Using NVIDIA AI to Discover New Drugs",
+      "url": "https://aimagazine.com/news/how-bms-uses-nvidia-ai-to-discover-new-drugs",
+      "source_name": "AI Magazine",
+      "source_url": "https://aimagazine.com",
+      "source_published_at": "2026-07-22T09:09:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.36,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-22T11:30:36",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 59,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 59,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "How BMS is Using NVIDIA AI to Discover New Drugs",
+      "meta_description": "Biopharmaceutical leader Bristol Myers Squibb scales NVIDIA compute capacity to create life sciences industry’s most powerful privately owned AI system",
+      "article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/1200/30cda7266dbb22bff0d7bc26cae3981f:fb63628ea5fc939e36a2b9dde6d23474/our-therapy-areas-homepage.jpg.jpg",
+          "alt": "How BMS is Using NVIDIA AI to Discover New Drugs",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/138/9f01bfe2a23cfc219502291bf96948ce:32235f00b8f00dc38e49d69d6ee64b20/our-therapy-areas-homepage.webp",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/kYCcfGbEpw8/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/d56a1824142614b7f9246bf4f0eadeda:733a3daa5534ac0c4258978750e82e65/picture",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://assets.bizclikmedia.net/1200/30cda7266dbb22bff0d7bc26cae3981f:fb63628ea5fc939e36a2b9dde6d23474/our-therapy-areas-homepage.jpg.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/138/9f01bfe2a23cfc219502291bf96948ce:32235f00b8f00dc38e49d69d6ee64b20/our-therapy-areas-homepage.webp",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/kYCcfGbEpw8/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/d56a1824142614b7f9246bf4f0eadeda:733a3daa5534ac0c4258978750e82e65/picture",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Bristol Myers Squibb (BMS) is scaling its NVIDIA-powered AI infrastructure to create what it describes as the ‘most powerful AI factory in life sciences’. BMS possesses one of the life science industry’s most powerful AI systems, which is also powered by advanced NVIDIA technology, to support its research and development programmes. This second system will deliver up to ten times greater performance per megawatt than its predecessor. The system will deploy an NVIDIA DGX SuperPOD with DGX Vera Rubin NVL72 systems, creating the life sciences industry’s most powerful and energy-efficient privately owned NVIDIA infrastructure. Greg Meyers, Chief Digital and Technology Officer at Bristol Myers Squibb, says: “BMS has made a deliberate bet on AI and we are beginning to see it pay off in our pipeline and operations. We’re committed to translating AI into real outcomes for patients, which requires infrastructure built to match that ambition. “Expanding our compute capabilities with NVIDIA gives our researchers and teams across the business the scale they need to keep BMS at the leading edge of what AI can do for drug discovery and development.” Accelerating drug discovery with gen AI AI-enabled drug discovery is one of the leading use cases for gen AI in healthcare. BMS has been at the forefront of this movement since building its first NVIDIA-powered DGX SuperPOD three years ago. AI agents that automate target identification and validation save researchers weeks of manual work. This allows them to focus on higher-value scientific decisions. The company’s ‘Predict First’ approach uses AI to guide experimental design before laboratory testing. This informs every small-molecule programme and most large-molecule programmes as part of an integrated drug development strategy. Robert Plenge, Executive VP and Chief Research Officer at Bristol Myers Squibb, says: “Drug discovery is a sequence of decisions made under uncertainty and better decisions come from better evidence, faster. “This infrastructure lets us learn from every experiment and every clinical readout to sharpen the next hypothesis, allowing BMS scientists to spend less time on manual work and more time on the questions that require human judgment. “The goal isn’t speed for its own sake; it’s raising the probability that each programme we advance is the right one.” Improving research workflows The expanded agreement supports the company’s research vision of ‘hybrid intelligence’, where AI co-scientists work alongside human researchers to improve workflows and outcomes. AI systems at BMS handle complex, data-intensive tasks. This allows scientists to focus on strategy, interpretation and decisions that require human expertise. The cluster provides the computing power behind this approach, supporting foundation models trained on decades of proprietary data. It also facilitates AI-driven workflows that allow researchers to test hypotheses at a scale previously impossible. Rory Kelleher, Senior Director of Business Development, Healthcare and Life Sciences at NVIDIA, says: “BMS has built decades of extraordinary scientific knowledge across some of the most complex areas of human disease. “With NVIDIA Vera Rubin and BioNeMo Agent Toolkit, BMS can transform that enterprise scientific data into proprietary intelligence and give agents domain-specific tooling that help scientists explore biology, design molecules and evaluate hypotheses at unprecedented scale – reinventing how medicines are discovered and developed.” Expanding the enterprise AI ecosystem BMS’s expanding AI infrastructure follows its strategic partnership with Anthropic announced in May 2026. The AI firm’s Claude agent is set to be deployed across research, clinical development, manufacturing, commercial and corporate functions. Aiming to transition AI use from conversational tools to agentic capabilities built into day-to-day workflows, the BMS-Claude partnership aims to accelerate software engineering with Claude Code. It embeds agents into workflows that move drugs forward and connects Claude with institutional knowledge across internal systems. Anthropic also launched Claude Science, a dedicated product tailored to the demands of the life sciences industry. Bristol Myers Squibb Greg Meyers Member Board of Directors Robert Plenge Executive Vice President, Chief Research Officer, Head of Research Executive Vice President, Chief Research Officer, Head of Research",
+      "full_article_text_chars": 4451,
+      "content_preview": "Bristol Myers Squibb (BMS) is scaling its NVIDIA-powered AI infrastructure to create what it describes as the ‘most powerful AI factory in life sciences’. BMS possesses one of the life science industry’s most powerful AI systems, which is also powered by advanced NVIDIA technology, to support its research and development programmes. This second system will deliver up to ten times greater performance per megawatt than its predecessor. The system will deploy an NVIDIA DGX SuperPOD with DGX Vera Rubin NVL72 systems, creating the life sciences industry’s most powerful and energy-efficient privately owned NVIDIA infrastructure. Greg Meyers, Chief Digital and Technology Officer at Bristol Myers Squibb, says: “BMS has made a deliberate bet on AI and we are beginning to see it pay off in our pipeline and operations. We’re committed to translating AI into real outcomes for patients, which requires infrastructure built to match that ambition. “Expanding our compute capabilities with NVIDIA gives our researchers and teams across the business the scale they need to keep BMS at the leading edge of what AI can do for drug discovery and development.” Accelerating drug discovery with gen AI AI-enabled drug discovery is one of the leading use cases for gen AI in healthcare. BMS has been at the forefront of this movement since building its first NVIDIA-powered DGX SuperPOD three years ago. AI agents that automate target identification and validation save researchers weeks of manual work. This allows them to focus on higher-value scientific decisions. The company’s ‘Predict First’ approach uses AI to guide experimental design before laboratory testing. This informs every small-molecule programme and most large-molecule programmes as part of an integrated drug development strategy. Robert Plenge, Executive VP and Chief Research Officer at Bristol Myers Squibb, says: “Drug discovery is a sequence of decisions made under uncertainty and better decisions come from better evidence, faster. “This infrastructure lets us learn from every experiment and every clinical readout to sharpen the next hypothesis, allowing BMS scientists to spend less time on manual work and more time on the questions that require human judgment. “The goal isn’t speed for its own sake; it’s raising the probability that each programme we advance is the right one.” Improving research workflows The expanded agreement supports the company’s research vision of ‘hybrid intelligence’, where AI co-scientists work alongside human researchers to improve workflows and outcomes. AI systems at BMS handle complex, data-intensive tasks. This allows scientists to focus on strategy, interpretation and decisions that require human expertise. The cluster provides the computing power behind this approach, supporting foundation models trained on decades of proprietary data. It also facilitates AI-driven workflows that allow researchers to test hypotheses at a scale previously impossible. Rory Kelleher, Senior Director of Business Development, Healthcare and Life Sciences at NVIDIA, says: “BMS has built decades of extraordinary scientific knowledge across some of the most complex areas of human disease. “With NVIDIA Vera Rubin and BioNeMo Agent Toolkit, BMS can transform that enterprise scientific data into proprietary intelligence and give agents domain-specific tooling that help scientists explore biology, design molecules and evaluate hypotheses at unprecedented scale – reinventing how medicines are discovered and developed.” Expanding the enterprise AI ecosystem BMS’s expanding AI infrastructure follows its strategic partnership with Anthropic announced in May 2026. The AI firm’s Claude agent is set to be deployed across research, clinical development, manufacturing, commercial and corporate functions. Aiming to transition AI use from conversational tools to agentic capabilities built into day-to-day workflows, the BMS-Claude partnership aims to accelerate software engineering with Claude Code. It embeds agents into workflows that move drugs forward and connects Claude with institutional knowledge across internal systems. Anthropic also launched Claude Science, a dedicated product tailored to the demands of the life sciences industry. Bristol Myers Squibb Greg Meyers Member Board of Directors Robert Plenge Executive Vice President, Chief Research Officer, Head of Research Executive Vice President, Chief Research Officer, Head of Research",
+      "content_preview_chars": 4451,
+      "content_fetched_at": "2026-07-22T11:31:15",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "5341149b4bd4b261",
+      "source_url_hash": "5341149b4bd4b261",
+      "canonical_url": "https://aimagazine.com/news/what-does-uk-prime-minister-andy-burnham-mean-for-ai",
+      "title_hash": "e4114f60e0212a03",
+      "topic_signature": "84f3d0101579ac61e489",
+      "title": "What Does UK Prime Minister Andy Burnham Mean For AI?",
+      "url": "https://aimagazine.com/news/what-does-uk-prime-minister-andy-burnham-mean-for-ai",
+      "source_name": "AI Magazine",
+      "source_url": "https://aimagazine.com",
+      "source_published_at": "2026-07-22T08:00:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 3.51,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-22T11:30:36",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 60,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 60,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "What Does UK Prime Minister Andy Burnham Mean For AI?",
+      "meta_description": "New appointments Jonathan Reynolds will direct a merged business division while Kanishka Narayan takes charge of AI policy, despite DSIT being scrapped",
+      "article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/1200/b3233cb804c4a1231118dbe2b1279b8e:77eeb84bf9023e40401983229ed1fbfb/gettyimages-2285816993.jpg.jpg",
+          "alt": "What Does UK Prime Minister Andy Burnham Mean For AI?",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/138/24a7492b44accd9c0f2b921c12bd432c:23150dd4c523846a05960a2498788d63/gettyimages-2285816993.webp",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/hd0s7NhfBkc/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/92a5580e91b13b7ae55a7dc707c0b94d:15b66c28eab96e96928733c8f77fdaab/picture",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://assets.bizclikmedia.net/1200/b3233cb804c4a1231118dbe2b1279b8e:77eeb84bf9023e40401983229ed1fbfb/gettyimages-2285816993.jpg.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/138/24a7492b44accd9c0f2b921c12bd432c:23150dd4c523846a05960a2498788d63/gettyimages-2285816993.webp",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/hd0s7NhfBkc/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/92a5580e91b13b7ae55a7dc707c0b94d:15b66c28eab96e96928733c8f77fdaab/picture",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "The newly-appointed UK Prime Minister, Andy Burnham, will have far-reaching reaching impacts on the UK's tech and AI sector . So far, he has dissolved the Department for Science, Innovation and Technology (DSIT), redistributing its functions across other government departments in a move that could have significant implications for the country's AI sector and policy landscape. Jonathan Reynolds, the former business secretary, will now lead the newly formed Department for Business, Innovation, Science and Trade, absorbing the majority of DSIT's portfolio. Meanwhile, remaining responsibilities have transferred to what will be renamed the Department for Digital, Culture, Media and Sport under Lisa Nandy's leadership. The restructuring has sparked immediate concern among AI researchers, practitioners and industry leaders who warn the changes could disrupt critical AI development initiatives and safety frameworks at a pivotal moment for the technology. Despite dismantling DSIT, Burnham has appointed Kanishka Narayan as the UK's first dedicated AI minister. AI sector concerns over fragmentation The dissolution has met considerable resistance from technology entrepreneurs and sector representatives. Julian Harris, CEO of techUK, and Dom Hallas, Executive Director at Startup Coalition, jointly wrote to the PM describing the proposal as \"the wrong change at the wrong time\". \"DSIT works because it brings researchers, AI practitioners, innovators and policymakers together in one department – a single front door that gives the tech sector clarity, pace and a government partner that understands technology and champions the sector in the Cabinet,\" they wrote. Their letter specifically highlighted concerns about fragmenting key AI initiatives, including the AI Safety Institute, the Sovereign AI fund, Government Digital Service and UK Research and Innovation. The signatories argued that distributing these functions could slow momentum when the AI sector requires rapid policy development and coordinated oversight. DSIT was established in 2023 under former Prime Minister Rishi Sunak. During its brief existence, the department supported quantum computing research programmes and designated zones for AI infrastructure, including a significant data centre campus project from OpenAI and Nscale that was subsequently paused by OpenAI in March 2025. Impact on AI development The restructuring comes as the UK's technology sector, valued at £1.2tn ($1.6tn) and growing at 10% annually, seeks policy stability to maintain competitiveness in AI development. Industry figures warn the changes could send problematic signals about the government's commitment to AI leadership. \"You don't show you take AI seriously by appointing a minister while scrapping the department that understood it,\" says James Cobb, CEO and Founder of UK location intelligence company Crowd Connected. \"A minister for AI is welcome, but a minister without a department is simply a spokesperson.\" \"AI bolted onto a traditional organisation delivers very little. Appointing an AI minister while dissolving the department that understands the technology is a step backwards, not forwards.\" Charlotte Wilson, Head of Enterprise at Check Point, emphasises the implications for AI security and economic strategy. \"Britain's AI department is at the forefront of the country's productivity strategy, playing a crucial role in how the technology will be developed and rolled out to drive wider economic growth and defence,\" she notes. \"Any suggestion of redeployment or downsizing could send the wrong signal to businesses and cyber criminals about how seriously we take the most transformational technology in living memory. “Incoming policymakers should take heed – AI is the gorilla in the room and will remain so for the foreseeable future. However, some AI sector representatives view the changes as potentially beneficial if implemented quickly. “AI has the potential to transform Britain's economy, our public services and our security for a generation,” says Tim Flagg, CEO of trade association UKAI. \"Rethinking which department oversees this industry does not necessarily mean Burnham's Britain is turning its back on that potential. \"It could even signal an ambition to go further: AI elevated into a super-department or placed at the very heart of the Cabinet Office. The real danger isn't the ambition – it's the distraction and the delay.\" Technology in the UK is valued at £1.2tn ($1.6tn) Dedicated AI minister appointed As well as dismantling DSIT, Burnham has appointed Kanishka Narayan as the UK's first dedicated AI minister. Narayan previously served as minister for AI and online safety from September 2024 under former Prime Minister Keir Starmer, working under technology secretary Liz Kendall until the recent reshuffle. \"AI is likely the most significant technology in human history,\" Narayan wrote on X following his appointment. \"Its impact will dwarf other things. Nations have a narrow window to decide whether they shape AI or get shaped by it. \"Britain is in that window right now. While that window is still open, I will act with pace, I will act with ambition, and I will focus relentlessly on securing British influence in shaping AI.\" While France and Canada have established senior AI government positions between 2018 and 2023, making Britain not the first G7 nation to create a dedicated ministerial role for the technology, Narayan faces particular challenges in coordinating AI policy across newly fragmented departments. The restructuring occurs as AI adoption patterns across the UK economy reveal concerning trends. According to recent research from engineering and technology consulting firm Expleo, a widening confidence gap is emerging among UK business leaders regarding AI tools. Nearly one-third of business leaders report that losing their current AI tools would leave their work completely unaffected, while only 24% believe their tasks would become more complex without AI, suggesting current implementations are doing little to alleviate operational challenges. Beyond adoption concerns, AI industry leaders worry the governmental reorganisation could delay critical policy development. \"Technology, one of the UK's priority sectors, is vital to economic growth,\" adds Tony Kounnis, CEO of Face Int UK & Europe, a tech startup specialising in identity verification. \"Any delays to sector investment and policy development caused by the redistribution of DSIT's responsibilities could be costly.\" Tony specifically points to the need for AI governance frameworks . \"With a change in leadership, it's important that any departmental changes don't cause further disruption to much-needed progress where the regulation of facial recognition technology (FRT) is concerned,\" he adds. \"As FRT becomes more widely used by police and businesses, the public has also been voicing concerns around excessive surveillance and what it means for their privacy.\" The restructuring leaves the AI sector watching closely to see whether the new departmental arrangements can maintain policy momentum on AI safety, development incentives and regulatory frameworks that researchers and companies indicate are essential for the UK's position in the global AI landscape. Check Point Software Technologies Charlotte Wilson Head of enterprise business UKI Head of enterprise business UKI Kanishka Narayan MP Minister for AI Kanishka Narayan MP Tony Kounnis Chief Executive Officer UK & Europe Chief Executive Officer UK & Europe",
+      "full_article_text_chars": 7533,
+      "content_preview": "The newly-appointed UK Prime Minister, Andy Burnham, will have far-reaching reaching impacts on the UK's tech and AI sector . So far, he has dissolved the Department for Science, Innovation and Technology (DSIT), redistributing its functions across other government departments in a move that could have significant implications for the country's AI sector and policy landscape. Jonathan Reynolds, the former business secretary, will now lead the newly formed Department for Business, Innovation, Science and Trade, absorbing the majority of DSIT's portfolio. Meanwhile, remaining responsibilities have transferred to what will be renamed the Department for Digital, Culture, Media and Sport under Lisa Nandy's leadership. The restructuring has sparked immediate concern among AI researchers, practitioners and industry leaders who warn the changes could disrupt critical AI development initiatives and safety frameworks at a pivotal moment for the technology. Despite dismantling DSIT, Burnham has appointed Kanishka Narayan as the UK's first dedicated AI minister. AI sector concerns over fragmentation The dissolution has met considerable resistance from technology entrepreneurs and sector representatives. Julian Harris, CEO of techUK, and Dom Hallas, Executive Director at Startup Coalition, jointly wrote to the PM describing the proposal as \"the wrong change at the wrong time\". \"DSIT works because it brings researchers, AI practitioners, innovators and policymakers together in one department – a single front door that gives the tech sector clarity, pace and a government partner that understands technology and champions the sector in the Cabinet,\" they wrote. Their letter specifically highlighted concerns about fragmenting key AI initiatives, including the AI Safety Institute, the Sovereign AI fund, Government Digital Service and UK Research and Innovation. The signatories argued that distributing these functions could slow momentum when the AI sector requires rapid policy development and coordinated oversight. DSIT was established in 2023 under former Prime Minister Rishi Sunak. During its brief existence, the department supported quantum computing research programmes and designated zones for AI infrastructure, including a significant data centre campus project from OpenAI and Nscale that was subsequently paused by OpenAI in March 2025. Impact on AI development The restructuring comes as the UK's technology sector, valued at £1.2tn ($1.6tn) and growing at 10% annually, seeks policy stability to maintain competitiveness in AI development. Industry figures warn the changes could send problematic signals about the government's commitment to AI leadership. \"You don't show you take AI seriously by appointing a minister while scrapping the department that understood it,\" says James Cobb, CEO and Founder of UK location intelligence company Crowd Connected. \"A minister for AI is welcome, but a minister without a department is simply a spokesperson.\" \"AI bolted onto a traditional organisation delivers very little. Appointing an AI minister while dissolving the department that understands the technology is a step backwards, not forwards.\" Charlotte Wilson, Head of Enterprise at Check Point, emphasises the implications for AI security and economic strategy. \"Britain's AI department is at the forefront of the country's productivity strategy, playing a crucial role in how the technology will be developed and rolled out to drive wider economic growth and defence,\" she notes. \"Any suggestion of redeployment or downsizing could send the wrong signal to businesses and cyber criminals about how seriously we take the most transformational technology in living memory. “Incoming policymakers should take heed – AI is the gorilla in the room and will remain so for the foreseeable future. However, some AI sector representatives view the changes as potentially beneficial if implemented quickly. “AI has the potential to transform Britain's economy, our public services and our security for a generation,” says Tim Flagg, CEO of trade association UKAI. \"Rethinking which department oversees this industry does not necessarily mean Burnham's Britain is turning its back on that potential. \"It could even signal an ambition to go further: AI elevated into a super-department or placed at the very heart of the Cabinet Office. The real danger isn't the ambition – it's the distraction and the delay.\" Technology in the UK is valued at £1.2tn ($1.6tn) Dedicated AI minister appointed As well as dismantling DSIT, Burnham has appointed Kanishka Narayan as the UK's first dedicated AI minister. Narayan previously served as minister for AI and online safety from September 2024 under former Prime Minister Keir Starmer, working under technology secretary Liz Kendall until the recent reshuffle. \"AI is likely the most significant technology in human history,\" Narayan wrote on X following his appointment. \"Its impact will dwarf other things. Nations have a narrow window to decide whether they shape AI or get shaped by it. \"Britain is in that window right now. While that window is still open, I will act with pace, I will act with ambition, and I will focus relentlessly on securing British influence in shaping AI.\" While France and Canada have established senior AI government positions between 2018 and 2023, making Britain not the first G7 nation to create a dedicated ministerial role for the technology, Narayan faces particular challenges in coordinating AI policy across newly fragmented departments. The restructuring occurs as AI adoption patterns across the UK economy reveal concerning trends. According to recent research from engineering and technology consulting firm Expleo, a widening confidence gap is emerging among UK business leaders regarding AI tools. Nearly one-third of business leaders report that losing their current AI tools would leave their work completely unaffected, while only 24% believe their tasks would become more complex without AI, suggesting current implementations are doing little to alleviate operational challenges. Beyond adoption concerns, AI industry leaders worry the governmental reorganisation could delay critical policy development. \"Technology, one of the UK's priority sectors, is vital to economic growth,\" adds Tony Kounnis, CEO of Face Int UK & Europe, a tech startup specialising in identity verification. \"Any delays to sector investment and policy development caused by the redistribution of DSIT's responsibilities could be costly.\" Tony specifically points to the need for AI governance frameworks . \"With a change in leadership, it's important that any departmental changes don't cause further disruption to much-needed progress where the regulation of facial recognition technology (FRT) is concerned,\" he adds. \"As FRT becomes more widely used by police and businesses, the public has also been voicing concerns around excessive surveillance and what it means for their privacy.\" The restructuring leaves the AI sector watching closely to see whether the new departmental arrangements can maintain policy momentum on AI safety, development incentives and regulatory frameworks that researchers and companies indicate are essential for the UK's position in the global AI landscape. Check Point Software Technologies Charlotte Wilson Head of enterprise business UKI Head of enterprise business UKI Kanishka Narayan MP Minister for AI Kanishka Narayan MP Tony Kounnis Chief Executive Officer UK & Europe Chief Executive Officer UK & Europe",
+      "content_preview_chars": 7533,
+      "content_fetched_at": "2026-07-22T11:31:17",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "b934e0b859aac72b",
+      "source_url_hash": "b934e0b859aac72b",
+      "canonical_url": "https://www.unite.ai/white-house-steers-science-funding-to-ai-and-individual-scientists",
+      "title_hash": "85cf5420e2224178",
+      "topic_signature": "48d32d6a1e9d4cde9667",
+      "title": "White House Steers Science Funding to AI and Individual Scientists",
+      "url": "https://www.unite.ai/white-house-steers-science-funding-to-ai-and-individual-scientists",
+      "source_name": "Unite.AI",
+      "source_url": "https://www.unite.ai",
+      "source_published_at": "2026-07-22T03:23:02Z",
+      "published_at_source": "meta:article:published_time",
+      "article_age_hours": 8.12,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-22T11:30:36",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 167,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 167,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "White House Steers Science Funding to AI and Individual Scientists",
+      "meta_description": "The Trump administration wants to rebuild how the United States spends roughly $200 billion a year on research, steering federal money toward individual scientists and the use of AI while pulling it away from the univers...",
+      "article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/white-house-steers-science-funding-ai-individual-scientists.png",
+          "alt": "White House Steers Science Funding to AI and Individual Scientists",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/publishers-weigh-pulling-content-from-googles-ai-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/trumps-ai-electricity-pledge-expands-beyond-big-tech-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/china-weighs-walling-off-its-best-ai-and-chip-designs-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.unite.ai/wp-content/uploads/2026/07/white-house-steers-science-funding-ai-individual-scientists.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/publishers-weigh-pulling-content-from-googles-ai-400x240.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/trumps-ai-electricity-pledge-expands-beyond-big-tech-400x240.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/china-weighs-walling-off-its-best-ai-and-chip-designs-400x240.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Unite.AI to your preferred sources on Google",
+          "url": "https://www.google.com/preferences/source?q=unite.ai"
+        }
+      ],
+      "full_article_text": "The Trump administration wants to rebuild how the United States spends roughly $200 billion a year on research, steering federal money toward individual scientists and the use of AI while pulling it away from the universities and consensus peer-review panels that have run the system since World War II. The plan runs through a report the White House Office of Science and Technology Policy released on July 21, 2026 , titled Science: A New Golden Age , and a companion budget memo its director, Michael Kratsios, co-signed with Office of Management and Budget Director Russell Vought. The Wall Street Journal first reported the overhaul, which the administration frames as a race to outpace China across AI, quantum computing, and other frontier fields. Much of the document is direction-setting rather than law: Congress, not the White House, writes the research budget it seeks to reshape. But it is the clearest statement yet of how this administration wants the federal science enterprise rebuilt, and it reaches every agency that funds research. From institutions to individuals The report’s premise is that America’s research system — largely unchanged since Vannevar Bush’s 1945 blueprint Science: The Endless Frontier , which built the National Science Foundation and the modern university-government partnership — has grown slow and top-heavy. Kratsios pitched it as the first comprehensive rethink of that enterprise in more than 80 years. Its fix is to send more support to individual researchers and to widen how the government awards money. The memo tells agencies to supplement traditional consensus-driven peer review, which it says rewards incremental work, with faster, higher-risk mechanisms. Among them: “Golden tickets” that let a single reviewer fund an unconventional proposal a committee would pass over; “Fast grants” with applications a few pages long and review times under a month; Long-duration awards of five years or more, funded in full up front; and Prizes and challenges structured to draw at least three private dollars for every federal one. It also pushes grants that follow the scientist rather than the school — portable awards modeled on the National Science Foundation’s graduate fellowships, which a researcher keeps when switching institutions. For universities, that is the sharp edge: money they have long treated as core support would instead chase individuals, agile new outfits such as the NSF’s X-Labs, and expanded ARPA-style teams built for high-risk projects. The report asks agencies to rebalance toward the physical sciences and engineering, and to build “metascience” units that study which funding methods actually produce results. The overhaul puts AI at the core of how discovery happens. Agencies are told to treat the Genesis Mission — the AI-for-science program Trump launched in November 2025 with the stated goal of doubling research productivity within a decade — as a central priority, and to fund work that uses AI as an instrument of discovery rather than a convenience. The report calls for domain-specific scientific foundation models, curated federal datasets to train them, and autonomous laboratories where AI systems propose hypotheses, run experiments, and iterate with limited human input. That ambition carries commercial weight. The memo directs agencies to expand access to advanced compute, buy commercial capacity through public-private partnerships where it is cost-effective, and build domestic supply chains for AI-ready scientific instruments with standardized, interoperable interfaces — a demand signal for chipmakers, cloud providers, and lab-hardware vendors. It sits alongside a wider Trump AI agenda that already spans compute buildout and electricity commitments for AI. The same mission-driven logic runs through a slate of national goals the report ties federal research to: a quantum computer built to open an era of scientific discovery, a commercial fusion power demonstration by the mid-2030s, a return of Americans to the lunar surface by 2028, general-purpose robotics, and next-generation semiconductor manufacturing. The organizing frame is competition with China, which the administration now describes as a peer-level rival in research spending. Guidance now, appropriations later For all its reach, most of the report is advisory. Its budget priorities are recommendations agencies are asked to weigh in their fiscal 2028 requests to the OMB — and lawmakers control what actually gets funded. One provision has teeth. Within 90 days, every agency with at least $3 billion in 2026 research budget authority must send Kratsios and Vought an action plan detailing how it will adopt the new practices. That is where intent turns concrete: whether the National Science Foundation, the National Institutes of Health, and the Department of Energy actually stand up fast grants, golden tickets, and portable awards, or file the memo as a statement of direction while the budget fight plays out. For the AI industry, the direction is unambiguous. A federal research budget rebuilt around AI-for-science, commercial compute, and domestic instrument supply chains turns the government into a large new customer for the same companies racing to sell those tools — and puts universities on notice that the terms of federal support are being rewritten. Sophie Denar is an AI-generated journalist at Unite.AI , covering artificial intelligence policy, regulation, and governance across global markets. Her work focuses on how national and international regulatory frameworks shape the development, deployment, and commercialization of AI technologies over the long term. With a diplomatic and globally informed perspective, Sophie tracks policy initiatives from governments, multilateral institutions, and standards bodies, analyzing how differing regulatory approaches affect innovation, competition, and market access. She pays particular attention to cross-border implications, compliance challenges, and the balance between risk management and technological progress. Articles authored by Sophie Denar are AI-generated and reviewed by Unite.AI’s editorial team to ensure accuracy, neutrality, and responsible coverage of AI policy and regulatory developments worldwide. Publishers Weigh Pulling Their Content From Google’s AI Trump’s AI Electricity Pledge Expands Beyond Big Tech China Weighs Walling Off Its Best AI and Chip Designs Sony Music Escalates Copyright Fight With Second Udio Suit Anthropic’s Book-Piracy Settlement Wins Final Court Approval Z.ai Builds Gigawatt Data Center on Chinese Chips Alone",
+      "full_article_text_chars": 6602,
+      "content_preview": "The Trump administration wants to rebuild how the United States spends roughly $200 billion a year on research, steering federal money toward individual scientists and the use of AI while pulling it away from the universities and consensus peer-review panels that have run the system since World War II. The plan runs through a report the White House Office of Science and Technology Policy released on July 21, 2026 , titled Science: A New Golden Age , and a companion budget memo its director, Michael Kratsios, co-signed with Office of Management and Budget Director Russell Vought. The Wall Street Journal first reported the overhaul, which the administration frames as a race to outpace China across AI, quantum computing, and other frontier fields. Much of the document is direction-setting rather than law: Congress, not the White House, writes the research budget it seeks to reshape. But it is the clearest statement yet of how this administration wants the federal science enterprise rebuilt, and it reaches every agency that funds research. From institutions to individuals The report’s premise is that America’s research system — largely unchanged since Vannevar Bush’s 1945 blueprint Science: The Endless Frontier , which built the National Science Foundation and the modern university-government partnership — has grown slow and top-heavy. Kratsios pitched it as the first comprehensive rethink of that enterprise in more than 80 years. Its fix is to send more support to individual researchers and to widen how the government awards money. The memo tells agencies to supplement traditional consensus-driven peer review, which it says rewards incremental work, with faster, higher-risk mechanisms. Among them: “Golden tickets” that let a single reviewer fund an unconventional proposal a committee would pass over; “Fast grants” with applications a few pages long and review times under a month; Long-duration awards of five years or more, funded in full up front; and Prizes and challenges structured to draw at least three private dollars for every federal one. It also pushes grants that follow the scientist rather than the school — portable awards modeled on the National Science Foundation’s graduate fellowships, which a researcher keeps when switching institutions. For universities, that is the sharp edge: money they have long treated as core support would instead chase individuals, agile new outfits such as the NSF’s X-Labs, and expanded ARPA-style teams built for high-risk projects. The report asks agencies to rebalance toward the physical sciences and engineering, and to build “metascience” units that study which funding methods actually produce results. The overhaul puts AI at the core of how discovery happens. Agencies are told to treat the Genesis Mission — the AI-for-science program Trump launched in November 2025 with the stated goal of doubling research productivity within a decade — as a central priority, and to fund work that uses AI as an instrument of discovery rather than a convenience. The report calls for domain-specific scientific foundation models, curated federal datasets to train them, and autonomous laboratories where AI systems propose hypotheses, run experiments, and iterate with limited human input. That ambition carries commercial weight. The memo directs agencies to expand access to advanced compute, buy commercial capacity through public-private partnerships where it is cost-effective, and build domestic supply chains for AI-ready scientific instruments with standardized, interoperable interfaces — a demand signal for chipmakers, cloud providers, and lab-hardware vendors. It sits alongside a wider Trump AI agenda that already spans compute buildout and electricity commitments for AI. The same mission-driven logic runs through a slate of national goals the report ties federal research to: a quantum computer built to open an era of scientific discovery, a commercial fusion power demonstration by the mid-2030s, a return of Americans to the lunar surface by 2028, general-purpose robotics, and next-generation semiconductor manufacturing. The organizing frame is competition with China, which the administration now describes as a peer-level rival in research spending. Guidance now, appropriations later For all its reach, most of the report is advisory. Its budget priorities are recommendations agencies are asked to weigh in their fiscal 2028 requests to the OMB — and lawmakers control what actually gets funded. One provision has teeth. Within 90 days, every agency with at least $3 billion in 2026 research budget authority must send Kratsios and Vought an action plan detailing how it will adopt the new practices. That is where intent turns concrete: whether the National Science Foundation, the National Institutes of Health, and the Department of Energy actually stand up fast grants, golden tickets, and portable awards, or file the memo as a statement of direction while the budget fight plays out. For the AI industry, the direction is unambiguous. A federal research budget rebuilt around AI-for-science, commercial compute, and domestic instrument supply chains turns the government into a large new customer for the same companies racing to sell those tools — and puts universities on notice that the terms of federal support are being rewritten. Sophie Denar is an AI-generated journalist at Unite.AI , covering artificial intelligence policy, regulation, and governance across global markets. Her work focuses on how national and international regulatory frameworks shape the development, deployment, and commercialization of AI technologies over the long term. With a diplomatic and globally informed perspective, Sophie tracks policy initiatives from governments, multilateral institutions, and standards bodies, analyzing how differing regulatory approaches affect innovation, competition, and market access. She pays particular attention to cross-border implications, compliance challenges, and the balance between risk management and technological progress. Articles authored by Sophie Denar are AI-generated and reviewed by Unite.AI’s editorial team to ensure accuracy, neutrality, and responsible coverage of AI policy and regulatory developments worldwide. Publishers Weigh Pulling Their Content From Google’s AI Trump’s AI Electricity Pledge Expands Beyond Big Tech China Weighs Walling Off Its Best AI and Chip Designs Sony Music Escalates Copyright Fight With Second Udio Suit Anthropic’s Book-Piracy Settlement Wins Final Court Approval Z.ai Builds Gigawatt Data Center on Chinese Chips Alone",
+      "content_preview_chars": 6602,
+      "content_fetched_at": "2026-07-22T11:30:48",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "daf10a28fc7e2253",
+      "source_url_hash": "daf10a28fc7e2253",
+      "canonical_url": "https://www.unite.ai/publishers-weigh-pulling-their-content-from-googles-ai",
+      "title_hash": "313c5daab89e92eb",
+      "topic_signature": "73346c4f0a3d382abf86",
+      "title": "Publishers Weigh Pulling Their Content From Google’s AI",
+      "url": "https://www.unite.ai/publishers-weigh-pulling-their-content-from-googles-ai",
+      "source_name": "Unite.AI",
+      "source_url": "https://www.unite.ai",
+      "source_published_at": "2026-07-22T03:15:01Z",
+      "published_at_source": "meta:article:published_time",
+      "article_age_hours": 8.26,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-22T11:30:36",
+      "status": "ready",
+      "score": 6,
+      "priority": "medium",
+      "source_links_removed_count": 168,
+      "affiliate_links_removed_count": 3,
+      "removed_source_links_count": 168,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Publishers Weigh Pulling Their Content From Google’s AI",
+      "meta_description": "The bargain that built the open web — publishers let Google crawl their pages, and Google sent readers back — is starting to come apart, and some of the largest names in online media are now weighing whether to keep supp...",
+      "article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/publishers-weigh-pulling-content-from-googles-ai.png",
+          "alt": "Publishers Weigh Pulling Their Content From Google’s AI",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/white-house-steers-science-funding-ai-individual-scientists-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/trumps-ai-electricity-pledge-expands-beyond-big-tech-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/google-ships-three-gemini-flash-models-flagship-slips-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.unite.ai/wp-content/uploads/2026/07/publishers-weigh-pulling-content-from-googles-ai.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/white-house-steers-science-funding-ai-individual-scientists-400x240.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/trumps-ai-electricity-pledge-expands-beyond-big-tech-400x240.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/google-ships-three-gemini-flash-models-flagship-slips-400x240.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Unite.AI to your preferred sources on Google",
+          "url": "https://www.google.com/preferences/source?q=unite.ai"
+        }
+      ],
+      "full_article_text": "The bargain that built the open web — publishers let Google crawl their pages, and Google sent readers back — is starting to come apart, and some of the largest names in online media are now weighing whether to keep supplying the company at all. Reddit has gone furthest, debating whether to withhold its content from Google’s AI altogether, according to the Wall Street Journal , which reported that USA Today ( TDAY ) , Politico, the Economist, People Inc. and Reuters are also evaluating how, or whether, to continue working with the company. The frustration has built as Google expands AI-generated answers that resolve a query on the results page and leave publishers with the lost visit but not the click. The tension is sharpest at Reddit because Reddit had made its peace. In 2024 the platform signed a licensing deal, reported at about $60 million a year, that gave Google structured access to its data feed to train and ground AI models on the site’s discussions. That agreement is ending soon, and the two sides are in renewal talks. With AI answers cutting clicks to outside sites, Reddit executives are reassessing what they gain from continuing to feed Google, even as the platform has become one of the most-cited sources in AI answers. Why the leverage is shifting The traffic data explains the anger. Google introduced AI Overviews, the summaries that sit above search results, to all US users in May 2024, and the effect on referrals became measurable within a year. A Pew Research Center study found that when an AI Overview appears, users click through to a traditional search result only 8% of the time, against 15% when no summary is shown. Chartbeat data cited by the Reuters Institute put the global drop in Google search referrals to publishers at roughly a third over the year to November 2025. That erosion has been central to publishers’ fear for the open web. For years, publishers had little practical recourse. Opting out of Google’s AI meant opting out of Google Search: the same controls that blocked AI crawlers also stripped a site of the snippets that keep it visible in ordinary results. Vanishing from the index was not survivable for most outlets, so withholding content was no real choice. That is why a credible threat to walk away has belonged only to the handful of platforms, Reddit among them, whose data is genuinely hard to replace. The regulator that changed the math What changed the calculation was a regulatory intervention. On June 3, 2026, the UK’s Competition and Markets Authority imposed a new rule on Google that, for the first time, lets publishers stop their content from powering AI features such as AI Overviews while still appearing normally in search. Google is barred from downranking or otherwise penalizing sites that opt out, and the carve-out reaches the fine-tuning of models as well as the live answers. The regulator also requires Google to attribute publisher content with clear links inside AI-generated results. The move came after the watchdog designated Google a company with “strategic market status” — its term for entrenched market power that unlocks bespoke rules — in general search, where Google handles more than 90% of UK queries. The point, it said, is bargaining power. “It is crucial that content publishers, including news organisations, have appropriate bargaining power over how their content is used,” said CMA chief executive Sarah Cardell. Google has nine months to comply and must file regular reports showing how. That rule is the machinery now sitting behind the publishers’ revolt. A believable threat to cut Google off depends on being able to leave AI without leaving search, and in Britain that ability now exists in law. The US picture, and what to watch Publishers in the United States, home to most of the companies named this week, have no equivalent opt-out mandate, so their pressure runs through the courts. Penske Media, which owns Rolling Stone, Billboard and Variety, sued Google in 2025, arguing that AI Overviews cannibalize the traffic publishers were promised in return for being indexed; the suit is proceeding after Penske fought off Google’s attempt to throw it out. The New York Times ( NYT ) is pressing a separate copyright case against OpenAI and Microsoft ( MSFT ) , and Google itself was ruled an illegal search monopoly in a federal case it is now appealing. Brussels is pushing from another direction, having issued binding instructions under its digital-competition rules to loosen Google’s grip on search and Android. The common thread across all three capitals is that policymakers are trying to manufacture the leverage that the old crawl-for-traffic bargain no longer supplies on its own. Whether the publishers follow through is the open question. Reddit has signaled it wants more than a flat fee, pushing for pricing that rises as its content becomes more central to AI answers, and its renewal talks will show how much a single high-value supplier can extract. The CMA’s compliance clock, meanwhile, will reveal whether opt-out rights turn into paid licensing or merely into lost reach. For the companies that spent two decades optimizing for Google, the telling fact is that they are, for the first time, seriously pricing out life without it. Sophie Denar is an AI-generated journalist at Unite.AI , covering artificial intelligence policy, regulation, and governance across global markets. Her work focuses on how national and international regulatory frameworks shape the development, deployment, and commercialization of AI technologies over the long term. With a diplomatic and globally informed perspective, Sophie tracks policy initiatives from governments, multilateral institutions, and standards bodies, analyzing how differing regulatory approaches affect innovation, competition, and market access. She pays particular attention to cross-border implications, compliance challenges, and the balance between risk management and technological progress. Articles authored by Sophie Denar are AI-generated and reviewed by Unite.AI’s editorial team to ensure accuracy, neutrality, and responsible coverage of AI policy and regulatory developments worldwide. White House Steers Science Funding to AI and Individual Scientists Trump’s AI Electricity Pledge Expands Beyond Big Tech Google Ships Three Gemini Flash Models as Its Flagship Slips China Weighs Walling Off Its Best AI and Chip Designs Sony Music Escalates Copyright Fight With Second Udio Suit Anthropic’s Book-Piracy Settlement Wins Final Court Approval",
+      "full_article_text_chars": 6554,
+      "content_preview": "The bargain that built the open web — publishers let Google crawl their pages, and Google sent readers back — is starting to come apart, and some of the largest names in online media are now weighing whether to keep supplying the company at all. Reddit has gone furthest, debating whether to withhold its content from Google’s AI altogether, according to the Wall Street Journal , which reported that USA Today ( TDAY ) , Politico, the Economist, People Inc. and Reuters are also evaluating how, or whether, to continue working with the company. The frustration has built as Google expands AI-generated answers that resolve a query on the results page and leave publishers with the lost visit but not the click. The tension is sharpest at Reddit because Reddit had made its peace. In 2024 the platform signed a licensing deal, reported at about $60 million a year, that gave Google structured access to its data feed to train and ground AI models on the site’s discussions. That agreement is ending soon, and the two sides are in renewal talks. With AI answers cutting clicks to outside sites, Reddit executives are reassessing what they gain from continuing to feed Google, even as the platform has become one of the most-cited sources in AI answers. Why the leverage is shifting The traffic data explains the anger. Google introduced AI Overviews, the summaries that sit above search results, to all US users in May 2024, and the effect on referrals became measurable within a year. A Pew Research Center study found that when an AI Overview appears, users click through to a traditional search result only 8% of the time, against 15% when no summary is shown. Chartbeat data cited by the Reuters Institute put the global drop in Google search referrals to publishers at roughly a third over the year to November 2025. That erosion has been central to publishers’ fear for the open web. For years, publishers had little practical recourse. Opting out of Google’s AI meant opting out of Google Search: the same controls that blocked AI crawlers also stripped a site of the snippets that keep it visible in ordinary results. Vanishing from the index was not survivable for most outlets, so withholding content was no real choice. That is why a credible threat to walk away has belonged only to the handful of platforms, Reddit among them, whose data is genuinely hard to replace. The regulator that changed the math What changed the calculation was a regulatory intervention. On June 3, 2026, the UK’s Competition and Markets Authority imposed a new rule on Google that, for the first time, lets publishers stop their content from powering AI features such as AI Overviews while still appearing normally in search. Google is barred from downranking or otherwise penalizing sites that opt out, and the carve-out reaches the fine-tuning of models as well as the live answers. The regulator also requires Google to attribute publisher content with clear links inside AI-generated results. The move came after the watchdog designated Google a company with “strategic market status” — its term for entrenched market power that unlocks bespoke rules — in general search, where Google handles more than 90% of UK queries. The point, it said, is bargaining power. “It is crucial that content publishers, including news organisations, have appropriate bargaining power over how their content is used,” said CMA chief executive Sarah Cardell. Google has nine months to comply and must file regular reports showing how. That rule is the machinery now sitting behind the publishers’ revolt. A believable threat to cut Google off depends on being able to leave AI without leaving search, and in Britain that ability now exists in law. The US picture, and what to watch Publishers in the United States, home to most of the companies named this week, have no equivalent opt-out mandate, so their pressure runs through the courts. Penske Media, which owns Rolling Stone, Billboard and Variety, sued Google in 2025, arguing that AI Overviews cannibalize the traffic publishers were promised in return for being indexed; the suit is proceeding after Penske fought off Google’s attempt to throw it out. The New York Times ( NYT ) is pressing a separate copyright case against OpenAI and Microsoft ( MSFT ) , and Google itself was ruled an illegal search monopoly in a federal case it is now appealing. Brussels is pushing from another direction, having issued binding instructions under its digital-competition rules to loosen Google’s grip on search and Android. The common thread across all three capitals is that policymakers are trying to manufacture the leverage that the old crawl-for-traffic bargain no longer supplies on its own. Whether the publishers follow through is the open question. Reddit has signaled it wants more than a flat fee, pushing for pricing that rises as its content becomes more central to AI answers, and its renewal talks will show how much a single high-value supplier can extract. The CMA’s compliance clock, meanwhile, will reveal whether opt-out rights turn into paid licensing or merely into lost reach. For the companies that spent two decades optimizing for Google, the telling fact is that they are, for the first time, seriously pricing out life without it. Sophie Denar is an AI-generated journalist at Unite.AI , covering artificial intelligence policy, regulation, and governance across global markets. Her work focuses on how national and international regulatory frameworks shape the development, deployment, and commercialization of AI technologies over the long term. With a diplomatic and globally informed perspective, Sophie tracks policy initiatives from governments, multilateral institutions, and standards bodies, analyzing how differing regulatory approaches affect innovation, competition, and market access. She pays particular attention to cross-border implications, compliance challenges, and the balance between risk management and technological progress. Articles authored by Sophie Denar are AI-generated and reviewed by Unite.AI’s editorial team to ensure accuracy, neutrality, and responsible coverage of AI policy and regulatory developments worldwide. White House Steers Science Funding to AI and Individual Scientists Trump’s AI Electricity Pledge Expands Beyond Big Tech Google Ships Three Gemini Flash Models as Its Flagship Slips China Weighs Walling Off Its Best AI and Chip Designs Sony Music Escalates Copyright Fight With Second Udio Suit Anthropic’s Book-Piracy Settlement Wins Final Court Approval",
+      "content_preview_chars": 6554,
+      "content_fetched_at": "2026-07-22T11:30:51",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "64dbbd87f381de9c",
+      "source_url_hash": "64dbbd87f381de9c",
+      "canonical_url": "https://www.unite.ai/trumps-ai-electricity-pledge-expands-beyond-big-tech",
+      "title_hash": "5b9d2e54b9ccfa7b",
+      "topic_signature": "0027f86465f7579b4a23",
+      "title": "Trump’s AI Electricity Pledge Expands Beyond Big Tech",
+      "url": "https://www.unite.ai/trumps-ai-electricity-pledge-expands-beyond-big-tech",
+      "source_name": "Unite.AI",
+      "source_url": "https://www.unite.ai",
+      "source_published_at": "2026-07-22T00:17:02Z",
+      "published_at_source": "meta:article:published_time",
+      "article_age_hours": 11.22,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-22T11:30:36",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 168,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 168,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Trump’s AI Electricity Pledge Expands Beyond Big Tech",
+      "meta_description": "A voluntary White House pledge that artificial intelligence's power demands will not raise household electricity bills has grown far beyond the seven technology companies that first signed it. A White House list of signa...",
+      "article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/trumps-ai-electricity-pledge-expands-beyond-big-tech.png",
+          "alt": "Trump’s AI Electricity Pledge Expands Beyond Big Tech",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/white-house-steers-science-funding-ai-individual-scientists-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/publishers-weigh-pulling-content-from-googles-ai-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/china-weighs-walling-off-its-best-ai-and-chip-designs-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.unite.ai/wp-content/uploads/2026/07/trumps-ai-electricity-pledge-expands-beyond-big-tech.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/white-house-steers-science-funding-ai-individual-scientists-400x240.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/publishers-weigh-pulling-content-from-googles-ai-400x240.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/china-weighs-walling-off-its-best-ai-and-chip-designs-400x240.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Unite.AI to your preferred sources on Google",
+          "url": "https://www.google.com/preferences/source?q=unite.ai"
+        }
+      ],
+      "full_article_text": "A voluntary White House pledge that artificial intelligence’s power demands will not raise household electricity bills has grown far beyond the seven technology companies that first signed it. A White House list of signatories obtained by the Wall Street Journal shows nearly 200 entities — electric utilities, data center developers, and others — have now committed to the Ratepayer Protection Pledge, pulling in the companies and officials who actually generate, sell, and price the electricity AI consumes. That widening is the substance of the news. When President Donald Trump unveiled the pledge on March 4, 2026 it bound Amazon ( AMZN ) , Google, Meta, Microsoft ( MSFT ) , OpenAI, Oracle ( ORCL ) , and xAI to cover the cost of the generation and grid upgrades their data centers require rather than pass those costs to existing customers. Hyperscalers, though, do not set retail rates. Utilities and state regulators do — which is why the expanded roster matters more than the original one. Who signed, and what they promised The signatories the Journal identified include utility majors NextEra Energy ( NEE ) and Duke Energy ( DUK ) alongside data center landlords Equinix ( EQIX ) and Digital Realty — firms on the supply side of the market the first version of the pledge could not reach. Earlier in the month, Republican governors Greg Gianforte of Montana, Mark Gordon of Wyoming, and Mike Kehoe of Missouri also signed on, POLITICO reported . Governors are consequential here because they appoint or oversee the commissions that approve electricity rate increases. The commitments themselves are unchanged. Signatories agree to build, bring, or buy the new power their facilities need, pay for the delivery-infrastructure upgrades those facilities trigger, negotiate separate rate structures with utilities and states, and hire from local communities. The load-bearing clause is a promise to pay for contracted power “whether they use the electricity or not” — the provision meant to stop households from absorbing the cost of capacity a data center reserves and then leaves idle. Federal forecasts expect data center electricity use to double or more this decade, and in regions already crowded with them, wholesale power costs have surged. A commitment, not a rule The reach is new; the legal force is not. Trump first previewed the idea in his February 2026 State of the Union address, and a presidential proclamation later declared that the pledge’s commitments “effectuate the national policy of the United States.” That is formal language, but the pledge stays voluntary: it carries no penalties, no audit requirement, and directs no agency to write binding rules. Enforcement is the gap the expansion does not close. Retail electricity prices are set by state public utility commissions, not the White House, and the Journal noted the effort could prove hard to enforce for that reason. The Brookings Institution has argued that the pledge will not protect anyone until state legislatures and regulators write its commitments into the tariffs that govern what large customers actually pay. The Energy Department says it is working with the White House to implement the pledge , but its levers are federal grid-reliability and interconnection rules, not the retail rates that show up on a monthly bill. Why Washington keeps widening the tent The push comes as electricity affordability hardens into a midterm issue. Power prices have climbed faster than overall inflation over the past year, and local opposition to data center siting has spread — a fight New York turned into a land-use battle, and one reason developers are increasingly building their own generation to sidestep the grid entirely as AI demand collides with strained transmission. States are not waiting for Washington. Virginia, Ohio, and Oregon have already created separate rate classes that require large-load data centers to carry their own infrastructure costs, and a bipartisan bill in Congress would write the pledge’s terms into federal law — though authority over retail rates would still rest with the states. The administration has paired the pledge with a broader energy-and-AI agenda that leans on new gas and nuclear generation, an approach that has drawn scrutiny over the energy security underpinning it. For all the new signatures, the test is unchanged. Whether any of this reaches a household’s bill will be decided in rate cases before state commissioners bound by none of it — which is why the White House keeps trying to enlist the people who are. Sophie Denar is an AI-generated journalist at Unite.AI , covering artificial intelligence policy, regulation, and governance across global markets. Her work focuses on how national and international regulatory frameworks shape the development, deployment, and commercialization of AI technologies over the long term. With a diplomatic and globally informed perspective, Sophie tracks policy initiatives from governments, multilateral institutions, and standards bodies, analyzing how differing regulatory approaches affect innovation, competition, and market access. She pays particular attention to cross-border implications, compliance challenges, and the balance between risk management and technological progress. Articles authored by Sophie Denar are AI-generated and reviewed by Unite.AI’s editorial team to ensure accuracy, neutrality, and responsible coverage of AI policy and regulatory developments worldwide. White House Steers Science Funding to AI and Individual Scientists Publishers Weigh Pulling Their Content From Google’s AI China Weighs Walling Off Its Best AI and Chip Designs Sony Music Escalates Copyright Fight With Second Udio Suit Anthropic’s Book-Piracy Settlement Wins Final Court Approval Z.ai Builds Gigawatt Data Center on Chinese Chips Alone",
+      "full_article_text_chars": 5833,
+      "content_preview": "A voluntary White House pledge that artificial intelligence’s power demands will not raise household electricity bills has grown far beyond the seven technology companies that first signed it. A White House list of signatories obtained by the Wall Street Journal shows nearly 200 entities — electric utilities, data center developers, and others — have now committed to the Ratepayer Protection Pledge, pulling in the companies and officials who actually generate, sell, and price the electricity AI consumes. That widening is the substance of the news. When President Donald Trump unveiled the pledge on March 4, 2026 it bound Amazon ( AMZN ) , Google, Meta, Microsoft ( MSFT ) , OpenAI, Oracle ( ORCL ) , and xAI to cover the cost of the generation and grid upgrades their data centers require rather than pass those costs to existing customers. Hyperscalers, though, do not set retail rates. Utilities and state regulators do — which is why the expanded roster matters more than the original one. Who signed, and what they promised The signatories the Journal identified include utility majors NextEra Energy ( NEE ) and Duke Energy ( DUK ) alongside data center landlords Equinix ( EQIX ) and Digital Realty — firms on the supply side of the market the first version of the pledge could not reach. Earlier in the month, Republican governors Greg Gianforte of Montana, Mark Gordon of Wyoming, and Mike Kehoe of Missouri also signed on, POLITICO reported . Governors are consequential here because they appoint or oversee the commissions that approve electricity rate increases. The commitments themselves are unchanged. Signatories agree to build, bring, or buy the new power their facilities need, pay for the delivery-infrastructure upgrades those facilities trigger, negotiate separate rate structures with utilities and states, and hire from local communities. The load-bearing clause is a promise to pay for contracted power “whether they use the electricity or not” — the provision meant to stop households from absorbing the cost of capacity a data center reserves and then leaves idle. Federal forecasts expect data center electricity use to double or more this decade, and in regions already crowded with them, wholesale power costs have surged. A commitment, not a rule The reach is new; the legal force is not. Trump first previewed the idea in his February 2026 State of the Union address, and a presidential proclamation later declared that the pledge’s commitments “effectuate the national policy of the United States.” That is formal language, but the pledge stays voluntary: it carries no penalties, no audit requirement, and directs no agency to write binding rules. Enforcement is the gap the expansion does not close. Retail electricity prices are set by state public utility commissions, not the White House, and the Journal noted the effort could prove hard to enforce for that reason. The Brookings Institution has argued that the pledge will not protect anyone until state legislatures and regulators write its commitments into the tariffs that govern what large customers actually pay. The Energy Department says it is working with the White House to implement the pledge , but its levers are federal grid-reliability and interconnection rules, not the retail rates that show up on a monthly bill. Why Washington keeps widening the tent The push comes as electricity affordability hardens into a midterm issue. Power prices have climbed faster than overall inflation over the past year, and local opposition to data center siting has spread — a fight New York turned into a land-use battle, and one reason developers are increasingly building their own generation to sidestep the grid entirely as AI demand collides with strained transmission. States are not waiting for Washington. Virginia, Ohio, and Oregon have already created separate rate classes that require large-load data centers to carry their own infrastructure costs, and a bipartisan bill in Congress would write the pledge’s terms into federal law — though authority over retail rates would still rest with the states. The administration has paired the pledge with a broader energy-and-AI agenda that leans on new gas and nuclear generation, an approach that has drawn scrutiny over the energy security underpinning it. For all the new signatures, the test is unchanged. Whether any of this reaches a household’s bill will be decided in rate cases before state commissioners bound by none of it — which is why the White House keeps trying to enlist the people who are. Sophie Denar is an AI-generated journalist at Unite.AI , covering artificial intelligence policy, regulation, and governance across global markets. Her work focuses on how national and international regulatory frameworks shape the development, deployment, and commercialization of AI technologies over the long term. With a diplomatic and globally informed perspective, Sophie tracks policy initiatives from governments, multilateral institutions, and standards bodies, analyzing how differing regulatory approaches affect innovation, competition, and market access. She pays particular attention to cross-border implications, compliance challenges, and the balance between risk management and technological progress. Articles authored by Sophie Denar are AI-generated and reviewed by Unite.AI’s editorial team to ensure accuracy, neutrality, and responsible coverage of AI policy and regulatory developments worldwide. White House Steers Science Funding to AI and Individual Scientists Publishers Weigh Pulling Their Content From Google’s AI China Weighs Walling Off Its Best AI and Chip Designs Sony Music Escalates Copyright Fight With Second Udio Suit Anthropic’s Book-Piracy Settlement Wins Final Court Approval Z.ai Builds Gigawatt Data Center on Chinese Chips Alone",
+      "content_preview_chars": 5833,
+      "content_fetched_at": "2026-07-22T11:30:53",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
     }
