@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-23T09:39:33",
+  "updated_at": "2026-07-23T11:40:22",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2025,7 +2025,10 @@
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-07-19T17:43:20",
       "candidate_failure_count": 3,
-      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "archived": true,
+      "archived_at": "2026-07-23T11:30:13",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "aa0c74c30b28fa2f",
@@ -2206,7 +2209,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-07-19T13:54:29",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "archived": true,
+      "archived_at": "2026-07-23T11:30:13",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "125241f1d52d386c",
@@ -2505,12 +2511,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-23T09:34:37",
-      "candidate_retry_after": "2026-07-23T09:49:37Z",
+      "content_fetched_at": "2026-07-23T11:30:28",
+      "candidate_retry_after": "2026-07-23T11:45:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-23T09:34:37",
-      "candidate_failure_count": 58
+      "candidate_failed_at": "2026-07-23T11:30:28",
+      "candidate_failure_count": 59
     },
     {
       "id": "512c2899a98440d2",
@@ -2539,12 +2545,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-23T09:34:37",
-      "candidate_retry_after": "2026-07-23T09:49:37Z",
+      "content_fetched_at": "2026-07-23T11:30:28",
+      "candidate_retry_after": "2026-07-23T11:45:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-23T09:34:37",
-      "candidate_failure_count": 58
+      "candidate_failed_at": "2026-07-23T11:30:28",
+      "candidate_failure_count": 59
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2573,12 +2579,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-23T09:34:37",
-      "candidate_retry_after": "2026-07-23T09:49:37Z",
+      "content_fetched_at": "2026-07-23T11:30:28",
+      "candidate_retry_after": "2026-07-23T11:45:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-23T09:34:37",
-      "candidate_failure_count": 58
+      "candidate_failed_at": "2026-07-23T11:30:28",
+      "candidate_failure_count": 59
     },
     {
       "id": "d900f1574fddfab4",
@@ -3391,17 +3397,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 225,
-      "affiliate_links_removed_count": 5,
-      "removed_source_links_count": 225,
+      "source_links_removed_count": 223,
+      "affiliate_links_removed_count": 10,
+      "removed_source_links_count": 223,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=465 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:465chars/70words, page_text:465chars/70words)",
-      "content_fetched_at": "2026-07-23T09:34:40",
-      "candidate_retry_after": "2026-07-23T09:49:40Z",
+      "content_fetch_error": "weak article body after fallbacks (best=473 chars/75 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:473chars/75words, page_text:473chars/75words)",
+      "content_fetched_at": "2026-07-23T11:30:32",
+      "candidate_retry_after": "2026-07-23T11:45:32Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=465 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:465chars/70words, page_text:465chars/70words)",
-      "candidate_failed_at": "2026-07-23T09:34:40",
-      "candidate_failure_count": 57
+      "candidate_failure_reason": "weak article body after fallbacks (best=473 chars/75 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:473chars/75words, page_text:473chars/75words)",
+      "candidate_failed_at": "2026-07-23T11:30:32",
+      "candidate_failure_count": 58
     },
     {
       "id": "8d2678d87487d729",
@@ -4261,12 +4267,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-07-23T09:34:41",
-      "candidate_retry_after": "2026-07-23T09:49:41Z",
+      "content_fetched_at": "2026-07-23T11:30:32",
+      "candidate_retry_after": "2026-07-23T11:45:32Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-07-23T09:34:41",
-      "candidate_failure_count": 56
+      "candidate_failed_at": "2026-07-23T11:30:32",
+      "candidate_failure_count": 57
     },
     {
       "id": "45429302676bf4c5",
@@ -5186,7 +5192,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-07-19T21:34:17",
-      "candidate_failure_count": 2
+      "candidate_failure_count": 2,
+      "archived": true,
+      "archived_at": "2026-07-23T11:30:13",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "59ddc0939c3ece29",
@@ -5300,12 +5309,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-23T09:34:43",
-      "candidate_retry_after": "2026-07-23T09:49:43Z",
+      "content_fetched_at": "2026-07-23T11:30:34",
+      "candidate_retry_after": "2026-07-23T11:45:34Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-23T09:34:43",
-      "candidate_failure_count": 54
+      "candidate_failed_at": "2026-07-23T11:30:34",
+      "candidate_failure_count": 55
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5337,12 +5346,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-23T09:34:44",
-      "candidate_retry_after": "2026-07-23T09:49:44Z",
+      "content_fetched_at": "2026-07-23T11:30:35",
+      "candidate_retry_after": "2026-07-23T11:45:35Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-23T09:34:44",
-      "candidate_failure_count": 54
+      "candidate_failed_at": "2026-07-23T11:30:35",
+      "candidate_failure_count": 55
     },
     {
       "id": "aede79193c6b98c9",
@@ -5374,12 +5383,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-23T09:34:46",
-      "candidate_retry_after": "2026-07-23T09:49:46Z",
+      "content_fetched_at": "2026-07-23T11:30:37",
+      "candidate_retry_after": "2026-07-23T11:45:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-23T09:34:46",
-      "candidate_failure_count": 54
+      "candidate_failed_at": "2026-07-23T11:30:37",
+      "candidate_failure_count": 55
     },
     {
       "id": "253eaa098c468523",
@@ -6307,12 +6316,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-23T09:34:46",
-      "candidate_retry_after": "2026-07-23T09:49:46Z",
+      "content_fetched_at": "2026-07-23T11:30:37",
+      "candidate_retry_after": "2026-07-23T11:45:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-23T09:34:46",
-      "candidate_failure_count": 52
+      "candidate_failed_at": "2026-07-23T11:30:37",
+      "candidate_failure_count": 53
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6695,12 +6704,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-23T09:34:48",
-      "candidate_retry_after": "2026-07-23T09:49:48Z",
+      "content_fetched_at": "2026-07-23T11:30:40",
+      "candidate_retry_after": "2026-07-23T11:45:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-23T09:34:48",
-      "candidate_failure_count": 50
+      "candidate_failed_at": "2026-07-23T11:30:40",
+      "candidate_failure_count": 51
     },
     {
       "id": "693fbfabd96b2185",
@@ -6731,12 +6740,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-23T09:34:50",
-      "candidate_retry_after": "2026-07-23T09:49:50Z",
+      "content_fetched_at": "2026-07-23T11:30:41",
+      "candidate_retry_after": "2026-07-23T11:45:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-23T09:34:50",
-      "candidate_failure_count": 50
+      "candidate_failed_at": "2026-07-23T11:30:41",
+      "candidate_failure_count": 51
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9134,13 +9143,13 @@
       "affiliate_links_removed_count": 1,
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=453 chars/70 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:453chars/70words, paragraph_fallback:338chars/53words, article_body:453chars/70words, meta_description:53chars/7words, page_text:453chars/70words)",
-      "content_fetched_at": "2026-07-23T09:34:50",
-      "candidate_retry_after": "2026-07-23T09:49:50Z",
+      "content_fetch_error": "weak article body after fallbacks (best=443 chars/66 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:443chars/66words, paragraph_fallback:328chars/49words, article_body:443chars/66words, meta_description:53chars/7words, page_text:443chars/66words)",
+      "content_fetched_at": "2026-07-23T11:30:43",
+      "candidate_retry_after": "2026-07-23T11:45:43Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=453 chars/70 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:453chars/70words, paragraph_fallback:338chars/53words, article_body:453chars/70words, meta_description:53chars/7words, page_text:453chars/70words)",
-      "candidate_failed_at": "2026-07-23T09:34:50",
-      "candidate_failure_count": 46
+      "candidate_failure_reason": "weak article body after fallbacks (best=443 chars/66 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:443chars/66words, paragraph_fallback:328chars/49words, article_body:443chars/66words, meta_description:53chars/7words, page_text:443chars/66words)",
+      "candidate_failed_at": "2026-07-23T11:30:43",
+      "candidate_failure_count": 47
     },
     {
       "id": "561b6316398d7603",
@@ -10227,12 +10236,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-23T09:34:51",
-      "candidate_retry_after": "2026-07-23T09:49:51Z",
+      "content_fetched_at": "2026-07-23T11:30:43",
+      "candidate_retry_after": "2026-07-23T11:45:43Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-23T09:34:51",
-      "candidate_failure_count": 42
+      "candidate_failed_at": "2026-07-23T11:30:43",
+      "candidate_failure_count": 43
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10264,12 +10273,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-23T09:34:51",
-      "candidate_retry_after": "2026-07-23T09:49:51Z",
+      "content_fetched_at": "2026-07-23T11:30:43",
+      "candidate_retry_after": "2026-07-23T11:45:43Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-23T09:34:51",
-      "candidate_failure_count": 42
+      "candidate_failed_at": "2026-07-23T11:30:43",
+      "candidate_failure_count": 43
     },
     {
       "id": "a6f4ca9464909855",
@@ -10301,12 +10310,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-23T09:34:52",
-      "candidate_retry_after": "2026-07-23T09:49:52Z",
+      "content_fetched_at": "2026-07-23T11:30:44",
+      "candidate_retry_after": "2026-07-23T11:45:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-23T09:34:52",
-      "candidate_failure_count": 42
+      "candidate_failed_at": "2026-07-23T11:30:44",
+      "candidate_failure_count": 43
     },
     {
       "id": "71463c25ac92daaa",
@@ -14937,12 +14946,12 @@
       "removed_source_links_count": 79,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-23T09:34:52",
-      "candidate_retry_after": "2026-07-23T09:49:52Z",
+      "content_fetched_at": "2026-07-23T11:30:45",
+      "candidate_retry_after": "2026-07-23T11:45:45Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-07-23T09:34:52",
-      "candidate_failure_count": 31
+      "candidate_failed_at": "2026-07-23T11:30:45",
+      "candidate_failure_count": 32
     },
     {
       "id": "41b7b918ab3966e4",
@@ -27096,7 +27105,57 @@
       "content_preview_chars": 4108,
       "content_fetched_at": "2026-07-23T01:10:30",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-23T11:30:45",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-23T11:30:45",
+      "ai_input_package": {
+        "title": "After shocking quarter, IBM insists that AI isn't killing the mainframe | TechCrunch",
+        "url": "https://techcrunch.com/2026/07/22/after-shocking-quarter-ibm-insists-that-ai-isnt-killing-the-mainframe",
+        "source_name": "TechCrunch",
+        "suggested_category": "Tech-News",
+        "main_image": "https://techcrunch.com/wp-content/uploads/2022/05/Arvind-at-Think.jpeg?resize=1200,674",
+        "article_images": [
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2022/05/Arvind-at-Think.jpeg?resize=1200,674",
+            "alt": "After shocking quarter, IBM insists that AI isn't killing the mainframe | TechCrunch",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2022/05/Arvind-at-Think.jpeg?w=1024",
+            "alt": "IBM CEO Arvind Krishna delivers the IBM Think keynote address in Boston on May 10, 2022.",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "After IBM's stock crashed last week on warnings of poor mainframe sales, the CEO explained that AI wrecked corporate hardware budget, temporarily.",
+        "content_preview": "On Wednesday, IBM officially reported earnings and the news was as bad as everyone knew it would be. While the 115-year-old company still generates boatloads of cash — $17.2 billion in revenue, $9.9 billion in gross profit, nearly 58% margins, and $2.2 billion in net earnings for the quarter — its results fell well short of Wall Street’s expectations. It was such a bad miss that IBM CEO Arvind Krishna and the board took an unprecedented step of warning investors ahead of time that the earnings “was worse than our expectations,” offering everyone a sneak peek. He published a “letter to investors,” last week sharing preliminary results. It warned of abysmal revenue in the company’s all-important “infrastructure” category and said that profit margins were also going to take a hit. The company’s stock instantly tanked 25%, it’s biggest single-day decline ever . Until then, the stock had performed well under Krishna’s six years of leadership, buoyed by the AI data center boom that had been lifting all boats. On Wednesday, IBM also lowered its full-year growth forecasts, meaning this horrible quarter would impact the rest of the year. The culprit? IBM’s cash-cow mainframe business was down 42%. That’s a cascading problem, because as CFO Jim Kavanaugh explained on the quarterly call with investors, IBM earns $3 in software revenue for every $1 of mainframe hardware it sells. However, the CEO and CFO spent the call insisting that this was a temporary blip and all would be well soon. What happened, they said, was that “tens” of customers that were due to buy a new mainframe during the quarter opted not to do so. That may not sound like a lot of customers, but mainframes are systems that cost hundreds of thousands to millions of dollars, and with maintenance contracts and software, generate many millions more. The same AI boom that lifted IBM’s boat also sank it. Instead of buying a new mainframe, these clients bought other hardware, Krishna explained. They were faced with astronomically high cost increases of 15% to 30% for data center gear and PCs. “When they were faced with that issue, then they decided to move budget to those areas where they were having that extreme price,” Krishna said. Enterprise hardware makers like Dell and HP have warned that rising costs on components like memory, caused by the AI build-out boom, have forced them to raise prices . Apple has said the same. But Krishna promised that those customers will still buy their new mainframes eventually — along with their new software contracts. In fact, he said some of them have already done so this quarter. “We see no evidence of clients moving off the mainframe,” he said. We’ll have to wait and see. But the tech industry has predicted the death of the mainframe for many decades now. Maybe even AI won’t kill it. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Amanda Silberling Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Light made a flip phone — it’s colorful and it’s cheap Amanda Silberling Light made a flip phone — it’s colorful and it’s cheap AI music generator Suno breach affects 55M users, per Have I Been Pwned Zack Whittaker AI music generator Suno breach affects 55M users, per Have I Been Pwned Anthropic’s landmark $1.5B copyright settlement is approved Kirsten Korosec Anthropic’s landmark $1.5B copyright settlement is approved Google is working on a new AI chip designed to make Gemini more efficient Lucas Ropek Google is working on a new AI chip designed to make Gemini more efficient X relaunches a rebuilt Android app after year-long effort Sarah Perez X relaunches a rebuilt Android app after year-long effort Judge pauses $110B Paramount-Warner Bros. merger Aisha Malik Judge pauses $110B Paramount-Warner Bros. merger",
+        "content_preview_chars": 4108,
+        "rss_summary": "",
+        "full_article_text": "On Wednesday, IBM officially reported earnings and the news was as bad as everyone knew it would be. While the 115-year-old company still generates boatloads of cash — $17.2 billion in revenue, $9.9 billion in gross profit, nearly 58% margins, and $2.2 billion in net earnings for the quarter — its results fell well short of Wall Street’s expectations. It was such a bad miss that IBM CEO Arvind Krishna and the board took an unprecedented step of warning investors ahead of time that the earnings “was worse than our expectations,” offering everyone a sneak peek. He published a “letter to investors,” last week sharing preliminary results. It warned of abysmal revenue in the company’s all-important “infrastructure” category and said that profit margins were also going to take a hit. The company’s stock instantly tanked 25%, it’s biggest single-day decline ever . Until then, the stock had performed well under Krishna’s six years of leadership, buoyed by the AI data center boom that had been lifting all boats. On Wednesday, IBM also lowered its full-year growth forecasts, meaning this horrible quarter would impact the rest of the year. The culprit? IBM’s cash-cow mainframe business was down 42%. That’s a cascading problem, because as CFO Jim Kavanaugh explained on the quarterly call with investors, IBM earns $3 in software revenue for every $1 of mainframe hardware it sells. However, the CEO and CFO spent the call insisting that this was a temporary blip and all would be well soon. What happened, they said, was that “tens” of customers that were due to buy a new mainframe during the quarter opted not to do so. That may not sound like a lot of customers, but mainframes are systems that cost hundreds of thousands to millions of dollars, and with maintenance contracts and software, generate many millions more. The same AI boom that lifted IBM’s boat also sank it. Instead of buying a new mainframe, these clients bought other hardware, Krishna explained. They were faced with astronomically high cost increases of 15% to 30% for data center gear and PCs. “When they were faced with that issue, then they decided to move budget to those areas where they were having that extreme price,” Krishna said. Enterprise hardware makers like Dell and HP have warned that rising costs on components like memory, caused by the AI build-out boom, have forced them to raise prices . Apple has said the same. But Krishna promised that those customers will still buy their new mainframes eventually — along with their new software contracts. In fact, he said some of them have already done so this quarter. “We see no evidence of clients moving off the mainframe,” he said. We’ll have to wait and see. But the tech industry has predicted the death of the mainframe for many decades now. Maybe even AI won’t kill it. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Amanda Silberling Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Light made a flip phone — it’s colorful and it’s cheap Amanda Silberling Light made a flip phone — it’s colorful and it’s cheap AI music generator Suno breach affects 55M users, per Have I Been Pwned Zack Whittaker AI music generator Suno breach affects 55M users, per Have I Been Pwned Anthropic’s landmark $1.5B copyright settlement is approved Kirsten Korosec Anthropic’s landmark $1.5B copyright settlement is approved Google is working on a new AI chip designed to make Gemini more efficient Lucas Ropek Google is working on a new AI chip designed to make Gemini more efficient X relaunches a rebuilt Android app after year-long effort Sarah Perez X relaunches a rebuilt Android app after year-long effort Judge pauses $110B Paramount-Warner Bros. merger Aisha Malik Judge pauses $110B Paramount-Warner Bros. merger",
+        "full_article_text_chars": 4108,
+        "enrichment_status": "strong",
+        "source_url": "https://techcrunch.com",
+        "source_published_at": "2026-07-22T23:47:54Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 1.37,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (428 words; minimum 700)",
+      "ai_status": "failed",
+      "ai_error": "ai_time_budget_exceeded",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": true,
+      "ai_total_time_seconds": 212.87,
+      "ai_quality_status": "time_budget_exceeded",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-07-23T11:49:19Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "ai_time_budget_exceeded",
+      "candidate_failed_at": "2026-07-23T11:34:19",
+      "candidate_failure_count": 1
     },
     {
       "id": "6eed503eb1643455",
@@ -27156,7 +27215,57 @@
       "content_preview_chars": 3900,
       "content_fetched_at": "2026-07-23T01:10:29",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-23T11:37:22",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-23T11:37:22",
+      "ai_input_package": {
+        "title": "Google justifies its massive AI spending with a booming cloud business | TechCrunch",
+        "url": "https://techcrunch.com/2026/07/22/google-justifies-its-massive-ai-spending-with-a-booming-cloud-business",
+        "source_name": "TechCrunch",
+        "suggested_category": "Tech-News",
+        "main_image": "https://techcrunch.com/wp-content/uploads/2025/02/GettyImages-2173545265.jpg?resize=1200,800",
+        "article_images": [
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2025/02/GettyImages-2173545265.jpg?resize=1200,800",
+            "alt": "Google justifies its massive AI spending with a booming cloud business | TechCrunch",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2025/02/GettyImages-2173545265.jpg?w=1024",
+            "alt": "Sundar Pichai, chief executive officer of Alphabet",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Google's cloud business is thriving, as companies adopting its AI and AI infrastructure services help the tech giant to report record profits.",
+        "content_preview": "Alphabet investors have very publicly worried that the company’s massive AI spending isn’t worth the money. With the company’s latest earnings report, those investors should be able to relax a little. The takeaway: Google’s cloud business — driven largely by enterprise AI adoption — is booming. The search giant saw Google Cloud revenue spike 82% from where it was this time last year, climbing to $24.8 billion. That’s well above last quarter’s generous year-over-year growth, which showed a revenue jump of 63% to $20 billion — and it handily beats what Wall Street analysts expected for this quarter’s growth (the expectation was $22.46 billion ). Those cloud gains were driven largely by enterprise AI solutions and enterprise AI infrastructure adoption, the company said, while also noting that its backlog of cloud contracting work — that is, work that it hasn’t yet converted into revenue — had climbed to $514 billion. The company’s profit hit $112.1 billion, which is a massive jump from this time last year, when the company reported $28.1 billion in profit, the company’s earnings report shows. Meanwhile, Alphabet’s overall revenue grew 24% year-over-year during the past quarter to $119.8 billion. The company also saw Google Services revenue jump 15% to $94.5 billion. “Our AI investments are redefining what’s possible across every part of our business,” said Google CEO Sundar Pichai during Wednesday’s earnings call. “We have exciting momentum across the board.” More people are also adopting Gemini, Google’s AI chatbot, as the app currently enjoys 950 million monthly active users, the company said. In Q4 of 2025, Google reported that the app had 750 million users. It’s worth noting that spiking revenue isn’t unusual for Google. This marks the company’s 12th consecutive quarter of double-digit revenue growth. But even by that standard, this quarter represents a particularly bountiful period for the tech giant. Alphabet’s spending is still hefty, with its capital expenditures — the money it spends building data centers, buying chips, and expanding infrastructure — estimated to be between $180 billion and $190 billion for the year — a fact not lost on analysts during Wednesday’s earnings call. Several pressed Pichai on when, and how much, those investments will pay off. “I think our compute capacity investments in ’27,” he said. “We are seeing strong demand indicators, including long-term deals,” he continued. “I think, if anything, the dynamics look healthier than where we were about a year ago, so that’s what gives us the confidence to undertake those investments,” he said. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Amanda Silberling Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Light made a flip phone — it’s colorful and it’s cheap Amanda Silberling Light made a flip phone — it’s colorful and it’s cheap AI music generator Suno breach affects 55M users, per Have I Been Pwned Zack Whittaker AI music generator Suno breach affects 55M users, per Have I Been Pwned Anthropic’s landmark $1.5B copyright settlement is approved Kirsten Korosec Anthropic’s landmark $1.5B copyright settlement is approved Google is working on a new AI chip designed to make Gemini more efficient Lucas Ropek Google is working on a new AI chip designed to make Gemini more efficient X relaunches a rebuilt Android app after year-long effort Sarah Perez X relaunches a rebuilt Android app after year-long effort Judge pauses $110B Paramount-Warner Bros. merger Aisha Malik Judge pauses $110B Paramount-Warner Bros. merger",
+        "content_preview_chars": 3900,
+        "rss_summary": "",
+        "full_article_text": "Alphabet investors have very publicly worried that the company’s massive AI spending isn’t worth the money. With the company’s latest earnings report, those investors should be able to relax a little. The takeaway: Google’s cloud business — driven largely by enterprise AI adoption — is booming. The search giant saw Google Cloud revenue spike 82% from where it was this time last year, climbing to $24.8 billion. That’s well above last quarter’s generous year-over-year growth, which showed a revenue jump of 63% to $20 billion — and it handily beats what Wall Street analysts expected for this quarter’s growth (the expectation was $22.46 billion ). Those cloud gains were driven largely by enterprise AI solutions and enterprise AI infrastructure adoption, the company said, while also noting that its backlog of cloud contracting work — that is, work that it hasn’t yet converted into revenue — had climbed to $514 billion. The company’s profit hit $112.1 billion, which is a massive jump from this time last year, when the company reported $28.1 billion in profit, the company’s earnings report shows. Meanwhile, Alphabet’s overall revenue grew 24% year-over-year during the past quarter to $119.8 billion. The company also saw Google Services revenue jump 15% to $94.5 billion. “Our AI investments are redefining what’s possible across every part of our business,” said Google CEO Sundar Pichai during Wednesday’s earnings call. “We have exciting momentum across the board.” More people are also adopting Gemini, Google’s AI chatbot, as the app currently enjoys 950 million monthly active users, the company said. In Q4 of 2025, Google reported that the app had 750 million users. It’s worth noting that spiking revenue isn’t unusual for Google. This marks the company’s 12th consecutive quarter of double-digit revenue growth. But even by that standard, this quarter represents a particularly bountiful period for the tech giant. Alphabet’s spending is still hefty, with its capital expenditures — the money it spends building data centers, buying chips, and expanding infrastructure — estimated to be between $180 billion and $190 billion for the year — a fact not lost on analysts during Wednesday’s earnings call. Several pressed Pichai on when, and how much, those investments will pay off. “I think our compute capacity investments in ’27,” he said. “We are seeing strong demand indicators, including long-term deals,” he continued. “I think, if anything, the dynamics look healthier than where we were about a year ago, so that’s what gives us the confidence to undertake those investments,” he said. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Amanda Silberling Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Light made a flip phone — it’s colorful and it’s cheap Amanda Silberling Light made a flip phone — it’s colorful and it’s cheap AI music generator Suno breach affects 55M users, per Have I Been Pwned Zack Whittaker AI music generator Suno breach affects 55M users, per Have I Been Pwned Anthropic’s landmark $1.5B copyright settlement is approved Kirsten Korosec Anthropic’s landmark $1.5B copyright settlement is approved Google is working on a new AI chip designed to make Gemini more efficient Lucas Ropek Google is working on a new AI chip designed to make Gemini more efficient X relaunches a rebuilt Android app after year-long effort Sarah Perez X relaunches a rebuilt Android app after year-long effort Judge pauses $110B Paramount-Warner Bros. merger Aisha Malik Judge pauses $110B Paramount-Warner Bros. merger",
+        "full_article_text_chars": 3900,
+        "enrichment_status": "strong",
+        "source_url": "https://techcrunch.com",
+        "source_published_at": "2026-07-22T22:01:52Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 3.14,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_status": "failed",
+      "ai_error": "Missing AI output field(s): slug",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 177.89,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-23T11:55:21Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-07-23T11:40:21",
+      "candidate_failure_count": 1
     },
     {
       "id": "065a50fb5e19ba18",
@@ -27234,7 +27343,68 @@
       "content_preview_chars": 2812,
       "content_fetched_at": "2026-07-23T01:10:40",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-23T11:34:19",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-23T11:34:19",
+      "ai_input_package": {
+        "title": "Sales were up at Tesla but so were costs and spending",
+        "url": "https://arstechnica.com/cars/2026/07/teslas-revenues-are-up-but-profits-squeezed-as-musk-spends-on-ai",
+        "source_name": "Ars Technica",
+        "suggested_category": "Tech-News",
+        "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2018/08/tesla-pondering.jpg",
+        "article_images": [
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2018/08/tesla-pondering.jpg",
+            "alt": "Sales were up at Tesla but so were costs and spending",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2020/09/jonathan-300x450.jpg",
+            "alt": "Photo of Jonathan M. Gitlin",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+            "alt": "Loading",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/748938905_1530072209161286_286265153798584974_n-500x500.jpg",
+            "alt": "Listing image for first story in Most Read: On the run for 20 years, most-wanted fugitive caught hiding as a biotech exec",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Q2 2026 was profitable, but barely.",
+        "content_preview": "Tesla posted its financial statement for the second quarter of the year this afternoon. Earlier in July, we learned that the American automaker had had a good quarter in terms of sales, growing 25 percent year over year. Fans hoping that sales increase would result in a plenty profitable Tesla may be disappointed, though. Revenues are up but so are expenses, and the company’s once-enviable double-digit profit margin has fallen to just 1.4 percent. Tesla brought in $20.5 billion from its electric vehicle business, a 23 percent increase year over year, and just $146 million came from automotive regulatory credits. Credits have been a key to Tesla’s profitability in previous challenging quarters, but they were abolished in the United States with Musk’s blessing in 2025. There was growth from its energy and storage business, which grew 13 percent year over year to revenues of $3.1 billion, but the most growth was in Tesla’s services, which doubled, bringing in $4.6 billion. Tesla’s shift from a one-time purchase to a monthly subscription for its much-criticized FSD partially automated driver assist—something tied to CEO Elon Musk’s gargantuan remuneration package—was a big help here. Overall, total revenues were up 26 percent, to $28.2 billion. But the cost of doing business went up more. Tesla’s operating expenses went up 47 percent to $4.4 billion, and income from those operations fell by 57 percent year over year to $398 million. The company is still profitable—it generated $1.1 billion for the quarter, but that’s 5 percent less than the same three months last year. In large part, that’s because Tesla has been spending heavily. Its capital expenditures grew by 142 percent to $5.8 billion, and free cash flow is currently negative $1.1 billion. That’s an 848 percent drop compared to last year, but Q2 2025 was barely positive either. For a more short-term comparison, Tesla ended last quarter with a free cash flow of more than $1.4 billion. It’s also lost another $1.2 billion from its investments. Despite so much of Tesla’s revenues coming from cars, then solar and batteries, its spending is not on developing a new line of cars or even finally making those solar roof tiles we were promised a decade ago. It’s still all about AI, humanoid robots, and more robotaxi rollouts, despite a high preponderance of crashes in Texas, including one involving a teleoperator and a Houston tree stump. In its statement to investors, Tesla says that it anticipates beginning production for its humanoid robots later this year, and that robotaxi deployments are “in line in seven major metros,” although it acknowledges that at least one of these requires the assent of California regulators, who we have seen are notably less permissive than equivalents in Arizona, Florida, Nevada, or Texas.",
+        "content_preview_chars": 2812,
+        "rss_summary": "",
+        "full_article_text": "Tesla posted its financial statement for the second quarter of the year this afternoon. Earlier in July, we learned that the American automaker had had a good quarter in terms of sales, growing 25 percent year over year. Fans hoping that sales increase would result in a plenty profitable Tesla may be disappointed, though. Revenues are up but so are expenses, and the company’s once-enviable double-digit profit margin has fallen to just 1.4 percent. Tesla brought in $20.5 billion from its electric vehicle business, a 23 percent increase year over year, and just $146 million came from automotive regulatory credits. Credits have been a key to Tesla’s profitability in previous challenging quarters, but they were abolished in the United States with Musk’s blessing in 2025. There was growth from its energy and storage business, which grew 13 percent year over year to revenues of $3.1 billion, but the most growth was in Tesla’s services, which doubled, bringing in $4.6 billion. Tesla’s shift from a one-time purchase to a monthly subscription for its much-criticized FSD partially automated driver assist—something tied to CEO Elon Musk’s gargantuan remuneration package—was a big help here. Overall, total revenues were up 26 percent, to $28.2 billion. But the cost of doing business went up more. Tesla’s operating expenses went up 47 percent to $4.4 billion, and income from those operations fell by 57 percent year over year to $398 million. The company is still profitable—it generated $1.1 billion for the quarter, but that’s 5 percent less than the same three months last year. In large part, that’s because Tesla has been spending heavily. Its capital expenditures grew by 142 percent to $5.8 billion, and free cash flow is currently negative $1.1 billion. That’s an 848 percent drop compared to last year, but Q2 2025 was barely positive either. For a more short-term comparison, Tesla ended last quarter with a free cash flow of more than $1.4 billion. It’s also lost another $1.2 billion from its investments. Despite so much of Tesla’s revenues coming from cars, then solar and batteries, its spending is not on developing a new line of cars or even finally making those solar roof tiles we were promised a decade ago. It’s still all about AI, humanoid robots, and more robotaxi rollouts, despite a high preponderance of crashes in Texas, including one involving a teleoperator and a Houston tree stump. In its statement to investors, Tesla says that it anticipates beginning production for its humanoid robots later this year, and that robotaxi deployments are “in line in seven major metros,” although it acknowledges that at least one of these requires the assent of California regulators, who we have seen are notably less permissive than equivalents in Arizona, Florida, Nevada, or Texas.",
+        "full_article_text_chars": 2812,
+        "enrichment_status": "weak",
+        "source_url": "https://arstechnica.com",
+        "source_published_at": "2026-07-22T21:15:19Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 3.92,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (548 words; minimum 700)",
+      "ai_provider_last_error": "ai_time_budget_exceeded",
+      "ai_status": "failed",
+      "ai_error": "ai_time_budget_exceeded",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": true,
+      "ai_total_time_seconds": 182.62,
+      "ai_quality_status": "time_budget_exceeded",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-23T11:52:22Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "ai_time_budget_exceeded",
+      "candidate_failed_at": "2026-07-23T11:37:22",
+      "candidate_failure_count": 1
     },
     {
       "id": "109eee4b806e804e",
@@ -27257,7 +27427,7 @@
       "category_label": "Tech-News",
       "category_hint": "Tech-News",
       "discovered_at": "2026-07-23T01:10:17",
-      "status": "ready",
+      "status": "selected",
       "score": 3,
       "priority": "low",
       "source_links_removed_count": 96,
@@ -27312,7 +27482,54 @@
       "content_preview_chars": 2910,
       "content_fetched_at": "2026-07-23T01:10:36",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-23T11:40:21",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-23T11:40:22",
+      "ai_input_package": {
+        "title": "The White House Is Trying to Figure Out What to Do About Chinese AI",
+        "url": "https://www.wired.com/story/the-white-house-is-trying-to-figure-out-what-to-do-about-chinese-ai",
+        "source_name": "WIRED",
+        "suggested_category": "Tech-News",
+        "main_image": "https://media.wired.com/photos/6a5fecfac92cec058a76a8e2/191:100/w_1280,c_limit/politics_chinese_ai_white_house.jpg",
+        "article_images": [
+          {
+            "url": "https://media.wired.com/photos/6a5fecfac92cec058a76a8e2/191:100/w_1280,c_limit/politics_chinese_ai_white_house.jpg",
+            "alt": "The White House Is Trying to Figure Out What to Do About Chinese AI",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://media.wired.com/photos/6a5fecfac92cec058a76a8e2/master/w_2560%2Cc_limit/politics_chinese_ai_white_house.jpg",
+            "alt": "Collage of a red and yellow pixelated tiger and cowboys with lassos",
+            "source": "article_content"
+          },
+          {
+            "url": "https://media.wired.com/photos/6a4d75c128635c18b8ad18de/1:1/w_90%2Cc_limit/LannaApisukh_HUGO_LOWELL-0048-2.jpg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://media.wired.com/photos/6a444e05c62f6b38179079b8/16:9/w_640%2Cc_limit/undefined",
+            "alt": "The Trump Administration Is Lifting Its Export Controls on Anthropic’s Mythos and Fable AI Models",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "There’s a debate going on in the Trump administration over how to handle increasingly powerful Chinese AI models.",
+        "content_preview": "The Trump administration is split over how to respond to the rapid rise of China’s leading AI models, according to multiple people familiar with deliberations. The debate is broadly divided between parts of the White House, which has pushed for stricter controls on Chinese AI that may soon rival the most powerful US models, and the Commerce Department, which has viewed those restrictions as unworkable. The conundrum has become the latest flash point for the administration over AI, after China’s Moonshot AI lab last week released its Kimi K3 model that rivals the top US models from Anthropic and OpenAI. In recent days, senior White House officials have discussed possible measures to stop China’s AI labs from developing their models by training them on US models, a practice known as distillation, the people say. The White House is expected to take some sort of presidential action after Anthropic last month alleged the Chinese tech company Alibaba had carried out the “largest known distillation attack” against it to date. This action is not currently expected to take the form of an executive order, according to one of the people. A White House spokesperson did not comment on the reporting in this story. The White House has been taking distillation attacks especially seriously. It announced on Wednesday that Moonshot had developed Kimi K3 by distilling Anthropic’s Claude Fable 5 model, and Treasury secretary Scott Bessent told Fox Business that covert distillation could lead to sanctions, describing it as “IP theft.” While proposals have been making the rounds inside the White House, no formal request for input has been transmitted yet to the Commerce Department, which has its own ideas, according to two people familiar with deliberations. The Commerce Department has increasingly emerged as an influential part of the intra-administration split over AI, in part because it oversees export controls through the Bureau of Industry and Security. Lutnick has contemplated ways to create incentives for top US labs to create their own open weight models to counterbalance China, and has spoken with leaders at a number of AI labs in recent weeks, the people add. Lutnick appears to be straddling a middle ground of regulation—he imposed export controls on Anthropic to bring them to heel—but has been more freewheeling than Cairncross, one of the people said. Earlier this month, the biggest AI issue for the administration was Anthropic’s Claude Mythos and Fable 5 models, because of their ability to find vulnerabilities in government systems and critical infrastructure. But policy headaches with AI have only escalated with the rise of so-called open weight models from China—models that have few to no safeguards to prevent hacking government systems and can be downloaded and used by anyone. This is an edition of Hugo Lowell’s Inner Loop newsletter. Read previous newsletters here.",
+        "content_preview_chars": 2910,
+        "rss_summary": "",
+        "full_article_text": "The Trump administration is split over how to respond to the rapid rise of China’s leading AI models, according to multiple people familiar with deliberations. The debate is broadly divided between parts of the White House, which has pushed for stricter controls on Chinese AI that may soon rival the most powerful US models, and the Commerce Department, which has viewed those restrictions as unworkable. The conundrum has become the latest flash point for the administration over AI, after China’s Moonshot AI lab last week released its Kimi K3 model that rivals the top US models from Anthropic and OpenAI. In recent days, senior White House officials have discussed possible measures to stop China’s AI labs from developing their models by training them on US models, a practice known as distillation, the people say. The White House is expected to take some sort of presidential action after Anthropic last month alleged the Chinese tech company Alibaba had carried out the “largest known distillation attack” against it to date. This action is not currently expected to take the form of an executive order, according to one of the people. A White House spokesperson did not comment on the reporting in this story. The White House has been taking distillation attacks especially seriously. It announced on Wednesday that Moonshot had developed Kimi K3 by distilling Anthropic’s Claude Fable 5 model, and Treasury secretary Scott Bessent told Fox Business that covert distillation could lead to sanctions, describing it as “IP theft.” While proposals have been making the rounds inside the White House, no formal request for input has been transmitted yet to the Commerce Department, which has its own ideas, according to two people familiar with deliberations. The Commerce Department has increasingly emerged as an influential part of the intra-administration split over AI, in part because it oversees export controls through the Bureau of Industry and Security. Lutnick has contemplated ways to create incentives for top US labs to create their own open weight models to counterbalance China, and has spoken with leaders at a number of AI labs in recent weeks, the people add. Lutnick appears to be straddling a middle ground of regulation—he imposed export controls on Anthropic to bring them to heel—but has been more freewheeling than Cairncross, one of the people said. Earlier this month, the biggest AI issue for the administration was Anthropic’s Claude Mythos and Fable 5 models, because of their ability to find vulnerabilities in government systems and critical infrastructure. But policy headaches with AI have only escalated with the rise of so-called open weight models from China—models that have few to no safeguards to prevent hacking government systems and can be downloaded and used by anyone. This is an edition of Hugo Lowell’s Inner Loop newsletter. Read previous newsletters here.",
+        "full_article_text_chars": 2910,
+        "enrichment_status": "weak",
+        "source_url": "https://www.wired.com",
+        "source_published_at": "2026-07-22T21:00:00Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 4.17,
+        "trusted_references": [],
+        "related_posts": []
+      }
     },
     {
       "id": "4adf90c2164bec64",
@@ -28351,6 +28568,56 @@
       "content_preview": "Anthropic has released the Claude Security plugin for Claude Code in beta. The plugin runs a multi-agent vulnerability scan of a repository from inside an existing Claude Code session, then turns the findings you select into patch files that you review and apply yourself. Anthropic emphasized the tool’s versatility upon announcement, highlighting its capability to either run a comprehensive scan across the full codebase or inspect changes from the terminal right before a commit. The plugin adds a single command, /claude-security, which opens a menu of three jobs, per the official documentation : Scan codebase — the whole repository or a scoped subset of it Scan changes — a branch’s diff, a pull request’s diff, or a single commit Suggest patches — turn a report’s findings into .patch files Installation is two commands from the official Anthropic marketplace : If the marketplace is not found, run /plugin marketplace add anthropics/claude-plugins-official first. The plugin source is public in the claude-plugins-official repository , currently at version 0.10.0. How the scan pipeline is structured The scan is implemented as a dynamic workflow — a JavaScript orchestration script that fans work out across subagents. The script declares six phases: Inventory : partition the repository into components. Every top-level directory must be either scanned or explicitly skipped with a reason. Threat model : one modeler per component, producing entry points, sinks, trust boundaries, and files a researcher must read in full. Research : one researcher per component × category cell. Sweep : gap-fill over what the matrix did not cover. Panel : three-lens adversarial verification, one voter per lens. Adversarial : max effort only: re-panel marginal keeps, then red-team every survivor. Research runs against four fixed categories: injection-and-input, auth-and-access, memory-and-unsafe, and crypto-and-secrets. The memory-and-unsafe lens is dropped for components written entirely in memory-safe languages, so a pure Python or TypeScript component gets three lenses instead of four. The operational scale of a run is dictated by four distinct effort tiers: low, medium, high, and max. Depending on the selected tier, specific thresholds are enforced: the maximum number of components is capped at 12 for low and medium tiers, expanding to 24 for high and max tiers; matrix cells are assigned 1 researcher, which increases to 2 at the high and max levels; and the number of gap-fill sweeps scales from 0 at low, to 1 at medium, up to 2 for high and max. When dealing with a limited scope or a small diff, the process condenses into a single-researcher configuration instead of deploying the entire matrix. This ensures the evaluation remains strictly proportionate to the target while maintaining the identical verification standard. The system employs model-tiered agents: the orchestrator runs on Opus, while the repository cartographer and read-only code explorer run on Sonnet. Furthermore, the session model is inherited by researchers and verifiers, and scan agents are restricted exclusively to read-only tools. How a finding earns its place in the report This is the part worth understanding closely. A candidate finding does not go into the report because a researcher found it. It goes in only after surviving a panel. Each candidate is handed to three independent verifiers, one per lens: REACHABILITY , IMPACT , and DEFENSES . Each returns a structured verdict of TRUE_POSITIVE or FALSE_POSITIVE with one or two lines naming the decisive file:line. The keep quorum is 2 of 3. If fewer than three voters return, the candidate is not keepable at all. The panel result also caps the finding’s stated confidence. A unanimous 3/3 panel allows a confidence ceiling of high; a 2/3 quorum caps it at medium. A finding cannot claim more confidence than its verification earned. Critically, the tally is computed in Python by the report renderer, not asserted by the model that produced the findings. The revision stamp’s verification.status is set to verified only when the vote record proves the panel ran for every finding in the report; otherwise it is unverified with a stated reason. That makes the report’s own account of its rigor something you can check rather than something you take on trust. What a scan writes to disk Every scan writes a timestamped CLAUDE-SECURITY-<timestamp>/ directory into the repository containing three artifacts: CLAUDE-SECURITY-RESULTS.md — the human-readable report. Each finding carries an ID such as F1, plus severity (HIGH/MEDIUM/LOW), confidence, CWE ID, the exact sink line, impact, exploit scenario, preconditions, and a recommendation. CLAUDE-SECURITY-RESULTS.jsonl — the same findings, one JSON object per line. CLAUDE-SECURITY-REVISION-<commit>.json — the revision stamp: which commit was scanned, at what effort, the severity counts, and how thoroughly the run was verified. The filename carries -dirty when uncommitted changes were part of the scanned tree. That directory is the only change a scan makes to your checkout, and it ships with its own .gitignore so a stray git add cannot sweep a report into a commit. Deleting that one .gitignore lets you commit the report for an audit trail. Patches, and the three claims each one must earn The fix job develops each patch in a scratch clone of the repository, so your working tree and index are never touched. An agent independent of the one that wrote the patch then reviews the staged diff and runs the project’s own test suite against the change. A patch file is written only if the verifier can state all three of these with confidence: the change addresses that one finding, it introduces no new vulnerability, and behavior is otherwise unchanged — where a change to which inputs the code accepts counts as a behavior change. Any change that weakens security while claiming to fix it, such as a loosened auth check or a disabled test, is an automatic reject. When the verifier cannot vouch for all three, you get a short note explaining why instead of a patch. Patches land in the report’s patches/ folder as F<n>.patch. Nothing is applied automatically: The patch note explicitly indicates if no repository test covers the modified code, clarifying that the verification relies on code review rather than test execution. Anthropic suggests that each patch should be applied using an individual pull request. Requirements, cost, and the trust model The plugin requires a paid plan with Claude Code v2.1.154 or later, with dynamic workflows enabled in /config. It also needs Python 3.9.6 or later on your PATH as python3 (using only the standard library) and Git for change scans and patching. Linux, macOS, and Windows are supported, and scans count against your plan’s token limits. Running in your session under your permissions, the scan adds no isolation of its own , meaning committed .claude/ settings, hooks, and CLAUDE.md still apply. While it treats repository content as data rather than instructions, this is not a defense against hostile repositories; use sandbox-runtime to sandbox unfamiliar codebases. Additionally, scans are nondeterministic and do not replace traditional static analysis, dependency scanning, or code reviews. Where it sits in the stack Common vulnerabilities in code Claude writes, fixed in the same session One-time security pass on the current branch Multi-agent scan of a repository or diff, independently reviewed findings and patches Code Review (Team, Enterprise) Multi-agent correctness and security review with full codebase context Hosted scanning that monitors connected repositories Your existing SAST and dependency scanners Language-specific rules, supply-chain checks, policy enforcement The Claude Security plugin runs a six-phase multi-agent scan locally in a Claude Code session, installed with /plugin install claude-security@claude-plugins-official. Findings reach the report only after a 3-voter adversarial panel (REACHABILITY, IMPACT, DEFENSES) clears a 2-of-3 quorum; a non-unanimous panel caps stated confidence at medium. The verification tally is computed in code by the report renderer, not asserted by the model, and stamped into a per-commit revision file. Patches are built in a scratch clone, independently verified against three claims, and never applied automatically. The scan adds no isolation of its own — sandbox the session before scanning code you do not control. Sources: Claude Security plugin documentation , Claude Security product page , Plugin source, claude-plugins-official , @claudeai announcement and Claude Security public beta blog Michal Sutter is a data science professional with a Master of Science in Data Science from the University of Padova. With a solid foundation in statistical analysis, machine learning, and data engineering, Michal excels at transforming complex datasets into actionable insights.",
       "content_preview_chars": 8914,
       "content_fetched_at": "2026-07-23T09:34:34",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "72821752e855073b",
+      "source_url_hash": "72821752e855073b",
+      "canonical_url": "https://www.androidauthority.com/samsung-galaxy-z-fold-8-ultra-hands-on-3689949",
+      "title_hash": "c32d8cf29f321d4a",
+      "topic_signature": "943cea826a5f9b85f801",
+      "title": "FeaturesAfter using the Samsung Galaxy Z Fold 8 Ultra, I’m left with one expensive questionStephen Radochia•0",
+      "url": "https://www.androidauthority.com/samsung-galaxy-z-fold-8-ultra-hands-on-3689949",
+      "source_name": "Android Authority",
+      "source_url": "https://www.androidauthority.com",
+      "source_published_at": "2026-07-22T13:00:59Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 22.49,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-23T11:30:13",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 21,
+      "affiliate_links_removed_count": 3,
+      "removed_source_links_count": 21,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "After using the Samsung Galaxy Z Fold 8 Ultra, I'm left with one expensive question",
+      "meta_description": "Samsung's wider Galaxy Z Fold 8 may steal the show, but the Z Fold 8 Ultra has questions to answer, especially with a price increase.",
+      "article_images": [
+        {
+          "url": "https://clearbuy-cloud.nyc3.digitaloceanspaces.com/media/12501/custom_filename.jpg",
+          "alt": "After using the Samsung Galaxy Z Fold 8 Ultra, I'm left with one expensive question",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://clearbuy-cloud.nyc3.digitaloceanspaces.com/media/12501/custom_filename.jpg",
+      "main_image_source_type": "article_content",
+      "main_image_extraction_method": "article_content",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "Affiliate links on Android Authority may earn us a commission. Learn more. I didn’t know what to expect when I got my hands on the Galaxy Z Fold 8 Ultra. I knew what I’d read in the leaks, but it’s difficult to get the full story until you use the device yourself. I was most excited about the wider Galaxy Z Fold 8, and that phone hasn’t disappointed. But I was still curious what changes Samsung made to earn the Ultra moniker. The Galaxy Z Fold 8 Ultra enters a different marketplace than its predecessor. The Motorola Razr Fold is impressive, with plenty of innovations, and I was eager to see how Samsung would counter. There are plenty of reasons why you’d want a Galaxy Z Fold 8 Ultra in your pocket, but the phone has left me with one expensive question. Is the better camera system on the Galaxy Z Fold 8 Ultra worth an extra $200 to you? Samsung didn’t leave everything the same on the Galaxy Z Fold 8 Ultra At first glance, the Galaxy Z Fold 8 Ultra seems virtually unchanged from last year’s model. Its exterior design remains the same, but that’s not a bad thing. Samsung did most of the heavy lifting on the Galaxy Z Fold 7, giving it a much-needed overhaul and bringing its foldable designs into this century, so I have zero problem with the company running it back another year. However, the Z Fold 8 Ultra is a tenth of a millimeter thinner and a couple of grams lighter, adding to its reputation as a sleek and stylish foldable. I am pleased that Samsung addressed my biggest complaint about the Galaxy Z Fold 7. The Z Fold 8 Ultra features a 5,000mAh battery, up from 4,400mAh in its predecessor. It’s not a completely silicon-carbon anode (Samsung is experimenting with an undisclosed percentage), but it’s enough to make a larger battery fit into the slim chassis of the Z Fold 8 Ultra. Samsung is billing the Galaxy Z Fold 8 Ultra as a phone for creators, so it’s welcome to have a battery that can last all day while I’m using the inner display. I doubt I’ll get the two days I get from the 6,000mAh cell in the Motorola Razr Fold, but I’m happy with the increase, especially since it didn’t make the phone thicker. In addition to a larger battery, Samsung gave the Z Fold 8 Ultra faster 45W charging. It still doesn’t match what we see on the Motorola Razr Fold or other devices from overseas, but it’s a start. Combined with the company dipping its toes in the silicon-carbon waters, I’m hoping it’s a sign that Samsung is finally putting the Galaxy Note 7 behind it. I’m pleased to report the speakers are significantly better on the Galaxy Z Fold 8 Ultra than on the outgoing Z Fold 7. I have no idea what happened last year. It was as if Samsung used up its entire design budget and realized the phone still needed speakers, sourcing what it could at the last minute from AliExpress. That’s not a problem on the Ultra. They aren’t the best I’ve ever heard, but there’s definitely a more robust sound this year. Samsung is finally giving us the improved 50MP ultrawide sensor we’ve seen on other Samsung devices. Unfortunately, the Z Fold 8 Ultra is missing another camera upgrade I’ll mention later, but the results are solid. Samsung highlights that Nightography is improved, and I can back that up from my brief testing. Low-light images are detailed with excellent color. We will see how it holds up over extensive real-world testing, but the early returns are good. Samsung also touts expanded graphite cooling, with the aim of keeping peak device performance longer. I’m sure it’s something you might take advantage of during intense editing or gaming sessions, but I never had a problem with the thermals on the Galaxy Z Fold 7. Even with the newer Snapdragon 8 Elite Gen 5 under the hood, I don’t expect issues. I was never a card-carrying member of the Anti-Bezel Society, and that’s extended to not being an officer in the Crease Task Force, but Samsung has reduced how noticeable it is on the Z Fold 8 Ultra. How much the company’s new Flex Titanium technology has played a role, I don’t know, but the results are there. The hinge is also as sturdy as ever, unfolding with a rather satisfying snap. Unfortunately, not all changes are positive, as Samsung has raised the price this year. The 256GB variant of the Galaxy Z Fold 8 Ultra will now run you $2,100. Yes, pre-order trade-in offers and discounts help, but that’s a decent chunk, especially since there are other competent choices. Plenty has remained the same I mentioned the upgraded 50MP ultrawide camera earlier, but it’s not matched with an upgraded 200MP sensor. The Galaxy Z Fold 8 Ultra doesn’t have the wider aperture featured on the Galaxy S26 Ultra. Yes, it’ll be a small detail for most, but I don’t know why Samsung felt that was a bridge too far on a $2,100 device with Ultra branding. It’s especially odd given the company is touting the Z Fold 8 Ultra as a phone for creators. I have no problems with the photos I took in my short time with the Ultra, but I did expect an upgraded 200MP shooter. I’m also disappointed by the lack of S Pen support for the second year in a row. I thought Samsung might find a way to bring it back this year, and I’ve enjoyed stylus support on the Motorola Razr Fold. The Moto is a thicker device, and Samsung decided the digitizing layer wasn’t worth adding size to the phone. I can respect that, but the S Pen is a fantastic tool to have on an expansive 8-inch internal display. Just like not all changes are good, not all things that stay the same are bad. I got a chance to play with One UI 9 on the Z Fold 8 Ultra, and I’m pleased. Samsung did add a few items, but nothing that fundamentally changed my experience in my early testing. Now Nudge will let you open the referenced app in split screen, so if I need to check my calendar in a message, I don’t have to leave Google Messages. I can also see before-and-after versions of the edits I’ve made to an image, a feature introduced with the Galaxy Z Fold 7 last year. Yes, there is the usual slate of Galaxy AI improvements, but until I have a chance to see them in action, I’m not buying into any promises. I like the idea of the AI Assistant Activity in theory, but until I see it working well in action, I’ll reserve judgment. All told, One UI 9 appears to be another solid Samsung software installment, with the support we’ve come to expect from the company over the last few years. Is the Z Fold 8 Ultra really worth $2,100? Samsung’s price increase puts the Galaxy Z Fold 8 Ultra in an awkward position. The Motorola Razr Fold is outstanding, with great multitasking, a silicon-carbon battery, and excellent cameras. However, I could see software and design playing a role in your buying decision, so it’s not unreasonable to think Samsung could still win out. However, the Z Fold 8 Ultra’s stiffest competition comes from within Samsung’s own lineup. The wider Galaxy Z Fold 8 is everything I’ve wanted in a book-style foldable, and it’s a phone that finally bridges the value gap between traditional smartphones and expensive folds. I believe it will do for book-style foldables what Motorola did for clamshell devices with the Razr. The Z Fold 8 Ultra doesn’t have that going for it. It still feels relegated to niche status. So, therein lies my expensive question. Or, to be specific, my $2,100 question: Is the Galaxy Z Fold 8 Ultra really worth that much money? After using the Z Fold 8 Ultra for a few hours, it really boils down to how much you think the 200MP sensor and 10MP 3x telephoto zoom are worth to you. If you use them extensively, then the upgraded cameras on the Ultra are worth the price of admission. If you are a Z Fold 5 or 6 user, and the thought of a wider aspect ratio makes you nauseous, then the Z Fold 8 Ultra will make you feel right at home. Thank you for being part of our community. Read our Comment Policy before posting.",
+      "full_article_text_chars": 7861,
+      "content_preview": "Affiliate links on Android Authority may earn us a commission. Learn more. I didn’t know what to expect when I got my hands on the Galaxy Z Fold 8 Ultra. I knew what I’d read in the leaks, but it’s difficult to get the full story until you use the device yourself. I was most excited about the wider Galaxy Z Fold 8, and that phone hasn’t disappointed. But I was still curious what changes Samsung made to earn the Ultra moniker. The Galaxy Z Fold 8 Ultra enters a different marketplace than its predecessor. The Motorola Razr Fold is impressive, with plenty of innovations, and I was eager to see how Samsung would counter. There are plenty of reasons why you’d want a Galaxy Z Fold 8 Ultra in your pocket, but the phone has left me with one expensive question. Is the better camera system on the Galaxy Z Fold 8 Ultra worth an extra $200 to you? Samsung didn’t leave everything the same on the Galaxy Z Fold 8 Ultra At first glance, the Galaxy Z Fold 8 Ultra seems virtually unchanged from last year’s model. Its exterior design remains the same, but that’s not a bad thing. Samsung did most of the heavy lifting on the Galaxy Z Fold 7, giving it a much-needed overhaul and bringing its foldable designs into this century, so I have zero problem with the company running it back another year. However, the Z Fold 8 Ultra is a tenth of a millimeter thinner and a couple of grams lighter, adding to its reputation as a sleek and stylish foldable. I am pleased that Samsung addressed my biggest complaint about the Galaxy Z Fold 7. The Z Fold 8 Ultra features a 5,000mAh battery, up from 4,400mAh in its predecessor. It’s not a completely silicon-carbon anode (Samsung is experimenting with an undisclosed percentage), but it’s enough to make a larger battery fit into the slim chassis of the Z Fold 8 Ultra. Samsung is billing the Galaxy Z Fold 8 Ultra as a phone for creators, so it’s welcome to have a battery that can last all day while I’m using the inner display. I doubt I’ll get the two days I get from the 6,000mAh cell in the Motorola Razr Fold, but I’m happy with the increase, especially since it didn’t make the phone thicker. In addition to a larger battery, Samsung gave the Z Fold 8 Ultra faster 45W charging. It still doesn’t match what we see on the Motorola Razr Fold or other devices from overseas, but it’s a start. Combined with the company dipping its toes in the silicon-carbon waters, I’m hoping it’s a sign that Samsung is finally putting the Galaxy Note 7 behind it. I’m pleased to report the speakers are significantly better on the Galaxy Z Fold 8 Ultra than on the outgoing Z Fold 7. I have no idea what happened last year. It was as if Samsung used up its entire design budget and realized the phone still needed speakers, sourcing what it could at the last minute from AliExpress. That’s not a problem on the Ultra. They aren’t the best I’ve ever heard, but there’s definitely a more robust sound this year. Samsung is finally giving us the improved 50MP ultrawide sensor we’ve seen on other Samsung devices. Unfortunately, the Z Fold 8 Ultra is missing another camera upgrade I’ll mention later, but the results are solid. Samsung highlights that Nightography is improved, and I can back that up from my brief testing. Low-light images are detailed with excellent color. We will see how it holds up over extensive real-world testing, but the early returns are good. Samsung also touts expanded graphite cooling, with the aim of keeping peak device performance longer. I’m sure it’s something you might take advantage of during intense editing or gaming sessions, but I never had a problem with the thermals on the Galaxy Z Fold 7. Even with the newer Snapdragon 8 Elite Gen 5 under the hood, I don’t expect issues. I was never a card-carrying member of the Anti-Bezel Society, and that’s extended to not being an officer in the Crease Task Force, but Samsung has reduced how noticeable it is on the Z Fold 8 Ultra. How much the company’s new Flex Titanium technology has played a role, I don’t know, but the results are there. The hinge is also as sturdy as ever, unfolding with a rather satisfying snap. Unfortunately, not all changes are positive, as Samsung has raised the price this year. The 256GB variant of the Galaxy Z Fold 8 Ultra will now run you $2,100. Yes, pre-order trade-in offers and discounts help, but that’s a decent chunk, especially since there are other competent choices. Plenty has remained the same I mentioned the upgraded 50MP ultrawide camera earlier, but it’s not matched with an upgraded 200MP sensor. The Galaxy Z Fold 8 Ultra doesn’t have the wider aperture featured on the Galaxy S26 Ultra. Yes, it’ll be a small detail for most, but I don’t know why Samsung felt that was a bridge too far on a $2,100 device with Ultra branding. It’s especially odd given the company is touting the Z Fold 8 Ultra as a phone for creators. I have no problems with the photos I took in my short time with the Ultra, but I did expect an upgraded 200MP shooter. I’m also disappointed by the lack of S Pen support for the second year in a row. I thought Samsung might find a way to bring it back this year, and I’ve enjoyed stylus support on the Motorola Razr Fold. The Moto is a thicker device, and Samsung decided the digitizing layer wasn’t worth adding size to the phone. I can respect that, but the S Pen is a fantastic tool to have on an expansive 8-inch internal display. Just like not all changes are good, not all things that stay the same are bad. I got a chance to play with One UI 9 on the Z Fold 8 Ultra, and I’m pleased. Samsung did add a few items, but nothing that fundamentally changed my experience in my early testing. Now Nudge will let you open the referenced app in split screen, so if I need to check my calendar in a message, I don’t have to leave Google Messages. I can also see before-and-after versions of the edits I’ve made to an image, a feature introduced with the Galaxy Z Fold 7 last year. Yes, there is the usual slate of Galaxy AI improvements, but until I have a chance to see them in action, I’m not buying into any promises. I like the idea of the AI Assistant Activity in theory, but until I see it working well in action, I’ll reserve judgment. All told, One UI 9 appears to be another solid Samsung software installment, with the support we’ve come to expect from the company over the last few years. Is the Z Fold 8 Ultra really worth $2,100? Samsung’s price increase puts the Galaxy Z Fold 8 Ultra in an awkward position. The Motorola Razr Fold is outstanding, with great multitasking, a silicon-carbon battery, and excellent cameras. However, I could see software and design playing a role in your buying decision, so it’s not unreasonable to think Samsung could still win out. However, the Z Fold 8 Ultra’s stiffest competition comes from within Samsung’s own lineup. The wider Galaxy Z Fold 8 is everything I’ve wanted in a book-style foldable, and it’s a phone that finally bridges the value gap between traditional smartphones and expensive folds. I believe it will do for book-style foldables what Motorola did for clamshell devices with the Razr. The Z Fold 8 Ultra doesn’t have that going for it. It still feels relegated to niche status. So, therein lies my expensive question. Or, to be specific, my $2,100 question: Is the Galaxy Z Fold 8 Ultra really worth that much money? After using the Z Fold 8 Ultra for a few hours, it really boils down to how much you think the 200MP sensor and 10MP 3x telephoto zoom are worth to you. If you use them extensively, then the upgraded cameras on the Ultra are worth the price of admission. If you are a Z Fold 5 or 6 user, and the thought of a wider aspect ratio makes you nauseous, then the Z Fold 8 Ultra will make you feel right at home. Thank you for being part of our community. Read our Comment Policy before posting.",
+      "content_preview_chars": 7861,
+      "content_fetched_at": "2026-07-23T11:30:20",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
     }
