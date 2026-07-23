@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-23T07:16:11",
+  "updated_at": "2026-07-23T09:39:30",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -675,7 +675,10 @@
       "content_preview_chars": 8519,
       "content_fetched_at": "2026-07-19T03:49:31",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-23T09:34:21",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "42e249ee78d532cf",
@@ -2502,12 +2505,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-23T07:07:12",
-      "candidate_retry_after": "2026-07-23T07:22:12Z",
+      "content_fetched_at": "2026-07-23T09:34:37",
+      "candidate_retry_after": "2026-07-23T09:49:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-23T07:07:12",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-07-23T09:34:37",
+      "candidate_failure_count": 58
     },
     {
       "id": "512c2899a98440d2",
@@ -2536,12 +2539,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-23T07:07:12",
-      "candidate_retry_after": "2026-07-23T07:22:12Z",
+      "content_fetched_at": "2026-07-23T09:34:37",
+      "candidate_retry_after": "2026-07-23T09:49:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-23T07:07:12",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-07-23T09:34:37",
+      "candidate_failure_count": 58
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2570,12 +2573,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-23T07:07:12",
-      "candidate_retry_after": "2026-07-23T07:22:12Z",
+      "content_fetched_at": "2026-07-23T09:34:37",
+      "candidate_retry_after": "2026-07-23T09:49:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-23T07:07:12",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-07-23T09:34:37",
+      "candidate_failure_count": 58
     },
     {
       "id": "d900f1574fddfab4",
@@ -3392,13 +3395,13 @@
       "affiliate_links_removed_count": 5,
       "removed_source_links_count": 225,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=488 chars/75 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:488chars/75words, page_text:488chars/75words)",
-      "content_fetched_at": "2026-07-23T07:07:16",
-      "candidate_retry_after": "2026-07-23T07:22:16Z",
+      "content_fetch_error": "weak article body after fallbacks (best=465 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:465chars/70words, page_text:465chars/70words)",
+      "content_fetched_at": "2026-07-23T09:34:40",
+      "candidate_retry_after": "2026-07-23T09:49:40Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=488 chars/75 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:488chars/75words, page_text:488chars/75words)",
-      "candidate_failed_at": "2026-07-23T07:07:16",
-      "candidate_failure_count": 56
+      "candidate_failure_reason": "weak article body after fallbacks (best=465 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:465chars/70words, page_text:465chars/70words)",
+      "candidate_failed_at": "2026-07-23T09:34:40",
+      "candidate_failure_count": 57
     },
     {
       "id": "8d2678d87487d729",
@@ -4258,12 +4261,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-07-23T07:07:17",
-      "candidate_retry_after": "2026-07-23T07:22:17Z",
+      "content_fetched_at": "2026-07-23T09:34:41",
+      "candidate_retry_after": "2026-07-23T09:49:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-07-23T07:07:17",
-      "candidate_failure_count": 55
+      "candidate_failed_at": "2026-07-23T09:34:41",
+      "candidate_failure_count": 56
     },
     {
       "id": "45429302676bf4c5",
@@ -5297,12 +5300,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-23T07:07:18",
-      "candidate_retry_after": "2026-07-23T07:22:18Z",
+      "content_fetched_at": "2026-07-23T09:34:43",
+      "candidate_retry_after": "2026-07-23T09:49:43Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-23T07:07:18",
-      "candidate_failure_count": 53
+      "candidate_failed_at": "2026-07-23T09:34:43",
+      "candidate_failure_count": 54
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5334,12 +5337,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-23T07:07:20",
-      "candidate_retry_after": "2026-07-23T07:22:20Z",
+      "content_fetched_at": "2026-07-23T09:34:44",
+      "candidate_retry_after": "2026-07-23T09:49:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-23T07:07:20",
-      "candidate_failure_count": 53
+      "candidate_failed_at": "2026-07-23T09:34:44",
+      "candidate_failure_count": 54
     },
     {
       "id": "aede79193c6b98c9",
@@ -5371,12 +5374,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-23T07:07:21",
-      "candidate_retry_after": "2026-07-23T07:22:21Z",
+      "content_fetched_at": "2026-07-23T09:34:46",
+      "candidate_retry_after": "2026-07-23T09:49:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-23T07:07:21",
-      "candidate_failure_count": 53
+      "candidate_failed_at": "2026-07-23T09:34:46",
+      "candidate_failure_count": 54
     },
     {
       "id": "253eaa098c468523",
@@ -6304,12 +6307,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-23T07:07:22",
-      "candidate_retry_after": "2026-07-23T07:22:22Z",
+      "content_fetched_at": "2026-07-23T09:34:46",
+      "candidate_retry_after": "2026-07-23T09:49:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-23T07:07:22",
-      "candidate_failure_count": 51
+      "candidate_failed_at": "2026-07-23T09:34:46",
+      "candidate_failure_count": 52
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6692,12 +6695,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-23T07:07:24",
-      "candidate_retry_after": "2026-07-23T07:22:24Z",
+      "content_fetched_at": "2026-07-23T09:34:48",
+      "candidate_retry_after": "2026-07-23T09:49:48Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-23T07:07:24",
-      "candidate_failure_count": 49
+      "candidate_failed_at": "2026-07-23T09:34:48",
+      "candidate_failure_count": 50
     },
     {
       "id": "693fbfabd96b2185",
@@ -6728,12 +6731,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-23T07:07:26",
-      "candidate_retry_after": "2026-07-23T07:22:26Z",
+      "content_fetched_at": "2026-07-23T09:34:50",
+      "candidate_retry_after": "2026-07-23T09:49:50Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-23T07:07:26",
-      "candidate_failure_count": 49
+      "candidate_failed_at": "2026-07-23T09:34:50",
+      "candidate_failure_count": 50
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9132,12 +9135,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=453 chars/70 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:453chars/70words, paragraph_fallback:338chars/53words, article_body:453chars/70words, meta_description:53chars/7words, page_text:453chars/70words)",
-      "content_fetched_at": "2026-07-23T07:07:28",
-      "candidate_retry_after": "2026-07-23T07:22:28Z",
+      "content_fetched_at": "2026-07-23T09:34:50",
+      "candidate_retry_after": "2026-07-23T09:49:50Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=453 chars/70 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:453chars/70words, paragraph_fallback:338chars/53words, article_body:453chars/70words, meta_description:53chars/7words, page_text:453chars/70words)",
-      "candidate_failed_at": "2026-07-23T07:07:28",
-      "candidate_failure_count": 45
+      "candidate_failed_at": "2026-07-23T09:34:50",
+      "candidate_failure_count": 46
     },
     {
       "id": "561b6316398d7603",
@@ -10224,12 +10227,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-23T07:07:28",
-      "candidate_retry_after": "2026-07-23T07:22:28Z",
+      "content_fetched_at": "2026-07-23T09:34:51",
+      "candidate_retry_after": "2026-07-23T09:49:51Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-23T07:07:28",
-      "candidate_failure_count": 41
+      "candidate_failed_at": "2026-07-23T09:34:51",
+      "candidate_failure_count": 42
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10261,12 +10264,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-23T07:07:28",
-      "candidate_retry_after": "2026-07-23T07:22:28Z",
+      "content_fetched_at": "2026-07-23T09:34:51",
+      "candidate_retry_after": "2026-07-23T09:49:51Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-23T07:07:28",
-      "candidate_failure_count": 41
+      "candidate_failed_at": "2026-07-23T09:34:51",
+      "candidate_failure_count": 42
     },
     {
       "id": "a6f4ca9464909855",
@@ -10298,12 +10301,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-23T07:07:29",
-      "candidate_retry_after": "2026-07-23T07:22:29Z",
+      "content_fetched_at": "2026-07-23T09:34:52",
+      "candidate_retry_after": "2026-07-23T09:49:52Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-23T07:07:29",
-      "candidate_failure_count": 41
+      "candidate_failed_at": "2026-07-23T09:34:52",
+      "candidate_failure_count": 42
     },
     {
       "id": "71463c25ac92daaa",
@@ -14934,12 +14937,12 @@
       "removed_source_links_count": 79,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-23T07:07:30",
-      "candidate_retry_after": "2026-07-23T07:22:30Z",
+      "content_fetched_at": "2026-07-23T09:34:52",
+      "candidate_retry_after": "2026-07-23T09:49:52Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-07-23T07:07:30",
-      "candidate_failure_count": 30
+      "candidate_failed_at": "2026-07-23T09:34:52",
+      "candidate_failure_count": 31
     },
     {
       "id": "41b7b918ab3966e4",
@@ -26491,7 +26494,73 @@
       "content_preview_chars": 6024,
       "content_fetched_at": "2026-07-22T23:38:21",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-23T09:34:53",
+      "suggested_category": "AI-Tools",
+      "selection_reason": "category rotation newest fresh article: AI-Tools",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-23T09:34:53",
+      "ai_input_package": {
+        "title": "Tesla Profit Falls as Autonomy Bet Triggers Cash Burn",
+        "url": "https://www.unite.ai/tesla-profit-falls-as-autonomy-bet-triggers-cash-burn",
+        "source_name": "Unite.AI",
+        "suggested_category": "AI-Tools",
+        "main_image": "https://www.unite.ai/wp-content/uploads/2026/07/tesla-profit-falls-autonomy-bet-cash-burn.png",
+        "article_images": [
+          {
+            "url": "https://www.unite.ai/wp-content/uploads/2026/07/tesla-profit-falls-autonomy-bet-cash-burn.png",
+            "alt": "Tesla Profit Falls as Autonomy Bet Triggers Cash Burn",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.unite.ai/wp-content/uploads/2026/07/elite-robots-pitches-cobots-generalist-ai-gen1-400x240.png",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.unite.ai/wp-content/uploads/2026/07/cuspai-raises-450m-to-launch-ai-materials-coalition-400x240.png",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.unite.ai/wp-content/uploads/2026/02/Untitled-design-3-1-400x240.png",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Tesla spent its way to record revenue and a shrinking profit in the second quarter of 2026, as the money behind Elon Musk's pivot from carmaker to robotics-and-autonomy company pushed it into its first cash burn in more...",
+        "content_preview": "Tesla ( TSLA ) spent its way to record revenue and a shrinking profit in the second quarter of 2026, as the money behind Elon Musk’s pivot from carmaker to robotics-and-autonomy company pushed it into its first cash burn in more than two years. The company reported operating income of $398 million for the quarter, down 57% from a year earlier, cutting its operating margin to 1.4% from 4.1%. Revenue rose 26% to a record $28.2 billion, helped by 480,126 vehicle deliveries , also a second-quarter record. What the top line hides is that the capital funding Tesla’s move into robotaxis, humanoid robots and its own chips is now visibly outrunning what the car business earns. The cost of the pivot Capital expenditure more than doubled from a year earlier to $5.79 billion, a 142% jump, financing an autonomy build-out that spans self-driving software, the purpose-built Cybercab, the Optimus humanoid robot, and a set of chip and compute projects. That spending drove free cash flow to negative $1.1 billion, the first quarterly cash burn since early 2024, and trimmed Tesla’s cash reserves by $1.2 billion to $43.5 billion. Musk lifted the 2026 capital-spending plan above $25 billion in April, close to triple the $8.5 billion Tesla spent in 2025. How healthy the profit looks depends on where you read it. GAAP net income of $1.1 billion slipped only 5%, but that figure was propped up by a $1 billion unrealized gain on Tesla’s stake in SpaceX. Strip that and other one-offs out, and adjusted net income fell 17% to $1.15 billion, well short of the roughly $1.95 billion analysts had expected , according to the Financial Times. Two pressures did most of the damage: revenue from selling regulatory credits to other automakers fell to $146 million from $439 million a year earlier, and automotive margins thinned as Tesla leaned on price cuts and low-rate financing to keep volume moving. Not everything is under strain. Energy storage deployments hit a second-quarter record of 13.5 gigawatt-hours, up more than 40%, and the services unit posted record gross profit, giving Tesla two smaller businesses that generate cash while the autonomy programs consume it. What the robotaxi map actually shows For a company valued largely on autonomy, the disclosure that matters most sits below the margin lines: the robotaxi coverage table. Tesla says its Robotaxi service now operates in seven metro areas after launching in Miami, Orlando and Tampa in July, alongside Austin, Dallas, Houston and the San Francisco Bay Area. How those services actually run is the part the count leaves out. By Tesla’s own accounting, the Bay Area service still operates with a safety driver behind the wheel, not driverless. The six Texas and Florida metros are labeled “ramping unsupervised,” and the two cities left from Tesla’s original 2026 target, Phoenix and Las Vegas, remain in “preparations.” Even the flagship Austin service, running for more than a year, still fields only about 20 vehicles, Electrek reported , a fleet that has barely grown. The software carries the same distance between name and capability. Tesla’s “Full Self-Driving” is labeled, in the company’s own materials, as FSD (Supervised): a driver-assistance system that needs a human ready to take over at any moment, not an autonomous one. Active FSD subscriptions grew 56% to 1.48 million, and the feature won its first European approvals during the quarter, starting in the Netherlands and extending to Lithuania, Estonia, Denmark and Belgium. But the edge cases that separate assisted driving from unsupervised driving are the hard part, and Tesla’s own labels still place every one of its markets short of it. Optimus, chips and what to watch The spending is buying capacity that is not yet product. Tesla has pulled the Model S and Model X lines out of its Fremont plant to install the first-generation lines for Optimus, its humanoid robot, with the earliest units set aside for internal training rather than sale. It began building Cybercabs at Gigafactory Texas and started giving employees autonomous rides on the campus, both steps ahead of any public robotaxi launch of the vehicle. And it is pushing money into compute and silicon: the Cortex 2 training cluster is online, and an in-house chip fab in Austin is in early construction. Whether that outlay becomes the high-margin autonomy revenue Tesla’s valuation assumes depends on execution the company has repeatedly delayed. The quarter sets the terms of the bet plainly: record cars, thinning margins and a cash outflow underwriting programs whose real-world footprint, measured against human-driven benchmarks, remains mostly supervised and mostly ramping. Investors sent the shares down more than 2% in after-hours trading. Elara Nix is an AI-generated analyst at Unite.AI , covering artificial intelligence in transportation, mobility systems, and autonomous technologies. Her work focuses on how AI is reshaping self-driving vehicles, aviation systems, rail networks, and public transit—where reliability, safety, and real-world deployment matter as much as innovation. With a technical and forward-looking perspective, Elara examines advances in perception systems, autonomy stacks, simulation, and safety validation across land, air, and urban mobility. She pays particular attention to how AI-driven automation is tested, regulated, and integrated into existing infrastructure, and how these systems balance efficiency gains with public trust and risk management. Articles authored by Elara Nix are AI-generated and reviewed by Unite.AI’s editorial team to ensure accuracy, clarity, and responsible coverage of AI’s evolving role in transportation and autonomous systems. Elite Robots Pitches Its Cobots for Generalist AI’s GEN-1 CuspAI Raises $450M to Launch AI Materials Coalition xAI Founder Exodus Hits 50% After Two Depart in 48 Hours Elon Musk’s DOGE Initiative: Can AI Decide Which Federal Jobs to Cut? Unpacking the Elon Musk vs. OpenAI Lawsuit Grok: AI Chatbot from Elon Musk’s xAI",
+        "content_preview_chars": 6024,
+        "rss_summary": "",
+        "full_article_text": "Tesla ( TSLA ) spent its way to record revenue and a shrinking profit in the second quarter of 2026, as the money behind Elon Musk’s pivot from carmaker to robotics-and-autonomy company pushed it into its first cash burn in more than two years. The company reported operating income of $398 million for the quarter, down 57% from a year earlier, cutting its operating margin to 1.4% from 4.1%. Revenue rose 26% to a record $28.2 billion, helped by 480,126 vehicle deliveries , also a second-quarter record. What the top line hides is that the capital funding Tesla’s move into robotaxis, humanoid robots and its own chips is now visibly outrunning what the car business earns. The cost of the pivot Capital expenditure more than doubled from a year earlier to $5.79 billion, a 142% jump, financing an autonomy build-out that spans self-driving software, the purpose-built Cybercab, the Optimus humanoid robot, and a set of chip and compute projects. That spending drove free cash flow to negative $1.1 billion, the first quarterly cash burn since early 2024, and trimmed Tesla’s cash reserves by $1.2 billion to $43.5 billion. Musk lifted the 2026 capital-spending plan above $25 billion in April, close to triple the $8.5 billion Tesla spent in 2025. How healthy the profit looks depends on where you read it. GAAP net income of $1.1 billion slipped only 5%, but that figure was propped up by a $1 billion unrealized gain on Tesla’s stake in SpaceX. Strip that and other one-offs out, and adjusted net income fell 17% to $1.15 billion, well short of the roughly $1.95 billion analysts had expected , according to the Financial Times. Two pressures did most of the damage: revenue from selling regulatory credits to other automakers fell to $146 million from $439 million a year earlier, and automotive margins thinned as Tesla leaned on price cuts and low-rate financing to keep volume moving. Not everything is under strain. Energy storage deployments hit a second-quarter record of 13.5 gigawatt-hours, up more than 40%, and the services unit posted record gross profit, giving Tesla two smaller businesses that generate cash while the autonomy programs consume it. What the robotaxi map actually shows For a company valued largely on autonomy, the disclosure that matters most sits below the margin lines: the robotaxi coverage table. Tesla says its Robotaxi service now operates in seven metro areas after launching in Miami, Orlando and Tampa in July, alongside Austin, Dallas, Houston and the San Francisco Bay Area. How those services actually run is the part the count leaves out. By Tesla’s own accounting, the Bay Area service still operates with a safety driver behind the wheel, not driverless. The six Texas and Florida metros are labeled “ramping unsupervised,” and the two cities left from Tesla’s original 2026 target, Phoenix and Las Vegas, remain in “preparations.” Even the flagship Austin service, running for more than a year, still fields only about 20 vehicles, Electrek reported , a fleet that has barely grown. The software carries the same distance between name and capability. Tesla’s “Full Self-Driving” is labeled, in the company’s own materials, as FSD (Supervised): a driver-assistance system that needs a human ready to take over at any moment, not an autonomous one. Active FSD subscriptions grew 56% to 1.48 million, and the feature won its first European approvals during the quarter, starting in the Netherlands and extending to Lithuania, Estonia, Denmark and Belgium. But the edge cases that separate assisted driving from unsupervised driving are the hard part, and Tesla’s own labels still place every one of its markets short of it. Optimus, chips and what to watch The spending is buying capacity that is not yet product. Tesla has pulled the Model S and Model X lines out of its Fremont plant to install the first-generation lines for Optimus, its humanoid robot, with the earliest units set aside for internal training rather than sale. It began building Cybercabs at Gigafactory Texas and started giving employees autonomous rides on the campus, both steps ahead of any public robotaxi launch of the vehicle. And it is pushing money into compute and silicon: the Cortex 2 training cluster is online, and an in-house chip fab in Austin is in early construction. Whether that outlay becomes the high-margin autonomy revenue Tesla’s valuation assumes depends on execution the company has repeatedly delayed. The quarter sets the terms of the bet plainly: record cars, thinning margins and a cash outflow underwriting programs whose real-world footprint, measured against human-driven benchmarks, remains mostly supervised and mostly ramping. Investors sent the shares down more than 2% in after-hours trading. Elara Nix is an AI-generated analyst at Unite.AI , covering artificial intelligence in transportation, mobility systems, and autonomous technologies. Her work focuses on how AI is reshaping self-driving vehicles, aviation systems, rail networks, and public transit—where reliability, safety, and real-world deployment matter as much as innovation. With a technical and forward-looking perspective, Elara examines advances in perception systems, autonomy stacks, simulation, and safety validation across land, air, and urban mobility. She pays particular attention to how AI-driven automation is tested, regulated, and integrated into existing infrastructure, and how these systems balance efficiency gains with public trust and risk management. Articles authored by Elara Nix are AI-generated and reviewed by Unite.AI’s editorial team to ensure accuracy, clarity, and responsible coverage of AI’s evolving role in transportation and autonomous systems. Elite Robots Pitches Its Cobots for Generalist AI’s GEN-1 CuspAI Raises $450M to Launch AI Materials Coalition xAI Founder Exodus Hits 50% After Two Depart in 48 Hours Elon Musk’s DOGE Initiative: Can AI Decide Which Federal Jobs to Cut? Unpacking the Elon Musk vs. OpenAI Lawsuit Grok: AI Chatbot from Elon Musk’s xAI",
+        "full_article_text_chars": 6024,
+        "enrichment_status": "strong",
+        "source_url": "https://www.unite.ai",
+        "source_published_at": "2026-07-22T21:13:01Z",
+        "published_at_source": "meta:article:published_time",
+        "article_age_hours": 2.42,
+        "trusted_references": [
+          {
+            "title": "Add Unite.AI to your preferred sources on Google",
+            "url": "https://www.google.com/preferences/source?q=unite.ai"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_provider_last_error": "ai_time_budget_exceeded",
+      "ai_status": "failed",
+      "ai_error": "ai_time_budget_exceeded",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": true,
+      "ai_total_time_seconds": 180.7,
+      "ai_quality_status": "time_budget_exceeded",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-23T09:52:54Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "ai_time_budget_exceeded",
+      "candidate_failed_at": "2026-07-23T09:37:54",
+      "candidate_failure_count": 1
     },
     {
       "id": "281b1f16b37372b7",
@@ -26514,12 +26583,12 @@
       "category_label": "AI-Tools",
       "category_hint": "AI-Tools",
       "discovered_at": "2026-07-22T23:38:06",
-      "status": "ready",
+      "status": "published",
       "score": 3,
       "priority": "low",
       "source_links_removed_count": 54,
       "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 54,
+      "removed_source_links_count": 0,
       "enrichment_fallback_used": "main_tag",
       "fetched_title": "DataGallery Builds Data Foundation for Enterprise AI Agents",
       "meta_description": "DataGallery helps business and tech leaders unlock the value of enterprise data for AI, while preserving governance, traceability and operational control",
@@ -26556,7 +26625,95 @@
       "content_preview_chars": 6235,
       "content_fetched_at": "2026-07-22T23:38:57",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-23T09:37:54",
+      "suggested_category": "AI-Tools",
+      "selection_reason": "category rotation newest fresh article: AI-Tools",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-23T09:37:55",
+      "ai_input_package": {
+        "title": "DataGallery Builds Data Foundation for Enterprise AI Agents",
+        "url": "https://aimagazine.com/news/datagallery-builds-data-foundation-for-enterprise-ai-agents",
+        "source_name": "AI Magazine",
+        "suggested_category": "AI-Tools",
+        "main_image": "https://assets.bizclikmedia.net/1200/3faf74b12c55fae5c121d679fce97801:3bf8aca5b5a8e2ba50878d103867717b/2a8f2531f69790e0f5b7b579267cfa71.png.jpg",
+        "article_images": [
+          {
+            "url": "https://assets.bizclikmedia.net/1200/3faf74b12c55fae5c121d679fce97801:3bf8aca5b5a8e2ba50878d103867717b/2a8f2531f69790e0f5b7b579267cfa71.png.jpg",
+            "alt": "DataGallery Builds Data Foundation for Enterprise AI Agents",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://assets.bizclikmedia.net/138/797a3a0f62b09ca70294231ca19773ef:61a204365525aeaeff562d03a0d14017/2a8f2531f69790e0f5b7b579267cfa71.webp",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "DataGallery helps business and tech leaders unlock the value of enterprise data for AI, while preserving governance, traceability and operational control",
+        "content_preview": "DataGallery is an open-source data-agent platform for enterprises that need AI systems to work with real business data – not just demonstrations. As organisations move AI from pilots into production, data assets, business semantics, domain knowledge and execution tools often remain scattered across systems, with inconsistent quality and limited context. DataGallery brings these elements together in a governed foundation, enabling agents to retrieve information, reason over data, call tools and evaluate results within enterprise data environments. For business and technology leaders, the goal is straightforward: make enterprise data usable by AI while maintaining governance, traceability and operational control. DataGallery’s enterprise focus is reflected in both benchmark performance and production deployments. In June, DataGallery-Text2SQL achieved 77.53% execution accuracy on the BIRD benchmark, which evaluates Text-to-SQL performance across complex, real-world databases. It ranked fourth on the public leaderboard and first among open-source solutions. At a leading bank, DataGallery provides natural-language data access and agent-assisted analytics to approximately 20,000 data analysts and 200,000 management and marketing users. The deployment illustrates how governed enterprise data, business semantics and domain knowledge can be turned into practical AI-assisted workflows. Enterprise agents need more than a capable model. They must identify the correct data source, interpret business metrics, respect permission boundaries and provide traceable evidence. DataGallery addresses these as system-level requirements, bringing together data assets, tool execution, business semantics, knowledge and evaluation across the data-agent lifecycle. Its architecture centres on three capabilities: DataAgent translates user intent into controlled execution across tools and data systems. The Unified Semantic Engine provides a governed map of enterprise data, including business definitions, relationships and permissions. KnowEdge turns long-form documents and expert knowledge into structured, retrievable assets for AI systems. Together, these components provide a foundation for enterprise AI applications across analytics, knowledge work, research and industry-specific workflows. DataAgent turns business context into action DataAgent is DataGallery’s orchestration layer for enterprise data work. It translates user intent into a controlled sequence of tasks, including source selection, metric interpretation, tool execution, result validation and output generation. This allows agents to handle multi-step workflows rather than isolated questions. DataAgent supports data analysis, feature engineering and knowledge-based construction while operating within defined permission, cost and safety controls. DataAgent therefore functions as an execution layer for repeatable data work, with DataGallery providing the context, guardrails and evaluation required for production use. Unified Semantic Engine gives agents trusted data context The Unified Semantic Engine connects structured, semi-structured and unstructured data from heterogeneous sources and organises it into a governed semantic layer. This includes tables, columns, relationships, metric definitions, entities, business terms and permissions. Instead of giving agents direct access to a complex data warehouse, it provides a business-aligned map of how the organisation understands its data. This is particularly important in large environments, where a model cannot inspect every table or column for each query. Business questions about revenue, conversion, active users, risk or churn rarely correspond to a single database field. The engine makes these definitions explicit and uses schema linking to identify the most relevant tables, columns and relationships. This narrows the search space and improves the reliability of natural-language data access at scale. KnowEdge makes enterprise knowledge usable by AI KnowEdge converts long-form documents into structured, citation-ready knowledge assets. It processes financial reports, research papers, policy documents and internal materials into document trees containing hierarchy, page anchors, section context, summaries and retrieval-optimised chunks. Agents can search across complex documents, assemble evidence, cite sources and reason over domain-specific material with reduced manual review. The practical impact includes less repetitive document review, improved traceability of AI-generated answers and reuse of institutional knowledge that would otherwise remain locked in files and expert workflows. Combined with DataAgent and the Unified Semantic Engine, KnowEdge extends DataGallery’s scope beyond Text-to-SQL and document Q&A. How DataGallery performs in enterprise scenarios DataGallery’s BIRD performance is supported by a pipeline covering metadata preparation, schema linking, multi-path SQL generation, execution verification and confidence-based selection. Its schema-linking component achieved 99.1% micro recall and a 95% success rate on the evaluated set. The same approach has been applied in an enterprise data environment containing more than 3,000 tables, where DataGallery was used to build a semantic layer and support complex SQL execution across a large schema. The deployment shows that reliable natural-language access depends not only on model performance, but also on governed and accessible business semantics. DataGallery also supports document-heavy knowledge work. Under the project’s evaluation protocol, KnowEdge achieved 97.33% accuracy on the public 150-question FinanceBench sample. In AI-for-Science applications, the platform has been used to screen, process and analyse approximately 80 million scientific papers. Across these scenarios, DataGallery provides agents with a governed view of databases, documents and business workflows. Its role is to help enterprises move AI from isolated pilots into daily data work while maintaining control over accuracy, cost and accountability. To learn more about DataGallery and explore its open-source projects, visit: GitCode: https://gitcode.com/datagallery | GitHub: https://github.com/datagallery-ai",
+        "content_preview_chars": 6235,
+        "rss_summary": "",
+        "full_article_text": "DataGallery is an open-source data-agent platform for enterprises that need AI systems to work with real business data – not just demonstrations. As organisations move AI from pilots into production, data assets, business semantics, domain knowledge and execution tools often remain scattered across systems, with inconsistent quality and limited context. DataGallery brings these elements together in a governed foundation, enabling agents to retrieve information, reason over data, call tools and evaluate results within enterprise data environments. For business and technology leaders, the goal is straightforward: make enterprise data usable by AI while maintaining governance, traceability and operational control. DataGallery’s enterprise focus is reflected in both benchmark performance and production deployments. In June, DataGallery-Text2SQL achieved 77.53% execution accuracy on the BIRD benchmark, which evaluates Text-to-SQL performance across complex, real-world databases. It ranked fourth on the public leaderboard and first among open-source solutions. At a leading bank, DataGallery provides natural-language data access and agent-assisted analytics to approximately 20,000 data analysts and 200,000 management and marketing users. The deployment illustrates how governed enterprise data, business semantics and domain knowledge can be turned into practical AI-assisted workflows. Enterprise agents need more than a capable model. They must identify the correct data source, interpret business metrics, respect permission boundaries and provide traceable evidence. DataGallery addresses these as system-level requirements, bringing together data assets, tool execution, business semantics, knowledge and evaluation across the data-agent lifecycle. Its architecture centres on three capabilities: DataAgent translates user intent into controlled execution across tools and data systems. The Unified Semantic Engine provides a governed map of enterprise data, including business definitions, relationships and permissions. KnowEdge turns long-form documents and expert knowledge into structured, retrievable assets for AI systems. Together, these components provide a foundation for enterprise AI applications across analytics, knowledge work, research and industry-specific workflows. DataAgent turns business context into action DataAgent is DataGallery’s orchestration layer for enterprise data work. It translates user intent into a controlled sequence of tasks, including source selection, metric interpretation, tool execution, result validation and output generation. This allows agents to handle multi-step workflows rather than isolated questions. DataAgent supports data analysis, feature engineering and knowledge-based construction while operating within defined permission, cost and safety controls. DataAgent therefore functions as an execution layer for repeatable data work, with DataGallery providing the context, guardrails and evaluation required for production use. Unified Semantic Engine gives agents trusted data context The Unified Semantic Engine connects structured, semi-structured and unstructured data from heterogeneous sources and organises it into a governed semantic layer. This includes tables, columns, relationships, metric definitions, entities, business terms and permissions. Instead of giving agents direct access to a complex data warehouse, it provides a business-aligned map of how the organisation understands its data. This is particularly important in large environments, where a model cannot inspect every table or column for each query. Business questions about revenue, conversion, active users, risk or churn rarely correspond to a single database field. The engine makes these definitions explicit and uses schema linking to identify the most relevant tables, columns and relationships. This narrows the search space and improves the reliability of natural-language data access at scale. KnowEdge makes enterprise knowledge usable by AI KnowEdge converts long-form documents into structured, citation-ready knowledge assets. It processes financial reports, research papers, policy documents and internal materials into document trees containing hierarchy, page anchors, section context, summaries and retrieval-optimised chunks. Agents can search across complex documents, assemble evidence, cite sources and reason over domain-specific material with reduced manual review. The practical impact includes less repetitive document review, improved traceability of AI-generated answers and reuse of institutional knowledge that would otherwise remain locked in files and expert workflows. Combined with DataAgent and the Unified Semantic Engine, KnowEdge extends DataGallery’s scope beyond Text-to-SQL and document Q&A. How DataGallery performs in enterprise scenarios DataGallery’s BIRD performance is supported by a pipeline covering metadata preparation, schema linking, multi-path SQL generation, execution verification and confidence-based selection. Its schema-linking component achieved 99.1% micro recall and a 95% success rate on the evaluated set. The same approach has been applied in an enterprise data environment containing more than 3,000 tables, where DataGallery was used to build a semantic layer and support complex SQL execution across a large schema. The deployment shows that reliable natural-language access depends not only on model performance, but also on governed and accessible business semantics. DataGallery also supports document-heavy knowledge work. Under the project’s evaluation protocol, KnowEdge achieved 97.33% accuracy on the public 150-question FinanceBench sample. In AI-for-Science applications, the platform has been used to screen, process and analyse approximately 80 million scientific papers. Across these scenarios, DataGallery provides agents with a governed view of databases, documents and business workflows. Its role is to help enterprises move AI from isolated pilots into daily data work while maintaining control over accuracy, cost and accountability. To learn more about DataGallery and explore its open-source projects, visit: GitCode: https://gitcode.com/datagallery | GitHub: https://github.com/datagallery-ai",
+        "full_article_text_chars": 6235,
+        "enrichment_status": "strong",
+        "source_url": "https://aimagazine.com",
+        "source_published_at": "2026-07-22T15:52:42Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 7.76,
+        "trusted_references": [
+          {
+            "title": "https://github.com/datagallery-ai",
+            "url": "https://github.com/datagallery-ai"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content",
+      "ai_status": "completed",
+      "ai_processed_at": "2026-07-23T09:39:10",
+      "seo_title": "\"DataGallery\" يؤسس قاعدة بيانات متينة لوكلاء الذكاء الاصطناعي في",
+      "seo_description": "تكتشف كيف تُمكن منصة DataGallery مفتوحة المصدر وكلاء الذكاء الاصطناعي من العمل بفعالية مع بيانات الأعمال الحقيقية للمؤسسات، مع ضمان الحوكمة والتتبع والتحكم التشغيلي.",
+      "seo_slug": "datagallery-yuasis-qaedat-bayanaat-matinah-liwukala-al",
+      "final_html": "<div class=\"separator\" style=\"clear: both; text-align: center;\">\n<a class=\"extL\" href=\"https://assets.bizclikmedia.net/1200/3faf74b12c55fae5c121d679fce97801:3bf8aca5b5a8e2ba50878d103867717b/2a8f2531f69790e0f5b7b579267cfa71.png.jpg\" rel=\"nofollow noreferrer noopener\" style=\"margin-left: 1em; margin-right: 1em;\" target=\"_blank\">\n</a>\n</div>\n<h1>\"DataGallery\" يؤسس قاعدة بيانات متينة لوكلاء الذكاء الاصطناعي في المؤسسات</h1>\n<p class=\"pIndent\"><span class=\"dropCap\">ف</span>ي عصر يتسارع فيه تبني الذكاء الاصطناعي بوتيرة غير مسبوقة، تواجه المؤسسات تحديًا جوهريًا: كيفية دمج أنظمة الذكاء الاصطناعي مع بيانات الأعمال الحقيقية والمعقدة، وليس مجرد استخدامها للعروض التوضيحية. غالبًا ما تظل أصول البيانات، والدلالات التجارية، والمعرفة المتخصصة، وأدوات التنفيذ متناثرة عبر أنظمة متعددة، مع جودة غير متسقة وسياق محدود. هنا يأتي دور <strong>DataGallery</strong>، المنصة مفتوحة المصدر لوكلاء البيانات، لتقديم حل شامل يضع أساسًا متينًا ومرنًا لوكلاء الذكاء الاصطناعي في البيئات المؤسسية.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"DataGallery Builds Data Foundation for Enterprise AI Agents\" class=\"full\" loading=\"lazy\" src=\"https://assets.bizclikmedia.net/1200/3faf74b12c55fae5c121d679fce97801:3bf8aca5b5a8e2ba50878d103867717b/2a8f2531f69790e0f5b7b579267cfa71.png.jpg\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">DataGallery Builds Data Foundation for Enterprise AI Agents</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">DataGallery Builds Data Foundation for Enterprise AI Agents</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">تُعد DataGallery بمثابة الجسر الذي يربط بين قدرات نماذج الذكاء الاصطناعي المتقدمة وواقع البيانات التنظيمية المتشعبة. بينما تنتقل المؤسسات من المشاريع التجريبية للذكاء الاصطناعي إلى مرحلة الإنتاج الفعلي، تبرز الحاجة المُلحة إلى منصة يمكنها توحيد هذه العناصر المتباينة في بنية تحتية مُحكَمة. تُمكّن DataGallery الوكلاء من استرداد المعلومات، والتحليل المنطقي للبيانات، واستدعاء الأدوات، وتقييم النتائج بدقة ضمن بيئات بيانات المؤسسة، مع الحفاظ على الحوكمة الشاملة وإمكانية التتبع والتحكم التشغيلي.</p>\n<h2>ما هي DataGallery وكيف تعمل؟</h2>\n<p class=\"pIndent\">تركز DataGallery على تلبية احتياجات الشركات التي تتطلب أنظمة ذكاء اصطناعي قادرة على العمل بفعالية مع بيانات الأعمال الفعلية. هدفها واضح ومباشر: جعل بيانات المؤسسة قابلة للاستخدام بواسطة الذكاء الاصطناعي مع ضمان الحوكمة، وإمكانية التتبع، والتحكم التشغيلي. ينعكس هذا التركيز المؤسسي في أدائها المميز على المقاييس المعيارية وفي عمليات النشر الفعلية في بيئات الإنتاج.</p>\n<h3>الأداء والنجاح في العالم الحقيقي</h3>\n<p class=\"pIndent\">في شهر يونيو، حقق نظام DataGallery-Text2SQL دقة تنفيذ بلغت 77.53% على مقياس BIRD المعياري، والذي يقيّم أداء تحويل النص إلى SQL عبر قواعد بيانات معقدة وحقيقية. احتلت المنصة المركز الرابع في لوحة الصدارة العامة والأولى بين الحلول مفتوحة المصدر. هذا الإنجاز لا يبرهن فقط على الكفاءة التقنية لـ DataGallery، بل يؤكد أيضًا قدرتها على التعامل مع تحديات البيانات الواقعية.</p>\n<p class=\"pIndent\">في أحد البنوك الرائدة، تُستخدم DataGallery لتوفير الوصول إلى البيانات باللغة الطبيعية والتحليلات بمساعدة الوكيل لحوالي 20,000 محلل بيانات و200,000 مستخدم من الإدارة والتسويق. يُجسد هذا النشر الضخم كيف يمكن تحويل بيانات المؤسسة المُحكَمة، والدلالات التجارية، والمعرفة المتخصصة إلى مسارات عمل عملية مدعومة بالذكاء الاصطناعي، مما يُحدث ثورة في طريقة تفاعل المستخدمين مع البيانات.</p>\n<h2>بنية DataGallery الأساسية: ثلاث قدرات محورية</h2>\n<p class=\"pIndent\">يتطلب وكلاء الذكاء الاصطناعي المؤسسيون أكثر من مجرد نموذج قوي؛ فهم بحاجة إلى تحديد مصدر البيانات الصحيح، وتفسير مقاييس الأعمال، واحترام حدود الأذونات، وتقديم أدلة قابلة للتتبع. تعالج DataGallery هذه المتطلبات على مستوى النظام، وتجمع بين أصول البيانات، وتنفيذ الأدوات، والدلالات التجارية، والمعرفة، والتقييم عبر دورة حياة وكيل البيانات. تتمحور بنيتها حول ثلاث قدرات أساسية:</p>\n<ol>\n<li><strong>DataAgent:</strong> تحويل النوايا إلى أفعال قابلة للتحكم</li>\n<li><strong>Unified Semantic Engine:</strong> توفير سياق بيانات موثوق به</li>\n<li><strong>KnowEdge:</strong> جعل المعرفة المؤسسية قابلة للاستخدام بواسطة الذكاء الاصطناعي</li>\n</ol>\n<h3>1. DataAgent: محرك التنسيق لأعمال البيانات المؤسسية</h3>\n<p class=\"pIndent\">يُعد DataAgent طبقة التنسيق في DataGallery لأعمال البيانات المؤسسية. فهو يترجم نية المستخدم إلى سلسلة مُحكَمة من المهام، بما في ذلك اختيار المصدر، وتفسير المقاييس، وتنفيذ الأدوات، والتحقق من النتائج، وتوليد المخرجات. يُتيح هذا للوكلاء التعامل مع مسارات عمل متعددة الخطوات بدلاً من مجرد الإجابة على أسئلة معزولة. يدعم DataAgent تحليل البيانات، وهندسة الميزات، وبناء المعرفة، كل ذلك ضمن ضوابط محددة للأذونات والتكلفة والسلامة.</p>\n<p class=\"pIndent\">يعمل DataAgent كطبقة تنفيذ لأعمال البيانات المتكررة، حيث توفر DataGallery السياق والحواجز والتقييم المطلوب للاستخدام في الإنتاج. وهذا يضمن أن وكلاء الذكاء الاصطناعي لا يقومون فقط بمهامهم بكفاءة، بل أيضًا بمسؤولية ووفقًا لسياسات المؤسسة.</p>\n<h3>2. Unified Semantic Engine: سياق بيانات موثوق لوكلاء الذكاء الاصطناعي</h3>\n<p class=\"pIndent\">يربط Unified Semantic Engine البيانات المنظمة وشبه المنظمة وغير المنظمة من مصادر متباينة، وينظمها في طبقة دلالية مُحكَمة. تتضمن هذه الطبقة الجداول، والأعمدة، والعلاقات، وتعريفات المقاييس، والكيانات، والمصطلحات التجارية، والأذونات. بدلاً من منح الوكلاء وصولاً مباشرًا إلى مستودع بيانات معقد، فإنه يوفر خريطة متوافقة مع الأعمال لكيفية فهم المؤسسة لبياناتها. هذا أمر حيوي بشكل خاص في البيئات الكبيرة، حيث لا يمكن للنموذج فحص كل جدول أو عمود لكل استعلام.</p>\n<p class=\"pIndent\">نادراً ما تتوافق أسئلة العمل حول الإيرادات، أو التحويل، أو المستخدمين النشطين، أو المخاطر، أو معدل التوقف عن العمل مع حقل قاعدة بيانات واحد. يقوم المحرك بجعل هذه التعريفات واضحة ويستخدم ربط المخطط (schema linking) لتحديد الجداول والأعمدة والعلاقات الأكثر صلة. وهذا يضيّق نطاق البحث ويحسن موثوقية الوصول إلى البيانات باللغة الطبيعية على نطاق واسع، مما يمكّن المستخدمين من الحصول على إجابات دقيقة بسرعة أكبر.</p>\n<h3>3. KnowEdge: تحويل المعرفة المؤسسية إلى أصول قابلة للاستخدام</h3>\n<p class=\"pIndent\">يحول KnowEdge المستندات الطويلة إلى أصول معرفية منظمة وجاهزة للاستشهاد. يقوم بمعالجة التقارير المالية، والأوراق البحثية، ووثائق السياسات، والمواد الداخلية إلى أشجار مستندات تحتوي على التسلسل الهرمي، ومثبتات الصفحات، وسياق الأقسام، والملخصات، ومقاطع محسّنة للاسترجاع. يمكن للوكلاء البحث عبر المستندات المعقدة، وجمع الأدلة، والاستشهاد بالمصادر، والتحليل المنطقي للمواد الخاصة بالمجال بتقليل المراجعة اليدوية.</p>\n<p class=\"pIndent\">يشمل التأثير العملي لـ KnowEdge تقليل مراجعة المستندات المتكررة، وتحسين إمكانية تتبع الإجابات التي يولدها الذكاء الاصطناعي، وإعادة استخدام المعرفة المؤسسية التي قد تظل محتجزة في الملفات ومسارات عمل الخبراء. بالاشتراك مع DataAgent و Unified Semantic Engine، يوسع KnowEdge نطاق DataGallery إلى ما هو أبعد من تحويل النص إلى SQL وأسئلة وأجوبة المستندات، مما يوفر منصة شاملة لإدارة المعرفة بواسطة الذكاء الاصطناعي.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">بالنسبة لقادة الأعمال والتقنية، تُقدم DataGallery فرصة استثنائية لتحويل كيفية تفاعل مؤسساتهم مع البيانات والذكاء الاصطناعي. إنها ليست مجرد أداة أخرى، بل هي أساس استراتيجي يُمكنهم من:</p>\n<ul>\n<li><strong>إطلاق قيمة بيانات المؤسسة:</strong> تحويل البيانات المُشتتة وغير المُستغلة إلى أصول قيّمة يمكن لوكلاء الذكاء الاصطناعي استخدامها لتقديم رؤى دقيقة وقابلة للتنفيذ.</li>\n<li><strong>تعزيز اتخاذ القرار:</strong> تمكين محللي البيانات والمديرين من الوصول إلى المعلومات المعقدة من خلال استعلامات اللغة الطبيعية، مما يسرّع عملية اتخاذ القرار ويزيد من كفاءتها.</li>\n<li><strong>ضمان الحوكمة والامتثال:</strong> الحفاظ على التحكم الكامل في بيانات المؤسسة، وضمان التتبع، والالتزام بحدود الأذونات والسياسات التنظيمية، وهو أمر بالغ الأهمية في الصناعات المنظمة.</li>\n<li><strong>تسريع تبني الذكاء الاصطناعي في الإنتاج:</strong> تجاوز مرحلة المشاريع التجريبية ونشر حلول الذكاء الاصطناعي على نطاق واسع في بيئات الإنتاج، مع الثقة في دقة البيانات وموثوقية النظام.</li>\n<li><strong>تحسين الكفاءة التشغيلية:</strong> تقليل المهام اليدوية المتكررة في مراجعة المستندات وتحليل البيانات، مما يحرر الموارد البشرية للتركيز على المهام الاستراتيجية والإبداعية.</li>\n</ul>\n<p class=\"pIndent\">باختصار، تُمكن DataGallery المؤسسات من دمج الذكاء الاصطناعي بسلاسة وفعالية في عملياتها اليومية، مع الحفاظ على الأمان والتحكم، وفتح آفاق جديدة للابتكار والنمو.</p>\n<h2>أداء DataGallery في سيناريوهات المؤسسات</h2>\n<p class=\"pIndent\">يُدعم أداء DataGallery المميز على مقياس BIRD من خلال مسار عمل يغطي إعداد البيانات الوصفية، وربط المخطط، وتوليد استعلامات SQL متعددة المسارات، والتحقق من التنفيذ، والاختيار القائم على الثقة. حقق مكون ربط المخطط الخاص بها 99.1% استدعاء دقيقًا (micro recall) ومعدل نجاح 95% على المجموعة المُقيمة. وقد تم تطبيق نفس النهج في بيئة بيانات مؤسسية تحتوي على أكثر من 3,000 جدول، حيث استخدمت DataGallery لبناء طبقة دلالية ودعم تنفيذ SQL المعقد عبر مخطط كبير. يُظهر هذا النشر أن الوصول الموثوق به للغة الطبيعية لا يعتمد فقط على أداء النموذج، بل أيضًا على دلالات الأعمال المُحكَمة والمتاحة.</p>\n<p class=\"pIndent\">تدعم DataGallery أيضًا أعمال المعرفة الكثيفة بالمستندات. بموجب بروتوكول تقييم المشروع، حقق KnowEdge دقة بلغت 97.33% على عينة FinanceBench العامة المكونة من 150 سؤالًا. وفي تطبيقات الذكاء الاصطناعي للعلوم، استُخدمت المنصة لفحص ومعالجة وتحليل ما يقرب من 80 مليون ورقة علمية. عبر هذه السيناريوهات، توفر DataGallery للوكلاء رؤية مُحكَمة لقواعد البيانات والمستندات ومسارات عمل الأعمال. يتمثل دورها في مساعدة الشركات على نقل الذكاء الاصطناعي من المشاريع التجريبية المعزولة إلى أعمال البيانات اليومية مع الحفاظ على التحكم في الدقة والتكلفة والمساءلة.</p>\n<h2>الخاتمة</h2>\n<p class=\"pIndent\">تُعد DataGallery لاعبًا محوريًا في المشهد المتطور للذكاء الاصطناعي المؤسسي، حيث توفر حلاً شاملاً لمعالجة التحديات المعقدة لدمج وكلاء الذكاء الاصطناعي مع البيانات الحقيقية. من خلال بنيتها المكونة من DataAgent وUnified Semantic Engine وKnowEdge، تُمكّن DataGallery المؤسسات من إطلاق العنان للإمكانات الكاملة لبياناتها، مما يضمن أن يكون الذكاء الاصطناعي ليس مجرد أداة مبتكرة، بل جزءًا لا يتجزأ من العمليات التشغيلية اليومية، مدعومًا بالدقة والحوكمة والثقة. في عالم تُعد فيه البيانات هي النفط الجديد، تُقدم DataGallery المصفاة التي تحوله إلى طاقة قابلة للاستخدام والابتكار.</p>\n<p class=\"pIndent\">لتعلم المزيد عن DataGallery واستكشاف مشاريعها مفتوحة المصدر، قم بزيارة:</p>\n<ul>\n<li>GitCode: <a class=\"extL\" href=\"https://gitcode.com/datagallery\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">https://gitcode.com/datagallery</a></li>\n<li>GitHub: <a class=\"extL\" href=\"https://github.com/datagallery-ai\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">https://github.com/datagallery-ai</a></li>\n</ul>\n<p class=\"pRef\">المراجع:<br/><a class=\"extL\" href=\"https://github.com/datagallery-ai\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">https://github.com/datagallery-ai</a></p>",
+      "blogger_article_html": "<div class=\"separator\" style=\"clear: both; text-align: center;\">\n<a class=\"extL\" href=\"https://assets.bizclikmedia.net/1200/3faf74b12c55fae5c121d679fce97801:3bf8aca5b5a8e2ba50878d103867717b/2a8f2531f69790e0f5b7b579267cfa71.png.jpg\" rel=\"nofollow noreferrer noopener\" style=\"margin-left: 1em; margin-right: 1em;\" target=\"_blank\">\n</a>\n</div>\n<h1>\"DataGallery\" يؤسس قاعدة بيانات متينة لوكلاء الذكاء الاصطناعي في المؤسسات</h1>\n<p class=\"pIndent\"><span class=\"dropCap\">ف</span>ي عصر يتسارع فيه تبني الذكاء الاصطناعي بوتيرة غير مسبوقة، تواجه المؤسسات تحديًا جوهريًا: كيفية دمج أنظمة الذكاء الاصطناعي مع بيانات الأعمال الحقيقية والمعقدة، وليس مجرد استخدامها للعروض التوضيحية. غالبًا ما تظل أصول البيانات، والدلالات التجارية، والمعرفة المتخصصة، وأدوات التنفيذ متناثرة عبر أنظمة متعددة، مع جودة غير متسقة وسياق محدود. هنا يأتي دور <strong>DataGallery</strong>، المنصة مفتوحة المصدر لوكلاء البيانات، لتقديم حل شامل يضع أساسًا متينًا ومرنًا لوكلاء الذكاء الاصطناعي في البيئات المؤسسية.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"DataGallery Builds Data Foundation for Enterprise AI Agents\" class=\"full\" loading=\"lazy\" src=\"https://assets.bizclikmedia.net/1200/3faf74b12c55fae5c121d679fce97801:3bf8aca5b5a8e2ba50878d103867717b/2a8f2531f69790e0f5b7b579267cfa71.png.jpg\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">DataGallery Builds Data Foundation for Enterprise AI Agents</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">DataGallery Builds Data Foundation for Enterprise AI Agents</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">تُعد DataGallery بمثابة الجسر الذي يربط بين قدرات نماذج الذكاء الاصطناعي المتقدمة وواقع البيانات التنظيمية المتشعبة. بينما تنتقل المؤسسات من المشاريع التجريبية للذكاء الاصطناعي إلى مرحلة الإنتاج الفعلي، تبرز الحاجة المُلحة إلى منصة يمكنها توحيد هذه العناصر المتباينة في بنية تحتية مُحكَمة. تُمكّن DataGallery الوكلاء من استرداد المعلومات، والتحليل المنطقي للبيانات، واستدعاء الأدوات، وتقييم النتائج بدقة ضمن بيئات بيانات المؤسسة، مع الحفاظ على الحوكمة الشاملة وإمكانية التتبع والتحكم التشغيلي.</p>\n<h2>ما هي DataGallery وكيف تعمل؟</h2>\n<p class=\"pIndent\">تركز DataGallery على تلبية احتياجات الشركات التي تتطلب أنظمة ذكاء اصطناعي قادرة على العمل بفعالية مع بيانات الأعمال الفعلية. هدفها واضح ومباشر: جعل بيانات المؤسسة قابلة للاستخدام بواسطة الذكاء الاصطناعي مع ضمان الحوكمة، وإمكانية التتبع، والتحكم التشغيلي. ينعكس هذا التركيز المؤسسي في أدائها المميز على المقاييس المعيارية وفي عمليات النشر الفعلية في بيئات الإنتاج.</p>\n<h3>الأداء والنجاح في العالم الحقيقي</h3>\n<p class=\"pIndent\">في شهر يونيو، حقق نظام DataGallery-Text2SQL دقة تنفيذ بلغت 77.53% على مقياس BIRD المعياري، والذي يقيّم أداء تحويل النص إلى SQL عبر قواعد بيانات معقدة وحقيقية. احتلت المنصة المركز الرابع في لوحة الصدارة العامة والأولى بين الحلول مفتوحة المصدر. هذا الإنجاز لا يبرهن فقط على الكفاءة التقنية لـ DataGallery، بل يؤكد أيضًا قدرتها على التعامل مع تحديات البيانات الواقعية.</p>\n<p class=\"pIndent\">في أحد البنوك الرائدة، تُستخدم DataGallery لتوفير الوصول إلى البيانات باللغة الطبيعية والتحليلات بمساعدة الوكيل لحوالي 20,000 محلل بيانات و200,000 مستخدم من الإدارة والتسويق. يُجسد هذا النشر الضخم كيف يمكن تحويل بيانات المؤسسة المُحكَمة، والدلالات التجارية، والمعرفة المتخصصة إلى مسارات عمل عملية مدعومة بالذكاء الاصطناعي، مما يُحدث ثورة في طريقة تفاعل المستخدمين مع البيانات.</p>\n<h2>بنية DataGallery الأساسية: ثلاث قدرات محورية</h2>\n<p class=\"pIndent\">يتطلب وكلاء الذكاء الاصطناعي المؤسسيون أكثر من مجرد نموذج قوي؛ فهم بحاجة إلى تحديد مصدر البيانات الصحيح، وتفسير مقاييس الأعمال، واحترام حدود الأذونات، وتقديم أدلة قابلة للتتبع. تعالج DataGallery هذه المتطلبات على مستوى النظام، وتجمع بين أصول البيانات، وتنفيذ الأدوات، والدلالات التجارية، والمعرفة، والتقييم عبر دورة حياة وكيل البيانات. تتمحور بنيتها حول ثلاث قدرات أساسية:</p>\n<ol>\n<li><strong>DataAgent:</strong> تحويل النوايا إلى أفعال قابلة للتحكم</li>\n<li><strong>Unified Semantic Engine:</strong> توفير سياق بيانات موثوق به</li>\n<li><strong>KnowEdge:</strong> جعل المعرفة المؤسسية قابلة للاستخدام بواسطة الذكاء الاصطناعي</li>\n</ol>\n<h3>1. DataAgent: محرك التنسيق لأعمال البيانات المؤسسية</h3>\n<p class=\"pIndent\">يُعد DataAgent طبقة التنسيق في DataGallery لأعمال البيانات المؤسسية. فهو يترجم نية المستخدم إلى سلسلة مُحكَمة من المهام، بما في ذلك اختيار المصدر، وتفسير المقاييس، وتنفيذ الأدوات، والتحقق من النتائج، وتوليد المخرجات. يُتيح هذا للوكلاء التعامل مع مسارات عمل متعددة الخطوات بدلاً من مجرد الإجابة على أسئلة معزولة. يدعم DataAgent تحليل البيانات، وهندسة الميزات، وبناء المعرفة، كل ذلك ضمن ضوابط محددة للأذونات والتكلفة والسلامة.</p>\n<p class=\"pIndent\">يعمل DataAgent كطبقة تنفيذ لأعمال البيانات المتكررة، حيث توفر DataGallery السياق والحواجز والتقييم المطلوب للاستخدام في الإنتاج. وهذا يضمن أن وكلاء الذكاء الاصطناعي لا يقومون فقط بمهامهم بكفاءة، بل أيضًا بمسؤولية ووفقًا لسياسات المؤسسة.</p>\n<h3>2. Unified Semantic Engine: سياق بيانات موثوق لوكلاء الذكاء الاصطناعي</h3>\n<p class=\"pIndent\">يربط Unified Semantic Engine البيانات المنظمة وشبه المنظمة وغير المنظمة من مصادر متباينة، وينظمها في طبقة دلالية مُحكَمة. تتضمن هذه الطبقة الجداول، والأعمدة، والعلاقات، وتعريفات المقاييس، والكيانات، والمصطلحات التجارية، والأذونات. بدلاً من منح الوكلاء وصولاً مباشرًا إلى مستودع بيانات معقد، فإنه يوفر خريطة متوافقة مع الأعمال لكيفية فهم المؤسسة لبياناتها. هذا أمر حيوي بشكل خاص في البيئات الكبيرة، حيث لا يمكن للنموذج فحص كل جدول أو عمود لكل استعلام.</p>\n<p class=\"pIndent\">نادراً ما تتوافق أسئلة العمل حول الإيرادات، أو التحويل، أو المستخدمين النشطين، أو المخاطر، أو معدل التوقف عن العمل مع حقل قاعدة بيانات واحد. يقوم المحرك بجعل هذه التعريفات واضحة ويستخدم ربط المخطط (schema linking) لتحديد الجداول والأعمدة والعلاقات الأكثر صلة. وهذا يضيّق نطاق البحث ويحسن موثوقية الوصول إلى البيانات باللغة الطبيعية على نطاق واسع، مما يمكّن المستخدمين من الحصول على إجابات دقيقة بسرعة أكبر.</p>\n<h3>3. KnowEdge: تحويل المعرفة المؤسسية إلى أصول قابلة للاستخدام</h3>\n<p class=\"pIndent\">يحول KnowEdge المستندات الطويلة إلى أصول معرفية منظمة وجاهزة للاستشهاد. يقوم بمعالجة التقارير المالية، والأوراق البحثية، ووثائق السياسات، والمواد الداخلية إلى أشجار مستندات تحتوي على التسلسل الهرمي، ومثبتات الصفحات، وسياق الأقسام، والملخصات، ومقاطع محسّنة للاسترجاع. يمكن للوكلاء البحث عبر المستندات المعقدة، وجمع الأدلة، والاستشهاد بالمصادر، والتحليل المنطقي للمواد الخاصة بالمجال بتقليل المراجعة اليدوية.</p>\n<p class=\"pIndent\">يشمل التأثير العملي لـ KnowEdge تقليل مراجعة المستندات المتكررة، وتحسين إمكانية تتبع الإجابات التي يولدها الذكاء الاصطناعي، وإعادة استخدام المعرفة المؤسسية التي قد تظل محتجزة في الملفات ومسارات عمل الخبراء. بالاشتراك مع DataAgent و Unified Semantic Engine، يوسع KnowEdge نطاق DataGallery إلى ما هو أبعد من تحويل النص إلى SQL وأسئلة وأجوبة المستندات، مما يوفر منصة شاملة لإدارة المعرفة بواسطة الذكاء الاصطناعي.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">بالنسبة لقادة الأعمال والتقنية، تُقدم DataGallery فرصة استثنائية لتحويل كيفية تفاعل مؤسساتهم مع البيانات والذكاء الاصطناعي. إنها ليست مجرد أداة أخرى، بل هي أساس استراتيجي يُمكنهم من:</p>\n<ul>\n<li><strong>إطلاق قيمة بيانات المؤسسة:</strong> تحويل البيانات المُشتتة وغير المُستغلة إلى أصول قيّمة يمكن لوكلاء الذكاء الاصطناعي استخدامها لتقديم رؤى دقيقة وقابلة للتنفيذ.</li>\n<li><strong>تعزيز اتخاذ القرار:</strong> تمكين محللي البيانات والمديرين من الوصول إلى المعلومات المعقدة من خلال استعلامات اللغة الطبيعية، مما يسرّع عملية اتخاذ القرار ويزيد من كفاءتها.</li>\n<li><strong>ضمان الحوكمة والامتثال:</strong> الحفاظ على التحكم الكامل في بيانات المؤسسة، وضمان التتبع، والالتزام بحدود الأذونات والسياسات التنظيمية، وهو أمر بالغ الأهمية في الصناعات المنظمة.</li>\n<li><strong>تسريع تبني الذكاء الاصطناعي في الإنتاج:</strong> تجاوز مرحلة المشاريع التجريبية ونشر حلول الذكاء الاصطناعي على نطاق واسع في بيئات الإنتاج، مع الثقة في دقة البيانات وموثوقية النظام.</li>\n<li><strong>تحسين الكفاءة التشغيلية:</strong> تقليل المهام اليدوية المتكررة في مراجعة المستندات وتحليل البيانات، مما يحرر الموارد البشرية للتركيز على المهام الاستراتيجية والإبداعية.</li>\n</ul>\n<p class=\"pIndent\">باختصار، تُمكن DataGallery المؤسسات من دمج الذكاء الاصطناعي بسلاسة وفعالية في عملياتها اليومية، مع الحفاظ على الأمان والتحكم، وفتح آفاق جديدة للابتكار والنمو.</p>\n<h2>أداء DataGallery في سيناريوهات المؤسسات</h2>\n<p class=\"pIndent\">يُدعم أداء DataGallery المميز على مقياس BIRD من خلال مسار عمل يغطي إعداد البيانات الوصفية، وربط المخطط، وتوليد استعلامات SQL متعددة المسارات، والتحقق من التنفيذ، والاختيار القائم على الثقة. حقق مكون ربط المخطط الخاص بها 99.1% استدعاء دقيقًا (micro recall) ومعدل نجاح 95% على المجموعة المُقيمة. وقد تم تطبيق نفس النهج في بيئة بيانات مؤسسية تحتوي على أكثر من 3,000 جدول، حيث استخدمت DataGallery لبناء طبقة دلالية ودعم تنفيذ SQL المعقد عبر مخطط كبير. يُظهر هذا النشر أن الوصول الموثوق به للغة الطبيعية لا يعتمد فقط على أداء النموذج، بل أيضًا على دلالات الأعمال المُحكَمة والمتاحة.</p>\n<p class=\"pIndent\">تدعم DataGallery أيضًا أعمال المعرفة الكثيفة بالمستندات. بموجب بروتوكول تقييم المشروع، حقق KnowEdge دقة بلغت 97.33% على عينة FinanceBench العامة المكونة من 150 سؤالًا. وفي تطبيقات الذكاء الاصطناعي للعلوم، استُخدمت المنصة لفحص ومعالجة وتحليل ما يقرب من 80 مليون ورقة علمية. عبر هذه السيناريوهات، توفر DataGallery للوكلاء رؤية مُحكَمة لقواعد البيانات والمستندات ومسارات عمل الأعمال. يتمثل دورها في مساعدة الشركات على نقل الذكاء الاصطناعي من المشاريع التجريبية المعزولة إلى أعمال البيانات اليومية مع الحفاظ على التحكم في الدقة والتكلفة والمساءلة.</p>\n<h2>الخاتمة</h2>\n<p class=\"pIndent\">تُعد DataGallery لاعبًا محوريًا في المشهد المتطور للذكاء الاصطناعي المؤسسي، حيث توفر حلاً شاملاً لمعالجة التحديات المعقدة لدمج وكلاء الذكاء الاصطناعي مع البيانات الحقيقية. من خلال بنيتها المكونة من DataAgent وUnified Semantic Engine وKnowEdge، تُمكّن DataGallery المؤسسات من إطلاق العنان للإمكانات الكاملة لبياناتها، مما يضمن أن يكون الذكاء الاصطناعي ليس مجرد أداة مبتكرة، بل جزءًا لا يتجزأ من العمليات التشغيلية اليومية، مدعومًا بالدقة والحوكمة والثقة. في عالم تُعد فيه البيانات هي النفط الجديد، تُقدم DataGallery المصفاة التي تحوله إلى طاقة قابلة للاستخدام والابتكار.</p>\n<p class=\"pIndent\">لتعلم المزيد عن DataGallery واستكشاف مشاريعها مفتوحة المصدر، قم بزيارة:</p>\n<ul>\n<li>GitCode: <a class=\"extL\" href=\"https://gitcode.com/datagallery\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">https://gitcode.com/datagallery</a></li>\n<li>GitHub: <a class=\"extL\" href=\"https://github.com/datagallery-ai\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">https://github.com/datagallery-ai</a></li>\n</ul>\n<p class=\"pRef\">المراجع:<br/><a class=\"extL\" href=\"https://github.com/datagallery-ai\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">https://github.com/datagallery-ai</a></p>",
+      "final_word_count": 1276,
+      "final_html_chars": 10492,
+      "final_content_hash": "f0b01b6701f6e051dbb2871e",
+      "ai_provider_used": "gemini:gemini-2.5-flash",
+      "ai_rotation_exhausted": false,
+      "ai_openrouter_fallback_used": false,
+      "ai_quality_attempts": 3,
+      "ai_quality_status": "passed",
+      "ai_total_time_seconds": 74.88,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "internal_cache_loaded": 0,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 0,
+      "internal_cache_saved": true,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 1276,
+        "warnings": []
+      },
+      "blogger_post_id": "475508720589724883",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/07/datagallery.html",
+      "published_at": "2026-07-23T09:39:12",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|475508720589724883|published|unknown",
+      "telegram_blogger_notified_at": "2026-07-23T09:39:13",
+      "telegram_last_notification_at": "2026-07-23T09:39:30",
+      "facebook_status": "failed",
+      "facebook_error": "Facebook Graph API error 500: {\"error\":{\"code\":1,\"message\":\"Please reduce the amount of data you're asking for, then retry your request\"}}",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "failed|||Facebook Graph API error 500: {\"error\":{\"code\":1,\"message\":\"Please reduce the amount of data you're asking for, then retry your request\"}}",
+      "telegram_facebook_notified_at": "2026-07-23T09:39:30",
+      "archived": true,
+      "archived_at": "2026-07-23T09:39:30",
+      "archive_reason": "published_to_blogger"
     },
     {
       "id": "179c65efa3636c00",
@@ -27920,6 +28077,279 @@
       "content_preview": "The home appliance giant LG Electronics USA said this week it plans to suspend any apps built for its smart TVs that turn one’s television into an always-on residential proxy node. The move comes less than a month after researchers found that more than 42 percent of games and other apps available for download on LG’s webOS store allow unknown third-parties to route their Internet traffic through a user’s TV. Proxy SDK prevalence among smart TV apps for LG (webOS) and Samsung (Tizen OS) televisions. Image: Spur.us. On July 2, we featured research by the security firm Spur that examined the prevalence of residential proxy software development kits (SDKs) in smart TV apps. Spur found more than 42 percent of apps available for download on LG smart TVs include SDKs that turn one’s television in a proxy node indefinitely, and that more than a quarter of the apps made for Samsung’s Tizen operating system had similar residential proxy components. Responding to questions about Spur’s research, LG Senior Vice President John Taylor told KrebsOnSecurity the company was working with app developers to remove the residential proxy option from their apps on the webOS platform. Developers that fail to comply, he said, will find their apps suspended. “A residential proxy network is not an intended use for LG smart TVs, and LG Electronics is working with developers to remove the residential proxy option from their apps on the webOS platform,” Taylor said. “If this option is not removed, these apps will be suspended.” Taylor said LG is committed to keeping residential proxy networks out of its smart TV apps going forward, and that the company’s review of those apps is “well underway now.” “As part of our ongoing efforts to enhance platform quality and the user experience, LG will continue to strengthen our evaluation process for developer-submitted apps, including those that incorporate residential proxy SDKs,” Taylor wrote in an emailed statement. App makers looking for ways to monetize their creations can turn to residential proxy providers, which pay developers to include SDKs that turn the user’s device into a residential proxy node that is rented to paying customers. In the case of LG and Samsung smart TVs, Spur found residential proxy SDKs bundled with everything from simple games like Pac-Man to screensavers and file utilities. A Pac-Man smart TV app from Bright Data offers users the choice between viewing ads in the game or agreeing to allow their TV to serve as a residential proxy node. Image: Spur.us. Spur’s report found the residential proxy network Bright Data accounted for a majority of proxy SDKs across both Samsung and LG smart TVs. In a statement shared with KrebsOnSecurity, Bright Data said its network is built on consent and responsibility and operates by LG and Samsung terms. “Every peer opts in through a dedicated screen and receives value in return; every customer is vetted, and our practices have now undergone a second independent audit by PwC,” the statement reads. “We remain committed to an open, transparent internet where legitimate businesses, researchers, and institutions can responsibly access data that lives in the public domain.” Bright Data and other proxy providers named in Spur’s report all say they follow rigorous know-your-customer processes to validate legitimate uses of their services, which is often heavily tied to content-scraping activities by said customers. The proxy companies also say they incorporate technological countermeasures to prevent proxy service customers from being able to interact with and control other devices on the proxy user’s local network. Spur argues the problem is not that residential proxy networks exist, but rather that they are being embedded at scale in devices that most consumers do not think of as computers and are not equipped to audit. “A one-time consent prompt buried in a TV app is not a substitute for meaningful transparency, ongoing control, and platform oversight,” Spur’s Trevor Sutter wrote. “The risk is amplified when consent comes from individuals within the household who use the device but shouldn’t give consent, such as minors.” LG’s announcement that it is culling residential proxy SDKs from its app store is welcome news, but the company recently came under fire for another questionable partnership: Pimping McAfee security products via software drivers included in its high-end LCD monitors. Earlier this week, the Youtube channel Gamers Nexus showed that certain LG LCD monitors will automatically install an app that promotes paid McAfee antivirus subscriptions, and that the app arrives through Windows Update without an approval prompt. Update, July 22, 1:06 p.m. ET: Added statement from Bright Data.",
       "content_preview_chars": 4747,
       "content_fetched_at": "2026-07-23T07:07:04",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "483a2b2f3ef40ba3",
+      "source_url_hash": "483a2b2f3ef40ba3",
+      "canonical_url": "https://www.marktechpost.com/2026/07/23/best-open-speech-recognition-asr-models-in-2026-wer-languages-latency-and-license-compared",
+      "title_hash": "ad80df55ae718095",
+      "topic_signature": "5ffd918f719c0e93b368",
+      "title": "Best Open Speech Recognition (ASR) Models in 2026: WER, Languages, Latency, and License Compared",
+      "url": "https://www.marktechpost.com/2026/07/23/best-open-speech-recognition-asr-models-in-2026-wer-languages-latency-and-license-compared",
+      "source_name": "MarkTechPost",
+      "source_url": "https://www.marktechpost.com",
+      "source_published_at": "2026-07-23T09:26:40Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.13,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-23T09:34:21",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 62,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 62,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Best Open Speech Recognition (ASR) Models in 2026: WER, Languages, Latency, and License Compared",
+      "meta_description": "Compare 16 open ASR models on WER, languages, latency and license, including Cohere Transcribe, Granite Speech and Voxtral",
+      "article_images": [
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-51.png",
+          "alt": "Best Open Speech Recognition (ASR) Models in 2026: WER, Languages, Latency, and License Compared",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-51.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "diffusion-gemma-asr-small",
+          "url": "https://github.com/InterfazeAI/diffusion-gemma-asr"
+        },
+        {
+          "title": "Qwen3-ASR",
+          "url": "https://github.com/QwenLM/Qwen3-ASR"
+        }
+      ],
+      "full_article_text": "Open speech recognition stopped being a Whisper monoculture some time in the last twelve months. In March 2026 Cohere released Transcribe , a 2B Apache 2.0 model that took the top of the Hugging Face Open ASR Leaderboard at 5.42% average word error rate. Five weeks later IBM shipped Granite Speech 4.1 2B at 5.33%. Since then ARK-ASR-3B and MOSS-Transcribe-preview-2B have posted lower numbers still. The top of that leaderboard is now separated by less than one WER point. That has a specific consequence for anyone choosing a model: rank is no longer the deciding variable. License, language coverage, streaming support, and cost per audio-hour are. This roundup compares the field on all four. First, a problem with the leaderboard number everyone quotes The Open ASR Leaderboard average is not a single fixed quantity, and the models currently listed side by side were not all scored the same way. Cohere’s 5.42% is an average across eight English test sets, including TED-LIUM. That checks out: AMI 8.13, Earnings-22 10.86, GigaSpeech 9.34, LibriSpeech clean 1.25, LibriSpeech other 2.37, SPGISpeech 3.08, TED-LIUM 2.49, VoxPopuli 5.87 averages to exactly 5.42. ARK-ASR-3B’s 5.04% is an average across seven sets. TED-LIUM is absent. The MOSS-Transcribe-preview-2B card states this explicitly: TED-LIUM is not currently part of the leaderboard run and is therefore excluded. TED-LIUM is one of the easier sets in the suite, so dropping it raises the average. Recompute Cohere’s published per-dataset scores over the same seven sets ARK reports and Cohere lands at 5.84, not 5.42. Do the same to Granite Speech 4.1 2B and it moves from 5.33 to 5.65. On a like-for-like basis ARK’s lead is larger than the headline numbers imply, not smaller — but the point is that you cannot subtract one published figure from another and get a meaningful answer. Two further caveats belong on the same page: Some scores are openly leaderboard-fitted : The MOSS-Transcribe-preview-2B card states the model was fine-tuned with reinforcement learning on the Open ASR Leaderboard training splits. That is disclosed, which is more than most, but it means the score measures the benchmark rather than the capability. Private-track data reorders the board : Appen contributed held-back evaluation sets covering Australian, Canadian, Indian, and American accents in scripted and conversational conditions. When those private sets are toggled on, zoom/scribe_v1 moves from #4 to #1 and the public-leaderboard leader drops a position. Models tuned for clean read speech degrade disproportionately on spontaneous conversational audio. Use the leaderboard to build a shortlist. Do not use it to pick a winner. Cohere Transcribe (2B, Apache 2.0, 14 languages) is the model that actually shipped into production. It has been downloaded over 620,000 times in the past month and has runtime support across transformers , vLLM, mlx-audio for Apple Silicon, a Rust port, and a WebGPU build. It is a Conformer encoder with a lightweight Transformer decoder, trained from scratch. Cohere also ran human preference evaluation, where trained annotators scored transcripts for meaning preservation, hallucination, and named entities: a 61% average win rate, 78% against IBM Granite 4.0 1B Speech and 64% against Whisper large-v3. The limitations section of its model card is unusually honest and should be read before committing. There is no automatic language detection, no timestamps, and no diarization, and the model is eager to transcribe silence, so Cohere recommends prepending a VAD or noise gate. The repo is also gated behind a contact-information agreement despite the Apache 2.0 license. Granite Speech 4.1 2B (2B, Apache 2.0) is the better pick if you need capability rather than a lower number. Six languages for ASR plus bidirectional speech translation, keyword-list biasing for names and jargon, punctuation and truecasing including German noun capitalization. Trained on 174,000 hours. RTFx 231.29. IBM also ships two siblings: -plus adds speaker-attributed ASR and word-level timestamps, and -nar is discussed below. Canary-Qwen-2.5B (2.5B, CC-BY-4.0, English) pairs a FastConformer encoder with a Qwen3-1.7B decoder and runs in two modes — pure transcription, or LLM mode where the decoder summarizes and answers questions about the transcript. 5.63% WER at RTFx 418. Note that AMI was oversampled to roughly 15% of training data, which biases output toward verbatim disfluency-preserving transcripts. That is a feature for legal work and a nuisance for meeting notes. Qwen3-ASR-1.7B (Apache 2.0) covers 52 languages and dialects — 30 languages plus 22 Chinese dialects — at 5.76%. It ships with a full inference toolkit and a separate forced-alignment model for timestamps in 11 languages. For anything touching Mandarin or Chinese regional speech this is the obvious starting point. The throughput tier Accuracy across the top of the field now varies by about one WER point. Throughput varies by more than an order of magnitude, which means throughput usually decides the invoice. Parakeet TDT 0.6B v3 (0.6B, CC-BY-4.0) is the throughput leader among multilingual open models at RTFx 3332.74 across 25 European languages with automatic language ID, handling up to 24 minutes in a single pass on an A100 80GB. It costs 6.32% WER — roughly one point more than Granite 4.1 2B for roughly fourteen times the audio per GPU-second. Granite Speech 4.1 2B-NAR is the more interesting engineering result. It is non-autoregressive: it edits a CTC hypothesis in a single forward pass using a bidirectional LLM, reaching RTFx ~1820 on one H100 at batch size 128. It gives up Japanese, speech translation, and keyword biasing to get there. Qwen3-ASR-0.6B keeps all 52 languages and reaches 2000× throughput at concurrency 128. The streaming tier A batch WER seems to be the wrong test for a streaming model, and the leaderboard scores them anyway. Voxtral Realtime sits at 7.68% and Kyutai STT 2.6B at 6.40% — both below Whisper — and neither number tells you anything useful about their intended use. Voxtral Mini 4B Realtime 2602 (Apache 2.0, 13 languages) is a 3.4B language model along with a 970M causal audio encoder trained from scratch, with sliding-window attention on both halves for effectively unbounded streaming. Transcription delay is configurable in 80ms steps from 80ms to 1200ms, plus a standalone 2400ms option; Mistral recommends 480ms as the sweet spot and reports that at that setting it matches leading offline open models. It runs on a single 16GB GPU and had day-0 vLLM Realtime API support . Kyutai STT (CC-BY-4.0) comes in two shapes: a ~1B English/French model with a 0.5s delay and a built-in semantic voice activity detector, and a 2.6B English-only model with a 2.5s delay. For voice agents, the semantic VAD matters more than the transcription delay — it predicts when the speaker has actually finished, which is what governs perceived turn-taking latency. An H100 serves 400 concurrent streams in real time. Meta’s Omnilingual ASR (Apache 2.0, corpus CC-BY) is not competing on WER and should not be evaluated as if it were. It covers 1,600+ languages natively and extends to 5,400+ through zero-shot in-context learning, built on a wav2vec 2.0 encoder scaled to 7B and pre-trained on about 4.3M hours. The 7B LLM-ASR variant achieves character error rate below 10% on 78% of supported languages, including 500+ never previously served by any ASR system. Encoder sizes run from 300M to 7B. Meta also released the Omnilingual ASR Corpus covering 350+ underserved languages. Whisper large-v3 (1.55B, MIT, 99 languages) has been overtaken on accuracy by roughly ten open models, and it remains the correct default for a large class of projects. MIT is the least encumbered license in the field. The runtime ecosystem — whisper.cpp, faster-whisper, WhisperX — has no equivalent among the newer releases. If your requirement is “some language, some hardware, no license lawyer,” it is still the answer. diffusion-gemma-asr-small from YC startup Interfaze is the most architecturally creative release of the year. It produces transcripts by parallel diffusion denoising over a 256-token canvas in 8 to 16 steps, so decoding cost does not grow with transcript length. Only ~42M parameters were trained — 0.16% of the weights — on top of a frozen 26B DiffusionGemma and a frozen whisper-small encoder. It reaches 6.6% WER on LibriSpeech test-clean at roughly 11 to 17× realtime. It also reaches 15.7% on FLEURS English and 29.6% CER on FLEURS Mandarin, so treat the LibriSpeech figure as the ceiling. Nobody should deploy this. Everybody working on ASR should read it. MOSS-Transcribe-Diarize 0.9B (Apache 2.0, 50+ languages) solves the problem most roundups ignore: it emits speaker labels, word timestamps, and transcript in one generation instead of chaining ASR to a separate diarization stack. 128k context, roughly 90 minutes of audio in one pass, RTF ~0.017 on an RTX 4090, with hotword biasing. The license split nobody reads until deployment This is the section that actually blocks shipping, and the field divides cleanly: Apache 2.0 : Cohere Transcribe, Granite Speech 4.1 (all three variants), Qwen3-ASR (both sizes), Voxtral Mini Realtime, Omnilingual ASR, ARK-ASR, MOSS-Transcribe. No attribution obligation, commercial use unrestricted. Note that Cohere’s repo is gated behind a contact-information agreement even though the license itself is Apache 2.0. MIT : Whisper large-v3. The most permissive option in the field. CC-BY-4.0 : Canary-Qwen-2.5B, Parakeet TDT 0.6B v3, Kyutai STT. Commercially usable, but attribution is required. For an embedded product or a white-labeled API, that is a real compliance obligation, and it is the single most common reason teams end up shipping a model that is not the most accurate one they tested. Meta’s Omnilingual ASR splits the two: Apache 2.0 for models, CC-BY for the corpus. How to actually choose Run this order, not just the leaderboard order: License: If attribution is a blocker, CC-BY-4.0 removes Parakeet, Canary-Qwen, and Kyutai before you benchmark anything. Language coverage : Cohere’s 14 languages, Granite’s 6, and Canary’s English-only are hard limits, not soft ones. Cohere additionally has no language auto-detection, so you must know the language in advance. Streaming or batch : This is architectural. No amount of tuning turns an offline encoder-decoder into a low-latency streaming model. Then measure WER on your own audio : The spread between the top ten models on the public benchmark is under one point. The spread on your accented, noisy, domain-specific audio will be several times that, and it will not rank the models in the same order. Then compute cost per audio-hour on your own GPUs : RTFx figures are measured at large batch sizes on datacenter hardware and do not transfer. The useful summary of 2026 is not that any single model won. It is that a 2B open-weight model on a permissive license now beats what closed APIs were charging for eighteen months ago, and that the remaining decision is a procurement question rather than a research one. Cohere Transcribe blog and model card IBM Granite Speech 4.1 2B and 4.1 2B-NAR MOSS-Transcribe-preview-2B and MOSS-Transcribe-Diarize NVIDIA Canary-Qwen-2.5B and Parakeet TDT 0.6B v3 Qwen3-ASR · Voxtral Mini 4B Realtime 2602 Meta Omnilingual ASR and paper Open ASR Leaderboard paper , leaderboard dataset , and Appen private-track announcement . Leaderboard positions are live and change frequently. All figures verified against primary sources on 23 July 2026. Asif Razzaq is the CEO of Marktechpost Media Inc.. As a visionary entrepreneur and engineer, Asif is committed to harnessing the potential of Artificial Intelligence for social good. His most recent endeavor is the launch of an Artificial Intelligence Media Platform, Marktechpost, which stands out for its in-depth coverage of machine learning and deep learning news that is both technically sound and easily understandable by a wide audience. The platform boasts of over 2 million monthly views, illustrating its popularity among audiences. Asif Razzaq Meet Gigatoken: A Rust BPE Tokenizer that Encodes Text at 24.53 GB/s, up to 989x Faster than HuggingFace Tokenizers Asif Razzaq Unsloth vs Axolotl vs TRL vs LLaMA-Factory: A Fine-Tuning Framework Comparison on Speed, VRAM, and Multi-GPU Asif Razzaq Poolside Releases Laguna S 2.1, an Open-Weight Agentic Coding Model Punching Above Its Weight Class on SWE-Bench Multilingual Asif Razzaq Google Releases Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber: A Cheaper, More Token-Efficient Flash Tier Built for Agentic Workloads",
+      "full_article_text_chars": 12685,
+      "content_preview": "Open speech recognition stopped being a Whisper monoculture some time in the last twelve months. In March 2026 Cohere released Transcribe , a 2B Apache 2.0 model that took the top of the Hugging Face Open ASR Leaderboard at 5.42% average word error rate. Five weeks later IBM shipped Granite Speech 4.1 2B at 5.33%. Since then ARK-ASR-3B and MOSS-Transcribe-preview-2B have posted lower numbers still. The top of that leaderboard is now separated by less than one WER point. That has a specific consequence for anyone choosing a model: rank is no longer the deciding variable. License, language coverage, streaming support, and cost per audio-hour are. This roundup compares the field on all four. First, a problem with the leaderboard number everyone quotes The Open ASR Leaderboard average is not a single fixed quantity, and the models currently listed side by side were not all scored the same way. Cohere’s 5.42% is an average across eight English test sets, including TED-LIUM. That checks out: AMI 8.13, Earnings-22 10.86, GigaSpeech 9.34, LibriSpeech clean 1.25, LibriSpeech other 2.37, SPGISpeech 3.08, TED-LIUM 2.49, VoxPopuli 5.87 averages to exactly 5.42. ARK-ASR-3B’s 5.04% is an average across seven sets. TED-LIUM is absent. The MOSS-Transcribe-preview-2B card states this explicitly: TED-LIUM is not currently part of the leaderboard run and is therefore excluded. TED-LIUM is one of the easier sets in the suite, so dropping it raises the average. Recompute Cohere’s published per-dataset scores over the same seven sets ARK reports and Cohere lands at 5.84, not 5.42. Do the same to Granite Speech 4.1 2B and it moves from 5.33 to 5.65. On a like-for-like basis ARK’s lead is larger than the headline numbers imply, not smaller — but the point is that you cannot subtract one published figure from another and get a meaningful answer. Two further caveats belong on the same page: Some scores are openly leaderboard-fitted : The MOSS-Transcribe-preview-2B card states the model was fine-tuned with reinforcement learning on the Open ASR Leaderboard training splits. That is disclosed, which is more than most, but it means the score measures the benchmark rather than the capability. Private-track data reorders the board : Appen contributed held-back evaluation sets covering Australian, Canadian, Indian, and American accents in scripted and conversational conditions. When those private sets are toggled on, zoom/scribe_v1 moves from #4 to #1 and the public-leaderboard leader drops a position. Models tuned for clean read speech degrade disproportionately on spontaneous conversational audio. Use the leaderboard to build a shortlist. Do not use it to pick a winner. Cohere Transcribe (2B, Apache 2.0, 14 languages) is the model that actually shipped into production. It has been downloaded over 620,000 times in the past month and has runtime support across transformers , vLLM, mlx-audio for Apple Silicon, a Rust port, and a WebGPU build. It is a Conformer encoder with a lightweight Transformer decoder, trained from scratch. Cohere also ran human preference evaluation, where trained annotators scored transcripts for meaning preservation, hallucination, and named entities: a 61% average win rate, 78% against IBM Granite 4.0 1B Speech and 64% against Whisper large-v3. The limitations section of its model card is unusually honest and should be read before committing. There is no automatic language detection, no timestamps, and no diarization, and the model is eager to transcribe silence, so Cohere recommends prepending a VAD or noise gate. The repo is also gated behind a contact-information agreement despite the Apache 2.0 license. Granite Speech 4.1 2B (2B, Apache 2.0) is the better pick if you need capability rather than a lower number. Six languages for ASR plus bidirectional speech translation, keyword-list biasing for names and jargon, punctuation and truecasing including German noun capitalization. Trained on 174,000 hours. RTFx 231.29. IBM also ships two siblings: -plus adds speaker-attributed ASR and word-level timestamps, and -nar is discussed below. Canary-Qwen-2.5B (2.5B, CC-BY-4.0, English) pairs a FastConformer encoder with a Qwen3-1.7B decoder and runs in two modes — pure transcription, or LLM mode where the decoder summarizes and answers questions about the transcript. 5.63% WER at RTFx 418. Note that AMI was oversampled to roughly 15% of training data, which biases output toward verbatim disfluency-preserving transcripts. That is a feature for legal work and a nuisance for meeting notes. Qwen3-ASR-1.7B (Apache 2.0) covers 52 languages and dialects — 30 languages plus 22 Chinese dialects — at 5.76%. It ships with a full inference toolkit and a separate forced-alignment model for timestamps in 11 languages. For anything touching Mandarin or Chinese regional speech this is the obvious starting point. The throughput tier Accuracy across the top of the field now varies by about one WER point. Throughput varies by more than an order of magnitude, which means throughput usually decides the invoice. Parakeet TDT 0.6B v3 (0.6B, CC-BY-4.0) is the throughput leader among multilingual open models at RTFx 3332.74 across 25 European languages with automatic language ID, handling up to 24 minutes in a single pass on an A100 80GB. It costs 6.32% WER — roughly one point more than Granite 4.1 2B for roughly fourteen times the audio per GPU-second. Granite Speech 4.1 2B-NAR is the more interesting engineering result. It is non-autoregressive: it edits a CTC hypothesis in a single forward pass using a bidirectional LLM, reaching RTFx ~1820 on one H100 at batch size 128. It gives up Japanese, speech translation, and keyword biasing to get there. Qwen3-ASR-0.6B keeps all 52 languages and reaches 2000× throughput at concurrency 128. The streaming tier A batch WER seems to be the wrong test for a streaming model, and the leaderboard scores them anyway. Voxtral Realtime sits at 7.68% and Kyutai STT 2.6B at 6.40% — both below Whisper — and neither number tells you anything useful about their intended use. Voxtral Mini 4B Realtime 2602 (Apache 2.0, 13 languages) is a 3.4B language model along with a 970M causal audio encoder trained from scratch, with sliding-window attention on both halves for effectively unbounded streaming. Transcription delay is configurable in 80ms steps from 80ms to 1200ms, plus a standalone 2400ms option; Mistral recommends 480ms as the sweet spot and reports that at that setting it matches leading offline open models. It runs on a single 16GB GPU and had day-0 vLLM Realtime API support . Kyutai STT (CC-BY-4.0) comes in two shapes: a ~1B English/French model with a 0.5s delay and a built-in semantic voice activity detector, and a 2.6B English-only model with a 2.5s delay. For voice agents, the semantic VAD matters more than the transcription delay — it predicts when the speaker has actually finished, which is what governs perceived turn-taking latency. An H100 serves 400 concurrent streams in real time. Meta’s Omnilingual ASR (Apache 2.0, corpus CC-BY) is not competing on WER and should not be evaluated as if it were. It covers 1,600+ languages natively and extends to 5,400+ through zero-shot in-context learning, built on a wav2vec 2.0 encoder scaled to 7B and pre-trained on about 4.3M hours. The 7B LLM-ASR variant achieves character error rate below 10% on 78% of supported languages, including 500+ never previously served by any ASR system. Encoder sizes run from 300M to 7B. Meta also released the Omnilingual ASR Corpus covering 350+ underserved languages. Whisper large-v3 (1.55B, MIT, 99 languages) has been overtaken on accuracy by roughly ten open models, and it remains the correct default for a large class of projects. MIT is the least encumbered license in the field. The runtime ecosystem — whisper.cpp, faster-whisper, WhisperX — has no equivalent among the newer releases. If your requirement is “some language, some hardware, no license lawyer,” it is still the answer. diffusion-gemma-asr-small from YC startup Interfaze is the most architecturally creative release of the year. It produces transcripts by parallel diffusion denoising over a 256-token canvas in 8 to 16 steps, so decoding cost does not grow with transcript length. Only ~42M parameters were trained — 0.16% of the weights — on top of a frozen 26B DiffusionGemma and a frozen whisper-small encoder. It reaches 6.6% WER on LibriSpeech test-clean at roughly 11 to 17× realtime. It also reaches 15.7% on FLEURS English and 29.6% CER on FLEURS Mandarin, so treat the LibriSpeech figure as the ceiling. Nobody should deploy this. Everybody working on ASR should read it. MOSS-Transcribe-Diarize 0.9B (Apache 2.0, 50+ languages) solves the problem most roundups ignore: it emits speaker labels, word timestamps, and transcript in one generation instead of chaining ASR to a separate diarization stack.",
+      "content_preview_chars": 8899,
+      "content_fetched_at": "2026-07-23T09:34:37",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "b4f0d388247d2189",
+      "source_url_hash": "b4f0d388247d2189",
+      "canonical_url": "https://www.marktechpost.com/2026/07/23/meet-gigatoken-a-rust-bpe-tokenizer-that-encodes-text-at-24-53-gb-s-up-to-989x-faster-than-huggingface-tokenizers",
+      "title_hash": "2182256d93575ea3",
+      "topic_signature": "dad9fb3a15faccb8de66",
+      "title": "Meet Gigatoken: A Rust BPE Tokenizer that Encodes Text at 24.53 GB/s, up to 989x Faster than HuggingFace Tokenizers",
+      "url": "https://www.marktechpost.com/2026/07/23/meet-gigatoken-a-rust-bpe-tokenizer-that-encodes-text-at-24-53-gb-s-up-to-989x-faster-than-huggingface-tokenizers",
+      "source_name": "MarkTechPost",
+      "source_url": "https://www.marktechpost.com",
+      "source_published_at": "2026-07-23T08:01:22Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.55,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-23T09:34:21",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 65,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 65,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Meet Gigatoken: A Rust BPE Tokenizer that Encodes Text at 24.53 GB/s, up to 989x Faster than HuggingFace Tokenizers",
+      "meta_description": "Gigatoken is a Rust BPE tokenizer encoding text at 24.53 GB/s, up to 989x faster than HuggingFace tokenizers",
+      "article_images": [
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-50-1024x731.png",
+          "alt": "Meet Gigatoken: A Rust BPE Tokenizer that Encodes Text at 24.53 GB/s, up to 989x Faster than HuggingFace Tokenizers",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-50-1024x731.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Gigatoken",
+          "url": "https://github.com/marcelroed/gigatoken"
+        },
+        {
+          "title": "OpenAI’s tiktoken",
+          "url": "https://github.com/openai/tiktoken"
+        },
+        {
+          "title": "HuggingFace tokenizers",
+          "url": "https://github.com/huggingface/tokenizers"
+        },
+        {
+          "title": "benchmarks section",
+          "url": "https://github.com/marcelroed/gigatoken/"
+        },
+        {
+          "title": "pretokenizer optimization log",
+          "url": "https://github.com/marcelroed/gigatoken/blob/main/pretokenizer_optimization_log.md"
+        }
+      ],
+      "full_article_text": "Tokenization is the one part of the language modeling stack that almost nobody profiles. Gigatoken , released by Marcel Rød (a PhD student from Stanford) under an MIT license, argues that this was a mistake. The library encodes text at gigabytes per second on a single machine, against baselines that are already multithreaded Rust. The GPT-2 tokenizer benchmarking yields remarkable results: evaluated on the 11.9 GB owt_train.txt corpus using a 144-core AMD EPYC 9565 dual-socket setup, Gigatoken processes data at a staggering 24.53 GB/s . In comparison, OpenAI’s tiktoken achieves 36.0 MB/s, while HuggingFace tokenizers registers at 24.8 MB/s on the identical hardware configuration. These marks demonstrate performance advantages of 681x and 989x, respectively. On an Apple M4 Max with 16 cores, the same GPT-2 workload runs at 8.79 GB/s, or 1,268x HuggingFace tokenizers and 140x tiktoken. On a consumer AMD Ryzen 7 9800X3D, it runs at 6.27 GB/s, or 106x and 68x. The speedup is not an artifact of one CPU or one vocabulary. Gigatoken is a byte-pair encoding (BPE) tokenizer written in Rust with Python bindings. It ships on PyPI as gigatoken (version 0.9.0, released 21 July 2026) and installs with pip install gigatoken. The repository is 66.2% Rust and 33.3% Python. It supports 23 distinct tokenizer families in the published benchmarks, covering GPT-2, GPT-OSS, Llama 3 through 4, Qwen 2 through 3.6, DeepSeek V3/R1/V4, GLM 4 and 5, Kimi K2, Nemotron 3, Phi-4, OLMo 2/3, ModernBERT, Gemma and Mistral. There are two ways to use it. Compatibility mode wraps an existing HuggingFace or tiktoken tokenizer and preserves exact output parity, at a real cost to throughput. The author ( Marcel ) states on Hacker News that compatibility mode delivers roughly 200–300x depending on usage, because it still pays Python overhead for list creation and string-to-bytes conversion. The native Gigatoken API lets Rust read files directly and is where the published numbers come from. The interactive benchmark explorer Every number below is drawn from the repository’s benchmarks section and the pretokenizer optimization log . Switch CPUs, walk the optimization history, or estimate how long your own corpus would take. The gains do not come from a better BPE merge loop. They come from two places that most tokenizers treat as solved. (1) Pretokenization : Most implementations delegate this to a regex engine. Gigatoken hand-writes it. The optimization log tracks single-threaded GPT-2 pretokenizer throughput on 100 MB of OpenWebText, and the progression is instructive: A fancy-regex baseline runs at ~47 MiB/s. A hand-rolled state machine hits ~380 MiB/s. A winnow-combinator implementation with NEON SIMD intrinsics reaches 462 MiB/s. Replacing winnow with a direct Iterator, adding a 256-byte class lookup table for O(1) first-byte dispatch, and switching from NEON intrinsics to SWAR (SIMD Within A Register) pushes it to 830 MiB/s. SWAR loads 8 bytes as a u64 and checks all 8 for the letter property with branchless arithmetic. It needs no architecture-specific intrinsics. The final step is dual-cursor ILP exploitation , reaching 1,049 MiB/s. The insight is that the bottleneck at ~840 MiB/s was latency, not throughput. Each token’s end position depends on the previous one, a serial chain of roughly 25–27 cycles. Running two independent cursors from a safe split point lets the out-of-order engine interleave both streams across idle execution ports. Net effect on the pretokenizer alone: 2.27x over the winnow + NEON baseline, and 22.3x over the regex implementation. (2) Pretoken caching : If a word has been seen before, its encoded tokens are looked up rather than recomputed. The author ( Marcel ) notes this is hard in practice, because the cache grows quickly and pretoken distributions are long-tailed. On top of that, interactions with Python are minimized and threads are designed to interact minimally with each other. The optimization log is unusually honest about what failed. A hot/cold split using #[cold] and #[inline(never)] regressed to 580 MiB/s and was reverted, because the inline barrier stopped LLVM from optimizing the combined ASCII and unicode loop. A two-pass classification buffer with SWAR transition counting was algorithmically correct but ran at 354 MiB/s, since the extra memory traffic beat the branch savings. Profile-guided optimization had no measurable effect, because the inner loop is already branchless and the word-boundary branch is data-dependent. Benchmark Methodology Notes The comparison is not strictly apples-to-apples. Gigatoken encodes entire un-split files, finding its own document boundaries and parallelizing automatically. In contrast, HuggingFace (encode_batch_fast) is evaluated on the first 100 MB and tiktoken (encode_ordinary_batch) on the first 1 GB, both pre-split on <|endoftext|>. Because the baselines omit caching, their throughput remains uniform. Measurements report the best of three interleaved rounds using fresh processes with parallelism enabled. Vocabulary types also introduce constraints; SentencePiece tokenizers are only partially optimized. On EPYC, Gemma 1 processes at 2.51 GB/s (7.3x speedup), Gemma 3 at 3.43 GB/s (9.6x), and CodeLlama at 3.47 GB/s (10.0x). Although substantial, these gains are an order of magnitude lower than the headline BPE performance. An independent reproduction on KrabArena verified the results. On a 4-vCPU Intel Xeon VM (2.20 GHz) with a 174 MB OpenWebText slice, Gigatoken 0.9.0 achieved a median of 277.8 MB/s, outperforming tiktoken 0.13.0 (10.62 MB/s) by 26.2x and tokenizers 0.23.1 (3.33 MB/s) by 83.4x. All trials successfully validated 35,356 documents, confirming the performance trend scales with core count. Gigatoken hits 24.53 GB/s on GPT-2 on a 144-core EPYC, 989x HuggingFace tokenizers and 681x tiktoken. The speedup holds across x86 and ARM, and across 23 tokenizer families, not one tuned configuration. Gains come from a hand-written SWAR pretokenizer and pretoken caching, not a faster BPE merge loop. SentencePiece vocabularies see 7–22x, not 1,000x, and WordPiece is unsupported. Compatibility mode preserves exact HuggingFace output parity at roughly 200–300x instead of the full speedup. Check out the GitHub repo and the release thread . All credit for this research goes to the author of this project. Asif Razzaq is the CEO of Marktechpost Media Inc.. As a visionary entrepreneur and engineer, Asif is committed to harnessing the potential of Artificial Intelligence for social good. His most recent endeavor is the launch of an Artificial Intelligence Media Platform, Marktechpost, which stands out for its in-depth coverage of machine learning and deep learning news that is both technically sound and easily understandable by a wide audience. The platform boasts of over 2 million monthly views, illustrating its popularity among audiences. Asif Razzaq Best Open Speech Recognition (ASR) Models in 2026: WER, Languages, Latency, and License Compared Asif Razzaq Unsloth vs Axolotl vs TRL vs LLaMA-Factory: A Fine-Tuning Framework Comparison on Speed, VRAM, and Multi-GPU Asif Razzaq Poolside Releases Laguna S 2.1, an Open-Weight Agentic Coding Model Punching Above Its Weight Class on SWE-Bench Multilingual Asif Razzaq Google Releases Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber: A Cheaper, More Token-Efficient Flash Tier Built for Agentic Workloads",
+      "full_article_text_chars": 7418,
+      "content_preview": "Tokenization is the one part of the language modeling stack that almost nobody profiles. Gigatoken , released by Marcel Rød (a PhD student from Stanford) under an MIT license, argues that this was a mistake. The library encodes text at gigabytes per second on a single machine, against baselines that are already multithreaded Rust. The GPT-2 tokenizer benchmarking yields remarkable results: evaluated on the 11.9 GB owt_train.txt corpus using a 144-core AMD EPYC 9565 dual-socket setup, Gigatoken processes data at a staggering 24.53 GB/s . In comparison, OpenAI’s tiktoken achieves 36.0 MB/s, while HuggingFace tokenizers registers at 24.8 MB/s on the identical hardware configuration. These marks demonstrate performance advantages of 681x and 989x, respectively. On an Apple M4 Max with 16 cores, the same GPT-2 workload runs at 8.79 GB/s, or 1,268x HuggingFace tokenizers and 140x tiktoken. On a consumer AMD Ryzen 7 9800X3D, it runs at 6.27 GB/s, or 106x and 68x. The speedup is not an artifact of one CPU or one vocabulary. Gigatoken is a byte-pair encoding (BPE) tokenizer written in Rust with Python bindings. It ships on PyPI as gigatoken (version 0.9.0, released 21 July 2026) and installs with pip install gigatoken. The repository is 66.2% Rust and 33.3% Python. It supports 23 distinct tokenizer families in the published benchmarks, covering GPT-2, GPT-OSS, Llama 3 through 4, Qwen 2 through 3.6, DeepSeek V3/R1/V4, GLM 4 and 5, Kimi K2, Nemotron 3, Phi-4, OLMo 2/3, ModernBERT, Gemma and Mistral. There are two ways to use it. Compatibility mode wraps an existing HuggingFace or tiktoken tokenizer and preserves exact output parity, at a real cost to throughput. The author ( Marcel ) states on Hacker News that compatibility mode delivers roughly 200–300x depending on usage, because it still pays Python overhead for list creation and string-to-bytes conversion. The native Gigatoken API lets Rust read files directly and is where the published numbers come from. The interactive benchmark explorer Every number below is drawn from the repository’s benchmarks section and the pretokenizer optimization log . Switch CPUs, walk the optimization history, or estimate how long your own corpus would take. The gains do not come from a better BPE merge loop. They come from two places that most tokenizers treat as solved. (1) Pretokenization : Most implementations delegate this to a regex engine. Gigatoken hand-writes it. The optimization log tracks single-threaded GPT-2 pretokenizer throughput on 100 MB of OpenWebText, and the progression is instructive: A fancy-regex baseline runs at ~47 MiB/s. A hand-rolled state machine hits ~380 MiB/s. A winnow-combinator implementation with NEON SIMD intrinsics reaches 462 MiB/s. Replacing winnow with a direct Iterator, adding a 256-byte class lookup table for O(1) first-byte dispatch, and switching from NEON intrinsics to SWAR (SIMD Within A Register) pushes it to 830 MiB/s. SWAR loads 8 bytes as a u64 and checks all 8 for the letter property with branchless arithmetic. It needs no architecture-specific intrinsics. The final step is dual-cursor ILP exploitation , reaching 1,049 MiB/s. The insight is that the bottleneck at ~840 MiB/s was latency, not throughput. Each token’s end position depends on the previous one, a serial chain of roughly 25–27 cycles. Running two independent cursors from a safe split point lets the out-of-order engine interleave both streams across idle execution ports. Net effect on the pretokenizer alone: 2.27x over the winnow + NEON baseline, and 22.3x over the regex implementation. (2) Pretoken caching : If a word has been seen before, its encoded tokens are looked up rather than recomputed. The author ( Marcel ) notes this is hard in practice, because the cache grows quickly and pretoken distributions are long-tailed. On top of that, interactions with Python are minimized and threads are designed to interact minimally with each other. The optimization log is unusually honest about what failed. A hot/cold split using #[cold] and #[inline(never)] regressed to 580 MiB/s and was reverted, because the inline barrier stopped LLVM from optimizing the combined ASCII and unicode loop. A two-pass classification buffer with SWAR transition counting was algorithmically correct but ran at 354 MiB/s, since the extra memory traffic beat the branch savings. Profile-guided optimization had no measurable effect, because the inner loop is already branchless and the word-boundary branch is data-dependent. Benchmark Methodology Notes The comparison is not strictly apples-to-apples. Gigatoken encodes entire un-split files, finding its own document boundaries and parallelizing automatically. In contrast, HuggingFace (encode_batch_fast) is evaluated on the first 100 MB and tiktoken (encode_ordinary_batch) on the first 1 GB, both pre-split on <|endoftext|>. Because the baselines omit caching, their throughput remains uniform. Measurements report the best of three interleaved rounds using fresh processes with parallelism enabled. Vocabulary types also introduce constraints; SentencePiece tokenizers are only partially optimized. On EPYC, Gemma 1 processes at 2.51 GB/s (7.3x speedup), Gemma 3 at 3.43 GB/s (9.6x), and CodeLlama at 3.47 GB/s (10.0x). Although substantial, these gains are an order of magnitude lower than the headline BPE performance. An independent reproduction on KrabArena verified the results. On a 4-vCPU Intel Xeon VM (2.20 GHz) with a 174 MB OpenWebText slice, Gigatoken 0.9.0 achieved a median of 277.8 MB/s, outperforming tiktoken 0.13.0 (10.62 MB/s) by 26.2x and tokenizers 0.23.1 (3.33 MB/s) by 83.4x. All trials successfully validated 35,356 documents, confirming the performance trend scales with core count. Gigatoken hits 24.53 GB/s on GPT-2 on a 144-core EPYC, 989x HuggingFace tokenizers and 681x tiktoken. The speedup holds across x86 and ARM, and across 23 tokenizer families, not one tuned configuration. Gains come from a hand-written SWAR pretokenizer and pretoken caching, not a faster BPE merge loop. SentencePiece vocabularies see 7–22x, not 1,000x, and WordPiece is unsupported. Compatibility mode preserves exact HuggingFace output parity at roughly 200–300x instead of the full speedup. Check out the GitHub repo and the release thread . All credit for this research goes to the author of this project. Asif Razzaq is the CEO of Marktechpost Media Inc.. As a visionary entrepreneur and engineer, Asif is committed to harnessing the potential of Artificial Intelligence for social good. His most recent endeavor is the launch of an Artificial Intelligence Media Platform, Marktechpost, which stands out for its in-depth coverage of machine learning and deep learning news that is both technically sound and easily understandable by a wide audience. The platform boasts of over 2 million monthly views, illustrating its popularity among audiences. Asif Razzaq Best Open Speech Recognition (ASR) Models in 2026: WER, Languages, Latency, and License Compared Asif Razzaq Unsloth vs Axolotl vs TRL vs LLaMA-Factory: A Fine-Tuning Framework Comparison on Speed, VRAM, and Multi-GPU Asif Razzaq Poolside Releases Laguna S 2.1, an Open-Weight Agentic Coding Model Punching Above Its Weight Class on SWE-Bench Multilingual Asif Razzaq Google Releases Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber: A Cheaper, More Token-Efficient Flash Tier Built for Agentic Workloads",
+      "content_preview_chars": 7418,
+      "content_fetched_at": "2026-07-23T09:34:35",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "0d627147f6df01e7",
+      "source_url_hash": "0d627147f6df01e7",
+      "canonical_url": "https://www.marktechpost.com/2026/07/22/anthropic-releases-claude-security-plugin-for-claude-code-in-beta-a-multi-agent-vulnerability-scanner-that-runs-in-your-terminal",
+      "title_hash": "6f00eed1f36a697f",
+      "topic_signature": "68296c2e07ecf7cdb863",
+      "title": "Anthropic Releases Claude Security Plugin for Claude Code in Beta: A Multi-Agent Vulnerability Scanner That Runs in Your Terminal",
+      "url": "https://www.marktechpost.com/2026/07/22/anthropic-releases-claude-security-plugin-for-claude-code-in-beta-a-multi-agent-vulnerability-scanner-that-runs-in-your-terminal",
+      "source_name": "MarkTechPost",
+      "source_url": "https://www.marktechpost.com",
+      "source_published_at": "2026-07-23T06:12:05Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 3.37,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-23T09:34:21",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 62,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 62,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Anthropic Releases Claude Security Plugin for Claude Code in Beta: A Multi-Agent Vulnerability Scanner That Runs in Your Terminal",
+      "meta_description": "Anthropic's Claude Security plugin for Claude Code runs multi-agent vulnerability scans in the terminal and suggests verified patches",
+      "article_images": [
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-49.png",
+          "alt": "Anthropic Releases Claude Security Plugin for Claude Code in Beta: A Multi-Agent Vulnerability Scanner That Runs in Your Terminal",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-49.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "claude-plugins-official repository",
+          "url": "https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-security"
+        },
+        {
+          "title": "sandbox-runtime",
+          "url": "https://github.com/anthropic-experimental/sandbox-runtime"
+        }
+      ],
+      "full_article_text": "Anthropic has released the Claude Security plugin for Claude Code in beta. The plugin runs a multi-agent vulnerability scan of a repository from inside an existing Claude Code session, then turns the findings you select into patch files that you review and apply yourself. Anthropic emphasized the tool’s versatility upon announcement, highlighting its capability to either run a comprehensive scan across the full codebase or inspect changes from the terminal right before a commit. The plugin adds a single command, /claude-security, which opens a menu of three jobs, per the official documentation : Scan codebase — the whole repository or a scoped subset of it Scan changes — a branch’s diff, a pull request’s diff, or a single commit Suggest patches — turn a report’s findings into .patch files Installation is two commands from the official Anthropic marketplace : If the marketplace is not found, run /plugin marketplace add anthropics/claude-plugins-official first. The plugin source is public in the claude-plugins-official repository , currently at version 0.10.0. How the scan pipeline is structured The scan is implemented as a dynamic workflow — a JavaScript orchestration script that fans work out across subagents. The script declares six phases: Inventory : partition the repository into components. Every top-level directory must be either scanned or explicitly skipped with a reason. Threat model : one modeler per component, producing entry points, sinks, trust boundaries, and files a researcher must read in full. Research : one researcher per component × category cell. Sweep : gap-fill over what the matrix did not cover. Panel : three-lens adversarial verification, one voter per lens. Adversarial : max effort only: re-panel marginal keeps, then red-team every survivor. Research runs against four fixed categories: injection-and-input, auth-and-access, memory-and-unsafe, and crypto-and-secrets. The memory-and-unsafe lens is dropped for components written entirely in memory-safe languages, so a pure Python or TypeScript component gets three lenses instead of four. The operational scale of a run is dictated by four distinct effort tiers: low, medium, high, and max. Depending on the selected tier, specific thresholds are enforced: the maximum number of components is capped at 12 for low and medium tiers, expanding to 24 for high and max tiers; matrix cells are assigned 1 researcher, which increases to 2 at the high and max levels; and the number of gap-fill sweeps scales from 0 at low, to 1 at medium, up to 2 for high and max. When dealing with a limited scope or a small diff, the process condenses into a single-researcher configuration instead of deploying the entire matrix. This ensures the evaluation remains strictly proportionate to the target while maintaining the identical verification standard. The system employs model-tiered agents: the orchestrator runs on Opus, while the repository cartographer and read-only code explorer run on Sonnet. Furthermore, the session model is inherited by researchers and verifiers, and scan agents are restricted exclusively to read-only tools. How a finding earns its place in the report This is the part worth understanding closely. A candidate finding does not go into the report because a researcher found it. It goes in only after surviving a panel. Each candidate is handed to three independent verifiers, one per lens: REACHABILITY , IMPACT , and DEFENSES . Each returns a structured verdict of TRUE_POSITIVE or FALSE_POSITIVE with one or two lines naming the decisive file:line. The keep quorum is 2 of 3. If fewer than three voters return, the candidate is not keepable at all. The panel result also caps the finding’s stated confidence. A unanimous 3/3 panel allows a confidence ceiling of high; a 2/3 quorum caps it at medium. A finding cannot claim more confidence than its verification earned. Critically, the tally is computed in Python by the report renderer, not asserted by the model that produced the findings. The revision stamp’s verification.status is set to verified only when the vote record proves the panel ran for every finding in the report; otherwise it is unverified with a stated reason. That makes the report’s own account of its rigor something you can check rather than something you take on trust. What a scan writes to disk Every scan writes a timestamped CLAUDE-SECURITY-<timestamp>/ directory into the repository containing three artifacts: CLAUDE-SECURITY-RESULTS.md — the human-readable report. Each finding carries an ID such as F1, plus severity (HIGH/MEDIUM/LOW), confidence, CWE ID, the exact sink line, impact, exploit scenario, preconditions, and a recommendation. CLAUDE-SECURITY-RESULTS.jsonl — the same findings, one JSON object per line. CLAUDE-SECURITY-REVISION-<commit>.json — the revision stamp: which commit was scanned, at what effort, the severity counts, and how thoroughly the run was verified. The filename carries -dirty when uncommitted changes were part of the scanned tree. That directory is the only change a scan makes to your checkout, and it ships with its own .gitignore so a stray git add cannot sweep a report into a commit. Deleting that one .gitignore lets you commit the report for an audit trail. Patches, and the three claims each one must earn The fix job develops each patch in a scratch clone of the repository, so your working tree and index are never touched. An agent independent of the one that wrote the patch then reviews the staged diff and runs the project’s own test suite against the change. A patch file is written only if the verifier can state all three of these with confidence: the change addresses that one finding, it introduces no new vulnerability, and behavior is otherwise unchanged — where a change to which inputs the code accepts counts as a behavior change. Any change that weakens security while claiming to fix it, such as a loosened auth check or a disabled test, is an automatic reject. When the verifier cannot vouch for all three, you get a short note explaining why instead of a patch. Patches land in the report’s patches/ folder as F<n>.patch. Nothing is applied automatically: The patch note explicitly indicates if no repository test covers the modified code, clarifying that the verification relies on code review rather than test execution. Anthropic suggests that each patch should be applied using an individual pull request. Requirements, cost, and the trust model The plugin requires a paid plan with Claude Code v2.1.154 or later, with dynamic workflows enabled in /config. It also needs Python 3.9.6 or later on your PATH as python3 (using only the standard library) and Git for change scans and patching. Linux, macOS, and Windows are supported, and scans count against your plan’s token limits. Running in your session under your permissions, the scan adds no isolation of its own , meaning committed .claude/ settings, hooks, and CLAUDE.md still apply. While it treats repository content as data rather than instructions, this is not a defense against hostile repositories; use sandbox-runtime to sandbox unfamiliar codebases. Additionally, scans are nondeterministic and do not replace traditional static analysis, dependency scanning, or code reviews. Where it sits in the stack Common vulnerabilities in code Claude writes, fixed in the same session One-time security pass on the current branch Multi-agent scan of a repository or diff, independently reviewed findings and patches Code Review (Team, Enterprise) Multi-agent correctness and security review with full codebase context Hosted scanning that monitors connected repositories Your existing SAST and dependency scanners Language-specific rules, supply-chain checks, policy enforcement The Claude Security plugin runs a six-phase multi-agent scan locally in a Claude Code session, installed with /plugin install claude-security@claude-plugins-official. Findings reach the report only after a 3-voter adversarial panel (REACHABILITY, IMPACT, DEFENSES) clears a 2-of-3 quorum; a non-unanimous panel caps stated confidence at medium. The verification tally is computed in code by the report renderer, not asserted by the model, and stamped into a per-commit revision file. Patches are built in a scratch clone, independently verified against three claims, and never applied automatically. The scan adds no isolation of its own — sandbox the session before scanning code you do not control. Sources: Claude Security plugin documentation , Claude Security product page , Plugin source, claude-plugins-official , @claudeai announcement and Claude Security public beta blog Michal Sutter is a data science professional with a Master of Science in Data Science from the University of Padova. With a solid foundation in statistical analysis, machine learning, and data engineering, Michal excels at transforming complex datasets into actionable insights. Michal Sutter Cursor Releases Cursor Router: A Request-Level Classifier Delivering Frontier Coding Quality at 30–50% Lower Cost Michal Sutter Cisco Foundation AI Releases Antares: 350M and 1B Open-Weight Models That Localize Known Vulnerabilities Inside Real Codebases Michal Sutter Meta Open-Sources Astryx: An Agent-Ready React Design System With 150+ Accessible Components, Seven Themes, and a CLI Michal Sutter Someone Fine-Tuned OpenBMB’s MiniCPM5-1B on Claude Fable 5 Traces to Ship a 657MB Local Thinking Model",
+      "full_article_text_chars": 9432,
+      "content_preview": "Anthropic has released the Claude Security plugin for Claude Code in beta. The plugin runs a multi-agent vulnerability scan of a repository from inside an existing Claude Code session, then turns the findings you select into patch files that you review and apply yourself. Anthropic emphasized the tool’s versatility upon announcement, highlighting its capability to either run a comprehensive scan across the full codebase or inspect changes from the terminal right before a commit. The plugin adds a single command, /claude-security, which opens a menu of three jobs, per the official documentation : Scan codebase — the whole repository or a scoped subset of it Scan changes — a branch’s diff, a pull request’s diff, or a single commit Suggest patches — turn a report’s findings into .patch files Installation is two commands from the official Anthropic marketplace : If the marketplace is not found, run /plugin marketplace add anthropics/claude-plugins-official first. The plugin source is public in the claude-plugins-official repository , currently at version 0.10.0. How the scan pipeline is structured The scan is implemented as a dynamic workflow — a JavaScript orchestration script that fans work out across subagents. The script declares six phases: Inventory : partition the repository into components. Every top-level directory must be either scanned or explicitly skipped with a reason. Threat model : one modeler per component, producing entry points, sinks, trust boundaries, and files a researcher must read in full. Research : one researcher per component × category cell. Sweep : gap-fill over what the matrix did not cover. Panel : three-lens adversarial verification, one voter per lens. Adversarial : max effort only: re-panel marginal keeps, then red-team every survivor. Research runs against four fixed categories: injection-and-input, auth-and-access, memory-and-unsafe, and crypto-and-secrets. The memory-and-unsafe lens is dropped for components written entirely in memory-safe languages, so a pure Python or TypeScript component gets three lenses instead of four. The operational scale of a run is dictated by four distinct effort tiers: low, medium, high, and max. Depending on the selected tier, specific thresholds are enforced: the maximum number of components is capped at 12 for low and medium tiers, expanding to 24 for high and max tiers; matrix cells are assigned 1 researcher, which increases to 2 at the high and max levels; and the number of gap-fill sweeps scales from 0 at low, to 1 at medium, up to 2 for high and max. When dealing with a limited scope or a small diff, the process condenses into a single-researcher configuration instead of deploying the entire matrix. This ensures the evaluation remains strictly proportionate to the target while maintaining the identical verification standard. The system employs model-tiered agents: the orchestrator runs on Opus, while the repository cartographer and read-only code explorer run on Sonnet. Furthermore, the session model is inherited by researchers and verifiers, and scan agents are restricted exclusively to read-only tools. How a finding earns its place in the report This is the part worth understanding closely. A candidate finding does not go into the report because a researcher found it. It goes in only after surviving a panel. Each candidate is handed to three independent verifiers, one per lens: REACHABILITY , IMPACT , and DEFENSES . Each returns a structured verdict of TRUE_POSITIVE or FALSE_POSITIVE with one or two lines naming the decisive file:line. The keep quorum is 2 of 3. If fewer than three voters return, the candidate is not keepable at all. The panel result also caps the finding’s stated confidence. A unanimous 3/3 panel allows a confidence ceiling of high; a 2/3 quorum caps it at medium. A finding cannot claim more confidence than its verification earned. Critically, the tally is computed in Python by the report renderer, not asserted by the model that produced the findings. The revision stamp’s verification.status is set to verified only when the vote record proves the panel ran for every finding in the report; otherwise it is unverified with a stated reason. That makes the report’s own account of its rigor something you can check rather than something you take on trust. What a scan writes to disk Every scan writes a timestamped CLAUDE-SECURITY-<timestamp>/ directory into the repository containing three artifacts: CLAUDE-SECURITY-RESULTS.md — the human-readable report. Each finding carries an ID such as F1, plus severity (HIGH/MEDIUM/LOW), confidence, CWE ID, the exact sink line, impact, exploit scenario, preconditions, and a recommendation. CLAUDE-SECURITY-RESULTS.jsonl — the same findings, one JSON object per line. CLAUDE-SECURITY-REVISION-<commit>.json — the revision stamp: which commit was scanned, at what effort, the severity counts, and how thoroughly the run was verified. The filename carries -dirty when uncommitted changes were part of the scanned tree. That directory is the only change a scan makes to your checkout, and it ships with its own .gitignore so a stray git add cannot sweep a report into a commit. Deleting that one .gitignore lets you commit the report for an audit trail. Patches, and the three claims each one must earn The fix job develops each patch in a scratch clone of the repository, so your working tree and index are never touched. An agent independent of the one that wrote the patch then reviews the staged diff and runs the project’s own test suite against the change. A patch file is written only if the verifier can state all three of these with confidence: the change addresses that one finding, it introduces no new vulnerability, and behavior is otherwise unchanged — where a change to which inputs the code accepts counts as a behavior change. Any change that weakens security while claiming to fix it, such as a loosened auth check or a disabled test, is an automatic reject. When the verifier cannot vouch for all three, you get a short note explaining why instead of a patch. Patches land in the report’s patches/ folder as F<n>.patch. Nothing is applied automatically: The patch note explicitly indicates if no repository test covers the modified code, clarifying that the verification relies on code review rather than test execution. Anthropic suggests that each patch should be applied using an individual pull request. Requirements, cost, and the trust model The plugin requires a paid plan with Claude Code v2.1.154 or later, with dynamic workflows enabled in /config. It also needs Python 3.9.6 or later on your PATH as python3 (using only the standard library) and Git for change scans and patching. Linux, macOS, and Windows are supported, and scans count against your plan’s token limits. Running in your session under your permissions, the scan adds no isolation of its own , meaning committed .claude/ settings, hooks, and CLAUDE.md still apply. While it treats repository content as data rather than instructions, this is not a defense against hostile repositories; use sandbox-runtime to sandbox unfamiliar codebases. Additionally, scans are nondeterministic and do not replace traditional static analysis, dependency scanning, or code reviews. Where it sits in the stack Common vulnerabilities in code Claude writes, fixed in the same session One-time security pass on the current branch Multi-agent scan of a repository or diff, independently reviewed findings and patches Code Review (Team, Enterprise) Multi-agent correctness and security review with full codebase context Hosted scanning that monitors connected repositories Your existing SAST and dependency scanners Language-specific rules, supply-chain checks, policy enforcement The Claude Security plugin runs a six-phase multi-agent scan locally in a Claude Code session, installed with /plugin install claude-security@claude-plugins-official. Findings reach the report only after a 3-voter adversarial panel (REACHABILITY, IMPACT, DEFENSES) clears a 2-of-3 quorum; a non-unanimous panel caps stated confidence at medium. The verification tally is computed in code by the report renderer, not asserted by the model, and stamped into a per-commit revision file. Patches are built in a scratch clone, independently verified against three claims, and never applied automatically. The scan adds no isolation of its own — sandbox the session before scanning code you do not control. Sources: Claude Security plugin documentation , Claude Security product page , Plugin source, claude-plugins-official , @claudeai announcement and Claude Security public beta blog Michal Sutter is a data science professional with a Master of Science in Data Science from the University of Padova. With a solid foundation in statistical analysis, machine learning, and data engineering, Michal excels at transforming complex datasets into actionable insights.",
+      "content_preview_chars": 8914,
+      "content_fetched_at": "2026-07-23T09:34:34",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
     }
