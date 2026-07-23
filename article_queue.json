@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-23T13:11:10",
+  "updated_at": "2026-07-23T15:29:18",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -570,7 +570,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-07-19T11:33:13",
-      "candidate_failure_count": 2
+      "candidate_failure_count": 2,
+      "archived": true,
+      "archived_at": "2026-07-23T15:22:15",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "4fe674828c78bb0a",
@@ -2514,12 +2517,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-23T13:02:01",
-      "candidate_retry_after": "2026-07-23T13:17:01Z",
+      "content_fetched_at": "2026-07-23T15:22:38",
+      "candidate_retry_after": "2026-07-23T15:37:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-23T13:02:01",
-      "candidate_failure_count": 60
+      "candidate_failed_at": "2026-07-23T15:22:38",
+      "candidate_failure_count": 61
     },
     {
       "id": "512c2899a98440d2",
@@ -2548,12 +2551,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-23T13:02:01",
-      "candidate_retry_after": "2026-07-23T13:17:01Z",
+      "content_fetched_at": "2026-07-23T15:22:38",
+      "candidate_retry_after": "2026-07-23T15:37:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-23T13:02:01",
-      "candidate_failure_count": 60
+      "candidate_failed_at": "2026-07-23T15:22:38",
+      "candidate_failure_count": 61
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2582,12 +2585,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-23T13:02:01",
-      "candidate_retry_after": "2026-07-23T13:17:01Z",
+      "content_fetched_at": "2026-07-23T15:22:38",
+      "candidate_retry_after": "2026-07-23T15:37:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-23T13:02:01",
-      "candidate_failure_count": 60
+      "candidate_failed_at": "2026-07-23T15:22:38",
+      "candidate_failure_count": 61
     },
     {
       "id": "d900f1574fddfab4",
@@ -3405,12 +3408,12 @@
       "removed_source_links_count": 226,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=486 chars/74 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:486chars/74words, page_text:486chars/74words)",
-      "content_fetched_at": "2026-07-23T13:02:05",
-      "candidate_retry_after": "2026-07-23T13:17:05Z",
+      "content_fetched_at": "2026-07-23T15:22:42",
+      "candidate_retry_after": "2026-07-23T15:37:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=486 chars/74 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:486chars/74words, page_text:486chars/74words)",
-      "candidate_failed_at": "2026-07-23T13:02:05",
-      "candidate_failure_count": 59
+      "candidate_failed_at": "2026-07-23T15:22:42",
+      "candidate_failure_count": 60
     },
     {
       "id": "8d2678d87487d729",
@@ -4145,7 +4148,10 @@
       "content_preview_chars": 1813,
       "content_fetched_at": "2026-07-19T11:29:20",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-23T15:22:15",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "ee0434be74f9a9ea",
@@ -4269,13 +4275,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-07-23T13:02:06",
-      "candidate_retry_after": "2026-07-23T13:17:06Z",
+      "content_fetch_error": "http 403",
+      "content_fetched_at": "2026-07-23T15:22:42",
+      "candidate_retry_after": "2026-07-23T15:37:42Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-07-23T13:02:06",
-      "candidate_failure_count": 58
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-07-23T15:22:42",
+      "candidate_failure_count": 59
     },
     {
       "id": "45429302676bf4c5",
@@ -5312,12 +5318,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-23T13:02:09",
-      "candidate_retry_after": "2026-07-23T13:17:09Z",
+      "content_fetched_at": "2026-07-23T15:22:44",
+      "candidate_retry_after": "2026-07-23T15:37:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-23T13:02:09",
-      "candidate_failure_count": 56
+      "candidate_failed_at": "2026-07-23T15:22:44",
+      "candidate_failure_count": 57
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5349,12 +5355,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-23T13:02:10",
-      "candidate_retry_after": "2026-07-23T13:17:10Z",
+      "content_fetched_at": "2026-07-23T15:22:45",
+      "candidate_retry_after": "2026-07-23T15:37:45Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-23T13:02:10",
-      "candidate_failure_count": 56
+      "candidate_failed_at": "2026-07-23T15:22:45",
+      "candidate_failure_count": 57
     },
     {
       "id": "aede79193c6b98c9",
@@ -5386,12 +5392,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-23T13:02:13",
-      "candidate_retry_after": "2026-07-23T13:17:13Z",
+      "content_fetched_at": "2026-07-23T15:22:46",
+      "candidate_retry_after": "2026-07-23T15:37:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-23T13:02:13",
-      "candidate_failure_count": 56
+      "candidate_failed_at": "2026-07-23T15:22:46",
+      "candidate_failure_count": 57
     },
     {
       "id": "253eaa098c468523",
@@ -6319,12 +6325,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-23T13:02:14",
-      "candidate_retry_after": "2026-07-23T13:17:14Z",
+      "content_fetched_at": "2026-07-23T15:22:47",
+      "candidate_retry_after": "2026-07-23T15:37:47Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-23T13:02:14",
-      "candidate_failure_count": 54
+      "candidate_failed_at": "2026-07-23T15:22:47",
+      "candidate_failure_count": 55
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6530,7 +6536,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-07-19T21:34:15",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "archived": true,
+      "archived_at": "2026-07-23T15:22:15",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "9011e6778ec391e0",
@@ -6571,7 +6580,10 @@
       "content_preview_chars": 5416,
       "content_fetched_at": "2026-07-19T17:40:14",
       "enrichment_status": "rss_summary",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-23T15:22:15",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "62c272caea5ad8be",
@@ -6612,7 +6624,10 @@
       "content_preview_chars": 4951,
       "content_fetched_at": "2026-07-19T17:40:14",
       "enrichment_status": "rss_summary",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-23T15:22:15",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "6e1337de2d25e846",
@@ -6707,12 +6722,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-23T13:02:16",
-      "candidate_retry_after": "2026-07-23T13:17:16Z",
+      "content_fetched_at": "2026-07-23T15:22:49",
+      "candidate_retry_after": "2026-07-23T15:37:49Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-23T13:02:16",
-      "candidate_failure_count": 52
+      "candidate_failed_at": "2026-07-23T15:22:49",
+      "candidate_failure_count": 53
     },
     {
       "id": "693fbfabd96b2185",
@@ -6743,12 +6758,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-23T13:02:17",
-      "candidate_retry_after": "2026-07-23T13:17:17Z",
+      "content_fetched_at": "2026-07-23T15:22:51",
+      "candidate_retry_after": "2026-07-23T15:37:51Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-23T13:02:17",
-      "candidate_failure_count": 52
+      "candidate_failed_at": "2026-07-23T15:22:51",
+      "candidate_failure_count": 53
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9147,12 +9162,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=443 chars/66 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:443chars/66words, paragraph_fallback:328chars/49words, article_body:443chars/66words, meta_description:53chars/7words, page_text:443chars/66words)",
-      "content_fetched_at": "2026-07-23T13:02:18",
-      "candidate_retry_after": "2026-07-23T13:17:18Z",
+      "content_fetched_at": "2026-07-23T15:22:52",
+      "candidate_retry_after": "2026-07-23T15:37:52Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=443 chars/66 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:443chars/66words, paragraph_fallback:328chars/49words, article_body:443chars/66words, meta_description:53chars/7words, page_text:443chars/66words)",
-      "candidate_failed_at": "2026-07-23T13:02:18",
-      "candidate_failure_count": 48
+      "candidate_failed_at": "2026-07-23T15:22:52",
+      "candidate_failure_count": 49
     },
     {
       "id": "561b6316398d7603",
@@ -10239,12 +10254,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-23T13:02:19",
-      "candidate_retry_after": "2026-07-23T13:17:19Z",
+      "content_fetched_at": "2026-07-23T15:22:52",
+      "candidate_retry_after": "2026-07-23T15:37:52Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-23T13:02:19",
-      "candidate_failure_count": 44
+      "candidate_failed_at": "2026-07-23T15:22:52",
+      "candidate_failure_count": 45
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10276,12 +10291,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-23T13:02:19",
-      "candidate_retry_after": "2026-07-23T13:17:19Z",
+      "content_fetched_at": "2026-07-23T15:22:52",
+      "candidate_retry_after": "2026-07-23T15:37:52Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-23T13:02:19",
-      "candidate_failure_count": 44
+      "candidate_failed_at": "2026-07-23T15:22:52",
+      "candidate_failure_count": 45
     },
     {
       "id": "a6f4ca9464909855",
@@ -10313,12 +10328,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-23T13:02:20",
-      "candidate_retry_after": "2026-07-23T13:17:20Z",
+      "content_fetched_at": "2026-07-23T15:22:52",
+      "candidate_retry_after": "2026-07-23T15:37:52Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-23T13:02:20",
-      "candidate_failure_count": 44
+      "candidate_failed_at": "2026-07-23T15:22:52",
+      "candidate_failure_count": 45
     },
     {
       "id": "71463c25ac92daaa",
@@ -14949,12 +14964,12 @@
       "removed_source_links_count": 79,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-23T13:02:21",
-      "candidate_retry_after": "2026-07-23T13:17:21Z",
+      "content_fetched_at": "2026-07-23T15:22:54",
+      "candidate_retry_after": "2026-07-23T15:37:54Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-07-23T13:02:21",
-      "candidate_failure_count": 33
+      "candidate_failed_at": "2026-07-23T15:22:54",
+      "candidate_failure_count": 34
     },
     {
       "id": "41b7b918ab3966e4",
@@ -25578,11 +25593,11 @@
       "content_fetched_at": "2026-07-22T22:32:03",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-23T07:07:30",
+      "selected_at": "2026-07-23T15:26:24",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-23T07:07:30",
+      "processing_prepared_at": "2026-07-23T15:26:25",
       "ai_input_package": {
         "title": "Suno, Paidwork Data Breaches Affect Tens of Millions of Accounts",
         "url": "https://www.securityweek.com/suno-paidwork-data-breaches-affect-tens-of-millions-of-accounts",
@@ -25620,19 +25635,19 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_quality_last_error": "article older than 24 hours",
       "ai_status": "failed",
-      "ai_error": "Missing AI output field(s): slug",
+      "ai_error": "article older than 24 hours",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 176.96,
+      "ai_total_time_seconds": 171.91,
       "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-23T07:25:28Z",
+      "candidate_retry_after": "2026-07-23T15:44:17Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "Missing AI output field(s): slug",
-      "candidate_failed_at": "2026-07-23T07:10:28",
-      "candidate_failure_count": 1,
+      "candidate_failure_reason": "article older than 24 hours",
+      "candidate_failed_at": "2026-07-23T15:29:17",
+      "candidate_failure_count": 2,
       "telegram_final_summary_notified_at": "2026-07-23T07:16:11"
     },
     {
@@ -28037,7 +28052,80 @@
       "content_preview_chars": 6223,
       "content_fetched_at": "2026-07-23T07:07:09",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-23T15:22:54",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-23T15:22:54",
+      "ai_input_package": {
+        "title": "CISA Warns Iran-Linked Hackers Exploit Rockwell PLCs to Disrupt U.S. Critical Infrastructure",
+        "url": "https://cybersecuritynews.com/iran-hackers-exploit-rockwell-plcs",
+        "source_name": "Cyber Security News",
+        "suggested_category": "Cyber-Security",
+        "main_image": "http://cybersecuritynews.com/wp-content/uploads/2026/07/CISA-Warns-Iran-Linked-Hackers-Exploit-Rockwell-PLCs-to-Disrupt-U.S.-Critical-Infrastructure.webp",
+        "article_images": [
+          {
+            "url": "http://cybersecuritynews.com/wp-content/uploads/2026/07/CISA-Warns-Iran-Linked-Hackers-Exploit-Rockwell-PLCs-to-Disrupt-U.S.-Critical-Infrastructure.webp",
+            "alt": "CISA Warns Iran-Linked Hackers Exploit Rockwell PLCs to Disrupt U.S. Critical Infrastructure",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/07/CISA-Warns-Iran-Linked-Hackers-Exploit-Rockwell-PLCs-to-Disrupt-U.S.-Critical-Infrastructure-696x392.webp",
+            "alt": "CISA Warns Iran-Linked Hackers Exploit Rockwell PLCs to Disrupt U.S. Critical Infrastructure",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Iran-linked hackers target exposed PLCs in U.S. critical infrastructure, altering control logic in water, energy, and government systems.",
+        "content_preview": "Iran-linked hackers are targeting internet-connected industrial controllers used across U.S. critical infrastructure. The campaign has disrupted programmable logic controllers, or PLCs, in government, water, wastewater, and energy facilities. Some victims suffered operational disruption and financial losses after attackers altered the systems that manage physical processes. The consequences can spread quickly. The activity has been underway since at least March 2026 and relies on exposed or poorly secured operational technology. Attackers connect from leased foreign infrastructure using legitimate PLC programming software. They download project files, change control logic, and manipulate information shown to operators on human machine interface and SCADA displays. Analysts from CISA and the FBI identified malicious changes to project files, including reusable code modules inside Rockwell Automation programs. The wider exposure is significant, with earlier research finding thousands of exposed Rockwell PLCs reachable online. The latest advisory also confirms observed targeting of Schneider Electric and Siemens equipment. CISA said in a report shared with Cyber Security News (CSN) that the actors appear intent on causing disruptive effects inside the United States. The campaign has not been tied to a new product vulnerability. Instead, it exploits unsafe internet exposure, weak access controls, and legitimate engineering functions. CISA Warns Iran-Linked Hackers Exploit Rockwell PLCs The intruders targeted Rockwell CompactLogix and Micro850 controllers, Schneider BMX P34 and Modicon M340 systems, and Siemens S7-1200 devices. This activity reflects a broader pattern in which weak credentials and exposed PLCs give hostile operators a direct route into sensitive industrial environments without requiring a zero-day flaw. At one U.S. victim, the attackers used configuration software to download a malicious project file to a PLC. The file preserved enough ladder logic to keep downstream functions operating, but added instructions that overrode controls responsible for safe operating limits. On Rockwell devices, these project files commonly use the .ACD filename extension. After extracting project files, the group modified or deleted control logic, including Add-On Instructions that package reusable functions. Investigators also found altered HMI and SCADA data. These changes disabled shutdown and alarm logic, creating conditions in which equipment could move into unsafe states while operators received no warning. The attackers used approved engineering tools from the affected manufacturers, hosted on rented third-party systems, to copy PLC project files. They also used Dropbear SSH on victim modems for remote access. The methods echo earlier Iranian attacks on critical infrastructure involving the IRGC-linked CyberAv3ngers group and exposed industrial control equipment. Defenders Urged to Remove Direct Internet Access CISA urged operators to disconnect PLCs from the public internet and place secure gateways, firewalls, or VPNs in front of any required remote access. Organizations should apply multifactor authentication, restrict communications to approved control-system devices, secure cellular modems, and regularly examine modem and network logs for unusual access. For controllers with a physical mode switch, defenders should validate the running project file before placing the device in run mode. This setting helps prevent remote modification, but it can also lock in a malicious file if checks are skipped. Siemens users should enable programming protection where software key switching is available. Operators should compare active PLC programs with known-good logic, inspect reusable modules and input-output settings, and verify backups before restoration. Logs from PLCs, modems, HMIs, and engineering workstations should be reviewed for lateral movement. If attackers reached connected systems, CISA advises reimaging affected devices to remove hidden changes or access tools. Additional steps include replacing default passwords, applying current vendor patches, disabling unused services, and keeping offline backups of logic and configurations. Defenders should watch for unexpected protocol use or commands that change operating modes. The risks documented around internet-connected industrial control devices show why continuous asset monitoring remains essential. CISA also recommends checking historical logs against the indicators below before blocking them, because the addresses were linked to the actors only during specific periods. Suspected victims should activate incident response plans, contact the relevant U.S. agencies and equipment manufacturer, and preserve evidence for investigation. Indicators of compromise (IoCs):- Actor-associated from September 2025 to February 2026 Actor-associated from January 2026 to June 2026 Actor-associated from February 2026 to March 2026 Actor-associated during February 2026 Actor-associated from May 2026 to June 2026 Actor-associated from June 2026 to July 2026 Actor-associated during July 2026 Actor-associated from January 2025 to March 2026 Actor-associated during March 2026 Note: IP addresses and domains are intentionally defanged (e.g., [.] ) to prevent accidental resolution or hyperlinking. Re-fang only within controlled threat intelligence platforms such as MISP, VirusTotal, or your SIEM . ALERT!: 20+ government sites delivered malware to businesses and citizens. See full attack research to check your own exposure. Furtex – Linux Toolkit for Post-Exploitation and Evasion for Security Researchers and Red Teamers A Hidden Line of Website Text Can Turn AWS Kiro Into a Remote Code Execution Tool Critical wp2shell RCE Vulnerability – Complete Coverage Including PoC and Active Exploitation Details Public PoC Released for Windows NT OS Kernel Privilege Escalation Vulnerability Anthropic Launches Claude Security Plugin to Scan Code for Vulnerabilities RefluXFS Linux Kernel Vulnerability Lets Attackers Gain Root Access Adobe Acrobat Extension Flaw Lets Attackers Steal WhatsApp Chats From 329 Million Users ASUS Patches Critical Router Vulnerability Enabling Remote Command Execution",
+        "content_preview_chars": 6223,
+        "rss_summary": "",
+        "full_article_text": "Iran-linked hackers are targeting internet-connected industrial controllers used across U.S. critical infrastructure. The campaign has disrupted programmable logic controllers, or PLCs, in government, water, wastewater, and energy facilities. Some victims suffered operational disruption and financial losses after attackers altered the systems that manage physical processes. The consequences can spread quickly. The activity has been underway since at least March 2026 and relies on exposed or poorly secured operational technology. Attackers connect from leased foreign infrastructure using legitimate PLC programming software. They download project files, change control logic, and manipulate information shown to operators on human machine interface and SCADA displays. Analysts from CISA and the FBI identified malicious changes to project files, including reusable code modules inside Rockwell Automation programs. The wider exposure is significant, with earlier research finding thousands of exposed Rockwell PLCs reachable online. The latest advisory also confirms observed targeting of Schneider Electric and Siemens equipment. CISA said in a report shared with Cyber Security News (CSN) that the actors appear intent on causing disruptive effects inside the United States. The campaign has not been tied to a new product vulnerability. Instead, it exploits unsafe internet exposure, weak access controls, and legitimate engineering functions. CISA Warns Iran-Linked Hackers Exploit Rockwell PLCs The intruders targeted Rockwell CompactLogix and Micro850 controllers, Schneider BMX P34 and Modicon M340 systems, and Siemens S7-1200 devices. This activity reflects a broader pattern in which weak credentials and exposed PLCs give hostile operators a direct route into sensitive industrial environments without requiring a zero-day flaw. At one U.S. victim, the attackers used configuration software to download a malicious project file to a PLC. The file preserved enough ladder logic to keep downstream functions operating, but added instructions that overrode controls responsible for safe operating limits. On Rockwell devices, these project files commonly use the .ACD filename extension. After extracting project files, the group modified or deleted control logic, including Add-On Instructions that package reusable functions. Investigators also found altered HMI and SCADA data. These changes disabled shutdown and alarm logic, creating conditions in which equipment could move into unsafe states while operators received no warning. The attackers used approved engineering tools from the affected manufacturers, hosted on rented third-party systems, to copy PLC project files. They also used Dropbear SSH on victim modems for remote access. The methods echo earlier Iranian attacks on critical infrastructure involving the IRGC-linked CyberAv3ngers group and exposed industrial control equipment. Defenders Urged to Remove Direct Internet Access CISA urged operators to disconnect PLCs from the public internet and place secure gateways, firewalls, or VPNs in front of any required remote access. Organizations should apply multifactor authentication, restrict communications to approved control-system devices, secure cellular modems, and regularly examine modem and network logs for unusual access. For controllers with a physical mode switch, defenders should validate the running project file before placing the device in run mode. This setting helps prevent remote modification, but it can also lock in a malicious file if checks are skipped. Siemens users should enable programming protection where software key switching is available. Operators should compare active PLC programs with known-good logic, inspect reusable modules and input-output settings, and verify backups before restoration. Logs from PLCs, modems, HMIs, and engineering workstations should be reviewed for lateral movement. If attackers reached connected systems, CISA advises reimaging affected devices to remove hidden changes or access tools. Additional steps include replacing default passwords, applying current vendor patches, disabling unused services, and keeping offline backups of logic and configurations. Defenders should watch for unexpected protocol use or commands that change operating modes. The risks documented around internet-connected industrial control devices show why continuous asset monitoring remains essential. CISA also recommends checking historical logs against the indicators below before blocking them, because the addresses were linked to the actors only during specific periods. Suspected victims should activate incident response plans, contact the relevant U.S. agencies and equipment manufacturer, and preserve evidence for investigation. Indicators of compromise (IoCs):- Actor-associated from September 2025 to February 2026 Actor-associated from January 2026 to June 2026 Actor-associated from February 2026 to March 2026 Actor-associated during February 2026 Actor-associated from May 2026 to June 2026 Actor-associated from June 2026 to July 2026 Actor-associated during July 2026 Actor-associated from January 2025 to March 2026 Actor-associated during March 2026 Note: IP addresses and domains are intentionally defanged (e.g., [.] ) to prevent accidental resolution or hyperlinking. Re-fang only within controlled threat intelligence platforms such as MISP, VirusTotal, or your SIEM . ALERT!: 20+ government sites delivered malware to businesses and citizens. See full attack research to check your own exposure. Furtex – Linux Toolkit for Post-Exploitation and Evasion for Security Researchers and Red Teamers A Hidden Line of Website Text Can Turn AWS Kiro Into a Remote Code Execution Tool Critical wp2shell RCE Vulnerability – Complete Coverage Including PoC and Active Exploitation Details Public PoC Released for Windows NT OS Kernel Privilege Escalation Vulnerability Anthropic Launches Claude Security Plugin to Scan Code for Vulnerabilities RefluXFS Linux Kernel Vulnerability Lets Attackers Gain Root Access Adobe Acrobat Extension Flaw Lets Attackers Steal WhatsApp Chats From 329 Million Users ASUS Patches Critical Router Vulnerability Enabling Remote Command Execution",
+        "full_article_text_chars": 6223,
+        "enrichment_status": "strong",
+        "source_url": "https://cybersecuritynews.com",
+        "source_published_at": "2026-07-23T06:41:54Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.42,
+        "trusted_references": [
+          {
+            "title": "accounts.google.com",
+            "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+          },
+          {
+            "title": "news.google.com",
+            "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN%3Aen"
+          },
+          {
+            "title": "CISA said in a report",
+            "url": "https://www.cisa.gov/news-events/cybersecurity-advisories/aa26-097a"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (522 words; minimum 700)",
+      "ai_status": "failed",
+      "ai_error": "ai_time_budget_exceeded",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": true,
+      "ai_total_time_seconds": 209.79,
+      "ai_quality_status": "time_budget_exceeded",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-23T15:41:24Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "ai_time_budget_exceeded",
+      "candidate_failed_at": "2026-07-23T15:26:24",
+      "candidate_failure_count": 1
     },
     {
       "id": "cecc1da29e81cd45",
@@ -28060,7 +28148,7 @@
       "category_label": "Cyber-Security",
       "category_hint": "Cyber-Security",
       "discovered_at": "2026-07-23T07:06:51",
-      "status": "ready",
+      "status": "selected",
       "score": 3,
       "priority": "low",
       "source_links_removed_count": 76,
@@ -28128,7 +28216,67 @@
       "content_preview_chars": 4840,
       "content_fetched_at": "2026-07-23T07:07:11",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-23T15:29:18",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-23T15:29:18",
+      "ai_input_package": {
+        "title": "CISA Warns of Check Point Authentication Vulnerability Exploited in Attacks",
+        "url": "https://cybersecuritynews.com/check-point-vulnerability-exploited",
+        "source_name": "Cyber Security News",
+        "suggested_category": "Cyber-Security",
+        "main_image": "http://cybersecuritynews.com/wp-content/uploads/2026/07/CISA-Warns-of-Check-Point-Authentication-Vulnerability-Exploited-in-Attacks-1.webp",
+        "article_images": [
+          {
+            "url": "http://cybersecuritynews.com/wp-content/uploads/2026/07/CISA-Warns-of-Check-Point-Authentication-Vulnerability-Exploited-in-Attacks-1.webp",
+            "alt": "CISA Warns of Check Point Authentication Vulnerability Exploited in Attacks",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/07/CISA-Warns-of-Check-Point-Authentication-Vulnerability-Exploited-in-Attacks-1-696x392.webp",
+            "alt": "Check Point Authentication Vulnerability Exploited",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "CISA added the Check Point SmartConsole flaw to its KEV catalog after it was found to allow unauthenticated remote attackers to gain full administrative access.",
+        "content_preview": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) has issued an urgent warning about a critical authentication vulnerability in Check Point SmartConsole that is actively being exploited in the wild, prompting organizations to take immediate defensive action. Tracked as CVE-2026-16232, the flaw affects Check Point Security Management and Multi-Domain Management platforms and carries a CVSS score of 9.3, indicating severe risk. The vulnerability stems from improper authentication (CWE-287) and allows an unauthenticated remote attacker to obtain an application login token. Once acquired, the token can be used to gain full administrative access to affected systems, effectively bypassing standard authentication controls. Check Point Authentication Vulnerability Exploited According to Check Point, the issue was identified during an internal BLAST (Business Logic Attack Surface Testing) review conducted as part of its Frontier AI Readiness Program. While analyzing multiple vulnerabilities, researchers discovered that CVE-2026-16232 had already been exploited in real-world attacks, impacting a limited number of customers. The exploitation appears to be limited to environments where management interfaces are directly exposed to the internet without IP-based access restrictions. This exposure condition significantly increases the attack surface, allowing threat actors to remotely target vulnerable management systems. Once compromised, attackers could potentially modify security policies, deploy malicious configurations, or pivot deeper into enterprise networks. Given the administrative level of access granted through the exploit, the impact could extend to full infrastructure compromise. CISA’s inclusion of the vulnerability in its Known Exploited Vulnerabilities (KEV) catalog underscores the urgency of patching and mitigation. Organizations using affected versions, including R81.10, R81.20, R82, and R82.10, are strongly advised to take immediate action. Older versions may also be impacted, further broadening the potential risk landscape. In addition to CVE-2026-16232, Check Point disclosed two other high-severity vulnerabilities as part of the same advisory. CVE-2026-62144 involves another authentication bypass and privilege escalation issue within management systems, also rated 9.3, although it has not been observed in active exploitation. CVE-2026-62145 affects GaiaOS WebUI and allows local privilege escalation with a CVSS score of 7.5. While these vulnerabilities are not currently exploited, they contribute to the overall risk profile and should be addressed alongside the primary flaw. Security teams are encouraged to review logs and network telemetry for any communication with these indicators of compromise as part of incident detection and response efforts. To mitigate the risk, Check Point and CISA recommend restricting SmartConsole and management access to trusted IP addresses only, ensuring that management interfaces are not exposed to the public internet. Organizations should also enforce firewall protections, verify that implied rules for control connections are enabled, and limit GUI client access to authorized networks. Observed in exploitation attempts Suspicious activity linked to attacks Potential attacker infrastructure Associated with malicious traffic Observed targeting vulnerable systems The most critical step, however, is the immediate deployment of the latest Jumbo Hotfix released on July 22, 2026. This update includes security patches and hardening improvements designed to remediate the vulnerability and strengthen overall system resilience. The incident highlights the ongoing risks associated with exposed management interfaces and the importance of layered security controls. As attackers continue to target high-value administrative systems, proactive patching, strict access controls, and continuous monitoring remain essential to defending enterprise environments against evolving threats. The Privilege Paths Attackers See That You Don’t: BeyondTrust Pathfinder Platform Does It for You -> Get Free Identity Security Assessment Paidwork Data Breach Exposes 23 Million Users’ Banking and Personal Data New NULLZEREPTOOL Uses Telegram to Launch 20 DDoS Methods With Rotating Proxies Kratos PhaaS Attacking Microsoft 365 Users Across the US, Europe to Steal Credentials Hackers Actively Exploiting SonicWall SMA1000 0-Day Vulnerability in the Wild RefluXFS Linux Kernel Vulnerability Lets Attackers Gain Root Access Adobe Acrobat Extension Flaw Lets Attackers Steal WhatsApp Chats From 329 Million Users ASUS Patches Critical Router Vulnerability Enabling Remote Command Execution A Hidden Line of Website Text Can Turn AWS Kiro Into a Remote Code Execution Tool Public PoC Released for Windows NT OS Kernel Privilege Escalation Vulnerability",
+        "content_preview_chars": 4840,
+        "rss_summary": "",
+        "full_article_text": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) has issued an urgent warning about a critical authentication vulnerability in Check Point SmartConsole that is actively being exploited in the wild, prompting organizations to take immediate defensive action. Tracked as CVE-2026-16232, the flaw affects Check Point Security Management and Multi-Domain Management platforms and carries a CVSS score of 9.3, indicating severe risk. The vulnerability stems from improper authentication (CWE-287) and allows an unauthenticated remote attacker to obtain an application login token. Once acquired, the token can be used to gain full administrative access to affected systems, effectively bypassing standard authentication controls. Check Point Authentication Vulnerability Exploited According to Check Point, the issue was identified during an internal BLAST (Business Logic Attack Surface Testing) review conducted as part of its Frontier AI Readiness Program. While analyzing multiple vulnerabilities, researchers discovered that CVE-2026-16232 had already been exploited in real-world attacks, impacting a limited number of customers. The exploitation appears to be limited to environments where management interfaces are directly exposed to the internet without IP-based access restrictions. This exposure condition significantly increases the attack surface, allowing threat actors to remotely target vulnerable management systems. Once compromised, attackers could potentially modify security policies, deploy malicious configurations, or pivot deeper into enterprise networks. Given the administrative level of access granted through the exploit, the impact could extend to full infrastructure compromise. CISA’s inclusion of the vulnerability in its Known Exploited Vulnerabilities (KEV) catalog underscores the urgency of patching and mitigation. Organizations using affected versions, including R81.10, R81.20, R82, and R82.10, are strongly advised to take immediate action. Older versions may also be impacted, further broadening the potential risk landscape. In addition to CVE-2026-16232, Check Point disclosed two other high-severity vulnerabilities as part of the same advisory. CVE-2026-62144 involves another authentication bypass and privilege escalation issue within management systems, also rated 9.3, although it has not been observed in active exploitation. CVE-2026-62145 affects GaiaOS WebUI and allows local privilege escalation with a CVSS score of 7.5. While these vulnerabilities are not currently exploited, they contribute to the overall risk profile and should be addressed alongside the primary flaw. Security teams are encouraged to review logs and network telemetry for any communication with these indicators of compromise as part of incident detection and response efforts. To mitigate the risk, Check Point and CISA recommend restricting SmartConsole and management access to trusted IP addresses only, ensuring that management interfaces are not exposed to the public internet. Organizations should also enforce firewall protections, verify that implied rules for control connections are enabled, and limit GUI client access to authorized networks. Observed in exploitation attempts Suspicious activity linked to attacks Potential attacker infrastructure Associated with malicious traffic Observed targeting vulnerable systems The most critical step, however, is the immediate deployment of the latest Jumbo Hotfix released on July 22, 2026. This update includes security patches and hardening improvements designed to remediate the vulnerability and strengthen overall system resilience. The incident highlights the ongoing risks associated with exposed management interfaces and the importance of layered security controls. As attackers continue to target high-value administrative systems, proactive patching, strict access controls, and continuous monitoring remain essential to defending enterprise environments against evolving threats. The Privilege Paths Attackers See That You Don’t: BeyondTrust Pathfinder Platform Does It for You -> Get Free Identity Security Assessment Paidwork Data Breach Exposes 23 Million Users’ Banking and Personal Data New NULLZEREPTOOL Uses Telegram to Launch 20 DDoS Methods With Rotating Proxies Kratos PhaaS Attacking Microsoft 365 Users Across the US, Europe to Steal Credentials Hackers Actively Exploiting SonicWall SMA1000 0-Day Vulnerability in the Wild RefluXFS Linux Kernel Vulnerability Lets Attackers Gain Root Access Adobe Acrobat Extension Flaw Lets Attackers Steal WhatsApp Chats From 329 Million Users ASUS Patches Critical Router Vulnerability Enabling Remote Command Execution A Hidden Line of Website Text Can Turn AWS Kiro Into a Remote Code Execution Tool Public PoC Released for Windows NT OS Kernel Privilege Escalation Vulnerability",
+        "full_article_text_chars": 4840,
+        "enrichment_status": "strong",
+        "source_url": "https://cybersecuritynews.com",
+        "source_published_at": "2026-07-23T05:23:02Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 1.73,
+        "trusted_references": [
+          {
+            "title": "accounts.google.com",
+            "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+          },
+          {
+            "title": "news.google.com",
+            "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN%3Aen"
+          },
+          {
+            "title": "CISA’s inclusion of the vulnerability",
+            "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+          }
+        ],
+        "related_posts": []
+      }
     },
     {
       "id": "e07b52df873a57cf",
@@ -29171,6 +29319,347 @@
       "score": 0,
       "priority": "low",
       "skip_reason": "non_technical_entertainment_content"
+    },
+    {
+      "id": "a3ed55f97064f487",
+      "source_url_hash": "a3ed55f97064f487",
+      "canonical_url": "https://blog.talosintelligence.com/chaos-msarat-living-off-the-browser-to-build-covert-c2-channel",
+      "title_hash": "5f622d2392b50817",
+      "topic_signature": "fad4d65fe88212b3a779",
+      "title": "Chaos ransomware's msaRAT: Living off the browser to build a covert C2 channel",
+      "url": "https://blog.talosintelligence.com/chaos-msarat-living-off-the-browser-to-build-covert-c2-channel",
+      "source_name": "Cisco Talos Blog",
+      "source_url": "https://blog.talosintelligence.com",
+      "source_published_at": "2026-07-23T10:00:38Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 5.36,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-07-23T15:22:15",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 4,
+      "priority": "low",
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Chaos ransomware's msaRAT: Living off the browser to build a covert C2 channel",
+      "meta_description": "The Chaos ransomware group uses new malware \"msaRAT\" that hijacks browsers. The malware doesn't communicate directly with C2 but connects through the browser. It enables arbitrary command execution while hiding the attacker's IP from victims via WebRTC over TURN.",
+      "article_images": [
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/size/w1200/2026/07/newchaosrat.jpg",
+          "alt": "Chaos ransomware's msaRAT: Living off the browser to build a covert C2 channel",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/2026/07/newchaosrat.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/2026/07/figure1.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/2026/07/chaos-01.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/size/w1200/2026/07/newchaosrat.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/2026/07/newchaosrat.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/2026/07/figure1.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/2026/07/chaos-01.jpg",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Jordyn Dunk",
+          "url": "https://blog.talosintelligence.com/author/jordyn/"
+        },
+        {
+          "title": "Michael Szeliga",
+          "url": "https://blog.talosintelligence.com/author/michael/"
+        },
+        {
+          "title": "Takahiro Takeda",
+          "url": "https://blog.talosintelligence.com/author/takahiro/"
+        },
+        {
+          "title": "ransomware",
+          "url": "https://blog.talosintelligence.com/category/ransomware/"
+        },
+        {
+          "title": "RAT",
+          "url": "https://blog.talosintelligence.com/category/rat/"
+        }
+      ],
+      "full_article_text": "Cisco Talos has discovered a new Rust-based remote access trojan (RAT) we call “msaRAT” attributed to the Chaos ransomware group. The name is derived from the binding names found in the binary: “msaOpen,” “msaClose,” “msaError,” and “msaMessage”. msaRAT is implemented using the Tokio asynchronous runtime, with primary capabilities of browser-leveraged remote code execution and covert tunneling to establish command-and-control (C2) communications. This RAT never touches the network directly — it controls its C2 communication channel exclusively through Chrome DevTools Protocol (CDP), a browser debugging API. The binary contains a Cloudflare Workers endpoint, but it never makes HTTP connections to that domain itself; it offloads that work entirely to the browser. msaRAT manipulates the browser via CDP, performs signaling (SDP Offer/Answer exchange) with Cloudflare Workers, and establishes a WebRTC DataChannel between the browser and the C2 server using Twilio TURN (Traversal Using Relays around NAT) as a relay. Overview of Chaos ransomware Chaos is a ransomware-as-a-service (RaaS) group whose activity was first confirmed in February 2025. Although the number of listings on their data leak site remains relatively low, the group consistently targets large organizations and employs double extortion tactics. For initial access, they rely on spam emails and voice-based social engineering, commonly known as vishing. Once inside a network, their traditional post-compromise methodology involves abusing remote monitoring and management (RMM) tools to establish persistent access, while leveraging legitimate file-sharing software to exfiltrate data. For a detailed breakdown of their tactics, techniques, and procedures (TTPs), please refer to our previous blog. Talos has identified a new Rust-based RAT used by the Chaos ransomware group, which we have named msaRAT. The name is derived from the binding names found in the binary (“msaOpen,” “msaClose,” “msaError,” “msaMessage”), as detailed in a later section. Figure 2 illustrates the end-to-end infection chain, from initial compromise through to the establishment of C2 communications via this RAT. After gaining access to a victim machine but prior to executing the ransomware, the attacker runs the following curl command to download an MSI file named “update_ms.msi” from an attacker-controlled server to the ProgramData directory on the victim machine, then executes it. Although port 443 is specified, the communication occurs over plain HTTP. In environments where firewall rules permit traffic based solely on port number without protocol inspection, this traffic will pass through undetected. The property information of this installer, which extracts the DLL file containing the RAT payload, contains details configured to impersonate a Windows update. When this MSI file is executed, the custom action CA_Run_EA2AEBC3 is triggered upon completion of InstallFinalize . This custom action loads lib.dll, embedded in the MSI file's Binary table as Bin_lib_EA2AEBC3 , directly into memory. msaRAT is written in Rust and implemented using the asynchronous runtime Tokio. Its primary capabilities include browser-leveraged reverse shell and covert tunneling to establish communications with a C2 server. The export table of “lib.dll” exposes a function named RUN , which is designed to be called by the installer described above. Based on the actual logs, after downloading this malware, we have confirmed the existence of a ransom note. Tokio runtime initialization Tokio is a runtime for executing asynchronous operations in Rust. While Rust's async / await provides the syntax for writing asynchronous code, it cannot execute on its own — a runtime like Tokio is responsible for scheduling and running asynchronous tasks. As the first step within the RUN function, the malware initializes Tokio to enable asynchronous processing. Multiple strings statically embedded in the binary — including TOKIO_WORKER_THREADS and the number of hardware threads is not known for the target platform — match source code from both Tokio and the Rust standard library, confirming this initialization behavior. During initialization, the malware determines the number of worker threads for parallel execution. It first reads the TOKIO_WORKER_THREADS environment variable. If the variable is not set or is empty, it calls the Windows API GetSystemInfo to retrieve the CPU count and uses that value to set the worker thread count. If dwNumberOfProcessors written by GetSystemInfo returns 0 , the worker count is set to 1 . Once the initial values are configured, the Tokio runtime is started, and OS threads equal to the number of workers are created and launched via the CreateThread API. By leveraging Tokio, this RAT can concurrently execute multiple operations — such as receiving frames from the C2, sending CDP commands to the browser, and processing key exchanges — without any operation blocking another. For example, even while an ECDH key exchange is in progress, the reception and processing of other frames continues uninterrupted. Hijacking the browser Locating the Chrome or Edge installation path After launching the Tokio runtime, msaRAT attempts to manipulate the browser. As the first step toward that goal, it searches for the installation path of Chrome or Edge on the victim machine. 1. Path Discovery via Environment Variables The malware attempts the following combinations in priority order, checking whether the file exists at each path. 2. Path Discovery via registry If no path is found through environment variables, the malware falls back to searching for Chrome exclusively via the registry. If no matching browser is found, the Chrome DevTools Protocol (CDP) manipulation described later will not be executed. Launching the browser in headless mode Upon successfully obtaining the browser path, the malware launches Chrome or Edge in headless mode via the CreateProcessW API. At launch, multiple flags listed in Table 2 are applied, enabling the CDP remote debugging port. In response to this request, the browser returns a JSON array containing information about connectable targets (such as tabs). Each element in the response includes a webSocketDebuggerUrl field, and a CDP session is established by connecting to that URL via WebSocket. Over the established session, a Target.createTarget command is sent to create a new tab, followed by Page.enable and Runtime.enable to activate the JavaScript execution environment. Inject JavaScript code After establishing a CDP session over WebSocket, the malware first bypasses Content Security Policy (CSP) using the Page.setBypassCSP command. As shown in Figure 9, the command is referenced from the string blob via pointer and length, then issued as a CDP command. Immediately after bypassing CSP with Page.setBypassCSP , the RAT issues Runtime.addBinding five consecutive times. Runtime.addBinding is a CDP feature that registers callbacks to notify both the browser's JavaScript and the CDP client (the RAT) of events. The binding names to be registered are stored in the string table within the binary. Through a loop, the names “msaOpen,” “msaClose,” “msaError,” “msaMessage,” and “dataAck” are referenced in order, and each entry is sent as a CDP command one at a time. After registering each binding name, the RAT uses Runtime.evaluate — a CDP feature for executing JavaScript in the browser — to inject JavaScript code embedded in the .rdata section into the browser. The injected code is embedded in plaintext and consists of two functions. The first function initializes the WebRTC channel. It is injected only once, at the time of the initial connection. This function establishes the foundation for communications with the C2. The following sections describe the processing performed by this JavaScript code. WebRTC DataChannel establishment (using Cloudflare Workers for signaling) and data transfer 1. Retrieving Session Traversal Utilities for NAT (STUN) and Traversal Using Relays around NAT (TURN) server information First, a GET request is sent to Cloudflare Workers (“is-01-ast[.]ols-img-12[.]workers[.]dev”) to retrieve the STUN/TURN server configuration required for WebRTC connection as JSON. If this fails, window.msaError() notifies the RAT and terminates. Figure 13 shows the GET request and response between the browser and the server hosted on Cloudflare Workers infrastructure. Since the browser is launched in headless mode, the User-Agent is identified as HeadlessChrome. As for the Origin and Referer headers, the request is disguised as originating from Microsoft's official website in order to evade detection. The response body, as shown in Figure 14, returns WebRTC ICE server configuration containing STUN/TURN server information. The STUN server (“stun2.l.google.com”) is used to discover the external IP address of the infected host in order to traverse NAT, while the TURN server (“global.turn.twilio.com”) acts as a relay point when a direct Peer-to-Peer (P2P) connection cannot be established. 2. Creating the WebRTC PeerConnection and DataChannel Using the retrieved server information, an RTCPeerConnection is created. The DataChannel name is assigned a random alphanumeric string of 5 to 20 characters generated by genStr(5, 20) . 3. Connecting events to bindings The callbacks previously registered via Runtime.addBinding are bound to their respective WebRTC events. When data is received from the C2 (onmessage), the binary data is converted to Base64 and passed to the RAT via window.msaMessage() . 4. Interactive Connectivity Establishment (ICE) candidate gathering and SDP negotiation For WebRTC communication to occur, both parties must first agree on which address to connect to and which format to use for communication. To that end, the malware generates a WebRTC SDP Offer (containing the communication parameters) and gathers ICE candidates to determine the optimal connection path. Once gathering is complete, the SDP Offer is POSTed to the C2 server, which returns an SDP Answer. Applying the C2 server's SDP via setRemoteDescription establishes the WebRTC DataChannnel connection. If ICE candidate gathering does not complete within five seconds, a timeout is triggered and it forcibly executes. Figures 18 and 19 show the actual POST /token/v1/{UID} request and response. The response contains the attacker's SDP Answer, which includes no ICE candidates, with the connection address set to “0.0.0.0”. By intentionally omitting the ICE candidates that are normally present in standard WebRTC communications, P2P connections are prevented from being established, resulting in a design where all communications are always routed through TURN. By routing traffic through Twilio's legitimate service, the real IP address of the attacker's server never appears in the network traffic, and the dual-layer infrastructure combining Twilio with Cloudflare Workers makes it significantly difficult to trace the attacker's infrastructure. 5. Data conversion helper and random string generation When sending data from the RAT to the browser, the CDP Runtime.evaluate can only pass strings. However, the actual data transmitted over the WebRTC DataChannel is binary data (ArrayBuffer). The function Base64ToArrayBuffer is responsible for handling this conversion. 6. Send queue and flow control The WebRTC DataChannel has a send buffer, and continuously sending data can result in new data being dropped. To address this issue, the attacker has implemented a queue and flow control mechanism. Data is dequeued and sent when the buffer drops below 24KB. This design is likely intended to ensure reliable delivery of large payloads such as screenshots or file transfers to the C2. The second function is dedicated to data transmission and is injected on demand via Runtime.evaluate each time the RAT sends a command to the C2 through the browser. The actual payload is embedded in place of {base64} . After the RAT injects JavaScript via Runtime.evaluate , control of the main processing shifts to the browser. The RAT enters a waiting loop monitoring the CDP WebSocket, continuously listening for events from the browser. The establishment and disconnection of the WebRTC connection, as well as data reception, are all handled by JavaScript running within the browser. To relay the results of this processing back to the RAT, the registered bindings such as window.msaOpen() and window.msaMessage(base64Data) are called. Each time a binding is called, CDP emits a Runtime.bindingCalled event to the RAT over WebSocket. The JSON format of this event is as follows: The params object contains two fields: name (a string indicating which binding was called) and payload (the argument passed from JavaScript). Based on the value of the name field, the RAT switches its subsequent behavior accordingly. Communication encryption By specification, the WebRTC DataChannel communication path is automatically protected by DTLS (transport-layer encryption), which is handled entirely by the browser and is independent of the RAT's code. Separately, msaRAT encrypts the data itself using a ChaCha-Poly1305-based encryption scheme before passing it to the browser, resulting in double-layer encryption. This design ensures that even if DTLS is stripped, an adversary-in-the-middle cannot read the contents. The ChaCha-Poly1305-based encryption key is derived through an ECDH key exchange performed at the time the C2 connection is established. When a Handshake frame (0xFE) is received from the C2 immediately after connection, the RAT receives the C2 server's public key, generates its own key pair, derives a shared key and then sends its own public key back to the C2. C2 command processing While a simple implementation would receive a command number and invoke the corresponding handler, this RAT employs a two-layer structure: an outer layer that manages connection state and an inner layer that processes frames. These are shown in Tables 4 and 5. C2 communication flow Figure 25 illustrates the communication flow between msaRAT, Cloudflare Workers, Twilio TURN, and the C2 server. msaRAT never touches the network directly — it controls its C2 communication channel exclusively through Chrome DevTools Protocol CDP), a browser debugging API. The binary contains a Cloudflare Workers endpoint (“is-01-ast[.]ols-img-12[.]workers[.]dev”), but rather than making HTTP connections to this domain itself, it offloads that entirely to the browser. This endpoint is dedicated solely to signaling relay (SDP Offer/Answer exchange) for establishing a WebRTC connection; once the WebRTC connection is established, Cloudflare Workers drops out of the communication path entirely. All subsequent C2 commands are exchanged exclusively over the WebRTC DataChannel. The likely rationale for choosing Cloudflare Workers as the signaling relay is that the destination is Cloudflare's infrastructure rather than an attacker-owned server, meaning the destination IP addresses fall within Cloudflare's CDN ranges and will pass through many firewall and proxy allowlists without inspection. Furthermore, “*.workers.dev” is a platform domain provided by Cloudflare for developers, and blocking it would broadly impact legitimate Cloudflare Workers deployments making it structurally difficult for defenders to block. In addition, as we mentioned, communications are double-encrypted. As a result of this design, all network communication from the RAT process itself is limited to “127.0.0[.]1”, and all external communications are observed as originating from a legitimate browser process. Since browser-based WebRTC communication is commonplace even in enterprise environments, C2 traffic is effectively buried within normal web traffic from the perspective of firewalls and network monitoring tools. The following ClamAV signatures detect and block this threat: Win.Downloader.ChaosRaas-10060321-0 The following SNORT® rules (SIDs) detect and block this threat: Snort 2: 1:66840, 1:66841, 1:66839 Indicators of compromise (IoCs) The IOCs can also be found in our GitHub repository here .",
+      "full_article_text_chars": 16145,
+      "content_preview": "Cisco Talos has discovered a new Rust-based remote access trojan (RAT) we call “msaRAT” attributed to the Chaos ransomware group. The name is derived from the binding names found in the binary: “msaOpen,” “msaClose,” “msaError,” and “msaMessage”. msaRAT is implemented using the Tokio asynchronous runtime, with primary capabilities of browser-leveraged remote code execution and covert tunneling to establish command-and-control (C2) communications. This RAT never touches the network directly — it controls its C2 communication channel exclusively through Chrome DevTools Protocol (CDP), a browser debugging API. The binary contains a Cloudflare Workers endpoint, but it never makes HTTP connections to that domain itself; it offloads that work entirely to the browser. msaRAT manipulates the browser via CDP, performs signaling (SDP Offer/Answer exchange) with Cloudflare Workers, and establishes a WebRTC DataChannel between the browser and the C2 server using Twilio TURN (Traversal Using Relays around NAT) as a relay. Overview of Chaos ransomware Chaos is a ransomware-as-a-service (RaaS) group whose activity was first confirmed in February 2025. Although the number of listings on their data leak site remains relatively low, the group consistently targets large organizations and employs double extortion tactics. For initial access, they rely on spam emails and voice-based social engineering, commonly known as vishing. Once inside a network, their traditional post-compromise methodology involves abusing remote monitoring and management (RMM) tools to establish persistent access, while leveraging legitimate file-sharing software to exfiltrate data. For a detailed breakdown of their tactics, techniques, and procedures (TTPs), please refer to our previous blog. Talos has identified a new Rust-based RAT used by the Chaos ransomware group, which we have named msaRAT. The name is derived from the binding names found in the binary (“msaOpen,” “msaClose,” “msaError,” “msaMessage”), as detailed in a later section. Figure 2 illustrates the end-to-end infection chain, from initial compromise through to the establishment of C2 communications via this RAT. After gaining access to a victim machine but prior to executing the ransomware, the attacker runs the following curl command to download an MSI file named “update_ms.msi” from an attacker-controlled server to the ProgramData directory on the victim machine, then executes it. Although port 443 is specified, the communication occurs over plain HTTP. In environments where firewall rules permit traffic based solely on port number without protocol inspection, this traffic will pass through undetected. The property information of this installer, which extracts the DLL file containing the RAT payload, contains details configured to impersonate a Windows update. When this MSI file is executed, the custom action CA_Run_EA2AEBC3 is triggered upon completion of InstallFinalize . This custom action loads lib.dll, embedded in the MSI file's Binary table as Bin_lib_EA2AEBC3 , directly into memory. msaRAT is written in Rust and implemented using the asynchronous runtime Tokio. Its primary capabilities include browser-leveraged reverse shell and covert tunneling to establish communications with a C2 server. The export table of “lib.dll” exposes a function named RUN , which is designed to be called by the installer described above. Based on the actual logs, after downloading this malware, we have confirmed the existence of a ransom note. Tokio runtime initialization Tokio is a runtime for executing asynchronous operations in Rust. While Rust's async / await provides the syntax for writing asynchronous code, it cannot execute on its own — a runtime like Tokio is responsible for scheduling and running asynchronous tasks. As the first step within the RUN function, the malware initializes Tokio to enable asynchronous processing. Multiple strings statically embedded in the binary — including TOKIO_WORKER_THREADS and the number of hardware threads is not known for the target platform — match source code from both Tokio and the Rust standard library, confirming this initialization behavior. During initialization, the malware determines the number of worker threads for parallel execution. It first reads the TOKIO_WORKER_THREADS environment variable. If the variable is not set or is empty, it calls the Windows API GetSystemInfo to retrieve the CPU count and uses that value to set the worker thread count. If dwNumberOfProcessors written by GetSystemInfo returns 0 , the worker count is set to 1 . Once the initial values are configured, the Tokio runtime is started, and OS threads equal to the number of workers are created and launched via the CreateThread API. By leveraging Tokio, this RAT can concurrently execute multiple operations — such as receiving frames from the C2, sending CDP commands to the browser, and processing key exchanges — without any operation blocking another. For example, even while an ECDH key exchange is in progress, the reception and processing of other frames continues uninterrupted. Hijacking the browser Locating the Chrome or Edge installation path After launching the Tokio runtime, msaRAT attempts to manipulate the browser. As the first step toward that goal, it searches for the installation path of Chrome or Edge on the victim machine. 1. Path Discovery via Environment Variables The malware attempts the following combinations in priority order, checking whether the file exists at each path. 2. Path Discovery via registry If no path is found through environment variables, the malware falls back to searching for Chrome exclusively via the registry. If no matching browser is found, the Chrome DevTools Protocol (CDP) manipulation described later will not be executed. Launching the browser in headless mode Upon successfully obtaining the browser path, the malware launches Chrome or Edge in headless mode via the CreateProcessW API. At launch, multiple flags listed in Table 2 are applied, enabling the CDP remote debugging port. In response to this request, the browser returns a JSON array containing information about connectable targets (such as tabs). Each element in the response includes a webSocketDebuggerUrl field, and a CDP session is established by connecting to that URL via WebSocket. Over the established session, a Target.createTarget command is sent to create a new tab, followed by Page.enable and Runtime.enable to activate the JavaScript execution environment. Inject JavaScript code After establishing a CDP session over WebSocket, the malware first bypasses Content Security Policy (CSP) using the Page.setBypassCSP command. As shown in Figure 9, the command is referenced from the string blob via pointer and length, then issued as a CDP command. Immediately after bypassing CSP with Page.setBypassCSP , the RAT issues Runtime.addBinding five consecutive times. Runtime.addBinding is a CDP feature that registers callbacks to notify both the browser's JavaScript and the CDP client (the RAT) of events. The binding names to be registered are stored in the string table within the binary. Through a loop, the names “msaOpen,” “msaClose,” “msaError,” “msaMessage,” and “dataAck” are referenced in order, and each entry is sent as a CDP command one at a time. After registering each binding name, the RAT uses Runtime.evaluate — a CDP feature for executing JavaScript in the browser — to inject JavaScript code embedded in the .rdata section into the browser. The injected code is embedded in plaintext and consists of two functions. The first function initializes the WebRTC channel. It is injected only once, at the time of the initial connection. This function establishes the foundation for communications with the C2. The following sections describe the processing performed by this JavaScript code. WebRTC DataChannel establishment (using Cloudflare Workers for signaling) and data transfer 1. Retrieving Session Traversal Utilities for NAT (STUN) and Traversal Using Relays around NAT (TURN) server information First, a GET request is sent to Cloudflare Workers (“is-01-ast[.]ols-img-12[.]workers[.]dev”) to retrieve the STUN/TURN server configuration required for WebRTC connection as JSON. If this fails, window.msaError() notifies the RAT and terminates. Figure 13 shows the GET request and response between the browser and the server hosted on Cloudflare Workers infrastructure. Since the browser is launched in headless mode, the User-Agent is identified as HeadlessChrome. As for the Origin and Referer headers, the request is disguised as originating from Microsoft's official website in order to evade detection. The response body, as shown in Figure 14, returns WebRTC ICE server configuration containing STUN/TURN server information.",
+      "content_preview_chars": 8804,
+      "content_fetched_at": "2026-07-23T15:22:24",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "e2bff5c75b9684d1",
+      "source_url_hash": "e2bff5c75b9684d1",
+      "canonical_url": "https://blog.talosintelligence.com/preview-cisco-talos-at-black-hat-usa-2026",
+      "title_hash": "c9ccb82066407dc1",
+      "topic_signature": "ef4b30cb82b4e39a5174",
+      "title": "Preview: Cisco Talos at Black Hat USA 2026",
+      "url": "https://blog.talosintelligence.com/preview-cisco-talos-at-black-hat-usa-2026",
+      "source_name": "Cisco Talos Blog",
+      "source_url": "https://blog.talosintelligence.com",
+      "source_published_at": "2026-07-23T10:00:14Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 5.37,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-07-23T15:22:15",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 1,
+      "priority": "low",
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 0,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Preview: Cisco Talos at Black Hat USA 2026",
+      "meta_description": "Here’s some of the ways Talos is showing up at Black Hat, alongside our friends at Cisco and Splunk.",
+      "image_warning": "missing downloadable article image",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "fallback",
+      "main_image_extraction_method": "",
+      "extra_article_images": [],
+      "trusted_references": [
+        {
+          "title": "Hazel Burton",
+          "url": "https://blog.talosintelligence.com/author/hazel-burton/"
+        },
+        {
+          "title": "New Dohdoor malware campaign targets education and health care February 26, 2026 06:00 Cisco Talos discovered an ongoing malicious campaign since at least as early as December 2025 by a threat actor we track as “UAT-10027,” delivering a previously undisclosed backdoor dubbed “Dohdoor.”",
+          "url": "https://blog.talosintelligence.com/new-dohdoor-malware-campaign/"
+        },
+        {
+          "title": "UAT-8099: Chinese-speaking cybercrime group targets high-value IIS for SEO fraud October 2, 2025 06:00 Cisco Talos is disclosing details on UAT-8099, a Chinese-speaking cybercrime group mainly involved in SEO fraud and theft of high-value credentials, configuration files, and certificate data.",
+          "url": "https://blog.talosintelligence.com/uat-8099-chinese-speaking-cybercrime-group-seo-fraud/"
+        },
+        {
+          "title": "IR Trends Q2 2025: Phishing attacks persist as actors leverage compromised valid accounts to enhance legitimacy July 31, 2025 06:00 Phishing remained the top initial access method in Q2 2025, while ransomware incidents see the emergence of new Qilin tactics.",
+          "url": "https://blog.talosintelligence.com/ir-trends-q2-2025/"
+        }
+      ],
+      "full_article_text": "We’re looking forward to having some great conversations with those of you heading to the desert for Hacker Summer Camp 2026. We have a presence within the Cisco and Splunk booth (2633) during Black Hat where you can chat to us about our latest threat research, incident response, and how Talos powers the Cisco portfolio with our intelligence. Or, feel free to pretend to want to talk to us about those things while grabbing a new multicolored Snorty. That’s fine, too. Here’s some of the ways we’ll be showing up at Black Hat, alongside our friends at Cisco and Splunk: Meet the researchers: Booth lightning talks Our Talosians have spent a lot of time over the last few months putting together some truly... well, enlightening lightning talks. Throughout Wednesday and Thursday at Black Hat, you can expect to see such topics as: Threat actor prompting and the emerging ways adversaries are using prompts, agents, skills, and tools to improve efficiency Warlock ransomware, and why this group does not fit neatly into a simple RaaS or state-linked label. Building a \"second brain\" for your second brain Predicting cybersecurity fraud Vulnerability discovery trends Lightning talks are 15 minutes. That’s less than 9% of The Odyssey. Don’t worry, we cut the bit where everyone gets turned into Snorty pigs. Main Stage keynote: Security at agentic scale Date/Time: Wednesday, August 5 | 11:30 a.m. – 12:00 p.m. (Main Stage, Business Hall) Cisco's David Dalling and Rick Miles will be giving a Main Stage keynote all about protecting the enterprise in the age of AI agents. As AI agents become increasingly capable (and increasingly privileged) inside enterprise environments, organizations face an entirely new set of security challenges. Drawing on research from across Cisco, the talk will explore what it takes to secure organizations as autonomous systems become part of everyday business operations. Talos workshop: When AI finds vulnerabilities faster than humans can patch Date/Time: Wednesday, August 5 | 1:30 p.m. – 3:00 p.m. (Oceanside E, Level 2) If you're looking for something hands-on and interactive, don't miss our workshop with Talos’ Nick Biasini and Cisco’s Omar Santos . In two parts, they’ll demonstrate practical ways security teams can incorporate AI into SOC workflows to identify sophisticated adversary behavior. In Part 1, Omar will discuss the Foundry Security Spec. He’ll walk through how to deploy, build testing harnesses around its core agent roles, and integrate Project CodeGuard so that findings from autonomous testing can be converted into reusable secure-coding rules and future prevention. In Part 2, Nick will demonstrate how Talos leverages AI to transform threat hunting. We will explore best practices for identifying adversarial AI tactics and provide attendees with insights into how Cisco Talos is leveraging AI for defense. Participants will learn how to integrate these defensive AI strategies into their own SOC workflows. Splunk workshop: When agents become insider threats Date/Time: Wednesday, August 5 | 10:15 a.m. – 11:00 a.m. (Mandalay Bay I) The Splunk workshop considers the fact that the next insider threat may not be a person; it may be an autonomous agent using valid credentials and delegated authority. Attendees will see real-world attack paths in which agents move sensitive data across tools, distribute brute-force attempts under a single delegation, and manipulate internal systems without triggering traditional SIEM or UEBA alerts. It was Talos all along One of the questions we hear often is: \"How do I buy Talos?\" The answer… is that you probably already did. Throughout the Cisco booth you'll see our “ It was Talos all along” campaign, highlighting the fact that Talos isn't a standalone product or a threat intelligence feed you bolt onto your security stack. Talos is already embedded across the Cisco security portfolio, which continually benefits from our threat research and intelligence. To build your curiosity, take a look at our new video, “Where Protection Starts,” to see how Cisco Talos Intelligence Integrations help reduce uncertainty in the SOC:",
+      "full_article_text_chars": 4135,
+      "content_preview": "We’re looking forward to having some great conversations with those of you heading to the desert for Hacker Summer Camp 2026. We have a presence within the Cisco and Splunk booth (2633) during Black Hat where you can chat to us about our latest threat research, incident response, and how Talos powers the Cisco portfolio with our intelligence. Or, feel free to pretend to want to talk to us about those things while grabbing a new multicolored Snorty. That’s fine, too. Here’s some of the ways we’ll be showing up at Black Hat, alongside our friends at Cisco and Splunk: Meet the researchers: Booth lightning talks Our Talosians have spent a lot of time over the last few months putting together some truly... well, enlightening lightning talks. Throughout Wednesday and Thursday at Black Hat, you can expect to see such topics as: Threat actor prompting and the emerging ways adversaries are using prompts, agents, skills, and tools to improve efficiency Warlock ransomware, and why this group does not fit neatly into a simple RaaS or state-linked label. Building a \"second brain\" for your second brain Predicting cybersecurity fraud Vulnerability discovery trends Lightning talks are 15 minutes. That’s less than 9% of The Odyssey. Don’t worry, we cut the bit where everyone gets turned into Snorty pigs. Main Stage keynote: Security at agentic scale Date/Time: Wednesday, August 5 | 11:30 a.m. – 12:00 p.m. (Main Stage, Business Hall) Cisco's David Dalling and Rick Miles will be giving a Main Stage keynote all about protecting the enterprise in the age of AI agents. As AI agents become increasingly capable (and increasingly privileged) inside enterprise environments, organizations face an entirely new set of security challenges. Drawing on research from across Cisco, the talk will explore what it takes to secure organizations as autonomous systems become part of everyday business operations. Talos workshop: When AI finds vulnerabilities faster than humans can patch Date/Time: Wednesday, August 5 | 1:30 p.m. – 3:00 p.m. (Oceanside E, Level 2) If you're looking for something hands-on and interactive, don't miss our workshop with Talos’ Nick Biasini and Cisco’s Omar Santos . In two parts, they’ll demonstrate practical ways security teams can incorporate AI into SOC workflows to identify sophisticated adversary behavior. In Part 1, Omar will discuss the Foundry Security Spec. He’ll walk through how to deploy, build testing harnesses around its core agent roles, and integrate Project CodeGuard so that findings from autonomous testing can be converted into reusable secure-coding rules and future prevention. In Part 2, Nick will demonstrate how Talos leverages AI to transform threat hunting. We will explore best practices for identifying adversarial AI tactics and provide attendees with insights into how Cisco Talos is leveraging AI for defense. Participants will learn how to integrate these defensive AI strategies into their own SOC workflows. Splunk workshop: When agents become insider threats Date/Time: Wednesday, August 5 | 10:15 a.m. – 11:00 a.m. (Mandalay Bay I) The Splunk workshop considers the fact that the next insider threat may not be a person; it may be an autonomous agent using valid credentials and delegated authority. Attendees will see real-world attack paths in which agents move sensitive data across tools, distribute brute-force attempts under a single delegation, and manipulate internal systems without triggering traditional SIEM or UEBA alerts. It was Talos all along One of the questions we hear often is: \"How do I buy Talos?\" The answer… is that you probably already did. Throughout the Cisco booth you'll see our “ It was Talos all along” campaign, highlighting the fact that Talos isn't a standalone product or a threat intelligence feed you bolt onto your security stack. Talos is already embedded across the Cisco security portfolio, which continually benefits from our threat research and intelligence. To build your curiosity, take a look at our new video, “Where Protection Starts,” to see how Cisco Talos Intelligence Integrations help reduce uncertainty in the SOC:",
+      "content_preview_chars": 4135,
+      "content_fetched_at": "2026-07-23T15:22:25",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "a709188b5fead5ed",
+      "source_url_hash": "a709188b5fead5ed",
+      "canonical_url": "https://unit42.paloaltonetworks.com/russian-webmail-espionage",
+      "title_hash": "b28df079a6ce7ad1",
+      "topic_signature": "f80f942a31dc651b6e73",
+      "title": "Russian Global Webmail Espionage",
+      "url": "https://unit42.paloaltonetworks.com/russian-webmail-espionage",
+      "source_name": "Unit 42",
+      "source_url": "https://unit42.paloaltonetworks.com",
+      "source_published_at": "2026-07-23T00:00:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 15.37,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-07-23T15:22:15",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 1,
+      "priority": "low",
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 3,
+      "removed_source_links_count": 0,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Russian Global Webmail Espionage",
+      "meta_description": "Unit 42 details a Russian cyberespionage campaign targeting Zimbra webmail servers using JavaScript injection to steal credentials.",
+      "article_images": [
+        {
+          "url": "https://unit42.paloaltonetworks.com/wp-content/uploads/2026/07/06_Nation-State-cyberattacks_1920x900-1.jpg",
+          "alt": "Russian Global Webmail Espionage",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://unit42.paloaltonetworks.com/wp-content/uploads/2026/07/word-image-563425-184075-1.png",
+          "alt": "A screenshot of a split screen image displaying a webpage layout. On the left, content under 'Global News Digest: Business, Economics & Eurasia' with articles discussing CEOs, OpenAI, and the impact of American technology firms. On the right, rows of HTML code and text highlighting technical aspects of webpage formatting. The content covers topics such as business strategies, economic developments, and technological advancements",
+          "source": "article_content"
+        },
+        {
+          "url": "https://unit42.paloaltonetworks.com/wp-content/uploads/2026/05/05_Listicle_Category_1505x922-718x440.jpg",
+          "alt": "Pictoral representation of a man holding a cellphone with a bokeh skyline in the background.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://unit42.paloaltonetworks.com/wp-content/uploads/2025/11/04_Security-Technology_Category_1505x922-718x440.jpg",
+          "alt": "Pictorial representation of Gh0st RAT malware. A woman analyzes code on a computer screen in an office setting, with another individual working in the background.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://unit42.paloaltonetworks.com/wp-content/uploads/2026/07/06_Nation-State-cyberattacks_1920x900-1.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://unit42.paloaltonetworks.com/wp-content/uploads/2026/07/word-image-563425-184075-1.png",
+          "alt": "A screenshot of a split screen image displaying a webpage layout. On the left, content under 'Global News Digest: Business, Economics & Eurasia' with articles discussing CEOs, OpenAI, and the impact of American technology firms. On the right, rows of HTML code and text highlighting technical aspects of webpage formatting. The content covers topics such as business strategies, economic developments, and technological advancements"
+        },
+        {
+          "url": "https://unit42.paloaltonetworks.com/wp-content/uploads/2026/05/05_Listicle_Category_1505x922-718x440.jpg",
+          "alt": "Pictoral representation of a man holding a cellphone with a bokeh skyline in the background."
+        },
+        {
+          "url": "https://unit42.paloaltonetworks.com/wp-content/uploads/2025/11/04_Security-Technology_Category_1505x922-718x440.jpg",
+          "alt": "Pictorial representation of Gh0st RAT malware. A woman analyzes code on a computer screen in an office setting, with another individual working in the background."
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Threat Research Center",
+          "url": "https://unit42.paloaltonetworks.com"
+        },
+        {
+          "title": "Threat Research",
+          "url": "https://unit42.paloaltonetworks.com/category/threat-research/"
+        },
+        {
+          "title": "Cybercrime",
+          "url": "https://unit42.paloaltonetworks.com/category/cybercrime/"
+        },
+        {
+          "title": "Advanced DNS Security",
+          "url": "https://unit42.paloaltonetworks.com/product-category/advanced-dns-security/"
+        },
+        {
+          "title": "Advanced URL Filtering",
+          "url": "https://unit42.paloaltonetworks.com/product-category/advanced-url-filtering/"
+        }
+      ],
+      "full_article_text": "Categories: Cybercrime Threat Research Tags: CL-STA-1114 JavaScript Javascript injection Nation-state Obfuscation Phishing Zimbra webmail Unit 42 has observed a persistent cyberespionage campaign we track as CL-STA-1114. This activity cluster overlaps with activity from a Russian threat actor tracked by other vendors as Void Blizzard and LAUNDRY BEAR. The attackers behind this campaign targeted Zimbra webmail in organizations in the following sectors: Financial organizations across the following regions: NATO member states Ukraine Commonwealth of Independent States (CIS) countries Africa Commonwealth of Independent States (CIS) countries Unique to this campaign, the group leveraged zero-click phishing emails that exploit a vulnerability in the Zimbra Collaboration Suite (ZCS) webmail platform (CVE-2025-66376). The exploit automatically injects a malicious JavaScript payload without requiring recipient interaction. Once executed, the payload exfiltrates sensitive user data, including login credentials, email archives, and search histories. Threat actors continue to actively target unpatched ZCS instances using CVE-2025-66376. Palo Alto Networks customers are better protected from the threats discussed above through the following products: Cortex Advanced Email Security Advanced URL Filtering and Advanced DNS Security If you think you might have been compromised or have an urgent matter, contact the Unit 42 Incident Response team . Cyberespionage , Phishing , Data Exfiltration Technical Analysis The attackers behind CL-STA-1114 have been active since at least 2024, and this campaign targeting Zimbra servers started in July 2025. Initial access starts with a phishing email that contains either an HTML attachment or embedded HTML in the message text. This lure is designed to catch recipients' attention with news headlines. Figure 1 shows an example of the lure used and a snippet of the underlying HTML code. The HTML text contains an obfuscated division with a Base64-encoded script (highlighted in red in Figure 1). The obfuscated section creates an invisible Scalable Vector Graphics (SVG) element that, upon loading, decodes the Base64-encoded script into a JavaScript payload that it injects into the victim’s browser. When executed, this JavaScript exfiltrates the victim’s Zimbra webmail data to a hard-coded command and control (C2) server. Exfiltrated data includes: Two-factor authentication (2FA) scratch codes System and environment details The victim’s last 90 days of email and search history Over the course of this campaign, we observed minimal changes to the JavaScript payload. Figure 2 illustrates the attack chain. Since we began tracking this campaign, there have been at least nine IP addresses and nine domains for the C2 servers. These servers were active for an average of 35.4 days. See the Indicators of Compromise (IoC) section for a list of the IP addresses and domains used in CL-STA-1114 activity. This research highlights the need for vigilance, proactive patching and advanced threat detection to protect organizations. Network administrators, defenders and security researchers should patch vulnerable systems and use the IoCs below to investigate and strengthen defenses against CL-STA-1114 and similar activity. The Cortex Advanced Email Security module routes suspicious HTML attachments to Advanced WildFire for static and dynamic analysis. This ensures that by the time an endpoint opens the attachment, it has already been scanned, allowing the agent to immediately act on a known verdict. Advanced URL Filtering and Advanced DNS Security identify known domains and URLs associated with this activity as malicious. If you think you may have been compromised or have an urgent matter, get in touch with the Unit 42 Incident Response team or call: North America: Toll Free: +1 (866) 486-4842 (866.4.UNIT42) Europe and Middle East: +31.20.299.3130 Palo Alto Networks has shared these findings with our fellow Cyber Threat Alliance (CTA) members. CTA members use this intelligence to rapidly deploy protections to their customers and to systematically disrupt malicious cyber actors. Learn more about the Cyber Threat Alliance . Indicators of Compromise Additional Resources Operation GhostMail: Russian APT exploits Zimbra Webmail to Target Ukraine State Agency – Seqrite Blog AIVD and MIVD identify new Russian cyber threat actor – AIVD/MIVD New Russia-affiliated actor Void Blizzard targets critical sectors for espionage – Microsoft The npm Threat Landscape: Attack Surface and Mitigations (Updated July 15) Phantom Squatting: AI-Hallucinated Domains as a Software Supply Chain Vector When “Hi, This Is IT” Comes Through Microsoft Teams Related Cybercrime Resources",
+      "full_article_text_chars": 4733,
+      "content_preview": "Categories: Cybercrime Threat Research Tags: CL-STA-1114 JavaScript Javascript injection Nation-state Obfuscation Phishing Zimbra webmail Unit 42 has observed a persistent cyberespionage campaign we track as CL-STA-1114. This activity cluster overlaps with activity from a Russian threat actor tracked by other vendors as Void Blizzard and LAUNDRY BEAR. The attackers behind this campaign targeted Zimbra webmail in organizations in the following sectors: Financial organizations across the following regions: NATO member states Ukraine Commonwealth of Independent States (CIS) countries Africa Commonwealth of Independent States (CIS) countries Unique to this campaign, the group leveraged zero-click phishing emails that exploit a vulnerability in the Zimbra Collaboration Suite (ZCS) webmail platform (CVE-2025-66376). The exploit automatically injects a malicious JavaScript payload without requiring recipient interaction. Once executed, the payload exfiltrates sensitive user data, including login credentials, email archives, and search histories. Threat actors continue to actively target unpatched ZCS instances using CVE-2025-66376. Palo Alto Networks customers are better protected from the threats discussed above through the following products: Cortex Advanced Email Security Advanced URL Filtering and Advanced DNS Security If you think you might have been compromised or have an urgent matter, contact the Unit 42 Incident Response team . Cyberespionage , Phishing , Data Exfiltration Technical Analysis The attackers behind CL-STA-1114 have been active since at least 2024, and this campaign targeting Zimbra servers started in July 2025. Initial access starts with a phishing email that contains either an HTML attachment or embedded HTML in the message text. This lure is designed to catch recipients' attention with news headlines. Figure 1 shows an example of the lure used and a snippet of the underlying HTML code. The HTML text contains an obfuscated division with a Base64-encoded script (highlighted in red in Figure 1). The obfuscated section creates an invisible Scalable Vector Graphics (SVG) element that, upon loading, decodes the Base64-encoded script into a JavaScript payload that it injects into the victim’s browser. When executed, this JavaScript exfiltrates the victim’s Zimbra webmail data to a hard-coded command and control (C2) server. Exfiltrated data includes: Two-factor authentication (2FA) scratch codes System and environment details The victim’s last 90 days of email and search history Over the course of this campaign, we observed minimal changes to the JavaScript payload. Figure 2 illustrates the attack chain. Since we began tracking this campaign, there have been at least nine IP addresses and nine domains for the C2 servers. These servers were active for an average of 35.4 days. See the Indicators of Compromise (IoC) section for a list of the IP addresses and domains used in CL-STA-1114 activity. This research highlights the need for vigilance, proactive patching and advanced threat detection to protect organizations. Network administrators, defenders and security researchers should patch vulnerable systems and use the IoCs below to investigate and strengthen defenses against CL-STA-1114 and similar activity. The Cortex Advanced Email Security module routes suspicious HTML attachments to Advanced WildFire for static and dynamic analysis. This ensures that by the time an endpoint opens the attachment, it has already been scanned, allowing the agent to immediately act on a known verdict. Advanced URL Filtering and Advanced DNS Security identify known domains and URLs associated with this activity as malicious. If you think you may have been compromised or have an urgent matter, get in touch with the Unit 42 Incident Response team or call: North America: Toll Free: +1 (866) 486-4842 (866.4.UNIT42) Europe and Middle East: +31.20.299.3130 Palo Alto Networks has shared these findings with our fellow Cyber Threat Alliance (CTA) members. CTA members use this intelligence to rapidly deploy protections to their customers and to systematically disrupt malicious cyber actors. Learn more about the Cyber Threat Alliance . Indicators of Compromise Additional Resources Operation GhostMail: Russian APT exploits Zimbra Webmail to Target Ukraine State Agency – Seqrite Blog AIVD and MIVD identify new Russian cyber threat actor – AIVD/MIVD New Russia-affiliated actor Void Blizzard targets critical sectors for espionage – Microsoft The npm Threat Landscape: Attack Surface and Mitigations (Updated July 15) Phantom Squatting: AI-Hallucinated Domains as a Software Supply Chain Vector When “Hi, This Is IT” Comes Through Microsoft Teams Related Cybercrime Resources",
+      "content_preview_chars": 4733,
+      "content_fetched_at": "2026-07-23T15:22:28",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "f03da14f6122b3d9",
+      "source_url_hash": "f03da14f6122b3d9",
+      "canonical_url": "https://www.sentinelone.com/blog/the-agentic-soc-transforming-data-into-defensive-velocity",
+      "title_hash": "1c22883a59a832c2",
+      "topic_signature": "eb86fb8ae7e69f64d3b6",
+      "title": "The Agentic SOC: Transforming Data into Defensive VelocityCompany | 9 minute readRead More >",
+      "url": "https://www.sentinelone.com/blog/the-agentic-soc-transforming-data-into-defensive-velocity",
+      "source_name": "SentinelOne Blog",
+      "source_url": "https://www.sentinelone.com/blog",
+      "source_published_at": "2026-07-20T13:00:54Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 74.35,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-07-23T15:22:15",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 328,
+      "affiliate_links_removed_count": 16,
+      "removed_source_links_count": 328,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "The Agentic SOC: Transforming Data into Defensive Velocity",
+      "meta_description": "Transform SOC data chaos into autonomous intelligence with modern AI pipelines and agentic AI to empower human analysts.",
+      "article_images": [
+        {
+          "url": "https://www.sentinelone.com/wp-content/uploads/2026/06/agentic_soc_defensive_velocity.jpg",
+          "alt": "The Agentic SOC: Transforming Data into Defensive Velocity",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://images.contentstack.io/v3/assets/blt53c99b43892c2378/blt4a70ee4a050bf59f/6a32d222b11c5462a2bd7521/O-14-image-card-nav-singularity-marketplace-product-image.webp",
+          "alt": "O-14-image-card-nav-singularity-marketplace-product-image.webp",
+          "source": "article_content"
+        },
+        {
+          "url": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'><rect width='100%' height='100%' fill='none'/></svg>",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='395' height='263'><rect width='100%' height='100%' fill='none'/></svg>",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.sentinelone.com/wp-content/uploads/2026/06/agentic_soc_defensive_velocity.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://images.contentstack.io/v3/assets/blt53c99b43892c2378/blt4a70ee4a050bf59f/6a32d222b11c5462a2bd7521/O-14-image-card-nav-singularity-marketplace-product-image.webp",
+          "alt": "O-14-image-card-nav-singularity-marketplace-product-image.webp"
+        },
+        {
+          "url": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'><rect width='100%' height='100%' fill='none'/></svg>",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='395' height='263'><rect width='100%' height='100%' fill='none'/></svg>",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Security Operations Centers (SOCs) are currently confronting scalability challenges on two fronts: structural and cognitive. The day-to-day reality of modern defensive operations is stark: an analyst frequently begins a shift facing a queue deeply saturated with unvetted alerts. To process a single event, the analyst must open the alert, pivot to a secondary console to complete an investigation, manually enrich an IP address, copy a file hash into a third interface, and cross-reference an asset inventory that may not have been updated in months. Following this, they must author and refine queries, waiting for overloaded databases to return historical context. The actual work of assessing the investigation’s results and moving to decision-making and action has not even begun. This is the administrative burden of the modern SOC. The true threats are not just those that attempt to bypass defenses, but the critical operational hours lost before an active mitigation attempt is even initiated. While analysts are highly trained professionals, the relentless requirement to perform manual data aggregation inevitably leads to exhaustion. Misdiagnosing the Bottleneck: The Upstream Data Problem Threat actors operate at machine speed, utilizing automation to pivot laterally across networks in a matter of seconds, frequently disappearing before defensive teams can even log into their terminals. Expecting human defenders to counter automated threat vectors by manually aggregating bad data is an architectural failure. Every SOC inherits a highly fragmented data ecosystem. Telemetry is continuously generated by diverse sources, including firewalls, cloud workloads, identity providers, endpoint sensors, and legacy systems. This telemetry arrives in disparate dialects, varying formats, and highly inconsistent levels of fidelity. Before AI tools can accurately reason about a potential threat, or an analyst can initiate a logical investigation and run a playbook response, this raw telemetry must be synthesized. Historically, organizations analysts take on these complex synthesis processes, manually normalizing data points across different vendor schemas. This represents a key misallocation of human intelligence. The asymmetry in modern security operations is not merely a discrepancy in speed; it is an imbalance in how security teams are forced to allocate their finite time. When operators spend the majority of their shifts wrangling data instead of actively investigating threats, the foundation of the SOC itself is inadequate. To achieve defensive velocity, organizations must recognize that fixing the data foundation is the mandatory prerequisite for improving all downstream security functions. Architecting the Data Foundation with Singularity™ AI Data Pipelines Addressing the upstream data problem requires the implementation of advanced data pipelines capable of resolving enterprise data chaos before it impacts the detection engine. Frameworks such as SentinelOne’s ® Singularity AI Data Pipelines serve as this foundational layer, engineered to ingest telemetry from every source and in every format without requiring months-long integration projects or heavy manual engineering. Modern pipelines utilize AI to normalize raw telemetry into standardized formats, specifically aligning with the Open Cybersecurity Schema Framework (OCSF). This structural alignment transforms fragmented logs into structured data that is immediately actionable. It eliminates the need for analysts to construct complex regular expressions during critical incidents simply to reconcile how two different software vendors format data, such as usernames or a timestamp. Efficient data ingestion also requires dynamic, in-flight optimization. Not all telemetry possesses the same analytical value, and storing all generated logs in highly indexed, expensive storage tiers is financially and operationally untenable. Data pipelines optimize data streams by filtering out extraneous noise, trimming excess volume, and routing specific logs based on dynamic criteria. High-value security events are routed and indexed for rapid search retrieval, while lower-priority compliance or operational logs are routed to more cost-effective tiered storage. The result is a substantial reduction in infrastructure costs, a higher signal-to-noise ratio, and a structured data foundation that is completely prepared the moment an investigation is required. When underlying data pipelines automatically enrich that log with identity and asset information, revealing (for example) that a specific financial director’s laptop in a remote office is communicating with a known botnet, the output transitions from a raw data point into a definitive starting point. Crucially, this enrichment occurs systematically before the human operator ever interacts with the alert. Solving this data problem end-to-end is a primary reason SentinelOne was recognized in the IDC MarketScape for AI SIEM. Accelerating Detection via Singularity AI SIEM When a clean, structured data foundation is properly established, the performance of downstream security tools accelerates. Modern detection engines, such as the Singularity AI SIEM, leverage indexless architectures to manage enterprise-scale telemetry. Because the data is normalized and optimized prior to ingestion, these platforms can execute petabyte-scale queries with minimal latency, ensuring investigative results are delivered before the analyst’s attention wanes. Within this architecture, detection logic is executed continuously against a stream of clean, correlated telemetry. This transforms an ocean of disparate event logs into readable, centralized dashboards that provide immediate situational awareness. The quantitative benefits of this approach are substantial. With AI SIEM, organizations are already executing their queries 70% faster. Adding AI Data Pipelines further augments this workstream, providing cleaner data for AI to run at optimal efficiency. These improvements represent the direct result of ensuring that the data arriving at the SIEM is inherently fit for purpose. AI SIEM remains a single, comprehensive SKU with customers automatically receiving integrated pipeline functionality for everyday data optimization rather than treating it as a premium add-on. For every unit of paid Data Ingest capacity, customers can process twice that volume through Data Pipelines. A customer with 500 GB/day SIEM entitlement can push 1 TB/day through the pipeline at no additional cost. Transitioning to Agentic Reasoning Layers with Purple AI The establishment of a structured data pipeline unlocks the capability for true agentic reasoning within the SOC. Unlike traditional rule-based automation, which executes static responses to predefined triggers, technologies like SentinelOne’s Purple AI operate as a dynamic investigative layer. When an initial alert is generated, an agentic reasoning system does not simply pause and wait for human triage. It autonomously launches an investigation, comprehensively maps the potential blast radius of the incident, and synthesizes a clear, logical recommendation for containment. Then, the analyst logs into the console and is presented with a fully formed situational briefing rather than a blank investigation screen. More importantly, an agentic AI layer possesses the capacity to evaluate broader adversarial campaigns rather than isolated security events. In isolation, a minor registry key modification, a singular file write, or a brief outbound network connection may not meet the threshold for a critical alert. Legacy security tools often fail to connect these disparate, low-signal events. However, Purple AI can assemble these seemingly unrelated activities into a cohesive narrative, exposing the overarching strategy of the attacker before a major breach occurs. This level of autonomous intelligence is strictly dependent on the underlying architecture. Advanced AI algorithms cannot derive accurate conclusions from unparsed, low-quality telemetry. The analytical integrity of the agentic layer is entirely contingent on the principle of data quality; systems like Purple AI require clean, structured data to function effectively, avoiding the fundamental issue of “garbage in, garbage out”. Governed Hyperautomation and the Human-in-the-Loop The final component of a modernized, agentic SOC is the deployment of Hyperautomation to execute defensive responses. To counter threats effectively, organizations must deploy automated workflows capable of executing decisions at machine speed. These no-code workflows can be configured to trigger autonomously based on AI triage verdicts, the disclosure of new high-severity vulnerabilities, or specific incoming alerts. By automating the mitigation phase, the SOC evolves from an environment strictly dedicated to passive observation into a dynamic system that actively neutralizes threats. However, the implementation of automated response mechanisms must be rigorously governed. Executing changes to enterprise infrastructure carries inherent risk. To mitigate this, automated workflows must integrate critical approval steps, ensuring that highly consequential actions are paused until human authorization is provided. The analyst retains the ultimate authority, defining the precise parameters of what processes may run automatically and what workflows require manual judgment. Redefining the Analyst Mandate via Autonomous Security Intelligence The strategic objective of integrating data pipelines, agentic reasoning, and Hyperautomation is not the removal of the human operator. Instead, the overarching goal is the restoration of the analyst’s primary function: exercising expert judgment. By offloading repetitive tasks to technological systems, organizations systematically remove operational friction. The data layer filters out irrelevant noise, allowing the analyst to clearly see the threat. The AI investigation layer removes the administrative grind of data collection, allowing the analyst to focus purely on analytical thinking. Finally, the automated response layer eliminates procedural delays, ensuring the analyst’s decisions are executed rapidly enough to matter. This creates an intelligence fabric, known as Autonomous Security Intelligence (ASI), where data, investigation, and response function concurrently as a single, unified system. Under this model, the operational output of a single analyst is exponentially multiplied, allowing one unburdened professional to accomplish the work of ten while still owning every critical decision. While the alert queue will perpetually require attention, the fundamental nature of the work fundamentally changes. The timeline of a manual initial triage to active investigation compresses from a multi-hour ordeal into a matter of minutes. The data arrives clean, the investigation runs automatically, and the response mechanisms are prepared. The hours previously consumed by administrative waiting are directly reallocated to strategic decision-making. When defensive systems are finally architected to operate at the speed of the modern threat landscape, the role of the human operator transforms. Analysts are no longer forced to act as passive passengers, grateful to be carried by fragmented tools. They are elevated to the role of pilots, operating with full situational awareness, retaining their judgment, and actively directing the defensive posture of the organization. This is the paradigm of the agentic SOC, and it is entirely predicated on the foundation of clean, structured data. Contact us today to learn more about how SentinelOne is leading the way forward with Agentic SOC. From Triage Grind to Strategic Operator: The New AI SOC Career Path Observo AI, Real Time Data Pipelines, and the Future of the Autonomous SOC: Rethinking Security Data from the Ground Up The Autonomous SOC, Revisited: What 18 Months on the Road Has Taught Us AI Security, From Data to Runtime: A Holistic Defense Approach AI Security: Defining and Defending Cybersecurity’s Next Frontier 12 Months of Fighting Cybercrime & Defending Enterprises | The SentinelLABS 2025 Review",
+      "full_article_text_chars": 12199,
+      "content_preview": "Security Operations Centers (SOCs) are currently confronting scalability challenges on two fronts: structural and cognitive. The day-to-day reality of modern defensive operations is stark: an analyst frequently begins a shift facing a queue deeply saturated with unvetted alerts. To process a single event, the analyst must open the alert, pivot to a secondary console to complete an investigation, manually enrich an IP address, copy a file hash into a third interface, and cross-reference an asset inventory that may not have been updated in months. Following this, they must author and refine queries, waiting for overloaded databases to return historical context. The actual work of assessing the investigation’s results and moving to decision-making and action has not even begun. This is the administrative burden of the modern SOC. The true threats are not just those that attempt to bypass defenses, but the critical operational hours lost before an active mitigation attempt is even initiated. While analysts are highly trained professionals, the relentless requirement to perform manual data aggregation inevitably leads to exhaustion. Misdiagnosing the Bottleneck: The Upstream Data Problem Threat actors operate at machine speed, utilizing automation to pivot laterally across networks in a matter of seconds, frequently disappearing before defensive teams can even log into their terminals. Expecting human defenders to counter automated threat vectors by manually aggregating bad data is an architectural failure. Every SOC inherits a highly fragmented data ecosystem. Telemetry is continuously generated by diverse sources, including firewalls, cloud workloads, identity providers, endpoint sensors, and legacy systems. This telemetry arrives in disparate dialects, varying formats, and highly inconsistent levels of fidelity. Before AI tools can accurately reason about a potential threat, or an analyst can initiate a logical investigation and run a playbook response, this raw telemetry must be synthesized. Historically, organizations analysts take on these complex synthesis processes, manually normalizing data points across different vendor schemas. This represents a key misallocation of human intelligence. The asymmetry in modern security operations is not merely a discrepancy in speed; it is an imbalance in how security teams are forced to allocate their finite time. When operators spend the majority of their shifts wrangling data instead of actively investigating threats, the foundation of the SOC itself is inadequate. To achieve defensive velocity, organizations must recognize that fixing the data foundation is the mandatory prerequisite for improving all downstream security functions. Architecting the Data Foundation with Singularity™ AI Data Pipelines Addressing the upstream data problem requires the implementation of advanced data pipelines capable of resolving enterprise data chaos before it impacts the detection engine. Frameworks such as SentinelOne’s ® Singularity AI Data Pipelines serve as this foundational layer, engineered to ingest telemetry from every source and in every format without requiring months-long integration projects or heavy manual engineering. Modern pipelines utilize AI to normalize raw telemetry into standardized formats, specifically aligning with the Open Cybersecurity Schema Framework (OCSF). This structural alignment transforms fragmented logs into structured data that is immediately actionable. It eliminates the need for analysts to construct complex regular expressions during critical incidents simply to reconcile how two different software vendors format data, such as usernames or a timestamp. Efficient data ingestion also requires dynamic, in-flight optimization. Not all telemetry possesses the same analytical value, and storing all generated logs in highly indexed, expensive storage tiers is financially and operationally untenable. Data pipelines optimize data streams by filtering out extraneous noise, trimming excess volume, and routing specific logs based on dynamic criteria. High-value security events are routed and indexed for rapid search retrieval, while lower-priority compliance or operational logs are routed to more cost-effective tiered storage. The result is a substantial reduction in infrastructure costs, a higher signal-to-noise ratio, and a structured data foundation that is completely prepared the moment an investigation is required. When underlying data pipelines automatically enrich that log with identity and asset information, revealing (for example) that a specific financial director’s laptop in a remote office is communicating with a known botnet, the output transitions from a raw data point into a definitive starting point. Crucially, this enrichment occurs systematically before the human operator ever interacts with the alert. Solving this data problem end-to-end is a primary reason SentinelOne was recognized in the IDC MarketScape for AI SIEM. Accelerating Detection via Singularity AI SIEM When a clean, structured data foundation is properly established, the performance of downstream security tools accelerates. Modern detection engines, such as the Singularity AI SIEM, leverage indexless architectures to manage enterprise-scale telemetry. Because the data is normalized and optimized prior to ingestion, these platforms can execute petabyte-scale queries with minimal latency, ensuring investigative results are delivered before the analyst’s attention wanes. Within this architecture, detection logic is executed continuously against a stream of clean, correlated telemetry. This transforms an ocean of disparate event logs into readable, centralized dashboards that provide immediate situational awareness. The quantitative benefits of this approach are substantial. With AI SIEM, organizations are already executing their queries 70% faster. Adding AI Data Pipelines further augments this workstream, providing cleaner data for AI to run at optimal efficiency. These improvements represent the direct result of ensuring that the data arriving at the SIEM is inherently fit for purpose. AI SIEM remains a single, comprehensive SKU with customers automatically receiving integrated pipeline functionality for everyday data optimization rather than treating it as a premium add-on. For every unit of paid Data Ingest capacity, customers can process twice that volume through Data Pipelines. A customer with 500 GB/day SIEM entitlement can push 1 TB/day through the pipeline at no additional cost. Transitioning to Agentic Reasoning Layers with Purple AI The establishment of a structured data pipeline unlocks the capability for true agentic reasoning within the SOC. Unlike traditional rule-based automation, which executes static responses to predefined triggers, technologies like SentinelOne’s Purple AI operate as a dynamic investigative layer. When an initial alert is generated, an agentic reasoning system does not simply pause and wait for human triage. It autonomously launches an investigation, comprehensively maps the potential blast radius of the incident, and synthesizes a clear, logical recommendation for containment. Then, the analyst logs into the console and is presented with a fully formed situational briefing rather than a blank investigation screen. More importantly, an agentic AI layer possesses the capacity to evaluate broader adversarial campaigns rather than isolated security events. In isolation, a minor registry key modification, a singular file write, or a brief outbound network connection may not meet the threshold for a critical alert. Legacy security tools often fail to connect these disparate, low-signal events. However, Purple AI can assemble these seemingly unrelated activities into a cohesive narrative, exposing the overarching strategy of the attacker before a major breach occurs. This level of autonomous intelligence is strictly dependent on the underlying architecture. Advanced AI algorithms cannot derive accurate conclusions from unparsed, low-quality telemetry. The analytical integrity of the agentic layer is entirely contingent on the principle of data quality; systems like Purple AI require clean, structured data to function effectively, avoiding the fundamental issue of “garbage in, garbage out”. Governed Hyperautomation and the Human-in-the-Loop The final component of a modernized, agentic SOC is the deployment of Hyperautomation to execute defensive responses. To counter threats effectively, organizations must deploy automated workflows capable of executing decisions at machine speed. These no-code workflows can be configured to trigger autonomously based on AI triage verdicts, the disclosure of new high-severity vulnerabilities, or specific incoming alerts. By automating the mitigation phase, the SOC evolves from an environment strictly dedicated to passive observation into a dynamic system that actively neutralizes threats.",
+      "content_preview_chars": 8951,
+      "content_fetched_at": "2026-07-23T15:22:33",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
     }
   ],
   "notifications": {
