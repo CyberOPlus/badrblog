@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-23T15:29:18",
+  "updated_at": "2026-07-23T17:03:04",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2517,12 +2517,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-23T15:22:38",
-      "candidate_retry_after": "2026-07-23T15:37:38Z",
+      "content_fetched_at": "2026-07-23T16:53:27",
+      "candidate_retry_after": "2026-07-23T17:08:27Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-23T15:22:38",
-      "candidate_failure_count": 61
+      "candidate_failed_at": "2026-07-23T16:53:27",
+      "candidate_failure_count": 62
     },
     {
       "id": "512c2899a98440d2",
@@ -2551,12 +2551,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-23T15:22:38",
-      "candidate_retry_after": "2026-07-23T15:37:38Z",
+      "content_fetched_at": "2026-07-23T16:53:27",
+      "candidate_retry_after": "2026-07-23T17:08:27Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-23T15:22:38",
-      "candidate_failure_count": 61
+      "candidate_failed_at": "2026-07-23T16:53:27",
+      "candidate_failure_count": 62
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2585,12 +2585,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-23T15:22:38",
-      "candidate_retry_after": "2026-07-23T15:37:38Z",
+      "content_fetched_at": "2026-07-23T16:53:27",
+      "candidate_retry_after": "2026-07-23T17:08:27Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-23T15:22:38",
-      "candidate_failure_count": 61
+      "candidate_failed_at": "2026-07-23T16:53:27",
+      "candidate_failure_count": 62
     },
     {
       "id": "d900f1574fddfab4",
@@ -3096,7 +3096,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-07-19T14:48:18",
-      "candidate_failure_count": 2
+      "candidate_failure_count": 2,
+      "archived": true,
+      "archived_at": "2026-07-23T16:53:16",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "ebff70380f189f7a",
@@ -3403,17 +3406,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 226,
-      "affiliate_links_removed_count": 10,
-      "removed_source_links_count": 226,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=486 chars/74 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:486chars/74words, page_text:486chars/74words)",
-      "content_fetched_at": "2026-07-23T15:22:42",
-      "candidate_retry_after": "2026-07-23T15:37:42Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-07-23T16:53:28",
+      "candidate_retry_after": "2026-07-23T17:08:28Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=486 chars/74 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:486chars/74words, page_text:486chars/74words)",
-      "candidate_failed_at": "2026-07-23T15:22:42",
-      "candidate_failure_count": 60
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-07-23T16:53:28",
+      "candidate_failure_count": 61
     },
     {
       "id": "8d2678d87487d729",
@@ -4275,13 +4278,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-07-23T15:22:42",
-      "candidate_retry_after": "2026-07-23T15:37:42Z",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-07-23T16:53:29",
+      "candidate_retry_after": "2026-07-23T17:08:29Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-07-23T15:22:42",
-      "candidate_failure_count": 59
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-07-23T16:53:29",
+      "candidate_failure_count": 60
     },
     {
       "id": "45429302676bf4c5",
@@ -5318,12 +5321,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-23T15:22:44",
-      "candidate_retry_after": "2026-07-23T15:37:44Z",
+      "content_fetched_at": "2026-07-23T16:53:31",
+      "candidate_retry_after": "2026-07-23T17:08:31Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-23T15:22:44",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-07-23T16:53:31",
+      "candidate_failure_count": 58
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5355,12 +5358,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-23T15:22:45",
-      "candidate_retry_after": "2026-07-23T15:37:45Z",
+      "content_fetched_at": "2026-07-23T16:53:33",
+      "candidate_retry_after": "2026-07-23T17:08:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-23T15:22:45",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-07-23T16:53:33",
+      "candidate_failure_count": 58
     },
     {
       "id": "aede79193c6b98c9",
@@ -5392,12 +5395,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-23T15:22:46",
-      "candidate_retry_after": "2026-07-23T15:37:46Z",
+      "content_fetched_at": "2026-07-23T16:53:34",
+      "candidate_retry_after": "2026-07-23T17:08:34Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-23T15:22:46",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-07-23T16:53:34",
+      "candidate_failure_count": 58
     },
     {
       "id": "253eaa098c468523",
@@ -6325,12 +6328,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-23T15:22:47",
-      "candidate_retry_after": "2026-07-23T15:37:47Z",
+      "content_fetched_at": "2026-07-23T16:53:35",
+      "candidate_retry_after": "2026-07-23T17:08:35Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-23T15:22:47",
-      "candidate_failure_count": 55
+      "candidate_failed_at": "2026-07-23T16:53:35",
+      "candidate_failure_count": 56
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6722,12 +6725,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-23T15:22:49",
-      "candidate_retry_after": "2026-07-23T15:37:49Z",
+      "content_fetched_at": "2026-07-23T16:53:38",
+      "candidate_retry_after": "2026-07-23T17:08:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-23T15:22:49",
-      "candidate_failure_count": 53
+      "candidate_failed_at": "2026-07-23T16:53:38",
+      "candidate_failure_count": 54
     },
     {
       "id": "693fbfabd96b2185",
@@ -6758,12 +6761,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-23T15:22:51",
-      "candidate_retry_after": "2026-07-23T15:37:51Z",
+      "content_fetched_at": "2026-07-23T16:53:39",
+      "candidate_retry_after": "2026-07-23T17:08:39Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-23T15:22:51",
-      "candidate_failure_count": 53
+      "candidate_failed_at": "2026-07-23T16:53:39",
+      "candidate_failure_count": 54
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -6947,7 +6950,10 @@
       "content_preview_chars": 8910,
       "content_fetched_at": "2026-07-19T18:36:49",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-23T16:53:16",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "32c9ebb38c9b7baf",
@@ -9162,12 +9168,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=443 chars/66 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:443chars/66words, paragraph_fallback:328chars/49words, article_body:443chars/66words, meta_description:53chars/7words, page_text:443chars/66words)",
-      "content_fetched_at": "2026-07-23T15:22:52",
-      "candidate_retry_after": "2026-07-23T15:37:52Z",
+      "content_fetched_at": "2026-07-23T16:53:41",
+      "candidate_retry_after": "2026-07-23T17:08:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=443 chars/66 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:443chars/66words, paragraph_fallback:328chars/49words, article_body:443chars/66words, meta_description:53chars/7words, page_text:443chars/66words)",
-      "candidate_failed_at": "2026-07-23T15:22:52",
-      "candidate_failure_count": 49
+      "candidate_failed_at": "2026-07-23T16:53:41",
+      "candidate_failure_count": 50
     },
     {
       "id": "561b6316398d7603",
@@ -10254,12 +10260,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-23T15:22:52",
-      "candidate_retry_after": "2026-07-23T15:37:52Z",
+      "content_fetched_at": "2026-07-23T16:53:41",
+      "candidate_retry_after": "2026-07-23T17:08:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-23T15:22:52",
-      "candidate_failure_count": 45
+      "candidate_failed_at": "2026-07-23T16:53:41",
+      "candidate_failure_count": 46
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10291,12 +10297,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-23T15:22:52",
-      "candidate_retry_after": "2026-07-23T15:37:52Z",
+      "content_fetched_at": "2026-07-23T16:53:42",
+      "candidate_retry_after": "2026-07-23T17:08:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-23T15:22:52",
-      "candidate_failure_count": 45
+      "candidate_failed_at": "2026-07-23T16:53:42",
+      "candidate_failure_count": 46
     },
     {
       "id": "a6f4ca9464909855",
@@ -10328,12 +10334,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-23T15:22:52",
-      "candidate_retry_after": "2026-07-23T15:37:52Z",
+      "content_fetched_at": "2026-07-23T16:53:42",
+      "candidate_retry_after": "2026-07-23T17:08:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-23T15:22:52",
-      "candidate_failure_count": 45
+      "candidate_failed_at": "2026-07-23T16:53:42",
+      "candidate_failure_count": 46
     },
     {
       "id": "71463c25ac92daaa",
@@ -14964,12 +14970,12 @@
       "removed_source_links_count": 79,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-23T15:22:54",
-      "candidate_retry_after": "2026-07-23T15:37:54Z",
+      "content_fetched_at": "2026-07-23T16:53:43",
+      "candidate_retry_after": "2026-07-23T17:08:43Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-07-23T15:22:54",
-      "candidate_failure_count": 34
+      "candidate_failed_at": "2026-07-23T16:53:43",
+      "candidate_failure_count": 35
     },
     {
       "id": "41b7b918ab3966e4",
@@ -26522,11 +26528,11 @@
       "content_fetched_at": "2026-07-22T23:38:21",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-23T09:34:53",
+      "selected_at": "2026-07-23T16:56:45",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-23T09:34:53",
+      "processing_prepared_at": "2026-07-23T16:56:45",
       "ai_input_package": {
         "title": "Tesla Profit Falls as Autonomy Bet Triggers Cash Burn",
         "url": "https://www.unite.ai/tesla-profit-falls-as-autonomy-bet-triggers-cash-burn",
@@ -26574,20 +26580,20 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_quality_last_error": "original source name appears in article text",
       "ai_provider_last_error": "ai_time_budget_exceeded",
       "ai_status": "failed",
-      "ai_error": "ai_time_budget_exceeded",
+      "ai_error": "original source name appears in article text",
       "ai_rotation_exhausted": false,
-      "ai_time_budget_exceeded": true,
-      "ai_total_time_seconds": 180.7,
-      "ai_quality_status": "time_budget_exceeded",
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 136.12,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-23T09:52:54Z",
+      "candidate_retry_after": "2026-07-23T17:14:02Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "ai_time_budget_exceeded",
-      "candidate_failed_at": "2026-07-23T09:37:54",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "original source name appears in article text",
+      "candidate_failed_at": "2026-07-23T16:59:02",
+      "candidate_failure_count": 2
     },
     {
       "id": "281b1f16b37372b7",
@@ -26819,7 +26825,68 @@
       "content_preview_chars": 8344,
       "content_fetched_at": "2026-07-22T23:38:28",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-23T17:01:45",
+      "suggested_category": "AI-Tools",
+      "selection_reason": "category rotation newest fresh article: AI-Tools",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-23T17:01:45",
+      "ai_input_package": {
+        "title": "SenseTime's Galaxy Project targets domestic AI chip scale-up",
+        "url": "https://www.artificialintelligence-news.com/news/sensetimes-galaxy-project-targets-domestic-ai-chip-scale-up",
+        "source_name": "Artificial Intelligence News",
+        "suggested_category": "AI-Tools",
+        "main_image": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/07/sensetime-galaxy-project-ai-chip-infrastructure-china-artificial-intelligence.jpg",
+        "article_images": [
+          {
+            "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/07/sensetime-galaxy-project-ai-chip-infrastructure-china-artificial-intelligence.jpg",
+            "alt": "SenseTime's Galaxy Project targets domestic AI chip scale-up",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/07/sensetime-galaxy-project-ai-chip-infrastructure-china-artificial-intelligence-1024x768.jpg",
+            "alt": "Person looking up at space as SenseTime has launched the Galaxy Project, teaming with nearly 20 partners to scale domestic AI chip infrastructure in China.",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/07/Bristol-Myers-Squibb-buys-Nvidia-AI-system-for-drug-discovery-1024x683.jpg",
+            "alt": "Bristol Myers Squibb buys Nvidia AI system for drug discovery",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.artificialintelligence-news.com/wp-content/uploads/2026/07/1784472098908-1024x576.jpeg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "SenseTime has launched the Galaxy Project, teaming with nearly 20 partners to scale domestic AI chip infrastructure in China.",
+        "content_preview": "SenseTime has launched the Galaxy Project, teaming with nearly 20 partners to scale domestic AI chip infrastructure in China. In a keynote titled ‘Intelligent Transformation and Symbiosis,’ Yang Fan – the company’s co-founder and president of its Large Device Business Group – laid out what SenseTime describes as a closed loop connecting chip-level technology, ecosystem partnerships, and commercial deployment for domestically-produced AI computing power. Alongside the Galaxy Project, SenseTime signed a space computing agreement with satellite manufacturer Guoxing Aerospace and struck a research partnership with five institutions – including the Shanghai Artificial Intelligence Laboratory – aimed at scientific computing applications. Yang framed the timing around three converging trends: token demand climbing across enterprise deployments, industrial AI adoption catching up with consumer-facing use cases, and domestic chip commercialisation reaching a point where intelligent computing centres built on Chinese silicon can be stood up at pace. However, whether that window is as open as SenseTime claims depends heavily on numbers the company has not had independently verified. Token throughput figures come with a large asterisk SenseTime says its large-scale device platform now processes an average of 2.42 trillion tokens daily, and the company projects that figure will climb 25-fold to 10 trillion tokens per day by the fourth quarter of 2026. That’s a forecast, not a measured result, and enterprise buyers evaluating SenseTime’s infrastructure should treat it as such until quarterly figures start landing. The cost-effectiveness claims attached to that growth are similarly self-reported. SenseTime says its heterogeneous hybrid inference technology delivers an 85–152 percent increase in Model FLOPs Utilisation on mainstream domestic chips, alongside inference cost-effectiveness the company puts at 1.25x that of Nvidia’s H-series parts. Compared with domestic homogeneous inference setups, SenseTime claims a 2.5x increase in token output at equivalent cost, a jump it says pushes optimised hybrid inference clusters past what the industry previously regarded as the minimum profitability threshold for domestic computing power. None of these figures come with third-party benchmarking, and the gap between a vendor’s optimised test cluster and a customer’s production environment – with its uneven data pipelines and delayed firmware updates – tends to be where such numbers soften. Adaptability claims and the multi-chip problem Domestic AI chips have historically struggled with a fragmented software stack: models trained for one architecture often require rework to run on another. SenseTime says it has built a full-stack adaptation layer spanning models, frameworks, operators, toolchains, and hardware to address that, with the aim of letting customers migrate workloads across domestic chip vendors without extensive rewrites. The company points to two applied examples. In an AI4S long-sequence protein prediction workload, SenseTime says fused operator optimisation cut overall prediction time by a factor of three. In AIGC video generation, it claims a 93 percent multi-card parallel acceleration ratio for domestic chips running DiT models, alongside what it describes as zero-cost migration for mainstream AI development tools. These are the kinds of figures that read well in a sandbox test and matter far more once they’re stress-tested against real customer pipelines running mixed hardware generations. Energy metrics get a new benchmark name SenseTime introduced a metric it calls Tokens Per Watt, positioned as a replacement yardstick for measuring AI data centre efficiency, alongside a Computing-Power Collaboration Agent that handles resource scheduling, electricity price prediction, and energy storage optimisation across what the company describes as an eight-level data system with five decision chains. Combining compute, electricity pricing, and automated scheduling, SenseTime claims an 80 percent increase in token output per unit of electricity cost, average power prices 10 percent below comparable regional data centres, and 96 percent accuracy in computing load prediction. These are claims worth watching over the next several quarters rather than accepting at face value. Electricity price arbitrage and load forecasting accuracy tend to perform differently once a system runs through a full seasonal cycle with genuine demand volatility, rather than the conditions under which a vendor typically runs its pilot. Impressive partner roster spans chipmakers to component suppliers The Galaxy Project’s stated ecosystem includes domestic chip vendors Cambricon, Muxi, Hygon, Huawei Ascend, Moore Threads, Sunrise, and Biren Technology, component partner Xizhi Technology, and infrastructure firms including Silicon Motion, Qujing Technology, Zhongke Jiahe, Qingcheng Jizhi, Sophon Information, and Jiliu Technology. SenseTime says the plan covers construction of one “token factory,” five computing clusters at what it calls “10,000-calorie” scale, joint work across ten technology directions, and support for 200 AI startups. “Domestic production is not simply about replacing individual chips, but rather a collaborative effort across the entire chain of China’s innovation capabilities, from chips and components to infrastructure and application scenarios,” Yang said. Space, optical, and quantum computing bets look further out Beyond near-term infrastructure, SenseTime outlined work on optical computing for data centre efficiency, quantum computing applications in AI optimisation, and a space computing partnership with Guoxing Aerospace to build what the two companies call the SenseTime Space Computing Constellation. SenseTime’s plan calls for a first satellite launch in 2026, building toward thousands of computing satellites and computing capacity in the tens of thousands of petabytes by 2030. Yang argued the value extends past raw capability, framing space-based computing as a way to extend the reach of Chinese AI services into weak-network environments such as maritime operations and disaster response, and by extension to support China’s AI exports internationally. That 2030 target sits five years out, and satellite computing deployments of this scale have no precedent to measure the timeline against. Physical infrastructure spans Shanghai to Riyadh On the ground, SenseTime says its Shanghai facility runs the country’s first data centre rated at what it calls “5A” intelligent computing level, handling over 20 trillion tokens daily across more than 20 industries. A Yancheng site has launched with an initial 3,000 petaflops of capacity focused on energy, manufacturing, and low-altitude economy applications. In Hong Kong, SenseTime is building what it describes as the territory’s largest domestic intelligent computing centre, targeting 40,000 petaflops by 2030. The company also plans what it calls China’s first overseas domestic computing cluster in Saudi Arabia, positioned as a full-stack domestic computing base for the Middle East. On the research side, SenseTime’s tie-up with the Shanghai AI Laboratory, Beijing Zhongguancun Academy, Shenzhen Hetao Academy, the Shanghai Algorithm Innovation Research Institute, and Shanghai Jiao Tong University’s AI school aims to build a shared platform spanning compute, tooling, and model capability for life sciences, materials science, and manufacturing research. Yang called AI for Science “a key lever for paradigm innovation in basic research,” tying the initiative to China’s broader “Artificial Intelligence+” policy push. SenseTime’s forecast of 10 trillion tokens per day by Q4 2026 is the figure to track against whatever the company reports when that quarter actually closes. See also: Kimi K3 open-weight model: China’s biggest AI is a bet on memory, not compute Want to learn more about AI and big data from industry leaders? Check out AI & Big Data Expo taking place in Amsterdam, California, and London. The comprehensive event is part of TechEx and is co-located with other leading technology events including the Cyber Security & Cloud Expo . Click here for more information. AI News is powered by TechForge Media . Explore other upcoming enterprise technology events and webinars here .",
+        "content_preview_chars": 8344,
+        "rss_summary": "",
+        "full_article_text": "SenseTime has launched the Galaxy Project, teaming with nearly 20 partners to scale domestic AI chip infrastructure in China. In a keynote titled ‘Intelligent Transformation and Symbiosis,’ Yang Fan – the company’s co-founder and president of its Large Device Business Group – laid out what SenseTime describes as a closed loop connecting chip-level technology, ecosystem partnerships, and commercial deployment for domestically-produced AI computing power. Alongside the Galaxy Project, SenseTime signed a space computing agreement with satellite manufacturer Guoxing Aerospace and struck a research partnership with five institutions – including the Shanghai Artificial Intelligence Laboratory – aimed at scientific computing applications. Yang framed the timing around three converging trends: token demand climbing across enterprise deployments, industrial AI adoption catching up with consumer-facing use cases, and domestic chip commercialisation reaching a point where intelligent computing centres built on Chinese silicon can be stood up at pace. However, whether that window is as open as SenseTime claims depends heavily on numbers the company has not had independently verified. Token throughput figures come with a large asterisk SenseTime says its large-scale device platform now processes an average of 2.42 trillion tokens daily, and the company projects that figure will climb 25-fold to 10 trillion tokens per day by the fourth quarter of 2026. That’s a forecast, not a measured result, and enterprise buyers evaluating SenseTime’s infrastructure should treat it as such until quarterly figures start landing. The cost-effectiveness claims attached to that growth are similarly self-reported. SenseTime says its heterogeneous hybrid inference technology delivers an 85–152 percent increase in Model FLOPs Utilisation on mainstream domestic chips, alongside inference cost-effectiveness the company puts at 1.25x that of Nvidia’s H-series parts. Compared with domestic homogeneous inference setups, SenseTime claims a 2.5x increase in token output at equivalent cost, a jump it says pushes optimised hybrid inference clusters past what the industry previously regarded as the minimum profitability threshold for domestic computing power. None of these figures come with third-party benchmarking, and the gap between a vendor’s optimised test cluster and a customer’s production environment – with its uneven data pipelines and delayed firmware updates – tends to be where such numbers soften. Adaptability claims and the multi-chip problem Domestic AI chips have historically struggled with a fragmented software stack: models trained for one architecture often require rework to run on another. SenseTime says it has built a full-stack adaptation layer spanning models, frameworks, operators, toolchains, and hardware to address that, with the aim of letting customers migrate workloads across domestic chip vendors without extensive rewrites. The company points to two applied examples. In an AI4S long-sequence protein prediction workload, SenseTime says fused operator optimisation cut overall prediction time by a factor of three. In AIGC video generation, it claims a 93 percent multi-card parallel acceleration ratio for domestic chips running DiT models, alongside what it describes as zero-cost migration for mainstream AI development tools. These are the kinds of figures that read well in a sandbox test and matter far more once they’re stress-tested against real customer pipelines running mixed hardware generations. Energy metrics get a new benchmark name SenseTime introduced a metric it calls Tokens Per Watt, positioned as a replacement yardstick for measuring AI data centre efficiency, alongside a Computing-Power Collaboration Agent that handles resource scheduling, electricity price prediction, and energy storage optimisation across what the company describes as an eight-level data system with five decision chains. Combining compute, electricity pricing, and automated scheduling, SenseTime claims an 80 percent increase in token output per unit of electricity cost, average power prices 10 percent below comparable regional data centres, and 96 percent accuracy in computing load prediction. These are claims worth watching over the next several quarters rather than accepting at face value. Electricity price arbitrage and load forecasting accuracy tend to perform differently once a system runs through a full seasonal cycle with genuine demand volatility, rather than the conditions under which a vendor typically runs its pilot. Impressive partner roster spans chipmakers to component suppliers The Galaxy Project’s stated ecosystem includes domestic chip vendors Cambricon, Muxi, Hygon, Huawei Ascend, Moore Threads, Sunrise, and Biren Technology, component partner Xizhi Technology, and infrastructure firms including Silicon Motion, Qujing Technology, Zhongke Jiahe, Qingcheng Jizhi, Sophon Information, and Jiliu Technology. SenseTime says the plan covers construction of one “token factory,” five computing clusters at what it calls “10,000-calorie” scale, joint work across ten technology directions, and support for 200 AI startups. “Domestic production is not simply about replacing individual chips, but rather a collaborative effort across the entire chain of China’s innovation capabilities, from chips and components to infrastructure and application scenarios,” Yang said. Space, optical, and quantum computing bets look further out Beyond near-term infrastructure, SenseTime outlined work on optical computing for data centre efficiency, quantum computing applications in AI optimisation, and a space computing partnership with Guoxing Aerospace to build what the two companies call the SenseTime Space Computing Constellation. SenseTime’s plan calls for a first satellite launch in 2026, building toward thousands of computing satellites and computing capacity in the tens of thousands of petabytes by 2030. Yang argued the value extends past raw capability, framing space-based computing as a way to extend the reach of Chinese AI services into weak-network environments such as maritime operations and disaster response, and by extension to support China’s AI exports internationally. That 2030 target sits five years out, and satellite computing deployments of this scale have no precedent to measure the timeline against. Physical infrastructure spans Shanghai to Riyadh On the ground, SenseTime says its Shanghai facility runs the country’s first data centre rated at what it calls “5A” intelligent computing level, handling over 20 trillion tokens daily across more than 20 industries. A Yancheng site has launched with an initial 3,000 petaflops of capacity focused on energy, manufacturing, and low-altitude economy applications. In Hong Kong, SenseTime is building what it describes as the territory’s largest domestic intelligent computing centre, targeting 40,000 petaflops by 2030. The company also plans what it calls China’s first overseas domestic computing cluster in Saudi Arabia, positioned as a full-stack domestic computing base for the Middle East. On the research side, SenseTime’s tie-up with the Shanghai AI Laboratory, Beijing Zhongguancun Academy, Shenzhen Hetao Academy, the Shanghai Algorithm Innovation Research Institute, and Shanghai Jiao Tong University’s AI school aims to build a shared platform spanning compute, tooling, and model capability for life sciences, materials science, and manufacturing research. Yang called AI for Science “a key lever for paradigm innovation in basic research,” tying the initiative to China’s broader “Artificial Intelligence+” policy push. SenseTime’s forecast of 10 trillion tokens per day by Q4 2026 is the figure to track against whatever the company reports when that quarter actually closes. See also: Kimi K3 open-weight model: China’s biggest AI is a bet on memory, not compute Want to learn more about AI and big data from industry leaders? Check out AI & Big Data Expo taking place in Amsterdam, California, and London. The comprehensive event is part of TechEx and is co-located with other leading technology events including the Cyber Security & Cloud Expo . Click here for more information. AI News is powered by TechForge Media . Explore other upcoming enterprise technology events and webinars here .",
+        "full_article_text_chars": 8344,
+        "enrichment_status": "strong",
+        "source_url": "https://www.artificialintelligence-news.com",
+        "source_published_at": "2026-07-22T11:21:05Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 12.28,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 77.44,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-23T17:18:04Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-23T17:03:04",
+      "candidate_failure_count": 1
     },
     {
       "id": "c9889b624aa34934",
@@ -28534,7 +28601,77 @@
       "content_preview_chars": 8899,
       "content_fetched_at": "2026-07-23T09:34:37",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-23T16:53:44",
+      "suggested_category": "AI-Tools",
+      "selection_reason": "category rotation newest fresh article: AI-Tools",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-23T16:53:44",
+      "ai_input_package": {
+        "title": "Best Open Speech Recognition (ASR) Models in 2026: WER, Languages, Latency, and License Compared",
+        "url": "https://www.marktechpost.com/2026/07/23/best-open-speech-recognition-asr-models-in-2026-wer-languages-latency-and-license-compared",
+        "source_name": "MarkTechPost",
+        "suggested_category": "AI-Tools",
+        "main_image": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-51.png",
+        "article_images": [
+          {
+            "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-51.png",
+            "alt": "Best Open Speech Recognition (ASR) Models in 2026: WER, Languages, Latency, and License Compared",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Compare 16 open ASR models on WER, languages, latency and license, including Cohere Transcribe, Granite Speech and Voxtral",
+        "content_preview": "Open speech recognition stopped being a Whisper monoculture some time in the last twelve months. In March 2026 Cohere released Transcribe , a 2B Apache 2.0 model that took the top of the Hugging Face Open ASR Leaderboard at 5.42% average word error rate. Five weeks later IBM shipped Granite Speech 4.1 2B at 5.33%. Since then ARK-ASR-3B and MOSS-Transcribe-preview-2B have posted lower numbers still. The top of that leaderboard is now separated by less than one WER point. That has a specific consequence for anyone choosing a model: rank is no longer the deciding variable. License, language coverage, streaming support, and cost per audio-hour are. This roundup compares the field on all four. First, a problem with the leaderboard number everyone quotes The Open ASR Leaderboard average is not a single fixed quantity, and the models currently listed side by side were not all scored the same way. Cohere’s 5.42% is an average across eight English test sets, including TED-LIUM. That checks out: AMI 8.13, Earnings-22 10.86, GigaSpeech 9.34, LibriSpeech clean 1.25, LibriSpeech other 2.37, SPGISpeech 3.08, TED-LIUM 2.49, VoxPopuli 5.87 averages to exactly 5.42. ARK-ASR-3B’s 5.04% is an average across seven sets. TED-LIUM is absent. The MOSS-Transcribe-preview-2B card states this explicitly: TED-LIUM is not currently part of the leaderboard run and is therefore excluded. TED-LIUM is one of the easier sets in the suite, so dropping it raises the average. Recompute Cohere’s published per-dataset scores over the same seven sets ARK reports and Cohere lands at 5.84, not 5.42. Do the same to Granite Speech 4.1 2B and it moves from 5.33 to 5.65. On a like-for-like basis ARK’s lead is larger than the headline numbers imply, not smaller — but the point is that you cannot subtract one published figure from another and get a meaningful answer. Two further caveats belong on the same page: Some scores are openly leaderboard-fitted : The MOSS-Transcribe-preview-2B card states the model was fine-tuned with reinforcement learning on the Open ASR Leaderboard training splits. That is disclosed, which is more than most, but it means the score measures the benchmark rather than the capability. Private-track data reorders the board : Appen contributed held-back evaluation sets covering Australian, Canadian, Indian, and American accents in scripted and conversational conditions. When those private sets are toggled on, zoom/scribe_v1 moves from #4 to #1 and the public-leaderboard leader drops a position. Models tuned for clean read speech degrade disproportionately on spontaneous conversational audio. Use the leaderboard to build a shortlist. Do not use it to pick a winner. Cohere Transcribe (2B, Apache 2.0, 14 languages) is the model that actually shipped into production. It has been downloaded over 620,000 times in the past month and has runtime support across transformers , vLLM, mlx-audio for Apple Silicon, a Rust port, and a WebGPU build. It is a Conformer encoder with a lightweight Transformer decoder, trained from scratch. Cohere also ran human preference evaluation, where trained annotators scored transcripts for meaning preservation, hallucination, and named entities: a 61% average win rate, 78% against IBM Granite 4.0 1B Speech and 64% against Whisper large-v3. The limitations section of its model card is unusually honest and should be read before committing. There is no automatic language detection, no timestamps, and no diarization, and the model is eager to transcribe silence, so Cohere recommends prepending a VAD or noise gate. The repo is also gated behind a contact-information agreement despite the Apache 2.0 license. Granite Speech 4.1 2B (2B, Apache 2.0) is the better pick if you need capability rather than a lower number. Six languages for ASR plus bidirectional speech translation, keyword-list biasing for names and jargon, punctuation and truecasing including German noun capitalization. Trained on 174,000 hours. RTFx 231.29. IBM also ships two siblings: -plus adds speaker-attributed ASR and word-level timestamps, and -nar is discussed below. Canary-Qwen-2.5B (2.5B, CC-BY-4.0, English) pairs a FastConformer encoder with a Qwen3-1.7B decoder and runs in two modes — pure transcription, or LLM mode where the decoder summarizes and answers questions about the transcript. 5.63% WER at RTFx 418. Note that AMI was oversampled to roughly 15% of training data, which biases output toward verbatim disfluency-preserving transcripts. That is a feature for legal work and a nuisance for meeting notes. Qwen3-ASR-1.7B (Apache 2.0) covers 52 languages and dialects — 30 languages plus 22 Chinese dialects — at 5.76%. It ships with a full inference toolkit and a separate forced-alignment model for timestamps in 11 languages. For anything touching Mandarin or Chinese regional speech this is the obvious starting point. The throughput tier Accuracy across the top of the field now varies by about one WER point. Throughput varies by more than an order of magnitude, which means throughput usually decides the invoice. Parakeet TDT 0.6B v3 (0.6B, CC-BY-4.0) is the throughput leader among multilingual open models at RTFx 3332.74 across 25 European languages with automatic language ID, handling up to 24 minutes in a single pass on an A100 80GB. It costs 6.32% WER — roughly one point more than Granite 4.1 2B for roughly fourteen times the audio per GPU-second. Granite Speech 4.1 2B-NAR is the more interesting engineering result. It is non-autoregressive: it edits a CTC hypothesis in a single forward pass using a bidirectional LLM, reaching RTFx ~1820 on one H100 at batch size 128. It gives up Japanese, speech translation, and keyword biasing to get there. Qwen3-ASR-0.6B keeps all 52 languages and reaches 2000× throughput at concurrency 128. The streaming tier A batch WER seems to be the wrong test for a streaming model, and the leaderboard scores them anyway. Voxtral Realtime sits at 7.68% and Kyutai STT 2.6B at 6.40% — both below Whisper — and neither number tells you anything useful about their intended use. Voxtral Mini 4B Realtime 2602 (Apache 2.0, 13 languages) is a 3.4B language model along with a 970M causal audio encoder trained from scratch, with sliding-window attention on both halves for effectively unbounded streaming. Transcription delay is configurable in 80ms steps from 80ms to 1200ms, plus a standalone 2400ms option; Mistral recommends 480ms as the sweet spot and reports that at that setting it matches leading offline open models. It runs on a single 16GB GPU and had day-0 vLLM Realtime API support . Kyutai STT (CC-BY-4.0) comes in two shapes: a ~1B English/French model with a 0.5s delay and a built-in semantic voice activity detector, and a 2.6B English-only model with a 2.5s delay. For voice agents, the semantic VAD matters more than the transcription delay — it predicts when the speaker has actually finished, which is what governs perceived turn-taking latency. An H100 serves 400 concurrent streams in real time. Meta’s Omnilingual ASR (Apache 2.0, corpus CC-BY) is not competing on WER and should not be evaluated as if it were. It covers 1,600+ languages natively and extends to 5,400+ through zero-shot in-context learning, built on a wav2vec 2.0 encoder scaled to 7B and pre-trained on about 4.3M hours. The 7B LLM-ASR variant achieves character error rate below 10% on 78% of supported languages, including 500+ never previously served by any ASR system. Encoder sizes run from 300M to 7B. Meta also released the Omnilingual ASR Corpus covering 350+ underserved languages. Whisper large-v3 (1.55B, MIT, 99 languages) has been overtaken on accuracy by roughly ten open models, and it remains the correct default for a large class of projects. MIT is the least encumbered license in the field. The runtime ecosystem — whisper.cpp, faster-whisper, WhisperX — has no equivalent among the newer releases. If your requirement is “some language, some hardware, no license lawyer,” it is still the answer. diffusion-gemma-asr-small from YC startup Interfaze is the most architecturally creative release of the year. It produces transcripts by parallel diffusion denoising over a 256-token canvas in 8 to 16 steps, so decoding cost does not grow with transcript length. Only ~42M parameters were trained — 0.16% of the weights — on top of a frozen 26B DiffusionGemma and a frozen whisper-small encoder. It reaches 6.6% WER on LibriSpeech test-clean at roughly 11 to 17× realtime. It also reaches 15.7% on FLEURS English and 29.6% CER on FLEURS Mandarin, so treat the LibriSpeech figure as the ceiling. Nobody should deploy this. Everybody working on ASR should read it. MOSS-Transcribe-Diarize 0.9B (Apache 2.0, 50+ languages) solves the problem most roundups ignore: it emits speaker labels, word timestamps, and transcript in one generation instead of chaining ASR to a separate diarization stack.",
+        "content_preview_chars": 8899,
+        "rss_summary": "",
+        "full_article_text": "Open speech recognition stopped being a Whisper monoculture some time in the last twelve months. In March 2026 Cohere released Transcribe , a 2B Apache 2.0 model that took the top of the Hugging Face Open ASR Leaderboard at 5.42% average word error rate. Five weeks later IBM shipped Granite Speech 4.1 2B at 5.33%. Since then ARK-ASR-3B and MOSS-Transcribe-preview-2B have posted lower numbers still. The top of that leaderboard is now separated by less than one WER point. That has a specific consequence for anyone choosing a model: rank is no longer the deciding variable. License, language coverage, streaming support, and cost per audio-hour are. This roundup compares the field on all four. First, a problem with the leaderboard number everyone quotes The Open ASR Leaderboard average is not a single fixed quantity, and the models currently listed side by side were not all scored the same way. Cohere’s 5.42% is an average across eight English test sets, including TED-LIUM. That checks out: AMI 8.13, Earnings-22 10.86, GigaSpeech 9.34, LibriSpeech clean 1.25, LibriSpeech other 2.37, SPGISpeech 3.08, TED-LIUM 2.49, VoxPopuli 5.87 averages to exactly 5.42. ARK-ASR-3B’s 5.04% is an average across seven sets. TED-LIUM is absent. The MOSS-Transcribe-preview-2B card states this explicitly: TED-LIUM is not currently part of the leaderboard run and is therefore excluded. TED-LIUM is one of the easier sets in the suite, so dropping it raises the average. Recompute Cohere’s published per-dataset scores over the same seven sets ARK reports and Cohere lands at 5.84, not 5.42. Do the same to Granite Speech 4.1 2B and it moves from 5.33 to 5.65. On a like-for-like basis ARK’s lead is larger than the headline numbers imply, not smaller — but the point is that you cannot subtract one published figure from another and get a meaningful answer. Two further caveats belong on the same page: Some scores are openly leaderboard-fitted : The MOSS-Transcribe-preview-2B card states the model was fine-tuned with reinforcement learning on the Open ASR Leaderboard training splits. That is disclosed, which is more than most, but it means the score measures the benchmark rather than the capability. Private-track data reorders the board : Appen contributed held-back evaluation sets covering Australian, Canadian, Indian, and American accents in scripted and conversational conditions. When those private sets are toggled on, zoom/scribe_v1 moves from #4 to #1 and the public-leaderboard leader drops a position. Models tuned for clean read speech degrade disproportionately on spontaneous conversational audio. Use the leaderboard to build a shortlist. Do not use it to pick a winner. Cohere Transcribe (2B, Apache 2.0, 14 languages) is the model that actually shipped into production. It has been downloaded over 620,000 times in the past month and has runtime support across transformers , vLLM, mlx-audio for Apple Silicon, a Rust port, and a WebGPU build. It is a Conformer encoder with a lightweight Transformer decoder, trained from scratch. Cohere also ran human preference evaluation, where trained annotators scored transcripts for meaning preservation, hallucination, and named entities: a 61% average win rate, 78% against IBM Granite 4.0 1B Speech and 64% against Whisper large-v3. The limitations section of its model card is unusually honest and should be read before committing. There is no automatic language detection, no timestamps, and no diarization, and the model is eager to transcribe silence, so Cohere recommends prepending a VAD or noise gate. The repo is also gated behind a contact-information agreement despite the Apache 2.0 license. Granite Speech 4.1 2B (2B, Apache 2.0) is the better pick if you need capability rather than a lower number. Six languages for ASR plus bidirectional speech translation, keyword-list biasing for names and jargon, punctuation and truecasing including German noun capitalization. Trained on 174,000 hours. RTFx 231.29. IBM also ships two siblings: -plus adds speaker-attributed ASR and word-level timestamps, and -nar is discussed below. Canary-Qwen-2.5B (2.5B, CC-BY-4.0, English) pairs a FastConformer encoder with a Qwen3-1.7B decoder and runs in two modes — pure transcription, or LLM mode where the decoder summarizes and answers questions about the transcript. 5.63% WER at RTFx 418. Note that AMI was oversampled to roughly 15% of training data, which biases output toward verbatim disfluency-preserving transcripts. That is a feature for legal work and a nuisance for meeting notes. Qwen3-ASR-1.7B (Apache 2.0) covers 52 languages and dialects — 30 languages plus 22 Chinese dialects — at 5.76%. It ships with a full inference toolkit and a separate forced-alignment model for timestamps in 11 languages. For anything touching Mandarin or Chinese regional speech this is the obvious starting point. The throughput tier Accuracy across the top of the field now varies by about one WER point. Throughput varies by more than an order of magnitude, which means throughput usually decides the invoice. Parakeet TDT 0.6B v3 (0.6B, CC-BY-4.0) is the throughput leader among multilingual open models at RTFx 3332.74 across 25 European languages with automatic language ID, handling up to 24 minutes in a single pass on an A100 80GB. It costs 6.32% WER — roughly one point more than Granite 4.1 2B for roughly fourteen times the audio per GPU-second. Granite Speech 4.1 2B-NAR is the more interesting engineering result. It is non-autoregressive: it edits a CTC hypothesis in a single forward pass using a bidirectional LLM, reaching RTFx ~1820 on one H100 at batch size 128. It gives up Japanese, speech translation, and keyword biasing to get there. Qwen3-ASR-0.6B keeps all 52 languages and reaches 2000× throughput at concurrency 128. The streaming tier A batch WER seems to be the wrong test for a streaming model, and the leaderboard scores them anyway. Voxtral Realtime sits at 7.68% and Kyutai STT 2.6B at 6.40% — both below Whisper — and neither number tells you anything useful about their intended use. Voxtral Mini 4B Realtime 2602 (Apache 2.0, 13 languages) is a 3.4B language model along with a 970M causal audio encoder trained from scratch, with sliding-window attention on both halves for effectively unbounded streaming. Transcription delay is configurable in 80ms steps from 80ms to 1200ms, plus a standalone 2400ms option; Mistral recommends 480ms as the sweet spot and reports that at that setting it matches leading offline open models. It runs on a single 16GB GPU and had day-0 vLLM Realtime API support . Kyutai STT (CC-BY-4.0) comes in two shapes: a ~1B English/French model with a 0.5s delay and a built-in semantic voice activity detector, and a 2.6B English-only model with a 2.5s delay. For voice agents, the semantic VAD matters more than the transcription delay — it predicts when the speaker has actually finished, which is what governs perceived turn-taking latency. An H100 serves 400 concurrent streams in real time. Meta’s Omnilingual ASR (Apache 2.0, corpus CC-BY) is not competing on WER and should not be evaluated as if it were. It covers 1,600+ languages natively and extends to 5,400+ through zero-shot in-context learning, built on a wav2vec 2.0 encoder scaled to 7B and pre-trained on about 4.3M hours. The 7B LLM-ASR variant achieves character error rate below 10% on 78% of supported languages, including 500+ never previously served by any ASR system. Encoder sizes run from 300M to 7B. Meta also released the Omnilingual ASR Corpus covering 350+ underserved languages. Whisper large-v3 (1.55B, MIT, 99 languages) has been overtaken on accuracy by roughly ten open models, and it remains the correct default for a large class of projects. MIT is the least encumbered license in the field. The runtime ecosystem — whisper.cpp, faster-whisper, WhisperX — has no equivalent among the newer releases. If your requirement is “some language, some hardware, no license lawyer,” it is still the answer. diffusion-gemma-asr-small from YC startup Interfaze is the most architecturally creative release of the year. It produces transcripts by parallel diffusion denoising over a 256-token canvas in 8 to 16 steps, so decoding cost does not grow with transcript length. Only ~42M parameters were trained — 0.16% of the weights — on top of a frozen 26B DiffusionGemma and a frozen whisper-small encoder. It reaches 6.6% WER on LibriSpeech test-clean at roughly 11 to 17× realtime. It also reaches 15.7% on FLEURS English and 29.6% CER on FLEURS Mandarin, so treat the LibriSpeech figure as the ceiling. Nobody should deploy this. Everybody working on ASR should read it. MOSS-Transcribe-Diarize 0.9B (Apache 2.0, 50+ languages) solves the problem most roundups ignore: it emits speaker labels, word timestamps, and transcript in one generation instead of chaining ASR to a separate diarization stack. 128k context, roughly 90 minutes of audio in one pass, RTF ~0.017 on an RTX 4090, with hotword biasing. The license split nobody reads until deployment This is the section that actually blocks shipping, and the field divides cleanly: Apache 2.0 : Cohere Transcribe, Granite Speech 4.1 (all three variants), Qwen3-ASR (both sizes), Voxtral Mini Realtime, Omnilingual ASR, ARK-ASR, MOSS-Transcribe. No attribution obligation, commercial use unrestricted. Note that Cohere’s repo is gated behind a contact-information agreement even though the license itself is Apache 2.0. MIT : Whisper large-v3. The most permissive option in the field. CC-BY-4.0 : Canary-Qwen-2.5B, Parakeet TDT 0.6B v3, Kyutai STT. Commercially usable, but attribution is required. For an embedded product or a white-labeled API, that is a real compliance obligation, and it is the single most common reason teams end up shipping a model that is not the most accurate one they tested. Meta’s Omnilingual ASR splits the two: Apache 2.0 for models, CC-BY for the corpus. How to actually choose Run this order, not just the leaderboard order: License: If attribution is a blocker, CC-BY-4.0 removes Parakeet, Canary-Qwen, and Kyutai before you benchmark anything. Language coverage : Cohere’s 14 languages, Granite’s 6, and Canary’s English-only are hard limits, not soft ones. Cohere additionally has no language auto-detection, so you must know the language in advance. Streaming or batch : This is architectural. No amount of tuning turns an offline encoder-decoder into a low-latency streaming model. Then measure WER on your own audio : The spread between the top ten models on the public benchmark is under one point. The spread on your accented, noisy, domain-specific audio will be several times that, and it will not rank the models in the same order. Then compute cost per audio-hour on your own GPUs : RTFx figures are measured at large batch sizes on datacenter hardware and do not transfer. The useful summary of 2026 is not that any single model won. It is that a 2B open-weight model on a permissive license now beats what closed APIs were charging for eighteen months ago, and that the remaining decision is a procurement question rather than a research one. Cohere Transcribe blog and model card IBM Granite Speech 4.1 2B and 4.1 2B-NAR MOSS-Transcribe-preview-2B and MOSS-Transcribe-Diarize NVIDIA Canary-Qwen-2.5B and Parakeet TDT 0.6B v3 Qwen3-ASR · Voxtral Mini 4B Realtime 2602 Meta Omnilingual ASR and paper Open ASR Leaderboard paper , leaderboard dataset , and Appen private-track announcement . Leaderboard positions are live and change frequently. All figures verified against primary sources on 23 July 2026. Asif Razzaq is the CEO of Marktechpost Media Inc.. As a visionary entrepreneur and engineer, Asif is committed to harnessing the potential of Artificial Intelligence for social good. His most recent endeavor is the launch of an Artificial Intelligence Media Platform, Marktechpost, which stands out for its in-depth coverage of machine learning and deep learning news that is both technically sound and easily understandable by a wide audience. The platform boasts of over 2 million monthly views, illustrating its popularity among audiences. Asif Razzaq Meet Gigatoken: A Rust BPE Tokenizer that Encodes Text at 24.53 GB/s, up to 989x Faster than HuggingFace Tokenizers Asif Razzaq Unsloth vs Axolotl vs TRL vs LLaMA-Factory: A Fine-Tuning Framework Comparison on Speed, VRAM, and Multi-GPU Asif Razzaq Poolside Releases Laguna S 2.1, an Open-Weight Agentic Coding Model Punching Above Its Weight Class on SWE-Bench Multilingual Asif Razzaq Google Releases Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber: A Cheaper, More Token-Efficient Flash Tier Built for Agentic Workloads",
+        "full_article_text_chars": 12685,
+        "enrichment_status": "strong",
+        "source_url": "https://www.marktechpost.com",
+        "source_published_at": "2026-07-23T09:26:40Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.13,
+        "trusted_references": [
+          {
+            "title": "diffusion-gemma-asr-small",
+            "url": "https://github.com/InterfazeAI/diffusion-gemma-asr"
+          },
+          {
+            "title": "Qwen3-ASR",
+            "url": "https://github.com/QwenLM/Qwen3-ASR"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content",
+      "ai_provider_last_error": "ai_time_budget_exceeded",
+      "ai_status": "failed",
+      "ai_error": "ai_time_budget_exceeded",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": true,
+      "ai_total_time_seconds": 180.5,
+      "ai_quality_status": "time_budget_exceeded",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-23T17:11:45Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "ai_time_budget_exceeded",
+      "candidate_failed_at": "2026-07-23T16:56:45",
+      "candidate_failure_count": 1
     },
     {
       "id": "b4f0d388247d2189",
@@ -28633,7 +28770,89 @@
       "content_preview_chars": 7418,
       "content_fetched_at": "2026-07-23T09:34:35",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-23T16:59:02",
+      "suggested_category": "AI-Tools",
+      "selection_reason": "category rotation newest fresh article: AI-Tools",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-23T16:59:03",
+      "ai_input_package": {
+        "title": "Meet Gigatoken: A Rust BPE Tokenizer that Encodes Text at 24.53 GB/s, up to 989x Faster than HuggingFace Tokenizers",
+        "url": "https://www.marktechpost.com/2026/07/23/meet-gigatoken-a-rust-bpe-tokenizer-that-encodes-text-at-24-53-gb-s-up-to-989x-faster-than-huggingface-tokenizers",
+        "source_name": "MarkTechPost",
+        "suggested_category": "AI-Tools",
+        "main_image": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-50-1024x731.png",
+        "article_images": [
+          {
+            "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/blog19132-50-1024x731.png",
+            "alt": "Meet Gigatoken: A Rust BPE Tokenizer that Encodes Text at 24.53 GB/s, up to 989x Faster than HuggingFace Tokenizers",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.marktechpost.com/wp-content/uploads/2026/04/NVIDIA-MOBILE-1-819x1024.png",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.marktechpost.com/wp-content/uploads/2026/07/Vibe2_300x500.png",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Gigatoken is a Rust BPE tokenizer encoding text at 24.53 GB/s, up to 989x faster than HuggingFace tokenizers",
+        "content_preview": "Tokenization is the one part of the language modeling stack that almost nobody profiles. Gigatoken , released by Marcel Rød (a PhD student from Stanford) under an MIT license, argues that this was a mistake. The library encodes text at gigabytes per second on a single machine, against baselines that are already multithreaded Rust. The GPT-2 tokenizer benchmarking yields remarkable results: evaluated on the 11.9 GB owt_train.txt corpus using a 144-core AMD EPYC 9565 dual-socket setup, Gigatoken processes data at a staggering 24.53 GB/s . In comparison, OpenAI’s tiktoken achieves 36.0 MB/s, while HuggingFace tokenizers registers at 24.8 MB/s on the identical hardware configuration. These marks demonstrate performance advantages of 681x and 989x, respectively. On an Apple M4 Max with 16 cores, the same GPT-2 workload runs at 8.79 GB/s, or 1,268x HuggingFace tokenizers and 140x tiktoken. On a consumer AMD Ryzen 7 9800X3D, it runs at 6.27 GB/s, or 106x and 68x. The speedup is not an artifact of one CPU or one vocabulary. Gigatoken is a byte-pair encoding (BPE) tokenizer written in Rust with Python bindings. It ships on PyPI as gigatoken (version 0.9.0, released 21 July 2026) and installs with pip install gigatoken. The repository is 66.2% Rust and 33.3% Python. It supports 23 distinct tokenizer families in the published benchmarks, covering GPT-2, GPT-OSS, Llama 3 through 4, Qwen 2 through 3.6, DeepSeek V3/R1/V4, GLM 4 and 5, Kimi K2, Nemotron 3, Phi-4, OLMo 2/3, ModernBERT, Gemma and Mistral. There are two ways to use it. Compatibility mode wraps an existing HuggingFace or tiktoken tokenizer and preserves exact output parity, at a real cost to throughput. The author ( Marcel ) states on Hacker News that compatibility mode delivers roughly 200–300x depending on usage, because it still pays Python overhead for list creation and string-to-bytes conversion. The native Gigatoken API lets Rust read files directly and is where the published numbers come from. The interactive benchmark explorer Every number below is drawn from the repository’s benchmarks section and the pretokenizer optimization log . Switch CPUs, walk the optimization history, or estimate how long your own corpus would take. The gains do not come from a better BPE merge loop. They come from two places that most tokenizers treat as solved. (1) Pretokenization : Most implementations delegate this to a regex engine. Gigatoken hand-writes it. The optimization log tracks single-threaded GPT-2 pretokenizer throughput on 100 MB of OpenWebText, and the progression is instructive: A fancy-regex baseline runs at ~47 MiB/s. A hand-rolled state machine hits ~380 MiB/s. A winnow-combinator implementation with NEON SIMD intrinsics reaches 462 MiB/s. Replacing winnow with a direct Iterator, adding a 256-byte class lookup table for O(1) first-byte dispatch, and switching from NEON intrinsics to SWAR (SIMD Within A Register) pushes it to 830 MiB/s. SWAR loads 8 bytes as a u64 and checks all 8 for the letter property with branchless arithmetic. It needs no architecture-specific intrinsics. The final step is dual-cursor ILP exploitation , reaching 1,049 MiB/s. The insight is that the bottleneck at ~840 MiB/s was latency, not throughput. Each token’s end position depends on the previous one, a serial chain of roughly 25–27 cycles. Running two independent cursors from a safe split point lets the out-of-order engine interleave both streams across idle execution ports. Net effect on the pretokenizer alone: 2.27x over the winnow + NEON baseline, and 22.3x over the regex implementation. (2) Pretoken caching : If a word has been seen before, its encoded tokens are looked up rather than recomputed. The author ( Marcel ) notes this is hard in practice, because the cache grows quickly and pretoken distributions are long-tailed. On top of that, interactions with Python are minimized and threads are designed to interact minimally with each other. The optimization log is unusually honest about what failed. A hot/cold split using #[cold] and #[inline(never)] regressed to 580 MiB/s and was reverted, because the inline barrier stopped LLVM from optimizing the combined ASCII and unicode loop. A two-pass classification buffer with SWAR transition counting was algorithmically correct but ran at 354 MiB/s, since the extra memory traffic beat the branch savings. Profile-guided optimization had no measurable effect, because the inner loop is already branchless and the word-boundary branch is data-dependent. Benchmark Methodology Notes The comparison is not strictly apples-to-apples. Gigatoken encodes entire un-split files, finding its own document boundaries and parallelizing automatically. In contrast, HuggingFace (encode_batch_fast) is evaluated on the first 100 MB and tiktoken (encode_ordinary_batch) on the first 1 GB, both pre-split on <|endoftext|>. Because the baselines omit caching, their throughput remains uniform. Measurements report the best of three interleaved rounds using fresh processes with parallelism enabled. Vocabulary types also introduce constraints; SentencePiece tokenizers are only partially optimized. On EPYC, Gemma 1 processes at 2.51 GB/s (7.3x speedup), Gemma 3 at 3.43 GB/s (9.6x), and CodeLlama at 3.47 GB/s (10.0x). Although substantial, these gains are an order of magnitude lower than the headline BPE performance. An independent reproduction on KrabArena verified the results. On a 4-vCPU Intel Xeon VM (2.20 GHz) with a 174 MB OpenWebText slice, Gigatoken 0.9.0 achieved a median of 277.8 MB/s, outperforming tiktoken 0.13.0 (10.62 MB/s) by 26.2x and tokenizers 0.23.1 (3.33 MB/s) by 83.4x. All trials successfully validated 35,356 documents, confirming the performance trend scales with core count. Gigatoken hits 24.53 GB/s on GPT-2 on a 144-core EPYC, 989x HuggingFace tokenizers and 681x tiktoken. The speedup holds across x86 and ARM, and across 23 tokenizer families, not one tuned configuration. Gains come from a hand-written SWAR pretokenizer and pretoken caching, not a faster BPE merge loop. SentencePiece vocabularies see 7–22x, not 1,000x, and WordPiece is unsupported. Compatibility mode preserves exact HuggingFace output parity at roughly 200–300x instead of the full speedup. Check out the GitHub repo and the release thread . All credit for this research goes to the author of this project. Asif Razzaq is the CEO of Marktechpost Media Inc.. As a visionary entrepreneur and engineer, Asif is committed to harnessing the potential of Artificial Intelligence for social good. His most recent endeavor is the launch of an Artificial Intelligence Media Platform, Marktechpost, which stands out for its in-depth coverage of machine learning and deep learning news that is both technically sound and easily understandable by a wide audience. The platform boasts of over 2 million monthly views, illustrating its popularity among audiences. Asif Razzaq Best Open Speech Recognition (ASR) Models in 2026: WER, Languages, Latency, and License Compared Asif Razzaq Unsloth vs Axolotl vs TRL vs LLaMA-Factory: A Fine-Tuning Framework Comparison on Speed, VRAM, and Multi-GPU Asif Razzaq Poolside Releases Laguna S 2.1, an Open-Weight Agentic Coding Model Punching Above Its Weight Class on SWE-Bench Multilingual Asif Razzaq Google Releases Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber: A Cheaper, More Token-Efficient Flash Tier Built for Agentic Workloads",
+        "content_preview_chars": 7418,
+        "rss_summary": "",
+        "full_article_text": "Tokenization is the one part of the language modeling stack that almost nobody profiles. Gigatoken , released by Marcel Rød (a PhD student from Stanford) under an MIT license, argues that this was a mistake. The library encodes text at gigabytes per second on a single machine, against baselines that are already multithreaded Rust. The GPT-2 tokenizer benchmarking yields remarkable results: evaluated on the 11.9 GB owt_train.txt corpus using a 144-core AMD EPYC 9565 dual-socket setup, Gigatoken processes data at a staggering 24.53 GB/s . In comparison, OpenAI’s tiktoken achieves 36.0 MB/s, while HuggingFace tokenizers registers at 24.8 MB/s on the identical hardware configuration. These marks demonstrate performance advantages of 681x and 989x, respectively. On an Apple M4 Max with 16 cores, the same GPT-2 workload runs at 8.79 GB/s, or 1,268x HuggingFace tokenizers and 140x tiktoken. On a consumer AMD Ryzen 7 9800X3D, it runs at 6.27 GB/s, or 106x and 68x. The speedup is not an artifact of one CPU or one vocabulary. Gigatoken is a byte-pair encoding (BPE) tokenizer written in Rust with Python bindings. It ships on PyPI as gigatoken (version 0.9.0, released 21 July 2026) and installs with pip install gigatoken. The repository is 66.2% Rust and 33.3% Python. It supports 23 distinct tokenizer families in the published benchmarks, covering GPT-2, GPT-OSS, Llama 3 through 4, Qwen 2 through 3.6, DeepSeek V3/R1/V4, GLM 4 and 5, Kimi K2, Nemotron 3, Phi-4, OLMo 2/3, ModernBERT, Gemma and Mistral. There are two ways to use it. Compatibility mode wraps an existing HuggingFace or tiktoken tokenizer and preserves exact output parity, at a real cost to throughput. The author ( Marcel ) states on Hacker News that compatibility mode delivers roughly 200–300x depending on usage, because it still pays Python overhead for list creation and string-to-bytes conversion. The native Gigatoken API lets Rust read files directly and is where the published numbers come from. The interactive benchmark explorer Every number below is drawn from the repository’s benchmarks section and the pretokenizer optimization log . Switch CPUs, walk the optimization history, or estimate how long your own corpus would take. The gains do not come from a better BPE merge loop. They come from two places that most tokenizers treat as solved. (1) Pretokenization : Most implementations delegate this to a regex engine. Gigatoken hand-writes it. The optimization log tracks single-threaded GPT-2 pretokenizer throughput on 100 MB of OpenWebText, and the progression is instructive: A fancy-regex baseline runs at ~47 MiB/s. A hand-rolled state machine hits ~380 MiB/s. A winnow-combinator implementation with NEON SIMD intrinsics reaches 462 MiB/s. Replacing winnow with a direct Iterator, adding a 256-byte class lookup table for O(1) first-byte dispatch, and switching from NEON intrinsics to SWAR (SIMD Within A Register) pushes it to 830 MiB/s. SWAR loads 8 bytes as a u64 and checks all 8 for the letter property with branchless arithmetic. It needs no architecture-specific intrinsics. The final step is dual-cursor ILP exploitation , reaching 1,049 MiB/s. The insight is that the bottleneck at ~840 MiB/s was latency, not throughput. Each token’s end position depends on the previous one, a serial chain of roughly 25–27 cycles. Running two independent cursors from a safe split point lets the out-of-order engine interleave both streams across idle execution ports. Net effect on the pretokenizer alone: 2.27x over the winnow + NEON baseline, and 22.3x over the regex implementation. (2) Pretoken caching : If a word has been seen before, its encoded tokens are looked up rather than recomputed. The author ( Marcel ) notes this is hard in practice, because the cache grows quickly and pretoken distributions are long-tailed. On top of that, interactions with Python are minimized and threads are designed to interact minimally with each other. The optimization log is unusually honest about what failed. A hot/cold split using #[cold] and #[inline(never)] regressed to 580 MiB/s and was reverted, because the inline barrier stopped LLVM from optimizing the combined ASCII and unicode loop. A two-pass classification buffer with SWAR transition counting was algorithmically correct but ran at 354 MiB/s, since the extra memory traffic beat the branch savings. Profile-guided optimization had no measurable effect, because the inner loop is already branchless and the word-boundary branch is data-dependent. Benchmark Methodology Notes The comparison is not strictly apples-to-apples. Gigatoken encodes entire un-split files, finding its own document boundaries and parallelizing automatically. In contrast, HuggingFace (encode_batch_fast) is evaluated on the first 100 MB and tiktoken (encode_ordinary_batch) on the first 1 GB, both pre-split on <|endoftext|>. Because the baselines omit caching, their throughput remains uniform. Measurements report the best of three interleaved rounds using fresh processes with parallelism enabled. Vocabulary types also introduce constraints; SentencePiece tokenizers are only partially optimized. On EPYC, Gemma 1 processes at 2.51 GB/s (7.3x speedup), Gemma 3 at 3.43 GB/s (9.6x), and CodeLlama at 3.47 GB/s (10.0x). Although substantial, these gains are an order of magnitude lower than the headline BPE performance. An independent reproduction on KrabArena verified the results. On a 4-vCPU Intel Xeon VM (2.20 GHz) with a 174 MB OpenWebText slice, Gigatoken 0.9.0 achieved a median of 277.8 MB/s, outperforming tiktoken 0.13.0 (10.62 MB/s) by 26.2x and tokenizers 0.23.1 (3.33 MB/s) by 83.4x. All trials successfully validated 35,356 documents, confirming the performance trend scales with core count. Gigatoken hits 24.53 GB/s on GPT-2 on a 144-core EPYC, 989x HuggingFace tokenizers and 681x tiktoken. The speedup holds across x86 and ARM, and across 23 tokenizer families, not one tuned configuration. Gains come from a hand-written SWAR pretokenizer and pretoken caching, not a faster BPE merge loop. SentencePiece vocabularies see 7–22x, not 1,000x, and WordPiece is unsupported. Compatibility mode preserves exact HuggingFace output parity at roughly 200–300x instead of the full speedup. Check out the GitHub repo and the release thread . All credit for this research goes to the author of this project. Asif Razzaq is the CEO of Marktechpost Media Inc.. As a visionary entrepreneur and engineer, Asif is committed to harnessing the potential of Artificial Intelligence for social good. His most recent endeavor is the launch of an Artificial Intelligence Media Platform, Marktechpost, which stands out for its in-depth coverage of machine learning and deep learning news that is both technically sound and easily understandable by a wide audience. The platform boasts of over 2 million monthly views, illustrating its popularity among audiences. Asif Razzaq Best Open Speech Recognition (ASR) Models in 2026: WER, Languages, Latency, and License Compared Asif Razzaq Unsloth vs Axolotl vs TRL vs LLaMA-Factory: A Fine-Tuning Framework Comparison on Speed, VRAM, and Multi-GPU Asif Razzaq Poolside Releases Laguna S 2.1, an Open-Weight Agentic Coding Model Punching Above Its Weight Class on SWE-Bench Multilingual Asif Razzaq Google Releases Gemini 3.6 Flash, 3.5 Flash-Lite, and 3.5 Flash Cyber: A Cheaper, More Token-Efficient Flash Tier Built for Agentic Workloads",
+        "full_article_text_chars": 7418,
+        "enrichment_status": "strong",
+        "source_url": "https://www.marktechpost.com",
+        "source_published_at": "2026-07-23T08:01:22Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 1.55,
+        "trusted_references": [
+          {
+            "title": "Gigatoken",
+            "url": "https://github.com/marcelroed/gigatoken"
+          },
+          {
+            "title": "OpenAI’s tiktoken",
+            "url": "https://github.com/openai/tiktoken"
+          },
+          {
+            "title": "HuggingFace tokenizers",
+            "url": "https://github.com/huggingface/tokenizers"
+          },
+          {
+            "title": "benchmarks section",
+            "url": "https://github.com/marcelroed/gigatoken/"
+          },
+          {
+            "title": "pretokenizer optimization log",
+            "url": "https://github.com/marcelroed/gigatoken/blob/main/pretokenizer_optimization_log.md"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 161.27,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-23T17:16:45Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-23T17:01:45",
+      "candidate_failure_count": 1
     },
     {
       "id": "0d627147f6df01e7",
