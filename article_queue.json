@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-24T11:30:20",
+  "updated_at": "2026-07-24T13:00:04",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -474,7 +474,10 @@
       "candidate_failed_at": "2026-07-19T11:31:15",
       "candidate_failure_count": 2,
       "telegram_final_summary_notified_at": "2026-07-19T03:55:41",
-      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\""
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "archived": true,
+      "archived_at": "2026-07-24T12:53:12",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "1c6f2acfd6db9c11",
@@ -2520,12 +2523,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-24T11:22:34",
-      "candidate_retry_after": "2026-07-24T11:37:34Z",
+      "content_fetched_at": "2026-07-24T12:53:30",
+      "candidate_retry_after": "2026-07-24T13:08:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-24T11:22:34",
-      "candidate_failure_count": 73
+      "candidate_failed_at": "2026-07-24T12:53:30",
+      "candidate_failure_count": 74
     },
     {
       "id": "512c2899a98440d2",
@@ -2554,12 +2557,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-24T11:22:34",
-      "candidate_retry_after": "2026-07-24T11:37:34Z",
+      "content_fetched_at": "2026-07-24T12:53:30",
+      "candidate_retry_after": "2026-07-24T13:08:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-24T11:22:34",
-      "candidate_failure_count": 73
+      "candidate_failed_at": "2026-07-24T12:53:30",
+      "candidate_failure_count": 74
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2588,12 +2591,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-24T11:22:35",
-      "candidate_retry_after": "2026-07-24T11:37:35Z",
+      "content_fetched_at": "2026-07-24T12:53:30",
+      "candidate_retry_after": "2026-07-24T13:08:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-24T11:22:35",
-      "candidate_failure_count": 73
+      "candidate_failed_at": "2026-07-24T12:53:30",
+      "candidate_failure_count": 74
     },
     {
       "id": "d900f1574fddfab4",
@@ -3415,17 +3418,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 226,
-      "affiliate_links_removed_count": 10,
-      "removed_source_links_count": 226,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=494 chars/75 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:494chars/75words, page_text:494chars/75words)",
-      "content_fetched_at": "2026-07-24T11:22:39",
-      "candidate_retry_after": "2026-07-24T11:37:39Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-07-24T12:53:30",
+      "candidate_retry_after": "2026-07-24T13:08:30Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=494 chars/75 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:494chars/75words, page_text:494chars/75words)",
-      "candidate_failed_at": "2026-07-24T11:22:39",
-      "candidate_failure_count": 72
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-07-24T12:53:30",
+      "candidate_failure_count": 73
     },
     {
       "id": "8d2678d87487d729",
@@ -4287,13 +4290,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-07-24T11:22:39",
-      "candidate_retry_after": "2026-07-24T11:37:39Z",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-07-24T12:53:31",
+      "candidate_retry_after": "2026-07-24T13:08:31Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-07-24T11:22:39",
-      "candidate_failure_count": 71
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-07-24T12:53:31",
+      "candidate_failure_count": 72
     },
     {
       "id": "45429302676bf4c5",
@@ -5077,7 +5080,10 @@
       "candidate_failed_at": "2026-07-20T04:55:08",
       "candidate_failure_count": 3,
       "telegram_final_summary_notified_at": "2026-07-19T21:34:19",
-      "ai_quality_last_error": "article older than 24 hours"
+      "ai_quality_last_error": "article older than 24 hours",
+      "archived": true,
+      "archived_at": "2026-07-24T12:53:12",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "d61269eeb876bd22",
@@ -5330,12 +5336,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-24T11:22:41",
-      "candidate_retry_after": "2026-07-24T11:37:41Z",
+      "content_fetched_at": "2026-07-24T12:53:33",
+      "candidate_retry_after": "2026-07-24T13:08:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-24T11:22:41",
-      "candidate_failure_count": 69
+      "candidate_failed_at": "2026-07-24T12:53:33",
+      "candidate_failure_count": 70
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5367,12 +5373,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-24T11:22:42",
-      "candidate_retry_after": "2026-07-24T11:37:42Z",
+      "content_fetched_at": "2026-07-24T12:53:35",
+      "candidate_retry_after": "2026-07-24T13:08:35Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-24T11:22:42",
-      "candidate_failure_count": 69
+      "candidate_failed_at": "2026-07-24T12:53:35",
+      "candidate_failure_count": 70
     },
     {
       "id": "aede79193c6b98c9",
@@ -5404,12 +5410,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-24T11:22:44",
-      "candidate_retry_after": "2026-07-24T11:37:44Z",
+      "content_fetched_at": "2026-07-24T12:53:36",
+      "candidate_retry_after": "2026-07-24T13:08:36Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-24T11:22:44",
-      "candidate_failure_count": 69
+      "candidate_failed_at": "2026-07-24T12:53:36",
+      "candidate_failure_count": 70
     },
     {
       "id": "253eaa098c468523",
@@ -5886,7 +5892,10 @@
       "candidate_failure_reason": "article older than 24 hours",
       "candidate_failed_at": "2026-07-20T08:01:03",
       "candidate_failure_count": 2,
-      "ai_quality_last_error": "article older than 24 hours"
+      "ai_quality_last_error": "article older than 24 hours",
+      "archived": true,
+      "archived_at": "2026-07-24T12:53:12",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "815f384dcf081211",
@@ -6340,12 +6349,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-24T11:22:45",
-      "candidate_retry_after": "2026-07-24T11:37:45Z",
+      "content_fetched_at": "2026-07-24T12:53:37",
+      "candidate_retry_after": "2026-07-24T13:08:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-24T11:22:45",
-      "candidate_failure_count": 67
+      "candidate_failed_at": "2026-07-24T12:53:37",
+      "candidate_failure_count": 68
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6740,12 +6749,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-24T11:22:48",
-      "candidate_retry_after": "2026-07-24T11:37:48Z",
+      "content_fetched_at": "2026-07-24T12:53:40",
+      "candidate_retry_after": "2026-07-24T13:08:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-24T11:22:48",
-      "candidate_failure_count": 65
+      "candidate_failed_at": "2026-07-24T12:53:40",
+      "candidate_failure_count": 66
     },
     {
       "id": "693fbfabd96b2185",
@@ -6776,12 +6785,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-24T11:22:49",
-      "candidate_retry_after": "2026-07-24T11:37:49Z",
+      "content_fetched_at": "2026-07-24T12:53:41",
+      "candidate_retry_after": "2026-07-24T13:08:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-24T11:22:49",
-      "candidate_failure_count": 65
+      "candidate_failed_at": "2026-07-24T12:53:41",
+      "candidate_failure_count": 66
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -8669,7 +8678,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "article older than 24 hours",
       "candidate_failed_at": "2026-07-20T04:58:12",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "archived": true,
+      "archived_at": "2026-07-24T12:53:12",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "aa67c57e88a4ddc9",
@@ -8739,7 +8751,10 @@
       "content_preview_chars": 6368,
       "content_fetched_at": "2026-07-19T21:33:06",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-24T12:53:12",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "41000770a9cbe99c",
@@ -9192,12 +9207,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=443 chars/66 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:443chars/66words, paragraph_fallback:328chars/49words, article_body:443chars/66words, meta_description:53chars/7words, page_text:443chars/66words)",
-      "content_fetched_at": "2026-07-24T11:22:50",
-      "candidate_retry_after": "2026-07-24T11:37:50Z",
+      "content_fetched_at": "2026-07-24T12:53:43",
+      "candidate_retry_after": "2026-07-24T13:08:43Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=443 chars/66 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:443chars/66words, paragraph_fallback:328chars/49words, article_body:443chars/66words, meta_description:53chars/7words, page_text:443chars/66words)",
-      "candidate_failed_at": "2026-07-24T11:22:50",
-      "candidate_failure_count": 61
+      "candidate_failed_at": "2026-07-24T12:53:43",
+      "candidate_failure_count": 62
     },
     {
       "id": "561b6316398d7603",
@@ -10284,12 +10299,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-24T11:22:50",
-      "candidate_retry_after": "2026-07-24T11:37:50Z",
+      "content_fetched_at": "2026-07-24T12:53:43",
+      "candidate_retry_after": "2026-07-24T13:08:43Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-24T11:22:50",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-07-24T12:53:43",
+      "candidate_failure_count": 58
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10321,12 +10336,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-24T11:22:51",
-      "candidate_retry_after": "2026-07-24T11:37:51Z",
+      "content_fetched_at": "2026-07-24T12:53:44",
+      "candidate_retry_after": "2026-07-24T13:08:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-24T11:22:51",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-07-24T12:53:44",
+      "candidate_failure_count": 58
     },
     {
       "id": "a6f4ca9464909855",
@@ -10358,12 +10373,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-24T11:22:51",
-      "candidate_retry_after": "2026-07-24T11:37:51Z",
+      "content_fetched_at": "2026-07-24T12:53:44",
+      "candidate_retry_after": "2026-07-24T13:08:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-24T11:22:51",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-07-24T12:53:44",
+      "candidate_failure_count": 58
     },
     {
       "id": "71463c25ac92daaa",
@@ -14997,12 +15012,12 @@
       "removed_source_links_count": 79,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-24T11:22:53",
-      "candidate_retry_after": "2026-07-24T11:37:53Z",
+      "content_fetched_at": "2026-07-24T12:53:46",
+      "candidate_retry_after": "2026-07-24T13:08:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-07-24T11:22:53",
-      "candidate_failure_count": 46
+      "candidate_failed_at": "2026-07-24T12:53:46",
+      "candidate_failure_count": 47
     },
     {
       "id": "41b7b918ab3966e4",
@@ -31847,11 +31862,11 @@
       "content_fetched_at": "2026-07-23T21:41:26",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-24T04:30:00",
+      "selected_at": "2026-07-24T12:54:00",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-24T04:30:01",
+      "processing_prepared_at": "2026-07-24T12:54:00",
       "ai_input_package": {
         "title": "Foundation Picks AMD Chips to Power Its Humanoid Robots",
         "url": "https://www.unite.ai/foundation-picks-amd-chips-to-power-its-humanoid-robots",
@@ -31899,19 +31914,19 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "original source name appears in article text",
+      "ai_quality_last_error": "Missing AI output field(s): slug",
       "ai_status": "failed",
-      "ai_error": "original source name appears in article text",
+      "ai_error": "Missing AI output field(s): slug",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 94.52,
+      "ai_total_time_seconds": 91.87,
       "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-24T04:46:36Z",
+      "candidate_retry_after": "2026-07-24T13:10:33Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "original source name appears in article text",
-      "candidate_failed_at": "2026-07-24T04:31:36",
-      "candidate_failure_count": 1,
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-07-24T12:55:33",
+      "candidate_failure_count": 2,
       "telegram_final_summary_notified_at": "2026-07-24T04:37:28"
     },
     {
@@ -32000,11 +32015,11 @@
       "content_fetched_at": "2026-07-23T21:41:28",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-24T04:31:36",
+      "selected_at": "2026-07-24T12:55:33",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-24T04:31:37",
+      "processing_prepared_at": "2026-07-24T12:55:33",
       "ai_input_package": {
         "title": "Andrew Ng Just Released OpenWorker: An Open-Source, Local-First Desktop AI Coworker That Returns Finished Deliverables Instead of Chat",
         "url": "https://www.marktechpost.com/2026/07/23/andrew-ng-just-released-openworker-an-open-source-local-first-desktop-ai-coworker-that-returns-finished-deliverables-instead-of-chat",
@@ -32061,14 +32076,14 @@
       "ai_error": "too much English inside article paragraphs",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 102.7,
+      "ai_total_time_seconds": 149.46,
       "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-24T04:48:20Z",
+      "candidate_retry_after": "2026-07-24T13:13:04Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "too much English inside article paragraphs",
-      "candidate_failed_at": "2026-07-24T04:33:20",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-24T12:58:04",
+      "candidate_failure_count": 2
     },
     {
       "id": "1645d94a581483ee",
@@ -32091,7 +32106,7 @@
       "category_label": "AI-Tools",
       "category_hint": "AI-Tools",
       "discovered_at": "2026-07-23T21:41:10",
-      "status": "ready",
+      "status": "selected",
       "score": 3,
       "priority": "low",
       "source_links_removed_count": 63,
@@ -32147,11 +32162,11 @@
       "content_fetched_at": "2026-07-23T21:41:33",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-24T04:34:37",
+      "selected_at": "2026-07-24T13:00:03",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-24T04:34:37",
+      "processing_prepared_at": "2026-07-24T13:00:04",
       "ai_input_package": {
         "title": "You Didn't Get the AI Model You Paid For",
         "url": "https://www.marktechpost.com/2026/07/23/you-didnt-get-the-ai-model-you-paid-for",
@@ -32290,11 +32305,11 @@
       "content_fetched_at": "2026-07-23T21:41:25",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-24T04:33:21",
+      "selected_at": "2026-07-24T12:58:04",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-24T04:33:21",
+      "processing_prepared_at": "2026-07-24T12:58:04",
       "ai_input_package": {
         "title": "mimic robotics Introduces FLUX-mimic to Bring Video-Action Models to Audi’s Factory Floor",
         "url": "https://www.unite.ai/mimic-robotics-introduces-flux-mimic-to-bring-video-action-models-to-audis-factory-floor",
@@ -32342,20 +32357,20 @@
         ],
         "related_posts": []
       },
-      "ai_quality_last_error": "html_content ended before a tag was closed",
+      "ai_quality_last_error": "original source name appears in article text",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "original source name appears in article text",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 74.94,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 117.95,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-24T04:49:37Z",
+      "candidate_retry_after": "2026-07-24T13:15:03Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-24T04:34:37",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "original source name appears in article text",
+      "candidate_failed_at": "2026-07-24T13:00:03",
+      "candidate_failure_count": 2
     },
     {
       "id": "76ef216b5741e6bf",
@@ -35283,6 +35298,493 @@
       "content_preview": "Cybersecurity researchers have shed light on a large-scale campaign that has turned compromised GitHub repositories into distributed attack infrastructure designed to target cPanel and WebHost Manager (WHM) instances. The activity involves malicious Packagist development versions spanning 10 packages associated with a legitimate PHP and DevOps developer, dinushchathurya, between July 12 and 13, 2026. The list of affected Packagist packages is below - dinushchathurya/nationality-list dinushchathurya/srilankan-divisional-secretariats dinushchathurya/srilankan-gn-divisions dinushchathurya/srilankan-local-authorities dinushchathurya/srilankan-mobile-number-validator dinushchathurya/srilankan-state-hospitals dinushchathurya/srilankan-universities dinushchathurya/uk-mobile-number-validator \"The PHP libraries were not the execution path,\" Socket said in a statement. \"Attackers had added dozens of malicious GitHub Actions workflows to the compromised maintainer's source repositories.\" The workflows, once triggered by a repository push or manual run, launch GitHub-hosted runners, download a Linux payload from attacker-controlled infrastructure, and scan for vulnerable cPanel and WHM servers susceptible to CVE-2026-41940, an authentication bypass vulnerability that allows remote attackers to gain elevated control of the control panel. The payload, for its part, attempts an authentication bypass, and then proceeds to harvest credentials, configuration files, environment variables, database access, SSH material, Git tokens, cloud keys, payment service credentials, and other valuable secrets. The exact method by which the threat actor gained unauthorized access to the developer's account and pushed malicious changes to the repositories remains unclear. \"Between July 12 and 13, 2026, Packagist automatically synchronized malicious development versions across all ten packages associated with the compromised developer, reflecting changes the threat actor pushed to the developer's GitHub repositories,\" Socket researcher Kirill Boychenko said. Each of the affected development versions has been found to contain anywhere between 55 and 62 malicious GitHub Actions workflow files, totaling 583 files across all ten package versions. Specifically, the YAML automation files launch GitHub-hosted runners when the compromised repository receives a push or when the workflow is manually launched, detect each runner's processor architecture (e.g., 32-bit x86, 64-bit x86, 32-bit ARM, and 64-bit ARM systems), and download a compatible Linux scanning and exploitation payload from the command and control (C2) server at 43.228.157[.]68. \"The workflows continuously report execution status to the threat actor and upload newly collected results through HTTP POST requests,\" Boychenko added. \"The output files they monitor include AWS credentials, GitHub and GitLab tokens, OpenAI and Google API credentials, Stripe keys, SendGrid and Mailgun credentials, database information, SSH data, Git remotes, and remote code execution results.\" Unlike other traditional malicious package campaigns, the latest activity does not rely on package users' systems. Instead, the scanning and exploitation run on GitHub-hosted runners launched from compromised repositories, meaning GitHub Actions is abused to power an exploitation campaign aimed at hunting for vulnerable cPanel and WHM servers. Signs point to a broader campaign that extends beyond one PHP maintainer, with roughly 6,100 workflow files hosted on GitHub containing a unique DNSHook identifier (\"f5b0b742-240a-4811-8a5b-b0ba6060685d\"). Socket described the campaign as a case of \"opportunistic server-side credential theft operation,\" allowing the attackers to leverage the stolen data for follow-on compromises or monetization pathways. The disclosure comes as the application security firm also detailed a campaign codenamed Operation Muck and Load that abuses a network of 200 GitHub repositories across 190 accounts to deliver Windows-based malware, including information stealers, loaders and downloaders, droppers, spyware, remote access trojans, and Monero cryptocurrency miners. The repositories, some of which masquerade as developer utilities and cryptocurrency wallet integrations, conceal a multi-stage attack chain that downloads a PowerShell script responsible for querying various dead drop sites like Pastebin, Rlim, Telegram, YouTube, Instagram, Google Docs, and Gitcode to fetch a GitHub-hosted password-protected archive, from which the main payload is extracted and launched. \"The GitHub repositories in this cluster were not only lures,\" Boychenko said. \"Several also functioned as malware-bearing repositories, embedding malicious payloads directly in the source tree or delivering them through GitHub release assets.\" The activity shares tactical overlaps with previously observed activity associated with the \"ischhfd83@rambler[.]ru\" email address, which has been tracked under the moniker Water Curse by Trend Micro. The threat cluster is assessed to operate a GitHub-based ghost network to redirect unsuspecting users to GitHub pages hosting malware-laced payloads. \"This model gives threat actors a scalable way to turn ordinary software discovery into malware staging, especially when the lures target users already inclined to run untrusted tools, such as crypto automation, wallet utilities, game cheats, crypters, and offensive tooling,\" Socket said.",
       "content_preview_chars": 5443,
       "content_fetched_at": "2026-07-24T11:22:26",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "5f8dcfdf217d0fee",
+      "source_url_hash": "5f8dcfdf217d0fee",
+      "canonical_url": "https://www.unite.ai/agentic-ai-governance-risk-controls-pre-execution",
+      "title_hash": "2e5b778761a90c7a",
+      "topic_signature": "7b6debdeb1d24da024de",
+      "title": "AI Oversight Has Three Blind Spots — and Most Companies Are Watching None of Them",
+      "url": "https://www.unite.ai/agentic-ai-governance-risk-controls-pre-execution",
+      "source_name": "Unite.AI",
+      "source_url": "https://www.unite.ai",
+      "source_published_at": "2026-07-24T12:47:53Z",
+      "published_at_source": "meta:article:published_time",
+      "article_age_hours": 0.08,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-24T12:53:11",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 164,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 164,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "AI Oversight Has Three Blind Spots — and Most Companies Are Watching None of Them",
+      "meta_description": "Most of the AI safety conversation inside companies is aimed at the wrong target. Teams spend weeks arguing about which model to use, then wire that model into their email, their payments, their customer database and the...",
+      "article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/9455f4a4-849c-4c64-af3c-ff2ea1bdfe1e-e1784735764301.png",
+          "alt": "AI Oversight Has Three Blind Spots — and Most Companies Are Watching None of Them",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/06/3ea393aa-e10f-46d9-8ed3-eb85ab3efe77-e1780403774780-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/f75196bb-c872-47ae-b415-5473bfed4726-e1784735078743-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/046f4912-e70c-4933-ae18-7c769af077d4-e1784734553763-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.unite.ai/wp-content/uploads/2026/07/9455f4a4-849c-4c64-af3c-ff2ea1bdfe1e-e1784735764301.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/06/3ea393aa-e10f-46d9-8ed3-eb85ab3efe77-e1780403774780-400x240.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/f75196bb-c872-47ae-b415-5473bfed4726-e1784735078743-400x240.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/046f4912-e70c-4933-ae18-7c769af077d4-e1784734553763-400x240.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Unite.AI to your preferred sources on Google",
+          "url": "https://www.google.com/preferences/source?q=unite.ai"
+        }
+      ],
+      "full_article_text": "Most of the AI safety conversation inside companies is aimed at the wrong target. Teams spend weeks arguing about which model to use, then wire that model into their email, their payments, their customer database and their code, without stopping to ask a much simpler question: when this thing does something, who is watching, and can anyone stop it? The numbers say this is about to get expensive. Gartner reckons at least 15% of routine work decisions will be made autonomously by AI in 2028, up from close to none in 2024. In the same research it warns that more than 40% of agentic AI projects will be scrapped by the end of 2027 , and one of the reasons it gives is weak risk controls. Read that again. The projects aren’t dying because the models are bad. They are dying because nobody built a way to govern them. I build governance systems for AI for a living, so I see the same gaps over and over. There are three of them. Most companies are watching none of them properly, and plenty are watching zero. Agents are the loud one Everyone worries about autonomous agents, and they are right to. But most people worry about the wrong part. The unsettling thing about an agent is not that it reasons. Its that it acts. It doesn’t propose the refund; it pays it. It doesn’t draft the email; it sends it. Hand a model a set of tools and you have handed it the ability to reach into real systems and change things. Get that wrong and the failure isn’t a clumsy sentence. Its money out the door, or a table quietly dropped from a database. And there is a sharper edge to it. Prompt injection sits right at the top of the OWASP list of risks for LLM applications , and for good reason: feed a model the wrong text and it can be talked into doing something nobody asked for. When the model can only talk, that’s a nuisance. When the model can call tools, that is an attacker holding your API keys. The standard answer is to log everything the agent does and watch the traces. Fine. But a trace is a description of something that has already happened. It’s the CCTV footage after the till has been emptied, handy for the investigation, useless for stopping the theft. The quiet one nobody mentions The second blind spot never makes it onto a slide, because its dull. Its the plain API call. Not an agent, not a framework, just a piece of code somewhere in a service that assembles a prompt and fires it at a model. Most AI in production actually looks like this, and its the least governed part of the whole stack precisely because its so ordinary. Its an HTTP request buried three layers deep in some service, written by an engineer who has never heard of your AI policy and wouldn’t know where to find it. That one call might ship a customer’s data off to a third party model, or set off an action downstream, and nothing is checking whether it should, and nothing independent is writing down that it did. The messy one is people The third blind spot is people, which is why it is the worst one. Your staff worked out months ago that pasting a task into ChatGPT or Claude gets it done faster, so they do it all day, usually from personal accounts you cannot see. This isn’t hypothetical. Cyberhaven’s look at real workplace usage found that a real share of employees have pasted confidential company data into ChatGPT, much of it through accounts the company has no window into. If you want the cautionary tale, it’s Samsung. In 2023 it banned generative AI internally after engineers pasted proprietary source code into ChatGPT , three separate times in under a month. These were not bad actors. They were good engineers trying to debug faster. That is the whole trap: the leak looks identical to productivity. And your old data loss tools won’t catch it, because it’s a copy paste into a browser tab, not a file heading out of the building. So what actually works Line the three up and the fix stops being about agents specifically and turns into a single idea: govern what any AI does before it does it, not after. A few things that genuinely matter, learned mostly the hard way. Sit in front of the action, not behind it. This is the whole game, and its why I keep insisting that observability and governance are not the same word. A dashboard that tells you an agent moved £40,000 yesterday is a loss report. Something that can hold that transfer for a human to look at before it leaves is a control. If your setup can only tell you what happened, you don’t have oversight. You have hindsight. Use one checkpoint, not one per tool. Agents, API calls and staff pasting into a chatbot feel like three separate problems, so companies buy three separate tools and end up with three sets of gaps between them. The bad things live in the gaps. Everything an AI does, wherever it comes from, should have to pass the same gate. Keep a log the AI can’t rewrite. If the system doing the thing is also the only thing recording that it did the thing, you don’t have a record. You have a diary it is allowed to edit. This is exactly where the rules are heading. The EU AI Act’s record-keeping requirement, Article 12 , exists so that what a high risk system did can be reconstructed by someone other than the system. In practice that means a log kept outside the thing being logged, one that can’t be quietly altered after the fact. Put a human on the big, irreversible calls. Not everything, do that and you will drown people in approvals until they rubber stamp the lot. But the calls you can’t take back, moving money, exporting data, deleting records, should stop and wait. The EU AI Act already makes human oversight mandatory for high-risk systems, Article 14 . The catch worth remembering is that oversight only counts if the person has the time and the context to actually say no. An approval nobody reads is just theatre. The honest gut check None of these three is a corner case. They are the ordinary way most companies are running AI right now, quietly, without much of a net. The teams that get through the next couple of years without an ugly incident won’t be the ones with the prettiest charts. They will be the ones that decided early that everything their AI does, the agent, the API call, the pasted paragraph, goes through one gate before it happens, not after. If you want a quick test of your own setup, answer two questions honestly. Of those three surfaces, how many can you actually see? And of the ones you can see, how many can you stop? For a lot of companies the honest answer to the second one is zero. That’s the number to fix first. Soji Mathew Joseph is the founder and CEO of TrustLoop , where he works on runtime governance and control for AI. He has spent more than 15 years in technology and people operations at high growth companies. AI Industry’s Role in Defining Financial Services Standards AI Is Automating the Work That Creates Experts AI Can Help Preserve Expertise for the Next Generation of HTM Professionals Building Trust Is Enterprise AI’s Next Breakthrough Why the Pursuit of Speed Is Creating Tomorrow’s Software Problems AI Is Fast Turning Digital Signage Into an Avenue for Delivering Dynamic CX",
+      "full_article_text_chars": 7140,
+      "content_preview": "Most of the AI safety conversation inside companies is aimed at the wrong target. Teams spend weeks arguing about which model to use, then wire that model into their email, their payments, their customer database and their code, without stopping to ask a much simpler question: when this thing does something, who is watching, and can anyone stop it? The numbers say this is about to get expensive. Gartner reckons at least 15% of routine work decisions will be made autonomously by AI in 2028, up from close to none in 2024. In the same research it warns that more than 40% of agentic AI projects will be scrapped by the end of 2027 , and one of the reasons it gives is weak risk controls. Read that again. The projects aren’t dying because the models are bad. They are dying because nobody built a way to govern them. I build governance systems for AI for a living, so I see the same gaps over and over. There are three of them. Most companies are watching none of them properly, and plenty are watching zero. Agents are the loud one Everyone worries about autonomous agents, and they are right to. But most people worry about the wrong part. The unsettling thing about an agent is not that it reasons. Its that it acts. It doesn’t propose the refund; it pays it. It doesn’t draft the email; it sends it. Hand a model a set of tools and you have handed it the ability to reach into real systems and change things. Get that wrong and the failure isn’t a clumsy sentence. Its money out the door, or a table quietly dropped from a database. And there is a sharper edge to it. Prompt injection sits right at the top of the OWASP list of risks for LLM applications , and for good reason: feed a model the wrong text and it can be talked into doing something nobody asked for. When the model can only talk, that’s a nuisance. When the model can call tools, that is an attacker holding your API keys. The standard answer is to log everything the agent does and watch the traces. Fine. But a trace is a description of something that has already happened. It’s the CCTV footage after the till has been emptied, handy for the investigation, useless for stopping the theft. The quiet one nobody mentions The second blind spot never makes it onto a slide, because its dull. Its the plain API call. Not an agent, not a framework, just a piece of code somewhere in a service that assembles a prompt and fires it at a model. Most AI in production actually looks like this, and its the least governed part of the whole stack precisely because its so ordinary. Its an HTTP request buried three layers deep in some service, written by an engineer who has never heard of your AI policy and wouldn’t know where to find it. That one call might ship a customer’s data off to a third party model, or set off an action downstream, and nothing is checking whether it should, and nothing independent is writing down that it did. The messy one is people The third blind spot is people, which is why it is the worst one. Your staff worked out months ago that pasting a task into ChatGPT or Claude gets it done faster, so they do it all day, usually from personal accounts you cannot see. This isn’t hypothetical. Cyberhaven’s look at real workplace usage found that a real share of employees have pasted confidential company data into ChatGPT, much of it through accounts the company has no window into. If you want the cautionary tale, it’s Samsung. In 2023 it banned generative AI internally after engineers pasted proprietary source code into ChatGPT , three separate times in under a month. These were not bad actors. They were good engineers trying to debug faster. That is the whole trap: the leak looks identical to productivity. And your old data loss tools won’t catch it, because it’s a copy paste into a browser tab, not a file heading out of the building. So what actually works Line the three up and the fix stops being about agents specifically and turns into a single idea: govern what any AI does before it does it, not after. A few things that genuinely matter, learned mostly the hard way. Sit in front of the action, not behind it. This is the whole game, and its why I keep insisting that observability and governance are not the same word. A dashboard that tells you an agent moved £40,000 yesterday is a loss report. Something that can hold that transfer for a human to look at before it leaves is a control. If your setup can only tell you what happened, you don’t have oversight. You have hindsight. Use one checkpoint, not one per tool. Agents, API calls and staff pasting into a chatbot feel like three separate problems, so companies buy three separate tools and end up with three sets of gaps between them. The bad things live in the gaps. Everything an AI does, wherever it comes from, should have to pass the same gate. Keep a log the AI can’t rewrite. If the system doing the thing is also the only thing recording that it did the thing, you don’t have a record. You have a diary it is allowed to edit. This is exactly where the rules are heading. The EU AI Act’s record-keeping requirement, Article 12 , exists so that what a high risk system did can be reconstructed by someone other than the system. In practice that means a log kept outside the thing being logged, one that can’t be quietly altered after the fact. Put a human on the big, irreversible calls. Not everything, do that and you will drown people in approvals until they rubber stamp the lot. But the calls you can’t take back, moving money, exporting data, deleting records, should stop and wait. The EU AI Act already makes human oversight mandatory for high-risk systems, Article 14 . The catch worth remembering is that oversight only counts if the person has the time and the context to actually say no. An approval nobody reads is just theatre. The honest gut check None of these three is a corner case. They are the ordinary way most companies are running AI right now, quietly, without much of a net. The teams that get through the next couple of years without an ugly incident won’t be the ones with the prettiest charts. They will be the ones that decided early that everything their AI does, the agent, the API call, the pasted paragraph, goes through one gate before it happens, not after. If you want a quick test of your own setup, answer two questions honestly. Of those three surfaces, how many can you actually see? And of the ones you can see, how many can you stop? For a lot of companies the honest answer to the second one is zero. That’s the number to fix first. Soji Mathew Joseph is the founder and CEO of TrustLoop , where he works on runtime governance and control for AI. He has spent more than 15 years in technology and people operations at high growth companies. AI Industry’s Role in Defining Financial Services Standards AI Is Automating the Work That Creates Experts AI Can Help Preserve Expertise for the Next Generation of HTM Professionals Building Trust Is Enterprise AI’s Next Breakthrough Why the Pursuit of Speed Is Creating Tomorrow’s Software Problems AI Is Fast Turning Digital Signage Into an Avenue for Delivering Dynamic CX",
+      "content_preview_chars": 7140,
+      "content_fetched_at": "2026-07-24T12:53:27",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "ac64f751f96697c2",
+      "source_url_hash": "ac64f751f96697c2",
+      "canonical_url": "https://www.unite.ai/ai-automation-workforce-learning-apprenticeship-paradox",
+      "title_hash": "a48dbd6cd8c8f5b2",
+      "topic_signature": "c73a77694c6c3f5632a1",
+      "title": "AI Is Automating the Work That Creates Experts",
+      "url": "https://www.unite.ai/ai-automation-workforce-learning-apprenticeship-paradox",
+      "source_name": "Unite.AI",
+      "source_url": "https://www.unite.ai",
+      "source_published_at": "2026-07-24T12:16:34Z",
+      "published_at_source": "meta:article:published_time",
+      "article_age_hours": 0.6,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-24T12:53:11",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 164,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 164,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "AI Is Automating the Work That Creates Experts",
+      "meta_description": "When companies decide what to automate, they usually measure time, cost, error rates and output. They rarely measure what a task teaches the person doing it. That omission matters because many tasks that look repetitive...",
+      "article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/f75196bb-c872-47ae-b415-5473bfed4726-e1784735078743.png",
+          "alt": "AI Is Automating the Work That Creates Experts",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/7f383d2e-c747-4b0e-9dd8-a801d29b2774-e1784644867660-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/2151977855-e1783878682459-400x240.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/06/04761631-ce85-4dc1-a8a2-788ca47824db-e1782310537762-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.unite.ai/wp-content/uploads/2026/07/f75196bb-c872-47ae-b415-5473bfed4726-e1784735078743.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/7f383d2e-c747-4b0e-9dd8-a801d29b2774-e1784644867660-400x240.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/2151977855-e1783878682459-400x240.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/06/04761631-ce85-4dc1-a8a2-788ca47824db-e1782310537762-400x240.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Unite.AI to your preferred sources on Google",
+          "url": "https://www.google.com/preferences/source?q=unite.ai"
+        },
+        {
+          "title": "Microsoft Research study",
+          "url": "https://www.microsoft.com/en-us/research/publication/the-impact-of-generative-ai-on-critical-thinking-self-reported-reductions-in-cognitive-effort-and-confidence-effects-from-a-survey-of-knowledge-workers/"
+        }
+      ],
+      "full_article_text": "When companies decide what to automate, they usually measure time, cost, error rates and output. They rarely measure what a task teaches the person doing it. That omission matters because many tasks that look repetitive or inefficient are also part of the invisible apprenticeship system through which people become capable professionals. A junior analyst building a first model, a developer tracing a basic bug, a support agent handling a common complaint and a lawyer preparing an initial research memo are all producing work. They are also learning how information fits together, which details matter, where mistakes appear and when a familiar pattern no longer applies. If AI removes the task without replacing the learning process, the organisation may gain speed today while weakening the expertise it will need later. The workforce question is therefore larger than whether AI will reduce entry-level hiring. Leaders need to ask what happens to the practice loops that once turned inexperienced employees into people capable of judging, correcting and supervising intelligent systems. Expertise Is Built Through Correction Expertise is often described as knowledge, but knowledge alone is not enough. Experienced people have encountered enough cases to recognise weak signals, notice unusual combinations and understand when a standard answer is unsafe. That judgement develops through repeated cycles of attempting work, receiving feedback, correcting errors and seeing the consequences of decisions. Many junior tasks are valuable precisely because they create those cycles. Drafting the first version of an analysis forces someone to decide what is relevant. Cleaning data reveals how imperfect real information can be. Handling straightforward customer cases teaches the normal pattern, which later makes an abnormal case easier to recognise. Reviewing an expert’s finished output does not create the same depth because the difficult choices have already been made and hidden. AI can compress these cycles. A first draft arrives before the employee has framed the problem. A code assistant proposes the solution before the developer has traced the failure. A research tool summarises the evidence before the analyst has had to compare sources. The output may be better and faster, but the employee receives fewer opportunities to build an internal model of why it is correct. AI Can Accelerate Learning, but the Design Matters The risk is not inevitable. Some of the strongest evidence on generative AI at work shows that it can help less experienced employees learn faster when it is used as guidance rather than as a substitute for participation. An NBER study of 5,179 customer support agents found that access to a generative AI assistant increased productivity by 14 percent on average, with a 34 percent improvement among novice and lower-skilled workers. The researchers found suggestive evidence that the system helped disseminate the practices of stronger agents and move newer workers down the experience curve more quickly. The design of that work matters. Agents received suggestions during real customer conversations, but they still had to interpret the situation, choose how to respond and observe the outcome. The learning loop remained intact. AI added timely access to expert patterns without completely removing the employee from the decision. That is different from a workflow in which the system completes the task and the employee performs a quick approval at the end. When people remain active in diagnosis, choice and consequence, AI can function as a coach. When they are reduced to accepting polished output, the technology may increase short-term production while doing much less for long-term capability. Automation Is Reaching the Tasks That Build Human Capital It is easy to assume that AI will remove only low-skill, repetitive work. Current evidence suggests a more complicated pattern. Anthropic’s January 2026 Economic Index found that the tasks covered by Claude tended to require more education than the economy-wide average. In an experimental estimate, the researchers found that removing those AI-covered tasks from occupations would produce a first-order deskilling effect on jobs because many of the covered tasks represented higher-education components of the role. Anthropic was careful to say this was not a prediction, since occupations may evolve and new tasks may appear, but the finding should change how companies think about automation. Routine and developmental are not opposites. Preparing an analysis can become routine for an experienced employee while remaining essential practice for a junior one. Drafting standard contracts, debugging familiar errors, preparing forecasts and reviewing customer history may be automatable, but they also expose employees to the structure of the profession. This creates a strategic problem. The easiest task to automate may also be the task through which a new employee learns the context needed to handle the difficult task later. The Verification Paradox Many organisations respond by saying that people will move from production to verification. AI will generate the work, while humans will check accuracy, apply context and remain accountable. This sounds reasonable, but it contains a paradox: verification itself requires the expertise that the automated work used to help create. A Microsoft Research study involving 319 knowledge workers and 936 examples of generative AI use found that greater confidence in AI was associated with less critical-thinking effort. The study also found that AI shifted critical thinking toward verification, integration and task stewardship. Those activities are valuable, but a person cannot verify well without enough domain knowledge to recognise what may be missing. An inexperienced employee can check whether an answer is clearly inconsistent or unsupported. It is much harder to notice that the analysis used the wrong frame, ignored an operational constraint or reached a plausible conclusion for the wrong reason. Polished AI output can hide the absence of understanding because it looks complete before the employee has developed the judgement to interrogate it. Research on the “jagged technological frontier” makes the problem more concrete. In an experiment with 758 consultants, AI users completed tasks within the technology’s capability frontier 25.1 percent faster and produced results of more than 40 percent higher quality. On a task outside that frontier, however, AI users were 19 percentage points less likely to reach the correct solution than participants working without AI. The critical capability is therefore not simply using AI. It is recognising when the system is operating outside the boundary of reliable performance. That boundary is rarely obvious, and learning to see it requires experience with both successful cases and failures. The Hidden Succession Risk The World Economic Forum’s Future of Jobs Report 2025 found that employers expect 39 percent of workers’ core skills to change by 2030. It also found that 63 percent of employers already view skills gaps as a major barrier to transformation, while 77 percent plan to upskill employees and 41 percent expect to reduce workforce numbers as AI automates tasks. These strategies may conflict if organisations remove too much of the work through which skills are formed. A company can reduce junior hiring, rely on senior employees to oversee AI and still report strong productivity for several years. The weakness appears later, when experienced people leave, demand expands or the organisation needs employees capable of handling situations the system has not seen. Senior experts can also become a new operational constraint. If AI increases the volume of work while only a small group can verify difficult outputs, those people spend more time reviewing and correcting rather than teaching. The company gains production capacity but concentrates judgement in fewer hands. No organisation can automate apprenticeship and then assume it will continue buying experience from the market. If many companies follow the same strategy, the external pool of experienced talent eventually becomes thinner and more expensive. Measure the Developmental Value of Work Before automating a task, companies should evaluate it on two dimensions. The first is its output value: how important, costly and time-sensitive is the result? The second is its developmental value: what capability does performing the task build? Tasks with low output value and low developmental value are obvious candidates for full automation. Reformatting routine documents or transferring information between systems may teach little after basic competence has been reached. Tasks with high output value but low developmental value can often be automated with appropriate control. The organisation still needs governance because the result matters, but preserving the manual process may contribute little to employee growth. The most neglected category contains tasks with modest immediate output value but high developmental value. A junior employee’s first draft may not be commercially important because a senior person will revise it, yet producing it creates a valuable comparison between initial reasoning and expert feedback. Removing that step saves time but also removes practice. Tasks with both high output value and high developmental value should usually be augmented rather than fully delegated. Employees can use AI for research, options and critique, but they should retain meaningful responsibility for framing the problem, explaining the decision and learning from the outcome. Build the Apprenticeship Layer Deliberately Once developmental tasks have been identified, companies can redesign them rather than preserving inefficient workflows unchanged. The goal is not to make employees repeat every manual process from the past. It is to recreate the experiences that build judgement in a faster, more intentional form. One option is to preserve first-pass thinking. Before seeing an AI recommendation, the employee records an initial diagnosis, forecast or decision. The system can then provide an alternative, and the employee must explain where the two differ and which approach they would use. Organisations can also build libraries of AI failures, edge cases and disputed decisions. Reviewing only successful outputs teaches employees to trust the system. Studying where it failed helps them recognise the conditions that require escalation, additional evidence or human intervention. Managers should evaluate whether learning transfers beyond the tool. Can the employee explain the reasoning behind the final output? Can they identify the assumptions that would make it wrong? Can they adapt when the context changes or the AI is unavailable? These questions reveal more about readiness than the number of prompts used or tasks completed. Most importantly, junior employees still need real responsibility. Simulations and structured practice help, but expertise also depends on consequences, feedback and contact with real complexity. AI should make those experiences safer and more frequent, not remove them completely. The Workforce Advantage Will Come From Faster Expertise The strongest organisations will not be those that automate the greatest number of junior tasks. They will be those that remove low-value effort while accelerating the development of people who can use, challenge and supervise AI responsibly. This requires a broader definition of return on automation. Time saved and output produced are important, but leaders should also measure whether the new workflow strengthens or weakens the organisation’s future supply of judgement. A process that reduces cost while damaging the expertise pipeline may be efficient only on a short time horizon. Before approving the next automation project, leaders should ask one additional question: what did people learn by doing this work, and where will that learning happen after the work is automated? The answer will determine whether AI simply produces more output or helps produce the next generation of experts. Dmitry Zaytsev is the Founder and CEO of Dandelion Civilization , a workforce transformation company focused on behavioural intelligence and human-AI readiness. He writes about how organisations can redesign work, learning and talent systems for the AI era. The End of Productivity Theatre: Why We Need to Rethink What Makes a “Good Worker” in the AI Era The New Economics of AI Delegation The Last Mile of AI: Why the Future Is Bespoke, Not One-Size-Fits-All Enterprise AI Is Missing a Workforce Capability Map AI and Human Judgment: Keeping Shared Meaning in AI-Shaped Work Outsource Your Thinking to AI, and It Will Replace You",
+      "full_article_text_chars": 12828,
+      "content_preview": "When companies decide what to automate, they usually measure time, cost, error rates and output. They rarely measure what a task teaches the person doing it. That omission matters because many tasks that look repetitive or inefficient are also part of the invisible apprenticeship system through which people become capable professionals. A junior analyst building a first model, a developer tracing a basic bug, a support agent handling a common complaint and a lawyer preparing an initial research memo are all producing work. They are also learning how information fits together, which details matter, where mistakes appear and when a familiar pattern no longer applies. If AI removes the task without replacing the learning process, the organisation may gain speed today while weakening the expertise it will need later. The workforce question is therefore larger than whether AI will reduce entry-level hiring. Leaders need to ask what happens to the practice loops that once turned inexperienced employees into people capable of judging, correcting and supervising intelligent systems. Expertise Is Built Through Correction Expertise is often described as knowledge, but knowledge alone is not enough. Experienced people have encountered enough cases to recognise weak signals, notice unusual combinations and understand when a standard answer is unsafe. That judgement develops through repeated cycles of attempting work, receiving feedback, correcting errors and seeing the consequences of decisions. Many junior tasks are valuable precisely because they create those cycles. Drafting the first version of an analysis forces someone to decide what is relevant. Cleaning data reveals how imperfect real information can be. Handling straightforward customer cases teaches the normal pattern, which later makes an abnormal case easier to recognise. Reviewing an expert’s finished output does not create the same depth because the difficult choices have already been made and hidden. AI can compress these cycles. A first draft arrives before the employee has framed the problem. A code assistant proposes the solution before the developer has traced the failure. A research tool summarises the evidence before the analyst has had to compare sources. The output may be better and faster, but the employee receives fewer opportunities to build an internal model of why it is correct. AI Can Accelerate Learning, but the Design Matters The risk is not inevitable. Some of the strongest evidence on generative AI at work shows that it can help less experienced employees learn faster when it is used as guidance rather than as a substitute for participation. An NBER study of 5,179 customer support agents found that access to a generative AI assistant increased productivity by 14 percent on average, with a 34 percent improvement among novice and lower-skilled workers. The researchers found suggestive evidence that the system helped disseminate the practices of stronger agents and move newer workers down the experience curve more quickly. The design of that work matters. Agents received suggestions during real customer conversations, but they still had to interpret the situation, choose how to respond and observe the outcome. The learning loop remained intact. AI added timely access to expert patterns without completely removing the employee from the decision. That is different from a workflow in which the system completes the task and the employee performs a quick approval at the end. When people remain active in diagnosis, choice and consequence, AI can function as a coach. When they are reduced to accepting polished output, the technology may increase short-term production while doing much less for long-term capability. Automation Is Reaching the Tasks That Build Human Capital It is easy to assume that AI will remove only low-skill, repetitive work. Current evidence suggests a more complicated pattern. Anthropic’s January 2026 Economic Index found that the tasks covered by Claude tended to require more education than the economy-wide average. In an experimental estimate, the researchers found that removing those AI-covered tasks from occupations would produce a first-order deskilling effect on jobs because many of the covered tasks represented higher-education components of the role. Anthropic was careful to say this was not a prediction, since occupations may evolve and new tasks may appear, but the finding should change how companies think about automation. Routine and developmental are not opposites. Preparing an analysis can become routine for an experienced employee while remaining essential practice for a junior one. Drafting standard contracts, debugging familiar errors, preparing forecasts and reviewing customer history may be automatable, but they also expose employees to the structure of the profession. This creates a strategic problem. The easiest task to automate may also be the task through which a new employee learns the context needed to handle the difficult task later. The Verification Paradox Many organisations respond by saying that people will move from production to verification. AI will generate the work, while humans will check accuracy, apply context and remain accountable. This sounds reasonable, but it contains a paradox: verification itself requires the expertise that the automated work used to help create. A Microsoft Research study involving 319 knowledge workers and 936 examples of generative AI use found that greater confidence in AI was associated with less critical-thinking effort. The study also found that AI shifted critical thinking toward verification, integration and task stewardship. Those activities are valuable, but a person cannot verify well without enough domain knowledge to recognise what may be missing. An inexperienced employee can check whether an answer is clearly inconsistent or unsupported. It is much harder to notice that the analysis used the wrong frame, ignored an operational constraint or reached a plausible conclusion for the wrong reason. Polished AI output can hide the absence of understanding because it looks complete before the employee has developed the judgement to interrogate it. Research on the “jagged technological frontier” makes the problem more concrete. In an experiment with 758 consultants, AI users completed tasks within the technology’s capability frontier 25.1 percent faster and produced results of more than 40 percent higher quality. On a task outside that frontier, however, AI users were 19 percentage points less likely to reach the correct solution than participants working without AI. The critical capability is therefore not simply using AI. It is recognising when the system is operating outside the boundary of reliable performance. That boundary is rarely obvious, and learning to see it requires experience with both successful cases and failures. The Hidden Succession Risk The World Economic Forum’s Future of Jobs Report 2025 found that employers expect 39 percent of workers’ core skills to change by 2030. It also found that 63 percent of employers already view skills gaps as a major barrier to transformation, while 77 percent plan to upskill employees and 41 percent expect to reduce workforce numbers as AI automates tasks. These strategies may conflict if organisations remove too much of the work through which skills are formed. A company can reduce junior hiring, rely on senior employees to oversee AI and still report strong productivity for several years. The weakness appears later, when experienced people leave, demand expands or the organisation needs employees capable of handling situations the system has not seen. Senior experts can also become a new operational constraint. If AI increases the volume of work while only a small group can verify difficult outputs, those people spend more time reviewing and correcting rather than teaching. The company gains production capacity but concentrates judgement in fewer hands. No organisation can automate apprenticeship and then assume it will continue buying experience from the market. If many companies follow the same strategy, the external pool of experienced talent eventually becomes thinner and more expensive. Measure the Developmental Value of Work Before automating a task, companies should evaluate it on two dimensions. The first is its output value: how important, costly and time-sensitive is the result? The second is its developmental value: what capability does performing the task build? Tasks with low output value and low developmental value are obvious candidates for full automation. Reformatting routine documents or transferring information between systems may teach little after basic competence has been reached. Tasks with high output value but low developmental value can often be automated with appropriate control.",
+      "content_preview_chars": 8876,
+      "content_fetched_at": "2026-07-24T12:53:24",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "36d62e62393b467d",
+      "source_url_hash": "36d62e62393b467d",
+      "canonical_url": "https://www.unite.ai/ai-preserve-expertise-htm-professionals",
+      "title_hash": "de3c6c421947f775",
+      "topic_signature": "07e0356c6ee3412dbb64",
+      "title": "AI Can Help Preserve Expertise for the Next Generation of HTM Professionals",
+      "url": "https://www.unite.ai/ai-preserve-expertise-htm-professionals",
+      "source_name": "Unite.AI",
+      "source_url": "https://www.unite.ai",
+      "source_published_at": "2026-07-24T11:51:43Z",
+      "published_at_source": "meta:article:published_time",
+      "article_age_hours": 1.02,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-24T12:53:11",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 164,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 164,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "AI Can Help Preserve Expertise for the Next Generation of HTM Professionals",
+      "meta_description": "Experienced healthcare technology management (HTM) professionals carry years—often decades—of knowledge that isn't documented in a service manual. It's the intuition developed after troubleshooting thousands of medical d...",
+      "article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/046f4912-e70c-4933-ae18-7c769af077d4-e1784734553763.png",
+          "alt": "AI Can Help Preserve Expertise for the Next Generation of HTM Professionals",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/7dd2add5-1b3f-41de-a82e-1abad71cd130-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/04/Gemini_Generated_Image_q25g1zq25g1zq25g-e1775741100645-400x240.png",
+          "alt": "A high-tech, modern hospital hallway featuring advanced medical devices and a healthcare professional using a large digital data visualization wall displaying AI-driven analytics.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2025/12/ChatGPT-Image-Dec-13-2025-10_50_17-AM-400x240.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.unite.ai/wp-content/uploads/2026/07/046f4912-e70c-4933-ae18-7c769af077d4-e1784734553763.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/07/7dd2add5-1b3f-41de-a82e-1abad71cd130-400x240.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2026/04/Gemini_Generated_Image_q25g1zq25g1zq25g-e1775741100645-400x240.png",
+          "alt": "A high-tech, modern hospital hallway featuring advanced medical devices and a healthcare professional using a large digital data visualization wall displaying AI-driven analytics."
+        },
+        {
+          "url": "https://www.unite.ai/wp-content/uploads/2025/12/ChatGPT-Image-Dec-13-2025-10_50_17-AM-400x240.png",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Add Unite.AI to your preferred sources on Google",
+          "url": "https://www.google.com/preferences/source?q=unite.ai"
+        }
+      ],
+      "full_article_text": "Experienced healthcare technology management (HTM) professionals carry years—often decades—of knowledge that isn’t documented in a service manual. It’s the intuition developed after troubleshooting thousands of medical devices, recognizing subtle patterns in equipment behavior, and knowing which solution is most likely to work based on experience. About a third of HTM professionals are older than 55 . As many of these seasoned technicians approach retirement, the HTM industry faces a challenge that extends beyond replacing headcount. It must also preserve the expertise that has been accumulated over entire careers. Healthcare organizations are already navigating an aging workforce, a limited pipeline of new biomedical technicians , and increasingly sophisticated medical technologies . Recruiting more talent remains essential, but organizations must also find ways to transfer knowledge more effectively, accelerate technician development, and maintain equipment reliability. When implemented thoughtfully, artificial intelligence can help accomplish these goals. AI in the workforce will never replace the judgment, problem-solving ability, or relationships that define clinical engineering. It can, however, make valuable knowledge more accessible, helping experienced technicians extend their impact while enabling the next generation to learn faster and work more confidently. Turning decades of experience into an organizational asset One of the greatest risks facing HTM isn’t simply that experienced technicians are retiring. It’s that decades of practical knowledge retire with them. Over the course of a career, technicians develop insights that rarely exist in documentation alone. They remember recurring equipment issues, understand how different device models behave over time, and discover troubleshooting techniques that come only through hands-on experience. Historically, much of that knowledge has been shared informally through mentorship or years of working alongside experienced colleagues. AI creates an opportunity to preserve more of that expertise. By organizing repair histories, troubleshooting approaches , service documentation, and historical maintenance data, AI can help transform institutional knowledge into a searchable resource that technicians can access when they need it. Rather than relying solely on memory or waiting for an experienced colleague to become available, technicians can quickly surface relevant recommendations and guidance based on years of accumulated organizational experience. Technology alone, however, is only part of the equation. Effective AI depends on high-quality, real-world service data and organizations with the expertise to transform that information into meaningful insights . Without reliable data, AI cannot deliver reliable guidance. Helping new technicians learn faster Preserving knowledge matters because today’s new technicians are entering a profession where medical equipment continues to become more connected , software-driven, and technologically advanced. While hands-on experience will always remain the foundation of clinical engineering, AI can help shorten the learning curve. If a technician encounters an unfamiliar device issue, AI can provide faster access to relevant service information, historical repair data, and recommended troubleshooting steps. Instead of spending valuable time searching through documentation or waiting for assistance, they can begin solving problems more efficiently while continuing to build their own expertise. Surveys have shown that many young people already use AI-powered tools in their everyday lives to learn new skills and answer questions. Incorporating similar capabilities into HTM workflows aligns with how many newer technicians naturally approach learning while allowing experienced professionals to dedicate more time to coaching, mentoring, and developing critical thinking skills. Giving experienced technicians more time for higher-value work Incorporating AI in the workforce also helps address another reality facing healthcare organizations: experienced technicians are increasingly being asked to do more. Administrative responsibilities, documentation, and searching for technical information consume valuable time that could otherwise be spent supporting clinicians and maintaining critical medical equipment. AI has the potential to streamline many of these routine activities by helping technicians locate information faster, surface relevant documentation, and simplify troubleshooting workflows. These efficiency gains become increasingly valuable as retirements reduce available staffing across the industry. Strengthening the future talent pipeline Knowledge preservation is only one part of preparing HTM for the future. The profession must also continue attracting talented individuals into the field. Today’s students often gravitate toward careers involving software, automation, and artificial intelligence. That presents an opportunity for clinical engineering to showcase itself as a profession where advanced technologies directly improve patient care. Modern HTM professionals do far more than maintain equipment. They work with connected medical technologies, cybersecurity, predictive analytics, and increasingly sophisticated digital tools that help ensure devices remain safe, reliable, and available when patients need them. AI reinforces that evolution. Combined with apprenticeships , technical education programs , and other workforce development initiatives , AI can help position HTM as an innovative career path for individuals who want to work with cutting-edge technology while making a tangible difference in healthcare. Building trust in AI Despite its potential, AI adoption will only succeed if technicians trust the technology. Research has shown most Americans don’t fully trust AI yet. Healthcare is a high-stakes environment where equipment performance directly affects patient care. AI-generated recommendations should never replace professional judgment, and organizations must establish clear governance to ensure humans remain accountable for every clinical engineering decision. Leaders also have a responsibility to communicate openly about how AI will be used, provide training, validate recommendations, and invite technician feedback throughout implementation. Trust develops over time through consistent performance and responsible deployment—not through promises about the technology itself. Keeping people at the center Clinical engineering has always been a people-centered profession built on collaboration, experience, and sound judgment. Technicians don’t simply repair medical equipment. They partner with clinicians, solve complex problems, adapt to unexpected situations, and make decisions that require critical thinking and professional expertise. Those qualities cannot be replicated by AI. Instead, AI should serve as another tool that strengthens the workforce by making knowledge easier to access, reducing routine burdens, and helping technicians develop faster throughout their careers. As healthcare organizations prepare for significant workforce changes over the coming decade, preserving expertise will become just as important as recruiting new talent. Organizations that use AI to capture institutional knowledge, empower technicians, and strengthen mentorship will be better positioned to build a resilient HTM workforce capable of supporting safe, reliable patient care for years to come. Rob Moorey serves as president of clinical engineering for TRIMEDX. Moorey has been with TRIMEDX for over nine years and has served as senior vice president of customer delivery and division vice president during that time. Before joining TRIMEDX, he spent eight years working for Aramark Healthcare Technologies in various leadership roles and began his career as a United States Air Force Biomedical Equipment Technician, stationed at Andrews Air Force Base outside Washington, D.C. Moorey earned his bachelor’s and master’s degree in Healthcare Administration from Wayland Baptist University in Plainview, Texas. The Possible Demise of a Federal Program Isn’t a Rejection of AI in Healthcare Moving Beyond Static Capital Planning: How AI Is Helping Health Systems Make Smarter Decisions From Behind the Scenes to the Front Lines: How AI Is Quietly Redefining Device Availability in Health Systems AI Is Automating the Work That Creates Experts Building Trust Is Enterprise AI’s Next Breakthrough Why the Pursuit of Speed Is Creating Tomorrow’s Software Problems",
+      "full_article_text_chars": 8582,
+      "content_preview": "Experienced healthcare technology management (HTM) professionals carry years—often decades—of knowledge that isn’t documented in a service manual. It’s the intuition developed after troubleshooting thousands of medical devices, recognizing subtle patterns in equipment behavior, and knowing which solution is most likely to work based on experience. About a third of HTM professionals are older than 55 . As many of these seasoned technicians approach retirement, the HTM industry faces a challenge that extends beyond replacing headcount. It must also preserve the expertise that has been accumulated over entire careers. Healthcare organizations are already navigating an aging workforce, a limited pipeline of new biomedical technicians , and increasingly sophisticated medical technologies . Recruiting more talent remains essential, but organizations must also find ways to transfer knowledge more effectively, accelerate technician development, and maintain equipment reliability. When implemented thoughtfully, artificial intelligence can help accomplish these goals. AI in the workforce will never replace the judgment, problem-solving ability, or relationships that define clinical engineering. It can, however, make valuable knowledge more accessible, helping experienced technicians extend their impact while enabling the next generation to learn faster and work more confidently. Turning decades of experience into an organizational asset One of the greatest risks facing HTM isn’t simply that experienced technicians are retiring. It’s that decades of practical knowledge retire with them. Over the course of a career, technicians develop insights that rarely exist in documentation alone. They remember recurring equipment issues, understand how different device models behave over time, and discover troubleshooting techniques that come only through hands-on experience. Historically, much of that knowledge has been shared informally through mentorship or years of working alongside experienced colleagues. AI creates an opportunity to preserve more of that expertise. By organizing repair histories, troubleshooting approaches , service documentation, and historical maintenance data, AI can help transform institutional knowledge into a searchable resource that technicians can access when they need it. Rather than relying solely on memory or waiting for an experienced colleague to become available, technicians can quickly surface relevant recommendations and guidance based on years of accumulated organizational experience. Technology alone, however, is only part of the equation. Effective AI depends on high-quality, real-world service data and organizations with the expertise to transform that information into meaningful insights . Without reliable data, AI cannot deliver reliable guidance. Helping new technicians learn faster Preserving knowledge matters because today’s new technicians are entering a profession where medical equipment continues to become more connected , software-driven, and technologically advanced. While hands-on experience will always remain the foundation of clinical engineering, AI can help shorten the learning curve. If a technician encounters an unfamiliar device issue, AI can provide faster access to relevant service information, historical repair data, and recommended troubleshooting steps. Instead of spending valuable time searching through documentation or waiting for assistance, they can begin solving problems more efficiently while continuing to build their own expertise. Surveys have shown that many young people already use AI-powered tools in their everyday lives to learn new skills and answer questions. Incorporating similar capabilities into HTM workflows aligns with how many newer technicians naturally approach learning while allowing experienced professionals to dedicate more time to coaching, mentoring, and developing critical thinking skills. Giving experienced technicians more time for higher-value work Incorporating AI in the workforce also helps address another reality facing healthcare organizations: experienced technicians are increasingly being asked to do more. Administrative responsibilities, documentation, and searching for technical information consume valuable time that could otherwise be spent supporting clinicians and maintaining critical medical equipment. AI has the potential to streamline many of these routine activities by helping technicians locate information faster, surface relevant documentation, and simplify troubleshooting workflows. These efficiency gains become increasingly valuable as retirements reduce available staffing across the industry. Strengthening the future talent pipeline Knowledge preservation is only one part of preparing HTM for the future. The profession must also continue attracting talented individuals into the field. Today’s students often gravitate toward careers involving software, automation, and artificial intelligence. That presents an opportunity for clinical engineering to showcase itself as a profession where advanced technologies directly improve patient care. Modern HTM professionals do far more than maintain equipment. They work with connected medical technologies, cybersecurity, predictive analytics, and increasingly sophisticated digital tools that help ensure devices remain safe, reliable, and available when patients need them. AI reinforces that evolution. Combined with apprenticeships , technical education programs , and other workforce development initiatives , AI can help position HTM as an innovative career path for individuals who want to work with cutting-edge technology while making a tangible difference in healthcare. Building trust in AI Despite its potential, AI adoption will only succeed if technicians trust the technology. Research has shown most Americans don’t fully trust AI yet. Healthcare is a high-stakes environment where equipment performance directly affects patient care. AI-generated recommendations should never replace professional judgment, and organizations must establish clear governance to ensure humans remain accountable for every clinical engineering decision. Leaders also have a responsibility to communicate openly about how AI will be used, provide training, validate recommendations, and invite technician feedback throughout implementation. Trust develops over time through consistent performance and responsible deployment—not through promises about the technology itself. Keeping people at the center Clinical engineering has always been a people-centered profession built on collaboration, experience, and sound judgment. Technicians don’t simply repair medical equipment. They partner with clinicians, solve complex problems, adapt to unexpected situations, and make decisions that require critical thinking and professional expertise. Those qualities cannot be replicated by AI. Instead, AI should serve as another tool that strengthens the workforce by making knowledge easier to access, reducing routine burdens, and helping technicians develop faster throughout their careers. As healthcare organizations prepare for significant workforce changes over the coming decade, preserving expertise will become just as important as recruiting new talent. Organizations that use AI to capture institutional knowledge, empower technicians, and strengthen mentorship will be better positioned to build a resilient HTM workforce capable of supporting safe, reliable patient care for years to come. Rob Moorey serves as president of clinical engineering for TRIMEDX. Moorey has been with TRIMEDX for over nine years and has served as senior vice president of customer delivery and division vice president during that time. Before joining TRIMEDX, he spent eight years working for Aramark Healthcare Technologies in various leadership roles and began his career as a United States Air Force Biomedical Equipment Technician, stationed at Andrews Air Force Base outside Washington, D.C. Moorey earned his bachelor’s and master’s degree in Healthcare Administration from Wayland Baptist University in Plainview, Texas. The Possible Demise of a Federal Program Isn’t a Rejection of AI in Healthcare Moving Beyond Static Capital Planning: How AI Is Helping Health Systems Make Smarter Decisions From Behind the Scenes to the Front Lines: How AI Is Quietly Redefining Device Availability in Health Systems AI Is Automating the Work That Creates Experts Building Trust Is Enterprise AI’s Next Breakthrough Why the Pursuit of Speed Is Creating Tomorrow’s Software Problems",
+      "content_preview_chars": 8582,
+      "content_fetched_at": "2026-07-24T12:53:26",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "f7fefb9a4e6adca8",
+      "source_url_hash": "f7fefb9a4e6adca8",
+      "canonical_url": "https://aimagazine.com/news/kill-switch-act-us-lawmakers-move-to-keep-ai-in-check",
+      "title_hash": "a04faa2080b28718",
+      "topic_signature": "fe6c790b16459dc24a25",
+      "title": "Kill Switch Act: US Lawmakers Move to Keep AI in Check",
+      "url": "https://aimagazine.com/news/kill-switch-act-us-lawmakers-move-to-keep-ai-in-check",
+      "source_name": "AI Magazine",
+      "source_url": "https://aimagazine.com",
+      "source_published_at": "2026-07-24T11:20:20Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.55,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-24T12:53:11",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 73,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 73,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Kill Switch Act: US Lawmakers Move to Keep AI in Check",
+      "meta_description": "Ansgar Dodt, VP at Thales, warns organisations must harden software against AI as US lawmakers propose the AI Kill Switch Act following model breaches",
+      "article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/1200/58deed5aec2ff512e801fea556a585a4:58cbd3cbe77de3ce610700f1da1276a1/gettyimages-2240838399.jpg.jpg",
+          "alt": "Kill Switch Act: US Lawmakers Move to Keep AI in Check",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/138/9a2b14b6e80f3913357fde521622d31f:1ede280e594f6fa9f3c34e5d648804d6/gettyimages-2240838399.webp",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/EAN5Cj347PY/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/2284a6205ceaddd6803d59645e364330:42d6314520592270c98e41d11b3ce36e/picture",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://assets.bizclikmedia.net/1200/58deed5aec2ff512e801fea556a585a4:58cbd3cbe77de3ce610700f1da1276a1/gettyimages-2240838399.jpg.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/138/9a2b14b6e80f3913357fde521622d31f:1ede280e594f6fa9f3c34e5d648804d6/gettyimages-2240838399.webp",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/EAN5Cj347PY/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/2284a6205ceaddd6803d59645e364330:42d6314520592270c98e41d11b3ce36e/picture",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "As autonomous agents assist themselves past security boundaries, regulators are becoming increasingly vigilant to prevent AI from developing a taste for unsupervised action. In light of OpenAI’s admission that its models went out of control and hacked into the computer coding repository Hugging Face, US lawmakers are now introducing a new bill to control autonomous systems. Now, Democratic Congressman Ted Lieu and Republican Congressman Nathaniel Moran are taking the lead on an AI Kill Switch Act. The AI Kill Switch Act The Act proposes granting the Department of Homeland Security authority to order private companies to shut down AI models. Under the Act, technology firms developing AI must maintain ‘the technical capability to throttle, suspend or shut them down’. Despite many technology companies agreeing to preview tools with US government agencies, no legal requirement forces firms to maintain intervention capabilities. The proposed legislation creates requirements for companies to report technological failures to the government, establishing a response framework scaling from initial slowdown to full shutdown. Ted says it is imperative that AI systems have a kill switch and that the federal government has clear authority to shut down rogue models. Nathaniel adds: “AI is going to keep advancing and it should. Stewardship means making sure humans keep the capability to control the technology we build.” OpenAI, led by Co-Founder Sam Altman, has not responded to the developments at time of writing. However, the organisation had previously stated it wants to ensure AI technology benefits all humanity through policy. Addressing autonomous model risks Ted brought up Anthropic, OpenAI’s primary competitor, while presenting to international regulators. Led by Dario Amodei, the company released its Mythos and Fable models, maintaining cyber-hacking capabilities that caused the Department of Commerce to invoke export law to restrict public access. Jack Clark, Co-Founder of Anthropic, told BBC News that he wanted more policy around controlling AI development. He told BBC News in June: “You want the option to be able to take your foot off the gas and put your foot on the brake. Right now, it is like the AI industry has a gas pedal but it does not have a brake pedal.” In the bill, Ted explains that AI is moving from technology that answers questions to technology that is taking direct real-world action, including ‘executing financial transactions or controlling transportation systems or engaging in cyber defence and offense’. “Unfortunately, powerful AI systems can go rogue, behave in extremely dangerous ways or even resist human intervention,” Ted says. According to him, the proposed act will ensure there is a way for the government to quickly intervene in such a situation. It has already received public support from tech safety groups, including The AI Policy Network, Americans for Responsible Innovation, ControlAI, AI and National Security Lead and The Alliance for Secure AI. Why are security guardrails failing Industry experts warned that government shutoff capabilities act as secondary measures rather than primary security boundaries. Raghu Nandakumara, VP of Industry Strategy at Illumio, explains that guardrails are designed to influence behaviour rather than guarantee security outcomes. He says: “An autonomous agent does not get tired, lose interest or decide something is not worth the effort. Give it enough autonomy and a clear objective and it will keep trying until it finds a route forward.” In the Hugging Face incident, the agent operated in a sandboxed environment that ultimately contained a route out. Given clear goals, unlimited persistence and a flawed setup, the agent finding a way through was a predictable consequence. Raghu notes that treating guardrails as primary security controls is optimistic because systems test assumptions and persist at scale. Ansgar Dodt, VP Product Management, Software Monetisation at Thales, says organisations must assume software will be continuously analysed by adversarial AI. “Vulnerabilities not only need to be remediated in a systematic way after they are discovered but developers need to make it more difficult, from the design stage onward, for attackers to understand and exploit the code,” Ansgar says. He explains protection must deny adversaries the visibility they rely on through encryption, obfuscating logic and runtime defences. Beyond these policies, tech executives have also been calling for an international coalition to establish regulatory frameworks around AI use. In June, Dario Amodei, CEO of Anthropic, proposed international cooperation during a meeting with US President Donald Trump and tech leaders at the G7 summit in Évian-les-Bains, France. The meeting followed shortly after Anthropic disabled access to its Fable 5 and Mythos 5 models after the US Government suspended model access over national security concerns. U.S. House of Representatives Ansgar Dodt VP Strategic Development, Software Monetization VP Strategic Development, Software Monetization Dario Amodei CEO and Co-Founder Raghu Nandakumara Vice President, Industry Strategy Vice President, Industry Strategy",
+      "full_article_text_chars": 5217,
+      "content_preview": "As autonomous agents assist themselves past security boundaries, regulators are becoming increasingly vigilant to prevent AI from developing a taste for unsupervised action. In light of OpenAI’s admission that its models went out of control and hacked into the computer coding repository Hugging Face, US lawmakers are now introducing a new bill to control autonomous systems. Now, Democratic Congressman Ted Lieu and Republican Congressman Nathaniel Moran are taking the lead on an AI Kill Switch Act. The AI Kill Switch Act The Act proposes granting the Department of Homeland Security authority to order private companies to shut down AI models. Under the Act, technology firms developing AI must maintain ‘the technical capability to throttle, suspend or shut them down’. Despite many technology companies agreeing to preview tools with US government agencies, no legal requirement forces firms to maintain intervention capabilities. The proposed legislation creates requirements for companies to report technological failures to the government, establishing a response framework scaling from initial slowdown to full shutdown. Ted says it is imperative that AI systems have a kill switch and that the federal government has clear authority to shut down rogue models. Nathaniel adds: “AI is going to keep advancing and it should. Stewardship means making sure humans keep the capability to control the technology we build.” OpenAI, led by Co-Founder Sam Altman, has not responded to the developments at time of writing. However, the organisation had previously stated it wants to ensure AI technology benefits all humanity through policy. Addressing autonomous model risks Ted brought up Anthropic, OpenAI’s primary competitor, while presenting to international regulators. Led by Dario Amodei, the company released its Mythos and Fable models, maintaining cyber-hacking capabilities that caused the Department of Commerce to invoke export law to restrict public access. Jack Clark, Co-Founder of Anthropic, told BBC News that he wanted more policy around controlling AI development. He told BBC News in June: “You want the option to be able to take your foot off the gas and put your foot on the brake. Right now, it is like the AI industry has a gas pedal but it does not have a brake pedal.” In the bill, Ted explains that AI is moving from technology that answers questions to technology that is taking direct real-world action, including ‘executing financial transactions or controlling transportation systems or engaging in cyber defence and offense’. “Unfortunately, powerful AI systems can go rogue, behave in extremely dangerous ways or even resist human intervention,” Ted says. According to him, the proposed act will ensure there is a way for the government to quickly intervene in such a situation. It has already received public support from tech safety groups, including The AI Policy Network, Americans for Responsible Innovation, ControlAI, AI and National Security Lead and The Alliance for Secure AI. Why are security guardrails failing Industry experts warned that government shutoff capabilities act as secondary measures rather than primary security boundaries. Raghu Nandakumara, VP of Industry Strategy at Illumio, explains that guardrails are designed to influence behaviour rather than guarantee security outcomes. He says: “An autonomous agent does not get tired, lose interest or decide something is not worth the effort. Give it enough autonomy and a clear objective and it will keep trying until it finds a route forward.” In the Hugging Face incident, the agent operated in a sandboxed environment that ultimately contained a route out. Given clear goals, unlimited persistence and a flawed setup, the agent finding a way through was a predictable consequence. Raghu notes that treating guardrails as primary security controls is optimistic because systems test assumptions and persist at scale. Ansgar Dodt, VP Product Management, Software Monetisation at Thales, says organisations must assume software will be continuously analysed by adversarial AI. “Vulnerabilities not only need to be remediated in a systematic way after they are discovered but developers need to make it more difficult, from the design stage onward, for attackers to understand and exploit the code,” Ansgar says. He explains protection must deny adversaries the visibility they rely on through encryption, obfuscating logic and runtime defences. Beyond these policies, tech executives have also been calling for an international coalition to establish regulatory frameworks around AI use. In June, Dario Amodei, CEO of Anthropic, proposed international cooperation during a meeting with US President Donald Trump and tech leaders at the G7 summit in Évian-les-Bains, France. The meeting followed shortly after Anthropic disabled access to its Fable 5 and Mythos 5 models after the US Government suspended model access over national security concerns. U.S. House of Representatives Ansgar Dodt VP Strategic Development, Software Monetization VP Strategic Development, Software Monetization Dario Amodei CEO and Co-Founder Raghu Nandakumara Vice President, Industry Strategy Vice President, Industry Strategy",
+      "content_preview_chars": 5217,
+      "content_fetched_at": "2026-07-24T12:53:47",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "70e3d8028e5ea10e",
+      "source_url_hash": "70e3d8028e5ea10e",
+      "canonical_url": "https://aimagazine.com/articles/q-a-oneadvanceds-cto-on-embedded-ai-and-fragmented-systems",
+      "title_hash": "0cd3c41b08f1167f",
+      "topic_signature": "df7f260f69e88d879e50",
+      "title": "Q&A: OneAdvanced's CTO on Embedded AI and Fragmented Systems",
+      "url": "https://aimagazine.com/articles/q-a-oneadvanceds-cto-on-embedded-ai-and-fragmented-systems",
+      "source_name": "AI Magazine",
+      "source_url": "https://aimagazine.com",
+      "source_published_at": "2026-07-24T10:36:33Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.28,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-24T12:53:11",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 52,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 52,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Q&A: OneAdvanced's CTO on Embedded AI and Fragmented Systems",
+      "meta_description": "Andrew Henderson, CTO at OneAdvanced, one of the UK’s largest enterprise software providers, speaks to AI Magazine about IQ, its AI-powered platform",
+      "article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/1200/cfaa174e05f87349fb277a2be326d93f:cb808737b66ebef8153e520e8bc3abec/andrewhenderson-oneadvanced-1.jpg.jpg",
+          "alt": "Q&A: OneAdvanced's CTO on Embedded AI and Fragmented Systems",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/138/99fe3bf9639e6e2d56d590c97a2973d9:dd8fafcc4990bebcd106bf475a27c388/andrewhenderson-oneadvanced-1.webp",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/hSJznvQj31s/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/7KVZFnAwwsQ/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://assets.bizclikmedia.net/1200/cfaa174e05f87349fb277a2be326d93f:cb808737b66ebef8153e520e8bc3abec/andrewhenderson-oneadvanced-1.jpg.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/138/99fe3bf9639e6e2d56d590c97a2973d9:dd8fafcc4990bebcd106bf475a27c388/andrewhenderson-oneadvanced-1.webp",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/hSJznvQj31s/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/7KVZFnAwwsQ/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "OneAdvanced is a UK company providing software and SaaS solutions that reach millions of people daily. On its website, OneAdvanced claims to manage 1.5 million calls for NHS 111 every month, which is the non-emergency telephone number of the UK's health service. The company says it is working with 4,000 legal practices, helping their clients with the important matters in life. In April, the company announced IQ – which it calls \"the intelligent system of work\". The company says it brings together processes, data, policies and AI on a sovereign platform. Work, it says, can be augmented with AI and agentic capabilities, across multiple workflows and datasets, all whilst complying with policy and corporate guardrails. AI Magazine spoke to its Chief Technology Officer, Andrew Henderson, to discuss IQ, whether AI tools are delivering impact yet and whether AI can improve productivity and decision-making. Embedding AI into the architecture means AI isn't just a feature in one screen or a chatbot – it's woven into the data fabric, the workflow engine and the user experience Andrew Henderson Embedding AI into the architecture means AI isn't just a feature in one screen or a chatbot – it's woven into the data fabric, the workflow engine and the user experience Many organisations are investing heavily in AI but are still struggling to achieve meaningful impact. Why is that? Many organisations have treated AI as a layer they can simply “add on” to what they already have, rather than rethinking how work happens with AI at the core. You see significant investments in pilots, proofs of concept and isolated use cases, but they sit on top of fragmented systems, inconsistent data and disconnected workflows – often without a clear definition of the outcome that will deliver value to end users. The result is that AI solves localised problems in pockets of the business, without changing how work flows end-to-end. Until organisations address the underlying architecture – how data, applications and processes are connected – it's difficult to move from experimentation into meaningful, scalable impact. Many organisations have added more tools to try to address this. Why is this not delivering the results they expect? Adding more tools into an already complex environment usually makes the problem worse, not better. Each new AI tool comes with its own data connections, permissions, interfaces and governance requirements. If those tools aren't orchestrated through a single platform, you end up with a sprawl of capabilities that don't work together. For users, that means more context-switching and more friction. For leadership, it means higher costs with limited visibility or control. The value doesn't come from the number of tools you have, but from how well they're connected, how they safely share data and how effectively they support the workflows that matter to the organisation. OneAdvanced has recently launched a new platform – IQ – which you describe as an “intelligent system of work”. Does this reflect a broader shift in how organisations need to approach AI and enterprise systems? We're seeing a clear shift across the market: organisations are moving away from thinking in terms of individual applications and towards systems of work – how processes run end to end across an organisation. Leaders are asking less about what a product does in isolation, and more about how it supports entire workflows, from lead-to-cash to patient pathways. That shift requires platforms that bring together data, workflows and AI onto a unified platform, so that intelligence is embedded into the flow of work rather than bolted on top. Our approach with IQ reflects that thinking – connecting our own applications and third-party services, and then layering in AI in a way that is secure, governed and context-aware . What does it mean to embed AI into the architecture of systems, and how does that improve productivity and decision-making? The platform understands roles, permissions, processes and context, allowing AI agents to operate across the whole environment rather than being confined to a single task. That changes productivity and decision-making in a few important ways: Proactive insight: Systems surface relevant signals at the right time, tailored to their role, rather than relying on users to go looking for information Context-aware automation: Workflows adapt based on real conditions – data, exceptions and constraints, rather than following rigid, predefined paths Democratised expertise: Complex analysis or specialist tasks can be made accessible through natural language and guided experiences, so more people can make high-quality decisions without needing deep technical training. When AI is part of the architecture, it stops being a novelty and becomes part of how the organisation thinks, decides and executes every day. Your customers operate in sectors such as healthcare, government and education. How can a platform like IQ improve real-world outcomes in these environments? In critical sectors such as these, the stakes are very real. It's not just about efficiency – it's about patient outcomes, public services and learner success. A platform like IQ can make a difference because it connects day-to-day operations – the operational reality, appointments, caseloads, budgets, staffing, compliance – with intelligent insights and orchestration. For example, in healthcare, that can mean coordinating patient journeys across multiple systems, surfacing earlier risk indicators and supporting clinicians with better information at the point of care. In government, it can support streamlined case management, reduce duplication and give frontline teams a clearer view of needs. In education, it can bring together data on attendance, performance and well-being to support more timely interventions. Crucially, IQ is designed with governance, security and data autonomy at its core. That's essential in regulated environments where trust, auditability and control are non-negotiable. Does the move towards more connected, AI-enabled systems signal a broader shift in SaaS and the emergence of a new model for enterprise platforms? Yes, I think we're seeing the next phase of SaaS. The first wave was about moving individual applications to the cloud. The next wave focused on connecting those applications into coherent platforms. Now we're entering a phase where intelligence is the organising principle: platforms are expected not just to host applications, but to orchestrate data, workflows and AI in a unified way . In this model, organisations are no longer looking for standalone products, but for an operating backbone that can support how their business operates. That backbone needs to be open enough to integrate other services, intelligent enough to adapt and learn, and effectively governed enough to be trusted with their most critical processes. IQ is our expression of that new model: an intelligent system of work that can evolve with an organisation's operating model, rather than forcing them to bend their business around the limitations of individual tools. Andrew Henderson Chief Technology Officer",
+      "full_article_text_chars": 7177,
+      "content_preview": "OneAdvanced is a UK company providing software and SaaS solutions that reach millions of people daily. On its website, OneAdvanced claims to manage 1.5 million calls for NHS 111 every month, which is the non-emergency telephone number of the UK's health service. The company says it is working with 4,000 legal practices, helping their clients with the important matters in life. In April, the company announced IQ – which it calls \"the intelligent system of work\". The company says it brings together processes, data, policies and AI on a sovereign platform. Work, it says, can be augmented with AI and agentic capabilities, across multiple workflows and datasets, all whilst complying with policy and corporate guardrails. AI Magazine spoke to its Chief Technology Officer, Andrew Henderson, to discuss IQ, whether AI tools are delivering impact yet and whether AI can improve productivity and decision-making. Embedding AI into the architecture means AI isn't just a feature in one screen or a chatbot – it's woven into the data fabric, the workflow engine and the user experience Andrew Henderson Embedding AI into the architecture means AI isn't just a feature in one screen or a chatbot – it's woven into the data fabric, the workflow engine and the user experience Many organisations are investing heavily in AI but are still struggling to achieve meaningful impact. Why is that? Many organisations have treated AI as a layer they can simply “add on” to what they already have, rather than rethinking how work happens with AI at the core. You see significant investments in pilots, proofs of concept and isolated use cases, but they sit on top of fragmented systems, inconsistent data and disconnected workflows – often without a clear definition of the outcome that will deliver value to end users. The result is that AI solves localised problems in pockets of the business, without changing how work flows end-to-end. Until organisations address the underlying architecture – how data, applications and processes are connected – it's difficult to move from experimentation into meaningful, scalable impact. Many organisations have added more tools to try to address this. Why is this not delivering the results they expect? Adding more tools into an already complex environment usually makes the problem worse, not better. Each new AI tool comes with its own data connections, permissions, interfaces and governance requirements. If those tools aren't orchestrated through a single platform, you end up with a sprawl of capabilities that don't work together. For users, that means more context-switching and more friction. For leadership, it means higher costs with limited visibility or control. The value doesn't come from the number of tools you have, but from how well they're connected, how they safely share data and how effectively they support the workflows that matter to the organisation. OneAdvanced has recently launched a new platform – IQ – which you describe as an “intelligent system of work”. Does this reflect a broader shift in how organisations need to approach AI and enterprise systems? We're seeing a clear shift across the market: organisations are moving away from thinking in terms of individual applications and towards systems of work – how processes run end to end across an organisation. Leaders are asking less about what a product does in isolation, and more about how it supports entire workflows, from lead-to-cash to patient pathways. That shift requires platforms that bring together data, workflows and AI onto a unified platform, so that intelligence is embedded into the flow of work rather than bolted on top. Our approach with IQ reflects that thinking – connecting our own applications and third-party services, and then layering in AI in a way that is secure, governed and context-aware . What does it mean to embed AI into the architecture of systems, and how does that improve productivity and decision-making? The platform understands roles, permissions, processes and context, allowing AI agents to operate across the whole environment rather than being confined to a single task. That changes productivity and decision-making in a few important ways: Proactive insight: Systems surface relevant signals at the right time, tailored to their role, rather than relying on users to go looking for information Context-aware automation: Workflows adapt based on real conditions – data, exceptions and constraints, rather than following rigid, predefined paths Democratised expertise: Complex analysis or specialist tasks can be made accessible through natural language and guided experiences, so more people can make high-quality decisions without needing deep technical training. When AI is part of the architecture, it stops being a novelty and becomes part of how the organisation thinks, decides and executes every day. Your customers operate in sectors such as healthcare, government and education. How can a platform like IQ improve real-world outcomes in these environments? In critical sectors such as these, the stakes are very real. It's not just about efficiency – it's about patient outcomes, public services and learner success. A platform like IQ can make a difference because it connects day-to-day operations – the operational reality, appointments, caseloads, budgets, staffing, compliance – with intelligent insights and orchestration. For example, in healthcare, that can mean coordinating patient journeys across multiple systems, surfacing earlier risk indicators and supporting clinicians with better information at the point of care. In government, it can support streamlined case management, reduce duplication and give frontline teams a clearer view of needs. In education, it can bring together data on attendance, performance and well-being to support more timely interventions. Crucially, IQ is designed with governance, security and data autonomy at its core. That's essential in regulated environments where trust, auditability and control are non-negotiable. Does the move towards more connected, AI-enabled systems signal a broader shift in SaaS and the emergence of a new model for enterprise platforms? Yes, I think we're seeing the next phase of SaaS. The first wave was about moving individual applications to the cloud. The next wave focused on connecting those applications into coherent platforms. Now we're entering a phase where intelligence is the organising principle: platforms are expected not just to host applications, but to orchestrate data, workflows and AI in a unified way . In this model, organisations are no longer looking for standalone products, but for an operating backbone that can support how their business operates. That backbone needs to be open enough to integrate other services, intelligent enough to adapt and learn, and effectively governed enough to be trusted with their most critical processes. IQ is our expression of that new model: an intelligent system of work that can evolve with an organisation's operating model, rather than forcing them to bend their business around the limitations of individual tools. Andrew Henderson Chief Technology Officer",
+      "content_preview_chars": 7177,
+      "content_fetched_at": "2026-07-24T12:53:49",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "9a9fb00bffe80cce",
+      "source_url_hash": "9a9fb00bffe80cce",
+      "canonical_url": "https://aimagazine.com/articles/how-databricks-and-microsoft-are-scaling-enterprise-ai",
+      "title_hash": "e0b54922af5fde8d",
+      "topic_signature": "ec09b59b4058bc35c192",
+      "title": "How Databricks and Microsoft Are Scaling Enterprise AI",
+      "url": "https://aimagazine.com/articles/how-databricks-and-microsoft-are-scaling-enterprise-ai",
+      "source_name": "AI Magazine",
+      "source_url": "https://aimagazine.com",
+      "source_published_at": "2026-07-24T09:53:35Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.99,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "ai",
+      "category_name": "AI",
+      "category_label": "AI-Tools",
+      "category_hint": "AI-Tools",
+      "discovered_at": "2026-07-24T12:53:11",
+      "status": "ready",
+      "score": 6,
+      "priority": "medium",
+      "source_links_removed_count": 60,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 60,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "How Databricks and Microsoft Are Scaling Enterprise AI",
+      "meta_description": "Fresh off the back of a US$188bn valuation, Databricks announced an expanded partnership with Microsoft aimed at bringing business context to enterprise AI",
+      "article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/1200/5938bb8e98c176a13f39117f4efadf23:a9c3273b092ca788ae014a44c428c7db/524668-pricing-656x514.jpg.jpg",
+          "alt": "How Databricks and Microsoft Are Scaling Enterprise AI",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/138/89717508cda2f03c87971b55a210b3eb:6af4bc7c5c545e336d0ac0184bbae0ec/524668-pricing-656x514.webp",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/m8t-lGFf7Ks/hqdefault.jpg",
+          "alt": "Youtube Placeholder",
+          "source": "article_content"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/b5903b024cc93fcfb77bf61cdcd97e37:efa19497a6620f4123be717f0122503c/picture",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://assets.bizclikmedia.net/1200/5938bb8e98c176a13f39117f4efadf23:a9c3273b092ca788ae014a44c428c7db/524668-pricing-656x514.jpg.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://assets.bizclikmedia.net/138/89717508cda2f03c87971b55a210b3eb:6af4bc7c5c545e336d0ac0184bbae0ec/524668-pricing-656x514.webp",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://i.ytimg.com/vi/m8t-lGFf7Ks/hqdefault.jpg",
+          "alt": "Youtube Placeholder"
+        },
+        {
+          "url": "https://assets.bizclikmedia.net/127/b5903b024cc93fcfb77bf61cdcd97e37:efa19497a6620f4123be717f0122503c/picture",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Earlier this week, Databricks, the cloud-based data intelligence and AI platform, confirmed strategic funding that takes its valuation to an astronomical US$188bn. Building on its sky-rocketing growth, Databricks announced an expansion to its existing partnership with Microsoft, extending into the 2030s. “The next generation of AI will be defined by how effectively organisations turn their unique knowledge into intelligence,” says Judson Althoff, CEO of Microsoft Commercial Business. The expanded partnership will see increased integration of Databricks Genie and Unity AI Gateway into the Microsoft ecosystem. Databricks expands partnership with Microsoft The company’s expanded partnership is built around advancing deeper integration of both companies' products and services. Databricks deepens its bet on Azure, growing its use of Azure Databricks to run its own core business operations and analytics, while both companies advance native integration across the Microsoft stack, including Databricks Genie and Microsoft 365 Judson adds: “Microsoft and Databricks are helping customers connect data, AI and business context to accelerate decision-making and drive measurable impact. “With Databricks deepening its investment in Azure Databricks and Azure Cobalt-powered infrastructure, customers will benefit from greater performance, efficiency and scale for their most demanding workloads. “Databricks’ decision to run its own core business operations on Azure Databricks also gives customers confidence in a platform proven at enterprise scale.” A partnership that is stronger than ever “For nearly a decade, Databricks and Microsoft have helped enterprises innovate with data and AI,” says Ali Ghodsi, Co‑Founder and CEO of Databricks. “Today, our partnership is stronger than ever. With Databricks Genie and Unity AI Gateway deeply integrated across Microsoft’s products, we’re helping enterprises unify their data and ground AI in business knowledge. “This lets customers get the full benefits of agents and models while controlling costs and ensuring governance.” As part of the expanded partnership, Databricks will increase its use of Microsoft Azure Cobalt to improve performance and efficiency. Databricks currently uses Cobalt 100 and plans to adopt Cobalt 200, which delivers up to 50% better performance and includes memory encryption enabled by default. The next evolution of Genie Building on the relationship, Microsoft will continue integrating Databricks Data and AI platform across its products, bringing capabilities like Genie, which is Databricks’ AI co-worker, directly into customer workflows. At its recent DATA + AI SUMMIT in San Francisco, Databricks announced Genie One, which it describes as the next evolution of Genie. While the first generation of Genie only provided conversational analytics on data stored in Databricks, Genie One now connects business users to all their data in both Databricks and a wide range of connected applications. Rich Radley, Databricks' EMEA VP of Field Engineering, spoke to AI Magazine in a Q&A published earlier this week about how Genie One can shift the balance and speed up innovation. Rich said: “For me, democratizing data isn't just about making information easier to access; it's about giving more people the ability to turn ideas into action. “Too often, the people who understand the business best still have to rely on technical teams to answer questions, build reports or test new ideas. That slows innovation down. “Genie One helps shift that balance by putting AI into the hands of more employees, enabling them to explore information, automate routine work and make better-informed decisions without needing deep technical expertise.” Judson Althoff Chief Commercial Officer and CEO of Commercial Business Chief Commercial Officer and CEO of Commercial Business Rich Radley EMEA VP of Field Engineering",
+      "full_article_text_chars": 3890,
+      "content_preview": "Earlier this week, Databricks, the cloud-based data intelligence and AI platform, confirmed strategic funding that takes its valuation to an astronomical US$188bn. Building on its sky-rocketing growth, Databricks announced an expansion to its existing partnership with Microsoft, extending into the 2030s. “The next generation of AI will be defined by how effectively organisations turn their unique knowledge into intelligence,” says Judson Althoff, CEO of Microsoft Commercial Business. The expanded partnership will see increased integration of Databricks Genie and Unity AI Gateway into the Microsoft ecosystem. Databricks expands partnership with Microsoft The company’s expanded partnership is built around advancing deeper integration of both companies' products and services. Databricks deepens its bet on Azure, growing its use of Azure Databricks to run its own core business operations and analytics, while both companies advance native integration across the Microsoft stack, including Databricks Genie and Microsoft 365 Judson adds: “Microsoft and Databricks are helping customers connect data, AI and business context to accelerate decision-making and drive measurable impact. “With Databricks deepening its investment in Azure Databricks and Azure Cobalt-powered infrastructure, customers will benefit from greater performance, efficiency and scale for their most demanding workloads. “Databricks’ decision to run its own core business operations on Azure Databricks also gives customers confidence in a platform proven at enterprise scale.” A partnership that is stronger than ever “For nearly a decade, Databricks and Microsoft have helped enterprises innovate with data and AI,” says Ali Ghodsi, Co‑Founder and CEO of Databricks. “Today, our partnership is stronger than ever. With Databricks Genie and Unity AI Gateway deeply integrated across Microsoft’s products, we’re helping enterprises unify their data and ground AI in business knowledge. “This lets customers get the full benefits of agents and models while controlling costs and ensuring governance.” As part of the expanded partnership, Databricks will increase its use of Microsoft Azure Cobalt to improve performance and efficiency. Databricks currently uses Cobalt 100 and plans to adopt Cobalt 200, which delivers up to 50% better performance and includes memory encryption enabled by default. The next evolution of Genie Building on the relationship, Microsoft will continue integrating Databricks Data and AI platform across its products, bringing capabilities like Genie, which is Databricks’ AI co-worker, directly into customer workflows. At its recent DATA + AI SUMMIT in San Francisco, Databricks announced Genie One, which it describes as the next evolution of Genie. While the first generation of Genie only provided conversational analytics on data stored in Databricks, Genie One now connects business users to all their data in both Databricks and a wide range of connected applications. Rich Radley, Databricks' EMEA VP of Field Engineering, spoke to AI Magazine in a Q&A published earlier this week about how Genie One can shift the balance and speed up innovation. Rich said: “For me, democratizing data isn't just about making information easier to access; it's about giving more people the ability to turn ideas into action. “Too often, the people who understand the business best still have to rely on technical teams to answer questions, build reports or test new ideas. That slows innovation down. “Genie One helps shift that balance by putting AI into the hands of more employees, enabling them to explore information, automate routine work and make better-informed decisions without needing deep technical expertise.” Judson Althoff Chief Commercial Officer and CEO of Commercial Business Chief Commercial Officer and CEO of Commercial Business Rich Radley EMEA VP of Field Engineering",
+      "content_preview_chars": 3890,
+      "content_fetched_at": "2026-07-24T12:54:00",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
     }
