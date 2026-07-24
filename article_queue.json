@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-24T14:53:59",
+  "updated_at": "2026-07-24T17:57:13",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -1729,7 +1729,10 @@
       "content_preview_chars": 2475,
       "content_fetched_at": "2026-07-19T06:22:33",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-24T17:49:07",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "012e0496ae9ed302",
@@ -2526,12 +2529,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-24T14:44:41",
-      "candidate_retry_after": "2026-07-24T14:59:41Z",
+      "content_fetched_at": "2026-07-24T17:49:26",
+      "candidate_retry_after": "2026-07-24T18:04:26Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-24T14:44:41",
-      "candidate_failure_count": 75
+      "candidate_failed_at": "2026-07-24T17:49:26",
+      "candidate_failure_count": 76
     },
     {
       "id": "512c2899a98440d2",
@@ -2560,12 +2563,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-24T14:44:41",
-      "candidate_retry_after": "2026-07-24T14:59:41Z",
+      "content_fetched_at": "2026-07-24T17:49:26",
+      "candidate_retry_after": "2026-07-24T18:04:26Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-24T14:44:41",
-      "candidate_failure_count": 75
+      "candidate_failed_at": "2026-07-24T17:49:26",
+      "candidate_failure_count": 76
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2594,12 +2597,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-24T14:44:41",
-      "candidate_retry_after": "2026-07-24T14:59:41Z",
+      "content_fetched_at": "2026-07-24T17:49:26",
+      "candidate_retry_after": "2026-07-24T18:04:26Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-24T14:44:41",
-      "candidate_failure_count": 75
+      "candidate_failed_at": "2026-07-24T17:49:26",
+      "candidate_failure_count": 76
     },
     {
       "id": "d900f1574fddfab4",
@@ -2739,7 +2742,10 @@
       "candidate_failed_at": "2026-07-20T07:58:17",
       "candidate_failure_count": 4,
       "telegram_final_summary_notified_at": "2026-07-19T14:48:45",
-      "ai_provider_last_error": "504 The request timed out. Please try again."
+      "ai_provider_last_error": "504 The request timed out. Please try again.",
+      "archived": true,
+      "archived_at": "2026-07-24T17:49:07",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "cec1ebe5d23f0658",
@@ -3421,17 +3427,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 0,
-      "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 0,
+      "source_links_removed_count": 229,
+      "affiliate_links_removed_count": 7,
+      "removed_source_links_count": 229,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-07-24T14:44:42",
-      "candidate_retry_after": "2026-07-24T14:59:42Z",
+      "content_fetch_error": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
+      "content_fetched_at": "2026-07-24T17:49:30",
+      "candidate_retry_after": "2026-07-24T18:04:30Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-07-24T14:44:42",
-      "candidate_failure_count": 74
+      "candidate_failure_reason": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
+      "candidate_failed_at": "2026-07-24T17:49:30",
+      "candidate_failure_count": 75
     },
     {
       "id": "8d2678d87487d729",
@@ -4088,7 +4094,10 @@
       "content_preview_chars": 728,
       "content_fetched_at": "2026-07-19T11:29:14",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-24T17:49:07",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "43120316c634d523",
@@ -4294,12 +4303,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-07-24T14:44:43",
-      "candidate_retry_after": "2026-07-24T14:59:43Z",
+      "content_fetched_at": "2026-07-24T17:49:31",
+      "candidate_retry_after": "2026-07-24T18:04:31Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-07-24T14:44:43",
-      "candidate_failure_count": 73
+      "candidate_failed_at": "2026-07-24T17:49:31",
+      "candidate_failure_count": 74
     },
     {
       "id": "45429302676bf4c5",
@@ -5339,12 +5348,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-24T14:44:44",
-      "candidate_retry_after": "2026-07-24T14:59:44Z",
+      "content_fetched_at": "2026-07-24T17:49:33",
+      "candidate_retry_after": "2026-07-24T18:04:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-24T14:44:44",
-      "candidate_failure_count": 71
+      "candidate_failed_at": "2026-07-24T17:49:33",
+      "candidate_failure_count": 72
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5376,12 +5385,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-24T14:44:46",
-      "candidate_retry_after": "2026-07-24T14:59:46Z",
+      "content_fetched_at": "2026-07-24T17:49:35",
+      "candidate_retry_after": "2026-07-24T18:04:35Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-24T14:44:46",
-      "candidate_failure_count": 71
+      "candidate_failed_at": "2026-07-24T17:49:35",
+      "candidate_failure_count": 72
     },
     {
       "id": "aede79193c6b98c9",
@@ -5413,12 +5422,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-24T14:44:48",
-      "candidate_retry_after": "2026-07-24T14:59:48Z",
+      "content_fetched_at": "2026-07-24T17:49:36",
+      "candidate_retry_after": "2026-07-24T18:04:36Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-24T14:44:48",
-      "candidate_failure_count": 71
+      "candidate_failed_at": "2026-07-24T17:49:36",
+      "candidate_failure_count": 72
     },
     {
       "id": "253eaa098c468523",
@@ -6352,12 +6361,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-24T14:44:48",
-      "candidate_retry_after": "2026-07-24T14:59:48Z",
+      "content_fetched_at": "2026-07-24T17:49:37",
+      "candidate_retry_after": "2026-07-24T18:04:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-24T14:44:48",
-      "candidate_failure_count": 69
+      "candidate_failed_at": "2026-07-24T17:49:37",
+      "candidate_failure_count": 70
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6752,12 +6761,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-24T14:44:51",
-      "candidate_retry_after": "2026-07-24T14:59:51Z",
+      "content_fetched_at": "2026-07-24T17:49:40",
+      "candidate_retry_after": "2026-07-24T18:04:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-24T14:44:51",
-      "candidate_failure_count": 67
+      "candidate_failed_at": "2026-07-24T17:49:40",
+      "candidate_failure_count": 68
     },
     {
       "id": "693fbfabd96b2185",
@@ -6788,12 +6797,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-24T14:44:52",
-      "candidate_retry_after": "2026-07-24T14:59:52Z",
+      "content_fetched_at": "2026-07-24T17:49:41",
+      "candidate_retry_after": "2026-07-24T18:04:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-24T14:44:52",
-      "candidate_failure_count": 67
+      "candidate_failed_at": "2026-07-24T17:49:41",
+      "candidate_failure_count": 68
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -6878,7 +6887,10 @@
       "candidate_failure_reason": "article older than 24 hours",
       "candidate_failed_at": "2026-07-20T07:59:50",
       "candidate_failure_count": 2,
-      "ai_quality_last_error": "article older than 24 hours"
+      "ai_quality_last_error": "article older than 24 hours",
+      "archived": true,
+      "archived_at": "2026-07-24T17:49:07",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "ff8c14b3821e60f1",
@@ -9209,13 +9221,13 @@
       "affiliate_links_removed_count": 1,
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=443 chars/66 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:443chars/66words, paragraph_fallback:328chars/49words, article_body:443chars/66words, meta_description:53chars/7words, page_text:443chars/66words)",
-      "content_fetched_at": "2026-07-24T14:44:54",
-      "candidate_retry_after": "2026-07-24T14:59:54Z",
+      "content_fetch_error": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
+      "content_fetched_at": "2026-07-24T17:49:44",
+      "candidate_retry_after": "2026-07-24T18:04:44Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=443 chars/66 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:443chars/66words, paragraph_fallback:328chars/49words, article_body:443chars/66words, meta_description:53chars/7words, page_text:443chars/66words)",
-      "candidate_failed_at": "2026-07-24T14:44:54",
-      "candidate_failure_count": 63
+      "candidate_failure_reason": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
+      "candidate_failed_at": "2026-07-24T17:49:44",
+      "candidate_failure_count": 64
     },
     {
       "id": "561b6316398d7603",
@@ -10302,12 +10314,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-24T14:44:55",
-      "candidate_retry_after": "2026-07-24T14:59:55Z",
+      "content_fetched_at": "2026-07-24T17:49:44",
+      "candidate_retry_after": "2026-07-24T18:04:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-24T14:44:55",
-      "candidate_failure_count": 59
+      "candidate_failed_at": "2026-07-24T17:49:44",
+      "candidate_failure_count": 60
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10339,12 +10351,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-24T14:44:55",
-      "candidate_retry_after": "2026-07-24T14:59:55Z",
+      "content_fetched_at": "2026-07-24T17:49:45",
+      "candidate_retry_after": "2026-07-24T18:04:45Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-24T14:44:55",
-      "candidate_failure_count": 59
+      "candidate_failed_at": "2026-07-24T17:49:45",
+      "candidate_failure_count": 60
     },
     {
       "id": "a6f4ca9464909855",
@@ -10376,12 +10388,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-24T14:44:56",
-      "candidate_retry_after": "2026-07-24T14:59:56Z",
+      "content_fetched_at": "2026-07-24T17:49:45",
+      "candidate_retry_after": "2026-07-24T18:04:45Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-24T14:44:56",
-      "candidate_failure_count": 59
+      "candidate_failed_at": "2026-07-24T17:49:45",
+      "candidate_failure_count": 60
     },
     {
       "id": "71463c25ac92daaa",
@@ -15015,12 +15027,12 @@
       "removed_source_links_count": 79,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-24T14:44:57",
-      "candidate_retry_after": "2026-07-24T14:59:57Z",
+      "content_fetched_at": "2026-07-24T17:49:46",
+      "candidate_retry_after": "2026-07-24T18:04:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:129chars/23words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-07-24T14:44:57",
-      "candidate_failure_count": 48
+      "candidate_failed_at": "2026-07-24T17:49:46",
+      "candidate_failure_count": 49
     },
     {
       "id": "41b7b918ab3966e4",
@@ -15445,7 +15457,10 @@
       "content_preview_chars": 8844,
       "content_fetched_at": "2026-07-21T07:04:13",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-24T17:49:07",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "780f73de394c6895",
@@ -34428,7 +34443,72 @@
       "content_preview_chars": 4803,
       "content_fetched_at": "2026-07-24T09:32:14",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-24T17:49:47",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "category rotation newest fresh article: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-24T17:49:47",
+      "ai_input_package": {
+        "title": "Waze Adds Five Gemini AI Features, but Only Three Are Live for US Drivers - gHacks Tech News",
+        "url": "https://www.ghacks.net/2026/07/24/waze-adds-five-gemini-ai-features-but-only-three-are-live-for-us-drivers",
+        "source_name": "Ghacks",
+        "suggested_category": "Apps-Programs",
+        "main_image": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-24T105603.120.png",
+        "article_images": [
+          {
+            "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-24T105603.120.png",
+            "alt": "Waze Adds Five Gemini AI Features, but Only Three Are Live for US Drivers - gHacks Tech News",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-23T114609.566.png",
+            "alt": "Reddit and Major Publishers Consider Blocking Google as AI Overviews Cut Search Referral Traffic",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-22T101332.104.png",
+            "alt": "Activision Sets Call of Duty: Modern Warfare 4 Beta for August 21 Early Access and August 28 Open Weekend",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-22T101813.212.png",
+            "alt": "OpenAI Confirms Its Models Breached Hugging Face Production Systems During Cyber Benchmark Testing",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Waze's five new Gemini features are limited by region and beta access, leaving three usable for most US drivers.",
+        "content_preview": "On July 13, Google announced five new Gemini-powered AI features for Waze. However, hands-on testing by Lifewire found that only three are currently available to most US drivers. Motorcycle mode and Gemini-powered destination search remain restricted by region or beta access. The three features available to US users are personalized navigation, less chatty mode, and conversational road reporting, though one of these did not function during testing. These features are part of Google's broader Gemini initiative, which also extends to Google Maps. Two Features Still Limited in Waze Two of the five announced features are limited by geographic availability or require enrollment. Motorcycle mode uses AI to highlight hazards specific to two-wheeled vehicles, including narrow bridges and shoulder endings. Google is rolling it out only in Argentina, Brazil, Colombia, Malaysia, Mexico, Peru, and the Philippines, so US drivers cannot enable it. Gemini-powered destination search allows drivers to use the voice icon to ask conversational queries, such as finding an open coffee shop. This feature is limited to Waze's beta community. According to Lifewire, the beta program was full during testing, preventing new users from joining. Lifewire recommends enabling less chatty mode. This feature reduces the frequency of voice prompts, retaining important alerts for hazards, turns, and lane changes while minimizing repetition. Previously, Waze's Sound and voice menu included Normal, Alerts only, and Off. Alerts only removes turn-by-turn guidance and provides only alerts. Less chatty mode offers a middle ground, maintaining full navigation guidance with fewer and shorter prompts. Lifewire's testing found that Normal mode repeated each turn two or three times, providing advance notice. With less chatty mode, the app issued a single instruction per turn without repeats and offered less advance notice. This results in reduced preparation time before complex exits. Lifewire did not encounter hazard alerts during testing and could not confirm their immediacy in this mode. Personalized Navigation Learns Driving Preferences Personalized navigation tracks which route types a driver tends to select, such as highways over side streets or fewer stops over shorter distance, and surfaces those preferences first when planning future trips. This setting is found under Settings, Privacy, Personalization, then Personalized navigation, not under Navigation preferences. It includes two toggles: Get personalized routes and Get personalized ETAs. These options cannot be changed while the vehicle is moving; the car must be parked to enable them. Lifewire notes that assessing whether the feature adapts to a driver's habits requires several days of use and could not be evaluated in a single session. The feature can be disabled if it suggests incorrect routes, and drivers may manually select alternate routes at any time. Conversational road reporting allows drivers to tap the report button, verbally state a condition such as a road closure, and have Gemini send the update directly to local map editors without navigating menus. Lifewire reports that the feature did not respond during testing. Two attempts using Waze's in-app \"What do you see?\" panel, with clear speech, produced no response. The only successful report was processed by Android Auto's system-level Gemini assistant, not the in-app feature, and followed a different process than Google described. Testing with and without an Android Auto connection yielded the same outcome. Lifewire does not consider the feature broken for all users, noting that Waze's rollout has been inconsistent and a fix may be included in a future update. Which Waze Features to Enable Now Based on Lifewire's testing, US drivers using the latest Waze update can take the following actions: Enable less chatty mode in the Sound and voice settings to reduce voice repetition while maintaining full turn-by-turn guidance. Enable personalized navigation at Settings, then Privacy, then Personalization, then Personalized navigation, and turn on Get personalized routes and Get personalized ETAs while parked. Consider conversational road reporting unreliable at this time, as it did not respond during testing. Continue using the existing one-tap report button. If Gemini-powered destination search is a priority, check the Play Store for beta program availability. Note that the beta was full during testing. Google has not provided a timeline for expanding motorcycle mode beyond the initial seven countries, opening more Waze beta slots for destination search, or addressing the conversational reporting issues identified in testing. The three widely available features require the latest Waze update, and rollout timing may vary by device and region.",
+        "content_preview_chars": 4803,
+        "rss_summary": "",
+        "full_article_text": "On July 13, Google announced five new Gemini-powered AI features for Waze. However, hands-on testing by Lifewire found that only three are currently available to most US drivers. Motorcycle mode and Gemini-powered destination search remain restricted by region or beta access. The three features available to US users are personalized navigation, less chatty mode, and conversational road reporting, though one of these did not function during testing. These features are part of Google's broader Gemini initiative, which also extends to Google Maps. Two Features Still Limited in Waze Two of the five announced features are limited by geographic availability or require enrollment. Motorcycle mode uses AI to highlight hazards specific to two-wheeled vehicles, including narrow bridges and shoulder endings. Google is rolling it out only in Argentina, Brazil, Colombia, Malaysia, Mexico, Peru, and the Philippines, so US drivers cannot enable it. Gemini-powered destination search allows drivers to use the voice icon to ask conversational queries, such as finding an open coffee shop. This feature is limited to Waze's beta community. According to Lifewire, the beta program was full during testing, preventing new users from joining. Lifewire recommends enabling less chatty mode. This feature reduces the frequency of voice prompts, retaining important alerts for hazards, turns, and lane changes while minimizing repetition. Previously, Waze's Sound and voice menu included Normal, Alerts only, and Off. Alerts only removes turn-by-turn guidance and provides only alerts. Less chatty mode offers a middle ground, maintaining full navigation guidance with fewer and shorter prompts. Lifewire's testing found that Normal mode repeated each turn two or three times, providing advance notice. With less chatty mode, the app issued a single instruction per turn without repeats and offered less advance notice. This results in reduced preparation time before complex exits. Lifewire did not encounter hazard alerts during testing and could not confirm their immediacy in this mode. Personalized Navigation Learns Driving Preferences Personalized navigation tracks which route types a driver tends to select, such as highways over side streets or fewer stops over shorter distance, and surfaces those preferences first when planning future trips. This setting is found under Settings, Privacy, Personalization, then Personalized navigation, not under Navigation preferences. It includes two toggles: Get personalized routes and Get personalized ETAs. These options cannot be changed while the vehicle is moving; the car must be parked to enable them. Lifewire notes that assessing whether the feature adapts to a driver's habits requires several days of use and could not be evaluated in a single session. The feature can be disabled if it suggests incorrect routes, and drivers may manually select alternate routes at any time. Conversational road reporting allows drivers to tap the report button, verbally state a condition such as a road closure, and have Gemini send the update directly to local map editors without navigating menus. Lifewire reports that the feature did not respond during testing. Two attempts using Waze's in-app \"What do you see?\" panel, with clear speech, produced no response. The only successful report was processed by Android Auto's system-level Gemini assistant, not the in-app feature, and followed a different process than Google described. Testing with and without an Android Auto connection yielded the same outcome. Lifewire does not consider the feature broken for all users, noting that Waze's rollout has been inconsistent and a fix may be included in a future update. Which Waze Features to Enable Now Based on Lifewire's testing, US drivers using the latest Waze update can take the following actions: Enable less chatty mode in the Sound and voice settings to reduce voice repetition while maintaining full turn-by-turn guidance. Enable personalized navigation at Settings, then Privacy, then Personalization, then Personalized navigation, and turn on Get personalized routes and Get personalized ETAs while parked. Consider conversational road reporting unreliable at this time, as it did not respond during testing. Continue using the existing one-tap report button. If Gemini-powered destination search is a priority, check the Play Store for beta program availability. Note that the beta was full during testing. Google has not provided a timeline for expanding motorcycle mode beyond the initial seven countries, opening more Waze beta slots for destination search, or addressing the conversational reporting issues identified in testing. The three widely available features require the latest Waze update, and rollout timing may vary by device and region.",
+        "full_article_text_chars": 4803,
+        "enrichment_status": "strong",
+        "source_url": "https://www.ghacks.net",
+        "source_published_at": "2026-07-24T07:58:20Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 1.55,
+        "trusted_references": [
+          {
+            "title": "google.com",
+            "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.ghacks.net%2F"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "original source name appears in article text",
+      "ai_status": "failed",
+      "ai_error": "original source name appears in article text",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 62.14,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-24T18:05:50Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "original source name appears in article text",
+      "candidate_failed_at": "2026-07-24T17:50:50",
+      "candidate_failure_count": 1
     },
     {
       "id": "85c7055e273ea2b7",
@@ -34511,7 +34591,73 @@
       "content_preview_chars": 4111,
       "content_fetched_at": "2026-07-24T09:32:15",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-24T17:52:40",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "category rotation newest fresh article: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-24T17:52:40",
+      "ai_input_package": {
+        "title": "EA Opens EA FC 27 Preorders on PS5, Xbox, and PC With Early Access for Ultimate Editions - gHacks Tech News",
+        "url": "https://www.ghacks.net/2026/07/24/ea-opens-ea-fc-27-preorders-on-ps5-xbox-and-pc-with-early-access-for-ultimate-editions",
+        "source_name": "Ghacks",
+        "suggested_category": "Apps-Programs",
+        "main_image": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-24T104610.504.png",
+        "article_images": [
+          {
+            "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-24T104610.504.png",
+            "alt": "EA Opens EA FC 27 Preorders on PS5, Xbox, and PC With Early Access for Ultimate Editions - gHacks Tech News",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-23T114609.566.png",
+            "alt": "Reddit and Major Publishers Consider Blocking Google as AI Overviews Cut Search Referral Traffic",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-22T101332.104.png",
+            "alt": "Activision Sets Call of Duty: Modern Warfare 4 Beta for August 21 Early Access and August 28 Open Weekend",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-22T101813.212.png",
+            "alt": "OpenAI Confirms Its Models Breached Hugging Face Production Systems During Cyber Benchmark Testing",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "EA FC 27 preorders are live across PS5, Xbox, and PC, with about a week of early access for Ultimate edition owners.",
+        "content_preview": "EA has opened preorders for EA Sports FC 27 on PlayStation 5, Xbox Series X and S, Xbox One, and PC. Ultimate and Ultimate Plus edition owners get about a week of early access before launch, according to a preorder guide by Dot Esports. On PC, the game is available through the EA app, Steam, and the Epic Games Store, but the Ultimate Plus Edition is not sold on Epic. Preorders cost the same as the launch-day price and include bonus items that are removed after a limited period. Dot Esports notes that preorder bonuses and edition contents vary, so buyers should compare editions before purchasing. What Preordering Includes And How to Preorder on PS5 Preordering does not change the base price. According to Dot Esports, bonuses include a Debut ICON or special FUT item pack for Ultimate Team, about a week of early access for Ultimate and Ultimate Plus owners, Premium FUT packs, loan players, and Club customization items. These items are time-limited and disappear after a set period. The early access window applies only to the Ultimate and Ultimate Plus editions rather than the standard edition. EA FC 27 can be preordered on PS5 through the console or a browser. On the console, sign in to the main PSN account, open the PlayStation Store, search for EA Sports FC 27, select an edition, and complete the purchase. The game then appears in the Game Library under \"Your Collection\" with a countdown, and pre-load typically unlocks a few days before launch. Through a browser, log in to the PlayStation Store website, search for the game, select an edition, and complete checkout. The download becomes available in the PS5 library once pre-load goes live. How to Preorder on Xbox Series X, S, One And PC On an Xbox console, sign in to the Microsoft account, open the Microsoft Store app, search for EA FC 27, select an edition, and confirm the purchase. The title appears in the library, with pre-load available once EA enables it. Through the Xbox or Microsoft Store website, log in, search for the game, select an edition, and complete checkout. On the console, the game appears under \"Ready to install\" in My Games & Apps when pre-load is available. PC preorders are available through three storefronts, and the choice affects edition availability. The Ultimate Plus Edition is not on the Epic Games Store, so buyers wanting that edition should use the EA app or Steam. EA app : Install the EA app, log in, search for the game, select an edition, and confirm the preorder. The game appears in the EA app library with a release timer, and pre-load unlocks before launch. Steam: Open the Steam client or website, log in, search for the game, select an edition, add it to the cart, choose \"Purchase for myself,\" and complete the order. Epic Games Store: Open the Epic Games Launcher or website, log in, search for the game, select an available edition, and complete checkout. Points to Verify Before Preordering And Availability Before committing to a preorder, buyers should confirm a few details because edition contents and platform availability differ: Confirm which edition includes the early access window, as it applies only to the Ultimate and Ultimate Plus editions. Check platform-specific edition availability, since the Ultimate Plus Edition is not sold on the Epic Games Store. Verify that FUT and Ultimate Team bonus items transfer to the platform where the game will actually be played, since Ultimate Team progress is tied to platform ecosystems. Note the expiration timing on preorder bonus items, which Dot Esports states are removed after a limited period. Confirm the payment method on the chosen storefront before pre-load, so the download is ready when the pre-load window opens a few days before launch. EA FC 27 preorders are live now across all listed platforms. Dot Esports has not published the confirmed launch date or exact early access start date in this guide. Pre-load timing depends on when EA enables it per platform. Buyers should check the countdown or release timer in their platform library after preordering for specific pre-load and launch times in their region.",
+        "content_preview_chars": 4111,
+        "rss_summary": "",
+        "full_article_text": "EA has opened preorders for EA Sports FC 27 on PlayStation 5, Xbox Series X and S, Xbox One, and PC. Ultimate and Ultimate Plus edition owners get about a week of early access before launch, according to a preorder guide by Dot Esports. On PC, the game is available through the EA app, Steam, and the Epic Games Store, but the Ultimate Plus Edition is not sold on Epic. Preorders cost the same as the launch-day price and include bonus items that are removed after a limited period. Dot Esports notes that preorder bonuses and edition contents vary, so buyers should compare editions before purchasing. What Preordering Includes And How to Preorder on PS5 Preordering does not change the base price. According to Dot Esports, bonuses include a Debut ICON or special FUT item pack for Ultimate Team, about a week of early access for Ultimate and Ultimate Plus owners, Premium FUT packs, loan players, and Club customization items. These items are time-limited and disappear after a set period. The early access window applies only to the Ultimate and Ultimate Plus editions rather than the standard edition. EA FC 27 can be preordered on PS5 through the console or a browser. On the console, sign in to the main PSN account, open the PlayStation Store, search for EA Sports FC 27, select an edition, and complete the purchase. The game then appears in the Game Library under \"Your Collection\" with a countdown, and pre-load typically unlocks a few days before launch. Through a browser, log in to the PlayStation Store website, search for the game, select an edition, and complete checkout. The download becomes available in the PS5 library once pre-load goes live. How to Preorder on Xbox Series X, S, One And PC On an Xbox console, sign in to the Microsoft account, open the Microsoft Store app, search for EA FC 27, select an edition, and confirm the purchase. The title appears in the library, with pre-load available once EA enables it. Through the Xbox or Microsoft Store website, log in, search for the game, select an edition, and complete checkout. On the console, the game appears under \"Ready to install\" in My Games & Apps when pre-load is available. PC preorders are available through three storefronts, and the choice affects edition availability. The Ultimate Plus Edition is not on the Epic Games Store, so buyers wanting that edition should use the EA app or Steam. EA app : Install the EA app, log in, search for the game, select an edition, and confirm the preorder. The game appears in the EA app library with a release timer, and pre-load unlocks before launch. Steam: Open the Steam client or website, log in, search for the game, select an edition, add it to the cart, choose \"Purchase for myself,\" and complete the order. Epic Games Store: Open the Epic Games Launcher or website, log in, search for the game, select an available edition, and complete checkout. Points to Verify Before Preordering And Availability Before committing to a preorder, buyers should confirm a few details because edition contents and platform availability differ: Confirm which edition includes the early access window, as it applies only to the Ultimate and Ultimate Plus editions. Check platform-specific edition availability, since the Ultimate Plus Edition is not sold on the Epic Games Store. Verify that FUT and Ultimate Team bonus items transfer to the platform where the game will actually be played, since Ultimate Team progress is tied to platform ecosystems. Note the expiration timing on preorder bonus items, which Dot Esports states are removed after a limited period. Confirm the payment method on the chosen storefront before pre-load, so the download is ready when the pre-load window opens a few days before launch. EA FC 27 preorders are live now across all listed platforms. Dot Esports has not published the confirmed launch date or exact early access start date in this guide. Pre-load timing depends on when EA enables it per platform. Buyers should check the countdown or release timer in their platform library after preordering for specific pre-load and launch times in their region.",
+        "full_article_text_chars": 4111,
+        "enrichment_status": "strong",
+        "source_url": "https://www.ghacks.net",
+        "source_published_at": "2026-07-24T07:49:46Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 1.69,
+        "trusted_references": [
+          {
+            "title": "google.com",
+            "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.ghacks.net%2F"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 160.49,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-24T18:10:21Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-24T17:55:21",
+      "candidate_failure_count": 1
     },
     {
       "id": "09c8a1a83f793867",
@@ -34703,7 +34849,73 @@
       "content_preview_chars": 6715,
       "content_fetched_at": "2026-07-24T09:31:39",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-24T17:50:50",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "category rotation newest fresh article: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-24T17:50:50",
+      "ai_input_package": {
+        "title": "This Japanese SUV is giving BMW, Mercedes, and Audi a real problem",
+        "url": "https://www.howtogeek.com/japanese-suv-giving-bmw-mercedes-audi-a-real-problem",
+        "source_name": "How-To Geek",
+        "suggested_category": "Apps-Programs",
+        "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/acura-mdx-2025-1280-191abcfc540caf8ff01b0754204a550914.jpg?w=1600&h=900&fit=crop",
+        "article_images": [
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/acura-mdx-2025-1280-191abcfc540caf8ff01b0754204a550914.jpg?w=1600&h=900&fit=crop",
+            "alt": "This Japanese SUV is giving BMW, Mercedes, and Audi a real problem",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/09/2025-ford-maverick-lariat-interior-1.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+            "alt": "2025 Ford Maverick Interior",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/10/02_2025-acura-mdx-type-s.jpg?q=49&fit=crop&w=825&dpr=2",
+            "alt": "Dynamic front 3/4 shot of a gray 2025 Acura MDX Type S.",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/04/2025-glc-suv-gal-004-d-fe-dr.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+            "alt": "Dynasmic front 3/4 shot of a black 2025 Mercedes-Benz GLC driving over a bridge.",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "The Acura MDX Type S is proving you don't need a German badge to enjoy premium luxury, performance, and value.",
+        "content_preview": "For decades, buying a luxury SUV usually meant choosing between BMW, Mercedes-Benz, or Audi. But rising prices and higher ownership costs are giving buyers a reason to look elsewhere. The Acura MDX Type S is one of the clearest examples of that shift. It combines a twin-turbo V-6, adaptive suspension, and a generous list of standard luxury features while undercutting many of its German rivals on price. That doesn't automatically make it a better luxury SUV. But for buyers who care as much about long-term value as badge prestige, it makes a compelling case against the traditional German establishment. To give you the most up-to-date and accurate information possible, the data used to compile this article was sourced from Acura and other authoritative sources, including Kelley Blue Book , RepairPal , and TopSpeed . German luxury isn't the automatic choice anymore More buyers are questioning what they're really paying for For years, buying a luxury SUV was almost a foregone conclusion. If you wanted something premium, chances are you ended up looking at BMW, Mercedes-Benz, or Audi. That mindset is starting to change. As prices continue to climb, buyers are paying closer attention to what they're actually getting for their money rather than simply the badge on the grille. That's created an opening for brands like Acura. Instead of trying to out-price the German brands, it's focused on offering the features, performance, and refinement luxury buyers expect without pushing the price into six-figure territory. The 2026 MDX reflects that strategy perfectly. Starting at $51,800 before destination, it undercuts rivals like the BMW X5, Mercedes-Benz GLE, Audi Q7, Lexus TX, and Genesis GV80 by thousands of dollars before buyers even start adding options. Price alone doesn't make the MDX the better SUV. But it does force buyers to ask whether paying significantly more for a German badge still makes as much sense as it once did. The MDX Type S delivers where it matters most Acura focuses on value instead of expensive option lists The standard MDX already offers plenty for the money, but the Type S is the model that really changes the conversation. Rather than simply adding more power, Acura has bundled together the performance and luxury features that many German rivals charge extra for. Starting at $75,850, the MDX Type S comes standard with all-wheel drive, a 10-speed automatic transmission, adaptive suspension, and a twin-turbocharged V-6. It's priced in the same territory where many competitors are still building their options lists. Inside, Acura has taken the same approach. Quilted leather and Ultrasuede seats, a Bang & Olufsen audio system, heated and ventilated front seats, and 21-inch alloy wheels all come as standard, helping the cabin feel every bit as premium as more expensive European alternatives. That's where the MDX Type S starts to stand out. Instead of asking buyers to pay thousands more for the features that make a luxury SUV feel special, Acura includes them from the start. The result is an SUV that feels complete the moment it leaves the showroom. For buyers comparing equipment rather than badges, that's becoming an increasingly persuasive argument. Performance without the premium price The twin-turbo V-6 gives the MDX Type S real character One of the biggest differences between the MDX Type S and many of its rivals is what's under the hood. While several luxury SUVs now start with four-cylinder engines, Acura has stayed with a twin-turbocharged 3.0-liter V-6 producing 355 horsepower and 354 lb-ft of torque. That's a significant step up from the standard MDX, adding 65 horsepower and 87 lb-ft of torque. Power is sent to all four wheels through a 10-speed automatic transmission and Acura's Super Handling All-Wheel Drive system. The extra torque transforms how the MDX feels on the road. Whether you're merging onto the highway, overtaking slower traffic, or carrying a full load of passengers, the V-6 delivers effortless performance without needing to be worked hard. Acura has also given the Type S hardware to match the engine. Adaptive dampers, model-specific suspension tuning, and a lower ride height give it noticeably sharper handling while maintaining the ride comfort expected from a luxury three-row SUV. The Type S isn't trying to be a full-blown performance SUV. Instead, it strikes a balance between comfort and driver engagement that many buyers are likely to appreciate more in everyday driving. Luxury ownership is about more than the purchase price Lower running costs give the MDX another advantage Buying a luxury SUV is only part of the financial commitment. Keeping one on the road can quickly become just as expensive, especially once the warranty expires. This is where the MDX continues to strengthen its case. RepairPal gives Acura an overall reliability rating of 4.0 out of 5.0, ranking it second out of 32 brands, while the MDX itself ranks second among luxury midsize SUVs with an average annual repair cost of $571. The numbers become even more convincing when compared with some German rivals. Audi ranks 28th out of 32 brands with an average annual repair cost of $987, while independent ownership estimates place annual maintenance costs at around $577 for Acura, compared with $1,019 for BMW and $930 for Audi. Those differences add up over time. Five years of ownership can save buyers more than $2,000 compared with a BMW and almost $1,800 compared with an Audi, before factoring in depreciation. That doesn't mean German luxury SUVs are unreliable. It does mean buyers need to consider the long-term cost of ownership alongside the purchase price, and that's an area where the MDX continues to stand out. The MDX Type S proves the badge isn't everything Luxury buyers have more choice than ever before For a long time, German brands dominated the luxury SUV conversation because they offered something few rivals could match. Today, that gap has narrowed considerably, and buyers have more alternatives than ever before. The Acura MDX Type S isn't trying to imitate BMW, Mercedes-Benz, or Audi. Instead, it offers its own blend of performance, refinement, generous standard equipment, and lower ownership costs at a price that's difficult to ignore. That combination won't persuade every luxury buyer to abandon a German badge. But for those willing to look beyond tradition, the MDX makes a compelling argument that premium ownership doesn't have to come with premium running costs. In a segment where value is becoming just as important as prestige, Acura has quietly built one of the smartest luxury SUVs on the market. That may be why more buyers are starting to give it the attention it deserves.",
+        "content_preview_chars": 6715,
+        "rss_summary": "",
+        "full_article_text": "For decades, buying a luxury SUV usually meant choosing between BMW, Mercedes-Benz, or Audi. But rising prices and higher ownership costs are giving buyers a reason to look elsewhere. The Acura MDX Type S is one of the clearest examples of that shift. It combines a twin-turbo V-6, adaptive suspension, and a generous list of standard luxury features while undercutting many of its German rivals on price. That doesn't automatically make it a better luxury SUV. But for buyers who care as much about long-term value as badge prestige, it makes a compelling case against the traditional German establishment. To give you the most up-to-date and accurate information possible, the data used to compile this article was sourced from Acura and other authoritative sources, including Kelley Blue Book , RepairPal , and TopSpeed . German luxury isn't the automatic choice anymore More buyers are questioning what they're really paying for For years, buying a luxury SUV was almost a foregone conclusion. If you wanted something premium, chances are you ended up looking at BMW, Mercedes-Benz, or Audi. That mindset is starting to change. As prices continue to climb, buyers are paying closer attention to what they're actually getting for their money rather than simply the badge on the grille. That's created an opening for brands like Acura. Instead of trying to out-price the German brands, it's focused on offering the features, performance, and refinement luxury buyers expect without pushing the price into six-figure territory. The 2026 MDX reflects that strategy perfectly. Starting at $51,800 before destination, it undercuts rivals like the BMW X5, Mercedes-Benz GLE, Audi Q7, Lexus TX, and Genesis GV80 by thousands of dollars before buyers even start adding options. Price alone doesn't make the MDX the better SUV. But it does force buyers to ask whether paying significantly more for a German badge still makes as much sense as it once did. The MDX Type S delivers where it matters most Acura focuses on value instead of expensive option lists The standard MDX already offers plenty for the money, but the Type S is the model that really changes the conversation. Rather than simply adding more power, Acura has bundled together the performance and luxury features that many German rivals charge extra for. Starting at $75,850, the MDX Type S comes standard with all-wheel drive, a 10-speed automatic transmission, adaptive suspension, and a twin-turbocharged V-6. It's priced in the same territory where many competitors are still building their options lists. Inside, Acura has taken the same approach. Quilted leather and Ultrasuede seats, a Bang & Olufsen audio system, heated and ventilated front seats, and 21-inch alloy wheels all come as standard, helping the cabin feel every bit as premium as more expensive European alternatives. That's where the MDX Type S starts to stand out. Instead of asking buyers to pay thousands more for the features that make a luxury SUV feel special, Acura includes them from the start. The result is an SUV that feels complete the moment it leaves the showroom. For buyers comparing equipment rather than badges, that's becoming an increasingly persuasive argument. Performance without the premium price The twin-turbo V-6 gives the MDX Type S real character One of the biggest differences between the MDX Type S and many of its rivals is what's under the hood. While several luxury SUVs now start with four-cylinder engines, Acura has stayed with a twin-turbocharged 3.0-liter V-6 producing 355 horsepower and 354 lb-ft of torque. That's a significant step up from the standard MDX, adding 65 horsepower and 87 lb-ft of torque. Power is sent to all four wheels through a 10-speed automatic transmission and Acura's Super Handling All-Wheel Drive system. The extra torque transforms how the MDX feels on the road. Whether you're merging onto the highway, overtaking slower traffic, or carrying a full load of passengers, the V-6 delivers effortless performance without needing to be worked hard. Acura has also given the Type S hardware to match the engine. Adaptive dampers, model-specific suspension tuning, and a lower ride height give it noticeably sharper handling while maintaining the ride comfort expected from a luxury three-row SUV. The Type S isn't trying to be a full-blown performance SUV. Instead, it strikes a balance between comfort and driver engagement that many buyers are likely to appreciate more in everyday driving. Luxury ownership is about more than the purchase price Lower running costs give the MDX another advantage Buying a luxury SUV is only part of the financial commitment. Keeping one on the road can quickly become just as expensive, especially once the warranty expires. This is where the MDX continues to strengthen its case. RepairPal gives Acura an overall reliability rating of 4.0 out of 5.0, ranking it second out of 32 brands, while the MDX itself ranks second among luxury midsize SUVs with an average annual repair cost of $571. The numbers become even more convincing when compared with some German rivals. Audi ranks 28th out of 32 brands with an average annual repair cost of $987, while independent ownership estimates place annual maintenance costs at around $577 for Acura, compared with $1,019 for BMW and $930 for Audi. Those differences add up over time. Five years of ownership can save buyers more than $2,000 compared with a BMW and almost $1,800 compared with an Audi, before factoring in depreciation. That doesn't mean German luxury SUVs are unreliable. It does mean buyers need to consider the long-term cost of ownership alongside the purchase price, and that's an area where the MDX continues to stand out. The MDX Type S proves the badge isn't everything Luxury buyers have more choice than ever before For a long time, German brands dominated the luxury SUV conversation because they offered something few rivals could match. Today, that gap has narrowed considerably, and buyers have more alternatives than ever before. The Acura MDX Type S isn't trying to imitate BMW, Mercedes-Benz, or Audi. Instead, it offers its own blend of performance, refinement, generous standard equipment, and lower ownership costs at a price that's difficult to ignore. That combination won't persuade every luxury buyer to abandon a German badge. But for those willing to look beyond tradition, the MDX makes a compelling argument that premium ownership doesn't have to come with premium running costs. In a segment where value is becoming just as important as prestige, Acura has quietly built one of the smartest luxury SUVs on the market. That may be why more buyers are starting to give it the attention it deserves.",
+        "full_article_text_chars": 6715,
+        "enrichment_status": "strong",
+        "source_url": "https://www.howtogeek.com",
+        "source_published_at": "2026-07-23T22:00:13Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 11.52,
+        "trusted_references": [
+          {
+            "title": "Add Us",
+            "url": "https://www.google.com/preferences/source?q=howtogeek.com"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 107.93,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-24T18:07:39Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-24T17:52:39",
+      "candidate_failure_count": 1
     },
     {
       "id": "2b384b98ab18ae77",
@@ -34786,7 +34998,73 @@
       "content_preview_chars": 6075,
       "content_fetched_at": "2026-07-24T09:31:52",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-24T17:55:22",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "category rotation newest fresh article: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-24T17:55:22",
+      "ai_input_package": {
+        "title": "Waze piled on AI features, but only two are worth turning on",
+        "url": "https://www.makeuseof.com/waze-piled-on-ai-features-but-only-two-are-worth-turning-on",
+        "source_name": "MakeUseOf",
+        "suggested_category": "Apps-Programs",
+        "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/waze-on-android-auto.jpg?w=1600&h=900&fit=crop",
+        "article_images": [
+          {
+            "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/waze-on-android-auto.jpg?w=1600&h=900&fit=crop",
+            "alt": "Waze piled on AI features, but only two are worth turning on",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/waze-on-android-auto.jpg?&fit=crop&w=1600&h=900",
+            "alt": "Waze on Android Auto screen",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2026/07/motorcycle-mode.png?q=70&fit=crop&w=825&dpr=1",
+            "alt": "Waze's motorcycle mode on a phone",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/less-chatty.jpg?q=49&fit=crop&w=825&dpr=2",
+            "alt": "Less chatty mode",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Motorcycle mode I can't use, a beta that's already full, and a headline feature that didn't work when I tried it twice.",
+        "content_preview": "Rob LeFebvre is an editor and writer focusing on consumer and enterprise technologies for a broad range of outlets. He’s been writing online for more than 15 years; before that he was a special educator for kids with severe disabilities. Rob has been an Editorial Director at Lifewire, a news writer at Engadget, and a senior contributor at Cult of Mac. He's written about PCs, Macs, mobile phones, and games, created newsrooms from the ground up, and has extensive experience reviewing hardware, software, and games across his career. I've been driving with Waze as my Android Auto default since I switched over from Google Maps. So when Google announced five new AI features for Waze on July 13, I figured my newly adopted app was about to get even better. The only problem is, once I checked out what's actually live for me in the US, I had to temper my enthusiasm, and the feature I was most curious about doesn't even work (yet). Two features you can't even test yet They're locked behind a beta or a border Google's own announcement lists five changes, part of the same Gemini push reshaping Google Maps, but two of them aren't available to most US drivers at all. Motorcycle mode uses AI to highlight narrow bridges, shoulder endings, and other hazards specific to two-wheelers, but it's only rolling out in Argentina, Brazil, Colombia, Malaysia, Mexico, Peru, and the Philippines. I don't ride a motorcycle, and even if I did, I couldn't turn this one on yet. Gemini-powered destination search, where you tap the search voice icon and ask something like \"find me a coffee shop that's open right now,\" is limited to Waze's beta community. When I checked the Play Store to see whether I could join, it told me flatly: the beta program is full, so there's the end of that. That leaves three features every US driver with the latest Waze update can actually flip a switch on: personalized navigation, less chatty mode, and conversational road reporting. Only two were worth my time. Less chatty mode is the clear winner Fewer \"in 800 feet\" interruptions, with one tradeoff Once enabled, less chatty mode cuts down how often Waze talks, keeping only the alerts that actually matter, like hazards, turns, and lane changes, while trimming everything else. The app's existing Sound and voice menu already offered Normal, Alerts only, and Off, but Alerts only strips out routindidn't get the multi-day teste turn-by-turn guidance entirely and just announces alerts. Less chatty slots in between: it keeps full navigation guidance, just fewer repeats and shorter prompts, rather than cutting guidance out altogether. I tested both modes back to back on the same route with a podcast running. In Normal mode, Waze repeated each turn two or three times and gave me a heads-up a couple of turns before I actually needed it. With less chatty mode on, I got a single instruction per turn instead, no repeats, and noticeably less lookahead on what was coming further down the road. Still, if you rely on Waze warning you well ahead of a tricky exit, less chatty mode gives you less runway to react. I didn't encounter any hazard alerts during my test, so I can't yet confirm those come through with the same immediacy. For most ordinary turns on a route I already sort of know, though, one clean instruction beat three interruptions to my podcast every time. Personalized navigation is worth leaving on A setting you can't test in a day Waze now tracks which kinds of routes you actually pick, like highways over side streets or fewer stops over shorter distance, and starts surfacing those preferences first the next time it plans a trip. The toggle lives at Settings > Privacy > Personalization > Personalized navigation, not under Navigation preferences where I expected to find it, and it's actually two separate switches: Get personalized routes and Get personalized ETAs. You can't flip either toggle while the car is in motion. I had to park before Waze would let me change any settings here. I'll be honest that I didn't get the multi-day test this really needs; judging whether Waze has learned my habits after turning the toggle on for one afternoon would be guessing, not reporting. But there's no real downside to leaving it on. You can still pick an alternate route manually at any time, and personalization can be turned off entirely if it starts guessing wrong. It's the rare AI feature with nothing to lose by trying it, even if I can't yet vouch for how well it works. Conversational road reporting didn't work for me The headline feature that never talked back The last of the three I can personally use as a resident of the US and not a beta tester, conversational reporting, is supposed to let you tap the report button, say something like \"the road is closed here,\" and have Gemini route the update to local map editors, no menu tapping required.It didn't respond for me. I tried it twice, tapping the mic inside Waze's own \"What do you see?\" panel and speaking clearly both times, and got nothing back. The one time a report actually went through, it wasn't through this feature at all: I'd triggered Android Auto's system-level Gemini assistant instead, which relayed my report to Waze through a completely different path than the in-app conversational reporting Google announced. I tried it both connected to and unconnected to my car's infotainment system via Android Auto; it dodn't work either way. Of course, I'm not writing this off as broken for everyone; Waze's rollout has been uneven enough that a fix could land in any update. But two failed attempts against an existing report button that takes one glance and one tap isn't enough for me to recommend switching. Two features, not five Between a feature I can't access, a beta that's already full, and a headline feature that didn't work twice in a row, less chatty mode is the one I'd tell any Waze driver to turn on today, and personalized navigation is worth leaving on for the simple reason that it can't hurt. Conversational reporting is the one I'm still waiting on Google to actually deliver.",
+        "content_preview_chars": 6075,
+        "rss_summary": "",
+        "full_article_text": "Rob LeFebvre is an editor and writer focusing on consumer and enterprise technologies for a broad range of outlets. He’s been writing online for more than 15 years; before that he was a special educator for kids with severe disabilities. Rob has been an Editorial Director at Lifewire, a news writer at Engadget, and a senior contributor at Cult of Mac. He's written about PCs, Macs, mobile phones, and games, created newsrooms from the ground up, and has extensive experience reviewing hardware, software, and games across his career. I've been driving with Waze as my Android Auto default since I switched over from Google Maps. So when Google announced five new AI features for Waze on July 13, I figured my newly adopted app was about to get even better. The only problem is, once I checked out what's actually live for me in the US, I had to temper my enthusiasm, and the feature I was most curious about doesn't even work (yet). Two features you can't even test yet They're locked behind a beta or a border Google's own announcement lists five changes, part of the same Gemini push reshaping Google Maps, but two of them aren't available to most US drivers at all. Motorcycle mode uses AI to highlight narrow bridges, shoulder endings, and other hazards specific to two-wheelers, but it's only rolling out in Argentina, Brazil, Colombia, Malaysia, Mexico, Peru, and the Philippines. I don't ride a motorcycle, and even if I did, I couldn't turn this one on yet. Gemini-powered destination search, where you tap the search voice icon and ask something like \"find me a coffee shop that's open right now,\" is limited to Waze's beta community. When I checked the Play Store to see whether I could join, it told me flatly: the beta program is full, so there's the end of that. That leaves three features every US driver with the latest Waze update can actually flip a switch on: personalized navigation, less chatty mode, and conversational road reporting. Only two were worth my time. Less chatty mode is the clear winner Fewer \"in 800 feet\" interruptions, with one tradeoff Once enabled, less chatty mode cuts down how often Waze talks, keeping only the alerts that actually matter, like hazards, turns, and lane changes, while trimming everything else. The app's existing Sound and voice menu already offered Normal, Alerts only, and Off, but Alerts only strips out routindidn't get the multi-day teste turn-by-turn guidance entirely and just announces alerts. Less chatty slots in between: it keeps full navigation guidance, just fewer repeats and shorter prompts, rather than cutting guidance out altogether. I tested both modes back to back on the same route with a podcast running. In Normal mode, Waze repeated each turn two or three times and gave me a heads-up a couple of turns before I actually needed it. With less chatty mode on, I got a single instruction per turn instead, no repeats, and noticeably less lookahead on what was coming further down the road. Still, if you rely on Waze warning you well ahead of a tricky exit, less chatty mode gives you less runway to react. I didn't encounter any hazard alerts during my test, so I can't yet confirm those come through with the same immediacy. For most ordinary turns on a route I already sort of know, though, one clean instruction beat three interruptions to my podcast every time. Personalized navigation is worth leaving on A setting you can't test in a day Waze now tracks which kinds of routes you actually pick, like highways over side streets or fewer stops over shorter distance, and starts surfacing those preferences first the next time it plans a trip. The toggle lives at Settings > Privacy > Personalization > Personalized navigation, not under Navigation preferences where I expected to find it, and it's actually two separate switches: Get personalized routes and Get personalized ETAs. You can't flip either toggle while the car is in motion. I had to park before Waze would let me change any settings here. I'll be honest that I didn't get the multi-day test this really needs; judging whether Waze has learned my habits after turning the toggle on for one afternoon would be guessing, not reporting. But there's no real downside to leaving it on. You can still pick an alternate route manually at any time, and personalization can be turned off entirely if it starts guessing wrong. It's the rare AI feature with nothing to lose by trying it, even if I can't yet vouch for how well it works. Conversational road reporting didn't work for me The headline feature that never talked back The last of the three I can personally use as a resident of the US and not a beta tester, conversational reporting, is supposed to let you tap the report button, say something like \"the road is closed here,\" and have Gemini route the update to local map editors, no menu tapping required.It didn't respond for me. I tried it twice, tapping the mic inside Waze's own \"What do you see?\" panel and speaking clearly both times, and got nothing back. The one time a report actually went through, it wasn't through this feature at all: I'd triggered Android Auto's system-level Gemini assistant instead, which relayed my report to Waze through a completely different path than the in-app conversational reporting Google announced. I tried it both connected to and unconnected to my car's infotainment system via Android Auto; it dodn't work either way. Of course, I'm not writing this off as broken for everyone; Waze's rollout has been uneven enough that a fix could land in any update. But two failed attempts against an existing report button that takes one glance and one tap isn't enough for me to recommend switching. Two features, not five Between a feature I can't access, a beta that's already full, and a headline feature that didn't work twice in a row, less chatty mode is the one I'd tell any Waze driver to turn on today, and personalized navigation is worth leaving on for the simple reason that it can't hurt. Conversational reporting is the one I'm still waiting on Google to actually deliver.",
+        "full_article_text_chars": 6075,
+        "enrichment_status": "strong",
+        "source_url": "https://www.makeuseof.com",
+        "source_published_at": "2026-07-23T22:00:12Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 11.52,
+        "trusted_references": [
+          {
+            "title": "Add Us",
+            "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "article too short (473 words; minimum 700)",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 110.6,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-24T18:12:13Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-24T17:57:13",
+      "candidate_failure_count": 1
     },
     {
       "id": "c655e33f40078f22",
@@ -36337,6 +36615,281 @@
       "content_preview_chars": 4187,
       "content_fetched_at": "2026-07-24T14:44:33",
       "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "df8eae8c66e912f2",
+      "source_url_hash": "df8eae8c66e912f2",
+      "canonical_url": "https://alternativeto.net/news/2026/7/chatgpt-voice-comes-to-desktop-app-for-voice-control-and-agent-management",
+      "title_hash": "04e8612b7d4ca6d8",
+      "topic_signature": "baefa3d8d0ebba433e81",
+      "title": "ChatGPT Voice comes to desktop app for voice control and agent management",
+      "url": "https://alternativeto.net/news/2026/7/chatgpt-voice-comes-to-desktop-app-for-voice-control-and-agent-management",
+      "source_name": "AlternativeTo News",
+      "source_url": "https://alternativeto.net/news",
+      "source_published_at": "2026-07-24T15:56:13Z",
+      "published_at_source": "feed",
+      "article_age_hours": 1.88,
+      "rss_summary": "<p><a href=\"https://alternativeto.net/software/chatgpt/about/\">ChatGPT Voice</a> is now available in the desktop app for macOS and Windows, rolling out globally to Plus, Pro, Business, Edu, and Enterprise users.</p> <p>The update lets users control their computer and direct multiple ChatGPT agents using voice commands.</p> <p>Powered by GPT-Live, the feature supports real-time speaking, listening, and agent coordination within the app.</p> <p><a href=\"https://alternativeto.net/news/2026/7/chatgpt-voice-comes-to-desktop-app-for-voice-control-and-agent-management/\">View article on AlternativeTo &raquo;</a></p><p><a href=\"https://alternativeto.net/software/chatgpt/about/\">More about ChatGPT</a>&nbsp;|&nbsp;<a href=\"https://alternativeto.net/software/chatgpt/\">ChatGPT Alternatives</a></p>",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-24T17:49:07",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 32,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 32,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "ChatGPT Voice comes to desktop app for voice control and agent management",
+      "meta_description": "ChatGPT Voice in the desktop app lets users control computers and manage agents via voice. Available globally for Plus, Pro, Business, Edu, and Enterprise plans.",
+      "article_images": [
+        {
+          "url": "https://img.alternativeto.net/news/1200x630/jpeg/1784908573045.png",
+          "alt": "ChatGPT Voice comes to desktop app for voice control and agent management",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://img.alternativeto.net/news/760x380/jpeg/1784908573045.png",
+          "alt": "ChatGPT Voice comes to desktop app for voice control and agent management",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://img.alternativeto.net/news/1200x630/jpeg/1784908573045.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://img.alternativeto.net/news/760x380/jpeg/1784908573045.png",
+          "alt": "ChatGPT Voice comes to desktop app for voice control and agent management"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=alternativeto.net"
+        }
+      ],
+      "full_article_text": "High speed private VPN protected by strong Swiss privacy laws ChatGPT Voice is now available in the desktop app for macOS and Windows, rolling out globally to Plus, Pro, Business, Edu, and Enterprise users. The update lets users control their computer and direct multiple ChatGPT agents using voice commands. Powered by GPT-Live, the feature supports real-time speaking, listening, and agent coordination within the app. ChatGPT is a generative artificial intelligence chatbot developed by OpenAI and launched in 2022. It is currently based on the GPT-5.2 large language model (LLM). ChatGPT Yesterday OpenAI rolls out Presence, a new enterprise platform to launch and manage AI voice agents Hugging Face Yesterday Turns out the autonomous AI attack on Hugging Face came from… OpenAI ChatGPT Jul 11, 2026 OpenAI launches GPT-5.6 with Sol, Terra, and Luna models for wider public use ChatGPT Voice is now in the desktop app. OpenAI thread on X • Official source",
+      "full_article_text_chars": 960,
+      "content_preview": "High speed private VPN protected by strong Swiss privacy laws ChatGPT Voice is now available in the desktop app for macOS and Windows, rolling out globally to Plus, Pro, Business, Edu, and Enterprise users. The update lets users control their computer and direct multiple ChatGPT agents using voice commands. Powered by GPT-Live, the feature supports real-time speaking, listening, and agent coordination within the app. ChatGPT is a generative artificial intelligence chatbot developed by OpenAI and launched in 2022. It is currently based on the GPT-5.2 large language model (LLM). ChatGPT Yesterday OpenAI rolls out Presence, a new enterprise platform to launch and manage AI voice agents Hugging Face Yesterday Turns out the autonomous AI attack on Hugging Face came from… OpenAI ChatGPT Jul 11, 2026 OpenAI launches GPT-5.6 with Sol, Terra, and Luna models for wider public use ChatGPT Voice is now in the desktop app. OpenAI thread on X • Official source",
+      "content_preview_chars": 960,
+      "content_fetched_at": "2026-07-24T17:49:17",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "de16b3eea7da8be6",
+      "source_url_hash": "de16b3eea7da8be6",
+      "canonical_url": "https://alternativeto.net/news/2026/7/claude-voice-mode-adds-advanced-models-tool-access-and-more-languages",
+      "title_hash": "0c61e786f7a389be",
+      "topic_signature": "77aad240dc2c86e78c0d",
+      "title": "Claude Voice Mode adds advanced models, tool access, and more languages",
+      "url": "https://alternativeto.net/news/2026/7/claude-voice-mode-adds-advanced-models-tool-access-and-more-languages",
+      "source_name": "AlternativeTo News",
+      "source_url": "https://alternativeto.net/news",
+      "source_published_at": "2026-07-24T15:45:03Z",
+      "published_at_source": "feed",
+      "article_age_hours": 2.07,
+      "rss_summary": "<p><a href=\"https://alternativeto.net/software/claude/about/\">Claude</a>'s Voice Mode now runs on more advanced models, including Opus and Sonnet, allowing for improved voice conversations.</p> <p>Users can access connected tools such as email and calendar during conversations. The feature now supports additional languages like Spanish, French, Hindi, and Japanese on all plans.</p> <p>The update is available in public beta across mobile, desktop, and web.</p> <p><a href=\"https://alternativeto.net/news/2026/7/claude-voice-mode-adds-advanced-models-tool-access-and-more-languages/\">View article on AlternativeTo &raquo;</a></p><p><a href=\"https://alternativeto.net/software/claude/about/\">More about Claude</a>&nbsp;|&nbsp;<a href=\"https://alternativeto.net/software/claude/\">Claude Alternatives</a></p>",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-24T17:49:07",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 32,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 32,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Claude Voice Mode adds advanced models, tool access, and more languages",
+      "meta_description": "Claude voice mode now uses advanced models, supports mid-conversation access to connected tools, and offers broader language support across all platforms.",
+      "article_images": [
+        {
+          "url": "https://img.alternativeto.net/news/1200x630/jpeg/1784907903363.png",
+          "alt": "Claude Voice Mode adds advanced models, tool access, and more languages",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://img.alternativeto.net/news/760x380/jpeg/1784907903363.png",
+          "alt": "Claude Voice Mode adds advanced models, tool access, and more languages",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://img.alternativeto.net/news/1200x630/jpeg/1784907903363.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://img.alternativeto.net/news/760x380/jpeg/1784907903363.png",
+          "alt": "Claude Voice Mode adds advanced models, tool access, and more languages"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=alternativeto.net"
+        }
+      ],
+      "full_article_text": "High speed private VPN protected by strong Swiss privacy laws Claude's Voice Mode now runs on more advanced models, including Opus and Sonnet, allowing for improved voice conversations. Users can access connected tools such as email and calendar during conversations. The feature now supports additional languages like Spanish, French, Hindi, and Japanese on all plans. The update is available in public beta across mobile, desktop, and web. AI assistant for chat and API, performing summarization, search, writing, Q&A, and coding with high reliability, customizability, privacy, and reduced risks. Claude Today Claude Voice Mode adds advanced models, tool access, and more languages Claude Jul 16, 2026 Claude for Teachers brings free premium AI to US K-12 educators 1Password Jul 16, 2026 1Password for Claude enables secure AI-driven logins without exposing credentials Talk through the hard problems out loud, in many more languages. Claude thread on X • Official source",
+      "full_article_text_chars": 975,
+      "content_preview": "High speed private VPN protected by strong Swiss privacy laws Claude's Voice Mode now runs on more advanced models, including Opus and Sonnet, allowing for improved voice conversations. Users can access connected tools such as email and calendar during conversations. The feature now supports additional languages like Spanish, French, Hindi, and Japanese on all plans. The update is available in public beta across mobile, desktop, and web. AI assistant for chat and API, performing summarization, search, writing, Q&A, and coding with high reliability, customizability, privacy, and reduced risks. Claude Today Claude Voice Mode adds advanced models, tool access, and more languages Claude Jul 16, 2026 Claude for Teachers brings free premium AI to US K-12 educators 1Password Jul 16, 2026 1Password for Claude enables secure AI-driven logins without exposing credentials Talk through the hard problems out loud, in many more languages. Claude thread on X • Official source",
+      "content_preview_chars": 975,
+      "content_fetched_at": "2026-07-24T17:49:16",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "74c4d1287ef7ab01",
+      "source_url_hash": "74c4d1287ef7ab01",
+      "canonical_url": "https://alternativeto.net/news/2026/7/notion-adds-typescript-based-workspace-configuration-and-git-integration",
+      "title_hash": "f334f47e5f133bb2",
+      "topic_signature": "dc6d1481e43656bd1c63",
+      "title": "Notion adds TypeScript-based workspace configuration and git integration",
+      "url": "https://alternativeto.net/news/2026/7/notion-adds-typescript-based-workspace-configuration-and-git-integration",
+      "source_name": "AlternativeTo News",
+      "source_url": "https://alternativeto.net/news",
+      "source_published_at": "2026-07-24T15:41:46Z",
+      "published_at_source": "feed",
+      "article_age_hours": 2.12,
+      "rss_summary": "<p><a href=\"https://alternativeto.net/software/notion/about/\">Notion</a> has launched a beta feature that allows users to define entire workspaces using TypeScript and deploy them via API.</p> <p>The update enables version control of workspace setups through git, making it possible to track, review, and reproduce configurations.</p> <p>Users can also reuse scripts to replicate environments such as development, staging, and production.</p> <p><a href=\"https://alternativeto.net/news/2026/7/notion-adds-typescript-based-workspace-configuration-and-git-integration/\">View article on AlternativeTo &raquo;</a></p><p><a href=\"https://alternativeto.net/software/notion/about/\">More about Notion</a>&nbsp;|&nbsp;<a href=\"https://alternativeto.net/software/notion/\">Notion Alternatives</a></p>",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-24T17:49:07",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 32,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 32,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Notion adds TypeScript-based workspace configuration and git integration",
+      "meta_description": "Notion is testing workspace-as-code, letting users define workspaces in TypeScript, manage changes in git, and deploy configurations across environments.",
+      "article_images": [
+        {
+          "url": "https://img.alternativeto.net/news/1200x630/jpeg/1784907706358.png",
+          "alt": "Notion adds TypeScript-based workspace configuration and git integration",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://img.alternativeto.net/news/760x380/jpeg/1784907706358.png",
+          "alt": "Notion adds TypeScript-based workspace configuration and git integration",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://img.alternativeto.net/news/1200x630/jpeg/1784907706358.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://img.alternativeto.net/news/760x380/jpeg/1784907706358.png",
+          "alt": "Notion adds TypeScript-based workspace configuration and git integration"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=alternativeto.net"
+        }
+      ],
+      "full_article_text": "High speed private VPN protected by strong Swiss privacy laws Notion has launched a beta feature that allows users to define entire workspaces using TypeScript and deploy them via API. The update enables version control of workspace setups through git, making it possible to track, review, and reproduce configurations. Users can also reuse scripts to replicate environments such as development, staging, and production. Streamline teamwork with real-time collaboration, drag-and-drop content organization, and visual simplicity across notes, tasks, wikis, and databases. Notion Jul 16, 2026 Notion adds Markdown preview and direct import to pages Notion Jul 10, 2026 Notion unveils Ship OS for automated product development workflows Notion Agents Jul 9, 2026 Notion launches a new standalone iOS app for chatting with custom AI agents on the go Now in beta: Notion as code. Notion thread on X • Official source",
+      "full_article_text_chars": 912,
+      "content_preview": "High speed private VPN protected by strong Swiss privacy laws Notion has launched a beta feature that allows users to define entire workspaces using TypeScript and deploy them via API. The update enables version control of workspace setups through git, making it possible to track, review, and reproduce configurations. Users can also reuse scripts to replicate environments such as development, staging, and production. Streamline teamwork with real-time collaboration, drag-and-drop content organization, and visual simplicity across notes, tasks, wikis, and databases. Notion Jul 16, 2026 Notion adds Markdown preview and direct import to pages Notion Jul 10, 2026 Notion unveils Ship OS for automated product development workflows Notion Agents Jul 9, 2026 Notion launches a new standalone iOS app for chatting with custom AI agents on the go Now in beta: Notion as code. Notion thread on X • Official source",
+      "content_preview_chars": 912,
+      "content_fetched_at": "2026-07-24T17:49:23",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "6103b06f33d15c3e",
+      "source_url_hash": "6103b06f33d15c3e",
+      "canonical_url": "https://www.softpedia.com/reviews/games/pc/wreck-runners-review-538207.shtml",
+      "title_hash": "54656015dd281d65",
+      "topic_signature": "9dc465690330c1590550",
+      "title": "Wreck Runners Review (PC)",
+      "url": "https://www.softpedia.com/reviews/games/pc/wreck-runners-review-538207.shtml",
+      "source_name": "Softpedia News",
+      "source_url": "https://www.softpedia.com/news",
+      "source_published_at": "2026-07-24T09:04:39Z",
+      "published_at_source": "feed",
+      "article_age_hours": 8.74,
+      "rss_summary": "Recently, a lot of extraction games have been releasing, with a unique twist on the genre. After battling all kinds of daemons and Lovecraftian creatures in The Mound, we now have Wreck Runners, which takes us to the Bermuda Triangle. It’s an interesting game that brings a very solid cooperative foundation, and an immersive set of gameplay mechanics well beyond what you would normally expect in this genre. Wreck Runners has a very simple story, as it takes place in the Bermuda triangle and players are employees for the Trustwell Corporation. The company is suspicious, but they are asking you to explore the nearby regions and acquire all kinds of loot. And naturally, as you do that, you will run into all kinds of supernatural enemies and creatures. The game isn’t really focused on establishing a great story or anything. What’s there is functional enough to give us a backdrop, and honestly it does a decent job at it. Yes, it could have more information and content, b...",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-24T17:49:07",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "fetched_title": "Wreck Runners Review (PC)",
+      "meta_description": "Recently, a lot of extraction games have been releasing, with a unique twist on the genre. After battling all kinds of daemons and Lovecraftian creatures in The Mound, we now have Wreck Runners, which takes us to the Bermuda Triangle. It’s ",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "fallback",
+      "main_image_extraction_method": "fallback",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "Recently, a lot of extraction games have been releasing, with a unique twist on the genre. After battling all kinds of daemons and Lovecraftian creatures in The Mound, we now have Wreck Runners, which takes us to the Bermuda Triangle. It’s an interesting game that brings a very solid cooperative foundation, and an immersive set of gameplay mechanics well beyond what you would normally expect in this genre. Wreck Runners has a very simple story, as it takes place in the Bermuda triangle and players are employees for the Trustwell Corporation. The company is suspicious, but they are asking you to explore the nearby regions and acquire all kinds of loot. And naturally, as you do that, you will run into all kinds of supernatural enemies and creatures. The game isn’t really focused on establishing a great story or anything. What’s there is functional enough to give us a backdrop, and honestly it does a decent job at it. Yes, it could have more information and content, b...",
+      "full_article_text_chars": 982,
+      "content_preview": "Recently, a lot of extraction games have been releasing, with a unique twist on the genre. After battling all kinds of daemons and Lovecraftian creatures in The Mound, we now have Wreck Runners, which takes us to the Bermuda Triangle. It’s an interesting game that brings a very solid cooperative foundation, and an immersive set of gameplay mechanics well beyond what you would normally expect in this genre. Wreck Runners has a very simple story, as it takes place in the Bermuda triangle and players are employees for the Trustwell Corporation. The company is suspicious, but they are asking you to explore the nearby regions and acquire all kinds of loot. And naturally, as you do that, you will run into all kinds of supernatural enemies and creatures. The game isn’t really focused on establishing a great story or anything. What’s there is functional enough to give us a backdrop, and honestly it does a decent job at it. Yes, it could have more information and content, b...",
+      "content_preview_chars": 982,
+      "content_fetched_at": "2026-07-24T17:49:15",
+      "enrichment_status": "rss_summary",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "9a18b568c87cd151",
+      "source_url_hash": "9a18b568c87cd151",
+      "canonical_url": "https://news.softpedia.com/news/strategic-command-world-war-i-battles-for-ypres-dlc-yay-or-nay-pc-538206.shtml",
+      "title_hash": "9ea7b55a6d5582b2",
+      "topic_signature": "bb5ffee5232ed1b7d9cd",
+      "title": "Strategic Command: World War I - Battles for Ypres DLC – Yay or Nay (PC)",
+      "url": "https://news.softpedia.com/news/strategic-command-world-war-i-battles-for-ypres-dlc-yay-or-nay-pc-538206.shtml",
+      "source_name": "Softpedia News",
+      "source_url": "https://www.softpedia.com/news",
+      "source_published_at": "2026-07-24T08:48:48Z",
+      "published_at_source": "feed",
+      "article_age_hours": 9.01,
+      "rss_summary": "It’s a bad idea to over-commit when it’s unclear whether the enemy is breaking or bending. We’re aiming for Ypres but would settle for Passchendaele if all goes right. But after five days, the breach the Allies have made in German lines is still small, and they are extracting a price of blood for every taken hex. So far, I’ve been replacing losses at the front, hoping to get the momentum going. But it might be time to take a one or two turn breather, use the artillery defensively, and bring in some fresh troops. A diversionary strike, which would gobble up some resources, might also help the Allies as they try to secure more victory points in Belgium. Strategic Command: World War I - Battles for Ypres is developed by Fury Software and published by Matrix Games. This is the second downloadable content pack for the strategy game, focused on one of the most important strategic regions of the first global conflict. The DLC features six campaigns. It all starts during ...",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-07-24T17:49:07",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "fetched_title": "Strategic Command: World War I - Battles for Ypres DLC – Yay or Nay (PC)",
+      "meta_description": "It’s a bad idea to over-commit when it’s unclear whether the enemy is breaking or bending. We’re aiming for Ypres but would settle for Passchendaele if all goes right. But after five days, the breach the Allies have made in German lines is ",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "fallback",
+      "main_image_extraction_method": "fallback",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "It’s a bad idea to over-commit when it’s unclear whether the enemy is breaking or bending. We’re aiming for Ypres but would settle for Passchendaele if all goes right. But after five days, the breach the Allies have made in German lines is still small, and they are extracting a price of blood for every taken hex. So far, I’ve been replacing losses at the front, hoping to get the momentum going. But it might be time to take a one or two turn breather, use the artillery defensively, and bring in some fresh troops. A diversionary strike, which would gobble up some resources, might also help the Allies as they try to secure more victory points in Belgium. Strategic Command: World War I - Battles for Ypres is developed by Fury Software and published by Matrix Games. This is the second downloadable content pack for the strategy game, focused on one of the most important strategic regions of the first global conflict. The DLC features six campaigns. It all starts during ...",
+      "full_article_text_chars": 981,
+      "content_preview": "It’s a bad idea to over-commit when it’s unclear whether the enemy is breaking or bending. We’re aiming for Ypres but would settle for Passchendaele if all goes right. But after five days, the breach the Allies have made in German lines is still small, and they are extracting a price of blood for every taken hex. So far, I’ve been replacing losses at the front, hoping to get the momentum going. But it might be time to take a one or two turn breather, use the artillery defensively, and bring in some fresh troops. A diversionary strike, which would gobble up some resources, might also help the Allies as they try to secure more victory points in Belgium. Strategic Command: World War I - Battles for Ypres is developed by Fury Software and published by Matrix Games. This is the second downloadable content pack for the strategy game, focused on one of the most important strategic regions of the first global conflict. The DLC features six campaigns. It all starts during ...",
+      "content_preview_chars": 981,
+      "content_fetched_at": "2026-07-24T17:49:15",
+      "enrichment_status": "rss_summary",
       "content_fetch_status": "success"
     }
   ],
