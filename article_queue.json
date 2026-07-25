@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-25T20:41:12",
+  "updated_at": "2026-07-25T21:36:16",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -1391,7 +1391,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-07-19T06:29:44",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "archived": true,
+      "archived_at": "2026-07-25T21:33:55",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "8ce1054d7e5363dd",
@@ -2546,13 +2549,13 @@
       "score": 7,
       "priority": "medium",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-07-25T20:40:38",
-      "candidate_retry_after": "2026-07-25T20:55:38Z",
+      "content_fetch_error": "http 404",
+      "content_fetched_at": "2026-07-25T21:34:14",
+      "candidate_retry_after": "2026-07-25T21:49:14Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-07-25T20:40:38",
-      "candidate_failure_count": 94
+      "candidate_failure_reason": "http 404",
+      "candidate_failed_at": "2026-07-25T21:34:14",
+      "candidate_failure_count": 95
     },
     {
       "id": "512c2899a98440d2",
@@ -2580,13 +2583,13 @@
       "score": 4,
       "priority": "low",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-07-25T20:40:40",
-      "candidate_retry_after": "2026-07-25T20:55:40Z",
+      "content_fetch_error": "http 404",
+      "content_fetched_at": "2026-07-25T21:34:14",
+      "candidate_retry_after": "2026-07-25T21:49:14Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-07-25T20:40:40",
-      "candidate_failure_count": 94
+      "candidate_failure_reason": "http 404",
+      "candidate_failed_at": "2026-07-25T21:34:14",
+      "candidate_failure_count": 95
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2614,13 +2617,13 @@
       "score": 4,
       "priority": "low",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-07-25T20:40:42",
-      "candidate_retry_after": "2026-07-25T20:55:42Z",
+      "content_fetch_error": "http 404",
+      "content_fetched_at": "2026-07-25T21:34:14",
+      "candidate_retry_after": "2026-07-25T21:49:14Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-07-25T20:40:42",
-      "candidate_failure_count": 94
+      "candidate_failure_reason": "http 404",
+      "candidate_failed_at": "2026-07-25T21:34:14",
+      "candidate_failure_count": 95
     },
     {
       "id": "d900f1574fddfab4",
@@ -3445,17 +3448,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 229,
-      "affiliate_links_removed_count": 7,
-      "removed_source_links_count": 229,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
-      "content_fetched_at": "2026-07-25T20:40:47",
-      "candidate_retry_after": "2026-07-25T20:55:47Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-07-25T21:34:15",
+      "candidate_retry_after": "2026-07-25T21:49:15Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
-      "candidate_failed_at": "2026-07-25T20:40:47",
-      "candidate_failure_count": 93
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-07-25T21:34:15",
+      "candidate_failure_count": 94
     },
     {
       "id": "8d2678d87487d729",
@@ -4326,13 +4329,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-07-25T20:40:47",
-      "candidate_retry_after": "2026-07-25T20:55:47Z",
+      "content_fetch_error": "http 403",
+      "content_fetched_at": "2026-07-25T21:34:15",
+      "candidate_retry_after": "2026-07-25T21:49:15Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-07-25T20:40:47",
-      "candidate_failure_count": 92
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-07-25T21:34:15",
+      "candidate_failure_count": 93
     },
     {
       "id": "45429302676bf4c5",
@@ -5384,12 +5387,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-25T20:40:49",
-      "candidate_retry_after": "2026-07-25T20:55:49Z",
+      "content_fetched_at": "2026-07-25T21:34:17",
+      "candidate_retry_after": "2026-07-25T21:49:17Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-25T20:40:49",
-      "candidate_failure_count": 90
+      "candidate_failed_at": "2026-07-25T21:34:17",
+      "candidate_failure_count": 91
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5421,12 +5424,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-25T20:40:51",
-      "candidate_retry_after": "2026-07-25T20:55:51Z",
+      "content_fetched_at": "2026-07-25T21:34:19",
+      "candidate_retry_after": "2026-07-25T21:49:19Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-25T20:40:51",
-      "candidate_failure_count": 90
+      "candidate_failed_at": "2026-07-25T21:34:19",
+      "candidate_failure_count": 91
     },
     {
       "id": "aede79193c6b98c9",
@@ -5458,12 +5461,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-25T20:40:52",
-      "candidate_retry_after": "2026-07-25T20:55:52Z",
+      "content_fetched_at": "2026-07-25T21:34:20",
+      "candidate_retry_after": "2026-07-25T21:49:20Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-25T20:40:52",
-      "candidate_failure_count": 90
+      "candidate_failed_at": "2026-07-25T21:34:20",
+      "candidate_failure_count": 91
     },
     {
       "id": "253eaa098c468523",
@@ -5801,7 +5804,10 @@
       "candidate_failed_at": "2026-07-20T07:55:17",
       "candidate_failure_count": 2,
       "telegram_final_summary_notified_at": "2026-07-20T08:01:05",
-      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content"
+      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content",
+      "archived": true,
+      "archived_at": "2026-07-25T21:33:55",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "6ec98d616bfb564a",
@@ -6397,12 +6403,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-25T20:40:53",
-      "candidate_retry_after": "2026-07-25T20:55:53Z",
+      "content_fetched_at": "2026-07-25T21:34:21",
+      "candidate_retry_after": "2026-07-25T21:49:21Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-25T20:40:53",
-      "candidate_failure_count": 88
+      "candidate_failed_at": "2026-07-25T21:34:21",
+      "candidate_failure_count": 89
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6797,12 +6803,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-25T20:40:56",
-      "candidate_retry_after": "2026-07-25T20:55:56Z",
+      "content_fetched_at": "2026-07-25T21:34:24",
+      "candidate_retry_after": "2026-07-25T21:49:24Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-25T20:40:56",
-      "candidate_failure_count": 86
+      "candidate_failed_at": "2026-07-25T21:34:24",
+      "candidate_failure_count": 87
     },
     {
       "id": "693fbfabd96b2185",
@@ -6833,12 +6839,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-25T20:40:57",
-      "candidate_retry_after": "2026-07-25T20:55:57Z",
+      "content_fetched_at": "2026-07-25T21:34:26",
+      "candidate_retry_after": "2026-07-25T21:49:26Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-25T20:40:57",
-      "candidate_failure_count": 86
+      "candidate_failed_at": "2026-07-25T21:34:26",
+      "candidate_failure_count": 87
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9267,12 +9273,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "content_fetched_at": "2026-07-25T20:40:58",
-      "candidate_retry_after": "2026-07-25T20:55:58Z",
+      "content_fetched_at": "2026-07-25T21:34:27",
+      "candidate_retry_after": "2026-07-25T21:49:27Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "candidate_failed_at": "2026-07-25T20:40:58",
-      "candidate_failure_count": 82
+      "candidate_failed_at": "2026-07-25T21:34:27",
+      "candidate_failure_count": 83
     },
     {
       "id": "561b6316398d7603",
@@ -10359,12 +10365,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-25T20:40:59",
-      "candidate_retry_after": "2026-07-25T20:55:59Z",
+      "content_fetched_at": "2026-07-25T21:34:27",
+      "candidate_retry_after": "2026-07-25T21:49:27Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-25T20:40:59",
-      "candidate_failure_count": 78
+      "candidate_failed_at": "2026-07-25T21:34:27",
+      "candidate_failure_count": 79
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10396,12 +10402,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-25T20:40:59",
-      "candidate_retry_after": "2026-07-25T20:55:59Z",
+      "content_fetched_at": "2026-07-25T21:34:28",
+      "candidate_retry_after": "2026-07-25T21:49:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-25T20:40:59",
-      "candidate_failure_count": 78
+      "candidate_failed_at": "2026-07-25T21:34:28",
+      "candidate_failure_count": 79
     },
     {
       "id": "a6f4ca9464909855",
@@ -10433,12 +10439,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-25T20:41:00",
-      "candidate_retry_after": "2026-07-25T20:56:00Z",
+      "content_fetched_at": "2026-07-25T21:34:28",
+      "candidate_retry_after": "2026-07-25T21:49:28Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-25T20:41:00",
-      "candidate_failure_count": 78
+      "candidate_failed_at": "2026-07-25T21:34:28",
+      "candidate_failure_count": 79
     },
     {
       "id": "71463c25ac92daaa",
@@ -15075,12 +15081,12 @@
       "removed_source_links_count": 79,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-25T20:41:01",
-      "candidate_retry_after": "2026-07-25T20:56:01Z",
+      "content_fetched_at": "2026-07-25T21:34:30",
+      "candidate_retry_after": "2026-07-25T21:49:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-07-25T20:41:01",
-      "candidate_failure_count": 67
+      "candidate_failed_at": "2026-07-25T21:34:30",
+      "candidate_failure_count": 68
     },
     {
       "id": "41b7b918ab3966e4",
@@ -42187,7 +42193,68 @@
       "content_preview_chars": 8865,
       "content_fetched_at": "2026-07-25T11:34:58",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-25T21:35:26",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-25T21:35:26",
+      "ai_input_package": {
+        "title": "Big Tech accused of stonewalling European social media researchers",
+        "url": "https://arstechnica.com/tech-policy/2026/07/big-tech-accused-of-stonewalling-european-social-media-researchers",
+        "source_name": "Ars Technica",
+        "suggested_category": "Tech-News",
+        "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2017/10/getty-security-1152x648.jpg",
+        "article_images": [
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2017/10/getty-security-1152x648.jpg",
+            "alt": "Big Tech accused of stonewalling European social media researchers",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/georgescu-640x426.jpg",
+            "alt": "Photo of Calin Georgescu",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2023/09/wired-headshot.jpg",
+            "alt": "Photo of WIRED",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/themes/ars-v9/public/images/firework-loader.75ab30.gif",
+            "alt": "Loading",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Researchers say TikTok, X, and Meta aren't providing data they're legally required to.",
+        "content_preview": "In the final weeks before Romania’s presidential vote in November 2024, TikTok accounts that had previously spent years posting about manicures or fashion suddenly started promoting a little-known politician named Calin Georgescu. His posts, espousing hard-line views on immigration and anti-Semitic tropes, were viewed 120 million times before the vote. Georgescu, who had previously been polling in the single digits, stunned observers by winning the election’s first round with 23 percent of the vote. In the Netherlands, Adriana Iamnitchi was watching closely. As chair of computational social sciences at Maastricht University, she leads the research into disinformation campaigns. She wanted to know how pro-Georgescu content was being monetized on TikTok through hidden influencer marketing and livestreamed political content. On October 28, 2025, a month before Georgescu won the first round, she and her team applied for access to TikTok’s Application Programming Interface (API) under the EU’s recent Digital Services Act (DSA). Their request was denied. TikTok said they had failed to prove they were established researchers or to explain their commercial interests or to meet security requirements, Iamnitchi wrote in a blog post . But two months later, TikTok flagged 116k accounts as potentially compromised before taking action against more than 27,000 fake accounts in a coordinated network run by a third-party “fake engagement vendor” that was promoting Georgescu and his party, the Alliance for the Union of Romanians (AUR). TikTok said it did not know who operated the network or where it originated. The first round of voting was annulled and in the runoff in May 2025, independent candidate and former Bucharest mayor Nicușor Dan beat AUR’s George Simion, who took over the party after Georgescu was barred from running again. Georgescu said on his YouTube channel that annulling the 2024 results was “practically a formalized coup d’état” by Romania’s Constitutional Court. Declassified Romanian intelligence showed he “benefited” from massive exposure and preferential treatment by TikTok and that Russia had allegedly coordinated the online campaign to elect Georgescu. Iamnitchi believes her team might have been able to identify who created and profited from the pro-Georgescu content had they gained access to the data. “If you are a scholar interested in how social media shapes society, the past years have been tough,” she wrote. “When you need data to investigate that impact, and that data is privately held, it can become practically impossible to research this space.” Iamnitchi is one of several misinformation researchers who told WIRED that, despite being legally entitled to obtain platform data under EU law, they face obstacles, obfuscation, and, in some cases, court battles to obtain it. Last year the law was broadened to increase researcher access, but it’s the implementation, not the scope of the law itself, that researchers say is the issue. In recent years, social media companies shut down public access tools like Meta’s CrowdTangle and replaced them with content libraries , or, like X, paywalled their API data , forcing academics to pay “hundreds of dollars a month,” said Duncan Allen, a research officer at Democracy Reporting International (DRI) in Germany. Researchers say that without API access, what Iamnitchi describes as the “black holes” in what society knows about how these platforms recommend content or handle reports regarding sensitive content will only grow. Others, like TikTok, cap how many posts any researcher account can pull each day, which Allen said can make it “impossible to study anything at scale.” The DSA was meant to solve this by allowing vetted researchers at credible institutions to have access to API data if they could show it would help in studying systemic risks, from illegal content to threats to fundamental rights. But two years after the law took effect, researchers say they struggle to meet its security requirements and face narrow interpretations from platforms of what qualifies as a systemic risk. Application forms differ by platform, but most require data to be stored on infrastructure that cannot be compromised—such as a machine physically disconnected from the Internet—a resource most universities lack, Iamnitchi said. Even for researchers who secure approval, “there’s no guarantee that the data is good,” said L. K. Seiling, coordinator of the DSA40 Collaboratory , a German initiative that tracks 46 DSA applications. API data is often difficult for a colleague to reproduce, so a researcher’s work cannot be checked for errors, which Iamnitchi said is a “basic requirement of science.” DSA40 data shows that of 46 tracked applications, 20 were approved and 14 rejected. But approval rates vary widely: TikTok approved 11 of 13 applications, while X rejected 11 of 23. The true rejection rate is likely higher because the tracker relies on voluntary reporting, Seiling said. “There’s no structured advantage for researchers to use this pathway,” Seiling said. “Data access as it’s set up right now tries to disincentivize researchers.” A TikTok spokesperson told WIRED the company has given more than 1,500 research teams access to its tools, approved 130 applications in the EU in the second half of last year, and that its daily quota of 1,000 API requests lets researchers pull up to 100,000 video and comment records a day, or up to 2 million follower records. TikTok said it considers its research tools compliant with the DSA but “would welcome further public guidance.” A Meta spokesperson said CrowdTangle covered only a fraction of the company’s public data, while the Meta Content Library and API that replaced it are “the most comprehensive research tools to date.” They cover Facebook, Instagram, WhatsApp Channels, and Threads with “robust privacy protections,” and qualified nonprofit researchers, including journalists, can apply. There are few workarounds. Iamnitchi and Allen said they resort to scraping on the platforms that allow it, a time-consuming process that exports website data into spreadsheets. Even with sophisticated tools, scraping “is not very comprehensive,” Allen said. It cannot capture an account’s complete follower list, making coordinated disinformation networks difficult to map. One way to challenge a rejected request is to take the platforms to court. Allen said DRI and the Society for Civil Rights applied for access to X’s API in April 2024 to study political discourse ahead of Germany’s federal election. X rejected the request in November, prompting DRI to sue in February 2025. The court ruled X should have granted access, in what DRI believed could become a precedent-setting case. But months later the organization was back in court after X denied access for research ahead of Hungary’s election. That case nearly collapsed when a Berlin court ruled the researchers should have sued in Ireland, where X is based. DRI won on appeal . “EU law is still not uniformly applied,” he said, reflecting on the Hungarian case. “It’s cost us a lot of time and energy, and there is an ongoing calculus of whether or not it’s worth having these lawsuits every time we apply for data access.” In December 2025, the European Commission imposed its first DSA penalty, fining X €120 million ($137 million) partly for creating “unnecessary barriers” to researcher access that “effectively undermin[e] research into several risks in the European Union.” On February 20, 2026, X appealed, calling the investigation “incomplete and superficial” and accusing the EU of “systemic breaches of rights of defence and basic due process requirements.” Last week, the commission accepted X’s action plan to fix the researcher screening process, provide data free of charge, cut processing times, and lift restrictions on data scraping. X has six months to put these changes in place. Allen called the plan “a step in the right direction” but remains skeptical about how it will be implemented. He wants X to be more specific about how it will improve the vetting process used to determine whether researchers qualify for API access under the DSA. The EU, having said in another DSA investigation that Meta and TikTok “may have put in place burdensome procedures and tools for researchers to request access to public data,” leaving them with partial or unreliable data, started meeting with platforms in May to work on a new standard for vetting researchers. Late last year, the commission also expanded researchers’ access to nonpublic platform data to study risks including illegal content, financial scams, and recommender systems. Researchers say the new provisions have yet to be tested, but they are cautiously optimistic. The new regulations on nonpublic data could force X to release an account’s full follower list.",
+        "content_preview_chars": 8865,
+        "rss_summary": "",
+        "full_article_text": "In the final weeks before Romania’s presidential vote in November 2024, TikTok accounts that had previously spent years posting about manicures or fashion suddenly started promoting a little-known politician named Calin Georgescu. His posts, espousing hard-line views on immigration and anti-Semitic tropes, were viewed 120 million times before the vote. Georgescu, who had previously been polling in the single digits, stunned observers by winning the election’s first round with 23 percent of the vote. In the Netherlands, Adriana Iamnitchi was watching closely. As chair of computational social sciences at Maastricht University, she leads the research into disinformation campaigns. She wanted to know how pro-Georgescu content was being monetized on TikTok through hidden influencer marketing and livestreamed political content. On October 28, 2025, a month before Georgescu won the first round, she and her team applied for access to TikTok’s Application Programming Interface (API) under the EU’s recent Digital Services Act (DSA). Their request was denied. TikTok said they had failed to prove they were established researchers or to explain their commercial interests or to meet security requirements, Iamnitchi wrote in a blog post . But two months later, TikTok flagged 116k accounts as potentially compromised before taking action against more than 27,000 fake accounts in a coordinated network run by a third-party “fake engagement vendor” that was promoting Georgescu and his party, the Alliance for the Union of Romanians (AUR). TikTok said it did not know who operated the network or where it originated. The first round of voting was annulled and in the runoff in May 2025, independent candidate and former Bucharest mayor Nicușor Dan beat AUR’s George Simion, who took over the party after Georgescu was barred from running again. Georgescu said on his YouTube channel that annulling the 2024 results was “practically a formalized coup d’état” by Romania’s Constitutional Court. Declassified Romanian intelligence showed he “benefited” from massive exposure and preferential treatment by TikTok and that Russia had allegedly coordinated the online campaign to elect Georgescu. Iamnitchi believes her team might have been able to identify who created and profited from the pro-Georgescu content had they gained access to the data. “If you are a scholar interested in how social media shapes society, the past years have been tough,” she wrote. “When you need data to investigate that impact, and that data is privately held, it can become practically impossible to research this space.” Iamnitchi is one of several misinformation researchers who told WIRED that, despite being legally entitled to obtain platform data under EU law, they face obstacles, obfuscation, and, in some cases, court battles to obtain it. Last year the law was broadened to increase researcher access, but it’s the implementation, not the scope of the law itself, that researchers say is the issue. In recent years, social media companies shut down public access tools like Meta’s CrowdTangle and replaced them with content libraries , or, like X, paywalled their API data , forcing academics to pay “hundreds of dollars a month,” said Duncan Allen, a research officer at Democracy Reporting International (DRI) in Germany. Researchers say that without API access, what Iamnitchi describes as the “black holes” in what society knows about how these platforms recommend content or handle reports regarding sensitive content will only grow. Others, like TikTok, cap how many posts any researcher account can pull each day, which Allen said can make it “impossible to study anything at scale.” The DSA was meant to solve this by allowing vetted researchers at credible institutions to have access to API data if they could show it would help in studying systemic risks, from illegal content to threats to fundamental rights. But two years after the law took effect, researchers say they struggle to meet its security requirements and face narrow interpretations from platforms of what qualifies as a systemic risk. Application forms differ by platform, but most require data to be stored on infrastructure that cannot be compromised—such as a machine physically disconnected from the Internet—a resource most universities lack, Iamnitchi said. Even for researchers who secure approval, “there’s no guarantee that the data is good,” said L. K. Seiling, coordinator of the DSA40 Collaboratory , a German initiative that tracks 46 DSA applications. API data is often difficult for a colleague to reproduce, so a researcher’s work cannot be checked for errors, which Iamnitchi said is a “basic requirement of science.” DSA40 data shows that of 46 tracked applications, 20 were approved and 14 rejected. But approval rates vary widely: TikTok approved 11 of 13 applications, while X rejected 11 of 23. The true rejection rate is likely higher because the tracker relies on voluntary reporting, Seiling said. “There’s no structured advantage for researchers to use this pathway,” Seiling said. “Data access as it’s set up right now tries to disincentivize researchers.” A TikTok spokesperson told WIRED the company has given more than 1,500 research teams access to its tools, approved 130 applications in the EU in the second half of last year, and that its daily quota of 1,000 API requests lets researchers pull up to 100,000 video and comment records a day, or up to 2 million follower records. TikTok said it considers its research tools compliant with the DSA but “would welcome further public guidance.” A Meta spokesperson said CrowdTangle covered only a fraction of the company’s public data, while the Meta Content Library and API that replaced it are “the most comprehensive research tools to date.” They cover Facebook, Instagram, WhatsApp Channels, and Threads with “robust privacy protections,” and qualified nonprofit researchers, including journalists, can apply. There are few workarounds. Iamnitchi and Allen said they resort to scraping on the platforms that allow it, a time-consuming process that exports website data into spreadsheets. Even with sophisticated tools, scraping “is not very comprehensive,” Allen said. It cannot capture an account’s complete follower list, making coordinated disinformation networks difficult to map. One way to challenge a rejected request is to take the platforms to court. Allen said DRI and the Society for Civil Rights applied for access to X’s API in April 2024 to study political discourse ahead of Germany’s federal election. X rejected the request in November, prompting DRI to sue in February 2025. The court ruled X should have granted access, in what DRI believed could become a precedent-setting case. But months later the organization was back in court after X denied access for research ahead of Hungary’s election. That case nearly collapsed when a Berlin court ruled the researchers should have sued in Ireland, where X is based. DRI won on appeal . “EU law is still not uniformly applied,” he said, reflecting on the Hungarian case. “It’s cost us a lot of time and energy, and there is an ongoing calculus of whether or not it’s worth having these lawsuits every time we apply for data access.” In December 2025, the European Commission imposed its first DSA penalty, fining X €120 million ($137 million) partly for creating “unnecessary barriers” to researcher access that “effectively undermin[e] research into several risks in the European Union.” On February 20, 2026, X appealed, calling the investigation “incomplete and superficial” and accusing the EU of “systemic breaches of rights of defence and basic due process requirements.” Last week, the commission accepted X’s action plan to fix the researcher screening process, provide data free of charge, cut processing times, and lift restrictions on data scraping. X has six months to put these changes in place. Allen called the plan “a step in the right direction” but remains skeptical about how it will be implemented. He wants X to be more specific about how it will improve the vetting process used to determine whether researchers qualify for API access under the DSA. The EU, having said in another DSA investigation that Meta and TikTok “may have put in place burdensome procedures and tools for researchers to request access to public data,” leaving them with partial or unreliable data, started meeting with platforms in May to work on a new standard for vetting researchers. Late last year, the commission also expanded researchers’ access to nonpublic platform data to study risks including illegal content, financial scams, and recommender systems. Researchers say the new provisions have yet to be tested, but they are cautiously optimistic. The new regulations on nonpublic data could force X to release an account’s full follower list. This gives disinformation researchers a much clearer view of how coordinated attacks spread online, because they can use this data to map out which accounts interact or follow one another and how they amplify content, Allen says. This story originally appeared on wired.com .",
+        "full_article_text_chars": 9141,
+        "enrichment_status": "strong",
+        "source_url": "https://arstechnica.com",
+        "source_published_at": "2026-07-25T10:45:32Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.82,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_quality_last_error": "ad/affiliate/sponsored title or summary",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 28.87,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-25T21:50:56Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-25T21:35:56",
+      "candidate_failure_count": 1
     },
     {
       "id": "b815b6a8ae54c565",
@@ -42265,7 +42332,68 @@
       "content_preview_chars": 3599,
       "content_fetched_at": "2026-07-25T11:34:56",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-25T21:35:59",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-25T21:35:59",
+      "ai_input_package": {
+        "title": "One of NASA’s Most Important Deep Space Observatories Hit by Spanish Wildfires",
+        "url": "https://www.wired.com/story/spanish-wildfires-nasa-deep-space-observatory",
+        "source_name": "WIRED",
+        "suggested_category": "Tech-News",
+        "main_image": "https://media.wired.com/photos/6a63d6e658b45fb8be88c32f/191:100/w_1280,c_limit/NASA-Important-Deep-Space-Observatories-Hit-by-Spanish-Wildfires-Science-2287501646.jpg",
+        "article_images": [
+          {
+            "url": "https://media.wired.com/photos/6a63d6e658b45fb8be88c32f/191:100/w_1280,c_limit/NASA-Important-Deep-Space-Observatories-Hit-by-Spanish-Wildfires-Science-2287501646.jpg",
+            "alt": "One of NASA’s Most Important Deep Space Observatories Hit by Spanish Wildfires",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://media.wired.com/photos/6a63d6e658b45fb8be88c32f/1:1/w_2560%2Cc_limit/NASA-Important-Deep-Space-Observatories-Hit-by-Spanish-Wildfires-Science-2287501646.jpg",
+            "alt": "ROBLEDO DE CHAVELA MADRID SPAIN  JULY 24 Smoke from a nearby fire drifts over a NASA antenna on 24 July 2026 in Robledo...",
+            "source": "article_content"
+          },
+          {
+            "url": "https://media.wired.com/photos/6a42ffe448c440f683e2b40c/16:9/w_640%2Cc_limit/undefined",
+            "alt": "Satellite Images Show the Destruction Caused by Venezuela's Twin Earthquakes",
+            "source": "article_content"
+          },
+          {
+            "url": "https://media.wired.com/photos/6a3d9aa235acf7de1a65dc27/16:9/w_640%2Cc_limit/undefined",
+            "alt": "Venezuela’s Powerful Earthquakes Were a Rare ‘Seismic Doublet’",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Flames burned through the Deep Space Communications Complex near Madrid, but NASA has been unable to assess the damage as a wildfire emergency grips the region.",
+        "content_preview": "Climate change has now become a problem for the whole solar system. On Friday, wildfires in Spain overran one of three observatories the US National Aeronautics and Space Administration uses to connect with spacecraft, including Voyager 1, the James Webb Space Telescope, and the recently completed Artemis mission around the Moon. Spain declared a wildfire emergency as multiple blazes burned out of control near Madrid, with evacuation orders in place for 60,000 people. The affected area includes Robledo de Chavela, a municipality near the Deep Space Communications Complex run by NASA. Dramatic images captured by news photographers showed the radio telescopes surrounded by smoke and fire. A NASA spokesperson said in an email to WIRED that the agency successfully evacuated all personnel. They added that while the fire has now passed through the observatory complex, it remains unclear what impact the flames may have had on the sensitive equipment inside. “Any potential damage will be assessed when it is safe to do so,” the spokesperson said. They add that if conditions allow, a site assessment could happen as soon as Saturday. For now, NASA said it has “seamlessly transitioned support for mission operations to the Goldstone Deep Space Communications Complex in California, ensuring continuity of service and uninterrupted support for spacecraft communications.” The facility in Spain, along with the others in Canberra, Australia, and Goldstone, California, make up what NASA calls the “largest and most sensitive scientific telecommunications system in the world.” The network allows NASA to transmit information from Earth to spacecraft, including the most distant human-made object in our solar system, Voyager 1. It’s also used to transfer data from the James Webb Space Telescope and send commands to other space vehicles. Oh, and the sites also contribute to radio astronomy observations. Suffice to say, it’s a very important collection of instruments for understanding the solar system. Spain is far from the only country facing a wildfire crisis. Blazes are also burning out of control in France, where beachgoers saw skies turn orange and waves of ash washing ashore as firefighters worked to stop flames from spreading into the eponymous capital of the Bordeaux wine region. “We learned in the middle of the afternoon that, following the wind shift, it had become a large, self-sustaining fire that is extremely difficult to bring under control,” French interior minister Laurent Nunez told national television channel Tf1. “It is now moving east, toward the Bordeaux metropolitan area. We are going to reorganize our response so we can fight it from the ground and prevent it from advancing.” Roughly 200,000 people have been told to evacuate across the two countries. Europe has seen record high temperatures this summer, driven by repeated heat domes camping over the continent and the UK, as well as climate change. Hot weather can dry out vegetation, priming forests to burn when hit by an errant spark. Similar stories have played out in other parts of the world recently, from Ontario, Canada, to the US Pacific Northwest. Cooler weather is expected to arrive in the Mediterranean over the weekend, which should help firefighters get a handle on the blazes. But the respite will be short: Temperatures are expected to shoot up again on Monday and keep climbing throughout the week, eventually reaching up to 10 degrees Celsius (18 degrees Fahrenheit) above normal. That could worsen any wildfires in Spain or France that may still be burning—or help spark new ones.",
+        "content_preview_chars": 3599,
+        "rss_summary": "",
+        "full_article_text": "Climate change has now become a problem for the whole solar system. On Friday, wildfires in Spain overran one of three observatories the US National Aeronautics and Space Administration uses to connect with spacecraft, including Voyager 1, the James Webb Space Telescope, and the recently completed Artemis mission around the Moon. Spain declared a wildfire emergency as multiple blazes burned out of control near Madrid, with evacuation orders in place for 60,000 people. The affected area includes Robledo de Chavela, a municipality near the Deep Space Communications Complex run by NASA. Dramatic images captured by news photographers showed the radio telescopes surrounded by smoke and fire. A NASA spokesperson said in an email to WIRED that the agency successfully evacuated all personnel. They added that while the fire has now passed through the observatory complex, it remains unclear what impact the flames may have had on the sensitive equipment inside. “Any potential damage will be assessed when it is safe to do so,” the spokesperson said. They add that if conditions allow, a site assessment could happen as soon as Saturday. For now, NASA said it has “seamlessly transitioned support for mission operations to the Goldstone Deep Space Communications Complex in California, ensuring continuity of service and uninterrupted support for spacecraft communications.” The facility in Spain, along with the others in Canberra, Australia, and Goldstone, California, make up what NASA calls the “largest and most sensitive scientific telecommunications system in the world.” The network allows NASA to transmit information from Earth to spacecraft, including the most distant human-made object in our solar system, Voyager 1. It’s also used to transfer data from the James Webb Space Telescope and send commands to other space vehicles. Oh, and the sites also contribute to radio astronomy observations. Suffice to say, it’s a very important collection of instruments for understanding the solar system. Spain is far from the only country facing a wildfire crisis. Blazes are also burning out of control in France, where beachgoers saw skies turn orange and waves of ash washing ashore as firefighters worked to stop flames from spreading into the eponymous capital of the Bordeaux wine region. “We learned in the middle of the afternoon that, following the wind shift, it had become a large, self-sustaining fire that is extremely difficult to bring under control,” French interior minister Laurent Nunez told national television channel Tf1. “It is now moving east, toward the Bordeaux metropolitan area. We are going to reorganize our response so we can fight it from the ground and prevent it from advancing.” Roughly 200,000 people have been told to evacuate across the two countries. Europe has seen record high temperatures this summer, driven by repeated heat domes camping over the continent and the UK, as well as climate change. Hot weather can dry out vegetation, priming forests to burn when hit by an errant spark. Similar stories have played out in other parts of the world recently, from Ontario, Canada, to the US Pacific Northwest. Cooler weather is expected to arrive in the Mediterranean over the weekend, which should help firefighters get a handle on the blazes. But the respite will be short: Temperatures are expected to shoot up again on Monday and keep climbing throughout the week, eventually reaching up to 10 degrees Celsius (18 degrees Fahrenheit) above normal. That could worsen any wildfires in Spain or France that may still be burning—or help spark new ones.",
+        "full_article_text_chars": 3599,
+        "enrichment_status": "strong",
+        "source_url": "https://www.wired.com",
+        "source_published_at": "2026-07-24T22:30:26.304000Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 13.07,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_quality_last_error": "non_technical_entertainment_content",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 15.66,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-25T21:51:16Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-25T21:36:16",
+      "candidate_failure_count": 1
     },
     {
       "id": "2af908505965728b",
@@ -42421,7 +42549,68 @@
       "content_preview_chars": 7906,
       "content_fetched_at": "2026-07-25T17:39:42",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-25T21:34:30",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-25T21:34:30",
+      "ai_input_package": {
+        "title": "Slacked off all summer? Here are 3 fitness trackers that’ll help you stay accountable as you head back to school",
+        "url": "https://www.digitaltrends.com/wearables/slacked-off-all-summer-here-are-3-fitness-trackers-thatll-help-you-stay-accountable-as-you-head-back-to-school",
+        "source_name": "Digital Trends",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.digitaltrends.com/tachyon/2025/05/whoop-5-front.jpg?resize=1200%2C630",
+        "article_images": [
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2025/05/whoop-5-front.jpg?resize=1200%2C630",
+            "alt": "Slacked off all summer? Here are 3 fitness trackers that’ll help you stay accountable as you head back to school",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/03/Chromebooks-in-School.jpg?resize=300%2C180",
+            "alt": "Chromebooks in School",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/07/Xiaomi-Smart-Band-10-featured.jpg?resize=2000%2C1200",
+            "alt": "Xiaomi Smart Band 10 on gradient background",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/07/Fitbit-Air-featured.jpg?resize=2000%2C1200",
+            "alt": "Google Fitbit Air on gradient background",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Summer break did a number on your fitness goals? These three fitness trackers take very different approaches to keeping you accountable this semester.",
+        "content_preview": "Summer break did what it usually does. Your sleep schedule drifted, workouts happened less often than you’d hoped, and by the time August rolled around, you were feeling it. You’ve got a plan to get back on track once the school year starts and your days have more structure, but you know how that usually goes. The first two weeks are solid, then the routine quietly slips. A fitness tracker won’t get you off your couch. What it will do is put a number in front of you every day, one that makes it obvious whether you stuck to your goal or slacked off. That small bit of visibility is often the difference between meaning to work out and actually doing it. Back-to-school season is a good time to buy in, since you’re already resetting more than one part of your routine, and the overlap makes the habit more likely to stick. To keep the odds in your favor, here are three fitness trackers that can help you stay accountable and actually hit your goals. Xiaomi Smart Band 10: Data only, no strings attached Most affordable with no ongoing fees No coaching or interpretation layer Tracks steps, sleep, heart rate, blood oxygen, and stress GPS relies on your phone, so you can’t leave it behind No blood pressure, ECG, or Afib detection The Xiaomi Smart Band 10 gives you numbers and nothing else. No coaching, no interpretation, and no upsell waiting behind a paywall. It tracks steps, sleep, heart rate, blood oxygen, and stress levels, and shows them to you plainly. What you pay upfront, around $47, is what you’ll ever pay. There’s no tier to graduate into, even if you wanted one. That’s a real advantage if all you want is accountability, not a dashboard full of insights you don’t care about. The 21-day battery life means it fades into the background of your routine almost entirely, and the 1.72-inch AMOLED display holds up fine for a glance mid-run. The tracker covers over 150 sport modes, more than you’ll realistically use, and can survive showers and rain with its 5ATM water-resistance rating. It is also compatible with Android 8+ and iOS 12+ devices, wide enough to work with a phone several years old. Xiaomi’s companion app is the weak point, clunky next to Google or WHOOP’s polish, and GPS runs through your phone instead of anything built into the band. If you’re deciding between this and something that costs twice or four times as much, know that the extra money will buy you more data points and insights that help you make sense of the numbers and train smarter. Buy this if tracking the basics is all you’re after. Google Fitbit Air: Wider tracking, coaching if you want it Core tracking works without a subscription Full AI coaching requires a $9.99/month subscription $99.99 with a free 3-month trial to test Health Coach No screen, all data lives in the app Fast charging adds a full day of battery in five minutes No ECG or blood pressure tracking The Fitbit Air tracks more data points than the Xiaomi Smart Band 10. Along with steps, sleep, heart rate, SpO2, and stress levels, it tracks heart rate variability and screens for Afib, and auto-detects workouts like walking, running, swimming, and cycling, with more activity types available to log manually. All of that is included in the core experience with no subscription required. What sits on top of that is the real differentiator. Google Health Coach, a Gemini-powered feature, can turn those numbers into actionable insights, adjusting recommendations based on your training and recovery. It’s available if you want it, not forced on you if you don’t. At $99.99, that combination makes sense if you want more than just the raw data. Every unit ships with a three-month trial of Google Health Premium, so you can test the coaching firsthand before deciding if it’s worth the $9.99/month subscription. The tracker itself is a screenless pebble that clips onto swappable bands, small enough to forget you’re wearing it. The 7-day battery life is a notable tradeoff, though the Fitbit Air does support fast charging and a five-minute charge adds enough juice to last a full day. The Fitbit Air is compatible with Android 11+ and iOS 16.4+, so it’ll work with most phones, and switching phones later won’t strand it. Buy this if you want more data than what Xiaomi offers, with the choice of whether to pay for an AI to interpret it for you. WHOOP 5.0: The insights aren’t optional Auto-detects 50+ activity types No free tier, hardware doesn’t work without an active membership Daily Recovery score gives specific, prescriptive guidance No screen, everything requires checking the app WHOOP Coach offers insights on-demand ECG and blood pressure insights are locked behind the priciest $359/year tier Life tier adds ECG and blood pressure insights WHOOP doesn’t offer a version that just hands you raw numbers. There’s no free tier, and the membership fee is what unlocks the hardware in the first place. Stop paying, and the band stops recording. Interpretation is the entire product here. The entry point is One, the $199/year plan, which ships with the standard WHOOP 5.0 tracker and covers sleep, strain, and recovery tracking. It auto-detects over 50 activity types, from running and weightlifting to swimming and yoga, folding each into a daily Strain score. You also get WHOOP Coach, a generative AI feature that answers questions about your training and recovery using your biometric data. If you want more, the Peak plan runs $239/year. It comes with the same hardware, but adds Healthspan, Stress Monitor, and Health Monitor. The Life plan costs $359 a year and swaps in a WHOOP MG sensor, which unlocks ECG, Afib detection, and blood pressure insights. Battery life is a genuine strength at 14+ days and, like the Fitbit, there’s no screen at all, so you’ll have to rely on the companion app to track your progress. The WHOOP app requires iOS 17+ and works across most modern Android phones, though older Android devices can run into connectivity issues. Buy the One tier if you’ve decided the coaching is worth an annual bill, not a one-time purchase, and upgrade later only if you actually find yourself wanting the deeper metrics. If none of these are quite right The three trackers above are built for one job: fitness data, with or without interpretation. If what you actually want is a smartwatch that can handle texts, calls, and apps, or you don’t want anything on your wrist at all, these three are worth a look instead. Samsung Galaxy Watch 8 (starts at $349.99): This is the right pick if you want a smartwatch first and a fitness tracker second. It runs Wear OS and puts your phone’s core functions right on your wrist, backed by Gemini for smarter suggestions. You also get all the basic fitness and workout tracking, along with ECG. On the downside, battery life tops out around 30 to 40 hours, so nightly charging is non-negotiable, and it costs a pretty penny. Apple Watch SE 3 (starts at $249): For iPhone users already living inside Apple’s ecosystem, this is the obvious buy. Notifications, apps, Crash and Fall Detection are all available. It skips ECG and SpO2 to hit that price point, and battery life caps at 18 hours, shorter than all the other devices in this list. It only makes sense if you already own an iPhone, otherwise, you’re buying into the wrong ecosystem. RingConn Gen 2 Air ($199): If you don’t like the idea of wearing a band to sleep, this is the one for you. It’s a smart ring with a 10-day battery, detailed sleep tracking, HRV, respiratory rate tracking, and blood oxygen monitoring, all without a subscription. However, fitness tracking is lacklustre, with no GPS and limited workout detection. None of these devices are going to fix your sleep schedule or get you to the gym. What they’ll do is make it a little harder to lie to yourself about whether you tried. Pick the one that fits your budget and your patience for being told what to do, and go from there.",
+        "content_preview_chars": 7906,
+        "rss_summary": "",
+        "full_article_text": "Summer break did what it usually does. Your sleep schedule drifted, workouts happened less often than you’d hoped, and by the time August rolled around, you were feeling it. You’ve got a plan to get back on track once the school year starts and your days have more structure, but you know how that usually goes. The first two weeks are solid, then the routine quietly slips. A fitness tracker won’t get you off your couch. What it will do is put a number in front of you every day, one that makes it obvious whether you stuck to your goal or slacked off. That small bit of visibility is often the difference between meaning to work out and actually doing it. Back-to-school season is a good time to buy in, since you’re already resetting more than one part of your routine, and the overlap makes the habit more likely to stick. To keep the odds in your favor, here are three fitness trackers that can help you stay accountable and actually hit your goals. Xiaomi Smart Band 10: Data only, no strings attached Most affordable with no ongoing fees No coaching or interpretation layer Tracks steps, sleep, heart rate, blood oxygen, and stress GPS relies on your phone, so you can’t leave it behind No blood pressure, ECG, or Afib detection The Xiaomi Smart Band 10 gives you numbers and nothing else. No coaching, no interpretation, and no upsell waiting behind a paywall. It tracks steps, sleep, heart rate, blood oxygen, and stress levels, and shows them to you plainly. What you pay upfront, around $47, is what you’ll ever pay. There’s no tier to graduate into, even if you wanted one. That’s a real advantage if all you want is accountability, not a dashboard full of insights you don’t care about. The 21-day battery life means it fades into the background of your routine almost entirely, and the 1.72-inch AMOLED display holds up fine for a glance mid-run. The tracker covers over 150 sport modes, more than you’ll realistically use, and can survive showers and rain with its 5ATM water-resistance rating. It is also compatible with Android 8+ and iOS 12+ devices, wide enough to work with a phone several years old. Xiaomi’s companion app is the weak point, clunky next to Google or WHOOP’s polish, and GPS runs through your phone instead of anything built into the band. If you’re deciding between this and something that costs twice or four times as much, know that the extra money will buy you more data points and insights that help you make sense of the numbers and train smarter. Buy this if tracking the basics is all you’re after. Google Fitbit Air: Wider tracking, coaching if you want it Core tracking works without a subscription Full AI coaching requires a $9.99/month subscription $99.99 with a free 3-month trial to test Health Coach No screen, all data lives in the app Fast charging adds a full day of battery in five minutes No ECG or blood pressure tracking The Fitbit Air tracks more data points than the Xiaomi Smart Band 10. Along with steps, sleep, heart rate, SpO2, and stress levels, it tracks heart rate variability and screens for Afib, and auto-detects workouts like walking, running, swimming, and cycling, with more activity types available to log manually. All of that is included in the core experience with no subscription required. What sits on top of that is the real differentiator. Google Health Coach, a Gemini-powered feature, can turn those numbers into actionable insights, adjusting recommendations based on your training and recovery. It’s available if you want it, not forced on you if you don’t. At $99.99, that combination makes sense if you want more than just the raw data. Every unit ships with a three-month trial of Google Health Premium, so you can test the coaching firsthand before deciding if it’s worth the $9.99/month subscription. The tracker itself is a screenless pebble that clips onto swappable bands, small enough to forget you’re wearing it. The 7-day battery life is a notable tradeoff, though the Fitbit Air does support fast charging and a five-minute charge adds enough juice to last a full day. The Fitbit Air is compatible with Android 11+ and iOS 16.4+, so it’ll work with most phones, and switching phones later won’t strand it. Buy this if you want more data than what Xiaomi offers, with the choice of whether to pay for an AI to interpret it for you. WHOOP 5.0: The insights aren’t optional Auto-detects 50+ activity types No free tier, hardware doesn’t work without an active membership Daily Recovery score gives specific, prescriptive guidance No screen, everything requires checking the app WHOOP Coach offers insights on-demand ECG and blood pressure insights are locked behind the priciest $359/year tier Life tier adds ECG and blood pressure insights WHOOP doesn’t offer a version that just hands you raw numbers. There’s no free tier, and the membership fee is what unlocks the hardware in the first place. Stop paying, and the band stops recording. Interpretation is the entire product here. The entry point is One, the $199/year plan, which ships with the standard WHOOP 5.0 tracker and covers sleep, strain, and recovery tracking. It auto-detects over 50 activity types, from running and weightlifting to swimming and yoga, folding each into a daily Strain score. You also get WHOOP Coach, a generative AI feature that answers questions about your training and recovery using your biometric data. If you want more, the Peak plan runs $239/year. It comes with the same hardware, but adds Healthspan, Stress Monitor, and Health Monitor. The Life plan costs $359 a year and swaps in a WHOOP MG sensor, which unlocks ECG, Afib detection, and blood pressure insights. Battery life is a genuine strength at 14+ days and, like the Fitbit, there’s no screen at all, so you’ll have to rely on the companion app to track your progress. The WHOOP app requires iOS 17+ and works across most modern Android phones, though older Android devices can run into connectivity issues. Buy the One tier if you’ve decided the coaching is worth an annual bill, not a one-time purchase, and upgrade later only if you actually find yourself wanting the deeper metrics. If none of these are quite right The three trackers above are built for one job: fitness data, with or without interpretation. If what you actually want is a smartwatch that can handle texts, calls, and apps, or you don’t want anything on your wrist at all, these three are worth a look instead. Samsung Galaxy Watch 8 (starts at $349.99): This is the right pick if you want a smartwatch first and a fitness tracker second. It runs Wear OS and puts your phone’s core functions right on your wrist, backed by Gemini for smarter suggestions. You also get all the basic fitness and workout tracking, along with ECG. On the downside, battery life tops out around 30 to 40 hours, so nightly charging is non-negotiable, and it costs a pretty penny. Apple Watch SE 3 (starts at $249): For iPhone users already living inside Apple’s ecosystem, this is the obvious buy. Notifications, apps, Crash and Fall Detection are all available. It skips ECG and SpO2 to hit that price point, and battery life caps at 18 hours, shorter than all the other devices in this list. It only makes sense if you already own an iPhone, otherwise, you’re buying into the wrong ecosystem. RingConn Gen 2 Air ($199): If you don’t like the idea of wearing a band to sleep, this is the one for you. It’s a smart ring with a 10-day battery, detailed sleep tracking, HRV, respiratory rate tracking, and blood oxygen monitoring, all without a subscription. However, fitness tracking is lacklustre, with no GPS and limited workout detection. None of these devices are going to fix your sleep schedule or get you to the gym. What they’ll do is make it a little harder to lie to yourself about whether you tried. Pick the one that fits your budget and your patience for being told what to do, and go from there.",
+        "full_article_text_chars": 7906,
+        "enrichment_status": "strong",
+        "source_url": "https://www.digitaltrends.com",
+        "source_published_at": "2026-07-25T17:11:00Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.48,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_status": "failed",
+      "ai_error": "AI article response returned incomplete JSON.",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 54.32,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-25T21:50:26Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "AI article response returned incomplete JSON.",
+      "candidate_failed_at": "2026-07-25T21:35:26",
+      "candidate_failure_count": 1
     },
     {
       "id": "f8d4c52f07fb49fd",
@@ -42525,7 +42714,67 @@
       "content_preview_chars": 7049,
       "content_fetched_at": "2026-07-25T17:39:44",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-25T21:35:57",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-25T21:35:57",
+      "ai_input_package": {
+        "title": "5 mid-range phones I’d recommend you spend your Back-to-School budget on",
+        "url": "https://www.digitaltrends.com/phones/5-mid-range-phones-id-recommend-you-spend-your-back-to-school-budget-on",
+        "source_name": "Digital Trends",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.digitaltrends.com/tachyon/2026/04/Pixel-10a-in-front-of-colored-tiles.jpg?resize=1200%2C630",
+        "article_images": [
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/04/Pixel-10a-in-front-of-colored-tiles.jpg?resize=1200%2C630",
+            "alt": "5 mid-range phones I’d recommend you spend your Back-to-School budget on",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/03/Chromebooks-in-School.jpg?resize=300%2C180",
+            "alt": "Chromebooks in School",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/04/Pixel-10a-back-panel-on-ground.jpg?resize=2000%2C1200",
+            "alt": "Pixel 10a back panel on ground",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/07/Apple-iPhone-17e-on-gradient-background.jpg?resize=2000%2C1200",
+            "alt": "Apple iPhone 17e on gradient background",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Shopping for a new phone before the school year starts? Here are five mid-range picks that deliver the flagship-feel without the flagship price tag.",
+        "content_preview": "Does your phone have a cracked screen? A battery that barely makes it past 3 PM? Or a camera that captures a blurry mess instead of great memories? You know it’s high time for a new one, and right now, while you’re shopping for the new school year, is probably the best time to make the switch. The best part is that you don’t need to spend flagship money to get a phone that’ll last you the next few years. Mid-range phones have gotten seriously good of late, closing the gap with flagships where it matters the most, be it battery life, performance, or camera quality. Whether you’re upgrading your own phone or picking one out for your kid before classes start, here are the best mid-range phones worth your money this back-to-school season. 8GB RAM isn’t enough for some on-device AI features The Pixel 10a is the phone I’d pick, knowing I wouldn’t have to think about buying another phone for years. Google didn’t chase big upgrades with this year’s A-series refresh, and that’s not exactly a deal-breaker. The 10a offers plenty to like on the hardware front, right from its bright, 120Hz display to its 48MP main shooter that takes great photos in most lighting conditions. Sure, the Tensor G4 is a bit dated and 8GB of RAM isn’t enough to run some of the on-device AI features Google offers, but the Pixel 10a can handle most daily tasks consistently. And that consistency is exactly what you’re paying for. Google’s suite of useful AI features is a genuinely helpful bonus that you won’t get with any of the other devices on this list, plus the seven-year software support commitment adds another point in its favor. At $499, the Pixel 10a is my top pick for most students, especially if you want the safest, longest-lasting device out there. A19 chip offers top-tier performance Full access to Apple’s ecosystem If you’re upgrading from an older iPhone, you’re probably already knee-deep in Apple’s ecosystem and have an iPad, Mac, or Apple Watch that you’re not about to replace just because your phone’s getting old. In that case, there’s no better pick than the iPhone 17e. Apple finally gave its budget model the upgrade it deserves this year, and it now features an A19 chip that can handle most everyday tasks and casual gaming without breaking a sweat. Base storage has also been doubled to 256GB at the same $599 starting price, and MagSafe support has made it to the “e” lineup for the first time, which means you can finally use the same chargers, car mounts, and accessories as the rest of the iPhone family. The display still runs at 60Hz, which will take some getting used to if you’re switching from a phone with a high refresh rate panel, and you’ll be limited to a single rear camera with no ultrawide lens. But the camera you do get is pretty solid, and the phone’s overall speed more than makes up for what it lacks in screen refresh rate. The iPhone 17e is the cheapest way into Apple’s ecosystem, whether you’re upgrading from an old iPhone or picking your first because everyone around you already has one. Samsung Galaxy A57 Unremarkable ultrawide and macro lenses Pick up the Galaxy A57 without knowing the price, and you’d most likely guess wrong. Samsung’s latest mid-ranger looks and feels a lot like its much more expensive S series brethren with its glass back, aluminum frame, stunning Super AMOLED display, and familiar camera arrangement. The phone is genuinely great to look at, whether you’re reading in class or watching something during a study break. The battery also holds up quite well, easily making it through a full day without you needing to reach for a charger. But under the hood, things aren’t as flashy. Its Exynos 1680 chip is a modest step up from last year’s model, and it isn’t as fast as what you’ll get with the other phones on this list. The camera setup also carries over unchanged from the Galaxy A56, with the main 50MP shooter proving good enough in most scenarios and the ultrawide and macro offering nothing to write home about. At $549, this one’s only for Samsung loyalists who like One UI. If that doesn’t sound like you, the Pixel 10a will serve you better and save you 50 bucks that you can use to get some accessories or school supplies. Nothing Phone 4a Pro Eye-catching design with Glyph Matrix display Strong performance with Snapdragon 7 Gen 4 and 12GB RAM Bright and high refresh rate display Not as good value as the Pixel 50MP periscope camera with 3.5x optical zoom Put the Nothing Phone 4a Pro next to any other device on this list, and it’s the one people will ask about. Nothing refined its design this year, swapping the fully transparent back for a unibody metal build with a transparent camera island housing three lenses in a unique arrangement, plus the Glyph Matrix display for timers, notifications, and more. Under the hood, you get a Snapdragon 7 Gen 4 chip and 12GB of RAM, which give it enough muscle to power through most daily tasks. The 6.8-inch display gets plenty bright with a rated peak brightness of 5,000 nits and is also great for gaming, offering a refresh rate of 144Hz. Camera performance holds its own against the Pixel 10a and the iPhone 17e too, with the 50MP periscope zoom lens giving you reach neither of those phones can match. The Phone 4a Pro has two notable tradeoffs in terms of durability and longevity, with the device featuring an IP65 rating and Nothing committing to only three major OS upgrades. At $599, the Phone 4a Pro is for anyone who wants a device with real personality that still delivers on performance, so long as you’re willing to trade some durability and long-term support to get it. Motorola Moto G Power 2026 Dimensity 6300 isn’t the strongest performer IP68, IP69, and MIL-STD-810H certification Only two years of promised OS upgrades Ask most people what they want from a phone, and a long-lasting battery usually ranks higher than having the fastest chip. That’s the whole case for the Moto G Power 2026. Its 5,200mAh battery is the largest in this lineup, and can easily stretch across a busy day without you hunting for an outlet. Motorola also built it to survive whatever you throw at it, with IP68 and IP69 ratings for dust and water resistance, plus MIL-STD-810H certification covering drops and general abuse, making it a great option if you have butter fingers. However, the Moto G Power 2026 isn’t the most capable phone on this list. Its MediaTek Dimensity 6300 isn’t as powerful, its 6.8-inch display has an LCD panel, its cameras are unremarkable, and software support is pretty thin too, with Motorola promising just a couple of years of OS updates. The $399 price tag for the 128GB model will be another draw for anyone on a tight budget, but the battery life and durability are the real draw for this device. Mid-range phones aren’t the compromise they used to be, and this list proves it. Whether you’re chasing battery life, a great camera, a phone that can take a beating, or one that looks like nothing else on campus, there’s a pick above that gets you there without breaking the bank.",
+        "content_preview_chars": 7049,
+        "rss_summary": "",
+        "full_article_text": "Does your phone have a cracked screen? A battery that barely makes it past 3 PM? Or a camera that captures a blurry mess instead of great memories? You know it’s high time for a new one, and right now, while you’re shopping for the new school year, is probably the best time to make the switch. The best part is that you don’t need to spend flagship money to get a phone that’ll last you the next few years. Mid-range phones have gotten seriously good of late, closing the gap with flagships where it matters the most, be it battery life, performance, or camera quality. Whether you’re upgrading your own phone or picking one out for your kid before classes start, here are the best mid-range phones worth your money this back-to-school season. 8GB RAM isn’t enough for some on-device AI features The Pixel 10a is the phone I’d pick, knowing I wouldn’t have to think about buying another phone for years. Google didn’t chase big upgrades with this year’s A-series refresh, and that’s not exactly a deal-breaker. The 10a offers plenty to like on the hardware front, right from its bright, 120Hz display to its 48MP main shooter that takes great photos in most lighting conditions. Sure, the Tensor G4 is a bit dated and 8GB of RAM isn’t enough to run some of the on-device AI features Google offers, but the Pixel 10a can handle most daily tasks consistently. And that consistency is exactly what you’re paying for. Google’s suite of useful AI features is a genuinely helpful bonus that you won’t get with any of the other devices on this list, plus the seven-year software support commitment adds another point in its favor. At $499, the Pixel 10a is my top pick for most students, especially if you want the safest, longest-lasting device out there. A19 chip offers top-tier performance Full access to Apple’s ecosystem If you’re upgrading from an older iPhone, you’re probably already knee-deep in Apple’s ecosystem and have an iPad, Mac, or Apple Watch that you’re not about to replace just because your phone’s getting old. In that case, there’s no better pick than the iPhone 17e. Apple finally gave its budget model the upgrade it deserves this year, and it now features an A19 chip that can handle most everyday tasks and casual gaming without breaking a sweat. Base storage has also been doubled to 256GB at the same $599 starting price, and MagSafe support has made it to the “e” lineup for the first time, which means you can finally use the same chargers, car mounts, and accessories as the rest of the iPhone family. The display still runs at 60Hz, which will take some getting used to if you’re switching from a phone with a high refresh rate panel, and you’ll be limited to a single rear camera with no ultrawide lens. But the camera you do get is pretty solid, and the phone’s overall speed more than makes up for what it lacks in screen refresh rate. The iPhone 17e is the cheapest way into Apple’s ecosystem, whether you’re upgrading from an old iPhone or picking your first because everyone around you already has one. Samsung Galaxy A57 Unremarkable ultrawide and macro lenses Pick up the Galaxy A57 without knowing the price, and you’d most likely guess wrong. Samsung’s latest mid-ranger looks and feels a lot like its much more expensive S series brethren with its glass back, aluminum frame, stunning Super AMOLED display, and familiar camera arrangement. The phone is genuinely great to look at, whether you’re reading in class or watching something during a study break. The battery also holds up quite well, easily making it through a full day without you needing to reach for a charger. But under the hood, things aren’t as flashy. Its Exynos 1680 chip is a modest step up from last year’s model, and it isn’t as fast as what you’ll get with the other phones on this list. The camera setup also carries over unchanged from the Galaxy A56, with the main 50MP shooter proving good enough in most scenarios and the ultrawide and macro offering nothing to write home about. At $549, this one’s only for Samsung loyalists who like One UI. If that doesn’t sound like you, the Pixel 10a will serve you better and save you 50 bucks that you can use to get some accessories or school supplies. Nothing Phone 4a Pro Eye-catching design with Glyph Matrix display Strong performance with Snapdragon 7 Gen 4 and 12GB RAM Bright and high refresh rate display Not as good value as the Pixel 50MP periscope camera with 3.5x optical zoom Put the Nothing Phone 4a Pro next to any other device on this list, and it’s the one people will ask about. Nothing refined its design this year, swapping the fully transparent back for a unibody metal build with a transparent camera island housing three lenses in a unique arrangement, plus the Glyph Matrix display for timers, notifications, and more. Under the hood, you get a Snapdragon 7 Gen 4 chip and 12GB of RAM, which give it enough muscle to power through most daily tasks. The 6.8-inch display gets plenty bright with a rated peak brightness of 5,000 nits and is also great for gaming, offering a refresh rate of 144Hz. Camera performance holds its own against the Pixel 10a and the iPhone 17e too, with the 50MP periscope zoom lens giving you reach neither of those phones can match. The Phone 4a Pro has two notable tradeoffs in terms of durability and longevity, with the device featuring an IP65 rating and Nothing committing to only three major OS upgrades. At $599, the Phone 4a Pro is for anyone who wants a device with real personality that still delivers on performance, so long as you’re willing to trade some durability and long-term support to get it. Motorola Moto G Power 2026 Dimensity 6300 isn’t the strongest performer IP68, IP69, and MIL-STD-810H certification Only two years of promised OS upgrades Ask most people what they want from a phone, and a long-lasting battery usually ranks higher than having the fastest chip. That’s the whole case for the Moto G Power 2026. Its 5,200mAh battery is the largest in this lineup, and can easily stretch across a busy day without you hunting for an outlet. Motorola also built it to survive whatever you throw at it, with IP68 and IP69 ratings for dust and water resistance, plus MIL-STD-810H certification covering drops and general abuse, making it a great option if you have butter fingers. However, the Moto G Power 2026 isn’t the most capable phone on this list. Its MediaTek Dimensity 6300 isn’t as powerful, its 6.8-inch display has an LCD panel, its cameras are unremarkable, and software support is pretty thin too, with Motorola promising just a couple of years of OS updates. The $399 price tag for the 128GB model will be another draw for anyone on a tight budget, but the battery life and durability are the real draw for this device. Mid-range phones aren’t the compromise they used to be, and this list proves it. Whether you’re chasing battery life, a great camera, a phone that can take a beating, or one that looks like nothing else on campus, there’s a pick above that gets you there without breaking the bank.",
+        "full_article_text_chars": 7049,
+        "enrichment_status": "strong",
+        "source_url": "https://www.digitaltrends.com",
+        "source_published_at": "2026-07-25T15:11:00Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 2.48,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 0.22,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-07-25T21:50:58Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-25T21:35:58",
+      "candidate_failure_count": 1
     },
     {
       "id": "d91bed4c2b88e980",
@@ -44025,6 +44274,257 @@
       "content_fetched_at": "2026-07-25T20:40:33",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
+    },
+    {
+      "id": "f6bf645a87c3dd9a",
+      "source_url_hash": "f6bf645a87c3dd9a",
+      "canonical_url": "https://arstechnica.com/culture/2026/07/sdcc-teaser-gives-us-our-first-good-look-at-blade-runner-2099",
+      "title_hash": "b9fe6dff0ddd995b",
+      "topic_signature": "2c1ab7f3a4540b7b51bb",
+      "title": "SDCC teaser gives us our first good look atBlade Runner 2099",
+      "url": "https://arstechnica.com/culture/2026/07/sdcc-teaser-gives-us-our-first-good-look-at-blade-runner-2099",
+      "source_name": "Ars Technica",
+      "source_url": "https://arstechnica.com",
+      "source_published_at": "2026-07-25T20:52:30Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.69,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-25T21:33:55",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 60,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 60,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "SDCC teaser gives us our first good look at Blade Runner 2099",
+      "meta_description": "Also: Forging the One Ring in Rings of Power S3 teaser; new Lanterns trailer; Spaceballs: The New One panel.",
+      "article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/blade3-1152x648.jpg",
+          "alt": "SDCC teaser gives us our first good look at Blade Runner 2099",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/blade3-640x359.jpg",
+          "alt": "woman in cockpit of a small futuristic aircraft",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/spaceballs2-640x427.jpg",
+          "alt": "group of actors and producers on stage at San Diego Comic-Com, with many mock bending the knee to a man standing in the center.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/spaceballs3-640x948.jpg",
+          "alt": "poster art of a desert-like sand dune environment with a rover raking out a \"2'",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/blade3-1152x648.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/blade3-640x359.jpg",
+          "alt": "woman in cockpit of a small futuristic aircraft"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/spaceballs2-640x427.jpg",
+          "alt": "group of actors and producers on stage at San Diego Comic-Com, with many mock bending the knee to a man standing in the center."
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/spaceballs3-640x948.jpg",
+          "alt": "poster art of a desert-like sand dune environment with a rover raking out a \"2'"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "It’s been nearly five years since Ridley Scott first announced his plans for a TV spinoff of his sci-fi masterpiece Blade Runner (1982) and the 2017 sequel Blade Runner 2049 . It’s finally here—or almost, anyway. Prime Video debuted the first teaser for the new ten-episode series, Blade Runner 2099, at San Diego Comic-Con on Friday. We also got a teaser for the third season of Prime Video’s Rings of Power and a new trailer for HBO’s Lanterns . Yeoh and Schafer joined show runner Silka Luisa ( Shining Girls ) onstage for the big reveal, which also included an exclusive clip shown to the audience. Luisa told Entertainment Weekly that the series stays true to the original’s “noir principles… and there’s a mystery at the heart of the show that looks both forwards and backwards in terms of mythology.” An uprising has occurred and the humans lost, which means they are now the hunted second-class citizens. “The show is really imagining what comes after us, and what does it mean to be human in a world where humanity is no longer relevant,” said Luisa . Fifty years after the events of Blade Runner 2049 , Los Angeles has been reborn, just not by humanity. Cora, a fugitive in a final bid to stop running, takes on one last identity: a Blade Runner. Forced to partner with Olwen, a Replicant days from dying, she hunts down a runaway hiding a truth that could collapse their fragile city. The incomparable Michelle Yeoh stars as Olwen, the dying Replicant, along with Hunter Schafer ( Euphoria ) as Cora. The cast also includes Hugo Hamlet as Buster Friendly, as well as Dmitri Abold, Lewis Gribben, Katelyn Rose Downey, Daniel Rigby, Johnny Harris, Amy Lennox, Sheila Atim, Matthew Needham, Tom Burke, and Maurizio Lombardi—all in as-yet-undisclosed roles. Blade Runner 2099 will premiere on November 25, 2026, on Prime Video. Prime Video made a major investment in The Rings of Power when it acquired the rights to the source material from the Tolkien estate, even committing to multiple seasons upfront. We’re now coming up on S3 and based on the teaser the streaming platform unveiled at SDCC, we’ll finally get to see Sauron (Charlie Vickers) forging the One Ring. In season three, Middle-earth is at war. Five years have passed since the fall of Eregion. Sauron’s armies have marched across the whole of the world, conquering all in their path. Only a few isolated pockets stand between the Dark Lord and total victory—Khazad-dǔm, where the Dwarves are now sealed deep within their mountain halls, and the elven realms of Lindon and Rivendell, which are protected by their Three Rings.” But deep in the land of Mordor, in his newly completed tower of Barad-dûr, the Dark Lord toils day and night, obsessed with harnessing a power that will bring the last of his enemies to their knees: One ring to rule them all… Now, all the free peoples of Middle-earth—Dwarves, Elves, Men, and Wizards alike—must find a way to come together, in a race against time to prevent Sauron from achieving his goal of utter domination of all life But deep in the land of Mordor, in his newly completed tower of Barad-dûr, the Dark Lord toils day and night, obsessed with harnessing a power that will bring the last of his enemies to their knees: One ring to rule them all… Now, all the free peoples of Middle-earth—Dwarves, Elves, Men, and Wizards alike—must find a way to come together, in a race against time to prevent Sauron from achieving his goal of utter domination of all life We’re also getting some new characters this season, most notably Jamie Campbell Bower as Galadriel’s (Morfydd Clark) long-lost husband Celeborn. Zubin Varla will play Khamul the Easterling of Rhun; Eddie Marson will play Thrain, order brother to King Durin IV (Owain Arthur); Andrew Richardson will play Anarion, younger son of Elendil (Lloyd Owen) and brother to Isildur (Maxim Baldry); and Adam Young will play an Orc named Marnukh who “might not be what he seems.” Oh, and none other than Simon Pegg will voice the fiery Balrog. The third season of Rings of Power premieres on November 11, 2026, on Prime Video. We’ve seen a couple of teasers thus far for Lanterns , the new DC Universe series coming to HBO Max, both of which made it clear we’re in for a show that’s closer to a sci-fi True Detective than your standard superhero fare. HBO unveiled a full trailer at SDCC that is a little less Earthbound. It leans into the “space cop” vibe, reveals that shapeshifting Manhunters will be central to the plot, takes us into outer space, and also gives us our first look at Sinestro (Ulrich Thomsen), a former Corps member gone rogue. HBO threw in seven preview clips for good measure, although these have not been released publicly. Per the official logline, “The series follows new recruit John Stewart (Aaron Pierre) and Lantern legend Hal Jordan (Kyle Chandler), two intergalactic cops drawn into a dark, earth-based mystery as they investigate a murder in the American heartland.” There will be two storylines: one set in 2016 about a murder in Nebraska, and the second set in 2026. Chandler’s Hal Jordan is a former test pilot nearing retirement from the Green Lantern Corps. He’s training Pierre’s John Stewart Jr., a new recruit, to replace him. Nathan Fillion reprises his Superman role as the obnoxious Guy Gardner; we get a brief glimpse of him in the new teaser. The cast also includes Kelly MacDonald as Kerry, a small-town family-oriented sheriff; Jason Ritter as Billy Macon, Kerry’s husband; Garret Dillahunt as William Macon, Kerry’s cowboy father-in-law; Poorna Jagannathan as a woman named Zoe; and Paul Ben-Victor as an extraterrestrial called Antaan. Sherman Augustus plays John Stewart Sr., with J. Alphonse Nicholson playing the younger version; Nicole Ari Parker plays Bernadette Stewart (mother to John Jr.), with Jasmine Cephas Jones playing the young version of the character. In addition, Chris Coy plays a suspiciously nervous truck driver, Waylon Sanders; Cary Christopher plays a gifted child named Noah; Laura Linney will play a senior Guardian; and Paula Patton will appear in an as-yet-undisclosed guest role. We also know that the show will feature the inter-dimensional prison and the Checkmate organization introduced in Peacemaker’ s S2 finale. Lanterns premieres on August 18, 2026, on HBO Max. Spaceballs: The New One Credit: Chris Frawley / Amazon MGM Studios Credit: Chris Frawley / Amazon MGM Studios This long-overdue sequel to Mel Brooks’ 1987 cult classic isn’t being released until next spring, but that didn’t stop Amazon MGM Studios from putting together an SDCC panel this year anyway in a clever parody of the extravagant Marvel panels of yore. Because it’s early days, there haven’t been any publicly released teasers or trailers, although some teaser footage was shown at CinemaCon in April and yesterday at SDCC. Apparently we owe this sequel to Josh Gad, who co-wrote the script and pitched Brooks on a cold call. Gad has said he showed the original movie to his daughter during the COVID-19 pandemic and she loved it so much she wanted to see the sequel. Here’s the official synopsis: Somehow, Dark Helmet has returned! Forty years after the events of the first Spaceballs , fifty years after the events of Star Wars: A New Hope , and one year after the events of The Devil Wears Prada 2 , the galaxy is once again under threat. A threat so evil, so unstoppable, so completely lacking in any original ideas, that it has vowed to bring back the past… every last bit of it. With Lone Starr in hiding, Queen Vespa on the throne, and the Schwartz stretched thinner than a franchise releasing TV episodes theatrically, the only hope for the galaxy is Vespa’s undisciplined son, Prince Starburst, and a mysterious Palace advisor named Destiny. Together, they must find Lone Starr, Yogurt, and any other iconic legacy characters fans are demanding before they discover the hard way that, while some threats you can fight, the reboot is not one of them. With Lone Starr in hiding, Queen Vespa on the throne, and the Schwartz stretched thinner than a franchise releasing TV episodes theatrically, the only hope for the galaxy is Vespa’s undisciplined son, Prince Starburst, and a mysterious Palace advisor named Destiny. Together, they must find Lone Starr, Yogurt, and any other iconic legacy characters fans are demanding before they discover the hard way that, while some threats you can fight, the reboot is not one of them. The 100-year-old Brooks is reprising his role as Yogurt via motion capture (he filmed his lines in a studio). Also returning: Rick Moranis as Lord Dark Helmet, Bill Pullman as Lone Starr, Daphne Zuniga as Queen Vespa, and George Wyner as Colonel Sandurz. Pullman’s son, Lewis Pullman, joins the cast as Prince Starburst, son to Lone Starr and Vespa, along with Keke Palmer as a palace advisor named Destiny. Gad plays a mawg, the same species as the late John Candy’s Barf. Anthony Carrigan and Rowan Witt have also been cast in as-yet-undisclosed roles. Spaceballs: The New One hits theaters on April 23, 2027. May the Schwartz be with you! Credit: AmazonMGMStudios Credit: AmazonMGMStudios",
+      "full_article_text_chars": 9145,
+      "content_preview": "It’s been nearly five years since Ridley Scott first announced his plans for a TV spinoff of his sci-fi masterpiece Blade Runner (1982) and the 2017 sequel Blade Runner 2049 . It’s finally here—or almost, anyway. Prime Video debuted the first teaser for the new ten-episode series, Blade Runner 2099, at San Diego Comic-Con on Friday. We also got a teaser for the third season of Prime Video’s Rings of Power and a new trailer for HBO’s Lanterns . Yeoh and Schafer joined show runner Silka Luisa ( Shining Girls ) onstage for the big reveal, which also included an exclusive clip shown to the audience. Luisa told Entertainment Weekly that the series stays true to the original’s “noir principles… and there’s a mystery at the heart of the show that looks both forwards and backwards in terms of mythology.” An uprising has occurred and the humans lost, which means they are now the hunted second-class citizens. “The show is really imagining what comes after us, and what does it mean to be human in a world where humanity is no longer relevant,” said Luisa . Fifty years after the events of Blade Runner 2049 , Los Angeles has been reborn, just not by humanity. Cora, a fugitive in a final bid to stop running, takes on one last identity: a Blade Runner. Forced to partner with Olwen, a Replicant days from dying, she hunts down a runaway hiding a truth that could collapse their fragile city. The incomparable Michelle Yeoh stars as Olwen, the dying Replicant, along with Hunter Schafer ( Euphoria ) as Cora. The cast also includes Hugo Hamlet as Buster Friendly, as well as Dmitri Abold, Lewis Gribben, Katelyn Rose Downey, Daniel Rigby, Johnny Harris, Amy Lennox, Sheila Atim, Matthew Needham, Tom Burke, and Maurizio Lombardi—all in as-yet-undisclosed roles. Blade Runner 2099 will premiere on November 25, 2026, on Prime Video. Prime Video made a major investment in The Rings of Power when it acquired the rights to the source material from the Tolkien estate, even committing to multiple seasons upfront. We’re now coming up on S3 and based on the teaser the streaming platform unveiled at SDCC, we’ll finally get to see Sauron (Charlie Vickers) forging the One Ring. In season three, Middle-earth is at war. Five years have passed since the fall of Eregion. Sauron’s armies have marched across the whole of the world, conquering all in their path. Only a few isolated pockets stand between the Dark Lord and total victory—Khazad-dǔm, where the Dwarves are now sealed deep within their mountain halls, and the elven realms of Lindon and Rivendell, which are protected by their Three Rings.” But deep in the land of Mordor, in his newly completed tower of Barad-dûr, the Dark Lord toils day and night, obsessed with harnessing a power that will bring the last of his enemies to their knees: One ring to rule them all… Now, all the free peoples of Middle-earth—Dwarves, Elves, Men, and Wizards alike—must find a way to come together, in a race against time to prevent Sauron from achieving his goal of utter domination of all life But deep in the land of Mordor, in his newly completed tower of Barad-dûr, the Dark Lord toils day and night, obsessed with harnessing a power that will bring the last of his enemies to their knees: One ring to rule them all… Now, all the free peoples of Middle-earth—Dwarves, Elves, Men, and Wizards alike—must find a way to come together, in a race against time to prevent Sauron from achieving his goal of utter domination of all life We’re also getting some new characters this season, most notably Jamie Campbell Bower as Galadriel’s (Morfydd Clark) long-lost husband Celeborn. Zubin Varla will play Khamul the Easterling of Rhun; Eddie Marson will play Thrain, order brother to King Durin IV (Owain Arthur); Andrew Richardson will play Anarion, younger son of Elendil (Lloyd Owen) and brother to Isildur (Maxim Baldry); and Adam Young will play an Orc named Marnukh who “might not be what he seems.” Oh, and none other than Simon Pegg will voice the fiery Balrog. The third season of Rings of Power premieres on November 11, 2026, on Prime Video. We’ve seen a couple of teasers thus far for Lanterns , the new DC Universe series coming to HBO Max, both of which made it clear we’re in for a show that’s closer to a sci-fi True Detective than your standard superhero fare. HBO unveiled a full trailer at SDCC that is a little less Earthbound. It leans into the “space cop” vibe, reveals that shapeshifting Manhunters will be central to the plot, takes us into outer space, and also gives us our first look at Sinestro (Ulrich Thomsen), a former Corps member gone rogue. HBO threw in seven preview clips for good measure, although these have not been released publicly. Per the official logline, “The series follows new recruit John Stewart (Aaron Pierre) and Lantern legend Hal Jordan (Kyle Chandler), two intergalactic cops drawn into a dark, earth-based mystery as they investigate a murder in the American heartland.” There will be two storylines: one set in 2016 about a murder in Nebraska, and the second set in 2026. Chandler’s Hal Jordan is a former test pilot nearing retirement from the Green Lantern Corps. He’s training Pierre’s John Stewart Jr., a new recruit, to replace him. Nathan Fillion reprises his Superman role as the obnoxious Guy Gardner; we get a brief glimpse of him in the new teaser. The cast also includes Kelly MacDonald as Kerry, a small-town family-oriented sheriff; Jason Ritter as Billy Macon, Kerry’s husband; Garret Dillahunt as William Macon, Kerry’s cowboy father-in-law; Poorna Jagannathan as a woman named Zoe; and Paul Ben-Victor as an extraterrestrial called Antaan. Sherman Augustus plays John Stewart Sr., with J. Alphonse Nicholson playing the younger version; Nicole Ari Parker plays Bernadette Stewart (mother to John Jr.), with Jasmine Cephas Jones playing the young version of the character. In addition, Chris Coy plays a suspiciously nervous truck driver, Waylon Sanders; Cary Christopher plays a gifted child named Noah; Laura Linney will play a senior Guardian; and Paula Patton will appear in an as-yet-undisclosed guest role. We also know that the show will feature the inter-dimensional prison and the Checkmate organization introduced in Peacemaker’ s S2 finale. Lanterns premieres on August 18, 2026, on HBO Max. Spaceballs: The New One Credit: Chris Frawley / Amazon MGM Studios Credit: Chris Frawley / Amazon MGM Studios This long-overdue sequel to Mel Brooks’ 1987 cult classic isn’t being released until next spring, but that didn’t stop Amazon MGM Studios from putting together an SDCC panel this year anyway in a clever parody of the extravagant Marvel panels of yore. Because it’s early days, there haven’t been any publicly released teasers or trailers, although some teaser footage was shown at CinemaCon in April and yesterday at SDCC. Apparently we owe this sequel to Josh Gad, who co-wrote the script and pitched Brooks on a cold call. Gad has said he showed the original movie to his daughter during the COVID-19 pandemic and she loved it so much she wanted to see the sequel. Here’s the official synopsis: Somehow, Dark Helmet has returned! Forty years after the events of the first Spaceballs , fifty years after the events of Star Wars: A New Hope , and one year after the events of The Devil Wears Prada 2 , the galaxy is once again under threat. A threat so evil, so unstoppable, so completely lacking in any original ideas, that it has vowed to bring back the past… every last bit of it. With Lone Starr in hiding, Queen Vespa on the throne, and the Schwartz stretched thinner than a franchise releasing TV episodes theatrically, the only hope for the galaxy is Vespa’s undisciplined son, Prince Starburst, and a mysterious Palace advisor named Destiny. Together, they must find Lone Starr, Yogurt, and any other iconic legacy characters fans are demanding before they discover the hard way that, while some threats you can fight, the reboot is not one of them. With Lone Starr in hiding, Queen Vespa on the throne, and the Schwartz stretched thinner than a franchise releasing TV episodes theatrically, the only hope for the galaxy is Vespa’s undisciplined son, Prince Starburst, and a mysterious Palace advisor named Destiny. Together, they must find Lone Starr, Yogurt, and any other iconic legacy characters fans are demanding before they discover the hard way that, while some threats you can fight, the reboot is not one of them. The 100-year-old Brooks is reprising his role as Yogurt via motion capture (he filmed his lines in a studio). Also returning: Rick Moranis as Lord Dark Helmet, Bill Pullman as Lone Starr, Daphne Zuniga as Queen Vespa, and George Wyner as Colonel Sandurz. Pullman’s son, Lewis Pullman, joins the cast as Prince Starburst, son to Lone Starr and Vespa, along with Keke Palmer as a palace advisor named Destiny. Gad plays a mawg, the same species as the late John Candy’s Barf.",
+      "content_preview_chars": 8927,
+      "content_fetched_at": "2026-07-25T21:34:11",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "13cfb2a40c5a3659",
+      "source_url_hash": "13cfb2a40c5a3659",
+      "canonical_url": "https://techcrunch.com/2026/07/25/the-hacker-who-humiliated-spyware-makers-and-was-never-caught",
+      "title_hash": "23116b9d486ed2d2",
+      "topic_signature": "787169c05badfb6d1f37",
+      "title": "The hacker who humiliated spyware makers and was never caught",
+      "url": "https://techcrunch.com/2026/07/25/the-hacker-who-humiliated-spyware-makers-and-was-never-caught",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-07-25T20:24:14Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.16,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-25T21:33:55",
+      "status": "ready",
+      "score": 2,
+      "priority": "low",
+      "source_links_removed_count": 97,
+      "affiliate_links_removed_count": 3,
+      "removed_source_links_count": 97,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "The hacker who humiliated spyware makers and was never caught | TechCrunch",
+      "meta_description": "An awe-inspiring hacktivist who hacked two controversial government spyware makers may be the most prolific hacker to have never gotten caught. What do we know about Phineas Fisher?",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/anonymous-hacktivist-mask.jpg?resize=1200,800",
+          "alt": "The hacker who humiliated spyware makers and was never caught | TechCrunch",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/Screenshot-2026-07-17-at-1.12.20-PM.png",
+          "alt": "A awe-inspiring hacktivist that hacked two controversial government spyware startups, and more, may be the most prolific hacker to have never gotten caught. ",
+          "source": "article_content"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/anonymous-hacktivist-mask.jpg?w=1024",
+          "alt": "A member of the international organisation Anonymous for the Voiceless wears a Guy Fawkes mask while demonstrating in the streets of Mexico City's Historic Center.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2026/07/anonymous-hacktivist-mask.jpg?resize=1200,800",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/Screenshot-2026-07-17-at-1.12.20-PM.png",
+          "alt": "A awe-inspiring hacktivist that hacked two controversial government spyware startups, and more, may be the most prolific hacker to have never gotten caught. "
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/anonymous-hacktivist-mask.jpg?w=1024",
+          "alt": "A member of the international organisation Anonymous for the Voiceless wears a Guy Fawkes mask while demonstrating in the streets of Mexico City's Historic Center."
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Over the last few decades, several mysterious hackers have captured the public’s imagination, but none quite like Phineas Fisher. A decade after their most famous hack, Phineas remains, by most accounts, the most prolific and public hacker never to have been caught . As part of our series on the biggest cybersecurity mysteries of all time, we’re delving into the enigma of Phineas, the hacktivist who hacked controversial spyware makers FinFisher and Hacking Team . The latter, an Italian startup, was among the first to turn government spyware into a viable global business, paving the way for spyware makers such as the Israeli NSO Group. Phineas’ hack against Hacking Team eventually led to the startup’s demise years later . Apart from Anonymous, an amorphous amalgam of hacktivists with a mixed track record of mostly stunt hacks designed to gather publicity rather than have real impact, Phineas is perhaps the most well-known hacktivist in history. Their story is made of impressive hacks and endless unanswered questions. Who is Phineas Fisher? Variously called an anarchist, a cybercriminal, a hacktivist, and a vigilante, the hacker has said they “use a lot of different names” for different hacking escapades. The hacks we know about were big enough to turn Phineas into a legend among hackers. “I would like to meet Phineas Fisher so that I could buy them a seven-course, three-Michelin-star dinner somewhere and listen to them explain how they turned Hacking Team inside out like a gym sock,” a well-known security researcher once wrote on Twitter. There’s even a song about them . Phineas first emerged in August 2014, when they announced they had hacked Gamma Group , the makers of the FinFisher spyware — which is where the nickname comes from. They publicized the hack via a Twitter account cheekily called @GammaGroupPR , leaking stolen data including mobile spyware, product manuals, and a price list. The damage was limited, and FinFisher carried on. Phineas published a post-mortem that doubled as a leftist manifesto, then vanished. A year later, they came back with a bang, hacking Hacking Team , another spyware maker. They took practically everything: more than 400 gigabytes including source code, tens of thousands of internal emails, confidential contracts, and customer lists. The leak allowed journalists to reveal scandals in Ecuador, Mexico, and Panama. Years later, Hacking Team’s CEO David Vincenzetti was forced to sell his company for one euro. For some former employees, Phineas’ hack was the beginning of the end. Phineas went on to hack the union of the Mossos d’Esquadra , which is the police force of Catalonia, publishing a post-mortem and a 39-minute tutorial video — consistent with their stated anti-police ideals. Their next victim was the ruling party of Turkey’s authoritarian president Recep Tayyip Erdoğan, a hack motivated by solidarity with Rojava, a leftist autonomous region in northern and eastern Syria that Turkey was fighting against. Phineas’ last known victim was Cayman National Bank’s branch in the Isle of Man, a self-governing island between England and Ireland. The hack hinted at a different side of Phineas. “I look for illegal ways to make money in order to free my time so I can do something useful with it. Once I had that figured out, I started scaling it up and making more money than I need and giving the extra away,” Phineas said in an interview with activist Freddy Martinez. (Phineas donated at least $10,000 in Bitcoin to Rojava .) Phineas kept the hack — which happened in 2016 — quiet for three years later before announcing the “Hacktivist Bug Bounty Program,” an initiative to reward hacktivists who expose companies’ illegal and unethical activities. When Cayman National Bank confirmed the hack, it claimed it “was amongst a number of banks targeted.” Phineas confirmed they had been hacking several banks for years. That was their last public appearance. Their Twitter and Reddit accounts have long since been deleted, leaving no online trail. FinFisher never contacted law enforcement, according to a former company employee. The Italian authorities’ investigation into the Hacking Team hack ended without finding any evidence pointing to Phineas’ real identity. What I can say, from my own reporting, is that Phineas is alive and well — they have been in contact with me within the last couple of years. So who is Phineas Fisher? Taking their claims at face value, they’re a hacktivist with anarchist ideals, but also a cybercriminal. Could they instead be a fabricated persona controlled by a spy agency — Russia, say, which has a history of inventing hacktivists to muddy the waters after its own hacks? Phineas has denied being a Russian spy, and it’s unclear why Moscow would go after all of Phineas’ chosen targets. Their origins are equally murky. Phineas has name-dropped Spanish-speaking anarchists, wrote the Hacking Team post-mortem in Spanish, and followed numerous Latin American leftist accounts on Twitter. They told me their first language is neither English nor Spanish, though they have acknowledged living in a Spanish-speaking country. It’s all worth taking with a grain of salt. “Everything I say that contains clues about my identity is half trolling,” Phineas once told me. “I’m in the habit of saying misinformation.” It’s also possible that the Phineas persona was passed around between 2014 and 2019 and used by different individuals. But there is no evidence of that, and after 10 years of conversations, my gut says Phineas truly is the hacktivist they claim to be. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Senior Reporter, Cybersecurity Lorenzo Franceschi-Bicchierai is a Senior Writer at TechCrunch, where he covers hacking, cybersecurity, surveillance, and privacy. You can contact or verify outreach from Lorenzo by emailing lorenzo@techcrunch.com , via encrypted message at +1 917 257 1382 on Signal, and @lorenzofb on Keybase/Telegram. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! SpaceX launches new V3 Starlink satellites but suffers another booster failure Sean O'Kane SpaceX launches new V3 Starlink satellites but suffers another booster failure US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Zack Whittaker US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark Ram Iyer Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark Tesla’s robotaxis are moving in reverse Sean O'Kane Tesla’s robotaxis are moving in reverse Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Amanda Silberling Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Light made a flip phone — it’s colorful and it’s cheap Amanda Silberling Light made a flip phone — it’s colorful and it’s cheap AI music generator Suno breach affects 55M users, per Have I Been Pwned Zack Whittaker AI music generator Suno breach affects 55M users, per Have I Been Pwned",
+      "full_article_text_chars": 7339,
+      "content_preview": "Over the last few decades, several mysterious hackers have captured the public’s imagination, but none quite like Phineas Fisher. A decade after their most famous hack, Phineas remains, by most accounts, the most prolific and public hacker never to have been caught . As part of our series on the biggest cybersecurity mysteries of all time, we’re delving into the enigma of Phineas, the hacktivist who hacked controversial spyware makers FinFisher and Hacking Team . The latter, an Italian startup, was among the first to turn government spyware into a viable global business, paving the way for spyware makers such as the Israeli NSO Group. Phineas’ hack against Hacking Team eventually led to the startup’s demise years later . Apart from Anonymous, an amorphous amalgam of hacktivists with a mixed track record of mostly stunt hacks designed to gather publicity rather than have real impact, Phineas is perhaps the most well-known hacktivist in history. Their story is made of impressive hacks and endless unanswered questions. Who is Phineas Fisher? Variously called an anarchist, a cybercriminal, a hacktivist, and a vigilante, the hacker has said they “use a lot of different names” for different hacking escapades. The hacks we know about were big enough to turn Phineas into a legend among hackers. “I would like to meet Phineas Fisher so that I could buy them a seven-course, three-Michelin-star dinner somewhere and listen to them explain how they turned Hacking Team inside out like a gym sock,” a well-known security researcher once wrote on Twitter. There’s even a song about them . Phineas first emerged in August 2014, when they announced they had hacked Gamma Group , the makers of the FinFisher spyware — which is where the nickname comes from. They publicized the hack via a Twitter account cheekily called @GammaGroupPR , leaking stolen data including mobile spyware, product manuals, and a price list. The damage was limited, and FinFisher carried on. Phineas published a post-mortem that doubled as a leftist manifesto, then vanished. A year later, they came back with a bang, hacking Hacking Team , another spyware maker. They took practically everything: more than 400 gigabytes including source code, tens of thousands of internal emails, confidential contracts, and customer lists. The leak allowed journalists to reveal scandals in Ecuador, Mexico, and Panama. Years later, Hacking Team’s CEO David Vincenzetti was forced to sell his company for one euro. For some former employees, Phineas’ hack was the beginning of the end. Phineas went on to hack the union of the Mossos d’Esquadra , which is the police force of Catalonia, publishing a post-mortem and a 39-minute tutorial video — consistent with their stated anti-police ideals. Their next victim was the ruling party of Turkey’s authoritarian president Recep Tayyip Erdoğan, a hack motivated by solidarity with Rojava, a leftist autonomous region in northern and eastern Syria that Turkey was fighting against. Phineas’ last known victim was Cayman National Bank’s branch in the Isle of Man, a self-governing island between England and Ireland. The hack hinted at a different side of Phineas. “I look for illegal ways to make money in order to free my time so I can do something useful with it. Once I had that figured out, I started scaling it up and making more money than I need and giving the extra away,” Phineas said in an interview with activist Freddy Martinez. (Phineas donated at least $10,000 in Bitcoin to Rojava .) Phineas kept the hack — which happened in 2016 — quiet for three years later before announcing the “Hacktivist Bug Bounty Program,” an initiative to reward hacktivists who expose companies’ illegal and unethical activities. When Cayman National Bank confirmed the hack, it claimed it “was amongst a number of banks targeted.” Phineas confirmed they had been hacking several banks for years. That was their last public appearance. Their Twitter and Reddit accounts have long since been deleted, leaving no online trail. FinFisher never contacted law enforcement, according to a former company employee. The Italian authorities’ investigation into the Hacking Team hack ended without finding any evidence pointing to Phineas’ real identity. What I can say, from my own reporting, is that Phineas is alive and well — they have been in contact with me within the last couple of years. So who is Phineas Fisher? Taking their claims at face value, they’re a hacktivist with anarchist ideals, but also a cybercriminal. Could they instead be a fabricated persona controlled by a spy agency — Russia, say, which has a history of inventing hacktivists to muddy the waters after its own hacks? Phineas has denied being a Russian spy, and it’s unclear why Moscow would go after all of Phineas’ chosen targets. Their origins are equally murky. Phineas has name-dropped Spanish-speaking anarchists, wrote the Hacking Team post-mortem in Spanish, and followed numerous Latin American leftist accounts on Twitter. They told me their first language is neither English nor Spanish, though they have acknowledged living in a Spanish-speaking country. It’s all worth taking with a grain of salt. “Everything I say that contains clues about my identity is half trolling,” Phineas once told me. “I’m in the habit of saying misinformation.” It’s also possible that the Phineas persona was passed around between 2014 and 2019 and used by different individuals. But there is no evidence of that, and after 10 years of conversations, my gut says Phineas truly is the hacktivist they claim to be. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Senior Reporter, Cybersecurity Lorenzo Franceschi-Bicchierai is a Senior Writer at TechCrunch, where he covers hacking, cybersecurity, surveillance, and privacy. You can contact or verify outreach from Lorenzo by emailing lorenzo@techcrunch.com , via encrypted message at +1 917 257 1382 on Signal, and @lorenzofb on Keybase/Telegram. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! SpaceX launches new V3 Starlink satellites but suffers another booster failure Sean O'Kane SpaceX launches new V3 Starlink satellites but suffers another booster failure US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Zack Whittaker US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark Ram Iyer Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark Tesla’s robotaxis are moving in reverse Sean O'Kane Tesla’s robotaxis are moving in reverse Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Amanda Silberling Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Light made a flip phone — it’s colorful and it’s cheap Amanda Silberling Light made a flip phone — it’s colorful and it’s cheap AI music generator Suno breach affects 55M users, per Have I Been Pwned Zack Whittaker AI music generator Suno breach affects 55M users, per Have I Been Pwned",
+      "content_preview_chars": 7339,
+      "content_fetched_at": "2026-07-25T21:34:04",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "22e18dbe34c5aed7",
+      "source_url_hash": "22e18dbe34c5aed7",
+      "canonical_url": "https://arstechnica.com/space/2026/07/spacex-eyes-tower-catch-for-next-starship-after-auspicious-end-to-13th-flight",
+      "title_hash": "3c564e815694a689",
+      "topic_signature": "f62ba5a757a3990d42bc",
+      "title": "SpaceX eyes tower catch for next Starship after auspicious end to 13th flight",
+      "url": "https://arstechnica.com/space/2026/07/spacex-eyes-tower-catch-for-next-starship-after-auspicious-end-to-13th-flight",
+      "source_name": "Ars Technica",
+      "source_url": "https://arstechnica.com",
+      "source_published_at": "2026-07-25T17:47:22Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 3.78,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-25T21:33:55",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 59,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 59,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "SpaceX eyes tower catch for next Starship after auspicious end to 13th flight",
+      "meta_description": "SpaceX will likely attempt to catch Starship back at the launch pad on its next flight.",
+      "article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/starshipflt13_1-1152x648.jpg",
+          "alt": "SpaceX eyes tower catch for next Starship after auspicious end to 13th flight",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/starshipflt13_1.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/starshipflt13_2.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/GettyImages-2286894612.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/starshipflt13_1-1152x648.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/starshipflt13_1.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/starshipflt13_2.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/GettyImages-2286894612.jpg",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "SpaceX was more than lucky Friday, sending its 13th full-scale Starship test flight halfway around the world from South Texas to an on-target, intact splashdown in a remote section of the Indian Ocean. Starship has made precise splashdowns before. This time, however, the ship gently tipped over and came to rest floating in a remote stretch of ocean west of Australia. Previous splashdowns ended with conflagrations, an outcome SpaceX officials have come to expect with each water landing of Starship. The buoyant Starship looked to be in fine shape after reaching the Indian Ocean. SpaceX engineers flew drones over the vehicle to inspect its heat shield, getting their best look yet at how more than 18,000 ceramic tiles insulating the ship’s stainless steel airframe weathered the trip to space and back. The tiles withstood temperatures up to 2,600° Fahrenheit (1,430° Celsius) as Starship streaked back into the atmosphere at the end of its hour-long flight from Starbase, Texas. Encouraged by the picture-perfect end to Friday’s flight, SpaceX is likely to take the next leap with Starship on the next launch, according to the company’s founder and CEO, Elon Musk. That would entail hurling Starship on a longer-range trajectory, perhaps into low-Earth orbit, to bring the vehicle back to the launch site. Mechanical arms on the launch tower will attempt to capture the ship as it slows to a hover. SpaceX has already done this with the rocket’s massive Super Heavy booster, which is larger and heavier than Starship itself, but comes back at a fraction of the speed. “Unless we discover problems after mission data review, SpaceX will attempt to catch the ship with the tower on next flight,” Musk wrote on X Friday evening. Engineers have long identified the performance and durability of the heat shield as one of the toughest challenges for the Starship program. SpaceX’s ambition for Starship includes rapid turnarounds, and eventually multiple flights per day. If this is to be achievable, the heat shield has to be robust against the vibrations and extreme temperatures it sees during launch and reentry. It can’t be refurbished or replaced after every flight. “This is the first time we’ve put an intact Starship in the water,” said Dan Huot, a SpaceX communications manager providing commentary on the company’s live webcast. “This is a dream scenario for the team that’s trying to get this heat shield data.” The intact splashdown Friday also opens up the possibility for SpaceX to tow the rocket back to shore, probably somewhere in Australia, for more detailed inspections. Starship is designed for reuse, but not after exposure to salt water. “This is so critical for refining the heat shield and everything else. The really good news is … you’re looking at a pretty intact-looking heat shield,” Huot said. “We were flying at a significantly higher dynamic pressure, so putting way more stress on this vehicle on the way uphill, and it’s sitting there in the water.” SpaceX continued receiving signals from Starship after splashdown through the company’s Starlink satellite broadband network. A camera onboard Starship showed no signs of external damage to the vehicle’s six Raptor engines as water lapped against the lens. Friday’s test flight was the 13th launch of SpaceX’s Starship on top of its massive Super Heavy booster, and the second flight of the latest iteration of the world’s most powerful rocket—Starship Version 3. The 408-foot-tall (124-meter) rocket lifted off from Starbase, Texas, a few miles north of the US-Mexico border, at 5:51 pm CDT (6:51 pm EDT; 22:51 UTC). Thirty-three methane-fueled Raptor engines on the Super Heavy booster steered the rocket east over the Gulf of Mexico and into the upper atmosphere, where the booster separated from Starship’s upper stage after burning most of its cryogenic propellant. The only thing left incomplete on SpaceX’s checklist for Flight 13 was the controlled splashdown of the Super Heavy booster. It was supposed to relight its engines for a landing burn off the coast of Texas, simulating maneuvers required to return the booster back to the launch pad for recovery and reuse. But some of the Raptor engines failed to restart for the landing burn, and the booster fell into the ocean at high speed. SpaceX also had trouble with the booster splashdown on the last flight in May. Friday’s flight showed some progress, but engineers have more work to do on recovering this version the Super Heavy booster. SpaceX previously recovered and re-flew Super Heavy boosters two times with the Starship Version 2 design, but not with Version 3. “The booster successfully completed the high thrust portion of the boostback burn with all 33 engines, the first time with a Super Heavy V3, before ending the burn early,” SpaceX officials wrote in an update on the company’s website . “It attempted to relight its engines for the landing burn, with a subset successfully igniting before experiencing a hard splashdown in the Gulf.” Starship continued accelerating into space as the Super Heavy booster descended toward the Gulf, firing its six engines more than five minutes before beginning a half-hour coast over the Caribbean Sea, Atlantic Ocean, and South Africa. A few minutes after engine shutdown, Starship opened its payload bay door and started deploying a stack of 20 Starlink satellites. The satellites are the first of SpaceX’s upgraded Starlink V3 model, with significant improvements in throughput and power. They are also larger and heavier than Starlink V2s, meaning they will not fit on SpaceX’s smaller, workhorse Falcon 9 rocket. Starship released the Starlink V3s using its Pez-like deployer, tossing them overboard through a slit-like opening on the side of the spacecraft. The flat-panel satellites did not stay in space for long. They flew on the same arcing suborbital trajectory as Starship, and were designed to burn up as they fell back into the atmosphere less than an hour after launch. In little time, SpaceX ground teams established contact with each of the satellites through radio and laser communication links, and “downloaded key telemetry” before their fiery demise. This provided engineers with their first look at the performance of Starlink V3s in space. With the satellite deployments complete, attention turned to a brief restart of one of the ship’s Raptor engines, something engineers forewent on the last flight. The burn lasted approximately 14 seconds, and was visible to observers in South Africa. SpaceX hailed the demonstration as “core capability for future orbital missions.” Gravity then pulled Starship back to Earth. The next steps for Starship are getting to orbit and returning the ship to the launch site. Those achievements will give SpaceX the capability to begin launching operational Starlink V3 satellites, unlocking higher-speed direct-to-device connectivity for consumers and the US military, and the revenue to go along with it. For NASA, an orbital flight puts SpaceX on a path toward orbital refueling. This demonstration is vital for any Starship flight beyond low-Earth orbit, including missions to the Moon in support of NASA’s Artemis program. NASA is working with SpaceX and Blue Origin to develop human-rated versions of Starship and the Blue Moon lander to ferry astronauts to and from the lunar surface. “Excited for what will be learned from this mission,” NASA Administrator Jared Isaacman wrote on X after the launch of Flight 13. “When Starship comes online, its capabilities will be game-changing, not least of which will be ensuring we never give up the Moon again!” SpaceX has one active launch pad in Texas, and a second Starship pad undergoing renovations there. Two Starship launch sites are under construction at Kennedy Space Center and Cape Canaveral Space Force Station in Florida. The orbital refueling demonstration will include two Starship launches, allowing the vehicles to rendezvous and dock with one another in orbit. One ship will then transfer methane and liquid oxygen propellants to the other through automated couplers. It will take multiple refueling runs in rapid succession to refill a Starship with enough propellant to reach the Moon, requiring rapid reuse of Starships and the Super Heavy boosters at multiple launch pads. With Friday’s test flight, SpaceX seems poised to embark on the next phase of Starship’s iterative development program. It won’t be easy. “Really critical data collected this mission on a demonstration deorbit burn for Raptor, and a first flight for the next generation Starlink satellites,” Shana Diez, SpaceX’s director of Starship flight reliability, wrote on X . “It feels like we are ready to kick into gear on delivering payload to orbit, which I am very excited for,” Diez added. “Development vehicles are fun but at the end of the day, we are here to put things into space and I am psyched about this rocket’s game changing capabilities.”",
+      "full_article_text_chars": 8948,
+      "content_preview": "SpaceX was more than lucky Friday, sending its 13th full-scale Starship test flight halfway around the world from South Texas to an on-target, intact splashdown in a remote section of the Indian Ocean. Starship has made precise splashdowns before. This time, however, the ship gently tipped over and came to rest floating in a remote stretch of ocean west of Australia. Previous splashdowns ended with conflagrations, an outcome SpaceX officials have come to expect with each water landing of Starship. The buoyant Starship looked to be in fine shape after reaching the Indian Ocean. SpaceX engineers flew drones over the vehicle to inspect its heat shield, getting their best look yet at how more than 18,000 ceramic tiles insulating the ship’s stainless steel airframe weathered the trip to space and back. The tiles withstood temperatures up to 2,600° Fahrenheit (1,430° Celsius) as Starship streaked back into the atmosphere at the end of its hour-long flight from Starbase, Texas. Encouraged by the picture-perfect end to Friday’s flight, SpaceX is likely to take the next leap with Starship on the next launch, according to the company’s founder and CEO, Elon Musk. That would entail hurling Starship on a longer-range trajectory, perhaps into low-Earth orbit, to bring the vehicle back to the launch site. Mechanical arms on the launch tower will attempt to capture the ship as it slows to a hover. SpaceX has already done this with the rocket’s massive Super Heavy booster, which is larger and heavier than Starship itself, but comes back at a fraction of the speed. “Unless we discover problems after mission data review, SpaceX will attempt to catch the ship with the tower on next flight,” Musk wrote on X Friday evening. Engineers have long identified the performance and durability of the heat shield as one of the toughest challenges for the Starship program. SpaceX’s ambition for Starship includes rapid turnarounds, and eventually multiple flights per day. If this is to be achievable, the heat shield has to be robust against the vibrations and extreme temperatures it sees during launch and reentry. It can’t be refurbished or replaced after every flight. “This is the first time we’ve put an intact Starship in the water,” said Dan Huot, a SpaceX communications manager providing commentary on the company’s live webcast. “This is a dream scenario for the team that’s trying to get this heat shield data.” The intact splashdown Friday also opens up the possibility for SpaceX to tow the rocket back to shore, probably somewhere in Australia, for more detailed inspections. Starship is designed for reuse, but not after exposure to salt water. “This is so critical for refining the heat shield and everything else. The really good news is … you’re looking at a pretty intact-looking heat shield,” Huot said. “We were flying at a significantly higher dynamic pressure, so putting way more stress on this vehicle on the way uphill, and it’s sitting there in the water.” SpaceX continued receiving signals from Starship after splashdown through the company’s Starlink satellite broadband network. A camera onboard Starship showed no signs of external damage to the vehicle’s six Raptor engines as water lapped against the lens. Friday’s test flight was the 13th launch of SpaceX’s Starship on top of its massive Super Heavy booster, and the second flight of the latest iteration of the world’s most powerful rocket—Starship Version 3. The 408-foot-tall (124-meter) rocket lifted off from Starbase, Texas, a few miles north of the US-Mexico border, at 5:51 pm CDT (6:51 pm EDT; 22:51 UTC). Thirty-three methane-fueled Raptor engines on the Super Heavy booster steered the rocket east over the Gulf of Mexico and into the upper atmosphere, where the booster separated from Starship’s upper stage after burning most of its cryogenic propellant. The only thing left incomplete on SpaceX’s checklist for Flight 13 was the controlled splashdown of the Super Heavy booster. It was supposed to relight its engines for a landing burn off the coast of Texas, simulating maneuvers required to return the booster back to the launch pad for recovery and reuse. But some of the Raptor engines failed to restart for the landing burn, and the booster fell into the ocean at high speed. SpaceX also had trouble with the booster splashdown on the last flight in May. Friday’s flight showed some progress, but engineers have more work to do on recovering this version the Super Heavy booster. SpaceX previously recovered and re-flew Super Heavy boosters two times with the Starship Version 2 design, but not with Version 3. “The booster successfully completed the high thrust portion of the boostback burn with all 33 engines, the first time with a Super Heavy V3, before ending the burn early,” SpaceX officials wrote in an update on the company’s website . “It attempted to relight its engines for the landing burn, with a subset successfully igniting before experiencing a hard splashdown in the Gulf.” Starship continued accelerating into space as the Super Heavy booster descended toward the Gulf, firing its six engines more than five minutes before beginning a half-hour coast over the Caribbean Sea, Atlantic Ocean, and South Africa. A few minutes after engine shutdown, Starship opened its payload bay door and started deploying a stack of 20 Starlink satellites. The satellites are the first of SpaceX’s upgraded Starlink V3 model, with significant improvements in throughput and power. They are also larger and heavier than Starlink V2s, meaning they will not fit on SpaceX’s smaller, workhorse Falcon 9 rocket. Starship released the Starlink V3s using its Pez-like deployer, tossing them overboard through a slit-like opening on the side of the spacecraft. The flat-panel satellites did not stay in space for long. They flew on the same arcing suborbital trajectory as Starship, and were designed to burn up as they fell back into the atmosphere less than an hour after launch. In little time, SpaceX ground teams established contact with each of the satellites through radio and laser communication links, and “downloaded key telemetry” before their fiery demise. This provided engineers with their first look at the performance of Starlink V3s in space. With the satellite deployments complete, attention turned to a brief restart of one of the ship’s Raptor engines, something engineers forewent on the last flight. The burn lasted approximately 14 seconds, and was visible to observers in South Africa. SpaceX hailed the demonstration as “core capability for future orbital missions.” Gravity then pulled Starship back to Earth. The next steps for Starship are getting to orbit and returning the ship to the launch site. Those achievements will give SpaceX the capability to begin launching operational Starlink V3 satellites, unlocking higher-speed direct-to-device connectivity for consumers and the US military, and the revenue to go along with it. For NASA, an orbital flight puts SpaceX on a path toward orbital refueling. This demonstration is vital for any Starship flight beyond low-Earth orbit, including missions to the Moon in support of NASA’s Artemis program. NASA is working with SpaceX and Blue Origin to develop human-rated versions of Starship and the Blue Moon lander to ferry astronauts to and from the lunar surface. “Excited for what will be learned from this mission,” NASA Administrator Jared Isaacman wrote on X after the launch of Flight 13. “When Starship comes online, its capabilities will be game-changing, not least of which will be ensuring we never give up the Moon again!” SpaceX has one active launch pad in Texas, and a second Starship pad undergoing renovations there. Two Starship launch sites are under construction at Kennedy Space Center and Cape Canaveral Space Force Station in Florida. The orbital refueling demonstration will include two Starship launches, allowing the vehicles to rendezvous and dock with one another in orbit. One ship will then transfer methane and liquid oxygen propellants to the other through automated couplers. It will take multiple refueling runs in rapid succession to refill a Starship with enough propellant to reach the Moon, requiring rapid reuse of Starships and the Super Heavy boosters at multiple launch pads. With Friday’s test flight, SpaceX seems poised to embark on the next phase of Starship’s iterative development program. It won’t be easy. “Really critical data collected this mission on a demonstration deorbit burn for Raptor, and a first flight for the next generation Starlink satellites,” Shana Diez, SpaceX’s director of Starship flight reliability, wrote on X . “It feels like we are ready to kick into gear on delivering payload to orbit, which I am very excited for,” Diez added. “Development vehicles are fun but at the end of the day, we are here to put things into space and I am psyched about this rocket’s game changing capabilities.”",
+      "content_preview_chars": 8948,
+      "content_fetched_at": "2026-07-25T21:34:13",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "8a62cdd850a10a58",
+      "source_url_hash": "8a62cdd850a10a58",
+      "canonical_url": "https://techcrunch.com/2026/07/25/kalshi-demands-netflix-take-down-trailer-for-prediction-games-documentary",
+      "title_hash": "dd9c92f168593fbf",
+      "topic_signature": "d7267f94eca14c7fb32c",
+      "title": "Kalshi demands Netflix take down trailer for ‘Prediction Games’ documentary",
+      "url": "https://techcrunch.com/2026/07/25/kalshi-demands-netflix-take-down-trailer-for-prediction-games-documentary",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-07-25T16:46:46Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 4.78,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-25T21:33:55",
+      "status": "skipped",
+      "score": 0,
+      "priority": "low",
+      "skip_reason": "non_technical_entertainment_content"
     }
   ],
   "notifications": {
