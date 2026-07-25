@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-25T21:36:19",
+  "updated_at": "2026-07-25T22:36:56",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -1085,7 +1085,10 @@
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-07-19T20:39:24",
       "candidate_failure_count": 3,
-      "telegram_final_summary_notified_at": "2026-07-19T06:31:36"
+      "telegram_final_summary_notified_at": "2026-07-19T06:31:36",
+      "archived": true,
+      "archived_at": "2026-07-25T22:34:46",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "bc9ed1525f5041d2",
@@ -1242,7 +1245,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-07-19T20:39:56",
-      "candidate_failure_count": 3
+      "candidate_failure_count": 3,
+      "archived": true,
+      "archived_at": "2026-07-25T22:34:46",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "389a7cb64568095e",
@@ -2550,12 +2556,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-25T21:34:14",
-      "candidate_retry_after": "2026-07-25T21:49:14Z",
+      "content_fetched_at": "2026-07-25T22:35:03",
+      "candidate_retry_after": "2026-07-25T22:50:03Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-25T21:34:14",
-      "candidate_failure_count": 95
+      "candidate_failed_at": "2026-07-25T22:35:03",
+      "candidate_failure_count": 96
     },
     {
       "id": "512c2899a98440d2",
@@ -2584,12 +2590,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-25T21:34:14",
-      "candidate_retry_after": "2026-07-25T21:49:14Z",
+      "content_fetched_at": "2026-07-25T22:35:03",
+      "candidate_retry_after": "2026-07-25T22:50:03Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-25T21:34:14",
-      "candidate_failure_count": 95
+      "candidate_failed_at": "2026-07-25T22:35:03",
+      "candidate_failure_count": 96
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2618,12 +2624,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-25T21:34:14",
-      "candidate_retry_after": "2026-07-25T21:49:14Z",
+      "content_fetched_at": "2026-07-25T22:35:03",
+      "candidate_retry_after": "2026-07-25T22:50:03Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-25T21:34:14",
-      "candidate_failure_count": 95
+      "candidate_failed_at": "2026-07-25T22:35:03",
+      "candidate_failure_count": 96
     },
     {
       "id": "d900f1574fddfab4",
@@ -3453,12 +3459,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-07-25T21:34:15",
-      "candidate_retry_after": "2026-07-25T21:49:15Z",
+      "content_fetched_at": "2026-07-25T22:35:04",
+      "candidate_retry_after": "2026-07-25T22:50:04Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-07-25T21:34:15",
-      "candidate_failure_count": 94
+      "candidate_failed_at": "2026-07-25T22:35:04",
+      "candidate_failure_count": 95
     },
     {
       "id": "8d2678d87487d729",
@@ -4329,13 +4335,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-07-25T21:34:15",
-      "candidate_retry_after": "2026-07-25T21:49:15Z",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-07-25T22:35:05",
+      "candidate_retry_after": "2026-07-25T22:50:05Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-07-25T21:34:15",
-      "candidate_failure_count": 93
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-07-25T22:35:05",
+      "candidate_failure_count": 94
     },
     {
       "id": "45429302676bf4c5",
@@ -5387,12 +5393,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-25T21:34:17",
-      "candidate_retry_after": "2026-07-25T21:49:17Z",
+      "content_fetched_at": "2026-07-25T22:35:11",
+      "candidate_retry_after": "2026-07-25T22:50:11Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-25T21:34:17",
-      "candidate_failure_count": 91
+      "candidate_failed_at": "2026-07-25T22:35:11",
+      "candidate_failure_count": 92
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5423,13 +5429,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-25T21:34:19",
-      "candidate_retry_after": "2026-07-25T21:49:19Z",
+      "content_fetch_error": "timeout",
+      "content_fetched_at": "2026-07-25T22:35:32",
+      "candidate_retry_after": "2026-07-25T22:50:32Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-25T21:34:19",
-      "candidate_failure_count": 91
+      "candidate_failure_reason": "timeout",
+      "candidate_failed_at": "2026-07-25T22:35:32",
+      "candidate_failure_count": 92
     },
     {
       "id": "aede79193c6b98c9",
@@ -5461,12 +5467,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-25T21:34:20",
-      "candidate_retry_after": "2026-07-25T21:49:20Z",
+      "content_fetched_at": "2026-07-25T22:35:42",
+      "candidate_retry_after": "2026-07-25T22:50:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-25T21:34:20",
-      "candidate_failure_count": 91
+      "candidate_failed_at": "2026-07-25T22:35:42",
+      "candidate_failure_count": 92
     },
     {
       "id": "253eaa098c468523",
@@ -6403,12 +6409,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-25T21:34:21",
-      "candidate_retry_after": "2026-07-25T21:49:21Z",
+      "content_fetched_at": "2026-07-25T22:35:42",
+      "candidate_retry_after": "2026-07-25T22:50:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-25T21:34:21",
-      "candidate_failure_count": 89
+      "candidate_failed_at": "2026-07-25T22:35:42",
+      "candidate_failure_count": 90
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6803,12 +6809,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-25T21:34:24",
-      "candidate_retry_after": "2026-07-25T21:49:24Z",
+      "content_fetched_at": "2026-07-25T22:35:44",
+      "candidate_retry_after": "2026-07-25T22:50:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-25T21:34:24",
-      "candidate_failure_count": 87
+      "candidate_failed_at": "2026-07-25T22:35:44",
+      "candidate_failure_count": 88
     },
     {
       "id": "693fbfabd96b2185",
@@ -6839,12 +6845,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-25T21:34:26",
-      "candidate_retry_after": "2026-07-25T21:49:26Z",
+      "content_fetched_at": "2026-07-25T22:35:45",
+      "candidate_retry_after": "2026-07-25T22:50:45Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-25T21:34:26",
-      "candidate_failure_count": 87
+      "candidate_failed_at": "2026-07-25T22:35:45",
+      "candidate_failure_count": 88
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9273,12 +9279,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "content_fetched_at": "2026-07-25T21:34:27",
-      "candidate_retry_after": "2026-07-25T21:49:27Z",
+      "content_fetched_at": "2026-07-25T22:35:46",
+      "candidate_retry_after": "2026-07-25T22:50:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "candidate_failed_at": "2026-07-25T21:34:27",
-      "candidate_failure_count": 83
+      "candidate_failed_at": "2026-07-25T22:35:46",
+      "candidate_failure_count": 84
     },
     {
       "id": "561b6316398d7603",
@@ -10365,12 +10371,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-25T21:34:27",
-      "candidate_retry_after": "2026-07-25T21:49:27Z",
+      "content_fetched_at": "2026-07-25T22:35:46",
+      "candidate_retry_after": "2026-07-25T22:50:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-25T21:34:27",
-      "candidate_failure_count": 79
+      "candidate_failed_at": "2026-07-25T22:35:46",
+      "candidate_failure_count": 80
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10402,12 +10408,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-25T21:34:28",
-      "candidate_retry_after": "2026-07-25T21:49:28Z",
+      "content_fetched_at": "2026-07-25T22:35:46",
+      "candidate_retry_after": "2026-07-25T22:50:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-25T21:34:28",
-      "candidate_failure_count": 79
+      "candidate_failed_at": "2026-07-25T22:35:46",
+      "candidate_failure_count": 80
     },
     {
       "id": "a6f4ca9464909855",
@@ -10439,12 +10445,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-25T21:34:28",
-      "candidate_retry_after": "2026-07-25T21:49:28Z",
+      "content_fetched_at": "2026-07-25T22:35:46",
+      "candidate_retry_after": "2026-07-25T22:50:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-25T21:34:28",
-      "candidate_failure_count": 79
+      "candidate_failed_at": "2026-07-25T22:35:46",
+      "candidate_failure_count": 80
     },
     {
       "id": "71463c25ac92daaa",
@@ -15081,12 +15087,12 @@
       "removed_source_links_count": 79,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-25T21:34:30",
-      "candidate_retry_after": "2026-07-25T21:49:30Z",
+      "content_fetched_at": "2026-07-25T22:35:48",
+      "candidate_retry_after": "2026-07-25T22:50:48Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-07-25T21:34:30",
-      "candidate_failure_count": 68
+      "candidate_failed_at": "2026-07-25T22:35:48",
+      "candidate_failure_count": 69
     },
     {
       "id": "41b7b918ab3966e4",
@@ -42866,7 +42872,81 @@
       "content_preview_chars": 7552,
       "content_fetched_at": "2026-07-25T18:36:57",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-25T22:35:49",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "category rotation newest fresh article: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-25T22:35:49",
+      "ai_input_package": {
+        "title": "Android 17 was supposed to fix this Pixel annoyance, but it only made it worse",
+        "url": "https://www.howtogeek.com/android-17-was-supposed-to-fix-this-pixel-annoyance-but-it-only-made-it-worse",
+        "source_name": "How-To Geek",
+        "suggested_category": "Apps-Programs",
+        "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/dsc_0173.jpg?w=1600&h=900&fit=crop",
+        "article_images": [
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/dsc_0173.jpg?w=1600&h=900&fit=crop",
+            "alt": "Android 17 was supposed to fix this Pixel annoyance, but it only made it worse",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/dsc_0173.jpg?&fit=crop&w=1600&h=900",
+            "alt": "The Android Quick Settings panel shown on a Pixel 10 Pro. ",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/dsc_0172.jpg?q=49&fit=crop&w=825&dpr=2",
+            "alt": "The Android Quick Settings panel on a Pixel 10 Pro.",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/dsc_0178.jpg?q=49&fit=crop&w=825&dpr=2",
+            "alt": "A warning about mobile data charges when you try to enable mobile data on a Google Pixel 10 Pro. ",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "One step forward, two steps back.",
+        "content_preview": "For years, Pixel phone owners had to put up with a unified \"Internet\" Quick Settings tile that combined the Wi-Fi and mobile data toggles. If you wanted to toggle your Wi-Fi or mobile data radio, you couldn't simply tap the appropriate tile like you could for more than a decade. Nope, you had to tap it once to open the Internet panel and then tap again to disable or enable Wi-Fi or mobile data. Rumors that Google would finally separate the Wi-Fi and mobile data toggles had been swirling for some time before we finally got official confirmation in late March 2026, when Google added separate Wi-Fi and mobile data toggles to Android Canary Build 2603. The official Android 17 update kept the separate toggles, and that was the end of it, right? Well, Google somehow made the separate Quick Settings toggles a worse option than the old unified Internet toggle.Google finally separated the Wi-Fi and mobile data toggles in Android 17. But it somehow made them worse Okay, so the Android 17 update, which rolled out to eligible Pixel phones in waves throughout June 2026, finally brought back separate Wi-Fi and mobile data toggles. After the update installed on my Pixel 10 Pro, one of the first things I did was add the two toggles to my Quick Settings panel. And all was good for a short while. I could turn Wi-Fi and mobile data on or off with a single tap, just like I could on almost every Android phone I'd owned before the Pixel 10 Pro. I had thought the only annoyance was my phone informing me that enabling mobile data \"may incur charges based on your mobile service plan\" every single time I wanted to turn it on. Unfortunately, I was wrong. I always turn off both Wi-Fi and mobile data, enable Bedtime mode, and plug my phone into the charger before going to bed. I did the same the night after installing the Android 17 update. But when I woke up, I noticed that Wi-Fi was on and that I was connected to my home network, which I quickly brushed off as a bug related to the update. I rebooted the phone and moved on with my day. But the next morning, I again noticed that my phone was connected to my home Wi-Fi even though I had turned it off the night before. Or had I? After a quick Google search, I realized that while Google did separate the two Internet toggles, tapping the Wi-Fi tile doesn't actually disable the Wi-Fi radio . Instead, it only disconnects you from the Wi-Fi network you're currently connected to, while the Wi-Fi radio keeps running in the background. Worse still, at least in my case, my phone almost always reconnects to the Wi-Fi network I was connected to mere seconds after I tap the tile and disconnect from it. This looks like a bug that could (and should) be fixed in a future update, or at least I hope so. So not only does tapping the Wi-Fi toggle not actually disable the Wi-Fi radio, but the new functionality doesn't really work either because the phone reconnects almost immediately after you disconnect from the network. Just look at the two photos below: the first one shows the Wi-Fi toggle after I tap it, and the second shows the icon after I actually disable the Wi-Fi radio. As you can see, the first is simply dark, meaning Wi-Fi is still enabled but isn't connected to any network, while the second features a crossed-out Wi-Fi icon, indicating that Wi-Fi is actually turned off. To disable the Wi-Fi radio, you have to tap and hold the Wi-Fi tile, after which you're greeted with the same Internet panel found on the previous merged Internet tile we had before Android 17. You can also open the Internet panel without holding the Wi-Fi tile, but only if you add a 1×2 Quick Settings Wi-Fi tile, which takes up unnecessary space. Once you do, you can tap the right half of the Wi-Fi tile to open the Internet panel. But you still can't disable the Wi-Fi radio with a single tap. At the end of the day, all Google did was replace the old solution with a new one that's actually inferior to the old one. We now do have separate tiles, but you have to tap and hold the Wi-Fi tile to actually disable the Wi-Fi radio. And while a single tap disables the mobile data radio, you have to confirm that you want to enable mobile data every single time you turn it back on. In other words, the new tiles are worse than the old unified Internet toggle: disabling Wi-Fi takes longer, and re-enabling mobile data now takes two steps instead of one. Thanks, Google! Fortunately, you can add a Wi-Fi toggle that actually disables the Wi-Fi radio when tapped The app needs Shizuku to work, but it's more than worth the hassle As you might expect, I'm not a fan of the new separate Wi-Fi and mobile data tiles, so I started looking for an app that would let me toggle both radios with a single tap, just like I could ever since Android 4.2 first introduced native Quick Settings tiles. Luckily, I quickly found a solution in the form of an app called Better Internet Tiles . All the app does is let you add separate Wi-Fi and mobile data tiles that, believe it or not , actually disable and enable the Wi-Fi and mobile data radios with a single tap. You don't have to tap and hold the Wi-Fi tile anymore; simply tapping it turns off Wi-Fi instead of just disconnecting you from the current network. You can also enable mobile data with a single tap, without being greeted by the mobile data charges notification. The app does need Shizuku to work, which is a free and open-source tool that gives other apps (in this case, Better Internet Tiles) system-level access via Android's wireless debugging feature. To set up Shizuku, first enable Developer Options, then download and install Shizuku (you'll also need to have sideloading enabled). Now open Shizuku, find the Start via Wireless Debugging tab, tap the Pairing button, and the app will open the Developer Options menu. Next, locate Wireless debugging , tap the left side of the toggle, and then tap Pair device with pairing code . You can now enter the pairing code into Shizuku, tap Send , and start the Shizuku service. Finally, open Better Internet Tiles and grant it the necessary permissions. You can now finally add the Wi-Fi and mobile data tiles and disable both radios with a single tap, which somehow is impossible with Android 17's native Wi-Fi and mobile data toggles. All Google had to do was separate the Wi-Fi and mobile data tiles and not touch anything else When I tap the Wi-Fi tile in the Quick Settings panel, I want it to turn off the wireless radio. I don't want to disconnect my phone from the Wi-Fi network it's connected to, only for it to reconnect to the same network a few moments later. Similarly, I want to disable and enable mobile data with a single tap. I don't want to deal with annoying (and unneeded) warnings and notifications every time I do so. Google had a very simple task: just separate the two tiles and make them work as they had for more than a decade. But somehow, it fumbled the job and made the new tiles worse in every way. I can't for the life of me understand how Google messed this up, but it did. That led me to reach for a third-party app just so I could disable Wi-Fi and mobile data with a single tap, something that should have been the default behavior from the get-go. For some reason, though, these simple actions are now more complicated than they ever had any reason to be, just because Google thinks it knows better than everyone else. Go figure. The Pixel 10 Pro offers an upgrade over the base model with the powerful Google Tensor G5 chip, more RAM, and more storage (if you need it).",
+        "content_preview_chars": 7552,
+        "rss_summary": "",
+        "full_article_text": "For years, Pixel phone owners had to put up with a unified \"Internet\" Quick Settings tile that combined the Wi-Fi and mobile data toggles. If you wanted to toggle your Wi-Fi or mobile data radio, you couldn't simply tap the appropriate tile like you could for more than a decade. Nope, you had to tap it once to open the Internet panel and then tap again to disable or enable Wi-Fi or mobile data. Rumors that Google would finally separate the Wi-Fi and mobile data toggles had been swirling for some time before we finally got official confirmation in late March 2026, when Google added separate Wi-Fi and mobile data toggles to Android Canary Build 2603. The official Android 17 update kept the separate toggles, and that was the end of it, right? Well, Google somehow made the separate Quick Settings toggles a worse option than the old unified Internet toggle.Google finally separated the Wi-Fi and mobile data toggles in Android 17. But it somehow made them worse Okay, so the Android 17 update, which rolled out to eligible Pixel phones in waves throughout June 2026, finally brought back separate Wi-Fi and mobile data toggles. After the update installed on my Pixel 10 Pro, one of the first things I did was add the two toggles to my Quick Settings panel. And all was good for a short while. I could turn Wi-Fi and mobile data on or off with a single tap, just like I could on almost every Android phone I'd owned before the Pixel 10 Pro. I had thought the only annoyance was my phone informing me that enabling mobile data \"may incur charges based on your mobile service plan\" every single time I wanted to turn it on. Unfortunately, I was wrong. I always turn off both Wi-Fi and mobile data, enable Bedtime mode, and plug my phone into the charger before going to bed. I did the same the night after installing the Android 17 update. But when I woke up, I noticed that Wi-Fi was on and that I was connected to my home network, which I quickly brushed off as a bug related to the update. I rebooted the phone and moved on with my day. But the next morning, I again noticed that my phone was connected to my home Wi-Fi even though I had turned it off the night before. Or had I? After a quick Google search, I realized that while Google did separate the two Internet toggles, tapping the Wi-Fi tile doesn't actually disable the Wi-Fi radio . Instead, it only disconnects you from the Wi-Fi network you're currently connected to, while the Wi-Fi radio keeps running in the background. Worse still, at least in my case, my phone almost always reconnects to the Wi-Fi network I was connected to mere seconds after I tap the tile and disconnect from it. This looks like a bug that could (and should) be fixed in a future update, or at least I hope so. So not only does tapping the Wi-Fi toggle not actually disable the Wi-Fi radio, but the new functionality doesn't really work either because the phone reconnects almost immediately after you disconnect from the network. Just look at the two photos below: the first one shows the Wi-Fi toggle after I tap it, and the second shows the icon after I actually disable the Wi-Fi radio. As you can see, the first is simply dark, meaning Wi-Fi is still enabled but isn't connected to any network, while the second features a crossed-out Wi-Fi icon, indicating that Wi-Fi is actually turned off. To disable the Wi-Fi radio, you have to tap and hold the Wi-Fi tile, after which you're greeted with the same Internet panel found on the previous merged Internet tile we had before Android 17. You can also open the Internet panel without holding the Wi-Fi tile, but only if you add a 1×2 Quick Settings Wi-Fi tile, which takes up unnecessary space. Once you do, you can tap the right half of the Wi-Fi tile to open the Internet panel. But you still can't disable the Wi-Fi radio with a single tap. At the end of the day, all Google did was replace the old solution with a new one that's actually inferior to the old one. We now do have separate tiles, but you have to tap and hold the Wi-Fi tile to actually disable the Wi-Fi radio. And while a single tap disables the mobile data radio, you have to confirm that you want to enable mobile data every single time you turn it back on. In other words, the new tiles are worse than the old unified Internet toggle: disabling Wi-Fi takes longer, and re-enabling mobile data now takes two steps instead of one. Thanks, Google! Fortunately, you can add a Wi-Fi toggle that actually disables the Wi-Fi radio when tapped The app needs Shizuku to work, but it's more than worth the hassle As you might expect, I'm not a fan of the new separate Wi-Fi and mobile data tiles, so I started looking for an app that would let me toggle both radios with a single tap, just like I could ever since Android 4.2 first introduced native Quick Settings tiles. Luckily, I quickly found a solution in the form of an app called Better Internet Tiles . All the app does is let you add separate Wi-Fi and mobile data tiles that, believe it or not , actually disable and enable the Wi-Fi and mobile data radios with a single tap. You don't have to tap and hold the Wi-Fi tile anymore; simply tapping it turns off Wi-Fi instead of just disconnecting you from the current network. You can also enable mobile data with a single tap, without being greeted by the mobile data charges notification. The app does need Shizuku to work, which is a free and open-source tool that gives other apps (in this case, Better Internet Tiles) system-level access via Android's wireless debugging feature. To set up Shizuku, first enable Developer Options, then download and install Shizuku (you'll also need to have sideloading enabled). Now open Shizuku, find the Start via Wireless Debugging tab, tap the Pairing button, and the app will open the Developer Options menu. Next, locate Wireless debugging , tap the left side of the toggle, and then tap Pair device with pairing code . You can now enter the pairing code into Shizuku, tap Send , and start the Shizuku service. Finally, open Better Internet Tiles and grant it the necessary permissions. You can now finally add the Wi-Fi and mobile data tiles and disable both radios with a single tap, which somehow is impossible with Android 17's native Wi-Fi and mobile data toggles. All Google had to do was separate the Wi-Fi and mobile data tiles and not touch anything else When I tap the Wi-Fi tile in the Quick Settings panel, I want it to turn off the wireless radio. I don't want to disconnect my phone from the Wi-Fi network it's connected to, only for it to reconnect to the same network a few moments later. Similarly, I want to disable and enable mobile data with a single tap. I don't want to deal with annoying (and unneeded) warnings and notifications every time I do so. Google had a very simple task: just separate the two tiles and make them work as they had for more than a decade. But somehow, it fumbled the job and made the new tiles worse in every way. I can't for the life of me understand how Google messed this up, but it did. That led me to reach for a third-party app just so I could disable Wi-Fi and mobile data with a single tap, something that should have been the default behavior from the get-go. For some reason, though, these simple actions are now more complicated than they ever had any reason to be, just because Google thinks it knows better than everyone else. Go figure. The Pixel 10 Pro offers an upgrade over the base model with the powerful Google Tensor G5 chip, more RAM, and more storage (if you need it).",
+        "full_article_text_chars": 7552,
+        "enrichment_status": "strong",
+        "source_url": "https://www.howtogeek.com",
+        "source_published_at": "2026-07-25T18:30:13Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.1,
+        "trusted_references": [
+          {
+            "title": "Add Us",
+            "url": "https://www.google.com/preferences/source?q=howtogeek.com"
+          },
+          {
+            "title": "Shizuku",
+            "url": "https://github.com/rikkaapps/shizuku"
+          },
+          {
+            "title": "$999 at Google Store",
+            "url": "https://store.google.com/product/pixel_10_pro?hl=en-US"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_quality_last_error": "html_content has unbalanced <p> tags",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 35.53,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-25T22:51:26Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-25T22:36:26",
+      "candidate_failure_count": 1
     },
     {
       "id": "4496735e0b02f68d",
@@ -42975,7 +43055,73 @@
       "content_preview_chars": 7095,
       "content_fetched_at": "2026-07-25T18:37:02",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-25T22:36:28",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "category rotation newest fresh article: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-25T22:36:28",
+      "ai_input_package": {
+        "title": "Same engine, $20,000 less: why the 2026 Toyota Camry beats its Lexus twin",
+        "url": "https://www.howtogeek.com/2026-toyota-camry-beats-its-lexus-twin",
+        "source_name": "How-To Geek",
+        "suggested_category": "Apps-Programs",
+        "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/2026-toyota-camry-4.jpg?q=49&fit=contain&w=4000&h=2886&dpr=2",
+        "article_images": [
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/2026-toyota-camry-4.jpg?q=49&fit=contain&w=4000&h=2886&dpr=2",
+            "alt": "Same engine, $20,000 less: why the 2026 Toyota Camry beats its Lexus twin",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/2026-toyota-camry-3.jpg?q=49&fit=contain&w=750&h=422&dpr=2",
+            "alt": "2026 Toyota Camry (3)",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/2026-toyota-camry-2.jpg?q=49&fit=contain&w=750&h=422&dpr=2",
+            "alt": "2026 Toyota Camry (2)",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/2026-toyota-camry-1.jpg?q=49&fit=contain&w=750&h=422&dpr=2",
+            "alt": "2026 Toyota Camry (1)",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "The real question isn't which one is nicer. It's what the higher price actually buys.",
+        "content_preview": "People sometimes joke that the Lexus ES is just a Toyota Camry in a nicer suit. That joke has always been an oversimplification, but the 2026 redesign makes it harder to dismiss. For example, both cars dropped their gas-only engines in the same redesign cycle. Every 2026 Camry is now a hybrid. The 2026 Lexus ES is hybrid-only as well, though this year Lexus also introduced a fully electric ES version . To that end, the starting MSRP might be farther apart than some realize. The 2026 Toyota Camry starts at $30,895, including the $1,295 destination charge. By contrast, the 2026 Lexus ES 350h starts at $51,095, including destination. In essence, the entry-level ES costs $20,200 more than the entry-level Camry before any options are added. The 2026 Toyota Camry also comes with a fuel economy edge over its ES counterpart that holds across nearly every trim level, save for one exception. Where the extra money for a Lexus actually pays off is elsewhere: a longer warranty, more rear-seat room, and an interior crafted to a different standard. Same displacement, different generations Lexus borrows the Camry's engine (but with premium fuel) Toyota offers five Camry trims: LE, SE, Nightshade, XLE, and XSE. The ES 350h lineup is a little smaller with two trims, Premium and Premium+. Both lineups offer front-wheel drive or all-wheel drive, regardless of the trim level. Both cars use a 2.5-liter four-cylinder gas engine paired with an electric motor, and each sends power through a continuously variable transmission . The Camry uses Toyota's fifth-generation hybrid system, pairing the 2.5-liter four-cylinder (184 horsepower) with a 100 kW front motor (about 134 horsepower) for 225 combined horsepower in front-wheel drive. The ES 350h leverages a newer sixth-generation Lexus hybrid system, pairing the aforementioned 2.5-liter engine (186 horsepower) with a 201-horsepower front motor for a combined output of 244 horsepower. Likewise, both cars add a second motor at the rear axle for all-wheel drive versions, although the two systems behave differently. The Camry's rear motor pushes total output from 225 to 232 horsepower. The rear e-axle for the ES does not change the total at all, holding steady at 244 horsepower in both front- and all-wheel drive, since the extra motor goes toward traction rather than added power. The Lexus ES also requires premium fuel, while the Camry runs on regular 87 octane. Premium is more per gallon than regular, a recurring cost worth noting as we head into the fuel economy numbers below. The Camry's fuel economy advantage One configuration is the exception to the rule Here's how the full lineup breaks down for both the 2026 Toyota Camry and the 2026 Lexus ES, according to the EPA: Camry LE FWD: 52 city / 49 highway / 51 combined Camry LE AWD: 50 city / 49 highway / 50 combined Camry SE, Nightshade, XLE, XSE FWD: 47 city / 45 highway / 46 combined Camry SE, Nightshade, XLE AWD: 46 city / 46 highway / 46 combined Camry XSE AWD: 43 city / 43 highway / 43 combined Lexus ES 350h FWD: 48 city / 44 highway / 46 combined Lexus ES 350h AWD: 47 city / 42 highway / 44 combined The base Camry LE holds the widest advantage over the ES 350h. It beats the ES by five mpg combined in front-wheel drive (51 versus 46 mpg) and by six mpg combined in all-wheel drive (50 versus 44 mpg). Move up to the SE, Nightshade, and XLE, and things are more evenly matched. In front-wheel drive, for example, these three trims tie the ES 350h exactly at 46 mpg combined. The XSE, Camry's top trim, also ties the ES at 46 combined in a front-wheel drive configuration. For all-wheel drive models, however, the Camry still comes out (mostly) ahead in combined mpg, which could be a selling point for those who live where all-wheel drive is a necessity. The only exception here is how the Camry XSE with all-wheel drive drops to 43 combined, a single mpg behind the ES 350h. That's the only pairing in this entire comparison where the Lexus wins on fuel economy. Bigger wheels, sportier suspension tuning, and added curb weight in general explain that XSE AWD dip, since it's the most performance-oriented Camry Toyota sells. Where the Lexus ES feels like a Lexus Richer materials and premium audio The ES is a bigger car overall. It measures 202.4 inches long on a 116.1-inch wheelbase, compared to the Camry at 193.5 inches in length on a 111.2-inch wheelbase. Most of the extra length for the ES translates to rear-seat legroom, not cargo space. The ES offers 40.7 inches of rear-seat legroom, compared with 38 inches in the Camry, a noteworthy difference for anyone who regularly rides in the back seat, as well as for families with kids and car seats. In terms of trunk space, the Camry offers more at 15.1 cubic feet versus the ES at 13.3 cubic feet, despite the Lexus being the longer car. Buyers who regularly haul luggage, golf clubs, or a stroller or two will find the Camry offers more room to get the job done. Both ES 350h trims come wrapped in NuLuxe, a synthetic leather alternative, paired with heated and ventilated front seats and ambient lighting. The Camry only offers ventilated seats as a package on the XLE and XSE, and ambient lighting only comes standard on those same two trims. Genuine leather, meanwhile, shows up on the Camry XSE, not the ES, since Lexus sticks with NuLuxe. A front-seat knee heater is an option for the ES, a small comfort touch the Camry doesn't offer. Meanwhile, the technology suite favors the Lexus. Every ES 350h comes standard with a 14-inch touchscreen and a 12.3-inch digital gauge cluster. The Camry LE, SE, and Nightshade make do with an eight-inch touchscreen and a seven-inch gauge cluster; only the XLE and XSE step up to the 12.3-inch versions of each. The audio systems arguably favor the Lexus as well. The ES Premium trim comes standard with a 10-speaker system, while the Premium+ upgrades to a 17-speaker, 1,800-watt Mark Levinson system. The Camry's best available audio option is a nine-speaker JBL setup, bundled into a package on the XLE and XSE. For anyone who listens to music or podcasts on every commute, what Lexus is offering here could be a deciding factor. Toyota wins on price and fuel economy; Lexus wins on tech and luxury Buyers who want good fuel economy, the lowest purchase price, and don't mind a smaller standard infotainment screen should look at the 2026 Camry. Buyers who want more rear legroom, the option for a Mark Levinson stereo, or that general luxury-car feel, and don't mind paying more at the dealership and at the pump, should look at the ES 350h instead. The 2026 Toyota Camry has a three-year, 36,000-mile bumper-to-bumper warranty, a five-year, 60,000-mile powertrain warranty, and five years of corrosion protection (unlimited mileage). The hybrid battery carries a 10-year, 150,000-mile warranty. The 2026 Lexus ES has a four-year, 50,000-mile bumper-to-bumper warranty, a six-year, 70,000-mile powertrain warranty, and six years of corrosion protection (unlimited mileage). The hybrid battery carries the same 10-year, 150,000-mile warranty as the Camry.",
+        "content_preview_chars": 7095,
+        "rss_summary": "",
+        "full_article_text": "People sometimes joke that the Lexus ES is just a Toyota Camry in a nicer suit. That joke has always been an oversimplification, but the 2026 redesign makes it harder to dismiss. For example, both cars dropped their gas-only engines in the same redesign cycle. Every 2026 Camry is now a hybrid. The 2026 Lexus ES is hybrid-only as well, though this year Lexus also introduced a fully electric ES version . To that end, the starting MSRP might be farther apart than some realize. The 2026 Toyota Camry starts at $30,895, including the $1,295 destination charge. By contrast, the 2026 Lexus ES 350h starts at $51,095, including destination. In essence, the entry-level ES costs $20,200 more than the entry-level Camry before any options are added. The 2026 Toyota Camry also comes with a fuel economy edge over its ES counterpart that holds across nearly every trim level, save for one exception. Where the extra money for a Lexus actually pays off is elsewhere: a longer warranty, more rear-seat room, and an interior crafted to a different standard. Same displacement, different generations Lexus borrows the Camry's engine (but with premium fuel) Toyota offers five Camry trims: LE, SE, Nightshade, XLE, and XSE. The ES 350h lineup is a little smaller with two trims, Premium and Premium+. Both lineups offer front-wheel drive or all-wheel drive, regardless of the trim level. Both cars use a 2.5-liter four-cylinder gas engine paired with an electric motor, and each sends power through a continuously variable transmission . The Camry uses Toyota's fifth-generation hybrid system, pairing the 2.5-liter four-cylinder (184 horsepower) with a 100 kW front motor (about 134 horsepower) for 225 combined horsepower in front-wheel drive. The ES 350h leverages a newer sixth-generation Lexus hybrid system, pairing the aforementioned 2.5-liter engine (186 horsepower) with a 201-horsepower front motor for a combined output of 244 horsepower. Likewise, both cars add a second motor at the rear axle for all-wheel drive versions, although the two systems behave differently. The Camry's rear motor pushes total output from 225 to 232 horsepower. The rear e-axle for the ES does not change the total at all, holding steady at 244 horsepower in both front- and all-wheel drive, since the extra motor goes toward traction rather than added power. The Lexus ES also requires premium fuel, while the Camry runs on regular 87 octane. Premium is more per gallon than regular, a recurring cost worth noting as we head into the fuel economy numbers below. The Camry's fuel economy advantage One configuration is the exception to the rule Here's how the full lineup breaks down for both the 2026 Toyota Camry and the 2026 Lexus ES, according to the EPA: Camry LE FWD: 52 city / 49 highway / 51 combined Camry LE AWD: 50 city / 49 highway / 50 combined Camry SE, Nightshade, XLE, XSE FWD: 47 city / 45 highway / 46 combined Camry SE, Nightshade, XLE AWD: 46 city / 46 highway / 46 combined Camry XSE AWD: 43 city / 43 highway / 43 combined Lexus ES 350h FWD: 48 city / 44 highway / 46 combined Lexus ES 350h AWD: 47 city / 42 highway / 44 combined The base Camry LE holds the widest advantage over the ES 350h. It beats the ES by five mpg combined in front-wheel drive (51 versus 46 mpg) and by six mpg combined in all-wheel drive (50 versus 44 mpg). Move up to the SE, Nightshade, and XLE, and things are more evenly matched. In front-wheel drive, for example, these three trims tie the ES 350h exactly at 46 mpg combined. The XSE, Camry's top trim, also ties the ES at 46 combined in a front-wheel drive configuration. For all-wheel drive models, however, the Camry still comes out (mostly) ahead in combined mpg, which could be a selling point for those who live where all-wheel drive is a necessity. The only exception here is how the Camry XSE with all-wheel drive drops to 43 combined, a single mpg behind the ES 350h. That's the only pairing in this entire comparison where the Lexus wins on fuel economy. Bigger wheels, sportier suspension tuning, and added curb weight in general explain that XSE AWD dip, since it's the most performance-oriented Camry Toyota sells. Where the Lexus ES feels like a Lexus Richer materials and premium audio The ES is a bigger car overall. It measures 202.4 inches long on a 116.1-inch wheelbase, compared to the Camry at 193.5 inches in length on a 111.2-inch wheelbase. Most of the extra length for the ES translates to rear-seat legroom, not cargo space. The ES offers 40.7 inches of rear-seat legroom, compared with 38 inches in the Camry, a noteworthy difference for anyone who regularly rides in the back seat, as well as for families with kids and car seats. In terms of trunk space, the Camry offers more at 15.1 cubic feet versus the ES at 13.3 cubic feet, despite the Lexus being the longer car. Buyers who regularly haul luggage, golf clubs, or a stroller or two will find the Camry offers more room to get the job done. Both ES 350h trims come wrapped in NuLuxe, a synthetic leather alternative, paired with heated and ventilated front seats and ambient lighting. The Camry only offers ventilated seats as a package on the XLE and XSE, and ambient lighting only comes standard on those same two trims. Genuine leather, meanwhile, shows up on the Camry XSE, not the ES, since Lexus sticks with NuLuxe. A front-seat knee heater is an option for the ES, a small comfort touch the Camry doesn't offer. Meanwhile, the technology suite favors the Lexus. Every ES 350h comes standard with a 14-inch touchscreen and a 12.3-inch digital gauge cluster. The Camry LE, SE, and Nightshade make do with an eight-inch touchscreen and a seven-inch gauge cluster; only the XLE and XSE step up to the 12.3-inch versions of each. The audio systems arguably favor the Lexus as well. The ES Premium trim comes standard with a 10-speaker system, while the Premium+ upgrades to a 17-speaker, 1,800-watt Mark Levinson system. The Camry's best available audio option is a nine-speaker JBL setup, bundled into a package on the XLE and XSE. For anyone who listens to music or podcasts on every commute, what Lexus is offering here could be a deciding factor. Toyota wins on price and fuel economy; Lexus wins on tech and luxury Buyers who want good fuel economy, the lowest purchase price, and don't mind a smaller standard infotainment screen should look at the 2026 Camry. Buyers who want more rear legroom, the option for a Mark Levinson stereo, or that general luxury-car feel, and don't mind paying more at the dealership and at the pump, should look at the ES 350h instead. The 2026 Toyota Camry has a three-year, 36,000-mile bumper-to-bumper warranty, a five-year, 60,000-mile powertrain warranty, and five years of corrosion protection (unlimited mileage). The hybrid battery carries a 10-year, 150,000-mile warranty. The 2026 Lexus ES has a four-year, 50,000-mile bumper-to-bumper warranty, a six-year, 70,000-mile powertrain warranty, and six years of corrosion protection (unlimited mileage). The hybrid battery carries the same 10-year, 150,000-mile warranty as the Camry.",
+        "full_article_text_chars": 7095,
+        "enrichment_status": "strong",
+        "source_url": "https://www.howtogeek.com",
+        "source_published_at": "2026-07-25T17:45:12Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.85,
+        "trusted_references": [
+          {
+            "title": "Add Us",
+            "url": "https://www.google.com/preferences/source?q=howtogeek.com"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_quality_last_error": "non_technical_entertainment_content",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 24.98,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-25T22:51:54Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-25T22:36:54",
+      "candidate_failure_count": 1
     },
     {
       "id": "f68f8406bb1fe6db",
@@ -43058,7 +43204,72 @@
       "content_preview_chars": 6037,
       "content_fetched_at": "2026-07-25T18:36:49",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-25T22:36:26",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "category rotation newest fresh article: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-25T22:36:26",
+      "ai_input_package": {
+        "title": "Don't trash your old Kindle — 5 genuinely useful things it can still do",
+        "url": "https://www.makeuseof.com/dont-trash-your-old-kindle",
+        "source_name": "MakeUseOf",
+        "suggested_category": "Apps-Programs",
+        "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/11/2018-kindle-paperwhite-on-desk-in-leather-case.jpeg?w=1600&h=900&fit=crop",
+        "article_images": [
+          {
+            "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/11/2018-kindle-paperwhite-on-desk-in-leather-case.jpeg?w=1600&h=900&fit=crop",
+            "alt": "Don't trash your old Kindle — 5 genuinely useful things it can still do",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/11/2018-kindle-paperwhite-on-desk-in-leather-case.jpeg?&fit=crop&w=1600&h=900",
+            "alt": "2018 kindle paperwhite on desk in leather case",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/11/2018-kindle-paperwhite-in-hand.jpeg?q=49&fit=contain&w=750&h=422&dpr=2",
+            "alt": "2018 kindle paperwhite in hand",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/11/2018-kindle-paperwhite-standing-on-desk.jpeg?q=49&fit=contain&w=750&h=422&dpr=2",
+            "alt": "2018 kindle paperwhite standing on desk",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Before you recycle your old Kindle, look into these ways you can give it new life.",
+        "content_preview": "My 2018 Kindle Paperwhite had a clear path to the junk drawer once I got my Colorsoft last holiday season. Then Amazon pulled Kindle Store access from every model released in 2012 or earlier back in May, and older e-readers started looking disposable across the board. The Paperwhite sits nowhere near that list, and neither does most of the hardware people have stashed in a closet. I had already gotten back into reading on that Paperwhite before the upgrade, which made throwing it out feel wasteful. So it picked up five jobs instead. None of them cost anything beyond hardware I already owned. Let it be the one that goes near water The older Paperwhite earns pool and bathtub duty Credit: Jonathon Jachura / MUO Kendra Gerken/MUO Credit: Kendra Gerken/MUO Image Credit: Jason Fitzpatrick/MUO Image Credit: Jason Fitzpatrick/MUO Credit: Andy Cormier / MakeUseOf The 10th-generation Paperwhite was the first one Amazon built to survive a dunking. Its IPX8 rating covers two meters of fresh water for up to 60 minutes, which is more abuse than a Kindle takes at the edge of a pool. Saltwater is rated differently, at 0.25 meters for three minutes, so anything with salt in it calls for a rinse under fresh water afterward. I primarily use my in-law's saltwater pool, and the rinse takes seconds at the outdoor spigot. Waterproofing is not the whole argument, though. The bigger one is which device I am willing to lose. A seven-year-old Paperwhite that owes me nothing goes out to the pool deck and the three-season room without a second thought, while the Colorsoft stays inside. Sunscreen, chlorine, a cannonball landing three feet away, and a concrete patio are all things I would rather happen to the cheaper device. Send your own documents to it Send to Kindle handles PDFs, Word files, and saved web pages Send to Kindle accepts PDF, DOC, DOCX, EPUB, TXT, RTF, HTM, and HTML files, along with PNG, JPG, GIF, and BMP images. The web uploader at sendtokindle.com takes files up to 200MB. Email delivery caps out closer to 50MB and only works from addresses you have added to your approved sender list under Content & Devices . Writing is how I make a living, so this job earns its keep daily. I email a draft to the Paperwhite, walk away from the desk, and read it somewhere none of my usual editing shortcuts exist. Mistakes I skimmed past on a monitor turn obvious. The same approach works for appliance manuals, insurance paperwork, and long articles saved as HTML. Amazon converts what you send into its own format on the way in, a decent reminder of whose terms your library lives on. If that bothers you, an open-source e-reader takes a very different position on file ownership. Set up a child profile and hand it to your kids Parental controls turn a spare Kindle into a kids' reader The path is Menu > Settings > Parental Controls > Amazon Kids > Add New Profile. You enter a PIN, the child's name, and a birthday, then choose which titles from your own library to share into their shelf. With the profile active, the Kindle Store, the web browser, cloud content, and Goodreads all sit behind that PIN. Amazon sells Kindle Kids versions of the Paperwhite and Colorsoft, and the hardware inside them matches the standard models exactly. The extra money buys a case, a two-year guarantee, and a bundled Amazon Kids+ subscription. That parental control software is already sitting on the Kindle you own. My kids are young enough that handing over a tablet turns into a negotiation about videos every time. A Kindle ends that argument by having nothing else on it. Amazon also runs a web-based Parent Dashboard where you can see what they are actually reading. Keep borrowing library books on it Libby still delivers straight to an older Kindle Kindle e-readers cannot run apps, so Libby never installs on the device itself. Borrowing happens somewhere else. I open Libby on my iPhone, find a title, tap Borrow , then choose Read With and select Kindle . Amazon's site opens, I confirm Get library book and pick which device receives it, and the next sync pulls it down. Filtering saves time here, since not every library title has a Kindle edition. Libby's filter menu includes a Read With section that limits results to Kindle-compatible books. Loans expire and return themselves at the end of the lending period, which means nothing piles up and nothing gets forgotten. This pipeline works with US libraries only. Readers elsewhere have to sideload borrowed files instead. For an old Kindle sitting unused, free library access is the strongest single reason to keep it registered and charged. Pair it with Bluetooth headphones for audiobooks The 2018 Paperwhite plays Audible without a phone Bluetooth showed up on the Paperwhite line with the 2018 model, and it pairs to headphones or a speaker the same way it always did. I use AirPods Pro with mine. No speaker exists inside the device, so pairing is required rather than optional. This generation does have one gap. Immersion Reading, the feature that highlights text as narration moves through it, never came to these Kindles. Listening and reading stay separate activities. Storage turns into the real constraint. My Paperwhite holds 8GB, and one unabridged audiobook can take several hundred megabytes of that. The 32GB version supports an actual audiobook library, while the 8GB version manages two or three titles at a time. Loading one before I head out to mow and leaving my phone inside the house has become the entire appeal. Your old Kindle is worth more as a second device than as e-waste Amazon is redesigning its lineup around user-replaceable batteries to satisfy an EU regulation arriving in 2027, which suggests these devices will last considerably longer than they used to. Holding onto old hardware looks less sentimental in that light and more like the obvious move. Walking away from Amazon entirely is a separate question, and Kobo and Boox both make a real case if that is where you are headed. Otherwise, charge the old one up and give it a job.",
+        "content_preview_chars": 6037,
+        "rss_summary": "",
+        "full_article_text": "My 2018 Kindle Paperwhite had a clear path to the junk drawer once I got my Colorsoft last holiday season. Then Amazon pulled Kindle Store access from every model released in 2012 or earlier back in May, and older e-readers started looking disposable across the board. The Paperwhite sits nowhere near that list, and neither does most of the hardware people have stashed in a closet. I had already gotten back into reading on that Paperwhite before the upgrade, which made throwing it out feel wasteful. So it picked up five jobs instead. None of them cost anything beyond hardware I already owned. Let it be the one that goes near water The older Paperwhite earns pool and bathtub duty Credit: Jonathon Jachura / MUO Kendra Gerken/MUO Credit: Kendra Gerken/MUO Image Credit: Jason Fitzpatrick/MUO Image Credit: Jason Fitzpatrick/MUO Credit: Andy Cormier / MakeUseOf The 10th-generation Paperwhite was the first one Amazon built to survive a dunking. Its IPX8 rating covers two meters of fresh water for up to 60 minutes, which is more abuse than a Kindle takes at the edge of a pool. Saltwater is rated differently, at 0.25 meters for three minutes, so anything with salt in it calls for a rinse under fresh water afterward. I primarily use my in-law's saltwater pool, and the rinse takes seconds at the outdoor spigot. Waterproofing is not the whole argument, though. The bigger one is which device I am willing to lose. A seven-year-old Paperwhite that owes me nothing goes out to the pool deck and the three-season room without a second thought, while the Colorsoft stays inside. Sunscreen, chlorine, a cannonball landing three feet away, and a concrete patio are all things I would rather happen to the cheaper device. Send your own documents to it Send to Kindle handles PDFs, Word files, and saved web pages Send to Kindle accepts PDF, DOC, DOCX, EPUB, TXT, RTF, HTM, and HTML files, along with PNG, JPG, GIF, and BMP images. The web uploader at sendtokindle.com takes files up to 200MB. Email delivery caps out closer to 50MB and only works from addresses you have added to your approved sender list under Content & Devices . Writing is how I make a living, so this job earns its keep daily. I email a draft to the Paperwhite, walk away from the desk, and read it somewhere none of my usual editing shortcuts exist. Mistakes I skimmed past on a monitor turn obvious. The same approach works for appliance manuals, insurance paperwork, and long articles saved as HTML. Amazon converts what you send into its own format on the way in, a decent reminder of whose terms your library lives on. If that bothers you, an open-source e-reader takes a very different position on file ownership. Set up a child profile and hand it to your kids Parental controls turn a spare Kindle into a kids' reader The path is Menu > Settings > Parental Controls > Amazon Kids > Add New Profile. You enter a PIN, the child's name, and a birthday, then choose which titles from your own library to share into their shelf. With the profile active, the Kindle Store, the web browser, cloud content, and Goodreads all sit behind that PIN. Amazon sells Kindle Kids versions of the Paperwhite and Colorsoft, and the hardware inside them matches the standard models exactly. The extra money buys a case, a two-year guarantee, and a bundled Amazon Kids+ subscription. That parental control software is already sitting on the Kindle you own. My kids are young enough that handing over a tablet turns into a negotiation about videos every time. A Kindle ends that argument by having nothing else on it. Amazon also runs a web-based Parent Dashboard where you can see what they are actually reading. Keep borrowing library books on it Libby still delivers straight to an older Kindle Kindle e-readers cannot run apps, so Libby never installs on the device itself. Borrowing happens somewhere else. I open Libby on my iPhone, find a title, tap Borrow , then choose Read With and select Kindle . Amazon's site opens, I confirm Get library book and pick which device receives it, and the next sync pulls it down. Filtering saves time here, since not every library title has a Kindle edition. Libby's filter menu includes a Read With section that limits results to Kindle-compatible books. Loans expire and return themselves at the end of the lending period, which means nothing piles up and nothing gets forgotten. This pipeline works with US libraries only. Readers elsewhere have to sideload borrowed files instead. For an old Kindle sitting unused, free library access is the strongest single reason to keep it registered and charged. Pair it with Bluetooth headphones for audiobooks The 2018 Paperwhite plays Audible without a phone Bluetooth showed up on the Paperwhite line with the 2018 model, and it pairs to headphones or a speaker the same way it always did. I use AirPods Pro with mine. No speaker exists inside the device, so pairing is required rather than optional. This generation does have one gap. Immersion Reading, the feature that highlights text as narration moves through it, never came to these Kindles. Listening and reading stay separate activities. Storage turns into the real constraint. My Paperwhite holds 8GB, and one unabridged audiobook can take several hundred megabytes of that. The 32GB version supports an actual audiobook library, while the 8GB version manages two or three titles at a time. Loading one before I head out to mow and leaving my phone inside the house has become the entire appeal. Your old Kindle is worth more as a second device than as e-waste Amazon is redesigning its lineup around user-replaceable batteries to satisfy an EU regulation arriving in 2027, which suggests these devices will last considerably longer than they used to. Holding onto old hardware looks less sentimental in that light and more like the obvious move. Walking away from Amazon entirely is a separate question, and Kobo and Boox both make a real case if that is where you are headed. Otherwise, charge the old one up and give it a job.",
+        "full_article_text_chars": 6037,
+        "enrichment_status": "strong",
+        "source_url": "https://www.makeuseof.com",
+        "source_published_at": "2026-07-25T17:30:12Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 1.1,
+        "trusted_references": [
+          {
+            "title": "Add Us",
+            "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 0.26,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-07-25T22:51:28Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-25T22:36:28",
+      "candidate_failure_count": 1
     },
     {
       "id": "2d36b905fbd83ab1",
@@ -43145,7 +43356,76 @@
       "content_preview_chars": 6265,
       "content_fetched_at": "2026-07-25T18:36:52",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-25T22:36:54",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "category rotation newest fresh article: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-25T22:36:54",
+      "ai_input_package": {
+        "title": "I stopped guessing how many mesh points I needed and ran this simple test",
+        "url": "https://www.makeuseof.com/i-stopped-guessing-number-mesh-wifi-points",
+        "source_name": "MakeUseOf",
+        "suggested_category": "Apps-Programs",
+        "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/google-nest-wifi-pro-4.jpg?w=1600&h=900&fit=crop",
+        "article_images": [
+          {
+            "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/google-nest-wifi-pro-4.jpg?w=1600&h=900&fit=crop",
+            "alt": "I stopped guessing how many mesh points I needed and ran this simple test",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/google-nest-wifi-pro-4.jpg?&fit=crop&w=1600&h=900",
+            "alt": "Ethernet and power cables plugged into the Nest Wi-Fi Pro.",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/google-nest-wifi-pro-app-5.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+            "alt": "Internet speeds from the Nest Wi-Fi Pro. ",
+            "source": "article_content"
+          },
+          {
+            "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/google-nest-wifi-pro-1.jpg?q=49&fit=crop&w=825&dpr=2",
+            "alt": "Google Nest WiFi Pro",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "A speed test is all you need to optimize your mesh network.",
+        "content_preview": "When you realize there's a dead zone in your home, it's easy to rush into buying a mesh Wi-Fi system to improve your network's coverage. However, adding extra mesh Wi-Fi points to your wireless network can do more harm than good if they aren't necessary. Finding the right number of access points for your home's mesh Wi-Fi network isn't an exact science. Router kits will come with general guidance about how many square feet a single router or access point can cover, but these instructions aren't tailored to the specifics of your home. So, how do you figure out how many access points are needed in your home for great coverage and optimal network performance? It isn't a mesh test — it's a speed test. The same speed test you've probably run hundreds of times, but with a twist. There's a specific way to run wireless speed tests that will help you determine the right number of wireless access points for your home. I used it myself, and learned that unplugging one of my access points actually resulted in faster speeds. User manuals are only the starting point You need to tailor your mesh Wi-Fi setup to your home environment Every mesh Wi-Fi system is different, and the best way to implement a mesh router system will vary based on environmental factors. A multi-story home might need more wireless access points than a single-story home, because of the additional physical obstructions. A home built out of brick and mortar could use more wireless access points than a similar one made of wood for the same reason. An apartment could be better off with fewer access points, since the proximity of other units adds congestion. So, the starting point should be to read the manual of your mesh system and consider the factors that might impact the performance of your network. In my case, I'm working with the Google Nest Wi-Fi Pro mesh system. I chose this mesh router setup in part due to my investment in the Google Nest smart home ecosystem, but also due to its versatility. These aren't \"access points\" in the traditional sense — each Nest Wi-Fi Pro unit can function as a standalone primary router or as a satellite node via wired or wireless backhaul. You can adapt a Nest Wi-Fi Pro router to your setup, and buy as many or as few as needed. Google provides basic guidance for Nest Wi-Fi Pro mesh setup. A single Nest Wi-Fi Pro router can cover up to 2,200 square feet. Google recommends a maximum of five Wi-Fi points on a single network. For large homes, one primary Nest Wi-Fi Pro router and up to four access points will cover roughly 8,800 square feet of space. However, this all varies based on your environment. As an example, Google recommends owners of a two-story, 2,200-square-foot house use two Nest Wi-Fi Pro mesh routers, even though one should do the trick on paper. This is the hard part about configuring a mesh router system for the first time. Instruction manuals, support documents, and setup apps can tell you a lot, but they can't optimize a system for your unique space. Luckily, there's a way to turn your speed test results into actionable insights that'll help you position your mesh network properly. A mesh test isn't the best way to optimize your setup You want to run a simple speed test throughout every part of your home Credit: Brady Snyder / MakeUseOf I thought the mesh test in the Google Home app was telling me if I had the right number of access points in my home, but I couldn't have been more wrong. Mesh tests simply gauge the quality of the connection between access points — they won't always let you know if you have too many or too few access points in your home. Instead, the best way to find the number of access points your home network needs is to run speed tests in every room in your home. It'll work with any mesh Wi-Fi system, regardless of brand or features. Start by setting a baseline. Plug in your primary router in its future home, and remember to follow best practices for router placement. Keep it off the ground if you can, enabling a line-of-sight path between the primary router and your future router nodes. With only the primary router active, run a speed test on your phone from about five or 10 feet away. This will give you a data point that represents your wireless router's ideal network speeds at peak performance. Then, walk around your home, continuing to run speed tests as you go. Test your network in different rooms, floors, and anywhere else you want a reliable Wi-Fi signal. Note the changes, if any, in performance. When the network speeds start to drop off, you've found a potential dead zone. This is a sign your Wi-Fi network needs an additional access point. With the area located, connect an additional mesh access point, and position it in between your primary router and the dead zone. Test the network speeds again, and they should improve. Repeat this process throughout your home, continuing to fill the space between your primary router and any potential dead zones with access points. If your network speeds remain consistent throughout, you don't need any extra access points. Identify the dead zones, add mesh Wi-Fi points Remember to put your access points between the dead zone and router I used this simple method to optimize my mesh router system after downsizing to a smaller apartment. My old space needed all three Nest Wi-Fi Pro routers active due to the square footage and layout, but these tests revealed I only needed one or two routers in my new home. By following this process yourself, you can avoid adding too many access points to your network, which can cause slower speeds or congestion. I like this trick because of its simplicity. Everyone knows how to run a speed test, and this method doesn't require any third-party apps or specific hardware. It doesn't even require any technical knowledge. Take the mesh placement guidelines found in your system's instruction manual or support documents and follow them using the hard speed test data you've collected yourself. It's that easy, and your Wi-Fi network will thank you for it. Google's reliable mesh Wi-Fi system helps ensure coverage throughout your whole home. The system uses Wi-Fi 6E for speeds up to 5.4 Gbps, and the 6 GHz band helps reduce interference for better performance.",
+        "content_preview_chars": 6265,
+        "rss_summary": "",
+        "full_article_text": "When you realize there's a dead zone in your home, it's easy to rush into buying a mesh Wi-Fi system to improve your network's coverage. However, adding extra mesh Wi-Fi points to your wireless network can do more harm than good if they aren't necessary. Finding the right number of access points for your home's mesh Wi-Fi network isn't an exact science. Router kits will come with general guidance about how many square feet a single router or access point can cover, but these instructions aren't tailored to the specifics of your home. So, how do you figure out how many access points are needed in your home for great coverage and optimal network performance? It isn't a mesh test — it's a speed test. The same speed test you've probably run hundreds of times, but with a twist. There's a specific way to run wireless speed tests that will help you determine the right number of wireless access points for your home. I used it myself, and learned that unplugging one of my access points actually resulted in faster speeds. User manuals are only the starting point You need to tailor your mesh Wi-Fi setup to your home environment Every mesh Wi-Fi system is different, and the best way to implement a mesh router system will vary based on environmental factors. A multi-story home might need more wireless access points than a single-story home, because of the additional physical obstructions. A home built out of brick and mortar could use more wireless access points than a similar one made of wood for the same reason. An apartment could be better off with fewer access points, since the proximity of other units adds congestion. So, the starting point should be to read the manual of your mesh system and consider the factors that might impact the performance of your network. In my case, I'm working with the Google Nest Wi-Fi Pro mesh system. I chose this mesh router setup in part due to my investment in the Google Nest smart home ecosystem, but also due to its versatility. These aren't \"access points\" in the traditional sense — each Nest Wi-Fi Pro unit can function as a standalone primary router or as a satellite node via wired or wireless backhaul. You can adapt a Nest Wi-Fi Pro router to your setup, and buy as many or as few as needed. Google provides basic guidance for Nest Wi-Fi Pro mesh setup. A single Nest Wi-Fi Pro router can cover up to 2,200 square feet. Google recommends a maximum of five Wi-Fi points on a single network. For large homes, one primary Nest Wi-Fi Pro router and up to four access points will cover roughly 8,800 square feet of space. However, this all varies based on your environment. As an example, Google recommends owners of a two-story, 2,200-square-foot house use two Nest Wi-Fi Pro mesh routers, even though one should do the trick on paper. This is the hard part about configuring a mesh router system for the first time. Instruction manuals, support documents, and setup apps can tell you a lot, but they can't optimize a system for your unique space. Luckily, there's a way to turn your speed test results into actionable insights that'll help you position your mesh network properly. A mesh test isn't the best way to optimize your setup You want to run a simple speed test throughout every part of your home Credit: Brady Snyder / MakeUseOf I thought the mesh test in the Google Home app was telling me if I had the right number of access points in my home, but I couldn't have been more wrong. Mesh tests simply gauge the quality of the connection between access points — they won't always let you know if you have too many or too few access points in your home. Instead, the best way to find the number of access points your home network needs is to run speed tests in every room in your home. It'll work with any mesh Wi-Fi system, regardless of brand or features. Start by setting a baseline. Plug in your primary router in its future home, and remember to follow best practices for router placement. Keep it off the ground if you can, enabling a line-of-sight path between the primary router and your future router nodes. With only the primary router active, run a speed test on your phone from about five or 10 feet away. This will give you a data point that represents your wireless router's ideal network speeds at peak performance. Then, walk around your home, continuing to run speed tests as you go. Test your network in different rooms, floors, and anywhere else you want a reliable Wi-Fi signal. Note the changes, if any, in performance. When the network speeds start to drop off, you've found a potential dead zone. This is a sign your Wi-Fi network needs an additional access point. With the area located, connect an additional mesh access point, and position it in between your primary router and the dead zone. Test the network speeds again, and they should improve. Repeat this process throughout your home, continuing to fill the space between your primary router and any potential dead zones with access points. If your network speeds remain consistent throughout, you don't need any extra access points. Identify the dead zones, add mesh Wi-Fi points Remember to put your access points between the dead zone and router I used this simple method to optimize my mesh router system after downsizing to a smaller apartment. My old space needed all three Nest Wi-Fi Pro routers active due to the square footage and layout, but these tests revealed I only needed one or two routers in my new home. By following this process yourself, you can avoid adding too many access points to your network, which can cause slower speeds or congestion. I like this trick because of its simplicity. Everyone knows how to run a speed test, and this method doesn't require any third-party apps or specific hardware. It doesn't even require any technical knowledge. Take the mesh placement guidelines found in your system's instruction manual or support documents and follow them using the hard speed test data you've collected yourself. It's that easy, and your Wi-Fi network will thank you for it. Google's reliable mesh Wi-Fi system helps ensure coverage throughout your whole home. The system uses Wi-Fi 6E for speeds up to 5.4 Gbps, and the 6 GHz band helps reduce interference for better performance.",
+        "full_article_text_chars": 6265,
+        "enrichment_status": "strong",
+        "source_url": "https://www.makeuseof.com",
+        "source_published_at": "2026-07-25T17:00:12Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 1.6,
+        "trusted_references": [
+          {
+            "title": "Add Us",
+            "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+          },
+          {
+            "title": "recommends",
+            "url": "https://support.google.com/googlehome/answer/7182840"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 0.24,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-07-25T22:51:56Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-25T22:36:56",
+      "candidate_failure_count": 1
     },
     {
       "id": "ded2bd590313fc64",
