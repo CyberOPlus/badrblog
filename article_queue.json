@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-25T06:43:46",
+  "updated_at": "2026-07-25T08:38:30",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2535,12 +2535,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-25T06:35:32",
-      "candidate_retry_after": "2026-07-25T06:50:32Z",
+      "content_fetched_at": "2026-07-25T08:36:30",
+      "candidate_retry_after": "2026-07-25T08:51:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-25T06:35:32",
-      "candidate_failure_count": 84
+      "candidate_failed_at": "2026-07-25T08:36:30",
+      "candidate_failure_count": 85
     },
     {
       "id": "512c2899a98440d2",
@@ -2569,12 +2569,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-25T06:35:32",
-      "candidate_retry_after": "2026-07-25T06:50:32Z",
+      "content_fetched_at": "2026-07-25T08:36:30",
+      "candidate_retry_after": "2026-07-25T08:51:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-25T06:35:32",
-      "candidate_failure_count": 84
+      "candidate_failed_at": "2026-07-25T08:36:30",
+      "candidate_failure_count": 85
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2603,12 +2603,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-25T06:35:32",
-      "candidate_retry_after": "2026-07-25T06:50:32Z",
+      "content_fetched_at": "2026-07-25T08:36:30",
+      "candidate_retry_after": "2026-07-25T08:51:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-25T06:35:32",
-      "candidate_failure_count": 84
+      "candidate_failed_at": "2026-07-25T08:36:30",
+      "candidate_failure_count": 85
     },
     {
       "id": "d900f1574fddfab4",
@@ -3438,12 +3438,12 @@
       "removed_source_links_count": 229,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
-      "content_fetched_at": "2026-07-25T06:35:35",
-      "candidate_retry_after": "2026-07-25T06:50:35Z",
+      "content_fetched_at": "2026-07-25T08:36:34",
+      "candidate_retry_after": "2026-07-25T08:51:34Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
-      "candidate_failed_at": "2026-07-25T06:35:35",
-      "candidate_failure_count": 83
+      "candidate_failed_at": "2026-07-25T08:36:34",
+      "candidate_failure_count": 84
     },
     {
       "id": "8d2678d87487d729",
@@ -4308,13 +4308,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-07-25T06:35:36",
-      "candidate_retry_after": "2026-07-25T06:50:36Z",
+      "content_fetch_error": "http 403",
+      "content_fetched_at": "2026-07-25T08:36:34",
+      "candidate_retry_after": "2026-07-25T08:51:34Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-07-25T06:35:36",
-      "candidate_failure_count": 82
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-07-25T08:36:34",
+      "candidate_failure_count": 83
     },
     {
       "id": "45429302676bf4c5",
@@ -4746,7 +4746,10 @@
       "content_preview_chars": 2064,
       "content_fetched_at": "2026-07-19T12:13:04",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-25T08:36:13",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "4d21677572a94130",
@@ -4811,7 +4814,10 @@
       "content_preview_chars": 1923,
       "content_fetched_at": "2026-07-19T12:13:06",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-25T08:36:13",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "153baba4b53c28f1",
@@ -4894,7 +4900,10 @@
       "content_preview_chars": 5160,
       "content_fetched_at": "2026-07-19T12:13:15",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-25T08:36:13",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "c1c6380b95183d49",
@@ -5354,12 +5363,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-25T06:35:37",
-      "candidate_retry_after": "2026-07-25T06:50:37Z",
+      "content_fetched_at": "2026-07-25T08:36:36",
+      "candidate_retry_after": "2026-07-25T08:51:36Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-25T06:35:37",
-      "candidate_failure_count": 80
+      "candidate_failed_at": "2026-07-25T08:36:36",
+      "candidate_failure_count": 81
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5391,12 +5400,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-25T06:35:38",
-      "candidate_retry_after": "2026-07-25T06:50:38Z",
+      "content_fetched_at": "2026-07-25T08:36:38",
+      "candidate_retry_after": "2026-07-25T08:51:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-25T06:35:38",
-      "candidate_failure_count": 80
+      "candidate_failed_at": "2026-07-25T08:36:38",
+      "candidate_failure_count": 81
     },
     {
       "id": "aede79193c6b98c9",
@@ -5428,12 +5437,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-25T06:35:40",
-      "candidate_retry_after": "2026-07-25T06:50:40Z",
+      "content_fetched_at": "2026-07-25T08:36:40",
+      "candidate_retry_after": "2026-07-25T08:51:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-25T06:35:40",
-      "candidate_failure_count": 80
+      "candidate_failed_at": "2026-07-25T08:36:40",
+      "candidate_failure_count": 81
     },
     {
       "id": "253eaa098c468523",
@@ -6367,12 +6376,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-25T06:35:40",
-      "candidate_retry_after": "2026-07-25T06:50:40Z",
+      "content_fetched_at": "2026-07-25T08:36:41",
+      "candidate_retry_after": "2026-07-25T08:51:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-25T06:35:40",
-      "candidate_failure_count": 78
+      "candidate_failed_at": "2026-07-25T08:36:41",
+      "candidate_failure_count": 79
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6767,12 +6776,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-25T06:35:42",
-      "candidate_retry_after": "2026-07-25T06:50:42Z",
+      "content_fetched_at": "2026-07-25T08:36:44",
+      "candidate_retry_after": "2026-07-25T08:51:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-25T06:35:42",
-      "candidate_failure_count": 76
+      "candidate_failed_at": "2026-07-25T08:36:44",
+      "candidate_failure_count": 77
     },
     {
       "id": "693fbfabd96b2185",
@@ -6803,12 +6812,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-25T06:35:43",
-      "candidate_retry_after": "2026-07-25T06:50:43Z",
+      "content_fetched_at": "2026-07-25T08:36:45",
+      "candidate_retry_after": "2026-07-25T08:51:45Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-25T06:35:43",
-      "candidate_failure_count": 76
+      "candidate_failed_at": "2026-07-25T08:36:45",
+      "candidate_failure_count": 77
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9231,12 +9240,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "content_fetched_at": "2026-07-25T06:35:44",
-      "candidate_retry_after": "2026-07-25T06:50:44Z",
+      "content_fetched_at": "2026-07-25T08:36:46",
+      "candidate_retry_after": "2026-07-25T08:51:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "candidate_failed_at": "2026-07-25T06:35:44",
-      "candidate_failure_count": 72
+      "candidate_failed_at": "2026-07-25T08:36:46",
+      "candidate_failure_count": 73
     },
     {
       "id": "561b6316398d7603",
@@ -10323,12 +10332,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-25T06:35:44",
-      "candidate_retry_after": "2026-07-25T06:50:44Z",
+      "content_fetched_at": "2026-07-25T08:36:47",
+      "candidate_retry_after": "2026-07-25T08:51:47Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-25T06:35:44",
-      "candidate_failure_count": 68
+      "candidate_failed_at": "2026-07-25T08:36:47",
+      "candidate_failure_count": 69
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10360,12 +10369,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-25T06:35:45",
-      "candidate_retry_after": "2026-07-25T06:50:45Z",
+      "content_fetched_at": "2026-07-25T08:36:47",
+      "candidate_retry_after": "2026-07-25T08:51:47Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-25T06:35:45",
-      "candidate_failure_count": 68
+      "candidate_failed_at": "2026-07-25T08:36:47",
+      "candidate_failure_count": 69
     },
     {
       "id": "a6f4ca9464909855",
@@ -10397,12 +10406,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-25T06:35:45",
-      "candidate_retry_after": "2026-07-25T06:50:45Z",
+      "content_fetched_at": "2026-07-25T08:36:48",
+      "candidate_retry_after": "2026-07-25T08:51:48Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-25T06:35:45",
-      "candidate_failure_count": 68
+      "candidate_failed_at": "2026-07-25T08:36:48",
+      "candidate_failure_count": 69
     },
     {
       "id": "71463c25ac92daaa",
@@ -15039,12 +15048,12 @@
       "removed_source_links_count": 79,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-25T06:35:46",
-      "candidate_retry_after": "2026-07-25T06:50:46Z",
+      "content_fetched_at": "2026-07-25T08:36:49",
+      "candidate_retry_after": "2026-07-25T08:51:49Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-07-25T06:35:46",
-      "candidate_failure_count": 57
+      "candidate_failed_at": "2026-07-25T08:36:49",
+      "candidate_failure_count": 58
     },
     {
       "id": "41b7b918ab3966e4",
@@ -37698,12 +37707,12 @@
       "category_label": "Cyber-Security",
       "category_hint": "Cyber-Security",
       "discovered_at": "2026-07-24T19:11:32",
-      "status": "ready",
+      "status": "published",
       "score": 3,
       "priority": "low",
       "source_links_removed_count": 77,
       "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 77,
+      "removed_source_links_count": 0,
       "enrichment_fallback_used": "article_tag",
       "fetched_title": "Certighost Active Directory CS Exploit Allows Low-Privileged Users to Compromise Domain",
       "meta_description": "A newly disclosed Active Directory Certificate Services (AD CS) vulnerability, dubbed Certighost, allowed a low-privilege domain user to impersonate a Domain Controller and take over an entire Active Directory domain.",
@@ -37771,11 +37780,11 @@
       "content_fetched_at": "2026-07-24T19:11:50",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-24T23:43:29",
+      "selected_at": "2026-07-25T08:36:50",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-24T23:43:29",
+      "processing_prepared_at": "2026-07-25T08:36:50",
       "ai_input_package": {
         "title": "Certighost Active Directory CS Exploit Allows Low-Privileged Users to Compromise Domain",
         "url": "https://cybersecuritynews.com/certighost-active-directory-cs-flaw",
@@ -37836,19 +37845,75 @@
         "related_posts": []
       },
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_status": "completed",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.48,
-      "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2,
+      "ai_total_time_seconds": 82.5,
+      "ai_quality_status": "passed",
+      "ai_quality_attempts": 3,
       "candidate_retry_after": "2026-07-24T23:58:30Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-07-24T23:43:30",
       "candidate_failure_count": 1,
-      "telegram_final_summary_notified_at": "2026-07-24T23:43:57"
+      "telegram_final_summary_notified_at": "2026-07-24T23:43:57",
+      "ai_quality_last_error": "html_content has unbalanced <p> tags",
+      "ai_processed_at": "2026-07-25T08:38:12",
+      "seo_title": "ثغرة Certighost في خدمات شهادات Active Directory (AD CS) تسمح",
+      "seo_description": "تم الكشف عن ثغرة أمنية جديدة في خدمات شهادات Active Directory (AD CS)، تُعرف باسم Certighost",
+      "seo_slug": "certighost-active-directory-ad-cs",
+      "final_html": "<div class=\"article-content\">\n<p class=\"pIndent\"><strong><span class=\"dropCap\">م</span>قدمة:</strong></p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Certighost Active Directory CS Exploit Allows Low-Privileged Users to Compromise Domain\" class=\"full\" loading=\"lazy\" src=\"http://cybersecuritynews.com/wp-content/uploads/2026/07/Certighost-Active-Directory-CS-Flaw.webp\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Certighost Active Directory CS Exploit Allows Low-Privileged Users to Compromise Domain</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Certighost Active Directory CS Exploit Allows Low-Privileged Users to Compromise Domain</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">في عالم الأمن السيبراني المتطور باستمرار، يمثل الكشف عن ثغرة أمنية حرجة تحديًا كبيرًا للمؤسسات حول العالم. مؤخرًا، تم الكشف عن ثغرة بالغة الخطورة في خدمات شهادات Active Directory (AD CS) من مايكروسوفت، أُطلق عليها اسم Certighost، وتحمل المعرف CVE-2026-54121. تسمح هذه الثغرة لمستخدم ذي صلاحيات منخفضة داخل النطاق بانتحال صفة وحدة تحكم النطاق (Domain Controller)، مما يفتح الباب أمام سيطرة كاملة على بيئة Active Directory بأكملها. وقد بادرت مايكروسوفت بإصدار تحديثات أمنية لمعالجة هذه الثغرة ضمن تحديثات يوليو 2026، وذلك بعد الكشف المسؤول عنها في وقت سابق من هذا العام.</p>\n<p class=\"pIndent\">تعتبر خدمات شهادات Active Directory (AD CS) مكونًا حيويًا للبنية التحتية للمفتاح العام (PKI) داخل بيئات مايكروسوفت، حيث توفر وتدير شهادات X.509 الرقمية المستخدمة على نطاق واسع للتشفير والتوقيع والمصادقة عبر النطاق. وباعتبار هذه الشهادات بمثابة بطاقات هوية رقمية، فإن أي خلل في عملية إصدارها أو التحقق منها يمكن أن يؤدي إلى عواقب وخيمة، وهذا هو بالضبط ما استغلته ثغرة Certighost.</p>\n<h2>فهم خدمات شهادات Active Directory (AD CS) ودورها الحيوي</h2>\n<p class=\"pIndent\">قبل الغوص في تفاصيل ثغرة Certighost، من الضروري فهم طبيعة خدمات شهادات Active Directory (AD CS). ببساطة، هي نظام البنية التحتية للمفتاح العام (PKI) من مايكروسوفت، وهي مسؤولة عن إصدار وإدارة الشهادات الرقمية X.509. هذه الشهادات ضرورية لتأمين الاتصالات والتحقق من الهويات ضمن الشبكة. تقوم سلطة التصديق (CA) بالتوقيع على هذه الشهادات، لربط مفتاح عام بهوية معينة يمكن للخدمات الأخرى الوثوق بها. هذا يسمح بإنشاء بيئة عمل آمنة وموثوقة حيث يمكن للأجهزة والمستخدمين التحقق من بعضهم البعض.</p>\n<p class=\"pIndent\">أحد الاستخدامات الرئيسية لهذه الشهادات هو في مصادقة Kerberos القائمة على الشهادات (PKINIT). في هذا السيناريو، يطلب العميل شهادة ويقدمها لاحقًا إلى مركز توزيع المفاتيح (KDC) للحصول على تذكرة Kerberos. يقوم KDC بعد ذلك بتعيين بيانات هوية الشهادة إلى حساب Active Directory. وهذه العملية الدقيقة للتعيين والتحقق هي النقطة التي تنهار فيها الحماية بفضل ثغرة Certighost.</p>\n<h2>كيف تعمل ثغرة Certighost (CVE-2026-54121)؟ تحليل معمق لآلية الاستغلال</h2>\n<p class=\"pIndent\">يكمن جوهر ثغرة Certighost في كيفية تعامل سلطة التصديق (CA) مع بعض سيناريوهات طلب الشهادات. خلال عمليات التسجيل المعينة، تقوم سلطة التصديق بإجراء بحث ثانوي في الدليل يسمى 'المطاردة' (chase)، والذي يتم التحكم فيه بواسطة خاصيتين للطلب: <code>cdc</code> (Client DC) التي تحدد المضيف الذي يجب على سلطة التصديق الاتصال به، و<code>rmd</code> (Remote Domain) التي تحدد الكيان الذي يجب البحث عنه.</p>\n<p class=\"pIndent\">المشكلة الجوهرية تكمن في أن التعليمات البرمجية لسلطة التصديق (CA) الضعيفة كانت تثق بأي مضيف يتم توفيره في خاصية <code>cdc</code> دون التحقق مما إذا كان وحدة تحكم نطاق (Domain Controller) فعلية. هذا يعني أن المهاجم يمكنه إعداد خدمات SMB وLDAP وLSA زائفة على جهازه الخاص، وتوجيه سلطة التصديق إليها عبر <code>cdc</code>، ثم إرجاع بيانات هوية مزورة تتضمن معرف SID الحقيقي لوحدة تحكم النطاق واسم مضيف DNS للهدف <code>rmd</code>.</p>\n<p class=\"pIndent\">بالإضافة إلى ذلك، يمكن للمهاجم استغلال إعداد <code>ms-DS-MachineAccountQuota</code> الافتراضي، الذي يسمح لأي مستخدم بتسجيل ما يصل إلى 10 حسابات للآلة. بدمج هذا الإعداد مع المضيف الزائف الذي تم إعداده، يمكن للمضيف المهاجم اجتياز فحوصات المصادقة الخاصة بسلطة التصديق كـ 'كيان نطاق صالح' (valid domain principal)، على الرغم من أنه لم يكن وحدة تحكم النطاق التي يدعي أنه هو. بمجرد أن تصدر سلطة التصديق شهادة تحمل بيانات هوية وحدة تحكم النطاق المنتحلة، يتمكن المهاجم من المصادقة بصفته وحدة تحكم النطاق تلك.</p>\n<p class=\"pIndent\">بما أن وحدات تحكم النطاق تتمتع بحقوق استنساخ الدليل (directory replication rights)، فإن هذا الوصول يمكّن المهاجم من تنفيذ هجوم DCSync. يسمح هذا الهجوم باستخراج الأسرار الحساسة، بما في ذلك تجزئة حساب <code>krbtgt</code>، وهو الحساب الذي يستخدم لتوقيع تذاكر Kerberos الرئيسية. عمليًا، يؤدي ذلك إلى تسليم السيطرة الكاملة على النطاق للمهاجم، مما يمثل كارثة أمنية لأي مؤسسة.</p>\n<h2>استجابة مايكروسوفت والتصحيحات الأمنية: تعزيز آليات التحقق</h2>\n<p class=\"pIndent\">استجابت مايكروسوفت لهذه الثغرة الخطيرة من خلال إصدار تصحيح في تحديثات يوليو 2026. يقدم هذا التصحيح وظيفة تحقق جديدة، <code>_ValidateChaseTargetIsDC</code>، والتي تعمل تحت راية خدمة محددة (Feature_3185813818). قبل أن تتبع سلطة التصديق هدف <code>cdc</code>، تقوم الآن بإجراء سلسلة من التحققات الصارمة لضمان صحة المضيف.</p>\n<p class=\"pIndent\">تتضمن خطوات التحقق الجديدة ما يلي:\n    <ul>\n<li><strong>رفض أسماء المضيفين غير الصالحة:</strong> يتم رفض أسماء المضيفين الفارغة أو كبيرة الحجم أو أسماء IP الحرفية.</li>\n<li><strong>حظر أحرف حقن LDAP:</strong> لمنع هجمات حقن LDAP المحتملة.</li>\n<li><strong>الاستعلام من Active Directory:</strong> يتم الاستعلام من Active Directory للتأكد من أن الهدف هو كائن كمبيوتر حقيقي يحمل علامة <code>SERVER_TRUST_ACCOUNT</code> (القيمة 8192).</li>\n<li><strong>مقارنة SID المتابعة:</strong> يتم إجراء مقارنة لاحقة لمعرف SID (Security Identifier) لمنع استبدال الكائنات.</li>\n</ul>\n  فقط بعد اجتياز جميع هذه الفحوصات، تستمر سلطة التصديق في عملية 'المطاردة' وإصدار الشهادات. تضمن هذه الإجراءات أن سلطة التصديق تتواصل فقط مع وحدات تحكم النطاق الشرعية.</p>\n<h2>إجراءات التخفيف المؤقتة للمؤسسات التي لا تستطيع التحديث فورًا</h2>\n<p class=\"pIndent\">بالنسبة للمؤسسات غير القادرة على نشر تحديث يوليو فورًا، توفر مايكروسوفت إجراء تخفيف مؤقتًا عن طريق تعطيل آلية 'المطاردة' الضعيفة باستخدام الأمر التالي في سطر الأوامر:</p>\n<code>certutil -setreg CA\\PolicyModules\\CertSrv_Policy.1\\EditFlags -EDITF_ENABLECHASECLIENTDC</code>\n<p class=\"pIndent\">ومع ذلك، من الأهمية بمكان فهم أن هذا مجرد تخفيف مؤقت وليس حلًا دائمًا. إذا تم إعادة تمكين هذا العلم لاحقًا (عبر سياسة، تصوير، أو إجراء إداري)، تصبح سلطة التصديق عرضة للاستغلال مرة أخرى. يجب اختبار هذا الإجراء في بيئة تجريبية أولاً، حيث أن أي مهام عمل مشروعة تعتمد على آلية 'المطاردة' هذه ستتوقف عن العمل.</p>\n<p class=\"pIndent\">تتوفر نسخة مفهوم لإثبات الهجوم (proof-of-concept) على <a class=\"extL\" href=\"https://github.com/aniqfakhrul/cve-2026-54121\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">GitHub</a>، مما يؤكد مدى خطورة الثغرة وضرورة التعامل معها بجدية. يجب على المؤسسات التي تشغل خدمات AD CS إعطاء الأولوية القصوى لتطبيق التصحيحات فورًا ومراجعة إعدادات <code>EDITF_ENABLECHASECLIENTDC</code> عبر جميع سلطات التصديق في المؤسسة (Enterprise CAs). لا يقتصر الأمر على تطبيق التصحيحات فقط، بل يشمل أيضًا تدقيق الإعدادات وضمان عدم وجود ثغرات تكوينية أخرى.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">بالنسبة لمديري الأنظمة ومسؤولي الأمن، فإن ثغرة Certighost تذكير صارخ بأهمية الصيانة الأمنية المستمرة واليقظة. القدرة على اختراق نطاق Active Directory بالكامل من خلال مستخدم ذي صلاحيات منخفضة هي سيناريو كابوسي يمكن أن يؤدي إلى خرق بيانات كارثي وخسائر مالية وسمعة مدمرة. يعني هذا أن أي تأخير في تطبيق التصحيح يعرض البنية التحتية بأكملها للخطر.</p>\n<p class=\"pIndent\">يجب على فرق الأمن في المؤسسات:\n    <ul>\n<li><strong>تطبيق التصحيحات فورًا:</strong> لا تؤجل تطبيق تحديثات يوليو 2026 على جميع أنظمة AD CS.</li>\n<li><strong>تدقيق التكوينات:</strong> مراجعة شاملة لإعدادات AD CS، وخاصة <code>EDITF_ENABLECHASECLIENTDC</code>، لضمان عدم وجود تكوينات ضعيفة.</li>\n<li><strong>المراقبة والتحقق:</strong> تعزيز مراقبة أنظمة AD CS وDomain Controllers لاكتشاف أي أنشطة غير طبيعية قد تشير إلى محاولات استغلال.</li>\n<li><strong>التوعية الأمنية:</strong> التأكد من أن جميع فرق تكنولوجيا المعلومات على دراية بهذه الثغرة وأهمية التعامل معها.</li>\n<li><strong>النسخ الاحتياطي:</strong> التأكد من وجود نسخ احتياطية حديثة وقابلة للاستعادة لـ Active Directory.</li>\n</ul>\n  إن التعامل مع هذه الثغرات يتطلب نهجًا استباقيًا يجمع بين التحديثات الفنية والتدقيق المستمر والتوعية الأمنية.</p>\n<p class=\"pIndent\"><strong>الخاتمة:</strong></p>\n<p class=\"pIndent\">تمثل ثغرة Certighost نقطة ضعف حرجة أخرى تسلط الضوء على التعقيد الأمني المتزايد في البنى التحتية للمؤسسات. وبينما توفر مايكروسوفت التصحيحات اللازمة، فإن المسؤولية تقع على عاتق المؤسسات لتطبيقها بفعالية وفي الوقت المناسب. إن اليقظة المستمرة والالتزام بأفضل الممارسات الأمنية ليس مجرد خيار، بل ضرورة حتمية لحماية الأصول الرقمية الحيوية من التهديدات السيبرانية المتطورة.</p>\n</div>\n<p class=\"pRef\">المراجع:<br/><a class=\"extL\" href=\"https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&amp;dsh=S-1711039385%3A1777114446800583&amp;hl=en-IN&amp;rip=1&amp;sacu=1&amp;flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin&amp;ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">accounts.google.com</a><br/><a class=\"extL\" href=\"https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&amp;gl=IN&amp;ceid=IN%3Aen\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">news.google.com</a><br/><a class=\"extL\" href=\"https://gist.github.com/H0j3n/a5ef2609b5f2944ac2390a191a534c26\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">reads the advisory</a><br/><a class=\"extL\" href=\"https://github.com/aniqfakhrul/cve-2026-54121\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">GitHub</a></p>",
+      "blogger_article_html": "<div class=\"article-content\">\n<p class=\"pIndent\"><strong><span class=\"dropCap\">م</span>قدمة:</strong></p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Certighost Active Directory CS Exploit Allows Low-Privileged Users to Compromise Domain\" class=\"full\" loading=\"lazy\" src=\"http://cybersecuritynews.com/wp-content/uploads/2026/07/Certighost-Active-Directory-CS-Flaw.webp\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Certighost Active Directory CS Exploit Allows Low-Privileged Users to Compromise Domain</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Certighost Active Directory CS Exploit Allows Low-Privileged Users to Compromise Domain</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">في عالم الأمن السيبراني المتطور باستمرار، يمثل الكشف عن ثغرة أمنية حرجة تحديًا كبيرًا للمؤسسات حول العالم. مؤخرًا، تم الكشف عن ثغرة بالغة الخطورة في خدمات شهادات Active Directory (AD CS) من مايكروسوفت، أُطلق عليها اسم Certighost، وتحمل المعرف CVE-2026-54121. تسمح هذه الثغرة لمستخدم ذي صلاحيات منخفضة داخل النطاق بانتحال صفة وحدة تحكم النطاق (Domain Controller)، مما يفتح الباب أمام سيطرة كاملة على بيئة Active Directory بأكملها. وقد بادرت مايكروسوفت بإصدار تحديثات أمنية لمعالجة هذه الثغرة ضمن تحديثات يوليو 2026، وذلك بعد الكشف المسؤول عنها في وقت سابق من هذا العام.</p>\n<p class=\"pIndent\">تعتبر خدمات شهادات Active Directory (AD CS) مكونًا حيويًا للبنية التحتية للمفتاح العام (PKI) داخل بيئات مايكروسوفت، حيث توفر وتدير شهادات X.509 الرقمية المستخدمة على نطاق واسع للتشفير والتوقيع والمصادقة عبر النطاق. وباعتبار هذه الشهادات بمثابة بطاقات هوية رقمية، فإن أي خلل في عملية إصدارها أو التحقق منها يمكن أن يؤدي إلى عواقب وخيمة، وهذا هو بالضبط ما استغلته ثغرة Certighost.</p>\n<h2>فهم خدمات شهادات Active Directory (AD CS) ودورها الحيوي</h2>\n<p class=\"pIndent\">قبل الغوص في تفاصيل ثغرة Certighost، من الضروري فهم طبيعة خدمات شهادات Active Directory (AD CS). ببساطة، هي نظام البنية التحتية للمفتاح العام (PKI) من مايكروسوفت، وهي مسؤولة عن إصدار وإدارة الشهادات الرقمية X.509. هذه الشهادات ضرورية لتأمين الاتصالات والتحقق من الهويات ضمن الشبكة. تقوم سلطة التصديق (CA) بالتوقيع على هذه الشهادات، لربط مفتاح عام بهوية معينة يمكن للخدمات الأخرى الوثوق بها. هذا يسمح بإنشاء بيئة عمل آمنة وموثوقة حيث يمكن للأجهزة والمستخدمين التحقق من بعضهم البعض.</p>\n<p class=\"pIndent\">أحد الاستخدامات الرئيسية لهذه الشهادات هو في مصادقة Kerberos القائمة على الشهادات (PKINIT). في هذا السيناريو، يطلب العميل شهادة ويقدمها لاحقًا إلى مركز توزيع المفاتيح (KDC) للحصول على تذكرة Kerberos. يقوم KDC بعد ذلك بتعيين بيانات هوية الشهادة إلى حساب Active Directory. وهذه العملية الدقيقة للتعيين والتحقق هي النقطة التي تنهار فيها الحماية بفضل ثغرة Certighost.</p>\n<h2>كيف تعمل ثغرة Certighost (CVE-2026-54121)؟ تحليل معمق لآلية الاستغلال</h2>\n<p class=\"pIndent\">يكمن جوهر ثغرة Certighost في كيفية تعامل سلطة التصديق (CA) مع بعض سيناريوهات طلب الشهادات. خلال عمليات التسجيل المعينة، تقوم سلطة التصديق بإجراء بحث ثانوي في الدليل يسمى 'المطاردة' (chase)، والذي يتم التحكم فيه بواسطة خاصيتين للطلب: <code>cdc</code> (Client DC) التي تحدد المضيف الذي يجب على سلطة التصديق الاتصال به، و<code>rmd</code> (Remote Domain) التي تحدد الكيان الذي يجب البحث عنه.</p>\n<p class=\"pIndent\">المشكلة الجوهرية تكمن في أن التعليمات البرمجية لسلطة التصديق (CA) الضعيفة كانت تثق بأي مضيف يتم توفيره في خاصية <code>cdc</code> دون التحقق مما إذا كان وحدة تحكم نطاق (Domain Controller) فعلية. هذا يعني أن المهاجم يمكنه إعداد خدمات SMB وLDAP وLSA زائفة على جهازه الخاص، وتوجيه سلطة التصديق إليها عبر <code>cdc</code>، ثم إرجاع بيانات هوية مزورة تتضمن معرف SID الحقيقي لوحدة تحكم النطاق واسم مضيف DNS للهدف <code>rmd</code>.</p>\n<p class=\"pIndent\">بالإضافة إلى ذلك، يمكن للمهاجم استغلال إعداد <code>ms-DS-MachineAccountQuota</code> الافتراضي، الذي يسمح لأي مستخدم بتسجيل ما يصل إلى 10 حسابات للآلة. بدمج هذا الإعداد مع المضيف الزائف الذي تم إعداده، يمكن للمضيف المهاجم اجتياز فحوصات المصادقة الخاصة بسلطة التصديق كـ 'كيان نطاق صالح' (valid domain principal)، على الرغم من أنه لم يكن وحدة تحكم النطاق التي يدعي أنه هو. بمجرد أن تصدر سلطة التصديق شهادة تحمل بيانات هوية وحدة تحكم النطاق المنتحلة، يتمكن المهاجم من المصادقة بصفته وحدة تحكم النطاق تلك.</p>\n<p class=\"pIndent\">بما أن وحدات تحكم النطاق تتمتع بحقوق استنساخ الدليل (directory replication rights)، فإن هذا الوصول يمكّن المهاجم من تنفيذ هجوم DCSync. يسمح هذا الهجوم باستخراج الأسرار الحساسة، بما في ذلك تجزئة حساب <code>krbtgt</code>، وهو الحساب الذي يستخدم لتوقيع تذاكر Kerberos الرئيسية. عمليًا، يؤدي ذلك إلى تسليم السيطرة الكاملة على النطاق للمهاجم، مما يمثل كارثة أمنية لأي مؤسسة.</p>\n<h2>استجابة مايكروسوفت والتصحيحات الأمنية: تعزيز آليات التحقق</h2>\n<p class=\"pIndent\">استجابت مايكروسوفت لهذه الثغرة الخطيرة من خلال إصدار تصحيح في تحديثات يوليو 2026. يقدم هذا التصحيح وظيفة تحقق جديدة، <code>_ValidateChaseTargetIsDC</code>، والتي تعمل تحت راية خدمة محددة (Feature_3185813818). قبل أن تتبع سلطة التصديق هدف <code>cdc</code>، تقوم الآن بإجراء سلسلة من التحققات الصارمة لضمان صحة المضيف.</p>\n<p class=\"pIndent\">تتضمن خطوات التحقق الجديدة ما يلي:\n    <ul>\n<li><strong>رفض أسماء المضيفين غير الصالحة:</strong> يتم رفض أسماء المضيفين الفارغة أو كبيرة الحجم أو أسماء IP الحرفية.</li>\n<li><strong>حظر أحرف حقن LDAP:</strong> لمنع هجمات حقن LDAP المحتملة.</li>\n<li><strong>الاستعلام من Active Directory:</strong> يتم الاستعلام من Active Directory للتأكد من أن الهدف هو كائن كمبيوتر حقيقي يحمل علامة <code>SERVER_TRUST_ACCOUNT</code> (القيمة 8192).</li>\n<li><strong>مقارنة SID المتابعة:</strong> يتم إجراء مقارنة لاحقة لمعرف SID (Security Identifier) لمنع استبدال الكائنات.</li>\n</ul>\n  فقط بعد اجتياز جميع هذه الفحوصات، تستمر سلطة التصديق في عملية 'المطاردة' وإصدار الشهادات. تضمن هذه الإجراءات أن سلطة التصديق تتواصل فقط مع وحدات تحكم النطاق الشرعية.</p>\n<h2>إجراءات التخفيف المؤقتة للمؤسسات التي لا تستطيع التحديث فورًا</h2>\n<p class=\"pIndent\">بالنسبة للمؤسسات غير القادرة على نشر تحديث يوليو فورًا، توفر مايكروسوفت إجراء تخفيف مؤقتًا عن طريق تعطيل آلية 'المطاردة' الضعيفة باستخدام الأمر التالي في سطر الأوامر:</p>\n<code>certutil -setreg CA\\PolicyModules\\CertSrv_Policy.1\\EditFlags -EDITF_ENABLECHASECLIENTDC</code>\n<p class=\"pIndent\">ومع ذلك، من الأهمية بمكان فهم أن هذا مجرد تخفيف مؤقت وليس حلًا دائمًا. إذا تم إعادة تمكين هذا العلم لاحقًا (عبر سياسة، تصوير، أو إجراء إداري)، تصبح سلطة التصديق عرضة للاستغلال مرة أخرى. يجب اختبار هذا الإجراء في بيئة تجريبية أولاً، حيث أن أي مهام عمل مشروعة تعتمد على آلية 'المطاردة' هذه ستتوقف عن العمل.</p>\n<p class=\"pIndent\">تتوفر نسخة مفهوم لإثبات الهجوم (proof-of-concept) على <a class=\"extL\" href=\"https://github.com/aniqfakhrul/cve-2026-54121\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">GitHub</a>، مما يؤكد مدى خطورة الثغرة وضرورة التعامل معها بجدية. يجب على المؤسسات التي تشغل خدمات AD CS إعطاء الأولوية القصوى لتطبيق التصحيحات فورًا ومراجعة إعدادات <code>EDITF_ENABLECHASECLIENTDC</code> عبر جميع سلطات التصديق في المؤسسة (Enterprise CAs). لا يقتصر الأمر على تطبيق التصحيحات فقط، بل يشمل أيضًا تدقيق الإعدادات وضمان عدم وجود ثغرات تكوينية أخرى.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">بالنسبة لمديري الأنظمة ومسؤولي الأمن، فإن ثغرة Certighost تذكير صارخ بأهمية الصيانة الأمنية المستمرة واليقظة. القدرة على اختراق نطاق Active Directory بالكامل من خلال مستخدم ذي صلاحيات منخفضة هي سيناريو كابوسي يمكن أن يؤدي إلى خرق بيانات كارثي وخسائر مالية وسمعة مدمرة. يعني هذا أن أي تأخير في تطبيق التصحيح يعرض البنية التحتية بأكملها للخطر.</p>\n<p class=\"pIndent\">يجب على فرق الأمن في المؤسسات:\n    <ul>\n<li><strong>تطبيق التصحيحات فورًا:</strong> لا تؤجل تطبيق تحديثات يوليو 2026 على جميع أنظمة AD CS.</li>\n<li><strong>تدقيق التكوينات:</strong> مراجعة شاملة لإعدادات AD CS، وخاصة <code>EDITF_ENABLECHASECLIENTDC</code>، لضمان عدم وجود تكوينات ضعيفة.</li>\n<li><strong>المراقبة والتحقق:</strong> تعزيز مراقبة أنظمة AD CS وDomain Controllers لاكتشاف أي أنشطة غير طبيعية قد تشير إلى محاولات استغلال.</li>\n<li><strong>التوعية الأمنية:</strong> التأكد من أن جميع فرق تكنولوجيا المعلومات على دراية بهذه الثغرة وأهمية التعامل معها.</li>\n<li><strong>النسخ الاحتياطي:</strong> التأكد من وجود نسخ احتياطية حديثة وقابلة للاستعادة لـ Active Directory.</li>\n</ul>\n  إن التعامل مع هذه الثغرات يتطلب نهجًا استباقيًا يجمع بين التحديثات الفنية والتدقيق المستمر والتوعية الأمنية.</p>\n<p class=\"pIndent\"><strong>الخاتمة:</strong></p>\n<p class=\"pIndent\">تمثل ثغرة Certighost نقطة ضعف حرجة أخرى تسلط الضوء على التعقيد الأمني المتزايد في البنى التحتية للمؤسسات. وبينما توفر مايكروسوفت التصحيحات اللازمة، فإن المسؤولية تقع على عاتق المؤسسات لتطبيقها بفعالية وفي الوقت المناسب. إن اليقظة المستمرة والالتزام بأفضل الممارسات الأمنية ليس مجرد خيار، بل ضرورة حتمية لحماية الأصول الرقمية الحيوية من التهديدات السيبرانية المتطورة.</p>\n</div>\n<p class=\"pRef\">المراجع:<br/><a class=\"extL\" href=\"https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&amp;dsh=S-1711039385%3A1777114446800583&amp;hl=en-IN&amp;rip=1&amp;sacu=1&amp;flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin&amp;ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">accounts.google.com</a><br/><a class=\"extL\" href=\"https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&amp;gl=IN&amp;ceid=IN%3Aen\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">news.google.com</a><br/><a class=\"extL\" href=\"https://gist.github.com/H0j3n/a5ef2609b5f2944ac2390a191a534c26\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">reads the advisory</a><br/><a class=\"extL\" href=\"https://github.com/aniqfakhrul/cve-2026-54121\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">GitHub</a></p>",
+      "final_word_count": 1145,
+      "final_html_chars": 9442,
+      "final_content_hash": "91095fa8bce9339c4cf72d53",
+      "ai_provider_used": "gemini:gemini-2.5-flash",
+      "ai_openrouter_fallback_used": false,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "internal_cache_loaded": 0,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 0,
+      "internal_cache_saved": true,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 1145,
+        "warnings": []
+      },
+      "blogger_post_id": "75179426486125879",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/07/certighost-active-directory-ad-cs.html",
+      "published_at": "2026-07-25T08:38:15",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|75179426486125879|published|unknown",
+      "telegram_blogger_notified_at": "2026-07-25T08:38:16",
+      "telegram_last_notification_at": "2026-07-25T08:38:29",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_941486092294018",
+      "facebook_posted_at": "2026-07-25T08:38:22",
+      "facebook_post_type": "photo",
+      "facebook_image_status": "posted",
+      "facebook_image_path": "/home/runner/work/badrblog/badrblog/output/facebook_images/a3bd4392fa1c2b0e.jpg",
+      "facebook_image_url": "http://cybersecuritynews.com/wp-content/uploads/2026/07/Certighost-Active-Directory-CS-Flaw.webp",
+      "facebook_image_used_fallback": false,
+      "facebook_caption_pattern": "cybersecurity",
+      "facebook_style_used": "cybersecurity",
+      "facebook_hook_generated": "الخلاصة السريعة: تم الكشف عن ثغرة أمنية جديدة في خدمات شهادات ( )، تُعرف باسم",
+      "facebook_structure_used": "fallback",
+      "facebook_hashtags_count": 6,
+      "facebook_cta_used": "التفاصيل كاملة في أول تعليق 👇",
+      "facebook_caption_fingerprint": "967b53344a62b2a62aed",
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "الخلاصة السريعة: تم الكشف عن ثغرة أمنية جديدة في خدمات شهادات ( )، تُعرف باسم\n\nثغرة في خدمات شهادات ( ) تسمح\n\nتم الكشف عن ثغرة أمنية جديدة في خدمات شهادات ( )، تُعرف باسم\n\nالتفاصيل كاملة في أول تعليق 👇\n\n#ذكاء_اصطناعي #أمن_سيبراني #تطبيقات #برامج #خصوصية #Google",
+      "facebook_comment_id": "941486092294018_1926619151352749",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_941486092294018|941486092294018_1926619151352749|unknown",
+      "telegram_facebook_notified_at": "2026-07-25T08:38:29",
+      "archived": true,
+      "archived_at": "2026-07-25T08:38:30",
+      "archive_reason": "published_to_blogger"
     },
     {
       "id": "464e8279da77a2d6",
