@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-25T01:16:43",
+  "updated_at": "2026-07-25T04:31:34",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2531,13 +2531,13 @@
       "score": 7,
       "priority": "medium",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-07-25T01:09:36",
-      "candidate_retry_after": "2026-07-25T01:24:36Z",
+      "content_fetch_error": "http 404",
+      "content_fetched_at": "2026-07-25T04:25:36",
+      "candidate_retry_after": "2026-07-25T04:40:36Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-07-25T01:09:36",
-      "candidate_failure_count": 82
+      "candidate_failure_reason": "http 404",
+      "candidate_failed_at": "2026-07-25T04:25:36",
+      "candidate_failure_count": 83
     },
     {
       "id": "512c2899a98440d2",
@@ -2565,13 +2565,13 @@
       "score": 4,
       "priority": "low",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-07-25T01:09:38",
-      "candidate_retry_after": "2026-07-25T01:24:38Z",
+      "content_fetch_error": "http 404",
+      "content_fetched_at": "2026-07-25T04:25:36",
+      "candidate_retry_after": "2026-07-25T04:40:36Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-07-25T01:09:38",
-      "candidate_failure_count": 82
+      "candidate_failure_reason": "http 404",
+      "candidate_failed_at": "2026-07-25T04:25:36",
+      "candidate_failure_count": 83
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2599,13 +2599,13 @@
       "score": 4,
       "priority": "low",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-07-25T01:09:39",
-      "candidate_retry_after": "2026-07-25T01:24:39Z",
+      "content_fetch_error": "http 404",
+      "content_fetched_at": "2026-07-25T04:25:36",
+      "candidate_retry_after": "2026-07-25T04:40:36Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-07-25T01:09:39",
-      "candidate_failure_count": 82
+      "candidate_failure_reason": "http 404",
+      "candidate_failed_at": "2026-07-25T04:25:36",
+      "candidate_failure_count": 83
     },
     {
       "id": "d900f1574fddfab4",
@@ -3430,17 +3430,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 0,
-      "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 0,
+      "source_links_removed_count": 229,
+      "affiliate_links_removed_count": 7,
+      "removed_source_links_count": 229,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-07-25T01:09:41",
-      "candidate_retry_after": "2026-07-25T01:24:41Z",
+      "content_fetch_error": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
+      "content_fetched_at": "2026-07-25T04:25:39",
+      "candidate_retry_after": "2026-07-25T04:40:39Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-07-25T01:09:41",
-      "candidate_failure_count": 81
+      "candidate_failure_reason": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
+      "candidate_failed_at": "2026-07-25T04:25:39",
+      "candidate_failure_count": 82
     },
     {
       "id": "8d2678d87487d729",
@@ -4306,12 +4306,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-07-25T01:09:42",
-      "candidate_retry_after": "2026-07-25T01:24:42Z",
+      "content_fetched_at": "2026-07-25T04:25:40",
+      "candidate_retry_after": "2026-07-25T04:40:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-07-25T01:09:42",
-      "candidate_failure_count": 80
+      "candidate_failed_at": "2026-07-25T04:25:40",
+      "candidate_failure_count": 81
     },
     {
       "id": "45429302676bf4c5",
@@ -5351,12 +5351,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-25T01:09:44",
-      "candidate_retry_after": "2026-07-25T01:24:44Z",
+      "content_fetched_at": "2026-07-25T04:25:41",
+      "candidate_retry_after": "2026-07-25T04:40:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-25T01:09:44",
-      "candidate_failure_count": 78
+      "candidate_failed_at": "2026-07-25T04:25:41",
+      "candidate_failure_count": 79
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5388,12 +5388,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-25T01:09:46",
-      "candidate_retry_after": "2026-07-25T01:24:46Z",
+      "content_fetched_at": "2026-07-25T04:25:42",
+      "candidate_retry_after": "2026-07-25T04:40:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-25T01:09:46",
-      "candidate_failure_count": 78
+      "candidate_failed_at": "2026-07-25T04:25:42",
+      "candidate_failure_count": 79
     },
     {
       "id": "aede79193c6b98c9",
@@ -5425,12 +5425,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-25T01:09:48",
-      "candidate_retry_after": "2026-07-25T01:24:48Z",
+      "content_fetched_at": "2026-07-25T04:25:43",
+      "candidate_retry_after": "2026-07-25T04:40:43Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-25T01:09:48",
-      "candidate_failure_count": 78
+      "candidate_failed_at": "2026-07-25T04:25:43",
+      "candidate_failure_count": 79
     },
     {
       "id": "253eaa098c468523",
@@ -6364,12 +6364,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-25T01:09:49",
-      "candidate_retry_after": "2026-07-25T01:24:49Z",
+      "content_fetched_at": "2026-07-25T04:25:44",
+      "candidate_retry_after": "2026-07-25T04:40:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-25T01:09:49",
-      "candidate_failure_count": 76
+      "candidate_failed_at": "2026-07-25T04:25:44",
+      "candidate_failure_count": 77
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6764,12 +6764,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-25T01:09:52",
-      "candidate_retry_after": "2026-07-25T01:24:52Z",
+      "content_fetched_at": "2026-07-25T04:25:45",
+      "candidate_retry_after": "2026-07-25T04:40:45Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-25T01:09:52",
-      "candidate_failure_count": 74
+      "candidate_failed_at": "2026-07-25T04:25:45",
+      "candidate_failure_count": 75
     },
     {
       "id": "693fbfabd96b2185",
@@ -6800,12 +6800,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-25T01:09:53",
-      "candidate_retry_after": "2026-07-25T01:24:53Z",
+      "content_fetched_at": "2026-07-25T04:25:47",
+      "candidate_retry_after": "2026-07-25T04:40:47Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-25T01:09:53",
-      "candidate_failure_count": 74
+      "candidate_failed_at": "2026-07-25T04:25:47",
+      "candidate_failure_count": 75
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9228,12 +9228,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "content_fetched_at": "2026-07-25T01:09:54",
-      "candidate_retry_after": "2026-07-25T01:24:54Z",
+      "content_fetched_at": "2026-07-25T04:25:47",
+      "candidate_retry_after": "2026-07-25T04:40:47Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "candidate_failed_at": "2026-07-25T01:09:54",
-      "candidate_failure_count": 70
+      "candidate_failed_at": "2026-07-25T04:25:47",
+      "candidate_failure_count": 71
     },
     {
       "id": "561b6316398d7603",
@@ -10320,12 +10320,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-25T01:09:55",
-      "candidate_retry_after": "2026-07-25T01:24:55Z",
+      "content_fetched_at": "2026-07-25T04:25:48",
+      "candidate_retry_after": "2026-07-25T04:40:48Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-25T01:09:55",
-      "candidate_failure_count": 66
+      "candidate_failed_at": "2026-07-25T04:25:48",
+      "candidate_failure_count": 67
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10357,12 +10357,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-25T01:09:56",
-      "candidate_retry_after": "2026-07-25T01:24:56Z",
+      "content_fetched_at": "2026-07-25T04:25:48",
+      "candidate_retry_after": "2026-07-25T04:40:48Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-25T01:09:56",
-      "candidate_failure_count": 66
+      "candidate_failed_at": "2026-07-25T04:25:48",
+      "candidate_failure_count": 67
     },
     {
       "id": "a6f4ca9464909855",
@@ -10394,12 +10394,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-25T01:09:56",
-      "candidate_retry_after": "2026-07-25T01:24:56Z",
+      "content_fetched_at": "2026-07-25T04:25:48",
+      "candidate_retry_after": "2026-07-25T04:40:48Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-25T01:09:56",
-      "candidate_failure_count": 66
+      "candidate_failed_at": "2026-07-25T04:25:48",
+      "candidate_failure_count": 67
     },
     {
       "id": "71463c25ac92daaa",
@@ -15036,12 +15036,12 @@
       "removed_source_links_count": 79,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-25T01:09:57",
-      "candidate_retry_after": "2026-07-25T01:24:57Z",
+      "content_fetched_at": "2026-07-25T04:25:49",
+      "candidate_retry_after": "2026-07-25T04:40:49Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-07-25T01:09:57",
-      "candidate_failure_count": 55
+      "candidate_failed_at": "2026-07-25T04:25:49",
+      "candidate_failure_count": 56
     },
     {
       "id": "41b7b918ab3966e4",
@@ -36693,11 +36693,11 @@
       "content_fetched_at": "2026-07-24T14:44:40",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-24T21:43:38",
+      "selected_at": "2026-07-25T04:25:50",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-24T21:43:38",
+      "processing_prepared_at": "2026-07-25T04:25:50",
       "ai_input_package": {
         "title": "Rocket Report: Lightning strikes in China; Starship launch on deck",
         "url": "https://arstechnica.com/space/2026/07/rocket-report-lightning-strikes-in-china-starship-launch-on-deck",
@@ -36740,20 +36740,21 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_provider_last_error": "504 The request timed out. Please try again.",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_error": "504 The request timed out. Please try again.",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 90.68,
+      "ai_total_time_seconds": 178.08,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-07-24T22:00:10Z",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-25T04:43:49Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-24T21:45:10",
-      "candidate_failure_count": 1,
-      "telegram_final_summary_notified_at": "2026-07-24T21:46:02"
+      "candidate_failure_reason": "504 The request timed out. Please try again.",
+      "candidate_failed_at": "2026-07-25T04:28:49",
+      "candidate_failure_count": 2,
+      "telegram_final_summary_notified_at": "2026-07-24T21:46:02",
+      "ai_quality_last_error": "html_content ended before a tag was closed"
     },
     {
       "id": "e7f23367a271318f",
@@ -36832,11 +36833,11 @@
       "content_fetched_at": "2026-07-24T14:44:38",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-24T21:45:56",
+      "selected_at": "2026-07-25T04:29:46",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-24T21:45:56",
+      "processing_prepared_at": "2026-07-25T04:29:46",
       "ai_input_package": {
         "title": "AI firms want more data centers; Trump's EPA may give neighbors less say",
         "url": "https://arstechnica.com/tech-policy/2026/07/ai-firms-want-more-data-centers-trumps-epa-may-give-neighbors-less-say",
@@ -36884,14 +36885,15 @@
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.22,
+      "ai_total_time_seconds": 46.47,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-07-24T22:00:58Z",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-25T04:45:34Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-24T21:45:58",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-25T04:30:34",
+      "candidate_failure_count": 2,
+      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content"
     },
     {
       "id": "60251356e1b69698",
@@ -36979,11 +36981,11 @@
       "content_fetched_at": "2026-07-24T14:44:26",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-24T21:45:10",
+      "selected_at": "2026-07-25T04:30:34",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-24T21:45:11",
+      "processing_prepared_at": "2026-07-25T04:30:34",
       "ai_input_package": {
         "title": "Facebook",
         "url": "https://www.theverge.com/facebook",
@@ -37036,19 +37038,19 @@
         "related_posts": []
       },
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_quality_last_error": "ad/affiliate/sponsored title or summary",
+      "ai_quality_last_error": "html_content has unbalanced <p> tags",
       "ai_status": "failed",
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 44.15,
+      "ai_total_time_seconds": 59.09,
       "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-24T22:00:56Z",
+      "candidate_retry_after": "2026-07-25T04:46:34Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-24T21:45:56",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-25T04:31:34",
+      "candidate_failure_count": 2
     },
     {
       "id": "0714214398f68fa9",
@@ -38349,7 +38351,68 @@
       "content_preview_chars": 7314,
       "content_fetched_at": "2026-07-24T21:43:22",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-25T04:28:49",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-25T04:28:50",
+      "ai_input_package": {
+        "title": "Alienware 15 review: Perfect timing for a budget gaming laptop - Engadget",
+        "url": "https://www.engadget.com/2222040/alienware-15-review",
+        "source_name": "Engadget",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.engadget.com/img/gallery/alienware-15-review-perfect-timing-for-alienwares-first-budget-gaming-laptop/l-intro-1784832823.jpg",
+        "article_images": [
+          {
+            "url": "https://www.engadget.com/img/gallery/alienware-15-review-perfect-timing-for-alienwares-first-budget-gaming-laptop/l-intro-1784832823.jpg",
+            "alt": "Alienware 15 review: Perfect timing for a budget gaming laptop - Engadget",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.engadget.com/img/gallery/alienware-15-review-perfect-timing-for-alienwares-first-budget-gaming-laptop/intro-1784832823.jpg",
+            "alt": "Alienware's first budget gaming laptop, the Alienware 15.",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.engadget.com/img/gallery/alienware-15-review-perfect-timing-for-alienwares-first-budget-gaming-laptop/design-1784832825.jpg",
+            "alt": "The Alienware 15 features a rather plain design centered around a plastic chassis.",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.engadget.com/img/gallery/alienware-15-review-perfect-timing-for-alienwares-first-budget-gaming-laptop/display-and-webcam-1784832826.jpg",
+            "alt": "One of the biggest issues with the Alienware 15 is the lackluster gamut of its 15.3-inch LCD display.",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "While its display could be nicer, Alienware’s first budget gaming laptop feels like a welcome reprieve when practically all tech is more expensive.",
+        "content_preview": "While its display could be nicer, Alienware’s first budget gaming laptop feels like a welcome reprieve. Display could be brighter and more colorful Alienware has been around for 30 years. But what may surprise you is that in all of that time, the company has never made a true budget gaming laptop. Even some of its smaller systems from previous generations, like the Alienware 13, were meant to be highly portable but still premium PCs. However, everything changed this summer with the release of the Alienware 15 . With computer manufacturers across the globe struggling to combat the rising price of RAM, the company's first affordable gaming couldn't have arrived at a better time. Alienware makes PCs with some of the most striking designs in the industry. However, when tasked with making a more budget-friendly machine, the company toned down its styling and I don't mind. After all, not everyone wants their laptop to light up like a disco ball every time they turn it on. Plus, if we're really focused on getting the best value for money, I think a lot of people would be happy to trade style for performance. Don't get me wrong, the Alienware 15 doesn't look bad, it's just a bit plain, but in a somewhat stealthy way. Instead of a metal chassis like you get on some of its pricier siblings, this system is made almost entirely out of black plastic. There also isn't any RGB lighting, even in places like the alien logo on its lid, which is merely an opalescent badge, or its keyboard, which only has a white backlight. Thankfully, the Alienware 15 features a solid build without excess flex on its deck and I actually like the extra firmness of its keyboard. You also get a decently-sized though slightly mushy touchpad along with a numpad crammed in on the right, which is nice for anyone who plans on using this as both a gaming machine and a productivity device. Despite a starting price of just $1,000, Alienware didn't skimp on ports as the 15 comes with two USB-A 3.2 slots, two USB-C connections (one of which supports power delivery and DisplayPort 1.4), HDMI 2.1, a 3.5mm audio jack and even dedicated 1Gb Ethernet. Granted, with a max weight of just under five pounds, it's certainly not the lightest gaming laptop I've tested in recent times, but it's manageable. Display and webcam While I applaud Alienware for trying to make something truly affordable, the company may have skimped a bit too much on the Alienware 15's display. The 15.3-inch 1,920 x 1,200 LCD screen might be the weakest component on the system. And sadly, there aren't any other panel options, so you can't even pay extra to upgrade it. On the bright side, the screen's 165Hz refresh rate is a good match for the rest of its specs, as it gives you a bit of headroom to take advantage of things like NVIDIA's multi-frame generation tech (assuming you choose a spec with a 50-series GPU). Meanwhile, its 300-nit max brightness is generally fine, as long as you mostly use this thing indoors. I really would like a bit more luminance for times when I sit near a sunny window though. The biggest issue is that Alienware's display only covers 62.5 percent of the sRGB spectrum, which makes images look a bit washed out and lifeless. Things just aren't as colorful as they should be. If you're going to hook the laptop up to an external monitor, this might not be a big deal. But it's definitely not ideal, especially for anyone thinking about using their laptop to edit photos or videos when they aren't gaming. I really wish Alienware offered a screen upgrade alongside the 15's default panel, as that would be a big help for anyone who can afford a slightly pricier mid-range spec. Of course, there are more upscale alternatives like the Aurora 16 with better displays. As for its webcam, Alienware went with a 720p sensor that maxes out at just 30 fps. For things like video calls and meetings, it's generally fine. But it doesn't look super sharp and its dynamic range is rather mediocre too. If you're planning to be a Twitch streamer, you're definitely going to want to upgrade to an external camera. The Alienware 15 starts as low as $1,000 for a system with an Intel Core 5 chip and an RTX 4050 GPU. However, if you have room in your budget, I would suggest spending an extra $200 on a slightly beefier configuration with a speedier Intel Core 7 240H CPU, 16GB of RAM, 512GB of storage and RTX 5050 graphics. This is the spec I reviewed. For those on a budget, this loadout provides ample performance while still offering a significant savings compared to more premium systems like Alienware's Aurora 16 , which costs $1,500 for a nearly identical configuration. It had no trouble with standard productivity apps while also outputting respectable framerates in games. In Cyberpunk 2077 at 1080p with Ultra RT graphics, the Alienware 15 topped out at 45 fps. However, when I lowered settings a bit to plain Ultra graphics without ray tracing, performance jumped up to 78 fps. This is a good example of how you can achieve solid, stable performance just as long as you don't mind fiddling around with a game's video options. Meanwhile, in Control, the Alienware 15 fared even better at 1080p and Epic graphics by hitting 96 fps. Sure, this level of performance isn't going to blow anyone away, but for general 1080p gaming, there's plenty of horsepower here for most modern titles. And unlike its display, there are several GPU options to choose from, including up to an RTX 5060 card. The one thing you need to watch out for is that the Alienware 15's fans can get rather loud under load, to the point where you may want to switch to headphones. Furthermore, because the laptop's vents are on its bottom, it's not a great choice for gaming on your lap either. Another benefit to stepping up from the base model is that you also get a larger 70WHr battery instead of the default 54Whr cell. That's a 30 percent increase in capacity, which is pretty significant, especially if you envision using this thing untethered for any length of time. On PCMark 10's Modern Office battery test, the Alienware 15 lasted eight hours and four minutes. That isn't quite as good as some of Dell's more premium ultraportables, like the XPS 16 (11:53), but it's more than OK for a budget gaming notebook with a discrete GPU. I was able to get through three rounds of Teamfight Tactics on a single charge in around two hours, but obviously if you're playing something more demanding, you're going to want to keep the power adapter handy. With AI investment sucking up the world's RAM supply, it's rough out there right now for anyone hoping to get a good deal on gaming gear. The PS5 has already gotten multiple price hikes. Same goes for the Xbox Series S and X, and the cost of the Switch 2 is set to go up on September 1. Meanwhile, MSI just released a gaming handheld that starts at $1,800 that offers similar levels of performance. Even though I wish the Alienware 15 had a better screen and webcam, its flaws aren't nearly as offensive as they might be on a more expensive system. And if you can afford a slightly upgraded model like the one I reviewed here, there's a lot to like about the Alienware 15. That's especially true in a time when trying to buy budget-friendly tech feels like your wallet is being nuked from outer space.",
+        "content_preview_chars": 7314,
+        "rss_summary": "",
+        "full_article_text": "While its display could be nicer, Alienware’s first budget gaming laptop feels like a welcome reprieve. Display could be brighter and more colorful Alienware has been around for 30 years. But what may surprise you is that in all of that time, the company has never made a true budget gaming laptop. Even some of its smaller systems from previous generations, like the Alienware 13, were meant to be highly portable but still premium PCs. However, everything changed this summer with the release of the Alienware 15 . With computer manufacturers across the globe struggling to combat the rising price of RAM, the company's first affordable gaming couldn't have arrived at a better time. Alienware makes PCs with some of the most striking designs in the industry. However, when tasked with making a more budget-friendly machine, the company toned down its styling and I don't mind. After all, not everyone wants their laptop to light up like a disco ball every time they turn it on. Plus, if we're really focused on getting the best value for money, I think a lot of people would be happy to trade style for performance. Don't get me wrong, the Alienware 15 doesn't look bad, it's just a bit plain, but in a somewhat stealthy way. Instead of a metal chassis like you get on some of its pricier siblings, this system is made almost entirely out of black plastic. There also isn't any RGB lighting, even in places like the alien logo on its lid, which is merely an opalescent badge, or its keyboard, which only has a white backlight. Thankfully, the Alienware 15 features a solid build without excess flex on its deck and I actually like the extra firmness of its keyboard. You also get a decently-sized though slightly mushy touchpad along with a numpad crammed in on the right, which is nice for anyone who plans on using this as both a gaming machine and a productivity device. Despite a starting price of just $1,000, Alienware didn't skimp on ports as the 15 comes with two USB-A 3.2 slots, two USB-C connections (one of which supports power delivery and DisplayPort 1.4), HDMI 2.1, a 3.5mm audio jack and even dedicated 1Gb Ethernet. Granted, with a max weight of just under five pounds, it's certainly not the lightest gaming laptop I've tested in recent times, but it's manageable. Display and webcam While I applaud Alienware for trying to make something truly affordable, the company may have skimped a bit too much on the Alienware 15's display. The 15.3-inch 1,920 x 1,200 LCD screen might be the weakest component on the system. And sadly, there aren't any other panel options, so you can't even pay extra to upgrade it. On the bright side, the screen's 165Hz refresh rate is a good match for the rest of its specs, as it gives you a bit of headroom to take advantage of things like NVIDIA's multi-frame generation tech (assuming you choose a spec with a 50-series GPU). Meanwhile, its 300-nit max brightness is generally fine, as long as you mostly use this thing indoors. I really would like a bit more luminance for times when I sit near a sunny window though. The biggest issue is that Alienware's display only covers 62.5 percent of the sRGB spectrum, which makes images look a bit washed out and lifeless. Things just aren't as colorful as they should be. If you're going to hook the laptop up to an external monitor, this might not be a big deal. But it's definitely not ideal, especially for anyone thinking about using their laptop to edit photos or videos when they aren't gaming. I really wish Alienware offered a screen upgrade alongside the 15's default panel, as that would be a big help for anyone who can afford a slightly pricier mid-range spec. Of course, there are more upscale alternatives like the Aurora 16 with better displays. As for its webcam, Alienware went with a 720p sensor that maxes out at just 30 fps. For things like video calls and meetings, it's generally fine. But it doesn't look super sharp and its dynamic range is rather mediocre too. If you're planning to be a Twitch streamer, you're definitely going to want to upgrade to an external camera. The Alienware 15 starts as low as $1,000 for a system with an Intel Core 5 chip and an RTX 4050 GPU. However, if you have room in your budget, I would suggest spending an extra $200 on a slightly beefier configuration with a speedier Intel Core 7 240H CPU, 16GB of RAM, 512GB of storage and RTX 5050 graphics. This is the spec I reviewed. For those on a budget, this loadout provides ample performance while still offering a significant savings compared to more premium systems like Alienware's Aurora 16 , which costs $1,500 for a nearly identical configuration. It had no trouble with standard productivity apps while also outputting respectable framerates in games. In Cyberpunk 2077 at 1080p with Ultra RT graphics, the Alienware 15 topped out at 45 fps. However, when I lowered settings a bit to plain Ultra graphics without ray tracing, performance jumped up to 78 fps. This is a good example of how you can achieve solid, stable performance just as long as you don't mind fiddling around with a game's video options. Meanwhile, in Control, the Alienware 15 fared even better at 1080p and Epic graphics by hitting 96 fps. Sure, this level of performance isn't going to blow anyone away, but for general 1080p gaming, there's plenty of horsepower here for most modern titles. And unlike its display, there are several GPU options to choose from, including up to an RTX 5060 card. The one thing you need to watch out for is that the Alienware 15's fans can get rather loud under load, to the point where you may want to switch to headphones. Furthermore, because the laptop's vents are on its bottom, it's not a great choice for gaming on your lap either. Another benefit to stepping up from the base model is that you also get a larger 70WHr battery instead of the default 54Whr cell. That's a 30 percent increase in capacity, which is pretty significant, especially if you envision using this thing untethered for any length of time. On PCMark 10's Modern Office battery test, the Alienware 15 lasted eight hours and four minutes. That isn't quite as good as some of Dell's more premium ultraportables, like the XPS 16 (11:53), but it's more than OK for a budget gaming notebook with a discrete GPU. I was able to get through three rounds of Teamfight Tactics on a single charge in around two hours, but obviously if you're playing something more demanding, you're going to want to keep the power adapter handy. With AI investment sucking up the world's RAM supply, it's rough out there right now for anyone hoping to get a good deal on gaming gear. The PS5 has already gotten multiple price hikes. Same goes for the Xbox Series S and X, and the cost of the Switch 2 is set to go up on September 1. Meanwhile, MSI just released a gaming handheld that starts at $1,800 that offers similar levels of performance. Even though I wish the Alienware 15 had a better screen and webcam, its flaws aren't nearly as offensive as they might be on a more expensive system. And if you can afford a slightly upgraded model like the one I reviewed here, there's a lot to like about the Alienware 15. That's especially true in a time when trying to buy budget-friendly tech feels like your wallet is being nuked from outer space.",
+        "full_article_text_chars": 7314,
+        "enrichment_status": "strong",
+        "source_url": "https://www.engadget.com",
+        "source_published_at": "2026-07-24T12:30:00Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 9.22,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "html_content has unbalanced <p> tags",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 54.96,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-25T04:44:46Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-25T04:29:46",
+      "candidate_failure_count": 1
     },
     {
       "id": "42f465ba388d1d86",
@@ -39622,6 +39685,316 @@
       "content_preview_chars": 8360,
       "content_fetched_at": "2026-07-24T23:43:13",
       "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "cf92e3749669b6e6",
+      "source_url_hash": "cf92e3749669b6e6",
+      "canonical_url": "https://www.digitaltrends.com/movies/3-underrated-apple-tv-shows-you-should-watch-this-weekend-july-24-26",
+      "title_hash": "4e08ef2a5bc1ed52",
+      "topic_signature": "0599a331499e1cb8b963",
+      "title": "3 underrated Apple TV shows you should watch this weekend (July 24-26)",
+      "url": "https://www.digitaltrends.com/movies/3-underrated-apple-tv-shows-you-should-watch-this-weekend-july-24-26",
+      "source_name": "Digital Trends",
+      "source_url": "https://www.digitaltrends.com",
+      "source_published_at": "2026-07-25T04:12:47Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.21,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-25T04:25:21",
+      "status": "skipped",
+      "score": 0,
+      "priority": "low",
+      "skip_reason": "non_technical_entertainment_content"
+    },
+    {
+      "id": "6ae3e8cb84bb1488",
+      "source_url_hash": "6ae3e8cb84bb1488",
+      "canonical_url": "https://www.digitaltrends.com/phones/google-confirms-pixel-11-prices-are-going-up-as-ram-costs-spiral",
+      "title_hash": "231f667ac45d097c",
+      "topic_signature": "4e41f42241c9dfa5b44b",
+      "title": "Google confirms Pixel 11 prices are going up as RAM costs spiral",
+      "url": "https://www.digitaltrends.com/phones/google-confirms-pixel-11-prices-are-going-up-as-ram-costs-spiral",
+      "source_name": "Digital Trends",
+      "source_url": "https://www.digitaltrends.com",
+      "source_published_at": "2026-07-25T02:50:18Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.58,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-25T04:25:21",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 267,
+      "affiliate_links_removed_count": 32,
+      "removed_source_links_count": 267,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Google confirms Pixel 11 prices are going up as RAM costs spiral",
+      "meta_description": "Google has confirmed price increases across the Pixel family as RAM costs surge, while working to make Android run well with less memory.",
+      "article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2025/08/Google-Pixel-10-vs-Pixel-10-Pro-4.jpg?resize=1200%2C630",
+          "alt": "Google confirms Pixel 11 prices are going up as RAM costs spiral",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/03/google-pixel-11-leak3.jpg?resize=2000%2C1200",
+          "alt": "Google Pixel 11 leaked renders set 3.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+          "alt": "Add as a preferred source on Google",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2025/08/Google-Pixel-10-vs-Pixel-10-Pro-4.jpg?resize=1200%2C720",
+          "alt": "Google Pixel 10 vs Pixel 10 Pro",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.digitaltrends.com/tachyon/2025/08/Google-Pixel-10-vs-Pixel-10-Pro-4.jpg?resize=1200%2C630",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/03/google-pixel-11-leak3.jpg?resize=2000%2C1200",
+          "alt": "Google Pixel 11 leaked renders set 3."
+        },
+        {
+          "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+          "alt": "Add as a preferred source on Google"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2025/08/Google-Pixel-10-vs-Pixel-10-Pro-4.jpg?resize=1200%2C720",
+          "alt": "Google Pixel 10 vs Pixel 10 Pro"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Google has confirmed that the upcoming Pixel 11 series will be affected by price increases, blaming a severe, supplier-driven memory crisis. Speaking to 9to5Google , Google Vice President of Devices and Services Shakil Barkat said memory prices have risen at a level the industry has never seen before. He pointed to Morgan Stanley data showing the cost of 1GB of RAM climbing from $2.80 in 2025 to $12 this year. Google says it has absorbed the higher costs for as long as possible but can no longer shield buyers from them. Price adjustments are coming across the Pixel family, including the Pixel 11 lineup. Exact prices will be announced at Google’s August 12 event. Earlier Pixel 11 pricing leaks now make more sense Previous leaks suggested that the Pixel 11 and Pixel 11 Pro could start $100 higher than their predecessors. Both phones are also expected to move from 128GB to 256GB of base storage, which would soften the higher entry price. The Pixel 11 Pro XL and Pixel 11 Pro Fold appear less forgiving, as leaked pricing points to a straightforward $100 increase. The entry Pixel 11 Pro may also drop from 16GB of RAM to 12GB as Google tries to control component costs. Existing Pixel devices may also become more expensive, although the company has not said which models will be affected. Could Android finally learn to do more with less RAM? There may be one silver lining to the surge in memory prices. Google has started a dedicated effort to reduce how much RAM Android and the wider app ecosystem need. Apple has long benefited from controlling both the hardware and software inside its devices, allowing iPhones to run smoothly with less memory than many Android rivals. Android must support a much wider range of devices, chips, and manufacturer software, making this kind of optimisation more difficult. Google believes its control over Android, Tensor processors, and on-device AI can help models load and run more efficiently. Future Pixel phones could therefore deliver the same experience without needing as much RAM. Whether those improvements will also reach phones running Samsung’s One UI, Oppo’s ColorOS, Xiaomi’s HyperOS, and other Android versions remains unclear.",
+      "full_article_text_chars": 2195,
+      "content_preview": "Google has confirmed that the upcoming Pixel 11 series will be affected by price increases, blaming a severe, supplier-driven memory crisis. Speaking to 9to5Google , Google Vice President of Devices and Services Shakil Barkat said memory prices have risen at a level the industry has never seen before. He pointed to Morgan Stanley data showing the cost of 1GB of RAM climbing from $2.80 in 2025 to $12 this year. Google says it has absorbed the higher costs for as long as possible but can no longer shield buyers from them. Price adjustments are coming across the Pixel family, including the Pixel 11 lineup. Exact prices will be announced at Google’s August 12 event. Earlier Pixel 11 pricing leaks now make more sense Previous leaks suggested that the Pixel 11 and Pixel 11 Pro could start $100 higher than their predecessors. Both phones are also expected to move from 128GB to 256GB of base storage, which would soften the higher entry price. The Pixel 11 Pro XL and Pixel 11 Pro Fold appear less forgiving, as leaked pricing points to a straightforward $100 increase. The entry Pixel 11 Pro may also drop from 16GB of RAM to 12GB as Google tries to control component costs. Existing Pixel devices may also become more expensive, although the company has not said which models will be affected. Could Android finally learn to do more with less RAM? There may be one silver lining to the surge in memory prices. Google has started a dedicated effort to reduce how much RAM Android and the wider app ecosystem need. Apple has long benefited from controlling both the hardware and software inside its devices, allowing iPhones to run smoothly with less memory than many Android rivals. Android must support a much wider range of devices, chips, and manufacturer software, making this kind of optimisation more difficult. Google believes its control over Android, Tensor processors, and on-device AI can help models load and run more efficiently. Future Pixel phones could therefore deliver the same experience without needing as much RAM. Whether those improvements will also reach phones running Samsung’s One UI, Oppo’s ColorOS, Xiaomi’s HyperOS, and other Android versions remains unclear.",
+      "content_preview_chars": 2195,
+      "content_fetched_at": "2026-07-25T04:25:27",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "f7ef224989446486",
+      "source_url_hash": "f7ef224989446486",
+      "canonical_url": "https://www.digitaltrends.com/movies/3-underrated-movies-on-apple-tv-you-should-watch-this-weekend-july-24-26",
+      "title_hash": "8fc4e0ce834622ee",
+      "topic_signature": "714df45dc499f314f723",
+      "title": "3 underrated movies on Apple TV you should watch this weekend (July 24-26)",
+      "url": "https://www.digitaltrends.com/movies/3-underrated-movies-on-apple-tv-you-should-watch-this-weekend-july-24-26",
+      "source_name": "Digital Trends",
+      "source_url": "https://www.digitaltrends.com",
+      "source_published_at": "2026-07-25T02:42:18Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.72,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-25T04:25:21",
+      "status": "skipped",
+      "score": 0,
+      "priority": "low",
+      "skip_reason": "non_technical_entertainment_content"
+    },
+    {
+      "id": "5c26666d11408754",
+      "source_url_hash": "5c26666d11408754",
+      "canonical_url": "https://techcrunch.com/2026/07/24/prentis-new-ai-lab-co-founded-by-reid-hoffman-mark-pincus-in-talks-to-raise-100m",
+      "title_hash": "297612047f446b01",
+      "topic_signature": "57cba66f8f12fcce3dd6",
+      "title": "Prentis, new AI lab co-founded by Reid Hoffman, Mark Pincus in talks to raise $100M",
+      "url": "https://techcrunch.com/2026/07/24/prentis-new-ai-lab-co-founded-by-reid-hoffman-mark-pincus-in-talks-to-raise-100m",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-07-24T22:25:58Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 5.99,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-25T04:25:21",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 97,
+      "affiliate_links_removed_count": 3,
+      "removed_source_links_count": 97,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Prentis, new AI lab co-founded by Reid Hoffman, Mark Pincus in talks to raise $100M | TechCrunch",
+      "meta_description": "The neolab is betting that automating routine computer tasks will soon outpace coding as AI's biggest use case.",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2024/11/GettyImages-1258942056.jpg?resize=1200,799",
+          "alt": "Prentis, new AI lab co-founded by Reid Hoffman, Mark Pincus in talks to raise $100M | TechCrunch",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2024/11/GettyImages-1258942056.jpg?w=1024",
+          "alt": "Reid Hoffman",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2024/11/GettyImages-1258942056.jpg?resize=1200,799",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2024/11/GettyImages-1258942056.jpg?w=1024",
+          "alt": "Reid Hoffman"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Prentis , a new AI research lab focused on computer use models, co-founded by serial entrepreneur Ritankar Das and tech heavyweights Reid Hoffman and Mark Pincus, is in talks to raise $100 million at a $1 billion valuation, according to two people familiar with the discussions. Launched in April, Prentis is training models to learn how office workers navigate routine workflows across documents and systems, with the goal of building AI agents that can control computers to automate those tasks. Prentis will ostensibly develop agents tailored to these customers’ needs, such as handling insurance claims and automating customs duty refund exceptions without needing a human to hunt down paperwork. The startup has already signed contracts worth up to $50 million with several customers, including healthcare management service organization, a manufacturer, and goods and clothing manufacturers, the two people familiar with the discussions tell TechCrunch. This echoes investor materials obtained by TechCrunch that predict an estimated $75 million annualized run rate by the third quarter of this year. (Prentis’ pitch deck notes those figures reflect estimated annualized value based on a contracted fee equal to 20% of savings realized, not recognized revenue, and are “performance-dependent and subject to final execution.”) By its own account, Prentis says its Hive-32B model outperforms rivals, including OpenAI’s GPT-5.4 and Anthropic’s Claude Opus 4.6, on two computer-use benchmarks: WindowsAgentArena, which measures end-to-end task completion on real Windows applications, and ScreenSpot-v2, which tests a model’s ability to locate the right on-screen control. In its pitch deck, the company argues its edge comes from running a much smaller, cheaper model. In fact, it claims roughly 10 times lower cost per task than frontier APIs, saying it’s more economical to deploy across everyday workflows. TechCrunch hasn’t independently verified the company’s benchmark results. The startup is betting that automating everyday office tasks will soon outpace coding as AI’s biggest use case, but it’s a crowded market. Anthropic, Open AI, and Mira Murati’s Thinking Machines Lab are also working on developing AI agents for computer use, one of the sources said. Anthropic has also been acquiring talent in the category directly — it bought the Seattle computer-use startup Vercept earlier this year, folding in its founders and shutting down its product. Prentis didn’t respond to TechCrunch’s request for comment. Ritankar Das, CEO of Prentis, is also the founder of Titan, a holding company that builds and operates AI companies. Das, now 31, was UC Berkeley’s youngest University Medalist in more than a century , graduating at 18 with a double major in bioengineering and chemical biology before earning a master’s in biomedical engineering at Oxford. He founded Titan in 2014 after dropping out of an AI PhD program at Cambridge, where he’d been a Gates Cambridge Scholar. Das has described Titan as an intentional throwback to an old-fashioned holding-company model like Berkshire Hathaway, one that’s funded by its own exits rather than outside limited partners. Other businesses launched and operated by Titan include AI-powered virtual care provider Tala Health, which raised a $100 million seed round last year, and Forta Health, an autism care startup that raised $55 million led by Insight Partners in 2024. Titan-founded disease prediction company Dascena was acquired by CirrusDx in 2022. Prentis is a side project of sorts for its two other co-founders. Hoffman, the LinkedIn co-founder and Greylock partner, said last month that he was stepping down from Microsoft’s board after nearly a decade to go “founder mode” on Manas AI, an AI drug-discovery startup he’s also backing; he was an early OpenAI investor and co-founded Inflection AI with Mustafa Suleyman before Microsoft absorbed most of that team in 2024. Pincus, the Zynga founder, now runs the investment firm Reinvent Capital with Hoffman as a senior adviser, and published a memoir, “Life at the Speed of Play,” last month. Prentis has already hired more than 25 employees, including researchers who previously worked at OpenAI, Google DeepMind, Meta, Tencent, and Alibaba, according to its website . When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Marina Temkin is a venture capital and startups reporter at TechCrunch. Prior to joining TechCrunch, she wrote about VC for PitchBook and Venture Capital Journal. Earlier in her career, Marina was a financial analyst and earned a CFA charterholder designation. You can contact or verify outreach from Marina by emailing marina.temkin@techcrunch.com or via encrypted message at +1 347-683-3909 on Signal. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Zack Whittaker US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark Ram Iyer Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark OpenAI says Hugging Face was breached by its pre-release models Russell Brandom OpenAI says Hugging Face was breached by its pre-release models Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Amanda Silberling Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Light made a flip phone — it’s colorful and it’s cheap Amanda Silberling Light made a flip phone — it’s colorful and it’s cheap AI music generator Suno breach affects 55M users, per Have I Been Pwned Zack Whittaker AI music generator Suno breach affects 55M users, per Have I Been Pwned Judge pauses $110B Paramount-Warner Bros. merger Aisha Malik Judge pauses $110B Paramount-Warner Bros. merger",
+      "full_article_text_chars": 6104,
+      "content_preview": "Prentis , a new AI research lab focused on computer use models, co-founded by serial entrepreneur Ritankar Das and tech heavyweights Reid Hoffman and Mark Pincus, is in talks to raise $100 million at a $1 billion valuation, according to two people familiar with the discussions. Launched in April, Prentis is training models to learn how office workers navigate routine workflows across documents and systems, with the goal of building AI agents that can control computers to automate those tasks. Prentis will ostensibly develop agents tailored to these customers’ needs, such as handling insurance claims and automating customs duty refund exceptions without needing a human to hunt down paperwork. The startup has already signed contracts worth up to $50 million with several customers, including healthcare management service organization, a manufacturer, and goods and clothing manufacturers, the two people familiar with the discussions tell TechCrunch. This echoes investor materials obtained by TechCrunch that predict an estimated $75 million annualized run rate by the third quarter of this year. (Prentis’ pitch deck notes those figures reflect estimated annualized value based on a contracted fee equal to 20% of savings realized, not recognized revenue, and are “performance-dependent and subject to final execution.”) By its own account, Prentis says its Hive-32B model outperforms rivals, including OpenAI’s GPT-5.4 and Anthropic’s Claude Opus 4.6, on two computer-use benchmarks: WindowsAgentArena, which measures end-to-end task completion on real Windows applications, and ScreenSpot-v2, which tests a model’s ability to locate the right on-screen control. In its pitch deck, the company argues its edge comes from running a much smaller, cheaper model. In fact, it claims roughly 10 times lower cost per task than frontier APIs, saying it’s more economical to deploy across everyday workflows. TechCrunch hasn’t independently verified the company’s benchmark results. The startup is betting that automating everyday office tasks will soon outpace coding as AI’s biggest use case, but it’s a crowded market. Anthropic, Open AI, and Mira Murati’s Thinking Machines Lab are also working on developing AI agents for computer use, one of the sources said. Anthropic has also been acquiring talent in the category directly — it bought the Seattle computer-use startup Vercept earlier this year, folding in its founders and shutting down its product. Prentis didn’t respond to TechCrunch’s request for comment. Ritankar Das, CEO of Prentis, is also the founder of Titan, a holding company that builds and operates AI companies. Das, now 31, was UC Berkeley’s youngest University Medalist in more than a century , graduating at 18 with a double major in bioengineering and chemical biology before earning a master’s in biomedical engineering at Oxford. He founded Titan in 2014 after dropping out of an AI PhD program at Cambridge, where he’d been a Gates Cambridge Scholar. Das has described Titan as an intentional throwback to an old-fashioned holding-company model like Berkshire Hathaway, one that’s funded by its own exits rather than outside limited partners. Other businesses launched and operated by Titan include AI-powered virtual care provider Tala Health, which raised a $100 million seed round last year, and Forta Health, an autism care startup that raised $55 million led by Insight Partners in 2024. Titan-founded disease prediction company Dascena was acquired by CirrusDx in 2022. Prentis is a side project of sorts for its two other co-founders. Hoffman, the LinkedIn co-founder and Greylock partner, said last month that he was stepping down from Microsoft’s board after nearly a decade to go “founder mode” on Manas AI, an AI drug-discovery startup he’s also backing; he was an early OpenAI investor and co-founded Inflection AI with Mustafa Suleyman before Microsoft absorbed most of that team in 2024. Pincus, the Zynga founder, now runs the investment firm Reinvent Capital with Hoffman as a senior adviser, and published a memoir, “Life at the Speed of Play,” last month. Prentis has already hired more than 25 employees, including researchers who previously worked at OpenAI, Google DeepMind, Meta, Tencent, and Alibaba, according to its website . When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Marina Temkin is a venture capital and startups reporter at TechCrunch. Prior to joining TechCrunch, she wrote about VC for PitchBook and Venture Capital Journal. Earlier in her career, Marina was a financial analyst and earned a CFA charterholder designation. You can contact or verify outreach from Marina by emailing marina.temkin@techcrunch.com or via encrypted message at +1 347-683-3909 on Signal. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Zack Whittaker US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark Ram Iyer Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark OpenAI says Hugging Face was breached by its pre-release models Russell Brandom OpenAI says Hugging Face was breached by its pre-release models Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Amanda Silberling Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Light made a flip phone — it’s colorful and it’s cheap Amanda Silberling Light made a flip phone — it’s colorful and it’s cheap AI music generator Suno breach affects 55M users, per Have I Been Pwned Zack Whittaker AI music generator Suno breach affects 55M users, per Have I Been Pwned Judge pauses $110B Paramount-Warner Bros. merger Aisha Malik Judge pauses $110B Paramount-Warner Bros. merger",
+      "content_preview_chars": 6104,
+      "content_fetched_at": "2026-07-25T04:25:29",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "d53a191a5aef888e",
+      "source_url_hash": "d53a191a5aef888e",
+      "canonical_url": "https://techcrunch.com/2026/07/24/volkswagen-engineers-charged-with-insider-trading-tied-to-rivian-joint-venture",
+      "title_hash": "abe46688a8dfdc54",
+      "topic_signature": "e6c6bb150153d1369644",
+      "title": "Volkswagen engineers charged with insider trading tied to Rivian joint venture",
+      "url": "https://techcrunch.com/2026/07/24/volkswagen-engineers-charged-with-insider-trading-tied-to-rivian-joint-venture",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-07-24T19:56:23Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 8.48,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-25T04:25:21",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 95,
+      "affiliate_links_removed_count": 4,
+      "removed_source_links_count": 95,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Volkswagen engineers charged with insider trading tied to Rivian joint venture | TechCrunch",
+      "meta_description": "The indictment, which was unsealed Friday, alleges the Volkswagen engineers used confidential insider information to buy stock in Rivian.",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2025/04/rivian-volkswagen-charger-getty.jpg?resize=1200,799",
+          "alt": "Volkswagen engineers charged with insider trading tied to Rivian joint venture | TechCrunch",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2025/04/rivian-volkswagen-charger-getty.jpg?w=1024",
+          "alt": "Rivian Volkswagen joint venture",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2025/04/rivian-volkswagen-charger-getty.jpg?resize=1200,799",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2025/04/rivian-volkswagen-charger-getty.jpg?w=1024",
+          "alt": "Rivian Volkswagen joint venture"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "The U.S. Department of Justice has charged two Volkswagen engineers with securities fraud for an alleged insider-trading scheme connected to the German automaker’s joint venture with Rivian. The indictment , unsealed Friday by the U.S. District Attorney for the Southern District of New York, alleges that Michael Stamp and Marcus Plank made more than $300,000 by using confidential insider information. Stamp and Plank allegedly bought Rivian stock and options after learning that the EV maker and Volkswagen planned to form a joint venture — internally codenamed “Project Climb” — but before the companies made any public announcements. Rivian and Volkswagen announced plans for the joint venture on June 25, 2024, which would focus on developing electric vehicle architecture and software. Volkswagen initially committed to invest $5 billion in Rivian, with the capital to be released as the companies achieve certain milestones. The joint venture has since grown to $5.8 billion, and Volkswagen is now Rivian’s largest shareholder. Rivian’s stock price rose 23% following the initial announcement in June. Stamp and Plank then allegedly sold their Rivian positions, with Stamp realizing about $250,000 in profits, Plank realizing about $50,000, and Plank’s close family member realizing about $12,000, as detailed in the indictment. U.S. Attorney Jay Clayton said in a statement Friday: Michael Stamp and Marcus Plank’s alleged exploitation of their employer’s confidential information allowed them to make more than $300,000 in illegal profits. When people misuse confidential information for their own financial gain, they undermine the principles that allow our markets to function fairly and efficiently. Insider trading is a crime that New Yorkers want pursued with vigor. Its effects ripple through the financial system, harming ordinary investors and eroding public confidence. Today’s charges underscore the commitment of this Office and our law enforcement partners to protecting the integrity of our markets and holding accountable those who choose to violate the law. Investigators allege the two engineers understood their actions were illegal. Eight days prior to the joint venture was announced, Stamp searched “statute of limitations insider trading,” and Plank’s close family member searched, in German, “how is insider trading prosecuted?,” according to the indictment. The pair, who both live in San Jose, were arrested Friday and will appear in the U.S. District Court for the Northern District of California. The case has been assigned to U.S. District Judge Katherine Polk Failla. Stamp and Plank face up to 25 years in prison if convicted of federal securities fraud. Rivian declined comment. A Volkswagen spokesperson said the company is aware of the Department of Justice’s action today involving two individuals. “The action is focused on specific individuals and does not involve allegations against the company,” the Volkswagen spokesperson said in an email statement. “As this is an ongoing matter, we are unable to comment further.” The article was updated to include Volkswagen’s comment. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Zack Whittaker US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark Ram Iyer Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark OpenAI says Hugging Face was breached by its pre-release models Russell Brandom OpenAI says Hugging Face was breached by its pre-release models Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Amanda Silberling Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Light made a flip phone — it’s colorful and it’s cheap Amanda Silberling Light made a flip phone — it’s colorful and it’s cheap AI music generator Suno breach affects 55M users, per Have I Been Pwned Zack Whittaker AI music generator Suno breach affects 55M users, per Have I Been Pwned Judge pauses $110B Paramount-Warner Bros. merger Aisha Malik Judge pauses $110B Paramount-Warner Bros. merger",
+      "full_article_text_chars": 4537,
+      "content_preview": "The U.S. Department of Justice has charged two Volkswagen engineers with securities fraud for an alleged insider-trading scheme connected to the German automaker’s joint venture with Rivian. The indictment , unsealed Friday by the U.S. District Attorney for the Southern District of New York, alleges that Michael Stamp and Marcus Plank made more than $300,000 by using confidential insider information. Stamp and Plank allegedly bought Rivian stock and options after learning that the EV maker and Volkswagen planned to form a joint venture — internally codenamed “Project Climb” — but before the companies made any public announcements. Rivian and Volkswagen announced plans for the joint venture on June 25, 2024, which would focus on developing electric vehicle architecture and software. Volkswagen initially committed to invest $5 billion in Rivian, with the capital to be released as the companies achieve certain milestones. The joint venture has since grown to $5.8 billion, and Volkswagen is now Rivian’s largest shareholder. Rivian’s stock price rose 23% following the initial announcement in June. Stamp and Plank then allegedly sold their Rivian positions, with Stamp realizing about $250,000 in profits, Plank realizing about $50,000, and Plank’s close family member realizing about $12,000, as detailed in the indictment. U.S. Attorney Jay Clayton said in a statement Friday: Michael Stamp and Marcus Plank’s alleged exploitation of their employer’s confidential information allowed them to make more than $300,000 in illegal profits. When people misuse confidential information for their own financial gain, they undermine the principles that allow our markets to function fairly and efficiently. Insider trading is a crime that New Yorkers want pursued with vigor. Its effects ripple through the financial system, harming ordinary investors and eroding public confidence. Today’s charges underscore the commitment of this Office and our law enforcement partners to protecting the integrity of our markets and holding accountable those who choose to violate the law. Investigators allege the two engineers understood their actions were illegal. Eight days prior to the joint venture was announced, Stamp searched “statute of limitations insider trading,” and Plank’s close family member searched, in German, “how is insider trading prosecuted?,” according to the indictment. The pair, who both live in San Jose, were arrested Friday and will appear in the U.S. District Court for the Northern District of California. The case has been assigned to U.S. District Judge Katherine Polk Failla. Stamp and Plank face up to 25 years in prison if convicted of federal securities fraud. Rivian declined comment. A Volkswagen spokesperson said the company is aware of the Department of Justice’s action today involving two individuals. “The action is focused on specific individuals and does not involve allegations against the company,” the Volkswagen spokesperson said in an email statement. “As this is an ongoing matter, we are unable to comment further.” The article was updated to include Volkswagen’s comment. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Zack Whittaker US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark Ram Iyer Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark OpenAI says Hugging Face was breached by its pre-release models Russell Brandom OpenAI says Hugging Face was breached by its pre-release models Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Amanda Silberling Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Light made a flip phone — it’s colorful and it’s cheap Amanda Silberling Light made a flip phone — it’s colorful and it’s cheap AI music generator Suno breach affects 55M users, per Have I Been Pwned Zack Whittaker AI music generator Suno breach affects 55M users, per Have I Been Pwned Judge pauses $110B Paramount-Warner Bros. merger Aisha Malik Judge pauses $110B Paramount-Warner Bros. merger",
+      "content_preview_chars": 4537,
+      "content_fetched_at": "2026-07-25T04:25:27",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "4ef7b42d9a8408be",
+      "source_url_hash": "4ef7b42d9a8408be",
+      "canonical_url": "https://techcrunch.com/video/openais-own-model-went-rogue-before-kimi-had-wall-street-sweating",
+      "title_hash": "29fe05390f4fbc19",
+      "topic_signature": "9661a3e4dadb0f759b97",
+      "title": "OpenAI’s own model went rogue before Kimi had Wall Street sweating",
+      "url": "https://techcrunch.com/video/openais-own-model-went-rogue-before-kimi-had-wall-street-sweating",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-07-24T16:50:08Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 11.59,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-25T04:25:21",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 105,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 105,
+      "enrichment_fallback_used": "content_container",
+      "fetched_title": "OpenAI's own model went rogue before Kimi had Wall Street sweating | TechCrunch",
+      "meta_description": "Watch as this episode of Equity digs into why Kimi K3 spooked Wall Street, OpenAI's rogue-model breach at Hugging Face, and what's next for EVs and battery startups.",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/Claude-Voice-2-3-up.jpeg?w=668",
+          "alt": "OpenAI's own model went rogue before Kimi had Wall Street sweating | TechCrunch",
+          "source": "article_content"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2025/04/GettyImages-2205105208.jpg?w=563",
+          "alt": "A laptop keyboard and ChatGPT on App Store displayed on a phone screen.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2026/07/Claude-Voice-2-3-up.jpeg?w=668",
+      "main_image_source_type": "article_content",
+      "main_image_extraction_method": "article_content",
+      "extra_article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2025/04/GettyImages-2205105208.jpg?w=563",
+          "alt": "A laptop keyboard and ChatGPT on App Store displayed on a phone screen."
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Chinese AI lab Moonshot’s open model Kimi went viral this week for reasons that had less to do with the model itself and more to do with how the U.S. AI industry reacted to it. Meanwhile, an unreleased OpenAI model wandered outside its test environment and ended up connected to a real security breach at Hugging Face — a reminder that “China risk” isn’t the only kind of AI risk worth worrying about. On this episode of TechCrunch’s Equity podcast, hosts Kirsten Korosec, Anthony Ha, and Sean O’Kane dig into why Kimi K3 set off a fresh round of AI panic, the industry’s response to an OpenAI staffer’s “regulatory FUD” post, and what that OpenAI breach means for AI security more broadly.",
+      "full_article_text_chars": 690,
+      "content_preview": "Chinese AI lab Moonshot’s open model Kimi went viral this week for reasons that had less to do with the model itself and more to do with how the U.S. AI industry reacted to it. Meanwhile, an unreleased OpenAI model wandered outside its test environment and ended up connected to a real security breach at Hugging Face — a reminder that “China risk” isn’t the only kind of AI risk worth worrying about. On this episode of TechCrunch’s Equity podcast, hosts Kirsten Korosec, Anthony Ha, and Sean O’Kane dig into why Kimi K3 set off a fresh round of AI panic, the industry’s response to an OpenAI staffer’s “regulatory FUD” post, and what that OpenAI breach means for AI security more broadly.",
+      "content_preview_chars": 690,
+      "content_fetched_at": "2026-07-25T04:25:31",
+      "enrichment_status": "weak",
       "content_fetch_status": "success"
     }
   ],
