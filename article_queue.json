@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-25T12:49:09",
+  "updated_at": "2026-07-25T15:36:38",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -1587,7 +1587,10 @@
       "content_preview_chars": 6246,
       "content_fetched_at": "2026-07-19T06:22:44",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-25T15:35:17",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "4790642a75420aad",
@@ -2538,12 +2541,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-25T12:43:46",
-      "candidate_retry_after": "2026-07-25T12:58:46Z",
+      "content_fetched_at": "2026-07-25T15:35:33",
+      "candidate_retry_after": "2026-07-25T15:50:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-25T12:43:46",
-      "candidate_failure_count": 88
+      "candidate_failed_at": "2026-07-25T15:35:33",
+      "candidate_failure_count": 89
     },
     {
       "id": "512c2899a98440d2",
@@ -2572,12 +2575,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-25T12:43:47",
-      "candidate_retry_after": "2026-07-25T12:58:47Z",
+      "content_fetched_at": "2026-07-25T15:35:33",
+      "candidate_retry_after": "2026-07-25T15:50:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-25T12:43:47",
-      "candidate_failure_count": 88
+      "candidate_failed_at": "2026-07-25T15:35:33",
+      "candidate_failure_count": 89
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2606,12 +2609,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-25T12:43:48",
-      "candidate_retry_after": "2026-07-25T12:58:48Z",
+      "content_fetched_at": "2026-07-25T15:35:33",
+      "candidate_retry_after": "2026-07-25T15:50:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-25T12:43:48",
-      "candidate_failure_count": 88
+      "candidate_failed_at": "2026-07-25T15:35:33",
+      "candidate_failure_count": 89
     },
     {
       "id": "d900f1574fddfab4",
@@ -3436,17 +3439,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 0,
-      "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 0,
+      "source_links_removed_count": 229,
+      "affiliate_links_removed_count": 7,
+      "removed_source_links_count": 229,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-07-25T12:43:49",
-      "candidate_retry_after": "2026-07-25T12:58:49Z",
+      "content_fetch_error": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
+      "content_fetched_at": "2026-07-25T15:35:37",
+      "candidate_retry_after": "2026-07-25T15:50:37Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-07-25T12:43:49",
-      "candidate_failure_count": 87
+      "candidate_failure_reason": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
+      "candidate_failed_at": "2026-07-25T15:35:37",
+      "candidate_failure_count": 88
     },
     {
       "id": "8d2678d87487d729",
@@ -4312,12 +4315,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-07-25T12:43:51",
-      "candidate_retry_after": "2026-07-25T12:58:51Z",
+      "content_fetched_at": "2026-07-25T15:35:38",
+      "candidate_retry_after": "2026-07-25T15:50:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-07-25T12:43:51",
-      "candidate_failure_count": 86
+      "candidate_failed_at": "2026-07-25T15:35:38",
+      "candidate_failure_count": 87
     },
     {
       "id": "45429302676bf4c5",
@@ -5369,12 +5372,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-25T12:43:53",
-      "candidate_retry_after": "2026-07-25T12:58:53Z",
+      "content_fetched_at": "2026-07-25T15:35:40",
+      "candidate_retry_after": "2026-07-25T15:50:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-25T12:43:53",
-      "candidate_failure_count": 84
+      "candidate_failed_at": "2026-07-25T15:35:40",
+      "candidate_failure_count": 85
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5405,13 +5408,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-07-25T12:43:54",
-      "candidate_retry_after": "2026-07-25T12:58:54Z",
+      "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "content_fetched_at": "2026-07-25T15:35:42",
+      "candidate_retry_after": "2026-07-25T15:50:42Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-07-25T12:43:54",
-      "candidate_failure_count": 84
+      "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "candidate_failed_at": "2026-07-25T15:35:42",
+      "candidate_failure_count": 85
     },
     {
       "id": "aede79193c6b98c9",
@@ -5442,13 +5445,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-07-25T12:43:55",
-      "candidate_retry_after": "2026-07-25T12:58:55Z",
+      "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
+      "content_fetched_at": "2026-07-25T15:35:43",
+      "candidate_retry_after": "2026-07-25T15:50:43Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-07-25T12:43:55",
-      "candidate_failure_count": 84
+      "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
+      "candidate_failed_at": "2026-07-25T15:35:43",
+      "candidate_failure_count": 85
     },
     {
       "id": "253eaa098c468523",
@@ -6382,12 +6385,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-25T12:43:56",
-      "candidate_retry_after": "2026-07-25T12:58:56Z",
+      "content_fetched_at": "2026-07-25T15:35:44",
+      "candidate_retry_after": "2026-07-25T15:50:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-25T12:43:56",
-      "candidate_failure_count": 82
+      "candidate_failed_at": "2026-07-25T15:35:44",
+      "candidate_failure_count": 83
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6782,12 +6785,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-25T12:43:58",
-      "candidate_retry_after": "2026-07-25T12:58:58Z",
+      "content_fetched_at": "2026-07-25T15:35:47",
+      "candidate_retry_after": "2026-07-25T15:50:47Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-25T12:43:58",
-      "candidate_failure_count": 80
+      "candidate_failed_at": "2026-07-25T15:35:47",
+      "candidate_failure_count": 81
     },
     {
       "id": "693fbfabd96b2185",
@@ -6818,12 +6821,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-25T12:43:59",
-      "candidate_retry_after": "2026-07-25T12:58:59Z",
+      "content_fetched_at": "2026-07-25T15:35:48",
+      "candidate_retry_after": "2026-07-25T15:50:48Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-25T12:43:59",
-      "candidate_failure_count": 80
+      "candidate_failed_at": "2026-07-25T15:35:48",
+      "candidate_failure_count": 81
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -8305,7 +8308,10 @@
       "content_preview_chars": 7212,
       "content_fetched_at": "2026-07-19T20:37:59",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-25T15:35:17",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "2ae06208b230c993",
@@ -9246,12 +9252,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "content_fetched_at": "2026-07-25T12:44:00",
-      "candidate_retry_after": "2026-07-25T12:59:00Z",
+      "content_fetched_at": "2026-07-25T15:35:49",
+      "candidate_retry_after": "2026-07-25T15:50:49Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "candidate_failed_at": "2026-07-25T12:44:00",
-      "candidate_failure_count": 76
+      "candidate_failed_at": "2026-07-25T15:35:49",
+      "candidate_failure_count": 77
     },
     {
       "id": "561b6316398d7603",
@@ -10338,12 +10344,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-25T12:44:01",
-      "candidate_retry_after": "2026-07-25T12:59:01Z",
+      "content_fetched_at": "2026-07-25T15:35:49",
+      "candidate_retry_after": "2026-07-25T15:50:49Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-25T12:44:01",
-      "candidate_failure_count": 72
+      "candidate_failed_at": "2026-07-25T15:35:49",
+      "candidate_failure_count": 73
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10375,12 +10381,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-25T12:44:01",
-      "candidate_retry_after": "2026-07-25T12:59:01Z",
+      "content_fetched_at": "2026-07-25T15:35:49",
+      "candidate_retry_after": "2026-07-25T15:50:49Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-25T12:44:01",
-      "candidate_failure_count": 72
+      "candidate_failed_at": "2026-07-25T15:35:49",
+      "candidate_failure_count": 73
     },
     {
       "id": "a6f4ca9464909855",
@@ -10412,12 +10418,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-25T12:44:01",
-      "candidate_retry_after": "2026-07-25T12:59:01Z",
+      "content_fetched_at": "2026-07-25T15:35:50",
+      "candidate_retry_after": "2026-07-25T15:50:50Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-25T12:44:01",
-      "candidate_failure_count": 72
+      "candidate_failed_at": "2026-07-25T15:35:50",
+      "candidate_failure_count": 73
     },
     {
       "id": "71463c25ac92daaa",
@@ -15054,12 +15060,12 @@
       "removed_source_links_count": 79,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-25T12:44:02",
-      "candidate_retry_after": "2026-07-25T12:59:02Z",
+      "content_fetched_at": "2026-07-25T15:35:51",
+      "candidate_retry_after": "2026-07-25T15:50:51Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-07-25T12:44:02",
-      "candidate_failure_count": 61
+      "candidate_failed_at": "2026-07-25T15:35:51",
+      "candidate_failure_count": 62
     },
     {
       "id": "41b7b918ab3966e4",
@@ -37942,12 +37948,12 @@
       "category_label": "Cyber-Security",
       "category_hint": "Cyber-Security",
       "discovered_at": "2026-07-24T19:11:32",
-      "status": "ready",
+      "status": "published",
       "score": 6,
       "priority": "medium",
       "source_links_removed_count": 75,
       "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 75,
+      "removed_source_links_count": 0,
       "enrichment_fallback_used": "article_tag",
       "fetched_title": "Bing Images Vulnerability Lets Attackers Execute Remote Code on Microsoft Servers",
       "meta_description": "Three critical remote code execution (RCE) vulnerabilities in Microsoft's infrastructure, with two flaws in Bing Images allowing attackers to hijack backend image-processing servers using nothing more than a crafted SVG file.",
@@ -38019,11 +38025,11 @@
       "content_fetched_at": "2026-07-24T19:11:47",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-24T23:43:52",
+      "selected_at": "2026-07-25T15:35:51",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-24T23:43:52",
+      "processing_prepared_at": "2026-07-25T15:35:52",
       "ai_input_package": {
         "title": "Bing Images Vulnerability Lets Attackers Execute Remote Code on Microsoft Servers",
         "url": "https://cybersecuritynews.com/bing-images-vulnerability",
@@ -38087,19 +38093,74 @@
         ],
         "related_posts": []
       },
-      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "ai_status": "completed",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.16,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 26.46,
+      "ai_quality_status": "passed",
       "ai_quality_attempts": 2,
       "candidate_retry_after": "2026-07-24T23:58:53Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-07-24T23:43:53",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "ai_processed_at": "2026-07-25T15:36:18",
+      "seo_title": "ثغرات Bing Images الحرجة: تنفيذ تعليمات برمجية عن بعد على خوادم",
+      "seo_description": "اكتشف باحثو XBOW ثلاث ثغرات حرجة لتنفيذ تعليمات برمجية عن بعد (RCE) في بنية Microsoft التحتية",
+      "seo_slug": "bing-images-vulnerability-remote-code-execution-microsoft",
+      "final_html": "<p class=\"pIndent\"><span class=\"dropCap\">أ</span>علنت <a class=\"extL\" href=\"https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2026-32194\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">Microsoft</a> مؤخرًا عن إصلاح ثلاث ثغرات أمنية حرجة تتعلق بتنفيذ تعليمات برمجية عن بعد (RCE) في بنيتها التحتية، اثنتان منها تخص خدمة Bing Images بشكل مباشر. سمحت هذه الثغرات للمهاجمين بالسيطرة الكاملة على خوادم معالجة الصور الخلفية باستخدام مجرد ملف SVG معد خصيصًا. تم الكشف عن هذه النتائج بواسطة XBOW، وهو باحث أمني يعتمد على تقنيات AI، والذي قدم تقريرًا مسؤولاً عن الاكتشافات.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Bing Images Vulnerability Lets Attackers Execute Remote Code on Microsoft Servers\" class=\"full\" loading=\"lazy\" src=\"http://cybersecuritynews.com/wp-content/uploads/2026/07/Bing-Images-Vulnerability-1.webp\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Bing Images Vulnerability Lets Attackers Execute Remote Code on Microsoft Servers</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Bing Images Vulnerability Lets Attackers Execute Remote Code on Microsoft Servers</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">تكشف هذه الثغرات عن كيفية تحول ميزة \"عادية\" للتعامل مع الصور إلى بوابة وصول كاملة على مستوى SYSTEM إلى خوادم Bing الإنتاجية. صنفت <a class=\"extL\" href=\"https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2026-32091\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">Microsoft</a> جميع الثغرات الثلاث على أنها حرجة، كل واحدة منها تحمل أقصى درجة CVSS تبلغ 9.8، مما يؤكد خطورتها الشديدة وتأثيرها المحتمل.</p>\n<h2>تفاصيل الثغرات الأمنية</h2>\n<p class=\"pIndent\">تركزت الثغرات المكتشفة على نقاط ضعف مختلفة ضمن أنظمة <a class=\"extL\" href=\"https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2026-21536\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">Microsoft</a>، مع تركيز خاص على خدمة Bing Images. إليك تفصيل للثغرات الثلاث:</p>\n<p class=\"pIndent\"><b>CVE-2026-32194:</b> هذه الثغرة عبارة عن ثغرة حقن أوامر (command injection) في مسار معالجة الصور الخاص بـ Bing. يمكن الوصول إليها من خلال ميزة \"Search by Image\" المتاحة للجمهور، والتي تسمح للمستخدمين بتحميل الصور للبحث العكسي.</p>\n<p class=\"pIndent\"><b>CVE-2026-32191:</b> تتعلق هذه الثغرة بمسار استيعاب الصور من جانب الخادم (server-side image ingestion) المرتبط بزاحف البحث العكسي عن الصور الخاص بـ Bing (Bing’s reverse image search crawler). تشبه الثغرة الأولى في طبيعتها ولكنها تستغل مسارًا مختلفًا للوصول إلى نفس نظام المعالجة.</p>\n<p class=\"pIndent\"><b>CVE-2026-21536:</b> هذه الثغرة، وهي غير مرتبطة بشكل مباشر بـ Bing Images، تتضمن تحميلًا غير مقيد للملفات (unrestricted file upload) في برنامج تسعير أجهزة Microsoft (Microsoft Devices Pricing Program). تسمح هذه الثغرة للمهاجمين بتحميل ملفات تنفيذية إلى خوادم Microsoft، مما قد يؤدي إلى تنفيذ تعليمات برمجية عن بعد.</p>\n<p class=\"pIndent\">تم إرجاع الفضل في اكتشاف هذه الثغرات الثلاث إلى XBOW، وهو باحث أمني مستقل يعتمد على AI. وقد تميز XBOW بالوصول إلى قائمة أفضل 10 باحثين في برنامج مكافآت الأخطاء (bug bounty leaderboard) الخاص بـ Microsoft، ليكون بذلك أول AI يحقق هذا الترتيب المرموق.</p>\n<h2>كيف تم استغلال الثغرات في Bing Images؟</h2>\n<p class=\"pIndent\">بدأ التحقيق في ثغرات Bing Images بالصدفة تقريبًا، حيث وجد الباحثون أن البحث العكسي عن الصور في Bing يمكن خداعه لجلب عنوان URL يتحكم فيه المهاجم من الواجهة الخلفية (backend) الخاصة به. هذا النمط، المعروف باسم تزوير طلب من جانب الخادم (SSRF)، بدا في البداية ذا تأثير منخفض.</p>\n<p class=\"pIndent\">أكد الباحثون عملية الجلب من خلال مراقبة الطلبات الصادرة من بنية Bing التحتية التي تحمل وكيل مستخدم (user agent) باسم bingbot/2.0. بعد ذلك، لاحظوا أخطاء HTTP 500 غير متناسقة، مما أشار إلى أن الواجهة الخلفية كانت تقوم بأكثر من مجرد استرداد صورة.</p>\n<p class=\"pIndent\">قادت هذه الحالة الشاذة المحققين لاختبار ما إذا كان المحتوى الذي تم جلبه يتم تحليله بواسطة مكون ضعيف بدلاً من مجرد عرضه. استبعد التحقيق المنهجي هجمات كيان XML الخارجي (XXE) وأشار بدلاً من ذلك إلى محرك عرض من نوع ImageMagick يعالج ملفات SVG من خلال \"coders\" و \"delegates\".</p>\n<p class=\"pIndent\">نظرًا لأن SVG يعتمد على XML، فإنه يمكن أن يضم مراجع لموارد خارجية أو ينفذ بروتوكولات زائفة مثل <code>label:</code>، <code>xc:</code>، وأوامر تعتمد على الأنابيب (pipe-based commands). هذه الميزات مفيدة للمدخلات الموثوقة ولكنها خطيرة عند تعرضها لعمليات الرفع العامة.</p>\n<p class=\"pIndent\">قامت الحمولة الناجحة بإدخال أمر shell مسبوق بـ \"pipe\" ضمن مرجع SVG، مما أدى إلى قيام مكتبة تحويل الصور في الواجهة الخلفية بتنفيذه كأمر نظام تشغيل بدلاً من عرضه كصورة. تم تقديم ملف SVG هذا إما مباشرة عبر نقطة تحميل الصور في Bing أو تم استضافته خارجيًا وجلبه عبر مسار SSRF المعتمد على الزاحف، وهما طريقان متميزان يؤديان إلى نفس المسار الضعيف المدعوم من delegate.</p>\n<p class=\"pIndent\">وصل دليل الاستغلال عبر استدعاءات خارج النطاق (out-of-band callbacks) بدلاً من استجابة HTTP المرئية، حيث أرجعت الواجهة الأمامية أخطاء عامة بينما قامت الواجهة الخلفية بتنفيذ الأوامر بصمت. أكد خرج الأمر التنفيذ بامتيازات NT AUTHORITY\\SYSTEM على خوادم Bing لمعالجة الصور التي تعمل بنظام Windows Server 2022 Datacenter، مع تكرار النتائج عبر مضيفين ونطاقات شبكة متعددة، مما يشير إلى أن التعرض امتد إلى طبقة معالجة الصور في Bing بأكملها، وليس خادمًا واحدًا تم تهيئته بشكل خاطئ. كما رصد باحثو XBOW عمالًا (workers) يعملون بنظام Linux، والذين فاتتهم في البداية لأن أداتهم الآلية للتحقق لم تتعرف إلا على مخرجات نمط Linux مثل <code>uid=0(user) gid=0(group)</code>، حتى أعادوا تهيئتها لتشمل أيضًا أوامر إثبات Windows مثل <code>whoami /all</code> و <code>systeminfo</code>.</p>\n<div class=\"alert info\">\n<p class=\"pIndent\">تجدر الإشارة إلى أن هذه ليست ثغرة جديدة تمامًا؛ فقد ابتلي حقن الأوامر من خلال محولات الصور البرامج لسنوات، كما شوهد في ImageTragick وثغرات RCE مماثلة تعتمد على ExifTool والتي تم الكشف عنها عبر برنامج مكافآت الأخطاء في GitLab. ما جعل هذه الحالة جديرة بالاهتمام هو أن التطبيقات غالبًا ما تتعامل مع محللات الصور (image parsers) على أنها \"أنابيب\" خاملة، بينما في الواقع، تحمل هذه المساعدات عقودًا من توافق التنسيقات وسلوكيات تشغيل الـ shell التي يمكن للمهاجمين استغلالها.</p>\n</div>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">إن اكتشاف وإصلاح هذه الثغرات الحرجة في Bing Images وخوادم Microsoft له أهمية بالغة للمستخدمين وسلامة الإنترنت بشكل عام. لو لم يتم اكتشاف هذه الثغرات وإصلاحها في الوقت المناسب، لكان بإمكان المهاجمين تنفيذ تعليمات برمجية ضارة على خوادم Microsoft، مما يمنحهم وصولاً واسعًا وخطيرًا.</p>\n<p class=\"pIndent\">قد يعني ذلك القدرة على سرقة البيانات، أو تشويه المحتوى، أو حتى استخدام هذه الخوادم كنقطة انطلاق لشن هجمات أوسع. بالنسبة لخدمة بحجم Bing، فإن أي اختراق يمكن أن يكون له تداعيات واسعة النطاق على ملايين المستخدمين الذين يعتمدون عليها في البحث عن الصور والمعلومات. يبرز هذا الحدث أهمية برامج مكافآت الأخطاء والباحثين الأمنيين في الحفاظ على أمان البنية التحتية الرقمية العالمية.</p>\n<h2>نصائح للحماية والدفاع عن الأنظمة</h2>\n<p class=\"pIndent\">يجب على المؤسسات التي تدير مسارات معالجة صور مماثلة اتخاذ عدة احتياطات لتعزيز أمانها:</p>\n<ul>\n<li><p class=\"pIndent\"><b>تعطيل \"delegates\" المشغلة للـ shell:</b> يجب تعطيل سلوك \"delegates\" الذي يستدعي الـ shell والسلوكيات القائمة على \"pipe\" في محولات الصور من نوع ImageMagick.</p></li>\n<li><p class=\"pIndent\"><b>تكوينات \"policy.xml\" و \"delegates.xml\" التقييدية:</b> فرض تكوينات مقيدة تمنع التنسيقات عالية المخاطر مثل SVG و MVG و EPS ما لم تكن مطلوبة بشكل صريح.</p></li>\n<li><p class=\"pIndent\"><b>ضوابط الخروج الصارمة (egress controls):</b> تطبيق ضوابط خروج صارمة، بما في ذلك قوائم السماح للوجهات وحظر العناوين الداخلية، لأي ميزة تجلب عناوين URL التي يقدمها المستخدم.</p></li>\n<li><p class=\"pIndent\"><b>تشغيل تحويل الصور في بيئات معزولة:</b> تشغيل عملية تحويل الصور في بيئات \"sandboxed\" ذات امتيازات مخفضة ووصول محدود للشبكة الصادرة.</p></li>\n<li><p class=\"pIndent\"><b>بناء أدوات تحقق:</b> تطوير أدوات تحقق تأخذ في الاعتبار أساطيل الخوادم غير المتجانسة (Linux و Windows) لتجنب فقدان إشارات الاستغلال الحقيقية.</p></li>\n</ul>\n<div class=\"alert warning\">\n<p class=\"pIndent\">قامت Microsoft بإصلاح كلتا ثغرتي Bing Images بالكامل في خدمتها السحابية. ومع ذلك، فإن الدرس الأساسي يمتد إلى ما هو أبعد من Bing: يجب على أي تطبيق يقبل تحميلات الصور أو يجلب عناوين URL لصور خارجية أن يتعامل مع مسار التحويل الخاص به كشفرة حرجة أمنيًا وغير موثوق بها، بدلاً من مجرد معالجة وسائط غير ضارة.</p>\n</div>\n<h2>خاتمة</h2>\n<p class=\"pIndent\">تُعد عملية الكشف عن هذه الثغرات الحرجة وإصلاحها تأكيدًا على الجهود المستمرة في مجال الأمن السيبراني. تسلط الضوء على التعقيدات الخفية في المكونات التي تبدو بسيطة مثل معالجات الصور، وتبرز الدور الحيوي لباحثي الأمن مثل XBOW في حماية الأنظمة الرقمية. كما تعزز الحاجة إلى اليقظة المستمرة وتطبيق أفضل الممارسات الأمنية في تصميم وتشغيل التطبيقات التي تتعامل مع المحتوى الذي ينشئه المستخدمون.</p>\n<p class=\"pRef\"><b>مراجع موثوقة:</b><br/>\n<a class=\"extL\" href=\"https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2026-32194\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">CVE-2026-32194</a><br/>\n<a class=\"extL\" href=\"https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2026-32091\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">CVE-2026-32191</a><br/>\n<a class=\"extL\" href=\"https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2026-21536\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">CVE-2026-21536</a></p>",
+      "blogger_article_html": "<p class=\"pIndent\"><span class=\"dropCap\">أ</span>علنت <a class=\"extL\" href=\"https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2026-32194\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">Microsoft</a> مؤخرًا عن إصلاح ثلاث ثغرات أمنية حرجة تتعلق بتنفيذ تعليمات برمجية عن بعد (RCE) في بنيتها التحتية، اثنتان منها تخص خدمة Bing Images بشكل مباشر. سمحت هذه الثغرات للمهاجمين بالسيطرة الكاملة على خوادم معالجة الصور الخلفية باستخدام مجرد ملف SVG معد خصيصًا. تم الكشف عن هذه النتائج بواسطة XBOW، وهو باحث أمني يعتمد على تقنيات AI، والذي قدم تقريرًا مسؤولاً عن الاكتشافات.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Bing Images Vulnerability Lets Attackers Execute Remote Code on Microsoft Servers\" class=\"full\" loading=\"lazy\" src=\"http://cybersecuritynews.com/wp-content/uploads/2026/07/Bing-Images-Vulnerability-1.webp\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Bing Images Vulnerability Lets Attackers Execute Remote Code on Microsoft Servers</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Bing Images Vulnerability Lets Attackers Execute Remote Code on Microsoft Servers</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">تكشف هذه الثغرات عن كيفية تحول ميزة \"عادية\" للتعامل مع الصور إلى بوابة وصول كاملة على مستوى SYSTEM إلى خوادم Bing الإنتاجية. صنفت <a class=\"extL\" href=\"https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2026-32091\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">Microsoft</a> جميع الثغرات الثلاث على أنها حرجة، كل واحدة منها تحمل أقصى درجة CVSS تبلغ 9.8، مما يؤكد خطورتها الشديدة وتأثيرها المحتمل.</p>\n<h2>تفاصيل الثغرات الأمنية</h2>\n<p class=\"pIndent\">تركزت الثغرات المكتشفة على نقاط ضعف مختلفة ضمن أنظمة <a class=\"extL\" href=\"https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2026-21536\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">Microsoft</a>، مع تركيز خاص على خدمة Bing Images. إليك تفصيل للثغرات الثلاث:</p>\n<p class=\"pIndent\"><b>CVE-2026-32194:</b> هذه الثغرة عبارة عن ثغرة حقن أوامر (command injection) في مسار معالجة الصور الخاص بـ Bing. يمكن الوصول إليها من خلال ميزة \"Search by Image\" المتاحة للجمهور، والتي تسمح للمستخدمين بتحميل الصور للبحث العكسي.</p>\n<p class=\"pIndent\"><b>CVE-2026-32191:</b> تتعلق هذه الثغرة بمسار استيعاب الصور من جانب الخادم (server-side image ingestion) المرتبط بزاحف البحث العكسي عن الصور الخاص بـ Bing (Bing’s reverse image search crawler). تشبه الثغرة الأولى في طبيعتها ولكنها تستغل مسارًا مختلفًا للوصول إلى نفس نظام المعالجة.</p>\n<p class=\"pIndent\"><b>CVE-2026-21536:</b> هذه الثغرة، وهي غير مرتبطة بشكل مباشر بـ Bing Images، تتضمن تحميلًا غير مقيد للملفات (unrestricted file upload) في برنامج تسعير أجهزة Microsoft (Microsoft Devices Pricing Program). تسمح هذه الثغرة للمهاجمين بتحميل ملفات تنفيذية إلى خوادم Microsoft، مما قد يؤدي إلى تنفيذ تعليمات برمجية عن بعد.</p>\n<p class=\"pIndent\">تم إرجاع الفضل في اكتشاف هذه الثغرات الثلاث إلى XBOW، وهو باحث أمني مستقل يعتمد على AI. وقد تميز XBOW بالوصول إلى قائمة أفضل 10 باحثين في برنامج مكافآت الأخطاء (bug bounty leaderboard) الخاص بـ Microsoft، ليكون بذلك أول AI يحقق هذا الترتيب المرموق.</p>\n<h2>كيف تم استغلال الثغرات في Bing Images؟</h2>\n<p class=\"pIndent\">بدأ التحقيق في ثغرات Bing Images بالصدفة تقريبًا، حيث وجد الباحثون أن البحث العكسي عن الصور في Bing يمكن خداعه لجلب عنوان URL يتحكم فيه المهاجم من الواجهة الخلفية (backend) الخاصة به. هذا النمط، المعروف باسم تزوير طلب من جانب الخادم (SSRF)، بدا في البداية ذا تأثير منخفض.</p>\n<p class=\"pIndent\">أكد الباحثون عملية الجلب من خلال مراقبة الطلبات الصادرة من بنية Bing التحتية التي تحمل وكيل مستخدم (user agent) باسم bingbot/2.0. بعد ذلك، لاحظوا أخطاء HTTP 500 غير متناسقة، مما أشار إلى أن الواجهة الخلفية كانت تقوم بأكثر من مجرد استرداد صورة.</p>\n<p class=\"pIndent\">قادت هذه الحالة الشاذة المحققين لاختبار ما إذا كان المحتوى الذي تم جلبه يتم تحليله بواسطة مكون ضعيف بدلاً من مجرد عرضه. استبعد التحقيق المنهجي هجمات كيان XML الخارجي (XXE) وأشار بدلاً من ذلك إلى محرك عرض من نوع ImageMagick يعالج ملفات SVG من خلال \"coders\" و \"delegates\".</p>\n<p class=\"pIndent\">نظرًا لأن SVG يعتمد على XML، فإنه يمكن أن يضم مراجع لموارد خارجية أو ينفذ بروتوكولات زائفة مثل <code>label:</code>، <code>xc:</code>، وأوامر تعتمد على الأنابيب (pipe-based commands). هذه الميزات مفيدة للمدخلات الموثوقة ولكنها خطيرة عند تعرضها لعمليات الرفع العامة.</p>\n<p class=\"pIndent\">قامت الحمولة الناجحة بإدخال أمر shell مسبوق بـ \"pipe\" ضمن مرجع SVG، مما أدى إلى قيام مكتبة تحويل الصور في الواجهة الخلفية بتنفيذه كأمر نظام تشغيل بدلاً من عرضه كصورة. تم تقديم ملف SVG هذا إما مباشرة عبر نقطة تحميل الصور في Bing أو تم استضافته خارجيًا وجلبه عبر مسار SSRF المعتمد على الزاحف، وهما طريقان متميزان يؤديان إلى نفس المسار الضعيف المدعوم من delegate.</p>\n<p class=\"pIndent\">وصل دليل الاستغلال عبر استدعاءات خارج النطاق (out-of-band callbacks) بدلاً من استجابة HTTP المرئية، حيث أرجعت الواجهة الأمامية أخطاء عامة بينما قامت الواجهة الخلفية بتنفيذ الأوامر بصمت. أكد خرج الأمر التنفيذ بامتيازات NT AUTHORITY\\SYSTEM على خوادم Bing لمعالجة الصور التي تعمل بنظام Windows Server 2022 Datacenter، مع تكرار النتائج عبر مضيفين ونطاقات شبكة متعددة، مما يشير إلى أن التعرض امتد إلى طبقة معالجة الصور في Bing بأكملها، وليس خادمًا واحدًا تم تهيئته بشكل خاطئ. كما رصد باحثو XBOW عمالًا (workers) يعملون بنظام Linux، والذين فاتتهم في البداية لأن أداتهم الآلية للتحقق لم تتعرف إلا على مخرجات نمط Linux مثل <code>uid=0(user) gid=0(group)</code>، حتى أعادوا تهيئتها لتشمل أيضًا أوامر إثبات Windows مثل <code>whoami /all</code> و <code>systeminfo</code>.</p>\n<div class=\"alert info\">\n<p class=\"pIndent\">تجدر الإشارة إلى أن هذه ليست ثغرة جديدة تمامًا؛ فقد ابتلي حقن الأوامر من خلال محولات الصور البرامج لسنوات، كما شوهد في ImageTragick وثغرات RCE مماثلة تعتمد على ExifTool والتي تم الكشف عنها عبر برنامج مكافآت الأخطاء في GitLab. ما جعل هذه الحالة جديرة بالاهتمام هو أن التطبيقات غالبًا ما تتعامل مع محللات الصور (image parsers) على أنها \"أنابيب\" خاملة، بينما في الواقع، تحمل هذه المساعدات عقودًا من توافق التنسيقات وسلوكيات تشغيل الـ shell التي يمكن للمهاجمين استغلالها.</p>\n</div>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">إن اكتشاف وإصلاح هذه الثغرات الحرجة في Bing Images وخوادم Microsoft له أهمية بالغة للمستخدمين وسلامة الإنترنت بشكل عام. لو لم يتم اكتشاف هذه الثغرات وإصلاحها في الوقت المناسب، لكان بإمكان المهاجمين تنفيذ تعليمات برمجية ضارة على خوادم Microsoft، مما يمنحهم وصولاً واسعًا وخطيرًا.</p>\n<p class=\"pIndent\">قد يعني ذلك القدرة على سرقة البيانات، أو تشويه المحتوى، أو حتى استخدام هذه الخوادم كنقطة انطلاق لشن هجمات أوسع. بالنسبة لخدمة بحجم Bing، فإن أي اختراق يمكن أن يكون له تداعيات واسعة النطاق على ملايين المستخدمين الذين يعتمدون عليها في البحث عن الصور والمعلومات. يبرز هذا الحدث أهمية برامج مكافآت الأخطاء والباحثين الأمنيين في الحفاظ على أمان البنية التحتية الرقمية العالمية.</p>\n<h2>نصائح للحماية والدفاع عن الأنظمة</h2>\n<p class=\"pIndent\">يجب على المؤسسات التي تدير مسارات معالجة صور مماثلة اتخاذ عدة احتياطات لتعزيز أمانها:</p>\n<ul>\n<li><p class=\"pIndent\"><b>تعطيل \"delegates\" المشغلة للـ shell:</b> يجب تعطيل سلوك \"delegates\" الذي يستدعي الـ shell والسلوكيات القائمة على \"pipe\" في محولات الصور من نوع ImageMagick.</p></li>\n<li><p class=\"pIndent\"><b>تكوينات \"policy.xml\" و \"delegates.xml\" التقييدية:</b> فرض تكوينات مقيدة تمنع التنسيقات عالية المخاطر مثل SVG و MVG و EPS ما لم تكن مطلوبة بشكل صريح.</p></li>\n<li><p class=\"pIndent\"><b>ضوابط الخروج الصارمة (egress controls):</b> تطبيق ضوابط خروج صارمة، بما في ذلك قوائم السماح للوجهات وحظر العناوين الداخلية، لأي ميزة تجلب عناوين URL التي يقدمها المستخدم.</p></li>\n<li><p class=\"pIndent\"><b>تشغيل تحويل الصور في بيئات معزولة:</b> تشغيل عملية تحويل الصور في بيئات \"sandboxed\" ذات امتيازات مخفضة ووصول محدود للشبكة الصادرة.</p></li>\n<li><p class=\"pIndent\"><b>بناء أدوات تحقق:</b> تطوير أدوات تحقق تأخذ في الاعتبار أساطيل الخوادم غير المتجانسة (Linux و Windows) لتجنب فقدان إشارات الاستغلال الحقيقية.</p></li>\n</ul>\n<div class=\"alert warning\">\n<p class=\"pIndent\">قامت Microsoft بإصلاح كلتا ثغرتي Bing Images بالكامل في خدمتها السحابية. ومع ذلك، فإن الدرس الأساسي يمتد إلى ما هو أبعد من Bing: يجب على أي تطبيق يقبل تحميلات الصور أو يجلب عناوين URL لصور خارجية أن يتعامل مع مسار التحويل الخاص به كشفرة حرجة أمنيًا وغير موثوق بها، بدلاً من مجرد معالجة وسائط غير ضارة.</p>\n</div>\n<h2>خاتمة</h2>\n<p class=\"pIndent\">تُعد عملية الكشف عن هذه الثغرات الحرجة وإصلاحها تأكيدًا على الجهود المستمرة في مجال الأمن السيبراني. تسلط الضوء على التعقيدات الخفية في المكونات التي تبدو بسيطة مثل معالجات الصور، وتبرز الدور الحيوي لباحثي الأمن مثل XBOW في حماية الأنظمة الرقمية. كما تعزز الحاجة إلى اليقظة المستمرة وتطبيق أفضل الممارسات الأمنية في تصميم وتشغيل التطبيقات التي تتعامل مع المحتوى الذي ينشئه المستخدمون.</p>\n<p class=\"pRef\"><b>مراجع موثوقة:</b><br/>\n<a class=\"extL\" href=\"https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2026-32194\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">CVE-2026-32194</a><br/>\n<a class=\"extL\" href=\"https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2026-32091\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">CVE-2026-32191</a><br/>\n<a class=\"extL\" href=\"https://msrc.microsoft.com/update-guide/en-US/advisory/CVE-2026-21536\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">CVE-2026-21536</a></p>",
+      "final_word_count": 1161,
+      "final_html_chars": 8647,
+      "final_content_hash": "bb48d775c94ed71bc621f25c",
+      "ai_provider_used": "gemini:gemini-2.5-flash",
+      "ai_openrouter_fallback_used": false,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "internal_cache_loaded": 0,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 3,
+      "internal_cache_saved": true,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 1161,
+        "warnings": []
+      },
+      "blogger_post_id": "9157168070292235164",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/07/bing-images.html",
+      "published_at": "2026-07-25T15:36:20",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|9157168070292235164|published|unknown",
+      "telegram_blogger_notified_at": "2026-07-25T15:36:20",
+      "telegram_last_notification_at": "2026-07-25T15:36:38",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_941754625600498",
+      "facebook_posted_at": "2026-07-25T15:36:28",
+      "facebook_post_type": "photo",
+      "facebook_image_status": "posted",
+      "facebook_image_path": "/home/runner/work/badrblog/badrblog/output/facebook_images/464e8279da77a2d6.jpg",
+      "facebook_image_url": "http://cybersecuritynews.com/wp-content/uploads/2026/07/Bing-Images-Vulnerability-1.webp",
+      "facebook_image_used_fallback": false,
+      "facebook_caption_pattern": "tech_news",
+      "facebook_style_used": "tech_news",
+      "facebook_hook_generated": "الخلاصة السريعة: اكتشف باحثو ثلاث ثغرات حرجة لتنفيذ تعليمات برمجية عن بعد () في بنية Microsoft التحتية",
+      "facebook_structure_used": "fallback",
+      "facebook_hashtags_count": 6,
+      "facebook_cta_used": "لمن يريد القراءة الكاملة، الرابط في أول تعليق 👇",
+      "facebook_caption_fingerprint": "0c28b0c382cbd9d29b24",
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "الخلاصة السريعة: اكتشف باحثو ثلاث ثغرات حرجة لتنفيذ تعليمات برمجية عن بعد () في بنية Microsoft التحتية\n\nثغرات الحرجة: تنفيذ تعليمات برمجية عن بعد على خوادم\n\nاكتشف باحثو ثلاث ثغرات حرجة لتنفيذ تعليمات برمجية عن بعد () في بنية Microsoft التحتية\n\nلمن يريد القراءة الكاملة، الرابط في أول تعليق 👇\n\n#ذكاء_اصطناعي #أمن_سيبراني #تطبيقات #برامج #خصوصية #Microsoft",
+      "facebook_comment_id": "941754625600498_2257120051361457",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_941754625600498|941754625600498_2257120051361457|unknown",
+      "telegram_facebook_notified_at": "2026-07-25T15:36:38",
+      "archived": true,
+      "archived_at": "2026-07-25T15:36:38",
+      "archive_reason": "published_to_blogger"
     },
     {
       "id": "bb274b6951508db1",
