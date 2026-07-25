@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-24T23:43:57",
+  "updated_at": "2026-07-25T01:16:40",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2531,13 +2531,13 @@
       "score": 7,
       "priority": "medium",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-24T23:43:13",
-      "candidate_retry_after": "2026-07-24T23:58:13Z",
+      "content_fetch_error": "http 429",
+      "content_fetched_at": "2026-07-25T01:09:36",
+      "candidate_retry_after": "2026-07-25T01:24:36Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-24T23:43:13",
-      "candidate_failure_count": 81
+      "candidate_failure_reason": "http 429",
+      "candidate_failed_at": "2026-07-25T01:09:36",
+      "candidate_failure_count": 82
     },
     {
       "id": "512c2899a98440d2",
@@ -2565,13 +2565,13 @@
       "score": 4,
       "priority": "low",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-24T23:43:13",
-      "candidate_retry_after": "2026-07-24T23:58:13Z",
+      "content_fetch_error": "http 429",
+      "content_fetched_at": "2026-07-25T01:09:38",
+      "candidate_retry_after": "2026-07-25T01:24:38Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-24T23:43:13",
-      "candidate_failure_count": 81
+      "candidate_failure_reason": "http 429",
+      "candidate_failed_at": "2026-07-25T01:09:38",
+      "candidate_failure_count": 82
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2599,13 +2599,13 @@
       "score": 4,
       "priority": "low",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-24T23:43:13",
-      "candidate_retry_after": "2026-07-24T23:58:13Z",
+      "content_fetch_error": "http 429",
+      "content_fetched_at": "2026-07-25T01:09:39",
+      "candidate_retry_after": "2026-07-25T01:24:39Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-24T23:43:13",
-      "candidate_failure_count": 81
+      "candidate_failure_reason": "http 429",
+      "candidate_failed_at": "2026-07-25T01:09:39",
+      "candidate_failure_count": 82
     },
     {
       "id": "d900f1574fddfab4",
@@ -3430,17 +3430,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 229,
-      "affiliate_links_removed_count": 7,
-      "removed_source_links_count": 229,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
-      "content_fetched_at": "2026-07-24T23:43:16",
-      "candidate_retry_after": "2026-07-24T23:58:16Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-07-25T01:09:41",
+      "candidate_retry_after": "2026-07-25T01:24:41Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
-      "candidate_failed_at": "2026-07-24T23:43:16",
-      "candidate_failure_count": 80
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-07-25T01:09:41",
+      "candidate_failure_count": 81
     },
     {
       "id": "8d2678d87487d729",
@@ -4306,12 +4306,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-07-24T23:43:17",
-      "candidate_retry_after": "2026-07-24T23:58:17Z",
+      "content_fetched_at": "2026-07-25T01:09:42",
+      "candidate_retry_after": "2026-07-25T01:24:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-07-24T23:43:17",
-      "candidate_failure_count": 79
+      "candidate_failed_at": "2026-07-25T01:09:42",
+      "candidate_failure_count": 80
     },
     {
       "id": "45429302676bf4c5",
@@ -5351,12 +5351,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-24T23:43:19",
-      "candidate_retry_after": "2026-07-24T23:58:19Z",
+      "content_fetched_at": "2026-07-25T01:09:44",
+      "candidate_retry_after": "2026-07-25T01:24:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-24T23:43:19",
-      "candidate_failure_count": 77
+      "candidate_failed_at": "2026-07-25T01:09:44",
+      "candidate_failure_count": 78
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5388,12 +5388,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-24T23:43:20",
-      "candidate_retry_after": "2026-07-24T23:58:20Z",
+      "content_fetched_at": "2026-07-25T01:09:46",
+      "candidate_retry_after": "2026-07-25T01:24:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-24T23:43:20",
-      "candidate_failure_count": 77
+      "candidate_failed_at": "2026-07-25T01:09:46",
+      "candidate_failure_count": 78
     },
     {
       "id": "aede79193c6b98c9",
@@ -5425,12 +5425,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-24T23:43:22",
-      "candidate_retry_after": "2026-07-24T23:58:22Z",
+      "content_fetched_at": "2026-07-25T01:09:48",
+      "candidate_retry_after": "2026-07-25T01:24:48Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-24T23:43:22",
-      "candidate_failure_count": 77
+      "candidate_failed_at": "2026-07-25T01:09:48",
+      "candidate_failure_count": 78
     },
     {
       "id": "253eaa098c468523",
@@ -6364,12 +6364,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-24T23:43:22",
-      "candidate_retry_after": "2026-07-24T23:58:22Z",
+      "content_fetched_at": "2026-07-25T01:09:49",
+      "candidate_retry_after": "2026-07-25T01:24:49Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-24T23:43:22",
-      "candidate_failure_count": 75
+      "candidate_failed_at": "2026-07-25T01:09:49",
+      "candidate_failure_count": 76
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6764,12 +6764,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-24T23:43:25",
-      "candidate_retry_after": "2026-07-24T23:58:25Z",
+      "content_fetched_at": "2026-07-25T01:09:52",
+      "candidate_retry_after": "2026-07-25T01:24:52Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-24T23:43:25",
-      "candidate_failure_count": 73
+      "candidate_failed_at": "2026-07-25T01:09:52",
+      "candidate_failure_count": 74
     },
     {
       "id": "693fbfabd96b2185",
@@ -6800,12 +6800,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-24T23:43:26",
-      "candidate_retry_after": "2026-07-24T23:58:26Z",
+      "content_fetched_at": "2026-07-25T01:09:53",
+      "candidate_retry_after": "2026-07-25T01:24:53Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-24T23:43:26",
-      "candidate_failure_count": 73
+      "candidate_failed_at": "2026-07-25T01:09:53",
+      "candidate_failure_count": 74
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9228,12 +9228,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "content_fetched_at": "2026-07-24T23:43:27",
-      "candidate_retry_after": "2026-07-24T23:58:27Z",
+      "content_fetched_at": "2026-07-25T01:09:54",
+      "candidate_retry_after": "2026-07-25T01:24:54Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "candidate_failed_at": "2026-07-24T23:43:27",
-      "candidate_failure_count": 69
+      "candidate_failed_at": "2026-07-25T01:09:54",
+      "candidate_failure_count": 70
     },
     {
       "id": "561b6316398d7603",
@@ -10320,12 +10320,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-24T23:43:27",
-      "candidate_retry_after": "2026-07-24T23:58:27Z",
+      "content_fetched_at": "2026-07-25T01:09:55",
+      "candidate_retry_after": "2026-07-25T01:24:55Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-24T23:43:27",
-      "candidate_failure_count": 65
+      "candidate_failed_at": "2026-07-25T01:09:55",
+      "candidate_failure_count": 66
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10357,12 +10357,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-24T23:43:27",
-      "candidate_retry_after": "2026-07-24T23:58:27Z",
+      "content_fetched_at": "2026-07-25T01:09:56",
+      "candidate_retry_after": "2026-07-25T01:24:56Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-24T23:43:27",
-      "candidate_failure_count": 65
+      "candidate_failed_at": "2026-07-25T01:09:56",
+      "candidate_failure_count": 66
     },
     {
       "id": "a6f4ca9464909855",
@@ -10394,12 +10394,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-24T23:43:28",
-      "candidate_retry_after": "2026-07-24T23:58:28Z",
+      "content_fetched_at": "2026-07-25T01:09:56",
+      "candidate_retry_after": "2026-07-25T01:24:56Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-24T23:43:28",
-      "candidate_failure_count": 65
+      "candidate_failed_at": "2026-07-25T01:09:56",
+      "candidate_failure_count": 66
     },
     {
       "id": "71463c25ac92daaa",
@@ -15036,12 +15036,12 @@
       "removed_source_links_count": 79,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-24T23:43:29",
-      "candidate_retry_after": "2026-07-24T23:58:29Z",
+      "content_fetched_at": "2026-07-25T01:09:57",
+      "candidate_retry_after": "2026-07-25T01:24:57Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-07-24T23:43:29",
-      "candidate_failure_count": 54
+      "candidate_failed_at": "2026-07-25T01:09:57",
+      "candidate_failure_count": 55
     },
     {
       "id": "41b7b918ab3966e4",
@@ -35952,11 +35952,11 @@
       "content_fetched_at": "2026-07-24T12:53:27",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-24T20:41:04",
+      "selected_at": "2026-07-25T01:09:58",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-24T20:41:04",
+      "processing_prepared_at": "2026-07-25T01:09:58",
       "ai_input_package": {
         "title": "AI Oversight Has Three Blind Spots — and Most Companies Are Watching None of Them",
         "url": "https://www.unite.ai/agentic-ai-governance-risk-controls-pre-execution",
@@ -36007,17 +36007,17 @@
       "ai_quality_last_error": "AI article response returned incomplete JSON.",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "AI article response returned incomplete JSON.",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 178.24,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 136.59,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-24T20:59:03Z",
+      "candidate_retry_after": "2026-07-25T01:27:16Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-24T20:44:03",
-      "candidate_failure_count": 1,
+      "candidate_failure_reason": "AI article response returned incomplete JSON.",
+      "candidate_failed_at": "2026-07-25T01:12:16",
+      "candidate_failure_count": 2,
       "telegram_final_summary_notified_at": "2026-07-24T20:46:33"
     },
     {
@@ -36106,11 +36106,11 @@
       "content_fetched_at": "2026-07-24T12:53:24",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-24T20:46:26",
+      "selected_at": "2026-07-25T01:14:23",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-24T20:46:26",
+      "processing_prepared_at": "2026-07-25T01:14:24",
       "ai_input_package": {
         "title": "AI Is Automating the Work That Creates Experts",
         "url": "https://www.unite.ai/ai-automation-workforce-learning-apprenticeship-paradox",
@@ -36167,14 +36167,15 @@
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.56,
+      "ai_total_time_seconds": 97.06,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-07-24T21:01:28Z",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-25T01:31:02Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-24T20:46:28",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-25T01:16:02",
+      "candidate_failure_count": 2,
+      "ai_quality_last_error": "AI article response is missing required field(s): title"
     },
     {
       "id": "36d62e62393b467d",
@@ -36336,11 +36337,11 @@
       "content_fetched_at": "2026-07-24T12:53:47",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-24T20:44:03",
+      "selected_at": "2026-07-25T01:12:16",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-24T20:44:04",
+      "processing_prepared_at": "2026-07-25T01:12:16",
       "ai_input_package": {
         "title": "Kill Switch Act: US Lawmakers Move to Keep AI in Check",
         "url": "https://aimagazine.com/news/kill-switch-act-us-lawmakers-move-to-keep-ai-in-check",
@@ -36383,20 +36384,20 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_quality_last_error": "Missing AI output field(s): slug",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "Missing AI output field(s): slug",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 140.55,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 125.82,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-07-24T21:01:25Z",
+      "candidate_retry_after": "2026-07-25T01:29:23Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-24T20:46:25",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-07-25T01:14:23",
+      "candidate_failure_count": 2
     },
     {
       "id": "70e3d8028e5ea10e",
@@ -36475,11 +36476,11 @@
       "content_fetched_at": "2026-07-24T12:53:49",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-24T20:46:28",
+      "selected_at": "2026-07-25T01:16:02",
       "suggested_category": "AI-Tools",
       "selection_reason": "category rotation newest fresh article: AI-Tools",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-24T20:46:28",
+      "processing_prepared_at": "2026-07-25T01:16:02",
       "ai_input_package": {
         "title": "Q&A: OneAdvanced's CTO on Embedded AI and Fragmented Systems",
         "url": "https://aimagazine.com/articles/q-a-oneadvanceds-cto-on-embedded-ai-and-fragmented-systems",
@@ -36527,14 +36528,15 @@
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.69,
+      "ai_total_time_seconds": 36.17,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-07-24T21:01:30Z",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-25T01:31:40Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-07-24T20:46:30",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-07-25T01:16:40",
+      "candidate_failure_count": 2,
+      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content"
     },
     {
       "id": "9a9fb00bffe80cce",
