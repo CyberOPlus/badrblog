@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-07-26T01:19:17",
+  "updated_at": "2026-07-26T04:48:46",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -722,7 +722,10 @@
       "status": "skipped",
       "score": 0,
       "priority": "low",
-      "skip_reason": "non_technical_entertainment_content"
+      "skip_reason": "non_technical_entertainment_content",
+      "archived": true,
+      "archived_at": "2026-07-26T04:40:42",
+      "archive_reason": "skipped_older_than_7_days"
     },
     {
       "id": "3ac6ef592dfe6e89",
@@ -2556,12 +2559,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-26T01:13:32",
-      "candidate_retry_after": "2026-07-26T01:28:32Z",
+      "content_fetched_at": "2026-07-26T04:41:00",
+      "candidate_retry_after": "2026-07-26T04:56:00Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-26T01:13:32",
-      "candidate_failure_count": 98
+      "candidate_failed_at": "2026-07-26T04:41:00",
+      "candidate_failure_count": 99
     },
     {
       "id": "512c2899a98440d2",
@@ -2590,12 +2593,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-26T01:13:32",
-      "candidate_retry_after": "2026-07-26T01:28:32Z",
+      "content_fetched_at": "2026-07-26T04:41:00",
+      "candidate_retry_after": "2026-07-26T04:56:00Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-26T01:13:32",
-      "candidate_failure_count": 98
+      "candidate_failed_at": "2026-07-26T04:41:00",
+      "candidate_failure_count": 99
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2624,12 +2627,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-07-26T01:13:32",
-      "candidate_retry_after": "2026-07-26T01:28:32Z",
+      "content_fetched_at": "2026-07-26T04:41:00",
+      "candidate_retry_after": "2026-07-26T04:56:00Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-07-26T01:13:32",
-      "candidate_failure_count": 98
+      "candidate_failed_at": "2026-07-26T04:41:00",
+      "candidate_failure_count": 99
     },
     {
       "id": "d900f1574fddfab4",
@@ -3454,17 +3457,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 229,
-      "affiliate_links_removed_count": 7,
-      "removed_source_links_count": 229,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
-      "content_fetched_at": "2026-07-26T01:13:37",
-      "candidate_retry_after": "2026-07-26T01:28:37Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-07-26T04:41:01",
+      "candidate_retry_after": "2026-07-26T04:56:01Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=469 chars/70 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:469chars/70words, page_text:469chars/70words)",
-      "candidate_failed_at": "2026-07-26T01:13:37",
-      "candidate_failure_count": 97
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-07-26T04:41:01",
+      "candidate_failure_count": 98
     },
     {
       "id": "8d2678d87487d729",
@@ -3819,7 +3822,10 @@
       "content_preview_chars": 2636,
       "content_fetched_at": "2026-07-19T11:29:07",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-26T04:40:46",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "c60035e6bb3c677d",
@@ -4335,13 +4341,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-07-26T01:13:37",
-      "candidate_retry_after": "2026-07-26T01:28:37Z",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-07-26T04:41:02",
+      "candidate_retry_after": "2026-07-26T04:56:02Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-07-26T01:13:37",
-      "candidate_failure_count": 96
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-07-26T04:41:02",
+      "candidate_failure_count": 97
     },
     {
       "id": "45429302676bf4c5",
@@ -5393,12 +5399,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-07-26T01:13:39",
-      "candidate_retry_after": "2026-07-26T01:28:39Z",
+      "content_fetched_at": "2026-07-26T04:41:04",
+      "candidate_retry_after": "2026-07-26T04:56:04Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-07-26T01:13:39",
-      "candidate_failure_count": 94
+      "candidate_failed_at": "2026-07-26T04:41:04",
+      "candidate_failure_count": 95
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5430,12 +5436,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-07-26T01:13:41",
-      "candidate_retry_after": "2026-07-26T01:28:41Z",
+      "content_fetched_at": "2026-07-26T04:41:05",
+      "candidate_retry_after": "2026-07-26T04:56:05Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-07-26T01:13:41",
-      "candidate_failure_count": 94
+      "candidate_failed_at": "2026-07-26T04:41:05",
+      "candidate_failure_count": 95
     },
     {
       "id": "aede79193c6b98c9",
@@ -5467,12 +5473,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-07-26T01:13:43",
-      "candidate_retry_after": "2026-07-26T01:28:43Z",
+      "content_fetched_at": "2026-07-26T04:41:07",
+      "candidate_retry_after": "2026-07-26T04:56:07Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-07-26T01:13:43",
-      "candidate_failure_count": 94
+      "candidate_failed_at": "2026-07-26T04:41:07",
+      "candidate_failure_count": 95
     },
     {
       "id": "253eaa098c468523",
@@ -6409,12 +6415,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-07-26T01:13:43",
-      "candidate_retry_after": "2026-07-26T01:28:43Z",
+      "content_fetched_at": "2026-07-26T04:41:08",
+      "candidate_retry_after": "2026-07-26T04:56:08Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-07-26T01:13:43",
-      "candidate_failure_count": 92
+      "candidate_failed_at": "2026-07-26T04:41:08",
+      "candidate_failure_count": 93
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6809,12 +6815,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-07-26T01:13:47",
-      "candidate_retry_after": "2026-07-26T01:28:47Z",
+      "content_fetched_at": "2026-07-26T04:41:11",
+      "candidate_retry_after": "2026-07-26T04:56:11Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-07-26T01:13:47",
-      "candidate_failure_count": 90
+      "candidate_failed_at": "2026-07-26T04:41:11",
+      "candidate_failure_count": 91
     },
     {
       "id": "693fbfabd96b2185",
@@ -6845,12 +6851,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-07-26T01:13:48",
-      "candidate_retry_after": "2026-07-26T01:28:48Z",
+      "content_fetched_at": "2026-07-26T04:41:12",
+      "candidate_retry_after": "2026-07-26T04:56:12Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-07-26T01:13:48",
-      "candidate_failure_count": 90
+      "candidate_failed_at": "2026-07-26T04:41:12",
+      "candidate_failure_count": 91
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9279,12 +9285,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "content_fetched_at": "2026-07-26T01:13:49",
-      "candidate_retry_after": "2026-07-26T01:28:49Z",
+      "content_fetched_at": "2026-07-26T04:41:13",
+      "candidate_retry_after": "2026-07-26T04:56:13Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=509 chars/74 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:509chars/74words, paragraph_fallback:394chars/57words, article_body:509chars/74words, meta_description:53chars/7words, page_text:509chars/74words)",
-      "candidate_failed_at": "2026-07-26T01:13:49",
-      "candidate_failure_count": 86
+      "candidate_failed_at": "2026-07-26T04:41:13",
+      "candidate_failure_count": 87
     },
     {
       "id": "561b6316398d7603",
@@ -10149,7 +10155,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "candidate_failed_at": "2026-07-21T04:23:36",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "archived": true,
+      "archived_at": "2026-07-26T04:40:46",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "20b7d07a9998811a",
@@ -10371,12 +10380,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-07-26T01:13:50",
-      "candidate_retry_after": "2026-07-26T01:28:50Z",
+      "content_fetched_at": "2026-07-26T04:41:13",
+      "candidate_retry_after": "2026-07-26T04:56:13Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-07-26T01:13:50",
-      "candidate_failure_count": 82
+      "candidate_failed_at": "2026-07-26T04:41:13",
+      "candidate_failure_count": 83
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10408,12 +10417,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-07-26T01:13:50",
-      "candidate_retry_after": "2026-07-26T01:28:50Z",
+      "content_fetched_at": "2026-07-26T04:41:14",
+      "candidate_retry_after": "2026-07-26T04:56:14Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-07-26T01:13:50",
-      "candidate_failure_count": 82
+      "candidate_failed_at": "2026-07-26T04:41:14",
+      "candidate_failure_count": 83
     },
     {
       "id": "a6f4ca9464909855",
@@ -10445,12 +10454,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-07-26T01:13:51",
-      "candidate_retry_after": "2026-07-26T01:28:51Z",
+      "content_fetched_at": "2026-07-26T04:41:14",
+      "candidate_retry_after": "2026-07-26T04:56:14Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-07-26T01:13:51",
-      "candidate_failure_count": 82
+      "candidate_failed_at": "2026-07-26T04:41:14",
+      "candidate_failure_count": 83
     },
     {
       "id": "71463c25ac92daaa",
@@ -15056,7 +15065,10 @@
       "content_preview_chars": 3595,
       "content_fetched_at": "2026-07-20T23:30:51",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "archived": true,
+      "archived_at": "2026-07-26T04:40:46",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "970c2810691176bb",
@@ -15087,12 +15099,12 @@
       "removed_source_links_count": 79,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-07-26T01:13:52",
-      "candidate_retry_after": "2026-07-26T01:28:52Z",
+      "content_fetched_at": "2026-07-26T04:41:15",
+      "candidate_retry_after": "2026-07-26T04:56:15Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:123chars/19words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-07-26T01:13:52",
-      "candidate_failure_count": 71
+      "candidate_failed_at": "2026-07-26T04:41:15",
+      "candidate_failure_count": 72
     },
     {
       "id": "41b7b918ab3966e4",
@@ -42556,12 +42568,12 @@
       "category_label": "Tech-News",
       "category_hint": "Tech-News",
       "discovered_at": "2026-07-25T17:39:32",
-      "status": "ready",
+      "status": "published",
       "score": 0,
       "priority": "low",
       "source_links_removed_count": 266,
       "affiliate_links_removed_count": 38,
-      "removed_source_links_count": 266,
+      "removed_source_links_count": 0,
       "enrichment_fallback_used": "article_tag",
       "fetched_title": "Slacked off all summer? Here are 3 fitness trackers that’ll help you stay accountable as you head back to school",
       "meta_description": "Summer break did a number on your fitness goals? These three fitness trackers take very different approaches to keeping you accountable this semester.",
@@ -42612,11 +42624,11 @@
       "content_fetched_at": "2026-07-25T17:39:42",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-07-25T21:34:30",
+      "selected_at": "2026-07-26T04:46:38",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-07-25T21:34:30",
+      "processing_prepared_at": "2026-07-26T04:46:38",
       "ai_input_package": {
         "title": "Slacked off all summer? Here are 3 fitness trackers that’ll help you stay accountable as you head back to school",
         "url": "https://www.digitaltrends.com/wearables/slacked-off-all-summer-here-are-3-fitness-trackers-thatll-help-you-stay-accountable-as-you-head-back-to-school",
@@ -42660,20 +42672,75 @@
         "related_posts": []
       },
       "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "ai_quality_last_error": "AI article response returned incomplete JSON.",
-      "ai_status": "failed",
-      "ai_error": "AI article response returned incomplete JSON.",
+      "ai_quality_last_error": "AI article response is missing required field(s): html_content",
+      "ai_status": "completed",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 54.32,
-      "ai_quality_status": "failed_after_retries",
+      "ai_total_time_seconds": 114.71,
+      "ai_quality_status": "passed",
       "ai_quality_attempts": 3,
       "candidate_retry_after": "2026-07-25T21:50:26Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "AI article response returned incomplete JSON.",
       "candidate_failed_at": "2026-07-25T21:35:26",
       "candidate_failure_count": 1,
-      "telegram_final_summary_notified_at": "2026-07-25T21:36:19"
+      "telegram_final_summary_notified_at": "2026-07-25T21:36:19",
+      "ai_processed_at": "2026-07-26T04:48:33",
+      "seo_title": "أفضل 3 أجهزة تتبع اللياقة البدنية لمساعدتك على البقاء ملتزمًا مع",
+      "seo_description": "بعد عطلة صيفية مريحة، حان الوقت للعودة إلى المسار الصحيح",
+      "seo_slug": "afdal-3-ajhiza-liyaqa-badaniya-lilawda-lil",
+      "final_html": "<p class=\"pIndent\">\n<b><span class=\"dropCap\">م</span>قدمة:</b> مع انتهاء العطلة الصيفية وعودة الحياة إلى إيقاعها المعتاد مع بدء العام الدراسي، يجد الكثيرون أنفسهم وقد تراجعت أهدافهم المتعلقة باللياقة البدنية. الروتين الصيفي المريح غالبًا ما يؤدي إلى تباطؤ في النشاط البدني وتغير في جداول النوم، مما يجعل العودة إلى المسار الصحيح تحديًا. ولكن لا تقلق، فمع التخطيط الصحيح والأدوات المناسبة، يمكنك استعادة لياقتك البدنية وتحقيق أهدافك الصحية. هنا يأتي دور أجهزة تتبع اللياقة البدنية.\n</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Slacked off all summer? Here are 3 fitness trackers that’ll help you stay accountable as you head back to school\" class=\"full\" loading=\"lazy\" src=\"https://www.digitaltrends.com/tachyon/2025/05/whoop-5-front.jpg?resize=1200%2C630\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Slacked off all summer? Here are 3 fitness trackers that’ll help you stay accountable as you head back to school</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Slacked off all summer? Here are 3 fitness trackers that’ll help you stay accountable as you head back to school</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">\n    على الرغم من أن جهاز تتبع اللياقة البدنية لن يقوم بدفعك للنهوض من الأريكة، إلا أنه سيوفر لك بيانات واضحة يوميًا تجعلك على دراية تامة بمدى التزامك بأهدافك. هذه الشفافية البسيطة غالبًا ما تكون الفارق بين مجرد النية في ممارسة التمارين وبين تنفيذها فعليًا. يعتبر موسم العودة إلى الدراسة وقتًا ممتازًا للاستثمار في جهاز تتبع، حيث أنك تعيد ضبط العديد من جوانب روتينك بالفعل، وهذا التزامن يجعل من السهل ترسيخ العادات الجديدة. لمساعدتك على النجاح، إليك ثلاثة من أفضل أجهزة تتبع اللياقة البدنية التي يمكن أن تساعدك في البقاء ملتزمًا وتحقيق أهدافك.\n</p>\n<div class=\"separator\" style=\"clear: both; text-align: center;\">\n</div>\n<h2>1. Xiaomi Smart Band 10: البيانات فقط، بدون تعقيدات</h2>\n<p class=\"pIndent\">\n    إذا كنت تبحث عن جهاز تتبع يقدم لك الأرقام الأساسية دون أي تكاليف إضافية أو تعقيدات، فإن Xiaomi Smart Band 10 هو خيارك الأمثل. يتميز هذا السوار الذكي بسعره المعقول للغاية (حوالي 47 دولارًا) وعدم وجود أي رسوم اشتراك مستمرة، مما يعني أن المبلغ الذي تدفعه مقدمًا هو كل ما ستدفعه على الإطلاق.\n</p>\n<p class=\"pIndent\">\n    يقوم الجهاز بتتبع الخطوات والنوم ومعدل ضربات القلب ومستويات الأكسجين في الدم والتوتر، ويعرضها لك بشكل مباشر وواضح. لا توجد طبقات تدريب أو تفسير معقد، ولا توجد محاولات للترويج لخدمات إضافية مدفوعة. هذا يمثل ميزة حقيقية إذا كان كل ما تريده هو المساءلة الذاتية وجمع البيانات الأساسية، وليس لوحة تحكم مليئة بالإحصائيات التي قد لا تهتم بها.\n</p>\n<p class=\"pIndent\">\n    عمر البطارية الذي يصل إلى 21 يومًا يعني أنه يندمج في روتينك اليومي دون الحاجة إلى الشحن المتكرر، وتوفر شاشة AMOLED بحجم 1.72 بوصة عرضًا جيدًا للمعلومات أثناء الجري أو في أي وقت. يدعم الجهاز أكثر من 150 وضعًا رياضيًا، وهو عدد أكبر بكثير مما ستحتاجه على الأرجح، كما أنه مقاوم للماء حتى عمق 5ATM، مما يجعله مناسبًا للاستحمام والتعرض للمطر. يتوافق Xiaomi Smart Band 10 مع أجهزة Android 8+ و iOS 12+، مما يجعله يعمل مع معظم الهواتف القديمة والحديثة.\n</p>\n<p class=\"pIndent\">\n<b>نقاط القوة:</b>\n</p>\n<ul>\n<li>الأكثر توفيرًا وبدون رسوم مستمرة.</li>\n<li>يتتبع الخطوات والنوم ومعدل ضربات القلب والأكسجين في الدم والتوتر.</li>\n<li>عمر بطارية طويل يصل إلى 21 يومًا.</li>\n</ul>\n<p class=\"pIndent\">\n<b>نقاط الضعف:</b>\n</p>\n<ul>\n<li>يعتمد نظام تحديد المواقع العالمي (GPS) على هاتفك، لذا لا يمكنك تركه خلفك.</li>\n<li>لا يوفر تدريبًا أو تفسيرًا للبيانات.</li>\n<li>تطبيق Xiaomi المصاحب قد يكون أقل سلاسة مقارنة بتطبيقات Google أو WHOOP.</li>\n</ul>\n<div class=\"separator\" style=\"clear: both; text-align: center;\">\n</div>\n<h2>2. Google Fitbit Air: تتبع أوسع وتدريب اختياري</h2>\n<p class=\"pIndent\">\n    إذا كنت ترغب في الحصول على المزيد من نقاط البيانات والتحليلات الأعمق، مع خيار التدريب المدعوم بالذكاء الاصطناعي، فإن Google Fitbit Air يقدم لك توازنًا ممتازًا. بسعر 99.99 دولارًا، يوفر هذا الجهاز تتبعًا أوسع من Xiaomi Smart Band 10. بالإضافة إلى الخطوات والنوم ومعدل ضربات القلب و SpO2 ومستويات التوتر، فإنه يتتبع تقلب معدل ضربات القلب ويكشف عن الرجفان الأذيني (Afib)، ويكتشف التمارين تلقائيًا مثل المشي والجري والسباحة وركوب الدراجات. كل هذه الميزات الأساسية متاحة دون الحاجة إلى اشتراك.\n</p>\n<p class=\"pIndent\">\n    ما يميز Fitbit Air حقًا هو ميزة Google Health Coach، المدعومة بتقنية Gemini. هذه الميزة يمكنها تحويل أرقامك إلى رؤى قابلة للتنفيذ، وتعديل التوصيات بناءً على تدريبك وتعافيك. إنها متاحة إذا كنت ترغب فيها، وليست مفروضة عليك.\n</p>\n<p class=\"pIndent\">\n    يأتي كل جهاز مع نسخة تجريبية مجانية لمدة ثلاثة أشهر من Google Health Premium، مما يتيح لك اختبار ميزة التدريب شخصيًا قبل أن تقرر ما إذا كانت تستحق الاشتراك الشهري البالغ 9.99 دولارًا. الجهاز نفسه عبارة عن حصاة بدون شاشة، يمكن تثبيتها على أحزمة قابلة للتبديل، وهو صغير بما يكفي لتنسى أنك ترتديه.\n</p>\n<p class=\"pIndent\">\n    عمر البطارية يصل إلى 7 أيام، وهو أقل من Xiaomi ولكن لا يزال جيدًا، ويدعم Fitbit Air الشحن السريع، حيث يضيف شحن لمدة خمس دقائق طاقة كافية لتدوم يومًا كاملاً. يتوافق Fitbit Air مع أجهزة Android 11+ و iOS 16.4+، مما يضمن عمله مع معظم الهواتف الحديثة.\n</p>\n<p class=\"pIndent\">\n<b>نقاط القوة:</b>\n</p>\n<ul>\n<li>تتبع أساسي يعمل بدون اشتراك.</li>\n<li>تتبع أوسع يشمل تقلب معدل ضربات القلب والكشف عن الرجفان الأذيني.</li>\n<li>خيار التدريب بالذكاء الاصطناعي (Google Health Coach).</li>\n<li>شحن سريع يوفر يومًا كاملاً من البطارية في خمس دقائق.</li>\n</ul>\n<p class=\"pIndent\">\n<b>نقاط الضعف:</b>\n</p>\n<ul>\n<li>التدريب الكامل بالذكاء الاصطناعي يتطلب اشتراكًا شهريًا.</li>\n<li>لا يحتوي على شاشة، وتعيش جميع البيانات في التطبيق.</li>\n<li>لا يتضمن تتبع تخطيط القلب الكهربائي (ECG) أو ضغط الدم.</li>\n</ul>\n<div class=\"separator\" style=\"clear: both; text-align: center;\">\n</div>\n<h2>3. WHOOP 5.0: رؤى متعمقة لا غنى عنها</h2>\n<p class=\"pIndent\">\n    إذا كنت جادًا في الحصول على أعمق الرؤى والتحليلات الشاملة لتدريبك وتعافيك، فإن WHOOP 5.0 هو الجهاز المصمم لك. يختلف WHOOP عن الأجهزة الأخرى في أنه يعتمد بالكامل على الاشتراك. لا يوجد مستوى مجاني، ورسوم العضوية هي ما يفتح الجهاز نفسه. إذا توقفت عن الدفع، يتوقف السوار عن التسجيل. التفسير والتحليل هما المنتج الأساسي هنا.\n</p>\n<p class=\"pIndent\">\n    تبدأ نقطة الدخول بخطة \"One\" السنوية بقيمة 199 دولارًا، والتي تأتي مع جهاز WHOOP 5.0 القياسي وتغطي تتبع النوم والجهد والتعافي. يكتشف الجهاز تلقائيًا أكثر من 50 نوعًا من الأنشطة، من الجري ورفع الأثقال إلى السباحة واليوغا، ويدمج كل منها في درجة إجهاد يومية. تحصل أيضًا على \"WHOOP Coach\"، وهي ميزة ذكاء اصطناعي توليدية تجيب على أسئلتك حول تدريبك وتعافيك باستخدام بياناتك البيومترية.\n</p>\n<p class=\"pIndent\">\n    إذا كنت تريد المزيد، فإن خطة \"Peak\" تكلف 239 دولارًا سنويًا وتأتي بنفس الجهاز، ولكنها تضيف ميزات مثل Healthspan و Stress Monitor و Health Monitor. أما خطة \"Life\" فتبلغ تكلفتها 359 دولارًا سنويًا وتتضمن مستشعر WHOOP MG، الذي يتيح تتبع تخطيط القلب الكهربائي (ECG) والكشف عن الرجفان الأذيني (Afib) ورؤى ضغط الدم.\n</p>\n<p class=\"pIndent\">\n    يُعد عمر البطارية نقطة قوة حقيقية، حيث يتجاوز 14 يومًا. ومثل Fitbit Air، لا توجد شاشة على الإطلاق، لذلك سيتعين عليك الاعتماد على التطبيق المصاحب لتتبع تقدمك. يتطلب تطبيق WHOOP نظام iOS 17+ ويعمل عبر معظم هواتف Android الحديثة.\n</p>\n<p class=\"pIndent\">\n<b>نقاط القوة:</b>\n</p>\n<ul>\n<li>يكتشف تلقائيًا أكثر من 50 نوعًا من الأنشطة.</li>\n<li>يقدم درجة تعافٍ يومية مع إرشادات محددة وموصوفة.</li>\n<li>\"WHOOP Coach\" يقدم رؤى فورية مدعومة بالذكاء الاصطناعي.</li>\n<li>عمر بطارية ممتاز يتجاوز 14 يومًا.</li>\n</ul>\n<p class=\"pIndent\">\n<b>نقاط الضعف:</b>\n</p>\n<ul>\n<li>لا يوجد مستوى مجاني، والجهاز لا يعمل بدون عضوية نشطة.</li>\n<li>لا يوجد شاشة، وكل شيء يتطلب التحقق من التطبيق.</li>\n<li>رؤى تخطيط القلب الكهربائي وضغط الدم مقيدة بالخطة الأغلى.</li>\n</ul>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">\n    اختيار جهاز تتبع اللياقة البدنية المناسب يعتمد بشكل كبير على احتياجاتك وميزانيتك ومدى رغبتك في الحصول على رؤى متعمقة.\n</p>\n<ul>\n<li><b>إذا كنت تبحث عن الأساسيات والقدرة على تحمل التكاليف:</b> فإن <b>Xiaomi Smart Band 10</b> هو الخيار الأمثل. إنه يقدم لك الأرقام التي تحتاجها لتكون مسؤولاً دون أي تكاليف خفية أو تعقيدات.</li>\n<li><b>إذا كنت تريد تتبعًا أوسع مع خيار التدريب المدعوم بالذكاء الاصطناعي:</b> فإن <b>Google Fitbit Air</b> يقدم لك هذا التوازن. تحصل على بيانات أكثر تفصيلاً، ومع خيار الاشتراك، يمكنك الاستفادة من التحليلات الذكية التي تساعدك على التدريب بشكل أكثر فعالية.</li>\n<li><b>إذا كانت الرؤى المتعمقة والتدريب الشامل هي أولويتك:</b> فإن <b>WHOOP 5.0</b> هو الخيار الذي يجب أن تفكر فيه. على الرغم من تكلفته السنوية، إلا أنه يوفر تحليلًا لا مثيل له لتعافيك وجهدك، مدعومًا بالذكاء الاصطناعي.</li>\n</ul>\n<p class=\"pIndent\">\n<b>بدائل أخرى قد تهمك:</b>\n</p>\n<p class=\"pIndent\">\n    إذا لم تكن أجهزة تتبع اللياقة البدنية الثلاثة المذكورة أعلاه مناسبة تمامًا لاحتياجاتك، وترغب في ساعة ذكية تتعامل مع الرسائل والمكالمات والتطبيقات، أو لا تريد أي شيء على معصمك على الإطلاق، فإليك بعض البدائل:\n</p>\n<ul>\n<li><b>Samsung Galaxy Watch 8 (يبدأ من 349.99 دولارًا):</b> الخيار الأمثل إذا كنت تريد ساعة ذكية في المقام الأول وجهاز تتبع للياقة البدنية في المقام الثاني. توفر وظائف الهاتف الأساسية مع تتبع اللياقة البدنية الأساسي وتخطيط القلب الكهربائي. عيبه الوحيد هو عمر البطارية القصير نسبيًا (30-40 ساعة).</li>\n<li><b>Apple Watch SE 3 (يبدأ من 249 دولارًا):</b> لمستخدمي iPhone الذين يعيشون بالفعل داخل نظام Apple البيئي، هذا هو الخيار الواضح. يوفر الإشعارات والتطبيقات وميزات الكشف عن الأعطال والسقوط. يتخلى عن تخطيط القلب الكهربائي و SpO2 للوصول إلى هذا السعر، وعمر البطارية محدود (18 ساعة).</li>\n<li><b>RingConn Gen 2 Air (199 دولارًا):</b> إذا كنت لا تحب فكرة ارتداء سوار للنوم، فهذا الخاتم الذكي هو لك. يوفر عمر بطارية 10 أيام، وتتبعًا مفصلاً للنوم، وتقلب معدل ضربات القلب، ومعدل التنفس، ومراقبة الأكسجين في الدم، كل ذلك بدون اشتراك. ومع ذلك، فإن تتبع اللياقة البدنية ضعيف بعض الشيء.</li>\n</ul>\n<p class=\"pIndent\">\n<b>الخلاصة:</b> في النهاية، لا يمكن لأي من هذه الأجهزة إصلاح جدول نومك أو دفعك للذهاب إلى صالة الألعاب الرياضية بمفردها. ما ستفعله هو جعل خداع نفسك بشأن مدى محاولتك أصعب قليلاً. اختر الجهاز الذي يناسب ميزانيتك وصبرك على تلقي التوجيهات، وابدأ رحلتك نحو لياقة بدنية أفضل. العودة إلى الروتين الدراسي لا تعني التضحية بصحتك، بل يمكن أن تكون فرصة رائعة لبدء عادات جديدة وصحية.\n</p>",
+      "blogger_article_html": "<p class=\"pIndent\">\n<b><span class=\"dropCap\">م</span>قدمة:</b> مع انتهاء العطلة الصيفية وعودة الحياة إلى إيقاعها المعتاد مع بدء العام الدراسي، يجد الكثيرون أنفسهم وقد تراجعت أهدافهم المتعلقة باللياقة البدنية. الروتين الصيفي المريح غالبًا ما يؤدي إلى تباطؤ في النشاط البدني وتغير في جداول النوم، مما يجعل العودة إلى المسار الصحيح تحديًا. ولكن لا تقلق، فمع التخطيط الصحيح والأدوات المناسبة، يمكنك استعادة لياقتك البدنية وتحقيق أهدافك الصحية. هنا يأتي دور أجهزة تتبع اللياقة البدنية.\n</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Slacked off all summer? Here are 3 fitness trackers that’ll help you stay accountable as you head back to school\" class=\"full\" loading=\"lazy\" src=\"https://www.digitaltrends.com/tachyon/2025/05/whoop-5-front.jpg?resize=1200%2C630\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Slacked off all summer? Here are 3 fitness trackers that’ll help you stay accountable as you head back to school</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Slacked off all summer? Here are 3 fitness trackers that’ll help you stay accountable as you head back to school</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">\n    على الرغم من أن جهاز تتبع اللياقة البدنية لن يقوم بدفعك للنهوض من الأريكة، إلا أنه سيوفر لك بيانات واضحة يوميًا تجعلك على دراية تامة بمدى التزامك بأهدافك. هذه الشفافية البسيطة غالبًا ما تكون الفارق بين مجرد النية في ممارسة التمارين وبين تنفيذها فعليًا. يعتبر موسم العودة إلى الدراسة وقتًا ممتازًا للاستثمار في جهاز تتبع، حيث أنك تعيد ضبط العديد من جوانب روتينك بالفعل، وهذا التزامن يجعل من السهل ترسيخ العادات الجديدة. لمساعدتك على النجاح، إليك ثلاثة من أفضل أجهزة تتبع اللياقة البدنية التي يمكن أن تساعدك في البقاء ملتزمًا وتحقيق أهدافك.\n</p>\n<div class=\"separator\" style=\"clear: both; text-align: center;\">\n</div>\n<h2>1. Xiaomi Smart Band 10: البيانات فقط، بدون تعقيدات</h2>\n<p class=\"pIndent\">\n    إذا كنت تبحث عن جهاز تتبع يقدم لك الأرقام الأساسية دون أي تكاليف إضافية أو تعقيدات، فإن Xiaomi Smart Band 10 هو خيارك الأمثل. يتميز هذا السوار الذكي بسعره المعقول للغاية (حوالي 47 دولارًا) وعدم وجود أي رسوم اشتراك مستمرة، مما يعني أن المبلغ الذي تدفعه مقدمًا هو كل ما ستدفعه على الإطلاق.\n</p>\n<p class=\"pIndent\">\n    يقوم الجهاز بتتبع الخطوات والنوم ومعدل ضربات القلب ومستويات الأكسجين في الدم والتوتر، ويعرضها لك بشكل مباشر وواضح. لا توجد طبقات تدريب أو تفسير معقد، ولا توجد محاولات للترويج لخدمات إضافية مدفوعة. هذا يمثل ميزة حقيقية إذا كان كل ما تريده هو المساءلة الذاتية وجمع البيانات الأساسية، وليس لوحة تحكم مليئة بالإحصائيات التي قد لا تهتم بها.\n</p>\n<p class=\"pIndent\">\n    عمر البطارية الذي يصل إلى 21 يومًا يعني أنه يندمج في روتينك اليومي دون الحاجة إلى الشحن المتكرر، وتوفر شاشة AMOLED بحجم 1.72 بوصة عرضًا جيدًا للمعلومات أثناء الجري أو في أي وقت. يدعم الجهاز أكثر من 150 وضعًا رياضيًا، وهو عدد أكبر بكثير مما ستحتاجه على الأرجح، كما أنه مقاوم للماء حتى عمق 5ATM، مما يجعله مناسبًا للاستحمام والتعرض للمطر. يتوافق Xiaomi Smart Band 10 مع أجهزة Android 8+ و iOS 12+، مما يجعله يعمل مع معظم الهواتف القديمة والحديثة.\n</p>\n<p class=\"pIndent\">\n<b>نقاط القوة:</b>\n</p>\n<ul>\n<li>الأكثر توفيرًا وبدون رسوم مستمرة.</li>\n<li>يتتبع الخطوات والنوم ومعدل ضربات القلب والأكسجين في الدم والتوتر.</li>\n<li>عمر بطارية طويل يصل إلى 21 يومًا.</li>\n</ul>\n<p class=\"pIndent\">\n<b>نقاط الضعف:</b>\n</p>\n<ul>\n<li>يعتمد نظام تحديد المواقع العالمي (GPS) على هاتفك، لذا لا يمكنك تركه خلفك.</li>\n<li>لا يوفر تدريبًا أو تفسيرًا للبيانات.</li>\n<li>تطبيق Xiaomi المصاحب قد يكون أقل سلاسة مقارنة بتطبيقات Google أو WHOOP.</li>\n</ul>\n<div class=\"separator\" style=\"clear: both; text-align: center;\">\n</div>\n<h2>2. Google Fitbit Air: تتبع أوسع وتدريب اختياري</h2>\n<p class=\"pIndent\">\n    إذا كنت ترغب في الحصول على المزيد من نقاط البيانات والتحليلات الأعمق، مع خيار التدريب المدعوم بالذكاء الاصطناعي، فإن Google Fitbit Air يقدم لك توازنًا ممتازًا. بسعر 99.99 دولارًا، يوفر هذا الجهاز تتبعًا أوسع من Xiaomi Smart Band 10. بالإضافة إلى الخطوات والنوم ومعدل ضربات القلب و SpO2 ومستويات التوتر، فإنه يتتبع تقلب معدل ضربات القلب ويكشف عن الرجفان الأذيني (Afib)، ويكتشف التمارين تلقائيًا مثل المشي والجري والسباحة وركوب الدراجات. كل هذه الميزات الأساسية متاحة دون الحاجة إلى اشتراك.\n</p>\n<p class=\"pIndent\">\n    ما يميز Fitbit Air حقًا هو ميزة Google Health Coach، المدعومة بتقنية Gemini. هذه الميزة يمكنها تحويل أرقامك إلى رؤى قابلة للتنفيذ، وتعديل التوصيات بناءً على تدريبك وتعافيك. إنها متاحة إذا كنت ترغب فيها، وليست مفروضة عليك.\n</p>\n<p class=\"pIndent\">\n    يأتي كل جهاز مع نسخة تجريبية مجانية لمدة ثلاثة أشهر من Google Health Premium، مما يتيح لك اختبار ميزة التدريب شخصيًا قبل أن تقرر ما إذا كانت تستحق الاشتراك الشهري البالغ 9.99 دولارًا. الجهاز نفسه عبارة عن حصاة بدون شاشة، يمكن تثبيتها على أحزمة قابلة للتبديل، وهو صغير بما يكفي لتنسى أنك ترتديه.\n</p>\n<p class=\"pIndent\">\n    عمر البطارية يصل إلى 7 أيام، وهو أقل من Xiaomi ولكن لا يزال جيدًا، ويدعم Fitbit Air الشحن السريع، حيث يضيف شحن لمدة خمس دقائق طاقة كافية لتدوم يومًا كاملاً. يتوافق Fitbit Air مع أجهزة Android 11+ و iOS 16.4+، مما يضمن عمله مع معظم الهواتف الحديثة.\n</p>\n<p class=\"pIndent\">\n<b>نقاط القوة:</b>\n</p>\n<ul>\n<li>تتبع أساسي يعمل بدون اشتراك.</li>\n<li>تتبع أوسع يشمل تقلب معدل ضربات القلب والكشف عن الرجفان الأذيني.</li>\n<li>خيار التدريب بالذكاء الاصطناعي (Google Health Coach).</li>\n<li>شحن سريع يوفر يومًا كاملاً من البطارية في خمس دقائق.</li>\n</ul>\n<p class=\"pIndent\">\n<b>نقاط الضعف:</b>\n</p>\n<ul>\n<li>التدريب الكامل بالذكاء الاصطناعي يتطلب اشتراكًا شهريًا.</li>\n<li>لا يحتوي على شاشة، وتعيش جميع البيانات في التطبيق.</li>\n<li>لا يتضمن تتبع تخطيط القلب الكهربائي (ECG) أو ضغط الدم.</li>\n</ul>\n<div class=\"separator\" style=\"clear: both; text-align: center;\">\n</div>\n<h2>3. WHOOP 5.0: رؤى متعمقة لا غنى عنها</h2>\n<p class=\"pIndent\">\n    إذا كنت جادًا في الحصول على أعمق الرؤى والتحليلات الشاملة لتدريبك وتعافيك، فإن WHOOP 5.0 هو الجهاز المصمم لك. يختلف WHOOP عن الأجهزة الأخرى في أنه يعتمد بالكامل على الاشتراك. لا يوجد مستوى مجاني، ورسوم العضوية هي ما يفتح الجهاز نفسه. إذا توقفت عن الدفع، يتوقف السوار عن التسجيل. التفسير والتحليل هما المنتج الأساسي هنا.\n</p>\n<p class=\"pIndent\">\n    تبدأ نقطة الدخول بخطة \"One\" السنوية بقيمة 199 دولارًا، والتي تأتي مع جهاز WHOOP 5.0 القياسي وتغطي تتبع النوم والجهد والتعافي. يكتشف الجهاز تلقائيًا أكثر من 50 نوعًا من الأنشطة، من الجري ورفع الأثقال إلى السباحة واليوغا، ويدمج كل منها في درجة إجهاد يومية. تحصل أيضًا على \"WHOOP Coach\"، وهي ميزة ذكاء اصطناعي توليدية تجيب على أسئلتك حول تدريبك وتعافيك باستخدام بياناتك البيومترية.\n</p>\n<p class=\"pIndent\">\n    إذا كنت تريد المزيد، فإن خطة \"Peak\" تكلف 239 دولارًا سنويًا وتأتي بنفس الجهاز، ولكنها تضيف ميزات مثل Healthspan و Stress Monitor و Health Monitor. أما خطة \"Life\" فتبلغ تكلفتها 359 دولارًا سنويًا وتتضمن مستشعر WHOOP MG، الذي يتيح تتبع تخطيط القلب الكهربائي (ECG) والكشف عن الرجفان الأذيني (Afib) ورؤى ضغط الدم.\n</p>\n<p class=\"pIndent\">\n    يُعد عمر البطارية نقطة قوة حقيقية، حيث يتجاوز 14 يومًا. ومثل Fitbit Air، لا توجد شاشة على الإطلاق، لذلك سيتعين عليك الاعتماد على التطبيق المصاحب لتتبع تقدمك. يتطلب تطبيق WHOOP نظام iOS 17+ ويعمل عبر معظم هواتف Android الحديثة.\n</p>\n<p class=\"pIndent\">\n<b>نقاط القوة:</b>\n</p>\n<ul>\n<li>يكتشف تلقائيًا أكثر من 50 نوعًا من الأنشطة.</li>\n<li>يقدم درجة تعافٍ يومية مع إرشادات محددة وموصوفة.</li>\n<li>\"WHOOP Coach\" يقدم رؤى فورية مدعومة بالذكاء الاصطناعي.</li>\n<li>عمر بطارية ممتاز يتجاوز 14 يومًا.</li>\n</ul>\n<p class=\"pIndent\">\n<b>نقاط الضعف:</b>\n</p>\n<ul>\n<li>لا يوجد مستوى مجاني، والجهاز لا يعمل بدون عضوية نشطة.</li>\n<li>لا يوجد شاشة، وكل شيء يتطلب التحقق من التطبيق.</li>\n<li>رؤى تخطيط القلب الكهربائي وضغط الدم مقيدة بالخطة الأغلى.</li>\n</ul>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">\n    اختيار جهاز تتبع اللياقة البدنية المناسب يعتمد بشكل كبير على احتياجاتك وميزانيتك ومدى رغبتك في الحصول على رؤى متعمقة.\n</p>\n<ul>\n<li><b>إذا كنت تبحث عن الأساسيات والقدرة على تحمل التكاليف:</b> فإن <b>Xiaomi Smart Band 10</b> هو الخيار الأمثل. إنه يقدم لك الأرقام التي تحتاجها لتكون مسؤولاً دون أي تكاليف خفية أو تعقيدات.</li>\n<li><b>إذا كنت تريد تتبعًا أوسع مع خيار التدريب المدعوم بالذكاء الاصطناعي:</b> فإن <b>Google Fitbit Air</b> يقدم لك هذا التوازن. تحصل على بيانات أكثر تفصيلاً، ومع خيار الاشتراك، يمكنك الاستفادة من التحليلات الذكية التي تساعدك على التدريب بشكل أكثر فعالية.</li>\n<li><b>إذا كانت الرؤى المتعمقة والتدريب الشامل هي أولويتك:</b> فإن <b>WHOOP 5.0</b> هو الخيار الذي يجب أن تفكر فيه. على الرغم من تكلفته السنوية، إلا أنه يوفر تحليلًا لا مثيل له لتعافيك وجهدك، مدعومًا بالذكاء الاصطناعي.</li>\n</ul>\n<p class=\"pIndent\">\n<b>بدائل أخرى قد تهمك:</b>\n</p>\n<p class=\"pIndent\">\n    إذا لم تكن أجهزة تتبع اللياقة البدنية الثلاثة المذكورة أعلاه مناسبة تمامًا لاحتياجاتك، وترغب في ساعة ذكية تتعامل مع الرسائل والمكالمات والتطبيقات، أو لا تريد أي شيء على معصمك على الإطلاق، فإليك بعض البدائل:\n</p>\n<ul>\n<li><b>Samsung Galaxy Watch 8 (يبدأ من 349.99 دولارًا):</b> الخيار الأمثل إذا كنت تريد ساعة ذكية في المقام الأول وجهاز تتبع للياقة البدنية في المقام الثاني. توفر وظائف الهاتف الأساسية مع تتبع اللياقة البدنية الأساسي وتخطيط القلب الكهربائي. عيبه الوحيد هو عمر البطارية القصير نسبيًا (30-40 ساعة).</li>\n<li><b>Apple Watch SE 3 (يبدأ من 249 دولارًا):</b> لمستخدمي iPhone الذين يعيشون بالفعل داخل نظام Apple البيئي، هذا هو الخيار الواضح. يوفر الإشعارات والتطبيقات وميزات الكشف عن الأعطال والسقوط. يتخلى عن تخطيط القلب الكهربائي و SpO2 للوصول إلى هذا السعر، وعمر البطارية محدود (18 ساعة).</li>\n<li><b>RingConn Gen 2 Air (199 دولارًا):</b> إذا كنت لا تحب فكرة ارتداء سوار للنوم، فهذا الخاتم الذكي هو لك. يوفر عمر بطارية 10 أيام، وتتبعًا مفصلاً للنوم، وتقلب معدل ضربات القلب، ومعدل التنفس، ومراقبة الأكسجين في الدم، كل ذلك بدون اشتراك. ومع ذلك، فإن تتبع اللياقة البدنية ضعيف بعض الشيء.</li>\n</ul>\n<p class=\"pIndent\">\n<b>الخلاصة:</b> في النهاية، لا يمكن لأي من هذه الأجهزة إصلاح جدول نومك أو دفعك للذهاب إلى صالة الألعاب الرياضية بمفردها. ما ستفعله هو جعل خداع نفسك بشأن مدى محاولتك أصعب قليلاً. اختر الجهاز الذي يناسب ميزانيتك وصبرك على تلقي التوجيهات، وابدأ رحلتك نحو لياقة بدنية أفضل. العودة إلى الروتين الدراسي لا تعني التضحية بصحتك، بل يمكن أن تكون فرصة رائعة لبدء عادات جديدة وصحية.\n</p>",
+      "final_word_count": 1410,
+      "final_html_chars": 9898,
+      "final_content_hash": "e1eee23590896637b7b16764",
+      "ai_provider_used": "gemini:gemini-2.5-flash",
+      "ai_openrouter_fallback_used": false,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "internal_cache_loaded": 0,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 0,
+      "internal_cache_saved": true,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 1410,
+        "warnings": []
+      },
+      "blogger_post_id": "8940940483908490514",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/07/3.html",
+      "published_at": "2026-07-26T04:48:34",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "telegram_blogger_notified": true,
+      "telegram_blogger_event_key": "success|create live|8940940483908490514|published|unknown",
+      "telegram_blogger_notified_at": "2026-07-26T04:48:35",
+      "telegram_last_notification_at": "2026-07-26T04:48:46",
+      "facebook_status": "posted",
+      "facebook_post_id": "104656179337548_942192162223411",
+      "facebook_posted_at": "2026-07-26T04:48:39",
+      "facebook_post_type": "photo",
+      "facebook_image_status": "posted",
+      "facebook_image_path": "/home/runner/work/badrblog/badrblog/output/facebook_images/af272ec661ceadaf.jpg",
+      "facebook_image_url": "https://www.digitaltrends.com/tachyon/2025/05/whoop-5-front.jpg?resize=1200%2C630",
+      "facebook_image_used_fallback": false,
+      "facebook_caption_pattern": "ai_tools",
+      "facebook_style_used": "ai_tools",
+      "facebook_hook_generated": "الخلاصة السريعة: بعد عطلة صيفية مريحة، حان الوقت للعودة إلى المسار الصحيح",
+      "facebook_structure_used": "fallback",
+      "facebook_hashtags_count": 6,
+      "facebook_cta_used": "الرابط الكامل ستجده في أول تعليق 👇",
+      "facebook_caption_fingerprint": "cb8e50988ad817e49aee",
+      "facebook_link_mode": "comment",
+      "facebook_post_text": "الخلاصة السريعة: بعد عطلة صيفية مريحة، حان الوقت للعودة إلى المسار الصحيح\n\nأفضل 3 أجهزة تتبع اللياقة البدنية لمساعدتك على البقاء ملتزمًا مع\n\nبعد عطلة صيفية مريحة، حان الوقت للعودة إلى المسار الصحيح\n\nالرابط الكامل ستجده في أول تعليق 👇\n\n#ذكاء_اصطناعي #تطبيقات #خصوصية #Google #Android ",
+      "facebook_comment_id": "942192162223411_37388174650830822",
+      "telegram_facebook_notified": true,
+      "telegram_facebook_event_key": "success|104656179337548_942192162223411|942192162223411_37388174650830822|unknown",
+      "telegram_facebook_notified_at": "2026-07-26T04:48:46",
+      "archived": true,
+      "archived_at": "2026-07-26T04:48:46",
+      "archive_reason": "published_to_blogger"
     },
     {
       "id": "f8d4c52f07fb49fd",
@@ -45004,7 +45071,68 @@
       "content_preview_chars": 8927,
       "content_fetched_at": "2026-07-25T21:34:11",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-26T04:41:16",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-26T04:41:16",
+      "ai_input_package": {
+        "title": "SDCC teaser gives us our first good look at Blade Runner 2099",
+        "url": "https://arstechnica.com/culture/2026/07/sdcc-teaser-gives-us-our-first-good-look-at-blade-runner-2099",
+        "source_name": "Ars Technica",
+        "suggested_category": "Tech-News",
+        "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/blade3-1152x648.jpg",
+        "article_images": [
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/blade3-1152x648.jpg",
+            "alt": "SDCC teaser gives us our first good look at Blade Runner 2099",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/blade3-640x359.jpg",
+            "alt": "woman in cockpit of a small futuristic aircraft",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/spaceballs2-640x427.jpg",
+            "alt": "group of actors and producers on stage at San Diego Comic-Com, with many mock bending the knee to a man standing in the center.",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/spaceballs3-640x948.jpg",
+            "alt": "poster art of a desert-like sand dune environment with a rover raking out a \"2'",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Also: Forging the One Ring in Rings of Power S3 teaser; new Lanterns trailer; Spaceballs: The New One panel.",
+        "content_preview": "It’s been nearly five years since Ridley Scott first announced his plans for a TV spinoff of his sci-fi masterpiece Blade Runner (1982) and the 2017 sequel Blade Runner 2049 . It’s finally here—or almost, anyway. Prime Video debuted the first teaser for the new ten-episode series, Blade Runner 2099, at San Diego Comic-Con on Friday. We also got a teaser for the third season of Prime Video’s Rings of Power and a new trailer for HBO’s Lanterns . Yeoh and Schafer joined show runner Silka Luisa ( Shining Girls ) onstage for the big reveal, which also included an exclusive clip shown to the audience. Luisa told Entertainment Weekly that the series stays true to the original’s “noir principles… and there’s a mystery at the heart of the show that looks both forwards and backwards in terms of mythology.” An uprising has occurred and the humans lost, which means they are now the hunted second-class citizens. “The show is really imagining what comes after us, and what does it mean to be human in a world where humanity is no longer relevant,” said Luisa . Fifty years after the events of Blade Runner 2049 , Los Angeles has been reborn, just not by humanity. Cora, a fugitive in a final bid to stop running, takes on one last identity: a Blade Runner. Forced to partner with Olwen, a Replicant days from dying, she hunts down a runaway hiding a truth that could collapse their fragile city. The incomparable Michelle Yeoh stars as Olwen, the dying Replicant, along with Hunter Schafer ( Euphoria ) as Cora. The cast also includes Hugo Hamlet as Buster Friendly, as well as Dmitri Abold, Lewis Gribben, Katelyn Rose Downey, Daniel Rigby, Johnny Harris, Amy Lennox, Sheila Atim, Matthew Needham, Tom Burke, and Maurizio Lombardi—all in as-yet-undisclosed roles. Blade Runner 2099 will premiere on November 25, 2026, on Prime Video. Prime Video made a major investment in The Rings of Power when it acquired the rights to the source material from the Tolkien estate, even committing to multiple seasons upfront. We’re now coming up on S3 and based on the teaser the streaming platform unveiled at SDCC, we’ll finally get to see Sauron (Charlie Vickers) forging the One Ring. In season three, Middle-earth is at war. Five years have passed since the fall of Eregion. Sauron’s armies have marched across the whole of the world, conquering all in their path. Only a few isolated pockets stand between the Dark Lord and total victory—Khazad-dǔm, where the Dwarves are now sealed deep within their mountain halls, and the elven realms of Lindon and Rivendell, which are protected by their Three Rings.” But deep in the land of Mordor, in his newly completed tower of Barad-dûr, the Dark Lord toils day and night, obsessed with harnessing a power that will bring the last of his enemies to their knees: One ring to rule them all… Now, all the free peoples of Middle-earth—Dwarves, Elves, Men, and Wizards alike—must find a way to come together, in a race against time to prevent Sauron from achieving his goal of utter domination of all life But deep in the land of Mordor, in his newly completed tower of Barad-dûr, the Dark Lord toils day and night, obsessed with harnessing a power that will bring the last of his enemies to their knees: One ring to rule them all… Now, all the free peoples of Middle-earth—Dwarves, Elves, Men, and Wizards alike—must find a way to come together, in a race against time to prevent Sauron from achieving his goal of utter domination of all life We’re also getting some new characters this season, most notably Jamie Campbell Bower as Galadriel’s (Morfydd Clark) long-lost husband Celeborn. Zubin Varla will play Khamul the Easterling of Rhun; Eddie Marson will play Thrain, order brother to King Durin IV (Owain Arthur); Andrew Richardson will play Anarion, younger son of Elendil (Lloyd Owen) and brother to Isildur (Maxim Baldry); and Adam Young will play an Orc named Marnukh who “might not be what he seems.” Oh, and none other than Simon Pegg will voice the fiery Balrog. The third season of Rings of Power premieres on November 11, 2026, on Prime Video. We’ve seen a couple of teasers thus far for Lanterns , the new DC Universe series coming to HBO Max, both of which made it clear we’re in for a show that’s closer to a sci-fi True Detective than your standard superhero fare. HBO unveiled a full trailer at SDCC that is a little less Earthbound. It leans into the “space cop” vibe, reveals that shapeshifting Manhunters will be central to the plot, takes us into outer space, and also gives us our first look at Sinestro (Ulrich Thomsen), a former Corps member gone rogue. HBO threw in seven preview clips for good measure, although these have not been released publicly. Per the official logline, “The series follows new recruit John Stewart (Aaron Pierre) and Lantern legend Hal Jordan (Kyle Chandler), two intergalactic cops drawn into a dark, earth-based mystery as they investigate a murder in the American heartland.” There will be two storylines: one set in 2016 about a murder in Nebraska, and the second set in 2026. Chandler’s Hal Jordan is a former test pilot nearing retirement from the Green Lantern Corps. He’s training Pierre’s John Stewart Jr., a new recruit, to replace him. Nathan Fillion reprises his Superman role as the obnoxious Guy Gardner; we get a brief glimpse of him in the new teaser. The cast also includes Kelly MacDonald as Kerry, a small-town family-oriented sheriff; Jason Ritter as Billy Macon, Kerry’s husband; Garret Dillahunt as William Macon, Kerry’s cowboy father-in-law; Poorna Jagannathan as a woman named Zoe; and Paul Ben-Victor as an extraterrestrial called Antaan. Sherman Augustus plays John Stewart Sr., with J. Alphonse Nicholson playing the younger version; Nicole Ari Parker plays Bernadette Stewart (mother to John Jr.), with Jasmine Cephas Jones playing the young version of the character. In addition, Chris Coy plays a suspiciously nervous truck driver, Waylon Sanders; Cary Christopher plays a gifted child named Noah; Laura Linney will play a senior Guardian; and Paula Patton will appear in an as-yet-undisclosed guest role. We also know that the show will feature the inter-dimensional prison and the Checkmate organization introduced in Peacemaker’ s S2 finale. Lanterns premieres on August 18, 2026, on HBO Max. Spaceballs: The New One Credit: Chris Frawley / Amazon MGM Studios Credit: Chris Frawley / Amazon MGM Studios This long-overdue sequel to Mel Brooks’ 1987 cult classic isn’t being released until next spring, but that didn’t stop Amazon MGM Studios from putting together an SDCC panel this year anyway in a clever parody of the extravagant Marvel panels of yore. Because it’s early days, there haven’t been any publicly released teasers or trailers, although some teaser footage was shown at CinemaCon in April and yesterday at SDCC. Apparently we owe this sequel to Josh Gad, who co-wrote the script and pitched Brooks on a cold call. Gad has said he showed the original movie to his daughter during the COVID-19 pandemic and she loved it so much she wanted to see the sequel. Here’s the official synopsis: Somehow, Dark Helmet has returned! Forty years after the events of the first Spaceballs , fifty years after the events of Star Wars: A New Hope , and one year after the events of The Devil Wears Prada 2 , the galaxy is once again under threat. A threat so evil, so unstoppable, so completely lacking in any original ideas, that it has vowed to bring back the past… every last bit of it. With Lone Starr in hiding, Queen Vespa on the throne, and the Schwartz stretched thinner than a franchise releasing TV episodes theatrically, the only hope for the galaxy is Vespa’s undisciplined son, Prince Starburst, and a mysterious Palace advisor named Destiny. Together, they must find Lone Starr, Yogurt, and any other iconic legacy characters fans are demanding before they discover the hard way that, while some threats you can fight, the reboot is not one of them. With Lone Starr in hiding, Queen Vespa on the throne, and the Schwartz stretched thinner than a franchise releasing TV episodes theatrically, the only hope for the galaxy is Vespa’s undisciplined son, Prince Starburst, and a mysterious Palace advisor named Destiny. Together, they must find Lone Starr, Yogurt, and any other iconic legacy characters fans are demanding before they discover the hard way that, while some threats you can fight, the reboot is not one of them. The 100-year-old Brooks is reprising his role as Yogurt via motion capture (he filmed his lines in a studio). Also returning: Rick Moranis as Lord Dark Helmet, Bill Pullman as Lone Starr, Daphne Zuniga as Queen Vespa, and George Wyner as Colonel Sandurz. Pullman’s son, Lewis Pullman, joins the cast as Prince Starburst, son to Lone Starr and Vespa, along with Keke Palmer as a palace advisor named Destiny. Gad plays a mawg, the same species as the late John Candy’s Barf.",
+        "content_preview_chars": 8927,
+        "rss_summary": "",
+        "full_article_text": "It’s been nearly five years since Ridley Scott first announced his plans for a TV spinoff of his sci-fi masterpiece Blade Runner (1982) and the 2017 sequel Blade Runner 2049 . It’s finally here—or almost, anyway. Prime Video debuted the first teaser for the new ten-episode series, Blade Runner 2099, at San Diego Comic-Con on Friday. We also got a teaser for the third season of Prime Video’s Rings of Power and a new trailer for HBO’s Lanterns . Yeoh and Schafer joined show runner Silka Luisa ( Shining Girls ) onstage for the big reveal, which also included an exclusive clip shown to the audience. Luisa told Entertainment Weekly that the series stays true to the original’s “noir principles… and there’s a mystery at the heart of the show that looks both forwards and backwards in terms of mythology.” An uprising has occurred and the humans lost, which means they are now the hunted second-class citizens. “The show is really imagining what comes after us, and what does it mean to be human in a world where humanity is no longer relevant,” said Luisa . Fifty years after the events of Blade Runner 2049 , Los Angeles has been reborn, just not by humanity. Cora, a fugitive in a final bid to stop running, takes on one last identity: a Blade Runner. Forced to partner with Olwen, a Replicant days from dying, she hunts down a runaway hiding a truth that could collapse their fragile city. The incomparable Michelle Yeoh stars as Olwen, the dying Replicant, along with Hunter Schafer ( Euphoria ) as Cora. The cast also includes Hugo Hamlet as Buster Friendly, as well as Dmitri Abold, Lewis Gribben, Katelyn Rose Downey, Daniel Rigby, Johnny Harris, Amy Lennox, Sheila Atim, Matthew Needham, Tom Burke, and Maurizio Lombardi—all in as-yet-undisclosed roles. Blade Runner 2099 will premiere on November 25, 2026, on Prime Video. Prime Video made a major investment in The Rings of Power when it acquired the rights to the source material from the Tolkien estate, even committing to multiple seasons upfront. We’re now coming up on S3 and based on the teaser the streaming platform unveiled at SDCC, we’ll finally get to see Sauron (Charlie Vickers) forging the One Ring. In season three, Middle-earth is at war. Five years have passed since the fall of Eregion. Sauron’s armies have marched across the whole of the world, conquering all in their path. Only a few isolated pockets stand between the Dark Lord and total victory—Khazad-dǔm, where the Dwarves are now sealed deep within their mountain halls, and the elven realms of Lindon and Rivendell, which are protected by their Three Rings.” But deep in the land of Mordor, in his newly completed tower of Barad-dûr, the Dark Lord toils day and night, obsessed with harnessing a power that will bring the last of his enemies to their knees: One ring to rule them all… Now, all the free peoples of Middle-earth—Dwarves, Elves, Men, and Wizards alike—must find a way to come together, in a race against time to prevent Sauron from achieving his goal of utter domination of all life But deep in the land of Mordor, in his newly completed tower of Barad-dûr, the Dark Lord toils day and night, obsessed with harnessing a power that will bring the last of his enemies to their knees: One ring to rule them all… Now, all the free peoples of Middle-earth—Dwarves, Elves, Men, and Wizards alike—must find a way to come together, in a race against time to prevent Sauron from achieving his goal of utter domination of all life We’re also getting some new characters this season, most notably Jamie Campbell Bower as Galadriel’s (Morfydd Clark) long-lost husband Celeborn. Zubin Varla will play Khamul the Easterling of Rhun; Eddie Marson will play Thrain, order brother to King Durin IV (Owain Arthur); Andrew Richardson will play Anarion, younger son of Elendil (Lloyd Owen) and brother to Isildur (Maxim Baldry); and Adam Young will play an Orc named Marnukh who “might not be what he seems.” Oh, and none other than Simon Pegg will voice the fiery Balrog. The third season of Rings of Power premieres on November 11, 2026, on Prime Video. We’ve seen a couple of teasers thus far for Lanterns , the new DC Universe series coming to HBO Max, both of which made it clear we’re in for a show that’s closer to a sci-fi True Detective than your standard superhero fare. HBO unveiled a full trailer at SDCC that is a little less Earthbound. It leans into the “space cop” vibe, reveals that shapeshifting Manhunters will be central to the plot, takes us into outer space, and also gives us our first look at Sinestro (Ulrich Thomsen), a former Corps member gone rogue. HBO threw in seven preview clips for good measure, although these have not been released publicly. Per the official logline, “The series follows new recruit John Stewart (Aaron Pierre) and Lantern legend Hal Jordan (Kyle Chandler), two intergalactic cops drawn into a dark, earth-based mystery as they investigate a murder in the American heartland.” There will be two storylines: one set in 2016 about a murder in Nebraska, and the second set in 2026. Chandler’s Hal Jordan is a former test pilot nearing retirement from the Green Lantern Corps. He’s training Pierre’s John Stewart Jr., a new recruit, to replace him. Nathan Fillion reprises his Superman role as the obnoxious Guy Gardner; we get a brief glimpse of him in the new teaser. The cast also includes Kelly MacDonald as Kerry, a small-town family-oriented sheriff; Jason Ritter as Billy Macon, Kerry’s husband; Garret Dillahunt as William Macon, Kerry’s cowboy father-in-law; Poorna Jagannathan as a woman named Zoe; and Paul Ben-Victor as an extraterrestrial called Antaan. Sherman Augustus plays John Stewart Sr., with J. Alphonse Nicholson playing the younger version; Nicole Ari Parker plays Bernadette Stewart (mother to John Jr.), with Jasmine Cephas Jones playing the young version of the character. In addition, Chris Coy plays a suspiciously nervous truck driver, Waylon Sanders; Cary Christopher plays a gifted child named Noah; Laura Linney will play a senior Guardian; and Paula Patton will appear in an as-yet-undisclosed guest role. We also know that the show will feature the inter-dimensional prison and the Checkmate organization introduced in Peacemaker’ s S2 finale. Lanterns premieres on August 18, 2026, on HBO Max. Spaceballs: The New One Credit: Chris Frawley / Amazon MGM Studios Credit: Chris Frawley / Amazon MGM Studios This long-overdue sequel to Mel Brooks’ 1987 cult classic isn’t being released until next spring, but that didn’t stop Amazon MGM Studios from putting together an SDCC panel this year anyway in a clever parody of the extravagant Marvel panels of yore. Because it’s early days, there haven’t been any publicly released teasers or trailers, although some teaser footage was shown at CinemaCon in April and yesterday at SDCC. Apparently we owe this sequel to Josh Gad, who co-wrote the script and pitched Brooks on a cold call. Gad has said he showed the original movie to his daughter during the COVID-19 pandemic and she loved it so much she wanted to see the sequel. Here’s the official synopsis: Somehow, Dark Helmet has returned! Forty years after the events of the first Spaceballs , fifty years after the events of Star Wars: A New Hope , and one year after the events of The Devil Wears Prada 2 , the galaxy is once again under threat. A threat so evil, so unstoppable, so completely lacking in any original ideas, that it has vowed to bring back the past… every last bit of it. With Lone Starr in hiding, Queen Vespa on the throne, and the Schwartz stretched thinner than a franchise releasing TV episodes theatrically, the only hope for the galaxy is Vespa’s undisciplined son, Prince Starburst, and a mysterious Palace advisor named Destiny. Together, they must find Lone Starr, Yogurt, and any other iconic legacy characters fans are demanding before they discover the hard way that, while some threats you can fight, the reboot is not one of them. With Lone Starr in hiding, Queen Vespa on the throne, and the Schwartz stretched thinner than a franchise releasing TV episodes theatrically, the only hope for the galaxy is Vespa’s undisciplined son, Prince Starburst, and a mysterious Palace advisor named Destiny. Together, they must find Lone Starr, Yogurt, and any other iconic legacy characters fans are demanding before they discover the hard way that, while some threats you can fight, the reboot is not one of them. The 100-year-old Brooks is reprising his role as Yogurt via motion capture (he filmed his lines in a studio). Also returning: Rick Moranis as Lord Dark Helmet, Bill Pullman as Lone Starr, Daphne Zuniga as Queen Vespa, and George Wyner as Colonel Sandurz. Pullman’s son, Lewis Pullman, joins the cast as Prince Starburst, son to Lone Starr and Vespa, along with Keke Palmer as a palace advisor named Destiny. Gad plays a mawg, the same species as the late John Candy’s Barf. Anthony Carrigan and Rowan Witt have also been cast in as-yet-undisclosed roles. Spaceballs: The New One hits theaters on April 23, 2027. May the Schwartz be with you! Credit: AmazonMGMStudios Credit: AmazonMGMStudios",
+        "full_article_text_chars": 9145,
+        "enrichment_status": "strong",
+        "source_url": "https://arstechnica.com",
+        "source_published_at": "2026-07-25T20:52:30Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.69,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "html_content ended before a tag was closed",
+      "ai_provider_last_error": "504 The request timed out. Please try again.",
+      "ai_status": "failed",
+      "ai_error": "504 The request timed out. Please try again.",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 177.8,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-26T04:59:15Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "504 The request timed out. Please try again.",
+      "candidate_failed_at": "2026-07-26T04:44:15",
+      "candidate_failure_count": 1
     },
     {
       "id": "13cfb2a40c5a3659",
@@ -45073,7 +45201,63 @@
       "content_preview_chars": 7339,
       "content_fetched_at": "2026-07-25T21:34:04",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-26T04:44:15",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-26T04:44:15",
+      "ai_input_package": {
+        "title": "The hacker who humiliated spyware makers and was never caught | TechCrunch",
+        "url": "https://techcrunch.com/2026/07/25/the-hacker-who-humiliated-spyware-makers-and-was-never-caught",
+        "source_name": "TechCrunch",
+        "suggested_category": "Tech-News",
+        "main_image": "https://techcrunch.com/wp-content/uploads/2026/07/anonymous-hacktivist-mask.jpg?resize=1200,800",
+        "article_images": [
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2026/07/anonymous-hacktivist-mask.jpg?resize=1200,800",
+            "alt": "The hacker who humiliated spyware makers and was never caught | TechCrunch",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2026/07/Screenshot-2026-07-17-at-1.12.20-PM.png",
+            "alt": "A awe-inspiring hacktivist that hacked two controversial government spyware startups, and more, may be the most prolific hacker to have never gotten caught. ",
+            "source": "article_content"
+          },
+          {
+            "url": "https://techcrunch.com/wp-content/uploads/2026/07/anonymous-hacktivist-mask.jpg?w=1024",
+            "alt": "A member of the international organisation Anonymous for the Voiceless wears a Guy Fawkes mask while demonstrating in the streets of Mexico City's Historic Center.",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "An awe-inspiring hacktivist who hacked two controversial government spyware makers may be the most prolific hacker to have never gotten caught. What do we know about Phineas Fisher?",
+        "content_preview": "Over the last few decades, several mysterious hackers have captured the public’s imagination, but none quite like Phineas Fisher. A decade after their most famous hack, Phineas remains, by most accounts, the most prolific and public hacker never to have been caught . As part of our series on the biggest cybersecurity mysteries of all time, we’re delving into the enigma of Phineas, the hacktivist who hacked controversial spyware makers FinFisher and Hacking Team . The latter, an Italian startup, was among the first to turn government spyware into a viable global business, paving the way for spyware makers such as the Israeli NSO Group. Phineas’ hack against Hacking Team eventually led to the startup’s demise years later . Apart from Anonymous, an amorphous amalgam of hacktivists with a mixed track record of mostly stunt hacks designed to gather publicity rather than have real impact, Phineas is perhaps the most well-known hacktivist in history. Their story is made of impressive hacks and endless unanswered questions. Who is Phineas Fisher? Variously called an anarchist, a cybercriminal, a hacktivist, and a vigilante, the hacker has said they “use a lot of different names” for different hacking escapades. The hacks we know about were big enough to turn Phineas into a legend among hackers. “I would like to meet Phineas Fisher so that I could buy them a seven-course, three-Michelin-star dinner somewhere and listen to them explain how they turned Hacking Team inside out like a gym sock,” a well-known security researcher once wrote on Twitter. There’s even a song about them . Phineas first emerged in August 2014, when they announced they had hacked Gamma Group , the makers of the FinFisher spyware — which is where the nickname comes from. They publicized the hack via a Twitter account cheekily called @GammaGroupPR , leaking stolen data including mobile spyware, product manuals, and a price list. The damage was limited, and FinFisher carried on. Phineas published a post-mortem that doubled as a leftist manifesto, then vanished. A year later, they came back with a bang, hacking Hacking Team , another spyware maker. They took practically everything: more than 400 gigabytes including source code, tens of thousands of internal emails, confidential contracts, and customer lists. The leak allowed journalists to reveal scandals in Ecuador, Mexico, and Panama. Years later, Hacking Team’s CEO David Vincenzetti was forced to sell his company for one euro. For some former employees, Phineas’ hack was the beginning of the end. Phineas went on to hack the union of the Mossos d’Esquadra , which is the police force of Catalonia, publishing a post-mortem and a 39-minute tutorial video — consistent with their stated anti-police ideals. Their next victim was the ruling party of Turkey’s authoritarian president Recep Tayyip Erdoğan, a hack motivated by solidarity with Rojava, a leftist autonomous region in northern and eastern Syria that Turkey was fighting against. Phineas’ last known victim was Cayman National Bank’s branch in the Isle of Man, a self-governing island between England and Ireland. The hack hinted at a different side of Phineas. “I look for illegal ways to make money in order to free my time so I can do something useful with it. Once I had that figured out, I started scaling it up and making more money than I need and giving the extra away,” Phineas said in an interview with activist Freddy Martinez. (Phineas donated at least $10,000 in Bitcoin to Rojava .) Phineas kept the hack — which happened in 2016 — quiet for three years later before announcing the “Hacktivist Bug Bounty Program,” an initiative to reward hacktivists who expose companies’ illegal and unethical activities. When Cayman National Bank confirmed the hack, it claimed it “was amongst a number of banks targeted.” Phineas confirmed they had been hacking several banks for years. That was their last public appearance. Their Twitter and Reddit accounts have long since been deleted, leaving no online trail. FinFisher never contacted law enforcement, according to a former company employee. The Italian authorities’ investigation into the Hacking Team hack ended without finding any evidence pointing to Phineas’ real identity. What I can say, from my own reporting, is that Phineas is alive and well — they have been in contact with me within the last couple of years. So who is Phineas Fisher? Taking their claims at face value, they’re a hacktivist with anarchist ideals, but also a cybercriminal. Could they instead be a fabricated persona controlled by a spy agency — Russia, say, which has a history of inventing hacktivists to muddy the waters after its own hacks? Phineas has denied being a Russian spy, and it’s unclear why Moscow would go after all of Phineas’ chosen targets. Their origins are equally murky. Phineas has name-dropped Spanish-speaking anarchists, wrote the Hacking Team post-mortem in Spanish, and followed numerous Latin American leftist accounts on Twitter. They told me their first language is neither English nor Spanish, though they have acknowledged living in a Spanish-speaking country. It’s all worth taking with a grain of salt. “Everything I say that contains clues about my identity is half trolling,” Phineas once told me. “I’m in the habit of saying misinformation.” It’s also possible that the Phineas persona was passed around between 2014 and 2019 and used by different individuals. But there is no evidence of that, and after 10 years of conversations, my gut says Phineas truly is the hacktivist they claim to be. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Senior Reporter, Cybersecurity Lorenzo Franceschi-Bicchierai is a Senior Writer at TechCrunch, where he covers hacking, cybersecurity, surveillance, and privacy. You can contact or verify outreach from Lorenzo by emailing lorenzo@techcrunch.com , via encrypted message at +1 917 257 1382 on Signal, and @lorenzofb on Keybase/Telegram. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! SpaceX launches new V3 Starlink satellites but suffers another booster failure Sean O'Kane SpaceX launches new V3 Starlink satellites but suffers another booster failure US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Zack Whittaker US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark Ram Iyer Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark Tesla’s robotaxis are moving in reverse Sean O'Kane Tesla’s robotaxis are moving in reverse Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Amanda Silberling Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Light made a flip phone — it’s colorful and it’s cheap Amanda Silberling Light made a flip phone — it’s colorful and it’s cheap AI music generator Suno breach affects 55M users, per Have I Been Pwned Zack Whittaker AI music generator Suno breach affects 55M users, per Have I Been Pwned",
+        "content_preview_chars": 7339,
+        "rss_summary": "",
+        "full_article_text": "Over the last few decades, several mysterious hackers have captured the public’s imagination, but none quite like Phineas Fisher. A decade after their most famous hack, Phineas remains, by most accounts, the most prolific and public hacker never to have been caught . As part of our series on the biggest cybersecurity mysteries of all time, we’re delving into the enigma of Phineas, the hacktivist who hacked controversial spyware makers FinFisher and Hacking Team . The latter, an Italian startup, was among the first to turn government spyware into a viable global business, paving the way for spyware makers such as the Israeli NSO Group. Phineas’ hack against Hacking Team eventually led to the startup’s demise years later . Apart from Anonymous, an amorphous amalgam of hacktivists with a mixed track record of mostly stunt hacks designed to gather publicity rather than have real impact, Phineas is perhaps the most well-known hacktivist in history. Their story is made of impressive hacks and endless unanswered questions. Who is Phineas Fisher? Variously called an anarchist, a cybercriminal, a hacktivist, and a vigilante, the hacker has said they “use a lot of different names” for different hacking escapades. The hacks we know about were big enough to turn Phineas into a legend among hackers. “I would like to meet Phineas Fisher so that I could buy them a seven-course, three-Michelin-star dinner somewhere and listen to them explain how they turned Hacking Team inside out like a gym sock,” a well-known security researcher once wrote on Twitter. There’s even a song about them . Phineas first emerged in August 2014, when they announced they had hacked Gamma Group , the makers of the FinFisher spyware — which is where the nickname comes from. They publicized the hack via a Twitter account cheekily called @GammaGroupPR , leaking stolen data including mobile spyware, product manuals, and a price list. The damage was limited, and FinFisher carried on. Phineas published a post-mortem that doubled as a leftist manifesto, then vanished. A year later, they came back with a bang, hacking Hacking Team , another spyware maker. They took practically everything: more than 400 gigabytes including source code, tens of thousands of internal emails, confidential contracts, and customer lists. The leak allowed journalists to reveal scandals in Ecuador, Mexico, and Panama. Years later, Hacking Team’s CEO David Vincenzetti was forced to sell his company for one euro. For some former employees, Phineas’ hack was the beginning of the end. Phineas went on to hack the union of the Mossos d’Esquadra , which is the police force of Catalonia, publishing a post-mortem and a 39-minute tutorial video — consistent with their stated anti-police ideals. Their next victim was the ruling party of Turkey’s authoritarian president Recep Tayyip Erdoğan, a hack motivated by solidarity with Rojava, a leftist autonomous region in northern and eastern Syria that Turkey was fighting against. Phineas’ last known victim was Cayman National Bank’s branch in the Isle of Man, a self-governing island between England and Ireland. The hack hinted at a different side of Phineas. “I look for illegal ways to make money in order to free my time so I can do something useful with it. Once I had that figured out, I started scaling it up and making more money than I need and giving the extra away,” Phineas said in an interview with activist Freddy Martinez. (Phineas donated at least $10,000 in Bitcoin to Rojava .) Phineas kept the hack — which happened in 2016 — quiet for three years later before announcing the “Hacktivist Bug Bounty Program,” an initiative to reward hacktivists who expose companies’ illegal and unethical activities. When Cayman National Bank confirmed the hack, it claimed it “was amongst a number of banks targeted.” Phineas confirmed they had been hacking several banks for years. That was their last public appearance. Their Twitter and Reddit accounts have long since been deleted, leaving no online trail. FinFisher never contacted law enforcement, according to a former company employee. The Italian authorities’ investigation into the Hacking Team hack ended without finding any evidence pointing to Phineas’ real identity. What I can say, from my own reporting, is that Phineas is alive and well — they have been in contact with me within the last couple of years. So who is Phineas Fisher? Taking their claims at face value, they’re a hacktivist with anarchist ideals, but also a cybercriminal. Could they instead be a fabricated persona controlled by a spy agency — Russia, say, which has a history of inventing hacktivists to muddy the waters after its own hacks? Phineas has denied being a Russian spy, and it’s unclear why Moscow would go after all of Phineas’ chosen targets. Their origins are equally murky. Phineas has name-dropped Spanish-speaking anarchists, wrote the Hacking Team post-mortem in Spanish, and followed numerous Latin American leftist accounts on Twitter. They told me their first language is neither English nor Spanish, though they have acknowledged living in a Spanish-speaking country. It’s all worth taking with a grain of salt. “Everything I say that contains clues about my identity is half trolling,” Phineas once told me. “I’m in the habit of saying misinformation.” It’s also possible that the Phineas persona was passed around between 2014 and 2019 and used by different individuals. But there is no evidence of that, and after 10 years of conversations, my gut says Phineas truly is the hacktivist they claim to be. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Senior Reporter, Cybersecurity Lorenzo Franceschi-Bicchierai is a Senior Writer at TechCrunch, where he covers hacking, cybersecurity, surveillance, and privacy. You can contact or verify outreach from Lorenzo by emailing lorenzo@techcrunch.com , via encrypted message at +1 917 257 1382 on Signal, and @lorenzofb on Keybase/Telegram. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! SpaceX launches new V3 Starlink satellites but suffers another booster failure Sean O'Kane SpaceX launches new V3 Starlink satellites but suffers another booster failure US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Zack Whittaker US accuses American of allegedly wiping his phone using a ‘duress’ password during border search Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark Ram Iyer Anduril reportedly in talks to raise funding at $100B valuation, more than 3x last year’s mark Tesla’s robotaxis are moving in reverse Sean O'Kane Tesla’s robotaxis are moving in reverse Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Amanda Silberling Jack Dorsey is taking on Slack with Buzz, a group chat platform for teams and their AI agents Light made a flip phone — it’s colorful and it’s cheap Amanda Silberling Light made a flip phone — it’s colorful and it’s cheap AI music generator Suno breach affects 55M users, per Have I Been Pwned Zack Whittaker AI music generator Suno breach affects 55M users, per Have I Been Pwned",
+        "full_article_text_chars": 7339,
+        "enrichment_status": "strong",
+        "source_url": "https://techcrunch.com",
+        "source_published_at": "2026-07-25T20:24:14Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 1.16,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response returned incomplete JSON.",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 80.36,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-26T05:00:37Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-26T04:45:37",
+      "candidate_failure_count": 1
     },
     {
       "id": "22e18dbe34c5aed7",
@@ -45151,7 +45335,68 @@
       "content_preview_chars": 8948,
       "content_fetched_at": "2026-07-25T21:34:13",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-07-26T04:45:37",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-07-26T04:45:37",
+      "ai_input_package": {
+        "title": "SpaceX eyes tower catch for next Starship after auspicious end to 13th flight",
+        "url": "https://arstechnica.com/space/2026/07/spacex-eyes-tower-catch-for-next-starship-after-auspicious-end-to-13th-flight",
+        "source_name": "Ars Technica",
+        "suggested_category": "Tech-News",
+        "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/starshipflt13_1-1152x648.jpg",
+        "article_images": [
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/starshipflt13_1-1152x648.jpg",
+            "alt": "SpaceX eyes tower catch for next Starship after auspicious end to 13th flight",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/starshipflt13_1.jpg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/starshipflt13_2.jpg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/GettyImages-2286894612.jpg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "SpaceX will likely attempt to catch Starship back at the launch pad on its next flight.",
+        "content_preview": "SpaceX was more than lucky Friday, sending its 13th full-scale Starship test flight halfway around the world from South Texas to an on-target, intact splashdown in a remote section of the Indian Ocean. Starship has made precise splashdowns before. This time, however, the ship gently tipped over and came to rest floating in a remote stretch of ocean west of Australia. Previous splashdowns ended with conflagrations, an outcome SpaceX officials have come to expect with each water landing of Starship. The buoyant Starship looked to be in fine shape after reaching the Indian Ocean. SpaceX engineers flew drones over the vehicle to inspect its heat shield, getting their best look yet at how more than 18,000 ceramic tiles insulating the ship’s stainless steel airframe weathered the trip to space and back. The tiles withstood temperatures up to 2,600° Fahrenheit (1,430° Celsius) as Starship streaked back into the atmosphere at the end of its hour-long flight from Starbase, Texas. Encouraged by the picture-perfect end to Friday’s flight, SpaceX is likely to take the next leap with Starship on the next launch, according to the company’s founder and CEO, Elon Musk. That would entail hurling Starship on a longer-range trajectory, perhaps into low-Earth orbit, to bring the vehicle back to the launch site. Mechanical arms on the launch tower will attempt to capture the ship as it slows to a hover. SpaceX has already done this with the rocket’s massive Super Heavy booster, which is larger and heavier than Starship itself, but comes back at a fraction of the speed. “Unless we discover problems after mission data review, SpaceX will attempt to catch the ship with the tower on next flight,” Musk wrote on X Friday evening. Engineers have long identified the performance and durability of the heat shield as one of the toughest challenges for the Starship program. SpaceX’s ambition for Starship includes rapid turnarounds, and eventually multiple flights per day. If this is to be achievable, the heat shield has to be robust against the vibrations and extreme temperatures it sees during launch and reentry. It can’t be refurbished or replaced after every flight. “This is the first time we’ve put an intact Starship in the water,” said Dan Huot, a SpaceX communications manager providing commentary on the company’s live webcast. “This is a dream scenario for the team that’s trying to get this heat shield data.” The intact splashdown Friday also opens up the possibility for SpaceX to tow the rocket back to shore, probably somewhere in Australia, for more detailed inspections. Starship is designed for reuse, but not after exposure to salt water. “This is so critical for refining the heat shield and everything else. The really good news is … you’re looking at a pretty intact-looking heat shield,” Huot said. “We were flying at a significantly higher dynamic pressure, so putting way more stress on this vehicle on the way uphill, and it’s sitting there in the water.” SpaceX continued receiving signals from Starship after splashdown through the company’s Starlink satellite broadband network. A camera onboard Starship showed no signs of external damage to the vehicle’s six Raptor engines as water lapped against the lens. Friday’s test flight was the 13th launch of SpaceX’s Starship on top of its massive Super Heavy booster, and the second flight of the latest iteration of the world’s most powerful rocket—Starship Version 3. The 408-foot-tall (124-meter) rocket lifted off from Starbase, Texas, a few miles north of the US-Mexico border, at 5:51 pm CDT (6:51 pm EDT; 22:51 UTC). Thirty-three methane-fueled Raptor engines on the Super Heavy booster steered the rocket east over the Gulf of Mexico and into the upper atmosphere, where the booster separated from Starship’s upper stage after burning most of its cryogenic propellant. The only thing left incomplete on SpaceX’s checklist for Flight 13 was the controlled splashdown of the Super Heavy booster. It was supposed to relight its engines for a landing burn off the coast of Texas, simulating maneuvers required to return the booster back to the launch pad for recovery and reuse. But some of the Raptor engines failed to restart for the landing burn, and the booster fell into the ocean at high speed. SpaceX also had trouble with the booster splashdown on the last flight in May. Friday’s flight showed some progress, but engineers have more work to do on recovering this version the Super Heavy booster. SpaceX previously recovered and re-flew Super Heavy boosters two times with the Starship Version 2 design, but not with Version 3. “The booster successfully completed the high thrust portion of the boostback burn with all 33 engines, the first time with a Super Heavy V3, before ending the burn early,” SpaceX officials wrote in an update on the company’s website . “It attempted to relight its engines for the landing burn, with a subset successfully igniting before experiencing a hard splashdown in the Gulf.” Starship continued accelerating into space as the Super Heavy booster descended toward the Gulf, firing its six engines more than five minutes before beginning a half-hour coast over the Caribbean Sea, Atlantic Ocean, and South Africa. A few minutes after engine shutdown, Starship opened its payload bay door and started deploying a stack of 20 Starlink satellites. The satellites are the first of SpaceX’s upgraded Starlink V3 model, with significant improvements in throughput and power. They are also larger and heavier than Starlink V2s, meaning they will not fit on SpaceX’s smaller, workhorse Falcon 9 rocket. Starship released the Starlink V3s using its Pez-like deployer, tossing them overboard through a slit-like opening on the side of the spacecraft. The flat-panel satellites did not stay in space for long. They flew on the same arcing suborbital trajectory as Starship, and were designed to burn up as they fell back into the atmosphere less than an hour after launch. In little time, SpaceX ground teams established contact with each of the satellites through radio and laser communication links, and “downloaded key telemetry” before their fiery demise. This provided engineers with their first look at the performance of Starlink V3s in space. With the satellite deployments complete, attention turned to a brief restart of one of the ship’s Raptor engines, something engineers forewent on the last flight. The burn lasted approximately 14 seconds, and was visible to observers in South Africa. SpaceX hailed the demonstration as “core capability for future orbital missions.” Gravity then pulled Starship back to Earth. The next steps for Starship are getting to orbit and returning the ship to the launch site. Those achievements will give SpaceX the capability to begin launching operational Starlink V3 satellites, unlocking higher-speed direct-to-device connectivity for consumers and the US military, and the revenue to go along with it. For NASA, an orbital flight puts SpaceX on a path toward orbital refueling. This demonstration is vital for any Starship flight beyond low-Earth orbit, including missions to the Moon in support of NASA’s Artemis program. NASA is working with SpaceX and Blue Origin to develop human-rated versions of Starship and the Blue Moon lander to ferry astronauts to and from the lunar surface. “Excited for what will be learned from this mission,” NASA Administrator Jared Isaacman wrote on X after the launch of Flight 13. “When Starship comes online, its capabilities will be game-changing, not least of which will be ensuring we never give up the Moon again!” SpaceX has one active launch pad in Texas, and a second Starship pad undergoing renovations there. Two Starship launch sites are under construction at Kennedy Space Center and Cape Canaveral Space Force Station in Florida. The orbital refueling demonstration will include two Starship launches, allowing the vehicles to rendezvous and dock with one another in orbit. One ship will then transfer methane and liquid oxygen propellants to the other through automated couplers. It will take multiple refueling runs in rapid succession to refill a Starship with enough propellant to reach the Moon, requiring rapid reuse of Starships and the Super Heavy boosters at multiple launch pads. With Friday’s test flight, SpaceX seems poised to embark on the next phase of Starship’s iterative development program. It won’t be easy. “Really critical data collected this mission on a demonstration deorbit burn for Raptor, and a first flight for the next generation Starlink satellites,” Shana Diez, SpaceX’s director of Starship flight reliability, wrote on X . “It feels like we are ready to kick into gear on delivering payload to orbit, which I am very excited for,” Diez added. “Development vehicles are fun but at the end of the day, we are here to put things into space and I am psyched about this rocket’s game changing capabilities.”",
+        "content_preview_chars": 8948,
+        "rss_summary": "",
+        "full_article_text": "SpaceX was more than lucky Friday, sending its 13th full-scale Starship test flight halfway around the world from South Texas to an on-target, intact splashdown in a remote section of the Indian Ocean. Starship has made precise splashdowns before. This time, however, the ship gently tipped over and came to rest floating in a remote stretch of ocean west of Australia. Previous splashdowns ended with conflagrations, an outcome SpaceX officials have come to expect with each water landing of Starship. The buoyant Starship looked to be in fine shape after reaching the Indian Ocean. SpaceX engineers flew drones over the vehicle to inspect its heat shield, getting their best look yet at how more than 18,000 ceramic tiles insulating the ship’s stainless steel airframe weathered the trip to space and back. The tiles withstood temperatures up to 2,600° Fahrenheit (1,430° Celsius) as Starship streaked back into the atmosphere at the end of its hour-long flight from Starbase, Texas. Encouraged by the picture-perfect end to Friday’s flight, SpaceX is likely to take the next leap with Starship on the next launch, according to the company’s founder and CEO, Elon Musk. That would entail hurling Starship on a longer-range trajectory, perhaps into low-Earth orbit, to bring the vehicle back to the launch site. Mechanical arms on the launch tower will attempt to capture the ship as it slows to a hover. SpaceX has already done this with the rocket’s massive Super Heavy booster, which is larger and heavier than Starship itself, but comes back at a fraction of the speed. “Unless we discover problems after mission data review, SpaceX will attempt to catch the ship with the tower on next flight,” Musk wrote on X Friday evening. Engineers have long identified the performance and durability of the heat shield as one of the toughest challenges for the Starship program. SpaceX’s ambition for Starship includes rapid turnarounds, and eventually multiple flights per day. If this is to be achievable, the heat shield has to be robust against the vibrations and extreme temperatures it sees during launch and reentry. It can’t be refurbished or replaced after every flight. “This is the first time we’ve put an intact Starship in the water,” said Dan Huot, a SpaceX communications manager providing commentary on the company’s live webcast. “This is a dream scenario for the team that’s trying to get this heat shield data.” The intact splashdown Friday also opens up the possibility for SpaceX to tow the rocket back to shore, probably somewhere in Australia, for more detailed inspections. Starship is designed for reuse, but not after exposure to salt water. “This is so critical for refining the heat shield and everything else. The really good news is … you’re looking at a pretty intact-looking heat shield,” Huot said. “We were flying at a significantly higher dynamic pressure, so putting way more stress on this vehicle on the way uphill, and it’s sitting there in the water.” SpaceX continued receiving signals from Starship after splashdown through the company’s Starlink satellite broadband network. A camera onboard Starship showed no signs of external damage to the vehicle’s six Raptor engines as water lapped against the lens. Friday’s test flight was the 13th launch of SpaceX’s Starship on top of its massive Super Heavy booster, and the second flight of the latest iteration of the world’s most powerful rocket—Starship Version 3. The 408-foot-tall (124-meter) rocket lifted off from Starbase, Texas, a few miles north of the US-Mexico border, at 5:51 pm CDT (6:51 pm EDT; 22:51 UTC). Thirty-three methane-fueled Raptor engines on the Super Heavy booster steered the rocket east over the Gulf of Mexico and into the upper atmosphere, where the booster separated from Starship’s upper stage after burning most of its cryogenic propellant. The only thing left incomplete on SpaceX’s checklist for Flight 13 was the controlled splashdown of the Super Heavy booster. It was supposed to relight its engines for a landing burn off the coast of Texas, simulating maneuvers required to return the booster back to the launch pad for recovery and reuse. But some of the Raptor engines failed to restart for the landing burn, and the booster fell into the ocean at high speed. SpaceX also had trouble with the booster splashdown on the last flight in May. Friday’s flight showed some progress, but engineers have more work to do on recovering this version the Super Heavy booster. SpaceX previously recovered and re-flew Super Heavy boosters two times with the Starship Version 2 design, but not with Version 3. “The booster successfully completed the high thrust portion of the boostback burn with all 33 engines, the first time with a Super Heavy V3, before ending the burn early,” SpaceX officials wrote in an update on the company’s website . “It attempted to relight its engines for the landing burn, with a subset successfully igniting before experiencing a hard splashdown in the Gulf.” Starship continued accelerating into space as the Super Heavy booster descended toward the Gulf, firing its six engines more than five minutes before beginning a half-hour coast over the Caribbean Sea, Atlantic Ocean, and South Africa. A few minutes after engine shutdown, Starship opened its payload bay door and started deploying a stack of 20 Starlink satellites. The satellites are the first of SpaceX’s upgraded Starlink V3 model, with significant improvements in throughput and power. They are also larger and heavier than Starlink V2s, meaning they will not fit on SpaceX’s smaller, workhorse Falcon 9 rocket. Starship released the Starlink V3s using its Pez-like deployer, tossing them overboard through a slit-like opening on the side of the spacecraft. The flat-panel satellites did not stay in space for long. They flew on the same arcing suborbital trajectory as Starship, and were designed to burn up as they fell back into the atmosphere less than an hour after launch. In little time, SpaceX ground teams established contact with each of the satellites through radio and laser communication links, and “downloaded key telemetry” before their fiery demise. This provided engineers with their first look at the performance of Starlink V3s in space. With the satellite deployments complete, attention turned to a brief restart of one of the ship’s Raptor engines, something engineers forewent on the last flight. The burn lasted approximately 14 seconds, and was visible to observers in South Africa. SpaceX hailed the demonstration as “core capability for future orbital missions.” Gravity then pulled Starship back to Earth. The next steps for Starship are getting to orbit and returning the ship to the launch site. Those achievements will give SpaceX the capability to begin launching operational Starlink V3 satellites, unlocking higher-speed direct-to-device connectivity for consumers and the US military, and the revenue to go along with it. For NASA, an orbital flight puts SpaceX on a path toward orbital refueling. This demonstration is vital for any Starship flight beyond low-Earth orbit, including missions to the Moon in support of NASA’s Artemis program. NASA is working with SpaceX and Blue Origin to develop human-rated versions of Starship and the Blue Moon lander to ferry astronauts to and from the lunar surface. “Excited for what will be learned from this mission,” NASA Administrator Jared Isaacman wrote on X after the launch of Flight 13. “When Starship comes online, its capabilities will be game-changing, not least of which will be ensuring we never give up the Moon again!” SpaceX has one active launch pad in Texas, and a second Starship pad undergoing renovations there. Two Starship launch sites are under construction at Kennedy Space Center and Cape Canaveral Space Force Station in Florida. The orbital refueling demonstration will include two Starship launches, allowing the vehicles to rendezvous and dock with one another in orbit. One ship will then transfer methane and liquid oxygen propellants to the other through automated couplers. It will take multiple refueling runs in rapid succession to refill a Starship with enough propellant to reach the Moon, requiring rapid reuse of Starships and the Super Heavy boosters at multiple launch pads. With Friday’s test flight, SpaceX seems poised to embark on the next phase of Starship’s iterative development program. It won’t be easy. “Really critical data collected this mission on a demonstration deorbit burn for Raptor, and a first flight for the next generation Starlink satellites,” Shana Diez, SpaceX’s director of Starship flight reliability, wrote on X . “It feels like we are ready to kick into gear on delivering payload to orbit, which I am very excited for,” Diez added. “Development vehicles are fun but at the end of the day, we are here to put things into space and I am psyched about this rocket’s game changing capabilities.”",
+        "full_article_text_chars": 8948,
+        "enrichment_status": "strong",
+        "source_url": "https://arstechnica.com",
+        "source_published_at": "2026-07-25T17:47:22Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 3.78,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "html_content has unbalanced <p> tags",
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 59.34,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-07-26T05:01:38Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-07-26T04:46:38",
+      "candidate_failure_count": 1
     },
     {
       "id": "8a62cdd850a10a58",
@@ -45435,6 +45680,32 @@
       "content_fetched_at": "2026-07-26T01:13:31",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
+    },
+    {
+      "id": "42e249ee78d532cf",
+      "source_url_hash": "42e249ee78d532cf",
+      "canonical_url": "https://www.androidauthority.com/deals",
+      "title_hash": "bfcf7fd1bcb33952",
+      "topic_signature": "ae30c68208c0f66107a6",
+      "title": "Best daily deals",
+      "url": "https://www.androidauthority.com/deals",
+      "source_name": "Android Authority",
+      "source_url": "https://www.androidauthority.com",
+      "source_published_at": "",
+      "published_at_source": "",
+      "article_age_hours": null,
+      "rss_summary": "",
+      "freshness_source": "fallback_no_date",
+      "freshness_window_hours": "",
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-07-26T04:40:46",
+      "status": "skipped",
+      "score": 0,
+      "priority": "low",
+      "skip_reason": "non_technical_entertainment_content"
     }
   ],
   "notifications": {
