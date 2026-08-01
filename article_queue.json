@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-01T16:37:40",
+  "updated_at": "2026-08-01T17:42:17",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2559,12 +2559,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-08-01T16:36:49",
-      "candidate_retry_after": "2026-08-01T16:51:49Z",
+      "content_fetched_at": "2026-08-01T17:41:26",
+      "candidate_retry_after": "2026-08-01T17:56:26Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-08-01T16:36:49",
-      "candidate_failure_count": 111
+      "candidate_failed_at": "2026-08-01T17:41:26",
+      "candidate_failure_count": 112
     },
     {
       "id": "512c2899a98440d2",
@@ -2592,13 +2592,13 @@
       "score": 4,
       "priority": "low",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-08-01T16:36:50",
-      "candidate_retry_after": "2026-08-01T16:51:50Z",
+      "content_fetch_error": "http 429",
+      "content_fetched_at": "2026-08-01T17:41:28",
+      "candidate_retry_after": "2026-08-01T17:56:28Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-08-01T16:36:50",
-      "candidate_failure_count": 111
+      "candidate_failure_reason": "http 429",
+      "candidate_failed_at": "2026-08-01T17:41:28",
+      "candidate_failure_count": 112
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2627,12 +2627,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-08-01T16:36:51",
-      "candidate_retry_after": "2026-08-01T16:51:51Z",
+      "content_fetched_at": "2026-08-01T17:41:30",
+      "candidate_retry_after": "2026-08-01T17:56:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-08-01T16:36:51",
-      "candidate_failure_count": 111
+      "candidate_failed_at": "2026-08-01T17:41:30",
+      "candidate_failure_count": 112
     },
     {
       "id": "d900f1574fddfab4",
@@ -3538,17 +3538,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 229,
-      "affiliate_links_removed_count": 7,
-      "removed_source_links_count": 229,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=467 chars/72 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:467chars/72words, page_text:467chars/72words)",
-      "content_fetched_at": "2026-08-01T16:36:55",
-      "candidate_retry_after": "2026-08-01T16:51:55Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-08-01T17:41:30",
+      "candidate_retry_after": "2026-08-01T17:56:30Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=467 chars/72 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:467chars/72words, page_text:467chars/72words)",
-      "candidate_failed_at": "2026-08-01T16:36:55",
-      "candidate_failure_count": 110
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-08-01T17:41:30",
+      "candidate_failure_count": 111
     },
     {
       "id": "8d2678d87487d729",
@@ -4428,13 +4428,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-08-01T16:36:55",
-      "candidate_retry_after": "2026-08-01T16:51:55Z",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-08-01T17:41:31",
+      "candidate_retry_after": "2026-08-01T17:56:31Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-08-01T16:36:55",
-      "candidate_failure_count": 109
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-08-01T17:41:31",
+      "candidate_failure_count": 110
     },
     {
       "id": "45429302676bf4c5",
@@ -5492,12 +5492,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-08-01T16:36:57",
-      "candidate_retry_after": "2026-08-01T16:51:57Z",
+      "content_fetched_at": "2026-08-01T17:41:33",
+      "candidate_retry_after": "2026-08-01T17:56:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-08-01T16:36:57",
-      "candidate_failure_count": 107
+      "candidate_failed_at": "2026-08-01T17:41:33",
+      "candidate_failure_count": 108
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5529,12 +5529,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-08-01T16:36:58",
-      "candidate_retry_after": "2026-08-01T16:51:58Z",
+      "content_fetched_at": "2026-08-01T17:41:35",
+      "candidate_retry_after": "2026-08-01T17:56:35Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-08-01T16:36:58",
-      "candidate_failure_count": 107
+      "candidate_failed_at": "2026-08-01T17:41:35",
+      "candidate_failure_count": 108
     },
     {
       "id": "aede79193c6b98c9",
@@ -5566,12 +5566,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-08-01T16:37:00",
-      "candidate_retry_after": "2026-08-01T16:52:00Z",
+      "content_fetched_at": "2026-08-01T17:41:37",
+      "candidate_retry_after": "2026-08-01T17:56:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-08-01T16:37:00",
-      "candidate_failure_count": 107
+      "candidate_failed_at": "2026-08-01T17:41:37",
+      "candidate_failure_count": 108
     },
     {
       "id": "253eaa098c468523",
@@ -6514,12 +6514,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-08-01T16:37:01",
-      "candidate_retry_after": "2026-08-01T16:52:01Z",
+      "content_fetched_at": "2026-08-01T17:41:38",
+      "candidate_retry_after": "2026-08-01T17:56:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-08-01T16:37:01",
-      "candidate_failure_count": 105
+      "candidate_failed_at": "2026-08-01T17:41:38",
+      "candidate_failure_count": 106
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6965,12 +6965,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-08-01T16:37:03",
-      "candidate_retry_after": "2026-08-01T16:52:03Z",
+      "content_fetched_at": "2026-08-01T17:41:41",
+      "candidate_retry_after": "2026-08-01T17:56:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-08-01T16:37:03",
-      "candidate_failure_count": 103
+      "candidate_failed_at": "2026-08-01T17:41:41",
+      "candidate_failure_count": 104
     },
     {
       "id": "693fbfabd96b2185",
@@ -7001,12 +7001,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-08-01T16:37:05",
-      "candidate_retry_after": "2026-08-01T16:52:05Z",
+      "content_fetched_at": "2026-08-01T17:41:42",
+      "candidate_retry_after": "2026-08-01T17:56:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-08-01T16:37:05",
-      "candidate_failure_count": 103
+      "candidate_failed_at": "2026-08-01T17:41:42",
+      "candidate_failure_count": 104
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9515,12 +9515,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=422 chars/65 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:422chars/65words, paragraph_fallback:307chars/48words, article_body:422chars/65words, meta_description:53chars/7words, page_text:422chars/65words)",
-      "content_fetched_at": "2026-08-01T16:37:06",
-      "candidate_retry_after": "2026-08-01T16:52:06Z",
+      "content_fetched_at": "2026-08-01T17:41:43",
+      "candidate_retry_after": "2026-08-01T17:56:43Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=422 chars/65 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:422chars/65words, paragraph_fallback:307chars/48words, article_body:422chars/65words, meta_description:53chars/7words, page_text:422chars/65words)",
-      "candidate_failed_at": "2026-08-01T16:37:06",
-      "candidate_failure_count": 99
+      "candidate_failed_at": "2026-08-01T17:41:43",
+      "candidate_failure_count": 100
     },
     {
       "id": "561b6316398d7603",
@@ -10687,12 +10687,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-08-01T16:37:06",
-      "candidate_retry_after": "2026-08-01T16:52:06Z",
+      "content_fetched_at": "2026-08-01T17:41:44",
+      "candidate_retry_after": "2026-08-01T17:56:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-08-01T16:37:06",
-      "candidate_failure_count": 95
+      "candidate_failed_at": "2026-08-01T17:41:44",
+      "candidate_failure_count": 96
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10724,12 +10724,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-08-01T16:37:06",
-      "candidate_retry_after": "2026-08-01T16:52:06Z",
+      "content_fetched_at": "2026-08-01T17:41:44",
+      "candidate_retry_after": "2026-08-01T17:56:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-08-01T16:37:06",
-      "candidate_failure_count": 95
+      "candidate_failed_at": "2026-08-01T17:41:44",
+      "candidate_failure_count": 96
     },
     {
       "id": "a6f4ca9464909855",
@@ -10761,12 +10761,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-08-01T16:37:07",
-      "candidate_retry_after": "2026-08-01T16:52:07Z",
+      "content_fetched_at": "2026-08-01T17:41:44",
+      "candidate_retry_after": "2026-08-01T17:56:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-08-01T16:37:07",
-      "candidate_failure_count": 95
+      "candidate_failed_at": "2026-08-01T17:41:44",
+      "candidate_failure_count": 96
     },
     {
       "id": "71463c25ac92daaa",
@@ -15508,12 +15508,12 @@
       "removed_source_links_count": 81,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:107chars/21words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-08-01T16:37:08",
-      "candidate_retry_after": "2026-08-01T16:52:08Z",
+      "content_fetched_at": "2026-08-01T17:41:46",
+      "candidate_retry_after": "2026-08-01T17:56:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:107chars/21words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-08-01T16:37:08",
-      "candidate_failure_count": 84,
+      "candidate_failed_at": "2026-08-01T17:41:46",
+      "candidate_failure_count": 85,
       "archived": true,
       "archived_at": "2026-08-01T01:12:08",
       "archive_reason": "expired_recent_window"
@@ -44518,7 +44518,10 @@
       "candidate_failure_reason": "Missing AI output field(s): slug",
       "candidate_failed_at": "2026-07-26T07:22:26",
       "candidate_failure_count": 2,
-      "ai_quality_last_error": "Missing AI output field(s): slug"
+      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "archived": true,
+      "archived_at": "2026-08-01T17:40:52",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "2d36b905fbd83ab1",
@@ -46646,7 +46649,10 @@
       "status": "skipped",
       "score": 0,
       "priority": "low",
-      "skip_reason": "non_technical_entertainment_content"
+      "skip_reason": "non_technical_entertainment_content",
+      "archived": true,
+      "archived_at": "2026-08-01T17:40:52",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "0170bca561517201",
@@ -48187,12 +48193,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=98 chars/18 words; required=80 chars/120 words; tried=main_tag:52chars/8words, paragraph_fallback:52chars/8words, article_body:52chars/8words, meta_description:98chars/18words, page_text:52chars/8words)",
-      "content_fetched_at": "2026-08-01T16:37:10",
-      "candidate_retry_after": "2026-08-01T16:52:10Z",
+      "content_fetched_at": "2026-08-01T17:41:48",
+      "candidate_retry_after": "2026-08-01T17:56:48Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=98 chars/18 words; required=80 chars/120 words; tried=main_tag:52chars/8words, paragraph_fallback:52chars/8words, article_body:52chars/8words, meta_description:98chars/18words, page_text:52chars/8words)",
-      "candidate_failed_at": "2026-08-01T16:37:10",
-      "candidate_failure_count": 10
+      "candidate_failed_at": "2026-08-01T17:41:48",
+      "candidate_failure_count": 11
     },
     {
       "id": "678cf57f2568974e",
@@ -48723,13 +48729,13 @@
       "affiliate_links_removed_count": 2,
       "removed_source_links_count": 112,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=568 chars/97 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:568chars/97words, article_body:568chars/97words, meta_description:179chars/31words, page_text:218chars/37words)",
-      "content_fetched_at": "2026-08-01T16:37:11",
-      "candidate_retry_after": "2026-08-01T16:52:11Z",
+      "content_fetch_error": "weak article body after fallbacks (best=557 chars/96 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:557chars/96words, article_body:557chars/96words, meta_description:179chars/31words, page_text:218chars/37words)",
+      "content_fetched_at": "2026-08-01T17:41:49",
+      "candidate_retry_after": "2026-08-01T17:56:49Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=568 chars/97 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:568chars/97words, article_body:568chars/97words, meta_description:179chars/31w",
-      "candidate_failed_at": "2026-08-01T16:37:11",
-      "candidate_failure_count": 9
+      "candidate_failure_reason": "weak article body after fallbacks (best=557 chars/96 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:557chars/96words, article_body:557chars/96words, meta_description:179chars/31w",
+      "candidate_failed_at": "2026-08-01T17:41:49",
+      "candidate_failure_count": 10
     },
     {
       "id": "c4dc072a2cb4102b",
@@ -49348,12 +49354,12 @@
       "category_label": "Apps-Programs",
       "category_hint": "Apps-Programs",
       "discovered_at": "2026-08-01T07:12:42",
-      "status": "ready",
+      "status": "published",
       "score": 3,
       "priority": "low",
       "source_links_removed_count": 32,
       "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 32,
+      "removed_source_links_count": 0,
       "enrichment_fallback_used": "main_tag",
       "fetched_title": "Google Earth integrates Nano Banana for historical and future location visualizations",
       "meta_description": "Google integrates Nano Banana AI with Google Earth, enabling users to generate historical reconstructions, visualize urban projects, and create location-based infographics",
@@ -49390,7 +49396,88 @@
       "content_preview_chars": 1860,
       "content_fetched_at": "2026-08-01T07:12:52",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-08-01T17:41:53",
+      "suggested_category": "Apps-Programs",
+      "selection_reason": "category rotation newest fresh article: Apps-Programs",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-08-01T17:41:53",
+      "ai_input_package": {
+        "title": "Google Earth integrates Nano Banana for historical and future location visualizations",
+        "url": "https://alternativeto.net/news/2026/8/google-earth-integrates-nano-banana-for-historical-and-future-location-visualizations",
+        "source_name": "AlternativeTo News",
+        "suggested_category": "Apps-Programs",
+        "main_image": "https://img.alternativeto.net/news/1200x630/jpeg/1785562632398.png",
+        "article_images": [
+          {
+            "url": "https://img.alternativeto.net/news/1200x630/jpeg/1785562632398.png",
+            "alt": "Google Earth integrates Nano Banana for historical and future location visualizations",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://img.alternativeto.net/news/760x380/jpeg/1785562632398.png",
+            "alt": "Google Earth integrates Nano Banana for historical and future location visualizations",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Google integrates Nano Banana AI with Google Earth, enabling users to generate historical reconstructions, visualize urban projects, and create location-based infographics",
+        "content_preview": "High speed private VPN protected by strong Swiss privacy laws Google has added its Nano Banana image generation tool to Google Earth, allowing users to create custom images based on real locations. One of its main uses is visualizing how places may have looked in the past . For example, educators can prompt it to reconstruct Pompeii in 78 AD, turning the modern ruins into a populated Roman street. These historical scenes are AI generated interpretations rather than verified reconstructions. Since complete visual records of ancient locations do not exist, some architectural, cultural, or historical details may be inaccurate. Google is also positioning Nano Banana for real estate, urban planning, and architecture, letting users visualize proposed developments before construction begins. The integration can also generate custom infographics for specific Google Earth locations, although Google has not clarified whether this is supported for every location. Explore Earth's vast landscapes and urban wonders with detailed satellite imagery, offline access, and ad-free experience. Google Earth Jul 10, 2026 Google Earth Pro desktop app won't be available for new downloads starting June 25, 2027 Google Earth Jun 16, 2026 Google Earth launches flight simulator globally and adds pro features Google Earth Oct 23, 2025 Google Earth adds new AI chat and improved geospatial reasoning for disasters prediction Reimagine the world with Nano Banana in Google Earth News From Google • Official source Google has added Nano Banana to Google Earth for some reason Mashable Google Earth added Nano Banana, and I immediately reimagined Philly with zombies and evil clowns ZDNET Nano Banana Image Generation Comes To Google Earth Engadget The Nano Banana AI Image Generator Has Arrived in Google Earth PetaPixel Nano Banana 2 Is Coming to Google Earth Lifehacker",
+        "content_preview_chars": 1860,
+        "rss_summary": "<p>Google has added its <a href=\"https://alternativeto.net/software/gemini-image/about/\">Nano Banana</a> image generation tool to <a href=\"https://alternativeto.net/software/google-earth/about/\">Google Earth</a>, allowing users to create custom images based on real locations. One of its main uses is <strong>visualizing how places may have looked in the past</strong>. For example, educators can prompt it to reconstruct Pompeii in 78 AD, turning the modern ruins into a populated Roman street.</p> <p>These historical scenes are AI generated interpretations rather than verified reconstructions. Since complete visual records of ancient locations do not exist, some architectural, cultural, or historical details may be inaccurate.</p> <p>Google is also positioning Nano Banana for real estate, urban planning, and architecture, letting users visualize proposed developments before construction begins. The integration can also generate custom infographics for specific Google Earth locations, although Google has not clarified whether this is supported for every location.</p> <p><a href=\"https://alternativeto.net/news/2026/8/google-earth-integrates-nano-banana-for-historical-and-future-location-visualizations/\">View article on AlternativeTo &raquo;</a></p><p><a href=\"https://alternativeto.net/software/google-earth/about/\">More about Google Earth</a>&nbsp;|&nbsp;<a href=\"https://alternativeto.net/software/google-earth/\">Google Earth Alternatives</a></p>",
+        "full_article_text": "High speed private VPN protected by strong Swiss privacy laws Google has added its Nano Banana image generation tool to Google Earth, allowing users to create custom images based on real locations. One of its main uses is visualizing how places may have looked in the past . For example, educators can prompt it to reconstruct Pompeii in 78 AD, turning the modern ruins into a populated Roman street. These historical scenes are AI generated interpretations rather than verified reconstructions. Since complete visual records of ancient locations do not exist, some architectural, cultural, or historical details may be inaccurate. Google is also positioning Nano Banana for real estate, urban planning, and architecture, letting users visualize proposed developments before construction begins. The integration can also generate custom infographics for specific Google Earth locations, although Google has not clarified whether this is supported for every location. Explore Earth's vast landscapes and urban wonders with detailed satellite imagery, offline access, and ad-free experience. Google Earth Jul 10, 2026 Google Earth Pro desktop app won't be available for new downloads starting June 25, 2027 Google Earth Jun 16, 2026 Google Earth launches flight simulator globally and adds pro features Google Earth Oct 23, 2025 Google Earth adds new AI chat and improved geospatial reasoning for disasters prediction Reimagine the world with Nano Banana in Google Earth News From Google • Official source Google has added Nano Banana to Google Earth for some reason Mashable Google Earth added Nano Banana, and I immediately reimagined Philly with zombies and evil clowns ZDNET Nano Banana Image Generation Comes To Google Earth Engadget The Nano Banana AI Image Generator Has Arrived in Google Earth PetaPixel Nano Banana 2 Is Coming to Google Earth Lifehacker",
+        "full_article_text_chars": 1860,
+        "enrichment_status": "weak",
+        "source_url": "https://alternativeto.net/news",
+        "source_published_at": "2026-08-01T05:30:09Z",
+        "published_at_source": "feed",
+        "article_age_hours": 1.71,
+        "trusted_references": [
+          {
+            "title": "google.com",
+            "url": "https://google.com/preferences/source?q=alternativeto.net"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "ai_status": "completed",
+      "ai_processed_at": "2026-08-01T17:42:11",
+      "seo_title": "غوغل إيرث يدمج Nano Banana: رحلة عبر الزمن ورؤى مستقبلية بالذكاء",
+      "seo_description": "أعلنت Google عن دمج أداة توليد الصور Nano Banana AI مع Google Earth، مما يفتح آفاقاً جديدة للمستخدمين لاستكشاف الأماكن عبر التاريخ وتصوّر المشاريع المستقبلية",
+      "seo_slug": "google-earth-integrates-nano-banana-ai-historical",
+      "final_html": "<p class=\"pIndent\"><span class=\"dropCap\">شهد</span>ت منصة <a class=\"extL\" href=\"https://google.com/preferences/source?q=alternativeto.net\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">Google</a> Earth، المعروفة بقدرتها على استعراض المعالم الجغرافية من جميع أنحاء العالم، تطوراً نوعياً جديداً بدمجها أداة توليد الصور المعتمدة على الذكاء الاصطناعي، Nano Banana. هذا التكامل الثوري يفتح آفاقاً واسعة للمستخدمين لاستكشاف الأبعاد التاريخية والجغرافية للكوكب بطرق لم تكن ممكنة من قبل، من إعادة بناء المدن القديمة إلى تصور المشاريع العمرانية المستقبلية بلمسة زر واحدة، مما يعد بتحول جذري في كيفية تفاعلنا مع البيانات الجغرافية والتاريخية.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Google Earth integrates Nano Banana for historical and future location visualizations\" class=\"full\" loading=\"lazy\" src=\"https://img.alternativeto.net/news/1200x630/jpeg/1785562632398.png\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Google Earth integrates Nano Banana for historical and future location visualizations</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Google Earth integrates Nano Banana for historical and future location visualizations</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">إن إضافة Nano Banana AI إلى Google Earth لا تُعد مجرد تحديث تقني عادي، بل هي قفزة نوعية نحو دمج الذكاء الاصطناعي في أدوات الاستكشاف الجغرافي، مما يتيح للمستخدمين إنشاء صور مخصصة بناءً على مواقع حقيقية. هذه الإمكانية الجديدة ستمكن المهتمين من التفاعل مع الأماكن ليس فقط كما هي اليوم، بل كيف كانت في الماضي البعيد وكيف يمكن أن تكون في المستقبل القريب.</p>\n<h2>استكشاف الماضي وإعادة تصور التاريخ</h2>\n<p class=\"pIndent\">أحد أبرز استخدامات هذا التكامل هو القدرة على تصور كيف كانت الأماكن تبدو في الماضي. يمكن للمستخدمين، بمن فيهم المربون والمؤرخون، توجيه الأداة لإعادة بناء مشاهد تاريخية. على سبيل المثال، يمكن إعادة بناء مدينة بومبي الإيطالية في عام 78 ميلادي، مما يحول الأطلال الحديثة إلى شارع روماني مزدحم يعج بالحياة كما كان في تلك الحقبة.</p>\n<p class=\"pIndent\">هذه المشاهد التاريخية، التي يتم إنشاؤها بواسطة AI، هي تفسيرات وليست بالضرورة إعادة بناء موثقة بشكل كامل. نظرًا لعدم وجود سجلات بصرية كاملة للمواقع القديمة، قد تكون بعض التفاصيل المعمارية أو الثقافية أو التاريخية غير دقيقة بشكل كامل، مما يستدعي نهجًا نقديًا في تفسير هذه التصورات.</p>\n<div class=\"alert warning\">\n  تنبيه: يجب الأخذ في الاعتبار أن المشاهد التاريخية التي يتم إنشاؤها بواسطة Nano Banana AI هي تفسيرات فنية وليست بالضرورة تمثيلات دقيقة بنسبة 100% للواقع التاريخي، وقد تحتوي على بعض التفاوتات بسبب عدم توفر سجلات بصرية كاملة للمواقع القديمة.\n</div>\n<h2>رؤى للمستقبل والتخطيط الحضري</h2>\n<p class=\"pIndent\">إلى جانب استكشاف الماضي، تمكّن أداة Nano Banana AI أيضاً المستخدمين من تصور المستقبل، وهذا له تطبيقات واسعة في مجالات مثل العقارات، التخطيط الحضري، والهندسة المعمارية. يمكن للمطورين والمخططين الآن تصور المشاريع المقترحة قبل البدء في بنائها، مما يوفر رؤى قيمة ويساعد في اتخاذ قرارات مستنيرة حول التصميم والتأثير البيئي.</p>\n<p class=\"pIndent\">يمتد التكامل ليشمل القدرة على إنشاء رسوم بيانية معلوماتية (infographics) مخصصة لمواقع محددة في Google Earth. ورغم أن Google لم توضح ما إذا كانت هذه الميزة مدعومة لكل موقع على حدة، إلا أنها تعد أداة قوية لتحليل البيانات الجغرافية وتقديمها بطريقة بصرية وجذابة.</p>\n<h2>تقنيات Google Earth تتطور باستمرار</h2>\n<p class=\"pIndent\">يأتي دمج Nano Banana AI كجزء من سلسلة تحديثات أوسع تشهدها Google Earth. ففي 10 يوليو 2026، تم التركيز على تحسين استكشاف المناظر الطبيعية الشاسعة والعجائب الحضرية، مع توفير صور الأقمار الصناعية المفصلة والوصول دون اتصال بالإنترنت وتجربة خالية من الإعلانات.</p>\n<p class=\"pIndent\">كما أطلقت Google Earth في 16 يونيو 2026 محاكي الطيران عالمياً وأضافت ميزات احترافية، وفي 23 أكتوبر 2025، أضافت Google Earth دردشة جديدة مدعومة بالذكاء الاصطناعي وتحسينات في الاستدلال الجغرافي المكاني للتنبؤ بالكوارث. وفي المقابل، أعلنت Google أنه اعتبارًا من 25 يونيو 2027، لن يكون تطبيق Google Earth Pro لسطح المكتب متاحًا للتنزيلات الجديدة، مما يشير إلى تحول محتمل نحو التركيز على المنصات السحابية أو الويب.</p>\n<div class=\"alert info\">\n  تذكر: Google Earth توفر تجربة غنية لاستكشاف العالم، مع صور أقمار صناعية مفصلة، وإمكانية الوصول دون اتصال بالإنترنت، وتجربة خالية من الإعلانات للمستخدمين الذين يرغبون في الغوص في التفاصيل الجغرافية لكوكبنا.\n</div>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">بالنسبة للمستخدم العادي، يفتح هذا التكامل بعداً جديداً كلياً للتفاعل مع العالم. يمكنك الآن أن تكون جزءاً من رحلة عبر الزمن، متصوراً المدن القديمة التي قرأت عنها في الكتب، أو أن تشارك في التفكير في المستقبل من خلال استعراض المشاريع العمرانية المقترحة في منطقتك.</p>\n<p class=\"pIndent\">للمربين، تعد Nano Banana AI أداة لا تقدر بثمن لجعل التاريخ والجغرافيا أكثر حيوية وتفاعلاً في الفصول الدراسية. يمكن للطلاب رؤية كيف بدت الحضارات القديمة بدلاً من مجرد قراءتها. أما للمهنيين في مجالات العقارات والتخطيط والهندسة المعمارية، فإن هذه الأداة توفر وسيلة قوية لتصور الأفكار وتحويلها إلى واقع ملموس قبل البدء في أي عمل فعلي.</p>\n<p class=\"pIndent\">يجب على المستخدمين أن يمارسوا الحذر وأن يتذكروا أن هذه التصورات تعتمد على الذكاء الاصطناعي وقد لا تكون دقيقة تمامًا. ومع ذلك، فإن القيمة التعليمية والإبداعية لهذه التقنية لا يمكن إنكارها، فهي توسع آفاق الفهم البصري والتخطيط المستقبلي.</p>\n<h2>خاتمة</h2>\n<p class=\"pIndent\">يمثل دمج أداة Nano Banana AI في Google Earth خطوة جريئة نحو مستقبل تتشابك فيه التقنيات المتقدمة مع استكشافنا للعالم. إنه لا يغير فقط طريقة رؤيتنا للمواقع الجغرافية، بل يثري فهمنا للتاريخ ويقدم أدوات لا تقدر بثمن لتشكيل مستقبل أكثر استنارة. بينما تستمر Google في دفع حدود ما هو ممكن بالذكاء الاصطناعي، يمكننا أن نتوقع المزيد من الابتكارات التي ستغير بلا شك كيفية تفاعلنا مع كوكبنا.</p>\n<p class=\"pRef\">المراجع:<br/><a class=\"extL\" href=\"https://google.com/preferences/source?q=alternativeto.net\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">google.com</a></p>",
+      "blogger_article_html": "<p class=\"pIndent\"><span class=\"dropCap\">شهد</span>ت منصة <a class=\"extL\" href=\"https://google.com/preferences/source?q=alternativeto.net\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">Google</a> Earth، المعروفة بقدرتها على استعراض المعالم الجغرافية من جميع أنحاء العالم، تطوراً نوعياً جديداً بدمجها أداة توليد الصور المعتمدة على الذكاء الاصطناعي، Nano Banana. هذا التكامل الثوري يفتح آفاقاً واسعة للمستخدمين لاستكشاف الأبعاد التاريخية والجغرافية للكوكب بطرق لم تكن ممكنة من قبل، من إعادة بناء المدن القديمة إلى تصور المشاريع العمرانية المستقبلية بلمسة زر واحدة، مما يعد بتحول جذري في كيفية تفاعلنا مع البيانات الجغرافية والتاريخية.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Google Earth integrates Nano Banana for historical and future location visualizations\" class=\"full\" loading=\"lazy\" src=\"https://img.alternativeto.net/news/1200x630/jpeg/1785562632398.png\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Google Earth integrates Nano Banana for historical and future location visualizations</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Google Earth integrates Nano Banana for historical and future location visualizations</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">إن إضافة Nano Banana AI إلى Google Earth لا تُعد مجرد تحديث تقني عادي، بل هي قفزة نوعية نحو دمج الذكاء الاصطناعي في أدوات الاستكشاف الجغرافي، مما يتيح للمستخدمين إنشاء صور مخصصة بناءً على مواقع حقيقية. هذه الإمكانية الجديدة ستمكن المهتمين من التفاعل مع الأماكن ليس فقط كما هي اليوم، بل كيف كانت في الماضي البعيد وكيف يمكن أن تكون في المستقبل القريب.</p>\n<h2>استكشاف الماضي وإعادة تصور التاريخ</h2>\n<p class=\"pIndent\">أحد أبرز استخدامات هذا التكامل هو القدرة على تصور كيف كانت الأماكن تبدو في الماضي. يمكن للمستخدمين، بمن فيهم المربون والمؤرخون، توجيه الأداة لإعادة بناء مشاهد تاريخية. على سبيل المثال، يمكن إعادة بناء مدينة بومبي الإيطالية في عام 78 ميلادي، مما يحول الأطلال الحديثة إلى شارع روماني مزدحم يعج بالحياة كما كان في تلك الحقبة.</p>\n<p class=\"pIndent\">هذه المشاهد التاريخية، التي يتم إنشاؤها بواسطة AI، هي تفسيرات وليست بالضرورة إعادة بناء موثقة بشكل كامل. نظرًا لعدم وجود سجلات بصرية كاملة للمواقع القديمة، قد تكون بعض التفاصيل المعمارية أو الثقافية أو التاريخية غير دقيقة بشكل كامل، مما يستدعي نهجًا نقديًا في تفسير هذه التصورات.</p>\n<div class=\"alert warning\">\n  تنبيه: يجب الأخذ في الاعتبار أن المشاهد التاريخية التي يتم إنشاؤها بواسطة Nano Banana AI هي تفسيرات فنية وليست بالضرورة تمثيلات دقيقة بنسبة 100% للواقع التاريخي، وقد تحتوي على بعض التفاوتات بسبب عدم توفر سجلات بصرية كاملة للمواقع القديمة.\n</div>\n<h2>رؤى للمستقبل والتخطيط الحضري</h2>\n<p class=\"pIndent\">إلى جانب استكشاف الماضي، تمكّن أداة Nano Banana AI أيضاً المستخدمين من تصور المستقبل، وهذا له تطبيقات واسعة في مجالات مثل العقارات، التخطيط الحضري، والهندسة المعمارية. يمكن للمطورين والمخططين الآن تصور المشاريع المقترحة قبل البدء في بنائها، مما يوفر رؤى قيمة ويساعد في اتخاذ قرارات مستنيرة حول التصميم والتأثير البيئي.</p>\n<p class=\"pIndent\">يمتد التكامل ليشمل القدرة على إنشاء رسوم بيانية معلوماتية (infographics) مخصصة لمواقع محددة في Google Earth. ورغم أن Google لم توضح ما إذا كانت هذه الميزة مدعومة لكل موقع على حدة، إلا أنها تعد أداة قوية لتحليل البيانات الجغرافية وتقديمها بطريقة بصرية وجذابة.</p>\n<h2>تقنيات Google Earth تتطور باستمرار</h2>\n<p class=\"pIndent\">يأتي دمج Nano Banana AI كجزء من سلسلة تحديثات أوسع تشهدها Google Earth. ففي 10 يوليو 2026، تم التركيز على تحسين استكشاف المناظر الطبيعية الشاسعة والعجائب الحضرية، مع توفير صور الأقمار الصناعية المفصلة والوصول دون اتصال بالإنترنت وتجربة خالية من الإعلانات.</p>\n<p class=\"pIndent\">كما أطلقت Google Earth في 16 يونيو 2026 محاكي الطيران عالمياً وأضافت ميزات احترافية، وفي 23 أكتوبر 2025، أضافت Google Earth دردشة جديدة مدعومة بالذكاء الاصطناعي وتحسينات في الاستدلال الجغرافي المكاني للتنبؤ بالكوارث. وفي المقابل، أعلنت Google أنه اعتبارًا من 25 يونيو 2027، لن يكون تطبيق Google Earth Pro لسطح المكتب متاحًا للتنزيلات الجديدة، مما يشير إلى تحول محتمل نحو التركيز على المنصات السحابية أو الويب.</p>\n<div class=\"alert info\">\n  تذكر: Google Earth توفر تجربة غنية لاستكشاف العالم، مع صور أقمار صناعية مفصلة، وإمكانية الوصول دون اتصال بالإنترنت، وتجربة خالية من الإعلانات للمستخدمين الذين يرغبون في الغوص في التفاصيل الجغرافية لكوكبنا.\n</div>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">بالنسبة للمستخدم العادي، يفتح هذا التكامل بعداً جديداً كلياً للتفاعل مع العالم. يمكنك الآن أن تكون جزءاً من رحلة عبر الزمن، متصوراً المدن القديمة التي قرأت عنها في الكتب، أو أن تشارك في التفكير في المستقبل من خلال استعراض المشاريع العمرانية المقترحة في منطقتك.</p>\n<p class=\"pIndent\">للمربين، تعد Nano Banana AI أداة لا تقدر بثمن لجعل التاريخ والجغرافيا أكثر حيوية وتفاعلاً في الفصول الدراسية. يمكن للطلاب رؤية كيف بدت الحضارات القديمة بدلاً من مجرد قراءتها. أما للمهنيين في مجالات العقارات والتخطيط والهندسة المعمارية، فإن هذه الأداة توفر وسيلة قوية لتصور الأفكار وتحويلها إلى واقع ملموس قبل البدء في أي عمل فعلي.</p>\n<p class=\"pIndent\">يجب على المستخدمين أن يمارسوا الحذر وأن يتذكروا أن هذه التصورات تعتمد على الذكاء الاصطناعي وقد لا تكون دقيقة تمامًا. ومع ذلك، فإن القيمة التعليمية والإبداعية لهذه التقنية لا يمكن إنكارها، فهي توسع آفاق الفهم البصري والتخطيط المستقبلي.</p>\n<h2>خاتمة</h2>\n<p class=\"pIndent\">يمثل دمج أداة Nano Banana AI في Google Earth خطوة جريئة نحو مستقبل تتشابك فيه التقنيات المتقدمة مع استكشافنا للعالم. إنه لا يغير فقط طريقة رؤيتنا للمواقع الجغرافية، بل يثري فهمنا للتاريخ ويقدم أدوات لا تقدر بثمن لتشكيل مستقبل أكثر استنارة. بينما تستمر Google في دفع حدود ما هو ممكن بالذكاء الاصطناعي، يمكننا أن نتوقع المزيد من الابتكارات التي ستغير بلا شك كيفية تفاعلنا مع كوكبنا.</p>\n<p class=\"pRef\">المراجع:<br/><a class=\"extL\" href=\"https://google.com/preferences/source?q=alternativeto.net\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">google.com</a></p>",
+      "final_word_count": 751,
+      "final_html_chars": 5536,
+      "final_content_hash": "e10af239fbef8e4735aaabd5",
+      "ai_provider_used": "gemini:gemini-2.5-flash",
+      "ai_rotation_exhausted": false,
+      "ai_openrouter_fallback_used": false,
+      "ai_quality_attempts": 2,
+      "ai_quality_status": "passed",
+      "ai_total_time_seconds": 17.85,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "internal_cache_loaded": 0,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 1,
+      "internal_cache_saved": true,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 751,
+        "warnings": []
+      },
+      "blogger_post_id": "1967993740211801657",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/08/nano-banana.html",
+      "published_at": "2026-08-01T17:42:13",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "facebook_status": "failed",
+      "facebook_error": "Facebook Graph API error 400: {\"error\":{\"message\":\"You cannot access the app till you log in to www.facebook.com and follow the instructions given.\",\"type\":\"OAuthException\",\"code\":190,\"error_data\":\"{\\\"checkpoint_url\\\":\\\"https:\\\\\\/\\\\\\/www.facebook.com\\\"}\",\"error_subcode\":459,\"fbtrace_id\":\"A9oSecASczzHq7P6KDKcrv_\"}}",
+      "archived": true,
+      "archived_at": "2026-08-01T17:42:17",
+      "archive_reason": "published_to_blogger"
     },
     {
       "id": "c0b25850f8a3c2c8",
@@ -52840,6 +52927,702 @@
       "content_preview": "Explore Best Picks 3D Printing Best Picks Cooling Best Picks External HDDs Best Picks External SSDs Best Picks Gaming Headsets Best Picks Gaming Keyboards Best Picks Gaming Laptops Best Picks Gaming Mice Best Picks Gaming Monitors Best Picks Gaming PCs Best Picks Keyboards Best Picks Laptops Best Picks Maker and STEM Best Picks Mechanical Keyboards Best Picks Monitors Best Picks Motherboards Best Picks PC Building Best Picks PC Cases Best Picks PC Gaming Best Picks Portable Monitors Best Picks Power Supplies Best Picks Routers Best Picks Speakers Best Picks Webcams Best Picks Here is the best CPU for gaming. We’ve picked out the perfect parts for your next PC build, whether you’re spending $800 or $4,000 on components. We have recommendations for budget, midrange, high-end, and extreme systems. We've benchmarked all the latest GPUs to find the best graphics cards for gaming. These graphics cards offer the best performance at their price and resolution, from 1080p to 4K. We recommend the best SSDs for every need and budget based on our extensive lab tests. Here is the best RAM for gaming we’ve tested: computer memory that is ideal for video editing and graphics-heavy applications. Here are our favorite handheld gaming PCs, based on our testing and reviews. We’ve carefully chosen the best microSD Express cards to meet the needs and budgets of all Switch 2 owners, based on our detailed lab testing. College laptops fit for any student. We test dozens of laptops a year for their performance, screen quality, and battery life, to find the best laptops right now across Windows, macOS, Intel, AMD, and Qualcomm notebooks. We test the best gaming PCs with our typical gauntlet of real-world and synthetic benchmarks to measure overall prebuilt system performance. Get Tom's Hardware's best news and in-depth reviews, straight to your inbox.",
       "content_preview_chars": 1857,
       "content_fetched_at": "2026-08-01T16:36:47",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "7581be30af3d882c",
+      "source_url_hash": "7581be30af3d882c",
+      "canonical_url": "https://www.howtogeek.com/the-rclone-trick-that-backs-up-my-nas-to-multiple-cloud-services-at-once-for-free",
+      "title_hash": "2a8886bb0f53a615",
+      "topic_signature": "de17fc146b0bf7641330",
+      "title": "This one free tool backs up my files to multiple cloud services at once",
+      "url": "https://www.howtogeek.com/the-rclone-trick-that-backs-up-my-nas-to-multiple-cloud-services-at-once-for-free",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-08-01T17:30:13Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.18,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-08-01T17:40:52",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 113,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 113,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "This one free tool backs up my files to multiple cloud services at once",
+      "meta_description": "This tool has the official cloud apps beat.",
+      "article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/20260723_185126.jpg?w=1600&h=900&fit=crop",
+          "alt": "This one free tool backs up my files to multiple cloud services at once",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/20260723_185126.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Running rclone on Ubuntu.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/03/running-the-installer-script-for-rclone.png?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Running the installer script for rclone.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/config-rclone.png?q=49&fit=contain&w=639&h=360&dpr=2",
+          "alt": "Config rclone",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/20260723_185126.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/20260723_185126.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Running rclone on Ubuntu."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/03/running-the-installer-script-for-rclone.png?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Running the installer script for rclone."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/config-rclone.png?q=49&fit=contain&w=639&h=360&dpr=2",
+          "alt": "Config rclone"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Preferred Source",
+          "url": "https://www.google.com/preferences/source?q=howtogeek.com"
+        },
+        {
+          "title": "Google News",
+          "url": "https://news.google.com/publications/CAAqKAgKIiJDQklTRXdnTWFnOEtEV2h2ZDNSdloyVmxheTVqYjIwb0FBUAE"
+        }
+      ],
+      "full_article_text": "Rclone is an app that lets you upload, download, sync, and delete files in the cloud. Let me show you why it's better than the official apps from your cloud providers. This simple command is all it takes to back up any folder or files from my local storage drives to all my cloud storage accounts in one go. By the end of this tutorial, you will know what that command does and how to use it to upload your files to two or more cloud accounts simultaneously. What's special about rclone How it beats the official cloud apps Rclone works as a command-line tool inside a terminal emulator. It might seem counter-intuitive that a command-line app can be better than the official version. But when it comes to power and efficiency, these command-line interface (CLI) tools are virtually unbeatable. Think about the time it takes to open a cloud website and click around to upload or download files. It seems minuscule, but the time adds up. Say, you have to create frequent backups between multiple folders, multiple machines, multiple cloud providers, and multiple accounts. Each layer of complexity makes it more and more annoying to handle manually. This is where tools like rclone shine. You need to connect rclone with your cloud account once. This is called setting up a \"remote.\" After that, instead of opening browser tabs and logging into accounts, you can run simple commands to upload, download, and sync files with the cloud. In basic terms, the keyboard beats the mouse because it is faster to type. It's the same reason keyboard shortcuts are faster. The rclone tool is a keyboard shortcut for cloud management. Start by installing rclone on your computer. On Linux machines, you can install it directly using any package manager. The package name is usually rclone . sudo apt install rclone sudo dnf install rclone On Windows, winget will do it for you. Open a terminal and run this command. Readers on macOS can try brew. Check that it is installed correctly. Simple enough. Now let's set up your first cloud remote. Open a terminal window and run: Type n and press Enter to create a new remote. Scroll through the list of cloud providers. The rclone tool supports some 50 odd providers, so chances are you will find your cloud in the list. Type the number of the provider and hit Enter again. I chose Google Drive. Then leave the rest of the settings as default by repeatedly pressing Enter until rclone generates a link for you to follow. This link will take me to my Google account where I can authorize rclone to manage the cloud files. Wait for the \"Success\" message. Back in the command-line terminal, press Enter two more times to keep the defaults until you see the remote in the list. At this point, you can either add another remote by pressing n or quit the setup wizard by entering q . I want to back up my data to two different cloud providers, so I'll have to add a remote for my Google Drive account as well. I can do that by running through the same six-step process. This command will show the remotes that have already been added to rclone. Merging multiple cloud accounts into one remote In order to manage these two remotes, rclone has a \"union\" feature which combines two or more cloud drives into one remote. Any changes made using this remote are duplicated across all the remotes merged into a union remote. Select n for a new remote and give it a name. Mine is called \"multi.\" In the list, look for the \"Union merges the contents of several upstream fs\" option. Usually it's number 40. Type the two or more remote names when it asks for upstreams. Type all and hit Enter on the next three options to make sure the file changes are mirrored across all remotes. Leave the rest as default and quit the configuration wizard. We now have a remote called multi: and it's all we need to back up to multiple clouds simultaneously. It's easier than you might think Pay close attention to this command. rclone copy awesome-stuff dropbox:backups I have already created a remote called dropbox which is connected to my Dropbox account. The rclone at the beginning invokes the program itself. There is a folder called \"awesome-stuff\" in the same directory where I have invoked the program. The copy creates a duplicate of the folder named \"awesome-stuff\" and uploads it to the \"backups\" folder inside my Dropbox drive. We will always add a colon : to the cloud remote name. This example can be generalized like this: rclone copy source remote:destination If I reverse the order of the source and the destination, the copy command will download the backup folder from my Dropbox and drop it into the \"awesome-stuff\" folder. rclone copy dropbox:backups awesome-stuff The source in our example is a folder called \"awesome-stuff\", but it doesn't have to be a folder. It can be a file or multiple files listed one by one. rclone copy send-this-file-to-the-cloud.txt dropbox:documents You can also move files and folders. rclone move awesome-stuff dropbox:backups Or list the contents of a directory using ls . List all the directories inside a cloud drive. There are many more features (some pretty advanced), but you don't need to know all of them. The copy command will suffice most of the time. In fact, you can substitute the remote name with a union remote name like the one I created in the previous section. rclone copy awesome-stuff multi:backup This command will upload the \"awesome-stuff\" folder to both my Dropbox and Google Drive at the same time. You can add any number of remotes for cloud providers and manage them simultaneously. To make things even easier, you can create what's called a \"command-line alias.\" An alias lets you assign keywords to trigger certain commands. The rclone tool has some other neat features too, like the ability to mount cloud drives as Network-Attached-Storage (NAS) drives which you can access in your computer's file explorer. Since rclone works entirely in the command-line, it's great for scripting automatic backups too. It may take a little bit to get used to it, but once you do, you will find it more pleasant than the proprietary apps and web apps these cloud companies offer.",
+      "full_article_text_chars": 6150,
+      "content_preview": "Rclone is an app that lets you upload, download, sync, and delete files in the cloud. Let me show you why it's better than the official apps from your cloud providers. This simple command is all it takes to back up any folder or files from my local storage drives to all my cloud storage accounts in one go. By the end of this tutorial, you will know what that command does and how to use it to upload your files to two or more cloud accounts simultaneously. What's special about rclone How it beats the official cloud apps Rclone works as a command-line tool inside a terminal emulator. It might seem counter-intuitive that a command-line app can be better than the official version. But when it comes to power and efficiency, these command-line interface (CLI) tools are virtually unbeatable. Think about the time it takes to open a cloud website and click around to upload or download files. It seems minuscule, but the time adds up. Say, you have to create frequent backups between multiple folders, multiple machines, multiple cloud providers, and multiple accounts. Each layer of complexity makes it more and more annoying to handle manually. This is where tools like rclone shine. You need to connect rclone with your cloud account once. This is called setting up a \"remote.\" After that, instead of opening browser tabs and logging into accounts, you can run simple commands to upload, download, and sync files with the cloud. In basic terms, the keyboard beats the mouse because it is faster to type. It's the same reason keyboard shortcuts are faster. The rclone tool is a keyboard shortcut for cloud management. Start by installing rclone on your computer. On Linux machines, you can install it directly using any package manager. The package name is usually rclone . sudo apt install rclone sudo dnf install rclone On Windows, winget will do it for you. Open a terminal and run this command. Readers on macOS can try brew. Check that it is installed correctly. Simple enough. Now let's set up your first cloud remote. Open a terminal window and run: Type n and press Enter to create a new remote. Scroll through the list of cloud providers. The rclone tool supports some 50 odd providers, so chances are you will find your cloud in the list. Type the number of the provider and hit Enter again. I chose Google Drive. Then leave the rest of the settings as default by repeatedly pressing Enter until rclone generates a link for you to follow. This link will take me to my Google account where I can authorize rclone to manage the cloud files. Wait for the \"Success\" message. Back in the command-line terminal, press Enter two more times to keep the defaults until you see the remote in the list. At this point, you can either add another remote by pressing n or quit the setup wizard by entering q . I want to back up my data to two different cloud providers, so I'll have to add a remote for my Google Drive account as well. I can do that by running through the same six-step process. This command will show the remotes that have already been added to rclone. Merging multiple cloud accounts into one remote In order to manage these two remotes, rclone has a \"union\" feature which combines two or more cloud drives into one remote. Any changes made using this remote are duplicated across all the remotes merged into a union remote. Select n for a new remote and give it a name. Mine is called \"multi.\" In the list, look for the \"Union merges the contents of several upstream fs\" option. Usually it's number 40. Type the two or more remote names when it asks for upstreams. Type all and hit Enter on the next three options to make sure the file changes are mirrored across all remotes. Leave the rest as default and quit the configuration wizard. We now have a remote called multi: and it's all we need to back up to multiple clouds simultaneously. It's easier than you might think Pay close attention to this command. rclone copy awesome-stuff dropbox:backups I have already created a remote called dropbox which is connected to my Dropbox account. The rclone at the beginning invokes the program itself. There is a folder called \"awesome-stuff\" in the same directory where I have invoked the program. The copy creates a duplicate of the folder named \"awesome-stuff\" and uploads it to the \"backups\" folder inside my Dropbox drive. We will always add a colon : to the cloud remote name. This example can be generalized like this: rclone copy source remote:destination If I reverse the order of the source and the destination, the copy command will download the backup folder from my Dropbox and drop it into the \"awesome-stuff\" folder. rclone copy dropbox:backups awesome-stuff The source in our example is a folder called \"awesome-stuff\", but it doesn't have to be a folder. It can be a file or multiple files listed one by one. rclone copy send-this-file-to-the-cloud.txt dropbox:documents You can also move files and folders. rclone move awesome-stuff dropbox:backups Or list the contents of a directory using ls . List all the directories inside a cloud drive. There are many more features (some pretty advanced), but you don't need to know all of them. The copy command will suffice most of the time. In fact, you can substitute the remote name with a union remote name like the one I created in the previous section. rclone copy awesome-stuff multi:backup This command will upload the \"awesome-stuff\" folder to both my Dropbox and Google Drive at the same time. You can add any number of remotes for cloud providers and manage them simultaneously. To make things even easier, you can create what's called a \"command-line alias.\" An alias lets you assign keywords to trigger certain commands. The rclone tool has some other neat features too, like the ability to mount cloud drives as Network-Attached-Storage (NAS) drives which you can access in your computer's file explorer. Since rclone works entirely in the command-line, it's great for scripting automatic backups too. It may take a little bit to get used to it, but once you do, you will find it more pleasant than the proprietary apps and web apps these cloud companies offer.",
+      "content_preview_chars": 6150,
+      "content_fetched_at": "2026-08-01T17:41:12",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "8e8699254374747b",
+      "source_url_hash": "8e8699254374747b",
+      "canonical_url": "https://www.makeuseof.com/microsoft-excel-has-been-carrying-the-same-date-bug-for-over-40-years",
+      "title_hash": "760980c668b1c623",
+      "topic_signature": "1ba68ccfabef7b2a90b5",
+      "title": "There's a 40-year-old bug in every copy of Excel and Microsoft says it will never fix it",
+      "url": "https://www.makeuseof.com/microsoft-excel-has-been-carrying-the-same-date-bug-for-over-40-years",
+      "source_name": "MakeUseOf",
+      "source_url": "https://www.makeuseof.com",
+      "source_published_at": "2026-08-01T17:30:12Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.18,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-08-01T17:40:52",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 92,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 92,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "There's a 40-year-old bug in every copy of Excel and Microsoft says it will never fix it",
+      "meta_description": "Microsoft Excel has been wrong about the same date for 40 years, and that's by design.",
+      "article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/08/microsoft-excel-showing-the-date-february-29th-1900.jpg?w=1200&h=675&fit=crop",
+          "alt": "There's a 40-year-old bug in every copy of Excel and Microsoft says it will never fix it",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/08/microsoft-excel-showing-the-date-february-29th-1900.jpg?&fit=crop&w=1200&h=675",
+          "alt": "Microsoft Excel showing the date February 29th 1900",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2026/08/lotus-1-2-3.png?q=70&fit=crop&w=640&dpr=1",
+          "alt": "Lotus 1-2-3",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2026/08/excel-showing-date-for-february-29th-1900.jpg?q=70&fit=crop&w=825&dpr=1",
+          "alt": "Excel showing date for February 29th 1900",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/08/microsoft-excel-showing-the-date-february-29th-1900.jpg?w=1200&h=675&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/08/microsoft-excel-showing-the-date-february-29th-1900.jpg?&fit=crop&w=1200&h=675",
+          "alt": "Microsoft Excel showing the date February 29th 1900"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2026/08/lotus-1-2-3.png?q=70&fit=crop&w=640&dpr=1",
+          "alt": "Lotus 1-2-3"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2026/08/excel-showing-date-for-february-29th-1900.jpg?q=70&fit=crop&w=825&dpr=1",
+          "alt": "Excel showing date for February 29th 1900"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Preferred Source",
+          "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+        },
+        {
+          "title": "Google News",
+          "url": "https://news.google.com/publications/CAAqKAgKIiJDQklTRXdnTWFnOEtEVzFoYTJWMWMyVnZaaTVqYjIwb0FBUAE?hl=en-US&gl=US&ceid=US%3Aen"
+        },
+        {
+          "title": "Its own support documentation says so in plain language",
+          "url": "https://learn.microsoft.com/en-us/troubleshoot/microsoft-365-apps/excel/wrongly-assumes-1900-is-leap-year"
+        }
+      ],
+      "full_article_text": "Here's a party trick that works on every copy of Excel ever shipped. Open a blank sheet, type 60 into a cell, and format that cell as a date. Excel will confidently report February 29, 1900. Go check a calendar. 1900 wasn't a leap year. February had 28 days, full stop, and February 29 simply did not happen. Yet the most-used piece of business software on the planet has a day pinned to it that never existed — and the people who maintain that software know it's wrong, have known for forty years, and have made the deliberate decision to leave it exactly where it is. The shortcut that started it Lotus 1-2-3 wanted to save memory In January 1983, a company called Lotus Development shipped Lotus 1-2-3, written by Mitch Kapor and Jonathan Sachs for the IBM PC. It was a monster hit. Within a couple of years it had buried the software that invented the category, VisiCalc, and become the spreadsheet that ran corporate America. If you worked in finance in the mid-80s, you worked in Lotus. Lotus had to be fast and it had to be small, because the machines it ran on were neither. A typical PC-DOS setup maxed out at 640KB of memory (less than a single photo on your phone today) so the program couldn't afford to store dates as anything fancy. It stored each date as a plain counting number. January 1, 1900 was 1, the next day was 2, and so on up through every date you'd ever type. The problem was the leap years: how do you decide whether a year gets a February 29? The textbook answer is fiddly. A year is a leap year if it divides by 4 — except century years, which only qualify if they also divide by 400. 1900 divides by 100 and not by 400, so despite being divisible by 4, it got no leap day. The Lotus developers skipped the fiddly part. Their check asked one question: does the year divide by 4? On a 1980s processor that test was almost free — the machine could answer it by glancing at the last two bits of a binary number — and it gave the right answer for basically every year a spreadsheet user would ever enter. 1900 was the rare exception. So Lotus waved 1900 through as a leap year and invented a day to fill the gap. At serial number 60, February 29, 1900 was born. It has never died. Microsoft copied the bug on purpose Flawless meant bug-for-bug Microsoft launched Excel on the Macintosh in 1985 and set out to bring it to Windows in 1987. The trouble was that Lotus 1-2-3 owned the market, with the kind of grip on corporate finance departments that makes switching costs enormous. Nobody rips out the spreadsheet their entire company's numbers live in unless the replacement is flawless . So Excel had to be flawless in a very specific way: it had to open a Lotus file and reproduce every number identically, down to the last decimal, with no surprises. And date serials were part of the deal. Microsoft's engineers understood the leap year rule perfectly well. Fixing it would have been trivial. But fixing it would also have knocked their date serials one number out of step with every Lotus file in existence, and compatibility was the whole pitch. So they made the call that still raises eyebrows today: they copied the bug on purpose. In what Excel calls the 1900 Date System , serial 60 is hardcoded, deliberately, as February 29, 1900. The error was inherited by choice. The origin of leap years Bonus history section! Earth takes about 365.24219 days to orbit the Sun once. Not 365. That awkward trailing decimal is the entire source of every calendar headache humans have ever had. If you build a calendar with a flat 365 days, you lose almost a quarter of a day every year, and after a few decades the\"summer\" months start sliding into actual winter. Julius Caesar took the first real swing at fixing this in 45 BCE with the Julian calendar. His astronomers rounded that messy number up to a clean 365.25 days and patched the missing quarter by adding one extra day every four years — the rule most of us still carry in our heads: if the year divides by 4, it's a leap year. For a while, it worked beautifully. The problem is that 365.25 is not 365.24219. It's a hair too long — about 11 minutes of overcorrection per year. Eleven minutes sounds like nothing, but calendars are patient. Those minutes pile up into roughly three extra days every 400 years, and over centuries the Julian calendar drifted far enough that the spring equinox, and with it Easter, had wandered ten days off from where the Church expected it to be. That drift is what finally forced a fix. In 1582, Pope Gregory XIII introduced the Gregorian calendar we use today, which keeps Caesar's every-four-years rule but adds a correction on top of it for century years. The full test runs like this: if the year divides by 400, it's a leap year; otherwise, if it divides by 100, it's not; otherwise, if it divides by 4, it is; otherwise, it isn't. Those two extra clauses shave off three leap days every 400 years, which was exactly enough to cancel Caesar's 11-minute-a-year overshoot and pin the calendar back to the Sun. 1900 divides by 4, which is where a lazy check stops, but it also divides by 100 and not by 400 — so the Gregorian rule denies it a leap day. Lotus 1-2-3 only ever asked the first question, never the last two, and that's how a day that the calendar had specifically been redesigned to delete ended up living inside your spreadsheet forever. The Excel bug isn't really a disaster The offset cancels itself 60 — phantom day inserted here 61 — and everything after shifts up one For something like 99% of what people do in a spreadsheet, the bug does nothing at all. It hides in plain sight because it cancels itself out. Say you want the number of days between July 1, 2026 and August 1, 2026. Both of those dates sit past the phantom day, so both carry the exact same one-day offset. When Excel subtracts one from the other, the extra day on each side lands on both ends of the subtraction and vanishes. Any gap between two modern dates works the same way — the error is baked equally into both numbers, so it never survives the math. The offset only bites when it can't cancel. Three situations do it. If you're doing historical work that needs the real day of the week for a date before March 1, 1900, WEEKDAY will lie to you, because that's exactly the region the phantom day corrupts. If you're shipping raw date serials between Excel and a system that keeps a true calendar (like a SQL database, Python's datetime, a Unix timestamp, etc) you have to hand-correct the offset for anything near 1900 or your dates drift by a day. Excel for Mac used to default to a completely different 1904 Date System, where serial 0 is January 1, 1904, specifically to dodge this whole mess. Move a file between an old Mac and a Windows machine without conversion and your dates could jump by roughly four years. Microsoft wrote it down and defended it. Its own support documentation says so in plain language . The reasoning holds up. \"Microsoft Excel incorrectly assumes that the year 1900 is a leap year... Although it is technically possible to correct this behavior, the disadvantages of doing so outweigh the advantages.\" And that is how a corner that two programmers cut to save a few bytes of memory in a 1983 DOS program is, today, a documented requirement in an international standard. When correctness and backward compatibility go to war, correctness rarely wins.",
+      "full_article_text_chars": 7391,
+      "content_preview": "Here's a party trick that works on every copy of Excel ever shipped. Open a blank sheet, type 60 into a cell, and format that cell as a date. Excel will confidently report February 29, 1900. Go check a calendar. 1900 wasn't a leap year. February had 28 days, full stop, and February 29 simply did not happen. Yet the most-used piece of business software on the planet has a day pinned to it that never existed — and the people who maintain that software know it's wrong, have known for forty years, and have made the deliberate decision to leave it exactly where it is. The shortcut that started it Lotus 1-2-3 wanted to save memory In January 1983, a company called Lotus Development shipped Lotus 1-2-3, written by Mitch Kapor and Jonathan Sachs for the IBM PC. It was a monster hit. Within a couple of years it had buried the software that invented the category, VisiCalc, and become the spreadsheet that ran corporate America. If you worked in finance in the mid-80s, you worked in Lotus. Lotus had to be fast and it had to be small, because the machines it ran on were neither. A typical PC-DOS setup maxed out at 640KB of memory (less than a single photo on your phone today) so the program couldn't afford to store dates as anything fancy. It stored each date as a plain counting number. January 1, 1900 was 1, the next day was 2, and so on up through every date you'd ever type. The problem was the leap years: how do you decide whether a year gets a February 29? The textbook answer is fiddly. A year is a leap year if it divides by 4 — except century years, which only qualify if they also divide by 400. 1900 divides by 100 and not by 400, so despite being divisible by 4, it got no leap day. The Lotus developers skipped the fiddly part. Their check asked one question: does the year divide by 4? On a 1980s processor that test was almost free — the machine could answer it by glancing at the last two bits of a binary number — and it gave the right answer for basically every year a spreadsheet user would ever enter. 1900 was the rare exception. So Lotus waved 1900 through as a leap year and invented a day to fill the gap. At serial number 60, February 29, 1900 was born. It has never died. Microsoft copied the bug on purpose Flawless meant bug-for-bug Microsoft launched Excel on the Macintosh in 1985 and set out to bring it to Windows in 1987. The trouble was that Lotus 1-2-3 owned the market, with the kind of grip on corporate finance departments that makes switching costs enormous. Nobody rips out the spreadsheet their entire company's numbers live in unless the replacement is flawless . So Excel had to be flawless in a very specific way: it had to open a Lotus file and reproduce every number identically, down to the last decimal, with no surprises. And date serials were part of the deal. Microsoft's engineers understood the leap year rule perfectly well. Fixing it would have been trivial. But fixing it would also have knocked their date serials one number out of step with every Lotus file in existence, and compatibility was the whole pitch. So they made the call that still raises eyebrows today: they copied the bug on purpose. In what Excel calls the 1900 Date System , serial 60 is hardcoded, deliberately, as February 29, 1900. The error was inherited by choice. The origin of leap years Bonus history section! Earth takes about 365.24219 days to orbit the Sun once. Not 365. That awkward trailing decimal is the entire source of every calendar headache humans have ever had. If you build a calendar with a flat 365 days, you lose almost a quarter of a day every year, and after a few decades the\"summer\" months start sliding into actual winter. Julius Caesar took the first real swing at fixing this in 45 BCE with the Julian calendar. His astronomers rounded that messy number up to a clean 365.25 days and patched the missing quarter by adding one extra day every four years — the rule most of us still carry in our heads: if the year divides by 4, it's a leap year. For a while, it worked beautifully. The problem is that 365.25 is not 365.24219. It's a hair too long — about 11 minutes of overcorrection per year. Eleven minutes sounds like nothing, but calendars are patient. Those minutes pile up into roughly three extra days every 400 years, and over centuries the Julian calendar drifted far enough that the spring equinox, and with it Easter, had wandered ten days off from where the Church expected it to be. That drift is what finally forced a fix. In 1582, Pope Gregory XIII introduced the Gregorian calendar we use today, which keeps Caesar's every-four-years rule but adds a correction on top of it for century years. The full test runs like this: if the year divides by 400, it's a leap year; otherwise, if it divides by 100, it's not; otherwise, if it divides by 4, it is; otherwise, it isn't. Those two extra clauses shave off three leap days every 400 years, which was exactly enough to cancel Caesar's 11-minute-a-year overshoot and pin the calendar back to the Sun. 1900 divides by 4, which is where a lazy check stops, but it also divides by 100 and not by 400 — so the Gregorian rule denies it a leap day. Lotus 1-2-3 only ever asked the first question, never the last two, and that's how a day that the calendar had specifically been redesigned to delete ended up living inside your spreadsheet forever. The Excel bug isn't really a disaster The offset cancels itself 60 — phantom day inserted here 61 — and everything after shifts up one For something like 99% of what people do in a spreadsheet, the bug does nothing at all. It hides in plain sight because it cancels itself out. Say you want the number of days between July 1, 2026 and August 1, 2026. Both of those dates sit past the phantom day, so both carry the exact same one-day offset. When Excel subtracts one from the other, the extra day on each side lands on both ends of the subtraction and vanishes. Any gap between two modern dates works the same way — the error is baked equally into both numbers, so it never survives the math. The offset only bites when it can't cancel. Three situations do it. If you're doing historical work that needs the real day of the week for a date before March 1, 1900, WEEKDAY will lie to you, because that's exactly the region the phantom day corrupts. If you're shipping raw date serials between Excel and a system that keeps a true calendar (like a SQL database, Python's datetime, a Unix timestamp, etc) you have to hand-correct the offset for anything near 1900 or your dates drift by a day. Excel for Mac used to default to a completely different 1904 Date System, where serial 0 is January 1, 1904, specifically to dodge this whole mess. Move a file between an old Mac and a Windows machine without conversion and your dates could jump by roughly four years. Microsoft wrote it down and defended it. Its own support documentation says so in plain language . The reasoning holds up. \"Microsoft Excel incorrectly assumes that the year 1900 is a leap year... Although it is technically possible to correct this behavior, the disadvantages of doing so outweigh the advantages.\" And that is how a corner that two programmers cut to save a few bytes of memory in a 1983 DOS program is, today, a documented requirement in an international standard. When correctness and backward compatibility go to war, correctness rarely wins.",
+      "content_preview_chars": 7391,
+      "content_fetched_at": "2026-08-01T17:41:15",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "10e30a78b08eef43",
+      "source_url_hash": "10e30a78b08eef43",
+      "canonical_url": "https://www.makeuseof.com/spotifys-ai-dj-is-cool-but-this-one-runs-on-my-own-music-on-my-machine",
+      "title_hash": "7846907c9976abce",
+      "topic_signature": "8b9f53a366c4fb10fe18",
+      "title": "Spotify’s AI DJ is cool, but this one runs on my own music on my machine",
+      "url": "https://www.makeuseof.com/spotifys-ai-dj-is-cool-but-this-one-runs-on-my-own-music-on-my-machine",
+      "source_name": "MakeUseOf",
+      "source_url": "https://www.makeuseof.com",
+      "source_published_at": "2026-08-01T17:00:13Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.68,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-08-01T17:40:52",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 91,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 91,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Spotify’s AI DJ is cool, but this one runs on my own music on my machine",
+      "meta_description": "A self-hosted alternative AI radio station is highly rewarding for those with the patience to install it.",
+      "article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/subwave-radio-interface.png?w=1600&h=900&fit=crop",
+          "alt": "Spotify’s AI DJ is cool, but this one runs on my own music on my machine",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/subwave-radio-interface.png?&fit=crop&w=1600&h=900",
+          "alt": "The SUB/WAVE radio interface on desktop.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/subwave-main-dashboard.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "The SUB/WAVE radio main dashboard.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/subwave-music-manager.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "The SUB/WAVE radio music manager.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/subwave-radio-interface.png?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/subwave-radio-interface.png?&fit=crop&w=1600&h=900",
+          "alt": "The SUB/WAVE radio interface on desktop."
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/subwave-main-dashboard.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "The SUB/WAVE radio main dashboard."
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/subwave-music-manager.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "The SUB/WAVE radio music manager."
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Preferred Source",
+          "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+        },
+        {
+          "title": "Google News",
+          "url": "https://news.google.com/publications/CAAqKAgKIiJDQklTRXdnTWFnOEtEVzFoYTJWMWMyVnZaaTVqYjIwb0FBUAE?hl=en-US&gl=US&ceid=US%3Aen"
+        }
+      ],
+      "full_article_text": "I’m a big fan of Spotify’s AI DJ, but it comes with one limitation: I can only play Spotify’s catalog. This isn’t such an issue, given Spotify’s massive library; however, over the decades I have built up a significant collection of original music and rarities, much of it digitized from vinyl, and I wanted something that could intelligently mix my own library at home. This is how I came across SUB/WAVE. This self-hosted solution turned my music collection into a DJ-style radio station, and although it wasn’t exactly plain sailing from the outset, it's so worth the time investment. How SUB/WAVE solves the problem Create a self-hosted AI radio station that runs on your own hardware I was looking for something different from mainstream streaming platforms, and I found it. Rather than connect you to a commercial streaming catalog, SUB/WAVE connects to your own music server and plays your music radio-station style, with crossfades and even optional live DJs. While it’s not exactly straightforward , a novice like me could set it up in around an hour, including a few stumbles along the way. The setup is surprisingly modular. Unlike Spotify, SUB/WAVE isn’t a single application, but a collection of services that work hand-in-hand. At the heart of the setup is Navidrome , an API that indexes my local music collection. SUB/WAVE uses Navidrome to browse the library, queue tracks, and build a continuous radio station based on AI analysis. This AI analysis is powered by Ollama , which runs its own LLM locally on my computer. SUB/WAVE queries this local model to generate playlists, create smooth transitions, and make programming decisions. Each of the three components runs inside Docker , within their own containers; this keeps everything in a single environment that’s much easier to manage. These require you to enter various commands into Terminal during setup to make each component communicate. Copy down all URLs and credentials when creating accounts, as the SUB/WAVE install wizard will ask for them later on. The finished experience was highly convincing It genuinely feels like listening to a live radio station Still with me? As exhausting as that all sounds, once you begin building, the process starts making more sense, and there’s a very satisfying feeling when you first hear your own tunes coming through an AI DJ that you created. Everything runs locally, so you’re no longer reliant on streaming services, and the setup also broadcasts a proper internet radio stream, meaning you can listen through a browser or any compatible audio player around the house. I love having a bespoke radio station that only plays the tracks that I want to hear. I leave it on for hours at a time, and the smooth song transitions make it even easier on the ear. Rather than queueing up favorite tracks, I found myself listening to songs that I’d forgotten, and a few that I didn’t know existed, so it feels like I am getting to know my music collection all over again. The AI works convincingly in the background, maintaining steady momentum as different genres blend seamlessly, always feeling appropriately placed rather than jarring. The queue is constantly generated, meaning I don’t have to stop and think about what’s next up, so I found myself listening more closely. The whole experience reminds me of the FM radio of yesteryear, rather than today’s streaming on demand. I won't pretend the installation was effortless It's not a beginner-friendly project, but the end result is worth it I approached this project as a complete newcomer, and it showed. Getting multiple Docker containers talking to one another required patience, and troubleshooting involved inspecting logs, testing API endpoints, verifying network connections, and eventually discovering that my external hard drive had become unmounted. At that point I was ready to hurl my laptop off a tall bridge. However, I persisted, and once everything clicked into place, the system proved remarkably stable. The controller built playlists automatically, the broadcaster streamed continuously, and the AI-generated radio station kept playing, uninterrupted. I learned firsthand how, without experience using Docker, Linux commands, or self-hosted applications, this kind of debugging can quickly become frustrating. Yet after the initial configuration, the day-to-day experience is refreshingly hands-off, and well worth the effort. Is SUB/WAVE better than Spotify's AI DJ? I have to concede, for most people, Spotify’s AI DJ will be the easiest and most convenient choice. It works instantly, requires no technical knowledge, and introduces listeners to new music with minimal effort. SUB/WAVE, on the other hand, asks a lot of its users. Far from being an out-of-the-box solution, you'll need your own music library, a server, Docker, and enough patience to troubleshoot the occasional configuration problem. It's a project aimed squarely at enthusiasts rather than casual listeners. That said, as someone who has spent years curating a music collection, the payoff is well worth it. To have an AI-powered radio station that’s built entirely around my favorite tunes is an achievement that, once set up, will run on its own steam without any input or effort.",
+      "full_article_text_chars": 5242,
+      "content_preview": "I’m a big fan of Spotify’s AI DJ, but it comes with one limitation: I can only play Spotify’s catalog. This isn’t such an issue, given Spotify’s massive library; however, over the decades I have built up a significant collection of original music and rarities, much of it digitized from vinyl, and I wanted something that could intelligently mix my own library at home. This is how I came across SUB/WAVE. This self-hosted solution turned my music collection into a DJ-style radio station, and although it wasn’t exactly plain sailing from the outset, it's so worth the time investment. How SUB/WAVE solves the problem Create a self-hosted AI radio station that runs on your own hardware I was looking for something different from mainstream streaming platforms, and I found it. Rather than connect you to a commercial streaming catalog, SUB/WAVE connects to your own music server and plays your music radio-station style, with crossfades and even optional live DJs. While it’s not exactly straightforward , a novice like me could set it up in around an hour, including a few stumbles along the way. The setup is surprisingly modular. Unlike Spotify, SUB/WAVE isn’t a single application, but a collection of services that work hand-in-hand. At the heart of the setup is Navidrome , an API that indexes my local music collection. SUB/WAVE uses Navidrome to browse the library, queue tracks, and build a continuous radio station based on AI analysis. This AI analysis is powered by Ollama , which runs its own LLM locally on my computer. SUB/WAVE queries this local model to generate playlists, create smooth transitions, and make programming decisions. Each of the three components runs inside Docker , within their own containers; this keeps everything in a single environment that’s much easier to manage. These require you to enter various commands into Terminal during setup to make each component communicate. Copy down all URLs and credentials when creating accounts, as the SUB/WAVE install wizard will ask for them later on. The finished experience was highly convincing It genuinely feels like listening to a live radio station Still with me? As exhausting as that all sounds, once you begin building, the process starts making more sense, and there’s a very satisfying feeling when you first hear your own tunes coming through an AI DJ that you created. Everything runs locally, so you’re no longer reliant on streaming services, and the setup also broadcasts a proper internet radio stream, meaning you can listen through a browser or any compatible audio player around the house. I love having a bespoke radio station that only plays the tracks that I want to hear. I leave it on for hours at a time, and the smooth song transitions make it even easier on the ear. Rather than queueing up favorite tracks, I found myself listening to songs that I’d forgotten, and a few that I didn’t know existed, so it feels like I am getting to know my music collection all over again. The AI works convincingly in the background, maintaining steady momentum as different genres blend seamlessly, always feeling appropriately placed rather than jarring. The queue is constantly generated, meaning I don’t have to stop and think about what’s next up, so I found myself listening more closely. The whole experience reminds me of the FM radio of yesteryear, rather than today’s streaming on demand. I won't pretend the installation was effortless It's not a beginner-friendly project, but the end result is worth it I approached this project as a complete newcomer, and it showed. Getting multiple Docker containers talking to one another required patience, and troubleshooting involved inspecting logs, testing API endpoints, verifying network connections, and eventually discovering that my external hard drive had become unmounted. At that point I was ready to hurl my laptop off a tall bridge. However, I persisted, and once everything clicked into place, the system proved remarkably stable. The controller built playlists automatically, the broadcaster streamed continuously, and the AI-generated radio station kept playing, uninterrupted. I learned firsthand how, without experience using Docker, Linux commands, or self-hosted applications, this kind of debugging can quickly become frustrating. Yet after the initial configuration, the day-to-day experience is refreshingly hands-off, and well worth the effort. Is SUB/WAVE better than Spotify's AI DJ? I have to concede, for most people, Spotify’s AI DJ will be the easiest and most convenient choice. It works instantly, requires no technical knowledge, and introduces listeners to new music with minimal effort. SUB/WAVE, on the other hand, asks a lot of its users. Far from being an out-of-the-box solution, you'll need your own music library, a server, Docker, and enough patience to troubleshoot the occasional configuration problem. It's a project aimed squarely at enthusiasts rather than casual listeners. That said, as someone who has spent years curating a music collection, the payoff is well worth it. To have an AI-powered radio station that’s built entirely around my favorite tunes is an achievement that, once set up, will run on its own steam without any input or effort.",
+      "content_preview_chars": 5242,
+      "content_fetched_at": "2026-08-01T17:41:06",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "e404dce1c60a3a03",
+      "source_url_hash": "e404dce1c60a3a03",
+      "canonical_url": "https://www.howtogeek.com/weirdest-ways-i-control-my-smart-home",
+      "title_hash": "ba5ecc3261e0720e",
+      "topic_signature": "509b4372d29b960ad9b0",
+      "title": "5 of the weirdest ways I control my smart home",
+      "url": "https://www.howtogeek.com/weirdest-ways-i-control-my-smart-home",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-08-01T17:00:13Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.68,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-08-01T17:40:52",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 117,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 117,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "5 of the weirdest ways I control my smart home",
+      "meta_description": "Dashboards are so last year.",
+      "article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/harry-potter-magic-caster-wand-handle-closeup-showing-the-crystal-orb-end.jpg?w=1600&h=900&fit=crop",
+          "alt": "5 of the weirdest ways I control my smart home",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/harry-potter-magic-caster-wand-handle-closeup-showing-the-crystal-orb-end.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Harry Potter Magic Caster Wand handle closeup showing the crystal orb end.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/vr-home-control-interface-wide-view-showing-study-light-toggle-study-light-dimmer-at-100-percent-weather-readings-and-the-music-assistant-panel-with-panasonic-offline.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "VR home control interface wide view showing Study Light toggle Study Light Dimmer at 100 percent weather readings and the Music Assistant panel with Panasonic offline.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/09/meta-quest-3.png?q=70&fit=contain&w=420&dpr=1",
+          "alt": "meta quest 3",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/harry-potter-magic-caster-wand-handle-closeup-showing-the-crystal-orb-end.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/harry-potter-magic-caster-wand-handle-closeup-showing-the-crystal-orb-end.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Harry Potter Magic Caster Wand handle closeup showing the crystal orb end."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/vr-home-control-interface-wide-view-showing-study-light-toggle-study-light-dimmer-at-100-percent-weather-readings-and-the-music-assistant-panel-with-panasonic-offline.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "VR home control interface wide view showing Study Light toggle Study Light Dimmer at 100 percent weather readings and the Music Assistant panel with Panasonic offline."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2025/09/meta-quest-3.png?q=70&fit=contain&w=420&dpr=1",
+          "alt": "meta quest 3"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Preferred Source",
+          "url": "https://www.google.com/preferences/source?q=howtogeek.com"
+        },
+        {
+          "title": "Google News",
+          "url": "https://news.google.com/publications/CAAqKAgKIiJDQklTRXdnTWFnOEtEV2h2ZDNSdloyVmxheTVqYjIwb0FBUAE"
+        }
+      ],
+      "full_article_text": "I love tinkering with Home Assistant. While the main purpose of using it is to create automations for controlling my smart home, sometimes you need to do things manually. Tapping smart home dashboards or shouting at voice assistants isn't always that much fun, but over the years I've set up plenty of weird and wonderful ways to make my smart home do what I want. A virtual reality dashboard I can control my smart home in 3D space This is the most recent method of controlling my smart home that I've set up. I bought a Meta Quest 2 VR headset that someone nearby was selling on Facebook Marketplace. I'd always wanted to see what watching shows and movies on a giant virtual screen was like, and it's honestly the best upgrade my Jellyfin setup has ever had. I don't have controllers for the headset, so I have to navigate using hand gestures. I wondered if I could build a smart home dashboard in a 3D VR environment that I could use to control my smart home. With the help of AI, it was actually way easier than I expected. I now have a 3D control center based on the bridge of the Enterprise from Star Trek: The Next Generation , with controls floating in the air around me. I can turn on a light just by looking at the control and pinching my fingers. It's utterly pointless, but very cool. Discover Meta Quest 3: the ultimate VR headset with cutting-edge performance, stunning visuals, and an all-in-one design. Explore immersive games, apps, and experiences like never before. Hagrid would be proud of me My kids are huge Harry Potter fans. When I saw a post on Reddit showing someone turning on their lights by waving a magic wand, I knew it was something I had to set up for myself. The post was about using a Magic Caster wand, which was an officially licensed Harry Potter product that came with a proprietary app. The wand communicated with the app over Bluetooth, and when you performed the specific motions of a spell using the wand, the app would recognize which spell you had cast and would turn on a light or play sounds through a smart speaker. The wand and app have been discontinued, but a clever Home Assistant user has created an integration that exposes the Bluetooth data and creates sensors that change depending on which spell motion you perform. It's then simple to set up automations to turn on your lights when the Lumos spell is recognized and turn them off again when you cast Nox. Snapping my fingers Giving point-and-click a whole new meaning It's not very often that you see a genuinely new and original way to control your smart home, but that's exactly what Maestro is. While wearing an Apple Watch, you can simply point at a smart device in your home and snap your fingers to turn it on or off. In order to get it to work, you first need to \"paint\" your smart home devices so that the Maestro app knows where they are. You point at your TV, for example, and move your hand back and forth as if you were painting over it. Once you've done so, you can point at the TV and snap your fingers to turn it on. The app works with both Home Assistant and Apple Home and is currently available through a free TestFlight beta. I have it set up, and it works way better than I expected. It's not the only way my Apple Watch lets me control stuff with my fingers; I also set up a page turner for my Kindle that will turn the page whenever I tap my fingers together. A strange little cube Changing streaming apps is a roll of the dice Some smart home devices are solutions in search of a problem. That's definitely the case with the Aqara Cube. It's a wireless smart home controller that uses six-axis sensors to recognize a wide range of gestures, such as tapping, rotating, shaking, and flipping. It took me some time to figure out how best to use one, but now it's something I use nearly every day. One of the actions you can expose in Home Assistant is flipping the cube to a specific side. I added a bunch of labels to the sides for the six streaming services I use the most. Now, when I want to watch Apple TV, for example, I flip the cube so that the Apple TV logo is face up. This triggers an automation that turns on the TV if it's not already on and launches the Apple TV app on my smart TV. If I decide that I want to watch Netflix instead, I flip the cube to the Netflix side, and the Netflix app opens. It's much quicker than trying to navigate through the list of apps on my TV. The best part is when I want to turn off the TV. I pick up the cube, toss it in the air, and catch it. The TV turns off as if by magic. By talking into an old-school phone No need for flaky wake words Credit: Adam Davidson / How-To Geek This was another project I set up on a whim, just to see if I could get it to work. I have a local smart speaker for Home Assistant that I built to replace Alexa. It works well, but sometimes the wake word is recognized when I haven't said it, which can get annoying. I bought a cheap SIP phone to see if I could set it up so that I could pick up the phone to talk to my voice assistant instead. With a bit of effort, I got it working perfectly. If I want to turn off the light in my home office, I just pick up the phone and say, \"Turn off the light.\" I hear the voice assistant’s spoken response through the phone. My smart home can also call me. If there's an important notification, the phone will ring, and when I pick up, I hear the spoken announcement through the phone, which repeats until I hang up. It's become my default way to interact with my smart home when I'm in my home office. Picking up the phone and speaking is much nicer than having to say a dumb wake word aloud. With a smart home, the possibilities are endless The Maestro app is clear proof that if you think you've figured out every possible way to control your smart home, you're almost certainly wrong. I love that new and interesting ways to do so are being discovered all the time. I can't wait to see what's next.",
+      "full_article_text_chars": 5949,
+      "content_preview": "I love tinkering with Home Assistant. While the main purpose of using it is to create automations for controlling my smart home, sometimes you need to do things manually. Tapping smart home dashboards or shouting at voice assistants isn't always that much fun, but over the years I've set up plenty of weird and wonderful ways to make my smart home do what I want. A virtual reality dashboard I can control my smart home in 3D space This is the most recent method of controlling my smart home that I've set up. I bought a Meta Quest 2 VR headset that someone nearby was selling on Facebook Marketplace. I'd always wanted to see what watching shows and movies on a giant virtual screen was like, and it's honestly the best upgrade my Jellyfin setup has ever had. I don't have controllers for the headset, so I have to navigate using hand gestures. I wondered if I could build a smart home dashboard in a 3D VR environment that I could use to control my smart home. With the help of AI, it was actually way easier than I expected. I now have a 3D control center based on the bridge of the Enterprise from Star Trek: The Next Generation , with controls floating in the air around me. I can turn on a light just by looking at the control and pinching my fingers. It's utterly pointless, but very cool. Discover Meta Quest 3: the ultimate VR headset with cutting-edge performance, stunning visuals, and an all-in-one design. Explore immersive games, apps, and experiences like never before. Hagrid would be proud of me My kids are huge Harry Potter fans. When I saw a post on Reddit showing someone turning on their lights by waving a magic wand, I knew it was something I had to set up for myself. The post was about using a Magic Caster wand, which was an officially licensed Harry Potter product that came with a proprietary app. The wand communicated with the app over Bluetooth, and when you performed the specific motions of a spell using the wand, the app would recognize which spell you had cast and would turn on a light or play sounds through a smart speaker. The wand and app have been discontinued, but a clever Home Assistant user has created an integration that exposes the Bluetooth data and creates sensors that change depending on which spell motion you perform. It's then simple to set up automations to turn on your lights when the Lumos spell is recognized and turn them off again when you cast Nox. Snapping my fingers Giving point-and-click a whole new meaning It's not very often that you see a genuinely new and original way to control your smart home, but that's exactly what Maestro is. While wearing an Apple Watch, you can simply point at a smart device in your home and snap your fingers to turn it on or off. In order to get it to work, you first need to \"paint\" your smart home devices so that the Maestro app knows where they are. You point at your TV, for example, and move your hand back and forth as if you were painting over it. Once you've done so, you can point at the TV and snap your fingers to turn it on. The app works with both Home Assistant and Apple Home and is currently available through a free TestFlight beta. I have it set up, and it works way better than I expected. It's not the only way my Apple Watch lets me control stuff with my fingers; I also set up a page turner for my Kindle that will turn the page whenever I tap my fingers together. A strange little cube Changing streaming apps is a roll of the dice Some smart home devices are solutions in search of a problem. That's definitely the case with the Aqara Cube. It's a wireless smart home controller that uses six-axis sensors to recognize a wide range of gestures, such as tapping, rotating, shaking, and flipping. It took me some time to figure out how best to use one, but now it's something I use nearly every day. One of the actions you can expose in Home Assistant is flipping the cube to a specific side. I added a bunch of labels to the sides for the six streaming services I use the most. Now, when I want to watch Apple TV, for example, I flip the cube so that the Apple TV logo is face up. This triggers an automation that turns on the TV if it's not already on and launches the Apple TV app on my smart TV. If I decide that I want to watch Netflix instead, I flip the cube to the Netflix side, and the Netflix app opens. It's much quicker than trying to navigate through the list of apps on my TV. The best part is when I want to turn off the TV. I pick up the cube, toss it in the air, and catch it. The TV turns off as if by magic. By talking into an old-school phone No need for flaky wake words Credit: Adam Davidson / How-To Geek This was another project I set up on a whim, just to see if I could get it to work. I have a local smart speaker for Home Assistant that I built to replace Alexa. It works well, but sometimes the wake word is recognized when I haven't said it, which can get annoying. I bought a cheap SIP phone to see if I could set it up so that I could pick up the phone to talk to my voice assistant instead. With a bit of effort, I got it working perfectly. If I want to turn off the light in my home office, I just pick up the phone and say, \"Turn off the light.\" I hear the voice assistant’s spoken response through the phone. My smart home can also call me. If there's an important notification, the phone will ring, and when I pick up, I hear the spoken announcement through the phone, which repeats until I hang up. It's become my default way to interact with my smart home when I'm in my home office. Picking up the phone and speaking is much nicer than having to say a dumb wake word aloud. With a smart home, the possibilities are endless The Maestro app is clear proof that if you think you've figured out every possible way to control your smart home, you're almost certainly wrong. I love that new and interesting ways to do so are being discovered all the time. I can't wait to see what's next.",
+      "content_preview_chars": 5949,
+      "content_fetched_at": "2026-08-01T17:41:09",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "b3651a0f107ee7fd",
+      "source_url_hash": "b3651a0f107ee7fd",
+      "canonical_url": "https://www.howtogeek.com/500-horsepower-porsche-cayman-beat-gt4-rs-where-it-matters",
+      "title_hash": "54e37b8edc447a84",
+      "topic_signature": "08bd265992f501008717",
+      "title": "I drove a 500-horsepower Porsche Cayman, and it beat a GT4 RS where it matters",
+      "url": "https://www.howtogeek.com/500-horsepower-porsche-cayman-beat-gt4-rs-where-it-matters",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-08-01T16:45:13Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 0.93,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-08-01T17:40:52",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 111,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 111,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "I drove a 500-horsepower Porsche Cayman, and it beat a GT4 RS where it matters",
+      "meta_description": "I also got tired of being eaten alive by Corvettes at Watkins Glen!",
+      "article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/2026-07-31_11-51-08_241.jpg?w=1600&h=900&fit=crop",
+          "alt": "I drove a 500-horsepower Porsche Cayman, and it beat a GT4 RS where it matters",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/2026-07-31_11-51-08_241.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Supercharged 981 Cayman S",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/04/porsche_gt3_s_c_red_8_1024x768_a4_rgb.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+          "alt": "2027 Porsche 911 GT3 SC Overhead",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/2026-07-31_12-29-44_106.jpg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "Supercharged 981 Cayman S side view",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/2026-07-31_11-51-08_241.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/2026-07-31_11-51-08_241.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Supercharged 981 Cayman S"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/04/porsche_gt3_s_c_red_8_1024x768_a4_rgb.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+          "alt": "2027 Porsche 911 GT3 SC Overhead"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/2026-07-31_12-29-44_106.jpg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "Supercharged 981 Cayman S side view"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Preferred Source",
+          "url": "https://www.google.com/preferences/source?q=howtogeek.com"
+        },
+        {
+          "title": "Google News",
+          "url": "https://news.google.com/publications/CAAqKAgKIiJDQklTRXdnTWFnOEtEV2h2ZDNSdloyVmxheTVqYjIwb0FBUAE"
+        }
+      ],
+      "full_article_text": "I owned a 981-generation Porsche Cayman S for several years. I put about 4,000 track miles on mine before I moved on to something else. My Cayman S was brilliant on the racetrack. It was so well-balanced, the PDK transmission was fantastic, and the car sounded great as well. My only complaint was that 325 horsepower was really not enough. I got tired of being eaten alive by Corvettes at Watkins Glen! The 981 Cayman S finally gets the power it deserves Why RR Racing chose a supercharger Well, RR Racing , based in Phoenixville, PA, has a solution. They have developed the world’s first supercharged 981 Cayman S, and I recently had a chance to drive it. This car now sends between 500 and 520 horsepower to the wheels. That is a full 200 horsepower more than the stock car. The power is transformative. After spending time with both the car and the engineer who built it, I came away convinced this isn't simply an aftermarket horsepower package. It's an exercise in solving dozens of engineering problems Porsche itself never had to tackle. Instead of chasing maximum boost, as with many turbocharged conversions, RR Racing deliberately chose a Rotrex centrifugal supercharger because it delivers power progressively. “This is a top-end power car,” Rafi Raban, owner of RR Racing, explained. “Turbo cars make huge torque very early. We wanted something with a linear powerband that's much easier to drive at the limit.” That philosophy became obvious almost immediately when I got behind the wheel. Making 500 horsepower reliable on the track Cooling the mid-engine Cayman Credit: Joe Kucinski | How-to Geek Adding horsepower is only one part of the challenge. The car needs to be reliable and in line with Porsche's overall quality. RR Racing quickly discovered that the Cayman's mid-engine layout creates unique packaging and cooling challenges. Rather than relying on traditional air-to-air intercoolers, they designed an air-to-water intercooling system that routes coolant to the front of the car, much like the engine's radiator circuit. Track-focused versions can even use interchangeable coolant reservoirs and an external chiller between sessions to maintain consistent intake temperatures throughout an entire day at the circuit. The supercharged 981 Cayman S also features an upgraded transmission cooler, a secondary oil cooling system, and a custom deep-sump oil pan designed specifically for sustained track use. They’re the reason the car can repeatedly lap a racetrack instead of becoming another dyno queen. One of my favorite parts of the project was the aerodynamic vents that extract hot air from the engine compartment rather than forcing additional air into it. Raban explained that simply increasing airflow into the Cayman creates unwanted pressure because the mid-engine platform lacks an efficient escape path for hot air. His solution was to engineer a vent that actively draws heat out of the engine bay at speed, reducing pressure and improving airflow throughout the compartment. Early testing has already shown impressive airflow numbers. What the supercharged Cayman is like to drive It still feels like a 981 The biggest surprise wasn't how fast the car was, but how familiar it felt. I have a lot of seat time in the 981 Cayman platform, and this car felt very familiar to me. But also, very different. The car never became intimidating or unruly. The chassis still feels balanced. The steering remains wonderfully communicative. Most importantly, the power arrives in a way that encourages you to keep revving the engine rather than short-shifting. Of course, the blow-off valve (BOV) makes one of the loudest “pshh” sounds you will ever hear. But it is important to note that this is a development car and the sound will be fine-tuned for production. Rather than trying to build a Cayman that behaves like a 911 Turbo , Raban wanted something that amplified the personality of the naturally aspirated Porsche without overwhelming it. After driving it, I'd say he succeeded. This is not a car built for the drag strip; it is built for backroads and racetracks. The 0-60 mph was not the focus; the 60-130 mph was. Because when you are on the track, that is the performance metric that matters most. For comparison, a Porsche Cayman GT4 RS has a 60-130 mph time of 8.44 seconds. This car does it in 8.17 seconds. The 981 Cayman is held back no more Not even the GT4 has this kind of power There's an old saying among Porsche enthusiasts that the Cayman was always held back to protect the 911. Whether or not you believe that, this project makes an interesting case for what the platform was capable of all along. Yes, it's dramatically quicker than a stock Cayman S. Yes, the engineering behind it is genuinely fascinating. But what impressed me most wasn't the dyno sheet or the specifications. It was that this still feels like a Cayman, just one that finally has the power its chassis has always deserved. Keep in mind that the car you see here is wearing many other modifications from Soul race headers and a custom exhaust to GT4 RS-style front fenders, brake calipers from a Carrera S, and other goodies. These are all great upgrades, but you don’t need them to take advantage of this supercharger kit. The engine is a stock 3.4L flat-six that Porsche installed at the factory. That stock engine and PDK transmission handle the new power without a problem. This test car has seen 5,000 miles so far on both the street and track, and it continues to run flawlessly. The kit will retail for about $14,000 all said and done. RR Racing will install it for you (it takes about a week) for another $2,000. A clean 981 Cayman S will set you back about $55,000. So, for less than $70,000 you can have a GT4 RS-beating Porsche sports car. The first kits are expected to ship at the end of the year. The 981 Cayman Porsche never built The 981 Cayman has always felt like a sports car waiting for the engine it deserved. After spending a day behind the wheel of RR Racing's supercharged version, I'm convinced this might be it. Porsche never built a 500-horsepower Cayman from this era. But thanks to some clever engineering and a lot of persistence, someone else just did.",
+      "full_article_text_chars": 6207,
+      "content_preview": "I owned a 981-generation Porsche Cayman S for several years. I put about 4,000 track miles on mine before I moved on to something else. My Cayman S was brilliant on the racetrack. It was so well-balanced, the PDK transmission was fantastic, and the car sounded great as well. My only complaint was that 325 horsepower was really not enough. I got tired of being eaten alive by Corvettes at Watkins Glen! The 981 Cayman S finally gets the power it deserves Why RR Racing chose a supercharger Well, RR Racing , based in Phoenixville, PA, has a solution. They have developed the world’s first supercharged 981 Cayman S, and I recently had a chance to drive it. This car now sends between 500 and 520 horsepower to the wheels. That is a full 200 horsepower more than the stock car. The power is transformative. After spending time with both the car and the engineer who built it, I came away convinced this isn't simply an aftermarket horsepower package. It's an exercise in solving dozens of engineering problems Porsche itself never had to tackle. Instead of chasing maximum boost, as with many turbocharged conversions, RR Racing deliberately chose a Rotrex centrifugal supercharger because it delivers power progressively. “This is a top-end power car,” Rafi Raban, owner of RR Racing, explained. “Turbo cars make huge torque very early. We wanted something with a linear powerband that's much easier to drive at the limit.” That philosophy became obvious almost immediately when I got behind the wheel. Making 500 horsepower reliable on the track Cooling the mid-engine Cayman Credit: Joe Kucinski | How-to Geek Adding horsepower is only one part of the challenge. The car needs to be reliable and in line with Porsche's overall quality. RR Racing quickly discovered that the Cayman's mid-engine layout creates unique packaging and cooling challenges. Rather than relying on traditional air-to-air intercoolers, they designed an air-to-water intercooling system that routes coolant to the front of the car, much like the engine's radiator circuit. Track-focused versions can even use interchangeable coolant reservoirs and an external chiller between sessions to maintain consistent intake temperatures throughout an entire day at the circuit. The supercharged 981 Cayman S also features an upgraded transmission cooler, a secondary oil cooling system, and a custom deep-sump oil pan designed specifically for sustained track use. They’re the reason the car can repeatedly lap a racetrack instead of becoming another dyno queen. One of my favorite parts of the project was the aerodynamic vents that extract hot air from the engine compartment rather than forcing additional air into it. Raban explained that simply increasing airflow into the Cayman creates unwanted pressure because the mid-engine platform lacks an efficient escape path for hot air. His solution was to engineer a vent that actively draws heat out of the engine bay at speed, reducing pressure and improving airflow throughout the compartment. Early testing has already shown impressive airflow numbers. What the supercharged Cayman is like to drive It still feels like a 981 The biggest surprise wasn't how fast the car was, but how familiar it felt. I have a lot of seat time in the 981 Cayman platform, and this car felt very familiar to me. But also, very different. The car never became intimidating or unruly. The chassis still feels balanced. The steering remains wonderfully communicative. Most importantly, the power arrives in a way that encourages you to keep revving the engine rather than short-shifting. Of course, the blow-off valve (BOV) makes one of the loudest “pshh” sounds you will ever hear. But it is important to note that this is a development car and the sound will be fine-tuned for production. Rather than trying to build a Cayman that behaves like a 911 Turbo , Raban wanted something that amplified the personality of the naturally aspirated Porsche without overwhelming it. After driving it, I'd say he succeeded. This is not a car built for the drag strip; it is built for backroads and racetracks. The 0-60 mph was not the focus; the 60-130 mph was. Because when you are on the track, that is the performance metric that matters most. For comparison, a Porsche Cayman GT4 RS has a 60-130 mph time of 8.44 seconds. This car does it in 8.17 seconds. The 981 Cayman is held back no more Not even the GT4 has this kind of power There's an old saying among Porsche enthusiasts that the Cayman was always held back to protect the 911. Whether or not you believe that, this project makes an interesting case for what the platform was capable of all along. Yes, it's dramatically quicker than a stock Cayman S. Yes, the engineering behind it is genuinely fascinating. But what impressed me most wasn't the dyno sheet or the specifications. It was that this still feels like a Cayman, just one that finally has the power its chassis has always deserved. Keep in mind that the car you see here is wearing many other modifications from Soul race headers and a custom exhaust to GT4 RS-style front fenders, brake calipers from a Carrera S, and other goodies. These are all great upgrades, but you don’t need them to take advantage of this supercharger kit. The engine is a stock 3.4L flat-six that Porsche installed at the factory. That stock engine and PDK transmission handle the new power without a problem. This test car has seen 5,000 miles so far on both the street and track, and it continues to run flawlessly. The kit will retail for about $14,000 all said and done. RR Racing will install it for you (it takes about a week) for another $2,000. A clean 981 Cayman S will set you back about $55,000. So, for less than $70,000 you can have a GT4 RS-beating Porsche sports car. The first kits are expected to ship at the end of the year. The 981 Cayman Porsche never built The 981 Cayman has always felt like a sports car waiting for the engine it deserved. After spending a day behind the wheel of RR Racing's supercharged version, I'm convinced this might be it. Porsche never built a 500-horsepower Cayman from this era. But thanks to some clever engineering and a lot of persistence, someone else just did.",
+      "content_preview_chars": 6207,
+      "content_fetched_at": "2026-08-01T17:41:24",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "bfa205694a9ff9d1",
+      "source_url_hash": "bfa205694a9ff9d1",
+      "canonical_url": "https://www.makeuseof.com/using-the-clapper-in-2026",
+      "title_hash": "d068161099d790e6",
+      "topic_signature": "dd28e8d7f0912afb6a57",
+      "title": "There’s one thing my smart home can’t do that a $25 gadget from 1984 can",
+      "url": "https://www.makeuseof.com/using-the-clapper-in-2026",
+      "source_name": "MakeUseOf",
+      "source_url": "https://www.makeuseof.com",
+      "source_published_at": "2026-08-01T16:30:12Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 1.18,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-08-01T17:40:52",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 91,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 91,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "There’s one thing my smart home can’t do that a $25 gadget from 1984 can",
+      "meta_description": "'Clap on, Clap off!'",
+      "article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/feat-17.jpeg?w=1600&h=900&fit=crop",
+          "alt": "There’s one thing my smart home can’t do that a $25 gadget from 1984 can",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/feat-17.jpeg?&fit=crop&w=1600&h=900",
+          "alt": "the clapper plugged in",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/box5.jpeg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "the clapper box back",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/box4.jpeg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "the clapper box top",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/feat-17.jpeg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/feat-17.jpeg?&fit=crop&w=1600&h=900",
+          "alt": "the clapper plugged in"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/box5.jpeg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "the clapper box back"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/box4.jpeg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "the clapper box top"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Preferred Source",
+          "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+        },
+        {
+          "title": "Google News",
+          "url": "https://news.google.com/publications/CAAqKAgKIiJDQklTRXdnTWFnOEtEVzFoYTJWMWMyVnZaaTVqYjIwb0FBUAE?hl=en-US&gl=US&ceid=US%3Aen"
+        }
+      ],
+      "full_article_text": "I grew up in the 1990s and watched a lot of TV, which means I also watched a lot of commercials. Some commercials are truly memorable, like the \"clap on, clap off!\" commercials for a smart home device from 1984 that would allow you to turn on two plugged-in devices (like a lamp, television, or your Christmas lights) just by clapping your hands two or three times. In the 90s, I thought The Clapper was the coolest thing ever. I was surprised to find out that in 2026, you can still buy one, and so I went to Amazon and purchased it. After a few weeks with The Clapper, I was delighted by how simple and smart this 42-year-old gadget is. And here's the thing: after months of fighting with my Echo setup, this $25 clapper does something none of my smart speakers can — it works instantly, with zero setup. \"Clap on, clap off\" You probably already know what this thing is It has taken different shapes over time (the one I bought looks a bit different than the original), but if you were around in the 90s, you undoubtedly remember the commercials for this cool smart home product. Nearly 42 years after its creation in 1984, The Clapper is still available today and costs around $28 on Amazon, (but often dips down to $20-25 — you can use Amazon's Price History tool to get the best price for anything on Amazon). Even the box that it comes in, shown below, is simple and has that 80s charm. What The Clapper actually is So simple, even grandma can get it going Credit: Brandon Miniman / MakeUseOf The Clapper is a simple smart plug that uses claps to toggle on an outlet (two claps turns on the first outlet and three claps turns on the second). The device itself contains two plugs, a microphone, status lights so you can see if it's \"hearing\" your claps, and a switch to change sensitivity between high and low. There's a reason the TV commercials often feature senior citizens using the product—The Clapper is designed to make life easier and be truly easy to use, with pretty much no setup besides just plugging it in. Setup is almost zero It's even more \"plug and play\" than your printer Unlike other home automation products which require phone apps, a solid internet connection (no need to adjust Wi-Fi channels to maximize speed!), and some technical knowledge, The Clapper has no setup. Just plug it in (it can be plugged in right side up or upside down if you don't want to block your other outlet), then plug in the one or two items you want to be able to control with your claps. It's dead simple! There's no logging in, there are no accounts to set up, and there are no dependencies. Truly plug and play! The one downside here is that you can't use The Clapper with anything with three prongs, which limits you to simpler plugged-in devices like most lamps, holiday lights, fans, some heating pads and coffee makers, and so forth. For example, you can't connect a surge protector to The Clapper which requires the third prong for the ground wire. It even has a built-in security mode There's a little toggle on The Clapper that lets you move between high and low sensitivity modes (I left it on High so that it's able to hear the best), but there's also an Away toggle. This is a brilliant home security feature that will turn on the plugged-in devices if The Clapper hears anything at all, like the steps of a nearby person or even the sound of someone talking. You can use the Away security feature as a convenience feature: set it up with a lamp near your front door, and as soon as the device hears the front door open, the lamp goes on, then after a few minutes it automatically goes off. For a device that is over 40 years old, this is some cool technology! But I have to say: when you get the clap right, it's like magic. Where it shines most When you nail the clap, it's delightful I'll admit, it takes some practice to get \"the clap\" right — the included instructions specify that you have to time your claps properly (with a distinct pause between each clap). But I have to say: when you get the clap right, it's like magic. It's summer right now, but I'm looking forward to connecting this product to my Christmas lights so that a couple of claps from across the house will turn on my Christmas tree lights. For now, my Clapper is inside my closet (which happens to have an outlet) such that when I open the door, a lamp automatically goes on (with the Away setting turned on) with the opening door sound being the trigger. That said, The Clapper isn't perfect. It doesn't always listen Sometimes, The Clapper can confuse other sounds as claps, or it doesn't hear clapping, and you have to try multiple times to get it to work. I actually find that the device is best triggered by other slapping sounds, like loud finger-snapping or the sound of you smacking your thigh (seriously). There is definitely a learning curve here, but once you master the clap and figure out how The Clapper listens, it gets much easier. The three lights on the device help a ton: you can monitor the lights to see when it hears you and calibrate your clapping based on when the lights go on. The Clapper still wins at one key thing At my home, I have multiple Amazon Echo devices. They're amazing for home automation, but frankly, it took me months of tweaking to get the system to work just right. The Clapper excels at being refreshingly easy, and because it has no dependencies and virtually no setup, it works well as a supplemental home automation device that you can run in addition to your other smart home products. I wish other smart home tech was this simple. The Clapper is a smart home gadget from the 1980s that switches on an outlet if it hears clapping sounds. It can control two plugged-in devices by clapping your hands two or three times.",
+      "full_article_text_chars": 5761,
+      "content_preview": "I grew up in the 1990s and watched a lot of TV, which means I also watched a lot of commercials. Some commercials are truly memorable, like the \"clap on, clap off!\" commercials for a smart home device from 1984 that would allow you to turn on two plugged-in devices (like a lamp, television, or your Christmas lights) just by clapping your hands two or three times. In the 90s, I thought The Clapper was the coolest thing ever. I was surprised to find out that in 2026, you can still buy one, and so I went to Amazon and purchased it. After a few weeks with The Clapper, I was delighted by how simple and smart this 42-year-old gadget is. And here's the thing: after months of fighting with my Echo setup, this $25 clapper does something none of my smart speakers can — it works instantly, with zero setup. \"Clap on, clap off\" You probably already know what this thing is It has taken different shapes over time (the one I bought looks a bit different than the original), but if you were around in the 90s, you undoubtedly remember the commercials for this cool smart home product. Nearly 42 years after its creation in 1984, The Clapper is still available today and costs around $28 on Amazon, (but often dips down to $20-25 — you can use Amazon's Price History tool to get the best price for anything on Amazon). Even the box that it comes in, shown below, is simple and has that 80s charm. What The Clapper actually is So simple, even grandma can get it going Credit: Brandon Miniman / MakeUseOf The Clapper is a simple smart plug that uses claps to toggle on an outlet (two claps turns on the first outlet and three claps turns on the second). The device itself contains two plugs, a microphone, status lights so you can see if it's \"hearing\" your claps, and a switch to change sensitivity between high and low. There's a reason the TV commercials often feature senior citizens using the product—The Clapper is designed to make life easier and be truly easy to use, with pretty much no setup besides just plugging it in. Setup is almost zero It's even more \"plug and play\" than your printer Unlike other home automation products which require phone apps, a solid internet connection (no need to adjust Wi-Fi channels to maximize speed!), and some technical knowledge, The Clapper has no setup. Just plug it in (it can be plugged in right side up or upside down if you don't want to block your other outlet), then plug in the one or two items you want to be able to control with your claps. It's dead simple! There's no logging in, there are no accounts to set up, and there are no dependencies. Truly plug and play! The one downside here is that you can't use The Clapper with anything with three prongs, which limits you to simpler plugged-in devices like most lamps, holiday lights, fans, some heating pads and coffee makers, and so forth. For example, you can't connect a surge protector to The Clapper which requires the third prong for the ground wire. It even has a built-in security mode There's a little toggle on The Clapper that lets you move between high and low sensitivity modes (I left it on High so that it's able to hear the best), but there's also an Away toggle. This is a brilliant home security feature that will turn on the plugged-in devices if The Clapper hears anything at all, like the steps of a nearby person or even the sound of someone talking. You can use the Away security feature as a convenience feature: set it up with a lamp near your front door, and as soon as the device hears the front door open, the lamp goes on, then after a few minutes it automatically goes off. For a device that is over 40 years old, this is some cool technology! But I have to say: when you get the clap right, it's like magic. Where it shines most When you nail the clap, it's delightful I'll admit, it takes some practice to get \"the clap\" right — the included instructions specify that you have to time your claps properly (with a distinct pause between each clap). But I have to say: when you get the clap right, it's like magic. It's summer right now, but I'm looking forward to connecting this product to my Christmas lights so that a couple of claps from across the house will turn on my Christmas tree lights. For now, my Clapper is inside my closet (which happens to have an outlet) such that when I open the door, a lamp automatically goes on (with the Away setting turned on) with the opening door sound being the trigger. That said, The Clapper isn't perfect. It doesn't always listen Sometimes, The Clapper can confuse other sounds as claps, or it doesn't hear clapping, and you have to try multiple times to get it to work. I actually find that the device is best triggered by other slapping sounds, like loud finger-snapping or the sound of you smacking your thigh (seriously). There is definitely a learning curve here, but once you master the clap and figure out how The Clapper listens, it gets much easier. The three lights on the device help a ton: you can monitor the lights to see when it hears you and calibrate your clapping based on when the lights go on. The Clapper still wins at one key thing At my home, I have multiple Amazon Echo devices. They're amazing for home automation, but frankly, it took me months of tweaking to get the system to work just right. The Clapper excels at being refreshingly easy, and because it has no dependencies and virtually no setup, it works well as a supplemental home automation device that you can run in addition to your other smart home products. I wish other smart home tech was this simple. The Clapper is a smart home gadget from the 1980s that switches on an outlet if it hears clapping sounds. It can control two plugged-in devices by clapping your hands two or three times.",
+      "content_preview_chars": 5761,
+      "content_fetched_at": "2026-08-01T17:41:17",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "b29836c80b33c23f",
+      "source_url_hash": "b29836c80b33c23f",
+      "canonical_url": "https://www.ghacks.net/2026/08/01/microsoft-confirms-windows-11-memory-optimization-for-8gb-pcs-among-four-new-focus-areas",
+      "title_hash": "13c83f7ddaf3a418",
+      "topic_signature": "856194a23ccdf45025e9",
+      "title": "Microsoft Confirms Windows 11 Memory Optimization for 8GB PCs Among Four New Focus Areas",
+      "url": "https://www.ghacks.net/2026/08/01/microsoft-confirms-windows-11-memory-optimization-for-8gb-pcs-among-four-new-focus-areas",
+      "source_name": "Ghacks",
+      "source_url": "https://www.ghacks.net",
+      "source_published_at": "2026-08-01T08:43:43Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 8.95,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-08-01T17:40:52",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 36,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 36,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Microsoft Confirms Windows 11 Memory Optimization for 8GB PCs Among Four New Focus Areas - gHacks Tech News",
+      "meta_description": "Microsoft's Windows chief confirms work to reduce Windows 11's memory footprint on 8GB RAM PCs, plus setup, family, and voice improvements.",
+      "article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/08/gHacks-articles-2026-08-01T114304.320.png",
+          "alt": "Microsoft Confirms Windows 11 Memory Optimization for 8GB PCs Among Four New Focus Areas - gHacks Tech News",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-30T083100.615.png",
+          "alt": "Microsoft Releases Windows 11 KB5101684 Preview Update With 42 Fixes",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-30T083013.210.png",
+          "alt": "EU AI Content Labeling Rules Take Effect August 2, With December Deadline for Existing Systems",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/tet.jpg",
+          "alt": "Fortnite Adds Spider-Man and Punisher Skins in Brand New Day Collab, Available Until August 9",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.ghacks.net/wp-content/uploads/2026/08/gHacks-articles-2026-08-01T114304.320.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-30T083100.615.png",
+          "alt": "Microsoft Releases Windows 11 KB5101684 Preview Update With 42 Fixes"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-30T083013.210.png",
+          "alt": "EU AI Content Labeling Rules Take Effect August 2, With December Deadline for Existing Systems"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/tet.jpg",
+          "alt": "Fortnite Adds Spider-Man and Punisher Skins in Brand New Day Collab, Available Until August 9"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Microsoft",
+          "url": "https://www.google.com/search?q=site%3Aghacks.net%3A+Microsoft&sca_esv=f4da7eae6e5fe34e&rlz=1C5AJCO_enLV1199LV1199&biw=1336&bih=599&sxsrf=APpeQnvEB5hGFWQQ7k7kY4yboQ5PWm9IfA%3A1785573131804&ei=C69tavDSMKGC1fIP8O-V2Ao&ved=0ahUKEwiwhPehgv-VAxUhQVUIHfB3BasQ4dUDCBA&uact=5&oq=site%3Aghacks.net%3A+Microsoft&gs_lp=Egxnd3Mtd2l6LXNlcnAiGnNpdGU6Z2hhY2tzLm5ldDogTWljcm9zb2Z0SIMLUJkEWK0KcAF4AJABAJgBiAGgAbgFqgEDNi4yuAEDyAEA-AEBmAIAoAIAmAMAiAYBkgcAoAdgsgcAuAcAwgcAyAcAgAgB&sclient=gws-wiz-serp"
+        },
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.ghacks.net%2F"
+        }
+      ],
+      "full_article_text": "Microsoft is working to reduce Windows 11's memory footprint to improve performance on PCs with 8GB of RAM. This is one of four focus areas outlined by Windows chief Pavan Davuluri for the remainder of 2026. The other areas are onboarding and setup, family features, and voice input. This initiative builds on efforts launched in March to address key criticisms of Windows 11. Microsoft has not detailed the technical approach for the memory optimization work. Windows 11 Memory Optimization for 8GB PCs Microsoft has confirmed plans to reduce Windows 11's memory footprint to provide a faster, more responsive experience on 8GB RAM devices. Windows remains demanding on limited-memory systems, and despite improved hardware offerings from OEMs, the operating system has not yet been optimized for these configurations. Microsoft has not detailed how it will implement these changes. The effort may involve moving more of the Windows UI to WinUI, which is lighter than WebView. Davuluri outlined four areas Microsoft will work on between now and the end of the year. Onboarding and setup will focus on a faster, more efficient out-of-box experience. Memory optimization aims to reduce the Windows memory footprint for devices with 8GB or more RAM. Family will introduce faster setup and improved access to parental controls, including new Family Safety features. Voice will enhance the natural and fluid use of voice interaction across applications. Take everything we've learned since March and keep listening and closing the loop on your feedback. The signal from you is clear: keep going. We intend to,\" Davuluri said. The Other Windows 11 Focus Areas Microsoft is redesigning the Windows out-of-box experience to provide a faster, more efficient setup process for new PCs. For Family, Microsoft will introduce new Family Safety features throughout the operating system, including improved parental control setup. For Voice, Microsoft states that computing will become multi-modal, with voice serving as a primary input method alongside keyboard and mouse. The company aims to make voice input more natural and fluid across the operating system and applications. Since March, Microsoft has prioritized addressing major issues in Windows 11, introducing features and changes to improve its reputation. The publication notes that Windows 11 has seen significant improvements since late last year, with further enhancements expected. What Remains Unconfirmed Microsoft has not provided a timeline for the memory optimization or the other three focus areas, nor specified the extent of memory footprint reduction on 8GB devices. The company has also not confirmed which UI components will transition to WinUI, as the technical approach remains undisclosed. Additional details are expected as work continues through the end of 2026.",
+      "full_article_text_chars": 2830,
+      "content_preview": "Microsoft is working to reduce Windows 11's memory footprint to improve performance on PCs with 8GB of RAM. This is one of four focus areas outlined by Windows chief Pavan Davuluri for the remainder of 2026. The other areas are onboarding and setup, family features, and voice input. This initiative builds on efforts launched in March to address key criticisms of Windows 11. Microsoft has not detailed the technical approach for the memory optimization work. Windows 11 Memory Optimization for 8GB PCs Microsoft has confirmed plans to reduce Windows 11's memory footprint to provide a faster, more responsive experience on 8GB RAM devices. Windows remains demanding on limited-memory systems, and despite improved hardware offerings from OEMs, the operating system has not yet been optimized for these configurations. Microsoft has not detailed how it will implement these changes. The effort may involve moving more of the Windows UI to WinUI, which is lighter than WebView. Davuluri outlined four areas Microsoft will work on between now and the end of the year. Onboarding and setup will focus on a faster, more efficient out-of-box experience. Memory optimization aims to reduce the Windows memory footprint for devices with 8GB or more RAM. Family will introduce faster setup and improved access to parental controls, including new Family Safety features. Voice will enhance the natural and fluid use of voice interaction across applications. Take everything we've learned since March and keep listening and closing the loop on your feedback. The signal from you is clear: keep going. We intend to,\" Davuluri said. The Other Windows 11 Focus Areas Microsoft is redesigning the Windows out-of-box experience to provide a faster, more efficient setup process for new PCs. For Family, Microsoft will introduce new Family Safety features throughout the operating system, including improved parental control setup. For Voice, Microsoft states that computing will become multi-modal, with voice serving as a primary input method alongside keyboard and mouse. The company aims to make voice input more natural and fluid across the operating system and applications. Since March, Microsoft has prioritized addressing major issues in Windows 11, introducing features and changes to improve its reputation. The publication notes that Windows 11 has seen significant improvements since late last year, with further enhancements expected. What Remains Unconfirmed Microsoft has not provided a timeline for the memory optimization or the other three focus areas, nor specified the extent of memory footprint reduction on 8GB devices. The company has also not confirmed which UI components will transition to WinUI, as the technical approach remains undisclosed. Additional details are expected as work continues through the end of 2026.",
+      "content_preview_chars": 2830,
+      "content_fetched_at": "2026-08-01T17:41:51",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "019b80cf3104093a",
+      "source_url_hash": "019b80cf3104093a",
+      "canonical_url": "https://www.ghacks.net/2026/08/01/metas-reality-labs-loses-4-6-billion-in-q2-2026-pushing-total-losses-toward-88-billion",
+      "title_hash": "e29d2143d73b77a3",
+      "topic_signature": "e41af20289c42792bcd4",
+      "title": "Meta's Reality Labs Loses $4.6 Billion in Q2 2026, Pushing Total Losses Toward $88 Billion",
+      "url": "https://www.ghacks.net/2026/08/01/metas-reality-labs-loses-4-6-billion-in-q2-2026-pushing-total-losses-toward-88-billion",
+      "source_name": "Ghacks",
+      "source_url": "https://www.ghacks.net",
+      "source_published_at": "2026-08-01T08:39:24Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 9.02,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-08-01T17:40:52",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 37,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 37,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Meta's Reality Labs Loses $4.6 Billion in Q2 2026, Pushing Total Losses Toward $88 Billion - gHacks Tech News",
+      "meta_description": "Meta's Reality Labs division reported a $4.",
+      "article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/08/gHacks-articles-2026-08-01T113732.184.png",
+          "alt": "Meta's Reality Labs Loses $4.6 Billion in Q2 2026, Pushing Total Losses Toward $88 Billion - gHacks Tech News",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-30T083100.615.png",
+          "alt": "Microsoft Releases Windows 11 KB5101684 Preview Update With 42 Fixes",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-30T083013.210.png",
+          "alt": "EU AI Content Labeling Rules Take Effect August 2, With December Deadline for Existing Systems",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/tet.jpg",
+          "alt": "Fortnite Adds Spider-Man and Punisher Skins in Brand New Day Collab, Available Until August 9",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.ghacks.net/wp-content/uploads/2026/08/gHacks-articles-2026-08-01T113732.184.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-30T083100.615.png",
+          "alt": "Microsoft Releases Windows 11 KB5101684 Preview Update With 42 Fixes"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/gHacks-articles-2026-07-30T083013.210.png",
+          "alt": "EU AI Content Labeling Rules Take Effect August 2, With December Deadline for Existing Systems"
+        },
+        {
+          "url": "https://www.ghacks.net/wp-content/uploads/2026/07/tet.jpg",
+          "alt": "Fortnite Adds Spider-Man and Punisher Skins in Brand New Day Collab, Available Until August 9"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "google.com",
+          "url": "https://google.com/preferences/source?q=https%3A%2F%2Fwww.ghacks.net%2F"
+        }
+      ],
+      "full_article_text": "Meta's Reality Labs division reported a $4.6 billion loss in the second quarter of 2026, raising cumulative losses since the end of 2020 to approximately $88 billion, according to Meta's earnings report. This follows a $4 billion loss in Q1 2026 and persists despite Meta reducing its virtual reality initiatives earlier this year, including moving its main VR app, Horizon Worlds, into maintenance mode. Reality Labs generated $402 million in revenue in Q1 and $431 million in Q2. Meta reported an overall profit of $15.8 billion in Q2, a decrease of approximately 13% year over year. Reality Labs Losses Continue After VR Retrenchment Meta eliminated hundreds of positions from Reality Labs and placed Horizon Worlds into maintenance mode after the division reported a $6 billion loss in January, bringing total losses since Q4 2020 to $80 billion at that time. While quarterly losses have decreased, they continued with $4 billion lost in Q1 2026 and $4.6 billion in Q2, raising the cumulative total to approximately $88 billion. The Q2 earnings report emphasizes Meta's AI and smart glasses initiatives, with Reality Labs losses reported alongside these priorities. The data suggests Meta has shifted focus toward AI but remains involved in shared virtual reality. Mark Zuckerberg previously justified significant metaverse investments by projecting the sector could be worth trillions by 2030. A 2023 Meta-commissioned report estimated that virtual reality headsets used for work and recreation could add $760 billion to US GDP by 2035. Meta shifted its focus to generative AI, resulting in job reductions and moving Horizon Worlds into maintenance mode. Meta’s AI and Smart Glasses Strategy During the earnings call, Zuckerberg expressed optimism about AI and smart glasses, highlighting the recent launch of Muse image and video generation tools and plans to monetize AI through subscriptions. CFO Susan Li stated that Meta's AI-powered algorithms are increasing social media adoption. These developments occur as Meta faces lawsuits in 40 US states alleging its role in a teen mental health crisis. The newly released Meta Glasses are the first to feature Muse AI by default. Ongoing privacy concerns regarding camera-equipped glasses continue to impact the market, and reports that this controversy led Apple to delay its own smart glasses until it can ensure user safety. Meta has not disclosed a timeline for when Reality Labs may reduce losses or achieve profitability, nor has it outlined a future roadmap for Horizon Worlds beyond its current maintenance mode. It is also unclear how much of Reality Labs' ongoing spending is allocated to smart glasses hardware versus virtual reality, as Meta reports the division's results as a single figure. Additional details may be provided in future earnings reports.",
+      "full_article_text_chars": 2821,
+      "content_preview": "Meta's Reality Labs division reported a $4.6 billion loss in the second quarter of 2026, raising cumulative losses since the end of 2020 to approximately $88 billion, according to Meta's earnings report. This follows a $4 billion loss in Q1 2026 and persists despite Meta reducing its virtual reality initiatives earlier this year, including moving its main VR app, Horizon Worlds, into maintenance mode. Reality Labs generated $402 million in revenue in Q1 and $431 million in Q2. Meta reported an overall profit of $15.8 billion in Q2, a decrease of approximately 13% year over year. Reality Labs Losses Continue After VR Retrenchment Meta eliminated hundreds of positions from Reality Labs and placed Horizon Worlds into maintenance mode after the division reported a $6 billion loss in January, bringing total losses since Q4 2020 to $80 billion at that time. While quarterly losses have decreased, they continued with $4 billion lost in Q1 2026 and $4.6 billion in Q2, raising the cumulative total to approximately $88 billion. The Q2 earnings report emphasizes Meta's AI and smart glasses initiatives, with Reality Labs losses reported alongside these priorities. The data suggests Meta has shifted focus toward AI but remains involved in shared virtual reality. Mark Zuckerberg previously justified significant metaverse investments by projecting the sector could be worth trillions by 2030. A 2023 Meta-commissioned report estimated that virtual reality headsets used for work and recreation could add $760 billion to US GDP by 2035. Meta shifted its focus to generative AI, resulting in job reductions and moving Horizon Worlds into maintenance mode. Meta’s AI and Smart Glasses Strategy During the earnings call, Zuckerberg expressed optimism about AI and smart glasses, highlighting the recent launch of Muse image and video generation tools and plans to monetize AI through subscriptions. CFO Susan Li stated that Meta's AI-powered algorithms are increasing social media adoption. These developments occur as Meta faces lawsuits in 40 US states alleging its role in a teen mental health crisis. The newly released Meta Glasses are the first to feature Muse AI by default. Ongoing privacy concerns regarding camera-equipped glasses continue to impact the market, and reports that this controversy led Apple to delay its own smart glasses until it can ensure user safety. Meta has not disclosed a timeline for when Reality Labs may reduce losses or achieve profitability, nor has it outlined a future roadmap for Horizon Worlds beyond its current maintenance mode. It is also unclear how much of Reality Labs' ongoing spending is allocated to smart glasses hardware versus virtual reality, as Meta reports the division's results as a single figure. Additional details may be provided in future earnings reports.",
+      "content_preview_chars": 2821,
+      "content_fetched_at": "2026-08-01T17:41:52",
       "enrichment_status": "weak",
       "content_fetch_status": "success"
     }
