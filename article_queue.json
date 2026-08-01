@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-01T19:54:44",
+  "updated_at": "2026-08-01T20:41:32",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2558,13 +2558,13 @@
       "score": 7,
       "priority": "medium",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-08-01T19:52:03",
-      "candidate_retry_after": "2026-08-01T20:07:03Z",
+      "content_fetch_error": "http 429",
+      "content_fetched_at": "2026-08-01T20:40:21",
+      "candidate_retry_after": "2026-08-01T20:55:21Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-08-01T19:52:03",
-      "candidate_failure_count": 114
+      "candidate_failure_reason": "http 429",
+      "candidate_failed_at": "2026-08-01T20:40:21",
+      "candidate_failure_count": 115
     },
     {
       "id": "512c2899a98440d2",
@@ -2592,13 +2592,13 @@
       "score": 4,
       "priority": "low",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-08-01T19:52:03",
-      "candidate_retry_after": "2026-08-01T20:07:03Z",
+      "content_fetch_error": "http 429",
+      "content_fetched_at": "2026-08-01T20:40:23",
+      "candidate_retry_after": "2026-08-01T20:55:23Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-08-01T19:52:03",
-      "candidate_failure_count": 114
+      "candidate_failure_reason": "http 429",
+      "candidate_failed_at": "2026-08-01T20:40:23",
+      "candidate_failure_count": 115
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2626,13 +2626,13 @@
       "score": 4,
       "priority": "low",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-08-01T19:52:03",
-      "candidate_retry_after": "2026-08-01T20:07:03Z",
+      "content_fetch_error": "http 429",
+      "content_fetched_at": "2026-08-01T20:40:25",
+      "candidate_retry_after": "2026-08-01T20:55:25Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-08-01T19:52:03",
-      "candidate_failure_count": 114
+      "candidate_failure_reason": "http 429",
+      "candidate_failed_at": "2026-08-01T20:40:25",
+      "candidate_failure_count": 115
     },
     {
       "id": "d900f1574fddfab4",
@@ -3538,17 +3538,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 0,
-      "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 0,
+      "source_links_removed_count": 229,
+      "affiliate_links_removed_count": 7,
+      "removed_source_links_count": 229,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-08-01T19:52:03",
-      "candidate_retry_after": "2026-08-01T20:07:03Z",
+      "content_fetch_error": "weak article body after fallbacks (best=467 chars/72 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:467chars/72words, page_text:467chars/72words)",
+      "content_fetched_at": "2026-08-01T20:40:29",
+      "candidate_retry_after": "2026-08-01T20:55:29Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-08-01T19:52:03",
-      "candidate_failure_count": 113
+      "candidate_failure_reason": "weak article body after fallbacks (best=467 chars/72 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:467chars/72words, page_text:467chars/72words)",
+      "candidate_failed_at": "2026-08-01T20:40:29",
+      "candidate_failure_count": 114
     },
     {
       "id": "8d2678d87487d729",
@@ -4429,12 +4429,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-08-01T19:52:04",
-      "candidate_retry_after": "2026-08-01T20:07:04Z",
+      "content_fetched_at": "2026-08-01T20:40:30",
+      "candidate_retry_after": "2026-08-01T20:55:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-08-01T19:52:04",
-      "candidate_failure_count": 112
+      "candidate_failed_at": "2026-08-01T20:40:30",
+      "candidate_failure_count": 113
     },
     {
       "id": "45429302676bf4c5",
@@ -5492,12 +5492,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-08-01T19:52:06",
-      "candidate_retry_after": "2026-08-01T20:07:06Z",
+      "content_fetched_at": "2026-08-01T20:40:31",
+      "candidate_retry_after": "2026-08-01T20:55:31Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-08-01T19:52:06",
-      "candidate_failure_count": 110
+      "candidate_failed_at": "2026-08-01T20:40:31",
+      "candidate_failure_count": 111
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5529,12 +5529,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-08-01T19:52:08",
-      "candidate_retry_after": "2026-08-01T20:07:08Z",
+      "content_fetched_at": "2026-08-01T20:40:33",
+      "candidate_retry_after": "2026-08-01T20:55:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-08-01T19:52:08",
-      "candidate_failure_count": 110
+      "candidate_failed_at": "2026-08-01T20:40:33",
+      "candidate_failure_count": 111
     },
     {
       "id": "aede79193c6b98c9",
@@ -5566,12 +5566,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-08-01T19:52:10",
-      "candidate_retry_after": "2026-08-01T20:07:10Z",
+      "content_fetched_at": "2026-08-01T20:40:35",
+      "candidate_retry_after": "2026-08-01T20:55:35Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-08-01T19:52:10",
-      "candidate_failure_count": 110
+      "candidate_failed_at": "2026-08-01T20:40:35",
+      "candidate_failure_count": 111
     },
     {
       "id": "253eaa098c468523",
@@ -6514,12 +6514,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-08-01T19:52:10",
-      "candidate_retry_after": "2026-08-01T20:07:10Z",
+      "content_fetched_at": "2026-08-01T20:40:35",
+      "candidate_retry_after": "2026-08-01T20:55:35Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-08-01T19:52:10",
-      "candidate_failure_count": 108
+      "candidate_failed_at": "2026-08-01T20:40:35",
+      "candidate_failure_count": 109
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6965,12 +6965,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-08-01T19:52:13",
-      "candidate_retry_after": "2026-08-01T20:07:13Z",
+      "content_fetched_at": "2026-08-01T20:40:38",
+      "candidate_retry_after": "2026-08-01T20:55:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-08-01T19:52:13",
-      "candidate_failure_count": 106
+      "candidate_failed_at": "2026-08-01T20:40:38",
+      "candidate_failure_count": 107
     },
     {
       "id": "693fbfabd96b2185",
@@ -7001,12 +7001,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-08-01T19:52:14",
-      "candidate_retry_after": "2026-08-01T20:07:14Z",
+      "content_fetched_at": "2026-08-01T20:40:39",
+      "candidate_retry_after": "2026-08-01T20:55:39Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-08-01T19:52:14",
-      "candidate_failure_count": 106
+      "candidate_failed_at": "2026-08-01T20:40:39",
+      "candidate_failure_count": 107
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9515,12 +9515,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=422 chars/65 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:422chars/65words, paragraph_fallback:307chars/48words, article_body:422chars/65words, meta_description:53chars/7words, page_text:422chars/65words)",
-      "content_fetched_at": "2026-08-01T19:52:16",
-      "candidate_retry_after": "2026-08-01T20:07:16Z",
+      "content_fetched_at": "2026-08-01T20:40:40",
+      "candidate_retry_after": "2026-08-01T20:55:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=422 chars/65 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:422chars/65words, paragraph_fallback:307chars/48words, article_body:422chars/65words, meta_description:53chars/7words, page_text:422chars/65words)",
-      "candidate_failed_at": "2026-08-01T19:52:16",
-      "candidate_failure_count": 102
+      "candidate_failed_at": "2026-08-01T20:40:40",
+      "candidate_failure_count": 103
     },
     {
       "id": "561b6316398d7603",
@@ -10687,12 +10687,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-08-01T19:52:16",
-      "candidate_retry_after": "2026-08-01T20:07:16Z",
+      "content_fetched_at": "2026-08-01T20:40:40",
+      "candidate_retry_after": "2026-08-01T20:55:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-08-01T19:52:16",
-      "candidate_failure_count": 98
+      "candidate_failed_at": "2026-08-01T20:40:40",
+      "candidate_failure_count": 99
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10724,12 +10724,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-08-01T19:52:17",
-      "candidate_retry_after": "2026-08-01T20:07:17Z",
+      "content_fetched_at": "2026-08-01T20:40:41",
+      "candidate_retry_after": "2026-08-01T20:55:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-08-01T19:52:17",
-      "candidate_failure_count": 98
+      "candidate_failed_at": "2026-08-01T20:40:41",
+      "candidate_failure_count": 99
     },
     {
       "id": "a6f4ca9464909855",
@@ -10761,12 +10761,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-08-01T19:52:17",
-      "candidate_retry_after": "2026-08-01T20:07:17Z",
+      "content_fetched_at": "2026-08-01T20:40:41",
+      "candidate_retry_after": "2026-08-01T20:55:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-08-01T19:52:17",
-      "candidate_failure_count": 98
+      "candidate_failed_at": "2026-08-01T20:40:41",
+      "candidate_failure_count": 99
     },
     {
       "id": "71463c25ac92daaa",
@@ -15508,12 +15508,12 @@
       "removed_source_links_count": 81,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:107chars/21words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-08-01T19:52:18",
-      "candidate_retry_after": "2026-08-01T20:07:18Z",
+      "content_fetched_at": "2026-08-01T20:40:42",
+      "candidate_retry_after": "2026-08-01T20:55:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:107chars/21words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-08-01T19:52:18",
-      "candidate_failure_count": 87,
+      "candidate_failed_at": "2026-08-01T20:40:42",
+      "candidate_failure_count": 88,
       "archived": true,
       "archived_at": "2026-08-01T01:12:08",
       "archive_reason": "expired_recent_window"
@@ -46496,7 +46496,10 @@
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "Missing AI output field(s): slug",
       "candidate_failed_at": "2026-08-01T04:40:16",
-      "candidate_failure_count": 2
+      "candidate_failure_count": 2,
+      "archived": true,
+      "archived_at": "2026-08-01T20:39:56",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "22e18dbe34c5aed7",
@@ -47788,7 +47791,10 @@
       "status": "skipped",
       "score": 0,
       "priority": "low",
-      "skip_reason": "non_technical_entertainment_content"
+      "skip_reason": "non_technical_entertainment_content",
+      "archived": true,
+      "archived_at": "2026-08-01T20:39:56",
+      "archive_reason": "expired_recent_window"
     },
     {
       "id": "72feb1317bd4b683",
@@ -48215,12 +48221,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=98 chars/18 words; required=80 chars/120 words; tried=main_tag:52chars/8words, paragraph_fallback:52chars/8words, article_body:52chars/8words, meta_description:98chars/18words, page_text:52chars/8words)",
-      "content_fetched_at": "2026-08-01T19:52:20",
-      "candidate_retry_after": "2026-08-01T20:07:20Z",
+      "content_fetched_at": "2026-08-01T20:40:45",
+      "candidate_retry_after": "2026-08-01T20:55:45Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=98 chars/18 words; required=80 chars/120 words; tried=main_tag:52chars/8words, paragraph_fallback:52chars/8words, article_body:52chars/8words, meta_description:98chars/18words, page_text:52chars/8words)",
-      "candidate_failed_at": "2026-08-01T19:52:20",
-      "candidate_failure_count": 13
+      "candidate_failed_at": "2026-08-01T20:40:45",
+      "candidate_failure_count": 14
     },
     {
       "id": "678cf57f2568974e",
@@ -48752,12 +48758,12 @@
       "removed_source_links_count": 112,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=554 chars/96 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:554chars/96words, article_body:554chars/96words, meta_description:179chars/31words, page_text:218chars/37words)",
-      "content_fetched_at": "2026-08-01T19:52:22",
-      "candidate_retry_after": "2026-08-01T20:07:22Z",
+      "content_fetched_at": "2026-08-01T20:40:46",
+      "candidate_retry_after": "2026-08-01T20:55:46Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=554 chars/96 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:554chars/96words, article_body:554chars/96words, meta_description:179chars/31w",
-      "candidate_failed_at": "2026-08-01T19:52:22",
-      "candidate_failure_count": 12
+      "candidate_failed_at": "2026-08-01T20:40:46",
+      "candidate_failure_count": 13
     },
     {
       "id": "c4dc072a2cb4102b",
@@ -51223,11 +51229,11 @@
       "content_fetched_at": "2026-08-01T11:56:24",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-08-01T16:37:12",
+      "selected_at": "2026-08-01T20:40:51",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-08-01T16:37:12",
+      "processing_prepared_at": "2026-08-01T20:40:51",
       "ai_input_package": {
         "title": "After noise complaints, judge orders Waymo to stop overnight charging in Santa Monica",
         "url": "https://arstechnica.com/tech-policy/2026/08/after-noise-complaints-judge-orders-waymo-to-stop-overnight-charging-in-santa-monica",
@@ -51271,14 +51277,14 @@
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 18.24,
+      "ai_total_time_seconds": 0.28,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-08-01T16:52:31Z",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-08-01T20:55:52Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-08-01T16:37:31",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-08-01T20:40:52",
+      "candidate_failure_count": 2
     },
     {
       "id": "0bed5397efd842d4",
@@ -51362,11 +51368,11 @@
       "content_fetched_at": "2026-08-01T11:56:22",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-08-01T16:37:34",
+      "selected_at": "2026-08-01T20:41:30",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-08-01T16:37:34",
+      "processing_prepared_at": "2026-08-01T20:41:31",
       "ai_input_package": {
         "title": "Defcon's new badge is a security key you can see inside",
         "url": "https://arstechnica.com/security/2026/08/defcons-new-badge-is-a-security-key-you-can-see-inside",
@@ -51419,14 +51425,14 @@
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.2,
+      "ai_total_time_seconds": 0.34,
       "ai_quality_status": "provider_rotation_exhausted",
       "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-08-01T16:52:36Z",
+      "candidate_retry_after": "2026-08-01T20:56:32Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-08-01T16:37:36",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-08-01T20:41:32",
+      "candidate_failure_count": 2
     },
     {
       "id": "d296024d9d6dbf90",
@@ -53057,7 +53063,67 @@
       "content_preview_chars": 3106,
       "content_fetched_at": "2026-08-01T16:36:44",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-08-01T20:40:47",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-08-01T20:40:47",
+      "ai_input_package": {
+        "title": "Apple may change its iPhone launch strategy, and the standard iPhone could be affected the most",
+        "url": "https://www.digitaltrends.com/phones/apple-may-change-its-iphone-launch-strategy-and-the-standard-iphone-could-be-affected-the-most",
+        "source_name": "Digital Trends",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.digitaltrends.com/tachyon/2026/06/iPhone-Ultras-rear-camera-visor.jpg?resize=1200%2C630",
+        "article_images": [
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/06/iPhone-Ultras-rear-camera-visor.jpg?resize=1200%2C630",
+            "alt": "Apple may change its iPhone launch strategy, and the standard iPhone could be affected the most",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/06/iPhone-Ultra-new-featured-image.jpg?resize=2000%2C1200",
+            "alt": "Electronics, Phone, Mobile Phone",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/03/Untitled-design-3.jpg?resize=2000%2C1200",
+            "alt": "Electronics, Phone, Mobile Phone",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+            "alt": "Add as a preferred source on Google",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Apple’s iPhone launches have followed the same familiar rhythm for years. Every September, Apple takes the wraps off its newest flagship lineup, and a few months later, a more affordable “e” model joins the party in the spring. It’s a formula that’s been easy to follow, but it may not stay that way for much […]",
+        "content_preview": "Apple’s iPhone launches have followed the same familiar rhythm for years. Every September, Apple takes the wraps off its newest flagship lineup, and a few months later, a more affordable “e” model joins the party in the spring. It’s a formula that’s been easy to follow, but it may not stay that way for much longer. Reports have been pointing toward a major shake-up starting with the iPhone 18 lineup, and we’ve covered those rumors over the past few months as well. Rather than unveiling every new iPhone at the same event, Apple is reportedly planning to split its releases across two seasons. If that happens, the standard iPhone could miss its usual September debut for the first time, marking one of the biggest changes to the company’s launch strategy in years. A foldable iPhone may be changing everything If the reports are accurate, Apple’s fall event in 2027 won’t revolve around four new iPhones anymore. Instead, the stage could belong to the iPhone 18 Pro, iPhone 18 Pro Max, and Apple’s long-rumored foldable iPhone — the Ultra. That might sound unusual at first, but it starts to make sense once you look at Apple’s growing lineup. Between the Pro models, the foldable, the “e” series, and the Air lineup, the company suddenly has far more products competing for attention than it did just a few years ago. Rather than squeezing everything into one keynote, splitting launches could give each device room to breathe. A foldable iPhone would naturally command most of the headlines, while the regular iPhone risks being overshadowed if it’s announced on the same stage. A spring debut for the standard model would also leave space for a second-generation iPhone Air, assuming Apple continues the lineup. The timing could work in Apple’s favor There may also be practical reasons behind the reported shift. Memory prices have been climbing across the industry, and component costs continue to put pressure on smartphone makers. During Apple’s latest earnings call, CEO Tim Cook acknowledged that memory pricing is expected to remain a challenge beyond the current quarter, even as costs for some other components may improve. If those supply pressures begin to ease over the following months, delaying the regular iPhone could give Apple greater flexibility when it comes to pricing and production. The move could also benefit customers. Instead of waiting nearly a full year after the Pro models launch, buyers who prefer the standard iPhone or whose carrier contracts expire early in the year would have a fresh option arriving just months later. Nothing is official yet, but reports suggest Apple’s next September event will still introduce the iPhone 18 Pro, iPhone 18 Pro Max, and the company’s first foldable iPhone, alongside new Apple Watch models. If that happens, it would mark the beginning of Apple’s biggest iPhone launch shake-up in well over a decade. For consumers, it may take some getting used to. For Apple, though, spreading launches across the calendar could make every iPhone announcement feel like a headline event instead of competing for attention on the same stage.",
+        "content_preview_chars": 3106,
+        "rss_summary": "",
+        "full_article_text": "Apple’s iPhone launches have followed the same familiar rhythm for years. Every September, Apple takes the wraps off its newest flagship lineup, and a few months later, a more affordable “e” model joins the party in the spring. It’s a formula that’s been easy to follow, but it may not stay that way for much longer. Reports have been pointing toward a major shake-up starting with the iPhone 18 lineup, and we’ve covered those rumors over the past few months as well. Rather than unveiling every new iPhone at the same event, Apple is reportedly planning to split its releases across two seasons. If that happens, the standard iPhone could miss its usual September debut for the first time, marking one of the biggest changes to the company’s launch strategy in years. A foldable iPhone may be changing everything If the reports are accurate, Apple’s fall event in 2027 won’t revolve around four new iPhones anymore. Instead, the stage could belong to the iPhone 18 Pro, iPhone 18 Pro Max, and Apple’s long-rumored foldable iPhone — the Ultra. That might sound unusual at first, but it starts to make sense once you look at Apple’s growing lineup. Between the Pro models, the foldable, the “e” series, and the Air lineup, the company suddenly has far more products competing for attention than it did just a few years ago. Rather than squeezing everything into one keynote, splitting launches could give each device room to breathe. A foldable iPhone would naturally command most of the headlines, while the regular iPhone risks being overshadowed if it’s announced on the same stage. A spring debut for the standard model would also leave space for a second-generation iPhone Air, assuming Apple continues the lineup. The timing could work in Apple’s favor There may also be practical reasons behind the reported shift. Memory prices have been climbing across the industry, and component costs continue to put pressure on smartphone makers. During Apple’s latest earnings call, CEO Tim Cook acknowledged that memory pricing is expected to remain a challenge beyond the current quarter, even as costs for some other components may improve. If those supply pressures begin to ease over the following months, delaying the regular iPhone could give Apple greater flexibility when it comes to pricing and production. The move could also benefit customers. Instead of waiting nearly a full year after the Pro models launch, buyers who prefer the standard iPhone or whose carrier contracts expire early in the year would have a fresh option arriving just months later. Nothing is official yet, but reports suggest Apple’s next September event will still introduce the iPhone 18 Pro, iPhone 18 Pro Max, and the company’s first foldable iPhone, alongside new Apple Watch models. If that happens, it would mark the beginning of Apple’s biggest iPhone launch shake-up in well over a decade. For consumers, it may take some getting used to. For Apple, though, spreading launches across the calendar could make every iPhone announcement feel like a headline event instead of competing for attention on the same stage.",
+        "full_article_text_chars": 3106,
+        "enrichment_status": "weak",
+        "source_url": "https://www.digitaltrends.com",
+        "source_published_at": "2026-08-01T16:00:00Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 0.61,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 2.01,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-08-01T20:55:50Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-08-01T20:40:50",
+      "candidate_failure_count": 1
     },
     {
       "id": "89660700677e0970",
@@ -53140,7 +53206,73 @@
       "content_preview_chars": 7298,
       "content_fetched_at": "2026-08-01T16:36:40",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-08-01T20:40:53",
+      "suggested_category": "Tech-News",
+      "selection_reason": "category rotation newest fresh article: Tech-News",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-08-01T20:40:53",
+      "ai_input_package": {
+        "title": "Google Earth’s AI misadventure lasted only a day. It was a tale of dangerous ignorance.",
+        "url": "https://www.digitaltrends.com/computing/google-earths-ai-adventure-lasted-only-a-day-it-was-a-tale-of-dangerous-ignorance",
+        "source_name": "Digital Trends",
+        "suggested_category": "Tech-News",
+        "main_image": "https://www.digitaltrends.com/tachyon/2026/08/google-AI-flub-scaled.jpg?resize=1200%2C630",
+        "article_images": [
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/08/google-AI-flub-scaled.jpg?resize=1200%2C630",
+            "alt": "Google Earth’s AI misadventure lasted only a day. It was a tale of dangerous ignorance.",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/02/Nano-Banana-2-featured-image.jpg?resize=2000%2C1200",
+            "alt": "Collage of images created by Nano Banana 2",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+            "alt": "Add as a preferred source on Google",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.digitaltrends.com/tachyon/2026/08/google-AI-flub-scaled.jpg?resize=1350%2C810",
+            "alt": "Nano Banana AI image generator representation.",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Google Earth thought users will play it cool with using AI images on a realistic map. Well, it was a short-lived disaster of epic proportions.",
+        "content_preview": "Technology behemoths are clearly not reading the room, or they are just moving faster than they should when it comes to AI deployment. Google has already stuffed its Gemini AI in every corner of its software stack, from Android to daily productivity tools like Gmail that are used by hundreds of millions of users every day. AI is everywhere. Not all of it is bad, mind you. But in a few places, it just feels forced. In its latest AI-fication experiment, the company targeted Google Earth. The idea was to let the audience use its Nano Banana 2 AI image generator and make images that can be placed on the map view. On paper, it’s a cool idea. What would the Colosseum of Rome look like in your urban neighborhood? Yeah, fun stuff like that. What if I put a nuclear reactor on the map of an enemy state, or a tank on the soil of a war-torn nation? Well, that’s a problem, and this is exactly what Google Earth produced without any inhibition. Tonight I typed just one sentence into Google Earth and put refugees near the Mexican border. Then I planted a nuclear plant in Iran. What on earth is Google doing? Check my latest post here: https://t.co/N0h6CVECqS pic.twitter.com/WSjdcEXWJx — 𝚑𝚎𝚗𝚔 𝚟𝚊𝚗 𝚎𝚜𝚜 (@henkvaness) July 30, 2026 What’s the big fuss, huh? Alright, let’s go back to the origins and the good intentions first. This is what Google had in mind: “For the first time, you can generate custom images using Google Earth’s satellite, aerial, and 3D imagery alongside Nano Banana, which creates concepts grounded in the real world. Just zoom in to a place in Google Earth on web, tap “create image,” and type whatever you want to see.” Here’s the problem. AI is not always a welcome guest. In fact, Google’s AI has been misused in numerous ways by multiple bad actors in the not-too-distant past. In a disclosure submitted before Australia’s eSafety Commission, it was reported that Gemini AI was abused to create AI-generated deepfake terrorism and child abuse material. Earlier this year, Google’s Cloud unit disclosed usage of Gemini by cybercriminals engaged in malware and surveillance operations. Challenge 1: Pet Paradise or Habitat 🐶🐱 In Google Earth: zoom into a place and tap “create image.” Then paste in this prompt, fill in the blanks, and hit enter. “Adapt this space as a luxurious, five-star animal resort with a large [Main Feature]. The structure is built from… pic.twitter.com/gYlWTmOLzy — Google Earth (@googleearth) July 30, 2026 Merely a few days ago, Google filed a lawsuit against a China-linked network over usage of Gemini to launch large-scale phishing campaigns. Even for a regular user, it’s easy to trick Google’s AI image generator into creating something as disturbing as a Nazi Spongebob. The situation with OpenAI’s ChatGPT image generation model is not too different. “Tonight I typed just one sentence into Google Earth and put refugees near the Mexican border. Then I planted a nuclear plant in Iran. Then I put a fatal crash on a street in Amsterdam. Google’s own satellite imagery underneath all three. What on earth is Google doing?” That was not the end of the problem. The Nano Banana engine simply complied with the problematic AI image generation requests without any counter. “Nothing was refused, nothing was softened, and nothing suggested I try a different prompt,” van Ess wrote. ‼️ BREAKING: Google is pulling Nano Banana image generation from Google Earth a day after launch. Users created prompts to generate images showing a plane hitting a Manhattan skyscraper, a bombing in Moscow, a nuclear plant in Iran, refugees at the US–Mexico border and a bomb… https://t.co/q9lNNaazD3 pic.twitter.com/nyuiKiQ2Qi — International Cyber Digest (@IntCyberDigest) July 31, 2026 Let’s give some quarter to Google here. AI image generators usually focus on avoiding stuff like sexualized imagery, weapons, racist stereotyping, and other such obviously bad requests. It can’t handle stuff that seems normal, but can stir an international relations storm. Placing a nuclear reactor on the map of Iran, or putting a bomb crater on a Gaza hospital, are two such samples of “innocent failures,” if I can put it that way. But that’s not the end of Google’s AI oversight. The AI-generated imagery on Google Earth passed through AI checkers without raising any alarms. BBC also stress-tested the tool, and it coughed up controversial stuff such as Russian tanks moving on Ukrainian land, the Eiffel Tower lying collapsed on the ground, and the great pyramids of Egypt swallowed by a giant sinkhole. Worryingly, the research notes that it was possible to trick Google’s Gemini into saying that these fake images were legitimate. Unsurprisingly, third-party AI checker tools also failed in numerous instances. To recall, all AI-generated images created by Gemini (and Nano Banana) come with an invisible SynthID watermark (developed by Google DeepMind) and a visible watermark, as well. 【あまりにリアルな「大惨事」 グーグル、Google Earthの最新AI機能の提供停止 リリース翌日に】 画像生成AIモデル「ナノバナナ2」をベースにしたこのツールは、実際の地理座標を用いてテキストの説明から画像を生成できるものだった。… pic.twitter.com/zkG27EqOIy — Sputnik 日本 (@sputnik_jp) August 1, 2026 【あまりにリアルな「大惨事」 グーグル、Google Earthの最新AI機能の提供停止 リリース翌日に】 画像生成AIモデル「ナノバナナ2」をベースにしたこのツールは、実際の地理座標を用いてテキストの説明から画像を生成できるものだった。… pic.twitter.com/zkG27EqOIy That’s not even my biggest concern. The internet is brimming with eerily realistic AI-generated content, and a lot of people don’t even suspect that it’s fake. And even if they suspect, they simply don’t know how to verify its authenticity and detect if it was AI. In a lot of cases, people simply don’t have the incentive to fact-check doubtful images. “Journalists might be able to check that image… and report on it. But again, not everyone is going to do that,” AI researcher, Henry Ajder, told the BBC. I talked to three fact-checkers associated with the Poynter-backed International Fact-Checking Network (IFCN), and they told me that there is a huge digital literacy gap. And yeah, in most cases, they simply don’t have a reason to verify a synthetic image’s true origin and flag it publicly. Nonetheless, Google’s AI experiment with letting users express their creativity was a case of stunning ignorance. Thankfully, the company did a course correction and pulled it quickly. “We’ve seen geospatial professionals using this feature for a range of useful purposes, however we’ve also seen people sharing screenshots of generated imagery that appear to violate our policies. So we’re rolling back this feature in Google Earth while we work on implementing stronger guardrails,” the company shared in a statement on its official blog . I suspect that this feature rollback was swift because the stakes were much higher. AI image models can easily be tricked into violating copyright guardrails, produce sexualized images, and raise all kinds of visual hell. Look no further than the Grok AI on X, formerly Twitter. Google pulled this feature so urgently, I reckon, because it could escalate into an international storm. A nuclear reactor in Iran during times of active conflict with the US? Well, I’m not surprised (and also glad) that the tech giant quickly course-corrected on its Google Earth-AI flub. Hey Google, maybe, stick to fun AI experiments such as using Nano Banana to digitize my wardrobe and level up my fashion game?",
+        "content_preview_chars": 7298,
+        "rss_summary": "",
+        "full_article_text": "Technology behemoths are clearly not reading the room, or they are just moving faster than they should when it comes to AI deployment. Google has already stuffed its Gemini AI in every corner of its software stack, from Android to daily productivity tools like Gmail that are used by hundreds of millions of users every day. AI is everywhere. Not all of it is bad, mind you. But in a few places, it just feels forced. In its latest AI-fication experiment, the company targeted Google Earth. The idea was to let the audience use its Nano Banana 2 AI image generator and make images that can be placed on the map view. On paper, it’s a cool idea. What would the Colosseum of Rome look like in your urban neighborhood? Yeah, fun stuff like that. What if I put a nuclear reactor on the map of an enemy state, or a tank on the soil of a war-torn nation? Well, that’s a problem, and this is exactly what Google Earth produced without any inhibition. Tonight I typed just one sentence into Google Earth and put refugees near the Mexican border. Then I planted a nuclear plant in Iran. What on earth is Google doing? Check my latest post here: https://t.co/N0h6CVECqS pic.twitter.com/WSjdcEXWJx — 𝚑𝚎𝚗𝚔 𝚟𝚊𝚗 𝚎𝚜𝚜 (@henkvaness) July 30, 2026 What’s the big fuss, huh? Alright, let’s go back to the origins and the good intentions first. This is what Google had in mind: “For the first time, you can generate custom images using Google Earth’s satellite, aerial, and 3D imagery alongside Nano Banana, which creates concepts grounded in the real world. Just zoom in to a place in Google Earth on web, tap “create image,” and type whatever you want to see.” Here’s the problem. AI is not always a welcome guest. In fact, Google’s AI has been misused in numerous ways by multiple bad actors in the not-too-distant past. In a disclosure submitted before Australia’s eSafety Commission, it was reported that Gemini AI was abused to create AI-generated deepfake terrorism and child abuse material. Earlier this year, Google’s Cloud unit disclosed usage of Gemini by cybercriminals engaged in malware and surveillance operations. Challenge 1: Pet Paradise or Habitat 🐶🐱 In Google Earth: zoom into a place and tap “create image.” Then paste in this prompt, fill in the blanks, and hit enter. “Adapt this space as a luxurious, five-star animal resort with a large [Main Feature]. The structure is built from… pic.twitter.com/gYlWTmOLzy — Google Earth (@googleearth) July 30, 2026 Merely a few days ago, Google filed a lawsuit against a China-linked network over usage of Gemini to launch large-scale phishing campaigns. Even for a regular user, it’s easy to trick Google’s AI image generator into creating something as disturbing as a Nazi Spongebob. The situation with OpenAI’s ChatGPT image generation model is not too different. “Tonight I typed just one sentence into Google Earth and put refugees near the Mexican border. Then I planted a nuclear plant in Iran. Then I put a fatal crash on a street in Amsterdam. Google’s own satellite imagery underneath all three. What on earth is Google doing?” That was not the end of the problem. The Nano Banana engine simply complied with the problematic AI image generation requests without any counter. “Nothing was refused, nothing was softened, and nothing suggested I try a different prompt,” van Ess wrote. ‼️ BREAKING: Google is pulling Nano Banana image generation from Google Earth a day after launch. Users created prompts to generate images showing a plane hitting a Manhattan skyscraper, a bombing in Moscow, a nuclear plant in Iran, refugees at the US–Mexico border and a bomb… https://t.co/q9lNNaazD3 pic.twitter.com/nyuiKiQ2Qi — International Cyber Digest (@IntCyberDigest) July 31, 2026 Let’s give some quarter to Google here. AI image generators usually focus on avoiding stuff like sexualized imagery, weapons, racist stereotyping, and other such obviously bad requests. It can’t handle stuff that seems normal, but can stir an international relations storm. Placing a nuclear reactor on the map of Iran, or putting a bomb crater on a Gaza hospital, are two such samples of “innocent failures,” if I can put it that way. But that’s not the end of Google’s AI oversight. The AI-generated imagery on Google Earth passed through AI checkers without raising any alarms. BBC also stress-tested the tool, and it coughed up controversial stuff such as Russian tanks moving on Ukrainian land, the Eiffel Tower lying collapsed on the ground, and the great pyramids of Egypt swallowed by a giant sinkhole. Worryingly, the research notes that it was possible to trick Google’s Gemini into saying that these fake images were legitimate. Unsurprisingly, third-party AI checker tools also failed in numerous instances. To recall, all AI-generated images created by Gemini (and Nano Banana) come with an invisible SynthID watermark (developed by Google DeepMind) and a visible watermark, as well. 【あまりにリアルな「大惨事」 グーグル、Google Earthの最新AI機能の提供停止 リリース翌日に】 画像生成AIモデル「ナノバナナ2」をベースにしたこのツールは、実際の地理座標を用いてテキストの説明から画像を生成できるものだった。… pic.twitter.com/zkG27EqOIy — Sputnik 日本 (@sputnik_jp) August 1, 2026 【あまりにリアルな「大惨事」 グーグル、Google Earthの最新AI機能の提供停止 リリース翌日に】 画像生成AIモデル「ナノバナナ2」をベースにしたこのツールは、実際の地理座標を用いてテキストの説明から画像を生成できるものだった。… pic.twitter.com/zkG27EqOIy That’s not even my biggest concern. The internet is brimming with eerily realistic AI-generated content, and a lot of people don’t even suspect that it’s fake. And even if they suspect, they simply don’t know how to verify its authenticity and detect if it was AI. In a lot of cases, people simply don’t have the incentive to fact-check doubtful images. “Journalists might be able to check that image… and report on it. But again, not everyone is going to do that,” AI researcher, Henry Ajder, told the BBC. I talked to three fact-checkers associated with the Poynter-backed International Fact-Checking Network (IFCN), and they told me that there is a huge digital literacy gap. And yeah, in most cases, they simply don’t have a reason to verify a synthetic image’s true origin and flag it publicly. Nonetheless, Google’s AI experiment with letting users express their creativity was a case of stunning ignorance. Thankfully, the company did a course correction and pulled it quickly. “We’ve seen geospatial professionals using this feature for a range of useful purposes, however we’ve also seen people sharing screenshots of generated imagery that appear to violate our policies. So we’re rolling back this feature in Google Earth while we work on implementing stronger guardrails,” the company shared in a statement on its official blog . I suspect that this feature rollback was swift because the stakes were much higher. AI image models can easily be tricked into violating copyright guardrails, produce sexualized images, and raise all kinds of visual hell. Look no further than the Grok AI on X, formerly Twitter. Google pulled this feature so urgently, I reckon, because it could escalate into an international storm. A nuclear reactor in Iran during times of active conflict with the US? Well, I’m not surprised (and also glad) that the tech giant quickly course-corrected on its Google Earth-AI flub. Hey Google, maybe, stick to fun AI experiments such as using Nano Banana to digitize my wardrobe and level up my fashion game?",
+        "full_article_text_chars": 7298,
+        "enrichment_status": "strong",
+        "source_url": "https://www.digitaltrends.com",
+        "source_published_at": "2026-08-01T15:15:01Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 1.36,
+        "trusted_references": [
+          {
+            "title": "disclosed",
+            "url": "https://cloud.google.com/blog/topics/threat-intelligence/distillation-experimentation-integration-ai-adversarial-use"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_quality_last_error": "ad/affiliate/sponsored title or summary",
+      "ai_status": "failed",
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 35.43,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-08-01T20:56:30Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-08-01T20:41:30",
+      "candidate_failure_count": 1
     },
     {
       "id": "b902d7cca6a2273c",
@@ -54579,6 +54711,300 @@
       "content_preview": "Amazon linked multiple high-profile open-source software supply chain attacks targeting the Node Package Manager (npm) ecosystem to North Korean hackers. The cloud computing giant linked the compromises of the typo-crypto, debug, chalk, and axios libraries to the Sapphire Sleet threat actor, also known as BlueNoroff and Stardust Chollima. Initial activity started with trojanizing the typo-crypto package in March 2025, which Amazon believes served as a testing ground. It then escalated in September of the same year with the compromise of the widely used debug and chalk packages, affecting an estimated 10% of cloud environments within two hours. In March 2026, the hacker targeted axios, one of npm's most popular packages with over 100 million weekly downloads. It should be noted that the axios incident has already been publicly attributed to DPRK-linked actors, but Amazon connected it to the earlier package compromises. Amazon says the attacker gained access by socially engineering package maintainers, and then published malicious updates that were automatically distributed to unsuspecting users. The attribution to Sapphire Sleet has medium confidence and is based on the shared tactics, techniques, and procedures (TTPs) observed in the campaign, the command-and-control (C2) infrastructure, and various operational similarities. Also, the researchers believe the attacker had a financial motivation, targeting popular packages to gain indirect access to a large pool of potential downstream victims at once. Amazon also highlights several trends that have emerged from the recent supply-chain attacks: Attackers are splitting malicious functionality across multiple seemingly benign packages, making detection more difficult. Threat actors are spending months building trust by maintaining legitimate projects or becoming contributors before introducing malicious code. Malicious behavior is increasingly decoupled from package contents, relying on external scripts, configuration files, or servers that can be weaponized later. Malware is using stronger encryption and multi-stage payloads, with runtime or remotely fetched keys that hinder static analysis. Payloads are becoming environment-aware, delaying execution unless they detect real developer or production environments to evade analysis sandboxes. Attackers are increasingly exploiting \"slopsquatting\" by registering package names hallucinated by AI coding assistants, hoping developers or autonomous coding agents will install them. Many of these tactics are enhanced and simplified by AI, Amazon explains, as they help attackers generate code, documentation, and maintainer identities. Amazon highlighted a multi-faceted response to these dangers, including reporting its findings and intelligence to the community, collaborating with OpenSSF and other industry partners, and investing $12.5M in the Akrites initiative, which helps protect critical open-source software from AI-enabled attacks. Test every layer before attackers do Security teams log 54% of successful attacks and alert on just 14%. The rest move through your environment unseen. The Picus whitepaper shows how breach and attack simulation tests your SIEM and EDR rules so threats stop slipping by detection. Hackers backdoor Jscrambler npm package with infostealer malware Microsoft links Mastra AI supply chain attack to North Korean hackers AsyncAPI npm packages infected with credential-stealing malware Injective SDK on npm infected with cryptocurrency wallet stealer GitHub announces npm security changes to tackle supply-chain attacks",
       "content_preview_chars": 3589,
       "content_fetched_at": "2026-08-01T18:37:55",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "5b2f83e4dde9d9a4",
+      "source_url_hash": "5b2f83e4dde9d9a4",
+      "canonical_url": "https://arstechnica.com/space/2026/08/heres-how-engineers-plan-to-save-the-satellite-sent-to-save-nasas-swift-mission",
+      "title_hash": "01aa96024ac0f2a7",
+      "topic_signature": "45eaa54da044c91371e4",
+      "title": "Here’s how engineers plan to save the satellite sent to save NASA’s Swift mission",
+      "url": "https://arstechnica.com/space/2026/08/heres-how-engineers-plan-to-save-the-satellite-sent-to-save-nasas-swift-mission",
+      "source_name": "Ars Technica",
+      "source_url": "https://arstechnica.com",
+      "source_published_at": "2026-08-01T18:20:11Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 2.33,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-08-01T20:39:56",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 60,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 60,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Here's how engineers plan to save the satellite sent to save NASA's Swift mission",
+      "meta_description": "We believe that a capture of Swift, an attempted capture of Swift, is very much in the cards.\"",
+      "article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/Swift_and_LINK_withEarthartist_concept-1152x648.png",
+          "alt": "Here's how engineers plan to save the satellite sent to save NASA's Swift mission",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/Swift_and_LINK_withEarthartist_concept-640x360.png",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/1783980228007.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2023/06/clarkstephenheadshot-md.jpg",
+          "alt": "Photo of Stephen Clark",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/Swift_and_LINK_withEarthartist_concept-1152x648.png",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/Swift_and_LINK_withEarthartist_concept-640x360.png",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/08/1783980228007.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2023/06/clarkstephenheadshot-md.jpg",
+          "alt": "Photo of Stephen Clark"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "One week ago, more than 200 miles above the Earth, a refrigerator-size satellite making its way toward an attempted rescue of NASA’s $500 million Swift gamma-ray observatory suddenly spun out of control. It didn’t look good. The spacecraft, named Link, was rotating on multiple axes, rendering it unable to maintain a reliable communications link with the ground and complicating efforts to arrest the spin. Two of the satellite’s three reaction wheels, used for pointing, also stopped working. Through sporadic radio contact, engineers discovered a problem with some of the spacecraft’s cold gas thrusters used for finer attitude control. The Link satellite is built, owned, and operated by Katalyst Space Technologies, a satellite servicing startup that won a $30 million contract from NASA to fly up to the Swift observatory, grab onto it, and boost its orbit before succumbing to aerodynamic drag and burning up int he atmosphere. The clock is ticking. In a few months, Swift will be too low for Katalyst to complete the rescue. This is the first time NASA has contracted with a commercial company to service one of its satellites. The space agency gave Katalyst less than a year to put the mission together. The Link satellite launched July 3 to begin the pursuit of Swift, and the mission proceeded mostly according to plan until last Saturday. “When this happened, it was during one of the passes without comms,” said Ghonhee Lee, CEO of Katalyst, said in an interview with Ars. “We were, immediately prior, in a very stable configuration.” Katalyst’s ground team, working from a control center near Denver, hurried to find a fix and recover the Link satellite. The good news was the spacecraft’s other systems remained healthy, including its power supply, three xenon-fueled electric thrusters, and the rendezvous and robotics hardware the Link satellite needs to capture Swift. Ars spoke with Lee, Katalyst’s chief executive, on Friday afternoon as the company’s ground team worked to stabilize the spacecraft. The first step involves using the satellite’s plasma engines to gradually slow the spin. The engines are primarily designed for orbit-raising, but they’re also suitable for attitude control because they can vector their thrust with a two-axis gimbal. Link’s electric propulsion system is efficient but low in thrust, meaning it takes time to generate enough of an impulse to regain full control of the satellite’s pointing. “We’ve been able to use the thrusters to point in the opposite direction of the rotation rate and affect the attitude control that way, which has been highly effective,” Lee said. This has worked well so far. As of Friday, the spacecraft had cut its spin rate in half, from about 9 degrees per second to approximately 4 degrees per second. Officials hope to further reduce the spin rate, allowing Katalyst to improve communications with the spacecraft. “Once we are in a more stable configuration, with much more high-bandwidth comms, we’ll be able to use that to downlink all the rich data (about the condition of the spacecraft),” Lee said. “We do know the states of the reaction wheels and the thrusters and things like that. So our GNC team—guidance, navigation, and control team—has been very hard at work with NASA, essentially remapping all of the control algorithms to be able to have an updated controller ready to go for when we are able to stabilize the spacecraft.” Katalyst may eventually be able to recover the satellite’s two inoperable reaction wheels, but the team’s priority is restoring control by uplinking a new algorithm to manage its orientation through a combination of its one remaining reaction wheel and thrusters. Engineers aren’t sure yet what caused the emergency with the Link spacecraft last weekend. It could have been an internal problem with the satellite or a collision with space junk. Lee said two cameras on the satellite will look for signs of damage after ground teams stabilize it. Whatever the cause, Katalyst’s mission control team lost contact with Link for more than 24 hours after it spun out of control. The satellite then automatically reset itself, just as it was supposed to do. “This was built-in fault protection logic saying, “Hey, if I haven’t heard from anybody in 24 hours, there must be something wrong. I’m going to toggle the power, turn it on and off again,'” Lee said. “It’s just built in. However, that shutdown mode is ungraceful. It basically pulls the plug on everything, and that creates some downstream effects for sensitive systems such as the reaction wheels. “Basically, there was a big thermal spike that came about as a result of this that over-temperatured the upstream electronic circuits that control the reaction wheels, which ultimately led them to being inoperable,” Lee said. The problem with the spacecraft’s cold gas thrusters seems to be a “separate issue,” Lee said. But engineers don’t have all the data in hand to make a final determination. “These things all happened at once, so it’s hard to delineate between what contributed to creating the situation and what was the consequence of the situation, and that’s something we’ll have to investigate with all the data,” Lee said. Nevertheless, Lee said Katalyst still aims to move Link toward NASA’s Swift observatory, perhaps around the end of August. “We’re very committed to pursuing this mission,” Lee said. “We’re working side by side with NASA. I just came from a technical working meeting with their controls team, where we’re reviewing the algorithms. It seems like there’s nothing that is preventing us from reestablishing three-axis control of the spacecraft with the remaining reaction wheel, with the remaining thrusters, as well as the electric propulsion. “It’s not the original mode that we expected to control the spacecraft with, but it seems like we will have sufficient stability and controllability of the spacecraft,” Lee said. “With this, we believe we’ll be able to do the rendezvous with Swift. We believe that we’ll be able to go and do things like the inspection of Swift within a close approach of a few dozen meters. And as it stands right now, we have not made a formal assessment, but we believe that a capture of Swift, an attempted capture of Swift, is very much in the cards.”",
+      "full_article_text_chars": 6288,
+      "content_preview": "One week ago, more than 200 miles above the Earth, a refrigerator-size satellite making its way toward an attempted rescue of NASA’s $500 million Swift gamma-ray observatory suddenly spun out of control. It didn’t look good. The spacecraft, named Link, was rotating on multiple axes, rendering it unable to maintain a reliable communications link with the ground and complicating efforts to arrest the spin. Two of the satellite’s three reaction wheels, used for pointing, also stopped working. Through sporadic radio contact, engineers discovered a problem with some of the spacecraft’s cold gas thrusters used for finer attitude control. The Link satellite is built, owned, and operated by Katalyst Space Technologies, a satellite servicing startup that won a $30 million contract from NASA to fly up to the Swift observatory, grab onto it, and boost its orbit before succumbing to aerodynamic drag and burning up int he atmosphere. The clock is ticking. In a few months, Swift will be too low for Katalyst to complete the rescue. This is the first time NASA has contracted with a commercial company to service one of its satellites. The space agency gave Katalyst less than a year to put the mission together. The Link satellite launched July 3 to begin the pursuit of Swift, and the mission proceeded mostly according to plan until last Saturday. “When this happened, it was during one of the passes without comms,” said Ghonhee Lee, CEO of Katalyst, said in an interview with Ars. “We were, immediately prior, in a very stable configuration.” Katalyst’s ground team, working from a control center near Denver, hurried to find a fix and recover the Link satellite. The good news was the spacecraft’s other systems remained healthy, including its power supply, three xenon-fueled electric thrusters, and the rendezvous and robotics hardware the Link satellite needs to capture Swift. Ars spoke with Lee, Katalyst’s chief executive, on Friday afternoon as the company’s ground team worked to stabilize the spacecraft. The first step involves using the satellite’s plasma engines to gradually slow the spin. The engines are primarily designed for orbit-raising, but they’re also suitable for attitude control because they can vector their thrust with a two-axis gimbal. Link’s electric propulsion system is efficient but low in thrust, meaning it takes time to generate enough of an impulse to regain full control of the satellite’s pointing. “We’ve been able to use the thrusters to point in the opposite direction of the rotation rate and affect the attitude control that way, which has been highly effective,” Lee said. This has worked well so far. As of Friday, the spacecraft had cut its spin rate in half, from about 9 degrees per second to approximately 4 degrees per second. Officials hope to further reduce the spin rate, allowing Katalyst to improve communications with the spacecraft. “Once we are in a more stable configuration, with much more high-bandwidth comms, we’ll be able to use that to downlink all the rich data (about the condition of the spacecraft),” Lee said. “We do know the states of the reaction wheels and the thrusters and things like that. So our GNC team—guidance, navigation, and control team—has been very hard at work with NASA, essentially remapping all of the control algorithms to be able to have an updated controller ready to go for when we are able to stabilize the spacecraft.” Katalyst may eventually be able to recover the satellite’s two inoperable reaction wheels, but the team’s priority is restoring control by uplinking a new algorithm to manage its orientation through a combination of its one remaining reaction wheel and thrusters. Engineers aren’t sure yet what caused the emergency with the Link spacecraft last weekend. It could have been an internal problem with the satellite or a collision with space junk. Lee said two cameras on the satellite will look for signs of damage after ground teams stabilize it. Whatever the cause, Katalyst’s mission control team lost contact with Link for more than 24 hours after it spun out of control. The satellite then automatically reset itself, just as it was supposed to do. “This was built-in fault protection logic saying, “Hey, if I haven’t heard from anybody in 24 hours, there must be something wrong. I’m going to toggle the power, turn it on and off again,'” Lee said. “It’s just built in. However, that shutdown mode is ungraceful. It basically pulls the plug on everything, and that creates some downstream effects for sensitive systems such as the reaction wheels. “Basically, there was a big thermal spike that came about as a result of this that over-temperatured the upstream electronic circuits that control the reaction wheels, which ultimately led them to being inoperable,” Lee said. The problem with the spacecraft’s cold gas thrusters seems to be a “separate issue,” Lee said. But engineers don’t have all the data in hand to make a final determination. “These things all happened at once, so it’s hard to delineate between what contributed to creating the situation and what was the consequence of the situation, and that’s something we’ll have to investigate with all the data,” Lee said. Nevertheless, Lee said Katalyst still aims to move Link toward NASA’s Swift observatory, perhaps around the end of August. “We’re very committed to pursuing this mission,” Lee said. “We’re working side by side with NASA. I just came from a technical working meeting with their controls team, where we’re reviewing the algorithms. It seems like there’s nothing that is preventing us from reestablishing three-axis control of the spacecraft with the remaining reaction wheel, with the remaining thrusters, as well as the electric propulsion. “It’s not the original mode that we expected to control the spacecraft with, but it seems like we will have sufficient stability and controllability of the spacecraft,” Lee said. “With this, we believe we’ll be able to do the rendezvous with Swift. We believe that we’ll be able to go and do things like the inspection of Swift within a close approach of a few dozen meters. And as it stands right now, we have not made a formal assessment, but we believe that a capture of Swift, an attempted capture of Swift, is very much in the cards.”",
+      "content_preview_chars": 6288,
+      "content_fetched_at": "2026-08-01T20:40:16",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "ba0eb6022ed8437e",
+      "source_url_hash": "ba0eb6022ed8437e",
+      "canonical_url": "https://techcrunch.com/2026/08/01/sam-altman-is-still-making-the-case-for-parenting-via-chatgpt",
+      "title_hash": "8d556de237d1fb5f",
+      "topic_signature": "d29bcae5a4ef75413436",
+      "title": "Sam Altman is still making the case for parenting via ChatGPT",
+      "url": "https://techcrunch.com/2026/08/01/sam-altman-is-still-making-the-case-for-parenting-via-chatgpt",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-08-01T17:07:34Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 3.54,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-08-01T20:39:56",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 99,
+      "affiliate_links_removed_count": 3,
+      "removed_source_links_count": 99,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Sam Altman is still making the case for parenting via ChatGPT | TechCrunch",
+      "meta_description": "OpenAI's CEO seemed excited to share a \"cool use case\" for parents.",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/02/GettyImages-2236544077.jpg?resize=1200,800",
+          "alt": "Sam Altman is still making the case for parenting via ChatGPT | TechCrunch",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/02/GettyImages-2236544077.jpg?w=1024",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2026/02/GettyImages-2236544077.jpg?resize=1200,800",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/02/GettyImages-2236544077.jpg?w=1024",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "OpenAI CEO Sam Altman seemed excited to share what he called a “cool use case” on Friday, posting that parents could “connect your family calendars and explain your kids’ interests” to the company’s new product ChatGPT Work, then “every morning for the drive to school, have it make a podcast that talks about one kid’s soccer game that afternoon, one kid’s upcoming birthday, some news, etc.” Altman’s post prompted lots of virtual eye-rolling, including a simple response from Alex Hirsch, creator of the animated series “Gravity Falls”: “What if you just talked to your children”? Hirsch’s question seems to have gone even more viral than Altman’s initial post — while Altman’s comment has been reposted around 300 times and liked around 9,600 times (as of Saturday morning), Hirsch’s response has been reposted 9,000 times and received 122,000 likes. This isn’t the first time a tech CEO has promised that AI can shield users — and specifically users’ morning commutes — from the messiness and inefficiency of human experience. Last year, Microsoft CEO Satya Nadella said he’d stopped listening his favorite podcasts during his morning drive; instead, he asked an AI chatbot about those podcasts. Getting parents on-board seems to be a priority for OpenAI, which recently posted a job listing for a product manager with experience building trust-sensitive consumer experiences for parents and families. Meta, meanwhile, is testing an AI-powered app that tells bedtime stories. But while OpenAI has added safety features for parents, it also faces multiple lawsuits from parents and families alleging that ChatGPT played a role in loved ones’ delusions and suicides. (The company has said it’s “continuously improving how our models respond in sensitive interactions.”) When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Anthony Ha is TechCrunch’s weekend editor. Previously, he worked as a tech reporter at Adweek, a senior editor at VentureBeat, a local government reporter at the Hollister Free Lance, and vice president of content at a VC firm. He lives in New York City. You can contact or verify outreach from Anthony by emailing anthony.ha@techcrunch.com . Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! Okta buys AI security startup Permiso — source says for about $200M Jagmeet Singh Okta buys AI security startup Permiso — source says for about $200M Spotify adds a running mode to its app Ivan Mehta Spotify adds a running mode to its app Claude Opus 5 became downright ruthless when tasked with running a vending machine Julie Bort Claude Opus 5 became downright ruthless when tasked with running a vending machine DoorDash is building its own drone delivery business Kirsten Korosec DoorDash is building its own drone delivery business Sam Altman is ready to decelerate Tim Fernholz Sam Altman is ready to decelerate Data centers may face temporary power cuts to prevent blackouts on largest US grid Tim De Chant Data centers may face temporary power cuts to prevent blackouts on largest US grid PSA: Your Claude shared chats and Artifacts may have ended up on Google Lorenzo Franceschi-Bicchierai PSA: Your Claude shared chats and Artifacts may have ended up on Google",
+      "full_article_text_chars": 3347,
+      "content_preview": "OpenAI CEO Sam Altman seemed excited to share what he called a “cool use case” on Friday, posting that parents could “connect your family calendars and explain your kids’ interests” to the company’s new product ChatGPT Work, then “every morning for the drive to school, have it make a podcast that talks about one kid’s soccer game that afternoon, one kid’s upcoming birthday, some news, etc.” Altman’s post prompted lots of virtual eye-rolling, including a simple response from Alex Hirsch, creator of the animated series “Gravity Falls”: “What if you just talked to your children”? Hirsch’s question seems to have gone even more viral than Altman’s initial post — while Altman’s comment has been reposted around 300 times and liked around 9,600 times (as of Saturday morning), Hirsch’s response has been reposted 9,000 times and received 122,000 likes. This isn’t the first time a tech CEO has promised that AI can shield users — and specifically users’ morning commutes — from the messiness and inefficiency of human experience. Last year, Microsoft CEO Satya Nadella said he’d stopped listening his favorite podcasts during his morning drive; instead, he asked an AI chatbot about those podcasts. Getting parents on-board seems to be a priority for OpenAI, which recently posted a job listing for a product manager with experience building trust-sensitive consumer experiences for parents and families. Meta, meanwhile, is testing an AI-powered app that tells bedtime stories. But while OpenAI has added safety features for parents, it also faces multiple lawsuits from parents and families alleging that ChatGPT played a role in loved ones’ delusions and suicides. (The company has said it’s “continuously improving how our models respond in sensitive interactions.”) When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Anthony Ha is TechCrunch’s weekend editor. Previously, he worked as a tech reporter at Adweek, a senior editor at VentureBeat, a local government reporter at the Hollister Free Lance, and vice president of content at a VC firm. He lives in New York City. You can contact or verify outreach from Anthony by emailing anthony.ha@techcrunch.com . Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! Okta buys AI security startup Permiso — source says for about $200M Jagmeet Singh Okta buys AI security startup Permiso — source says for about $200M Spotify adds a running mode to its app Ivan Mehta Spotify adds a running mode to its app Claude Opus 5 became downright ruthless when tasked with running a vending machine Julie Bort Claude Opus 5 became downright ruthless when tasked with running a vending machine DoorDash is building its own drone delivery business Kirsten Korosec DoorDash is building its own drone delivery business Sam Altman is ready to decelerate Tim Fernholz Sam Altman is ready to decelerate Data centers may face temporary power cuts to prevent blackouts on largest US grid Tim De Chant Data centers may face temporary power cuts to prevent blackouts on largest US grid PSA: Your Claude shared chats and Artifacts may have ended up on Google Lorenzo Franceschi-Bicchierai PSA: Your Claude shared chats and Artifacts may have ended up on Google",
+      "content_preview_chars": 3347,
+      "content_fetched_at": "2026-08-01T20:40:07",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "cbe6f6bdaf9f4551",
+      "source_url_hash": "cbe6f6bdaf9f4551",
+      "canonical_url": "https://arstechnica.com/culture/2026/08/review-yes-were-still-arguing-about-nolans-the-odyssey",
+      "title_hash": "01dfd5361a4841d5",
+      "topic_signature": "c894c8df0a755cc165f7",
+      "title": "Review: Yes, we’re still arguing about Nolan’sThe Odyssey",
+      "url": "https://arstechnica.com/culture/2026/08/review-yes-were-still-arguing-about-nolans-the-odyssey",
+      "source_name": "Ars Technica",
+      "source_url": "https://arstechnica.com",
+      "source_published_at": "2026-08-01T15:19:04Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 5.35,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-08-01T20:39:56",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 60,
+      "affiliate_links_removed_count": 2,
+      "removed_source_links_count": 60,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Review: Yes, we're still arguing about Nolan's The Odyssey",
+      "meta_description": "Christopher Nolan's impressionistic remix of Homer's epic poem finds the man behind the myth.",
+      "article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/odysseyTOP-1152x648-1784208660.jpg",
+          "alt": "Review: Yes, we're still arguing about Nolan's The Odyssey",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/odysseyTOP-640x380.jpg",
+          "alt": "poster art showing an Ithacan soldier in full armor standing against a backdrop of sea spray and a giant rearing horse",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/odyssey14-1024x675.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/odyssey8-1024x602.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/odysseyTOP-1152x648-1784208660.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/odysseyTOP-640x380.jpg",
+          "alt": "poster art showing an Ithacan soldier in full armor standing against a backdrop of sea spray and a giant rearing horse"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/odyssey14-1024x675.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://cdn.arstechnica.net/wp-content/uploads/2026/07/odyssey8-1024x602.jpg",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Christopher Nolan’s The Odyssey has been a lightning rod for controversy ever since the first casting and design reveals, igniting afresh with each new trailer. The film has garnered plenty of well-deserved accolades ( and earnings ) since its release, and yet somehow the debates rage on between classicists and the general public alike—all this over an adaptation of an epic poem that’s been around since roughly the 8th century BCE. My take: the IMAX scale might be epic, but Nolan gives the story an intimate feel, weaving a captivating, nearly three-hour cinematic spell. While the magic slowly starts to dissipate once one leaves the theater, the powerful imagery will resonate for days. And the film gave me, personally, a fresh perspective on the central character of Odysseus. Most of us read some version of The Odyssey in high school, so we’re familiar with the story: Odysseus (Matt Damon), legendary Greek king of Ithaca, begins the long journey home after 10 years of fighting in the Trojan War. But the journey does not go smoothly, as Odysseus and his men encounter the cyclops Polyphemus (Bill Irwin), the Sirens, and an enchantress named Circe (Samantha Morton), among other obstacles. Meanwhile, his long-suffering wife, Penelope (Anne Hathaway), is warding off hundreds of suitors eager to usurp Odysseus’ throne back home. And the wandering king’s son and heir, Telemachus (Tom Holland), is convinced his father is still alive and sets off to find him. Nolan sets the tone by opening with a bard (Travis Scott) beginning to tell the tale of the fall of Troy—at least the idealized heroic version that the bard’s audiences are hungry to hear. It’s not meant to reproduce ancient Greek oratory tradition, just to evoke some sense of it, and the device is surprisingly effective. The director has also preserved Homer’s nonlinear narrative structure, with tales nesting within tales. His depiction of Odysseus is that of a seemingly broken man slowly regaining his fractured memories of the Trojan war and its aftermath in bits and pieces, after spending years under the intoxicating effects of the lotus fruit with Calypso (Charlize Theron) on the island of Ogygia. What has he tried so hard to forget, and why? What difficult truth must he finally face before he can find his way home at last? Fractured memories We only get the briefest of flashbacks at first, little more than fleeting impressions, because the Ithacan king can’t yet face his memories whole. As the film progresses, we gradually cycle through increasingly detailed memories of what transpired before Odysseus washed up alone on Calypso’s island—the sole survivor among all his men. It all builds up to a powerful moment of self-revelation with Penelope, where he finally admits that his long absence was driven in part by his stricken conscience at the horror his cleverness had unleashed on Troy. This approach gives the audience a sense of what Odysseus is experiencing, but it also led to complaints that Nolan had wasted his talented cast of major Hollywood stars. Theron’s Calypso gets just a few minutes of screen time. Ditto Lupita Nyong’o in her dual role as Helen of Troy and Clytemnestra; Jon Bernthal’s Menelaus; and Benny Safdie’s Agamemnon, among others. It’s true that Nolan presumes his audience is familiar with Homer’s epic poem and hence many of these characters primarily exist in the margins of Odysseus’ memories. But minutes of screen time are not necessarily indicative of the relative importance of any given role to Nolan’s vision. For instance, Zendaya’s Athena only appears to Odysseus in brief dream-like sequences, but those moments are critical. As he regains his memories, her mood shifts from calm neutrality to sadness, disappointment, disapproval, and ultimately to horrified grief as the invading Greek army chops off the head of her statue in a Trojan temple—along with the head of a young Trojan woman with Athena’s face. Athena represents the personal reckoning Odysseus is so loath to face. Similarly, Elliot Page is only in a couple of small scenes as Sinon, a character who doesn’t even appear in Homer’s Odyssey ; his story can be found in Virgil’s Aeneid . He’s the soldier left behind with the Trojan horse, whose lies convince the Trojan army to bring this “gift” to honor Athena into the walled city. Nolan has retooled the character into an innocent victim, unaware of Odysseus’ scheme, who nonetheless gives his life for it. His accusatory shadow shows up when Odysseus and his men travel to the underworld to consult with the blind prophet Tiresias (James Remar)—yet another example of the human toll exacted for violating “Zeus’s law” of hospitality in order to end the siege and win the war. Nobody makes more of their limited screentime than Samantha Morton as the sorceress Circe in one of the film’s most powerful sequences. Once again, Nolan has reinvented the character to fit his themes. This is not the beautiful creature who seduces Odysseus in the poem. This Circe has suffered terribly at the hands of men; she turns Odysseus’ men into pigs because to her, they are swine wearing human masks. We don’t need to know all the gory details of what happened to Circe (and her sister), the trauma that fuels her rage and thirst for vengeance. We see the effects etched into every microexpression on her ravaged face. The Odyssey has garnered both critical and audience raves and has already topped $700 million at the box office—more than enough to cover its $250 million production budget and surpassing Oppenheimer ‘s entire haul. It’s going to be nominated for tons of Oscars and will likely win several, both for technical achievement and for the many terrific performances—especially Morton, Damon, Hathaway, Holland, and Robert Pattinson’s deliciously villainous suitor, Antinous. So another backlash was inevitable. A scholar weighs in The manufactured online trolling /culture war campaign that preceded the film’s release isn’t even worth the electronic space to rebut. The Odyssey ‘s dominance at the box office is rebuttal enough. But then classicist Emily Wilson—no stranger to controversy as the author of a much praised and also unjustly maligned translation of Homer’s epic poem—decided to stir the waters by penning her own harsh critique of the film for the London Review of Books. Nolan quoted the opening line of Wilson’s translation in a couple of interviews—“Tell me about a complicated man”—so I guess she felt compelled to weigh in. My issue is not that Wilson didn’t like the film; nobody is required to like it. And Wilson wields her poison pen with great skill. Her essay is the quintessential death by a thousand withering cuts that is a noxious hallmark of academia. Even her more complimentary remarks are pointedly condescending. I’m sure Nolan is sobbing all the way to bank. But for all her throat-clearing assurances that she wanted to assess Nolan’s film on its merits and the director’s artistic intent, Wilson fails spectacularly to do so. Consider her main critiques. She’s bothered by the fact that the film “centers” Odysseus’ point of view—it’s literally called The Odyssey —and dismisses the race-neutral casting not because it’s “woke” but because the non-white cast members are just playing variations on the “Black best friend.” (To her credit, Wilson did walk back that ill-advised line on BlueSky.) She both criticizes the film’s “implicit values” as being inconsistent with the mores of Homer’s original poem, and dings Nolan for not explicitly showing that war is bad, and for not giving us the perspective of the victims of the fall of Troy, which she deems essential for “any serious depiction of violence.” Wilson is further disappointed by the lack of sex scenes, given that Odysseus had affairs with both Circe and Calypso during his wanderings, and by the fact that many of the female roles are relegated to the sidelines. She’s unhappy that the gods don’t play a larger role, as they do in Homer’s original poem. This was a deliberate choice by Nolan; he has said that he wanted to humanize the gods and convey supernatural events primarily through natural phenomena that would once have been considered evidence of divine influence on human events. If one claims to be assessing the film in part on Nolan’s artistic intent, it’s strange not to acknowledge that intent. There’s more. Wilson hates the dialogue. (“I would be ashamed to have written any part of this script.”) And she criticizes Nolan’s “unethical” decision to film part of the movie in Western Sahara, an occupied territory where there has been much violence against the indigenous people. This may be a valid critique, but it has nothing to do with an objective assessment of the film. The best praise Wilson can muster is that the film is “not boring” and a “family-friendly audiovisual spectacle” that her teenagers really enjoyed. (Implication: only young or unsophisticated audiences could possibly like this film.) And for some reason she seems to think it’s an escapist action movie with exploding vehicles. Perhaps she wandered into a screening of Motor City by mistake. If Nolan’s Odyssey is so simplistic and shallow and fleetingly forgettable as Wilson claims, why are we still arguing so passionately about it? Why did she pen that entire essay? Wilson is among our foremost classical scholars and has likely forgotten more about Homer’s works than most of us ever knew. But Nolan is a creator, not a scholar. He did not set out to make a historically accurate, 100 percent faithful adaptation of The Odyssey. He created his own contemporary remix of a foundational text through the lens of his favorite personal themes. He succeeded brilliantly, even if the film falls shy of masterpiece status. Is the dialogue a bit clunky? Sometimes, but if bad dialogue were enough to sink a film, Star Wars: A New Hope would have bombed at the box office and fallen into oblivion, instead of becoming the cultural touchstone it is today. It’s true that there are a lot of untethered big ideas wafting about Nolan’s dreamily impressionistic take on Homer, but Wilson is simply incorrect that the film lacks “solid specific human experience.” And while Nolan clumsily tries to shoehorn a Message For Our Times in at the end, his Odyssey nonetheless provides a fresh take on the core myth and reminds us anew why Homer’s epic deserves its place in the literary pantheon. Ultimately that’s what every translator does, Wilson included, whose translation uses iambic pentameter rather than Greek dactylic hexameter, among other innovations. They put their personal stamp on it. Every translation requires its own tradeoffs, reflecting the unique choices of the individual, which in turn are driven by their own values and perspective. (As I was writing this, both novelist Joyce Carl Oates and Wilson’s fellow classicist , Theo Nash, made a similar point, which merely demonstrates how patently obvious it is.) Wilson claims to understand this, but her essay undercuts it repeatedly. It’s abundantly clear that Wilson simply doesn’t like Nolan’s style as a director, specifically calling out his “usual combination of grandiosity and superficiality.” That’s fair enough. At the end of the day, Nolan’s gonna be Nolan, and if you disliked Oppenheimer, Tenet, Inception , etc., this probably isn’t The Odyssey for you. There is no such thing as the One True Take on Homer’s Odyssey . The core myth transcends any specific place and time. So each incarnation finds its own imperfect truth in this enduring tale, yielding different insights into the characters, their choices, their motivations. One can appreciate one without diminishing the others—and ideally find something to savor in all. Nolan’s The Odyssey very much deserves to take its place among them. The Odyssey is now playing in theaters. It’s definitely worth seeing in IMAX if you can.",
+      "full_article_text_chars": 11907,
+      "content_preview": "Christopher Nolan’s The Odyssey has been a lightning rod for controversy ever since the first casting and design reveals, igniting afresh with each new trailer. The film has garnered plenty of well-deserved accolades ( and earnings ) since its release, and yet somehow the debates rage on between classicists and the general public alike—all this over an adaptation of an epic poem that’s been around since roughly the 8th century BCE. My take: the IMAX scale might be epic, but Nolan gives the story an intimate feel, weaving a captivating, nearly three-hour cinematic spell. While the magic slowly starts to dissipate once one leaves the theater, the powerful imagery will resonate for days. And the film gave me, personally, a fresh perspective on the central character of Odysseus. Most of us read some version of The Odyssey in high school, so we’re familiar with the story: Odysseus (Matt Damon), legendary Greek king of Ithaca, begins the long journey home after 10 years of fighting in the Trojan War. But the journey does not go smoothly, as Odysseus and his men encounter the cyclops Polyphemus (Bill Irwin), the Sirens, and an enchantress named Circe (Samantha Morton), among other obstacles. Meanwhile, his long-suffering wife, Penelope (Anne Hathaway), is warding off hundreds of suitors eager to usurp Odysseus’ throne back home. And the wandering king’s son and heir, Telemachus (Tom Holland), is convinced his father is still alive and sets off to find him. Nolan sets the tone by opening with a bard (Travis Scott) beginning to tell the tale of the fall of Troy—at least the idealized heroic version that the bard’s audiences are hungry to hear. It’s not meant to reproduce ancient Greek oratory tradition, just to evoke some sense of it, and the device is surprisingly effective. The director has also preserved Homer’s nonlinear narrative structure, with tales nesting within tales. His depiction of Odysseus is that of a seemingly broken man slowly regaining his fractured memories of the Trojan war and its aftermath in bits and pieces, after spending years under the intoxicating effects of the lotus fruit with Calypso (Charlize Theron) on the island of Ogygia. What has he tried so hard to forget, and why? What difficult truth must he finally face before he can find his way home at last? Fractured memories We only get the briefest of flashbacks at first, little more than fleeting impressions, because the Ithacan king can’t yet face his memories whole. As the film progresses, we gradually cycle through increasingly detailed memories of what transpired before Odysseus washed up alone on Calypso’s island—the sole survivor among all his men. It all builds up to a powerful moment of self-revelation with Penelope, where he finally admits that his long absence was driven in part by his stricken conscience at the horror his cleverness had unleashed on Troy. This approach gives the audience a sense of what Odysseus is experiencing, but it also led to complaints that Nolan had wasted his talented cast of major Hollywood stars. Theron’s Calypso gets just a few minutes of screen time. Ditto Lupita Nyong’o in her dual role as Helen of Troy and Clytemnestra; Jon Bernthal’s Menelaus; and Benny Safdie’s Agamemnon, among others. It’s true that Nolan presumes his audience is familiar with Homer’s epic poem and hence many of these characters primarily exist in the margins of Odysseus’ memories. But minutes of screen time are not necessarily indicative of the relative importance of any given role to Nolan’s vision. For instance, Zendaya’s Athena only appears to Odysseus in brief dream-like sequences, but those moments are critical. As he regains his memories, her mood shifts from calm neutrality to sadness, disappointment, disapproval, and ultimately to horrified grief as the invading Greek army chops off the head of her statue in a Trojan temple—along with the head of a young Trojan woman with Athena’s face. Athena represents the personal reckoning Odysseus is so loath to face. Similarly, Elliot Page is only in a couple of small scenes as Sinon, a character who doesn’t even appear in Homer’s Odyssey ; his story can be found in Virgil’s Aeneid . He’s the soldier left behind with the Trojan horse, whose lies convince the Trojan army to bring this “gift” to honor Athena into the walled city. Nolan has retooled the character into an innocent victim, unaware of Odysseus’ scheme, who nonetheless gives his life for it. His accusatory shadow shows up when Odysseus and his men travel to the underworld to consult with the blind prophet Tiresias (James Remar)—yet another example of the human toll exacted for violating “Zeus’s law” of hospitality in order to end the siege and win the war. Nobody makes more of their limited screentime than Samantha Morton as the sorceress Circe in one of the film’s most powerful sequences. Once again, Nolan has reinvented the character to fit his themes. This is not the beautiful creature who seduces Odysseus in the poem. This Circe has suffered terribly at the hands of men; she turns Odysseus’ men into pigs because to her, they are swine wearing human masks. We don’t need to know all the gory details of what happened to Circe (and her sister), the trauma that fuels her rage and thirst for vengeance. We see the effects etched into every microexpression on her ravaged face. The Odyssey has garnered both critical and audience raves and has already topped $700 million at the box office—more than enough to cover its $250 million production budget and surpassing Oppenheimer ‘s entire haul. It’s going to be nominated for tons of Oscars and will likely win several, both for technical achievement and for the many terrific performances—especially Morton, Damon, Hathaway, Holland, and Robert Pattinson’s deliciously villainous suitor, Antinous. So another backlash was inevitable. A scholar weighs in The manufactured online trolling /culture war campaign that preceded the film’s release isn’t even worth the electronic space to rebut. The Odyssey ‘s dominance at the box office is rebuttal enough. But then classicist Emily Wilson—no stranger to controversy as the author of a much praised and also unjustly maligned translation of Homer’s epic poem—decided to stir the waters by penning her own harsh critique of the film for the London Review of Books. Nolan quoted the opening line of Wilson’s translation in a couple of interviews—“Tell me about a complicated man”—so I guess she felt compelled to weigh in. My issue is not that Wilson didn’t like the film; nobody is required to like it. And Wilson wields her poison pen with great skill. Her essay is the quintessential death by a thousand withering cuts that is a noxious hallmark of academia. Even her more complimentary remarks are pointedly condescending. I’m sure Nolan is sobbing all the way to bank. But for all her throat-clearing assurances that she wanted to assess Nolan’s film on its merits and the director’s artistic intent, Wilson fails spectacularly to do so. Consider her main critiques. She’s bothered by the fact that the film “centers” Odysseus’ point of view—it’s literally called The Odyssey —and dismisses the race-neutral casting not because it’s “woke” but because the non-white cast members are just playing variations on the “Black best friend.” (To her credit, Wilson did walk back that ill-advised line on BlueSky.) She both criticizes the film’s “implicit values” as being inconsistent with the mores of Homer’s original poem, and dings Nolan for not explicitly showing that war is bad, and for not giving us the perspective of the victims of the fall of Troy, which she deems essential for “any serious depiction of violence.” Wilson is further disappointed by the lack of sex scenes, given that Odysseus had affairs with both Circe and Calypso during his wanderings, and by the fact that many of the female roles are relegated to the sidelines. She’s unhappy that the gods don’t play a larger role, as they do in Homer’s original poem. This was a deliberate choice by Nolan; he has said that he wanted to humanize the gods and convey supernatural events primarily through natural phenomena that would once have been considered evidence of divine influence on human events. If one claims to be assessing the film in part on Nolan’s artistic intent, it’s strange not to acknowledge that intent. There’s more. Wilson hates the dialogue. (“I would be ashamed to have written any part of this script.”) And she criticizes Nolan’s “unethical” decision to film part of the movie in Western Sahara, an occupied territory where there has been much violence against the indigenous people. This may be a valid critique, but it has nothing to do with an objective assessment of the film. The best praise Wilson can muster is that the film is “not boring” and a “family-friendly audiovisual spectacle” that her teenagers really enjoyed.",
+      "content_preview_chars": 8899,
+      "content_fetched_at": "2026-08-01T20:40:18",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "010d4ffdd45d899d",
+      "source_url_hash": "010d4ffdd45d899d",
+      "canonical_url": "https://techcrunch.com/2026/08/01/ubers-autonomous-vehicle-deal-tracker",
+      "title_hash": "87a6fbc8110c630b",
+      "topic_signature": "8a1547944f75f6661b96",
+      "title": "Uber is building an autonomous vehicle empire, and here’s every company it’s using to do it",
+      "url": "https://techcrunch.com/2026/08/01/ubers-autonomous-vehicle-deal-tracker",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-08-01T15:05:00Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 5.58,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-08-01T20:39:56",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 139,
+      "affiliate_links_removed_count": 34,
+      "removed_source_links_count": 139,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Uber is building an autonomous vehicle empire, and here's every company it's using to do it | TechCrunch",
+      "meta_description": "Uber has partnered with — and in some cases made direct investments in — about 30 autonomous vehicle companies over the past two years. Here's the list and the latest on the partnerships.",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/07/uber-getty.jpg?resize=1200,800",
+          "alt": "Uber is building an autonomous vehicle empire, and here's every company it's using to do it | TechCrunch",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2024/06/Cover-image.jpg?w=680",
+          "alt": "class 8 self-driving truck with aurora innovation technology on uber freight network",
+          "source": "article_content"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2024/10/Avride-Uber.png?w=680",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2025/06/GettyImages-2182735330.jpg?w=680",
+          "alt": "Coco Robotics, robots, delivery robots",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2026/07/uber-getty.jpg?resize=1200,800",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2024/06/Cover-image.jpg?w=680",
+          "alt": "class 8 self-driving truck with aurora innovation technology on uber freight network"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2024/10/Avride-Uber.png?w=680",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2025/06/GettyImages-2182735330.jpg?w=680",
+          "alt": "Coco Robotics, robots, delivery robots"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "Uber has partnered with — and in some cases made direct investments in — more than 30 autonomous vehicle companies over the past two years. And it’s taking a global approach. Here, TechCrunch tracks every one of those moves in one place. But first, a bit of history. Uber was, at one time, developing and testing its own autonomous vehicle (AV) technology. The company, then led by Travis Kalanick, created Uber Advanced Technologies Group (ATG) in 2014 and recruited dozens of researchers from Carnegie Mellon University’s robotics program. Two years later, Uber acquired Otto, a self-driving truck company founded by former Google self-driving engineer Anthony Levandowski, Lior Ron, Don Burnette (who has since gone on to found Kodiak AI), and Claire Delaunay. Uber also began testing its AVs on public streets in 2016 across California, Pittsburgh, and Arizona. All of that progress unraveled across three defining moments: Waymo’s trade secrets lawsuit against Uber, the resignation of Kalanick in 2017, and a fatal crash in Tempe, Arizona, in 2018 involving its self-driving Volvo XC90, which struck and killed a pedestrian. (The vehicle was in autonomous mode, and a human safety operator behind the wheel at the time wasn’t paying attention.) Uber suspended its testing and reorganized the program, although it never truly returned to its mission. After Dara Khosrowshahi took the wheel at Uber, the company went through a reset. In 2020, Uber walked away from all of its moonshots, including autonomous vehicles, to focus on its core businesses of ride-hailing and delivery using human-driven vehicles. Uber sold Uber ATG to Aurora, Jump to Lime, and Elevate to Joby Aviation. It didn’t completely divest, though. Uber kept equity stakes in all of them. Just two years later, Uber crept back in and started making AV deals. The deal flow picked up in earnest in 2024. Below is the full list, which TechCrunch will keep updated as Uber makes new moves. Uber has been connected with Aurora since 2020 when, as mentioned above, it sold its Uber ATG unit to the company. Uber received equity in Aurora as part of that deal and still owns that stake. As of this past April, Uber, through its holding company Neben Holdings, owns 325.97 million Aurora Class A shares, representing a 19.7% Class A equity stake and 6.9% voting power, according to SEC filings. Uber Freight, the logistics business spun out of Uber in 2018, announced in June 2024 a multi-year collaboration with Aurora that expanded upon an existing pilot program. In May 2025, the companies said Aurora’s self-driving trucks had been completing roundtrip hauls between Dallas and Houston via the Uber Freight platform. In June 2026, the companies announced plans to launch a robotaxi program in Munich, pending regulatory approval. The partnership lacks some details, such as what vehicle will be used. The companies pitched this as an OEM-agnostic model. Vehicles will be equipped with Israel-based Autobrains’ agentic AI driving system, which runs on Nvidia’s Drive Hyperion platform. The robotaxis will be available via Uber’s app. Avomo, a European company that was previously known as Moove Cars, is an autonomous fleet operator partner. Uber actually took a 30% stake in Avomo in 2021. And while Avomo might not have the same name recognition as other players, it is embedded in Uber’s AV business. For instance, it is the company responsible for managing fleet services such as vehicle cleaning, maintenance, inspections, charging, and depot operations for the Waymo-Uber partnership in Austin. Avomo also handles fleet operations for Uber as part of its robotaxi service agreement with WeRide in Madrid , which was announced in June 2026. Important note: don’t mistake Avomo (formerly Moove Cars), for Moove, an African company that manages Waymo’s AV fleet in Phoenix. Avride, the Yandex spinout now under parent company Nebius Group, announced a multi-year deal with Uber in October 2024 to bring Avride’s sidewalk delivery robots and autonomous vehicles to both Uber’s delivery unit, Uber Eats, and Uber’s ride-hailing app. In February 2025, Uber shared in its fourth-quarter earnings that Uber Eats orders in Austin and Dallas were being delivered via autonomous sidewalk robots in partnership with Avride. Avride disclosed in fall 2025 that it had secured strategic investments and commercial commitments worth $375 million from Uber and Nebius. Neither company provided details on the investment and how much was capital. By the end of 2025, Avride robotaxis — built on Hyundai IONIQ 5s outfitted with Avride’s self-driving system — were available on the Uber app in Dallas. The National Highway Traffic Safety Administration opened an investigation into Avride in May 2026 after identifying more than a dozen crashes and one minor injury. As of this past June, these were not driverless and still had a human safety operator behind the wheel. Uber announced a multi-year strategic partnership with the Chinese tech giant in July 2025. Under the agreement, thousands of Baidu’s Apollo Go autonomous vehicles will be deployed on the Uber platform in multiple markets outside the U.S. and mainland China. Those deployments were set to start in Asia and the Middle East later in 2025, the companies said at the time. In late 2025, Baidu said it would start testing Apollo Go robotaxis in London in the first half of 2026 through its partnership with Uber. As of June, those tests had not begun. The sidewalk delivery robot company started working with Uber in 2022, announcing a partnership to deliver food in Miami, with plans to add more cities in 2023. The two companies expanded to commercial deliveries in Fairfax, Virginia that same year and, in February 2025, announced that they were delivering food in Osaka, Japan, using Cartken robots . Cartken shifted its focus to industrial robots by summer 2025. The company said it would maintain its food and consumer last-mile delivery business, but had no plans to expand it. In 2024, the two companies announced a partnership to use Coco’s sidewalk robots to deliver food for Uber Eats customers, starting in Los Angeles. The partnership expanded to neighborhoods in Miami in April 2025. Uber and GM’s Cruise announced a strategic partnership in August 2024 to bring Cruise’s robotaxis onto the Uber app in 2025. That announcement was notable for Cruise, which had gone through a major overhaul, including layoffs and the resignation of its co-founders after one of its robotaxis struck a pedestrian in October 2023. The Cruise reboot never got off the ground; in December 2024, citing high costs and mounting competition, GM pulled the plug on Cruise’s robotaxi business entirely and folded the unit into its broader engineering operations. The partnership no longer exists because — welp — Cruise itself doesn’t, at least not as a robotaxi company. But at one time, the two companies had struck a deal. Uber announced in September 2025 a partnership with drone delivery company Flytrex. The partnership also included a small investment in Flytrex, although the amount was not disclosed. Hertz isn’t developing autonomous vehicle tech, but it’s still worth including the rental car company here. In April of this year, Uber formed strategic fleet partnerships with Hertz and its affiliated operating company Oro Mobility. This deal is part of Uber’s plans to launch a premium robotaxi service using Lucid vehicles equipped with Nuro’s self-driving system. Hertz has been tasked with day-to-day fleet management, including charging, maintenance, repairs, cleaning, and depot staffing. Uber has put real money behind EV maker Lucid Motors. Uber announced plans in 2025 to launch a premium robotaxi service using robotaxi-ready vehicles from Lucid. Initially, Uber said it would invest $300 million into Lucid and separately buy at least 20,000 of its Lucid Gravity SUVs over six years. The vehicles will be equipped with Nuro’s self-driving system. In April, Uber upped its order and investment. Lucid received another $200 million from Uber, which also increased its minimum order to 35,000 vehicles. The order includes Lucid’s upcoming mid-sized platform. Uber now owns more than 11% of Lucid as part of investments it has made alongside the vehicle orders. The Michigan-based autonomous vehicle startup reached an agreement with Uber in May 2025 to deploy its AVs through the app by the end of that year, starting in Arlington, Texas. Uber and May Mobility announced plans at the time to expand to other U.S. markets in 2026 and “deploy thousands of AVs” over “the next few years,” according to the startup. As of June, Arlington, Texas, remains the only market where customers using the Uber app can hail a May Mobility vehicle. In January of this year, Mercedes-Benz announced it was collaborating with Nvidia to create a robotaxi ecosystem using self-driving S-Class sedans that would be on the Uber ride-hailing platform. No specific cities have been announced. The Chinese autonomous driving tech company reached an agreement with Uber in May 2025 to add its robotaxis to the app, starting in Europe in early 2026, with safety operators on board. A few months later in September 2025, the Beijing-based company and Uber said they would start testing robotaxis in Munich, Germany in 2026. Motional, a subsidiary of Hyundai, has been working with Uber in some form since 2021 when the companies announced plans to launch autonomous deliveries in Santa Monica. This was considered a pilot and never became a commercial program or used fully driverless vehicles. The companies expanded the partnership in October 2022 with a 10-year operating agreement that will eventually roll out to major cities across North America; Las Vegas and Los Angeles were among the first named cities. While Motional and Uber remain partners, a commercial driverless service (meaning no human safety operator behind the wheel) has yet to materialize. Motional went through a reboot in 2024, taking a new AI-centric approach to its self-driving system. In March 2026, Motional’s self-driving Hyundai Ioniq 5 vehicles were added to the Uber app in Las Vegas for autonomous rides to and from five areas of the city. Human safety monitors are still riding along New Horizon is a fleet management company involved in Uber’s agreement with Baidu to bring the Chinese company’s Apollo Go autonomous ride-hailing service to Dubai. Nissan is part of Uber’s partnership agreement with Wayve. In March of this year, Uber announced plans to add self-driving Nissan Leaf EVs to its network in Tokyo, powered by Wayve’s tech. (See the Wayve entry below for more.) The self-driving tech startup has been tied to Uber since at least 2022, but the relationship has changed. Initially, Nuro was developing a custom-built delivery vehicle designed for the roadway. Uber and Nuro announced a 10-year partnership in 2022 to launch autonomous deliveries in Mountain View, California, and Houston starting that fall. Nuro pivoted away from the delivery vehicle and decided to focus on licensing its self-driving tech to automakers and robotaxi operators. Uber stuck with Nuro and in 2025 announced a landmark deal to launch a premium robotaxi service using Lucid Gravity SUVs equipped with the startup’s self-driving system. San Francisco will be the first market. In June of this year, the companies announced the second market will be Houston. Uber has also invested in Nuro. Sources familiar with the financial terms have told TechCrunch that Uber’s total commitment to Nuro, which includes its participation in the startup’s Series E round in 2025 and future milestone-based investments, is about $500 million. Uber first publicly talked about Nvidia in January 2018, a different era for both companies. Uber picked Nvidia to provide AI computing for its autonomous software. With Uber’s in-house AV program sold off in 2020, that deal ended. Fast forward to CES 2025, when Uber said it would use Nvidia’s generative world model simulation tool, Cosmos, and cloud-based AI supercomputing platform, DGX Cloud, to support the development of AV tech. Uber didn’t share many details at the time about how it planned to use these Nvidia tools. In October 2025 , Uber and Nvidia announced plans to use Nvidia’s Hyperion autonomous platform to accelerate Uber’s robotaxi program. As part of that announcement, Stellantis committed to delivering at least 5,000 Nvidia Drive-powered vehicles to Uber for robotaxi operations in the U.S. and internationally — one of the first automakers to do so. In March of this year, the companies expanded the partnership and announced plans to launch a global fleet of entirely Nvidia software-driven autonomous vehicles, starting in Los Angeles and San Francisco in the first half of 2027 and scaling across 28 cities globally by 2028. The companies said the vehicles will run Nvidia’s Drive Hyperion platform and use Alpamayo, Nvidia’s family of open-source AI models, datasets, and simulation tools designed to handle complex driving situations. The Guangzhou, China-based company and Uber announced a partnership in May 2025 with an eye on the Middle East. The companies planned to launch a pilot that year that would make Pony.ai’s robotaxis (with a safety operator on board) available on the Uber app. In March 2026, Uber, Pony.ai, and Croatian company Verne announced plans to launch a commercial robotaxi service in Europe, starting in Zagreb, Croatia. Pony.ai will supply the autonomous driving system and a robotaxi called the Arcfox Alpha T5 that was developed with Chinese automaker BAIC. Verne will own and operate the fleet, and Uber will provide its vast ride-hailing network. This unexpected deal, which was announced in March 2026, could be worth up to $1.25 billion for Rivian. Under the agreement, Rivian will build thousands of robotaxis based on its new R2 SUV and will be equipped with the EV maker’s self-driving system, which is still under development. Uber made an initial $300 million investment in Rivian and is “expected to purchase 10,000 fully autonomous R2 robotaxis” ahead of a planned rollout in San Francisco and Miami in 2028. The two companies said at the time they plan to launch the robotaxis in “25 cities in the U.S., Canada, and Europe by the end of 2031.” The fleet will be exclusively available on Uber’s network. The sidewalk delivery robot startup is rooted in Uber, sort of. In 2020, Uber acquired on-demand delivery startup Postmates. The following year, the robotics division known as Postmates X spun out as an independent company called Serve Robotics. Uber also invested in Serve, which went public in 2024 through a merger with a blank-check company. Uber Eats has used Serve Robotics’ robots for a few years in the United States. Starship Technologies Sidewalk delivery robot company Starship Technologies struck a deal with Uber’s delivery unit Eats in November 2025. Under the deal, Starship robots will deliver food orders via the Uber Eats app in multiple European countries in 2026 and eventually expand to the U.S. in 2027. The automaker announced in June 2026 a deal with self-driving startup Wayve, and Uber to jointly develop and deploy driverless robotaxis. Stellantis and Wayve, which Uber has invested in, were already working together. This deal brings all of the components together: automaker, self-driving tech, and ride-hailing network. The companies have agreed to work together on vehicle integration, testing, and validation before Stellantis-made vehicles equipped with Wayve’s tech are deployed in the real world, and specifically across Europe and North America. The UAE-based Tawasul is another operator and partnered with Uber in 2024 to provide fleet management services for Uber’s WeRide robotaxi service in Abu Dhabi. Uber Freight, the logistics company that spun out of Uber in 2018, announced a partnership in late December with Torc Robotics, a self-driving trucks company that was acquired by Daimler in 2019. The partnership has largely focused on data. Torc has used Uber Freight to analyze volume patterns, shippers’ networks, and other data that will help it identify the most effective lanes and most suitable commercial applications for autonomous trucking deployment. Uber’s relationship with Verne is pretty fresh. The company, formed by Rimac Group founder Mate Rimac, reached an agreement in March 2026 to launch a commercial robotaxi service in Europe, starting in Zagreb, Croatia. Pony.ai, the third partner, is supplying the self-driving system. Verne will own and operate the fleet of vehicles made by Chinese automaker BAIC. Uber also planned to invest in Verne, although the terms have not been disclosed. Volkswagen’s subsidiary MOIA America and Uber announced plans in 2025 to launch a commercial robotaxi service using autonomous versions of Volkswagen’s electric ID. Buzz minivan. The companies said robotaxis will launch in multiple U.S. cities over the next decade. Los Angeles is the first city. The companies, which have set up a joint facility in Los Angeles for day-to-day fleet operations, said in April 2026 that a robotaxi service would launch later in the year, with a human safety operator on board. Driverless operations are expected to begin in 2027. Volvo Autonomous Solutions Uber Freight, which connects companies that need to ship goods with truck drivers and fleet carriers, first partnered with Volvo Autonomous Solutions in 2023. Two years later, the companies said the partnership was moving “out of the planning stage and delivering tangible results.” Volvo’s VNL Autonomous truck, which was built with redundancies to support self-driving tech developed by Aurora Innovation, began delivering loads for Uber Freight customers between Dallas and Houston. Those routes have since expanded. The Uber and Waabi relationship is also a deep cut. The founder and CEO, Raquel Urtasun, previously worked at Uber as chief scientist at its autonomous vehicle division, Uber ATG, which Uber sold to self-driving trucking firm Aurora Innovation in 2020. Urtasun founded Waabi in 2021 with an initial focus on self-driving trucks. Uber was among the investors that participated in its $83.5 million Series A round. Waabi and Uber got a lot closer in 2026. In January, Waabi raised $1 billion — $750 million in a Series C round and about$250 million in milestone-based capital from Uber to support the deployment of robotaxis equipped with Waabi’s self-driving system. The Alphabet-owned company first partnered with Uber in May 2023, when it agreed to bring some of its robotaxis on the Uber platform, starting in Phoenix. The relationship in Phoenix is limited since Waymo customers can also directly hail a robotaxi using the company’s own app. The following year, the companies announced an expansion to Austin and Atlanta, although this time the Waymo robotaxis could only be accessed via the Uber app. The Austin service launched in March 2025, followed by Atlanta by June 2025. The relationship has not expanded since; it has actually shrunk. The companies ended their Phoenix partnership in last month, in July. Waymo is now working to get out of its contract with Uber, which doesn’t end until May 2028. The buzzy UK self-driving startup has both partnered with and received capital from Uber. In February 2026, Wayve raised $1.2 billion in a round that included returning backers Microsoft, Nvidia, and Uber. The total raise could reach $1.5 billion thanks to another $300 million from Uber contingent on deploying robotaxis, beginning in London. In March 2026, Uber announced plans to add self-driving Nissan Leaf EVs to its network in Tokyo, powered by Wayve’s tech. A pilot has been scheduled for late 2026. Under the deal, Wayve will integrate its AI-powered, self-driving software into a Nissan Leaf, which will be available on Uber’s ride-hail network in Japan. The Chinese robotaxi company is one of Uber’s more prolific partners. It publicly disclosed the partnership in September 2024 and shared plans to bring WeRide robotaxis to the Uber platform, starting in Abu Dhabi. The service launched in December 2024 with human safety operators and went driverless in November 2025. WeRide robotaxis launched on the Uber app in Dubai in late 2025. Uber expanded the partnership to bring WeRide’s AVs to 15 more cities by 2030, including in Europe. In these cities, WeRide’s robotaxis will be available through the Uber app, and Uber will be responsible for fleet operations. As part of the expansion, Uber increased its investment into WeRide by $100 million. Uber has since revealed some of those cities, including Madrid and Zurich. In February 2026, the partnership expanded again with the companies agreeing to deploy at least 1,200 robotaxis across the Middle East. The deployment, which will span Abu Dhabi, Dubai, and Riyadh, Saudi Arabia is expected to be completed as soon as 2027. The Amazon-owned company is an Uber latecomer. The companies announced a strategic partnership in March 2026 to deploy Zoox robotaxis on the Uber app in Las Vegas this year and in Los Angeles in 2027. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! Okta buys AI security startup Permiso — source says for about $200M Jagmeet Singh Okta buys AI security startup Permiso — source says for about $200M Spotify adds a running mode to its app Ivan Mehta Spotify adds a running mode to its app Claude Opus 5 became downright ruthless when tasked with running a vending machine Julie Bort Claude Opus 5 became downright ruthless when tasked with running a vending machine DoorDash is building its own drone delivery business Kirsten Korosec DoorDash is building its own drone delivery business Sam Altman is ready to decelerate Tim Fernholz Sam Altman is ready to decelerate Data centers may face temporary power cuts to prevent blackouts on largest US grid Tim De Chant Data centers may face temporary power cuts to prevent blackouts on largest US grid PSA: Your Claude shared chats and Artifacts may have ended up on Google Lorenzo Franceschi-Bicchierai PSA: Your Claude shared chats and Artifacts may have ended up on Google",
+      "full_article_text_chars": 22375,
+      "content_preview": "Uber has partnered with — and in some cases made direct investments in — more than 30 autonomous vehicle companies over the past two years. And it’s taking a global approach. Here, TechCrunch tracks every one of those moves in one place. But first, a bit of history. Uber was, at one time, developing and testing its own autonomous vehicle (AV) technology. The company, then led by Travis Kalanick, created Uber Advanced Technologies Group (ATG) in 2014 and recruited dozens of researchers from Carnegie Mellon University’s robotics program. Two years later, Uber acquired Otto, a self-driving truck company founded by former Google self-driving engineer Anthony Levandowski, Lior Ron, Don Burnette (who has since gone on to found Kodiak AI), and Claire Delaunay. Uber also began testing its AVs on public streets in 2016 across California, Pittsburgh, and Arizona. All of that progress unraveled across three defining moments: Waymo’s trade secrets lawsuit against Uber, the resignation of Kalanick in 2017, and a fatal crash in Tempe, Arizona, in 2018 involving its self-driving Volvo XC90, which struck and killed a pedestrian. (The vehicle was in autonomous mode, and a human safety operator behind the wheel at the time wasn’t paying attention.) Uber suspended its testing and reorganized the program, although it never truly returned to its mission. After Dara Khosrowshahi took the wheel at Uber, the company went through a reset. In 2020, Uber walked away from all of its moonshots, including autonomous vehicles, to focus on its core businesses of ride-hailing and delivery using human-driven vehicles. Uber sold Uber ATG to Aurora, Jump to Lime, and Elevate to Joby Aviation. It didn’t completely divest, though. Uber kept equity stakes in all of them. Just two years later, Uber crept back in and started making AV deals. The deal flow picked up in earnest in 2024. Below is the full list, which TechCrunch will keep updated as Uber makes new moves. Uber has been connected with Aurora since 2020 when, as mentioned above, it sold its Uber ATG unit to the company. Uber received equity in Aurora as part of that deal and still owns that stake. As of this past April, Uber, through its holding company Neben Holdings, owns 325.97 million Aurora Class A shares, representing a 19.7% Class A equity stake and 6.9% voting power, according to SEC filings. Uber Freight, the logistics business spun out of Uber in 2018, announced in June 2024 a multi-year collaboration with Aurora that expanded upon an existing pilot program. In May 2025, the companies said Aurora’s self-driving trucks had been completing roundtrip hauls between Dallas and Houston via the Uber Freight platform. In June 2026, the companies announced plans to launch a robotaxi program in Munich, pending regulatory approval. The partnership lacks some details, such as what vehicle will be used. The companies pitched this as an OEM-agnostic model. Vehicles will be equipped with Israel-based Autobrains’ agentic AI driving system, which runs on Nvidia’s Drive Hyperion platform. The robotaxis will be available via Uber’s app. Avomo, a European company that was previously known as Moove Cars, is an autonomous fleet operator partner. Uber actually took a 30% stake in Avomo in 2021. And while Avomo might not have the same name recognition as other players, it is embedded in Uber’s AV business. For instance, it is the company responsible for managing fleet services such as vehicle cleaning, maintenance, inspections, charging, and depot operations for the Waymo-Uber partnership in Austin. Avomo also handles fleet operations for Uber as part of its robotaxi service agreement with WeRide in Madrid , which was announced in June 2026. Important note: don’t mistake Avomo (formerly Moove Cars), for Moove, an African company that manages Waymo’s AV fleet in Phoenix. Avride, the Yandex spinout now under parent company Nebius Group, announced a multi-year deal with Uber in October 2024 to bring Avride’s sidewalk delivery robots and autonomous vehicles to both Uber’s delivery unit, Uber Eats, and Uber’s ride-hailing app. In February 2025, Uber shared in its fourth-quarter earnings that Uber Eats orders in Austin and Dallas were being delivered via autonomous sidewalk robots in partnership with Avride. Avride disclosed in fall 2025 that it had secured strategic investments and commercial commitments worth $375 million from Uber and Nebius. Neither company provided details on the investment and how much was capital. By the end of 2025, Avride robotaxis — built on Hyundai IONIQ 5s outfitted with Avride’s self-driving system — were available on the Uber app in Dallas. The National Highway Traffic Safety Administration opened an investigation into Avride in May 2026 after identifying more than a dozen crashes and one minor injury. As of this past June, these were not driverless and still had a human safety operator behind the wheel. Uber announced a multi-year strategic partnership with the Chinese tech giant in July 2025. Under the agreement, thousands of Baidu’s Apollo Go autonomous vehicles will be deployed on the Uber platform in multiple markets outside the U.S. and mainland China. Those deployments were set to start in Asia and the Middle East later in 2025, the companies said at the time. In late 2025, Baidu said it would start testing Apollo Go robotaxis in London in the first half of 2026 through its partnership with Uber. As of June, those tests had not begun. The sidewalk delivery robot company started working with Uber in 2022, announcing a partnership to deliver food in Miami, with plans to add more cities in 2023. The two companies expanded to commercial deliveries in Fairfax, Virginia that same year and, in February 2025, announced that they were delivering food in Osaka, Japan, using Cartken robots . Cartken shifted its focus to industrial robots by summer 2025. The company said it would maintain its food and consumer last-mile delivery business, but had no plans to expand it. In 2024, the two companies announced a partnership to use Coco’s sidewalk robots to deliver food for Uber Eats customers, starting in Los Angeles. The partnership expanded to neighborhoods in Miami in April 2025. Uber and GM’s Cruise announced a strategic partnership in August 2024 to bring Cruise’s robotaxis onto the Uber app in 2025. That announcement was notable for Cruise, which had gone through a major overhaul, including layoffs and the resignation of its co-founders after one of its robotaxis struck a pedestrian in October 2023. The Cruise reboot never got off the ground; in December 2024, citing high costs and mounting competition, GM pulled the plug on Cruise’s robotaxi business entirely and folded the unit into its broader engineering operations. The partnership no longer exists because — welp — Cruise itself doesn’t, at least not as a robotaxi company. But at one time, the two companies had struck a deal. Uber announced in September 2025 a partnership with drone delivery company Flytrex. The partnership also included a small investment in Flytrex, although the amount was not disclosed. Hertz isn’t developing autonomous vehicle tech, but it’s still worth including the rental car company here. In April of this year, Uber formed strategic fleet partnerships with Hertz and its affiliated operating company Oro Mobility. This deal is part of Uber’s plans to launch a premium robotaxi service using Lucid vehicles equipped with Nuro’s self-driving system. Hertz has been tasked with day-to-day fleet management, including charging, maintenance, repairs, cleaning, and depot staffing. Uber has put real money behind EV maker Lucid Motors. Uber announced plans in 2025 to launch a premium robotaxi service using robotaxi-ready vehicles from Lucid. Initially, Uber said it would invest $300 million into Lucid and separately buy at least 20,000 of its Lucid Gravity SUVs over six years. The vehicles will be equipped with Nuro’s self-driving system. In April, Uber upped its order and investment. Lucid received another $200 million from Uber, which also increased its minimum order to 35,000 vehicles. The order includes Lucid’s upcoming mid-sized platform. Uber now owns more than 11% of Lucid as part of investments it has made alongside the vehicle orders. The Michigan-based autonomous vehicle startup reached an agreement with Uber in May 2025 to deploy its AVs through the app by the end of that year, starting in Arlington, Texas. Uber and May Mobility announced plans at the time to expand to other U.S. markets in 2026 and “deploy thousands of AVs” over “the next few years,” according to the startup. As of June, Arlington, Texas, remains the only market where customers using the Uber app can hail a May Mobility vehicle. In January of this year, Mercedes-Benz announced it was collaborating with Nvidia to create a robotaxi ecosystem using self-driving S-Class sedans that would be on the Uber ride-hailing platform.",
+      "content_preview_chars": 8960,
+      "content_fetched_at": "2026-08-01T20:40:13",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
     }
