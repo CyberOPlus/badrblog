@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-01T12:58:38",
+  "updated_at": "2026-08-01T14:27:34",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2559,12 +2559,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-08-01T12:57:04",
-      "candidate_retry_after": "2026-08-01T13:12:04Z",
+      "content_fetched_at": "2026-08-01T14:23:54",
+      "candidate_retry_after": "2026-08-01T14:38:54Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-08-01T12:57:04",
-      "candidate_failure_count": 108
+      "candidate_failed_at": "2026-08-01T14:23:54",
+      "candidate_failure_count": 109
     },
     {
       "id": "512c2899a98440d2",
@@ -2593,12 +2593,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-08-01T12:57:06",
-      "candidate_retry_after": "2026-08-01T13:12:06Z",
+      "content_fetched_at": "2026-08-01T14:23:56",
+      "candidate_retry_after": "2026-08-01T14:38:56Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-08-01T12:57:06",
-      "candidate_failure_count": 108
+      "candidate_failed_at": "2026-08-01T14:23:56",
+      "candidate_failure_count": 109
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2626,13 +2626,13 @@
       "score": 4,
       "priority": "low",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-08-01T12:57:08",
-      "candidate_retry_after": "2026-08-01T13:12:08Z",
+      "content_fetch_error": "http 404",
+      "content_fetched_at": "2026-08-01T14:23:58",
+      "candidate_retry_after": "2026-08-01T14:38:58Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-08-01T12:57:08",
-      "candidate_failure_count": 108
+      "candidate_failure_reason": "http 404",
+      "candidate_failed_at": "2026-08-01T14:23:58",
+      "candidate_failure_count": 109
     },
     {
       "id": "d900f1574fddfab4",
@@ -3538,17 +3538,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 0,
-      "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 0,
+      "source_links_removed_count": 229,
+      "affiliate_links_removed_count": 7,
+      "removed_source_links_count": 229,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-08-01T12:57:08",
-      "candidate_retry_after": "2026-08-01T13:12:08Z",
+      "content_fetch_error": "weak article body after fallbacks (best=467 chars/72 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:467chars/72words, page_text:467chars/72words)",
+      "content_fetched_at": "2026-08-01T14:24:01",
+      "candidate_retry_after": "2026-08-01T14:39:01Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-08-01T12:57:08",
-      "candidate_failure_count": 107
+      "candidate_failure_reason": "weak article body after fallbacks (best=467 chars/72 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:467chars/72words, page_text:467chars/72words)",
+      "candidate_failed_at": "2026-08-01T14:24:01",
+      "candidate_failure_count": 108
     },
     {
       "id": "8d2678d87487d729",
@@ -4428,13 +4428,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-08-01T12:57:09",
-      "candidate_retry_after": "2026-08-01T13:12:09Z",
+      "content_fetch_error": "http 403",
+      "content_fetched_at": "2026-08-01T14:24:02",
+      "candidate_retry_after": "2026-08-01T14:39:02Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-08-01T12:57:09",
-      "candidate_failure_count": 106
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-08-01T14:24:02",
+      "candidate_failure_count": 107
     },
     {
       "id": "45429302676bf4c5",
@@ -5492,12 +5492,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-08-01T12:57:11",
-      "candidate_retry_after": "2026-08-01T13:12:11Z",
+      "content_fetched_at": "2026-08-01T14:24:03",
+      "candidate_retry_after": "2026-08-01T14:39:03Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-08-01T12:57:11",
-      "candidate_failure_count": 104
+      "candidate_failed_at": "2026-08-01T14:24:03",
+      "candidate_failure_count": 105
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5529,12 +5529,12 @@
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-08-01T12:57:13",
-      "candidate_retry_after": "2026-08-01T13:12:13Z",
+      "content_fetched_at": "2026-08-01T14:24:05",
+      "candidate_retry_after": "2026-08-01T14:39:05Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-08-01T12:57:13",
-      "candidate_failure_count": 104
+      "candidate_failed_at": "2026-08-01T14:24:05",
+      "candidate_failure_count": 105
     },
     {
       "id": "aede79193c6b98c9",
@@ -5566,12 +5566,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-08-01T12:57:14",
-      "candidate_retry_after": "2026-08-01T13:12:14Z",
+      "content_fetched_at": "2026-08-01T14:24:06",
+      "candidate_retry_after": "2026-08-01T14:39:06Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-08-01T12:57:14",
-      "candidate_failure_count": 104
+      "candidate_failed_at": "2026-08-01T14:24:06",
+      "candidate_failure_count": 105
     },
     {
       "id": "253eaa098c468523",
@@ -6514,12 +6514,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-08-01T12:57:15",
-      "candidate_retry_after": "2026-08-01T13:12:15Z",
+      "content_fetched_at": "2026-08-01T14:24:07",
+      "candidate_retry_after": "2026-08-01T14:39:07Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-08-01T12:57:15",
-      "candidate_failure_count": 102
+      "candidate_failed_at": "2026-08-01T14:24:07",
+      "candidate_failure_count": 103
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6884,11 +6884,11 @@
       "content_fetched_at": "2026-07-19T17:40:27",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-08-01T09:20:53",
+      "selected_at": "2026-08-01T14:27:32",
       "suggested_category": "Cyber-Security",
       "selection_reason": "category rotation newest fresh article: Cyber-Security",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-08-01T09:20:53",
+      "processing_prepared_at": "2026-08-01T14:27:33",
       "ai_input_package": {
         "title": "Posts - The Heimdal Security Blog",
         "url": "https://heimdalsecurity.com/blog/posts",
@@ -6923,17 +6923,18 @@
       },
       "ai_quality_last_error": "publish date missing in strict recent mode",
       "ai_status": "failed",
-      "ai_error": "publish date missing in strict recent mode",
-      "ai_rotation_exhausted": false,
+      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 71.68,
-      "ai_quality_status": "failed_after_retries",
-      "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-08-01T09:37:06Z",
+      "ai_total_time_seconds": 0.28,
+      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_quality_attempts": 2,
+      "candidate_retry_after": "2026-08-01T14:42:34Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "publish date missing in strict recent mode",
-      "candidate_failed_at": "2026-08-01T09:22:06",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "candidate_failed_at": "2026-08-01T14:27:34",
+      "candidate_failure_count": 2,
+      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d"
     },
     {
       "id": "7b4a2e44fd263b2f",
@@ -6964,12 +6965,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-08-01T12:57:18",
-      "candidate_retry_after": "2026-08-01T13:12:18Z",
+      "content_fetched_at": "2026-08-01T14:24:10",
+      "candidate_retry_after": "2026-08-01T14:39:10Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-08-01T12:57:18",
-      "candidate_failure_count": 100
+      "candidate_failed_at": "2026-08-01T14:24:10",
+      "candidate_failure_count": 101
     },
     {
       "id": "693fbfabd96b2185",
@@ -7000,12 +7001,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-08-01T12:57:19",
-      "candidate_retry_after": "2026-08-01T13:12:19Z",
+      "content_fetched_at": "2026-08-01T14:24:11",
+      "candidate_retry_after": "2026-08-01T14:39:11Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-08-01T12:57:19",
-      "candidate_failure_count": 100
+      "candidate_failed_at": "2026-08-01T14:24:11",
+      "candidate_failure_count": 101
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9514,12 +9515,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=422 chars/65 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:422chars/65words, paragraph_fallback:307chars/48words, article_body:422chars/65words, meta_description:53chars/7words, page_text:422chars/65words)",
-      "content_fetched_at": "2026-08-01T12:57:20",
-      "candidate_retry_after": "2026-08-01T13:12:20Z",
+      "content_fetched_at": "2026-08-01T14:24:12",
+      "candidate_retry_after": "2026-08-01T14:39:12Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=422 chars/65 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:422chars/65words, paragraph_fallback:307chars/48words, article_body:422chars/65words, meta_description:53chars/7words, page_text:422chars/65words)",
-      "candidate_failed_at": "2026-08-01T12:57:20",
-      "candidate_failure_count": 96
+      "candidate_failed_at": "2026-08-01T14:24:12",
+      "candidate_failure_count": 97
     },
     {
       "id": "561b6316398d7603",
@@ -10685,13 +10686,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 520",
-      "content_fetched_at": "2026-08-01T12:57:32",
-      "candidate_retry_after": "2026-08-01T13:12:32Z",
+      "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
+      "content_fetched_at": "2026-08-01T14:24:12",
+      "candidate_retry_after": "2026-08-01T14:39:12Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 520",
-      "candidate_failed_at": "2026-08-01T12:57:32",
-      "candidate_failure_count": 92
+      "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
+      "candidate_failed_at": "2026-08-01T14:24:12",
+      "candidate_failure_count": 93
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10722,13 +10723,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 520",
-      "content_fetched_at": "2026-08-01T12:57:43",
-      "candidate_retry_after": "2026-08-01T13:12:43Z",
+      "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
+      "content_fetched_at": "2026-08-01T14:24:13",
+      "candidate_retry_after": "2026-08-01T14:39:13Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 520",
-      "candidate_failed_at": "2026-08-01T12:57:43",
-      "candidate_failure_count": 92
+      "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
+      "candidate_failed_at": "2026-08-01T14:24:13",
+      "candidate_failure_count": 93
     },
     {
       "id": "a6f4ca9464909855",
@@ -10759,13 +10760,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 520",
-      "content_fetched_at": "2026-08-01T12:57:54",
-      "candidate_retry_after": "2026-08-01T13:12:54Z",
+      "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
+      "content_fetched_at": "2026-08-01T14:24:13",
+      "candidate_retry_after": "2026-08-01T14:39:13Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 520",
-      "candidate_failed_at": "2026-08-01T12:57:54",
-      "candidate_failure_count": 92
+      "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
+      "candidate_failed_at": "2026-08-01T14:24:13",
+      "candidate_failure_count": 93
     },
     {
       "id": "71463c25ac92daaa",
@@ -15507,12 +15508,12 @@
       "removed_source_links_count": 81,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:107chars/21words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-08-01T12:57:55",
-      "candidate_retry_after": "2026-08-01T13:12:55Z",
+      "content_fetched_at": "2026-08-01T14:24:14",
+      "candidate_retry_after": "2026-08-01T14:39:14Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:107chars/21words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-08-01T12:57:55",
-      "candidate_failure_count": 81,
+      "candidate_failed_at": "2026-08-01T14:24:14",
+      "candidate_failure_count": 82,
       "archived": true,
       "archived_at": "2026-08-01T01:12:08",
       "archive_reason": "expired_recent_window"
@@ -48177,12 +48178,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=98 chars/18 words; required=80 chars/120 words; tried=main_tag:52chars/8words, paragraph_fallback:52chars/8words, article_body:52chars/8words, meta_description:98chars/18words, page_text:52chars/8words)",
-      "content_fetched_at": "2026-08-01T12:57:57",
-      "candidate_retry_after": "2026-08-01T13:12:57Z",
+      "content_fetched_at": "2026-08-01T14:24:16",
+      "candidate_retry_after": "2026-08-01T14:39:16Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=98 chars/18 words; required=80 chars/120 words; tried=main_tag:52chars/8words, paragraph_fallback:52chars/8words, article_body:52chars/8words, meta_description:98chars/18words, page_text:52chars/8words)",
-      "candidate_failed_at": "2026-08-01T12:57:57",
-      "candidate_failure_count": 7
+      "candidate_failed_at": "2026-08-01T14:24:16",
+      "candidate_failure_count": 8
     },
     {
       "id": "678cf57f2568974e",
@@ -48663,13 +48664,13 @@
       "affiliate_links_removed_count": 2,
       "removed_source_links_count": 112,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=600 chars/99 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:600chars/99words, article_body:600chars/99words, meta_description:179chars/31words, page_text:218chars/37words)",
-      "content_fetched_at": "2026-08-01T12:57:59",
-      "candidate_retry_after": "2026-08-01T13:12:59Z",
+      "content_fetch_error": "weak article body after fallbacks (best=601 chars/99 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:601chars/99words, article_body:601chars/99words, meta_description:179chars/31words, page_text:218chars/37words)",
+      "content_fetched_at": "2026-08-01T14:24:17",
+      "candidate_retry_after": "2026-08-01T14:39:17Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=600 chars/99 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:600chars/99words, article_body:600chars/99words, meta_description:179chars/31w",
-      "candidate_failed_at": "2026-08-01T12:57:59",
-      "candidate_failure_count": 6
+      "candidate_failure_reason": "weak article body after fallbacks (best=601 chars/99 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:601chars/99words, article_body:601chars/99words, meta_description:179chars/31w",
+      "candidate_failed_at": "2026-08-01T14:24:17",
+      "candidate_failure_count": 7
     },
     {
       "id": "c4dc072a2cb4102b",
@@ -49951,7 +49952,73 @@
       "content_preview_chars": 3375,
       "content_fetched_at": "2026-08-01T09:20:01",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-08-01T14:24:19",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-08-01T14:24:19",
+      "ai_input_package": {
+        "title": "Hidden prompt turns Microsoft Copilot into an AI worm",
+        "url": "https://www.malwarebytes.com/blog/ai/2026/07/hidden-microsoft-copilot-ai-worm",
+        "source_name": "Malwarebytes Blog",
+        "suggested_category": "Cyber-Security",
+        "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Microsoft-Copilot.jpg",
+        "article_images": [
+          {
+            "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Microsoft-Copilot.jpg",
+            "alt": "Hidden prompt turns Microsoft Copilot into an AI worm",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/07/MBAM_disabled_Copilot.png",
+            "alt": "Malwarebytes setting to disable Copilot",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/07/not_enabled.png",
+            "alt": "uncheck Enable Copilot in Word",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Microsoft-Copilot.jpg?w=600",
+            "alt": "Microsoft Copilot",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "A new type of attack can trick Microsoft Copilot for Word into spreading hidden prompt injections from document to document.",
+        "content_preview": "A security researcher has demonstrated how Microsoft Copilot for Word can be tricked into spreading a self‑propagating prompt‑injection “AI worm.” The attack silently alters documents and embeds its own hidden instructions into newly created files, allowing it to spread through normal document-sharing workflows without macros or traditional malware. The technique allows an attacker to hide a JSON‑formatted prompt as white text on a white background inside a Word document. When someone asks Copilot for Word to draft or edit content based on that document, Copilot strips away the formatting, reads the hidden text, and treats the embedded instructions as part of the user’s request. Copilot then modifies the active document and appends the full malicious prompt as hidden white text. That new document becomes a new carrier. Anyone who later uses it as source material for Copilot triggers the same behavior, allowing the prompt injection to spread to more documents. Because the documents are created and edited by legitimate users, the attack can be difficult to trace. The researcher could still reproduce the full worm chain even after Microsoft rolled out multiple mitigations, including upgrades to newer GPT‑5.5 and 5.6 models. At the time of writing, there is no complete mitigation for this broader class of attacks across comparable large language model (LLM)‑based products. It’s characterized as an architectural weakness of current LLM systems: attacker‑controlled content shares the same context window as trusted instructions. Attacks that exploit this behavior are known as prompt injection attacks and may never be fixed. Treat documents from outside your organization as untrusted, especially if you plan to use them with Copilot for Word. Review any attached document before using it as Copilot source material, and carefully verify Copilot‑generated/edited documents before sharing or reusing them. If you don’t use Copilot, you can disable it. Malwarebytes users can turn off Copilot under Tools > System Tweaks > Miscellaneous . For individual users who don’t want Copilot in Word: Open Word, go to File > Options > Copilot and clear the Enable Copilot checkbox, then restart Word. In some versions of Word, the setting appears under File > Options > General in a Copilot section. In both cases, the key is unchecking the “Enable Copilot” setting. You can also remove the Copilot icon from the ribbon by right‑clicking the ribbon, open the customization dialog, locate the Copilot/Assistance button, and removing it. Alternatively, you can limit Copilot’s role by following these instructions: In Word, go to File > Account > Account Privacy > Manage Settings , and uncheck Turn on optional connected experiences . This reduces certain cloud‑powered AI features, including Copilot‑related functions that rely on those services. In the Microsoft 365 Admin Center, under Copilot > Settings , set Pin Microsoft 365 Copilot Chat to Do not pin Copilot chat in Microsoft 365 apps so the chat pane doesn’t appear by default in apps like Word. This doesn’t remove Copilot entirely or stop these attacks, but it does reduce its visibility and limits some of its cloud‑assisted functionality. From reporting threats to removing them. Cybersecurity risks should never spread beyond a headline. Keep threats off your devices by downloading Malwarebytes today.",
+        "content_preview_chars": 3375,
+        "rss_summary": "",
+        "full_article_text": "A security researcher has demonstrated how Microsoft Copilot for Word can be tricked into spreading a self‑propagating prompt‑injection “AI worm.” The attack silently alters documents and embeds its own hidden instructions into newly created files, allowing it to spread through normal document-sharing workflows without macros or traditional malware. The technique allows an attacker to hide a JSON‑formatted prompt as white text on a white background inside a Word document. When someone asks Copilot for Word to draft or edit content based on that document, Copilot strips away the formatting, reads the hidden text, and treats the embedded instructions as part of the user’s request. Copilot then modifies the active document and appends the full malicious prompt as hidden white text. That new document becomes a new carrier. Anyone who later uses it as source material for Copilot triggers the same behavior, allowing the prompt injection to spread to more documents. Because the documents are created and edited by legitimate users, the attack can be difficult to trace. The researcher could still reproduce the full worm chain even after Microsoft rolled out multiple mitigations, including upgrades to newer GPT‑5.5 and 5.6 models. At the time of writing, there is no complete mitigation for this broader class of attacks across comparable large language model (LLM)‑based products. It’s characterized as an architectural weakness of current LLM systems: attacker‑controlled content shares the same context window as trusted instructions. Attacks that exploit this behavior are known as prompt injection attacks and may never be fixed. Treat documents from outside your organization as untrusted, especially if you plan to use them with Copilot for Word. Review any attached document before using it as Copilot source material, and carefully verify Copilot‑generated/edited documents before sharing or reusing them. If you don’t use Copilot, you can disable it. Malwarebytes users can turn off Copilot under Tools > System Tweaks > Miscellaneous . For individual users who don’t want Copilot in Word: Open Word, go to File > Options > Copilot and clear the Enable Copilot checkbox, then restart Word. In some versions of Word, the setting appears under File > Options > General in a Copilot section. In both cases, the key is unchecking the “Enable Copilot” setting. You can also remove the Copilot icon from the ribbon by right‑clicking the ribbon, open the customization dialog, locate the Copilot/Assistance button, and removing it. Alternatively, you can limit Copilot’s role by following these instructions: In Word, go to File > Account > Account Privacy > Manage Settings , and uncheck Turn on optional connected experiences . This reduces certain cloud‑powered AI features, including Copilot‑related functions that rely on those services. In the Microsoft 365 Admin Center, under Copilot > Settings , set Pin Microsoft 365 Copilot Chat to Do not pin Copilot chat in Microsoft 365 apps so the chat pane doesn’t appear by default in apps like Word. This doesn’t remove Copilot entirely or stop these attacks, but it does reduce its visibility and limits some of its cloud‑assisted functionality. From reporting threats to removing them. Cybersecurity risks should never spread beyond a headline. Keep threats off your devices by downloading Malwarebytes today.",
+        "full_article_text_chars": 3375,
+        "enrichment_status": "weak",
+        "source_url": "https://www.malwarebytes.com/blog",
+        "source_published_at": "2026-07-30T12:58:45Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 44.35,
+        "trusted_references": [
+          {
+            "title": "www.google.com",
+            "url": "https://www.google.com/preferences/source?q=malwarebytes.com"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_status": "failed",
+      "ai_error": "Missing AI output field(s): slug",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 53.74,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-08-01T14:40:14Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-08-01T14:25:14",
+      "candidate_failure_count": 1
     },
     {
       "id": "aa9b7b7cef6d336c",
@@ -50021,7 +50088,63 @@
       "content_preview_chars": 4100,
       "content_fetched_at": "2026-08-01T09:20:20",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-08-01T14:26:13",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-08-01T14:26:14",
+      "ai_input_package": {
+        "title": "AI robocalls: Why caller ID is still lying to you",
+        "url": "https://www.malwarebytes.com/blog/news/2026/07/ai-robocalls-why-caller-id-is-still-lying-to-you",
+        "source_name": "Malwarebytes Blog",
+        "suggested_category": "Cyber-Security",
+        "main_image": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2020/07/pants_on_fire.jpg?w=600",
+        "article_images": [
+          {
+            "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2020/07/pants_on_fire.jpg?w=600",
+            "alt": "AI robocalls: Why caller ID is still lying to you",
+            "source": "article_content"
+          },
+          {
+            "url": "https://www.malwarebytes.com/wp-content/uploads/sites/2/2026/01/Microsoft-Copilot.jpg?w=1200",
+            "alt": "Microsoft Copilot",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "AI is making robocall scams cheaper, more convincing, and harder to spot. Here's why caller ID still isn't enough.",
+        "content_preview": "If you feel like your phone has turned into a scam megaphone, you’re not alone . Robocalls have been a problem for years. Artificial intelligence (AI) is making them slicker, faster, and harder to spot. A new investigation by Transaction Network Services (TNS) shows that while the big telecom players have stepped up caller ID authentication, many smaller providers are still lagging behind. That leaves plenty of room for criminals to keep making spoofed, AI‑voiced robocalls that seem legitimate right up until they empty your bank account. Turning back the clock to 2019, lawmakers in the US passed the TRACED Act with a simple goal: make it harder for scammers to lie about who’s calling. The technical was solution STIR/SHAKEN, a pair of catchily-named standards that let phone networks cryptographically sign calls so downstream providers can check whether the caller ID is trustworthy. On paper, it’s working fairly well for the major carriers. TNS reports that about 85% of voice traffic between Tier 1 networks in 2025 was signed using STIR/SHAKEN, and 93% of those calls received the highest “A” attestation. If the entire ecosystem looked like that, spoofing would become much harder. Why spoofing still works The same report found that most lower‑tier communications service providers—typically smaller or specialist carriers—aren’t even close to that level of protection. On average, they only use the required cryptographic signatures about 20% of the time. That means four out of five calls effectively go through the network “unsigned.” There are reasons for this. The Federal Communications Commission (FCC) has granted some providers extensions, particularly very small and satellite providers, as long as they implement other robocall mitigation measures. Even so, the result is uneven implementation. From a scammer’s point of view, this is great. Cybercriminals are already using AI to run increasingly sophisticated and scalable robocall attacks and know that even calls with strong authentication can be spoofed or abused when other parts of the chain are weak. AI voice cloning can be done with just a few seconds of original audio. Combine that with call spoofing and personal information gathered from data breaches, and scammers can make a call appear to come from your bank while using a calm, familiar voice that knows your name or other personal details. Robocalls cost almost nothing to send. Internet calling allows scammers to dial thousands of numbers for a few cents, which is why the volume is so high. Industry estimates suggest US consumers received around 55 billion robocalls in 2025, with projections creeping toward 60 billion in 2026. That’s roughly 160 million spam calls every single day in one country. Globally, that’s about 385 billion spam/robocall calls each year. What can you realistically do as a consumer, given that the network itself is still in transition and attackers are upgrading faster than some carriers? A few habits still go a long way: Be skeptical of urgency. Real organizations rarely need you to make immediate decisions over the phone about payments, credentials, or remote access. Hang up and call back via a number you find on their official website. Treat caller ID as a clue, not proof. Even if the number looks familiar or matches what you see on a card or website, it can be spoofed. Don’t press buttons or follow instructions in automated menus you didn’t expect. Many robocalls use “press 1 to speak to an agent” as the gateway into a full social‑engineering script. Use call‑blocking and screening tools. Your phone, carrier, or security app may already offer options to block known spam numbers, send unknown callers to voicemail, or label suspicious calls. And finally—and this is where we can help—check suspicious numbers with our Scam Number Check before you answer or call back. Scammers know more about you than you think. Malwarebytes Mobile Security protects you from phishing, scam texts, malicious sites, and more. With real-time AI-powered Scam Guard built right in. Download for iOS → Download for Android →",
+        "content_preview_chars": 4100,
+        "rss_summary": "",
+        "full_article_text": "If you feel like your phone has turned into a scam megaphone, you’re not alone . Robocalls have been a problem for years. Artificial intelligence (AI) is making them slicker, faster, and harder to spot. A new investigation by Transaction Network Services (TNS) shows that while the big telecom players have stepped up caller ID authentication, many smaller providers are still lagging behind. That leaves plenty of room for criminals to keep making spoofed, AI‑voiced robocalls that seem legitimate right up until they empty your bank account. Turning back the clock to 2019, lawmakers in the US passed the TRACED Act with a simple goal: make it harder for scammers to lie about who’s calling. The technical was solution STIR/SHAKEN, a pair of catchily-named standards that let phone networks cryptographically sign calls so downstream providers can check whether the caller ID is trustworthy. On paper, it’s working fairly well for the major carriers. TNS reports that about 85% of voice traffic between Tier 1 networks in 2025 was signed using STIR/SHAKEN, and 93% of those calls received the highest “A” attestation. If the entire ecosystem looked like that, spoofing would become much harder. Why spoofing still works The same report found that most lower‑tier communications service providers—typically smaller or specialist carriers—aren’t even close to that level of protection. On average, they only use the required cryptographic signatures about 20% of the time. That means four out of five calls effectively go through the network “unsigned.” There are reasons for this. The Federal Communications Commission (FCC) has granted some providers extensions, particularly very small and satellite providers, as long as they implement other robocall mitigation measures. Even so, the result is uneven implementation. From a scammer’s point of view, this is great. Cybercriminals are already using AI to run increasingly sophisticated and scalable robocall attacks and know that even calls with strong authentication can be spoofed or abused when other parts of the chain are weak. AI voice cloning can be done with just a few seconds of original audio. Combine that with call spoofing and personal information gathered from data breaches, and scammers can make a call appear to come from your bank while using a calm, familiar voice that knows your name or other personal details. Robocalls cost almost nothing to send. Internet calling allows scammers to dial thousands of numbers for a few cents, which is why the volume is so high. Industry estimates suggest US consumers received around 55 billion robocalls in 2025, with projections creeping toward 60 billion in 2026. That’s roughly 160 million spam calls every single day in one country. Globally, that’s about 385 billion spam/robocall calls each year. What can you realistically do as a consumer, given that the network itself is still in transition and attackers are upgrading faster than some carriers? A few habits still go a long way: Be skeptical of urgency. Real organizations rarely need you to make immediate decisions over the phone about payments, credentials, or remote access. Hang up and call back via a number you find on their official website. Treat caller ID as a clue, not proof. Even if the number looks familiar or matches what you see on a card or website, it can be spoofed. Don’t press buttons or follow instructions in automated menus you didn’t expect. Many robocalls use “press 1 to speak to an agent” as the gateway into a full social‑engineering script. Use call‑blocking and screening tools. Your phone, carrier, or security app may already offer options to block known spam numbers, send unknown callers to voicemail, or label suspicious calls. And finally—and this is where we can help—check suspicious numbers with our Scam Number Check before you answer or call back. Scammers know more about you than you think. Malwarebytes Mobile Security protects you from phishing, scam texts, malicious sites, and more. With real-time AI-powered Scam Guard built right in. Download for iOS → Download for Android →",
+        "full_article_text_chars": 4100,
+        "enrichment_status": "strong",
+        "source_url": "https://www.malwarebytes.com/blog",
+        "source_published_at": "2026-07-29T15:15:32Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 66.07,
+        "trusted_references": [
+          {
+            "title": "www.google.com",
+            "url": "https://www.google.com/preferences/source?q=malwarebytes.com"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_status": "failed",
+      "ai_error": "Missing AI output field(s): slug",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 77.35,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-08-01T14:42:32Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-08-01T14:27:32",
+      "candidate_failure_count": 1
     },
     {
       "id": "1cf658894a5b505d",
@@ -50100,7 +50223,68 @@
       "content_preview_chars": 762,
       "content_fetched_at": "2026-08-01T09:20:23",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-08-01T14:25:14",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-08-01T14:25:15",
+      "ai_input_package": {
+        "title": "Weekly Update 514: This Week in Data Breaches",
+        "url": "https://www.troyhunt.com/weekly-update-514",
+        "source_name": "Troy Hunt",
+        "suggested_category": "Cyber-Security",
+        "main_image": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2026/07/Splash-Template-2.jpg",
+        "article_images": [
+          {
+            "url": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2026/07/Splash-Template-2.jpg",
+            "alt": "Weekly Update 514: This Week in Data Breaches",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2018/05/Listen-on-Apple-Podcasts.svg",
+            "alt": "Listen on Apple Podcasts",
+            "source": "article_content"
+          },
+          {
+            "url": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2024/09/Watch-and-Listen-on-YouTube.svg",
+            "alt": "Watch and Listen on YouTube",
+            "source": "article_content"
+          },
+          {
+            "url": "https://storage.ghost.io/c/fb/33/fb3391dc-723d-4e74-b95a-d641b5feb38e/content/images/2019/10/spotify.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "The Origin Energy breach down here in Aus is all over the news this week, and as with many breaches, it's multi-faceted. You've got them leading with \"don't worry, your credit card is fine\", the hacker leading with \"they didn't respond when I tried to",
+        "content_preview": "The Origin Energy breach down here in Aus is all over the news this week, and as with many breaches, it's multi-faceted. You've got them leading with \"don't worry, your credit card is fine\", the hacker leading with \"they didn't respond when I tried to report it\", and now news that the two parties have \"come to an agreement\". Maybe money was paid, or maybe Origin made some promises to restrain the hounds if commitments about data deletion were made. But both outcomes, of course, provide no guarantee that data has been nuked, so now they get to spend perpetuity waiting for the data that maybe - just maybe - it leaks. And we all should be working on precisely that assumption, just like we did with Optus and Medibank and Latitude and Ticketek and Qantas...",
+        "content_preview_chars": 762,
+        "rss_summary": "",
+        "full_article_text": "The Origin Energy breach down here in Aus is all over the news this week, and as with many breaches, it's multi-faceted. You've got them leading with \"don't worry, your credit card is fine\", the hacker leading with \"they didn't respond when I tried to report it\", and now news that the two parties have \"come to an agreement\". Maybe money was paid, or maybe Origin made some promises to restrain the hounds if commitments about data deletion were made. But both outcomes, of course, provide no guarantee that data has been nuked, so now they get to spend perpetuity waiting for the data that maybe - just maybe - it leaks. And we all should be working on precisely that assumption, just like we did with Optus and Medibank and Latitude and Ticketek and Qantas...",
+        "full_article_text_chars": 762,
+        "enrichment_status": "weak",
+        "source_url": "https://www.troyhunt.com",
+        "source_published_at": "2026-07-26T09:14:51Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 144.08,
+        "trusted_references": [],
+        "related_posts": []
+      },
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
+      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_status": "failed",
+      "ai_error": "Missing AI output field(s): slug",
+      "ai_rotation_exhausted": false,
+      "ai_time_budget_exceeded": false,
+      "ai_total_time_seconds": 57.1,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-08-01T14:41:13Z",
+      "candidate_failure_stage": "run-ai",
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-08-01T14:26:13",
+      "candidate_failure_count": 1
     },
     {
       "id": "aec48a1e3b2e9f41",
@@ -51692,6 +51876,157 @@
       "content_preview": "Fading Echo is an exciting action platformer, and one with a very interesting visual style that immediately caught my attention. My focus when it comes to a game like this is to bring up something creative, immersive and enjoyable. And Fading Echo delivers way more than I thought it would, since it adds a unique sense of style and visuals, while also being very creative. The story in this game is straightforward, as we take the role of a young woman called One, who journeys with her mother and randomly gets pulled into an alternative dimension. That’s where she discovers that she actually has some latent abilities like turning into a small blob of water. Having the world destroyed by something is not something original, but the game just uses that as a backdrop to showcase your powers, and that’s something I immediately appreciated. The main appeal for this game has to be its gameplay, however. It’s very reminiscent of the PS2 and Xbox Live platformer era, where th...",
       "content_preview_chars": 982,
       "content_fetched_at": "2026-08-01T12:56:57",
+      "enrichment_status": "rss_summary",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "9c03acb6461c52d8",
+      "source_url_hash": "9c03acb6461c52d8",
+      "canonical_url": "https://www.cisa.gov/news-events/alerts/2026/07/30/cisa-urges-water-and-wastewater-systems-sector-protect-ot-against-activity-targeting-plcs",
+      "title_hash": "4cea69891015111c",
+      "topic_signature": "55a7f1c4f080fe2c0af5",
+      "title": "CISA Urges Water and Wastewater Systems Sector to Protect OT Against Activity Targeting PLCs",
+      "url": "https://www.cisa.gov/news-events/alerts/2026/07/30/cisa-urges-water-and-wastewater-systems-sector-protect-ot-against-activity-targeting-plcs",
+      "source_name": "CISA Cybersecurity Advisories",
+      "source_url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
+      "source_published_at": "2026-07-30T18:30:11Z",
+      "published_at_source": "feed",
+      "article_age_hours": 43.89,
+      "rss_summary": "<span>CISA Urges Water and Wastewater Systems Sector to Protect OT Against Activity Targeting PLCs</span> <span><span>chayes</span></span> <span><time datetime=\"2026-07-30T14:30:11-04:00\" title=\"Thursday, July 30, 2026\">Jul 30, 2026</time> </span> <div class=\"c-field c-field--name-field-release-date c-field--type-datetime c-field--label-above\"> <div class=\"c-field__label\">Release Date</div><div class=\"c-field__content\"><time datetime=\"2026-07-30T12:00:00Z\">July 30, 2026</time></div></div> <div class=\"c-field c-field--name-field-description c-field--type-text-long c-field--label-above\"> <div class=\"c-field__label\">Description</div><div class=\"c-field__content\"><p>CISA is currently observing a significant increase in cyber threat actors targeting programmable logic controllers (PLCs) in the Water and Wastewater Systems (WWS) Sector. CISA urges critical infrastructure owners, operators, and integrators to remove publicly exposed PLCs and other operational technology (OT) from the internet as soon as possible. Threat actors targeting exposed PLCs have modified passwords to lock out operators and disconnected the PLCs by changing their IP addresses. This activity has resulted in boil water notices and sustained manual operations.&nbsp;</p><p>These threat actors are targeting water entities of all sizes. Even water organizations with mature cybersecurity processes should validate their external connections, as this targeting activity includes cellular modems installed by operators, vendors, or system integrators that may not be documented or included in routine attack surface scans. OT assets exposed to the internet have an increased risk of defacement, configuration changes, operational disruptions, and, in severe cases, physical damage.</p><p>CISA recommends organizations implement the following mitigations:</p><ul type=\"disc\"><li>Disconnect the PLC from the internet. Remote access for operational purposes should go through a VPN or gateway device, not directly to the PLC.</li><li>Enable password protection and change default passwords.</li><li>Allowlist IPs to only allow remote access from known engineering laptops or other critical OT assets.</li></ul><p>After disconnecting PLCs from the internet, operators should ensure they have a known clean backup of the PLC image in case they are locked out by a modified password. <strong>Note:&nbsp;</strong>Owners, operators, and integrators of Rockwell Automation MicroLogix 1400 PLCs should see Rockwell Automation’s <a href=\"https://www.rockwellautomation.com/en-us/trust-center/security-advisories/advisory.SD1790.html\" target=\"_blank\">IMPORTANT NOTICE: Restoring Access to a MicroLogix™ 1400 Controller When the Password Is Unknown</a> for guidance addressing this activity.</p><p>To securely enable remote access to your OT systems, CISA recommends system owners, operators, and integrators see the following resources for guidance:&nbsp;</p><ul type=\"disc\"><li>CISA: <a href=\"/resources-tools/resources/primary-mitigations-reduce-cyber-threats-operational-technology\">Primary Mitigations to Reduce Cyber Threats to Operational Technology</a></li><li>United Kingdom's National Cyber Security Center: <a href=\"https://www.ncsc.gov.uk/collection/operational-technology/secure-connectivity\" target=\"_blank\">Secure Connectivity Principles for Operational Technology</a>&nbsp;</li><li>Federal Bureau of Investigation (FBI): <a href=\"https://www.ic3.gov/PSA/2026/PSA260730.pdf\" target=\"_blank\">Malicious Cyber Actors Targeting Water and Wastewater Sector Internet Facing Programmable Logic Controllers, Causing Operational Disruptions</a></li></ul><p>For additional support, contact the Environmental Protection Agency’s <a href=\"https://www.epa.gov/cyberwater/forms/cybersecurity-technical-assistance-program-water-sector\" target=\"_blank\">Cybersecurity Technical Assistance Program for the Water Sector</a> or your <a href=\"https://www.cisa.gov/about/regions\">CISA Regional Office</a>.</p><p>To report a cyber incident, contact CISA’s 24/7 Operations Center (<a href=\"mailto:contact@cisa.dhs.gov\" target=\"_blank\">contact@cisa.dhs.gov</a>), or call 1-844-Say-CISA (1-844-729-2472). Please see <a href=\"/reporting-cyber-incident\">Reporting a Cyber Incident</a> for more details or contact <a href=\"https://www.ic3.gov/\" target=\"_blank\">FBI’s Internet Crime Complaint Center (IC3)</a> or your <a href=\"https://www.fbi.gov/contact-us/field-offices\" target=\"_blank\">local FBI field office</a>.</p><p>When available, please include the following information regarding the incident:&nbsp;</p><ul type=\"disc\"><li>Date, time, and location of the incident</li><li>Type of activity</li><li>Number of people affected</li><li>Type of equipment used for the activity</li><li>Name of the submitting company or organization, and a designated point of contact</li></ul><h2><strong>Disclaimer</strong></h2><p>The information in this report is being provided “as is” for informational purposes only. CISA does not endorse any commercial entity, product, company, or service, including any entities, products, or services linked within this document. Any reference to specific commercial entities, products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply endorsement, recommendation, or favoring by CISA. </p><h2><strong>Acknowledgements</strong></h2><p>The Environmental Protection Agency and the Federal Bureau of Investigation contributed to this Alert.</p></div></div> <div class=\"c-field c-field--name-field-advisory-type c-field--type-entity-reference c-field--label-above\"> <div class=\"c-field__label\">Advisory Type</div><div class=\"c-field__content\">Alert</div></div> <div class=\"c-field c-field--name-field-key-takeaways-toggle c-field--type-boolean c-field--label-above\"> <div class=\"c-field__label\">Show &#039;Key Takeaways&#039; block</div><div class=\"c-field__content\">Off</div></div>",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-08-01T14:23:38",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 1,
+      "priority": "low",
+      "fetched_title": "CISA Urges Water and Wastewater Systems Sector to Protect OT Against Activity Targeting PLCs",
+      "meta_description": "CISA Urges Water and Wastewater Systems Sector to Protect OT Against Activity Targeting PLCs chayes Jul 30, 2026 Release Date July 30, 2026 Description CISA is currently observing a significant increase in cyber threat actors targeting prog",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "fallback",
+      "main_image_extraction_method": "fallback",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "CISA Urges Water and Wastewater Systems Sector to Protect OT Against Activity Targeting PLCs chayes Jul 30, 2026 Release Date July 30, 2026 Description CISA is currently observing a significant increase in cyber threat actors targeting programmable logic controllers (PLCs) in the Water and Wastewater Systems (WWS) Sector. CISA urges critical infrastructure owners, operators, and integrators to remove publicly exposed PLCs and other operational technology (OT) from the internet as soon as possible. Threat actors targeting exposed PLCs have modified passwords to lock out operators and disconnected the PLCs by changing their IP addresses. This activity has resulted in boil water notices and sustained manual operations. These threat actors are targeting water entities of all sizes. Even water organizations with mature cybersecurity processes should validate their external connections, as this targeting activity includes cellular modems installed by operators, vendors, or system integrators that may not be documented or included in routine attack surface scans. OT assets exposed to the internet have an increased risk of defacement, configuration changes, operational disruptions, and, in severe cases, physical damage. CISA recommends organizations implement the following mitigations: Disconnect the PLC from the internet. Remote access for operational purposes should go through a VPN or gateway device, not directly to the PLC. Enable password protection and change default passwords. Allowlist IPs to only allow remote access from known engineering laptops or other critical OT assets. After disconnecting PLCs from the internet, operators should ensure they have a known clean backup of the PLC image in case they are locked out by a modified password. Note: Owners, operators, and integrators of Rockwell Automation MicroLogix 1400 PLCs should see Rockwell Automation’s IMPORTANT NOTICE: Restoring Access to a MicroLogix™ 1400 Controller When the Password Is Unknown for guidance addressing this activity. To securely enable remote access to your OT systems, CISA recommends system owners, operators, and integrators see the following resources for guidance: CISA: Primary Mitigations to Reduce Cyber Threats to Operational Technology United Kingdom's National Cyber Security Center: Secure Connectivity Principles for Operational Technology Federal Bureau of Investigation (FBI): Malicious Cyber Actors Targeting Water and Wastewater Sector Internet Facing Programmable Logic Controllers, Causing Operational Disruptions For additional support, contact the Environmental Protection Agency’s Cybersecurity Technical Assistance Program for the Water Sector or your CISA Regional Office . To report a cyber incident, contact CISA’s 24/7 Operations Center ( contact@cisa.dhs.gov ), or call 1-844-Say-CISA (1-844-729-2472). Please see Reporting a Cyber Incident for more details or contact FBI’s Internet Crime Complaint Center (IC3) or your local FBI field office . When available, please include the following information regarding the incident: Date, time, and location of the incident Type of activity Number of people affected Type of equipment used for the activity Name of the submitting company or organization, and a designated point of contact Disclaimer The information in this report is being provided “as is” for informational purposes only. CISA does not endorse any commercial entity, product, company, or service, including any entities, products, or services linked within this document. Any reference to specific commercial entities, products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply endorsement, recommendation, or favoring by CISA. Acknowledgements The Environmental Protection Agency and the Federal Bureau of Investigation contributed to this Alert. Advisory Type Alert Show 'Key Takeaways' block Off",
+      "full_article_text_chars": 3905,
+      "content_preview": "CISA Urges Water and Wastewater Systems Sector to Protect OT Against Activity Targeting PLCs chayes Jul 30, 2026 Release Date July 30, 2026 Description CISA is currently observing a significant increase in cyber threat actors targeting programmable logic controllers (PLCs) in the Water and Wastewater Systems (WWS) Sector. CISA urges critical infrastructure owners, operators, and integrators to remove publicly exposed PLCs and other operational technology (OT) from the internet as soon as possible. Threat actors targeting exposed PLCs have modified passwords to lock out operators and disconnected the PLCs by changing their IP addresses. This activity has resulted in boil water notices and sustained manual operations. These threat actors are targeting water entities of all sizes. Even water organizations with mature cybersecurity processes should validate their external connections, as this targeting activity includes cellular modems installed by operators, vendors, or system integrators that may not be documented or included in routine attack surface scans. OT assets exposed to the internet have an increased risk of defacement, configuration changes, operational disruptions, and, in severe cases, physical damage. CISA recommends organizations implement the following mitigations: Disconnect the PLC from the internet. Remote access for operational purposes should go through a VPN or gateway device, not directly to the PLC. Enable password protection and change default passwords. Allowlist IPs to only allow remote access from known engineering laptops or other critical OT assets. After disconnecting PLCs from the internet, operators should ensure they have a known clean backup of the PLC image in case they are locked out by a modified password. Note: Owners, operators, and integrators of Rockwell Automation MicroLogix 1400 PLCs should see Rockwell Automation’s IMPORTANT NOTICE: Restoring Access to a MicroLogix™ 1400 Controller When the Password Is Unknown for guidance addressing this activity. To securely enable remote access to your OT systems, CISA recommends system owners, operators, and integrators see the following resources for guidance: CISA: Primary Mitigations to Reduce Cyber Threats to Operational Technology United Kingdom's National Cyber Security Center: Secure Connectivity Principles for Operational Technology Federal Bureau of Investigation (FBI): Malicious Cyber Actors Targeting Water and Wastewater Sector Internet Facing Programmable Logic Controllers, Causing Operational Disruptions For additional support, contact the Environmental Protection Agency’s Cybersecurity Technical Assistance Program for the Water Sector or your CISA Regional Office . To report a cyber incident, contact CISA’s 24/7 Operations Center ( contact@cisa.dhs.gov ), or call 1-844-Say-CISA (1-844-729-2472). Please see Reporting a Cyber Incident for more details or contact FBI’s Internet Crime Complaint Center (IC3) or your local FBI field office . When available, please include the following information regarding the incident: Date, time, and location of the incident Type of activity Number of people affected Type of equipment used for the activity Name of the submitting company or organization, and a designated point of contact Disclaimer The information in this report is being provided “as is” for informational purposes only. CISA does not endorse any commercial entity, product, company, or service, including any entities, products, or services linked within this document. Any reference to specific commercial entities, products, processes, or services by service mark, trademark, manufacturer, or otherwise, does not constitute or imply endorsement, recommendation, or favoring by CISA. Acknowledgements The Environmental Protection Agency and the Federal Bureau of Investigation contributed to this Alert. Advisory Type Alert Show 'Key Takeaways' block Off",
+      "content_preview_chars": 3905,
+      "content_fetched_at": "2026-08-01T14:23:47",
+      "enrichment_status": "rss_summary",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "6918f7f4fc976683",
+      "source_url_hash": "6918f7f4fc976683",
+      "canonical_url": "https://www.cisa.gov/news-events/news/cisa-guide-helps-federal-agencies-securely-and-effectively-use-open-source-software",
+      "title_hash": "1a63562d5a5519e4",
+      "topic_signature": "679e85cc9128009a169c",
+      "title": "CISA Guide Helps Federal Agencies Securely and Effectively Use Open Source Software",
+      "url": "https://www.cisa.gov/news-events/news/cisa-guide-helps-federal-agencies-securely-and-effectively-use-open-source-software",
+      "source_name": "CISA Cybersecurity Advisories",
+      "source_url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
+      "source_published_at": "2026-07-30T14:25:23Z",
+      "published_at_source": "feed",
+      "article_age_hours": 47.97,
+      "rss_summary": "<span>CISA Guide Helps Federal Agencies Securely and Effectively Use Open Source Software</span> <span><span>rcanekeratne</span></span> <span><time datetime=\"2026-07-30T10:25:23-04:00\" title=\"Thursday, July 30, 2026\">Jul 30, 2026</time> </span>",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-08-01T14:23:38",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 1,
+      "priority": "low",
+      "image_warning": "missing downloadable article image",
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 5,
+      "removed_source_links_count": 0,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "CISA Guide Helps Federal Agencies Securely and Effectively Use Open Source Software | CISA",
+      "meta_description": "",
+      "article_images": [
+        {
+          "url": "https://www.cisa.gov/sites/default/files/images/SVG/header_tagline_mobile_update.svg",
+          "alt": "CISA Guide Helps Federal Agencies Securely and Effectively Use Open Source Software | CISA",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.cisa.gov/sites/default/files/images/SVG/header_tagline_mobile_update.svg",
+      "main_image_source_type": "article_content",
+      "main_image_extraction_method": "article_content",
+      "extra_article_images": [],
+      "trusted_references": [
+        {
+          "title": "Cybersecurity Best Practices",
+          "url": "https://www.cisa.gov/topics/cybersecurity-best-practices"
+        },
+        {
+          "title": "Open Source Software: Security Principles and Practices",
+          "url": "https://www.cisa.gov/resources-tools/resources/open-source-software-security-principles-and-practices"
+        },
+        {
+          "title": "Open Source Security",
+          "url": "https://www.cisa.gov/opensource"
+        },
+        {
+          "title": "CISA Joins Australia and Others to Publish Guidance to Isolate Operational Technology and Enabling Systems in Critical Infrastructure",
+          "url": "https://www.cisa.gov/news-events/news/cisa-joins-australia-and-others-publish-guidance-isolate-operational-technology-and-enabling-systems"
+        }
+      ],
+      "full_article_text": "WASHINGTON – Today, the Cybersecurity and Infrastructure Security Agency (CISA) published Open Source Software: Security Principles and Practices , a new resource for federal agencies with considerations and best practices to use and assess Open Source Software (OSS) solutions, contribute to projects, produce OSS, and evaluate open source artificial intelligence (AI) models. The guidance aligns with Executive Order 14144 that highlights the benefits of OSS for federal agencies, and Executive Order 14306 that directs federal networks to be more secure and better manage their use of OSS. Exploits like log4shell and xz utils underscore the need for agencies to understand the dependencies embedded within their software components. Across the federal government and in every critical infrastructure sector, OSS is a widely used and critical building block in our software supply chain. Many federal agencies use OSS to improve capacity and efficiency that enables them to better fulfill their mission. With this guide, CISA urges agencies to establish a process to review and approve OSS that supports staff in using solutions that best meet their needs while still managing risks. The guidance includes established principles for patching, a framework to evaluate trustworthiness and risk tolerance, and best practices to engage with OSS securely, responsibly and sustainably. “As part of our statutory mission, CISA remains laser-focused on enhancing the nation's cybersecurity by collaborating with government, industry and the open-source community to understand and securely use OSS,” said Acting Executive Assistant Director for Cybersecurity Chris Butera . “CISA encourages federal civilian agencies to review this guide and implement the principles and practices to improve risk management, better execute their mission, and better serve the public.” For open source AI systems, the guidance urges agencies to obtain sufficient transparency into all relevant components, including training data, of the AI system before deeming the product as OSS for risk management purposes. Only with transparency and access can agencies understand and study the software, analyze it for vulnerabilities, and remediate any found vulnerabilities or risks. For more information, visit Open Source Security on CISA.gov. CISA and Partners Unveil Updated Software Bill of Materials Resource That Improves Transparency, Security and Risk-Informed Decision Making CISA Joins Australia and Others to Publish Guidance to Isolate Operational Technology and Enabling Systems in Critical Infrastructure CISA, NSA, FBI and Partners Warn Zimbra Collaboration Suite Users of Ongoing Russian State-Supported Malicious Threat Activity CISA, FBI, EPA and U.S. Government Partners Update Warning of Iran-Affiliated Threat Actors Targeting Critical Infrastructure Programmable Logic Controllers",
+      "full_article_text_chars": 2873,
+      "content_preview": "WASHINGTON – Today, the Cybersecurity and Infrastructure Security Agency (CISA) published Open Source Software: Security Principles and Practices , a new resource for federal agencies with considerations and best practices to use and assess Open Source Software (OSS) solutions, contribute to projects, produce OSS, and evaluate open source artificial intelligence (AI) models. The guidance aligns with Executive Order 14144 that highlights the benefits of OSS for federal agencies, and Executive Order 14306 that directs federal networks to be more secure and better manage their use of OSS. Exploits like log4shell and xz utils underscore the need for agencies to understand the dependencies embedded within their software components. Across the federal government and in every critical infrastructure sector, OSS is a widely used and critical building block in our software supply chain. Many federal agencies use OSS to improve capacity and efficiency that enables them to better fulfill their mission. With this guide, CISA urges agencies to establish a process to review and approve OSS that supports staff in using solutions that best meet their needs while still managing risks. The guidance includes established principles for patching, a framework to evaluate trustworthiness and risk tolerance, and best practices to engage with OSS securely, responsibly and sustainably. “As part of our statutory mission, CISA remains laser-focused on enhancing the nation's cybersecurity by collaborating with government, industry and the open-source community to understand and securely use OSS,” said Acting Executive Assistant Director for Cybersecurity Chris Butera . “CISA encourages federal civilian agencies to review this guide and implement the principles and practices to improve risk management, better execute their mission, and better serve the public.” For open source AI systems, the guidance urges agencies to obtain sufficient transparency into all relevant components, including training data, of the AI system before deeming the product as OSS for risk management purposes. Only with transparency and access can agencies understand and study the software, analyze it for vulnerabilities, and remediate any found vulnerabilities or risks. For more information, visit Open Source Security on CISA.gov. CISA and Partners Unveil Updated Software Bill of Materials Resource That Improves Transparency, Security and Risk-Informed Decision Making CISA Joins Australia and Others to Publish Guidance to Isolate Operational Technology and Enabling Systems in Critical Infrastructure CISA, NSA, FBI and Partners Warn Zimbra Collaboration Suite Users of Ongoing Russian State-Supported Malicious Threat Activity CISA, FBI, EPA and U.S. Government Partners Update Warning of Iran-Affiliated Threat Actors Targeting Critical Infrastructure Programmable Logic Controllers",
+      "content_preview_chars": 2873,
+      "content_fetched_at": "2026-08-01T14:24:19",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "19d71e68d370a1ec",
+      "source_url_hash": "19d71e68d370a1ec",
+      "canonical_url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-211-11",
+      "title_hash": "2492612e630c85dd",
+      "topic_signature": "15d2033c89951e68adad",
+      "title": "MZ Automation lib60870",
+      "url": "https://www.cisa.gov/news-events/ics-advisories/icsa-26-211-11",
+      "source_name": "CISA Cybersecurity Advisories",
+      "source_url": "https://www.cisa.gov/news-events/cybersecurity-advisories",
+      "source_published_at": "2026-07-30T14:02:04Z",
+      "published_at_source": "feed",
+      "article_age_hours": 48.36,
+      "rss_summary": "<span>MZ Automation lib60870</span> <span><span>aruschman</span></span> <span><time datetime=\"2026-07-30T10:02:04-04:00\" title=\"Thursday, July 30, 2026\">Jul 30, 2026</time> </span> <div class=\"c-field c-field--name-field-release-date c-field--type-datetime c-field--label-above\"> <div class=\"c-field__label\">Release Date</div><div class=\"c-field__content\"><time datetime=\"2026-07-30T12:00:00Z\">July 30, 2026</time></div></div> <div class=\"c-field c-field--name-field-description c-field--type-text-long c-field--label-above\"> <div class=\"c-field__label\">Description</div><div class=\"c-field__content\"><p><a href=\"https://github.com/cisagov/CSAF/blob/develop/csaf_files/OT/white/2026/icsa-26-211-11.json\"><strong>View CSAF</strong></a></p><h2>Summary</h2><p><strong>Successful exploitation of these vulnerabilities could crash the device being accessed.</strong></p><p>The following versions of MZ Automation lib60870 are affected:</p><ul><li>lib60870 2.4.0 (CVE-2026-61893, CVE-2026-63033)</li></ul><div class=\"csaf-table\"><table class=\"tablesaw tablesaw-stack\" data-tablesaw-mode=\"stack\" data-tablesaw-minimap><thead><tr><th role=\"columnheader\" data-tablesaw-priority=\"persist\">CVSS</th><th role=\"columnheader\">Vendor</th><th role=\"columnheader\">Equipment</th><th role=\"columnheader\">Vulnerabilities</th></tr></thead><tbody><tr><td>v3 6.5</td><td>MZ Automation GmbH</td><td>MZ Automation lib60870</td><td>Out-of-bounds Read</td></tr></tbody></table></div><h3>Background</h3><ul><li><strong>Critical Infrastructure Sectors: </strong>Energy, Water and Wastewater, Critical Manufacturing, Chemical</li><li><strong>Countries/Areas Deployed: </strong>Worldwide</li><li><strong>Company Headquarters Location: </strong>Germany</li></ul><hr><h2>Vulnerabilities</h2><div class=\"csaf-accordion\"><p><a class=\"csaf-accordion-toggle-all\" href=\"#\">Expand All +</a></p><div class=\"csaf-accordion-item\"><h3><a class=\"csaf-accordion-toggle\" href=\"#\">CVE-2026-61893</a></h3><div class=\"csaf-accordion-content\"><p>A crafted IEC 60870-5-104 I-frame with TypeID 104 (C_TS_NA_1) and an inflated object count causes TestCommand_getFromBuffer to read one byte past the end of the heap-allocated message buffer.</p><p><a href=\"https://www.cve.org/CVERecord?id=CVE-2026-61893\">View CVE Details</a></p><hr><h4>Affected Products</h4><h5>MZ Automation lib60870</h5><div class=\"ics-vendor-version-status\"><div class=\"ics-vendor\"><strong>Vendor:</strong><br>MZ Automation GmbH</div><div class=\"ics-version\"><strong>Product Version:</strong><br>MZ Automation GmbH lib60870: 2.4.0</div><div class=\"ics-status\"><strong>Product Status:</strong><br>known_affected</div></div><div class=\"ics-remediations\"><h6>Remediations</h6><p><strong>Mitigation</strong><br>MZ Automation recommends users update to version 2.4.1 when available.</p><p><strong>Vendor fix</strong><br>See MZ Automation advisories for more information: https://github.com/mz-automation/lib60870/security/advisories/GHSA-g3w7-x5rx-83xm<br><a href=\"https://github.com/mz-automation/lib60870/security/advisories/GHSA-g3w7-x5rx-83xm\">https://github.com/mz-automation/lib60870/security/advisories/GHSA-g3w7-x5rx-83xm</a></p></div><p><strong>Relevant CWE:</strong><a href=\"https://cwe.mitre.org/data/definitions/125.html\">CWE-125 Out-of-bounds Read</a></p><hr><h4>Metrics</h4><div class=\"csaf-table csaf-metrics-table\"><table class=\"tablesaw tablesaw-stack\" data-tablesaw-mode=\"stack\" data-tablesaw-minimap><thead><tr><th role=\"columnheader\" data-tablesaw-priority=\"persist\">CVSS Version</th><th role=\"columnheader\">Base Score</th><th role=\"columnheader\">Base Severity</th><th role=\"columnheader\">Vector String</th></tr></thead><tbody><tr><td>3.1</td><td>6.5</td><td>MEDIUM</td><td><a href=\"https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L\">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L</a></td></tr><tr><td>4.0</td><td>6.9</td><td>MEDIUM</td><td><a href=\"https://www.first.org/cvss/calculator/4.0#CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N\">CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N</a></td></tr></tbody></table></div></div></div><div class=\"csaf-accordion-item\"><h3><a class=\"csaf-accordion-toggle\" href=\"#\">CVE-2026-63033</a></h3><div class=\"csaf-accordion-content\"><p>A crafted IEC 60870-5-104 I-frame with a declared object count exceeding what fits in the ASDU body causes InformationObject_ParseObjectAddress to read one byte past the end of the heap-allocated message buffer.</p><p><a href=\"https://www.cve.org/CVERecord?id=CVE-2026-63033\">View CVE Details</a></p><hr><h4>Affected Products</h4><h5>MZ Automation lib60870</h5><div class=\"ics-vendor-version-status\"><div class=\"ics-vendor\"><strong>Vendor:</strong><br>MZ Automation GmbH</div><div class=\"ics-version\"><strong>Product Version:</strong><br>MZ Automation GmbH lib60870: 2.4.0</div><div class=\"ics-status\"><strong>Product Status:</strong><br>known_affected</div></div><div class=\"ics-remediations\"><h6>Remediations</h6><p><strong>Mitigation</strong><br>MZ Automation recommends users update to version 2.4.1 when available.</p><p><strong>Vendor fix</strong><br>See MZ Automation advisory for more information: https://github.com/mz-automation/lib60870/security/advisories/GHSA-7v97-jmwv-w5j7&nbsp;<br><a href=\"https://github.com/mz-automation/lib60870/security/advisories/GHSA-7v97-jmwv-w5j7\">https://github.com/mz-automation/lib60870/security/advisories/GHSA-7v97-jmwv-w5j7</a></p></div><p><strong>Relevant CWE:</strong><a href=\"https://cwe.mitre.org/data/definitions/125.html\">CWE-125 Out-of-bounds Read</a></p><hr><h4>Metrics</h4><div class=\"csaf-table csaf-metrics-table\"><table class=\"tablesaw tablesaw-stack\" data-tablesaw-mode=\"stack\" data-tablesaw-minimap><thead><tr><th role=\"columnheader\" data-tablesaw-priority=\"persist\">CVSS Version</th><th role=\"columnheader\">Base Score</th><th role=\"columnheader\">Base Severity</th><th role=\"columnheader\">Vector String</th></tr></thead><tbody><tr><td>3.1</td><td>6.5</td><td>MEDIUM</td><td><a href=\"https://www.first.org/cvss/calculator/3.1#CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L\">CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L</a></td></tr><tr><td>4.0</td><td>6.9</td><td>MEDIUM</td><td><a href=\"https://www.first.org/cvss/calculator/4.0#CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N\">CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N</a></td></tr></tbody></table></div></div></div></div><hr><h2>Acknowledgments</h2><ul><li>arun babu puthuparambil of Central Power Research Institute, Bengaluru, India reported these vulnerabilities to CISA</li></ul><hr><h2>Legal Notice and Terms of Use</h2><p>This product is provided subject to this Notification (https://www.cisa.gov/notification) and this Privacy &amp; Use policy (https://www.cisa.gov/privacy-policy).</p><hr><h2>Recommended Practices</h2><p>CISA recommends users take defensive measures to minimize the risk of exploitation of these vulnerabilities. Minimize network exposure for all control system devices and/or systems, ensuring they are not accessible from the internet. Locate control system networks and remote devices behind firewalls and isolating them from business networks. When remote access is required, use more secure methods, such as virtual private networks (VPNs), recognizing VPNs may have vulnerabilities and should be updated to the most current version available. Also recognize VPN is only as secure as the connected devices.</p><p>CISA reminds organizations to perform proper impact analysis and risk assessment prior to deploying defensive measures.</p><p>CISA also provides a section for control systems security recommended practices on the ICS webpage on cisa.gov/ics. Several CISA products detailing cyber defense best practices are available for reading and download, including Improving Industrial Control Systems Cybersecurity with Defense-in-Depth Strategies.</p><p>CISA encourages organizations to implement recommended cybersecurity strategies for proactive defense of ICS assets.</p><p>Additional mitigation guidance and recommended practices are publicly available on the ICS webpage at cisa.gov/ics in the technical information paper, ICS-TIP-12-146-01B--Targeted Cyber Intrusion Detection and Mitigation Strategies.</p><p>Organizations observing suspected malicious activity should follow established internal procedures and report findings to CISA for tracking and correlation against other incidents.</p><p>No known public exploitation specifically targeting these vulnerabilities has been reported to CISA at this time.</p><hr><h2>Revision History</h2><ul><li><strong>Initial Release Date: </strong>2026-07-30</li></ul><table class=\"tablesaw tablesaw-stack\" data-tablesaw-mode=\"stack\" data-tablesaw-minimap><thead><tr><th role=\"columnheader\" data-tablesaw-priority=\"persist\">Date</th><th role=\"columnheader\">Revision</th><th role=\"columnheader\">Summary</th></tr></thead><tbody><tr><td>2026-07-30</td><td>1</td><td>Initial Publication</td></tr></tbody></table><hr><h2>Legal Notice and Terms of Use</h2></div></div> <div class=\"c-field c-field--name-field-advisory-type c-field--type-entity-reference c-field--label-above\"> <div class=\"c-field__label\">Advisory Type</div><div class=\"c-field__content\">ICS Advisory</div></div> <div class=\"c-field c-field--name-field-topics c-field--type-entity-reference c-field--label-inline\"> <div class=\"c-field__label is-inline\">Topics</div><div class=\"c-field__content\"><a href=\"/topics/industrial-control-systems/industrial-control-system-vulnerabilities\">Industrial Control System Vulnerabilities</a>, <a href=\"/topics/industrial-control-systems\">Industrial Control Systems</a></div></div> <div class=\"c-field c-field--name-field-alert-code c-field--type-string c-field--label-above\"> <div class=\"c-field__label\">Alert Code</div><div class=\"c-field__content\">ICSA-26-211-11</div></div> <div class=\"c-field c-field--name-field-sector c-field--type-entity-reference c-field--label-inline\"> <div class=\"c-field__label is-inline\">Sector</div><div class=\"c-field__content\"><a href=\"/topics/critical-infrastructure-security-and-resilience/critical-infrastructure-sectors/chemical-sector\" hreflang=\"en\">Chemical Sector</a>, <a href=\"/topics/critical-infrastructure-security-and-resilience/critical-infrastructure-sectors/critical-manufacturing-sector\" hreflang=\"en\">Critical Manufacturing Sector</a>, <a href=\"/topics/critical-infrastructure-security-and-resilience/critical-infrastructure-sectors/energy-sector\" hreflang=\"en\">Energy Sector</a>, <a href=\"/topics/critical-infrastructure-security-and-resilience/critical-infrastructure-sectors/water-and-wastewater-sector\" hreflang=\"en\">Water and Wastewater Systems</a></div></div> <div class=\"c-field c-field--name-field-vendor c-field--type-entity-reference c-field--label-above\"> <div class=\"c-field__label\">Vendor</div><div class=\"c-field__content\">MZ Automation GmbH</div></div> <div class=\"c-field c-field--name-field-key-takeaways-toggle c-field--type-boolean c-field--label-above\"> <div class=\"c-field__label\">Show &#039;Key Takeaways&#039; block</div><div class=\"c-field__content\">Off</div></div> <div class=\"c-field c-field--name-field-imported c-field--type-boolean c-field--label-hidden\"> <div class=\"c-field__content\">On</div></div>",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-08-01T14:23:38",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 1,
+      "priority": "low",
+      "fetched_title": "MZ Automation lib60870",
+      "meta_description": "MZ Automation lib60870 aruschman Jul 30, 2026 Release Date July 30, 2026 Description View CSAF Summary Successful exploitation of these vulnerabilities could crash the device being accessed. The following versions of MZ Automation lib60870 ",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "fallback",
+      "main_image_extraction_method": "fallback",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "MZ Automation lib60870 aruschman Jul 30, 2026 Release Date July 30, 2026 Description View CSAF Summary Successful exploitation of these vulnerabilities could crash the device being accessed. The following versions of MZ Automation lib60870 are affected: lib60870 2.4.0 (CVE-2026-61893, CVE-2026-63033) CVSS Vendor Equipment Vulnerabilities v3 6.5 MZ Automation GmbH MZ Automation lib60870 Out-of-bounds Read Background Critical Infrastructure Sectors: Energy, Water and Wastewater, Critical Manufacturing, Chemical Countries/Areas Deployed: Worldwide Company Headquarters Location: Germany Vulnerabilities Expand All + CVE-2026-61893 A crafted IEC 60870-5-104 I-frame with TypeID 104 (C_TS_NA_1) and an inflated object count causes TestCommand_getFromBuffer to read one byte past the end of the heap-allocated message buffer. View CVE Details Affected Products MZ Automation lib60870 Vendor: MZ Automation GmbH Product Version: MZ Automation GmbH lib60870: 2.4.0 Product Status: known_affected Remediations Mitigation MZ Automation recommends users update to version 2.4.1 when available. Vendor fix See MZ Automation advisories for more information: https://github.com/mz-automation/lib60870/security/advisories/GHSA-g3w7-x5rx-83xm https://github.com/mz-automation/lib60870/security/advisories/GHSA-g3w7-x5rx-83xm Relevant CWE: CWE-125 Out-of-bounds Read Metrics CVSS Version Base Score Base Severity Vector String 3.1 6.5 MEDIUM CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L 4.0 6.9 MEDIUM CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N CVE-2026-63033 A crafted IEC 60870-5-104 I-frame with a declared object count exceeding what fits in the ASDU body causes InformationObject_ParseObjectAddress to read one byte past the end of the heap-allocated message buffer. View CVE Details Affected Products MZ Automation lib60870 Vendor: MZ Automation GmbH Product Version: MZ Automation GmbH lib60870: 2.4.0 Product Status: known_affected Remediations Mitigation MZ Automation recommends users update to version 2.4.1 when available. Vendor fix See MZ Automation advisory for more information: https://github.com/mz-automation/lib60870/security/advisories/GHSA-7v97-jmwv-w5j7 https://github.com/mz-automation/lib60870/security/advisories/GHSA-7v97-jmwv-w5j7 Relevant CWE: CWE-125 Out-of-bounds Read Metrics CVSS Version Base Score Base Severity Vector String 3.1 6.5 MEDIUM CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L 4.0 6.9 MEDIUM CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N Acknowledgments arun babu puthuparambil of Central Power Research Institute, Bengaluru, India reported these vulnerabilities to CISA Legal Notice and Terms of Use This product is provided subject to this Notification (https://www.cisa.gov/notification) and this Privacy & Use policy (https://www.cisa.gov/privacy-policy). Recommended Practices CISA recommends users take defensive measures to minimize the risk of exploitation of these vulnerabilities. Minimize network exposure for all control system devices and/or systems, ensuring they are not accessible from the internet. Locate control system networks and remote devices behind firewalls and isolating them from business networks. When remote access is required, use more secure methods, such as virtual private networks (VPNs), recognizing VPNs may have vulnerabilities and should be updated to the most current version available. Also recognize VPN is only as secure as the connected devices. CISA reminds organizations to perform proper impact analysis and risk assessment prior to deploying defensive measures. CISA also provides a section for control systems security recommended practices on the ICS webpage on cisa.gov/ics. Several CISA products detailing cyber defense best practices are available for reading and download, including Improving Industrial Control Systems Cybersecurity with Defense-in-Depth Strategies. CISA encourages organizations to implement recommended cybersecurity strategies for proactive defense of ICS assets. Additional mitigation guidance and recommended practices are publicly available on the ICS webpage at cisa.gov/ics in the technical information paper, ICS-TIP-12-146-01B--Targeted Cyber Intrusion Detection and Mitigation Strategies. Organizations observing suspected malicious activity should follow established internal procedures and report findings to CISA for tracking and correlation against other incidents. No known public exploitation specifically targeting these vulnerabilities has been reported to CISA at this time. Revision History Initial Release Date: 2026-07-30 Date Revision Summary 2026-07-30 1 Initial Publication Legal Notice and Terms of Use Advisory Type ICS Advisory Topics Industrial Control System Vulnerabilities , Industrial Control Systems Alert Code ICSA-26-211-11 Sector Chemical Sector , Critical Manufacturing Sector , Energy Sector , Water and Wastewater Systems Vendor MZ Automation GmbH Show 'Key Takeaways' block Off On",
+      "full_article_text_chars": 4965,
+      "content_preview": "MZ Automation lib60870 aruschman Jul 30, 2026 Release Date July 30, 2026 Description View CSAF Summary Successful exploitation of these vulnerabilities could crash the device being accessed. The following versions of MZ Automation lib60870 are affected: lib60870 2.4.0 (CVE-2026-61893, CVE-2026-63033) CVSS Vendor Equipment Vulnerabilities v3 6.5 MZ Automation GmbH MZ Automation lib60870 Out-of-bounds Read Background Critical Infrastructure Sectors: Energy, Water and Wastewater, Critical Manufacturing, Chemical Countries/Areas Deployed: Worldwide Company Headquarters Location: Germany Vulnerabilities Expand All + CVE-2026-61893 A crafted IEC 60870-5-104 I-frame with TypeID 104 (C_TS_NA_1) and an inflated object count causes TestCommand_getFromBuffer to read one byte past the end of the heap-allocated message buffer. View CVE Details Affected Products MZ Automation lib60870 Vendor: MZ Automation GmbH Product Version: MZ Automation GmbH lib60870: 2.4.0 Product Status: known_affected Remediations Mitigation MZ Automation recommends users update to version 2.4.1 when available. Vendor fix See MZ Automation advisories for more information: https://github.com/mz-automation/lib60870/security/advisories/GHSA-g3w7-x5rx-83xm https://github.com/mz-automation/lib60870/security/advisories/GHSA-g3w7-x5rx-83xm Relevant CWE: CWE-125 Out-of-bounds Read Metrics CVSS Version Base Score Base Severity Vector String 3.1 6.5 MEDIUM CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L 4.0 6.9 MEDIUM CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N CVE-2026-63033 A crafted IEC 60870-5-104 I-frame with a declared object count exceeding what fits in the ASDU body causes InformationObject_ParseObjectAddress to read one byte past the end of the heap-allocated message buffer. View CVE Details Affected Products MZ Automation lib60870 Vendor: MZ Automation GmbH Product Version: MZ Automation GmbH lib60870: 2.4.0 Product Status: known_affected Remediations Mitigation MZ Automation recommends users update to version 2.4.1 when available. Vendor fix See MZ Automation advisory for more information: https://github.com/mz-automation/lib60870/security/advisories/GHSA-7v97-jmwv-w5j7 https://github.com/mz-automation/lib60870/security/advisories/GHSA-7v97-jmwv-w5j7 Relevant CWE: CWE-125 Out-of-bounds Read Metrics CVSS Version Base Score Base Severity Vector String 3.1 6.5 MEDIUM CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:L 4.0 6.9 MEDIUM CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:L/VI:N/VA:L/SC:N/SI:N/SA:N Acknowledgments arun babu puthuparambil of Central Power Research Institute, Bengaluru, India reported these vulnerabilities to CISA Legal Notice and Terms of Use This product is provided subject to this Notification (https://www.cisa.gov/notification) and this Privacy & Use policy (https://www.cisa.gov/privacy-policy). Recommended Practices CISA recommends users take defensive measures to minimize the risk of exploitation of these vulnerabilities. Minimize network exposure for all control system devices and/or systems, ensuring they are not accessible from the internet. Locate control system networks and remote devices behind firewalls and isolating them from business networks. When remote access is required, use more secure methods, such as virtual private networks (VPNs), recognizing VPNs may have vulnerabilities and should be updated to the most current version available. Also recognize VPN is only as secure as the connected devices. CISA reminds organizations to perform proper impact analysis and risk assessment prior to deploying defensive measures. CISA also provides a section for control systems security recommended practices on the ICS webpage on cisa.gov/ics. Several CISA products detailing cyber defense best practices are available for reading and download, including Improving Industrial Control Systems Cybersecurity with Defense-in-Depth Strategies. CISA encourages organizations to implement recommended cybersecurity strategies for proactive defense of ICS assets. Additional mitigation guidance and recommended practices are publicly available on the ICS webpage at cisa.gov/ics in the technical information paper, ICS-TIP-12-146-01B--Targeted Cyber Intrusion Detection and Mitigation Strategies. Organizations observing suspected malicious activity should follow established internal procedures and report findings to CISA for tracking and correlation against other incidents. No known public exploitation specifically targeting these vulnerabilities has been reported to CISA at this time. Revision History Initial Release Date: 2026-07-30 Date Revision Summary 2026-07-30 1 Initial Publication Legal Notice and Terms of Use Advisory Type ICS Advisory Topics Industrial Control System Vulnerabilities , Industrial Control Systems Alert Code ICSA-26-211-11 Sector Chemical Sector , Critical Manufacturing Sector , Energy Sector , Water and Wastewater Systems Vendor MZ Automation GmbH Show 'Key Takeaways' block Off On",
+      "content_preview_chars": 4965,
+      "content_fetched_at": "2026-08-01T14:23:47",
       "enrichment_status": "rss_summary",
       "content_fetch_status": "success"
     }
