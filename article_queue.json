@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-02T09:37:56",
+  "updated_at": "2026-08-02T11:05:59",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2558,13 +2558,13 @@
       "score": 7,
       "priority": "medium",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-08-02T09:30:37",
-      "candidate_retry_after": "2026-08-02T09:45:37Z",
+      "content_fetch_error": "http 429",
+      "content_fetched_at": "2026-08-02T10:58:52",
+      "candidate_retry_after": "2026-08-02T11:13:52Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-08-02T09:30:37",
-      "candidate_failure_count": 122
+      "candidate_failure_reason": "http 429",
+      "candidate_failed_at": "2026-08-02T10:58:52",
+      "candidate_failure_count": 123
     },
     {
       "id": "512c2899a98440d2",
@@ -2592,13 +2592,13 @@
       "score": 4,
       "priority": "low",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-08-02T09:30:37",
-      "candidate_retry_after": "2026-08-02T09:45:37Z",
+      "content_fetch_error": "http 429",
+      "content_fetched_at": "2026-08-02T10:58:54",
+      "candidate_retry_after": "2026-08-02T11:13:54Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-08-02T09:30:37",
-      "candidate_failure_count": 122
+      "candidate_failure_reason": "http 429",
+      "candidate_failed_at": "2026-08-02T10:58:54",
+      "candidate_failure_count": 123
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2626,13 +2626,13 @@
       "score": 4,
       "priority": "low",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 404",
-      "content_fetched_at": "2026-08-02T09:30:37",
-      "candidate_retry_after": "2026-08-02T09:45:37Z",
+      "content_fetch_error": "http 429",
+      "content_fetched_at": "2026-08-02T10:58:56",
+      "candidate_retry_after": "2026-08-02T11:13:56Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 404",
-      "candidate_failed_at": "2026-08-02T09:30:37",
-      "candidate_failure_count": 122
+      "candidate_failure_reason": "http 429",
+      "candidate_failed_at": "2026-08-02T10:58:56",
+      "candidate_failure_count": 123
     },
     {
       "id": "d900f1574fddfab4",
@@ -3543,12 +3543,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "timeout",
-      "content_fetched_at": "2026-08-02T09:30:58",
-      "candidate_retry_after": "2026-08-02T09:45:58Z",
+      "content_fetched_at": "2026-08-02T10:59:17",
+      "candidate_retry_after": "2026-08-02T11:14:17Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "timeout",
-      "candidate_failed_at": "2026-08-02T09:30:58",
-      "candidate_failure_count": 121
+      "candidate_failed_at": "2026-08-02T10:59:17",
+      "candidate_failure_count": 122
     },
     {
       "id": "8d2678d87487d729",
@@ -4428,13 +4428,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 403",
-      "content_fetched_at": "2026-08-02T09:30:58",
-      "candidate_retry_after": "2026-08-02T09:45:58Z",
+      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "content_fetched_at": "2026-08-02T10:59:17",
+      "candidate_retry_after": "2026-08-02T11:14:17Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 403",
-      "candidate_failed_at": "2026-08-02T09:30:58",
-      "candidate_failure_count": 120
+      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
+      "candidate_failed_at": "2026-08-02T10:59:17",
+      "candidate_failure_count": 121
     },
     {
       "id": "45429302676bf4c5",
@@ -5491,13 +5491,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-08-02T09:31:00",
-      "candidate_retry_after": "2026-08-02T09:46:00Z",
+      "content_fetch_error": "http 403",
+      "content_fetched_at": "2026-08-02T10:59:17",
+      "candidate_retry_after": "2026-08-02T11:14:17Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-08-02T09:31:00",
-      "candidate_failure_count": 118
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-08-02T10:59:17",
+      "candidate_failure_count": 119
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5528,13 +5528,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-08-02T09:31:02",
-      "candidate_retry_after": "2026-08-02T09:46:02Z",
+      "content_fetch_error": "http 403",
+      "content_fetched_at": "2026-08-02T10:59:17",
+      "candidate_retry_after": "2026-08-02T11:14:17Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-08-02T09:31:02",
-      "candidate_failure_count": 118
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-08-02T10:59:17",
+      "candidate_failure_count": 119
     },
     {
       "id": "aede79193c6b98c9",
@@ -5565,13 +5565,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-08-02T09:31:04",
-      "candidate_retry_after": "2026-08-02T09:46:04Z",
+      "content_fetch_error": "http 403",
+      "content_fetched_at": "2026-08-02T10:59:18",
+      "candidate_retry_after": "2026-08-02T11:14:18Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-08-02T09:31:04",
-      "candidate_failure_count": 118
+      "candidate_failure_reason": "http 403",
+      "candidate_failed_at": "2026-08-02T10:59:18",
+      "candidate_failure_count": 119
     },
     {
       "id": "253eaa098c468523",
@@ -6514,12 +6514,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-08-02T09:31:04",
-      "candidate_retry_after": "2026-08-02T09:46:04Z",
+      "content_fetched_at": "2026-08-02T10:59:18",
+      "candidate_retry_after": "2026-08-02T11:14:18Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-08-02T09:31:04",
-      "candidate_failure_count": 116
+      "candidate_failed_at": "2026-08-02T10:59:18",
+      "candidate_failure_count": 117
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6965,12 +6965,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-08-02T09:31:07",
-      "candidate_retry_after": "2026-08-02T09:46:07Z",
+      "content_fetched_at": "2026-08-02T10:59:20",
+      "candidate_retry_after": "2026-08-02T11:14:20Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-08-02T09:31:07",
-      "candidate_failure_count": 114
+      "candidate_failed_at": "2026-08-02T10:59:20",
+      "candidate_failure_count": 115
     },
     {
       "id": "693fbfabd96b2185",
@@ -7001,12 +7001,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-08-02T09:31:08",
-      "candidate_retry_after": "2026-08-02T09:46:08Z",
+      "content_fetched_at": "2026-08-02T10:59:21",
+      "candidate_retry_after": "2026-08-02T11:14:21Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-08-02T09:31:08",
-      "candidate_failure_count": 114
+      "candidate_failed_at": "2026-08-02T10:59:21",
+      "candidate_failure_count": 115
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9515,12 +9515,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=422 chars/65 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:422chars/65words, paragraph_fallback:307chars/48words, article_body:422chars/65words, meta_description:53chars/7words, page_text:422chars/65words)",
-      "content_fetched_at": "2026-08-02T09:31:10",
-      "candidate_retry_after": "2026-08-02T09:46:10Z",
+      "content_fetched_at": "2026-08-02T10:59:22",
+      "candidate_retry_after": "2026-08-02T11:14:22Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=422 chars/65 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:422chars/65words, paragraph_fallback:307chars/48words, article_body:422chars/65words, meta_description:53chars/7words, page_text:422chars/65words)",
-      "candidate_failed_at": "2026-08-02T09:31:10",
-      "candidate_failure_count": 110
+      "candidate_failed_at": "2026-08-02T10:59:22",
+      "candidate_failure_count": 111
     },
     {
       "id": "561b6316398d7603",
@@ -10687,12 +10687,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-08-02T09:31:10",
-      "candidate_retry_after": "2026-08-02T09:46:10Z",
+      "content_fetched_at": "2026-08-02T10:59:22",
+      "candidate_retry_after": "2026-08-02T11:14:22Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-08-02T09:31:10",
-      "candidate_failure_count": 106
+      "candidate_failed_at": "2026-08-02T10:59:22",
+      "candidate_failure_count": 107
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10724,12 +10724,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-08-02T09:31:11",
-      "candidate_retry_after": "2026-08-02T09:46:11Z",
+      "content_fetched_at": "2026-08-02T10:59:23",
+      "candidate_retry_after": "2026-08-02T11:14:23Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-08-02T09:31:11",
-      "candidate_failure_count": 106
+      "candidate_failed_at": "2026-08-02T10:59:23",
+      "candidate_failure_count": 107
     },
     {
       "id": "a6f4ca9464909855",
@@ -10761,12 +10761,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-08-02T09:31:11",
-      "candidate_retry_after": "2026-08-02T09:46:11Z",
+      "content_fetched_at": "2026-08-02T10:59:23",
+      "candidate_retry_after": "2026-08-02T11:14:23Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-08-02T09:31:11",
-      "candidate_failure_count": 106
+      "candidate_failed_at": "2026-08-02T10:59:23",
+      "candidate_failure_count": 107
     },
     {
       "id": "71463c25ac92daaa",
@@ -15508,12 +15508,12 @@
       "removed_source_links_count": 81,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:107chars/21words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-08-02T09:31:12",
-      "candidate_retry_after": "2026-08-02T09:46:12Z",
+      "content_fetched_at": "2026-08-02T10:59:24",
+      "candidate_retry_after": "2026-08-02T11:14:24Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:107chars/21words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-08-02T09:31:12",
-      "candidate_failure_count": 95,
+      "candidate_failed_at": "2026-08-02T10:59:24",
+      "candidate_failure_count": 96,
       "archived": true,
       "archived_at": "2026-08-01T01:12:08",
       "archive_reason": "expired_recent_window"
@@ -48245,12 +48245,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=98 chars/18 words; required=80 chars/120 words; tried=main_tag:52chars/8words, paragraph_fallback:52chars/8words, article_body:52chars/8words, meta_description:98chars/18words, page_text:52chars/8words)",
-      "content_fetched_at": "2026-08-02T09:31:14",
-      "candidate_retry_after": "2026-08-02T09:46:14Z",
+      "content_fetched_at": "2026-08-02T10:59:25",
+      "candidate_retry_after": "2026-08-02T11:14:25Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=98 chars/18 words; required=80 chars/120 words; tried=main_tag:52chars/8words, paragraph_fallback:52chars/8words, article_body:52chars/8words, meta_description:98chars/18words, page_text:52chars/8words)",
-      "candidate_failed_at": "2026-08-02T09:31:14",
-      "candidate_failure_count": 21
+      "candidate_failed_at": "2026-08-02T10:59:25",
+      "candidate_failure_count": 22
     },
     {
       "id": "678cf57f2568974e",
@@ -48782,12 +48782,12 @@
       "removed_source_links_count": 109,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=410 chars/72 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:410chars/72words, article_body:410chars/72words, meta_description:179chars/31words, page_text:218chars/37words)",
-      "content_fetched_at": "2026-08-02T09:31:16",
-      "candidate_retry_after": "2026-08-02T09:46:16Z",
+      "content_fetched_at": "2026-08-02T10:59:26",
+      "candidate_retry_after": "2026-08-02T11:14:26Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=410 chars/72 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:410chars/72words, article_body:410chars/72words, meta_description:179chars/31w",
-      "candidate_failed_at": "2026-08-02T09:31:16",
-      "candidate_failure_count": 20
+      "candidate_failed_at": "2026-08-02T10:59:26",
+      "candidate_failure_count": 21
     },
     {
       "id": "c4dc072a2cb4102b",
@@ -53092,11 +53092,11 @@
       "content_fetched_at": "2026-08-01T16:36:44",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-08-02T01:16:29",
+      "selected_at": "2026-08-02T11:02:25",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-08-02T01:16:30",
+      "processing_prepared_at": "2026-08-02T11:02:25",
       "ai_input_package": {
         "title": "Apple may change its iPhone launch strategy, and the standard iPhone could be affected the most",
         "url": "https://www.digitaltrends.com/phones/apple-may-change-its-iphone-launch-strategy-and-the-standard-iphone-could-be-affected-the-most",
@@ -53144,14 +53144,14 @@
       "ai_error": "non_technical_entertainment_content",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 93.02,
+      "ai_total_time_seconds": 109.61,
       "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-08-02T01:33:04Z",
+      "candidate_retry_after": "2026-08-02T11:19:16Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "non_technical_entertainment_content",
-      "candidate_failed_at": "2026-08-02T01:18:04",
-      "candidate_failure_count": 2,
+      "candidate_failed_at": "2026-08-02T11:04:16",
+      "candidate_failure_count": 3,
       "ai_quality_last_error": "non_technical_entertainment_content"
     },
     {
@@ -55342,11 +55342,11 @@
       "content_fetched_at": "2026-08-01T20:40:16",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-08-02T01:13:25",
+      "selected_at": "2026-08-02T10:59:27",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-08-02T01:13:25",
+      "processing_prepared_at": "2026-08-02T10:59:27",
       "ai_input_package": {
         "title": "Here's how engineers plan to save the satellite sent to save NASA's Swift mission",
         "url": "https://arstechnica.com/space/2026/08/heres-how-engineers-plan-to-save-the-satellite-sent-to-save-nasas-swift-mission",
@@ -55394,14 +55394,14 @@
       "ai_error": "Missing AI output field(s): slug",
       "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 52.91,
+      "ai_total_time_seconds": 79.39,
       "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-08-02T01:29:19Z",
+      "candidate_retry_after": "2026-08-02T11:15:48Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "Missing AI output field(s): slug",
-      "candidate_failed_at": "2026-08-02T01:14:19",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-08-02T11:00:48",
+      "candidate_failure_count": 2
     },
     {
       "id": "ba0eb6022ed8437e",
@@ -55462,11 +55462,11 @@
       "content_fetched_at": "2026-08-01T20:40:07",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "selected_at": "2026-08-02T01:14:20",
+      "selected_at": "2026-08-02T11:00:49",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-08-02T01:14:20",
+      "processing_prepared_at": "2026-08-02T11:00:49",
       "ai_input_package": {
         "title": "Sam Altman is still making the case for parenting via ChatGPT | TechCrunch",
         "url": "https://techcrunch.com/2026/08/01/sam-altman-is-still-making-the-case-for-parenting-via-chatgpt",
@@ -55499,20 +55499,20 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_quality_last_error": "ad/affiliate/sponsored title or summary",
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "ad/affiliate/sponsored title or summary",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 127.57,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 93.8,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-08-02T01:31:29Z",
+      "candidate_retry_after": "2026-08-02T11:17:24Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-08-02T01:16:29",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "ad/affiliate/sponsored title or summary",
+      "candidate_failed_at": "2026-08-02T11:02:24",
+      "candidate_failure_count": 2
     },
     {
       "id": "cbe6f6bdaf9f4551",
@@ -55591,11 +55591,11 @@
       "content_fetched_at": "2026-08-01T20:40:18",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-08-02T01:18:04",
+      "selected_at": "2026-08-02T11:04:16",
       "suggested_category": "Tech-News",
       "selection_reason": "category rotation newest fresh article: Tech-News",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-08-02T01:18:05",
+      "processing_prepared_at": "2026-08-02T11:04:17",
       "ai_input_package": {
         "title": "Review: Yes, we're still arguing about Nolan's The Odyssey",
         "url": "https://arstechnica.com/culture/2026/08/review-yes-were-still-arguing-about-nolans-the-odyssey",
@@ -55638,20 +55638,20 @@
         "trusted_references": [],
         "related_posts": []
       },
-      "ai_quality_last_error": "AI article response is missing required field(s): title",
-      "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
+      "ai_quality_last_error": "Missing AI output field(s): slug",
+      "ai_provider_last_error": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "Missing AI output field(s): slug",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 99.86,
-      "ai_quality_status": "provider_rotation_exhausted",
+      "ai_total_time_seconds": 100.97,
+      "ai_quality_status": "failed_after_retries",
       "ai_quality_attempts": 3,
-      "candidate_retry_after": "2026-08-02T01:34:46Z",
+      "candidate_retry_after": "2026-08-02T11:20:59Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-08-02T01:19:46",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "Missing AI output field(s): slug",
+      "candidate_failed_at": "2026-08-02T11:05:59",
+      "candidate_failure_count": 2
     },
     {
       "id": "010d4ffdd45d899d",
@@ -57389,6 +57389,153 @@
       "content_preview": "Phishing was the primary means of gaining initial access this quarter, appearing in over half of all Cisco Talos Incident Response (Talos IR) engagements – an increase from approximately a third of engagements last quarter. Attackers continued to innovate their delivery methods to evade defenses, deploying QR code-embedded PDFs to bypass traditional email gateways and hosting links on trusted cloud platforms. We also saw a spike in authentication abuse this quarter — observed in 65 percent of engagements compared to 35 percent last quarter — with attackers frequently bypassing or defeating multi-factor authentication (MFA) using adversary-in-the-middle (AitM) proxies, session-token theft, MFA fatigue attacks, and self-enrolled devices, amongst other methods. Ransomware incidents made up over 20 percent of engagements this quarter, similar to just under 20 percent last quarter. Talos IR responded to Sinobi ransomware for the first time, as well as previously seen variants Nitrogen and Warlock. We observed ransomware operators leveraging legitimate remote monitoring and management (RMM) tools, such as trojanized MeshAgent binary and Zoho Assist, for stealthy access, requiring defenders to prioritize behavior-based monitoring and strict control over administrative binaries. In the latest Talos Threat Perspective episode, we explore these trends, and highlight where defenders have the best opportunities to detect attackers: QR phishing campaign leverages trusted infrastructure to target Australian organizations Starting in April, we observed a persistent QR code phishing campaign targeting primarily Australian organizations that leverages compromised Microsoft 365 accounts to harvest credentials and propagate the attack via internal contact lists. The campaign, which remained ongoing as of late June 2026, employs auto-generated, victim-tailored PDF documents containing QR codes that direct to adversary-controlled M365 credential harvesting pages. If credentials are successfully captured, the adversary attempts access to the victim’s Microsoft account and conducts various post-compromise actions including creating email inbox rules for defense evasion, leveraging SharePoint to host malicious documents, and sending additional internal and external phishing emails to continue the compromise chain. We assess with high confidence that the threat actor, who we have dubbed UAT-11764, will almost certainly continue leveraging this QR code phishing operation, using each newly compromised mailbox's contact lists to expand its reach and sustain the campaign's momentum. By weaponizing existing, trusted infrastructure like SharePoint and M365, UAT-11764 can bypass many standard email security gateways. As such, network defenders should implement policies that block or flag emails containing QR codes within PDF attachments, enforce phishing-resistant MFA on M365 accounts, and monitor for suspicious inbox rule creation and anomalous SharePoint file staging as indicators of post-compromise activity. ARToken platform provides toolkit for Microsoft 365 account compromise Talos uncovered a phishing-as-a-service (PhaaS) operator platform, ARToken, in an engagement this quarter that is closely linked to the EvilTokens platform. According to our analysis, the ARToken panel exposes 80+ API endpoints for device code phishing, primary refresh token (PRT) persistence, email access, business email compromise (BEC) operations, and SharePoint exfiltration — all accessible to operators through a React-based dashboard. Our investigation into the platform found phishing lures that impersonate trusted vendors and abuse legitimate Microsoft services, allowing attackers to bypass MFA through the OAuth device authorization flow rather than stealing passwords. ARToken extends beyond a typical phishing kit by providing affiliates with a comprehensive post-compromise toolkit. We observed capabilities including automated token management, persistent access through PRTs, OneDrive and SharePoint administration, geo-dynamic templates, inbox rule manipulation, cross-account keyword monitoring, and collaborative token sharing. We also identified advanced anti-analysis techniques, including layered evasion mechanisms and encrypted client-side payloads, highlighting the increasing sophistication of modern PhaaS platforms and reinforcing the need for organizations to monitor device code authentication, enforce Conditional Access policies, and strengthen defenses against token-based attacks. Ransomware and pre-ransomware incidents made up over 20 percent of engagements this quarter, relatively similar to just under 20 percent last quarter. As previously mentioned, Talos IR responded to Sinobi ransomware for the first time, as well as previously seen variants Nitrogen and Warlock. We observed operators from these groups leveraging tools not previously identified in public reporting, including a trojanized MeshAgent binary and Zoho Assist for remote access. Sinobi ransomware operators weaponize MeshAgent for covert backdoor access We responded to a Sinobi ransomware engagement for the first time in April; while this ransomware-as-a-service (RaaS) operation emerged nearly a year ago, there has been minimal public reporting on the actors’ operations. Notably, we observed the threat actors use a trojanized MeshAgent binary as their primary C2 mechanism during this engagement, a tactic that has not been previously associated with the group in public reporting. MeshAgent is the open-source agent component of the MeshCentral remote management platform. Here, the actor weaponized it into a covert durable backdoor installed as a SYSTEM-level auto-start service, communicating over encrypted WebSocket (WSS) to an attacker-controlled server. This approach allowed the actor to blend malicious traffic with legitimate remote management activity and maintain undetected access for approximately three days before ransomware deployment. Following C2 establishment, the actor moved laterally through the network using RDP and WinRM, leveraging a service account with a weak, easily cracked password obtained from the domain credential store, ntds.dit. The actor ultimately deployed the ransomware across the entire domain using a malicious Group Policy Object (GPO) logon script. The incident resulted in the encryption of systems with the .SINOBI file extension, alongside observed data exfiltration staging activity conducted via rclone.exe. Looking forward, Sinobi operators will likely continue weaponizing legitimate tools like MeshAgent because these binaries blend into standard administrative traffic and bypass many traditional signature-based alerts. The use of GPO-based deployment scripts suggests an understanding of enterprise architecture, and operators will likely continue to exploit centralized management features to ensure rapid, domain-wide encryption. Defenders should prioritize monitoring of administrative tools and implement strict application allowlisting to prevent unauthorized binaries from running as services. Further, proactive hunting for unauthorized MeshAgent instances and auditing service account permissions may help in identifying and disrupting Sinobi activity before encryption. Warlock actors deploy Zoho Assist to attempt remote access without active user sessions In one engagement, we observed Warlock ransomware operators (also known as Storm-2603) deploying an installer for the RMM tool Zoho Assist Unattended Agent, which is designed to allow administrative remote control of an endpoint without a user logged in. The tool, which we have not previously seen attributed to Warlock, enables the attackers to maintain persistent, stealthy, and unrestricted control, significantly increasing the potential malicious impact of an incident. While the activity in this particular did not lead to encryption, it was consistent with a successful Warlock ransomware attack Talos observed in May. To counter this threat, organizations must shift from signature-based detection to behavior-based monitoring, focusing on the specific tactics, techniques, and procedures (TTPs) utilized by Storm-2603, such as the abuse of legitimate administrative tools and rapid movement within the network. For the second quarter in a row, health care led as the most targeted industry vertical accounting for 17 percent of all engagements, with public administration and manufacturing following at 14 percent each. A shared characteristic of these top-targeted sectors is a critical lack of downtime tolerance. The vast majority of targeted health care organizations were entities that directly support clinical operations and/or diagnostic services, where service interruption can result in operational and patient-care consequences.",
       "content_preview_chars": 8798,
       "content_fetched_at": "2026-08-02T07:16:17",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "6acd2a201560186b",
+      "source_url_hash": "6acd2a201560186b",
+      "canonical_url": "https://www.digitaltrends.com/gaming/ayaneos-new-handheld-revives-the-game-boy-advance-nintendo-probably-wishes-it-had-done-it-first",
+      "title_hash": "1b203be8bca2e6bc",
+      "topic_signature": "f46fbe5e24e3309a09da",
+      "title": "Ayaneo’s new handheld revives the Game Boy Advance. Nintendo probably wishes it had done it first",
+      "url": "https://www.digitaltrends.com/gaming/ayaneos-new-handheld-revives-the-game-boy-advance-nintendo-probably-wishes-it-had-done-it-first",
+      "source_name": "Digital Trends",
+      "source_url": "https://www.digitaltrends.com",
+      "source_published_at": "2026-08-02T04:07:58Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 6.84,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-08-02T10:58:27",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 259,
+      "affiliate_links_removed_count": 32,
+      "removed_source_links_count": 259,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Ayaneo’s new handheld revives the Game Boy Advance. Nintendo probably wishes it had done it first",
+      "meta_description": "Ayaneo has unveiled the Konkr Pocket Advance, a modern Game Boy Advance-inspired handheld with a sharper display, USB-C, wireless connectivity and updated controls.",
+      "article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/08/DT-2026-08-02T092951.329.jpg?resize=1200%2C630",
+          "alt": "Ayaneo’s new handheld revives the Game Boy Advance. Nintendo probably wishes it had done it first",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/08/DT-2026-08-02T092943.070.jpg?resize=2000%2C1200",
+          "alt": "KONKR Pocket Advance",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/08/DT-2026-08-02T092932.305.jpg?resize=2000%2C1200",
+          "alt": "KONKR Pocket Advance",
+          "source": "article_content"
+        },
+        {
+          "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+          "alt": "Add as a preferred source on Google",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://www.digitaltrends.com/tachyon/2026/08/DT-2026-08-02T092951.329.jpg?resize=1200%2C630",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/08/DT-2026-08-02T092943.070.jpg?resize=2000%2C1200",
+          "alt": "KONKR Pocket Advance"
+        },
+        {
+          "url": "https://www.digitaltrends.com/tachyon/2026/08/DT-2026-08-02T092932.305.jpg?resize=2000%2C1200",
+          "alt": "KONKR Pocket Advance"
+        },
+        {
+          "url": "https://www.digitaltrends.com/content/themes/dt-stardust/assets/images/google_preferred_source.webp",
+          "alt": "Add as a preferred source on Google"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "The Game Boy Advance is celebrating its 25th anniversary in the US, and while Nintendo has largely chosen to honor the handheld through its Switch Online library, another company has decided to recreate the hardware itself. Chinese handheld maker Ayaneo has unveiled the Konkr Pocket Advance , a modern reinterpretation of the iconic Game Boy Advance that updates almost every part of the original while preserving the horizontal design that made Nintendo’s console so beloved. Rather than building a nostalgia piece that simply looks like the original, Ayaneo is targeting the growing retro gaming market with modern hardware. The Konkr Pocket Advance features a higher-resolution display, additional controls, USB-C connectivity and wireless support, making it less of a replica and more of a contemporary handheld inspired by one of gaming’s most influential consoles. The announcement also arrives at a time when retro handhelds are becoming a serious product category rather than a niche hobby. Companies such as Anbernic, Retroid, Miyoo and Ayaneo have spent the last few years proving that there is sustained demand for devices designed around classic games instead of cutting-edge graphics. A familiar design with modern hardware underneath At first glance, the Konkr Pocket Advance is unmistakably inspired by the original Game Boy Advance. It retains the signature horizontal layout while introducing a 3.5-inch display with a 960 × 640 resolution, considerably sharper than Nintendo’s original hardware. Ayaneo has also added a full set of ABXY buttons, additional menu and shoulder buttons, USB-C, microSD expansion, Wi-Fi, Bluetooth, a 3.5mm headphone jack, and even a dedicated volume wheel. The handheld will initially launch in two color options: a navy blue inspired by the classic Indigo Game Boy Advance and a coral orange reminiscent of Nintendo’s Spice Orange edition, which was originally exclusive to Japan. Ayaneo has not announced pricing or a release date but says the device will arrive later this year. Unlike some of its earlier limited-production handhelds, the company also expects broader availability for the Pocket Advance. Retro gaming is no longer just about nostalgia Ayaneo’s latest handheld highlights a broader trend that Nintendo itself has been surprisingly cautious about. Despite the enduring popularity of the Game Boy Advance and a library that includes classics such as Advance Wars, Golden Sun, Metroid Fusion, Pokémon FireRed and LeafGreen, The Legend of Zelda: The Minish Cap and WarioWare, Nintendo has shown little interest in producing dedicated retro hardware beyond occasional emulation through Switch Online. The accompanying retrospective in Engadget underscores just how influential those games remain two and a half decades later. That has created an opportunity for third-party manufacturers. Modern retro handhelds no longer appeal only to collectors; they attract players who want sharper displays, rechargeable batteries, wireless connectivity and ergonomic designs without sacrificing access to classic games. The Konkr Pocket Advance won’t replace Nintendo’s original hardware in the hearts of longtime fans. But it does reflect something increasingly clear about the gaming industry: while Nintendo owns the memories, companies like Ayaneo are becoming remarkably good at selling the hardware people wish Nintendo still made.",
+      "full_article_text_chars": 3391,
+      "content_preview": "The Game Boy Advance is celebrating its 25th anniversary in the US, and while Nintendo has largely chosen to honor the handheld through its Switch Online library, another company has decided to recreate the hardware itself. Chinese handheld maker Ayaneo has unveiled the Konkr Pocket Advance , a modern reinterpretation of the iconic Game Boy Advance that updates almost every part of the original while preserving the horizontal design that made Nintendo’s console so beloved. Rather than building a nostalgia piece that simply looks like the original, Ayaneo is targeting the growing retro gaming market with modern hardware. The Konkr Pocket Advance features a higher-resolution display, additional controls, USB-C connectivity and wireless support, making it less of a replica and more of a contemporary handheld inspired by one of gaming’s most influential consoles. The announcement also arrives at a time when retro handhelds are becoming a serious product category rather than a niche hobby. Companies such as Anbernic, Retroid, Miyoo and Ayaneo have spent the last few years proving that there is sustained demand for devices designed around classic games instead of cutting-edge graphics. A familiar design with modern hardware underneath At first glance, the Konkr Pocket Advance is unmistakably inspired by the original Game Boy Advance. It retains the signature horizontal layout while introducing a 3.5-inch display with a 960 × 640 resolution, considerably sharper than Nintendo’s original hardware. Ayaneo has also added a full set of ABXY buttons, additional menu and shoulder buttons, USB-C, microSD expansion, Wi-Fi, Bluetooth, a 3.5mm headphone jack, and even a dedicated volume wheel. The handheld will initially launch in two color options: a navy blue inspired by the classic Indigo Game Boy Advance and a coral orange reminiscent of Nintendo’s Spice Orange edition, which was originally exclusive to Japan. Ayaneo has not announced pricing or a release date but says the device will arrive later this year. Unlike some of its earlier limited-production handhelds, the company also expects broader availability for the Pocket Advance. Retro gaming is no longer just about nostalgia Ayaneo’s latest handheld highlights a broader trend that Nintendo itself has been surprisingly cautious about. Despite the enduring popularity of the Game Boy Advance and a library that includes classics such as Advance Wars, Golden Sun, Metroid Fusion, Pokémon FireRed and LeafGreen, The Legend of Zelda: The Minish Cap and WarioWare, Nintendo has shown little interest in producing dedicated retro hardware beyond occasional emulation through Switch Online. The accompanying retrospective in Engadget underscores just how influential those games remain two and a half decades later. That has created an opportunity for third-party manufacturers. Modern retro handhelds no longer appeal only to collectors; they attract players who want sharper displays, rechargeable batteries, wireless connectivity and ergonomic designs without sacrificing access to classic games. The Konkr Pocket Advance won’t replace Nintendo’s original hardware in the hearts of longtime fans. But it does reflect something increasingly clear about the gaming industry: while Nintendo owns the memories, companies like Ayaneo are becoming remarkably good at selling the hardware people wish Nintendo still made.",
+      "content_preview_chars": 3391,
+      "content_fetched_at": "2026-08-02T10:58:32",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "e880e62ee9bb1c4e",
+      "source_url_hash": "e880e62ee9bb1c4e",
+      "canonical_url": "https://techcrunch.com/2026/08/01/should-you-still-buy-your-next-smartphone-or-subscribe-to-it-instead",
+      "title_hash": "822f5e15ee350c58",
+      "topic_signature": "ee8c7b8d81fc8c6fb1d0",
+      "title": "Should you still buy your next smartphone — or subscribe to it instead?",
+      "url": "https://techcrunch.com/2026/08/01/should-you-still-buy-your-next-smartphone-or-subscribe-to-it-instead",
+      "source_name": "TechCrunch",
+      "source_url": "https://techcrunch.com",
+      "source_published_at": "2026-08-01T18:47:27Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 16.18,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "tech",
+      "category_name": "Tech",
+      "category_label": "Tech-News",
+      "category_hint": "Tech-News",
+      "discovered_at": "2026-08-02T10:58:27",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 101,
+      "affiliate_links_removed_count": 4,
+      "removed_source_links_count": 101,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Should you still buy your next smartphone — or subscribe to it instead? | TechCrunch",
+      "meta_description": "Apple's new Upgrade program is the latest sign that smartphone ownership is changing.",
+      "article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/08/apple-store-iphone-17.jpg?resize=1200,800",
+          "alt": "Should you still buy your next smartphone — or subscribe to it instead? | TechCrunch",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/08/iphone-upgrade.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/08/apple-store-iphone-17.jpg?w=1024",
+          "alt": "Apple Store showing iPhone 17 models",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://techcrunch.com/wp-content/uploads/2026/08/apple-store-iphone-17.jpg?resize=1200,800",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/08/iphone-upgrade.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://techcrunch.com/wp-content/uploads/2026/08/apple-store-iphone-17.jpg?w=1024",
+          "alt": "Apple Store showing iPhone 17 models"
+        }
+      ],
+      "trusted_references": [],
+      "full_article_text": "The smartphone industry’s next battleground may not be the phone itself, but how consumers get it. As premium devices become more expensive, Apple, Samsung, and others are betting that leasing, subscriptions, and guaranteed buyback programs can make upgrading more attractive. This week, Apple launched Apple Upgrade in the U.S. in partnership with Klarna, allowing consumers to lease an iPhone, Mac, iPad, or Apple Watch for a monthly fee with the option to upgrade, return, or eventually purchase the device. Samsung, meanwhile, has been offering its Galaxy Forever program in India, combining financing with a guaranteed buyback to let consumers upgrade flagship Galaxy smartphones more predictably. On its earnings call on Thursday, Apple CEO Tim Cook said the Upgrade program is intended to make it easier for customers — particularly those who prefer upgrading on a regular schedule — to access the company’s latest products through a leasing plan. He also said Apple’s relatively high resale values make the model well suited to such plans. The shift comes as consumers keep their smartphones for longer, driven by rising prices as tighter supplies push up memory and other component costs, and incremental hardware improvements that have kept older devices capable for longer. That has given manufacturers fewer opportunities to sell new devices while also reducing the flow of handsets into the booming refurbished market. Analyst firm Counterpoint Research expects the average global replacement cycle to stretch to four years in 2026, up from 3.5 years in 2025. The trend is evident in the United States, where premium smartphone owners now keep their devices for an average of 42 months, up from 38 to 40 months in previous years, according to market intelligence firm IDC. That has prompted smartphone makers to experiment with leasing, subscriptions, and guaranteed buyback programs. “These programs fundamentally do not work unless a secondary market exists,” said Max Weinbach, an analyst at Creative Strategies. “The only way to sustain a used or refurbished market is to make sure devices enter that market, and leasing and guaranteed buyback programs make that possible.” The industry’s challenge, however, is not just to get consumers to upgrade more often — it is also to persuade them that these new ownership models make more financial sense than buying outright. When leasing makes sense “Leasing definitely isn’t for everyone, but it can make sense, especially for someone who upgrades often,” Matt Schulz, chief consumer finance analyst at online lending marketplace LendingTree, told TechCrunch. Consumers who keep their phones for three, four, or five years, however, are often better off buying them outright than opting for a subscription or leasing model, he said. For those who upgrade every year or two, however, the economics can be closer than they appear. “It’s important to stress the fact this is an upgrade program that’s done via a lease, rather than just a leasing program,” Weinbach said. “The intent is that the user will turn in their device every 12 to 36 months because they intend to upgrade regardless.” Based on his analysis of Apple’s new program, Weinbach told TechCrunch that consumers who already replace their phones frequently could pay roughly the same — or, in some cases, even less — than they would by buying a device outright and trading it in later, particularly on higher-storage models whose trade-in values do not always reflect their higher purchase prices. The programs, however, are not just about making premium smartphones more affordable. Smartphone makers also see them as a way to keep customers within their ecosystems as devices become more expensive and replacement cycles lengthen. “The real driver isn’t shorter upgrade cycles; it’s protecting margin and retention as pricing pressure mounts,” IDC’s associate vice president of devices research Navkendar Singh told TechCrunch. Rather than simply trying to get consumers to replace their phones more often, brands are increasingly trying to turn costly smartphone purchases into more predictable monthly payments that keep customers within their ecosystems, Singh said. The idea of paying monthly for a smartphone is not new, particularly in the U.S., where wireless carriers have long offered financing and upgrade plans tied to service contracts. However, what is changing is that phone makers are increasingly trying to own that relationship themselves. Carrier financing has long helped make premium smartphones more affordable in the U.S. “It’s the interest-free financing of 36 months and aggressive trade-ins of up to $1,100 that have made the U.S. the region with the highest smartphone average selling prices,” Nabila Popal, senior research director at IDC, told TechCrunch. The existing financing and trade-in offers have helped Apple and Samsung dominate the U.S. smartphone market with a combined share of more than 80%, per IDC. The shift toward subscriptions and other alternative ownership models is also creating opportunities for startups. BytePe , which offers subscription-style plans for smartphones and other consumer electronics in India, said more than 80% of its customers opt for subscriptions over outright purchases or traditional EMI plans. Founder and CEO Jayant Jha told TechCrunch that BytePe’s typical customers are young professionals in their first or second jobs who want access to premium smartphones without paying the full price upfront or committing to long ownership cycles. The trend is not limited to the U.S. and India. Companies such as the UK’s Raylo and Germany’s Grover have built businesses around leasing smartphones and other consumer electronics through monthly subscription plans. Analysts expect more companies to follow. “The primary objective is to increase customer lifetime value by improving retention, creating predictable upgrade cycles and securing a steady pipeline of trade-in devices for certified refurbishment and resale,” Tarun Pathak, research director at Counterpoint Research, told TechCrunch. Pathak expects such initiatives to become more common in the premium smartphone segment, although he believes financing will remain the more important tool for improving affordability. Nonetheless, outright ownership is unlikely to disappear anytime soon. Mandeep Manocha, co-founder and CEO of Indian smartphone trade-in and refurbishment platform Cashify, expects leasing, subscriptions, and outright purchases to coexist rather than replace one another. “All three business models have a place to exist, and they will continue to do so,” Manocha told TechCrunch. “There is a natural transition that may happen from complete ownership to leasing, but it’s a long journey.” That may be especially true in the U.S., where carrier financing has long dominated premium smartphone purchases. IDC’s Popal expects Apple’s new Upgrade program to have a bigger impact on Mac sales than iPhones, saying the offering is more likely to expand financing options than fundamentally change how Americans buy their next smartphone. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Jagmeet covers startups, tech policy-related updates, and all other major tech-centric developments from India for TechCrunch. He previously worked as a principal correspondent at NDTV. You can contact or verify outreach from Jagmeet by emailing mail@journalistjagmeet.com . Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! Okta buys AI security startup Permiso — source says for about $200M Jagmeet Singh Okta buys AI security startup Permiso — source says for about $200M Spotify adds a running mode to its app Ivan Mehta Spotify adds a running mode to its app Claude Opus 5 became downright ruthless when tasked with running a vending machine Julie Bort Claude Opus 5 became downright ruthless when tasked with running a vending machine DoorDash is building its own drone delivery business Kirsten Korosec DoorDash is building its own drone delivery business Sam Altman is ready to decelerate Tim Fernholz Sam Altman is ready to decelerate Data centers may face temporary power cuts to prevent blackouts on largest US grid Tim De Chant Data centers may face temporary power cuts to prevent blackouts on largest US grid PSA: Your Claude shared chats and Artifacts may have ended up on Google Lorenzo Franceschi-Bicchierai PSA: Your Claude shared chats and Artifacts may have ended up on Google",
+      "full_article_text_chars": 8615,
+      "content_preview": "The smartphone industry’s next battleground may not be the phone itself, but how consumers get it. As premium devices become more expensive, Apple, Samsung, and others are betting that leasing, subscriptions, and guaranteed buyback programs can make upgrading more attractive. This week, Apple launched Apple Upgrade in the U.S. in partnership with Klarna, allowing consumers to lease an iPhone, Mac, iPad, or Apple Watch for a monthly fee with the option to upgrade, return, or eventually purchase the device. Samsung, meanwhile, has been offering its Galaxy Forever program in India, combining financing with a guaranteed buyback to let consumers upgrade flagship Galaxy smartphones more predictably. On its earnings call on Thursday, Apple CEO Tim Cook said the Upgrade program is intended to make it easier for customers — particularly those who prefer upgrading on a regular schedule — to access the company’s latest products through a leasing plan. He also said Apple’s relatively high resale values make the model well suited to such plans. The shift comes as consumers keep their smartphones for longer, driven by rising prices as tighter supplies push up memory and other component costs, and incremental hardware improvements that have kept older devices capable for longer. That has given manufacturers fewer opportunities to sell new devices while also reducing the flow of handsets into the booming refurbished market. Analyst firm Counterpoint Research expects the average global replacement cycle to stretch to four years in 2026, up from 3.5 years in 2025. The trend is evident in the United States, where premium smartphone owners now keep their devices for an average of 42 months, up from 38 to 40 months in previous years, according to market intelligence firm IDC. That has prompted smartphone makers to experiment with leasing, subscriptions, and guaranteed buyback programs. “These programs fundamentally do not work unless a secondary market exists,” said Max Weinbach, an analyst at Creative Strategies. “The only way to sustain a used or refurbished market is to make sure devices enter that market, and leasing and guaranteed buyback programs make that possible.” The industry’s challenge, however, is not just to get consumers to upgrade more often — it is also to persuade them that these new ownership models make more financial sense than buying outright. When leasing makes sense “Leasing definitely isn’t for everyone, but it can make sense, especially for someone who upgrades often,” Matt Schulz, chief consumer finance analyst at online lending marketplace LendingTree, told TechCrunch. Consumers who keep their phones for three, four, or five years, however, are often better off buying them outright than opting for a subscription or leasing model, he said. For those who upgrade every year or two, however, the economics can be closer than they appear. “It’s important to stress the fact this is an upgrade program that’s done via a lease, rather than just a leasing program,” Weinbach said. “The intent is that the user will turn in their device every 12 to 36 months because they intend to upgrade regardless.” Based on his analysis of Apple’s new program, Weinbach told TechCrunch that consumers who already replace their phones frequently could pay roughly the same — or, in some cases, even less — than they would by buying a device outright and trading it in later, particularly on higher-storage models whose trade-in values do not always reflect their higher purchase prices. The programs, however, are not just about making premium smartphones more affordable. Smartphone makers also see them as a way to keep customers within their ecosystems as devices become more expensive and replacement cycles lengthen. “The real driver isn’t shorter upgrade cycles; it’s protecting margin and retention as pricing pressure mounts,” IDC’s associate vice president of devices research Navkendar Singh told TechCrunch. Rather than simply trying to get consumers to replace their phones more often, brands are increasingly trying to turn costly smartphone purchases into more predictable monthly payments that keep customers within their ecosystems, Singh said. The idea of paying monthly for a smartphone is not new, particularly in the U.S., where wireless carriers have long offered financing and upgrade plans tied to service contracts. However, what is changing is that phone makers are increasingly trying to own that relationship themselves. Carrier financing has long helped make premium smartphones more affordable in the U.S. “It’s the interest-free financing of 36 months and aggressive trade-ins of up to $1,100 that have made the U.S. the region with the highest smartphone average selling prices,” Nabila Popal, senior research director at IDC, told TechCrunch. The existing financing and trade-in offers have helped Apple and Samsung dominate the U.S. smartphone market with a combined share of more than 80%, per IDC. The shift toward subscriptions and other alternative ownership models is also creating opportunities for startups. BytePe , which offers subscription-style plans for smartphones and other consumer electronics in India, said more than 80% of its customers opt for subscriptions over outright purchases or traditional EMI plans. Founder and CEO Jayant Jha told TechCrunch that BytePe’s typical customers are young professionals in their first or second jobs who want access to premium smartphones without paying the full price upfront or committing to long ownership cycles. The trend is not limited to the U.S. and India. Companies such as the UK’s Raylo and Germany’s Grover have built businesses around leasing smartphones and other consumer electronics through monthly subscription plans. Analysts expect more companies to follow. “The primary objective is to increase customer lifetime value by improving retention, creating predictable upgrade cycles and securing a steady pipeline of trade-in devices for certified refurbishment and resale,” Tarun Pathak, research director at Counterpoint Research, told TechCrunch. Pathak expects such initiatives to become more common in the premium smartphone segment, although he believes financing will remain the more important tool for improving affordability. Nonetheless, outright ownership is unlikely to disappear anytime soon. Mandeep Manocha, co-founder and CEO of Indian smartphone trade-in and refurbishment platform Cashify, expects leasing, subscriptions, and outright purchases to coexist rather than replace one another. “All three business models have a place to exist, and they will continue to do so,” Manocha told TechCrunch. “There is a natural transition that may happen from complete ownership to leasing, but it’s a long journey.” That may be especially true in the U.S., where carrier financing has long dominated premium smartphone purchases. IDC’s Popal expects Apple’s new Upgrade program to have a bigger impact on Mac sales than iPhones, saying the offering is more likely to expand financing options than fundamentally change how Americans buy their next smartphone. When you purchase through links in our articles, we may earn a small commission. This doesn’t affect our editorial independence. Jagmeet covers startups, tech policy-related updates, and all other major tech-centric developments from India for TechCrunch. He previously worked as a principal correspondent at NDTV. You can contact or verify outreach from Jagmeet by emailing mail@journalistjagmeet.com . Scale faster. Grow your portfolio. Gain practical expertise. No matter your goal, Disrupt can empower you. Save up to $330 toda y! Okta buys AI security startup Permiso — source says for about $200M Jagmeet Singh Okta buys AI security startup Permiso — source says for about $200M Spotify adds a running mode to its app Ivan Mehta Spotify adds a running mode to its app Claude Opus 5 became downright ruthless when tasked with running a vending machine Julie Bort Claude Opus 5 became downright ruthless when tasked with running a vending machine DoorDash is building its own drone delivery business Kirsten Korosec DoorDash is building its own drone delivery business Sam Altman is ready to decelerate Tim Fernholz Sam Altman is ready to decelerate Data centers may face temporary power cuts to prevent blackouts on largest US grid Tim De Chant Data centers may face temporary power cuts to prevent blackouts on largest US grid PSA: Your Claude shared chats and Artifacts may have ended up on Google Lorenzo Franceschi-Bicchierai PSA: Your Claude shared chats and Artifacts may have ended up on Google",
+      "content_preview_chars": 8615,
+      "content_fetched_at": "2026-08-02T10:58:37",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
     }
