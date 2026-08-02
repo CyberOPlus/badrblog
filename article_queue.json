@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-02T01:19:46",
+  "updated_at": "2026-08-02T04:42:52",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2559,12 +2559,12 @@
       "priority": "medium",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-08-02T01:13:01",
-      "candidate_retry_after": "2026-08-02T01:28:01Z",
+      "content_fetched_at": "2026-08-02T04:37:16",
+      "candidate_retry_after": "2026-08-02T04:52:16Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-08-02T01:13:01",
-      "candidate_failure_count": 119
+      "candidate_failed_at": "2026-08-02T04:37:16",
+      "candidate_failure_count": 120
     },
     {
       "id": "512c2899a98440d2",
@@ -2593,12 +2593,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-08-02T01:13:03",
-      "candidate_retry_after": "2026-08-02T01:28:03Z",
+      "content_fetched_at": "2026-08-02T04:37:18",
+      "candidate_retry_after": "2026-08-02T04:52:18Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-08-02T01:13:03",
-      "candidate_failure_count": 119
+      "candidate_failed_at": "2026-08-02T04:37:18",
+      "candidate_failure_count": 120
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2627,12 +2627,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-08-02T01:13:05",
-      "candidate_retry_after": "2026-08-02T01:28:05Z",
+      "content_fetched_at": "2026-08-02T04:37:20",
+      "candidate_retry_after": "2026-08-02T04:52:20Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-08-02T01:13:05",
-      "candidate_failure_count": 119
+      "candidate_failed_at": "2026-08-02T04:37:20",
+      "candidate_failure_count": 120
     },
     {
       "id": "d900f1574fddfab4",
@@ -3538,17 +3538,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 0,
-      "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 0,
+      "source_links_removed_count": 229,
+      "affiliate_links_removed_count": 7,
+      "removed_source_links_count": 229,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "content_fetched_at": "2026-08-02T01:13:06",
-      "candidate_retry_after": "2026-08-02T01:28:06Z",
+      "content_fetch_error": "weak article body after fallbacks (best=467 chars/72 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:467chars/72words, page_text:467chars/72words)",
+      "content_fetched_at": "2026-08-02T04:37:23",
+      "candidate_retry_after": "2026-08-02T04:52:23Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
-      "candidate_failed_at": "2026-08-02T01:13:06",
-      "candidate_failure_count": 118
+      "candidate_failure_reason": "weak article body after fallbacks (best=467 chars/72 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:467chars/72words, page_text:467chars/72words)",
+      "candidate_failed_at": "2026-08-02T04:37:23",
+      "candidate_failure_count": 119
     },
     {
       "id": "8d2678d87487d729",
@@ -4429,12 +4429,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-08-02T01:13:08",
-      "candidate_retry_after": "2026-08-02T01:28:08Z",
+      "content_fetched_at": "2026-08-02T04:37:24",
+      "candidate_retry_after": "2026-08-02T04:52:24Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-08-02T01:13:08",
-      "candidate_failure_count": 117
+      "candidate_failed_at": "2026-08-02T04:37:24",
+      "candidate_failure_count": 118
     },
     {
       "id": "45429302676bf4c5",
@@ -5491,13 +5491,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "content_fetched_at": "2026-08-02T01:13:10",
-      "candidate_retry_after": "2026-08-02T01:28:10Z",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-08-02T04:37:26",
+      "candidate_retry_after": "2026-08-02T04:52:26Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
-      "candidate_failed_at": "2026-08-02T01:13:10",
-      "candidate_failure_count": 115
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-08-02T04:37:26",
+      "candidate_failure_count": 116
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5528,13 +5528,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "content_fetched_at": "2026-08-02T01:13:11",
-      "candidate_retry_after": "2026-08-02T01:28:11Z",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-08-02T04:37:31",
+      "candidate_retry_after": "2026-08-02T04:52:31Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
-      "candidate_failed_at": "2026-08-02T01:13:11",
-      "candidate_failure_count": 115
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-08-02T04:37:31",
+      "candidate_failure_count": 116
     },
     {
       "id": "aede79193c6b98c9",
@@ -5566,12 +5566,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-08-02T01:13:13",
-      "candidate_retry_after": "2026-08-02T01:28:13Z",
+      "content_fetched_at": "2026-08-02T04:37:34",
+      "candidate_retry_after": "2026-08-02T04:52:34Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-08-02T01:13:13",
-      "candidate_failure_count": 115
+      "candidate_failed_at": "2026-08-02T04:37:34",
+      "candidate_failure_count": 116
     },
     {
       "id": "253eaa098c468523",
@@ -6514,12 +6514,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-08-02T01:13:13",
-      "candidate_retry_after": "2026-08-02T01:28:13Z",
+      "content_fetched_at": "2026-08-02T04:37:35",
+      "candidate_retry_after": "2026-08-02T04:52:35Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-08-02T01:13:13",
-      "candidate_failure_count": 113
+      "candidate_failed_at": "2026-08-02T04:37:35",
+      "candidate_failure_count": 114
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6965,12 +6965,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-08-02T01:13:16",
-      "candidate_retry_after": "2026-08-02T01:28:16Z",
+      "content_fetched_at": "2026-08-02T04:37:37",
+      "candidate_retry_after": "2026-08-02T04:52:37Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-08-02T01:13:16",
-      "candidate_failure_count": 111
+      "candidate_failed_at": "2026-08-02T04:37:37",
+      "candidate_failure_count": 112
     },
     {
       "id": "693fbfabd96b2185",
@@ -7001,12 +7001,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-08-02T01:13:17",
-      "candidate_retry_after": "2026-08-02T01:28:17Z",
+      "content_fetched_at": "2026-08-02T04:37:38",
+      "candidate_retry_after": "2026-08-02T04:52:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-08-02T01:13:17",
-      "candidate_failure_count": 111
+      "candidate_failed_at": "2026-08-02T04:37:38",
+      "candidate_failure_count": 112
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9515,12 +9515,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=422 chars/65 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:422chars/65words, paragraph_fallback:307chars/48words, article_body:422chars/65words, meta_description:53chars/7words, page_text:422chars/65words)",
-      "content_fetched_at": "2026-08-02T01:13:18",
-      "candidate_retry_after": "2026-08-02T01:28:18Z",
+      "content_fetched_at": "2026-08-02T04:37:40",
+      "candidate_retry_after": "2026-08-02T04:52:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=422 chars/65 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:422chars/65words, paragraph_fallback:307chars/48words, article_body:422chars/65words, meta_description:53chars/7words, page_text:422chars/65words)",
-      "candidate_failed_at": "2026-08-02T01:13:18",
-      "candidate_failure_count": 107
+      "candidate_failed_at": "2026-08-02T04:37:40",
+      "candidate_failure_count": 108
     },
     {
       "id": "561b6316398d7603",
@@ -10687,12 +10687,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-08-02T01:13:19",
-      "candidate_retry_after": "2026-08-02T01:28:19Z",
+      "content_fetched_at": "2026-08-02T04:37:40",
+      "candidate_retry_after": "2026-08-02T04:52:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-08-02T01:13:19",
-      "candidate_failure_count": 103
+      "candidate_failed_at": "2026-08-02T04:37:40",
+      "candidate_failure_count": 104
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10724,12 +10724,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-08-02T01:13:19",
-      "candidate_retry_after": "2026-08-02T01:28:19Z",
+      "content_fetched_at": "2026-08-02T04:37:40",
+      "candidate_retry_after": "2026-08-02T04:52:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-08-02T01:13:19",
-      "candidate_failure_count": 103
+      "candidate_failed_at": "2026-08-02T04:37:40",
+      "candidate_failure_count": 104
     },
     {
       "id": "a6f4ca9464909855",
@@ -10761,12 +10761,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-08-02T01:13:20",
-      "candidate_retry_after": "2026-08-02T01:28:20Z",
+      "content_fetched_at": "2026-08-02T04:37:41",
+      "candidate_retry_after": "2026-08-02T04:52:41Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-08-02T01:13:20",
-      "candidate_failure_count": 103
+      "candidate_failed_at": "2026-08-02T04:37:41",
+      "candidate_failure_count": 104
     },
     {
       "id": "71463c25ac92daaa",
@@ -15508,12 +15508,12 @@
       "removed_source_links_count": 81,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:107chars/21words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-08-02T01:13:21",
-      "candidate_retry_after": "2026-08-02T01:28:21Z",
+      "content_fetched_at": "2026-08-02T04:37:42",
+      "candidate_retry_after": "2026-08-02T04:52:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:107chars/21words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-08-02T01:13:21",
-      "candidate_failure_count": 92,
+      "candidate_failed_at": "2026-08-02T04:37:42",
+      "candidate_failure_count": 93,
       "archived": true,
       "archived_at": "2026-08-01T01:12:08",
       "archive_reason": "expired_recent_window"
@@ -48242,12 +48242,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=98 chars/18 words; required=80 chars/120 words; tried=main_tag:52chars/8words, paragraph_fallback:52chars/8words, article_body:52chars/8words, meta_description:98chars/18words, page_text:52chars/8words)",
-      "content_fetched_at": "2026-08-02T01:13:23",
-      "candidate_retry_after": "2026-08-02T01:28:23Z",
+      "content_fetched_at": "2026-08-02T04:37:44",
+      "candidate_retry_after": "2026-08-02T04:52:44Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=98 chars/18 words; required=80 chars/120 words; tried=main_tag:52chars/8words, paragraph_fallback:52chars/8words, article_body:52chars/8words, meta_description:98chars/18words, page_text:52chars/8words)",
-      "candidate_failed_at": "2026-08-02T01:13:23",
-      "candidate_failure_count": 18
+      "candidate_failed_at": "2026-08-02T04:37:44",
+      "candidate_failure_count": 19
     },
     {
       "id": "678cf57f2568974e",
@@ -48774,17 +48774,17 @@
       "status": "ready",
       "score": 3,
       "priority": "low",
-      "source_links_removed_count": 112,
+      "source_links_removed_count": 109,
       "affiliate_links_removed_count": 2,
-      "removed_source_links_count": 112,
+      "removed_source_links_count": 109,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=518 chars/90 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:518chars/90words, article_body:518chars/90words, meta_description:179chars/31words, page_text:218chars/37words)",
-      "content_fetched_at": "2026-08-02T01:13:24",
-      "candidate_retry_after": "2026-08-02T01:28:24Z",
+      "content_fetch_error": "weak article body after fallbacks (best=410 chars/72 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:410chars/72words, article_body:410chars/72words, meta_description:179chars/31words, page_text:218chars/37words)",
+      "content_fetched_at": "2026-08-02T04:37:45",
+      "candidate_retry_after": "2026-08-02T04:52:45Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=518 chars/90 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:518chars/90words, article_body:518chars/90words, meta_description:179chars/31w",
-      "candidate_failed_at": "2026-08-02T01:13:24",
-      "candidate_failure_count": 17
+      "candidate_failure_reason": "weak article body after fallbacks (best=410 chars/72 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:410chars/72words, article_body:410chars/72words, meta_description:179chars/31w",
+      "candidate_failed_at": "2026-08-02T04:37:45",
+      "candidate_failure_count": 18
     },
     {
       "id": "c4dc072a2cb4102b",
@@ -53506,11 +53506,11 @@
       "content_fetched_at": "2026-08-01T17:41:12",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-08-01T21:35:10",
+      "selected_at": "2026-08-02T04:37:46",
       "suggested_category": "Apps-Programs",
       "selection_reason": "category rotation newest fresh article: Apps-Programs",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-08-01T21:35:10",
+      "processing_prepared_at": "2026-08-02T04:37:46",
       "ai_input_package": {
         "title": "This one free tool backs up my files to multiple cloud services at once",
         "url": "https://www.howtogeek.com/the-rclone-trick-that-backs-up-my-nas-to-multiple-cloud-services-at-once-for-free",
@@ -53564,17 +53564,18 @@
       },
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "AI article response returned incomplete JSON.",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.77,
-      "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-08-01T21:50:13Z",
+      "ai_total_time_seconds": 87.51,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-08-02T04:54:15Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-08-01T21:35:13",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "AI article response returned incomplete JSON.",
+      "candidate_failed_at": "2026-08-02T04:39:15",
+      "candidate_failure_count": 2,
+      "ai_quality_last_error": "AI article response returned incomplete JSON."
     },
     {
       "id": "8e8699254374747b",
@@ -53666,11 +53667,11 @@
       "content_fetched_at": "2026-08-01T17:41:15",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-08-01T21:35:13",
+      "selected_at": "2026-08-02T04:39:16",
       "suggested_category": "Apps-Programs",
       "selection_reason": "category rotation newest fresh article: Apps-Programs",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-08-01T21:35:13",
+      "processing_prepared_at": "2026-08-02T04:39:16",
       "ai_input_package": {
         "title": "There's a 40-year-old bug in every copy of Excel and Microsoft says it will never fix it",
         "url": "https://www.makeuseof.com/microsoft-excel-has-been-carrying-the-same-date-bug-for-over-40-years",
@@ -53728,17 +53729,18 @@
       },
       "ai_provider_last_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_status": "failed",
-      "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "ai_rotation_exhausted": true,
+      "ai_error": "too much English inside article paragraphs",
+      "ai_rotation_exhausted": false,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.19,
-      "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-08-01T21:50:15Z",
+      "ai_total_time_seconds": 109.92,
+      "ai_quality_status": "failed_after_retries",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-08-02T04:56:07Z",
       "candidate_failure_stage": "run-ai",
-      "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-08-01T21:35:15",
-      "candidate_failure_count": 1
+      "candidate_failure_reason": "too much English inside article paragraphs",
+      "candidate_failed_at": "2026-08-02T04:41:07",
+      "candidate_failure_count": 2,
+      "ai_quality_last_error": "too much English inside article paragraphs"
     },
     {
       "id": "10e30a78b08eef43",
@@ -53826,11 +53828,11 @@
       "content_fetched_at": "2026-08-01T17:41:06",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-08-01T21:35:18",
+      "selected_at": "2026-08-02T04:41:59",
       "suggested_category": "Apps-Programs",
       "selection_reason": "category rotation newest fresh article: Apps-Programs",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-08-01T21:35:18",
+      "processing_prepared_at": "2026-08-02T04:41:59",
       "ai_input_package": {
         "title": "Spotify’s AI DJ is cool, but this one runs on my own music on my machine",
         "url": "https://www.makeuseof.com/spotifys-ai-dj-is-cool-but-this-one-runs-on-my-own-music-on-my-machine",
@@ -53887,14 +53889,15 @@
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.19,
+      "ai_total_time_seconds": 52.15,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-08-01T21:50:19Z",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-08-02T04:57:52Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-08-01T21:35:19",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-08-02T04:42:52",
+      "candidate_failure_count": 2,
+      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content"
     },
     {
       "id": "e404dce1c60a3a03",
@@ -53982,11 +53985,11 @@
       "content_fetched_at": "2026-08-01T17:41:09",
       "enrichment_status": "strong",
       "content_fetch_status": "success",
-      "selected_at": "2026-08-01T21:35:15",
+      "selected_at": "2026-08-02T04:41:07",
       "suggested_category": "Apps-Programs",
       "selection_reason": "category rotation newest fresh article: Apps-Programs",
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-08-01T21:35:16",
+      "processing_prepared_at": "2026-08-02T04:41:08",
       "ai_input_package": {
         "title": "5 of the weirdest ways I control my smart home",
         "url": "https://www.howtogeek.com/weirdest-ways-i-control-my-smart-home",
@@ -54043,14 +54046,15 @@
       "ai_error": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 0.21,
+      "ai_total_time_seconds": 49.0,
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2,
-      "candidate_retry_after": "2026-08-01T21:50:17Z",
+      "ai_quality_attempts": 3,
+      "candidate_retry_after": "2026-08-02T04:56:58Z",
       "candidate_failure_stage": "run-ai",
       "candidate_failure_reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "candidate_failed_at": "2026-08-01T21:35:17",
-      "candidate_failure_count": 1
+      "candidate_failed_at": "2026-08-02T04:41:58",
+      "candidate_failure_count": 2,
+      "ai_quality_last_error": "html_content ended before a tag was closed"
     },
     {
       "id": "b3651a0f107ee7fd",
@@ -56520,6 +56524,441 @@
       "content_preview": "Plus, an Itch bundle that benefits a hardship fund for struggling developers. Welcome to our latest roundup of what's going on in the indie game space. As always, we'll highlight a bunch of new games that you can check out this weekend (including perhaps my favorite of the year so far), as well as some that are a bit further out. It's hardly a secret that it's been a tough few years for many in the video game industry. Companies have laid off tens of thousands of workers. In light of that, Necrosoft Games has organized an Itch bundle with nearly 150 games . All proceeds go toward a game industry hardship fund that's available to developers in the US and Canada. \"Individual out of work or under-employed game developers can apply to this fund and use the money for things they need, like food, healthcare and rent,\" the bundle page states. The fund is overseen by United Videogame Workers, a union that is organized under the Communication Workers of America (like many other unions in the industry). An FAQ states that there's currently no option to donate to the fund directly, so if you'd like to pitch in, the bundle is likely the best way to go about that right now. The $10 bundle includes some great, well-known games like Arranger: A Role-Puzzling Adventure and A Short Hike ; some others I've enjoyed (such as Drywall Eating Simulator ); and several I've been meaning to get to, including A Dream About Parking Lots and Holedown . New indie game releases Truck-kun is Supporting Me from Another World?! Developer: Strange Scaffold Publishers: Frosty Pop, Strange Scaffold Platforms: Steam (Windows; Steam Deck Verified), Xbox Series X/S, Xbox on PC Price: $20, with a 20 percent discount on Steam until August 12 Occasionally, a game will hit at just the right time. I was already looking forward to Truck-kun is Supporting Me from Another World?! after enjoying the demo immensely. The full game arrived precisely when I needed it. This is an absolute blast. You play as a delivery driver who accidentally hits a woman named Carissa Ward. In the grand tradition of the Truck-kun trope , Carissa is magically transported to a medieval fantasy world where she becomes a buff warrior. She's seen enough anime and learned enough about this world to know that if she wants to return home in time to start her new job, Carissa needs help from the driver. To do that, he'll have to ditch his moral code and smash into even more pedestrians, turning them into monsters that Carissa can slay to gain experience points as she works toward her goal. Delivering packages and completing other objectives helps too. The action is chaotic and the dialogue had me laughing along. The truck handles well, and it's always satisfying to sideswipe a cop car or some bystanders (...in the game, I mean). Truck-kun even makes some salient points about work-life balance. I dig this game enough that I didn't mind having to grind through some objectives to reach certain milestones and move the story forward. I was looking forward to the new Crazy Taxi game before learning that Sega employed generative AI in the development process. Truck-kun — from the prolific \"anti-AI studio\" Strange Scaffold — more than makes up for that disappointment. It's a great way to spend an evening or two. Developer: Luke Sanderson Publisher: JanduSoft Platforms: Steam (Windows; demo available), Nintendo Switch , PS4, PS5 , Xbox Series X/S, Xbox One, Xbox for PC Price: Usually $10.49, with a 20 percent launch discount Turnip Mountain is a climbing game that you can play solo or with a friend, with each of you controlling one of the adventurer's arms. Sure, you and a buddy can each use your own controller. But if you play by yourself, you can have a mouse in each hand. This is a physics-based platformer with some neat-looking mechanics. You'll use momentum to launch the turnip across gaps, and operate hand cranks and hoist flags. The dual-mouse control option is the most compelling aspect, however. Valve has not yet verified Turnip Mountain for Steam Deck, though it's said to be fully compatible with the system. It's a little surprising that JanduSoft has not announced a Switch 2 version of the game that you can play with dual Joy-Con 2 mouse controls. Developer/publisher: Palitroque Platform: Steam (Windows; demo available). Also available on Itch Price: $8, with a 15 percent discount until August 10. Pay what you want on Itch It's been quite some time since the satirical life sim Dystopicon debuted on Itch. Juan Felipe Molina initially released it there in 2018. He gradually added to the story and expanded the gameplay loop over the next year and change. Molina fixed some bugs and made some other updates over the years since, but his spare time was limited . The developer quit his job at the end of last year to fully focus on reworking Dystopicon for a Steam release. He also brought in a 3D artist to give \"the game the visual identity and personality it has today.\" This is a time-management game in which your character earns money by watching TV. You'll spend your cash on various things to satisfy certain needs. You can remain part of the government-mandated system or choose to rebel and try to escape the confines of your character's existence. There are 14 possible endings to this game and I'm curious to find out more about the paths the story takes. Publisher/developer: SporkTank Platform: Steam (Windows, Mac, SteamOS/Linux; demo available) Price: Usually $15, with a 10 percent discount until August 13 I play more daily word games than I care to admit, so I'm all about Rita . This adventure game casts you as a chick that finds letters in the environments to solve word puzzles and open up new areas. You might need to pick up the right letters to spell out a word like \"ramp\" to spawn a slope or \"open\" to bypass a gate. Ultimately, Rita will grow up and form a bond with her grandchild. It looks like a chill time. Rita is not officially verified for Steam Deck as yet. However, SporkTank says it \"runs beautifully\" on the system. Upcoming indie games Developer/publisher: Messhof Platforms: Steam (Windows, Mac), Switch, Switch 2, PS5 and Xbox Series X/S Release date: August 25 Blood Dungeon was a standout at this summer's Day of the Devs showcase and the survivor-style game is coming your way in just a few weeks. It's a Spelunky -style take on the bullet heaven genre. Picture Vampire Survivors as a 2D platformer set in a maze and you'll have a decent idea of what to expect. This is a project from Messhof — the studio behind Nidhogg and Wheel World — which describes it as a \"game about murder.\" You'll earn upgrades and unlock more heroes as you progress through Blood Dungeon . As the name suggests, you'll be harvesting blood from your enemies, which aren't necessarily constricted by walls in the same way you are. The lo-fi Microsoft Paint-esque art style is eye-catching and there are online leaderboards with daily dungeons to conquer. Developer: Panik Arcade Publisher: Future Friends Games Platforms: Switch , Switch 2, PS4, PS5 . Already on Steam , Xbox One, Xbox Series X/S, Xbox on PC , iOS , Android Release date: August 13 Price: $10 on PC and consoles, $5 on mobile One of my favorite games of last year is making its way to Switch and PlayStation consoles, so it'll soon be available on all major platforms. CloverPit is an anti-gambling roguelite based around a slot machine. Your goal is to earn enough cash to pay off a rapidly rising debt and escape your grungy cell. To do that, you'll need to break the rules of the machine using a variety of trinkets, upgrades and maybe even curses. It's strange and a little oppressive, but it can be deeply satisfying when you achieve seemingly impossible scores and figure out how to leave the grimy prison. Developer/publisher: Oneiric Worlds Platform: Steam After last year's sumptuous-looking Zefyr: A Thief's Melody , solo developer Mathias Fontmarty already has another game simmering away. Yashi – Sand Driver looks like a slightly more relaxing take on the survival crafting genre than something like Pacific Drive . Rather than trying to survive a surreal version of the Pacific Northwest, here you'll be driving across a vast wilderness toward a settlement that might offer some salvation for your character, who seemed to be a lone survivor. You'll be scavenging materials to upgrade your van and unlock new abilities that help you explore the landscape. Finding food and water is essential, while you might take refuge from the desert's heat in oases. Violent elements like sandstorms and hurricanes pose obstacles too. At least you've got a coyote companion to keep you company. Developer: Nifflas Publisher: 505 Pulse Platform: Steam It's been a hot minute since we've had a proper dog game in the weekly roundup and I am pleased to end that unfortunate streak (a coyote is also a canine, in fairness).",
       "content_preview_chars": 8914,
       "content_fetched_at": "2026-08-02T01:12:55",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "cea74da82e3e90bb",
+      "source_url_hash": "cea74da82e3e90bb",
+      "canonical_url": "https://www.makeuseof.com/i-do-these-x-things-after-every-windows-install-to-keep-it-running-fast",
+      "title_hash": "21cf8aab34c02b3c",
+      "topic_signature": "a2790602cecb52e734b7",
+      "title": "I do these 4 things after every Windows install to keep it running fast",
+      "url": "https://www.makeuseof.com/i-do-these-x-things-after-every-windows-install-to-keep-it-running-fast",
+      "source_name": "MakeUseOf",
+      "source_url": "https://www.makeuseof.com",
+      "source_published_at": "2026-08-01T22:00:12Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 6.61,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-08-02T04:36:47",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 96,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 96,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "I do these 4 things after every Windows install to keep it running fast",
+      "meta_description": "What I wish someone told me after my first Windows install.",
+      "article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/08/windows-11-settings-open-on-an-asus-laptop.jpg?w=1600&h=900&fit=crop",
+          "alt": "I do these 4 things after every Windows install to keep it running fast",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/08/windows-11-settings-open-on-an-asus-laptop.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Windows 11 Settings open on an ASUS laptop",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/files-moving-from-c-drive-to-d-drive-in-windows.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+          "alt": "Files moving from C drive to D drive in Windows",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/08/windows-11-installed-apps-page-showing-uninstall-options.png?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Windows 11 Installed apps page showing uninstall options",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/08/windows-11-settings-open-on-an-asus-laptop.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/08/windows-11-settings-open-on-an-asus-laptop.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Windows 11 Settings open on an ASUS laptop"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2025/12/files-moving-from-c-drive-to-d-drive-in-windows.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+          "alt": "Files moving from C drive to D drive in Windows"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/08/windows-11-installed-apps-page-showing-uninstall-options.png?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Windows 11 Installed apps page showing uninstall options"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Preferred Source",
+          "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+        },
+        {
+          "title": "Google News",
+          "url": "https://news.google.com/publications/CAAqKAgKIiJDQklTRXdnTWFnOEtEVzFoYTJWMWMyVnZaaTVqYjIwb0FBUAE?hl=en-US&gl=US&ceid=US%3Aen"
+        }
+      ],
+      "full_article_text": "Windows doesn't slow down only because of the apps you install. Some of the drag is built in from the start. A fresh install can already have well over a hundred processes running at idle, including some background services and features you may never use. I used to assume Windows simply got slower with age until I noticed the sluggishness showing up on a fresh setup too. Now I have a short list of changes I make before anything else goes on the machine. Uninstall bloatware and unused apps Get rid of pre-loaded apps cluttering your system The first thing I do is go through the app list. On a fresh install, you'll find apps such as Clipchamp, Outlook, or Spotify already installed or promoted in the Start menu. Head to Settings -> Apps -> Installed apps and go through the full list. Click the three dots next to any app you don't need and hit Uninstall . Not all of them will let you, though. Some have the button grayed out or missing entirely. Open PowerShell as admin and run Get-AppxPackage *AppName* | Remove-AppxPackage , where AppName is the app you want to remove. Just avoid removing core system apps like Microsoft Store or Windows Security. If you're unsure about something, leave it. Lock down privacy and ad settings Disable the toggles Microsoft leaves on by default By default, Windows has several privacy and advertising options turned on. They can track the apps you launch to tailor Start and Search, give apps access to serve you personalized ads, and push product recommendations. I turn them off straight away. I don't need Windows nudging me toward features, apps, or offers I never asked for. Head to Settings -> Privacy & security -> Recommendations & offers . The wording can vary slightly by Windows version, but I switch off these options: Improve Start and search results Show notifications in Settings Recommendations and offers in Settings You can also disable Allow websites to access my language list if you don't want websites using your preferred languages to tailor their content. On older Windows 11 builds, these controls may appear under Privacy & security -> General . Then open Diagnostics & feedback under the same section. Turn off Send optional diagnostic data and Improve inking and typing , then change Feedback frequency from Automatically to Never . While you're here, you can hit Delete under Delete diagnostic data to clear what's already been collected. There's also Settings > System > Notifications . Scroll to the bottom, and expand Additional settings . Uncheck Suggest ways to get the most out of Windows and finish setting up this device and Get tips and suggestions when using Windows . That gets rid of the setup reminders and tips Windows keeps sending after a fresh install. Audit and disable startup apps Stop unnecessary apps from launching at sign-in Windows already has several apps set to launch every time you sign in. Each one loads into memory at boot, and some stay running in the background long after you’ve signed in. The more you have enabled, the longer your boot takes and the less you have left for what you actually want to run. Open Settings -> Apps -> Startup and go through the list. If you don't need an app running every time you sign in, turn its toggle off. Disabling it does not uninstall it, so you can still open the app whenever you need it. You can also open Task Manager and select the Startup apps tab to right-click any app and hit Disable . Be selective, though. Leave security software enabled, and think twice before disabling hardware utilities for your touchpad, audio, or graphics. If you don't recognize an entry, right-click it in Task Manager and select Search online . Check the publisher and what the app does before deciding whether to disable it. Turn on Storage Sense Automate cleanup for temp files and the Recycle Bin Storage Sense is one of those Windows features that should be on by default but isn't. It automatically cleans up temporary files, empties your Recycle Bin, and can clear out old downloads over time. Go to Settings -> System -> Storage and click on Storage Sense . Toggle on Automatic User content cleanup and set how often you want it to run. The default is \"During low free disk space,\" but I changed mine to Every week . I also set the Recycle Bin to empty after 30 days. The Downloads folder has a similar option, but I'd leave that set to Never unless you're sure there's nothing important sitting in there. Worth knowing for next time If you reinstall often and want to skip the manual work, tools like Winhance and BloatyNosy let you apply these tweaks through a visual interface instead of digging through menus one by one. Just create a restore point before running either, in case you need to undo something.",
+      "full_article_text_chars": 4752,
+      "content_preview": "Windows doesn't slow down only because of the apps you install. Some of the drag is built in from the start. A fresh install can already have well over a hundred processes running at idle, including some background services and features you may never use. I used to assume Windows simply got slower with age until I noticed the sluggishness showing up on a fresh setup too. Now I have a short list of changes I make before anything else goes on the machine. Uninstall bloatware and unused apps Get rid of pre-loaded apps cluttering your system The first thing I do is go through the app list. On a fresh install, you'll find apps such as Clipchamp, Outlook, or Spotify already installed or promoted in the Start menu. Head to Settings -> Apps -> Installed apps and go through the full list. Click the three dots next to any app you don't need and hit Uninstall . Not all of them will let you, though. Some have the button grayed out or missing entirely. Open PowerShell as admin and run Get-AppxPackage *AppName* | Remove-AppxPackage , where AppName is the app you want to remove. Just avoid removing core system apps like Microsoft Store or Windows Security. If you're unsure about something, leave it. Lock down privacy and ad settings Disable the toggles Microsoft leaves on by default By default, Windows has several privacy and advertising options turned on. They can track the apps you launch to tailor Start and Search, give apps access to serve you personalized ads, and push product recommendations. I turn them off straight away. I don't need Windows nudging me toward features, apps, or offers I never asked for. Head to Settings -> Privacy & security -> Recommendations & offers . The wording can vary slightly by Windows version, but I switch off these options: Improve Start and search results Show notifications in Settings Recommendations and offers in Settings You can also disable Allow websites to access my language list if you don't want websites using your preferred languages to tailor their content. On older Windows 11 builds, these controls may appear under Privacy & security -> General . Then open Diagnostics & feedback under the same section. Turn off Send optional diagnostic data and Improve inking and typing , then change Feedback frequency from Automatically to Never . While you're here, you can hit Delete under Delete diagnostic data to clear what's already been collected. There's also Settings > System > Notifications . Scroll to the bottom, and expand Additional settings . Uncheck Suggest ways to get the most out of Windows and finish setting up this device and Get tips and suggestions when using Windows . That gets rid of the setup reminders and tips Windows keeps sending after a fresh install. Audit and disable startup apps Stop unnecessary apps from launching at sign-in Windows already has several apps set to launch every time you sign in. Each one loads into memory at boot, and some stay running in the background long after you’ve signed in. The more you have enabled, the longer your boot takes and the less you have left for what you actually want to run. Open Settings -> Apps -> Startup and go through the list. If you don't need an app running every time you sign in, turn its toggle off. Disabling it does not uninstall it, so you can still open the app whenever you need it. You can also open Task Manager and select the Startup apps tab to right-click any app and hit Disable . Be selective, though. Leave security software enabled, and think twice before disabling hardware utilities for your touchpad, audio, or graphics. If you don't recognize an entry, right-click it in Task Manager and select Search online . Check the publisher and what the app does before deciding whether to disable it. Turn on Storage Sense Automate cleanup for temp files and the Recycle Bin Storage Sense is one of those Windows features that should be on by default but isn't. It automatically cleans up temporary files, empties your Recycle Bin, and can clear out old downloads over time. Go to Settings -> System -> Storage and click on Storage Sense . Toggle on Automatic User content cleanup and set how often you want it to run. The default is \"During low free disk space,\" but I changed mine to Every week . I also set the Recycle Bin to empty after 30 days. The Downloads folder has a similar option, but I'd leave that set to Never unless you're sure there's nothing important sitting in there. Worth knowing for next time If you reinstall often and want to skip the manual work, tools like Winhance and BloatyNosy let you apply these tweaks through a visual interface instead of digging through menus one by one. Just create a restore point before running either, in case you need to undo something.",
+      "content_preview_chars": 4752,
+      "content_fetched_at": "2026-08-02T04:37:11",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "451ab84843fe97b2",
+      "source_url_hash": "451ab84843fe97b2",
+      "canonical_url": "https://www.makeuseof.com/milwaukee-broke-this-simple",
+      "title_hash": "55e9ec37758ce298",
+      "topic_signature": "d107ce28449e3daee106",
+      "title": "Milwaukee broke the simple rule everyone uses to buy batteries",
+      "url": "https://www.makeuseof.com/milwaukee-broke-this-simple",
+      "source_name": "MakeUseOf",
+      "source_url": "https://www.makeuseof.com",
+      "source_published_at": "2026-08-01T21:00:13Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 7.61,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-08-02T04:36:47",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 100,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 100,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Milwaukee broke the simple rule everyone uses to buy batteries",
+      "meta_description": "Buying the right batteries for Milwaukee tools isn't as easy as it once was.",
+      "article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2026/07/forge-xc6-0-at-construction-site-battery-milwaukee.jpg?w=1600&h=900&fit=crop",
+          "alt": "Milwaukee broke the simple rule everyone uses to buy batteries",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2026/07/forge-xc6-0-at-construction-site-battery-milwaukee.jpg?&fit=crop&w=1600&h=900",
+          "alt": "FORGE XC6.0 at construction site battery milwaukee",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2026/07/m18-xc-1-battery-milwaukee.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "m18 XC-1 battery milwaukee",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/ryobi-18v-and-40v-batteries-on-table.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+          "alt": "Various Ryobi 18V and 40V batteries on a table",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2026/07/forge-xc6-0-at-construction-site-battery-milwaukee.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2026/07/forge-xc6-0-at-construction-site-battery-milwaukee.jpg?&fit=crop&w=1600&h=900",
+          "alt": "FORGE XC6.0 at construction site battery milwaukee"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/2026/07/m18-xc-1-battery-milwaukee.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "m18 XC-1 battery milwaukee"
+        },
+        {
+          "url": "https://static0.makeuseofimages.com/wordpress/wp-content/uploads/wm/2026/07/ryobi-18v-and-40v-batteries-on-table.jpg?q=49&fit=crop&w=220&h=124&dpr=2",
+          "alt": "Various Ryobi 18V and 40V batteries on a table"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Preferred Source",
+          "url": "https://www.google.com/preferences/source?q=makeuseof.com"
+        },
+        {
+          "title": "Google News",
+          "url": "https://news.google.com/publications/CAAqKAgKIiJDQklTRXdnTWFnOEtEVzFoYTJWMWMyVnZaaTVqYjIwb0FBUAE?hl=en-US&gl=US&ceid=US%3Aen"
+        }
+      ],
+      "full_article_text": "For about a decade, buying a Milwaukee battery required no research. The bigger the pack, the more power. The shorthand was accurate enough that it spread until it became the default advice in every tool aisle and every forum thread on the subject. It no longer holds. Milwaukee's own power ratings now place a 6.0Ah pack on the same rung as a 12.0Ah pack, and place two batteries wearing identical 6.0Ah labels a full tier apart from each other. New buyers already lose money choosing between M12 and M18 on voltage alone. Capacity is the second trap, sitting one shelf over. I run Ryobi rather than M18, but I read the same placards, and Milwaukee's have quietly stopped saying what most shoppers assume they say. The rule worked because every pack was built the same way 5 cells, 10 cells, 15 cells The abbreviations on M18 packs began life as size labels. CP meant compact, XC meant extended capacity, and HD meant high demand. Underneath the plastic, the difference was cell count and nothing else. A CP pack held 5 cylindrical lithium-ion cells, an XC held 10, and an HD held 15, all drawn from the same generation of the same chemistry. That is why the shorthand worked so well for so long. Wiring more identical cells in parallel raises two things at once: the amp-hour capacity and the amount of current the pack can hand over without overheating. Runtime and grunt moved together because they came from the same place. Anyone who grabbed the physically largest battery on the peg really was buying the strongest one, which meant someone buying their first Milwaukee tool could skip the research and still land correctly. Milwaukee has spent the past few years quietly dismantling that arrangement. A 6.0Ah pack now sits on the same rung as a 12.0Ah pack What Milwaukee's own power scale admits Milwaukee publishes a power scale running from PWR1 to PWR5, and it is the clearest evidence that capacity stopped predicting output. The standard XC5.0 sits at PWR2. The HIGH OUTPUT XC6.0 sits at PWR3. The HIGH OUTPUT HD12.0, a 3.3lb brick holding 15 cells, sits at PWR4. So does the REDLITHIUM FORGE XC6.0 . Same tier, half the amp hours, 2.07lbs on the scale. Milwaukee states plainly that the FORGE XC6.0 delivers HIGH OUTPUT 12.0 power in a smaller, lighter package, which is an unusual thing for a company to advertise about a battery it still sells at full price. Look at what that does to the label. Two packs both stamped 6.0Ah, hanging inches apart on the same rack, are separated by an entire power tier because one reads HIGH OUTPUT and the other reads FORGE. The number they share has become the least useful thing printed on either of them. Amp hours describe how long a tool runs, not how hard it pulls, and those two questions finally have different answers. The change is inside the cell, not on the label Pouch cells and tabless connections A conventional lithium-ion cell collects its current at a small metal tab welded to one end. Everything the cell produces funnels through that tab. It bottlenecks the flow, raises internal resistance, and turns a portion of the energy into heat, which is what makes a pack sag halfway through a demanding cut. FORGE attacks that bottleneck from two directions. The XC6.0 uses pouch cells, flat and stacked rather than rolled into a metal can. The HD12.0 uses cylindrical cells with a tabless connection, where current leaves along the full edge of the electrode instead of a single welded point. Both designs shorten the path and widen it at the same time. Less resistance means more current can move safely, and less of the pack's energy gets burned warming itself up. Charging improves for the same reason. Milwaukee rates the FORGE XC6.0 at 15 minutes to 80% on its dual-bay Super Charger. Ryobi has taken nearly the same route with its Edge line, which is a large part of why I stopped treating the tool as the real purchase. Same peg, same price, different tier Read the tier name before you read the number Pricing is what makes the old habit expensive. A HIGH OUTPUT XC8.0 and a FORGE XC8.0 both list around $199. A HIGH OUTPUT HD12.0 and a FORGE HD12.0 both list around $249. Identical capacity, identical money, and in each pair one battery is a full tier stronger than the other. The FORGE HD12.0 is currently the only PWR5 pack Milwaukee builds, and the company claims 50% more power than the HIGH OUTPUT 12.0 sitting right next to it. The fix takes almost no effort. Amp hours still answer the runtime question honestly, so pick capacity based on how long you want to work between charges. Everything about how hard the tool pulls lives in the tier name and the PWR number, and that is what decides whether a grinder holds its speed or bogs down in the middle of a job. Compatibility never entered into any of this. Every M18 pack still fits every M18 tool, which remains the whole argument for committing to a single platform. Amp hours are a fuel gauge, not a horsepower rating Milwaukee did not make its lineup worse. It made a decade-old buying habit obsolete, and the packaging has not caught up. A number that used to answer two questions now answers one, and the more important answer moved to a smaller line of text most people skim past on their way to the register. Ryobi and DeWalt are shipping packs built the same way, so this is not a red-tool problem. Spend the extra 30 seconds reading the tier name. That is the difference between a battery that runs long and one that genuinely pulls.",
+      "full_article_text_chars": 5477,
+      "content_preview": "For about a decade, buying a Milwaukee battery required no research. The bigger the pack, the more power. The shorthand was accurate enough that it spread until it became the default advice in every tool aisle and every forum thread on the subject. It no longer holds. Milwaukee's own power ratings now place a 6.0Ah pack on the same rung as a 12.0Ah pack, and place two batteries wearing identical 6.0Ah labels a full tier apart from each other. New buyers already lose money choosing between M12 and M18 on voltage alone. Capacity is the second trap, sitting one shelf over. I run Ryobi rather than M18, but I read the same placards, and Milwaukee's have quietly stopped saying what most shoppers assume they say. The rule worked because every pack was built the same way 5 cells, 10 cells, 15 cells The abbreviations on M18 packs began life as size labels. CP meant compact, XC meant extended capacity, and HD meant high demand. Underneath the plastic, the difference was cell count and nothing else. A CP pack held 5 cylindrical lithium-ion cells, an XC held 10, and an HD held 15, all drawn from the same generation of the same chemistry. That is why the shorthand worked so well for so long. Wiring more identical cells in parallel raises two things at once: the amp-hour capacity and the amount of current the pack can hand over without overheating. Runtime and grunt moved together because they came from the same place. Anyone who grabbed the physically largest battery on the peg really was buying the strongest one, which meant someone buying their first Milwaukee tool could skip the research and still land correctly. Milwaukee has spent the past few years quietly dismantling that arrangement. A 6.0Ah pack now sits on the same rung as a 12.0Ah pack What Milwaukee's own power scale admits Milwaukee publishes a power scale running from PWR1 to PWR5, and it is the clearest evidence that capacity stopped predicting output. The standard XC5.0 sits at PWR2. The HIGH OUTPUT XC6.0 sits at PWR3. The HIGH OUTPUT HD12.0, a 3.3lb brick holding 15 cells, sits at PWR4. So does the REDLITHIUM FORGE XC6.0 . Same tier, half the amp hours, 2.07lbs on the scale. Milwaukee states plainly that the FORGE XC6.0 delivers HIGH OUTPUT 12.0 power in a smaller, lighter package, which is an unusual thing for a company to advertise about a battery it still sells at full price. Look at what that does to the label. Two packs both stamped 6.0Ah, hanging inches apart on the same rack, are separated by an entire power tier because one reads HIGH OUTPUT and the other reads FORGE. The number they share has become the least useful thing printed on either of them. Amp hours describe how long a tool runs, not how hard it pulls, and those two questions finally have different answers. The change is inside the cell, not on the label Pouch cells and tabless connections A conventional lithium-ion cell collects its current at a small metal tab welded to one end. Everything the cell produces funnels through that tab. It bottlenecks the flow, raises internal resistance, and turns a portion of the energy into heat, which is what makes a pack sag halfway through a demanding cut. FORGE attacks that bottleneck from two directions. The XC6.0 uses pouch cells, flat and stacked rather than rolled into a metal can. The HD12.0 uses cylindrical cells with a tabless connection, where current leaves along the full edge of the electrode instead of a single welded point. Both designs shorten the path and widen it at the same time. Less resistance means more current can move safely, and less of the pack's energy gets burned warming itself up. Charging improves for the same reason. Milwaukee rates the FORGE XC6.0 at 15 minutes to 80% on its dual-bay Super Charger. Ryobi has taken nearly the same route with its Edge line, which is a large part of why I stopped treating the tool as the real purchase. Same peg, same price, different tier Read the tier name before you read the number Pricing is what makes the old habit expensive. A HIGH OUTPUT XC8.0 and a FORGE XC8.0 both list around $199. A HIGH OUTPUT HD12.0 and a FORGE HD12.0 both list around $249. Identical capacity, identical money, and in each pair one battery is a full tier stronger than the other. The FORGE HD12.0 is currently the only PWR5 pack Milwaukee builds, and the company claims 50% more power than the HIGH OUTPUT 12.0 sitting right next to it. The fix takes almost no effort. Amp hours still answer the runtime question honestly, so pick capacity based on how long you want to work between charges. Everything about how hard the tool pulls lives in the tier name and the PWR number, and that is what decides whether a grinder holds its speed or bogs down in the middle of a job. Compatibility never entered into any of this. Every M18 pack still fits every M18 tool, which remains the whole argument for committing to a single platform. Amp hours are a fuel gauge, not a horsepower rating Milwaukee did not make its lineup worse. It made a decade-old buying habit obsolete, and the packaging has not caught up. A number that used to answer two questions now answers one, and the more important answer moved to a smaller line of text most people skim past on their way to the register. Ryobi and DeWalt are shipping packs built the same way, so this is not a red-tool problem. Spend the extra 30 seconds reading the tier name. That is the difference between a battery that runs long and one that genuinely pulls.",
+      "content_preview_chars": 5477,
+      "content_fetched_at": "2026-08-02T04:37:06",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "50843d43ca39cabf",
+      "source_url_hash": "50843d43ca39cabf",
+      "canonical_url": "https://www.howtogeek.com/stop-using-docker-without-a-container-manager-it-will-save-your-storage-and-sanity",
+      "title_hash": "217eb4ca55d30279",
+      "topic_signature": "a8b92f0058d45e15ee33",
+      "title": "Docker became much easier once I started using a container manager",
+      "url": "https://www.howtogeek.com/stop-using-docker-without-a-container-manager-it-will-save-your-storage-and-sanity",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-08-01T20:30:13Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 8.11,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-08-02T04:36:47",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 114,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 114,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Docker became much easier once I started using a container manager",
+      "meta_description": "Container managers like Portainer make Docker easier by simplifying monitoring, storage cleanup, and port management.",
+      "article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/running-rocker-manager-laptop.jpg?w=1600&h=900&fit=crop",
+          "alt": "Docker became much easier once I started using a container manager",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/running-rocker-manager-laptop.jpg?&fit=crop&w=1600&h=900",
+          "alt": "An image of Docker running on a laptop.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/05/docker-compose-stacks-list-in-portainer-with-audiobookshelf-duplicati-linkstack-postiz-readdeck-and-speedtest-tracker.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Docker Compose stacks list in Portainer with Audiobookshelf Duplicati Linkstack Postiz ReadDeck and Speedtest Tracker.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/1-the-portainer-main-page-via-localhost.png?q=49&fit=contain&w=514&h=289&dpr=2",
+          "alt": "The Portainer main page via localhost.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/running-rocker-manager-laptop.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/running-rocker-manager-laptop.jpg?&fit=crop&w=1600&h=900",
+          "alt": "An image of Docker running on a laptop."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/05/docker-compose-stacks-list-in-portainer-with-audiobookshelf-duplicati-linkstack-postiz-readdeck-and-speedtest-tracker.jpg?q=49&fit=crop&w=825&dpr=2",
+          "alt": "Docker Compose stacks list in Portainer with Audiobookshelf Duplicati Linkstack Postiz ReadDeck and Speedtest Tracker."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/07/1-the-portainer-main-page-via-localhost.png?q=49&fit=contain&w=514&h=289&dpr=2",
+          "alt": "The Portainer main page via localhost."
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Preferred Source",
+          "url": "https://www.google.com/preferences/source?q=howtogeek.com"
+        },
+        {
+          "title": "Google News",
+          "url": "https://news.google.com/publications/CAAqKAgKIiJDQklTRXdnTWFnOEtEV2h2ZDNSdloyVmxheTVqYjIwb0FBUAE"
+        }
+      ],
+      "full_article_text": "I love Docker, but I didn't always have such an easy time with it. In retrospect, not using a Docker manager was one of my biggest mistakes when first starting to use the software. While I run Portainer on a daily basis nowadays, my first time using Docker was spent without a manager. It was rough, to say the least. I spent a solid week without a Docker manager The first few containers I used were managed individually When I first got started with Docker, everything it did seemed amazing. Working with containers (which contain the image and all the dependencies of a particular application) seemed easy and intuitive. They existed in a sandbox. I could add, update, or delete them with a simple command. I could use them for almost anything. But then I started diving deeper into using different containers. That's when the trouble started. I began to notice my hard drive space filling up quickly. I also started having trouble with certain containers working properly. Some containers ran sluggishly or simply wouldn't launch. After an upgrade of one container, it started having issues. Docker mismanagement led to data difficulty Forgetting about orphaned containers led to some wild issues Credit: David J. Buck / How-To Geek During the time I worked without a container manager, I had some misadventures with managing Docker through the Terminal. I work with Docker every day and run anywhere from 3-6 containers (applications) on any given day. Deleting a container doesn't remove the image or all its data . Sometimes I forget to purge old data when I update or remove an image. This caused some trouble a little while ago for my data management. Mismanaging data in Docker can not only chew up a bunch of space on your hard drive, it can be a pain to manage. Hidden build cache, persistent volumes, and extra data all clutter things up . I used a script to clean up dangling volumes. Then, I checked my Docker system (using command docker system df ) to see what I had going, what was reclaimable, and to see if there were any hanging images taking up space. There were quite a few floating images and unused containers. So I pruned them with docker system prune --all . Warning - docker system prune --all removes all stopped containers, networks that aren't being used by at least one container, and any unused images you have on your system. Don't blindly run this command (I learned this the hard way!). Next, I would usually hit my system with docker builder prune to remove the build cache. From there, I reassessed which containers (apps) I'm using regularly and manually removed the ones I'm no longer using daily. I could always reinstall them later. But this ended up being a longer, more tedious process. Portainer made my data management simpler and much better. A container manager is like a virtual assistant for Docker It notifies you of issues without being a pest In Portainer, I can look at my Container list and immediately do a few things: checking the published port, monitoring its health, or seeing which Stack it's in. I can also do a few quick actions, like checking the logs. But the most useful feature is telling me exactly which port I'm using. If I try to run more than 6 containers at a time, that becomes very helpful. Up/Down status is one of the most useful tools in my experience. Running some of the purge commands above can accidentally delete containers if they're not up. I've had it happen more times than I care to admit. A glance at their status helps me make informed decisions in that regard. Docker stacks are part of an orchestration tool in Docker called Docker Swarm. Its purpose is to manage Docker containers across multiple machines . But keep in mind that in Portainer, the Stacks view is basically a GUI for Docker Compose files, unrelated to Swarm. A quick peek at my Stacks dashboard tells me if the compose files are running, healthy, or having any issues. With Volume Management, you can add or remove them with a simple click of a button and see what volumes you have in a list. This makes it much easier to avoid deleting an important one, especially when you're not sure which volumes you still need to keep or can safely purge. But the best part is the quick health check a GUI manager provides and the convenience of using a web terminal. There are so many things that make it worthwhile, I'm glad I decided to start using one. Portainer isn't the only game in town There are other container managers available Although I've spent considerable time with Portainer, it isn't the only Docker Manager out there. Another popular alternative is a manager called Lazydocker. I haven't used it yet, but it seems to offer a cleaner user interface and a safer/less risky way to manage containers. I like the fact that it's open-source, as is the community edition of Portainer. But, the idea of using fewer resources appeals to me (Lazydocker is a TUI tool, not web-based, so it's more lightweight). So, whether you use Portainer or give Lazydocker a try, I believe Docker Managers are essential to any workflow using containerized applications. If you use Docker, it's probably best to use a container manager That first week without using Docker was a rough one. Using one is now a critical part of my workflow. I wouldn't recommend anyone start using Docker without one. It's just a bad idea all around.",
+      "full_article_text_chars": 5374,
+      "content_preview": "I love Docker, but I didn't always have such an easy time with it. In retrospect, not using a Docker manager was one of my biggest mistakes when first starting to use the software. While I run Portainer on a daily basis nowadays, my first time using Docker was spent without a manager. It was rough, to say the least. I spent a solid week without a Docker manager The first few containers I used were managed individually When I first got started with Docker, everything it did seemed amazing. Working with containers (which contain the image and all the dependencies of a particular application) seemed easy and intuitive. They existed in a sandbox. I could add, update, or delete them with a simple command. I could use them for almost anything. But then I started diving deeper into using different containers. That's when the trouble started. I began to notice my hard drive space filling up quickly. I also started having trouble with certain containers working properly. Some containers ran sluggishly or simply wouldn't launch. After an upgrade of one container, it started having issues. Docker mismanagement led to data difficulty Forgetting about orphaned containers led to some wild issues Credit: David J. Buck / How-To Geek During the time I worked without a container manager, I had some misadventures with managing Docker through the Terminal. I work with Docker every day and run anywhere from 3-6 containers (applications) on any given day. Deleting a container doesn't remove the image or all its data . Sometimes I forget to purge old data when I update or remove an image. This caused some trouble a little while ago for my data management. Mismanaging data in Docker can not only chew up a bunch of space on your hard drive, it can be a pain to manage. Hidden build cache, persistent volumes, and extra data all clutter things up . I used a script to clean up dangling volumes. Then, I checked my Docker system (using command docker system df ) to see what I had going, what was reclaimable, and to see if there were any hanging images taking up space. There were quite a few floating images and unused containers. So I pruned them with docker system prune --all . Warning - docker system prune --all removes all stopped containers, networks that aren't being used by at least one container, and any unused images you have on your system. Don't blindly run this command (I learned this the hard way!). Next, I would usually hit my system with docker builder prune to remove the build cache. From there, I reassessed which containers (apps) I'm using regularly and manually removed the ones I'm no longer using daily. I could always reinstall them later. But this ended up being a longer, more tedious process. Portainer made my data management simpler and much better. A container manager is like a virtual assistant for Docker It notifies you of issues without being a pest In Portainer, I can look at my Container list and immediately do a few things: checking the published port, monitoring its health, or seeing which Stack it's in. I can also do a few quick actions, like checking the logs. But the most useful feature is telling me exactly which port I'm using. If I try to run more than 6 containers at a time, that becomes very helpful. Up/Down status is one of the most useful tools in my experience. Running some of the purge commands above can accidentally delete containers if they're not up. I've had it happen more times than I care to admit. A glance at their status helps me make informed decisions in that regard. Docker stacks are part of an orchestration tool in Docker called Docker Swarm. Its purpose is to manage Docker containers across multiple machines . But keep in mind that in Portainer, the Stacks view is basically a GUI for Docker Compose files, unrelated to Swarm. A quick peek at my Stacks dashboard tells me if the compose files are running, healthy, or having any issues. With Volume Management, you can add or remove them with a simple click of a button and see what volumes you have in a list. This makes it much easier to avoid deleting an important one, especially when you're not sure which volumes you still need to keep or can safely purge. But the best part is the quick health check a GUI manager provides and the convenience of using a web terminal. There are so many things that make it worthwhile, I'm glad I decided to start using one. Portainer isn't the only game in town There are other container managers available Although I've spent considerable time with Portainer, it isn't the only Docker Manager out there. Another popular alternative is a manager called Lazydocker. I haven't used it yet, but it seems to offer a cleaner user interface and a safer/less risky way to manage containers. I like the fact that it's open-source, as is the community edition of Portainer. But, the idea of using fewer resources appeals to me (Lazydocker is a TUI tool, not web-based, so it's more lightweight). So, whether you use Portainer or give Lazydocker a try, I believe Docker Managers are essential to any workflow using containerized applications. If you use Docker, it's probably best to use a container manager That first week without using Docker was a rough one. Using one is now a critical part of my workflow. I wouldn't recommend anyone start using Docker without one. It's just a bad idea all around.",
+      "content_preview_chars": 5374,
+      "content_fetched_at": "2026-08-02T04:37:02",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "ea181d2dbf0fabe8",
+      "source_url_hash": "ea181d2dbf0fabe8",
+      "canonical_url": "https://www.howtogeek.com/claude-and-chatgpt-are-ruining-our-problem-solving-skills",
+      "title_hash": "96635b432719d549",
+      "topic_signature": "1a519e1579ae9ea4b4cb",
+      "title": "Claude and ChatGPT are ruining your critical thinking—here are 3 prompts that will keep your brain sharp",
+      "url": "https://www.howtogeek.com/claude-and-chatgpt-are-ruining-our-problem-solving-skills",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-08-01T19:30:13Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 9.11,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-08-02T04:36:47",
+      "status": "ready",
+      "score": 3,
+      "priority": "low",
+      "source_links_removed_count": 121,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 121,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "Claude and ChatGPT are ruining your critical thinking—here are 3 prompts that will keep your brain sharp",
+      "meta_description": "Most studies are pointing in the same direction—your AI habits are hurting your problem-solving skills. Here's how to reverse the trend.",
+      "article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/04/a7308147.jpg?w=1600&h=900&fit=crop",
+          "alt": "Claude and ChatGPT are ruining your critical thinking—here are 3 prompts that will keep your brain sharp",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/04/a7308147.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Claude, ChatGPT, and Gemini open on an iPhone, iPad, and OnePlus 15.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/04/claude-project-instructions-modal-showing-the-coding-tutor-prompt-being-pasted-into-the-learning-web-design-project.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "Claude project instructions modal showing the coding tutor prompt being pasted into the Learning Web Design project.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/04/claude-create-project-dialog-with-learning-web-design-entered-as-the-project-name-and-goal-description.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "Claude create project dialog with Learning Web Design entered as the project name and goal description.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/04/a7308147.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/04/a7308147.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Claude, ChatGPT, and Gemini open on an iPhone, iPad, and OnePlus 15."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/04/claude-project-instructions-modal-showing-the-coding-tutor-prompt-being-pasted-into-the-learning-web-design-project.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "Claude project instructions modal showing the coding tutor prompt being pasted into the Learning Web Design project."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/2026/04/claude-create-project-dialog-with-learning-web-design-entered-as-the-project-name-and-goal-description.png?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "Claude create project dialog with Learning Web Design entered as the project name and goal description."
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Preferred Source",
+          "url": "https://www.google.com/preferences/source?q=howtogeek.com"
+        },
+        {
+          "title": "Google News",
+          "url": "https://news.google.com/publications/CAAqKAgKIiJDQklTRXdnTWFnOEtEV2h2ZDNSdloyVmxheTVqYjIwb0FBUAE"
+        }
+      ],
+      "full_article_text": "Dibakar Ghosh is a tech journalist at How-To Geek, where he focuses on Linux, Windows, and productivity tools. His goal is simple—help readers at every skill level get more done with the tech they use every day. He began his writing career in 2016 with WordPress tutorials, later moving into digital marketing, where he spent years reviewing complex tools for marketers. His work has also appeared on Authority Hacker , where he’s shared in-depth guides on digital workflows and online productivity. That experience now shapes his journalism, blending analytical depth with practical, real-world advice. When he’s not writing or testing software, Dibakar is usually watching movies or playing video games. He’s a huge Christopher Nolan fan and a strong proponent of the theater experience. In gaming, he has sunk hundreds of hours into Insomniac’s Spider-Man series, Returnal, Prototype, Darksiders, and Final Fantasy titles. There is a growing body of research examining how AI influences the way we think, learn, and solve problems. While no study has yet measured the long-term cognitive effects of AI use—after all, these tools have been widely available for less than five years—researchers are identifying patterns that align with established findings in psychology and neuroscience. I read through the research, identified the common mechanisms researchers think are behind these cognitive concerns, and built a handful of prompts to address them. Instead of encouraging passive AI use, they're designed to keep you actively engaged in the thinking process—so AI helps strengthen your problem-solving skills rather than replacing them. I've linked every study I referenced during my research at the end of this article. Use it as a tutor—not an answering machine The difference between using AI and depending on it Instead of having AI write your code or essays, use it as a tutor that helps you become a better programmer or writer. You can also use it to study the systems experts rely on and incorporate those approaches into your own work. If you're struggling with a particular concept, tell the AI exactly where you're stuck and ask for targeted guidance backed by research or established best practices. For example, I didn't feel comfortable letting Claude or ChatGPT vibe-code all my scripts and custom apps while I had no idea how they actually worked. You wouldn't press Send on an AI-written email without reading it first, would you? Vibe coding can feel a lot like that—especially if you don't come from a programming background. So, instead of outsourcing the work entirely, I decided to learn how to code and turned Claude into my personal tutor. Now, learning is deeply personal, so a one-size-fits-all approach doesn't work. I built my workflow around how I actually learn: by doing, not reading. I tell Claude what I want to learn, it creates a project-based curriculum, assigns me work, and acts as my mentor throughout the process. I complete the exercises, send screenshots of my progress, and ask for help whenever I get stuck. Most importantly, I've configured it never to give me the answer outright. Instead, it nudges me in the right direction until I figure it out myself. Once I've mastered a concept, we move on to the next one. I wrote up the entire workflow—including the full prompt—in my guide to turning Claude into the ultimate coding tutor, and it remains one of the most effective ways I've found to learn with AI. Deliberately track what you're offloading The audit nobody wants to run, but should Most LLMs, including ChatGPT, can now look back through your previous conversations. You can use them as an introspective tool by asking them to audit your usage and identify every instance where you've offloaded thinking. Suddenly, you have a map of the mental muscles you've stopped exercising—and you can make a conscious decision about which ones are worth keeping. I personally believe that not all offloading is bad—and it depends on your priorities. I'm a writer, and writing for the web involves dozens of steps, from research to publishing. There are plenty of technical tasks—renaming images, adding tags, inserting internal links, formatting articles—that aren't particularly creative but still need to get done. Those are tasks I'd happily delegate because I don't mind losing that particular muscle, especially when search engine best practices change so often that you're forced to relearn them anyway. The creative work is different. Finding topics readers actually care about, discovering the right angle for a story, structuring an argument, and crafting the prose are all skills I don't want to lose. That's why I refuse to let AI do those parts for me—even when I’m staring at a blank document with a serious case of writer's block. Here's the prompt I use to track which tasks I'm gradually offloading to AI: Challenge yourself with the opposite point of view Your AI is probably agreeing with you too much By default, most AI models lean sycophantic—and the more memory and context they build up about you, the better they become at telling you what you want to hear. Ask ChatGPT or Claude about a genuinely contested topic, and more often than not, it will respond with a perspective that closely aligns with your worldview. That can trap you in an echo chamber and limit your exposure to different perspectives. It also shields you from testing your beliefs against strong opposing arguments, which is one of the best ways to sharpen your thinking. Sometimes you'll win and come away with stronger convictions. Other times you'll realize your position doesn't hold up under scrutiny. Either outcome is intellectual growth, but a sycophantic answering machine can shield you from that process. Fortunately, this is a much simpler problem to solve. When you're exploring an idea, instead of asking the AI what it thinks, tell it what you think and assign it the opposite side of the debate. Since chatbots are excellent at roleplaying, they can take on the perspective of someone who genuinely holds the opposing view and give you a civil debate focused purely on the ideas—without the name-calling or personal attacks that often derail online discussions. In fact, I think this is one of AI's best use cases. Most of us don't get this kind of experience in our everyday lives because we avoid difficult conversations with friends and family. There are also times when we stay quiet because we don't feel informed enough to contribute, forgetting that everyone starts out knowing less than they eventually will. With an AI, those social pressures largely disappear, making it much easier to ask naïve questions, challenge your assumptions, and refine your thinking. Here's the prompt I use when debating with Claude and ChatGPT: Create a Claude Project, a ChatGPT Custom GPT, or a Gemini Gem called \"Debater\" and save this prompt as its custom instructions. Don’t paste this prompt in regular conversations or else the AI can build up long-term memory that you prefer this behavior and start challenging you during everyday conversations when you're looking for collaboration instead. Don't let it fish for you—use it to learn how to fish for yourself The point I want to drive home is that AI is neither good nor bad—it's a tool, and an incredibly powerful one at that. If you use it carelessly, it can slowly erode your skills. If you use it deliberately, however, it can help you build new ones. Studies I referenced in my research Generative AI without guardrails can harm learning: Evidence from high school mathematics Endoscopist deskilling risk after exposure to artificial intelligence in colonoscopy: a multicentre, observational study Experimental evidence of the effects of large language models versus web search on depth of learning Effects of LLM use and note-taking on reading comprehension and memory: A randomised experiment in secondary schools Cognitive ease at a cost: LLMs reduce mental effort but compromise depth in student scientific inquiry The Impact of Generative AI on Critical Thinking: Self-Reported Reductions in Cognitive Effort and Confidence Effects From a Survey of Knowledge Workers Generative AI enhances individual creativity but reduces the collective diversity of novel content The effects of over-reliance on AI dialogue systems on students' cognitive abilities: a systematic review AI Tools in Society: Impacts on Cognitive Offloading and the Future of Critical Thinking",
+      "full_article_text_chars": 8478,
+      "content_preview": "Dibakar Ghosh is a tech journalist at How-To Geek, where he focuses on Linux, Windows, and productivity tools. His goal is simple—help readers at every skill level get more done with the tech they use every day. He began his writing career in 2016 with WordPress tutorials, later moving into digital marketing, where he spent years reviewing complex tools for marketers. His work has also appeared on Authority Hacker , where he’s shared in-depth guides on digital workflows and online productivity. That experience now shapes his journalism, blending analytical depth with practical, real-world advice. When he’s not writing or testing software, Dibakar is usually watching movies or playing video games. He’s a huge Christopher Nolan fan and a strong proponent of the theater experience. In gaming, he has sunk hundreds of hours into Insomniac’s Spider-Man series, Returnal, Prototype, Darksiders, and Final Fantasy titles. There is a growing body of research examining how AI influences the way we think, learn, and solve problems. While no study has yet measured the long-term cognitive effects of AI use—after all, these tools have been widely available for less than five years—researchers are identifying patterns that align with established findings in psychology and neuroscience. I read through the research, identified the common mechanisms researchers think are behind these cognitive concerns, and built a handful of prompts to address them. Instead of encouraging passive AI use, they're designed to keep you actively engaged in the thinking process—so AI helps strengthen your problem-solving skills rather than replacing them. I've linked every study I referenced during my research at the end of this article. Use it as a tutor—not an answering machine The difference between using AI and depending on it Instead of having AI write your code or essays, use it as a tutor that helps you become a better programmer or writer. You can also use it to study the systems experts rely on and incorporate those approaches into your own work. If you're struggling with a particular concept, tell the AI exactly where you're stuck and ask for targeted guidance backed by research or established best practices. For example, I didn't feel comfortable letting Claude or ChatGPT vibe-code all my scripts and custom apps while I had no idea how they actually worked. You wouldn't press Send on an AI-written email without reading it first, would you? Vibe coding can feel a lot like that—especially if you don't come from a programming background. So, instead of outsourcing the work entirely, I decided to learn how to code and turned Claude into my personal tutor. Now, learning is deeply personal, so a one-size-fits-all approach doesn't work. I built my workflow around how I actually learn: by doing, not reading. I tell Claude what I want to learn, it creates a project-based curriculum, assigns me work, and acts as my mentor throughout the process. I complete the exercises, send screenshots of my progress, and ask for help whenever I get stuck. Most importantly, I've configured it never to give me the answer outright. Instead, it nudges me in the right direction until I figure it out myself. Once I've mastered a concept, we move on to the next one. I wrote up the entire workflow—including the full prompt—in my guide to turning Claude into the ultimate coding tutor, and it remains one of the most effective ways I've found to learn with AI. Deliberately track what you're offloading The audit nobody wants to run, but should Most LLMs, including ChatGPT, can now look back through your previous conversations. You can use them as an introspective tool by asking them to audit your usage and identify every instance where you've offloaded thinking. Suddenly, you have a map of the mental muscles you've stopped exercising—and you can make a conscious decision about which ones are worth keeping. I personally believe that not all offloading is bad—and it depends on your priorities. I'm a writer, and writing for the web involves dozens of steps, from research to publishing. There are plenty of technical tasks—renaming images, adding tags, inserting internal links, formatting articles—that aren't particularly creative but still need to get done. Those are tasks I'd happily delegate because I don't mind losing that particular muscle, especially when search engine best practices change so often that you're forced to relearn them anyway. The creative work is different. Finding topics readers actually care about, discovering the right angle for a story, structuring an argument, and crafting the prose are all skills I don't want to lose. That's why I refuse to let AI do those parts for me—even when I’m staring at a blank document with a serious case of writer's block. Here's the prompt I use to track which tasks I'm gradually offloading to AI: Challenge yourself with the opposite point of view Your AI is probably agreeing with you too much By default, most AI models lean sycophantic—and the more memory and context they build up about you, the better they become at telling you what you want to hear. Ask ChatGPT or Claude about a genuinely contested topic, and more often than not, it will respond with a perspective that closely aligns with your worldview. That can trap you in an echo chamber and limit your exposure to different perspectives. It also shields you from testing your beliefs against strong opposing arguments, which is one of the best ways to sharpen your thinking. Sometimes you'll win and come away with stronger convictions. Other times you'll realize your position doesn't hold up under scrutiny. Either outcome is intellectual growth, but a sycophantic answering machine can shield you from that process. Fortunately, this is a much simpler problem to solve. When you're exploring an idea, instead of asking the AI what it thinks, tell it what you think and assign it the opposite side of the debate. Since chatbots are excellent at roleplaying, they can take on the perspective of someone who genuinely holds the opposing view and give you a civil debate focused purely on the ideas—without the name-calling or personal attacks that often derail online discussions. In fact, I think this is one of AI's best use cases. Most of us don't get this kind of experience in our everyday lives because we avoid difficult conversations with friends and family. There are also times when we stay quiet because we don't feel informed enough to contribute, forgetting that everyone starts out knowing less than they eventually will. With an AI, those social pressures largely disappear, making it much easier to ask naïve questions, challenge your assumptions, and refine your thinking. Here's the prompt I use when debating with Claude and ChatGPT: Create a Claude Project, a ChatGPT Custom GPT, or a Gemini Gem called \"Debater\" and save this prompt as its custom instructions. Don’t paste this prompt in regular conversations or else the AI can build up long-term memory that you prefer this behavior and start challenging you during everyday conversations when you're looking for collaboration instead. Don't let it fish for you—use it to learn how to fish for yourself The point I want to drive home is that AI is neither good nor bad—it's a tool, and an incredibly powerful one at that. If you use it carelessly, it can slowly erode your skills. If you use it deliberately, however, it can help you build new ones. Studies I referenced in my research Generative AI without guardrails can harm learning: Evidence from high school mathematics Endoscopist deskilling risk after exposure to artificial intelligence in colonoscopy: a multicentre, observational study Experimental evidence of the effects of large language models versus web search on depth of learning Effects of LLM use and note-taking on reading comprehension and memory: A randomised experiment in secondary schools Cognitive ease at a cost: LLMs reduce mental effort but compromise depth in student scientific inquiry The Impact of Generative AI on Critical Thinking: Self-Reported Reductions in Cognitive Effort and Confidence Effects From a Survey of Knowledge Workers Generative AI enhances individual creativity but reduces the collective diversity of novel content The effects of over-reliance on AI dialogue systems on students' cognitive abilities: a systematic review AI Tools in Society: Impacts on Cognitive Offloading and the Future of Critical Thinking",
+      "content_preview_chars": 8478,
+      "content_fetched_at": "2026-08-02T04:37:14",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "6ebf1f758241bdb9",
+      "source_url_hash": "6ebf1f758241bdb9",
+      "canonical_url": "https://www.howtogeek.com/i-built-a-whole-home-leak-detection-system-with-10-sensors",
+      "title_hash": "eaa501c61419b334",
+      "topic_signature": "dc39e0f89e042591cf63",
+      "title": "I built a whole-home leak detection system with $10 sensors",
+      "url": "https://www.howtogeek.com/i-built-a-whole-home-leak-detection-system-with-10-sensors",
+      "source_name": "How-To Geek",
+      "source_url": "https://www.howtogeek.com",
+      "source_published_at": "2026-08-01T19:00:13Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 9.61,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "apps",
+      "category_name": "Apps and Software",
+      "category_label": "Apps-Programs",
+      "category_hint": "Apps-Programs",
+      "discovered_at": "2026-08-02T04:36:47",
+      "status": "ready",
+      "score": 0,
+      "priority": "low",
+      "source_links_removed_count": 106,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 106,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "I built a whole-home leak detection system with $10 sensors",
+      "meta_description": "Water leak detection just got a lot less complicated",
+      "article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/174984.jpg?w=1600&h=900&fit=crop",
+          "alt": "I built a whole-home leak detection system with $10 sensors",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/174984.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Hand holding an IKEA KLIPPBOK water leak sensor in front of a washer and dryer.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/174989.jpg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "An IKEA KLIPPBOK water sensor underneath a washing machine.",
+          "source": "article_content"
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/174992.jpg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "An IKEA KLIPPBOK water sensor underneath a refrigerator.",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/174984.jpg?w=1600&h=900&fit=crop",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/174984.jpg?&fit=crop&w=1600&h=900",
+          "alt": "Hand holding an IKEA KLIPPBOK water leak sensor in front of a washer and dryer."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/174989.jpg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "An IKEA KLIPPBOK water sensor underneath a washing machine."
+        },
+        {
+          "url": "https://static0.howtogeekimages.com/wordpress/wp-content/uploads/wm/2026/07/174992.jpg?q=49&fit=contain&w=750&h=422&dpr=2",
+          "alt": "An IKEA KLIPPBOK water sensor underneath a refrigerator."
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Preferred Source",
+          "url": "https://www.google.com/preferences/source?q=howtogeek.com"
+        },
+        {
+          "title": "Google News",
+          "url": "https://news.google.com/publications/CAAqKAgKIiJDQklTRXdnTWFnOEtEV2h2ZDNSdloyVmxheTVqYjIwb0FBUAE"
+        }
+      ],
+      "full_article_text": "If something goes wrong in my home, like a pipe bursting, I would rather find out from a notification than stepping in inches of water. It’s for that reason that I’ve started building a water leak detection system using this one adorable, off-the-shelf sensor: the IKEA KLIPPBOK. The KLIPPBOK is a smart home sensor utilizing the latest smart home tech It’s also small and runs off AAA batteries Credit: Bertel King / How-To Geek The KLIPPBOK is part of IKEA’s latest line of smart home products, which in 2026 transitioned from using the Zigbee connectivity standard to Matter-over-Thread. Matter is the language the leak detector speaks, allowing it to collect to any of the major smart home platforms like Apple Home, Google Home, and Samsung SmartThings. It also works with Home Assistant and more niche consumer-facing hubs like the Homey Pro mini. Thread is a mesh networking standard that enables smart home devices to communicate more reliably, not less, as you fill your home with more of them. Thread is of particular benefit to small, battery-powered devices like the KLIPPBOK that would not be able to last for months at a time using a conventional Wi-Fi connection or have enough range to communicate with a centralized hub using Bluetooth alone. This water leakage sensor keeps track of water leaks by beeping when it comes into contact with water – helping you make life at home smoother, more comfortable and safer. When connected to a hub, the sensor sends a notification to your smartphone with information about the water leak. The small size makes it easy to position under the sink, appliances or other places where a water leakage can occur. When water touches the IKEA KLIPPBOK, it starts to beep in a way that can be heard all throughout the house, making it a viable detection system even if you never opt to connect it using any smart home tech. But if you do, then you can also receive notifications, which can alert you to a problem sooner if you happen to be away from home when the leak starts. These sensors are cheap and easy to install The batteries cost nearly as much as the device itself The KLIPPBOK runs off standard AAA batteries, which means I don’t need to fuss over cables or involve an installer. All I need to do is pop batteries in, watch the device enter pairing mode, and follow the usual steps to connect a Matter device to my Homey Pro. That involves opening the Homey app, tapping a plus icon, and either scanning a QR code or manually typing in the Matter pairing code conveniently printed on the side of the device. I then give the leak detector a name and assign it to a room within the Homey app. This process is nearly identical across all the major platforms. If this is your first smart home product, and you’re not sure which to pick, you could also consider IKEA’s own hub, the DIRIGERA, which does a decent job holding your hand and automatically detecting your IKEA devices. That said, it doesn’t offer any special features over connecting the sensors to any other hub—which, for the record, is a good thing. I’ve placed sensors in the locations that are most likely to leak I’m ordering more for the places that remain I live in a new-construction home, with piping that’s all made of PVC. That means I'm not all that concerned about pipes bursting, even though it is a possibility to keep in mind during the cold winter months. I’ve instead placed my initial set of sensors under our major indoor appliances. Our previous home had pipes prime to getting clogged, and we would find out in the morning after running the dishwasher and coming to see water had pooled in front of it overnight. Now I keep a sensor underneath the dishwasher door. I keep another underneath our fridge. This has leaked already in our current home, due to a replacement filter I hadn’t quite installed correctly. I have also placed one under our washing machine. I have since moved that one, since it went off every cycle, but it did alert us to the extent to which our washing machine leaks. This machine traveled with us from our old home, and we plan to get a top-loading washing machine when we can. I plan to put more sensors underneath each of the sinks in our home. Some can also go near our water heater and the tank for our well pump. Those are both located in our home‘s rather tall crawl space where they could leak for weeks, if not months, without us knowing. These tanks are joined by hundreds of feet of tubing and pipes underneath the house that I can’t fully monitor, so the system isn’t foolproof, but it does leave me with far more visibility than I had before. For that matter, a water leak sensor isn't the only kind of smart home sensor I may consider putting in our crawl space. Expect to monitor the monitoring system I do need to check the battery life of my sensors every few months. Fortunately, I can do this for each sensor all at once in the battery section of my Homey app. Even if I don’t, I’ll find out when I open the app and a sensor shows up as offline. Considering that I can now monitor the most likely problem spots in our home for under $100, I’m not complaining.",
+      "full_article_text_chars": 5142,
+      "content_preview": "If something goes wrong in my home, like a pipe bursting, I would rather find out from a notification than stepping in inches of water. It’s for that reason that I’ve started building a water leak detection system using this one adorable, off-the-shelf sensor: the IKEA KLIPPBOK. The KLIPPBOK is a smart home sensor utilizing the latest smart home tech It’s also small and runs off AAA batteries Credit: Bertel King / How-To Geek The KLIPPBOK is part of IKEA’s latest line of smart home products, which in 2026 transitioned from using the Zigbee connectivity standard to Matter-over-Thread. Matter is the language the leak detector speaks, allowing it to collect to any of the major smart home platforms like Apple Home, Google Home, and Samsung SmartThings. It also works with Home Assistant and more niche consumer-facing hubs like the Homey Pro mini. Thread is a mesh networking standard that enables smart home devices to communicate more reliably, not less, as you fill your home with more of them. Thread is of particular benefit to small, battery-powered devices like the KLIPPBOK that would not be able to last for months at a time using a conventional Wi-Fi connection or have enough range to communicate with a centralized hub using Bluetooth alone. This water leakage sensor keeps track of water leaks by beeping when it comes into contact with water – helping you make life at home smoother, more comfortable and safer. When connected to a hub, the sensor sends a notification to your smartphone with information about the water leak. The small size makes it easy to position under the sink, appliances or other places where a water leakage can occur. When water touches the IKEA KLIPPBOK, it starts to beep in a way that can be heard all throughout the house, making it a viable detection system even if you never opt to connect it using any smart home tech. But if you do, then you can also receive notifications, which can alert you to a problem sooner if you happen to be away from home when the leak starts. These sensors are cheap and easy to install The batteries cost nearly as much as the device itself The KLIPPBOK runs off standard AAA batteries, which means I don’t need to fuss over cables or involve an installer. All I need to do is pop batteries in, watch the device enter pairing mode, and follow the usual steps to connect a Matter device to my Homey Pro. That involves opening the Homey app, tapping a plus icon, and either scanning a QR code or manually typing in the Matter pairing code conveniently printed on the side of the device. I then give the leak detector a name and assign it to a room within the Homey app. This process is nearly identical across all the major platforms. If this is your first smart home product, and you’re not sure which to pick, you could also consider IKEA’s own hub, the DIRIGERA, which does a decent job holding your hand and automatically detecting your IKEA devices. That said, it doesn’t offer any special features over connecting the sensors to any other hub—which, for the record, is a good thing. I’ve placed sensors in the locations that are most likely to leak I’m ordering more for the places that remain I live in a new-construction home, with piping that’s all made of PVC. That means I'm not all that concerned about pipes bursting, even though it is a possibility to keep in mind during the cold winter months. I’ve instead placed my initial set of sensors under our major indoor appliances. Our previous home had pipes prime to getting clogged, and we would find out in the morning after running the dishwasher and coming to see water had pooled in front of it overnight. Now I keep a sensor underneath the dishwasher door. I keep another underneath our fridge. This has leaked already in our current home, due to a replacement filter I hadn’t quite installed correctly. I have also placed one under our washing machine. I have since moved that one, since it went off every cycle, but it did alert us to the extent to which our washing machine leaks. This machine traveled with us from our old home, and we plan to get a top-loading washing machine when we can. I plan to put more sensors underneath each of the sinks in our home. Some can also go near our water heater and the tank for our well pump. Those are both located in our home‘s rather tall crawl space where they could leak for weeks, if not months, without us knowing. These tanks are joined by hundreds of feet of tubing and pipes underneath the house that I can’t fully monitor, so the system isn’t foolproof, but it does leave me with far more visibility than I had before. For that matter, a water leak sensor isn't the only kind of smart home sensor I may consider putting in our crawl space. Expect to monitor the monitoring system I do need to check the battery life of my sensors every few months. Fortunately, I can do this for each sensor all at once in the battery section of my Homey app. Even if I don’t, I’ll find out when I open the app and a sensor shows up as offline. Considering that I can now monitor the most likely problem spots in our home for under $100, I’m not complaining.",
+      "content_preview_chars": 5142,
+      "content_fetched_at": "2026-08-02T04:37:08",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
     }
