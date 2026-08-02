@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-08-02T04:42:52",
+  "updated_at": "2026-08-02T07:18:43",
   "articles": [
     {
       "id": "e77a5fe849757516",
@@ -2558,13 +2558,13 @@
       "score": 7,
       "priority": "medium",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-08-02T04:37:16",
-      "candidate_retry_after": "2026-08-02T04:52:16Z",
+      "content_fetch_error": "http 404",
+      "content_fetched_at": "2026-08-02T07:16:20",
+      "candidate_retry_after": "2026-08-02T07:31:20Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-08-02T04:37:16",
-      "candidate_failure_count": 120
+      "candidate_failure_reason": "http 404",
+      "candidate_failed_at": "2026-08-02T07:16:20",
+      "candidate_failure_count": 121
     },
     {
       "id": "512c2899a98440d2",
@@ -2593,12 +2593,12 @@
       "priority": "low",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-08-02T04:37:18",
-      "candidate_retry_after": "2026-08-02T04:52:18Z",
+      "content_fetched_at": "2026-08-02T07:16:21",
+      "candidate_retry_after": "2026-08-02T07:31:21Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-08-02T04:37:18",
-      "candidate_failure_count": 120
+      "candidate_failed_at": "2026-08-02T07:16:21",
+      "candidate_failure_count": 121
     },
     {
       "id": "4e0eab0b0bbf32ab",
@@ -2626,13 +2626,13 @@
       "score": 4,
       "priority": "low",
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 429",
-      "content_fetched_at": "2026-08-02T04:37:20",
-      "candidate_retry_after": "2026-08-02T04:52:20Z",
+      "content_fetch_error": "http 404",
+      "content_fetched_at": "2026-08-02T07:16:23",
+      "candidate_retry_after": "2026-08-02T07:31:23Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 429",
-      "candidate_failed_at": "2026-08-02T04:37:20",
-      "candidate_failure_count": 120
+      "candidate_failure_reason": "http 404",
+      "candidate_failed_at": "2026-08-02T07:16:23",
+      "candidate_failure_count": 121
     },
     {
       "id": "d900f1574fddfab4",
@@ -3538,17 +3538,17 @@
       "status": "ready",
       "score": 0,
       "priority": "low",
-      "source_links_removed_count": 229,
-      "affiliate_links_removed_count": 7,
-      "removed_source_links_count": 229,
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=467 chars/72 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:467chars/72words, page_text:467chars/72words)",
-      "content_fetched_at": "2026-08-02T04:37:23",
-      "candidate_retry_after": "2026-08-02T04:52:23Z",
+      "content_fetch_error": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "content_fetched_at": "2026-08-02T07:16:23",
+      "candidate_retry_after": "2026-08-02T07:31:23Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=467 chars/72 words; required=80 chars/120 words; tried=paragraph_fallback:77chars/13words, article_body:467chars/72words, page_text:467chars/72words)",
-      "candidate_failed_at": "2026-08-02T04:37:23",
-      "candidate_failure_count": 119
+      "candidate_failure_reason": "weak article body after fallbacks (best=0 chars/0 words; required=80 chars/120 words; tried=none)",
+      "candidate_failed_at": "2026-08-02T07:16:23",
+      "candidate_failure_count": 120
     },
     {
       "id": "8d2678d87487d729",
@@ -4428,13 +4428,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
-      "content_fetch_error": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "content_fetched_at": "2026-08-02T04:37:24",
-      "candidate_retry_after": "2026-08-02T04:52:24Z",
+      "content_fetch_error": "http 429",
+      "content_fetched_at": "2026-08-02T07:16:25",
+      "candidate_retry_after": "2026-08-02T07:31:25Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "weak article body after fallbacks (best=155 chars/27 words; required=80 chars/120 words; tried=meta_description:155chars/27words)",
-      "candidate_failed_at": "2026-08-02T04:37:24",
-      "candidate_failure_count": 118
+      "candidate_failure_reason": "http 429",
+      "candidate_failed_at": "2026-08-02T07:16:25",
+      "candidate_failure_count": 119
     },
     {
       "id": "45429302676bf4c5",
@@ -5491,13 +5491,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-08-02T04:37:26",
-      "candidate_retry_after": "2026-08-02T04:52:26Z",
+      "content_fetch_error": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
+      "content_fetched_at": "2026-08-02T07:16:27",
+      "candidate_retry_after": "2026-08-02T07:31:27Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-08-02T04:37:26",
-      "candidate_failure_count": 116
+      "candidate_failure_reason": "weak article body after fallbacks (best=57 chars/7 words; required=80 chars/120 words; tried=article_body:27chars/3words, meta_description:57chars/7words, page_text:27chars/3words)",
+      "candidate_failed_at": "2026-08-02T07:16:27",
+      "candidate_failure_count": 117
     },
     {
       "id": "33732dfdc6295ab2",
@@ -5528,13 +5528,13 @@
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 48,
       "content_fetch_status": "failed",
-      "content_fetch_error": "http 502",
-      "content_fetched_at": "2026-08-02T04:37:31",
-      "candidate_retry_after": "2026-08-02T04:52:31Z",
+      "content_fetch_error": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "content_fetched_at": "2026-08-02T07:16:28",
+      "candidate_retry_after": "2026-08-02T07:31:28Z",
       "candidate_failure_stage": "enrichment",
-      "candidate_failure_reason": "http 502",
-      "candidate_failed_at": "2026-08-02T04:37:31",
-      "candidate_failure_count": 116
+      "candidate_failure_reason": "weak article body after fallbacks (best=76 chars/9 words; required=80 chars/120 words; tried=article_body:38chars/4words, meta_description:76chars/9words, page_text:38chars/4words)",
+      "candidate_failed_at": "2026-08-02T07:16:28",
+      "candidate_failure_count": 117
     },
     {
       "id": "aede79193c6b98c9",
@@ -5566,12 +5566,12 @@
       "removed_source_links_count": 49,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "content_fetched_at": "2026-08-02T04:37:34",
-      "candidate_retry_after": "2026-08-02T04:52:34Z",
+      "content_fetched_at": "2026-08-02T07:16:30",
+      "candidate_retry_after": "2026-08-02T07:31:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=40 chars/6 words; required=80 chars/120 words; tried=article_body:24chars/3words, meta_description:40chars/6words, page_text:24chars/3words)",
-      "candidate_failed_at": "2026-08-02T04:37:34",
-      "candidate_failure_count": 116
+      "candidate_failed_at": "2026-08-02T07:16:30",
+      "candidate_failure_count": 117
     },
     {
       "id": "253eaa098c468523",
@@ -6514,12 +6514,12 @@
       "removed_source_links_count": 9,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "content_fetched_at": "2026-08-02T04:37:35",
-      "candidate_retry_after": "2026-08-02T04:52:35Z",
+      "content_fetched_at": "2026-08-02T07:16:30",
+      "candidate_retry_after": "2026-08-02T07:31:30Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=337 chars/56 words; required=80 chars/120 words; tried=main_tag:337chars/56words, paragraph_fallback:279chars/48words, article_body:337chars/56words, meta_description:152chars/22words, page_text:337chars/56words)",
-      "candidate_failed_at": "2026-08-02T04:37:35",
-      "candidate_failure_count": 114
+      "candidate_failed_at": "2026-08-02T07:16:30",
+      "candidate_failure_count": 115
     },
     {
       "id": "e9b62045a09aee9e",
@@ -6965,12 +6965,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "content_fetched_at": "2026-08-02T04:37:37",
-      "candidate_retry_after": "2026-08-02T04:52:37Z",
+      "content_fetched_at": "2026-08-02T07:16:33",
+      "candidate_retry_after": "2026-08-02T07:31:33Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=721 chars/110 words; required=80 chars/120 words; tried=main_tag:644chars/98words, paragraph_fallback:721chars/110words, article_body:721chars/110words, meta_description:172chars/25words, page_text:644chars/98words)",
-      "candidate_failed_at": "2026-08-02T04:37:37",
-      "candidate_failure_count": 112
+      "candidate_failed_at": "2026-08-02T07:16:33",
+      "candidate_failure_count": 113
     },
     {
       "id": "693fbfabd96b2185",
@@ -7001,12 +7001,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "content_fetched_at": "2026-08-02T04:37:38",
-      "candidate_retry_after": "2026-08-02T04:52:38Z",
+      "content_fetched_at": "2026-08-02T07:16:34",
+      "candidate_retry_after": "2026-08-02T07:31:34Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=85 chars/13 words; required=80 chars/120 words; tried=article_body:41chars/5words, meta_description:85chars/13words, page_text:41chars/5words)",
-      "candidate_failed_at": "2026-08-02T04:37:38",
-      "candidate_failure_count": 112
+      "candidate_failed_at": "2026-08-02T07:16:34",
+      "candidate_failure_count": 113
     },
     {
       "id": "bdf930e8dd16f24a",
@@ -9515,12 +9515,12 @@
       "removed_source_links_count": 84,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=422 chars/65 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:422chars/65words, paragraph_fallback:307chars/48words, article_body:422chars/65words, meta_description:53chars/7words, page_text:422chars/65words)",
-      "content_fetched_at": "2026-08-02T04:37:40",
-      "candidate_retry_after": "2026-08-02T04:52:40Z",
+      "content_fetched_at": "2026-08-02T07:16:35",
+      "candidate_retry_after": "2026-08-02T07:31:35Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=422 chars/65 words; required=80 chars/120 words; tried=article_tag:150chars/25words, main_tag:422chars/65words, paragraph_fallback:307chars/48words, article_body:422chars/65words, meta_description:53chars/7words, page_text:422chars/65words)",
-      "candidate_failed_at": "2026-08-02T04:37:40",
-      "candidate_failure_count": 108
+      "candidate_failed_at": "2026-08-02T07:16:35",
+      "candidate_failure_count": 109
     },
     {
       "id": "561b6316398d7603",
@@ -10687,12 +10687,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "content_fetched_at": "2026-08-02T04:37:40",
-      "candidate_retry_after": "2026-08-02T04:52:40Z",
+      "content_fetched_at": "2026-08-02T07:16:36",
+      "candidate_retry_after": "2026-08-02T07:31:36Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=161 chars/22 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:161chars/22words)",
-      "candidate_failed_at": "2026-08-02T04:37:40",
-      "candidate_failure_count": 104
+      "candidate_failed_at": "2026-08-02T07:16:36",
+      "candidate_failure_count": 105
     },
     {
       "id": "cc5e99891af35b5e",
@@ -10724,12 +10724,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "content_fetched_at": "2026-08-02T04:37:40",
-      "candidate_retry_after": "2026-08-02T04:52:40Z",
+      "content_fetched_at": "2026-08-02T07:16:36",
+      "candidate_retry_after": "2026-08-02T07:31:36Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=88 chars/13 words; required=80 chars/120 words; tried=main_tag:44chars/8words, meta_description:88chars/13words)",
-      "candidate_failed_at": "2026-08-02T04:37:40",
-      "candidate_failure_count": 104
+      "candidate_failed_at": "2026-08-02T07:16:36",
+      "candidate_failure_count": 105
     },
     {
       "id": "a6f4ca9464909855",
@@ -10761,12 +10761,12 @@
       "removed_source_links_count": 13,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "content_fetched_at": "2026-08-02T04:37:41",
-      "candidate_retry_after": "2026-08-02T04:52:41Z",
+      "content_fetched_at": "2026-08-02T07:16:36",
+      "candidate_retry_after": "2026-08-02T07:31:36Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=146 chars/22 words; required=80 chars/120 words; tried=main_tag:46chars/8words, meta_description:146chars/22words)",
-      "candidate_failed_at": "2026-08-02T04:37:41",
-      "candidate_failure_count": 104
+      "candidate_failed_at": "2026-08-02T07:16:36",
+      "candidate_failure_count": 105
     },
     {
       "id": "71463c25ac92daaa",
@@ -15508,12 +15508,12 @@
       "removed_source_links_count": 81,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:107chars/21words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_description:124chars/21words, page_text:508chars/83words)",
-      "content_fetched_at": "2026-08-02T04:37:42",
-      "candidate_retry_after": "2026-08-02T04:52:42Z",
+      "content_fetched_at": "2026-08-02T07:16:38",
+      "candidate_retry_after": "2026-08-02T07:31:38Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=707 chars/116 words; required=80 chars/120 words; tried=article_tag:107chars/21words, main_tag:707chars/116words, content_container:516chars/84words, content_container:516chars/84words, paragraph_fallback:479chars/78words, article_body:508chars/83words, meta_d",
-      "candidate_failed_at": "2026-08-02T04:37:42",
-      "candidate_failure_count": 93,
+      "candidate_failed_at": "2026-08-02T07:16:38",
+      "candidate_failure_count": 94,
       "archived": true,
       "archived_at": "2026-08-01T01:12:08",
       "archive_reason": "expired_recent_window"
@@ -47100,7 +47100,10 @@
       "status": "skipped",
       "score": 0,
       "priority": "low",
-      "skip_reason": "non_technical_entertainment_content"
+      "skip_reason": "non_technical_entertainment_content",
+      "archived": true,
+      "archived_at": "2026-08-02T07:15:45",
+      "archive_reason": "skipped_older_than_7_days"
     },
     {
       "id": "a3c4c1d64a64c893",
@@ -48242,12 +48245,12 @@
       "removed_source_links_count": 0,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=98 chars/18 words; required=80 chars/120 words; tried=main_tag:52chars/8words, paragraph_fallback:52chars/8words, article_body:52chars/8words, meta_description:98chars/18words, page_text:52chars/8words)",
-      "content_fetched_at": "2026-08-02T04:37:44",
-      "candidate_retry_after": "2026-08-02T04:52:44Z",
+      "content_fetched_at": "2026-08-02T07:16:40",
+      "candidate_retry_after": "2026-08-02T07:31:40Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=98 chars/18 words; required=80 chars/120 words; tried=main_tag:52chars/8words, paragraph_fallback:52chars/8words, article_body:52chars/8words, meta_description:98chars/18words, page_text:52chars/8words)",
-      "candidate_failed_at": "2026-08-02T04:37:44",
-      "candidate_failure_count": 19
+      "candidate_failed_at": "2026-08-02T07:16:40",
+      "candidate_failure_count": 20
     },
     {
       "id": "678cf57f2568974e",
@@ -48779,12 +48782,12 @@
       "removed_source_links_count": 109,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=410 chars/72 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:410chars/72words, article_body:410chars/72words, meta_description:179chars/31words, page_text:218chars/37words)",
-      "content_fetched_at": "2026-08-02T04:37:45",
-      "candidate_retry_after": "2026-08-02T04:52:45Z",
+      "content_fetched_at": "2026-08-02T07:16:42",
+      "candidate_retry_after": "2026-08-02T07:31:42Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=410 chars/72 words; required=80 chars/120 words; tried=content_container:218chars/37words, content_container:218chars/37words, content_container:218chars/37words, paragraph_fallback:410chars/72words, article_body:410chars/72words, meta_description:179chars/31w",
-      "candidate_failed_at": "2026-08-02T04:37:45",
-      "candidate_failure_count": 18
+      "candidate_failed_at": "2026-08-02T07:16:42",
+      "candidate_failure_count": 19
     },
     {
       "id": "c4dc072a2cb4102b",
@@ -55796,12 +55799,12 @@
       "category_label": "Cyber-Security",
       "category_hint": "Cyber-Security",
       "discovered_at": "2026-08-01T22:36:13",
-      "status": "ready",
+      "status": "published",
       "score": 3,
       "priority": "low",
       "source_links_removed_count": 90,
       "affiliate_links_removed_count": 0,
-      "removed_source_links_count": 90,
+      "removed_source_links_count": 0,
       "enrichment_fallback_used": "article_tag",
       "fetched_title": "Brinks Home Confirms Data Breach Following ShinyHunters Claim",
       "meta_description": "Brink's Home, one of North America's largest residential security providers, has confirmed that hackers breached its IT systems after the notorious ShinyHunters extortion group claimed responsibility for stealing nearly five million records tied to the company's Salesforce environment.",
@@ -55860,7 +55863,102 @@
       "content_preview_chars": 4258,
       "content_fetched_at": "2026-08-01T22:36:42",
       "enrichment_status": "strong",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "selected_at": "2026-08-02T07:16:42",
+      "suggested_category": "Cyber-Security",
+      "selection_reason": "category rotation newest fresh article: Cyber-Security",
+      "processing_status": "ready_for_ai",
+      "processing_prepared_at": "2026-08-02T07:16:43",
+      "ai_input_package": {
+        "title": "Brinks Home Confirms Data Breach Following ShinyHunters Claim",
+        "url": "https://cybersecuritynews.com/brinks-home-confirms-data-breach",
+        "source_name": "Cyber Security News",
+        "suggested_category": "Cyber-Security",
+        "main_image": "http://cybersecuritynews.com/wp-content/uploads/2026/08/Brinks-Home-Confirms-Data-Breach.webp",
+        "article_images": [
+          {
+            "url": "http://cybersecuritynews.com/wp-content/uploads/2026/08/Brinks-Home-Confirms-Data-Breach.webp",
+            "alt": "Brinks Home Confirms Data Breach Following ShinyHunters Claim",
+            "source": "og:image_or_twitter"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-Prefered.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/04/Google-news.svg",
+            "alt": "صورة توضيحية",
+            "source": "article_content"
+          },
+          {
+            "url": "https://cybersecuritynews.com/wp-content/uploads/2026/08/Brinks-Home-Confirms-Data-Breach-696x392.webp",
+            "alt": "Brinks Home Confirms Data Breach",
+            "source": "article_content"
+          }
+        ],
+        "meta_description": "Brink's Home, one of North America's largest residential security providers, has confirmed that hackers breached its IT systems after the notorious ShinyHunters extortion group claimed responsibility for stealing nearly five million records tied to the company's Salesforce environment.",
+        "content_preview": "Brinks Home, one of North America’s largest residential security providers, has confirmed that hackers breached its IT systems after the notorious ShinyHunters extortion group claimed responsibility for stealing nearly five million records tied to the company’s Salesforce environment. The confirmation comes after the threat actors listed “BH Security, LLC (brinkshome.com)” on their leak site, threatening to publish the stolen data unless the company paid a ransom by July 30, 2026. Brinks Home reported that it detected unauthorized access to its systems and promptly activated incident response procedures to contain the breach. The company discovered the intrusion on July 20, which meant that the attackers had approximately a week of dwell time before the breach was contained. Brinks Home Confirms Data Breach ShinyHunters claims to have exfiltrated more than 1.1 million rows of customer data from the Salesforce “Contacts” object, over 4,000 rows of employee PII including names, emails, job titles, and phone numbers, and roughly 3.8 million customer support chat logs from the Brinks Care Cresta platform. Combined, these figures add up to the 4.9 million records advertised on the group’s leak site, though security researchers note the headline number reflects a sum of records and chat transcripts rather than a distinct customer headcount. Brinks Home has stated it has not yet confirmed exactly what information was compromised or whose data was involved. Importantly, Brink’s Home has emphasized that the breach does not affect its core products or services. Alarm monitoring and system functionality for customers continue to operate without interruption, since the compromised systems were tied to Salesforce and support infrastructure rather than the security hardware or monitoring network itself. This incident fits a broader pattern of Salesforce-focused vishing campaigns attributed to ShinyHunters throughout 2026, which have previously hit organizations like Cushman & Wakefield, Kodak, and Sysco using the same social engineering playbook against SSO providers such as Microsoft Entra and Okta. Security experts warn that stolen customer support transcripts are especially dangerous because they contain service addresses, equipment details, and account history that make follow-up phishing attempts appear highly credible. Brinks Home has urged customers to remain vigilant against unsolicited emails, texts, or phone calls requesting personal information or credentials, stressing that the company will never request sensitive data through unsolicited communication. If personal information is confirmed to be affected, Brinks Home says it will notify impacted individuals as required by applicable law and outline any recommended next steps. Customers are advised not to click links or respond to suspicious messages referencing the breach, and to verify any communication directly through official Brinks Home channels rather than numbers or links provided in unsolicited messages. Strengthen Your SOC by Accelerating Threat Detection & Rapid Investigations. -> Integrate ANY.RUN With Your SOC Now . Top 10 Phishing Kits Used by Hackers to Launch Cyberattacks (July 20-26, 2026) An SOC Story of Why Fast Answers Beat Perfect Answers in Cyber Incident Response How DCSync Attack Helps Hackers Steal Password Hashes Silently from Active Directory Top 10 Malware Used by Hackers Between July 20-26, 2026, to Launch Cyberattacks Ransomware Gangs Attack Palo Alto, Fortinet, Citrix, and Check Point VPNs to Target Corporate Networks Top 10 Best Cloud Firewall Solutions in 2026 Hackers Turned a Trusted Advertising Platform Into a Crypto-Stealer Delivery Network Arch Linux Disables AUR Package Takeovers as Attackers Push Malicious Commits HackerOne Mandates ID Verification for Bug Bounty Submissions Keycloak Vulnerability Exposes User Names and Email Addresses Across Admin Boundaries CMMC Phase II Is Paused, But Contractors’ Data-Security Obligations Are Not Security in the AI Era Starts with First Principles Planning Your AI Security – How will You Manage All Your Resources? How Pro-Iran Hacktivist Networks Mobilize During Kinetic Conflict Why AI-generated identities mean verification can no longer be a one-time check",
+        "content_preview_chars": 4258,
+        "rss_summary": "",
+        "full_article_text": "Brinks Home, one of North America’s largest residential security providers, has confirmed that hackers breached its IT systems after the notorious ShinyHunters extortion group claimed responsibility for stealing nearly five million records tied to the company’s Salesforce environment. The confirmation comes after the threat actors listed “BH Security, LLC (brinkshome.com)” on their leak site, threatening to publish the stolen data unless the company paid a ransom by July 30, 2026. Brinks Home reported that it detected unauthorized access to its systems and promptly activated incident response procedures to contain the breach. The company discovered the intrusion on July 20, which meant that the attackers had approximately a week of dwell time before the breach was contained. Brinks Home Confirms Data Breach ShinyHunters claims to have exfiltrated more than 1.1 million rows of customer data from the Salesforce “Contacts” object, over 4,000 rows of employee PII including names, emails, job titles, and phone numbers, and roughly 3.8 million customer support chat logs from the Brinks Care Cresta platform. Combined, these figures add up to the 4.9 million records advertised on the group’s leak site, though security researchers note the headline number reflects a sum of records and chat transcripts rather than a distinct customer headcount. Brinks Home has stated it has not yet confirmed exactly what information was compromised or whose data was involved. Importantly, Brink’s Home has emphasized that the breach does not affect its core products or services. Alarm monitoring and system functionality for customers continue to operate without interruption, since the compromised systems were tied to Salesforce and support infrastructure rather than the security hardware or monitoring network itself. This incident fits a broader pattern of Salesforce-focused vishing campaigns attributed to ShinyHunters throughout 2026, which have previously hit organizations like Cushman & Wakefield, Kodak, and Sysco using the same social engineering playbook against SSO providers such as Microsoft Entra and Okta. Security experts warn that stolen customer support transcripts are especially dangerous because they contain service addresses, equipment details, and account history that make follow-up phishing attempts appear highly credible. Brinks Home has urged customers to remain vigilant against unsolicited emails, texts, or phone calls requesting personal information or credentials, stressing that the company will never request sensitive data through unsolicited communication. If personal information is confirmed to be affected, Brinks Home says it will notify impacted individuals as required by applicable law and outline any recommended next steps. Customers are advised not to click links or respond to suspicious messages referencing the breach, and to verify any communication directly through official Brinks Home channels rather than numbers or links provided in unsolicited messages. Strengthen Your SOC by Accelerating Threat Detection & Rapid Investigations. -> Integrate ANY.RUN With Your SOC Now . Top 10 Phishing Kits Used by Hackers to Launch Cyberattacks (July 20-26, 2026) An SOC Story of Why Fast Answers Beat Perfect Answers in Cyber Incident Response How DCSync Attack Helps Hackers Steal Password Hashes Silently from Active Directory Top 10 Malware Used by Hackers Between July 20-26, 2026, to Launch Cyberattacks Ransomware Gangs Attack Palo Alto, Fortinet, Citrix, and Check Point VPNs to Target Corporate Networks Top 10 Best Cloud Firewall Solutions in 2026 Hackers Turned a Trusted Advertising Platform Into a Crypto-Stealer Delivery Network Arch Linux Disables AUR Package Takeovers as Attackers Push Malicious Commits HackerOne Mandates ID Verification for Bug Bounty Submissions Keycloak Vulnerability Exposes User Names and Email Addresses Across Admin Boundaries CMMC Phase II Is Paused, But Contractors’ Data-Security Obligations Are Not Security in the AI Era Starts with First Principles Planning Your AI Security – How will You Manage All Your Resources? How Pro-Iran Hacktivist Networks Mobilize During Kinetic Conflict Why AI-generated identities mean verification can no longer be a one-time check",
+        "full_article_text_chars": 4258,
+        "enrichment_status": "strong",
+        "source_url": "https://cybersecuritynews.com",
+        "source_published_at": "2026-08-01T16:52:20Z",
+        "published_at_source": "json-ld:datePublished",
+        "article_age_hours": 5.73,
+        "trusted_references": [
+          {
+            "title": "accounts.google.com",
+            "url": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&dsh=S-1711039385%3A1777114446800583&hl=en-IN&rip=1&sacu=1&flowName=GlifWebSignIn&flowEntry=ServiceLogin&ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt"
+          },
+          {
+            "title": "news.google.com",
+            "url": "https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&gl=IN&ceid=IN%3Aen"
+          }
+        ],
+        "related_posts": []
+      },
+      "ai_quality_last_error": "AI article response is missing required field(s): title, description, slug, html_content",
+      "ai_status": "completed",
+      "ai_processed_at": "2026-08-02T07:18:39",
+      "seo_title": "شركة برينكس هوم تؤكد اختراق بياناتها بعد مطالبة مجموعة ShinyHunters",
+      "seo_description": "أكدت شركة Brinks Home، إحدى أكبر مزودي خدمات الأمن السكني في أمريكا الشمالية",
+      "seo_slug": "brinks-home-confirms-data-breach-shinyhunters-arabic",
+      "final_html": "<div dir=\"rtl\" lang=\"ar\">\n<p class=\"pIndent\"><span class=\"dropCap\">أ</span>علنت شركة <strong>Brinks Home</strong>، إحدى الشركات الرائدة في توفير خدمات الأمن السكني في أمريكا الشمالية، عن تعرض أنظمتها لتسريب بيانات واسع النطاق. يأتي هذا الإعلان بعد أن أعلنت مجموعة القراصنة المعروفة باسم <strong>ShinyHunters</strong> مسؤوليتها عن اختراق وسرقة ما يقرب من خمسة ملايين سجل بيانات من بيئة Salesforce التابعة للشركة. يمثل هذا الحادث تذكيرًا صارخًا بالتهديدات المستمرة التي تواجهها الشركات والأفراد في الفضاء السيبراني.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Brinks Home Confirms Data Breach Following ShinyHunters Claim\" class=\"full\" loading=\"lazy\" src=\"http://cybersecuritynews.com/wp-content/uploads/2026/08/Brinks-Home-Confirms-Data-Breach.webp\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Brinks Home Confirms Data Breach Following ShinyHunters Claim</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Brinks Home Confirms Data Breach Following ShinyHunters Claim</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">تأتي تأكيدات الشركة بعد أن قامت مجموعة ShinyHunters بإدراج اسم “BH Security, LLC (brinkshome.com)” على موقعها المخصص للتسريبات، مهددة بنشر البيانات المسروقة ما لم يتم دفع فدية بحلول 30 يوليو 2026. وقد أكدت Brinks Home أنها اكتشفت وصولاً غير مصرح به إلى أنظمتها في 20 يوليو، مما يشير إلى أن المهاجمين تمكنوا من البقاء داخل أنظمتها لمدة أسبوع تقريبًا قبل اكتشاف الاختراق واحتوائه. هذا الوقت الذي قضاه المهاجمون داخل النظام، المعروف باسم 'وقت البقاء'، أتاح لهم فرصة كبيرة لاستخراج البيانات.</p>\n<h2>تفاصيل البيانات المسروقة ومنهجية الهجوم</h2>\n<p class=\"pIndent\">تدعي مجموعة ShinyHunters أنها استخرجت بيانات حساسة ومتنوعة، تشمل أكثر من 1.1 مليون صف من بيانات عملاء من كائن \"جهات الاتصال\" في Salesforce، وأكثر من 4000 صف من معلومات التعريف الشخصية (PII) للموظفين، بما في ذلك الأسماء ورسائل البريد الإلكتروني والمناصب الوظيفية وأرقام الهواتف. بالإضافة إلى ذلك، تمكنت المجموعة من سرقة ما يقرب من 3.8 مليون سجل من سجلات محادثات دعم العملاء من منصة Brinks Care Cresta.</p>\n<p class=\"pIndent\">عند جمع هذه الأرقام، يصل الإجمالي إلى 4.9 مليون سجل التي تم الإعلان عنها على موقع تسريبات المجموعة. ومع ذلك، يشير باحثو الأمن إلى أن هذا العدد الإجمالي يعكس مجموع السجلات ونصوص المحادثات وليس عددًا فريدًا من العملاء أو الأفراد. لم تؤكد Brinks Home بعد بالضبط ما هي المعلومات التي تم اختراقها أو بيانات من تم تداولها، وتواصل تحقيقها لتحديد النطاق الكامل للحادث.</p>\n<p class=\"pIndent\">من المهم جدًا أن Brinks Home شددت على أن هذا الاختراق لا يؤثر على منتجاتها أو خدماتها الأساسية. لا تزال أنظمة مراقبة الإنذار ووظائف النظام للعملاء تعمل دون انقطاع، حيث كانت الأنظمة المخترقة مرتبطة بـ Salesforce والبنية التحتية للدعم وليس الأجهزة الأمنية أو شبكة المراقبة نفسها. هذا الجانب يوفر بعض الطمأنينة للعملاء بأن خدماتهم الأمنية الأساسية لم تتعرض للخطر المباشر.</p>\n<p class=\"pIndent\">يتناسب هذا الحادث مع نمط أوسع من حملات التصيد الاحتيالي (vishing campaigns) التي تركز على Salesforce والتي تُنسب إلى ShinyHunters طوال عام 2026. لقد استهدفت هذه المجموعة سابقًا منظمات كبيرة مثل Cushman &amp; Wakefield وKodak وSysco، مستخدمة نفس تكتيكات الهندسة الاجتماعية ضد موفري تسجيل الدخول الموحد (SSO) مثل Microsoft Entra وOkta. هذا يشير إلى أن المجموعة لديها استراتيجية واضحة ومحددة لاستهداف الشركات الكبيرة التي تعتمد على منصات شائعة مثل Salesforce.</p>\n<h2>تحذيرات الخبراء ونصائح للعملاء</h2>\n<p class=\"pIndent\">يحذر خبراء الأمن من أن نصوص محادثات دعم العملاء المسروقة خطيرة بشكل خاص لأنها غالبًا ما تحتوي على عناوين الخدمة وتفاصيل المعدات وسجل الحسابات، مما يجعل محاولات التصيد الاحتيالي اللاحقة تبدو أكثر مصداقية وصعوبة في الكشف. يمكن للمهاجمين استخدام هذه المعلومات لبناء ثقة الضحايا وتنفيذ هجمات أكثر تعقيدًا وإقناعًا.</p>\n<p class=\"pIndent\">حثت Brinks Home العملاء على توخي اليقظة الشديدة ضد رسائل البريد الإلكتروني أو الرسائل النصية أو المكالمات الهاتفية غير المرغوب فيها التي تطلب معلومات شخصية أو بيانات اعتماد. وتؤكد الشركة أنها لن تطلب أبدًا بيانات حساسة من خلال اتصالات غير مرغوب فيها. هذه نصيحة ذهبية يجب على جميع العملاء أخذها على محمل الجد، حيث أن المهاجمين غالبًا ما يستغلون مثل هذه الفرص للحصول على مزيد من المعلومات.</p>\n<p class=\"pIndent\">في حال تأكد أن المعلومات الشخصية قد تأثرت، تقول Brinks Home إنها ستقوم بإخطار الأفراد المتضررين كما هو مطلوب بموجب القانون المعمول به وستحدد أي خطوات تالية موصى بها. يُنصح العملاء بعدم النقر على الروابط أو الرد على الرسائل المشبوهة التي تشير إلى الاختراق، والتحقق من أي اتصال مباشرة من خلال قنوات Brinks Home الرسمية بدلاً من الأرقام أو الروابط المقدمة في الرسائل غير المرغوب فيها. هذا يضمن أنهم يتعاملون مع الشركة مباشرة وليس مع محتالين.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">بالنسبة لعملاء Brinks Home، يعني هذا الاختراق ضرورة زيادة الحذر واليقظة تجاه أي اتصالات غير متوقعة. على الرغم من أن الخدمات الأمنية الأساسية لم تتأثر، فإن سرقة بيانات الاتصال وسجلات الدردشة والمعلومات الشخصية للموظفين يمكن أن تفتح الباب أمام هجمات تصيد احتيالي وهندسة اجتماعية أكثر تطوراً في المستقبل. قد يحاول المهاجمون استخدام المعلومات المسروقة لجعل رسائلهم الاحتيالية تبدو وكأنها صادرة من Brinks Home أو من جهات موثوقة أخرى.</p>\n<p class=\"pIndent\">لذلك، يجب على العملاء أن يكونوا حذرين للغاية من أي رسائل بريد إلكتروني أو مكالمات هاتفية أو رسائل نصية تطلب منهم معلومات شخصية أو تفاصيل حساباتهم. تذكروا دائمًا أن الشركات الموثوقة لن تطلب أبدًا معلومات حساسة بهذه الطريقة. في حال الشك، اتصلوا بـ Brinks Home مباشرة باستخدام أرقام الهواتف أو مواقع الويب الرسمية المعلنة، وليس تلك الواردة في الرسائل المشبوهة. إن تغيير كلمات المرور القوية لجميع الحسابات ذات الصلة يمكن أن يكون إجراءً وقائيًا جيدًا أيضًا.</p>\n<h2>الخلاصة</h2>\n<p class=\"pIndent\">يعد اختراق بيانات Brinks Home من قبل مجموعة ShinyHunters بمثابة تذكير صارخ بالواقع المستمر للتهديدات السيبرانية التي تواجه كل من الشركات والأفراد. على الرغم من أن الشركة قد احتوت الاختراق وطمأنت العملاء بشأن خدماتها الأساسية، إلا أن حجم البيانات المسروقة وطبيعتها الحساسة تتطلب يقظة مستمرة. يجب على الشركات أن تستثمر في دفاعات سيبرانية قوية وأنظمة استجابة للحوادث، بينما يجب على الأفراد ممارسة النظافة الرقمية الجيدة والتحقق دائمًا من مصدر الاتصالات، خاصة تلك التي تطلب معلومات شخصية. يبقى الأمن السيبراني مسؤولية مشتركة تتطلب جهودًا متضافرة لمواجهة التحديات المتزايدة في المشهد الرقمي.</p>\n</div>\n<p class=\"pRef\">المراجع:<br/><a class=\"extL\" href=\"https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&amp;dsh=S-1711039385%3A1777114446800583&amp;hl=en-IN&amp;rip=1&amp;sacu=1&amp;flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin&amp;ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">accounts.google.com</a><br/><a class=\"extL\" href=\"https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&amp;gl=IN&amp;ceid=IN%3Aen\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">news.google.com</a></p>",
+      "blogger_article_html": "<div dir=\"rtl\" lang=\"ar\">\n<p class=\"pIndent\"><span class=\"dropCap\">أ</span>علنت شركة <strong>Brinks Home</strong>، إحدى الشركات الرائدة في توفير خدمات الأمن السكني في أمريكا الشمالية، عن تعرض أنظمتها لتسريب بيانات واسع النطاق. يأتي هذا الإعلان بعد أن أعلنت مجموعة القراصنة المعروفة باسم <strong>ShinyHunters</strong> مسؤوليتها عن اختراق وسرقة ما يقرب من خمسة ملايين سجل بيانات من بيئة Salesforce التابعة للشركة. يمثل هذا الحادث تذكيرًا صارخًا بالتهديدات المستمرة التي تواجهها الشركات والأفراد في الفضاء السيبراني.</p><!--[ Main article image ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<img alt=\"Brinks Home Confirms Data Breach Following ShinyHunters Claim\" class=\"full\" loading=\"lazy\" src=\"http://cybersecuritynews.com/wp-content/uploads/2026/08/Brinks-Home-Confirms-Data-Breach.webp\" style=\"max-width: 100%; height: auto;\"/>\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Brinks Home Confirms Data Breach Following ShinyHunters Claim</figcaption>\n</figure><!--[ Main article image - auto-inserted ]-->\n<figure style=\"text-align: center; margin: 20px 0;\">\n<figcaption style=\"font-size: 0.9em; color: #666; margin-top: 8px;\">Brinks Home Confirms Data Breach Following ShinyHunters Claim</figcaption>\n</figure>\n<!--[ Main article image ]-->\n<p class=\"pIndent\">تأتي تأكيدات الشركة بعد أن قامت مجموعة ShinyHunters بإدراج اسم “BH Security, LLC (brinkshome.com)” على موقعها المخصص للتسريبات، مهددة بنشر البيانات المسروقة ما لم يتم دفع فدية بحلول 30 يوليو 2026. وقد أكدت Brinks Home أنها اكتشفت وصولاً غير مصرح به إلى أنظمتها في 20 يوليو، مما يشير إلى أن المهاجمين تمكنوا من البقاء داخل أنظمتها لمدة أسبوع تقريبًا قبل اكتشاف الاختراق واحتوائه. هذا الوقت الذي قضاه المهاجمون داخل النظام، المعروف باسم 'وقت البقاء'، أتاح لهم فرصة كبيرة لاستخراج البيانات.</p>\n<h2>تفاصيل البيانات المسروقة ومنهجية الهجوم</h2>\n<p class=\"pIndent\">تدعي مجموعة ShinyHunters أنها استخرجت بيانات حساسة ومتنوعة، تشمل أكثر من 1.1 مليون صف من بيانات عملاء من كائن \"جهات الاتصال\" في Salesforce، وأكثر من 4000 صف من معلومات التعريف الشخصية (PII) للموظفين، بما في ذلك الأسماء ورسائل البريد الإلكتروني والمناصب الوظيفية وأرقام الهواتف. بالإضافة إلى ذلك، تمكنت المجموعة من سرقة ما يقرب من 3.8 مليون سجل من سجلات محادثات دعم العملاء من منصة Brinks Care Cresta.</p>\n<p class=\"pIndent\">عند جمع هذه الأرقام، يصل الإجمالي إلى 4.9 مليون سجل التي تم الإعلان عنها على موقع تسريبات المجموعة. ومع ذلك، يشير باحثو الأمن إلى أن هذا العدد الإجمالي يعكس مجموع السجلات ونصوص المحادثات وليس عددًا فريدًا من العملاء أو الأفراد. لم تؤكد Brinks Home بعد بالضبط ما هي المعلومات التي تم اختراقها أو بيانات من تم تداولها، وتواصل تحقيقها لتحديد النطاق الكامل للحادث.</p>\n<p class=\"pIndent\">من المهم جدًا أن Brinks Home شددت على أن هذا الاختراق لا يؤثر على منتجاتها أو خدماتها الأساسية. لا تزال أنظمة مراقبة الإنذار ووظائف النظام للعملاء تعمل دون انقطاع، حيث كانت الأنظمة المخترقة مرتبطة بـ Salesforce والبنية التحتية للدعم وليس الأجهزة الأمنية أو شبكة المراقبة نفسها. هذا الجانب يوفر بعض الطمأنينة للعملاء بأن خدماتهم الأمنية الأساسية لم تتعرض للخطر المباشر.</p>\n<p class=\"pIndent\">يتناسب هذا الحادث مع نمط أوسع من حملات التصيد الاحتيالي (vishing campaigns) التي تركز على Salesforce والتي تُنسب إلى ShinyHunters طوال عام 2026. لقد استهدفت هذه المجموعة سابقًا منظمات كبيرة مثل Cushman &amp; Wakefield وKodak وSysco، مستخدمة نفس تكتيكات الهندسة الاجتماعية ضد موفري تسجيل الدخول الموحد (SSO) مثل Microsoft Entra وOkta. هذا يشير إلى أن المجموعة لديها استراتيجية واضحة ومحددة لاستهداف الشركات الكبيرة التي تعتمد على منصات شائعة مثل Salesforce.</p>\n<h2>تحذيرات الخبراء ونصائح للعملاء</h2>\n<p class=\"pIndent\">يحذر خبراء الأمن من أن نصوص محادثات دعم العملاء المسروقة خطيرة بشكل خاص لأنها غالبًا ما تحتوي على عناوين الخدمة وتفاصيل المعدات وسجل الحسابات، مما يجعل محاولات التصيد الاحتيالي اللاحقة تبدو أكثر مصداقية وصعوبة في الكشف. يمكن للمهاجمين استخدام هذه المعلومات لبناء ثقة الضحايا وتنفيذ هجمات أكثر تعقيدًا وإقناعًا.</p>\n<p class=\"pIndent\">حثت Brinks Home العملاء على توخي اليقظة الشديدة ضد رسائل البريد الإلكتروني أو الرسائل النصية أو المكالمات الهاتفية غير المرغوب فيها التي تطلب معلومات شخصية أو بيانات اعتماد. وتؤكد الشركة أنها لن تطلب أبدًا بيانات حساسة من خلال اتصالات غير مرغوب فيها. هذه نصيحة ذهبية يجب على جميع العملاء أخذها على محمل الجد، حيث أن المهاجمين غالبًا ما يستغلون مثل هذه الفرص للحصول على مزيد من المعلومات.</p>\n<p class=\"pIndent\">في حال تأكد أن المعلومات الشخصية قد تأثرت، تقول Brinks Home إنها ستقوم بإخطار الأفراد المتضررين كما هو مطلوب بموجب القانون المعمول به وستحدد أي خطوات تالية موصى بها. يُنصح العملاء بعدم النقر على الروابط أو الرد على الرسائل المشبوهة التي تشير إلى الاختراق، والتحقق من أي اتصال مباشرة من خلال قنوات Brinks Home الرسمية بدلاً من الأرقام أو الروابط المقدمة في الرسائل غير المرغوب فيها. هذا يضمن أنهم يتعاملون مع الشركة مباشرة وليس مع محتالين.</p>\n<h2>ماذا يعني هذا لك؟</h2>\n<p class=\"pIndent\">بالنسبة لعملاء Brinks Home، يعني هذا الاختراق ضرورة زيادة الحذر واليقظة تجاه أي اتصالات غير متوقعة. على الرغم من أن الخدمات الأمنية الأساسية لم تتأثر، فإن سرقة بيانات الاتصال وسجلات الدردشة والمعلومات الشخصية للموظفين يمكن أن تفتح الباب أمام هجمات تصيد احتيالي وهندسة اجتماعية أكثر تطوراً في المستقبل. قد يحاول المهاجمون استخدام المعلومات المسروقة لجعل رسائلهم الاحتيالية تبدو وكأنها صادرة من Brinks Home أو من جهات موثوقة أخرى.</p>\n<p class=\"pIndent\">لذلك، يجب على العملاء أن يكونوا حذرين للغاية من أي رسائل بريد إلكتروني أو مكالمات هاتفية أو رسائل نصية تطلب منهم معلومات شخصية أو تفاصيل حساباتهم. تذكروا دائمًا أن الشركات الموثوقة لن تطلب أبدًا معلومات حساسة بهذه الطريقة. في حال الشك، اتصلوا بـ Brinks Home مباشرة باستخدام أرقام الهواتف أو مواقع الويب الرسمية المعلنة، وليس تلك الواردة في الرسائل المشبوهة. إن تغيير كلمات المرور القوية لجميع الحسابات ذات الصلة يمكن أن يكون إجراءً وقائيًا جيدًا أيضًا.</p>\n<h2>الخلاصة</h2>\n<p class=\"pIndent\">يعد اختراق بيانات Brinks Home من قبل مجموعة ShinyHunters بمثابة تذكير صارخ بالواقع المستمر للتهديدات السيبرانية التي تواجه كل من الشركات والأفراد. على الرغم من أن الشركة قد احتوت الاختراق وطمأنت العملاء بشأن خدماتها الأساسية، إلا أن حجم البيانات المسروقة وطبيعتها الحساسة تتطلب يقظة مستمرة. يجب على الشركات أن تستثمر في دفاعات سيبرانية قوية وأنظمة استجابة للحوادث، بينما يجب على الأفراد ممارسة النظافة الرقمية الجيدة والتحقق دائمًا من مصدر الاتصالات، خاصة تلك التي تطلب معلومات شخصية. يبقى الأمن السيبراني مسؤولية مشتركة تتطلب جهودًا متضافرة لمواجهة التحديات المتزايدة في المشهد الرقمي.</p>\n</div>\n<p class=\"pRef\">المراجع:<br/><a class=\"extL\" href=\"https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Fwww.google.com%2Fpreferences%2Fsource%3Fq%3Dcybersecuritynews.com&amp;dsh=S-1711039385%3A1777114446800583&amp;hl=en-IN&amp;rip=1&amp;sacu=1&amp;flowName=GlifWebSignIn&amp;flowEntry=ServiceLogin&amp;ifkv=AT1y2_WJowZHdf0E80itpn_VjD7EqSL_cDLxwrMfAAoXv5E9mGOhMTOdqeDczZHvxM8Lfmw6HNjt\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">accounts.google.com</a><br/><a class=\"extL\" href=\"https://news.google.com/publications/CAAqMggKIixDQklTR3dnTWFoY0tGV041WW1WeWMyVmpkWEpwZEhsdVpYZHpMbU52YlNnQVAB?hl=en-IN&amp;gl=IN&amp;ceid=IN%3Aen\" rel=\"nofollow noreferrer noopener\" target=\"_blank\">news.google.com</a></p>",
+      "final_word_count": 872,
+      "final_html_chars": 6772,
+      "final_content_hash": "eee6996db014dfcf991daa9c",
+      "ai_provider_used": "gemini:gemini-2.5-flash",
+      "ai_rotation_exhausted": false,
+      "ai_openrouter_fallback_used": false,
+      "ai_quality_attempts": 3,
+      "ai_quality_status": "passed",
+      "ai_total_time_seconds": 116.16,
+      "custom_slug_warning": "Custom permalink is not supported by this Blogger API method.",
+      "internal_cache_loaded": 0,
+      "expired_internal_links_removed": 0,
+      "internal_links_inserted_count": 0,
+      "external_trusted_links_inserted_count": 0,
+      "internal_cache_saved": true,
+      "pre_publish_quality": {
+        "passed": true,
+        "reason": "",
+        "word_count": 872,
+        "warnings": []
+      },
+      "blogger_post_id": "1982099383635339949",
+      "blogger_post_url": "https://cybersecawarenes.blogspot.com/2026/08/shinyhunters.html",
+      "published_at": "2026-08-02T07:18:41",
+      "publish_status": "published",
+      "live_update_status": "created_new",
+      "facebook_status": "failed",
+      "facebook_error": "Facebook Graph API error 400: {\"error\":{\"message\":\"You cannot access the app till you log in to www.facebook.com and follow the instructions given.\",\"type\":\"OAuthException\",\"code\":190,\"error_data\":\"{\\\"checkpoint_url\\\":\\\"https:\\\\\\/\\\\\\/www.facebook.com\\\"}\",\"error_subcode\":459,\"fbtrace_id\":\"AX0-kUFomavRFPbOlbtBflr\"}}",
+      "archived": true,
+      "archived_at": "2026-08-02T07:18:43",
+      "archive_reason": "published_to_blogger"
     },
     {
       "id": "9068d5a5ec9ede0d",
@@ -56959,6 +57057,169 @@
       "content_preview": "If something goes wrong in my home, like a pipe bursting, I would rather find out from a notification than stepping in inches of water. It’s for that reason that I’ve started building a water leak detection system using this one adorable, off-the-shelf sensor: the IKEA KLIPPBOK. The KLIPPBOK is a smart home sensor utilizing the latest smart home tech It’s also small and runs off AAA batteries Credit: Bertel King / How-To Geek The KLIPPBOK is part of IKEA’s latest line of smart home products, which in 2026 transitioned from using the Zigbee connectivity standard to Matter-over-Thread. Matter is the language the leak detector speaks, allowing it to collect to any of the major smart home platforms like Apple Home, Google Home, and Samsung SmartThings. It also works with Home Assistant and more niche consumer-facing hubs like the Homey Pro mini. Thread is a mesh networking standard that enables smart home devices to communicate more reliably, not less, as you fill your home with more of them. Thread is of particular benefit to small, battery-powered devices like the KLIPPBOK that would not be able to last for months at a time using a conventional Wi-Fi connection or have enough range to communicate with a centralized hub using Bluetooth alone. This water leakage sensor keeps track of water leaks by beeping when it comes into contact with water – helping you make life at home smoother, more comfortable and safer. When connected to a hub, the sensor sends a notification to your smartphone with information about the water leak. The small size makes it easy to position under the sink, appliances or other places where a water leakage can occur. When water touches the IKEA KLIPPBOK, it starts to beep in a way that can be heard all throughout the house, making it a viable detection system even if you never opt to connect it using any smart home tech. But if you do, then you can also receive notifications, which can alert you to a problem sooner if you happen to be away from home when the leak starts. These sensors are cheap and easy to install The batteries cost nearly as much as the device itself The KLIPPBOK runs off standard AAA batteries, which means I don’t need to fuss over cables or involve an installer. All I need to do is pop batteries in, watch the device enter pairing mode, and follow the usual steps to connect a Matter device to my Homey Pro. That involves opening the Homey app, tapping a plus icon, and either scanning a QR code or manually typing in the Matter pairing code conveniently printed on the side of the device. I then give the leak detector a name and assign it to a room within the Homey app. This process is nearly identical across all the major platforms. If this is your first smart home product, and you’re not sure which to pick, you could also consider IKEA’s own hub, the DIRIGERA, which does a decent job holding your hand and automatically detecting your IKEA devices. That said, it doesn’t offer any special features over connecting the sensors to any other hub—which, for the record, is a good thing. I’ve placed sensors in the locations that are most likely to leak I’m ordering more for the places that remain I live in a new-construction home, with piping that’s all made of PVC. That means I'm not all that concerned about pipes bursting, even though it is a possibility to keep in mind during the cold winter months. I’ve instead placed my initial set of sensors under our major indoor appliances. Our previous home had pipes prime to getting clogged, and we would find out in the morning after running the dishwasher and coming to see water had pooled in front of it overnight. Now I keep a sensor underneath the dishwasher door. I keep another underneath our fridge. This has leaked already in our current home, due to a replacement filter I hadn’t quite installed correctly. I have also placed one under our washing machine. I have since moved that one, since it went off every cycle, but it did alert us to the extent to which our washing machine leaks. This machine traveled with us from our old home, and we plan to get a top-loading washing machine when we can. I plan to put more sensors underneath each of the sinks in our home. Some can also go near our water heater and the tank for our well pump. Those are both located in our home‘s rather tall crawl space where they could leak for weeks, if not months, without us knowing. These tanks are joined by hundreds of feet of tubing and pipes underneath the house that I can’t fully monitor, so the system isn’t foolproof, but it does leave me with far more visibility than I had before. For that matter, a water leak sensor isn't the only kind of smart home sensor I may consider putting in our crawl space. Expect to monitor the monitoring system I do need to check the battery life of my sensors every few months. Fortunately, I can do this for each sensor all at once in the battery section of my Homey app. Even if I don’t, I’ll find out when I open the app and a sensor shows up as offline. Considering that I can now monitor the most likely problem spots in our home for under $100, I’m not complaining.",
       "content_preview_chars": 5142,
       "content_fetched_at": "2026-08-02T04:37:08",
+      "enrichment_status": "strong",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "8eb418559e2970bf",
+      "source_url_hash": "8eb418559e2970bf",
+      "canonical_url": "https://blog.talosintelligence.com/black-hat-special-rewind-and-revisit",
+      "title_hash": "d271da74b4c52eeb",
+      "topic_signature": "213c0e175fd6b654a9de",
+      "title": "Black Hat special: Rewind and revisit",
+      "url": "https://blog.talosintelligence.com/black-hat-special-rewind-and-revisit",
+      "source_name": "Cisco Talos Blog",
+      "source_url": "https://blog.talosintelligence.com",
+      "source_published_at": "2026-07-30T10:00:08Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 69.26,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-08-02T07:15:59",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 1,
+      "priority": "low",
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 0,
+      "enrichment_fallback_used": "main_tag",
+      "fetched_title": "Black Hat special: Rewind and revisit",
+      "meta_description": "Amy looks back at the incredible journeys that brought past guests to the world of threat intelligence.",
+      "article_images": [
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/size/w1200/2026/07/humans_of_talos.jpg",
+          "alt": "Black Hat special: Rewind and revisit",
+          "source": "og:image_or_twitter"
+        }
+      ],
+      "main_image": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/size/w1200/2026/07/humans_of_talos.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [],
+      "trusted_references": [
+        {
+          "title": "Amy Ciminnisi",
+          "url": "https://blog.talosintelligence.com/author/amy-ciminnisi/"
+        },
+        {
+          "title": "Humans of Talos",
+          "url": "https://blog.talosintelligence.com/category/humans-of-talos/"
+        },
+        {
+          "title": "here",
+          "url": "https://blog.talosintelligence.com/preview-cisco-talos-at-black-hat-usa-2026/"
+        },
+        {
+          "title": "Martin Lee: Running through the Arctic (and the threat landscape) July 1, 2026 06:00 Ever wonder how someone goes from studying human viruses to leading cybersecurity teams? In this Humans of Talos, we’re joined by Martin Lee, EMEA Lead, to talk about his journey into the industry.",
+          "url": "https://blog.talosintelligence.com/martin-lee-running-through-the-arctic-and-the-threat-landscape/"
+        },
+        {
+          "title": "Winning the cyber marathon with Tony Giandomenico June 4, 2026 08:05 Tony Giandomenico, Senior Director of Product Management, joins Amy to discuss the Talos Threat Hunting launch what he's excited about for the future of cybersecurity, and, of course, his Ironman triathlons.",
+          "url": "https://blog.talosintelligence.com/winning-the-cyber-marathon-with-tony-giandomenico/"
+        }
+      ],
+      "full_article_text": "Cybersecurity is rarely a straight line. In this special Black Hat edition of Humans of Talos, Amy looks back at the incredible journeys that brought past guests to the world of threat intelligence. From forensic labs and newsrooms to the kitchen line, we’re revisiting the stories and lessons that define the people behind the threat intelligence. Heading to Black Hat? We have a presence within the Cisco and Splunk booth (2633) during Black Hat where you can chat to us about our latest threat research and incident response, and grab the newest Snorty. Check out our schedule here . Martin Lee: Running through the Arctic (and the threat landscape) Ever wonder how someone goes from studying human viruses to leading cybersecurity teams? In this Humans of Talos, we’re joined by Martin Lee, EMEA Lead, to talk about his journey into the industry. Winning the cyber marathon with Tony Giandomenico Tony Giandomenico, Senior Director of Product Management, joins Amy to discuss the Talos Threat Hunting launch what he's excited about for the future of cybersecurity, and, of course, his Ironman triathlons. Breaking things to keep them safe with Philippe Laulheret Philippe shares his unique journey from French engineering school to the front lines of cybersecurity, explaining how his lifelong love for solving puzzles helps him uncover critical security flaws before they can be exploited.",
+      "full_article_text_chars": 1394,
+      "content_preview": "Cybersecurity is rarely a straight line. In this special Black Hat edition of Humans of Talos, Amy looks back at the incredible journeys that brought past guests to the world of threat intelligence. From forensic labs and newsrooms to the kitchen line, we’re revisiting the stories and lessons that define the people behind the threat intelligence. Heading to Black Hat? We have a presence within the Cisco and Splunk booth (2633) during Black Hat where you can chat to us about our latest threat research and incident response, and grab the newest Snorty. Check out our schedule here . Martin Lee: Running through the Arctic (and the threat landscape) Ever wonder how someone goes from studying human viruses to leading cybersecurity teams? In this Humans of Talos, we’re joined by Martin Lee, EMEA Lead, to talk about his journey into the industry. Winning the cyber marathon with Tony Giandomenico Tony Giandomenico, Senior Director of Product Management, joins Amy to discuss the Talos Threat Hunting launch what he's excited about for the future of cybersecurity, and, of course, his Ironman triathlons. Breaking things to keep them safe with Philippe Laulheret Philippe shares his unique journey from French engineering school to the front lines of cybersecurity, explaining how his lifelong love for solving puzzles helps him uncover critical security flaws before they can be exploited.",
+      "content_preview_chars": 1394,
+      "content_fetched_at": "2026-08-02T07:16:13",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
+    },
+    {
+      "id": "672b4a0740bb094f",
+      "source_url_hash": "672b4a0740bb094f",
+      "canonical_url": "https://blog.talosintelligence.com/ir-trends-q2-2026",
+      "title_hash": "c0ccf2bf5ce963c6",
+      "topic_signature": "1a14d94f0951393c32fc",
+      "title": "IR Trends Q2 2026: Phishing and weaponized remote management tools drive attack chains",
+      "url": "https://blog.talosintelligence.com/ir-trends-q2-2026",
+      "source_name": "Cisco Talos Blog",
+      "source_url": "https://blog.talosintelligence.com",
+      "source_published_at": "2026-07-28T10:00:01Z",
+      "published_at_source": "json-ld:datePublished",
+      "article_age_hours": 117.27,
+      "rss_summary": "",
+      "freshness_source": "date",
+      "freshness_window_hours": 168,
+      "category_key": "cybersecurity",
+      "category_name": "Cybersecurity",
+      "category_label": "Cyber-Security",
+      "category_hint": "Cyber-Security",
+      "discovered_at": "2026-08-02T07:15:59",
+      "status": "ready",
+      "content_filter_bypass_message": "Trusted source bypass applied",
+      "score": 4,
+      "priority": "low",
+      "source_links_removed_count": 0,
+      "affiliate_links_removed_count": 1,
+      "removed_source_links_count": 0,
+      "enrichment_fallback_used": "article_tag",
+      "fetched_title": "IR Trends Q2 2026: Phishing and weaponized remote management tools drive attack chains",
+      "meta_description": "Talos IR's Q2 report highlights a significant surge in phishing-based initial access and the weaponization of legitimate remote management tools. Learn how to sharpen your defenses.",
+      "article_images": [
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/size/w1200/2026/07/TalosIR_quarterly_trends.jpg",
+          "alt": "IR Trends Q2 2026: Phishing and weaponized remote management tools drive attack chains",
+          "source": "og:image_or_twitter"
+        },
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/2026/07/Q2dark_attackchaindark.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        },
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/2026/07/Q2dark_Q4Targets-dark.jpg",
+          "alt": "صورة توضيحية",
+          "source": "article_content"
+        }
+      ],
+      "main_image": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/size/w1200/2026/07/TalosIR_quarterly_trends.jpg",
+      "main_image_source_type": "og:image_or_twitter",
+      "main_image_extraction_method": "og:image_or_twitter",
+      "extra_article_images": [
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/2026/07/Q2dark_attackchaindark.jpg",
+          "alt": "صورة توضيحية"
+        },
+        {
+          "url": "https://storage.ghost.io/c/af/a0/afa04ee3-414f-4481-8d23-7e7c146f192e/content/images/2026/07/Q2dark_Q4Targets-dark.jpg",
+          "alt": "صورة توضيحية"
+        }
+      ],
+      "trusted_references": [
+        {
+          "title": "Lexi DiScola",
+          "url": "https://blog.talosintelligence.com/author/lexi/"
+        },
+        {
+          "title": "Dave Liebenberg",
+          "url": "https://blog.talosintelligence.com/author/dave-liebenberg/"
+        },
+        {
+          "title": "Talos IR trends",
+          "url": "https://blog.talosintelligence.com/category/ctir-trends/"
+        },
+        {
+          "title": "CTIR trends",
+          "url": "https://blog.talosintelligence.com/category/ctir-trends-2/"
+        },
+        {
+          "title": "Cisco Talos Incident Response",
+          "url": "https://blog.talosintelligence.com/category/cisco-talos-incident-response/"
+        }
+      ],
+      "full_article_text": "Phishing was the primary means of gaining initial access this quarter, appearing in over half of all Cisco Talos Incident Response (Talos IR) engagements – an increase from approximately a third of engagements last quarter. Attackers continued to innovate their delivery methods to evade defenses, deploying QR code-embedded PDFs to bypass traditional email gateways and hosting links on trusted cloud platforms. We also saw a spike in authentication abuse this quarter — observed in 65 percent of engagements compared to 35 percent last quarter — with attackers frequently bypassing or defeating multi-factor authentication (MFA) using adversary-in-the-middle (AitM) proxies, session-token theft, MFA fatigue attacks, and self-enrolled devices, amongst other methods. Ransomware incidents made up over 20 percent of engagements this quarter, similar to just under 20 percent last quarter. Talos IR responded to Sinobi ransomware for the first time, as well as previously seen variants Nitrogen and Warlock. We observed ransomware operators leveraging legitimate remote monitoring and management (RMM) tools, such as trojanized MeshAgent binary and Zoho Assist, for stealthy access, requiring defenders to prioritize behavior-based monitoring and strict control over administrative binaries. In the latest Talos Threat Perspective episode, we explore these trends, and highlight where defenders have the best opportunities to detect attackers: QR phishing campaign leverages trusted infrastructure to target Australian organizations Starting in April, we observed a persistent QR code phishing campaign targeting primarily Australian organizations that leverages compromised Microsoft 365 accounts to harvest credentials and propagate the attack via internal contact lists. The campaign, which remained ongoing as of late June 2026, employs auto-generated, victim-tailored PDF documents containing QR codes that direct to adversary-controlled M365 credential harvesting pages. If credentials are successfully captured, the adversary attempts access to the victim’s Microsoft account and conducts various post-compromise actions including creating email inbox rules for defense evasion, leveraging SharePoint to host malicious documents, and sending additional internal and external phishing emails to continue the compromise chain. We assess with high confidence that the threat actor, who we have dubbed UAT-11764, will almost certainly continue leveraging this QR code phishing operation, using each newly compromised mailbox's contact lists to expand its reach and sustain the campaign's momentum. By weaponizing existing, trusted infrastructure like SharePoint and M365, UAT-11764 can bypass many standard email security gateways. As such, network defenders should implement policies that block or flag emails containing QR codes within PDF attachments, enforce phishing-resistant MFA on M365 accounts, and monitor for suspicious inbox rule creation and anomalous SharePoint file staging as indicators of post-compromise activity. ARToken platform provides toolkit for Microsoft 365 account compromise Talos uncovered a phishing-as-a-service (PhaaS) operator platform, ARToken, in an engagement this quarter that is closely linked to the EvilTokens platform. According to our analysis, the ARToken panel exposes 80+ API endpoints for device code phishing, primary refresh token (PRT) persistence, email access, business email compromise (BEC) operations, and SharePoint exfiltration — all accessible to operators through a React-based dashboard. Our investigation into the platform found phishing lures that impersonate trusted vendors and abuse legitimate Microsoft services, allowing attackers to bypass MFA through the OAuth device authorization flow rather than stealing passwords. ARToken extends beyond a typical phishing kit by providing affiliates with a comprehensive post-compromise toolkit. We observed capabilities including automated token management, persistent access through PRTs, OneDrive and SharePoint administration, geo-dynamic templates, inbox rule manipulation, cross-account keyword monitoring, and collaborative token sharing. We also identified advanced anti-analysis techniques, including layered evasion mechanisms and encrypted client-side payloads, highlighting the increasing sophistication of modern PhaaS platforms and reinforcing the need for organizations to monitor device code authentication, enforce Conditional Access policies, and strengthen defenses against token-based attacks. Ransomware and pre-ransomware incidents made up over 20 percent of engagements this quarter, relatively similar to just under 20 percent last quarter. As previously mentioned, Talos IR responded to Sinobi ransomware for the first time, as well as previously seen variants Nitrogen and Warlock. We observed operators from these groups leveraging tools not previously identified in public reporting, including a trojanized MeshAgent binary and Zoho Assist for remote access. Sinobi ransomware operators weaponize MeshAgent for covert backdoor access We responded to a Sinobi ransomware engagement for the first time in April; while this ransomware-as-a-service (RaaS) operation emerged nearly a year ago, there has been minimal public reporting on the actors’ operations. Notably, we observed the threat actors use a trojanized MeshAgent binary as their primary C2 mechanism during this engagement, a tactic that has not been previously associated with the group in public reporting. MeshAgent is the open-source agent component of the MeshCentral remote management platform. Here, the actor weaponized it into a covert durable backdoor installed as a SYSTEM-level auto-start service, communicating over encrypted WebSocket (WSS) to an attacker-controlled server. This approach allowed the actor to blend malicious traffic with legitimate remote management activity and maintain undetected access for approximately three days before ransomware deployment. Following C2 establishment, the actor moved laterally through the network using RDP and WinRM, leveraging a service account with a weak, easily cracked password obtained from the domain credential store, ntds.dit. The actor ultimately deployed the ransomware across the entire domain using a malicious Group Policy Object (GPO) logon script. The incident resulted in the encryption of systems with the .SINOBI file extension, alongside observed data exfiltration staging activity conducted via rclone.exe. Looking forward, Sinobi operators will likely continue weaponizing legitimate tools like MeshAgent because these binaries blend into standard administrative traffic and bypass many traditional signature-based alerts. The use of GPO-based deployment scripts suggests an understanding of enterprise architecture, and operators will likely continue to exploit centralized management features to ensure rapid, domain-wide encryption. Defenders should prioritize monitoring of administrative tools and implement strict application allowlisting to prevent unauthorized binaries from running as services. Further, proactive hunting for unauthorized MeshAgent instances and auditing service account permissions may help in identifying and disrupting Sinobi activity before encryption. Warlock actors deploy Zoho Assist to attempt remote access without active user sessions In one engagement, we observed Warlock ransomware operators (also known as Storm-2603) deploying an installer for the RMM tool Zoho Assist Unattended Agent, which is designed to allow administrative remote control of an endpoint without a user logged in. The tool, which we have not previously seen attributed to Warlock, enables the attackers to maintain persistent, stealthy, and unrestricted control, significantly increasing the potential malicious impact of an incident. While the activity in this particular did not lead to encryption, it was consistent with a successful Warlock ransomware attack Talos observed in May. To counter this threat, organizations must shift from signature-based detection to behavior-based monitoring, focusing on the specific tactics, techniques, and procedures (TTPs) utilized by Storm-2603, such as the abuse of legitimate administrative tools and rapid movement within the network. For the second quarter in a row, health care led as the most targeted industry vertical accounting for 17 percent of all engagements, with public administration and manufacturing following at 14 percent each. A shared characteristic of these top-targeted sectors is a critical lack of downtime tolerance. The vast majority of targeted health care organizations were entities that directly support clinical operations and/or diagnostic services, where service interruption can result in operational and patient-care consequences. Almost all targeted public administration organizations were local governments, which provide essential public services, while the targeted manufacturing entities represented high-value targets within the industrial supply chain, where potential disruptions could create cascading effects across the downstream technology and energy sectors. As mentioned, phishing was the top means of gaining initial access this quarter, accounting for over half of engagements where initial access could be determined — an increase from 35 percent last quarter. Many phishing engagements included MFA-bypass techniques, such as OAuth device-code phishing and AiTM frameworks, allowing adversaries to intercept session tokens. Other observed means of achieving initial access included exploitation of public-facing applications and drive-by compromise. Recommendations for addressing top security weaknesses Implement properly configured, phishing-resistant MFA and tighten authentication controls Authentication abuse was the most prevalent security weakness this quarter, observed in 65 percent of engagements — up sharply from 35 percent last quarter. Adversaries consistently defeated or bypassed MFA using AitM proxies and session-token theft, MFA fatigue attacks, registration of attacker-controlled devices for authentication, and legacy authentication protocols that circumvent MFA altogether. To reduce this risk, Talos IR recommends transitioning from push- and SMS-based MFA to phishing-resistant methods such as FIDO2/WebAuthn and hardware security keys. Organizations should also restrict self-service MFA enrollment by requiring helpdesk verification, block legacy authentication through Conditional Access, enforce number matching or verified push where phishing-resistant methods are not yet feasible, and condition access on device compliance and trusted infrastructure rather than geographic location alone. Configure centralized logging with adequate retention across the environment Insufficient logging and visibility was the second most common weakness, observed in 42 percent of engagements compared to 18 percent last quarter. Deficiencies included domain controller security logs retained for only a few hours, host event logs truncated or overwritten before capture, absent NetFlow that prevented reconstruction of external authentication and exfiltration, on-device-only logs that adversaries deleted to evade detection, and short cloud-telemetry retention that did not extend back to the true initial-access date. In several engagements these gaps prevented definitive determination of the initial access vector or the scope of data exfiltration. Talos IR recommends implementing a SIEM or centralized logging platform with a minimum of 90 days of retention, forwarding logs from servers, workstations, network infrastructure, cloud identity providers, and security appliances off-device so they survive log tampering and host rebuilds, and enabling process-creation, command-line, and cloud API (e.g., Microsoft Graph) auditing. Talos IR's Log Architecture Assessment service can identify gaps and provide a roadmap to a complete view of the environment. Conduct robust patch management and reduce exposed infrastructure Vulnerable, exposed, or unpatched internet-facing infrastructure was the third most common weakness, observed in 31 percent of engagements, similar to last quarter’s 25 percent. A variety of different vulnerabilities were targeted including ToolShell, an older Telerik UI deserialization flaw, and SD-WAN and perimeter-VPN appliance CVEs. Internet-exposed services were also subjected to SQL-injection and denial-of-service activity. Talos IR recommends identifying and prioritizing the patching or decommissioning of all end-of-life and externally exposed systems, isolating systems that cannot be immediately upgraded, restricting management plane and remote access services behind a VPN or trusted source, deploying a Web Application Firewall (WAF) with rules for known exploitation patterns, and establishing a vulnerability management process capable of rapidly identifying and patching exposed assets — particularly given the accelerating reduction in time between vulnerability disclosure and exploitation. Enforce strict outbound email thresholds to disrupt attack propagation Finally, unlimited outbound email thresholds were a notable security weakness this quarter, enabling threat actors to propagate malicious activity in almost 15 percent of engagements. Though not as prevalent as the above weaknesses, it was more frequently observed than in previous quarters and warrants mention. For example, in one engagement, a user clicked on a malicious phishing email that led to credential theft and account compromise. Shortly after the threat actors gained access to the user’s mailbox, they sent over 6,600 phishing and spam emails to continue the attack chain. The failure to contain the compromise via outbound rate limiting significantly amplifies the damage of a single compromised credential; implementing these controls is a low-effort, high-impact mitigation strategy that effectively disrupts the attack chain. Top-observed MITRE ATT&CK techniques The table below represents the MITRE ATT&CK techniques observed in this quarter’s Talos IR engagement. Given that some techniques can fall under multiple tactics, we grouped them under the most relevant tactic in which they were leveraged. Please note this is not an exhaustive list. Key findings from the MITRE ATT&CK framework include: Consistent with phishing being a top threat this quarter, email hiding rules was the most observed tactic for persistence while internal spearphishing was most seen for lateral movement. Use of valid accounts was frequently observed for both privilege escalation and persistence, highlighting how identity abuse remains a key theme across engagements. Actors also relied on legitimate tools and web protocols to challenge detection, abusing native email features and cloud APIs, relying on standard web protocols for C2, and using valid administrative credentials for RDP and SSH. T1598 Phishing for Information Adversaries may send phishing messages to elicit sensitive information that can be used during targeting. Phishing for information is an attempt to trick targets into divulging information, frequently credentials or other actionable information. Adversaries may execute active reconnaissance scans to gather information that can be used during targeting. T1593 Search Open Websites/Domains Adversaries may search open websites and domains to gather information about a victim that can be used during targeting. T1589 Gather Victim Identity Information Adversaries may gather information about the victim's identity that can be used during targeting. Adversaries may send phishing messages to gain access to victim systems. T1190 Exploit Public-Facing Application Adversaries may exploit a vulnerability to gain access to a target system. Adversaries may use compromised credentials to access valid accounts during their attack. T1204.001 User Execution: Malicious Link An adversary may rely upon a user clicking a malicious link in order to gain execution. Users may be subjected to social engineering to get them to click on a link that will lead to code execution. Adversaries may obtain and abuse credentials of existing accounts to access systems within the network and execute their payload. T1564.008 Hide Artifacts: Email Hiding Rules Adversaries may use email rules to hide inbound emails in a compromised user's mailbox. Many email clients allow users to create inbox rules for various email functions, including moving emails to other folders, marking emails as read, or deleting emails. Adversaries may use legitimate remote access software, such as VNC, TeamViewer, AirDroid , AirMirror , etc., to establish an interactive command and control channel to target mobile devices. Adversaries may abuse task scheduling functionality to facilitate initial or recurring execution of malicious code. T1133 External Remote Services Adversaries may leverage external-facing remote services to initially access and/or persist within a network. Remote services such as VPNs, Citrix, and other access mechanisms allow users to connect to internal enterprise network resources from external locations. The adversary may compromise a valid account to move through the network to additional systems. T1687 Exploitation for Defense Impairment Adversaries may exploit vulnerabilities in security software, infrastructure, or defensive components to degrade, disable, or otherwise continue to impair their ability to prevent, detect, or respond to malicious activity. Adversaries may obtain and abuse credentials of existing accounts as a means of gaining Initial Access, Persistence, Privilege Escalation, or Defense Evasion. T1484 Domain or Tenant Policy Modification Adversaries may modify the configuration settings of a domain or identity tenant to evade defenses and/or escalate privileges in centrally managed environments. Adversaries may use email rules to hide inbound or outbound emails in a compromised user's mailbox. Adversaries may delete or modify artifacts generated within systems to remove evidence of their presence or hinder defenses. T1111 Multi-Factor Authentication Interception Adversaries may target MFA mechanisms, ( i.e., smart cards, token generators, etc.) to gain access to credentials that can be used to access systems, services, and network resources. T1621 Multi-factor Authentication Request Generation Adversaries may attempt to bypass MFA mechanisms and gain access to accounts by generating MFA requests sent to users. T1110.003 Brute Force: Password spraying Adversaries may use a single or small list of commonly used passwords against many different accounts to attempt to acquire valid account credentials. Adversaries may attempt to get a listing of other systems by IP address, hostname, or other logical identifier on a network that may be used for Lateral Movement from the current system. T1083 File and Directory Discovery Adversaries may enumerate files and directories or may search in specific locations of a host or network share for certain information within a file system. Adversaries may attempt to get a listing of valid accounts, usernames, or email addresses on a system or within a compromised environment. T1082 System Information Discovery An adversary may attempt to get detailed information about the operating system and hardware, including version, patches, hotfixes, service packs, and architecture. An adversary may attempt to enumerate the cloud services running on a system after gaining access. T1021.001 Remote Services: Remote Desktop Protocol Adversaries may use Valid Accounts to log into a computer using the Remote Desktop Protocol (RDP). The adversary may then perform actions as the logged-on user. After they already have access to accounts or systems within the environment, adversaries may use internal spearphishing to gain access to additional information or compromise other users within the same organization. T1021.004 Remote Services: SSH Adversaries may use Valid Accounts to log into remote machines using SSH. The adversary may then perform actions as the logged-on user. An adversary may use legitimate remote access tools to establish an interactive command and control channel within a network. T1071.001 Application Layer Protocol: Web Protocols Adversaries may communicate using application layer protocols associated with web traffic to avoid detection/network filtering by blending in with existing traffic. Adversaries may use an existing, legitimate external Web service as a means for relaying data to/from a compromised system. Adversaries may tunnel network communications to and from a victim system within a separate protocol to avoid detection/network filtering and/or enable access to otherwise unreachable systems. T1567 Exfiltration Over Web Service Adversaries may use an existing, legitimate external Web service to exfiltrate data rather than their primary command and control channel. T1048 Exfiltration Over Alternative Protocol Adversaries may exfiltrate data over a different protocol than the command and control channel.",
+      "full_article_text_chars": 21084,
+      "content_preview": "Phishing was the primary means of gaining initial access this quarter, appearing in over half of all Cisco Talos Incident Response (Talos IR) engagements – an increase from approximately a third of engagements last quarter. Attackers continued to innovate their delivery methods to evade defenses, deploying QR code-embedded PDFs to bypass traditional email gateways and hosting links on trusted cloud platforms. We also saw a spike in authentication abuse this quarter — observed in 65 percent of engagements compared to 35 percent last quarter — with attackers frequently bypassing or defeating multi-factor authentication (MFA) using adversary-in-the-middle (AitM) proxies, session-token theft, MFA fatigue attacks, and self-enrolled devices, amongst other methods. Ransomware incidents made up over 20 percent of engagements this quarter, similar to just under 20 percent last quarter. Talos IR responded to Sinobi ransomware for the first time, as well as previously seen variants Nitrogen and Warlock. We observed ransomware operators leveraging legitimate remote monitoring and management (RMM) tools, such as trojanized MeshAgent binary and Zoho Assist, for stealthy access, requiring defenders to prioritize behavior-based monitoring and strict control over administrative binaries. In the latest Talos Threat Perspective episode, we explore these trends, and highlight where defenders have the best opportunities to detect attackers: QR phishing campaign leverages trusted infrastructure to target Australian organizations Starting in April, we observed a persistent QR code phishing campaign targeting primarily Australian organizations that leverages compromised Microsoft 365 accounts to harvest credentials and propagate the attack via internal contact lists. The campaign, which remained ongoing as of late June 2026, employs auto-generated, victim-tailored PDF documents containing QR codes that direct to adversary-controlled M365 credential harvesting pages. If credentials are successfully captured, the adversary attempts access to the victim’s Microsoft account and conducts various post-compromise actions including creating email inbox rules for defense evasion, leveraging SharePoint to host malicious documents, and sending additional internal and external phishing emails to continue the compromise chain. We assess with high confidence that the threat actor, who we have dubbed UAT-11764, will almost certainly continue leveraging this QR code phishing operation, using each newly compromised mailbox's contact lists to expand its reach and sustain the campaign's momentum. By weaponizing existing, trusted infrastructure like SharePoint and M365, UAT-11764 can bypass many standard email security gateways. As such, network defenders should implement policies that block or flag emails containing QR codes within PDF attachments, enforce phishing-resistant MFA on M365 accounts, and monitor for suspicious inbox rule creation and anomalous SharePoint file staging as indicators of post-compromise activity. ARToken platform provides toolkit for Microsoft 365 account compromise Talos uncovered a phishing-as-a-service (PhaaS) operator platform, ARToken, in an engagement this quarter that is closely linked to the EvilTokens platform. According to our analysis, the ARToken panel exposes 80+ API endpoints for device code phishing, primary refresh token (PRT) persistence, email access, business email compromise (BEC) operations, and SharePoint exfiltration — all accessible to operators through a React-based dashboard. Our investigation into the platform found phishing lures that impersonate trusted vendors and abuse legitimate Microsoft services, allowing attackers to bypass MFA through the OAuth device authorization flow rather than stealing passwords. ARToken extends beyond a typical phishing kit by providing affiliates with a comprehensive post-compromise toolkit. We observed capabilities including automated token management, persistent access through PRTs, OneDrive and SharePoint administration, geo-dynamic templates, inbox rule manipulation, cross-account keyword monitoring, and collaborative token sharing. We also identified advanced anti-analysis techniques, including layered evasion mechanisms and encrypted client-side payloads, highlighting the increasing sophistication of modern PhaaS platforms and reinforcing the need for organizations to monitor device code authentication, enforce Conditional Access policies, and strengthen defenses against token-based attacks. Ransomware and pre-ransomware incidents made up over 20 percent of engagements this quarter, relatively similar to just under 20 percent last quarter. As previously mentioned, Talos IR responded to Sinobi ransomware for the first time, as well as previously seen variants Nitrogen and Warlock. We observed operators from these groups leveraging tools not previously identified in public reporting, including a trojanized MeshAgent binary and Zoho Assist for remote access. Sinobi ransomware operators weaponize MeshAgent for covert backdoor access We responded to a Sinobi ransomware engagement for the first time in April; while this ransomware-as-a-service (RaaS) operation emerged nearly a year ago, there has been minimal public reporting on the actors’ operations. Notably, we observed the threat actors use a trojanized MeshAgent binary as their primary C2 mechanism during this engagement, a tactic that has not been previously associated with the group in public reporting. MeshAgent is the open-source agent component of the MeshCentral remote management platform. Here, the actor weaponized it into a covert durable backdoor installed as a SYSTEM-level auto-start service, communicating over encrypted WebSocket (WSS) to an attacker-controlled server. This approach allowed the actor to blend malicious traffic with legitimate remote management activity and maintain undetected access for approximately three days before ransomware deployment. Following C2 establishment, the actor moved laterally through the network using RDP and WinRM, leveraging a service account with a weak, easily cracked password obtained from the domain credential store, ntds.dit. The actor ultimately deployed the ransomware across the entire domain using a malicious Group Policy Object (GPO) logon script. The incident resulted in the encryption of systems with the .SINOBI file extension, alongside observed data exfiltration staging activity conducted via rclone.exe. Looking forward, Sinobi operators will likely continue weaponizing legitimate tools like MeshAgent because these binaries blend into standard administrative traffic and bypass many traditional signature-based alerts. The use of GPO-based deployment scripts suggests an understanding of enterprise architecture, and operators will likely continue to exploit centralized management features to ensure rapid, domain-wide encryption. Defenders should prioritize monitoring of administrative tools and implement strict application allowlisting to prevent unauthorized binaries from running as services. Further, proactive hunting for unauthorized MeshAgent instances and auditing service account permissions may help in identifying and disrupting Sinobi activity before encryption. Warlock actors deploy Zoho Assist to attempt remote access without active user sessions In one engagement, we observed Warlock ransomware operators (also known as Storm-2603) deploying an installer for the RMM tool Zoho Assist Unattended Agent, which is designed to allow administrative remote control of an endpoint without a user logged in. The tool, which we have not previously seen attributed to Warlock, enables the attackers to maintain persistent, stealthy, and unrestricted control, significantly increasing the potential malicious impact of an incident. While the activity in this particular did not lead to encryption, it was consistent with a successful Warlock ransomware attack Talos observed in May. To counter this threat, organizations must shift from signature-based detection to behavior-based monitoring, focusing on the specific tactics, techniques, and procedures (TTPs) utilized by Storm-2603, such as the abuse of legitimate administrative tools and rapid movement within the network. For the second quarter in a row, health care led as the most targeted industry vertical accounting for 17 percent of all engagements, with public administration and manufacturing following at 14 percent each. A shared characteristic of these top-targeted sectors is a critical lack of downtime tolerance. The vast majority of targeted health care organizations were entities that directly support clinical operations and/or diagnostic services, where service interruption can result in operational and patient-care consequences.",
+      "content_preview_chars": 8798,
+      "content_fetched_at": "2026-08-02T07:16:17",
       "enrichment_status": "strong",
       "content_fetch_status": "success"
     }
