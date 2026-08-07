@@ -1,51 +1,35 @@
 {
   "avg_time": 0.0,
   "cooldowns": {
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-08-07T06:46:12",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1786086974.1792917
-    },
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
-      "failed_at": "2026-08-07T06:41:28",
+      "failed_at": "2026-08-07T07:58:29",
       "key_id": "e5c3515f5b",
       "model": "inclusionai/ling-2.6-flash:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 404: {\"error\":{\"message\":\"Ling-2.6-flash is no longer available as a free model. It has transitioned to a paid model. Continue using it her",
-      "until": 1786086689.8313575
+      "until": 1786091311.1313236
     },
     "openrouter:liquid/lfm-2.5-1.2b-instruct:free:e5c3515f5b": {
-      "failed_at": "2026-08-07T06:41:29",
+      "failed_at": "2026-08-07T07:58:29",
       "key_id": "e5c3515f5b",
       "model": "liquid/lfm-2.5-1.2b-instruct:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 404: {\"error\":{\"message\":\"No endpoints found for liquid/lfm-2.5-1.2b-instruct:free.\",\"code\":404},\"user_id\":\"user_3Co2ewJ6Lxandjbd0PWPNTCGEG",
-      "until": 1786086692.761382
-    },
-    "openrouter:nvidia/nemotron-3-nano-30b-a3b:free:e5c3515f5b": {
-      "failed_at": "2026-08-07T06:45:50",
-      "key_id": "e5c3515f5b",
-      "model": "nvidia/nemotron-3-nano-30b-a3b:free",
-      "provider": "openrouter",
-      "reason": "Expecting value: line 233 column 1 (char 1276)",
-      "until": 1786086951.571232
+      "until": 1786091310.9372294
     }
   },
   "fastest_success_model": "openrouter:inclusionai/ling-2.6-flash:free",
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 31.1634,
+      "avg_time": 31.169,
       "failures": 1612,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-08-07T06:46:12",
-      "last_success_at": "2026-08-07T06:46:12",
+      "last_success_at": "2026-08-07T08:00:23",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 1630,
-      "total_success_time": 50796.395
+      "successes": 1631,
+      "total_success_time": 50836.6935
     },
     "gemini:gemini-2.5-flash:75c7824eb0": {
       "failures": 5,
@@ -56,9 +40,9 @@
     },
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
       "avg_time": 0.0,
-      "failures": 1036,
+      "failures": 1037,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-08-07T06:41:28",
+      "last_failure_at": "2026-08-07T07:58:29",
       "last_success_at": "2026-04-29T02:57:32",
       "model": "inclusionai/ling-2.6-flash:free",
       "provider": "openrouter",
@@ -67,9 +51,9 @@
     },
     "openrouter:liquid/lfm-2.5-1.2b-instruct:free:e5c3515f5b": {
       "avg_time": 7.8845,
-      "failures": 722,
+      "failures": 723,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-08-07T06:41:29",
+      "last_failure_at": "2026-08-07T07:58:29",
       "last_success_at": "2026-07-07T07:55:39",
       "model": "liquid/lfm-2.5-1.2b-instruct:free",
       "provider": "openrouter",
@@ -77,15 +61,15 @@
       "total_success_time": 16336.5937
     },
     "openrouter:nvidia/nemotron-3-nano-30b-a3b:free:e5c3515f5b": {
-      "avg_time": 45.844,
+      "avg_time": 45.824,
       "failures": 570,
       "key_id": "e5c3515f5b",
       "last_failure_at": "2026-08-07T06:45:50",
-      "last_success_at": "2026-08-07T06:44:57",
+      "last_success_at": "2026-08-07T07:59:42",
       "model": "nvidia/nemotron-3-nano-30b-a3b:free",
       "provider": "openrouter",
-      "successes": 926,
-      "total_success_time": 42451.5524
+      "successes": 928,
+      "total_success_time": 42524.6639
     },
     "openrouter:openai/gpt-oss-20b:free:e5c3515f5b": {
       "avg_time": 58.6745,
