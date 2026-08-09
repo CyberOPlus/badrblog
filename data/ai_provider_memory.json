@@ -2,42 +2,42 @@
   "avg_time": 0.0,
   "cooldowns": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-08-09T03:02:38",
+      "failed_at": "2026-08-09T04:18:46",
       "key_id": "64f603a8c0",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1786246361.8325121
+      "until": 1786250927.4899595
     },
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
-      "failed_at": "2026-08-09T02:57:59",
+      "failed_at": "2026-08-09T04:14:29",
       "key_id": "e5c3515f5b",
       "model": "inclusionai/ling-2.6-flash:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 404: {\"error\":{\"message\":\"Ling-2.6-flash is no longer available as a free model. It has transitioned to a paid model. Continue using it her",
-      "until": 1786246081.593911
+      "until": 1786250673.5912926
     },
     "openrouter:liquid/lfm-2.5-1.2b-instruct:free:e5c3515f5b": {
-      "failed_at": "2026-08-09T02:57:59",
+      "failed_at": "2026-08-09T04:14:30",
       "key_id": "e5c3515f5b",
       "model": "liquid/lfm-2.5-1.2b-instruct:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 404: {\"error\":{\"message\":\"No endpoints found for liquid/lfm-2.5-1.2b-instruct:free.\",\"code\":404},\"user_id\":\"user_3Co2ewJ6Lxandjbd0PWPNTCGEG",
-      "until": 1786246080.7321048
+      "until": 1786250674.2433677
     }
   },
   "fastest_success_model": "openrouter:inclusionai/ling-2.6-flash:free",
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 31.0,
-      "failures": 1724,
+      "avg_time": 30.9968,
+      "failures": 1725,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-08-09T03:02:38",
-      "last_success_at": "2026-08-09T03:01:10",
+      "last_failure_at": "2026-08-09T04:18:46",
+      "last_success_at": "2026-08-09T04:16:18",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 1707,
-      "total_success_time": 52917.03
+      "successes": 1708,
+      "total_success_time": 52942.5205
     },
     "gemini:gemini-2.5-flash:75c7824eb0": {
       "failures": 5,
@@ -48,9 +48,9 @@
     },
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
       "avg_time": 0.0,
-      "failures": 1087,
+      "failures": 1088,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-08-09T02:57:59",
+      "last_failure_at": "2026-08-09T04:14:29",
       "last_success_at": "2026-04-29T02:57:32",
       "model": "inclusionai/ling-2.6-flash:free",
       "provider": "openrouter",
@@ -59,9 +59,9 @@
     },
     "openrouter:liquid/lfm-2.5-1.2b-instruct:free:e5c3515f5b": {
       "avg_time": 7.8845,
-      "failures": 773,
+      "failures": 774,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-08-09T02:57:59",
+      "last_failure_at": "2026-08-09T04:14:30",
       "last_success_at": "2026-07-07T07:55:39",
       "model": "liquid/lfm-2.5-1.2b-instruct:free",
       "provider": "openrouter",
@@ -69,15 +69,15 @@
       "total_success_time": 16336.5937
     },
     "openrouter:nvidia/nemotron-3-nano-30b-a3b:free:e5c3515f5b": {
-      "avg_time": 45.9519,
+      "avg_time": 45.9913,
       "failures": 606,
       "key_id": "e5c3515f5b",
       "last_failure_at": "2026-08-08T23:52:28",
-      "last_success_at": "2026-08-09T03:02:38",
+      "last_success_at": "2026-08-09T04:18:46",
       "model": "nvidia/nemotron-3-nano-30b-a3b:free",
       "provider": "openrouter",
-      "successes": 1017,
-      "total_success_time": 46733.0682
+      "successes": 1021,
+      "total_success_time": 46957.0951
     },
     "openrouter:openai/gpt-oss-20b:free:e5c3515f5b": {
       "avg_time": 58.6745,
