@@ -1,14 +1,6 @@
 {
   "avg_time": 0.0,
   "cooldowns": {
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-08-09T10:54:09",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1786274651.8631885
-    },
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
       "failed_at": "2026-08-09T10:53:27",
       "key_id": "e5c3515f5b",
@@ -34,26 +26,26 @@
       "until": 1786274608.9445531
     },
     "openrouter:openai/gpt-oss-20b:free:e5c3515f5b": {
-      "failed_at": "2026-08-09T10:54:09",
+      "failed_at": "2026-08-09T11:21:09",
       "key_id": "e5c3515f5b",
       "model": "openai/gpt-oss-20b:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "until": 1786274652.4363592
+      "until": 1786276273.858455
     }
   },
   "fastest_success_model": "openrouter:inclusionai/ling-2.6-flash:free",
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 30.9782,
+      "avg_time": 30.973,
       "failures": 1737,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-08-09T10:54:09",
-      "last_success_at": "2026-08-09T10:54:02",
+      "last_success_at": "2026-08-09T11:21:31",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 1731,
-      "total_success_time": 53623.289
+      "successes": 1732,
+      "total_success_time": 53645.1811
     },
     "gemini:gemini-2.5-flash:75c7824eb0": {
       "failures": 5,
@@ -97,9 +89,9 @@
     },
     "openrouter:openai/gpt-oss-20b:free:e5c3515f5b": {
       "avg_time": 58.6745,
-      "failures": 1305,
+      "failures": 1306,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-08-09T10:54:09",
+      "last_failure_at": "2026-08-09T11:21:09",
       "last_success_at": "2026-08-07T06:49:50",
       "model": "openai/gpt-oss-20b:free",
       "provider": "openrouter",
