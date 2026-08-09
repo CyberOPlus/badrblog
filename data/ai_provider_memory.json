@@ -2,12 +2,12 @@
   "avg_time": 0.0,
   "cooldowns": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-08-09T15:56:09",
+      "failed_at": "2026-08-09T16:22:49",
       "key_id": "64f603a8c0",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1786292770.8750083
+      "until": 1786294369.7653878
     },
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
       "failed_at": "2026-08-09T15:55:40",
@@ -34,21 +34,21 @@
       "until": 1786292745.2258937
     },
     "openrouter:openai/gpt-oss-20b:free:e5c3515f5b": {
-      "failed_at": "2026-08-09T15:56:09",
+      "failed_at": "2026-08-09T16:22:49",
       "key_id": "e5c3515f5b",
       "model": "openai/gpt-oss-20b:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "until": 1786292774.287485
+      "until": 1786294370.6507394
     }
   },
   "fastest_success_model": "openrouter:inclusionai/ling-2.6-flash:free",
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 30.9455,
-      "failures": 1763,
+      "failures": 1767,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-08-09T15:56:09",
+      "last_failure_at": "2026-08-09T16:22:49",
       "last_success_at": "2026-08-09T15:55:58",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
@@ -97,9 +97,9 @@
     },
     "openrouter:openai/gpt-oss-20b:free:e5c3515f5b": {
       "avg_time": 58.6745,
-      "failures": 1334,
+      "failures": 1338,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-08-09T15:56:09",
+      "last_failure_at": "2026-08-09T16:22:49",
       "last_success_at": "2026-08-07T06:49:50",
       "model": "openai/gpt-oss-20b:free",
       "provider": "openrouter",
