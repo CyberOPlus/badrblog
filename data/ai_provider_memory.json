@@ -2,12 +2,12 @@
   "avg_time": 0.0,
   "cooldowns": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-08-15T14:59:52",
+      "failed_at": "2026-08-15T15:21:30",
       "key_id": "64f603a8c0",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1786807795.6610038
+      "until": 1786809091.8300738
     },
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
       "failed_at": "2026-08-15T14:59:35",
@@ -34,26 +34,26 @@
       "until": 1786807779.1040165
     },
     "openrouter:openai/gpt-oss-20b:free:e5c3515f5b": {
-      "failed_at": "2026-08-15T14:59:52",
+      "failed_at": "2026-08-15T15:21:30",
       "key_id": "e5c3515f5b",
       "model": "openai/gpt-oss-20b:free",
       "provider": "openrouter",
       "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day\",\"code\":429,\"",
-      "until": 1786807793.7802997
+      "until": 1786809093.2891257
     }
   },
   "fastest_success_model": "openrouter:inclusionai/ling-2.6-flash:free",
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 30.6452,
-      "failures": 2076,
+      "avg_time": 30.6451,
+      "failures": 2080,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-08-15T14:59:52",
-      "last_success_at": "2026-08-15T14:18:29",
+      "last_failure_at": "2026-08-15T15:21:30",
+      "last_success_at": "2026-08-15T15:21:10",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 1939,
-      "total_success_time": 59421.045
+      "successes": 1940,
+      "total_success_time": 59451.4936
     },
     "gemini:gemini-2.5-flash:75c7824eb0": {
       "failures": 5,
@@ -97,9 +97,9 @@
     },
     "openrouter:openai/gpt-oss-20b:free:e5c3515f5b": {
       "avg_time": 59.9557,
-      "failures": 1684,
+      "failures": 1688,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-08-15T14:59:52",
+      "last_failure_at": "2026-08-15T15:21:30",
       "last_success_at": "2026-08-15T04:28:21",
       "model": "openai/gpt-oss-20b:free",
       "provider": "openrouter",
