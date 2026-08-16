@@ -2,12 +2,12 @@
   "avg_time": 0.0,
   "cooldowns": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-08-16T05:35:06",
+      "failed_at": "2026-08-16T05:59:58",
       "key_id": "64f603a8c0",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1786860310.8608181
+      "until": 1786861800.7357016
     },
     "openrouter:inclusionai/ling-2.6-flash:free:e5c3515f5b": {
       "failed_at": "2026-08-16T05:31:58",
@@ -30,9 +30,9 @@
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 30.634,
-      "failures": 2170,
+      "failures": 2173,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-08-16T05:35:06",
+      "last_failure_at": "2026-08-16T05:59:58",
       "last_success_at": "2026-08-16T05:32:35",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
@@ -69,15 +69,15 @@
       "total_success_time": 16336.5937
     },
     "openrouter:nvidia/nemotron-3-nano-30b-a3b:free:e5c3515f5b": {
-      "avg_time": 48.4238,
+      "avg_time": 48.3425,
       "failures": 733,
       "key_id": "e5c3515f5b",
       "last_failure_at": "2026-08-16T00:42:32",
-      "last_success_at": "2026-08-16T05:35:06",
+      "last_success_at": "2026-08-16T05:59:58",
       "model": "nvidia/nemotron-3-nano-30b-a3b:free",
       "provider": "openrouter",
-      "successes": 1372,
-      "total_success_time": 66437.4307
+      "successes": 1378,
+      "total_success_time": 66615.9069
     },
     "openrouter:openai/gpt-oss-20b:free:e5c3515f5b": {
       "avg_time": 60.052,
