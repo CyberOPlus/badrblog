@@ -198,6 +198,9 @@ jobs:
           print("Jobs quality retries: stay on Gemini")
           PY
 
+      - name: Backfill pending Facebook posts
+        run: python main.py facebook-backfill
+
       - name: Queue maintenance
         run: python main.py queue-maintenance
 
