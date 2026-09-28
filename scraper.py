@@ -924,9 +924,19 @@ async def _collect_article_links_for_source_async(
         if candidate and not (candidate in seen_feed_urls or seen_feed_urls.add(candidate))
     ]
 
+    extractor_mode = str(extractor_type or "").lower()
+    if extractor_mode == "feed_fallback":
+        direct_feed_links = _parse_feed_article_links(
+            listing_html,
+            source_url,
+            feed_url=source_url,
+        ) if listing_html else []
+        if direct_feed_links:
+            feed_links.extend(direct_feed_links)
+
     should_try_feed = (
         bool(feed_url)
-        or str(extractor_type or "").lower() in {"rss", "feed", "xml"}
+        or extractor_mode in {"rss", "feed", "xml", "feed_fallback"}
         or (not JOBS_MODE and (bool(error) or len(html_links) < (per_source_limit or 3)))
     )
     if should_try_feed:
@@ -1063,7 +1073,23 @@ def _collect_article_links_for_source(
         if candidate and not (candidate in seen_feed_urls or seen_feed_urls.add(candidate))
     ]
 
-    should_try_feed = bool(feed_url) or bool(error) or len(html_links) < (per_source_limit or 3)
+    extractor_mode = str(extractor_type or "").lower()
+    if extractor_mode == "feed_fallback":
+        raw_text = str(source_document or "")
+        direct_feed_links = _parse_feed_article_links(
+            raw_text,
+            source_url,
+            feed_url=source_url,
+        )
+        if direct_feed_links:
+            feed_links.extend(direct_feed_links)
+
+    should_try_feed = (
+        bool(feed_url)
+        or bool(error)
+        or extractor_mode in {"rss", "feed", "xml", "feed_fallback"}
+        or len(html_links) < (per_source_limit or 3)
+    )
 
     if should_try_feed:
         for current_feed_url in feed_candidates[:5]:
