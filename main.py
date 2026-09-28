@@ -2170,11 +2170,7 @@ def _process_hourly_target(selected, publish_mode):
         try:
             facebook_result = post_one_article_to_facebook(
                 target_article_id=selected_id,
-                respect_limits=(
-                    not bool(article.get("job_publish_immediately"))
-                    if JOBS_MODE
-                    else False
-                ),
+                respect_limits=False,
             )
             article = _find_article_by_id(selected_id)
         except Exception as error:
@@ -2750,7 +2746,7 @@ def run_safe_cycle_only():
         print("Posting Facebook", flush=True)
         facebook_result = post_one_article_to_facebook(
             target_article_id=selected_id,
-            respect_limits=True,
+            respect_limits=False if JOBS_MODE else True,
         )
         print_facebook_post_summary(facebook_result)
         article = _find_article_by_id(selected_id)
