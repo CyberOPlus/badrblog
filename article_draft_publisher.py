@@ -2,9 +2,14 @@
 # article_draft_publisher.py - Phase 7 Blogger Draft Publishing
 # ============================================================
 
+import hashlib
+import os
+import re
+import subprocess
 import time
 from datetime import datetime
-from urllib.parse import urlparse
+from pathlib import Path
+from urllib.parse import quote, urlparse
 
 from googleapiclient.errors import HttpError
 
@@ -28,8 +33,11 @@ from quality_gate import validate_before_publish
 from internal_link_cache import apply_link_enrichment, record_published_article
 from source_sanitizer import sanitize_source_links
 from jobposting import append_jobposting
+from utils.facebook_image_generator import generate_job_article_cover
 
 TEMPORARY_BLOGGER_HTTP_STATUSES = {429, 500, 502, 503, 504}
+JOB_ARTICLE_COVER_DIR = Path("assets/generated/job-articles")
+JOB_ARTICLE_RAW_BASE = "https://raw.githubusercontent.com/CyberOPlus/badrblog/main"
 
 
 def _now_iso():
@@ -201,8 +209,139 @@ def _source_domain_for_article(article):
     return ""
 
 
+def _job_cover_key(article):
+    candidate = str(
+        article.get("desired_slug")
+        or article.get("seo_slug")
+        or article.get("job_campaign_id")
+        or ""
+    ).strip().casefold()
+    candidate = re.sub(r"[^a-z0-9-]+", "-", candidate)
+    candidate = re.sub(r"-{2,}", "-", candidate).strip("-")
+    if candidate:
+        return candidate[:100]
+    seed = str(
+        article.get("canonical_url")
+        or article.get("url")
+        or article.get("job_title")
+        or article.get("title")
+        or "job"
+    )
+    return "job-" + hashlib.sha256(seed.encode("utf-8")).hexdigest()[:16]
+
+
+def _persist_generated_job_cover(path):
+    """Commit the generated binary before Blogger references its public raw URL."""
+    if os.getenv("GITHUB_ACTIONS", "").strip().lower() != "true":
+        return False
+
+    path = Path(path)
+    subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=True)
+    subprocess.run(
+        ["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"],
+        check=True,
+    )
+    subprocess.run(["git", "add", "-f", "--", path.as_posix()], check=True)
+    diff = subprocess.run(
+        ["git", "diff", "--cached", "--quiet", "--", path.as_posix()],
+        check=False,
+    )
+    if diff.returncode == 0:
+        return False
+    subprocess.run(
+        [
+            "git", "commit", "-m",
+            f"Add job article cover {path.stem} [skip ci]",
+            "--", path.as_posix(),
+        ],
+        check=True,
+    )
+    subprocess.run(["git", "push", "origin", "HEAD:main"], check=True)
+    return True
+
+
+def _prepare_job_article_cover(article):
+    if not JOBS_MODE:
+        return ""
+
+    package = article.get("ai_input_package")
+    if not isinstance(package, dict):
+        package = {}
+        article["ai_input_package"] = package
+
+    job_title = str(
+        article.get("job_title")
+        or package.get("job_title")
+        or article.get("fetched_title")
+        or article.get("title")
+        or ""
+    ).strip()
+    employer = str(
+        article.get("job_company")
+        or package.get("job_company")
+        or article.get("source_name")
+        or ""
+    ).strip()
+    logo_url = str(
+        article.get("company_logo_url")
+        or package.get("company_logo_url")
+        or ""
+    ).strip()
+
+    cover_key = _job_cover_key(article)
+    output_path = JOB_ARTICLE_COVER_DIR / f"{cover_key}.jpg"
+    result = generate_job_article_cover(
+        job_title,
+        logo_url,
+        output_path,
+        employer_name=employer,
+    )
+    if not result.get("ok"):
+        raise RuntimeError(
+            "Could not generate the required job article cover: "
+            + str(result.get("error") or "unknown error")
+        )
+
+    _persist_generated_job_cover(output_path)
+    public_url = f"{JOB_ARTICLE_RAW_BASE}/{quote(output_path.as_posix(), safe='/')}"
+    cover_alt = " - ".join(part for part in (job_title, employer) if part) or "فرصة عمل"
+
+    article["job_article_cover_path"] = output_path.as_posix()
+    article["job_article_cover_url"] = public_url
+    article["main_image"] = public_url
+    article["article_images"] = [
+        {
+            "url": public_url,
+            "alt": cover_alt,
+            "source": "generated_job_template",
+        }
+    ]
+    article["extra_article_images"] = []
+    article["main_image_source_type"] = "generated_job_template"
+    article["main_image_extraction_method"] = "generated_job_template"
+
+    package["main_image"] = public_url
+    package["article_images"] = list(article["article_images"])
+    package["extra_article_images"] = []
+    package["job_article_cover_url"] = public_url
+    package["cover_alt"] = cover_alt
+    package["cover_width"] = result.get("width") or ""
+    package["cover_height"] = result.get("height") or ""
+
+    log_event(
+        "job_article_cover_ready",
+        article_id=article.get("id"),
+        path=output_path.as_posix(),
+        url=public_url,
+        logo_loaded="yes" if result.get("logo_loaded") else "no",
+    )
+    return public_url
+
+
 def _sanitize_article_final_html(article):
     source_domain = _source_domain_for_article(article)
+    if JOBS_MODE:
+        _prepare_job_article_cover(article)
     cleaned = format_phase3_article_html(
         article.get("final_html", ""),
         article.get("ai_input_package") or article,
