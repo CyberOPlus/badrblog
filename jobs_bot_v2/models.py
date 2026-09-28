@@ -19,6 +19,12 @@ class JobCandidate:
     published_at: str = ""
     description: str = ""
     application_url: str = ""
+    number_of_positions: int = 0
+    diploma: str = ""
+    experience: str = ""
+    documents_required: list[str] = field(default_factory=list)
+    source_priority: str = ""
+    entry_level: bool = False
     remote: bool = False
     visa_sponsorship: bool = False
     relocation: bool = False
