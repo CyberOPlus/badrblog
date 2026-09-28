@@ -13,27 +13,66 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - run: pip install requests beautifulsoup4
-      - name: Extract exact ATS data structures
+      - name: Verify final ATS payload paths
         run: |
           python - <<'PY'
-          import re,requests,html
+          import json,re,requests,html
           from bs4 import BeautifulSoup
-          H={"User-Agent":"Mozilla/5.0"}
+          H={"User-Agent":"Mozilla/5.0","Accept":"text/html,application/json,*/*"}
+          def dump(k,v):
+              print("\n===",k,"==="); print(json.dumps(v,ensure_ascii=False,indent=2)[:40000])
 
-          js=requests.get("https://iam.csod.com/player-career-site/1.25.6/pages/home.controls.js",headers=H,timeout=15).text
-          for term in ("getJobDetail=function","requisitionBaseUrl=this.serviceBase","/v1/requisition/"):
-              p=js.find(term)
-              print("\n=== CSOD",term,"===")
-              print(js[max(0,p-1800):p+4000] if p>=0 else "NOT FOUND")
+          def csod(name,home,req):
+              s=requests.Session(); h=s.get(home,headers=H,timeout=15)
+              token=re.search(r'"token"\s*:\s*"([A-Za-z0-9._-]+)"',h.text).group(1)
+              origin=f"{requests.utils.urlparse(home).scheme}://{requests.utils.urlparse(home).netloc}"
+              hdr={**H,"Accept":"application/json","Authorization":f"Bearer {token}"}
+              urls={
+                "detail":f"{origin}/services/x/job-requisition/v2/requisitions/{req}/jobDetails?cultureId=1",
+                "ad":f"{origin}/Services/API/ATS/CareerSite/4/JobRequisitions/{req}?useMobileAd=false&cultureId=1",
+                "posting":f"{origin}/services/x/career-site/v1/requisition/{req}",
+              }
+              out={}
+              for k,u in urls.items():
+                  r=s.get(u,headers=hdr,timeout=15)
+                  out[k]={"status":r.status_code,"ct":r.headers.get("content-type",""),"body":r.text[:15000]}
+                  try: out[k]["json"]=r.json()
+                  except Exception: pass
+              dump(name,out)
+          csod("IAM_FINAL","https://iam.csod.com/ux/ats/careersite/4/home?c=iam",69)
+          csod("ATTIJARI_FINAL","https://attijariwafabank.csod.com/ux/ats/careersite/4/home?c=attijariwafabank",2659)
 
           raw=requests.get("https://orange.jobs/jobs/v3/search?rk=l-maroc&s=1&lang=fr",headers=H,timeout=15).text
           soup=BeautifulSoup(raw,"html.parser")
-          sc=next((x for x in soup.find_all("script") if "jobId" in (x.string or x.get_text("",strip=False))),None)
-          txt=html.unescape(sc.string or sc.get_text("",strip=False)) if sc else ""
-          p=txt.upper().find("MOROCCO")
-          print("\n=== ORANGE MOROCCO CONTEXT ===")
-          print(txt[max(0,p-6000):p+9000] if p>=0 else "NOT FOUND")
-          for term in ('"jobs"', '"jobData"', '"searchResults"', '"jobId"', 'getJobSearch'):
-              positions=[m.start() for m in re.finditer(re.escape(term),txt,re.I)]
-              print("\nTERM",term,"COUNT",len(positions),"FIRST",positions[:10])
+          sc=next(x for x in soup.find_all("script") if "phApp.ddo" in (x.string or x.get_text("",strip=False)))
+          txt=html.unescape(sc.string or sc.get_text("",strip=False))
+          marker="phApp.ddo = "
+          start=txt.find(marker)+len(marker)
+          i=start; depth=0; quote=None; esc=False; end=None
+          while i<len(txt):
+              ch=txt[i]
+              if quote:
+                  if esc: esc=False
+                  elif ch=="\\": esc=True
+                  elif ch==quote: quote=None
+              else:
+                  if ch in ('"',"'"): quote=ch
+                  elif ch=="{": depth+=1
+                  elif ch=="}":
+                      depth-=1
+                      if depth==0:
+                          end=i+1; break
+              i+=1
+          obj=json.loads(txt[start:end])
+          found=[]
+          def walk(v,path=""):
+              if isinstance(v,dict):
+                  if "jobId" in v and "title" in v:
+                      found.append((path,v))
+                  for k,x in v.items(): walk(x,path+"/"+str(k))
+              elif isinstance(v,list):
+                  for n,x in enumerate(v): walk(x,path+f"/{n}")
+          walk(obj)
+          mor=[{"path":p,**j} for p,j in found if str(j.get("country","")).upper()=="MOROCCO" or "MOROCCO" in str(j.get("location","")).upper()]
+          dump("ORANGE_DDO",{"root_keys":list(obj.keys()),"job_count":len(found),"morocco_count":len(mor),"morocco_jobs":mor[:10]})
           PY
