@@ -1,0 +1,69 @@
+name: Jobs Title Render Preview
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/title-render-preview.yml"
+
+jobs:
+  render:
+    if: contains(github.event.head_commit.message, '[title-render-preview]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Render title-only previews
+        env:
+          JOBS_MODE: "true"
+        run: |
+          set -euo pipefail
+          mkdir -p title-preview
+          python - <<'PY'
+          from pathlib import Path
+          from utils.facebook_image_generator import generate_job_article_cover, generate_facebook_image
+
+          titles = [
+              ("01_inwi", "inwi توظف مديرًا تقنيًا لمنصة ServiceNow بالدار البيضاء"),
+              ("02_ormva", "المكتب الجهوي للاستثمار الفلاحي لتادلة – مباراة توظيف 5 مهندسي دولة و4 متصرفين و11 تقنيًا"),
+              ("03_ancfcc", "الوكالة الوطنية للمحافظة العقارية والمسح العقاري والخرائطية (ANCFCC): لوائح المدعوين لاجتياز الاختبار الكتابي"),
+              ("04_europe", "عقود العمل الموسمية في أوروبا 2026: الشروط، الرواتب، وطريقة التقديم"),
+              ("05_ucd", "نتائج ماسترات جامعة شعيب الدكالي UCD للموسم 2026/2027"),
+          ]
+
+          out = Path("title-preview")
+          for key, title in titles:
+              article = generate_job_article_cover(
+                  title,
+                  "",
+                  out / f"{key}_article.jpg",
+                  employer_name="Cybero Plus",
+              )
+              facebook = generate_facebook_image(
+                  title,
+                  "",
+                  out / f"{key}_facebook.jpg",
+                  hook_text="Cybero Plus",
+              )
+              if not article.get("ok"):
+                  raise SystemExit(f"Article render failed for {key}: {article}")
+              if not facebook.get("ok"):
+                  raise SystemExit(f"Facebook render failed for {key}: {facebook}")
+              print(key, article.get("width"), article.get("height"), facebook.get("template_index"))
+          PY
+
+      - name: Upload previews
+        uses: actions/upload-artifact@v4
+        with:
+          name: jobs-title-preview
+          path: title-preview/
+          if-no-files-found: error
