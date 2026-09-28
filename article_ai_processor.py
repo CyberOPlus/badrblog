@@ -580,7 +580,9 @@ STRICT ACCURACY
 
 LENGTH AND STYLE
 - This is a JOB LISTING, not a long-form article.
-- Keep the explanatory prose compact, normally 120-220 Arabic words.
+- Keep the explanatory prose compact, normally 135-200 Arabic words.
+- HARD FLOOR: html_content must contain at least 125 Arabic words. Aim above the
+  minimum so formatting cleanup never drops the article below the 120-word production gate.
 - Multi-specialization campaigns or candidate/result notices may contain a factual
   official-links table beyond that prose target. Never add filler, but never delete
   a useful verified official row merely to hit a word count.
@@ -594,9 +596,12 @@ TITLE
   not like a database row and not like "company: translated title (English title)".
 - The headline should immediately answer: WHO/WHAT + WHAT HAPPENED + the most useful
   verified distinguishing fact (positions, roles, stage, location, or campaign year).
-- Do not force an artificial 40-70 character limit. Prefer a natural headline,
-  usually about 55-115 characters, and allow a little more when a public institution
-  name or several verified job families make that necessary.
+- The JSON "title" is the Blogger/SEO headline and MUST be 45-65 characters
+  (the production gate accepts 40-70). Count characters before returning.
+- For a vacancy, the title MUST contain a clear employment action such as
+  "توظف" or "تعلن عن توظيف" or "فرصة توظيف"; do not return only the role name.
+- Keep it natural and specific: employer + employment action + Arabic role
+  (+ verified location when it fits).
 - Start with the institution/company/topic when that is the clearest search entity.
 - vacancy / single private role:
   prefer natural Arabic such as "inwi توظف مديرًا تقنيًا لمنصة ServiceNow بالدار البيضاء"
@@ -917,7 +922,11 @@ The previous compact job listing failed this quality rule:
 Rewrite ONLY as a concise verified job listing.
 
 MANDATORY JOB RETRY RULES:
-- Target 120-200 Arabic words; acceptable range 100-240. Never exceed 260 words.
+- Target 135-200 Arabic words. HARD FLOOR: 125 words; never return fewer.
+- The JSON title MUST be 45-65 characters (hard accepted range 40-70).
+- For vacancy notices, the title MUST explicitly contain an employment action:
+  "توظف", "تعلن عن توظيف", "فرصة توظيف", or "مباراة توظيف" as appropriate.
+- Before returning, silently count the article words and title characters.
 - Do not expand into a long article.
 - Keep one short introduction.
 - Keep one compact facts table with verified values only.
@@ -2328,7 +2337,12 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 if provider:
                     quality_retry_counts[provider] = quality_retry_counts.get(provider, 0) + 1
                 if attempt < total_attempts and provider:
-                    if quality_retry_counts.get(provider, 0) < 2:
+                    if JOBS_MODE and provider == "gemini":
+                        # A valid Gemini response that misses a formatting/quality
+                        # constraint is not a provider outage. Repair it with Gemini;
+                        # reserve OpenRouter for real Gemini provider/quota failures.
+                        forced_next_provider = "gemini"
+                    elif quality_retry_counts.get(provider, 0) < 2:
                         forced_next_provider = provider
                     else:
                         forced_next_provider = _next_provider_in_sequence(provider_sequence, provider)
