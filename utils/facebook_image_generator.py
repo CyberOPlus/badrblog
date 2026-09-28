@@ -33,6 +33,12 @@ from production_logging import log_event
 
 
 FONT_PATH = Path("assets/fonts/Cairo-Bold.ttf")
+CAIRO_FONT_URL = (
+    "https://raw.githubusercontent.com/google/fonts/main/ofl/cairo/"
+    "Cairo%5Bslnt%2Cwght%5D.ttf"
+)
+_CAIRO_FONT_BYTES = None
+_CAIRO_FONT_DOWNLOAD_FAILED = False
 IMAGE_TIMEOUT_SECONDS = 10
 MIN_ARTICLE_IMAGE_WIDTH = 360
 MIN_ARTICLE_IMAGE_HEIGHT = 220
@@ -134,10 +140,56 @@ def _cover(image, size):
 def _font(size):
     from PIL import ImageFont
 
+    global _CAIRO_FONT_BYTES, _CAIRO_FONT_DOWNLOAD_FAILED
+
     absolute_font = Path(__file__).resolve().parents[1] / FONT_PATH
     if absolute_font.exists():
         return ImageFont.truetype(str(absolute_font), size=size)
-    log_event("facebook_image_font_missing", path=absolute_font)
+
+    # Do not commit font binaries to the repository. Fetch Cairo at runtime and
+    # keep it in memory for this process. This guarantees the Jobs cards use the
+    # requested Cairo family while keeping the repo clean.
+    if _CAIRO_FONT_BYTES is None and not _CAIRO_FONT_DOWNLOAD_FAILED:
+        try:
+            response = requests.get(
+                CAIRO_FONT_URL,
+                headers={"User-Agent": "Mozilla/5.0"},
+                timeout=15,
+            )
+            response.raise_for_status()
+            if len(response.content) < 20_000:
+                raise RuntimeError("Cairo font download was unexpectedly small")
+            _CAIRO_FONT_BYTES = response.content
+        except Exception as error:
+            _CAIRO_FONT_DOWNLOAD_FAILED = True
+            log_event("cairo_font_download_failed", error=error.__class__.__name__)
+
+    if _CAIRO_FONT_BYTES:
+        try:
+            font = ImageFont.truetype(BytesIO(_CAIRO_FONT_BYTES), size=size)
+            try:
+                axes = font.get_variation_axes()
+                values = []
+                for axis in axes:
+                    name = axis.get("name", b"")
+                    if isinstance(name, bytes):
+                        name = name.decode("utf-8", "ignore")
+                    minimum = float(axis.get("minimum", 0))
+                    maximum = float(axis.get("maximum", 1000))
+                    default = float(axis.get("default", minimum))
+                    values.append(
+                        min(max(800.0, minimum), maximum)
+                        if "weight" in str(name).lower()
+                        else default
+                    )
+                if values:
+                    font.set_variation_by_axes(values)
+            except Exception:
+                pass
+            return font
+        except Exception as error:
+            log_event("cairo_font_load_failed", error=error.__class__.__name__)
+
     for fallback in (
         "DejaVuSans-Bold.ttf",
         "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
@@ -240,9 +292,28 @@ def _wrap_title(title, draw, font, max_width):
 
 def _draw_text(draw, position, line, font, fill):
     try:
-        draw.text(position, line, font=font, fill=fill, anchor="mm", direction="rtl" if _is_arabic(line) else None)
+        draw.text(
+            position,
+            line,
+            font=font,
+            fill=fill,
+            anchor="mm",
+            direction="rtl" if _is_arabic(line) else None,
+            language="ar" if _is_arabic(line) else None,
+        )
+        return
     except Exception:
-        draw.text(position, line, font=font, fill=fill, anchor="mm")
+        pass
+
+    fallback_line = line
+    if _is_arabic(line):
+        try:
+            import arabic_reshaper
+            from bidi.algorithm import get_display
+            fallback_line = get_display(arabic_reshaper.reshape(line))
+        except Exception:
+            fallback_line = line
+    draw.text(position, fallback_line, font=font, fill=fill, anchor="mm")
 
 
 def _draw_title(base, title, prepared=False):
@@ -304,6 +375,9 @@ def _draw_brand(base):
 
 JOB_TEMPLATE_DIR = Path(__file__).resolve().parents[1] / "assets" / "facebook"
 JOB_TEMPLATE_FILES = tuple(JOB_TEMPLATE_DIR / f"job{index}.png" for index in range(1, 5))
+JOB_ARTICLE_TEMPLATE_PATH = (
+    Path(__file__).resolve().parents[1] / "assets" / "article" / "template.png"
+)
 
 
 def _job_template_index():
@@ -395,9 +469,18 @@ def _job_text_bbox(draw, text, font):
             text,
             font=font,
             direction="rtl" if _is_arabic(text) else None,
+            language="ar" if _is_arabic(text) else None,
         )
     except Exception:
-        return draw.textbbox((0, 0), text, font=font)
+        fallback_text = text
+        if _is_arabic(text):
+            try:
+                import arabic_reshaper
+                from bidi.algorithm import get_display
+                fallback_text = get_display(arabic_reshaper.reshape(text))
+            except Exception:
+                pass
+        return draw.textbbox((0, 0), fallback_text, font=font)
 
 
 def _wrap_job_title(title, draw, font, max_width, max_lines=3):
@@ -513,6 +596,138 @@ def _generate_job_facebook_image(title, image_url, output_path, hook_text=""):
     except Exception as error:
         log_event("facebook_job_image_generation_failed", error=error.__class__.__name__)
         return {"ok": False, "path": "", "used_fallback": False, "error": str(error)}
+
+
+def generate_job_article_cover(
+    title,
+    image_url,
+    output_path,
+    employer_name="",
+    template_path=None,
+):
+    """Render the Blogger/article cover from the owner-supplied template.
+
+    The template may use any sensible landscape size. Logo/title placement is
+    relative to the canvas so changing 1200x675 to 1280x720 does not distort it.
+    """
+    from PIL import Image, ImageDraw
+
+    template_path = Path(template_path or JOB_ARTICLE_TEMPLATE_PATH)
+    output_path = Path(output_path)
+    if not template_path.exists():
+        return {
+            "ok": False,
+            "path": "",
+            "error": f"missing article template: {template_path}",
+        }
+
+    try:
+        base = Image.open(template_path).convert("RGBA")
+        width, height = base.size
+        if width < 800 or height < 450:
+            raise RuntimeError(
+                f"article template is too small: {width}x{height}; use at least 800x450"
+            )
+
+        # Logo: upper-middle, with enough breathing room from the site branding.
+        logo = _load_job_logo(image_url)
+        logo_center_x = int(width * 0.50)
+        logo_center_y = int(height * 0.34)
+        logo_max = (int(width * 0.46), int(height * 0.22))
+        if logo is not None:
+            logo = _contain(logo, logo_max)
+            base.alpha_composite(
+                logo,
+                (
+                    logo_center_x - logo.width // 2,
+                    logo_center_y - logo.height // 2,
+                ),
+            )
+        elif employer_name:
+            draw = ImageDraw.Draw(base)
+            font = _font(max(28, int(width * 0.038)))
+            lines = _wrap_job_title(
+                employer_name,
+                draw,
+                font,
+                int(width * 0.56),
+                max_lines=2,
+            )
+            line_height = max(38, int(width * 0.050))
+            y = logo_center_y - ((len(lines) - 1) * line_height) // 2
+            for line in lines:
+                _draw_text(
+                    draw,
+                    (logo_center_x, y),
+                    line,
+                    font,
+                    (40, 40, 40, 255),
+                )
+                y += line_height
+
+        # Title: lower-middle. Dynamic size handles short/medium/long Arabic,
+        # French and mixed titles without touching footer/edge branding.
+        draw = ImageDraw.Draw(base)
+        max_width = int(width * 0.76)
+        max_height = int(height * 0.25)
+        title_center_x = int(width * 0.50)
+        title_top = int(height * 0.56)
+        lines = []
+        font = _font(max(34, int(width * 0.050)))
+        line_height = max(44, int(width * 0.060))
+        start_size = max(42, int(width * 0.060))
+        min_size = max(28, int(width * 0.034))
+
+        for size in range(start_size, min_size - 1, -3):
+            candidate_font = _font(size)
+            candidate_lines = _wrap_job_title(
+                title,
+                draw,
+                candidate_font,
+                max_width,
+                max_lines=3,
+            )
+            candidate_height = len(candidate_lines) * int(size * 1.30)
+            if candidate_lines and candidate_height <= max_height:
+                font = candidate_font
+                lines = candidate_lines
+                line_height = int(size * 1.30)
+                break
+
+        if not lines:
+            lines = _wrap_job_title(title, draw, font, max_width, max_lines=3)
+
+        total_height = len(lines) * line_height
+        y = title_top + max(0, (max_height - total_height) // 2)
+        for line in lines:
+            _draw_text(
+                draw,
+                (title_center_x, y + line_height // 2),
+                line,
+                font,
+                (24, 24, 24, 255),
+            )
+            y += line_height
+
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        base.convert("RGB").save(
+            output_path,
+            "JPEG",
+            quality=95,
+            optimize=True,
+            subsampling=0,
+        )
+        return {
+            "ok": True,
+            "path": str(output_path),
+            "error": "",
+            "width": width,
+            "height": height,
+            "logo_loaded": logo is not None,
+        }
+    except Exception as error:
+        log_event("job_article_cover_generation_failed", error=error.__class__.__name__)
+        return {"ok": False, "path": "", "error": str(error)}
 
 
 def generate_facebook_image(title, image_url, output_path, hook_text=""):
