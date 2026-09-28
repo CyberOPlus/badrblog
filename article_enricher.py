@@ -1204,7 +1204,7 @@ def _apply_rss_summary_fallback(article):
     if len(summary) < MIN_EXTRACTED_CHARS or summary_words < MIN_EXTRACTED_WORDS:
         return False, (
             "missing article body after rss fallback "
-            f"({len(summary)} chars/{summary_words} words; required {required_words} words)"
+            f"({len(summary)} chars/{summary_words} words; required {MIN_EXTRACTED_WORDS} words)"
         )
     article["fetched_title"] = article.get("title", "")
     article["meta_description"] = summary[:240]
