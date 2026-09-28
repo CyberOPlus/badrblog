@@ -1,27 +1,18 @@
 {
   "avg_time": 0.0,
-  "cooldowns": {
-    "openrouter:qwen/qwen3.8-27b:free:1af698c9b3": {
-      "failed_at": "2026-09-28T21:15:25",
-      "key_id": "1af698c9b3",
-      "model": "qwen/qwen3.8-27b:free",
-      "provider": "openrouter",
-      "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"qwen/qwen3.8-27b:free is temporarily rate-limited upstream",
-      "until": 1790631925.8088367
-    }
-  },
+  "cooldowns": {},
   "fastest_success_model": "openrouter:inclusionai/ling-2.6-flash:free",
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 30.2323,
+      "avg_time": 30.2263,
       "failures": 2584,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-09-28T05:56:06",
-      "last_success_at": "2026-09-28T21:30:15",
+      "last_success_at": "2026-09-28T21:47:02",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 2572,
-      "total_success_time": 77757.3801
+      "successes": 2573,
+      "total_success_time": 77772.3327
     },
     "gemini:gemini-2.5-flash:75c7824eb0": {
       "failures": 5,
