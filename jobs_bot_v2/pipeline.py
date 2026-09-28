@@ -7,6 +7,7 @@ from pathlib import Path
 
 from .article_writer import write_article
 from .expiry import expiry_status
+from .fact_resolver import reconcile_batch
 from .identity_review import review_ambiguous_identity
 from .jobposting import build_jobposting
 from .metrics import publication_dimensions, record_event
@@ -88,12 +89,13 @@ def main():
 
     state = load_state()
     raw_candidates = _load_candidates(args.candidate_json)
+    reconciled_candidates, source_conflicts = reconcile_batch(raw_candidates)
     eligible = []
     identity_meta = {}
     held = []
     duplicates = []
 
-    for candidate in raw_candidates:
+    for candidate in reconciled_candidates:
         decision, existing = classify_candidate(candidate, state=state)
         action = decision.action
         review = None
@@ -149,7 +151,7 @@ def main():
         result = {
             "ok": False,
             "reason": "no new/update candidate passed quality and identity gates",
-            "held": held[:10],
+            "held": (source_conflicts + held)[:10],
             "duplicates": duplicates[:10],
             "ranked": [
                 {
@@ -165,7 +167,7 @@ def main():
         record_event(
             "selection_empty",
             candidates=len(raw_candidates),
-            held=len(held),
+            held=len(source_conflicts) + len(held),
             duplicates=len(duplicates),
         )
         print(json.dumps(result, ensure_ascii=False, indent=2))
