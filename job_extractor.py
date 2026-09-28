@@ -302,6 +302,22 @@ def _extract_job_action_links(soup, page_url):
         if any(hint in signature for hint in APPLY_LINK_HINTS):
             add(action, "التقديم الرسمي", "apply")
 
+    # Modern ATS pages (for example Teamtailor) can lazy-load the application
+    # form through a turbo-frame or another src-bearing element instead of a
+    # normal anchor/form action.
+    for node in soup.find_all(src=True):
+        src = str(node.get("src") or "").strip()
+        node_id = str(node.get("id") or "")
+        classes = " ".join(str(x) for x in (node.get("class") or []))
+        label = _text(node.get_text(" ", strip=True))
+        signature = f"{node_id} {classes} {label} {src}".casefold()
+        if (
+            any(hint in signature for hint in APPLY_LINK_HINTS)
+            or "application_form" in signature
+            or re.search(r"/applications?/(?:new|apply)(?:[/?#]|$)", src, flags=re.I)
+        ):
+            add(src, label or "التقديم المباشر", "apply")
+
     # Public recruitment campaigns can expose many specialization/result PDFs.
     # Keep enough exact official links to build a complete table instead of silently
     # dropping rows after the eighth document.
