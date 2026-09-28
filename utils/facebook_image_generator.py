@@ -539,29 +539,45 @@ def _draw_job_title(base, title):
 
     draw = ImageDraw.Draw(base)
     # Keep the title inside the clean central area of the owner template.
-    # A wider/taller box reduces unnecessary line breaks on Arabic public-sector
-    # headlines while preserving the right vertical branding and bottom socials.
+    # Very long public-sector headlines get one extra line instead of an ellipsis.
+    clean_title = re.sub(r"\s+", " ", str(title or "")).strip()
+    long_headline = len(clean_title) > 88
+    max_lines = 5 if long_headline else 4
     max_width = 820
-    max_height = 300
+    max_height = 350 if long_headline else 300
+    box_top = 590 if long_headline else 625
+    min_size = 29 if long_headline else 32
     lines = []
     font = _font(60)
     line_height = 76
 
-    for size in range(68, 32, -3):
+    for size in range(68, min_size - 1, -3):
         candidate_font = _font(size)
-        candidate_lines = _wrap_job_title(title, draw, candidate_font, max_width, max_lines=4)
-        candidate_height = len(candidate_lines) * int(size * 1.28)
+        candidate_lines = _wrap_job_title(
+            clean_title,
+            draw,
+            candidate_font,
+            max_width,
+            max_lines=max_lines,
+        )
+        candidate_height = len(candidate_lines) * int(size * 1.26)
         if candidate_lines and candidate_height <= max_height:
             font = candidate_font
             lines = candidate_lines
-            line_height = int(size * 1.28)
+            line_height = int(size * 1.26)
             break
 
     if not lines:
-        lines = _wrap_job_title(title, draw, font, max_width, max_lines=4)
+        lines = _wrap_job_title(
+            clean_title,
+            draw,
+            font,
+            max_width,
+            max_lines=max_lines,
+        )
 
     center_x = 505
-    start_y = 625 + max(0, (max_height - len(lines) * line_height) // 2)
+    start_y = box_top + max(0, (max_height - len(lines) * line_height) // 2)
     for line in lines:
         _draw_text(
             draw,
