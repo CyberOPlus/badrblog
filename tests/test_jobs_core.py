@@ -113,6 +113,47 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(fields["job_document_links"][0]["url"], "https://example.com/docs/conditions.pdf")
         self.assertEqual(fields["company_logo_url"], "https://cdn.example.com/logo.png")
 
+    def test_extractor_detects_lazy_loaded_direct_application_form(self):
+        html = """
+        <html><head><script type="application/ld+json">
+        {
+          "@context":"https://schema.org",
+          "@type":"JobPosting",
+          "title":"Technical Lead ServiceNow",
+          "hiringOrganization":{"name":"inwi"},
+          "jobLocation":{"address":{"addressLocality":"Casablanca","addressCountry":"MA"}},
+          "url":"https://jobs.inwi.ma/jobs/8463145-technical-lead-servicenow"
+        }
+        </script></head><body>
+          <turbo-frame
+            id="application_form"
+            src="https://jobs.inwi.ma/jobs/8463145-technical-lead-servicenow/applications/new">
+            Téléchargement du formulaire de candidature
+          </turbo-frame>
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        fields = job_extractor.extract_job_fields(
+            soup,
+            {
+                "source_name": "inwi",
+                "official_source": True,
+                "source_country": "MA",
+                "source_eligibility": "morocco",
+            },
+            "https://jobs.inwi.ma/jobs/8463145-technical-lead-servicenow",
+            full_text="Offre officielle à Casablanca.",
+        )
+        self.assertEqual(
+            fields["job_application_url"],
+            "https://jobs.inwi.ma/jobs/8463145-technical-lead-servicenow/applications/new",
+        )
+        self.assertEqual(fields["job_application_link_kind"], "direct_apply")
+        self.assertTrue(any(
+            row.get("url", "").endswith("/applications/new")
+            for row in fields.get("job_action_links", [])
+        ))
+
     def test_foreign_job_does_not_infer_moroccan_city_from_body_substring(self):
         html = """
         <html><head><script type="application/ld+json">
