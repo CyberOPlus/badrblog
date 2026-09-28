@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 from .ai_engine import generate_json
 from .config import BLOG_LABEL, PROMPTS_DIR
 from .models import ArticlePackage
+from .slug_policy import desired_slug
 
 
 PROMPT_PATH = PROMPTS_DIR / "job_article_ar.txt"
@@ -52,7 +53,9 @@ def write_article(candidate):
         title=str(data["title"]).strip(),
         seo_title=str(data["seo_title"]).strip(),
         meta_description=str(data["meta_description"]).strip(),
-        slug=str(data["slug"]).strip(),
+        # Keep the AI slug only as a quality hint; the system-owned slug key is
+        # deterministic and collision-resistant across repeated job titles.
+        slug=desired_slug(candidate),
         html=str(data["html"]).strip(),
         card_title=str(data["card_title"]).strip(),
         labels=labels,
