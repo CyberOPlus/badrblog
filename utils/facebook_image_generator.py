@@ -538,13 +538,16 @@ def _draw_job_title(base, title):
     from PIL import ImageDraw
 
     draw = ImageDraw.Draw(base)
-    max_width = 760
-    max_height = 255
+    # Keep the title inside the clean central area of the owner template.
+    # A wider/taller box reduces unnecessary line breaks on Arabic public-sector
+    # headlines while preserving the right vertical branding and bottom socials.
+    max_width = 820
+    max_height = 300
     lines = []
-    font = _font(58)
+    font = _font(60)
     line_height = 76
 
-    for size in range(64, 30, -3):
+    for size in range(68, 32, -3):
         candidate_font = _font(size)
         candidate_lines = _wrap_job_title(title, draw, candidate_font, max_width, max_lines=4)
         candidate_height = len(candidate_lines) * int(size * 1.28)
@@ -558,7 +561,7 @@ def _draw_job_title(base, title):
         lines = _wrap_job_title(title, draw, font, max_width, max_lines=4)
 
     center_x = 505
-    start_y = 665 + max(0, (max_height - len(lines) * line_height) // 2)
+    start_y = 625 + max(0, (max_height - len(lines) * line_height) // 2)
     for line in lines:
         _draw_text(
             draw,
@@ -698,10 +701,12 @@ def generate_job_article_cover(
         # Title: lower-middle. Dynamic size handles short/medium/long Arabic,
         # French and mixed titles without touching footer/edge branding.
         draw = ImageDraw.Draw(base)
-        max_width = int(width * 0.76)
-        max_height = int(height * 0.25)
+        # Give long Arabic competition/result headlines more breathing room.
+        # The box stays clear of the right brand strip and bottom domain line.
+        max_width = int(width * 0.82)
+        max_height = int(height * 0.28)
         title_center_x = int(width * 0.50)
-        title_top = int(height * 0.56)
+        title_top = int(height * 0.53)
         lines = []
         font = _font(max(34, int(width * 0.050)))
         line_height = max(44, int(width * 0.060))
