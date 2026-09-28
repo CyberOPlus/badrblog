@@ -18,6 +18,11 @@ REFERENCE_KEYS = (
     "reference", "reference_id", "req_id", "vacancy_id", "posting_id",
 )
 
+GENERIC_JOB_PATHS = {
+    "", "jobs", "job", "careers", "career", "recruitment", "recrutement",
+    "vacancies", "vacancy", "opportunities", "opportunity", "apply",
+}
+
 
 def normalize_text(value):
     text = unicodedata.normalize("NFKC", str(value or "")).casefold()
@@ -55,6 +60,32 @@ def canonicalize_url(url):
     return urlunparse(("https", host, path, "", query, ""))
 
 
+def is_job_specific_url(url):
+    normalized = canonicalize_url(url)
+    if not normalized:
+        return False
+    parsed = urlparse(normalized)
+    segments = [x.casefold() for x in parsed.path.split("/") if x]
+
+    if parsed.query:
+        # Query-bearing ATS links are often job-specific. Generic tracking
+        # parameters were already removed by canonicalize_url().
+        return True
+
+    if not segments:
+        return False
+
+    last = segments[-1]
+    if last in GENERIC_JOB_PATHS and len(segments) <= 2:
+        return False
+
+    # IDs/requisition tokens in the path are strong evidence of a job page.
+    if re.search(r"\d{3,}|[a-f0-9]{8,}", last):
+        return True
+
+    return len(segments) >= 2 and last not in GENERIC_JOB_PATHS
+
+
 def external_reference(candidate):
     raw = candidate.raw or {}
     for key in REFERENCE_KEYS:
@@ -85,10 +116,13 @@ def identity_key(candidate):
     else:
         apply_url = canonicalize_url(candidate.application_url)
         canonical = canonicalize_url(candidate.canonical_url or candidate.source_url)
-        if apply_url:
-            base = f"apply|{apply_url}"
-        elif canonical:
+
+        # Prefer job-specific URLs. Generic /careers or /jobs pages are weak
+        # aliases and must never collapse years of campaigns into one identity.
+        if canonical and is_job_specific_url(canonical):
             base = f"url|{canonical}"
+        elif apply_url and is_job_specific_url(apply_url):
+            base = f"apply|{apply_url}"
         else:
             base = f"core|{core_key(candidate)}"
     return hashlib.sha256(base.encode("utf-8")).hexdigest()[:24]
@@ -147,10 +181,33 @@ class IdentityDecision:
         }
 
 
+def _campaign_rollover(candidate, record):
+    """Detect a genuinely new hiring cycle even when a careers URL is reused."""
+    new_posted = _parse_date(candidate.published_at)
+    old_deadline = _parse_date(record.get("deadline"))
+    old_posted = _parse_date(record.get("published_at"))
+
+    if new_posted and old_deadline:
+        gap = (new_posted - old_deadline).days
+        if gap >= 90:
+            return True, f"new posting starts {gap} days after old deadline"
+
+    if new_posted and old_posted:
+        gap = (new_posted - old_posted).days
+        if gap >= 330:
+            return True, f"same role resurfaced {gap} days later"
+
+    return False, ""
+
+
 def compare_to_existing(candidate, record):
     """Decide whether a candidate updates an existing posting or is a new campaign."""
     if not record:
         return IdentityDecision("new", "no existing record")
+
+    rollover, rollover_reason = _campaign_rollover(candidate, record)
+    if rollover:
+        return IdentityDecision("new_campaign", rollover_reason)
 
     new_ref = external_reference(candidate)
     old_ref = str(record.get("external_reference") or "").strip()
