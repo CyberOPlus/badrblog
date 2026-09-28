@@ -28,7 +28,6 @@ from config import (
     WHATSAPP_CHANNEL_URL,
     JOBS_MODE,
 )
-from notifier import notify_facebook_result
 from production_logging import elapsed_ms, log_event
 from utils.facebook_image_generator import generate_facebook_image
 from job_core import facebook_slot_status
@@ -244,11 +243,6 @@ ARABIC_HASHTAG_MAP = (
 def _now_iso():
     return datetime.now().isoformat(timespec="seconds")
 
-
-def _log_notification_result(label, result):
-    if result.get("sent") or result.get("skipped"):
-        return
-    print(f"Telegram {label} notification failed: {result.get('reason', 'unknown error')}")
 
 
 def _parse_local_datetime(value):
@@ -1320,8 +1314,6 @@ def _validate_facebook_caption(caption, blogger_url="", style="", hook="", struc
 def _apply_failure(article, error):
     article["facebook_status"] = "failed"
     article["facebook_error"] = str(error)
-    article.pop("telegram_facebook_notified", None)
-    article.pop("telegram_facebook_event_key", None)
 
 
 def _failure_result(queue, article, error, checked=1, extra=None):
@@ -1336,7 +1328,6 @@ def _failure_result(queue, article, error, checked=1, extra=None):
         }
         if extra:
             result.update(extra)
-        _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
         return result
 
     result = {
@@ -1539,8 +1530,6 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         article["facebook_link_mode"] = FACEBOOK_LINK_MODE_ENFORCED
         article["facebook_post_text"] = blueprint["caption"]
         article.pop("facebook_error", None)
-        article.pop("telegram_facebook_notified", None)
-        article.pop("telegram_facebook_event_key", None)
 
         try:
             comment_id = _post_first_comment(facebook_post_id, blogger_url)
@@ -1595,7 +1584,6 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             success=article.get("facebook_status") in {"posted", "posted_comment_failed"},
             post_id=article.get("facebook_post_id"),
         )
-        _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
         return result
 
     except Exception as error:
@@ -1631,7 +1619,6 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             blogger_url=blogger_url,
             error=article.get("facebook_error", ""),
         )
-        _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
         return result
 
 
@@ -1681,8 +1668,6 @@ def retry_facebook_first_comment(target_article_id):
         article["facebook_comment_id"] = comment_id
         article["facebook_status"] = "posted"
         article.pop("facebook_error", None)
-        article.pop("telegram_facebook_notified", None)
-        article.pop("telegram_facebook_event_key", None)
         save_article_queue(queue)
         result = {
             "checked": 1,
@@ -1695,8 +1680,6 @@ def retry_facebook_first_comment(target_article_id):
     except Exception as error:
         article["facebook_status"] = "posted_comment_failed"
         article["facebook_error"] = f"First comment failed: {error}"
-        article.pop("telegram_facebook_notified", None)
-        article.pop("telegram_facebook_event_key", None)
         save_article_queue(queue)
         result = {
             "checked": 1,
@@ -1706,8 +1689,6 @@ def retry_facebook_first_comment(target_article_id):
             "comment_retry": True,
         }
         log_event("facebook_comment_success", article_id=article.get("id"), success=False, error=error.__class__.__name__)
-
-    _log_notification_result("Facebook", notify_facebook_result(queue, article, result))
     return result
 
 
