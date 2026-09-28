@@ -260,11 +260,15 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             if image_sources[0] != cover_url:
                 return QualityGateResult(False, "job article image is not the generated cover", word_count)
 
+        if word_count > 260:
+            return QualityGateResult(
+                False,
+                f"job article too long ({word_count} words; maximum 260)",
+                word_count,
+            )
         warnings = []
         if not re.search(r"<h2\b", html_content, flags=re.I):
             warnings.append("job article has no h2 section")
-        if word_count > 260:
-            warnings.append("job article is longer than the preferred compact range")
         return QualityGateResult(True, "", word_count, tuple(warnings))
 
     if fast_mode:
