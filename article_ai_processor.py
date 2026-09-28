@@ -456,6 +456,8 @@ def _is_rich_input_package(package):
 
 
 def _minimum_article_words_for_package(package):
+    if JOBS_MODE:
+        return 120
     return LONG_FORM_ARTICLE_MIN_WORDS if _is_rich_input_package(package) else MIN_PUBLISHABLE_WORDS
 
 
@@ -559,7 +561,7 @@ STRICT JOB RULES:
 - Keep company names, product names, job titles and necessary French/English terms as written.
 - Do not mention scraping, rewriting, AI, or the automation.
 - Do not fabricate urgency. A deadline is urgent only when the package explicitly provides it.
-- The article should normally be 250-650 words; accuracy is more important than length.
+- Keep the article compact: normally 120-220 Arabic words. Do not pad it; accuracy is more important than length.
 - Begin with a short direct introduction naming the employer and opportunity.
 - Use useful <h2> sections such as: تفاصيل الوظيفة، الشروط والمؤهلات، مكان العمل،
   آخر أجل للترشيح، وطريقة التقديم, but include a section only when supported by facts.
@@ -1017,21 +1019,36 @@ def _plus_ui_format_html(html_content, package):
     for img in soup.find_all("img"):
         img.decompose()
 
-    # Insert main image after first paragraph
+    # Insert the one approved main image after the first paragraph.
     main_image = package.get("main_image") or ""
     if main_image and paragraphs:
-        title = package.get("title") or "صورة المقال"
-        image_html = (
-            "<figure>\n"
-            f"  <img alt='{escape(title, quote=True)}' "
-            f"src='{escape(main_image, quote=True)}'/>\n"
-            f"  <figcaption>{escape(title)}</figcaption>\n"
-            "</figure>"
+        title = package.get("cover_alt") or package.get("title") or "صورة المقال"
+        width = str(package.get("cover_width") or "").strip()
+        height = str(package.get("cover_height") or "").strip()
+        size_attrs = (
+            f" width='{escape(width, quote=True)}' height='{escape(height, quote=True)}'"
+            if width and height
+            else ""
         )
+        if JOBS_MODE:
+            image_html = (
+                "<figure>\n"
+                f"  <img alt='{escape(title, quote=True)}'{size_attrs} "
+                f"src='{escape(main_image, quote=True)}'/>\n"
+                "</figure>"
+            )
+        else:
+            image_html = (
+                "<figure>\n"
+                f"  <img alt='{escape(title, quote=True)}'{size_attrs} "
+                f"src='{escape(main_image, quote=True)}'/>\n"
+                f"  <figcaption>{escape(title)}</figcaption>\n"
+                "</figure>"
+            )
         paragraphs[0].insert_after(BeautifulSoup(image_html, "html.parser"))
 
-    # Insert extra images if provided
-    extra_images = package.get("extra_article_images") or []
+    # Jobs must contain one cover only; source-page extra images are forbidden.
+    extra_images = [] if JOBS_MODE else (package.get("extra_article_images") or [])
     if extra_images and len(extra_images) > 0:
         # Find h2 tags to insert images after them
         h2_tags = soup.find_all("h2")
@@ -1081,13 +1098,20 @@ def _insert_main_image_if_missing(html_content, package):
     if not main_image:
         return html_content
 
-    title = package.get("title") or "صورة المقال"
+    title = package.get("cover_alt") or package.get("title") or "صورة المقال"
+    width = str(package.get("cover_width") or "").strip()
+    height = str(package.get("cover_height") or "").strip()
+    size_attrs = (
+        f" width='{escape(width, quote=True)}' height='{escape(height, quote=True)}'"
+        if width and height
+        else ""
+    )
     image_html = (
         "<figure>\n"
-        f"  <img alt='{escape(title, quote=True)}' "
+        f"  <img alt='{escape(title, quote=True)}'{size_attrs} "
         f"src='{escape(main_image, quote=True)}'/>\n"
-        f"  <figcaption>{escape(title)}</figcaption>\n"
-        "</figure>\n"
+        + ("" if JOBS_MODE else f"  <figcaption>{escape(title)}</figcaption>\n")
+        + "</figure>\n"
     )
     
     soup = BeautifulSoup(html_content, "html.parser")
@@ -1333,13 +1357,70 @@ def format_phase3_article_html(html_content, package=None):
     return _plus_ui_format_html(html_content, package or {})
 
 
+def _append_job_action_links_if_missing(html_content, package):
+    if not JOBS_MODE:
+        return html_content
+
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    existing = {
+        str(link.get("href") or "").strip()
+        for link in soup.find_all("a", href=True)
+        if str(link.get("href") or "").strip()
+    }
+    rows = []
+    seen = set(existing)
+
+    application_url = str(package.get("job_application_url") or "").strip()
+    if application_url and application_url not in seen:
+        label = (
+            "التقديم المباشر"
+            if package.get("job_application_link_kind") == "direct_apply"
+            else "صفحة الإعلان أو التقديم الرسمية"
+        )
+        rows.append((label, application_url))
+        seen.add(application_url)
+
+    for index, item in enumerate(package.get("job_document_links") or [], start=1):
+        if not isinstance(item, dict):
+            continue
+        url = str(item.get("url") or "").strip()
+        if not url or url in seen:
+            continue
+        label = str(item.get("label") or "").strip() or f"الملف الرسمي {index}"
+        rows.append((label, url))
+        seen.add(url)
+
+    if not rows:
+        return html_content
+
+    has_application_heading = any(
+        "تقديم" in heading.get_text(" ", strip=True)
+        for heading in soup.find_all(["h2", "h3"])
+    )
+    block = []
+    if not has_application_heading:
+        block.append("<h2>طريقة التقديم</h2>")
+    for label, url in rows:
+        block.append(
+            "<p><a class='extL' "
+            f"href='{escape(url, quote=True)}' "
+            "target='_blank' rel='nofollow noreferrer noopener'>"
+            f"{escape(label)}</a></p>"
+        )
+    return html_content.rstrip() + "\n" + "\n".join(block)
+
+
 def _finalize_html_content(data, package):
-    """Finalize HTML content for publication with all required formatting and images."""
+    """Finalize HTML content for publication."""
     html_content = data["html_content"]
     html_content = _sanitize_source_links(html_content, package)
     html_content = _plus_ui_format_html(html_content, package)
-    html_content = _insert_main_image_if_missing(html_content, package)  # Ensure main image is present
-    if not JOBS_MODE:
+    if JOBS_MODE:
+        # The single branded job cover is generated later by the Blogger publisher.
+        # AI output never imports or inserts images from the source job page.
+        html_content = _append_job_action_links_if_missing(html_content, package)
+    else:
+        html_content = _insert_main_image_if_missing(html_content, package)
         html_content = _append_trusted_references_if_missing(html_content, package)
         html_content = _append_related_posts_if_missing(html_content, package)
     html_content = _sanitize_source_links(html_content, package)
