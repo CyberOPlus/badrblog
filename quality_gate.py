@@ -240,6 +240,32 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         if application_url and application_url not in html_content:
             return QualityGateResult(False, "job application URL is missing from final HTML", word_count)
 
+        deadline_value = str(
+            article.get("job_deadline_display")
+            or article.get("job_deadline")
+            or package.get("job_deadline_display")
+            or package.get("job_deadline")
+            or ""
+        ).strip()
+        notice_type = str(
+            article.get("job_notice_type")
+            or package.get("job_notice_type")
+            or "vacancy"
+        ).strip().lower()
+        if notice_type == "vacancy" and deadline_value:
+            deadline_labels = (
+                "آخر أجل للترشيح",
+                "آخر أجل",
+                "موعد انتهاء الترشيح",
+                "تاريخ انتهاء الترشيح",
+            )
+            if not any(label in body_text for label in deadline_labels):
+                return QualityGateResult(
+                    False,
+                    "verified job deadline is missing from final HTML",
+                    word_count,
+                )
+
         job_links = re.findall(
             r"<a\b[^>]*\bhref=['\"]([^'\"]+)['\"]",
             html_content,
@@ -268,10 +294,16 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             if image_sources[0] != cover_url:
                 return QualityGateResult(False, "job article image is not the generated cover", word_count)
 
-        if word_count > 260:
+        document_links = (
+            article.get("job_document_links")
+            or package.get("job_document_links")
+            or []
+        )
+        max_job_words = 420 if len(document_links) >= 4 else 260
+        if word_count > max_job_words:
             return QualityGateResult(
                 False,
-                f"job article too long ({word_count} words; maximum 260)",
+                f"job article too long ({word_count} words; maximum {max_job_words})",
                 word_count,
             )
         warnings = []
