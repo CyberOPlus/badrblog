@@ -1,0 +1,31 @@
+name: Cybero Plus Jobs Preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      candidate_file:
+        description: "Candidate JSON path"
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -r cyberoplus_jobs_bot/requirements.txt
+      - name: Generate preview only
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          JOBS_LIVE_PUBLISH: "false"
+          JOBS_LIVE_FACEBOOK: "false"
+        run: |
+          python -m cyberoplus_jobs_bot.pipeline --candidate-json "${{ github.event.inputs.candidate_file }}"
