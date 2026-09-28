@@ -1,18 +1,35 @@
 {
   "avg_time": 0.0,
-  "cooldowns": {},
+  "cooldowns": {
+    "openrouter:openrouter/free:e5c3515f5b": {
+      "failed_at": "2026-09-28T20:31:00",
+      "key_id": "e5c3515f5b",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1790629260.9996462
+    },
+    "openrouter:qwen/qwen3.8-27b:free:e5c3515f5b": {
+      "failed_at": "2026-09-28T20:29:26",
+      "key_id": "e5c3515f5b",
+      "model": "qwen/qwen3.8-27b:free",
+      "provider": "openrouter",
+      "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"qwen/qwen3.8-27b:free is temporarily rate-limited upstream",
+      "until": 1790629167.9539344
+    }
+  },
   "fastest_success_model": "openrouter:inclusionai/ling-2.6-flash:free",
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 30.2722,
+      "avg_time": 30.2645,
       "failures": 2584,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-09-28T05:56:06",
-      "last_success_at": "2026-09-28T18:14:07",
+      "last_success_at": "2026-09-28T20:31:11",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 2566,
-      "total_success_time": 77678.3538
+      "successes": 2567,
+      "total_success_time": 77689.0357
     },
     "gemini:gemini-2.5-flash:75c7824eb0": {
       "failures": 5,
@@ -67,7 +84,9 @@
     },
     "openrouter:openrouter/free:e5c3515f5b": {
       "avg_time": 48.6995,
+      "failures": 1,
       "key_id": "e5c3515f5b",
+      "last_failure_at": "2026-09-28T20:31:00",
       "last_success_at": "2026-09-28T18:18:44",
       "model": "openrouter/free",
       "provider": "openrouter",
@@ -76,9 +95,9 @@
     },
     "openrouter:qwen/qwen3.8-27b:free:e5c3515f5b": {
       "avg_time": 193.0198,
-      "failures": 1,
+      "failures": 2,
       "key_id": "e5c3515f5b",
-      "last_failure_at": "2026-09-28T18:12:00",
+      "last_failure_at": "2026-09-28T20:29:26",
       "last_success_at": "2026-09-28T19:20:16",
       "model": "qwen/qwen3.8-27b:free",
       "provider": "openrouter",
