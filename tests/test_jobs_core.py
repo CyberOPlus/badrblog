@@ -3,9 +3,11 @@ from datetime import datetime, timezone
 
 from bs4 import BeautifulSoup
 
+import article_enricher
 import job_core
 import job_extractor
 import quality_gate
+import scraper
 
 
 def sample_job(**overrides):
@@ -71,6 +73,150 @@ class JobsCoreTests(unittest.TestCase):
         slug = job_core.desired_slug(a, campaign_id=campaign_id)
         self.assertNotIn("100", slug)
         self.assertNotIn("2026", slug)
+
+    def test_etalent_parser_accepts_only_real_offer_detail_links(self):
+        html = """
+        <html><body>
+          <a href="/offres">Offres d'emploi</a>
+          <a href="/candidat/inscription">Créer mon espace candidat</a>
+          <div><h3>CADRE CHARGE D'OPERATIONS</h3><a href="/offre/73">Voir l'offre</a></div>
+        </body></html>
+        """
+        links = scraper._parse_etalent_links(
+            html,
+            "https://adm.etalent.ma/offres",
+            per_source_limit=5,
+        )
+        self.assertEqual(len(links), 1)
+        self.assertEqual(links[0]["url"], "https://adm.etalent.ma/offre/73")
+        self.assertEqual(links[0]["ats_provider"], "etalent")
+
+    def test_phenom_ddo_parser_keeps_only_morocco_jobs(self):
+        ddo = {
+            "eagerLoadRefineSearch": {
+                "jobs": [
+                    {
+                        "jobId": "ICM-588622",
+                        "title": "Mobile Core Network Engineer",
+                        "country": "MOROCCO",
+                        "location": "CASABLANCA,MOROCCO",
+                        "jobSeqNo": "MA-1",
+                        "applyUrl": "https://careers-orange.icims.com/jobs/28099/job/login",
+                    },
+                    {
+                        "jobId": "ICM-123",
+                        "title": "Other Country Role",
+                        "country": "FRANCE",
+                        "location": "PARIS,FRANCE",
+                        "jobSeqNo": "FR-1",
+                        "applyUrl": "https://example.com/fr",
+                    },
+                ]
+            }
+        }
+        html = (
+            "<html><body><script>"
+            "var phApp = {}; phApp.ddo = "
+            + json.dumps(ddo)
+            + ";</script></body></html>"
+        )
+        rows = scraper._phenom_jobs_from_html(html, country="MOROCCO")
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["jobId"], "ICM-588622")
+
+    def test_phenom_structured_payload_enriches_without_scraping_marketing_page(self):
+        description = " ".join([
+            "Nous recherchons un ingénieur réseau expérimenté pour rejoindre notre équipe au Maroc.",
+            "Le poste couvre la conception, le déploiement, le suivi et l'amélioration des solutions techniques.",
+            "Le candidat travaille avec les équipes métiers, sécurité et exploitation afin de garantir la qualité du service.",
+            "Une expérience confirmée en télécommunications, analyse, documentation et résolution de problèmes est attendue.",
+            "La mission comprend également la coordination technique, le partage des connaissances et le suivi des projets clients.",
+        ])
+        article = {
+            "id": "orange-1",
+            "title": "Mobile Core Network Engineer",
+            "url": "https://careers-orange.icims.com/jobs/28099/mobile-core-network-engineer/job/login",
+            "source_name": "Orange Maroc",
+            "source_url": "https://orange.jobs/fr/fr/mea-morocco-job-search-results",
+            "ats_provider": "phenom",
+            "ats_reference": "ICM-588622",
+            "ats_description": description,
+            "job_application_url": "https://careers-orange.icims.com/jobs/28099/mobile-core-network-engineer/job/login",
+            "job_application_link_kind": "direct_apply",
+            "job_location": "CASABLANCA,MOROCCO",
+            "job_country": "MA",
+            "job_contract_type": "CDI",
+            "job_company": "Orange Business",
+            "phenom_payload": {
+                "company": "Orange Business",
+                "category": "Réseau",
+                "workModel": "Hybride",
+                "hiringType": "Temps complet",
+            },
+        }
+        ok, error = article_enricher._apply_phenom_enrichment(article)
+        self.assertTrue(ok, error)
+        self.assertEqual(article["content_fetch_status"], "success")
+        self.assertEqual(article["job_application_link_kind"], "direct_apply")
+        self.assertEqual(article["job_country"], "MA")
+        self.assertIn("ingénieur réseau", article["full_article_text"].lower())
+
+    def test_csod_structured_payload_enriches_description_and_deadline(self):
+        description = "<p>" + " ".join([
+            "Nous recherchons un responsable expérimenté pour piloter une fonction stratégique au sein du groupe.",
+            "La mission comprend la définition des priorités, la coordination des équipes et le suivi des objectifs opérationnels.",
+            "Le candidat devra analyser les besoins, proposer des améliorations et accompagner les parties prenantes dans leur mise en œuvre.",
+            "Une expérience solide en management, communication, organisation et conduite de projets complexes est demandée.",
+            "Le poste offre un environnement structuré avec une forte collaboration entre équipes et une responsabilité directe sur les résultats.",
+        ]) + "</p>"
+        article = {
+            "id": "iam-69",
+            "title": "Head of People Experience & Culture",
+            "url": "https://iam.csod.com/ux/ats/careersite/4/home/requisition/69?c=iam",
+            "source_name": "Maroc Telecom",
+            "source_url": "https://iam.csod.com/ux/ats/careersite/4/home?c=iam",
+            "ats_provider": "csod",
+            "ats_reference": "69",
+        }
+        detail = {
+            "data": {
+                "displayTitle": "Head of People Experience & Culture",
+                "externalDescription": description,
+                "ref": "req69",
+                "requisitionStatusId": 2,
+                "allowApply": True,
+                "primaryLocation": {
+                    "title": "Tour Maroc Telecom avenue Annakhil, Hay Riad Rabat",
+                    "country": "MA",
+                },
+                "companyApplyUrl": "https://iam.csod.com/ux/ats/careersite/4/home/requisition/69?c=iam",
+                "openDate": "2026-09-25T16:12:02",
+            }
+        }
+        posting = {
+            "data": {
+                "postings": [{
+                    "isDefault": True,
+                    "startDate": "2026-09-25T00:00:00",
+                    "endDate": "2026-11-25T23:59:59",
+                }]
+            }
+        }
+        ok, error = article_enricher._apply_csod_payloads(article, detail, posting, {})
+        self.assertTrue(ok, error)
+        self.assertEqual(article["content_fetch_status"], "success")
+        self.assertEqual(article["job_deadline"], "2026-11-25")
+        self.assertEqual(article["job_country"], "MA")
+        self.assertIn("Rabat", article["job_location"])
+        self.assertIn("responsable expérimenté", article["full_article_text"].lower())
+
+    def test_csod_article_config_parses_requisition(self):
+        cfg = article_enricher._csod_article_config({
+            "url": "https://iam.csod.com/ux/ats/careersite/4/home/requisition/69?c=iam"
+        })
+        self.assertEqual(cfg["site_id"], 4)
+        self.assertEqual(cfg["req_id"], "69")
+        self.assertIn("/v2/requisitions/69/jobDetails", cfg["detail_url"])
 
     def test_tracking_parameters_do_not_change_job_url(self):
         a = job_core.canonicalize_job_url("https://Example.com/jobs/123?utm_source=x&gclid=1")
