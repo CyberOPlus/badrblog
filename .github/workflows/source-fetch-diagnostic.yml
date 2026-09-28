@@ -180,6 +180,36 @@ jobs:
           except Exception as e:
               probes["UN_RAW_PATTERNS"]={"error":f"{type(e).__name__}: {e}"}
 
+          try:
+              base="https://careers.un.org/"
+              js=requests.get(
+                  base+"main-O3ZRFPTW.js",
+                  timeout=20,
+                  headers={"User-Agent":"Mozilla/5.0"},
+              ).text
+              import re
+              endpoints=[]
+              patterns=(
+                  r'https?://[^"\'\s)]+',
+                  r'["\']([^"\']*(?:api|jobOpening|jobopening|job-search|searchJobs|vacanc)[^"\']*)["\']',
+              )
+              for pattern in patterns:
+                  for match in re.finditer(pattern, js, flags=re.I):
+                      value=match.group(0) if match.lastindex is None else match.group(1)
+                      value=value.strip('"\'')
+                      if value and value not in endpoints:
+                          endpoints.append(value)
+                      if len(endpoints)>=120:
+                          break
+                  if len(endpoints)>=120:
+                      break
+              probes["UN_MAIN_JS"]={
+                  "chars":len(js),
+                  "endpoint_candidates":endpoints[:120],
+              }
+          except Exception as e:
+              probes["UN_MAIN_JS"]={"error":f"{type(e).__name__}: {e}"}
+
           print("=== ALTERNATIVE_OFFICIAL_PROBES ===")
           print(json.dumps(probes, ensure_ascii=False, indent=2))
           PY
