@@ -50,13 +50,16 @@ def build_jobposting(candidate, article, article_url):
         "@type": "JobPosting",
         "title": candidate.title,
         "description": article.html,
-        "hiringOrganization": {
-            "@type": "Organization",
-            "name": candidate.company or "غير محدد",
-        },
-        "directApply": False,
-        "url": article_url,
     }
+
+    if candidate.company:
+        data["hiringOrganization"] = {
+            "@type": "Organization",
+            "name": candidate.company,
+        }
+
+    if article_url and str(article_url).startswith(("http://", "https://")):
+        data["url"] = article_url
 
     date_posted = _date_only(candidate.published_at)
     if date_posted:
@@ -84,12 +87,6 @@ def build_jobposting(candidate, article, article_url):
                 "addressLocality": candidate.location,
                 "addressCountry": candidate.country or "MA",
             },
-        }
-
-    if candidate.application_url:
-        data["applicationContact"] = {
-            "@type": "ContactPoint",
-            "url": candidate.application_url,
         }
 
     return data
