@@ -220,13 +220,22 @@ FACEBOOK_GRAPH_API_URL = os.getenv("FACEBOOK_GRAPH_API_URL", "https://graph.face
 FACEBOOK_LINK_MODE = os.getenv("FACEBOOK_LINK_MODE", "comment").strip().lower()
 if FACEBOOK_LINK_MODE not in {"caption", "comment", "both"}:
     FACEBOOK_LINK_MODE = "comment"
-MAX_FACEBOOK_POSTS_PER_DAY = _env_int("MAX_FACEBOOK_POSTS_PER_DAY", 20)
+MAX_FACEBOOK_POSTS_PER_DAY = _env_int("MAX_FACEBOOK_POSTS_PER_DAY", 2)
 MIN_MINUTES_BETWEEN_FACEBOOK_POSTS = _env_int("MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", 0)
 WHATSAPP_CHANNEL_URL = os.getenv(
     "WHATSAPP_CHANNEL_URL",
-    "https://whatsapp.com/channel/0029VaDv5d05vKADlup5761h",
+    "https://whatsapp.com/channel/0029Vb7MdMfBVJl1kmmV4T0e",
 ).strip()
-JOBS_MODE = _env_bool_any(["JOBS_MODE"], False)
+JOBS_MODE = _env_bool_any(["JOBS_MODE"], True)
+JOBS_TIMEZONE = os.getenv("JOBS_TIMEZONE", "Africa/Casablanca").strip() or "Africa/Casablanca"
+JOBS_MIN_SELECTION_SCORE = _env_int("JOBS_MIN_SELECTION_SCORE", 70)
+JOBS_QUEUE_SCORE = _env_int("JOBS_QUEUE_SCORE", 50)
+JOBS_URGENT_EXTRA_DAILY_LIMIT = _env_int("JOBS_URGENT_EXTRA_DAILY_LIMIT", 1)
+JOBS_EXPECTED_BLOG_HOST = os.getenv("JOBS_EXPECTED_BLOG_HOST", "cyberopluss.blogspot.com").strip().casefold()
+JOBS_TEST_MODE = _env_bool_any(["JOBS_TEST_MODE"], True)
+JOBS_MEMORY_DIR = BASE_DIR / "data" / "job_memory"
+JOBS_STATE_PATH = BASE_DIR / "data" / "job_state.json"
+JOB_VISUAL_STATE_PATH = BASE_DIR / "data" / "job_visual_state.json"
 
 # Optional Telegram alerts. Disabled by default.
 TELEGRAM_ALERTS_ENABLED = _env_bool_any(["TELEGRAM_ENABLED", "TELEGRAM_ALERTS_ENABLED"], False)
@@ -247,9 +256,9 @@ SAFE_CYCLE_DRAFT_ONLY = os.getenv("SAFE_CYCLE_DRAFT_ONLY", "false").strip().lowe
 # Phase 10 safe-cycle schedule controls.
 MAX_DRAFTS_PER_DAY = _env_int("MAX_DRAFTS_PER_DAY", 10)
 MIN_MINUTES_BETWEEN_DRAFTS = _env_int("MIN_MINUTES_BETWEEN_DRAFTS", 30)
-MAX_LIVE_POSTS_PER_DAY = _env_int("MAX_LIVE_POSTS_PER_DAY", 20)
-TARGET_LIVE_POSTS_PER_DAY = _env_int("TARGET_LIVE_POSTS_PER_DAY", 12)
-MIN_MINUTES_BETWEEN_LIVE_POSTS = _env_int("MIN_MINUTES_BETWEEN_LIVE_POSTS", 1)
+MAX_LIVE_POSTS_PER_DAY = _env_int("MAX_LIVE_POSTS_PER_DAY", 3)
+TARGET_LIVE_POSTS_PER_DAY = _env_int("TARGET_LIVE_POSTS_PER_DAY", 3)
+MIN_MINUTES_BETWEEN_LIVE_POSTS = _env_int("MIN_MINUTES_BETWEEN_LIVE_POSTS", 0)
 
 # Quality-first publishing controls. The bot fetches a larger candidate pool,
 # saves every usable article to a backlog, then publishes a balanced batch.
