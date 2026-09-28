@@ -43,13 +43,13 @@
           "base_url": "https://www.oncf.etalent.ma/offres",
           "enabled": true,
           "fetch_limit_per_run": 8,
-          "extractor_type": "ats_listing",
+          "extractor_type": "etalent",
           "source_priority": "S",
           "official_source": true,
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": false,
-          "source_note": "Official ONCF eTalent listing; replaces slow corporate careers page."
+          "source_note": "Official ONCF eTalent adapter; accepts only real /offre/<id> vacancies. Empty listing is treated as healthy/no active offers."
         },
         {
           "name": "ONDA Recrutement",
@@ -74,7 +74,7 @@
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": true,
-          "source_note": "Official Maroc Telecom Cornerstone career site public search adapter."
+          "source_note": "Official Maroc Telecom Cornerstone adapter: search + full jobDetails + posting deadline APIs."
         },
         {
           "name": "inwi",
@@ -126,27 +126,29 @@
         },
         {
           "name": "Orange Maroc",
-          "base_url": "https://orange.jobs/fr/fr/afrique-moyen-orient/maroc",
+          "base_url": "https://orange.jobs/fr/fr/mea-morocco-job-search-results",
           "enabled": true,
           "fetch_limit_per_run": 8,
-          "extractor_type": "auto",
+          "extractor_type": "phenom_ddo",
           "source_priority": "A+",
           "official_source": true,
           "source_country": "MA",
           "source_eligibility": "morocco",
-          "strict_source_path": false
+          "strict_source_path": false,
+          "source_note": "Official Orange Phenom Morocco route; jobs are read from embedded phApp.ddo structured data with direct iCIMS apply URLs."
         },
         {
           "name": "Orange Business Morocco",
-          "base_url": "https://orange.jobs/fr/fr/orange-business/maroc",
+          "base_url": "https://orange.jobs/fr/fr/network-search-results",
           "enabled": true,
           "fetch_limit_per_run": 8,
-          "extractor_type": "auto",
+          "extractor_type": "phenom_ddo",
           "source_priority": "A+",
           "official_source": true,
           "source_country": "MA",
           "source_eligibility": "morocco",
-          "strict_source_path": false
+          "strict_source_path": false,
+          "source_note": "Official Orange Phenom technical/network route; runtime filters embedded jobs to Morocco and preserves direct iCIMS apply URLs."
         },
         {
           "name": "Attijariwafa bank",
@@ -159,20 +161,20 @@
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": false,
-          "source_note": "Official Attijariwafa Cornerstone ATS adapter; replaces Cloudflare-blocked corporate careers page."
+          "source_note": "Official Attijariwafa Cornerstone adapter: search + full jobDetails + posting deadline APIs."
         },
         {
           "name": "Autoroutes du Maroc",
           "base_url": "https://adm.etalent.ma/offres",
           "enabled": true,
           "fetch_limit_per_run": 6,
-          "extractor_type": "ats_listing",
+          "extractor_type": "etalent",
           "source_priority": "A",
           "official_source": true,
           "source_country": "MA",
           "source_eligibility": "morocco",
           "strict_source_path": false,
-          "source_note": "Official ADM eTalent jobs listing; replaces slow corporate homepage."
+          "source_note": "Official ADM eTalent adapter; accepts only real /offre/<id> vacancies."
         }
       ]
     },
