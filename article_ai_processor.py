@@ -477,7 +477,7 @@ def _raw_html_incomplete_reason(html_content):
         return "html_content ended before a tag was closed"
     if re.search(r"&(?:[A-Za-z]+|#\d+|#x[0-9A-Fa-f]+)?$", text):
         return "html_content ended before an HTML entity was completed"
-    for tag in ("p", "h2", "h3", "ul", "li", "div", "a"):
+    for tag in ("p", "h2", "h3", "ul", "ol", "li", "div", "a", "table", "thead", "tbody", "tr", "th", "td", "blockquote", "details", "summary"):
         opening_count = len(re.findall(rf"<{tag}\b[^>]*>", text, flags=re.I))
         closing_count = len(re.findall(rf"</{tag}>", text, flags=re.I))
         if opening_count != closing_count:
@@ -570,9 +570,16 @@ STRICT FAST NEWS RULES:
   4) Short conclusion or takeaway.
 - If cybersecurity-related, include brief practical protection/advice when supported.
 - Keep SEO title 40-70 characters and meta description 100-170 characters.
-- Use clean Plus UI-compatible Blogger HTML only.
-- Start the introduction with <p class='pIndent'><span class='dropCap'>...</span> ...</p>.
-- Use short <p class='pIndent'> paragraphs, clear <h2> headings, <div class='alert info'> for useful context, and <div class='alert warning'> for caution.
+- Use clean clean semantic Blogger HTML only.
+- Start with a strong ordinary <p> introduction.
+- Use short <p> paragraphs and clear <h2>/<h3> headings.
+- Use <strong>/<b>/<em> for emphasis only when useful.
+- Use <ul>/<ol> lists for requirements, steps, benefits, or grouped facts.
+- Use a semantic <table> with <thead>/<tbody>/<tr>/<th>/<td> whenever structured facts are clearer in rows and columns.
+- Use <blockquote> only for real quotations from the source.
+- Use <details><summary>...</summary>...</details> only when an expandable explanation genuinely helps.
+- Use ordinary <a href='exact_url' target='_blank' rel='nofollow noreferrer noopener'>...</a> links and preserve URLs exactly.
+- Never add CSS, inline styles, scripts, iframes, tracking code, or invented links.
 - Do not add CSS, scripts, unsupported widgets, fake images, or source/reference blocks unless trusted_references are provided.
 - Before returning, silently self-check: no source-domain links, no visible JSON inside html_content,
   no markdown fences, no repeated paragraphs, and no social-media caption tone.
@@ -582,7 +589,7 @@ OUTPUT JSON SHAPE:
   "title": "Arabic SEO title, 40-70 characters",
   "description": "Arabic meta description, 100-170 characters",
   "slug": "latin-url-slug",
-  "html_content": "Plus UI HTML article body"
+  "html_content": "clean semantic HTML article body"
 }}
 
 INPUT PACKAGE:
@@ -626,16 +633,15 @@ STRICT RULES:
   background concepts, and practical meaning using only supported facts and safe general
   technical knowledge. Do not invent numbers, quotes, dates, incidents, claims, or links.
 - Do not pad with generic filler. Every paragraph must add useful meaning.
-- Format html_content using Plus UI-compatible HTML only.
+- Format html_content using clean semantic HTML only.
 - Do not add CSS, <style>, <script>, or unsupported components.
-- Start the introduction with <p class='pIndent'><span class='dropCap'>...</span> ...</p>.
-- Use short <p class='pIndent'> paragraphs, clear <h2> headings, <div class='alert info'> for useful context, and <div class='alert warning'> for caution.
-- Place the main image after the first paragraph using <img class='full' alt='meaningful Arabic alt' src='image_link'/> if main_image is available.
-- Use the main image only. Do not insert extra images from article_images.
-- Do not lazyload the first image.
-- If trusted_references exist, add them at the end using <p class='pRef'>المراجع:<br>...</p>.
-- If related_posts exist, add them at the end using <div class='pRelate'><b>قد يهمك أيضًا:</b><ul>...</ul></div>.
-- Use <p>, <p class='pIndent'>, <h2>, <h3>, <ul>, <li>, <a class='extL'>, <p class='note'>, <p class='note wr'>, <div class='alert info'>, <pre><code> when useful.
+- Start with a strong ordinary <p> introduction.
+- Use clean semantic HTML: <p>, <h2>, <h3>, <strong>, <b>, <em>, <ul>, <ol>, <li>, <table>, <thead>, <tbody>, <tr>, <th>, <td>, <blockquote>, <details>, <summary>, <a>, <pre>, and <code> when useful.
+- Use tables only for genuinely structured information and never invent missing values.
+- Preserve real URLs exactly and use ordinary external anchors with target='_blank' and rel='nofollow noreferrer noopener'.
+- Do not insert images yourself. The application owns image selection, resizing, fallback generation, and insertion.
+- If trusted_references exist, the application appends them automatically.
+- If related_posts exist, the application appends them automatically.
 - SEO title must be 40-70 characters.
 - Meta description must be 100-170 characters.
 - Slug must be Latin lowercase words separated by hyphens.
@@ -647,7 +653,7 @@ OUTPUT JSON SHAPE:
   "title": "Arabic SEO title, 40-70 characters",
   "description": "Arabic meta description, 100-170 characters",
   "slug": "latin-url-slug",
-  "html_content": "Plus UI HTML article body"
+  "html_content": "clean semantic HTML article body"
 }}
 
 INPUT PACKAGE:
@@ -809,7 +815,7 @@ Strict language rules:
 - html_content must be structurally complete Blogger HTML with no truncated tags.
 - If the source package is rich, aim for a complete article in the {LONG_FORM_ARTICLE_TARGET_RANGE} word range.
 - Preserve facts from the source; do not invent claims, numbers, dates, quotes, or links.
-- Keep clean Plus UI-compatible HTML and a concise fast-news structure.
+- Keep clean clean semantic HTML and a concise fast-news structure.
 
 SOURCE PACKAGE:
 {json.dumps(package, ensure_ascii=False, indent=2)}
@@ -959,17 +965,14 @@ def _plus_ui_format_html(html_content, package):
     for tag in soup.find_all(["script", "style"]):
         tag.decompose()
 
-    # Add pIndent class to paragraphs
-    for paragraph in _normal_paragraphs(soup):
-        classes = [value for value in (paragraph.get("class") or []) if value]
-        if "pIndent" not in classes:
-            classes.insert(0, "pIndent")
-        paragraph["class"] = classes
+    # Keep article markup semantic and theme-independent.
+    # Strip inline event handlers/classes/styles that an AI response may have invented.
+    for tag in soup.find_all(True):
+        for attr in list(tag.attrs):
+            if attr.lower().startswith("on") or attr.lower() in {"style", "class", "id"}:
+                tag.attrs.pop(attr, None)
 
-    # Ensure first paragraph has drop cap
     paragraphs = _normal_paragraphs(soup)
-    if paragraphs:
-        _ensure_first_drop_cap(paragraphs[0])
 
     # Remove old images
     for img in soup.find_all("img"):
@@ -979,13 +982,11 @@ def _plus_ui_format_html(html_content, package):
     main_image = package.get("main_image") or ""
     if main_image and paragraphs:
         title = package.get("title") or "صورة المقال"
-        # Use figure tag for better semantic HTML
         image_html = (
-            "<!--[ Main article image ]-->\n"
-            "<figure style='text-align: center; margin: 20px 0;'>\n"
-            f"  <img class='full' alt='{escape(title, quote=True)}' "
-            f"src='{escape(main_image, quote=True)}' loading='lazy' style='max-width: 100%; height: auto;'/>\n"
-            f"  <figcaption style='font-size: 0.9em; color: #666; margin-top: 8px;'>{escape(title)}</figcaption>\n"
+            "<figure>\n"
+            f"  <img alt='{escape(title, quote=True)}' "
+            f"src='{escape(main_image, quote=True)}'/>\n"
+            f"  <figcaption>{escape(title)}</figcaption>\n"
             "</figure>"
         )
         paragraphs[0].insert_after(BeautifulSoup(image_html, "html.parser"))
@@ -1009,10 +1010,9 @@ def _plus_ui_format_html(html_content, package):
             
             if image_url:
                 image_html = (
-                    "<!--[ Supplementary article image ]-->\n"
-                    "<figure style='text-align: center; margin: 15px 0;'>\n"
+                    "<figure>\n"
                     f"  <img alt='{escape(alt_text, quote=True)}' "
-                    f"src='{escape(image_url, quote=True)}' loading='lazy' style='max-width: 100%; height: auto;'/>\n"
+                    f"src='{escape(image_url, quote=True)}' loading='lazy'/>\n"
                     "</figure>"
                 )
                 h2.insert_after(BeautifulSoup(image_html, "html.parser"))
@@ -1044,11 +1044,10 @@ def _insert_main_image_if_missing(html_content, package):
 
     title = package.get("title") or "صورة المقال"
     image_html = (
-        "<!--[ Main article image - auto-inserted ]-->\n"
-        "<figure style='text-align: center; margin: 20px 0;'>\n"
-        f"  <img class='full' alt='{escape(title, quote=True)}' "
-        f"src='{escape(main_image, quote=True)}' loading='lazy' style='max-width: 100%; height: auto;'/>\n"
-        f"  <figcaption style='font-size: 0.9em; color: #666; margin-top: 8px;'>{escape(title)}</figcaption>\n"
+        "<figure>\n"
+        f"  <img alt='{escape(title, quote=True)}' "
+        f"src='{escape(main_image, quote=True)}'/>\n"
+        f"  <figcaption>{escape(title)}</figcaption>\n"
         "</figure>\n"
     )
     
@@ -1239,10 +1238,6 @@ def _looks_poorly_formatted(html_content, package=None):
     normal_paragraphs = _normal_paragraphs(soup)
     if not normal_paragraphs:
         return "missing paragraphs"
-    if not normal_paragraphs[0].find("span", class_="dropCap"):
-        return "missing Plus UI dropCap in introduction"
-    if "pIndent" not in (normal_paragraphs[0].get("class") or []):
-        return "missing Plus UI pIndent paragraphs"
     if len(soup.find_all("h2")) < (1 if FAST_NEWS_MODE else 2):
         return "missing clear h2 sections"
     
