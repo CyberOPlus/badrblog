@@ -65,14 +65,16 @@
         },
         {
           "name": "Maroc Telecom",
-          "base_url": "https://iam.csod.com/ux/ats/careersite/4/home/?c=iam",
+          "base_url": "https://iam.csod.com/ux/ats/careersite/4/home?c=iam",
           "enabled": true,
           "fetch_limit_per_run": 8,
-          "extractor_type": "auto",
+          "extractor_type": "csod",
           "source_priority": "S",
           "official_source": true,
           "source_country": "MA",
-          "source_eligibility": "morocco"
+          "source_eligibility": "morocco",
+          "strict_source_path": true,
+          "source_note": "Official Maroc Telecom Cornerstone career site public search adapter."
         },
         {
           "name": "inwi",
@@ -111,14 +113,16 @@
         },
         {
           "name": "OCP Group",
-          "base_url": "https://careers.ocpgroup.ma/",
+          "base_url": "https://ocpgroup.wd103.myworkdayjobs.com/en-US/ocpcareers",
           "enabled": true,
           "fetch_limit_per_run": 8,
-          "extractor_type": "auto",
+          "extractor_type": "workday_api",
           "source_priority": "A+",
           "official_source": true,
           "source_country": "MA",
-          "source_eligibility": "morocco"
+          "source_eligibility": "morocco",
+          "strict_source_path": true,
+          "source_note": "Official OCP Workday public jobs API adapter."
         },
         {
           "name": "Orange Maroc",
@@ -146,14 +150,16 @@
         },
         {
           "name": "Attijariwafa bank",
-          "base_url": "https://www.attijariwafabank.com/fr/emploi-carrieres",
+          "base_url": "https://attijariwafabank.csod.com/ux/ats/careersite/4/home?c=attijariwafabank",
           "enabled": true,
           "fetch_limit_per_run": 8,
-          "extractor_type": "auto",
+          "extractor_type": "csod",
           "source_priority": "A+",
           "official_source": true,
           "source_country": "MA",
-          "source_eligibility": "morocco"
+          "source_eligibility": "morocco",
+          "strict_source_path": true,
+          "source_note": "Official Attijariwafa Cornerstone career site public search adapter."
         },
         {
           "name": "Autoroutes du Maroc",
@@ -177,15 +183,16 @@
       "sources": [
         {
           "name": "UN Careers RSS",
-          "base_url": "https://careers.un.org/jobfeed?isPage=true",
+          "base_url": "https://careers.un.org/jobopening?language=en",
           "enabled": true,
           "fetch_limit_per_run": 8,
-          "extractor_type": "feed_fallback",
+          "extractor_type": "html",
           "source_priority": "S+",
           "official_source": true,
           "source_country": "GLOBAL",
           "source_eligibility": "unknown",
-          "strict_source_path": false
+          "strict_source_path": false,
+          "source_note": "Official server-rendered UN Careers job openings page."
         },
         {
           "name": "UN Careers",
@@ -213,13 +220,14 @@
         {
           "name": "UN Volunteers",
           "base_url": "https://app.unv.org/",
-          "enabled": true,
+          "enabled": false,
           "fetch_limit_per_run": 8,
           "extractor_type": "auto",
           "source_priority": "A",
           "official_source": true,
           "source_country": "GLOBAL",
-          "source_eligibility": "unknown"
+          "source_eligibility": "unknown",
+          "source_note": "Official UVP listing is JavaScript-only on GitHub runners; disabled until a stable public machine-readable endpoint is available."
         }
       ]
     },
