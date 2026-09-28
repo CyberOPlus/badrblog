@@ -590,12 +590,38 @@ LENGTH AND STYLE
 - Do not write phrases such as "في هذا المقال سنتعرف" or "تابع القراءة".
 
 TITLE
-- Create a natural Arabic SEO title, normally 40-70 characters.
-- Prefer: employer + job title + location when location is verified.
-- Translate the job position itself into clear Arabic in the reader-facing title.
-- Keep the original official French/English position once in parentheses when it
-  helps recognition, especially for technical or specialized roles.
-- Never add mutable values such as deadline, salary, or seat count just for freshness.
+- Write the headline like a professional Moroccan employment/competition portal,
+  not like a database row and not like "company: translated title (English title)".
+- The headline should immediately answer: WHO/WHAT + WHAT HAPPENED + the most useful
+  verified distinguishing fact (positions, roles, stage, location, or campaign year).
+- Do not force an artificial 40-70 character limit. Prefer a natural headline,
+  usually about 55-115 characters, and allow a little more when a public institution
+  name or several verified job families make that necessary.
+- Start with the institution/company/topic when that is the clearest search entity.
+- vacancy / single private role:
+  prefer natural Arabic such as "inwi توظف مديرًا تقنيًا لمنصة ServiceNow بالدار البيضاء"
+  or "شركة X تعلن عن توظيف ...". Translate the role into clear Arabic.
+  Keep an English/French technical term only when it is itself a product, acronym,
+  certification, or essential recognized role term; do NOT automatically repeat the
+  whole official title in parentheses.
+- public competition / multi-position campaign:
+  prefer "الجهة: مباراة توظيف ..." or "الجهة – مباراة توظيف ..." and include the
+  verified number/role breakdown when it is genuinely useful.
+  Example pattern: "المكتب الجهوي ... – مباراة توظيف 5 مهندسي دولة و4 متصرفين و11 تقنيًا".
+- candidate_list:
+  prefer "الجهة: لوائح المدعوين لاجتياز ..." and name the written/oral stage when verified.
+- results/final_results:
+  prefer "الجهة: النتائج ..." or "النتائج النهائية ..." and preserve the campaign identity.
+- guides / seasonal-work opportunities when such a source is explicitly verified:
+  prefer a descriptive search title such as "عقود العمل الموسمية في أوروبا 2026:
+  الشروط، الرواتب، وطريقة التقديم" rather than a vague "فرص عمل في أوروبا".
+- University/education result notices should start with the result intent when verified,
+  e.g. "نتائج ماسترات جامعة ... للموسم 2026/2027".
+- Use Arabic punctuation naturally: colon ":" or dash "–" only when it improves readability.
+- Avoid redundant wording, duplicate employer names, raw concatenations, and awkward
+  mixtures such as "Technical Lead ServiceNowSiège...".
+- Never invent a number, stage, year, location, or result status.
+- Never add a deadline, salary, or seat count merely for freshness.
 - A verified competition/campaign year may appear when it is part of the official notice itself.
 
 NOTICE TYPE
