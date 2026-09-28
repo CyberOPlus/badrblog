@@ -1177,6 +1177,8 @@ def _official_reference_host(url):
 
 
 def _sanitize_source_links(html_content, package):
+    if JOBS_MODE:
+        return html_content
     source_url = package.get("url") or package.get("source_url") or ""
     if not source_url:
         return html_content
@@ -1277,7 +1279,7 @@ def _looks_poorly_formatted(html_content, package=None):
     normal_paragraphs = _normal_paragraphs(soup)
     if not normal_paragraphs:
         return "missing paragraphs"
-    if len(soup.find_all("h2")) < (1 if FAST_NEWS_MODE else 2):
+    if len(soup.find_all("h2")) < (1 if (FAST_NEWS_MODE or JOBS_MODE) else 2):
         return "missing clear h2 sections"
     
     # Check image placement if main_image is provided
@@ -1308,7 +1310,7 @@ def _phase3_quality_failure_reason(data, package=None):
         return "too much English inside article paragraphs"
     if _has_repeated_paragraphs(html_content):
         return "repeated paragraphs found in article output"
-    if source_name and source_name.casefold() in body_text.casefold():
+    if (not JOBS_MODE) and source_name and source_name.casefold() in body_text.casefold():
         return "original source name appears in article text"
     poor_format = _looks_poorly_formatted(html_content, package=package)
     if poor_format:
@@ -1337,8 +1339,9 @@ def _finalize_html_content(data, package):
     html_content = _sanitize_source_links(html_content, package)
     html_content = _plus_ui_format_html(html_content, package)
     html_content = _insert_main_image_if_missing(html_content, package)  # Ensure main image is present
-    html_content = _append_trusted_references_if_missing(html_content, package)
-    html_content = _append_related_posts_if_missing(html_content, package)
+    if not JOBS_MODE:
+        html_content = _append_trusted_references_if_missing(html_content, package)
+        html_content = _append_related_posts_if_missing(html_content, package)
     html_content = _sanitize_source_links(html_content, package)
     html_content = _clean_general_english_in_paragraphs(html_content)
     data["html_content"] = html_content
