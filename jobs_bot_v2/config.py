@@ -14,7 +14,11 @@ JOBS_SOURCE_REGISTRY = REPO_ROOT / "jobs_sources.json"
 
 # Quality over quantity: never publish more than one article per calendar day.
 DAILY_PUBLISH_LIMIT = int(os.getenv("JOBS_DAILY_PUBLISH_LIMIT", "1"))
-MIN_SELECTION_SCORE = int(os.getenv("JOBS_MIN_SELECTION_SCORE", "78"))
+MIN_SELECTION_SCORE = int(os.getenv("JOBS_MIN_SELECTION_SCORE", "75"))
+URGENT_EXTRA_DAILY_LIMIT = int(os.getenv("JOBS_URGENT_EXTRA_DAILY_LIMIT", "1"))
+MOROCCO_TIMEZONE = os.getenv("JOBS_TIMEZONE", "Africa/Casablanca").strip() or "Africa/Casablanca"
+GOOGLE_INDEXING_ENABLED = os.getenv("JOBS_GOOGLE_INDEXING_ENABLED", "false").strip().lower() in {"1","true","yes","on"}
+GOOGLE_SERVICE_ACCOUNT_JSON = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON", "").strip()
 
 # AI provider order mirrors the working Cybero Plus news bot.
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
