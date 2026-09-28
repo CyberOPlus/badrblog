@@ -6,7 +6,7 @@ from datetime import datetime
 
 from article_queue import load_article_queue, save_article_queue
 from article_selector import normalize_category_label
-from config import MIN_EXTRACTED_CHARS
+from config import MIN_EXTRACTED_CHARS, JOBS_MODE
 from internal_link_cache import load_internal_link_cache, select_internal_link_candidates
 
 
@@ -59,6 +59,26 @@ def _build_ai_input_package(article):
         "article_age_hours": article.get("article_age_hours"),
         "trusted_references": article.get("trusted_references", []),
         "related_posts": _related_posts_for(article),
+        "labels": article.get("labels", []),
+        "job_title": article.get("job_title", ""),
+        "job_company": article.get("job_company", ""),
+        "job_location": article.get("job_location", ""),
+        "job_country": article.get("job_country", ""),
+        "job_contract_type": article.get("job_contract_type", ""),
+        "job_salary": article.get("job_salary", ""),
+        "job_deadline": article.get("job_deadline", ""),
+        "job_published_at": article.get("job_published_at", ""),
+        "job_application_url": article.get("job_application_url", ""),
+        "job_number_of_positions": article.get("job_number_of_positions", 0),
+        "job_diploma": article.get("job_diploma", ""),
+        "job_experience": article.get("job_experience", ""),
+        "job_entry_level": bool(article.get("job_entry_level", False)),
+        "job_remote": bool(article.get("job_remote", False)),
+        "job_visa_sponsorship": bool(article.get("job_visa_sponsorship", False)),
+        "job_eligibility": article.get("job_eligibility", ""),
+        "job_score": article.get("job_score", 0),
+        "desired_slug": article.get("desired_slug", ""),
+        "company_logo_url": article.get("company_logo_url", ""),
     }
 
 
