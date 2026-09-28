@@ -295,25 +295,6 @@ def _record_source_result(base_url, source_name, error, links_found):
         record_source_success(base_url, source_name=source_name)
 
 
-def _notify_freshness_skip(title, source_name, published_at, age_hours, reason):
-    try:
-        from notifier import send_telegram_message
-
-        send_telegram_message(
-            "\n".join(
-                [
-                    "⚠️ تم تخطي مقال",
-                    f"Title: {title}",
-                    f"Source: {source_name}",
-                    f"Published at: {published_at}",
-                    f"Age: {age_hours:.2f}h" if age_hours is not None else "Age: unknown",
-                    f"Reason: {reason}",
-                ]
-            )
-        )
-    except Exception as notify_error:
-        log_event("telegram_freshness_skip_failed", error=notify_error.__class__.__name__)
-
 
 def _is_scrapling_document(document):
     return callable(getattr(document, "css", None)) and getattr(document, "url", None)
