@@ -9,6 +9,7 @@ PROMPTS_DIR = ROOT / "prompts"
 ASSETS_DIR = ROOT / "assets"
 DATA_DIR = ROOT / "data"
 STATE_PATH = DATA_DIR / "state.json"
+MEMORY_DIR = DATA_DIR / "memory"
 
 JOBS_SOURCE_REGISTRY = REPO_ROOT / "jobs_sources.json"
 
