@@ -52,6 +52,7 @@ from config import (
     OPENROUTER_MODELS,
     OPENROUTER_REFERER,
     OPENROUTER_TIMEOUT_SECONDS,
+    JOBS_MODE,
 )
 from production_logging import elapsed_ms, html_word_count, log_event
 from quality_gate import (
@@ -544,6 +545,44 @@ def _build_prompt(package):
     package["blogger_source_text"] = source_text
     package_json = json.dumps(package, ensure_ascii=False, indent=2)
     source_is_rich = _is_rich_input_package(package)
+    if JOBS_MODE:
+        return f"""
+You are the Arabic jobs editor for Cybero Plus. Create a factual Blogger article
+for Moroccan readers from the verified job package below.
+
+STRICT JOB RULES:
+- Return JSON only with title, description, slug, html_content.
+- Write clear Modern Standard Arabic, natural and mobile-friendly.
+- Never invent a salary, deadline, diploma, experience, city, number of positions,
+  eligibility, visa sponsorship, company claim, or application link.
+- Use only facts present in the package or source text. If a fact is absent, omit it.
+- Keep company names, product names, job titles and necessary French/English terms as written.
+- Do not mention scraping, rewriting, AI, or the automation.
+- Do not fabricate urgency. A deadline is urgent only when the package explicitly provides it.
+- The article should normally be 250-650 words; accuracy is more important than length.
+- Begin with a short direct introduction naming the employer and opportunity.
+- Use useful <h2> sections such as: تفاصيل الوظيفة، الشروط والمؤهلات، مكان العمل،
+  آخر أجل للترشيح، وطريقة التقديم, but include a section only when supported by facts.
+- A compact semantic <table> is encouraged for verified structured facts.
+- Include the exact application URL as a normal <a> link when job_application_url exists.
+- Use target='_blank' rel='nofollow noreferrer noopener' for external links.
+- Do not add CSS, scripts, iframes, fake buttons, fake phone numbers or invented links.
+- Do not create a source/reference block. The application handles metadata and JobPosting schema.
+- SEO title: human and clear. Meta description: 100-170 characters.
+- Use desired_slug exactly when it is provided; mutable facts such as dates, seat counts,
+  salary and deadlines must never be added to the slug.
+
+OUTPUT JSON SHAPE:
+{{
+  "title": "Arabic SEO title",
+  "description": "Arabic meta description",
+  "slug": "{package.get('desired_slug') or 'stable-job-slug'}",
+  "html_content": "clean semantic HTML"
+}}
+
+VERIFIED JOB PACKAGE:
+{package_json}
+""".strip()
     if FAST_NEWS_MODE:
         return f"""
 You are a fast Arabic technology news editor for a Blogger automation pipeline.
@@ -1791,7 +1830,11 @@ def _apply_success(article, data, provider_used):
     article["ai_processed_at"] = _now_iso()
     article["seo_title"] = str(data["title"]).strip()
     article["seo_description"] = str(data["description"]).strip()
-    article["seo_slug"] = _normalize_slug(data["slug"])
+    article["seo_slug"] = (
+        str((article.get("ai_input_package") or {}).get("desired_slug") or "").strip()
+        if JOBS_MODE
+        else _normalize_slug(data["slug"])
+    ) or _normalize_slug(data["slug"])
     article["final_html"] = final_html
     article["blogger_article_html"] = final_html
     article["final_word_count"] = word_count
