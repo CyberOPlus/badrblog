@@ -5,6 +5,9 @@ on:
   push:
     paths:
       - "job_core.py"
+      - "scraper.py"
+      - "config.py"
+      - "sources.json"
       - "job_extractor.py"
       - "jobposting.py"
       - "article_enricher.py"
@@ -15,6 +18,7 @@ on:
       - "main.py"
       - "tests/test_jobs_core.py"
       - "tests/test_job_visuals.py"
+      - "tests/test_production_hardening.py"
       - "utils/facebook_image_generator.py"
       - "requirements.txt"
       - "assets/facebook/**"
@@ -34,4 +38,4 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python -m unittest tests.test_jobs_core tests.test_job_visuals -v
+      - run: python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_production_hardening -v
