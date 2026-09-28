@@ -1071,6 +1071,88 @@ async def _collect_csod_links_async(session, source_url, per_source_limit=None):
     return links, "", 200
 
 
+def _un_careers_title_from_html(html_text, job_id):
+    soup = BeautifulSoup(html_text or "", "html.parser")
+    candidates = []
+    for selector in (
+        "h1",
+        "[itemprop='title']",
+        "meta[property='og:title']",
+        "title",
+    ):
+        if selector.startswith("meta"):
+            tag = soup.select_one(selector)
+            value = _normalize_text(tag.get("content") if tag else "")
+        else:
+            tag = soup.select_one(selector)
+            value = _normalize_text(tag.get_text(" ", strip=True) if tag else "")
+        if value:
+            candidates.append(value)
+
+    blocked = {
+        "united nations",
+        "un careers",
+        "job openings",
+        "job opening",
+    }
+    for value in candidates:
+        folded = value.casefold()
+        if folded in blocked:
+            continue
+        value = re.sub(r"\s*[-|]\s*united nations.*$", "", value, flags=re.I).strip()
+        if value and value.casefold() not in blocked and str(job_id) not in {value}:
+            return value
+    return f"United Nations Job {job_id}"
+
+
+async def _collect_un_careers_links_async(session, source_url, per_source_limit=None):
+    listing_html, error, status_code = await _fetch_text_async(session, source_url)
+    if error or not listing_html:
+        return [], error or "empty UN Careers listing", status_code
+
+    visible_text = BeautifulSoup(listing_html, "html.parser").get_text(" ", strip=True)
+    job_ids = []
+    seen = set()
+    for match in re.finditer(r"\bJob\s*ID\s*[:#-]?\s*(\d{5,9})\b", visible_text, flags=re.I):
+        job_id = match.group(1)
+        if job_id not in seen:
+            seen.add(job_id)
+            job_ids.append(job_id)
+
+    # Some versions of the UN page serialize the cards in script data rather
+    # than visible nodes. Keep a conservative fallback for explicit Job ID keys.
+    if not job_ids:
+        for match in re.finditer(
+            r'(?i)(?:job\s*id|jobId|jobID)["\'\s:=]+(\d{5,9})',
+            listing_html,
+        ):
+            job_id = match.group(1)
+            if job_id not in seen:
+                seen.add(job_id)
+                job_ids.append(job_id)
+
+    limit = max(1, min(int(per_source_limit or 3), 8))
+    links = []
+    for job_id in job_ids[: max(limit * 3, 12)]:
+        detail_url = f"https://careers.un.org/jobSearchDescription/{job_id}?language=en"
+        detail_html, detail_error, detail_status = await _fetch_text_async(session, detail_url)
+        if detail_error or not detail_html:
+            continue
+        title = _un_careers_title_from_html(detail_html, job_id)
+        links.append({
+            "title": title,
+            "url": detail_url,
+            "ats_provider": "un_careers",
+            "ats_reference": job_id,
+        })
+        if len(links) >= limit:
+            break
+
+    if not links:
+        return [], "UN Careers listing exposed no usable Job IDs", status_code or 200
+    return links, "", 200
+
+
 async def _collect_links_from_feed_async(session, feed_url, source_url):
     text, error, _status_code = await _fetch_text_async(session, feed_url)
     if error or not text:
@@ -1120,6 +1202,23 @@ async def _collect_article_links_for_source_async(
             "normal_links_found": len(links),
             "feed_links_found": 0,
             "method_used": "csod" if links else ("failed:csod" if error else "csod"),
+            "tried_feed_urls": [],
+        }
+
+    if extractor_mode == "un_careers":
+        links, error, status_code = await _collect_un_careers_links_async(
+            session,
+            source_url,
+            per_source_limit=per_source_limit,
+        )
+        print(f"  Collected {len(links)} UN Careers job link(s) from this source.")
+        return [
+            _link_to_article_dict(link, source_url)
+            for link in links
+        ], error, status_code, {
+            "normal_links_found": len(links),
+            "feed_links_found": 0,
+            "method_used": "un_careers" if links else ("failed:un_careers" if error else "un_careers"),
             "tried_feed_urls": [],
         }
 
