@@ -226,6 +226,7 @@ WHATSAPP_CHANNEL_URL = os.getenv(
     "WHATSAPP_CHANNEL_URL",
     "https://whatsapp.com/channel/0029VaDv5d05vKADlup5761h",
 ).strip()
+JOBS_MODE = _env_bool_any(["JOBS_MODE"], False)
 
 # Optional Telegram alerts. Disabled by default.
 TELEGRAM_ALERTS_ENABLED = _env_bool_any(["TELEGRAM_ENABLED", "TELEGRAM_ALERTS_ENABLED"], False)
