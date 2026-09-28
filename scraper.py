@@ -498,7 +498,7 @@ def _link_to_article_dict(link, source_url):
     return {"source_url": source_url, "title": title, "url": url}
 
 
-def _extract_article_links_with_soup(document, base_url):
+def _extract_article_links_with_soup(document, base_url, strict_source_path=True):
     soup = _get_soup_from_document(document, base_url)
     if not soup:
         return []
@@ -522,7 +522,12 @@ def _extract_article_links_with_soup(document, base_url):
             title = _normalize_text(link_tag.get_text(" ", strip=True))
             full_url = urljoin(base_url, href)
 
-            if not _is_likely_article_url(title, full_url, base_url):
+            if not _is_likely_article_url(
+                title,
+                full_url,
+                base_url,
+                strict_source_path=strict_source_path,
+            ):
                 continue
 
             score = base_score
@@ -890,6 +895,7 @@ async def _collect_article_links_for_source_async(
     per_source_limit=None,
     feed_url=None,
     extractor_type="auto",
+    strict_source_path=True,
 ):
     print(f"\n--- Discovering links from source: {source_url} ---")
 
@@ -899,7 +905,11 @@ async def _collect_article_links_for_source_async(
     tried_feed_urls = []
 
     if listing_html:
-        html_links = get_article_links(listing_html, source_url)
+        html_links = get_article_links(
+            listing_html,
+            source_url,
+            strict_source_path=strict_source_path,
+        )
         feed_candidates = []
         if feed_url:
             feed_candidates.append(feed_url)
@@ -954,7 +964,7 @@ async def _collect_article_links_for_source_async(
     combined_links = _filter_article_links(
         feed_links + html_links,
         source_url,
-        strict_source_path=False if feed_links else True,
+        strict_source_path=False if feed_links else strict_source_path,
     )
     if per_source_limit:
         combined_links = combined_links[:per_source_limit]
@@ -987,6 +997,7 @@ def _collect_article_links_for_source(
     per_source_limit=None,
     feed_url=None,
     extractor_type="auto",
+    strict_source_path=True,
 ):
     print(f"\n--- Discovering links from source: {source_url} ---")
 
@@ -1032,7 +1043,11 @@ def _collect_article_links_for_source(
     if numeric_status and numeric_status >= 400:
         error = f"listing returned HTTP {numeric_status}"
 
-    html_links = get_article_links(source_document, source_url)
+    html_links = get_article_links(
+        source_document,
+        source_url,
+        strict_source_path=strict_source_path,
+    )
     feed_links = []
     tried_feed_urls = []
 
@@ -1077,7 +1092,7 @@ def _collect_article_links_for_source(
     combined_links = _filter_article_links(
         feed_links + html_links,
         source_url,
-        strict_source_path=False if feed_links else True,
+        strict_source_path=False if feed_links else strict_source_path,
     )
     if per_source_limit:
         combined_links = combined_links[:per_source_limit]
@@ -1134,6 +1149,7 @@ async def _discover_latest_article_links_async(enabled_sources):
                     per_source_limit=fetch_limit,
                     feed_url=source.get("feed_url"),
                     extractor_type=source.get("extractor_type", "auto"),
+                    strict_source_path=bool(source.get("strict_source_path", True)),
                 )
             except Exception as exc:
                 links = []
@@ -1276,6 +1292,7 @@ def discover_latest_article_links(sources):
                 per_source_limit=fetch_limit,
                 feed_url=source.get("feed_url"),
                 extractor_type=source.get("extractor_type", "auto"),
+                strict_source_path=bool(source.get("strict_source_path", True)),
             )
         except Exception as exc:
             links = []
@@ -1959,7 +1976,7 @@ def _get_article_links_with_bs4(html, base_url):
     return articles
 
 
-def get_article_links(document, base_url):
+def get_article_links(document, base_url, strict_source_path=True):
     """
     Extract all article links from the listing page.
     """
@@ -1968,8 +1985,16 @@ def get_article_links(document, base_url):
     else:
         raw_links = _get_article_links_with_bs4(document, base_url)
 
-    supplemental_links = _extract_article_links_with_soup(document, base_url)
-    return _filter_article_links(raw_links + supplemental_links, base_url)
+    supplemental_links = _extract_article_links_with_soup(
+        document,
+        base_url,
+        strict_source_path=strict_source_path,
+    )
+    return _filter_article_links(
+        raw_links + supplemental_links,
+        base_url,
+        strict_source_path=strict_source_path,
+    )
 
 
 def _join_paragraphs(paragraphs):
