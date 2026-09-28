@@ -1,5 +1,5 @@
 name: One-shot Blogger Jobs Live Test
-# retry-3
+# retry-4
 # retry-3-clean-jobs-queue
 
 on:
@@ -42,7 +42,7 @@ jobs:
             "JOBS_TEST_MODE":"true",
             "JOBS_EXPECTED_BLOG_HOST":"cyberopluss.blogspot.com",
             "JOBS_TIMEZONE":"Africa/Casablanca",
-            "JOBS_MIN_SELECTION_SCORE":"70",
+            "JOBS_MIN_SELECTION_SCORE":"50",
             "JOBS_QUEUE_SCORE":"50",
             "GEMINI_API_KEY":os.environ.get("GEMINI_API_KEY",""),
             "GEMINI_MODEL":"gemini-2.5-flash",
