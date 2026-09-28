@@ -1027,7 +1027,11 @@ def _apply_enrichment_from_html(article, html, url):
     article["source_links_removed_count"] = source_links_removed
     article["affiliate_links_removed_count"] = affiliate_links_removed
     article["removed_source_links_count"] = source_links_removed
-    min_success_chars = FAST_ENRICH_MIN_CHARS if FAST_NEWS_MODE else WEAK_ARTICLE_MIN_CHARS
+    min_success_chars = (
+        max(MIN_EXTRACTED_CHARS, 250)
+        if JOBS_MODE
+        else (FAST_ENRICH_MIN_CHARS if FAST_NEWS_MODE else WEAK_ARTICLE_MIN_CHARS)
+    )
     full_text, text_method, meta_description, tried_text_sources = _choose_enrichment_text(
         article,
         soup,
@@ -1153,7 +1157,9 @@ def _apply_enrichment_from_html(article, html, url):
     is_weak = len(article["full_article_text"]) >= min_success_chars
     article["enrichment_status"] = "strong" if is_strong else "weak"
     article["content_fetch_status"] = "success" if (
-        is_strong or (FAST_NEWS_MODE and (is_weak or PUBLISH_WEAK_ARTICLES))
+        (JOBS_MODE and is_weak)
+        or is_strong
+        or (FAST_NEWS_MODE and (is_weak or PUBLISH_WEAK_ARTICLES))
     ) else "weak"
     article.pop("content_fetch_error", None)
     log_event(
@@ -1172,7 +1178,7 @@ def _apply_enrichment_from_html(article, html, url):
     )
     if not is_weak and not (FAST_NEWS_MODE and PUBLISH_WEAK_ARTICLES and article["full_article_text"]):
         return False, f"weak article body ({len(article['full_article_text'])} chars)"
-    if not is_strong and not FAST_NEWS_MODE:
+    if not is_strong and not FAST_NEWS_MODE and not JOBS_MODE:
         return False, f"weak article body ({len(article['full_article_text'])} chars)"
     return True, ""
 
@@ -1201,10 +1207,11 @@ def _apply_rss_summary_fallback(article):
             )
         )
     summary_words = _word_count(summary)
-    if len(summary) < MIN_EXTRACTED_CHARS or summary_words < MIN_EXTRACTED_WORDS:
+    required_words = 40 if JOBS_MODE else MIN_EXTRACTED_WORDS
+    if len(summary) < MIN_EXTRACTED_CHARS or summary_words < required_words:
         return False, (
             "missing article body after rss fallback "
-            f"({len(summary)} chars/{summary_words} words; required {MIN_EXTRACTED_WORDS} words)"
+            f"({len(summary)} chars/{summary_words} words; required {required_words} words)"
         )
     article["fetched_title"] = article.get("title", "")
     article["meta_description"] = summary[:240]
@@ -1384,6 +1391,10 @@ def enrich_ready_articles(force=False):
     for article in articles:
         allowed_statuses = {"ready"} if not force else {"ready", "selected", "draft_created"}
         if article.get("status") not in allowed_statuses:
+            continue
+        if JOBS_MODE and not str(
+            article.get("category_label") or article.get("category_hint") or ""
+        ).strip().casefold().startswith(("jobs-", "remote-jobs")):
             continue
 
         checked += 1
