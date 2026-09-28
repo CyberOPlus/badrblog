@@ -1460,6 +1460,23 @@ def format_phase3_article_html(html_content, package=None):
     return _plus_ui_format_html(html_content, package or {})
 
 
+def _remove_empty_job_fact_rows(html_content):
+    if not JOBS_MODE:
+        return html_content
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    empty_values = {"", "0", "0.0", "unknown", "none", "null", "غير محدد", "غير متوفر"}
+    changed = False
+    for row in soup.find_all("tr"):
+        cells = row.find_all(["th", "td"])
+        if len(cells) < 2:
+            continue
+        value = cells[-1].get_text(" ", strip=True).casefold()
+        if value in empty_values:
+            row.decompose()
+            changed = True
+    return str(soup) if changed else html_content
+
+
 def _append_job_action_links_if_missing(html_content, package):
     if not JOBS_MODE:
         return html_content
@@ -1521,6 +1538,7 @@ def _finalize_html_content(data, package):
     if JOBS_MODE:
         # The single branded job cover is generated later by the Blogger publisher.
         # AI output never imports or inserts images from the source job page.
+        html_content = _remove_empty_job_fact_rows(html_content)
         html_content = _append_job_action_links_if_missing(html_content, package)
     else:
         html_content = _insert_main_image_if_missing(html_content, package)
