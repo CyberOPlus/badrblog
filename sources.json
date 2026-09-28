@@ -182,17 +182,17 @@
       "label": "jobs-abroad",
       "sources": [
         {
-          "name": "UN Careers RSS",
-          "base_url": "https://careers.un.org/jobfeed?isPage=true&language=en",
+          "name": "UN Careers",
+          "base_url": "https://careers.un.org/jobopening?language=en",
           "enabled": true,
           "fetch_limit_per_run": 8,
-          "extractor_type": "auto",
+          "extractor_type": "un_careers",
           "source_priority": "S+",
           "official_source": true,
           "source_country": "GLOBAL",
           "source_eligibility": "unknown",
           "strict_source_path": false,
-          "source_note": "Official UN Careers job feed page; tested as server-rendered HTML."
+          "source_note": "Official UN Careers listing; adapter discovers Job IDs and verifies public detail pages."
         },
         {
           "name": "UN Careers",
