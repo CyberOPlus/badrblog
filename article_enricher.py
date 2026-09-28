@@ -1005,6 +1005,7 @@ def _fetch_html_with_requests(url):
 
 def _apply_enrichment_from_html(article, html, url):
     soup = BeautifulSoup(html, "html.parser")
+    job_source_soup = BeautifulSoup(html, "html.parser") if JOBS_MODE else soup
     source_links_removed, affiliate_links_removed = _remove_unwanted_links(
         soup,
         url,
@@ -1072,7 +1073,7 @@ def _apply_enrichment_from_html(article, html, url):
     article["meta_description"] = meta_description
 
     if JOBS_MODE:
-        article.update(extract_job_fields(soup, article, url, full_text=full_text))
+        article.update(extract_job_fields(job_source_soup, article, url, full_text=full_text))
         log_event(
             "job_fields_extracted",
             article_id=article.get("id"),
