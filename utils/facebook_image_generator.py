@@ -544,14 +544,14 @@ def _draw_job_title(base, title):
     font = _font(58)
     line_height = 76
 
-    for size in range(64, 37, -3):
+    for size in range(64, 30, -3):
         candidate_font = _font(size)
         candidate_lines = _wrap_job_title(title, draw, candidate_font, max_width, max_lines=4)
-        candidate_height = len(candidate_lines) * int(size * 1.32)
+        candidate_height = len(candidate_lines) * int(size * 1.28)
         if candidate_lines and candidate_height <= max_height:
             font = candidate_font
             lines = candidate_lines
-            line_height = int(size * 1.32)
+            line_height = int(size * 1.28)
             break
 
     if not lines:
@@ -706,8 +706,6 @@ def generate_job_article_cover(
         font = _font(max(34, int(width * 0.050)))
         line_height = max(44, int(width * 0.060))
         start_size = max(42, int(width * 0.060))
-        min_size = max(28, int(width * 0.034))
-
         min_size = max(25, int(width * 0.029))
         for size in range(start_size, min_size - 1, -3):
             candidate_font = _font(size)
