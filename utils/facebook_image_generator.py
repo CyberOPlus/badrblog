@@ -546,7 +546,7 @@ def _draw_job_title(base, title):
 
     for size in range(64, 37, -3):
         candidate_font = _font(size)
-        candidate_lines = _wrap_job_title(title, draw, candidate_font, max_width, max_lines=3)
+        candidate_lines = _wrap_job_title(title, draw, candidate_font, max_width, max_lines=4)
         candidate_height = len(candidate_lines) * int(size * 1.32)
         if candidate_lines and candidate_height <= max_height:
             font = candidate_font
@@ -555,7 +555,7 @@ def _draw_job_title(base, title):
             break
 
     if not lines:
-        lines = _wrap_job_title(title, draw, font, max_width, max_lines=3)
+        lines = _wrap_job_title(title, draw, font, max_width, max_lines=4)
 
     center_x = 505
     start_y = 665 + max(0, (max_height - len(lines) * line_height) // 2)
@@ -708,6 +708,7 @@ def generate_job_article_cover(
         start_size = max(42, int(width * 0.060))
         min_size = max(28, int(width * 0.034))
 
+        min_size = max(25, int(width * 0.029))
         for size in range(start_size, min_size - 1, -3):
             candidate_font = _font(size)
             candidate_lines = _wrap_job_title(
@@ -715,17 +716,17 @@ def generate_job_article_cover(
                 draw,
                 candidate_font,
                 max_width,
-                max_lines=3,
+                max_lines=4,
             )
-            candidate_height = len(candidate_lines) * int(size * 1.30)
+            candidate_height = len(candidate_lines) * int(size * 1.26)
             if candidate_lines and candidate_height <= max_height:
                 font = candidate_font
                 lines = candidate_lines
-                line_height = int(size * 1.30)
+                line_height = int(size * 1.26)
                 break
 
         if not lines:
-            lines = _wrap_job_title(title, draw, font, max_width, max_lines=3)
+            lines = _wrap_job_title(title, draw, font, max_width, max_lines=4)
 
         total_height = len(lines) * line_height
         y = title_top + max(0, (max_height - total_height) // 2)
