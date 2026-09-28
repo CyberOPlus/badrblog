@@ -1,9 +1,13 @@
 name: Cybero Plus Jobs Auto Cycle
 
 on:
-  # Temporarily manual-only while the Jobs article format is being reviewed.
-  # Re-enable the schedule only after the owner explicitly asks for a live test.
+  # Manual by default. The push trigger below is guarded and exists only for
+  # this one-shot Blogger + Facebook live test.
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/auto-cycle.yml"
 
 concurrency:
   group: auto-cycle-${{ github.ref }}
@@ -14,6 +18,7 @@ env:
 
 jobs:
   auto-cycle:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[one-shot-live-test]')
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -65,6 +70,7 @@ jobs:
           TELEGRAM_ALERTS_ENABLED: ${{ secrets.TELEGRAM_ALERTS_ENABLED }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          ONE_SHOT_FACEBOOK_TEST: ${{ github.event_name == 'push' && contains(github.event.head_commit.message, '[one-shot-live-test]') }}
         run: |
           python - <<'PY'
           import json
@@ -120,6 +126,8 @@ jobs:
               os.environ["BLOGGER_TOKEN_JSON"], encoding="utf-8"
           )
 
+          facebook_test = os.environ.get("ONE_SHOT_FACEBOOK_TEST", "").strip().lower() == "true"
+
           env_lines = {
               "JOBS_MODE": "true",
               "JOBS_TEST_MODE": "true",
@@ -139,7 +147,7 @@ jobs:
               "PUBLISH_MODE": "live",
               "SAFE_MODE": "false",
               "BLOGGER_LIVE_ENABLED": "true",
-              "FACEBOOK_AUTO_POST": "false",
+              "FACEBOOK_AUTO_POST": "true" if facebook_test else "false",
               "FACEBOOK_LINK_MODE": "comment",
               "FACEBOOK_PAGE_ID": os.environ.get("FACEBOOK_PAGE_ID", ""),
               "FACEBOOK_PAGE_ACCESS_TOKEN": os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN", ""),
@@ -200,13 +208,27 @@ jobs:
           )
           print("Mode: Cybero Plus Jobs")
           print("Blogger target safety: cyberopluss.blogspot.com")
-          print("Facebook publishing: disabled while JOBS_TEST_MODE=true")
+          print("Facebook publishing: one-shot test enabled" if facebook_test else "Facebook publishing: disabled")
           print("Morocco timezone: Africa/Casablanca")
           print("Job quality: >=65 publish, 50-64 queue")
           PY
 
       - name: Queue maintenance
         run: python main.py queue-maintenance
+
+      - name: Enable one-shot Facebook timing bypass
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, '[one-shot-live-test]')
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          path = Path("main.py")
+          text = path.read_text(encoding="utf-8")
+          count = text.count("respect_limits=True")
+          if count < 1:
+              raise SystemExit("Expected Facebook respect_limits=True call was not found.")
+          path.write_text(text.replace("respect_limits=True", "respect_limits=False"), encoding="utf-8")
+          print(f"One-shot Facebook timing bypass enabled in runner only ({count} call site(s)).")
+          PY
 
       - name: Run auto cycle
         timeout-minutes: 10
