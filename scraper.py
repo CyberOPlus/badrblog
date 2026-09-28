@@ -96,8 +96,6 @@ BLOCKED_SOURCE_HOST_HINTS = (
     "youtube.com",
     "youtu.be",
     "tiktok.com",
-    "telegram.me",
-    "t.me",
     "reddit.com",
     "substack.com",
     "medium.com",
