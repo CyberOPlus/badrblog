@@ -184,7 +184,7 @@
         {
           "name": "UN Careers",
           "base_url": "https://careers.un.org/jobopening?language=en",
-          "enabled": true,
+          "enabled": false,
           "fetch_limit_per_run": 8,
           "extractor_type": "un_careers",
           "source_priority": "S+",
@@ -192,7 +192,7 @@
           "source_country": "GLOBAL",
           "source_eligibility": "unknown",
           "strict_source_path": false,
-          "source_note": "Official UN Careers listing; adapter discovers Job IDs and verifies public detail pages."
+          "source_note": "Disabled after live GitHub-runner audit: official UN Careers server HTML/API path exposed no usable Job IDs. Re-enable only when a stable public machine-readable endpoint is verified."
         },
         {
           "name": "UN Careers",
