@@ -76,10 +76,12 @@ class JobVisualTests(unittest.TestCase):
                     "desired_slug": "servicenow-inwi",
                     "job_title": "Technical Lead ServiceNow",
                     "job_company": "inwi",
+                    "job_location": "Casablanca",
                     "company_logo_url": "",
                     "ai_input_package": {
                         "job_title": "Technical Lead ServiceNow",
                         "job_company": "inwi",
+                        "job_location": "Casablanca",
                     },
                 }
                 url = article_draft_publisher._prepare_job_article_cover(article)
@@ -87,7 +89,29 @@ class JobVisualTests(unittest.TestCase):
                 self.assertEqual(len(article["article_images"]), 1)
                 self.assertEqual(article["main_image"], url)
                 self.assertEqual(article["extra_article_images"], [])
+                self.assertEqual(
+                    article["article_images"][0]["alt"],
+                    "وظيفة Technical Lead ServiceNow لدى inwi في Casablanca",
+                )
+                self.assertEqual(
+                    article["ai_input_package"]["cover_alt"],
+                    "وظيفة Technical Lead ServiceNow لدى inwi في Casablanca",
+                )
                 self.assertTrue((temp / "servicenow-inwi.jpg").exists())
+
+
+    def test_article_logo_trims_transparent_padding_and_scales_up(self):
+        image = Image.new("RGBA", (600, 300), (0, 0, 0, 0))
+        for x in range(260, 340):
+            for y in range(120, 180):
+                image.putpixel((x, y), (180, 0, 120, 255))
+
+        prepared = visuals._prepare_article_job_logo(image, (360, 120))
+        self.assertIsNotNone(prepared)
+        self.assertGreater(prepared.width, 80)
+        self.assertGreater(prepared.height, 60)
+        self.assertLessEqual(prepared.width, 360)
+        self.assertLessEqual(prepared.height, 120)
 
     def test_article_renderer_handles_landscape_template_and_mixed_title(self):
         with tempfile.TemporaryDirectory() as temp:
