@@ -237,10 +237,6 @@ JOBS_MEMORY_DIR = BASE_DIR / "data" / "job_memory"
 JOBS_STATE_PATH = BASE_DIR / "data" / "job_state.json"
 JOB_VISUAL_STATE_PATH = BASE_DIR / "data" / "job_visual_state.json"
 
-# Optional Telegram alerts. Disabled by default.
-TELEGRAM_ALERTS_ENABLED = _env_bool_any(["TELEGRAM_ENABLED", "TELEGRAM_ALERTS_ENABLED"], False)
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "").strip()
 
 # Phase 9 lightweight-cycle controls.
 CATEGORY_POSTS_PER_HOUR = _env_int("CATEGORY_POSTS_PER_HOUR", 1)
