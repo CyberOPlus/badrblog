@@ -68,5 +68,10 @@ def append_jobposting(html, article, article_url):
         str(html or ""),
         flags=re.I | re.S,
     )
+    notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
+    if notice_type != "vacancy":
+        # Candidate lists/results are editorial updates, not active job vacancies.
+        # Keep the page's normal BlogPosting schema and avoid misleading JobPosting markup.
+        return html.rstrip()
     payload = json.dumps(build_jobposting(article, article_url), ensure_ascii=False, separators=(",", ":"))
     return html.rstrip() + f'\n<script type="application/ld+json" id="cyberoplus-jobposting">{payload}</script>'
