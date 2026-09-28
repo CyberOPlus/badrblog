@@ -1,19 +1,21 @@
 name: Cybero Plus Jobs Auto Cycle
 
 on:
+  schedule:
+    - cron: "*/15 * * * *"
   workflow_dispatch:
 
 concurrency:
-  group: cyberoplus-jobs-auto-cycle-${{ github.ref }}
+  group: auto-cycle-${{ github.ref }}
   cancel-in-progress: false
 
 env:
-  AUTO_CYCLE_CACHE_NAMESPACE: cyberoplus-jobs-state-v2
+  AUTO_CYCLE_CACHE_NAMESPACE: cyberoplus-jobs-state-v3-clean
 
 jobs:
   auto-cycle:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     permissions:
       actions: write
       contents: write
@@ -33,6 +35,7 @@ jobs:
             data/crawl_state.json
             data/ai_provider_memory.json
             data/facebook_style_memory.json
+            data/internal_link_cache.json
             data/source_health.json
             logs/auto_cycle_runs.jsonl
           key: ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-${{ github.run_id }}
@@ -124,7 +127,7 @@ jobs:
               "JOBS_TEST_MODE": "true",
               "JOBS_EXPECTED_BLOG_HOST": "cyberopluss.blogspot.com",
               "JOBS_TIMEZONE": "Africa/Casablanca",
-              "JOBS_MIN_SELECTION_SCORE": "70",
+              "JOBS_MIN_SELECTION_SCORE": "65",
               "JOBS_QUEUE_SCORE": "50",
               "JOBS_URGENT_EXTRA_DAILY_LIMIT": "1",
               "WHATSAPP_CHANNEL_URL": "https://whatsapp.com/channel/0029Vb7MdMfBVJl1kmmV4T0e",
@@ -157,7 +160,7 @@ jobs:
               "MAX_SOURCES_PER_RUN": "20",
               "PUBLISH_WEAK_ARTICLES": "true",
               "ALLOW_SHORT_ARTICLES": "true",
-              "MIN_ARTICLE_WORDS": "120",
+              "MIN_ARTICLE_WORDS": "100",
               "TARGET_ARTICLE_WORDS": "120-220",
               "MIN_EXTRACTED_CHARS": "80",
               "MAX_SOURCE_RETRIES": "0",
@@ -200,14 +203,14 @@ jobs:
           print("Mode: Cybero Plus Jobs")
           print("Blogger target safety: cyberopluss.blogspot.com")
           print("Morocco timezone: Africa/Casablanca")
-          print("Job quality: >=70 publish, 50-69 queue")
+          print("Job quality: >=65 publish, 50-64 queue")
           PY
 
       - name: Queue maintenance
         run: python main.py queue-maintenance
 
-      - name: Run Jobs auto cycle
-        timeout-minutes: 12
+      - name: Run auto cycle
+        timeout-minutes: 10
         run: python main.py auto-cycle
 
       - name: Publish due Facebook job
@@ -258,6 +261,7 @@ jobs:
             "data/crawl_state.json"
             "data/ai_provider_memory.json"
             "data/facebook_style_memory.json"
+            "data/internal_link_cache.json"
             "data/source_health.json"
             "logs/auto_cycle_runs.jsonl"
           )
