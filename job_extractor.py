@@ -139,7 +139,9 @@ def _deadline_from_text(text):
 def _city_from_text(text):
     folded = (text or "").casefold()
     for city in MOROCCO_CITIES:
-        if city.casefold() in folded:
+        city_folded = city.casefold()
+        pattern = rf"(?<!\\w){re.escape(city_folded)}(?!\\w)"
+        if re.search(pattern, folded):
             return city
     return ""
 
@@ -227,8 +229,16 @@ def extract_job_fields(soup, article, page_url, full_text=""):
 
     job_title = _text(node.get("title")) or article.get("fetched_title") or article.get("title", "")
     company = _text(org.get("name")) or article.get("job_company") or _source_company(article.get("source_name"))
-    location = location or _city_from_text(body)
-    country_code = "MA" if source_country == "MA" or str(country).casefold() in {"ma", "morocco", "maroc"} else source_country or country
+    structured_country = str(country or "").strip()
+    is_morocco_source = (
+        source_country == "MA"
+        or structured_country.casefold() in {"ma", "morocco", "maroc"}
+    )
+    # Text-city fallback is Morocco-specific. Never scan a known foreign vacancy
+    # for Moroccan city names because ordinary words can contain strings such as "fes".
+    if not location and is_morocco_source:
+        location = _city_from_text(body)
+    country_code = "MA" if is_morocco_source else source_country or structured_country
     eligibility = source_eligibility
     if not eligibility and country_code == "MA":
         eligibility = "morocco"

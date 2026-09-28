@@ -228,7 +228,7 @@ WHATSAPP_CHANNEL_URL = os.getenv(
 ).strip()
 JOBS_MODE = _env_bool_any(["JOBS_MODE"], True)
 JOBS_TIMEZONE = os.getenv("JOBS_TIMEZONE", "Africa/Casablanca").strip() or "Africa/Casablanca"
-JOBS_MIN_SELECTION_SCORE = _env_int("JOBS_MIN_SELECTION_SCORE", 70)
+JOBS_MIN_SELECTION_SCORE = _env_int("JOBS_MIN_SELECTION_SCORE", 65)
 JOBS_QUEUE_SCORE = _env_int("JOBS_QUEUE_SCORE", 50)
 JOBS_URGENT_EXTRA_DAILY_LIMIT = _env_int("JOBS_URGENT_EXTRA_DAILY_LIMIT", 1)
 JOBS_EXPECTED_BLOG_HOST = os.getenv("JOBS_EXPECTED_BLOG_HOST", "cyberopluss.blogspot.com").strip().casefold()

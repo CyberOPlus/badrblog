@@ -305,7 +305,19 @@ def _prepare_job_article_cover(article):
 
     _persist_generated_job_cover(output_path)
     public_url = f"{JOB_ARTICLE_RAW_BASE}/{quote(output_path.as_posix(), safe='/')}"
-    cover_alt = " - ".join(part for part in (job_title, employer) if part) or "فرصة عمل"
+    location = str(
+        article.get("job_location")
+        or package.get("job_location")
+        or ""
+    ).strip()
+    if job_title and employer and location:
+        cover_alt = f"وظيفة {job_title} لدى {employer} في {location}"
+    elif job_title and employer:
+        cover_alt = f"وظيفة {job_title} لدى {employer}"
+    elif job_title:
+        cover_alt = f"وظيفة {job_title}"
+    else:
+        cover_alt = f"فرصة عمل لدى {employer}" if employer else "فرصة عمل"
 
     article["job_article_cover_path"] = output_path.as_posix()
     article["job_article_cover_url"] = public_url

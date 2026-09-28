@@ -463,6 +463,32 @@ def _contain(image, max_size):
     return image.resize(size, Image.Resampling.LANCZOS)
 
 
+def _prepare_article_job_logo(image, max_size):
+    """Trim transparent padding and scale employer logos for the wide article cover."""
+    from PIL import Image
+
+    if image is None:
+        return None
+
+    prepared = image.convert("RGBA")
+    alpha = prepared.getchannel("A")
+    bbox = alpha.getbbox()
+    if bbox:
+        prepared = prepared.crop(bbox)
+
+    max_w, max_h = max_size
+    scale = min(
+        max_w / max(1, prepared.width),
+        max_h / max(1, prepared.height),
+        5.0,
+    )
+    size = (
+        max(1, int(prepared.width * scale)),
+        max(1, int(prepared.height * scale)),
+    )
+    return prepared.resize(size, Image.Resampling.LANCZOS)
+
+
 def _job_text_bbox(draw, text, font):
     try:
         return draw.textbbox(
@@ -632,13 +658,14 @@ def generate_job_article_cover(
                 f"article template is too small: {width}x{height}; use at least 800x450"
             )
 
-        # Logo: upper-middle, with enough breathing room from the site branding.
+        # Logo: upper-middle. Trim transparent source padding first so the visible
+        # employer mark is large enough without changing the Facebook renderer.
         logo = _load_job_logo(image_url)
         logo_center_x = int(width * 0.50)
-        logo_center_y = int(height * 0.34)
-        logo_max = (int(width * 0.46), int(height * 0.22))
+        logo_center_y = int(height * 0.32)
+        logo_max = (int(width * 0.40), int(height * 0.18))
         if logo is not None:
-            logo = _contain(logo, logo_max)
+            logo = _prepare_article_job_logo(logo, logo_max)
             base.alpha_composite(
                 logo,
                 (

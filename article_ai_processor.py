@@ -566,8 +566,11 @@ STRICT ACCURACY
   visa sponsorship, company information, application links, PDF links, email,
   phone number, requirement, date, or urgency.
 - If a fact is missing, OMIT it. Do not fill missing fields with "غير محدد".
-- Preserve official company names, job titles, certifications, products and
-  necessary French/English technical terms as written.
+- Treat job_title from the verified package as canonical. Copy it EXACTLY as
+  written wherever the position name is shown; do not translate, paraphrase,
+  shorten, pluralize, or replace it with an Arabic equivalent.
+- Preserve official company names, certifications, products and necessary
+  French/English technical terms as written.
 - Never mention scraping, rewriting, AI, automation, or the source-processing pipeline.
 
 LENGTH AND STYLE
@@ -581,7 +584,8 @@ LENGTH AND STYLE
 TITLE
 - Create a natural Arabic SEO title, normally 40-70 characters.
 - Prefer: employer + job title + location when location is verified.
-- Keep the official job title in French/English when appropriate.
+- Keep the official job_title EXACTLY as supplied; Arabic wording may surround it,
+  but the canonical position name itself must not be translated or rewritten.
 - Never add mutable values such as deadline, salary, seat count, or year just for freshness.
 
 INTRODUCTION

@@ -16,7 +16,7 @@ MEMORY_DIR = DATA_DIR / "job_memory"
 STATE_PATH = DATA_DIR / "job_state.json"
 
 MOROCCO_TIMEZONE = os.getenv("JOBS_TIMEZONE", "Africa/Casablanca").strip() or "Africa/Casablanca"
-MIN_SELECTION_SCORE = int(os.getenv("JOBS_MIN_SELECTION_SCORE", "70"))
+MIN_SELECTION_SCORE = int(os.getenv("JOBS_MIN_SELECTION_SCORE", "65"))
 QUEUE_SCORE = int(os.getenv("JOBS_QUEUE_SCORE", "50"))
 URGENT_EXTRA_DAILY_LIMIT = int(os.getenv("JOBS_URGENT_EXTRA_DAILY_LIMIT", "1"))
 

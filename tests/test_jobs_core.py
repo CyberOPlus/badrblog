@@ -113,6 +113,35 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(fields["job_document_links"][0]["url"], "https://example.com/docs/conditions.pdf")
         self.assertEqual(fields["company_logo_url"], "https://cdn.example.com/logo.png")
 
+    def test_foreign_job_does_not_infer_moroccan_city_from_body_substring(self):
+        html = """
+        <html><head><script type="application/ld+json">
+        {
+          "@context":"https://schema.org",
+          "@type":"JobPosting",
+          "title":"Driver",
+          "hiringOrganization":{"name":"UNICEF"},
+          "jobLocation":{"address":{"addressCountry":"BD"}},
+          "url":"https://jobs.example.org/595938"
+        }
+        </script></head><body></body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        fields = job_extractor.extract_job_fields(
+            soup,
+            {
+                "source_name": "UNICEF Vacancies",
+                "official_source": True,
+                "source_country": "",
+                "source_eligibility": "",
+            },
+            "https://jobs.example.org/595938",
+            full_text="Professional services and safeguards for a position in Bangladesh.",
+        )
+        self.assertEqual(fields.get("job_country"), "BD")
+        self.assertFalse(fields.get("job_location"))
+        self.assertNotEqual(fields.get("job_location"), "Fes")
+
     def test_job_quality_gate_enforces_compact_length_and_unique_links(self):
         apply_url = "https://example.com/apply/12345"
         base_article = {
