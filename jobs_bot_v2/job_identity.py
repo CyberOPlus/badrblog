@@ -188,10 +188,12 @@ def compare_to_existing(candidate, record):
     if new_posted and old_posted and abs((new_posted - old_posted).days) >= 30:
         return IdentityDecision("new_campaign", "same role reposted at least 30 days later")
 
-    # Position count, salary, deadline or description changes alone update the same page.
+    # If we reached this point, company/title/location are the same but there
+    # is no strong stable identifier. Do not merge automatically: ask the
+    # ambiguity reviewer. This avoids both false duplicate pages and false merges.
     return IdentityDecision(
-        "update",
-        "same semantic job; mutable facts changed or source reposted",
+        "needs_review",
+        "same company/title/location but no strong stable identifier",
         record.get("identity_key", ""),
         material_update=_material_change(candidate, record),
     )
