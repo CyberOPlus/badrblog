@@ -40,3 +40,19 @@ Jobs v2 is intentionally preview-only until the integration is complete:
 - `JOBS_LIVE_FACEBOOK=false`
 
 They should only be enabled after one full end-to-end preview is approved.
+
+
+## 5. Disposable Blogger test target
+
+Current test blog:
+
+- `https://cyberopluss.blogspot.com/`
+
+Before any test publishing, open Blogger settings for this blog and switch
+**Visible to search engines** OFF. This blog is for QA only and must not compete
+with the final Cybero Plus URLs in Google.
+
+Jobs v2 also expects the returned Blogger host to be
+`cyberopluss.blogspot.com`. A different host is treated as a safety error.
+
+Do not enable Google Indexing API while the expected host is a Blogspot test host.
