@@ -497,7 +497,7 @@ def maintain_article_queue(days=7):
         if article.get("title") and not article.get("title_hash"):
             article["title_hash"] = title_hash(article.get("title"))
 
-        if canonical_url:
+        if canonical_url and not JOBS_MODE:
             if canonical_url in seen_urls:
                 if _archive_article(article, "duplicate_url", archived_at):
                     stats["archived_duplicate_urls"] += 1
