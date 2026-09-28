@@ -7,17 +7,20 @@ from pathlib import Path
 
 from .article_writer import write_article
 from .expiry import expiry_status
+from .identity_review import review_ambiguous_identity
 from .jobposting import build_jobposting
 from .metrics import publication_dimensions, record_event
 from .models import JobCandidate
 from .quality import choose_best, score_candidate
 from .social_writer import write_social
 from .state import (
-    already_published,
     can_publish_today,
     can_use_urgent_override,
+    classify_candidate,
+    load_state,
 )
 from .timing import recommended_facebook_time
+from .update_policy import update_actions
 from .urgency import classify_urgency
 
 
@@ -83,13 +86,71 @@ def main():
     )
     args = parser.parse_args()
 
-    candidates = [c for c in _load_candidates(args.candidate_json) if not already_published(c)]
-    selected, quality, ranked = choose_best(candidates)
+    state = load_state()
+    raw_candidates = _load_candidates(args.candidate_json)
+    eligible = []
+    identity_meta = {}
+    held = []
+    duplicates = []
+
+    for candidate in raw_candidates:
+        decision, existing = classify_candidate(candidate, state=state)
+        action = decision.action
+        review = None
+
+        if action == "needs_review":
+            try:
+                review = review_ambiguous_identity(candidate, existing or {})
+                action = review.get("action", "hold")
+            except Exception as exc:
+                action = "hold"
+                review = {
+                    "action": "hold",
+                    "accepted": False,
+                    "reason": f"AI identity review unavailable: {exc}",
+                }
+
+        if action == "duplicate":
+            duplicates.append({
+                "title": candidate.title,
+                "company": candidate.company,
+                "reason": decision.reason,
+            })
+            continue
+
+        if action == "hold":
+            held.append({
+                "title": candidate.title,
+                "company": candidate.company,
+                "reason": decision.reason,
+                "review": review,
+            })
+            continue
+
+        if action == "update" and not decision.material_update:
+            duplicates.append({
+                "title": candidate.title,
+                "company": candidate.company,
+                "reason": "no material update",
+            })
+            continue
+
+        eligible.append(candidate)
+        identity_meta[id(candidate)] = {
+            "action": action,
+            "decision": decision.to_dict(),
+            "existing": existing or {},
+            "review": review,
+        }
+
+    selected, quality, ranked = choose_best(eligible)
 
     if not selected:
         result = {
             "ok": False,
-            "reason": "no candidate passed quality threshold",
+            "reason": "no new/update candidate passed quality and identity gates",
+            "held": held[:10],
+            "duplicates": duplicates[:10],
             "ranked": [
                 {
                     "score": score,
@@ -101,25 +162,37 @@ def main():
                 for score, q, candidate in ranked[:10]
             ],
         }
-        record_event("selection_empty", candidates=len(candidates))
+        record_event(
+            "selection_empty",
+            candidates=len(raw_candidates),
+            held=len(held),
+            duplicates=len(duplicates),
+        )
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0
 
+    identity = identity_meta[id(selected)]
     urgency = classify_urgency(selected)
-    normal_slot = can_publish_today()
+    is_update = identity["action"] == "update"
+
+    # Updating an existing page preserves factual accuracy and does not consume
+    # the daily new-article quota.
+    normal_slot = True if is_update else can_publish_today(state=state)
     urgent_override = (
-        not normal_slot
+        not is_update
+        and not normal_slot
         and urgency.get("allow_daily_override")
-        and can_use_urgent_override()
+        and can_use_urgent_override(state=state)
     )
 
     if not normal_slot and not urgent_override:
         result = {
             "ok": False,
-            "reason": "daily publish limit reached; best candidate kept for later",
+            "reason": "daily new-article limit reached; best candidate kept for later",
             "selected": selected.to_dict(),
             "quality": quality,
             "urgency": urgency,
+            "identity": identity,
         }
         record_event(
             "daily_limit_hold",
@@ -129,9 +202,17 @@ def main():
         return 0
 
     result = preview_candidate(selected, blogger_url=args.blogger_url)
+    result["identity"] = identity
+    if is_update:
+        result["update_policy"] = update_actions(
+            selected,
+            identity.get("existing", {}),
+            urgency,
+        )
     result["publishing_policy"] = {
         "normal_daily_slot": normal_slot,
         "urgent_override": urgent_override,
+        "is_existing_job_update": is_update,
         "facebook_action": result.get("facebook_timing", {}).get("mode", "scheduled"),
         "facebook_publish_at": result.get("facebook_timing", {}).get("publish_at", ""),
     }
