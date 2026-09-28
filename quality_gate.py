@@ -160,6 +160,44 @@ def _has_random_language_mixing(body_text):
     )
 
 
+JOB_TITLE_ACTION_HINTS = (
+    "توظيف", "توظف", "يوظف", "وظيفة", "وظائف", "فرص عمل", "فرصة عمل",
+    "مباراة", "مباريات", "عقود العمل", "تشغيل",
+)
+JOB_TITLE_LIST_HINTS = (
+    "لوائح المدعوين", "لائحة المدعوين", "المقبولين", "المدعوين",
+)
+JOB_TITLE_RESULT_HINTS = (
+    "النتائج", "نتائج", "الناجحين", "النتيجة",
+)
+
+
+def _job_title_style_reason(seo_title, notice_type="vacancy"):
+    title = re.sub(r"\s+", " ", str(seo_title or "")).strip()
+    if len(title) < 28:
+        return "job SEO title is too short and vague"
+    if len(title) > 150:
+        return "job SEO title is excessively long"
+    folded = title.casefold()
+    notice_type = str(notice_type or "vacancy").strip().lower()
+
+    if notice_type == "candidate_list":
+        if not any(hint in title for hint in JOB_TITLE_LIST_HINTS):
+            return "candidate-list title does not clearly say it is a list/invitation update"
+    elif notice_type in {"results", "final_results"}:
+        if not any(hint in title for hint in JOB_TITLE_RESULT_HINTS):
+            return "results title does not clearly say it contains results"
+    else:
+        if not any(hint.casefold() in folded for hint in JOB_TITLE_ACTION_HINTS):
+            return "vacancy title lacks a clear employment/competition action"
+
+    if re.search(r"\bSi[eè]ge\b", title, flags=re.I):
+        return "job SEO title contains raw source-page layout text"
+    if re.search(r"\w(?:Si[eè]ge|Marina),?\s", title, flags=re.I):
+        return "job SEO title contains concatenated source-page text"
+    return ""
+
+
 def _expected_image_missing(article, html_content):
     package = article.get("ai_input_package") or {}
     has_expected_image = bool(
@@ -252,6 +290,10 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             or package.get("job_notice_type")
             or "vacancy"
         ).strip().lower()
+        title_style_reason = _job_title_style_reason(seo_title, notice_type=notice_type)
+        if title_style_reason:
+            return QualityGateResult(False, title_style_reason, word_count)
+
         if notice_type == "vacancy" and deadline_value:
             deadline_labels = (
                 "آخر أجل للترشيح",
