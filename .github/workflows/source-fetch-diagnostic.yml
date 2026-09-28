@@ -148,6 +148,38 @@ jobs:
           except Exception as e:
               probes["UN_JOBFEED_ANCHORS"]={"error":f"{type(e).__name__}: {e}"}
 
+          try:
+              ur=requests.get(
+                  "https://careers.un.org/jobopening?language=en",
+                  timeout=12,
+                  headers={"User-Agent":"Mozilla/5.0"},
+              )
+              raw=ur.text
+              keys=("jobSearchDescription","jobOpening","jobopening","Job ID","jobId","jobID","SearchDescription")
+              un_patterns={}
+              for key in keys:
+                  pos=raw.find(key)
+                  un_patterns[key]=(
+                      raw[max(0,pos-350):pos+900].replace("\n"," ")
+                      if pos>=0 else ""
+                  )
+              import re
+              un_patterns["numeric_contexts"]=[
+                  m.group(0)
+                  for m in re.finditer(r".{0,80}(?:job|opening|requisition).{0,80}\d{5,9}.{0,120}", raw, flags=re.I|re.S)
+              ][:15]
+              un_patterns["scripts"]=[
+                  {
+                      "src":s.get("src",""),
+                      "type":s.get("type",""),
+                      "chars":len(s.string or s.get_text("",strip=False) or ""),
+                  }
+                  for s in BeautifulSoup(raw,"html.parser").find_all("script")
+              ][:30]
+              probes["UN_RAW_PATTERNS"]=un_patterns
+          except Exception as e:
+              probes["UN_RAW_PATTERNS"]={"error":f"{type(e).__name__}: {e}"}
+
           print("=== ALTERNATIVE_OFFICIAL_PROBES ===")
           print(json.dumps(probes, ensure_ascii=False, indent=2))
           PY
