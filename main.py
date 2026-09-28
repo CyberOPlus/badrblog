@@ -2186,16 +2186,21 @@ def _print_safe_cycle_final_report(
 def _record_successful_publish(article):
     if not article or article.get("publish_status") != "published":
         return
-    published_set = load_published_ids()
-    mark_many_as_published([article.get("url") or article.get("canonical_url")], published_set)
-    add_topic_fingerprint(
-        topic_signature(
-            article.get("seo_title")
-            or article.get("fetched_title")
-            or article.get("title")
-            or ""
+
+    if JOBS_MODE:
+        record_job_publish(article)
+    else:
+        published_set = load_published_ids()
+        mark_many_as_published([article.get("url") or article.get("canonical_url")], published_set)
+        add_topic_fingerprint(
+            topic_signature(
+                article.get("seo_title")
+                or article.get("fetched_title")
+                or article.get("title")
+                or ""
+            )
         )
-    )
+
     archive_published_queue_article(
         article_id=article.get("id", ""),
         article_url=article.get("url", ""),
@@ -2373,7 +2378,11 @@ def _process_hourly_target(selected, publish_mode):
         try:
             facebook_result = post_one_article_to_facebook(
                 target_article_id=selected_id,
-                respect_limits=False,
+                respect_limits=(
+                    not bool(article.get("job_publish_immediately"))
+                    if JOBS_MODE
+                    else False
+                ),
             )
             article = _find_article_by_id(selected_id)
         except Exception as error:
