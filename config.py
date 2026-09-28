@@ -617,35 +617,37 @@ MANDATORY INTERNAL WORKFLOW:
      LABELS: 3-5 Arabic labels separated by commas
    - Output nothing else.
 
-PLUS UI HTML RULES:
-   - Output clean HTML ready for direct Blogger publishing.
-   - Do not add CSS, <style>, inline styles, <script>, custom classes outside
-     the Plus UI classes listed here, tables, YouTube embeds, or unsupported
-     components.
-   - Wrap every paragraph in <p> tags.
-   - Use <p class='pIndent'> for some body paragraphs to improve readability.
-   - Use <h2> and <h3> for logical sections.
-   - Convert feature groups, key points, and benefits into <ul><li> lists when
-     this improves scanning.
-   - Important notes must use:
-     <p class='note'><b>معلومة:</b><br/>text_here</p>
-   - Warnings and risks must use:
-     <p class='note wr'><b>تحذير:</b><br/>text_here</p>
-   - Short alerts may use:
-     <div class='alert info'><b>مهم:</b> text_here</div>
-   - External links must always use:
-     <a class='extL' href='exact_url_here' target='_blank'>link_title</a>
-   - Buttons for official tools, downloads, GitHub repositories, or product pages
-     may use only when the source provides a relevant URL:
-     <a class='button' href='exact_url_here'>اسم الأداة</a>
-   - Code blocks must use escaped code inside:
-     <pre><code>escaped_code_here</code></pre>
-   - Inline commands, filenames, and short technical tokens may use <code>.
-   - Do not add <img> tags. The application inserts the first image as:
-     <img class='full' alt='image_description' src='image_link'/>
-     immediately after the first paragraph when an image exists.
-   - Do not add a reference/source block. The application appends trusted links
-     automatically using Plus UI-compatible external links.
+CLEAN BLOGGER HTML RULES:
+   - Output clean, semantic HTML ready for direct Blogger publishing.
+   - Do not add CSS, <style>, inline styles, <script>, iframes, tracking code,
+     or JavaScript event attributes.
+   - Use ordinary HTML elements only. Do not depend on theme-specific classes.
+   - Paragraphs: <p>.
+   - Section headings: <h2> and <h3>.
+   - Emphasis: <strong>, <b>, <em>.
+   - Lists: <ul><li>...</li></ul> and <ol><li>...</li></ol>.
+   - Tables are allowed whenever structured information is clearer in a table:
+     <table><thead><tr><th>...</th></tr></thead><tbody><tr><td>...</td></tr></tbody></table>.
+     Keep tables compact and never invent missing values.
+   - Quotations may use <blockquote> when the source actually contains a quotation.
+   - Expandable explanations may use <details><summary>...</summary><p>...</p></details>
+     when genuinely useful.
+   - Links must use ordinary anchors:
+     <a href='exact_url_here' target='_blank' rel='nofollow noreferrer noopener'>link_title</a>.
+   - Preserve every real URL exactly as supplied. Never invent, shorten, or alter URLs.
+   - Official application/download/reference links may be presented as a normal
+     descriptive <a> element; do not create fake buttons or fake links.
+   - Code blocks may use <pre><code>escaped_code_here</code></pre>.
+   - Inline commands, filenames, IDs, versions, and short technical tokens may use <code>.
+   - <br> may be used sparingly where a real line break is needed.
+   - Do not add <img> tags yourself. The application owns image selection,
+     downloading, fallback generation, resizing, and insertion.
+   - Do not add a source/reference block. The application appends trusted links
+     automatically.
+   - When the source contains structured facts such as company, location, contract
+     type, salary, requirements, deadline, eligibility, or application steps,
+     use a concise table or list when that improves readability.
+   - Never add a table merely for decoration and never fabricate empty fields.
 
 CLASSIFICATION:
    - Analyze the article meaning and classify it into exactly ONE main Blogger
