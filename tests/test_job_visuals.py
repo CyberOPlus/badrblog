@@ -7,6 +7,7 @@ from PIL import Image
 
 import article_ai_processor
 import article_draft_publisher
+import facebook_publisher
 import utils.facebook_image_generator as visuals
 
 
@@ -75,6 +76,7 @@ class JobVisualTests(unittest.TestCase):
                     "id": "job-1",
                     "desired_slug": "servicenow-inwi",
                     "job_title": "Technical Lead ServiceNow",
+                    "seo_title": "وظيفة مدير تقني ServiceNow لدى inwi في الدار البيضاء",
                     "job_company": "inwi",
                     "job_location": "Casablanca",
                     "company_logo_url": "",
@@ -89,16 +91,24 @@ class JobVisualTests(unittest.TestCase):
                 self.assertEqual(len(article["article_images"]), 1)
                 self.assertEqual(article["main_image"], url)
                 self.assertEqual(article["extra_article_images"], [])
-                self.assertEqual(
-                    article["article_images"][0]["alt"],
-                    "وظيفة Technical Lead ServiceNow لدى inwi في Casablanca",
-                )
-                self.assertEqual(
-                    article["ai_input_package"]["cover_alt"],
-                    "وظيفة Technical Lead ServiceNow لدى inwi في Casablanca",
-                )
+                self.assertIn("مدير تقني ServiceNow", article["article_images"][0]["alt"])
+                self.assertIn("مدير تقني ServiceNow", article["ai_input_package"]["cover_alt"])
                 self.assertTrue((temp / "servicenow-inwi.jpg").exists())
 
+
+    def test_jobs_facebook_uses_translated_reader_facing_title(self):
+        article = {
+            "job_title": "Technical Lead ServiceNow",
+            "seo_title": "وظيفة مدير تقني ServiceNow لدى inwi في الدار البيضاء",
+            "job_company": "inwi",
+            "job_location": "الدار البيضاء",
+        }
+        blueprint = facebook_publisher._jobs_facebook_blueprint(
+            article,
+            "https://cyberopluss.blogspot.com/test.html",
+        )
+        self.assertIn("مدير تقني ServiceNow", blueprint["caption"])
+        self.assertNotIn("💼 الوظيفة: Technical Lead ServiceNow", blueprint["caption"])
 
     def test_article_logo_trims_transparent_padding_and_scales_up(self):
         image = Image.new("RGBA", (600, 300), (0, 0, 0, 0))
