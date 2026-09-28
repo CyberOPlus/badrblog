@@ -208,8 +208,10 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         return QualityGateResult(False, "missing seo_description")
 
     word_count = html_word_count(html_content)
-    minimum_words = MIN_ARTICLE_WORDS if fast_mode else MIN_BLOGGER_ARTICLE_WORDS
-    if word_count < minimum_words and not (fast_mode and ALLOW_SHORT_ARTICLES and word_count >= 80):
+    minimum_words = 120 if JOBS_MODE else (MIN_ARTICLE_WORDS if fast_mode else MIN_BLOGGER_ARTICLE_WORDS)
+    if word_count < minimum_words and not (
+        (not JOBS_MODE) and fast_mode and ALLOW_SHORT_ARTICLES and word_count >= 80
+    ):
         return QualityGateResult(
             False,
             f"article too short ({word_count} words; minimum {minimum_words})",
@@ -217,8 +219,6 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         )
 
     body_text = html_to_text(html_content)
-    if JOBS_MODE and word_count < 120:
-        return QualityGateResult(False, f"job article too short ({word_count} words; minimum 120)", word_count)
     if _has_visible_json_or_markdown(html_content) or _has_visible_json_or_markdown(body_text):
         return QualityGateResult(False, "visible JSON/markdown found in article output", word_count)
     if _has_repeated_text_blocks(body_text):
@@ -230,9 +230,41 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
     if JOBS_MODE:
         if not str(article.get("url") or article.get("source_url") or "").strip():
             return QualityGateResult(False, "missing job source URL", word_count)
+
+        package = article.get("ai_input_package") or {}
+        application_url = str(
+            article.get("job_application_url")
+            or package.get("job_application_url")
+            or ""
+        ).strip()
+        if application_url and application_url not in html_content:
+            return QualityGateResult(False, "job application URL is missing from final HTML", word_count)
+
+        cover_url = str(
+            article.get("job_article_cover_url")
+            or package.get("job_article_cover_url")
+            or ""
+        ).strip()
+        if cover_url:
+            image_sources = re.findall(
+                r"<img\b[^>]*\bsrc=['\"]([^'\"]+)['\"]",
+                html_content,
+                flags=re.I,
+            )
+            if len(image_sources) != 1:
+                return QualityGateResult(
+                    False,
+                    f"job article must contain exactly one generated cover image; found {len(image_sources)}",
+                    word_count,
+                )
+            if image_sources[0] != cover_url:
+                return QualityGateResult(False, "job article image is not the generated cover", word_count)
+
         warnings = []
         if not re.search(r"<h2\b", html_content, flags=re.I):
             warnings.append("job article has no h2 section")
+        if word_count > 260:
+            warnings.append("job article is longer than the preferred compact range")
         return QualityGateResult(True, "", word_count, tuple(warnings))
 
     if fast_mode:
