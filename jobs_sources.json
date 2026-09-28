@@ -43,14 +43,14 @@
     },
     {
       "name": "ONCF Recrutement",
-      "type": "OFFICIAL_HTML",
+      "type": "OFFICIAL_ATS",
       "country": "MA",
       "url": "https://www.oncf.etalent.ma/offres",
       "priority": "S",
       "direct_publish": true,
       "requires_attribution": false,
       "enabled": true,
-      "notes": "Official ONCF eTalent listing; avoids slow corporate careers page."
+      "notes": "Official ONCF eTalent adapter; only /offre/<id> vacancies are accepted; an empty listing means no active offers."
     },
     {
       "name": "ONDA Recrutement",
@@ -67,11 +67,12 @@
       "name": "Maroc Telecom ATS",
       "type": "OFFICIAL_ATS",
       "country": "MA",
-      "url": "https://iam.csod.com/ux/ats/careersite/4/home/?c=iam",
+      "url": "https://iam.csod.com/ux/ats/careersite/4/home?c=iam",
       "priority": "S",
       "direct_publish": true,
       "requires_attribution": false,
-      "enabled": true
+      "enabled": true,
+      "notes": "Official Maroc Telecom CSOD adapter using public search, full jobDetails and posting deadline APIs."
     },
     {
       "name": "inwi Jobs",
@@ -118,21 +119,23 @@
       "name": "Orange Maroc",
       "type": "OFFICIAL_ATS",
       "country": "MA",
-      "url": "https://orange.jobs/fr/fr/afrique-moyen-orient/maroc",
+      "url": "https://orange.jobs/fr/fr/mea-morocco-job-search-results",
       "priority": "A+",
       "direct_publish": true,
       "requires_attribution": false,
-      "enabled": true
+      "enabled": true,
+      "notes": "Official Orange Phenom Morocco route; structured phApp.ddo jobs with direct apply URLs."
     },
     {
       "name": "Orange Business Morocco",
       "type": "OFFICIAL_ATS",
       "country": "MA",
-      "url": "https://orange.jobs/fr/fr/orange-business/maroc",
+      "url": "https://orange.jobs/fr/fr/network-search-results",
       "priority": "A+",
       "direct_publish": true,
       "requires_attribution": false,
-      "enabled": true
+      "enabled": true,
+      "notes": "Official Orange Phenom technical route; runtime keeps Morocco jobs from structured phApp.ddo data."
     },
     {
       "name": "Attijariwafa bank",
@@ -143,7 +146,7 @@
       "direct_publish": true,
       "requires_attribution": false,
       "enabled": true,
-      "notes": "Official Attijariwafa Cornerstone ATS; runtime uses csod adapter."
+      "notes": "Official Attijariwafa CSOD adapter using public search, full jobDetails and posting deadline APIs."
     },
     {
       "name": "ADM",
@@ -154,7 +157,7 @@
       "direct_publish": false,
       "requires_attribution": false,
       "enabled": true,
-      "notes": "Official ADM eTalent listing; avoids slow corporate homepage."
+      "notes": "Official ADM eTalent adapter; only /offre/<id> vacancy detail pages are accepted."
     },
     {
       "name": "UN Careers RSS",
