@@ -30,7 +30,7 @@ def _validate_selected_article(article):
         missing.append("main content")
     elif len(str(full_text).strip()) < MIN_EXTRACTED_CHARS:
         missing.append(f"main content below {MIN_EXTRACTED_CHARS} characters")
-    if not _has_value(article.get("suggested_category")):
+    if not JOBS_MODE and not _has_value(article.get("suggested_category")):
         missing.append("suggested_category")
     if article.get("content_fetch_status") != "success":
         missing.append("successful content extraction")
@@ -43,7 +43,10 @@ def _build_ai_input_package(article):
         "title": article.get("fetched_title") or article.get("title", ""),
         "url": article.get("url", ""),
         "source_name": article.get("source_name", ""),
-        "suggested_category": normalize_category_label(article.get("suggested_category", "")),
+        "suggested_category": normalize_category_label(
+            article.get("suggested_category")
+            or (article.get("category_label") if JOBS_MODE else "")
+        ),
         "main_image": article.get("main_image", ""),
         "article_images": article.get("article_images", []),
         "meta_description": article.get("meta_description", ""),
