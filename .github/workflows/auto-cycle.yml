@@ -242,6 +242,7 @@ jobs:
             data/crawl_state.json
             data/ai_provider_memory.json
             data/facebook_style_memory.json
+            data/internal_link_cache.json
             data/source_health.json
             logs/auto_cycle_runs.jsonl
           key: ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-${{ github.run_id }}
