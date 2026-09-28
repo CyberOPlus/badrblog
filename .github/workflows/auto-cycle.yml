@@ -195,6 +195,7 @@ jobs:
           print("Morocco timezone: Africa/Casablanca")
           print("Job quality: >=65 publish, 50-64 queue")
           print("AI order: Gemini first, OpenRouter fallback")
+          print("Jobs quality retries: stay on Gemini")
           PY
 
       - name: Queue maintenance
