@@ -1457,7 +1457,10 @@ def validate_phase3_article_quality(article):
 
 
 def format_phase3_article_html(html_content, package=None):
-    return _plus_ui_format_html(html_content, package or {})
+    formatted = _plus_ui_format_html(html_content, package or {})
+    if JOBS_MODE:
+        formatted = _remove_empty_job_fact_rows(formatted)
+    return formatted
 
 
 def _remove_empty_job_fact_rows(html_content):
