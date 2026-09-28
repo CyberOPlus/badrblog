@@ -566,11 +566,14 @@ STRICT ACCURACY
   visa sponsorship, company information, application links, PDF links, email,
   phone number, requirement, date, or urgency.
 - If a fact is missing, OMIT it. Do not fill missing fields with "غير محدد".
-- Treat job_title from the verified package as canonical. Copy it EXACTLY as
-  written wherever the position name is shown; do not translate, paraphrase,
-  shorten, pluralize, or replace it with an Arabic equivalent.
-- Preserve official company names, certifications, products and necessary
-  French/English technical terms as written.
+- job_title from the verified package is the factual source title, but the
+  READER-FACING position name MUST be translated into clear natural Arabic so
+  a Moroccan reader immediately understands which job they are applying for.
+- When the original French/English title is useful for recognition or contains
+  a product/technical term, keep it once in parentheses after the Arabic meaning.
+  Example: مدير تقني ServiceNow (Technical Lead ServiceNow).
+- Never mistranslate a specialized title. Keep product names, certifications,
+  company names and necessary technical terms such as ServiceNow unchanged.
 - Never mention scraping, rewriting, AI, automation, or the source-processing pipeline.
 
 LENGTH AND STYLE
@@ -584,12 +587,14 @@ LENGTH AND STYLE
 TITLE
 - Create a natural Arabic SEO title, normally 40-70 characters.
 - Prefer: employer + job title + location when location is verified.
-- Keep the official job_title EXACTLY as supplied; Arabic wording may surround it,
-  but the canonical position name itself must not be translated or rewritten.
+- Translate the job position itself into clear Arabic in the reader-facing title.
+- Keep the original official French/English position once in parentheses when it
+  helps recognition, especially for technical or specialized roles.
 - Never add mutable values such as deadline, salary, seat count, or year just for freshness.
 
 INTRODUCTION
-- Start with ONE short paragraph naming the employer, job title, and verified location when available.
+- Start with ONE short paragraph naming the employer, the clearly translated Arabic
+  job title (with the original title in parentheses when useful), and verified location when available.
 - Do not repeat all table facts in the introduction.
 
 DETAILS
