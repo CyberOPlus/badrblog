@@ -79,3 +79,5 @@ python main.py health
 ## مبدأ التطوير
 
 نطوّر نفس البوت تدريجياً. لا ننشئ bot داخل bot، ولا نهدم منطقاً شغالاً لإعادة بنائه من الصفر.
+
+<!-- blogger-live-test-trigger: retry-5 -->
