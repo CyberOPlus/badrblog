@@ -3,6 +3,8 @@
 # ============================================================
 
 import textwrap
+import json
+import random
 from io import BytesIO
 from pathlib import Path
 import re
@@ -24,6 +26,8 @@ from config import (
     FACEBOOK_TITLE_BOX_X,
     FACEBOOK_TITLE_BOX_Y,
     FACEBOOK_TITLE_FONT_SIZE,
+    JOBS_MODE,
+    JOB_VISUAL_STATE_PATH,
 )
 from production_logging import log_event
 
@@ -134,10 +138,16 @@ def _font(size):
     if absolute_font.exists():
         return ImageFont.truetype(str(absolute_font), size=size)
     log_event("facebook_image_font_missing", path=absolute_font)
-    try:
-        return ImageFont.truetype("arial.ttf", size=size)
-    except OSError:
-        return ImageFont.load_default()
+    for fallback in (
+        "DejaVuSans-Bold.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "arial.ttf",
+    ):
+        try:
+            return ImageFont.truetype(fallback, size=size)
+        except OSError:
+            continue
+    return ImageFont.load_default()
 
 
 def _is_arabic(text):
@@ -292,7 +302,223 @@ def _draw_brand(base):
     _draw_text(draw, (x, y), label, font, (255, 255, 255, 245))
 
 
+JOB_TEMPLATE_DIR = Path(__file__).resolve().parents[1] / "assets" / "facebook"
+JOB_TEMPLATE_FILES = tuple(JOB_TEMPLATE_DIR / f"job{index}.png" for index in range(1, 5))
+
+
+def _job_template_index():
+    state = {}
+    try:
+        state = json.loads(JOB_VISUAL_STATE_PATH.read_text(encoding="utf-8"))
+    except Exception:
+        state = {}
+
+    try:
+        last = int(state.get("last_background_index"))
+    except (TypeError, ValueError):
+        last = -1
+
+    available = [index for index in range(len(JOB_TEMPLATE_FILES)) if index != last]
+    index = random.SystemRandom().choice(available or list(range(len(JOB_TEMPLATE_FILES))))
+    JOB_VISUAL_STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    JOB_VISUAL_STATE_PATH.write_text(
+        json.dumps(
+            {
+                "last_background_index": index,
+                "last_background_file": JOB_TEMPLATE_FILES[index].name,
+            },
+            ensure_ascii=False,
+            indent=2,
+        ) + "\n",
+        encoding="utf-8",
+    )
+    return index
+
+
+def _load_job_template():
+    from PIL import Image
+
+    index = _job_template_index()
+    path = JOB_TEMPLATE_FILES[index]
+    if not path.exists():
+        raise FileNotFoundError(f"missing job Facebook template: {path}")
+    image = Image.open(path).convert("RGBA")
+    if image.size != (1080, 1350):
+        raise RuntimeError(
+            f"job Facebook template must stay 1080x1350; got {image.width}x{image.height}"
+        )
+    return image, index
+
+
+def _load_job_logo(image_url):
+    from PIL import Image
+
+    if not image_url:
+        return None
+    try:
+        response = requests.get(
+            image_url,
+            headers={"User-Agent": "Mozilla/5.0"},
+            timeout=IMAGE_TIMEOUT_SECONDS,
+        )
+        response.raise_for_status()
+        content_type = (response.headers.get("content-type") or "").casefold()
+        if "svg" in content_type or str(image_url).casefold().endswith(".svg"):
+            return None
+        image = Image.open(BytesIO(response.content)).convert("RGBA")
+        if image.width < 24 or image.height < 16:
+            return None
+        return image
+    except Exception as error:
+        log_event("facebook_job_logo_download_failed", error=error.__class__.__name__)
+        return None
+
+
+def _contain(image, max_size):
+    from PIL import Image
+
+    max_w, max_h = max_size
+    scale = min(max_w / max(1, image.width), max_h / max(1, image.height), 1.0)
+    if image.width < max_w * 0.55 and image.height < max_h * 0.55:
+        scale = min(max_w / max(1, image.width), max_h / max(1, image.height), 2.6)
+    size = (
+        max(1, int(image.width * scale)),
+        max(1, int(image.height * scale)),
+    )
+    return image.resize(size, Image.Resampling.LANCZOS)
+
+
+def _job_text_bbox(draw, text, font):
+    try:
+        return draw.textbbox(
+            (0, 0),
+            text,
+            font=font,
+            direction="rtl" if _is_arabic(text) else None,
+        )
+    except Exception:
+        return draw.textbbox((0, 0), text, font=font)
+
+
+def _wrap_job_title(title, draw, font, max_width, max_lines=3):
+    words = [word for word in _clean_title_text(title).split() if word]
+    if not words:
+        return ["فرصة عمل جديدة"]
+    lines = []
+    current = ""
+    for word in words:
+        candidate = f"{current} {word}".strip()
+        bbox = _job_text_bbox(draw, candidate, font)
+        if bbox[2] - bbox[0] <= max_width:
+            current = candidate
+        else:
+            if current:
+                lines.append(current)
+            current = word
+    if current:
+        lines.append(current)
+
+    if len(lines) > max_lines:
+        lines = lines[:max_lines]
+        lines[-1] = lines[-1].rstrip(" .") + "…"
+    return lines
+
+
+def _draw_job_title(base, title):
+    from PIL import ImageDraw
+
+    draw = ImageDraw.Draw(base)
+    max_width = 760
+    max_height = 255
+    lines = []
+    font = _font(58)
+    line_height = 76
+
+    for size in range(64, 37, -3):
+        candidate_font = _font(size)
+        candidate_lines = _wrap_job_title(title, draw, candidate_font, max_width, max_lines=3)
+        candidate_height = len(candidate_lines) * int(size * 1.32)
+        if candidate_lines and candidate_height <= max_height:
+            font = candidate_font
+            lines = candidate_lines
+            line_height = int(size * 1.32)
+            break
+
+    if not lines:
+        lines = _wrap_job_title(title, draw, font, max_width, max_lines=3)
+
+    center_x = 505
+    start_y = 665 + max(0, (max_height - len(lines) * line_height) // 2)
+    for line in lines:
+        _draw_text(
+            draw,
+            (center_x, start_y + line_height // 2),
+            line,
+            font,
+            (24, 24, 24, 255),
+        )
+        start_y += line_height
+
+
+def _draw_job_logo_or_fallback(base, image_url, fallback_text):
+    from PIL import ImageDraw
+
+    logo = _load_job_logo(image_url)
+    if logo is not None:
+        logo = _contain(logo, (510, 270))
+        x = 505 - logo.width // 2
+        y = 420 - logo.height // 2
+        base.alpha_composite(logo, (x, y))
+        return True
+
+    fallback = _clean_overlay_text(fallback_text)
+    if fallback:
+        draw = ImageDraw.Draw(base)
+        font = _font(42)
+        lines = _wrap_job_title(fallback, draw, font, 600, max_lines=2)
+        y = 385
+        for line in lines:
+            _draw_text(draw, (505, y), line, font, (45, 45, 45, 255))
+            y += 58
+    return False
+
+
+def _generate_job_facebook_image(title, image_url, output_path, hook_text=""):
+    output_path = Path(output_path)
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    FACEBOOK_IMAGE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    try:
+        base, template_index = _load_job_template()
+        logo_loaded = _draw_job_logo_or_fallback(base, image_url, hook_text)
+        _draw_job_title(base, title)
+        base.convert("RGB").save(output_path, "JPEG", quality=95, optimize=True, subsampling=0)
+        if not output_path.exists() or output_path.stat().st_size <= 0:
+            raise RuntimeError("empty generated jobs Facebook image")
+        log_event(
+            "facebook_job_image_generated",
+            path=str(output_path),
+            template_index=template_index,
+            logo_loaded=logo_loaded,
+            width=1080,
+            height=1350,
+        )
+        return {
+            "ok": True,
+            "path": str(output_path),
+            "used_fallback": not logo_loaded,
+            "error": "",
+            "template_index": template_index,
+        }
+    except Exception as error:
+        log_event("facebook_job_image_generation_failed", error=error.__class__.__name__)
+        return {"ok": False, "path": "", "used_fallback": False, "error": str(error)}
+
+
 def generate_facebook_image(title, image_url, output_path, hook_text=""):
+    if JOBS_MODE:
+        return _generate_job_facebook_image(title, image_url, output_path, hook_text=hook_text)
+
     """
     Generate a Facebook image from the article image, optional template overlay,
     a short Arabic title/hook, and a small brand mark.
