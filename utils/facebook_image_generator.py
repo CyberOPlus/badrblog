@@ -57,7 +57,6 @@ TECH_TERMS = {
     "windows": "Windows",
     "linux": "Linux",
     "android": "Android",
-    "telegram": "Telegram",
     "discord": "Discord",
 }
 
