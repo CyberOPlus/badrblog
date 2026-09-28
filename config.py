@@ -326,10 +326,8 @@ if not GEMINI_MODELS and GEMINI_MODEL:
 # OPENROUTER_API_KEY should be kept in .env only.
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 FAST_OPENROUTER_MODELS = [
-    "inclusionai/ling-2.6-flash:free",
-    "liquid/lfm-2.5-1.2b-instruct:free",
-    "nvidia/nemotron-3-nano-30b-a3b:free",
-    "openai/gpt-oss-20b:free",
+    "qwen/qwen3.8-27b:free",
+    "openrouter/free",
 ]
 OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", FAST_OPENROUTER_MODELS[0]).strip()
 _configured_openrouter_models = _env_csv("OPENROUTER_MODELS")
