@@ -10,7 +10,7 @@ import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
-from urllib.parse import urljoin, urlparse
+from urllib.parse import parse_qs, urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -882,6 +882,195 @@ async def _fetch_text_async(session, url):
         return "", error.__class__.__name__, None
 
 
+def _workday_config(source_url):
+    parsed = urlparse(str(source_url or ""))
+    if not parsed.scheme.startswith("http") or "myworkdayjobs.com" not in parsed.netloc.casefold():
+        return None
+    parts = [part for part in parsed.path.split("/") if part]
+    if not parts:
+        return None
+    site = parts[-1]
+    tenant = parsed.netloc.split(".", 1)[0]
+    if not tenant or not site:
+        return None
+    origin = f"{parsed.scheme}://{parsed.netloc}"
+    return {
+        "origin": origin,
+        "tenant": tenant,
+        "site": site,
+        "listing_url": source_url.rstrip("/"),
+        "api_url": f"{origin}/wday/cxs/{tenant}/{site}/jobs",
+    }
+
+
+async def _collect_workday_links_async(session, source_url, per_source_limit=None):
+    cfg = _workday_config(source_url)
+    if not cfg:
+        return [], "invalid workday source URL", None
+    limit = max(1, min(int(per_source_limit or 20), 20))
+    started = time.perf_counter()
+    try:
+        async with session.post(
+            cfg["api_url"],
+            json={"appliedFacets": {}, "limit": limit, "offset": 0, "searchText": ""},
+            headers={**HEADERS, "Accept": "application/json", "Content-Type": "application/json"},
+            timeout=ASYNC_FETCH_TIMEOUT_SECONDS,
+        ) as response:
+            text = await response.text(errors="ignore")
+            if response.status >= 400:
+                return [], f"http {response.status}", response.status
+            data = json.loads(text or "{}")
+    except (asyncio.TimeoutError, aiohttp.ClientError, ValueError, json.JSONDecodeError) as error:
+        return [], error.__class__.__name__, None
+
+    links = []
+    for row in data.get("jobPostings") or []:
+        if not isinstance(row, dict):
+            continue
+        title = _normalize_text(row.get("title") or "")
+        external_path = str(row.get("externalPath") or "").strip()
+        if not title or not external_path:
+            continue
+        if external_path.startswith("/"):
+            url = cfg["listing_url"] + external_path
+        else:
+            url = cfg["listing_url"] + "/" + external_path
+        links.append({
+            "title": title,
+            "url": url,
+            "ats_provider": "workday",
+            "ats_reference": (row.get("bulletFields") or [""])[0] if isinstance(row.get("bulletFields"), list) else "",
+            "source_published_label": str(row.get("postedOn") or "").strip(),
+        })
+        if len(links) >= limit:
+            break
+    log_event(
+        "workday_source_fetch",
+        url=source_url,
+        jobs=len(links),
+        elapsed_ms=elapsed_ms(started),
+    )
+    return links, "", 200
+
+
+def _csod_config(source_url):
+    parsed = urlparse(str(source_url or ""))
+    host = parsed.netloc.casefold()
+    if not (host == "csod.com" or host.endswith(".csod.com")):
+        return None
+    match = re.search(r"/ux/ats/careersite/(\d+)(?:/|$)", parsed.path, flags=re.I)
+    if not match:
+        return None
+    site_id = int(match.group(1))
+    query = parse_qs(parsed.query)
+    corp = (query.get("c") or [host.split(".")[0]])[0]
+    origin = f"{parsed.scheme}://{parsed.netloc}"
+    return {
+        "origin": origin,
+        "site_id": site_id,
+        "corp": corp,
+        "home_url": f"{origin}/ux/ats/careersite/{site_id}/home?c={corp}",
+        "search_url": f"{origin}/services/x/career-site/v1/search",
+    }
+
+
+def _csod_posted_iso(raw):
+    match = re.match(r"^(\d{1,2})/(\d{1,2})/(\d{4})$", str(raw or "").strip())
+    if not match:
+        return ""
+    month, day, year = map(int, match.groups())
+    try:
+        return datetime(year, month, day, tzinfo=timezone.utc).isoformat()
+    except ValueError:
+        return ""
+
+
+async def _collect_csod_links_async(session, source_url, per_source_limit=None):
+    cfg = _csod_config(source_url)
+    if not cfg:
+        return [], "invalid csod source URL", None
+    limit = max(1, min(int(per_source_limit or 20), 25))
+    started = time.perf_counter()
+    try:
+        async with session.get(
+            cfg["home_url"],
+            headers={**HEADERS, "Accept": "text/html"},
+            timeout=ASYNC_FETCH_TIMEOUT_SECONDS,
+        ) as bootstrap:
+            html = await bootstrap.text(errors="ignore")
+            if bootstrap.status >= 400:
+                return [], f"http {bootstrap.status}", bootstrap.status
+        token_match = re.search(r'"token"\s*:\s*"([A-Za-z0-9._-]+)"', html)
+        if not token_match:
+            return [], "anonymous csod token missing", 200
+        token = token_match.group(1)
+
+        payload = {
+            "careerSiteId": cfg["site_id"],
+            "careerSitePageId": cfg["site_id"],
+            "pageNumber": 1,
+            "pageSize": limit,
+            "cultureId": 1,
+            "cultureName": "en-US",
+            "searchText": "",
+            "states": [],
+            "countryCodes": [],
+            "cities": [],
+            "placeID": "",
+            "radius": None,
+            "postingsWithinDays": None,
+            "customFieldCheckboxKeys": [],
+            "customFieldDropdowns": [],
+            "customFieldRadios": [],
+        }
+        async with session.post(
+            cfg["search_url"],
+            json=payload,
+            headers={
+                **HEADERS,
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {token}",
+            },
+            timeout=ASYNC_FETCH_TIMEOUT_SECONDS,
+        ) as response:
+            text = await response.text(errors="ignore")
+            if response.status >= 400:
+                return [], f"http {response.status}", response.status
+            data = json.loads(text or "{}")
+    except (asyncio.TimeoutError, aiohttp.ClientError, ValueError, json.JSONDecodeError) as error:
+        return [], error.__class__.__name__, None
+
+    links = []
+    for row in ((data.get("data") or {}).get("requisitions") or []):
+        if not isinstance(row, dict):
+            continue
+        req_id = str(row.get("requisitionId") or "").strip()
+        title = _normalize_text(re.sub(r"<[^>]+>", " ", str(row.get("displayJobTitle") or "")))
+        if not req_id or not title:
+            continue
+        url = (
+            f"{cfg['origin']}/ux/ats/careersite/{cfg['site_id']}/home/"
+            f"requisition/{req_id}?c={cfg['corp']}"
+        )
+        links.append({
+            "title": title,
+            "url": url,
+            "ats_provider": "csod",
+            "ats_reference": req_id,
+            "source_published_at": _csod_posted_iso(row.get("postingEffectiveDate")),
+        })
+        if len(links) >= limit:
+            break
+    log_event(
+        "csod_source_fetch",
+        url=source_url,
+        jobs=len(links),
+        elapsed_ms=elapsed_ms(started),
+    )
+    return links, "", 200
+
+
 async def _collect_links_from_feed_async(session, feed_url, source_url):
     text, error, _status_code = await _fetch_text_async(session, feed_url)
     if error or not text:
@@ -898,6 +1087,41 @@ async def _collect_article_links_for_source_async(
     strict_source_path=True,
 ):
     print(f"\n--- Discovering links from source: {source_url} ---")
+
+    extractor_mode = str(extractor_type or "").lower()
+    if extractor_mode == "workday_api":
+        links, error, status_code = await _collect_workday_links_async(
+            session,
+            source_url,
+            per_source_limit=per_source_limit,
+        )
+        print(f"  Collected {len(links)} Workday job link(s) from this source.")
+        return [
+            _link_to_article_dict(link, source_url)
+            for link in links
+        ], error, status_code, {
+            "normal_links_found": len(links),
+            "feed_links_found": 0,
+            "method_used": "workday_api" if links else ("failed:workday_api" if error else "workday_api"),
+            "tried_feed_urls": [],
+        }
+
+    if extractor_mode == "csod":
+        links, error, status_code = await _collect_csod_links_async(
+            session,
+            source_url,
+            per_source_limit=per_source_limit,
+        )
+        print(f"  Collected {len(links)} CSOD job link(s) from this source.")
+        return [
+            _link_to_article_dict(link, source_url)
+            for link in links
+        ], error, status_code, {
+            "normal_links_found": len(links),
+            "feed_links_found": 0,
+            "method_used": "csod" if links else ("failed:csod" if error else "csod"),
+            "tried_feed_urls": [],
+        }
 
     listing_html, error, status_code = await _fetch_text_async(session, source_url)
     html_links = []
@@ -924,7 +1148,6 @@ async def _collect_article_links_for_source_async(
         if candidate and not (candidate in seen_feed_urls or seen_feed_urls.add(candidate))
     ]
 
-    extractor_mode = str(extractor_type or "").lower()
     if extractor_mode == "feed_fallback":
         direct_feed_links = _parse_feed_article_links(
             listing_html,
