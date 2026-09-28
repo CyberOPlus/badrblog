@@ -23,7 +23,8 @@
           "source_priority": "S+",
           "official_source": true,
           "source_country": "MA",
-          "source_eligibility": "morocco"
+          "source_eligibility": "morocco",
+          "strict_source_path": false
         },
         {
           "name": "Emploi-Public — services de l'État",
@@ -34,7 +35,8 @@
           "source_priority": "S+",
           "official_source": true,
           "source_country": "MA",
-          "source_eligibility": "morocco"
+          "source_eligibility": "morocco",
+          "strict_source_path": false
         },
         {
           "name": "ONCF Recrutement",
@@ -92,7 +94,8 @@
           "source_priority": "S",
           "official_source": true,
           "source_country": "MA",
-          "source_eligibility": "morocco"
+          "source_eligibility": "morocco",
+          "strict_source_path": false
         },
         {
           "name": "Crédit du Maroc",
@@ -103,7 +106,8 @@
           "source_priority": "S",
           "official_source": true,
           "source_country": "MA",
-          "source_eligibility": "morocco"
+          "source_eligibility": "morocco",
+          "strict_source_path": false
         },
         {
           "name": "OCP Group",
@@ -125,7 +129,8 @@
           "source_priority": "A+",
           "official_source": true,
           "source_country": "MA",
-          "source_eligibility": "morocco"
+          "source_eligibility": "morocco",
+          "strict_source_path": false
         },
         {
           "name": "Orange Business Morocco",
@@ -136,7 +141,8 @@
           "source_priority": "A+",
           "official_source": true,
           "source_country": "MA",
-          "source_eligibility": "morocco"
+          "source_eligibility": "morocco",
+          "strict_source_path": false
         },
         {
           "name": "Attijariwafa bank",
@@ -178,18 +184,20 @@
           "source_priority": "S+",
           "official_source": true,
           "source_country": "GLOBAL",
-          "source_eligibility": "unknown"
+          "source_eligibility": "unknown",
+          "strict_source_path": false
         },
         {
           "name": "UN Careers",
           "base_url": "https://careers.un.org/jobopening?language=en",
-          "enabled": true,
+          "enabled": false,
           "fetch_limit_per_run": 8,
           "extractor_type": "auto",
           "source_priority": "S",
           "official_source": true,
           "source_country": "GLOBAL",
-          "source_eligibility": "unknown"
+          "source_eligibility": "unknown",
+          "source_note": "Duplicate dynamic listing disabled; official UN Careers RSS remains enabled."
         },
         {
           "name": "UNICEF Vacancies",
