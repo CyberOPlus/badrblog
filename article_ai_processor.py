@@ -727,7 +727,7 @@ VERIFIED JOB PACKAGE:
 You are a fast Arabic technology news editor for a Blogger automation pipeline.
 
 Create blogger_article_html: a useful, publish-ready Arabic news article. This is
-not facebook_post_text, not telegram_report, and not a short social caption.
+not facebook_post_text, not a social report, and not a short social caption.
 
 STRICT FAST NEWS RULES:
 - Return JSON only. No markdown fences, notes, or explanations.
@@ -782,7 +782,7 @@ You are a professional Arabic technology and cybersecurity editor.
 
 Create a fully ready Arabic Blogger article from the input package. The output is
 blogger_article_html: a complete long-form Blogger article. It is never a Facebook
-post, Telegram report, excerpt, or summary.
+post, social report, excerpt, or summary.
 
 STRICT RULES:
 - Return JSON only. No markdown fences, no notes, no explanations.
@@ -977,7 +977,7 @@ The previous Blogger article failed the production quality gate:
 
 Rewrite the article from the source material into a complete long-form Arabic
 Blogger article. This is blogger_article_html only, not facebook_post_text and
-not telegram_report.
+not a social report.
 
 Mandatory fixes:
 - The response is rejected unless title, description, slug, and html_content are all present.
@@ -2119,42 +2119,6 @@ def _apply_success(article, data, provider_used):
     article.pop("ai_error", None)
 
 
-def _send_ai_quality_warning(article, error):
-    try:
-        from notifier import send_telegram_message
-
-        send_telegram_message(
-            "\n".join(
-                [
-                    "\u26a0\ufe0f AI quality gate blocked an article",
-                    f"Article: {article.get('title') or article.get('fetched_title') or ''}",
-                    f"Source: {article.get('source_name', '')}",
-                    f"Reason: {error}",
-                    f"Words: {article.get('final_word_count') or 0}",
-                ]
-            )
-        )
-    except Exception as notify_error:
-        log_event("telegram_ai_quality_warning_failed", error=notify_error.__class__.__name__)
-
-
-def _send_ai_rotation_exhausted_warning(article, error):
-    try:
-        from notifier import send_telegram_message
-
-        send_telegram_message(
-            "\n".join(
-                [
-                    "\u26a0\ufe0f AI rotation exhausted",
-                    f"Article: {article.get('title') or article.get('fetched_title') or ''}",
-                    f"Source: {article.get('source_name', '')}",
-                    f"Reason: {_safe_error_reason(error)}",
-                ]
-            )
-        )
-    except Exception as notify_error:
-        log_event("telegram_ai_rotation_warning_failed", error=notify_error.__class__.__name__)
-
 
 def _apply_failure(article, error):
     article["ai_status"] = "failed"
@@ -2450,7 +2414,6 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             article_id=article.get("id"),
             reason="AI rotation exhausted",
         )
-        _send_ai_rotation_exhausted_warning(article, last_error)
     else:
         log_event("ai_quality_failed_after_retries", article_id=article.get("id"), error=last_error)
         log_event("article_skipped", article_id=article.get("id"), reason="AI quality failed after retries")
@@ -2472,7 +2435,6 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 words=article.get("final_word_count") or 0,
                 reason=last_error,
             )
-        _send_ai_quality_warning(article, last_error)
     return {
         "processed": 1,
         "success": 0,
