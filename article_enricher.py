@@ -16,6 +16,7 @@ from article_queue import is_candidate_in_recent_failure, load_article_queue, sa
 from config import (
     ARTICLE_TIMEOUT_SECONDS,
     FAST_NEWS_MODE,
+    JOBS_MODE,
     HEADERS,
     MIN_EXTRACTED_CHARS,
     PUBLISH_WEAK_ARTICLES,
@@ -25,6 +26,7 @@ from config import (
 )
 from production_logging import elapsed_ms, log_event
 from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
+from job_extractor import extract_job_fields
 
 try:
     import aiohttp
@@ -1033,6 +1035,7 @@ def _apply_enrichment_from_html(article, html, url):
     )
     preview = _trim_preview(full_text) if full_text else ""
     extracted_words = _word_count(full_text)
+    required_words = 40 if JOBS_MODE else MIN_EXTRACTED_WORDS
     log_event(
         "final_extracted_words",
         title=article.get("title"),
@@ -1042,13 +1045,13 @@ def _apply_enrichment_from_html(article, html, url):
         chars=len(full_text or ""),
         words=str(extracted_words),
     )
-    if not full_text or len(full_text) < min_success_chars or extracted_words < MIN_EXTRACTED_WORDS:
+    if not full_text or len(full_text) < min_success_chars or extracted_words < required_words:
         tried = ", ".join(tried_text_sources) if tried_text_sources else "none"
         return (
             False,
             "weak article body after fallbacks "
             f"(best={len(full_text or '')} chars/{extracted_words} words; "
-            f"required={min_success_chars} chars/{MIN_EXTRACTED_WORDS} words; tried={tried})",
+            f"required={min_success_chars} chars/{required_words} words; tried={tried})",
         )
     if text_method and text_method != "article_body":
         article["enrichment_fallback_used"] = text_method
@@ -1063,6 +1066,18 @@ def _apply_enrichment_from_html(article, html, url):
 
     article["fetched_title"] = _extract_title(soup) or article.get("title", "")
     article["meta_description"] = meta_description
+
+    if JOBS_MODE:
+        article.update(extract_job_fields(soup, article, url, full_text=full_text))
+        log_event(
+            "job_fields_extracted",
+            article_id=article.get("id"),
+            company=article.get("job_company", ""),
+            location=article.get("job_location", ""),
+            deadline=article.get("job_deadline", ""),
+            positions=article.get("job_number_of_positions", 0),
+            eligibility=article.get("job_eligibility", ""),
+        )
     
     # Extract images using the new advanced image extractor
     main_image_url, image_extraction_method, extra_images = _extract_and_prepare_images(
@@ -1189,7 +1204,7 @@ def _apply_rss_summary_fallback(article):
     if len(summary) < MIN_EXTRACTED_CHARS or summary_words < MIN_EXTRACTED_WORDS:
         return False, (
             "missing article body after rss fallback "
-            f"({len(summary)} chars/{summary_words} words; required {MIN_EXTRACTED_WORDS} words)"
+            f"({len(summary)} chars/{summary_words} words; required {required_words} words)"
         )
     article["fetched_title"] = article.get("title", "")
     article["meta_description"] = summary[:240]
