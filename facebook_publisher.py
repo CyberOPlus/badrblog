@@ -31,6 +31,7 @@ from config import (
 from notifier import notify_facebook_result
 from production_logging import elapsed_ms, log_event
 from utils.facebook_image_generator import generate_facebook_image
+from job_core import facebook_slot_status
 CAPTION_STYLES = (
     "ai_tools",
     "cybersecurity",
@@ -861,6 +862,8 @@ def _build_caption(article, pattern, blogger_url=None):
 
 
 def _main_image_url(article):
+    if JOBS_MODE and article.get("company_logo_url"):
+        return article["company_logo_url"]
     if article.get("main_image"):
         return article["main_image"]
     package = article.get("ai_input_package") or {}
@@ -1002,7 +1005,80 @@ def _split_caption_parts(caption):
     return post_text.strip(), hashtags.strip()
 
 
+def _jobs_facebook_blueprint(article, blogger_url):
+    company = str(article.get("job_company") or article.get("source_name") or "").strip()
+    title = str(article.get("job_title") or article.get("seo_title") or article.get("title") or "").strip()
+    location = str(article.get("job_location") or "").strip()
+    deadline = str(article.get("job_deadline") or "").strip()
+    contract = str(article.get("job_contract_type") or "").strip()
+    try:
+        positions = max(0, int(article.get("job_number_of_positions") or 0))
+    except (TypeError, ValueError):
+        positions = 0
+
+    if positions >= 100 and company:
+        hook = f"فرصة توظيف واسعة لدى {company} تستحق الاطلاع"
+    elif company:
+        hook = f"فرصة توظيف جديدة لدى {company} تستحق الاطلاع"
+    else:
+        hook = "فرصة عمل جديدة تستحق الاطلاع قبل التقديم"
+
+    lines = [hook]
+    if title:
+        lines.append(f"💼 الوظيفة: {title}")
+    if company:
+        lines.append(f"🏢 الجهة المشغلة: {company}")
+    if location:
+        lines.append(f"📍 مكان العمل: {location}")
+    if positions:
+        lines.append(f"👥 عدد المناصب: {positions}")
+    if contract:
+        lines.append(f"📄 نوع العقد: {contract}")
+    if deadline:
+        lines.append(f"⏳ آخر أجل للترشيح: {deadline}")
+
+    lines.extend([
+        "راجع الشروط والتفاصيل الكاملة قبل إرسال طلبك.",
+        "🔗 التفاصيل وطريقة التقديم في أول تعليق 👇",
+    ])
+
+    hashtags = ["#وظائف", "#فرص_عمل", "#المغرب"]
+    if article.get("job_remote"):
+        hashtags.append("#عمل_عن_بعد")
+    if article.get("job_visa_sponsorship"):
+        hashtags.append("#تأشيرة_عمل")
+    hashtags = hashtags[:5]
+    caption = "\n\n".join(lines + [" ".join(hashtags)])
+
+    return {
+        "caption": caption,
+        "hashtags": hashtags,
+        "hook": hook,
+        "cta": "التفاصيل وطريقة التقديم في أول تعليق 👇",
+        "fingerprint": _caption_fingerprint(caption),
+        "lead": "",
+        "sections": [],
+        "style": "jobs",
+        "structure": "jobs_facts",
+        "blogger_url": blogger_url,
+    }
+
+
 def _prepare_facebook_post(article, articles, blogger_url):
+    if JOBS_MODE:
+        blueprint = _jobs_facebook_blueprint(article, blogger_url)
+        _validate_facebook_caption(
+            blueprint["caption"],
+            blogger_url=blogger_url,
+            style="",
+            hook=blueprint["hook"],
+            structure_id="",
+            title=_short_title(article),
+            memory=_load_style_memory(),
+            allow_simple=True,
+        )
+        return blueprint
+
     last_error = None
     memory = _load_style_memory()
     preferred_style = _choose_caption_pattern(article, articles)
@@ -1205,7 +1281,7 @@ def _validate_facebook_caption(caption, blogger_url="", style="", hook="", struc
     ]
     if arabic_chars < 40:
         raise RuntimeError("Facebook caption is not Arabic enough.")
-    if latin_words and len(allowed_latin) / max(1, len(latin_words)) < 0.75:
+    if (not JOBS_MODE) and latin_words and len(allowed_latin) / max(1, len(latin_words)) < 0.75:
         raise RuntimeError("Facebook caption contains unnecessary mixed-language terms.")
     if len(caption) > 1200 or len(caption) < 120:
         raise RuntimeError("Facebook caption length is outside the expected range.")
@@ -1253,20 +1329,51 @@ def _failure_result(queue, article, error, checked=1, extra=None):
     return result
 
 
-def get_facebook_limits_status(now=None):
-    now = now or datetime.now()
+def get_facebook_limits_status(now=None, urgent=False):
     queue = load_article_queue()
-    posted_times = []
+    posted_times = [
+        article.get("facebook_posted_at")
+        for article in queue.get("articles", [])
+        if article.get("facebook_status") in {"posted", "posted_comment_failed"}
+        and article.get("facebook_posted_at")
+    ]
 
-    for article in queue.get("articles", []):
-        if article.get("facebook_status") not in {"posted", "posted_comment_failed"}:
-            continue
-        posted_at = _parse_local_datetime(article.get("facebook_posted_at"))
-        if posted_at:
-            posted_times.append(posted_at)
+    if JOBS_MODE:
+        slot = facebook_slot_status(posted_times=posted_times, now=now, urgent=urgent)
+        local_day = str(slot.get("slot") or slot.get("next_slot") or "")[:10]
+        today_count = sum(
+            1 for value in posted_times
+            if str(value or "")[:10] == local_day
+        ) if local_day else 0
+        daily_blocked = today_count >= MAX_FACEBOOK_POSTS_PER_DAY and not urgent
+        allowed_now = bool(slot.get("allowed_now")) and not daily_blocked
+        reasons = []
+        if daily_blocked:
+            reasons.append("daily Facebook post limit reached")
+        if not slot.get("allowed_now") and not urgent:
+            reasons.append("waiting for Morocco Facebook publishing slot")
+        return {
+            "facebook_posts_today": today_count,
+            "max_facebook_posts_per_day": MAX_FACEBOOK_POSTS_PER_DAY,
+            "last_facebook_post_time": posted_times[-1] if posted_times else None,
+            "minutes_since_last_facebook_post": None,
+            "min_minutes_between_facebook_posts": 0,
+            "allowed_now": allowed_now,
+            "next_allowed_time": slot.get("next_slot", ""),
+            "reasons": reasons,
+            "jobs_slot_mode": slot.get("mode", "scheduled"),
+            "jobs_slot": slot.get("slot", ""),
+        }
 
-    today_posts = [posted_at for posted_at in posted_times if posted_at.date() == now.date()]
-    last_post_time = max(posted_times) if posted_times else None
+    now = now or datetime.now()
+    parsed_times = []
+    for value in posted_times:
+        parsed = _parse_local_datetime(value)
+        if parsed:
+            parsed_times.append(parsed)
+
+    today_posts = [posted_at for posted_at in parsed_times if posted_at.date() == now.date()]
+    last_post_time = max(parsed_times) if parsed_times else None
     minutes_since_last = (
         max(0, int((now - last_post_time).total_seconds() // 60))
         if last_post_time
@@ -1302,7 +1409,6 @@ def get_facebook_limits_status(now=None):
         "next_allowed_time": next_allowed_time,
         "reasons": reasons,
     }
-
 
 def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
     """
@@ -1350,7 +1456,9 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         return _failure_result(queue, article, "Missing valid live Blogger URL for Facebook.")
 
     if respect_limits:
-        limits = get_facebook_limits_status()
+        limits = get_facebook_limits_status(
+            urgent=bool(JOBS_MODE and article.get("job_publish_immediately"))
+        )
         if not limits["allowed_now"]:
             return _failure_result(
                 queue,
