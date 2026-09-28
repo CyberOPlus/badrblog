@@ -36,7 +36,12 @@ jobs:
           import cloudscraper
           from bs4 import BeautifulSoup
           from curl_cffi import requests as curl_requests
-          from scrapling.fetchers import Fetcher
+          try:
+              from scrapling.fetchers import Fetcher
+              scrapling_import_error = ""
+          except Exception as e:
+              Fetcher = None
+              scrapling_import_error = f"{type(e).__name__}: {e}"
 
           urls = {
               "ONDA": "https://www.onda.ma/Je-d%C3%A9couvre-ONDA/Ressources-humaines/Recrutement",
@@ -96,19 +101,22 @@ jobs:
                   results[name]["cloudscraper"]={"error":f"{type(e).__name__}: {e}","seconds":round(time.time()-started,2)}
 
               started=time.time()
-              try:
-                  page=Fetcher.get(
-                      url,
-                      timeout=18,
-                      retries=0,
-                      stealthy_headers=True,
-                      impersonate="chrome",
-                      headers=headers,
-                  )
-                  text=str(page or "")
-                  results[name]["scrapling"]={"status":getattr(page,"status",None),"url":str(getattr(page,"url",url)),"seconds":round(time.time()-started,2),**inspect_html(text)}
-              except Exception as e:
-                  results[name]["scrapling"]={"error":f"{type(e).__name__}: {e}","seconds":round(time.time()-started,2)}
+              if Fetcher is None:
+                  results[name]["scrapling"]={"error":scrapling_import_error or "unavailable","seconds":0}
+              else:
+                  try:
+                      page=Fetcher.get(
+                          url,
+                          timeout=18,
+                          retries=0,
+                          stealthy_headers=True,
+                          impersonate="chrome",
+                          headers=headers,
+                      )
+                      text=str(page or "")
+                      results[name]["scrapling"]={"status":getattr(page,"status",None),"url":str(getattr(page,"url",url)),"seconds":round(time.time()-started,2),**inspect_html(text)}
+                  except Exception as e:
+                      results[name]["scrapling"]={"error":f"{type(e).__name__}: {e}","seconds":round(time.time()-started,2)}
 
               print(json.dumps(results[name], ensure_ascii=False, indent=2))
 
