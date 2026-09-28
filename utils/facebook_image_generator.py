@@ -376,11 +376,9 @@ def _draw_brand(base):
 JOB_TEMPLATE_DIR = Path(__file__).resolve().parents[1] / "assets" / "facebook"
 JOB_TEMPLATE_FILES = tuple(JOB_TEMPLATE_DIR / f"job{index}.png" for index in range(1, 5))
 JOB_ARTICLE_TEMPLATE_PATH = (
-    Path(__file__).resolve().parents[1] / "assets" / "article" / "template.png"
-)
-JOB_ARTICLE_TEMPLATE_FALLBACK_PATH = (
     Path(__file__).resolve().parents[1] / "assets" / "article" / "article img.png"
 )
+JOB_ARTICLE_TEMPLATE_FALLBACK_PATH = JOB_ARTICLE_TEMPLATE_PATH
 
 
 def _job_template_index():
