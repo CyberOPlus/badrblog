@@ -1,0 +1,108 @@
+name: Jobs Enrichment Diagnostic
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/enrichment-diagnostic.yml"
+
+jobs:
+  diagnose:
+    if: contains(github.event.head_commit.message, '[enrichment-diagnostic]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests beautifulsoup4
+      - name: Probe official ATS detail payloads only
+        run: |
+          python - <<'PY'
+          import json, re, requests
+          from bs4 import BeautifulSoup
+          H={"User-Agent":"Mozilla/5.0","Accept":"text/html,application/xhtml+xml,application/json"}
+
+          def jprint(label, value):
+              print("\n===", label, "===")
+              print(json.dumps(value, ensure_ascii=False, indent=2)[:20000])
+
+          # eTalent: listing -> only /offre/<id> -> detail
+          for name, base in [("ONCF","https://www.oncf.etalent.ma"),("ADM","https://adm.etalent.ma")]:
+              r=requests.get(base+"/offres",headers=H,timeout=15)
+              soup=BeautifulSoup(r.text,"html.parser")
+              links=[]
+              for a in soup.find_all("a",href=True):
+                  href=a["href"]
+                  if re.search(r"/offre/\d+(?:$|[?#])",href):
+                      links.append(requests.compat.urljoin(base,href))
+              links=list(dict.fromkeys(links))
+              out={"status":r.status_code,"links":links[:5]}
+              if links:
+                  d=requests.get(links[0],headers=H,timeout=15)
+                  ds=BeautifulSoup(d.text,"html.parser")
+                  text=" ".join(ds.get_text(" ",strip=True).split())
+                  out["detail_status"]=d.status_code
+                  out["detail_title"]=(ds.find("h1") or ds.find("h2") or ds.title).get_text(" ",strip=True) if (ds.find("h1") or ds.find("h2") or ds.title) else ""
+                  out["detail_chars"]=len(text)
+                  out["detail_sample"]=text[:1200]
+              jprint(name,out)
+
+          def csod_probe(name, home):
+              s=requests.Session()
+              r=s.get(home,headers=H,timeout=15)
+              token_match=re.search(r'"token"\s*:\s*"([A-Za-z0-9._-]+)"',r.text)
+              out={"home_status":r.status_code,"token":bool(token_match)}
+              if not token_match:
+                  jprint(name,out); return
+              token=token_match.group(1)
+              m=re.search(r"/careersite/(\d+)",home)
+              site=int(m.group(1))
+              corp=requests.utils.urlparse(home).query.split("c=",1)[-1]
+              origin=f"{requests.utils.urlparse(home).scheme}://{requests.utils.urlparse(home).netloc}"
+              payload={"careerSiteId":site,"careerSitePageId":site,"pageNumber":1,"pageSize":3,"cultureId":1,"cultureName":"en-US","searchText":"","states":[],"countryCodes":[],"cities":[],"placeID":"","radius":None,"postingsWithinDays":None,"customFieldCheckboxKeys":[],"customFieldDropdowns":[],"customFieldRadios":[]}
+              sr=s.post(origin+"/services/x/career-site/v1/search",json=payload,headers={**H,"Accept":"application/json","Content-Type":"application/json","Authorization":f"Bearer {token}"},timeout=15)
+              out["search_status"]=sr.status_code
+              try:
+                  data=sr.json()
+              except Exception:
+                  out["search_body"]=sr.text[:1000]; jprint(name,out); return
+              rows=((data.get("data") or {}).get("requisitions") or [])
+              out["row_count"]=len(rows)
+              out["row_keys"]=sorted(rows[0].keys()) if rows else []
+              out["row0"]=rows[0] if rows else {}
+              if rows:
+                  req=str(rows[0].get("requisitionId") or "")
+                  detail=f"{origin}/ux/ats/careersite/{site}/home/requisition/{req}?c={corp}"
+                  dr=s.get(detail,headers=H,timeout=15)
+                  out["detail_url"]=detail
+                  out["detail_status"]=dr.status_code
+                  out["detail_html_chars"]=len(dr.text)
+                  ds=BeautifulSoup(dr.text,"html.parser")
+                  out["detail_text"]= " ".join(ds.get_text(" ",strip=True).split())[:1200]
+                  # Inspect likely public career-site endpoints from page JS strings.
+                  endpoints=sorted(set(re.findall(r"/services/x/career-site/v1/[A-Za-z0-9_?&=./{}-]+",dr.text+r.text)))
+                  out["endpoint_hints"]=endpoints[:40]
+              jprint(name,out)
+
+          csod_probe("IAM","https://iam.csod.com/ux/ats/careersite/4/home?c=iam")
+          csod_probe("ATTIJARI","https://attijariwafabank.csod.com/ux/ats/careersite/4/home?c=attijariwafabank")
+
+          # Orange: use its actual search route, not country landing pages.
+          urls=[
+            "https://orange.jobs/jobs/v3/search?rk=l-maroc&s=1&lang=fr",
+            "https://orange.jobs/jobs/v3/search?rk=l-mea-morocco&s=1&lang=fr",
+            "https://orange.jobs/fr/fr/search-results?rk=l-maroc&s=1",
+          ]
+          for u in urls:
+              r=requests.get(u,headers=H,timeout=15)
+              soup=BeautifulSoup(r.text,"html.parser")
+              offers=[]
+              for a in soup.find_all("a",href=True):
+                  href=a["href"]
+                  if re.search(r"/jobs/v3/offers/\d+",href):
+                      offers.append(requests.compat.urljoin(u,href))
+              offers=list(dict.fromkeys(offers))
+              jprint("ORANGE "+u,{"status":r.status_code,"html_chars":len(r.text),"offers":offers[:10],"scripts":[x.get("src") for x in soup.find_all("script",src=True)][-10:]})
+          PY
