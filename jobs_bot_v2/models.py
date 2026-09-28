@@ -12,8 +12,11 @@ class JobCandidate:
     title: str
     company: str = ""
     location: str = ""
+    locations: list[str] = field(default_factory=list)
     country: str = ""
     contract_type: str = ""
+    workplace_type: str = "onsite"
+    listing_kind: str = "single_job"
     salary: str = ""
     deadline: str = ""
     published_at: str = ""
