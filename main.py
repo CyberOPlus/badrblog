@@ -168,9 +168,9 @@ def print_banner():
     banner = """
 ╔══════════════════════════════════════════════════════════╗
 ║                                                          ║
-║          🔐 BLOGGER AUTOMATION BOT v1.0 🔐              ║
+║             💼 CYBERO PLUS JOBS BOT 💼                 ║
 ║                                                          ║
-║   Cybersecurity News → Arabic Translation → Auto Post   ║
+║   Jobs → Verify → Arabic Article → Blogger → Facebook   ║
 ║                                                          ║
 ╚══════════════════════════════════════════════════════════╝
     """
