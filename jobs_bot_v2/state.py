@@ -14,11 +14,20 @@ from .config import (
     URGENT_EXTRA_DAILY_LIMIT,
 )
 
+from .job_identity import (
+    compare_to_existing,
+    identity_key,
+    semantic_key,
+    snapshot,
+)
+
 
 def _default_state():
     return {
         "published": {},
         "candidates": {},
+        "job_records": {},
+        "semantic_index": {},
         "daily_publish_count": {},
         "daily_urgent_override_count": {},
         "last_publish_at": "",
@@ -118,3 +127,69 @@ def mark_published(candidate, article_url="", state=None, now=None, urgent_overr
     state["last_publish_at"] = now.isoformat()
     save_state(state)
     return state
+
+def classify_candidate(candidate, state=None):
+    """Classify a candidate as new, duplicate, update, or new campaign."""
+    state = state or load_state()
+    records = state.setdefault("job_records", {})
+    exact_key = identity_key(candidate)
+
+    if exact_key in records:
+        decision = compare_to_existing(candidate, records[exact_key])
+        if decision.action == "update" and not decision.material_update:
+            decision.action = "duplicate"
+            decision.reason = "same posting with no material fact change"
+        return decision, records[exact_key]
+
+    sem = semantic_key(candidate)
+    for existing_key in state.setdefault("semantic_index", {}).get(sem, []):
+        record = records.get(existing_key)
+        if not record:
+            continue
+        decision = compare_to_existing(candidate, record)
+        if decision.action == "update" and not decision.material_update:
+            decision.action = "duplicate"
+            decision.reason = "semantic duplicate with no material fact change"
+        return decision, record
+
+    return compare_to_existing(candidate, None), None
+
+
+def save_candidate_record(
+    candidate,
+    *,
+    blogger_post_id="",
+    blogger_url="",
+    desired_slug="",
+    state=None,
+    now=None,
+):
+    state = state or load_state()
+    now = now or datetime.now(timezone.utc)
+
+    record = snapshot(candidate)
+    record.update({
+        "blogger_post_id": blogger_post_id,
+        "blogger_url": blogger_url,
+        "desired_slug": desired_slug,
+        "last_seen_at": now.isoformat(),
+    })
+
+    key = record["identity_key"]
+    records = state.setdefault("job_records", {})
+    existing = records.get(key, {})
+    if existing:
+        for stable in ("blogger_post_id", "blogger_url", "desired_slug", "first_seen_at"):
+            if not record.get(stable) and existing.get(stable):
+                record[stable] = existing[stable]
+    record.setdefault("first_seen_at", existing.get("first_seen_at") or now.isoformat())
+
+    records[key] = record
+    sem = record["semantic_key"]
+    index = state.setdefault("semantic_index", {}).setdefault(sem, [])
+    if key not in index:
+        index.append(key)
+
+    save_state(state)
+    return record
+
