@@ -15,6 +15,7 @@ from config import (
     MIN_ARTICLE_WORDS,
     RECENT_NEWS_ONLY,
     TARGET_ARTICLE_WORDS,
+    JOBS_MODE,
 )
 
 
@@ -216,6 +217,8 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         )
 
     body_text = html_to_text(html_content)
+    if JOBS_MODE and word_count < 120:
+        return QualityGateResult(False, f"job article too short ({word_count} words; minimum 120)", word_count)
     if _has_visible_json_or_markdown(html_content) or _has_visible_json_or_markdown(body_text):
         return QualityGateResult(False, "visible JSON/markdown found in article output", word_count)
     if _has_repeated_text_blocks(body_text):
@@ -224,6 +227,14 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         return QualityGateResult(False, "random language mixing found in article output", word_count)
     if _expected_image_missing(article, html_content):
         return QualityGateResult(False, "expected article image is missing from final HTML", word_count)
+    if JOBS_MODE:
+        if not str(article.get("url") or article.get("source_url") or "").strip():
+            return QualityGateResult(False, "missing job source URL", word_count)
+        warnings = []
+        if not re.search(r"<h2\b", html_content, flags=re.I):
+            warnings.append("job article has no h2 section")
+        return QualityGateResult(True, "", word_count, tuple(warnings))
+
     if fast_mode:
         promotional, promo_reason = is_promotional_article(article)
         if promotional:
