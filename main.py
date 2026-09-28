@@ -927,6 +927,29 @@ def _lock_hourly_candidate(category_label, used_article_ids=None, used_sources=N
 def get_publish_schedule_status(mode=None, now=None):
     publish_mode = "live" if (mode or _effective_publish_mode()) == "live" else "draft"
     now = now or datetime.now()
+    if JOBS_MODE and publish_mode == "live":
+        snapshot = job_status_snapshot(now)
+        return {
+            "configured_publish_mode": PUBLISH_MODE,
+            "publish_mode": publish_mode,
+            "posts_today": snapshot["published_today"],
+            "drafts_created_today": 0,
+            "live_posts_created_today": snapshot["published_today"],
+            "max_drafts_per_day": MAX_DRAFTS_PER_DAY,
+            "max_live_posts_per_day": snapshot["daily_cap"],
+            "target_live_posts_per_day": snapshot["daily_cap"],
+            "soft_target_reached": snapshot["published_today"] >= snapshot["daily_cap"],
+            "last_draft_time": None,
+            "last_live_publish_time": None,
+            "minutes_since_last_draft": None,
+            "minutes_since_last_live_publish": None,
+            "min_minutes_between_drafts": MIN_MINUTES_BETWEEN_DRAFTS,
+            "min_minutes_between_live_posts": 0,
+            "allowed_now": True,
+            "next_allowed_time": now,
+            "reasons": [],
+            "jobs_policy": snapshot,
+        }
     today = now.date().isoformat()
     queue = load_article_queue()
     draft_times = []
@@ -2616,7 +2639,31 @@ def run_safe_cycle_only():
     print("\n[4/7] plan-next --lock")
     selected = None
     plan_result = {}
-    if CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
+    if JOBS_MODE:
+        queue = load_article_queue()
+        selected = select_best_job_from_queue(queue)
+        if selected:
+            selected["status"] = "selected"
+            selected["selected_at"] = datetime.now().isoformat(timespec="seconds")
+            selected["selection_reason"] = (
+                f"jobs quality {selected.get('job_score', 0)}/100; "
+                f"identity={selected.get('job_identity_action', '')}; "
+                f"urgency={(selected.get('job_urgency') or {}).get('level', 'normal')}"
+            )
+        save_article_queue(queue)
+        plan_result = {
+            "selected": selected,
+            "reason": selected.get("selection_reason", "") if selected else "no verified job passed quality/identity/daily policy",
+            "lock": True,
+            "eligible_count": 1 if selected else 0,
+        }
+        if selected:
+            print(
+                "Best verified job locked: "
+                f"{selected.get('job_company', '')} | {selected.get('job_title') or selected.get('title', '')} | "
+                f"score={selected.get('job_score', 0)}"
+            )
+    elif CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
         category_label = fetch_stats.get("selected_category", "")
         selected = _select_newest_fresh_ready_article(
             category_label,
@@ -2678,7 +2725,7 @@ def run_safe_cycle_only():
                 "step_reached": "plan-next",
             }
     if not selected:
-        if not (
+        if not JOBS_MODE and not (
             (FAST_NEWS_MODE and FRESH_QUEUE_MODE)
             or (CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN)
         ):
