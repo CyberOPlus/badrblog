@@ -93,6 +93,43 @@ jobs:
           except Exception as e:
               probes["OCP_WORKDAY_JOBS"]={"error":f"{type(e).__name__}: {e}"}
 
+          # Inspect only public bootstrap metadata needed to build stable source adapters.
+          try:
+              endpoint="https://ocpgroup.wd103.myworkdayjobs.com/wday/cxs/ocpgroup/ocpcareers/jobs"
+              wr=requests.post(
+                  endpoint,
+                  json={"appliedFacets":{},"limit":20,"offset":0,"searchText":""},
+                  timeout=12,
+                  headers={"User-Agent":"Mozilla/5.0","Content-Type":"application/json"},
+              )
+              wp=wr.json() if wr.ok else {}
+              probes["OCP_FIRST_JOB"]=(wp.get("jobPostings") or [None])[0]
+          except Exception as e:
+              probes["OCP_FIRST_JOB"]={"error":f"{type(e).__name__}: {e}"}
+
+          try:
+              cr=requests.get(
+                  "https://recrutement.attijariwafa.com/",
+                  timeout=12,
+                  headers={"User-Agent":"Mozilla/5.0"},
+                  allow_redirects=True,
+              )
+              text=cr.text
+              needles=("jobdetails","jobsearch","services/api","requisition","careersite")
+              probes["ATTIJARI_BOOTSTRAP"]={
+                  "url":cr.url,
+                  "matches":{
+                      needle:[
+                          text[max(0,i-120):i+260].replace("\n"," ")
+                          for i in [text.lower().find(needle)]
+                          if i>=0
+                      ][:1]
+                      for needle in needles
+                  },
+              }
+          except Exception as e:
+              probes["ATTIJARI_BOOTSTRAP"]={"error":f"{type(e).__name__}: {e}"}
+
           print("=== ALTERNATIVE_OFFICIAL_PROBES ===")
           print(json.dumps(probes, ensure_ascii=False, indent=2))
           PY
