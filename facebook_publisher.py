@@ -1007,7 +1007,7 @@ def _split_caption_parts(caption):
 
 def _jobs_facebook_blueprint(article, blogger_url):
     company = str(article.get("job_company") or article.get("source_name") or "").strip()
-    title = str(article.get("job_title") or article.get("seo_title") or article.get("title") or "").strip()
+    title = _short_title(article) or str(article.get("job_title") or "").strip()
     location = str(article.get("job_location") or "").strip()
     deadline = str(article.get("job_deadline") or "").strip()
     contract = str(article.get("job_contract_type") or "").strip()
