@@ -102,15 +102,16 @@ def _article_word_count(article):
 
 def _publish_quality_error(article, articles):
     words = _article_word_count(article)
-    if words < MIN_PUBLISHABLE_WORDS:
+    minimum_publishable_words = 100 if JOBS_MODE else MIN_PUBLISHABLE_WORDS
+    if words < minimum_publishable_words:
         log_event(
             "article_skipped_too_short",
             article_id=article.get("id"),
             words=words,
-            reason=f"minimum {MIN_PUBLISHABLE_WORDS}",
+            reason=f"minimum {minimum_publishable_words}",
         )
         article["final_word_count"] = words
-        return f"article too short ({words} words; minimum {MIN_PUBLISHABLE_WORDS})"
+        return f"article too short ({words} words; minimum {minimum_publishable_words})"
 
     result = validate_before_publish(article, existing_articles=articles)
     article["pre_publish_quality"] = result.to_dict()
