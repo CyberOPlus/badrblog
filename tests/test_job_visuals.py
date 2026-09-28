@@ -5,6 +5,8 @@ from unittest.mock import patch
 
 from PIL import Image
 
+import article_ai_processor
+import article_draft_publisher
 import utils.facebook_image_generator as visuals
 
 
@@ -40,6 +42,52 @@ class JobVisualTests(unittest.TestCase):
                     self.assertTrue(result["ok"], result.get("error"))
                     with Image.open(result["path"]) as image:
                         self.assertEqual(image.size, (1080, 1350))
+
+    def test_jobs_html_keeps_exactly_one_generated_cover(self):
+        html = (
+            "<p>مقدمة قصيرة عن الوظيفة.</p>"
+            "<img src='https://source.example.com/hero.jpg' alt='source'/>"
+            "<h2>التفاصيل</h2><p>تفاصيل موثقة.</p>"
+        )
+        package = {
+            "title": "Technical Lead ServiceNow",
+            "cover_alt": "Technical Lead ServiceNow - inwi",
+            "main_image": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-articles/servicenow-inwi.jpg",
+            "cover_width": 1200,
+            "cover_height": 675,
+            "extra_article_images": [
+                {"url": "https://source.example.com/extra.jpg", "alt": "extra"}
+            ],
+        }
+        output = article_ai_processor.format_phase3_article_html(html, package)
+        self.assertEqual(output.count("<img"), 1)
+        self.assertIn(package["main_image"], output)
+        self.assertNotIn("source.example.com", output)
+        self.assertIn("Technical Lead ServiceNow - inwi", output)
+        self.assertNotIn("<figcaption>", output)
+
+    def test_prepare_job_cover_updates_article_with_one_cover(self):
+        with tempfile.TemporaryDirectory() as temp:
+            temp = Path(temp)
+            with patch.object(article_draft_publisher, "JOB_ARTICLE_COVER_DIR", temp), \
+                 patch.object(article_draft_publisher, "_persist_generated_job_cover", return_value=False):
+                article = {
+                    "id": "job-1",
+                    "desired_slug": "servicenow-inwi",
+                    "job_title": "Technical Lead ServiceNow",
+                    "job_company": "inwi",
+                    "company_logo_url": "",
+                    "ai_input_package": {
+                        "job_title": "Technical Lead ServiceNow",
+                        "job_company": "inwi",
+                    },
+                }
+                url = article_draft_publisher._prepare_job_article_cover(article)
+                self.assertTrue(url.endswith("/servicenow-inwi.jpg"))
+                self.assertEqual(len(article["article_images"]), 1)
+                self.assertEqual(article["main_image"], url)
+                self.assertEqual(article["extra_article_images"], [])
+                self.assertTrue((temp / "servicenow-inwi.jpg").exists())
 
     def test_article_renderer_handles_landscape_template_and_mixed_title(self):
         with tempfile.TemporaryDirectory() as temp:
