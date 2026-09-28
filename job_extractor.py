@@ -141,8 +141,12 @@ MONTH_NAME_TO_NUMBER = {
 
 
 DEADLINE_LABEL_PATTERN = (
-    r"(?:آخر\s+أجل(?:\s+للترشيح)?|اخر\s+اجل(?:\s+للترشيح)?|"
-    r"date\s+limite(?:\s+de\s+candidature)?|deadline|last\s+date|"
+    r"(?:آخر\s+أجل(?:\s+(?:للترشيح|لإيداع\s+الترشيحات))?|"
+    r"اخر\s+اجل(?:\s+(?:للترشيح|لايداع\s+الترشيحات))?|"
+    r"إلى\s+غاية|الى\s+غاية|"
+    r"date\s+limite(?:\s+(?:de\s+candidature|de\s+dépôt\s+des\s+candidatures|"
+    r"de\s+depot\s+des\s+candidatures|d'inscription))?|"
+    r"dernier\s+délai|dernier\s+delai|deadline|last\s+date|"
     r"cl[oô]ture(?:\s+des\s+candidatures)?|jusqu(?:'|’)?au|avant\s+le)"
 )
 
@@ -282,14 +286,15 @@ def _extract_job_action_links(soup, page_url):
         href = str(anchor.get("href") or "").strip()
         label = _text(anchor.get_text(" ", strip=True))
         context = _link_context(anchor, label=label)
-        signature = f"{label} {context} {href}".casefold()
-        if any(hint in signature for hint in APPLY_LINK_HINTS):
-            add(href, label, "apply", context=context)
-            continue
-        if href.casefold().split("?", 1)[0].endswith(".pdf") or any(
-            hint in signature for hint in DOCUMENT_LINK_HINTS
-        ):
+        primary_signature = f"{label} {href}".casefold()
+        document_signature = f"{label} {context} {href}".casefold()
+        is_pdf = href.casefold().split("?", 1)[0].endswith(".pdf")
+        is_document = is_pdf or any(hint in document_signature for hint in DOCUMENT_LINK_HINTS)
+        if is_document:
             add(href, label, "document", context=context)
+            continue
+        if any(hint in primary_signature for hint in APPLY_LINK_HINTS):
+            add(href, label, "apply", context=context)
 
     for form in soup.find_all("form", action=True):
         action = str(form.get("action") or "").strip()
