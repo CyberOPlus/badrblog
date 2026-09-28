@@ -360,6 +360,68 @@ def archive_published_queue_article(article_id="", article_url="", reason="publi
     return False
 
 
+ATS_QUEUE_MERGE_FIELDS = (
+    "source_published_at",
+    "published_at_source",
+    "article_age_hours",
+    "rss_summary",
+    "freshness_source",
+    "freshness_window_hours",
+    "source_priority",
+    "official_source",
+    "source_country",
+    "source_eligibility",
+    "source_remote",
+    "source_visa_sponsorship",
+    "ats_provider",
+    "ats_reference",
+    "ats_description",
+    "phenom_payload",
+    "job_company",
+    "job_location",
+    "job_country",
+    "job_deadline",
+    "job_published_at",
+    "job_application_url",
+    "job_application_link_kind",
+    "job_contract_type",
+    "job_salary",
+    "job_remote",
+    "job_number_of_positions",
+)
+
+
+def _merge_job_discovery_metadata(existing, discovered):
+    """Refresh an existing Jobs queue record with structured ATS discovery data."""
+    if not JOBS_MODE or not isinstance(existing, dict) or not isinstance(discovered, dict):
+        return False
+    changed = False
+    for key in ATS_QUEUE_MERGE_FIELDS:
+        value = discovered.get(key)
+        if value in (None, "", [], {}):
+            continue
+        if key in {"official_source", "source_remote", "source_visa_sponsorship", "job_remote"}:
+            value = bool(value)
+        if existing.get(key) != value:
+            existing[key] = value
+            changed = True
+    if changed:
+        existing["discovery_metadata_refreshed_at"] = _now_iso()
+        # A previously failed generic-HTML enrichment should be retried when
+        # structured ATS metadata is now available.
+        if existing.get("ats_provider") in {"csod", "phenom", "etalent", "workday"}:
+            existing.pop("candidate_retry_after", None)
+            existing.pop("candidate_failure_stage", None)
+            existing.pop("candidate_failure_reason", None)
+            existing.pop("candidate_failed_at", None)
+            existing.pop("content_fetch_error", None)
+            if existing.get("content_fetch_status") == "failed":
+                existing.pop("content_fetch_status", None)
+            if existing.get("status") in {"failed", "skipped"}:
+                existing["status"] = "new"
+    return changed
+
+
 def add_articles_to_queue(discovered_articles):
     """
     Add newly discovered articles while preventing URL and title duplicates.
@@ -369,6 +431,11 @@ def add_articles_to_queue(discovered_articles):
 
     existing_urls = {
         item.get("canonical_url") or canonicalize_url(item.get("url"))
+        for item in articles
+        if item.get("url") and not item.get("archived")
+    }
+    existing_by_url = {
+        item.get("canonical_url") or canonicalize_url(item.get("url")): item
         for item in articles
         if item.get("url") and not item.get("archived")
     }
@@ -404,6 +471,9 @@ def add_articles_to_queue(discovered_articles):
             continue
 
         if canonical_url in existing_urls:
+            existing = existing_by_url.get(canonical_url)
+            if existing is not None:
+                _merge_job_discovery_metadata(existing, article)
             duplicate_url += 1
             duplicate_by_category[category_hint] += 1
             continue
@@ -443,10 +513,20 @@ def add_articles_to_queue(discovered_articles):
                 "source_eligibility": article.get("source_eligibility", ""),
                 "source_remote": bool(article.get("source_remote", False)),
                 "source_visa_sponsorship": bool(article.get("source_visa_sponsorship", False)),
+                "ats_provider": article.get("ats_provider", ""),
+                "ats_reference": article.get("ats_reference", ""),
+                "ats_description": article.get("ats_description", ""),
+                "phenom_payload": article.get("phenom_payload", {}),
                 "job_company": article.get("job_company", ""),
                 "job_location": article.get("job_location", ""),
+                "job_country": article.get("job_country", ""),
                 "job_deadline": article.get("job_deadline", ""),
+                "job_published_at": article.get("job_published_at", ""),
                 "job_application_url": article.get("job_application_url", ""),
+                "job_application_link_kind": article.get("job_application_link_kind", ""),
+                "job_contract_type": article.get("job_contract_type", ""),
+                "job_salary": article.get("job_salary", ""),
+                "job_remote": bool(article.get("job_remote", False)),
                 "job_number_of_positions": article.get("job_number_of_positions", 0),
                 "discovered_at": _now_iso(),
                 "status": "new",
