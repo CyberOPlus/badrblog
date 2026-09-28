@@ -2364,7 +2364,6 @@ def run_safe_cycle_only():
             reason = "Waiting for next publishing window"
         print(f"Cycle stopping cleanly before article selection: {reason}.")
         _print_safe_cycle_final_report(None, draft_result={"error": reason}, stopped_reason=reason)
-        if not interval_wait_only:
         result = {
             "completed": False,
             "reason": reason,
