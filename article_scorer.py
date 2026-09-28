@@ -5,7 +5,7 @@
 import re
 
 from article_queue import load_article_queue, save_article_queue
-from config import CATEGORY_ROTATION_MODE, FAST_NEWS_MODE, FIRST_VALID_ARTICLE_MODE, FRESH_QUEUE_MODE, SKIP_ADS_AFFILIATE_SPONSORED
+from config import CATEGORY_ROTATION_MODE, FAST_NEWS_MODE, FIRST_VALID_ARTICLE_MODE, FRESH_QUEUE_MODE, SKIP_ADS_AFFILIATE_SPONSORED, JOBS_MODE
 from content_filter import is_non_technical_entertainment_article, is_promotional_article
 
 HIGH_PRIORITY_KEYWORDS = [
@@ -81,6 +81,11 @@ def score_article(article):
     """
     title = article.get("title", "")
     source_name = article.get("source_name", "")
+    if JOBS_MODE:
+        score = 7 if article.get("official_source") else 2
+        priority = str(article.get("source_priority") or "").strip().lower()
+        score += {"s+": 3, "s": 3, "a+": 2, "a": 1}.get(priority, 0)
+        return max(0, min(10, score))
     text = f"{title} {source_name}".casefold()
 
     high_matches = _keyword_matches(text, HIGH_PRIORITY_KEYWORDS)
@@ -135,12 +140,12 @@ def score_new_articles():
         analyzed += 1
         score = score_article(article)
         priority = priority_for_score(score)
-        promotional, promo_reason = is_promotional_article(article)
-        non_technical, non_technical_reason = is_non_technical_entertainment_article(article)
+        promotional, promo_reason = (False, "") if JOBS_MODE else is_promotional_article(article)
+        non_technical, non_technical_reason = (False, "") if JOBS_MODE else is_non_technical_entertainment_article(article)
 
         article["score"] = score
         article["priority"] = priority
-        ready_threshold = 0 if FAST_NEWS_MODE and (FIRST_VALID_ARTICLE_MODE or FRESH_QUEUE_MODE or CATEGORY_ROTATION_MODE) else 6
+        ready_threshold = 0 if JOBS_MODE else (0 if FAST_NEWS_MODE and (FIRST_VALID_ARTICLE_MODE or FRESH_QUEUE_MODE or CATEGORY_ROTATION_MODE) else 6)
         if promotional and SKIP_ADS_AFFILIATE_SPONSORED:
             article["status"] = "skipped"
             article["skip_reason"] = promo_reason
