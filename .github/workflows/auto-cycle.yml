@@ -93,8 +93,6 @@ jobs:
                   "BLOGGER_BLOG_ID",
                   "BLOGGER_CLIENT_SECRET_JSON",
                   "BLOGGER_TOKEN_JSON",
-                  "FACEBOOK_PAGE_ID",
-                  "FACEBOOK_PAGE_ACCESS_TOKEN",
               )
               if not os.environ.get(name, "").strip()
           ]
@@ -141,7 +139,7 @@ jobs:
               "PUBLISH_MODE": "live",
               "SAFE_MODE": "false",
               "BLOGGER_LIVE_ENABLED": "true",
-              "FACEBOOK_AUTO_POST": "true",
+              "FACEBOOK_AUTO_POST": "false",
               "FACEBOOK_LINK_MODE": "comment",
               "FACEBOOK_PAGE_ID": os.environ.get("FACEBOOK_PAGE_ID", ""),
               "FACEBOOK_PAGE_ACCESS_TOKEN": os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN", ""),
@@ -202,6 +200,7 @@ jobs:
           )
           print("Mode: Cybero Plus Jobs")
           print("Blogger target safety: cyberopluss.blogspot.com")
+          print("Facebook publishing: disabled while JOBS_TEST_MODE=true")
           print("Morocco timezone: Africa/Casablanca")
           print("Job quality: >=65 publish, 50-64 queue")
           PY
@@ -212,10 +211,6 @@ jobs:
       - name: Run auto cycle
         timeout-minutes: 10
         run: python main.py auto-cycle
-
-      - name: Publish due Facebook job
-        if: always()
-        run: python main.py post-facebook
 
       - name: Jobs status
         if: always()
