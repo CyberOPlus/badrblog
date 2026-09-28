@@ -485,7 +485,9 @@ def run_fetch_only():
     zero_link_sources = [
         source
         for source in source_results
-        if source.get("status") != "failed" and source.get("links_found", 0) == 0
+        if source.get("status") != "failed"
+        and source.get("links_found", 0) == 0
+        and not source.get("empty_ok")
     ]
 
     print("\n" + "=" * 60)
