@@ -9,6 +9,14 @@
       "reason": "OpenRouter returned an empty response.",
       "until": 1790629260.9996462
     },
+    "openrouter:qwen/qwen3.8-27b:free:1af698c9b3": {
+      "failed_at": "2026-09-28T21:15:25",
+      "key_id": "1af698c9b3",
+      "model": "qwen/qwen3.8-27b:free",
+      "provider": "openrouter",
+      "reason": "OpenRouter API error 429: {\"error\":{\"message\":\"Provider returned error\",\"code\":429,\"metadata\":{\"raw\":\"qwen/qwen3.8-27b:free is temporarily rate-limited upstream",
+      "until": 1790631925.8088367
+    },
     "openrouter:qwen/qwen3.8-27b:free:e5c3515f5b": {
       "failed_at": "2026-09-28T20:29:26",
       "key_id": "e5c3515f5b",
@@ -82,6 +90,15 @@
       "successes": 1175,
       "total_success_time": 70561.1283
     },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "avg_time": 188.39,
+      "key_id": "1af698c9b3",
+      "last_success_at": "2026-09-28T21:18:33",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "successes": 1,
+      "total_success_time": 188.39
+    },
     "openrouter:openrouter/free:e5c3515f5b": {
       "avg_time": 48.6995,
       "failures": 1,
@@ -92,6 +109,13 @@
       "provider": "openrouter",
       "successes": 3,
       "total_success_time": 146.0984
+    },
+    "openrouter:qwen/qwen3.8-27b:free:1af698c9b3": {
+      "failures": 1,
+      "key_id": "1af698c9b3",
+      "last_failure_at": "2026-09-28T21:15:25",
+      "model": "qwen/qwen3.8-27b:free",
+      "provider": "openrouter"
     },
     "openrouter:qwen/qwen3.8-27b:free:e5c3515f5b": {
       "avg_time": 193.0198,
