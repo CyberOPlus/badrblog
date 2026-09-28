@@ -8,7 +8,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  AUTO_CYCLE_CACHE_NAMESPACE: cyberoplus-jobs-state-v1
+  AUTO_CYCLE_CACHE_NAMESPACE: cyberoplus-jobs-state-v2
 
 jobs:
   auto-cycle:
@@ -26,7 +26,7 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: |
-            article_queue.json
+            jobs_article_queue.json
             data/job_state.json
             data/job_memory
             data/job_visual_state.json
@@ -232,7 +232,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: |
-            article_queue.json
+            jobs_article_queue.json
             data/job_state.json
             data/job_memory
             data/job_visual_state.json
@@ -251,7 +251,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git rm --cached --ignore-unmatch .env client_secret.json data/token.json
           STATE_PATHS=(
-            "article_queue.json"
+            "jobs_article_queue.json"
             "data/job_state.json"
             "data/job_memory"
             "data/job_visual_state.json"
