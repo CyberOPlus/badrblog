@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from bs4 import BeautifulSoup
 
 import article_enricher
+import article_queue
 import job_core
 import job_extractor
 import quality_gate
@@ -218,6 +219,37 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(cfg["site_id"], 4)
         self.assertEqual(cfg["req_id"], "69")
         self.assertIn("/v2/requisitions/69/jobDetails", cfg["detail_url"])
+
+    def test_jobs_queue_refreshes_structured_ats_metadata_on_duplicate(self):
+        existing = {
+            "id": "old-orange",
+            "url": "https://careers-orange.icims.com/jobs/28099/job/login",
+            "status": "ready",
+            "content_fetch_status": "failed",
+            "content_fetch_error": "http 405",
+            "candidate_retry_after": "2099-01-01T00:00:00Z",
+        }
+        discovered = {
+            "ats_provider": "phenom",
+            "ats_reference": "ICM-588622",
+            "ats_description": "Structured Orange job description.",
+            "job_application_url": "https://careers-orange.icims.com/jobs/28099/job/login",
+            "job_application_link_kind": "direct_apply",
+            "job_location": "CASABLANCA,MOROCCO",
+            "job_country": "MA",
+            "job_contract_type": "CDI",
+            "job_company": "Orange Business",
+            "phenom_payload": {"country": "MOROCCO"},
+        }
+        changed = article_queue._merge_job_discovery_metadata(existing, discovered)
+        self.assertTrue(changed)
+        self.assertEqual(existing["ats_provider"], "phenom")
+        self.assertEqual(existing["ats_reference"], "ICM-588622")
+        self.assertEqual(existing["job_application_link_kind"], "direct_apply")
+        self.assertEqual(existing["job_country"], "MA")
+        self.assertNotIn("candidate_retry_after", existing)
+        self.assertNotIn("content_fetch_status", existing)
+        self.assertNotIn("content_fetch_error", existing)
 
     def test_tracking_parameters_do_not_change_job_url(self):
         a = job_core.canonicalize_job_url("https://Example.com/jobs/123?utm_source=x&gclid=1")
