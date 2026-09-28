@@ -312,7 +312,10 @@ def _prepare_job_article_cover(article):
         or package.get("job_location")
         or ""
     ).strip()
-    if job_title and employer and location:
+    seo_title = str(article.get("seo_title") or "").strip()
+    if seo_title:
+        cover_alt = seo_title
+    elif job_title and employer and location:
         cover_alt = f"وظيفة {job_title} لدى {employer} في {location}"
     elif job_title and employer:
         cover_alt = f"وظيفة {job_title} لدى {employer}"
