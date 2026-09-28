@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 
 from .ai_engine import generate_json
 from .config import BLOG_LABEL, PROMPTS_DIR
+from .fact_guard import validate_generated_facts
 from .models import ArticlePackage
 from .slug_policy import desired_slug
 
@@ -47,6 +48,7 @@ def write_article(candidate):
         json.dumps(candidate.to_dict(), ensure_ascii=False, indent=2),
     )
     data = generate_json(prompt, validator=_validate)
+    validate_generated_facts(candidate, data)
     labels = [BLOG_LABEL] + [str(x).strip() for x in data.get("labels", []) if str(x).strip()]
     labels = list(dict.fromkeys(labels))[:6]
     return ArticlePackage(
