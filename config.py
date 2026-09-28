@@ -287,7 +287,7 @@ SOURCE_HEALTH_PATH = BASE_DIR / "data" / "source_health.json"
 
 # Phase 1 ingestion source configuration and safe article queue.
 SOURCES_CONFIG_PATH = BASE_DIR / "sources.json"
-ARTICLE_QUEUE_PATH = BASE_DIR / "article_queue.json"
+ARTICLE_QUEUE_PATH = BASE_DIR / ("jobs_article_queue.json" if JOBS_MODE else "article_queue.json")
 
 # The folder where log files are stored
 LOGS_DIR = BASE_DIR / "logs"
