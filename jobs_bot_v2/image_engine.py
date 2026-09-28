@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""High-quality image selection for Cybero Plus Facebook posts.
+"""High-quality image selection for Cybero Plus Jobs.
 
 Priority:
-1) Real image(s) attached to the Telegram post.
-2) If Telegram has no usable image, fetch the original external source and
-   choose the highest-quality article/OG image.
+1) A relevant image explicitly supplied with the normalized job candidate.
+2) The best usable image from the official/canonical job source.
+3) A branded owner-supplied fallback card.
 
-Images are downloaded and validated before Facebook upload so broken, tiny,
-logo/icon/avatar and tracking images are filtered out.
+Images are validated before use so broken, tiny, logo/icon/avatar and tracking
+assets are not selected accidentally.
 """
 
 from __future__ import annotations
@@ -717,7 +717,7 @@ def build_branded_fallback_asset(
         _strip_direction_controls(title).strip(),
     )
     if not clean_title:
-        clean_title = "تحديث جديد من Cybero Plus"
+        clean_title = "فرصة عمل جديدة"
 
     index = _variant_index(clean_title, variant_key)
     image = _load_card_background(index)
@@ -760,12 +760,17 @@ def build_branded_fallback_asset(
 
     names = ("blue", "red", "white", "yellow")
     return ImageAsset(
-        url=f"generated://cyberoplus-card/{names[index]}",
+        url=f"generated://cyberoplus-jobs-card/{names[index]}",
         content=content,
         mime="image/jpeg",
         width=image.width,
         height=image.height,
-        filename=f"cyberoplus-card-{names[index]}.jpg",
+        filename=f"cyberoplus-jobs-card-{names[index]}.jpg",
         origin="generated_fallback",
         score=float(image.width * image.height),
     )
+
+
+def resolve_job_images(source_url: str, provided_urls: list[str] | None = None):
+    """Jobs-friendly wrapper around the proven image resolver."""
+    return resolve_post_images(provided_urls or [], source_url, max_images=1)
