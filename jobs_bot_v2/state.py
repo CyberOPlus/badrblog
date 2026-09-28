@@ -83,7 +83,8 @@ def fingerprint(candidate):
 
 def already_published(candidate, state=None):
     state = state or load_state()
-    return fingerprint(candidate) in state.get("published", {})
+    key = identity_key(candidate)
+    return key in state.get("published", {})
 
 
 def can_publish_today(state=None, now=None):
@@ -105,7 +106,7 @@ def mark_published(candidate, article_url="", state=None, now=None, urgent_overr
     state = state or load_state()
     now = now or datetime.now(timezone.utc)
     key = _local_day_key(now)
-    fp = fingerprint(candidate)
+    fp = identity_key(candidate)
 
     state.setdefault("published", {})[fp] = {
         "title": candidate.title,
