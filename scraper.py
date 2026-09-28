@@ -936,6 +936,70 @@ async def _collect_workday_links_async(session, source_url, per_source_limit=Non
 
 
 
+
+def _parse_capgemini_job_links(html_text, source_url, per_source_limit=None):
+    """Extract only official Capgemini SuccessFactors job-detail URLs."""
+    soup = BeautifulSoup(html_text or "", "html.parser")
+    limit = max(1, min(int(per_source_limit or 20), 30))
+    links = []
+    seen = set()
+    for anchor in soup.find_all("a", href=True):
+        href = urljoin(source_url, str(anchor.get("href") or "").strip())
+        parsed = urlparse(href)
+        if parsed.netloc.casefold() != "careers.capgemini.com":
+            continue
+        path = parsed.path.rstrip("/")
+        match = re.search(r"/job/[^?#]+/(\d+)$", path, flags=re.I)
+        if not match or href in seen:
+            continue
+        seen.add(href)
+        candidates = [_normalize_text(anchor.get_text(" ", strip=True))]
+        container = anchor.find_parent(["li", "article", "tr", "div"])
+        if container:
+            for tag_name in ("h2", "h3", "h4", "span"):
+                tag = container.find(tag_name)
+                if tag:
+                    candidates.append(_normalize_text(tag.get_text(" ", strip=True)))
+        generic = {"apply now", "view job", "job details", "more", "details"}
+        title = next(
+            (
+                value for value in candidates
+                if value and value.casefold() not in generic and len(value) >= 4
+            ),
+            "",
+        )
+        if not title:
+            # Job slug is still official and specific; turn separators into a
+            # conservative display title without inventing facts.
+            slug = path.split("/")[-2] if len(path.split("/")) >= 3 else ""
+            title = _normalize_text(slug.replace("-", " "))
+        if not title:
+            continue
+        links.append({
+            "title": title,
+            "url": href,
+            "ats_provider": "capgemini_successfactors",
+            "ats_reference": match.group(1),
+        })
+        if len(links) >= limit:
+            break
+    return links
+
+
+async def _collect_capgemini_links_async(session, source_url, per_source_limit=None):
+    html_text, error, status_code = await _fetch_text_async(session, source_url)
+    if error or not html_text:
+        return [], error or "empty Capgemini careers search", status_code
+    links = _parse_capgemini_job_links(
+        html_text,
+        source_url,
+        per_source_limit=per_source_limit,
+    )
+    if not links:
+        return [], "Capgemini careers search exposed no job-detail links", status_code or 200
+    return links, "", status_code or 200
+
+
 def _parse_etalent_links(html_text, source_url, per_source_limit=None):
     """Return only real eTalent vacancy detail URLs (/offre/<id>)."""
     soup = BeautifulSoup(html_text or "", "html.parser")
@@ -1351,6 +1415,17 @@ async def _collect_article_links_for_source_async(
             "normal_links_found": len(links),
             "feed_links_found": 0,
             "method_used": "workday_api" if links else ("failed:workday_api" if error else "workday_api"),
+            "tried_feed_urls": [],
+        }
+
+    if extractor_mode == "capgemini_jobs":
+        links, error, status_code = await _collect_capgemini_links_async(
+            session, source_url, per_source_limit=per_source_limit,
+        )
+        return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
+            "normal_links_found": len(links),
+            "feed_links_found": 0,
+            "method_used": "capgemini_jobs" if links else ("failed:capgemini_jobs" if error else "capgemini_jobs"),
             "tried_feed_urls": [],
         }
 
