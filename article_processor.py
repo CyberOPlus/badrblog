@@ -47,8 +47,9 @@ def _build_ai_input_package(article):
             article.get("suggested_category")
             or (article.get("category_label") if JOBS_MODE else "")
         ),
-        "main_image": article.get("main_image", ""),
-        "article_images": article.get("article_images", []),
+        "main_image": "" if JOBS_MODE else article.get("main_image", ""),
+        "article_images": [] if JOBS_MODE else article.get("article_images", []),
+        "extra_article_images": [] if JOBS_MODE else article.get("extra_article_images", []),
         "meta_description": article.get("meta_description", ""),
         "content_preview": article.get("content_preview", ""),
         "content_preview_chars": len(article.get("content_preview", "")),
@@ -72,6 +73,10 @@ def _build_ai_input_package(article):
         "job_deadline": article.get("job_deadline", ""),
         "job_published_at": article.get("job_published_at", ""),
         "job_application_url": article.get("job_application_url", ""),
+        "job_application_link_kind": article.get("job_application_link_kind", ""),
+        "job_detail_url": article.get("job_detail_url", ""),
+        "job_action_links": article.get("job_action_links", []),
+        "job_document_links": article.get("job_document_links", []),
         "job_number_of_positions": article.get("job_number_of_positions", 0),
         "job_diploma": article.get("job_diploma", ""),
         "job_experience": article.get("job_experience", ""),
