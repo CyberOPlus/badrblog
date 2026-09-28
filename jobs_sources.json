@@ -1,0 +1,222 @@
+{
+  "version": 1,
+  "purpose": "Cybero Plus Jobs source registry",
+  "policy": {
+    "official_first": true,
+    "aggregators_discovery_only": true,
+    "dedupe_key": "normalized(company + title + location)",
+    "reject_local_work_authorization_only": true,
+    "morocco_labels": [
+      "jobs",
+      "jobs-morocco"
+    ],
+    "remote_labels": [
+      "jobs",
+      "remote-jobs"
+    ],
+    "abroad_labels": [
+      "jobs",
+      "jobs-abroad"
+    ],
+    "visa_label": "visa-sponsorship"
+  },
+  "sources": [
+    {
+      "name": "Emploi-Public — établissements publics",
+      "type": "OFFICIAL_HTML",
+      "country": "MA",
+      "url": "https://www.emploi-public.ma/fr/concours-liste?corps=0&procedure=0&region=0&stat=etab_publics",
+      "priority": "S+",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "Emploi-Public — services de l'État",
+      "type": "OFFICIAL_HTML",
+      "country": "MA",
+      "url": "https://www.emploi-public.ma/fr/concours-liste?corps=0&procedure=0&region=0&stat=service_etat",
+      "priority": "S+",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "ONCF Recrutement",
+      "type": "OFFICIAL_HTML",
+      "country": "MA",
+      "url": "https://www.oncf.ma/fr/Entreprise/Faire-carriere-a-l-oncf/Recrutement",
+      "priority": "S",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "ONDA Recrutement",
+      "type": "OFFICIAL_HTML",
+      "country": "MA",
+      "url": "https://www.onda.ma/Je-d%C3%A9couvre-ONDA/Ressources-humaines/Recrutement",
+      "priority": "S",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "Maroc Telecom ATS",
+      "type": "OFFICIAL_ATS",
+      "country": "MA",
+      "url": "https://iam.csod.com/ux/ats/careersite/4/home/?c=iam",
+      "priority": "S",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "inwi Jobs",
+      "type": "OFFICIAL_ATS",
+      "country": "MA",
+      "url": "https://jobs.inwi.ma/jobs",
+      "priority": "S",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "Capgemini Morocco",
+      "type": "OFFICIAL_ATS",
+      "country": "MA",
+      "url": "https://www.capgemini.com/ma-en/job-search/",
+      "priority": "S",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "Crédit du Maroc",
+      "type": "OFFICIAL_ATS",
+      "country": "MA",
+      "url": "https://carriere.creditdumaroc.ma/offre-de-emploi/liste-offres.aspx?showSearchUrl=1",
+      "priority": "S",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "OCP Careers",
+      "type": "OFFICIAL_ATS",
+      "country": "MA",
+      "url": "https://careers.ocpgroup.ma/",
+      "priority": "A+",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "Orange Maroc",
+      "type": "OFFICIAL_ATS",
+      "country": "MA",
+      "url": "https://orange.jobs/fr/fr/afrique-moyen-orient/maroc",
+      "priority": "A+",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "Orange Business Morocco",
+      "type": "OFFICIAL_ATS",
+      "country": "MA",
+      "url": "https://orange.jobs/fr/fr/orange-business/maroc",
+      "priority": "A+",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "Attijariwafa bank",
+      "type": "OFFICIAL_HTML",
+      "country": "MA",
+      "url": "https://www.attijariwafabank.com/fr/emploi-carrieres",
+      "priority": "A+",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "ADM",
+      "type": "OFFICIAL_HTML",
+      "country": "MA",
+      "url": "https://www.adm.co.ma/",
+      "priority": "A",
+      "direct_publish": false,
+      "requires_attribution": false,
+      "enabled": true,
+      "notes": "Monitor official recruitment announcements; campaign application URLs may change."
+    },
+    {
+      "name": "UN Careers RSS",
+      "type": "RSS",
+      "country": "GLOBAL",
+      "url": "https://careers.un.org/jobfeed?isPage=true",
+      "priority": "S+",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "UN Careers",
+      "type": "OFFICIAL_ATS",
+      "country": "GLOBAL",
+      "url": "https://careers.un.org/jobopening?language=en",
+      "priority": "S",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "UNICEF Vacancies",
+      "type": "OFFICIAL_ATS",
+      "country": "GLOBAL",
+      "url": "https://jobs.unicef.org/cw/en-us/",
+      "priority": "A+",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    },
+    {
+      "name": "UN Volunteers",
+      "type": "OFFICIAL_ATS",
+      "country": "GLOBAL",
+      "url": "https://app.unv.org/",
+      "priority": "A",
+      "direct_publish": true,
+      "requires_attribution": false,
+      "enabled": true
+    }
+  ],
+  "pending_verification": [
+    "Bank Al-Maghrib",
+    "ILO / BIT",
+    "WHO",
+    "FAO",
+    "UNESCO",
+    "UNDP Morocco",
+    "African Development Bank",
+    "UNHCR",
+    "Canada Job Bank — Foreign Candidates",
+    "Canada — Temporary Foreign Workers / LMIA",
+    "Germany — Make it in Germany",
+    "UK Find a Job — Visa Sponsorship",
+    "UK Licensed Sponsors",
+    "EURES",
+    "Himalayas",
+    "We Work Remotely",
+    "Remote OK",
+    "Arbeitnow",
+    "Jobicy",
+    "Remotive",
+    "LinkedIn",
+    "Indeed",
+    "ReKrute",
+    "Novojob"
+  ]
+}
