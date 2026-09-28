@@ -10,6 +10,7 @@ from .expiry import expiry_status
 from .fact_resolver import reconcile_batch
 from .identity_review import review_ambiguous_identity
 from .jobposting import build_jobposting
+from .memory_store import assign_campaign_id
 from .metrics import publication_dimensions, record_event
 from .models import JobCandidate
 from .quality import choose_best, score_candidate
@@ -176,6 +177,15 @@ def main():
     identity = identity_meta[id(selected)]
     urgency = classify_urgency(selected)
     is_update = identity["action"] == "update"
+
+    campaign_id = assign_campaign_id(
+        selected,
+        existing=identity.get("existing") if is_update else None,
+    )
+    if not isinstance(selected.raw, dict):
+        selected.raw = {}
+    selected.raw["_campaign_id"] = campaign_id
+    identity["campaign_id"] = campaign_id
 
     # Updating an existing page preserves factual accuracy and does not consume
     # the daily new-article quota.
