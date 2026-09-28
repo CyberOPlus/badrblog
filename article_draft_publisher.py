@@ -271,10 +271,12 @@ def _prepare_job_article_cover(article):
         article["ai_input_package"] = package
 
     job_title = str(
-        article.get("job_title")
+        article.get("seo_title")
+        or article.get("title")
+        or package.get("title")
+        or article.get("job_title")
         or package.get("job_title")
         or article.get("fetched_title")
-        or article.get("title")
         or ""
     ).strip()
     employer = str(
