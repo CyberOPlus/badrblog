@@ -21,6 +21,12 @@ from .job_identity import (
     snapshot,
 )
 
+from .memory_store import (
+    get_by_identity,
+    get_semantic_candidates,
+    upsert_campaign,
+)
+
 
 def _default_state():
     return {
@@ -130,28 +136,40 @@ def mark_published(candidate, article_url="", state=None, now=None, urgent_overr
     return state
 
 def classify_candidate(candidate, state=None):
-    """Classify a candidate as new, duplicate, update, or new campaign."""
+    """Classify against durable sharded memory, with legacy-state fallback."""
     state = state or load_state()
-    records = state.setdefault("job_records", {})
     exact_key = identity_key(candidate)
 
-    if exact_key in records:
-        decision = compare_to_existing(candidate, records[exact_key])
+    record = get_by_identity(exact_key)
+    if record:
+        decision = compare_to_existing(candidate, record)
         if decision.action == "update" and not decision.material_update:
             decision.action = "duplicate"
             decision.reason = "same posting with no material fact change"
-        return decision, records[exact_key]
+        return decision, record
 
-    sem = semantic_key(candidate)
-    for existing_key in state.setdefault("semantic_index", {}).get(sem, []):
-        record = records.get(existing_key)
-        if not record:
-            continue
+    for record in get_semantic_candidates(semantic_key(candidate)):
         decision = compare_to_existing(candidate, record)
         if decision.action == "update" and not decision.material_update:
             decision.action = "duplicate"
             decision.reason = "semantic duplicate with no material fact change"
         return decision, record
+
+    # Legacy compatibility for records written before sharded memory existed.
+    records = state.setdefault("job_records", {})
+    if exact_key in records:
+        record = records[exact_key]
+        decision = compare_to_existing(candidate, record)
+        if decision.action == "update" and not decision.material_update:
+            decision.action = "duplicate"
+            decision.reason = "legacy duplicate with no material fact change"
+        return decision, record
+
+    sem = semantic_key(candidate)
+    for existing_key in state.setdefault("semantic_index", {}).get(sem, []):
+        record = records.get(existing_key)
+        if record:
+            return compare_to_existing(candidate, record), record
 
     return compare_to_existing(candidate, None), None
 
@@ -162,35 +180,24 @@ def save_candidate_record(
     blogger_post_id="",
     blogger_url="",
     desired_slug="",
+    campaign_id="",
+    status="active",
     state=None,
     now=None,
 ):
-    state = state or load_state()
-    now = now or datetime.now(timezone.utc)
+    """Persist the campaign in long-term sharded memory.
 
-    record = snapshot(candidate)
-    record.update({
-        "blogger_post_id": blogger_post_id,
-        "blogger_url": blogger_url,
-        "desired_slug": desired_slug,
-        "last_seen_at": now.isoformat(),
-    })
-
-    key = record["identity_key"]
-    records = state.setdefault("job_records", {})
-    existing = records.get(key, {})
-    if existing:
-        for stable in ("blogger_post_id", "blogger_url", "desired_slug", "first_seen_at"):
-            if not record.get(stable) and existing.get(stable):
-                record[stable] = existing[stable]
-    record.setdefault("first_seen_at", existing.get("first_seen_at") or now.isoformat())
-
-    records[key] = record
-    sem = record["semantic_key"]
-    index = state.setdefault("semantic_index", {}).setdefault(sem, [])
-    if key not in index:
-        index.append(key)
-
-    save_state(state)
-    return record
+    Only compact daily counters remain in state.json; campaign history lives in
+    memory shards so thousands of articles do not turn one JSON file into a
+    bottleneck.
+    """
+    return upsert_campaign(
+        candidate,
+        campaign_id=campaign_id,
+        blogger_post_id=blogger_post_id,
+        blogger_url=blogger_url,
+        desired_slug=desired_slug,
+        status=status,
+        now=now,
+    )
 
