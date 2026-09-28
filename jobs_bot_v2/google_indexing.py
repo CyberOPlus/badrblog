@@ -4,7 +4,11 @@ import json
 
 import requests
 
-from .config import GOOGLE_INDEXING_ENABLED, GOOGLE_SERVICE_ACCOUNT_JSON
+from .config import (
+    EXPECTED_BLOG_HOST,
+    GOOGLE_INDEXING_ENABLED,
+    GOOGLE_SERVICE_ACCOUNT_JSON,
+)
 
 
 SCOPE = "https://www.googleapis.com/auth/indexing"
@@ -19,6 +23,13 @@ def notify_google(url, action="URL_UPDATED"):
     """
     if not GOOGLE_INDEXING_ENABLED:
         return {"ok": False, "skipped": True, "reason": "indexing disabled"}
+
+    if EXPECTED_BLOG_HOST.endswith(".blogspot.com"):
+        return {
+            "ok": False,
+            "skipped": True,
+            "reason": "test Blogspot target must never be submitted to Google Indexing API",
+        }
 
     if action not in {"URL_UPDATED", "URL_DELETED"}:
         raise ValueError("action must be URL_UPDATED or URL_DELETED")
