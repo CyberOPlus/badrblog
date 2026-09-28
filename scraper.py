@@ -41,6 +41,7 @@ from config import (
     MAX_RETRIES,
     MAX_SOURCES_PER_RUN,
     MAX_SOURCE_RETRIES,
+    JOBS_MODE,
     RECENT_NEWS_MAX_AGE_HOURS,
     RECENT_NEWS_ONLY,
     RETRY_DELAY,
@@ -218,10 +219,14 @@ SOURCE_PRIORITY_HINTS = (
 
 
 def _source_retries():
+    if JOBS_MODE:
+        return 0
     return MAX_SOURCE_RETRIES if FAST_NEWS_MODE else MAX_RETRIES
 
 
 def _source_retry_delay(attempt):
+    if JOBS_MODE:
+        return 0
     return min(SOURCE_RETRY_DELAY_SECONDS, RETRY_DELAY * (attempt + 1)) if FAST_NEWS_MODE else RETRY_DELAY * (attempt + 1)
 
 
@@ -565,11 +570,12 @@ def _extract_feed_urls(document, source_url):
     parsed_source = urlparse(source_url)
     source_root = f"{parsed_source.scheme}://{parsed_source.netloc}"
 
-    for suffix in COMMON_FEED_SUFFIXES:
-        candidate = urljoin(source_root, suffix)
-        if candidate not in seen:
-            seen.add(candidate)
-            feed_urls.append(candidate)
+    if not JOBS_MODE:
+        for suffix in COMMON_FEED_SUFFIXES:
+            candidate = urljoin(source_root, suffix)
+            if candidate not in seen:
+                seen.add(candidate)
+                feed_urls.append(candidate)
 
     if "blogspot.com" in parsed_source.netloc.lower():
         for candidate in (
@@ -908,7 +914,11 @@ async def _collect_article_links_for_source_async(
         if candidate and not (candidate in seen_feed_urls or seen_feed_urls.add(candidate))
     ]
 
-    should_try_feed = bool(feed_url) or bool(error) or len(html_links) < (per_source_limit or 3)
+    should_try_feed = (
+        bool(feed_url)
+        or str(extractor_type or "").lower() in {"rss", "feed", "xml"}
+        or (not JOBS_MODE and (bool(error) or len(html_links) < (per_source_limit or 3)))
+    )
     if should_try_feed:
         for current_feed_url in feed_candidates[:5]:
             tried_feed_urls.append(current_feed_url)
@@ -949,7 +959,7 @@ async def _collect_article_links_for_source_async(
     if per_source_limit:
         combined_links = combined_links[:per_source_limit]
 
-    if not combined_links:
+    if not combined_links and not JOBS_MODE:
         sync_links, sync_error, sync_status, sync_details = await asyncio.to_thread(
             _collect_article_links_for_source,
             source_url,
@@ -985,7 +995,12 @@ def _collect_article_links_for_source(
         print("  Could not fetch source listing page.")
         feed_links = []
         tried_feed_urls = []
-        for fallback_feed_url in _fallback_feed_urls(source_url, feed_url=feed_url)[:5]:
+        fallback_candidates = (
+            _fallback_feed_urls(source_url, feed_url=feed_url)
+            if not JOBS_MODE or feed_url or str(extractor_type or "").lower() in {"rss", "feed", "xml"}
+            else []
+        )
+        for fallback_feed_url in fallback_candidates[:2 if JOBS_MODE else 5]:
             tried_feed_urls.append(fallback_feed_url)
             current_links = _collect_links_from_feed(fallback_feed_url, source_url)
             print(f"  Feed yielded {len(current_links)} candidate link(s): {fallback_feed_url}")
