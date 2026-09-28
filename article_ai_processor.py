@@ -1802,9 +1802,7 @@ def _skipped_slow_models_count():
 def _provider_candidates(context=None):
     _prune_ai_memory()
     providers = _resolve_providers()
-    preferred_provider = _preferred_provider() if (AI_PROVIDER or "").strip().lower() == "auto" else ""
-    if preferred_provider in providers:
-        providers = [preferred_provider] + [provider for provider in providers if provider != preferred_provider]
+    auto_mode = (AI_PROVIDER or "").strip().lower() == "auto"
     candidates = []
     for provider in providers:
         if provider == "gemini":
@@ -1822,7 +1820,9 @@ def _provider_candidates(context=None):
                 candidates.append({"provider": "openai", "api_key": OPENAI_API_KEY, "model": OPENAI_MODEL})
     if not candidates:
         raise RuntimeError("No AI provider key configured.")
-    return _reorder_candidates_by_speed_memory(candidates)
+    # In auto mode keep provider priority deterministic (Gemini -> OpenRouter).
+    # Speed memory may still be used when the user explicitly locks one provider.
+    return candidates if auto_mode else _reorder_candidates_by_speed_memory(candidates)
 
 
 def _openrouter_candidates(context=None):
@@ -1965,13 +1965,14 @@ def _generate_with_candidate(candidate, prompt, context=None):
 def _attempt_provider_sequence():
     providers = _resolve_providers()
     if (AI_PROVIDER or "").strip().lower() == "auto":
-        sequence = []
-        preferred_provider = _preferred_provider()
-        if preferred_provider in providers:
-            sequence.append(preferred_provider)
-        for provider in ("gemini", "openrouter", "openai"):
-            if provider in providers and provider not in sequence:
-                sequence.append(provider)
+        # Auto mode has a fixed safety order: Gemini first, OpenRouter fallback.
+        # Runtime speed memory must never promote a flaky fallback provider
+        # ahead of the primary provider.
+        sequence = [
+            provider
+            for provider in ("gemini", "openrouter", "openai")
+            if provider in providers
+        ]
         return sequence or providers
     return (providers * MAX_AI_ATTEMPTS)[:MAX_AI_ATTEMPTS]
 
