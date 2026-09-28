@@ -38,25 +38,28 @@
         },
         {
           "name": "ONCF Recrutement",
-          "base_url": "https://www.oncf.ma/fr/Entreprise/Faire-carriere-a-l-oncf/Recrutement",
+          "base_url": "https://www.oncf.etalent.ma/offres",
           "enabled": true,
           "fetch_limit_per_run": 8,
-          "extractor_type": "auto",
+          "extractor_type": "ats_listing",
           "source_priority": "S",
           "official_source": true,
           "source_country": "MA",
-          "source_eligibility": "morocco"
+          "source_eligibility": "morocco",
+          "strict_source_path": false,
+          "source_note": "Official ONCF eTalent listing; replaces slow corporate careers page."
         },
         {
           "name": "ONDA Recrutement",
           "base_url": "https://www.onda.ma/Je-d%C3%A9couvre-ONDA/Ressources-humaines/Recrutement",
-          "enabled": true,
+          "enabled": false,
           "fetch_limit_per_run": 8,
           "extractor_type": "auto",
           "source_priority": "S",
           "official_source": true,
           "source_country": "MA",
-          "source_eligibility": "morocco"
+          "source_eligibility": "morocco",
+          "source_note": "Direct ONDA page is Cloudflare-blocked on GitHub runners; official ONDA competitions remain covered by the enabled Emploi-Public S+ official sources."
         },
         {
           "name": "Maroc Telecom",
@@ -148,14 +151,16 @@
         },
         {
           "name": "Autoroutes du Maroc",
-          "base_url": "https://www.adm.co.ma/",
+          "base_url": "https://adm.etalent.ma/offres",
           "enabled": true,
           "fetch_limit_per_run": 6,
-          "extractor_type": "auto",
+          "extractor_type": "ats_listing",
           "source_priority": "A",
           "official_source": true,
           "source_country": "MA",
-          "source_eligibility": "morocco"
+          "source_eligibility": "morocco",
+          "strict_source_path": false,
+          "source_note": "Official ADM eTalent jobs listing; replaces slow corporate homepage."
         }
       ]
     },
