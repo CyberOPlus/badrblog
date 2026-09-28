@@ -44,7 +44,10 @@ def _employment_type(value):
 
 
 def build_jobposting(candidate, article, article_url):
-    """Build schema.org JobPosting JSON-LD only from verified visible facts."""
+    """Build schema.org JobPosting JSON-LD only for a single verified job."""
+    if str(candidate.listing_kind or "single_job") != "single_job":
+        return {}
+
     data = {
         "@context": "https://schema.org",
         "@type": "JobPosting",
@@ -73,27 +76,40 @@ def build_jobposting(candidate, article, article_url):
     if employment_type:
         data["employmentType"] = employment_type
 
-    if candidate.remote and candidate.eligibility == "remote_morocco":
+    workplace = str(candidate.workplace_type or "").strip().lower()
+    if workplace == "remote" and candidate.eligibility == "remote_morocco":
         data["jobLocationType"] = "TELECOMMUTE"
         data["applicantLocationRequirements"] = {
             "@type": "Country",
             "name": "Morocco",
         }
-    elif candidate.location:
-        data["jobLocation"] = {
-            "@type": "Place",
-            "address": {
-                "@type": "PostalAddress",
-                "addressLocality": candidate.location,
-                "addressCountry": candidate.country or "MA",
-            },
-        }
+    else:
+        locations = list(candidate.locations or [])
+        if candidate.location and candidate.location not in locations:
+            locations.insert(0, candidate.location)
+        places = [
+            {
+                "@type": "Place",
+                "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": place,
+                    "addressCountry": candidate.country or "MA",
+                },
+            }
+            for place in locations if str(place).strip()
+        ]
+        if len(places) == 1:
+            data["jobLocation"] = places[0]
+        elif places:
+            data["jobLocation"] = places
 
     return data
 
 
 def json_ld_script(candidate, article, article_url):
     payload = build_jobposting(candidate, article, article_url)
+    if not payload:
+        return ""
     return (
         "<script type='application/ld+json'>"
         + json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
