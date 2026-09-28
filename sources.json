@@ -183,16 +183,16 @@
       "sources": [
         {
           "name": "UN Careers RSS",
-          "base_url": "https://careers.un.org/jobopening?language=en",
+          "base_url": "https://careers.un.org/jobfeed?isPage=true&language=en",
           "enabled": true,
           "fetch_limit_per_run": 8,
-          "extractor_type": "html",
+          "extractor_type": "auto",
           "source_priority": "S+",
           "official_source": true,
           "source_country": "GLOBAL",
           "source_eligibility": "unknown",
           "strict_source_path": false,
-          "source_note": "Official server-rendered UN Careers job openings page."
+          "source_note": "Official UN Careers job feed page; tested as server-rendered HTML."
         },
         {
           "name": "UN Careers",
