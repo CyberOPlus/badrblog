@@ -97,9 +97,6 @@ from config import (
     SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
     TARGET_LIVE_POSTS_PER_DAY,
     JOBS_MODE,
-    TELEGRAM_ALERTS_ENABLED,
-    TELEGRAM_BOT_TOKEN,
-    TELEGRAM_CHAT_ID,
     TOPIC_FINGERPRINTS_PATH,
     validate_config,
 )
@@ -127,14 +124,6 @@ from runtime_state import (
     source_rotation_record,
 )
 from source_validator import check_sources_config
-from notifier import (
-    get_notification_status,
-    notify_auto_cycle_blocked,
-    notify_auto_cycle_summary,
-    send_telegram_message,
-    telegram_alert_status,
-    telegram_debug_probe,
-)
 from production_logging import html_word_count, log_event
 from job_core import (
     prepare_job_candidate,
@@ -1168,133 +1157,10 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
     }
 
 
-def _auto_cycle_alert_message(result, error=None):
-    result = result or {}
-    article = result.get("article") or {}
-    draft = result.get("draft") or {}
-    schedule = result.get("schedule") or {}
-    step = result.get("step_reached") or "unknown"
-    draft_action = result.get("draft_action", "")
-
-    if error:
-        return "\n".join(
-            [
-                "\u274c Auto-cycle failed",
-                f"Step: {step}",
-                f"Reason: {error}",
-            ]
-        )
-
-    if result.get("completed"):
-        blogger_status = article.get("publish_status") or draft.get("publishing_mode") or draft_action or ""
-        post_url = article.get("blogger_post_url") or article.get("blogger_draft_url") or ""
-        lines = [
-            "\u2705 Auto-cycle success",
-            f"Mode: {_effective_publish_mode()}",
-            f"Article: {article.get('title') or article.get('seo_title') or ''}",
-            f"Category: {article.get('suggested_category', '')}",
-            f"Blogger: {blogger_status}",
-            f"URL: {post_url}",
-        ]
-        facebook = result.get("facebook") or {}
-        facebook_error = facebook.get("error") if facebook and not facebook.get("posted") else ""
-        if facebook_error:
-            lines.append(f"Warning: {facebook_error}")
-        return "\n".join(lines)
-
-    reason = result.get("reason") or draft.get("error") or "unknown"
-    if schedule:
-        next_allowed = _format_datetime(schedule.get("next_allowed_time"))
-        return "\n".join(
-            [
-                "\u23f8 Auto-cycle blocked",
-                f"Reason: {reason}",
-                f"Next allowed time: {next_allowed}",
-            ]
-        )
-
-    return "\n".join(
-        [
-            "\u274c Auto-cycle failed",
-            f"Step: {step}",
-            f"Reason: {reason}",
-        ]
-    )
 
 
-def _blogger_draft_alert_message(article, draft_action, draft_result):
-    article = article or {}
-    draft_result = draft_result or {}
-    draft_url = article.get("blogger_draft_url") or article.get("blogger_post_url") or ""
-    if draft_action in {"created", "updated"}:
-        return "\n".join(
-            [
-                "\u2705 Blogger draft saved",
-                f"Action: {draft_action}",
-                f"Article: {article.get('title') or article.get('seo_title') or ''}",
-                f"URL: {draft_url}",
-            ]
-        )
-
-    return "\n".join(
-        [
-            "\u274c Blogger draft failed",
-            f"Article: {article.get('title') or article.get('seo_title') or ''}",
-            f"Reason: {draft_result.get('error') or 'unknown'}",
-        ]
-    )
 
 
-def _facebook_preview_alert_message(preview):
-    preview = preview or {}
-    if not preview.get("available"):
-        return "\n".join(
-            [
-                "\u23f8 Facebook preview unavailable",
-                f"Reason: {preview.get('error') or 'unknown'}",
-            ]
-        )
-
-    return "\n".join(
-        [
-            "\u2139 Facebook preview only",
-            f"Post text:\n{preview.get('post_text', '')}",
-            f"Hashtags: {preview.get('hashtags', '')}",
-            f"First comment: {preview.get('first_comment_text', '')}",
-            f"Image URL: {preview.get('image_url', '')}",
-        ]
-    )
-
-
-def _send_named_telegram_alert(label, message):
-    alert_result = send_telegram_message(message)
-    if alert_result.get("sent"):
-        print(f"Telegram {label} alert: sent")
-    elif alert_result.get("skipped"):
-        _print_telegram_config_warning()
-        print(f"Telegram {label} alert: skipped")
-    else:
-        print(f"Telegram {label} alert: failed ({alert_result.get('reason', 'unknown error')})")
-    return alert_result
-
-
-def _send_auto_cycle_alert(result, error=None, run_id=""):
-    print("Sending Telegram final report", flush=True)
-    alert_result = notify_auto_cycle_summary(result, error=error, run_id=run_id)
-    if alert_result.get("sent"):
-        print("Telegram final alert: sent")
-    elif alert_result.get("skipped"):
-        _print_telegram_config_warning()
-        print("Telegram final alert: skipped")
-    else:
-        print(f"Telegram final alert: failed ({alert_result.get('reason', 'unknown error')})")
-    return alert_result
-
-
-def _print_telegram_config_warning(status=None):
-    status = status or telegram_alert_status()
-    if status["enabled"] and not status["ready"]:
-        print("Telegram alerts enabled but TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is missing.")
 
 
 RUNTIME_STATE_PATHS = (
@@ -1396,7 +1262,6 @@ def run_auto_cycle_logged():
             f"{'yes' if runtime_state_result.get('saved') else 'no'} | "
             f"git push: {runtime_state_result.get('git_push_state')}"
         )
-        _send_auto_cycle_alert(result or {}, error=error, run_id=run_id)
         _append_auto_cycle_run_log(
             _auto_cycle_record_from_result(run_id, started_at, result or {}, error=error)
         )
@@ -1463,7 +1328,6 @@ def run_health_only():
 def run_24h_status_only():
     publish_status = get_publish_schedule_status(mode="live")
     facebook_limits = get_facebook_limits_status()
-    telegram_status = telegram_alert_status()
     records = _load_auto_cycle_run_logs()
     last_success = next((record for record in reversed(records) if record.get("success")), None)
     last_failure = next((record for record in reversed(records) if not record.get("success")), None)
@@ -1493,7 +1357,6 @@ def run_24h_status_only():
     print(f"Workflow schedule:          {_workflow_schedule()}")
     print(f"PUBLISH_MODE:               {PUBLISH_MODE}")
     print(f"FACEBOOK_AUTO_POST:         {'true' if FACEBOOK_AUTO_POST else 'false'}")
-    print(f"Telegram ready:             {'yes' if telegram_status['ready'] else 'no'}")
     print(f"Live posts today:           {publish_status['live_posts_created_today']}")
     print(f"Facebook posts today:       {facebook_limits['facebook_posts_today']}")
     print(f"Last successful run:        {last_success.get('finished_at', '') if last_success else ''}")
@@ -1512,7 +1375,6 @@ def run_24h_status_only():
         "workflow_schedule": _workflow_schedule(),
         "publish_mode": PUBLISH_MODE,
         "facebook_auto_post": FACEBOOK_AUTO_POST,
-        "telegram_ready": telegram_status["ready"],
         "live_posts_today": publish_status["live_posts_created_today"],
         "facebook_posts_today": facebook_limits["facebook_posts_today"],
         "last_successful_run": last_success.get("finished_at", "") if last_success else "",
@@ -1647,77 +1509,9 @@ def run_facebook_limits_status_only():
     return status
 
 
-def run_alert_status_only():
-    status = telegram_alert_status()
-    print("\n" + "=" * 60)
-    print("PHASE 17 TELEGRAM ALERT STATUS")
-    print("=" * 60)
-    print(f"Alerts enabled:       {'yes' if status['enabled'] else 'no'}")
-    print(f"Bot token configured: {'yes' if status['bot_token_configured'] else 'no'}")
-    print(f"Chat ID configured:   {'yes' if status['chat_id_configured'] else 'no'}")
-    print(f"Ready to send alerts: {'yes' if status['ready'] else 'no'}")
-    _print_telegram_config_warning(status)
-    print("=" * 60)
-    return status
 
 
-def run_notification_status_only():
-    status = get_notification_status()
-    print("\n" + "=" * 60)
-    print("TELEGRAM NOTIFICATION STATUS")
-    print("=" * 60)
-    print(f"Telegram enabled:              {'yes' if status['telegram_enabled'] else 'no'}")
-    print(f"Telegram ready:                {'yes' if status['telegram_ready'] else 'no'}")
-    print(f"Last notification time:        {status['last_notification_time']}")
-    print(f"Published articles not notified:{status['published_articles_not_notified']}")
-    print(f"Facebook posts not notified:   {status['facebook_posts_not_notified']}")
-    print("=" * 60)
-    return status
 
-
-def run_telegram_config_check_only():
-    status = telegram_alert_status()
-    print("\n" + "=" * 60)
-    print("TELEGRAM CONFIG CHECK")
-    print("=" * 60)
-    print(f"TELEGRAM_ALERTS_ENABLED: {'yes' if status['enabled'] else 'no'}")
-    print(f"TELEGRAM_BOT_TOKEN configured: {'yes' if status['bot_token_configured'] else 'no'}")
-    print(f"TELEGRAM_CHAT_ID configured: {'yes' if status['chat_id_configured'] else 'no'}")
-    print(f"Ready to send alerts: {'yes' if status['ready'] else 'no'}")
-    _print_telegram_config_warning(status)
-    print("=" * 60)
-    return status
-
-
-def run_test_alert_only():
-    status = telegram_alert_status()
-    if not status["enabled"]:
-        print("Telegram alert test skipped: TELEGRAM_ALERTS_ENABLED is not true.")
-        return {"sent": False, "skipped": True, "reason": "TELEGRAM_ALERTS_ENABLED is not true"}
-    _print_telegram_config_warning(status)
-
-    result = send_telegram_message("✅ Telegram alerts are working.")
-    if result.get("sent"):
-        print("Telegram alert test sent.")
-    elif result.get("skipped"):
-        print("Telegram alert test skipped: Telegram alerts are not fully configured.")
-    else:
-        print(f"Telegram alert test failed: {result.get('reason', 'unknown error')}")
-    return result
-
-
-def run_telegram_debug_only():
-    result = telegram_debug_probe()
-    print("\n" + "=" * 60)
-    print("TELEGRAM DEBUG")
-    print("=" * 60)
-    print(f"getMe HTTP status:       {result.get('get_me_status') or ''}")
-    print(f"sendMessage HTTP status: {result.get('send_message_status') or ''}")
-    print(f"Telegram working:        {'yes' if result.get('working') else 'no'}")
-    if result.get("reason"):
-        print(f"Reason:                  {result['reason']}")
-    print("=" * 60)
-    return result
 
 
 def print_facebook_preview(preview):
@@ -1927,10 +1721,6 @@ def run_deployment_check_only():
     print(f"  - Pillow import available now: {'yes' if pillow_import_available else 'no'}")
     print(f"  - template asset present: {'yes' if FACEBOOK_IMAGE_TEMPLATE_PATH.exists() else 'optional-missing'}")
     print(f"  - fallback image asset present: {'yes' if FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH.exists() else 'generated fallback will be used'}")
-    print("Telegram alerts:")
-    print(f"  - TELEGRAM_ALERTS_ENABLED: {'true' if TELEGRAM_ALERTS_ENABLED else 'false'}")
-    print(f"  - TELEGRAM_BOT_TOKEN: {'present' if TELEGRAM_BOT_TOKEN else 'missing'}")
-    print(f"  - TELEGRAM_CHAT_ID: {'present' if TELEGRAM_CHAT_ID else 'missing'}")
 
     limit_names = [
         "SAFE_CYCLE_MAX_ARTICLES",
@@ -2545,7 +2335,6 @@ def run_safe_cycle_only():
         reason = "SAFE_MODE=true refuses live publishing"
         print(reason)
         _print_safe_cycle_final_report(None, stopped_reason=reason)
-        notify_auto_cycle_blocked(reason, "")
         return {"completed": False, "reason": reason, "step_reached": "safety-check"}
     if publish_mode != "live":
         print("Live publishing is disabled because PUBLISH_MODE is not exactly live.")
@@ -2574,7 +2363,6 @@ def run_safe_cycle_only():
         print(f"Cycle stopping cleanly before article selection: {reason}.")
         _print_safe_cycle_final_report(None, draft_result={"error": reason}, stopped_reason=reason)
         if not interval_wait_only:
-            notify_auto_cycle_blocked(reason, _format_datetime(schedule_status.get("next_allowed_time")))
         result = {
             "completed": False,
             "reason": reason,
@@ -2616,7 +2404,6 @@ def run_safe_cycle_only():
             source_warnings_count=source_warnings_count,
             enrichment_failed_count=0,
         )
-        notify_auto_cycle_blocked(reason, "")
         return {
             "completed": False,
             "skipped": True,
@@ -2720,7 +2507,6 @@ def run_safe_cycle_only():
                 source_warnings_count=source_warnings_count,
                 enrichment_failed_count=enrichment_failed_count,
             )
-            notify_auto_cycle_blocked(reason, "")
             return {
                 "completed": False,
                 "reason": reason,
@@ -2749,7 +2535,6 @@ def run_safe_cycle_only():
             source_warnings_count=source_warnings_count,
             enrichment_failed_count=enrichment_failed_count,
         )
-        notify_auto_cycle_blocked(no_article_reason, "")
         return {
             "completed": False,
             "skipped": True,
@@ -3644,27 +3429,6 @@ def main():
     if len(sys.argv) > 1 and sys.argv[1] == "facebook-limits-status":
         run_facebook_limits_status_only()
         return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "alert-status":
-        run_alert_status_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "notification-status":
-        run_notification_status_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "telegram-config-check":
-        run_telegram_config_check_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "test-alert":
-        run_test_alert_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "telegram-debug":
-        run_telegram_debug_only()
-        return
-
     if len(sys.argv) > 1 and sys.argv[1] == "facebook-preview":
         run_facebook_preview_only()
         return
