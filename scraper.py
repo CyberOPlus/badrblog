@@ -1174,6 +1174,12 @@ async def _discover_latest_article_links_async(enabled_sources):
                     "category_key": result["category_key"],
                     "category_name": result["category_name"],
                     "category_label": result["category_label"],
+                    "source_priority": result.get("source_priority", ""),
+                    "official_source": bool(result.get("official_source", False)),
+                    "source_country": result.get("source_country", ""),
+                    "source_eligibility": result.get("source_eligibility", ""),
+                    "source_remote": bool(result.get("source_remote", False)),
+                    "source_visa_sponsorship": bool(result.get("source_visa_sponsorship", False)),
                 }
             )
 
@@ -1279,6 +1285,12 @@ def discover_latest_article_links(sources):
                     "category_key": category_key,
                     "category_name": category_name,
                     "category_label": category_label,
+                    "source_priority": source.get("source_priority", ""),
+                    "official_source": bool(source.get("official_source", False)),
+                    "source_country": source.get("source_country", ""),
+                    "source_eligibility": source.get("source_eligibility", ""),
+                    "source_remote": bool(source.get("source_remote", False)),
+                    "source_visa_sponsorship": bool(source.get("source_visa_sponsorship", False)),
                 }
             )
 
