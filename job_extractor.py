@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import re
+from datetime import date
 from urllib.parse import urljoin, urlparse
 
 from bs4 import BeautifulSoup
@@ -123,17 +124,75 @@ def _number_of_positions(text):
     return 0
 
 
-def _deadline_from_text(text):
-    patterns = (
-        r"(?i)(?:date limite|deadline|last date|cl[oô]ture)[^\d]{0,30}(\d{1,2}[/-]\d{1,2}[/-]\d{4})",
-        r"(?:آخر أجل|اخر اجل)[^\d]{0,30}(\d{1,2}[/-]\d{1,2}[/-]\d{4})",
-        r"(?i)(?:date limite|deadline|cl[oô]ture)[^\d]{0,30}(\d{4}-\d{2}-\d{2})",
+MONTH_NAME_TO_NUMBER = {
+    "janvier": 1, "january": 1, "يناير": 1,
+    "février": 2, "fevrier": 2, "february": 2, "فبراير": 2,
+    "mars": 3, "march": 3, "مارس": 3,
+    "avril": 4, "april": 4, "أبريل": 4, "ابريل": 4,
+    "mai": 5, "may": 5, "ماي": 5, "مايو": 5,
+    "juin": 6, "june": 6, "يونيو": 6,
+    "juillet": 7, "july": 7, "يوليوز": 7, "يوليو": 7,
+    "août": 8, "aout": 8, "august": 8, "غشت": 8, "أغسطس": 8, "اغسطس": 8,
+    "septembre": 9, "september": 9, "شتنبر": 9, "سبتمبر": 9,
+    "octobre": 10, "october": 10, "أكتوبر": 10, "اكتوبر": 10,
+    "novembre": 11, "november": 11, "نونبر": 11, "نوفمبر": 11,
+    "décembre": 12, "decembre": 12, "december": 12, "دجنبر": 12, "ديسمبر": 12,
+}
+
+
+DEADLINE_LABEL_PATTERN = (
+    r"(?:آخر\s+أجل(?:\s+للترشيح)?|اخر\s+اجل(?:\s+للترشيح)?|"
+    r"date\s+limite(?:\s+de\s+candidature)?|deadline|last\s+date|"
+    r"cl[oô]ture(?:\s+des\s+candidatures)?|jusqu(?:'|’)?au|avant\s+le)"
+)
+
+
+def _iso_date(year, month, day):
+    try:
+        return date(int(year), int(month), int(day)).isoformat()
+    except (TypeError, ValueError):
+        return ""
+
+
+def _deadline_details_from_text(text):
+    value = re.sub(r"\s+", " ", str(text or "")).strip()
+    if not value:
+        return "", ""
+
+    numeric_patterns = (
+        rf"(?i){DEADLINE_LABEL_PATTERN}[^\d]{{0,40}}(\d{{1,2}}[/-]\d{{1,2}}[/-]\d{{4}})",
+        rf"(?i){DEADLINE_LABEL_PATTERN}[^\d]{{0,40}}(\d{{4}}-\d{{2}}-\d{{2}})",
     )
-    for pattern in patterns:
-        match = re.search(pattern, text or "")
-        if match:
-            return match.group(1)
-    return ""
+    for pattern in numeric_patterns:
+        match = re.search(pattern, value)
+        if not match:
+            continue
+        raw = match.group(1)
+        if re.match(r"^\d{4}-\d{2}-\d{2}$", raw):
+            return raw, raw
+        parts = re.split(r"[/-]", raw)
+        normalized = _iso_date(parts[2], parts[1], parts[0]) if len(parts) == 3 else ""
+        return normalized or raw, raw
+
+    word_pattern = (
+        rf"(?i){DEADLINE_LABEL_PATTERN}[^\d]{{0,45}}"
+        r"(\d{1,2})\s+([A-Za-zÀ-ÿ\u0600-\u06FF]+)\s+(\d{4})"
+        r"(?:\s*(?:à|a|الساعة|على\s+الساعة)\s*(\d{1,2}:\d{2}))?"
+    )
+    match = re.search(word_pattern, value)
+    if match:
+        day_value, month_name, year_value, clock = match.groups()
+        month_number = MONTH_NAME_TO_NUMBER.get(month_name.casefold())
+        normalized = _iso_date(year_value, month_number, day_value) if month_number else ""
+        raw = " ".join(x for x in (day_value, month_name, year_value, clock or "") if x)
+        return normalized or raw, raw
+
+    return "", ""
+
+
+def _deadline_from_text(text):
+    normalized, _display = _deadline_details_from_text(text)
+    return normalized
 
 
 def _city_from_text(text):
@@ -160,7 +219,15 @@ DOCUMENT_LINK_HINTS = (
     "pdf", "avis", "conditions", "condition", "règlement", "reglement",
     "dossier", "fiche", "communiqué", "communique", "télécharger",
     "telecharger", "download", "job description", "descriptif",
+    "liste", "list", "résultat", "resultat", "results", "convoqué",
+    "convoques", "convoqués", "admis", "shortlist", "المدعوين",
+    "اللائحة", "اللوائح", "النتائج", "النتيجة", "تحميل",
 )
+
+GENERIC_LINK_LABELS = {
+    "pdf", "download", "télécharger", "telecharger", "تحميل", "هنا",
+    "الرابط", "اضغط هنا", "voir", "consulter",
+}
 
 
 def _public_http_url(url):
@@ -171,12 +238,26 @@ def _public_http_url(url):
     return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
 
 
+def _link_context(anchor, label=""):
+    for parent_name in ("tr", "li", "p"):
+        parent = anchor.find_parent(parent_name)
+        if not parent:
+            continue
+        context = _text(parent.get_text(" ", strip=True))
+        if not context:
+            continue
+        if label and context == label:
+            continue
+        return context[:320]
+    return ""
+
+
 def _extract_job_action_links(soup, page_url):
-    """Find official apply/document links exposed by the verified job page."""
+    """Find official apply/document/result links exposed by the verified job page."""
     rows = []
     seen = set()
 
-    def add(href, label="", kind=""):
+    def add(href, label="", kind="", context=""):
         absolute = urljoin(page_url, str(href or "").strip())
         if not _public_http_url(absolute):
             return
@@ -184,25 +265,31 @@ def _extract_job_action_links(soup, page_url):
         if key in seen:
             return
         seen.add(key)
+        clean_label = _text(label)
+        clean_context = _text(context)
+        if clean_label.casefold() in GENERIC_LINK_LABELS and clean_context:
+            clean_label = clean_context
         rows.append(
             {
                 "url": absolute,
-                "label": _text(label) or ("التقديم الرسمي" if kind == "apply" else "ملف رسمي"),
+                "label": clean_label or ("التقديم الرسمي" if kind == "apply" else "ملف رسمي"),
                 "kind": kind,
+                "context": clean_context,
             }
         )
 
     for anchor in soup.find_all("a", href=True):
         href = str(anchor.get("href") or "").strip()
         label = _text(anchor.get_text(" ", strip=True))
-        signature = f"{label} {href}".casefold()
+        context = _link_context(anchor, label=label)
+        signature = f"{label} {context} {href}".casefold()
         if any(hint in signature for hint in APPLY_LINK_HINTS):
-            add(href, label, "apply")
+            add(href, label, "apply", context=context)
             continue
         if href.casefold().split("?", 1)[0].endswith(".pdf") or any(
             hint in signature for hint in DOCUMENT_LINK_HINTS
         ):
-            add(href, label, "document")
+            add(href, label, "document", context=context)
 
     for form in soup.find_all("form", action=True):
         action = str(form.get("action") or "").strip()
@@ -210,7 +297,30 @@ def _extract_job_action_links(soup, page_url):
         if any(hint in signature for hint in APPLY_LINK_HINTS):
             add(action, "التقديم الرسمي", "apply")
 
-    return rows[:8]
+    # Public recruitment campaigns can expose many specialization/result PDFs.
+    # Keep enough exact official links to build a complete table instead of silently
+    # dropping rows after the eighth document.
+    return rows[:30]
+
+
+def _notice_type(title, body):
+    haystack = f"{title} {body}".casefold()
+    if re.search(r"(النتائج\s+النهائية|نتائج\s+نهائية|résultats?\s+définitifs?|final\s+results?)", haystack):
+        return "final_results"
+    if re.search(r"(لوائح?\s+المدعوين|لائحة\s+المدعوين|convoqu[eé]s?|shortlist|admis.*(?:écrit|oral)|مدعوين.*(?:كتابي|شفوي))", haystack):
+        return "candidate_list"
+    if re.search(r"(النتائج|النتيجة|résultats?|results?)", haystack):
+        return "results"
+    return "vacancy"
+
+
+def _notice_status(title, body):
+    haystack = f"{title} {body}".casefold()
+    if re.search(r"(مؤقتة|مؤقت|أولية|provisoire|provisional|préliminaire|preliminaire)", haystack):
+        return "provisional"
+    if re.search(r"(نهائية|نهائي|définitive|definitive|finale|final)", haystack):
+        return "final"
+    return ""
 
 
 def extract_job_fields(soup, article, page_url, full_text=""):
@@ -258,8 +368,13 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         or page_url
     )
     application_kind = "direct_apply" if direct_apply else "official_job_page"
-    deadline = _text(node.get("validThrough")) or _deadline_from_text(body)
+    structured_deadline = _text(node.get("validThrough"))
+    text_deadline, text_deadline_display = _deadline_details_from_text(body)
+    deadline = structured_deadline or text_deadline
+    deadline_display = text_deadline_display or structured_deadline
     published_at = _text(node.get("datePosted")) or article.get("source_published_at", "")
+    notice_type = _notice_type(job_title, body)
+    notice_status = _notice_status(job_title, body)
     remote = str(node.get("jobLocationType") or "").upper() == "TELECOMMUTE" or bool(article.get("source_remote"))
     visa = bool(re.search(r"(?i)visa\s+sponsor|sponsorship|parrainage\s+visa", body or ""))
 
@@ -277,6 +392,9 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         "job_contract_type": _text(employment),
         "job_salary": _salary(node),
         "job_deadline": deadline,
+        "job_deadline_display": deadline_display,
+        "job_notice_type": notice_type,
+        "job_notice_status": notice_status,
         "job_published_at": published_at,
         "job_application_url": application_url,
         "job_application_link_kind": application_kind,
