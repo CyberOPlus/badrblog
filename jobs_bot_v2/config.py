@@ -44,6 +44,17 @@ OPENROUTER_MODELS = tuple(
 AI_TIMEOUT_SECONDS = int(os.getenv("JOBS_AI_TIMEOUT_SECONDS", "60"))
 
 # Publishing targets.
+# cyberopluss.blogspot.com is a disposable test target. The expected host is
+# checked before downstream promotion so a test run cannot silently target the
+# real Cybero Plus site.
+TEST_BLOG_URL = os.getenv(
+    "JOBS_TEST_BLOG_URL",
+    "https://cyberopluss.blogspot.com/",
+).strip()
+EXPECTED_BLOG_HOST = os.getenv(
+    "JOBS_EXPECTED_BLOG_HOST",
+    "cyberopluss.blogspot.com",
+).strip().casefold()
 BLOG_ID = os.getenv("BLOGGER_BLOG_ID", os.getenv("BLOG_ID", "")).strip()
 FACEBOOK_PAGE_ID = os.getenv("FACEBOOK_PAGE_ID", "").strip()
 FACEBOOK_PAGE_ACCESS_TOKEN = os.getenv("FACEBOOK_PAGE_ACCESS_TOKEN", "").strip()
