@@ -1,7 +1,10 @@
 import unittest
 from datetime import datetime, timezone
 
+from bs4 import BeautifulSoup
+
 import job_core
+import job_extractor
 
 
 def sample_job(**overrides):
@@ -74,6 +77,40 @@ class JobsCoreTests(unittest.TestCase):
         # Monday in September: weekday allows 2; September max allows 3 => 2.
         now = datetime(2026, 9, 28, 12, 0, tzinfo=timezone.utc)
         self.assertEqual(job_core.daily_publish_cap(now), 2)
+
+    def test_extractor_prefers_direct_apply_and_keeps_official_pdf(self):
+        html = """
+        <html><head><script type="application/ld+json">
+        {
+          "@context":"https://schema.org",
+          "@type":"JobPosting",
+          "title":"Technicien Réseaux",
+          "hiringOrganization":{"name":"Example SA","logo":"https://cdn.example.com/logo.png"},
+          "jobLocation":{"address":{"addressLocality":"Casablanca","addressCountry":"MA"}},
+          "url":"https://example.com/jobs/12345"
+        }
+        </script></head><body>
+          <a href="/jobs/12345/apply">Postuler maintenant</a>
+          <a href="/docs/conditions.pdf">Télécharger les conditions</a>
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        fields = job_extractor.extract_job_fields(
+            soup,
+            {
+                "source_name": "Example Jobs",
+                "official_source": True,
+                "source_country": "MA",
+                "source_eligibility": "morocco",
+            },
+            "https://example.com/jobs/12345",
+            full_text="Offre officielle à Casablanca.",
+        )
+        self.assertEqual(fields["job_application_url"], "https://example.com/jobs/12345/apply")
+        self.assertEqual(fields["job_application_link_kind"], "direct_apply")
+        self.assertEqual(len(fields["job_document_links"]), 1)
+        self.assertEqual(fields["job_document_links"][0]["url"], "https://example.com/docs/conditions.pdf")
+        self.assertEqual(fields["company_logo_url"], "https://cdn.example.com/logo.png")
 
     def test_campaign_rollover_next_year(self):
         old = {
