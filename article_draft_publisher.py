@@ -27,7 +27,6 @@ from config import (
     JOBS_TEST_MODE,
     JOBS_EXPECTED_BLOG_HOST,
 )
-from notifier import notify_blogger_result
 from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
 from internal_link_cache import apply_link_enrichment, record_published_article
@@ -43,11 +42,6 @@ JOB_ARTICLE_RAW_BASE = "https://raw.githubusercontent.com/CyberOPlus/badrblog/ma
 def _now_iso():
     return datetime.now().isoformat(timespec="seconds")
 
-
-def _log_notification_result(label, result):
-    if result.get("sent") or result.get("skipped"):
-        return
-    print(f"Telegram {label} notification failed: {result.get('reason', 'unknown error')}")
 
 
 def _effective_publish_mode(mode=None):
@@ -132,8 +126,6 @@ def _block_publish(queue, article, error, result_shape):
     article["publish_status"] = "failed"
     article["publish_error"] = f"Publish blocked: {error}"
     article["publish_blocked_reason"] = error
-    article.pop("telegram_blogger_notified", None)
-    article.pop("telegram_blogger_event_key", None)
     save_article_queue(queue)
     log_event(
         "blogger_publish_blocked",
@@ -144,7 +136,6 @@ def _block_publish(queue, article, error, result_shape):
     )
     result = dict(result_shape)
     result.update({"article": article, "error": article["publish_error"]})
-    _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="quality gate"))
     return result
 
 
@@ -539,8 +530,6 @@ def _apply_success(article, post, mode):
         article["publish_status"] = "draft_created"
 
     article.pop("publish_error", None)
-    article.pop("telegram_blogger_notified", None)
-    article.pop("telegram_blogger_event_key", None)
     log_event(
         "blogger_publish_result",
         status="success",
@@ -556,8 +545,6 @@ def _apply_success(article, post, mode):
 def _apply_failure(article, error):
     article["publish_status"] = "failed"
     article["publish_error"] = str(error)
-    article.pop("telegram_blogger_notified", None)
-    article.pop("telegram_blogger_event_key", None)
     log_event(
         "blogger_publish_result",
         status="failed",
@@ -635,7 +622,6 @@ def publish_one_blogger_draft(target_article_id=None):
             "article": article,
             "error": "",
         }
-        _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="create draft"))
         return result
 
     except HttpError as error:
@@ -651,7 +637,6 @@ def publish_one_blogger_draft(target_article_id=None):
         "article": article,
         "error": article.get("publish_error", ""),
     }
-    _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="create draft"))
     return result
 
 
@@ -727,7 +712,6 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
                 "error": "",
                 "slug_warning": slug_warning,
             }
-            _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="update draft"))
             return result
 
         matches = _find_matching_blogger_posts(service, article)
@@ -753,7 +737,6 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
                 "error": "",
                 "slug_warning": slug_warning,
             }
-            _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="update draft"))
             return result
 
         request = service.posts().insert(blogId=BLOG_ID, body=body, isDraft=True)
@@ -772,7 +755,6 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
             "error": "",
             "slug_warning": slug_warning,
         }
-        _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="create draft"))
         return result
 
     except HttpError as error:
@@ -791,7 +773,6 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
         "error": article.get("publish_error", ""),
         "slug_warning": slug_warning,
     }
-    _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage="update draft"))
     return result
 
 
@@ -871,7 +852,6 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
                 "error": "",
                 "publishing_mode": publish_mode,
             }
-            _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage=f"update {publish_mode}"))
             return result
 
         matches = _find_matching_blogger_posts(service, article)
@@ -898,7 +878,6 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
                 "error": "",
                 "publishing_mode": publish_mode,
             }
-            _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage=f"update {publish_mode}"))
             return result
 
         request = service.posts().insert(blogId=BLOG_ID, body=body, isDraft=(publish_mode != "live"))
@@ -918,7 +897,6 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             "error": "",
             "publishing_mode": publish_mode,
         }
-        _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage=f"create {publish_mode}"))
         return result
 
     except HttpError as error:
@@ -937,5 +915,4 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
         "error": article.get("publish_error", ""),
         "publishing_mode": publish_mode,
     }
-    _log_notification_result("Blogger", notify_blogger_result(queue, article, result, stage=f"publish {publish_mode}"))
     return result
