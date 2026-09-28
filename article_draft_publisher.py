@@ -155,6 +155,22 @@ def _ensure_post_url_for_mode(post, mode):
             )
 
 
+def _ensure_jobs_target_blog(service):
+    """Block any Jobs test write before posts.insert/update if BLOG_ID points elsewhere."""
+    if not (JOBS_MODE and JOBS_TEST_MODE):
+        return
+    request = service.blogs().get(blogId=BLOG_ID)
+    blog = _execute_blogger_request(request, "verify jobs target blog", safe_to_retry=True)
+    blog_url = str((blog or {}).get("url") or "").strip()
+    parsed = urlparse(blog_url)
+    host = parsed.netloc.casefold().removeprefix("www.")
+    expected = str(JOBS_EXPECTED_BLOG_HOST or "").casefold().removeprefix("www.")
+    if not expected or host != expected:
+        raise RuntimeError(
+            f"Jobs test safety blocked BLOG_ID target: {host or 'unknown'}; expected {expected}."
+        )
+
+
 def _build_post_body(article):
     content = article.get("final_html", "")
     labels = (
@@ -676,6 +692,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
         if not service or is_local_publisher(service):
             raise RuntimeError("Blogger service is not available; refusing local fallback for Blogger publishing.")
 
+        _ensure_jobs_target_blog(service)
         body = _build_post_body(article)
         saved_post = _get_saved_post_by_id(service, article, mode=publish_mode)
         if saved_post and (publish_mode == "live" or saved_post.get("status") != "LIVE"):
