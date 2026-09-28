@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-import hashlib
 import re
 import unicodedata
 
-from .job_identity import identity_key, normalize_text
+from .job_identity import identity_key
 
 
 ARABIC_MAP = {
@@ -14,7 +13,10 @@ ARABIC_MAP = {
     "ن":"n","ه":"h","ة":"a","و":"w","ؤ":"w","ي":"y","ى":"a","ئ":"y",
 }
 
-STOP = {"job","jobs","emploi","offre","recrutement","hiring","vacancy","poste"}
+STOP = {
+    "job", "jobs", "emploi", "offre", "recrutement", "hiring", "vacancy",
+    "poste", "postes", "positions", "position",
+}
 
 
 def _latinize(value):
@@ -33,28 +35,48 @@ def _latinize(value):
     return "-".join(tokens)
 
 
-def desired_slug(candidate):
-    """Deterministic future-proof slug key.
+def _campaign_token(candidate):
+    raw = candidate.raw if isinstance(candidate.raw, dict) else {}
+    token = str(raw.get("_campaign_id") or "").strip().lower()
+    token = re.sub(r"[^a-z0-9]", "", token)
+    if token:
+        return token[:8]
 
-    Blogger v3 insert does not accept a custom permalink in this project, so
-    this is stored for identity/migration/QA. The actual public Blogger URL is
-    always the URL returned by Blogger and is never guessed.
+    # Preview-only fallback. Live publishing should reserve a persistent
+    # campaign_id before calling desired_slug().
+    return identity_key(candidate)[:8]
+
+
+def desired_slug(candidate):
+    """Stable slug key for one recruitment campaign.
+
+    Human-readable part = company + role only.
+    Stable suffix = persistent campaign_id.
+
+    Deliberately excluded:
+    - publication year/date
+    - deadline
+    - number of positions
+    - salary
+    - location
+    - mutable contract details
+
+    Therefore 100 -> 20 positions, a deadline extension, salary correction, or
+    city correction never changes the slug of an existing Blogger post.
     """
-    company = _latinize(candidate.company) or "company"
+    company = _latinize(candidate.company) or "employer"
     role = _latinize(candidate.title) or "position"
-    location = _latinize(candidate.location) or "morocco"
-    core = "-".join([
-        *company.split("-")[:2],
-        *role.split("-")[:4],
-        *location.split("-")[:2],
+
+    base = "-".join([
+        *company.split("-")[:3],
+        *role.split("-")[:5],
     ])
-    core = re.sub(r"-+", "-", core).strip("-")[:72].strip("-")
-    suffix = identity_key(candidate)[:7]
-    return f"{core}-{suffix}"
+    base = re.sub(r"-+", "-", base).strip("-")[:74].strip("-")
+    return f"{base}-{_campaign_token(candidate)}"
 
 
 def title_disambiguator(candidate):
-    """Small human-readable differentiator for genuinely separate campaigns."""
+    """Human-readable title helper; never part of the stable permalink key."""
     parts = []
     if candidate.company:
         parts.append(candidate.company)
