@@ -45,11 +45,12 @@
       "name": "ONCF Recrutement",
       "type": "OFFICIAL_HTML",
       "country": "MA",
-      "url": "https://www.oncf.ma/fr/Entreprise/Faire-carriere-a-l-oncf/Recrutement",
+      "url": "https://www.oncf.etalent.ma/offres",
       "priority": "S",
       "direct_publish": true,
       "requires_attribution": false,
-      "enabled": true
+      "enabled": true,
+      "notes": "Official ONCF eTalent listing; avoids slow corporate careers page."
     },
     {
       "name": "ONDA Recrutement",
@@ -59,7 +60,8 @@
       "priority": "S",
       "direct_publish": true,
       "requires_attribution": false,
-      "enabled": true
+      "enabled": false,
+      "notes": "Direct ONDA page is Cloudflare-blocked on GitHub runners; official ONDA competitions remain covered by Emploi-Public."
     },
     {
       "name": "Maroc Telecom ATS",
@@ -105,11 +107,12 @@
       "name": "OCP Careers",
       "type": "OFFICIAL_ATS",
       "country": "MA",
-      "url": "https://careers.ocpgroup.ma/",
+      "url": "https://ocpgroup.wd103.myworkdayjobs.com/en-US/ocpcareers",
       "priority": "A+",
       "direct_publish": true,
       "requires_attribution": false,
-      "enabled": true
+      "enabled": true,
+      "notes": "Official OCP Workday ATS; runtime uses workday_api adapter."
     },
     {
       "name": "Orange Maroc",
@@ -133,24 +136,25 @@
     },
     {
       "name": "Attijariwafa bank",
-      "type": "OFFICIAL_HTML",
+      "type": "OFFICIAL_ATS",
       "country": "MA",
-      "url": "https://www.attijariwafabank.com/fr/emploi-carrieres",
+      "url": "https://attijariwafabank.csod.com/ux/ats/careersite/4/home?c=attijariwafabank",
       "priority": "A+",
       "direct_publish": true,
       "requires_attribution": false,
-      "enabled": true
+      "enabled": true,
+      "notes": "Official Attijariwafa Cornerstone ATS; runtime uses csod adapter."
     },
     {
       "name": "ADM",
-      "type": "OFFICIAL_HTML",
+      "type": "OFFICIAL_ATS",
       "country": "MA",
-      "url": "https://www.adm.co.ma/",
+      "url": "https://adm.etalent.ma/offres",
       "priority": "A",
       "direct_publish": false,
       "requires_attribution": false,
       "enabled": true,
-      "notes": "Monitor official recruitment announcements; campaign application URLs may change."
+      "notes": "Official ADM eTalent listing; avoids slow corporate homepage."
     },
     {
       "name": "UN Careers RSS",
