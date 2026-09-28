@@ -240,6 +240,14 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         if application_url and application_url not in html_content:
             return QualityGateResult(False, "job application URL is missing from final HTML", word_count)
 
+        job_links = re.findall(
+            r"<a\b[^>]*\bhref=['\"]([^'\"]+)['\"]",
+            html_content,
+            flags=re.I,
+        )
+        if len(job_links) != len(set(job_links)):
+            return QualityGateResult(False, "duplicate job link found in final HTML", word_count)
+
         cover_url = str(
             article.get("job_article_cover_url")
             or package.get("job_article_cover_url")
