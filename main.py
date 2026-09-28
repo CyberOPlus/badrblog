@@ -96,6 +96,7 @@ from config import (
     SOURCE_HEALTH_PATH,
     SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
     TARGET_LIVE_POSTS_PER_DAY,
+    JOBS_MODE,
     TELEGRAM_ALERTS_ENABLED,
     TELEGRAM_BOT_TOKEN,
     TELEGRAM_CHAT_ID,
@@ -135,6 +136,12 @@ from notifier import (
     telegram_debug_probe,
 )
 from production_logging import html_word_count, log_event
+from job_core import (
+    prepare_job_candidate,
+    record_job_publish,
+    select_best_job_from_queue,
+    job_status_snapshot,
+)
 
 
 PROBLEM_SOURCE_NAMES = {
@@ -349,8 +356,8 @@ def run_fetch_only():
             flush=True,
         )
 
-    published_set = load_published_ids()
-    topic_fingerprints = load_topic_fingerprints()
+    published_set = set() if JOBS_MODE else load_published_ids()
+    topic_fingerprints = set() if JOBS_MODE else load_topic_fingerprints()
     category_context = {}
     if CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
         existing_queue = load_article_queue()
@@ -476,7 +483,7 @@ def run_fetch_only():
         )
     else:
         discovery = discover_latest_article_links(enabled_sources)
-    articles = filter_new_articles(discovery["articles"], published_set)
+    articles = discovery["articles"] if JOBS_MODE else filter_new_articles(discovery["articles"], published_set)
     queue_stats = add_articles_to_queue(articles)
     source_results = discovery.get("source_results", [])
     found_by_category = Counter(
