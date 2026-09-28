@@ -505,9 +505,18 @@ def select_best_job_from_queue(queue, now=None):
         if article.get("content_fetch_status") != "success":
             continue
         quality, decision = prepare_job_candidate(article, now=now)
-        if decision["action"] in {"duplicate", "hold"}:
+        if decision["action"] == "duplicate":
+            article["status"] = "skipped"
+            article["skip_reason"] = f"job duplicate: {decision['reason']}"
+            continue
+        if decision["action"] == "hold":
+            article["status"] = "skipped"
+            article["skip_reason"] = f"job identity held: {decision['reason']}"
             continue
         if not quality["passed"]:
+            if quality["status"] == "reject":
+                article["status"] = "skipped"
+                article["skip_reason"] = "; ".join(quality["reasons"]) or f"job score below {QUEUE_SCORE}"
             continue
 
         is_update = decision["action"] == "update"
