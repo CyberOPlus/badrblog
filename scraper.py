@@ -3,6 +3,7 @@
 # ============================================================
 
 import asyncio
+import html as html_lib
 import json
 import re
 import sys
@@ -286,8 +287,10 @@ def _filter_healthy_sources(sources):
     return healthy, skipped
 
 
-def _record_source_result(base_url, source_name, error, links_found):
-    if error or links_found <= 0:
+def _record_source_result(base_url, source_name, error, links_found, empty_ok=False):
+    if empty_ok and not error and links_found <= 0:
+        record_source_success(base_url, source_name=source_name)
+    elif error or links_found <= 0:
         record_source_failure(base_url, source_name=source_name, error=error or "zero links")
     else:
         record_source_success(base_url, source_name=source_name)
@@ -932,6 +935,190 @@ async def _collect_workday_links_async(session, source_url, per_source_limit=Non
     return links, "", 200
 
 
+
+def _parse_etalent_links(html_text, source_url, per_source_limit=None):
+    """Return only real eTalent vacancy detail URLs (/offre/<id>)."""
+    soup = BeautifulSoup(html_text or "", "html.parser")
+    limit = max(1, min(int(per_source_limit or 20), 30))
+    links = []
+    seen = set()
+    for anchor in soup.find_all("a", href=True):
+        href = urljoin(source_url, str(anchor.get("href") or "").strip())
+        path = urlparse(href).path.rstrip("/")
+        match = re.search(r"/offre/(\d+)$", path, flags=re.I)
+        if not match or href in seen:
+            continue
+        seen.add(href)
+        container = anchor.find_parent(["article", "li", "tr", "section", "div"])
+        candidates = [
+            _normalize_text(anchor.get_text(" ", strip=True)),
+        ]
+        if container:
+            for tag_name in ("h1", "h2", "h3", "h4", "h5", "strong"):
+                tag = container.find(tag_name)
+                if tag:
+                    candidates.append(_normalize_text(tag.get_text(" ", strip=True)))
+        generic = {
+            "voir", "voir l'offre", "voir loffre", "détails", "details",
+            "postuler", "en savoir plus", "offre",
+        }
+        title = next(
+            (
+                value for value in candidates
+                if value and value.casefold() not in generic and len(value) >= 4
+            ),
+            f"Offre {match.group(1)}",
+        )
+        links.append({
+            "title": title,
+            "url": href,
+            "ats_provider": "etalent",
+            "ats_reference": match.group(1),
+        })
+        if len(links) >= limit:
+            break
+    return links
+
+
+async def _collect_etalent_links_async(session, source_url, per_source_limit=None):
+    html_text, error, status_code = await _fetch_text_async(session, source_url)
+    if error or not html_text:
+        return [], error or "empty eTalent listing", status_code
+    links = _parse_etalent_links(html_text, source_url, per_source_limit=per_source_limit)
+    # A healthy eTalent listing can legitimately have zero active offers.
+    return links, "", status_code or 200
+
+
+def _extract_json_object_after_marker(text, marker):
+    raw = html_lib.unescape(str(text or ""))
+    pos = raw.find(marker)
+    if pos < 0:
+        return None
+    start = pos + len(marker)
+    while start < len(raw) and raw[start].isspace():
+        start += 1
+    if start >= len(raw) or raw[start] != "{":
+        return None
+    depth = 0
+    quote = None
+    escaped = False
+    for index in range(start, len(raw)):
+        char = raw[index]
+        if quote:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == quote:
+                quote = None
+            continue
+        if char in {'"', "'"}:
+            quote = char
+        elif char == "{":
+            depth += 1
+        elif char == "}":
+            depth -= 1
+            if depth == 0:
+                try:
+                    return json.loads(raw[start:index + 1])
+                except (TypeError, ValueError, json.JSONDecodeError):
+                    return None
+    return None
+
+
+def _phenom_jobs_from_html(html_text, country="MOROCCO"):
+    soup = BeautifulSoup(html_text or "", "html.parser")
+    ddo = None
+    for script in soup.find_all("script"):
+        text = script.string or script.get_text("", strip=False)
+        if "phApp.ddo" not in str(text or ""):
+            continue
+        ddo = _extract_json_object_after_marker(text, "phApp.ddo =")
+        if isinstance(ddo, dict):
+            break
+    if not isinstance(ddo, dict):
+        return []
+
+    found = []
+    seen = set()
+
+    def walk(value):
+        if isinstance(value, dict):
+            job_id = str(value.get("jobId") or "").strip()
+            title = _normalize_text(value.get("title") or "")
+            if job_id and title:
+                key = str(value.get("jobSeqNo") or job_id)
+                if key not in seen:
+                    seen.add(key)
+                    found.append(dict(value))
+            for child in value.values():
+                walk(child)
+        elif isinstance(value, list):
+            for child in value:
+                walk(child)
+
+    walk(ddo)
+    country_folded = str(country or "").casefold()
+    if country_folded:
+        found = [
+            row for row in found
+            if str(row.get("country") or "").casefold() == country_folded
+            or country_folded in str(row.get("location") or "").casefold()
+            or country_folded in str(row.get("cityStateCountry") or "").casefold()
+        ]
+    return found
+
+
+async def _collect_phenom_links_async(session, source_url, per_source_limit=None):
+    html_text, error, status_code = await _fetch_text_async(session, source_url)
+    if error or not html_text:
+        return [], error or "empty Phenom listing", status_code
+    rows = _phenom_jobs_from_html(html_text, country="MOROCCO")
+    limit = max(1, min(int(per_source_limit or 20), 25))
+    links = []
+    for row in rows[:limit]:
+        apply_url = str(row.get("applyUrl") or "").strip()
+        job_id = str(row.get("jobId") or row.get("reqId") or "").strip()
+        title = _normalize_text(row.get("title") or "")
+        if not apply_url or not job_id or not title:
+            continue
+        teaser_candidates = [
+            str(row.get("descriptionTeaser") or "").strip(),
+            str((row.get("ml_job_parser") or {}).get("descriptionTeaser_ats") or "").strip()
+            if isinstance(row.get("ml_job_parser"), dict) else "",
+            str((row.get("ml_job_parser") or {}).get("descriptionTeaser_first200") or "").strip()
+            if isinstance(row.get("ml_job_parser"), dict) else "",
+        ]
+        teaser = max(teaser_candidates, key=len, default="")
+        links.append({
+            "title": title,
+            "url": apply_url,
+            "ats_provider": "phenom",
+            "ats_reference": job_id,
+            "ats_description": teaser,
+            "job_application_url": apply_url,
+            "job_application_link_kind": "direct_apply",
+            "job_location": str(row.get("location") or row.get("cityStateCountry") or "").strip(),
+            "job_country": "MA",
+            "job_contract_type": str(row.get("contractType") or row.get("type") or "").strip(),
+            "job_salary": str(row.get("salary") or "").strip(),
+            "job_company": str(row.get("company") or "").strip(),
+            "job_remote": str(row.get("workModel") or "").strip().casefold() in {
+                "remote", "télétravail complet", "teletravail complet",
+            },
+            "source_published_at": str(row.get("postedDate") or row.get("dateCreated") or "").strip(),
+            "phenom_payload": {
+                "category": row.get("category"),
+                "hiringType": row.get("hiringType"),
+                "workModel": row.get("workModel"),
+                "company": row.get("company"),
+                "city": row.get("city"),
+                "country": row.get("country"),
+            },
+        })
+    return links, "", status_code or 200
+
+
 def _csod_config(source_url):
     parsed = urlparse(str(source_url or ""))
     host = parsed.netloc.casefold()
@@ -1165,6 +1352,30 @@ async def _collect_article_links_for_source_async(
             "feed_links_found": 0,
             "method_used": "workday_api" if links else ("failed:workday_api" if error else "workday_api"),
             "tried_feed_urls": [],
+        }
+
+    if extractor_mode in {"etalent", "ats_listing"}:
+        links, error, status_code = await _collect_etalent_links_async(
+            session, source_url, per_source_limit=per_source_limit,
+        )
+        return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
+            "normal_links_found": len(links),
+            "feed_links_found": 0,
+            "method_used": "etalent",
+            "tried_feed_urls": [],
+            "empty_ok": not links and not error and status_code == 200,
+        }
+
+    if extractor_mode == "phenom_ddo":
+        links, error, status_code = await _collect_phenom_links_async(
+            session, source_url, per_source_limit=per_source_limit,
+        )
+        return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
+            "normal_links_found": len(links),
+            "feed_links_found": 0,
+            "method_used": "phenom_ddo" if links else ("failed:phenom_ddo" if error else "phenom_ddo"),
+            "tried_feed_urls": [],
+            "empty_ok": not links and not error and status_code == 200,
         }
 
     if extractor_mode == "csod":
@@ -1524,6 +1735,7 @@ async def _discover_latest_article_links_async(enabled_sources):
         for link in result["links"][:fetch_limit]:
             discovered.append(
                 {
+                    **{key: value for key, value in link.items() if key not in {"source_name", "source_url"}},
                     "title": link.get("title", ""),
                     "url": link.get("url", ""),
                     "source_name": result["source_name"],
@@ -1636,6 +1848,7 @@ def discover_latest_article_links(sources):
         for link in links[:fetch_limit]:
             discovered.append(
                 {
+                    **{key: value for key, value in link.items() if key not in {"source_name", "source_url"}},
                     "title": link.get("title", ""),
                     "url": link.get("url", ""),
                     "source_name": source_name,
@@ -1847,6 +2060,17 @@ def discover_first_valid_article_link(sources, existing_articles=None, published
                 "rss_summary": rss_summary,
                 "freshness_source": freshness_source or ("date" if published_at else ""),
                 "freshness_window_hours": FRESHNESS_HARD_MAX_HOURS if published_at else "",
+                "ats_provider": link.get("ats_provider", ""),
+                "ats_reference": link.get("ats_reference", ""),
+                "ats_description": link.get("ats_description", ""),
+                "job_application_url": link.get("job_application_url", ""),
+                "job_application_link_kind": link.get("job_application_link_kind", ""),
+                "job_location": link.get("job_location", ""),
+                "job_country": link.get("job_country", ""),
+                "job_contract_type": link.get("job_contract_type", ""),
+                "job_salary": link.get("job_salary", ""),
+                "job_company": link.get("job_company", ""),
+                "phenom_payload": link.get("phenom_payload", {}),
             }
             break
 
@@ -1863,7 +2087,10 @@ def discover_first_valid_article_link(sources, existing_articles=None, published
             f"too_close={too_close_count}; "
             f"promo={promo_count}; missing_date={missing_date_count}; elapsed={elapsed / 1000:.1f}s"
         )
-        _record_source_result(base_url, source_name, error, len(links))
+        _record_source_result(
+            base_url, source_name, error, len(links),
+            empty_ok=bool(details.get("empty_ok")),
+        )
         update_source_crawl(
             base_url,
             source_name=source_name,
