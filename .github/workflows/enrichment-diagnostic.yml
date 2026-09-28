@@ -13,52 +13,27 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: "3.12"}
       - run: pip install requests beautifulsoup4
-      - name: Probe CSOD detail and Orange embedded jobs
+      - name: Extract exact ATS data structures
         run: |
           python - <<'PY'
-          import json,re,requests
-          from urllib.parse import urlparse,parse_qs
-          H={"User-Agent":"Mozilla/5.0","Accept":"text/html,application/json,*/*"}
-          def dump(k,v):
-              print("\n===",k,"==="); print(json.dumps(v,ensure_ascii=False,indent=2)[:40000])
-
-          def csod(name,home,req):
-              s=requests.Session(); r=s.get(home,headers=H,timeout=15)
-              tm=re.search(r'"token"\s*:\s*"([A-Za-z0-9._-]+)"',r.text)
-              token=tm.group(1) if tm else ""
-              p=urlparse(home); origin=f"{p.scheme}://{p.netloc}"
-              headers={**H,"Accept":"application/json","Authorization":f"Bearer {token}"}
-              candidates=[
-                f"{origin}/services/x/career-site/v1/requisition/{req}",
-                f"{origin}/services/x/career-site/v1/requisition/{req}?careerSiteId=4",
-                f"{origin}/services/x/career-site/v1/requisition/{req}?c={(parse_qs(p.query).get('c') or [''])[0]}",
-                f"{origin}/services/x/career-site/v1/JobRequisition/{req}",
-              ]
-              out=[]
-              for u in candidates:
-                  rr=s.get(u,headers=headers,timeout=15)
-                  row={"url":u,"status":rr.status_code,"ct":rr.headers.get("content-type",""),"body":rr.text[:9000]}
-                  try:
-                      jj=rr.json(); row["json"]=jj
-                  except Exception: pass
-                  out.append(row)
-              dump(name,out)
-
-          csod("IAM_DETAIL","https://iam.csod.com/ux/ats/careersite/4/home?c=iam",69)
-          csod("ATTIJARI_DETAIL","https://attijariwafabank.csod.com/ux/ats/careersite/4/home?c=attijariwafabank",2659)
-
-          u="https://orange.jobs/jobs/v3/search?rk=l-maroc&s=1&lang=fr"
-          r=requests.get(u,headers=H,timeout=15)
-          raw=r.text
-          for country in ("MOROCCO","MAROC"):
-              poss=[m.start() for m in re.finditer(rf'"country"\s*:\s*"{country}"',raw,re.I)]
-              dump("ORANGE_"+country+"_COUNT",{"count":len(poss),"samples":[raw[max(0,p-1800):p+3500] for p in poss[:5]]})
-          scripts=[]
+          import re,requests,html
           from bs4 import BeautifulSoup
+          H={"User-Agent":"Mozilla/5.0"}
+
+          js=requests.get("https://iam.csod.com/player-career-site/1.25.6/pages/home.controls.js",headers=H,timeout=15).text
+          for term in ("getJobDetail=function","requisitionBaseUrl=this.serviceBase","/v1/requisition/"):
+              p=js.find(term)
+              print("\n=== CSOD",term,"===")
+              print(js[max(0,p-1800):p+4000] if p>=0 else "NOT FOUND")
+
+          raw=requests.get("https://orange.jobs/jobs/v3/search?rk=l-maroc&s=1&lang=fr",headers=H,timeout=15).text
           soup=BeautifulSoup(raw,"html.parser")
-          for idx,sc in enumerate(soup.find_all("script")):
-              txt=sc.string or sc.get_text("",strip=False)
-              if "jobId" in txt and ("MOROCCO" in txt.upper() or "MAROC" in txt.upper()):
-                  scripts.append({"index":idx,"type":sc.get("type"),"id":sc.get("id"),"chars":len(txt),"head":txt[:1000],"morocco_at":txt.upper().find("MOROCCO")})
-          dump("ORANGE_JOB_SCRIPTS",scripts)
+          sc=next((x for x in soup.find_all("script") if "jobId" in (x.string or x.get_text("",strip=False))),None)
+          txt=html.unescape(sc.string or sc.get_text("",strip=False)) if sc else ""
+          p=txt.upper().find("MOROCCO")
+          print("\n=== ORANGE MOROCCO CONTEXT ===")
+          print(txt[max(0,p-6000):p+9000] if p>=0 else "NOT FOUND")
+          for term in ('"jobs"', '"jobData"', '"searchResults"', '"jobId"', 'getJobSearch'):
+              positions=[m.start() for m in re.finditer(re.escape(term),txt,re.I)]
+              print("\nTERM",term,"COUNT",len(positions),"FIRST",positions[:10])
           PY
