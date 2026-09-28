@@ -6,6 +6,7 @@ from dataclasses import fields
 from pathlib import Path
 
 from .article_writer import write_article
+from .expiry import expiry_status
 from .jobposting import build_jobposting
 from .metrics import publication_dimensions, record_event
 from .models import JobCandidate
@@ -16,6 +17,7 @@ from .state import (
     can_publish_today,
     can_use_urgent_override,
 )
+from .timing import recommended_facebook_time
 from .urgency import classify_urgency
 
 
@@ -33,20 +35,33 @@ def _load_candidates(path):
     return [_candidate_from_row(row) for row in rows]
 
 
-def preview_candidate(candidate, blogger_url="https://www.cyberoplus.com/search/label/jobs"):
+def preview_candidate(candidate, blogger_url=""):
     quality = score_candidate(candidate)
     if not quality["passed"]:
         return {"ok": False, "stage": "quality", "quality": quality}
 
     urgency = classify_urgency(candidate)
+    expiry = expiry_status(candidate)
+    if expiry.get("expired"):
+        return {
+            "ok": False,
+            "stage": "expiry",
+            "quality": quality,
+            "urgency": urgency,
+            "expiry": expiry,
+        }
+
     article = write_article(candidate)
     social = write_social(article, blogger_url)
     jobposting = build_jobposting(candidate, article, blogger_url)
+    facebook_timing = recommended_facebook_time(urgency)
 
     return {
         "ok": True,
         "quality": quality,
         "urgency": urgency,
+        "expiry": expiry,
+        "facebook_timing": facebook_timing,
         "article": article.to_dict(),
         "jobposting": jobposting,
         "social": social.to_dict(),
@@ -63,7 +78,8 @@ def main():
     )
     parser.add_argument(
         "--blogger-url",
-        default="https://www.cyberoplus.com/search/label/jobs",
+        default="",
+        help="Final single-job Blogger URL; leave empty in pre-publish preview",
     )
     args = parser.parse_args()
 
@@ -116,11 +132,8 @@ def main():
     result["publishing_policy"] = {
         "normal_daily_slot": normal_slot,
         "urgent_override": urgent_override,
-        "facebook_action": (
-            "publish_now"
-            if urgency.get("publish_immediately")
-            else "schedule_for_best_window"
-        ),
+        "facebook_action": result.get("facebook_timing", {}).get("mode", "scheduled"),
+        "facebook_publish_at": result.get("facebook_timing", {}).get("publish_at", ""),
     }
 
     record_event(
