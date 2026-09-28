@@ -1009,43 +1009,64 @@ def _jobs_facebook_blueprint(article, blogger_url):
     company = str(article.get("job_company") or article.get("source_name") or "").strip()
     title = _short_title(article) or str(article.get("job_title") or "").strip()
     location = str(article.get("job_location") or "").strip()
-    deadline = str(article.get("job_deadline") or "").strip()
+    deadline = str(article.get("job_deadline_display") or article.get("job_deadline") or "").strip()
     contract = str(article.get("job_contract_type") or "").strip()
+    notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
+    notice_status = str(article.get("job_notice_status") or "").strip().lower()
     try:
         positions = max(0, int(article.get("job_number_of_positions") or 0))
     except (TypeError, ValueError):
         positions = 0
 
-    if positions >= 100 and company:
+    if notice_type == "candidate_list":
+        status_word = "المؤقتة" if notice_status == "provisional" else ""
+        hook = f"صدرت لوائح المدعوين {status_word} لدى {company}".replace("  ", " ").strip() if company else "صدرت لوائح المدعوين للمباراة"
+        cta = "التفاصيل واللوائح الرسمية في أول تعليق 👇"
+    elif notice_type == "final_results":
+        hook = f"صدرت النتائج النهائية لدى {company}" if company else "صدرت النتائج النهائية للمباراة"
+        cta = "التفاصيل والنتائج الرسمية في أول تعليق 👇"
+    elif notice_type == "results":
+        hook = f"صدرت نتائج جديدة لدى {company}" if company else "صدرت نتائج المباراة"
+        cta = "التفاصيل والنتائج الرسمية في أول تعليق 👇"
+    elif positions >= 100 and company:
         hook = f"فرصة توظيف واسعة لدى {company} تستحق الاطلاع"
+        cta = "التفاصيل وطريقة التقديم في أول تعليق 👇"
     elif company:
         hook = f"فرصة توظيف جديدة لدى {company} تستحق الاطلاع"
+        cta = "التفاصيل وطريقة التقديم في أول تعليق 👇"
     else:
         hook = "فرصة عمل جديدة تستحق الاطلاع قبل التقديم"
+        cta = "التفاصيل وطريقة التقديم في أول تعليق 👇"
 
     lines = [hook]
     if title:
-        lines.append(f"💼 الوظيفة: {title}")
+        label = "📋 الإعلان" if notice_type != "vacancy" else "💼 الوظيفة"
+        lines.append(f"{label}: {title}")
     if company:
-        lines.append(f"🏢 الجهة المشغلة: {company}")
+        lines.append(f"🏢 الجهة: {company}")
     if location:
-        lines.append(f"📍 مكان العمل: {location}")
+        lines.append(f"📍 المكان: {location}")
     if positions:
         lines.append(f"👥 عدد المناصب: {positions}")
-    if contract:
+    if contract and notice_type == "vacancy":
         lines.append(f"📄 نوع العقد: {contract}")
-    if deadline:
+    if deadline and notice_type == "vacancy":
         lines.append(f"⏳ آخر أجل للترشيح: {deadline}")
 
-    lines.extend([
-        "راجع الشروط والتفاصيل الكاملة قبل إرسال طلبك.",
-        "🔗 التفاصيل وطريقة التقديم في أول تعليق 👇",
-    ])
+    if notice_type == "vacancy":
+        lines.append("راجع الشروط وآخر أجل قبل إرسال طلبك.")
+    elif notice_status == "provisional":
+        lines.append("اللائحة مؤقتة وقد يطرأ عليها تحديث قبل الإعلان النهائي.")
+    else:
+        lines.append("راجع الوثيقة أو اللائحة الرسمية للتأكد من اسمك وباقي التفاصيل.")
+    lines.append(f"🔗 {cta}")
 
     hashtags = ["#وظائف", "#فرص_عمل", "#المغرب"]
-    if article.get("job_remote"):
+    if notice_type in {"candidate_list", "results", "final_results"}:
+        hashtags = ["#مباريات", "#نتائج", "#المغرب"]
+    if article.get("job_remote") and notice_type == "vacancy":
         hashtags.append("#عمل_عن_بعد")
-    if article.get("job_visa_sponsorship"):
+    if article.get("job_visa_sponsorship") and notice_type == "vacancy":
         hashtags.append("#تأشيرة_عمل")
     hashtags = hashtags[:5]
     caption = "\n\n".join(lines + [" ".join(hashtags)])
@@ -1054,12 +1075,12 @@ def _jobs_facebook_blueprint(article, blogger_url):
         "caption": caption,
         "hashtags": hashtags,
         "hook": hook,
-        "cta": "التفاصيل وطريقة التقديم في أول تعليق 👇",
+        "cta": cta,
         "fingerprint": _caption_fingerprint(caption),
         "lead": "",
         "sections": [],
         "style": "jobs",
-        "structure": "jobs_facts",
+        "structure": f"jobs_{notice_type}",
         "blogger_url": blogger_url,
     }
 
