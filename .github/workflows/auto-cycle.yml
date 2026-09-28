@@ -1,55 +1,21 @@
-name: Blogger Auto Cycle
+name: Cybero Plus Jobs Auto Cycle
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/30 * * * *"
   workflow_dispatch:
-    inputs:
-      mode:
-        description: "Publishing mode"
-        required: true
-        default: "live"
-        type: choice
-        options:
-          - live
-      fast_news:
-        description: "Use fast news mode"
-        required: true
-        default: "true"
-        type: choice
-        options:
-          - "true"
-          - "false"
-      recent_hours:
-        description: "Recent article max age in hours"
-        required: true
-        default: "2"
-        type: choice
-        options:
-          - "2"
-          - "3"
-          - "4"
-          - "6"
-      self_trigger:
-        description: "Keep chaining workflow_dispatch runs"
-        required: true
-        default: "false"
-        type: choice
-        options:
-          - "false"
-          - "true"
 
 concurrency:
-  group: auto-cycle-${{ github.ref }}
+  group: cyberoplus-jobs-auto-cycle-${{ github.ref }}
   cancel-in-progress: false
 
 env:
-  AUTO_CYCLE_CACHE_NAMESPACE: auto-cycle-state-v7-trusted-security-bypass-20260427
+  AUTO_CYCLE_CACHE_NAMESPACE: cyberoplus-jobs-state-v1
 
 jobs:
   auto-cycle:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     permissions:
       actions: write
       contents: write
@@ -58,88 +24,36 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Capture run start
-        run: echo "RUN_STARTED_EPOCH=$(date +%s)" >> "$GITHUB_ENV"
-
-      - name: Restore auto-cycle state
+      - name: Restore Jobs state
         uses: actions/cache/restore@v4
         with:
           path: |
             article_queue.json
-            data/article_backlog.json
-            data/published_ids.json
+            data/job_state.json
+            data/job_memory
+            data/job_visual_state.json
             data/crawl_state.json
             data/ai_provider_memory.json
             data/facebook_style_memory.json
-            data/internal_link_cache.json
-            data/topic_fingerprints.json
             data/source_health.json
             logs/auto_cycle_runs.jsonl
           key: ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-${{ github.run_id }}
           restore-keys: |
             ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-
 
-      - name: Recent run guard
-        id: recent_run_guard
-        env:
-          GITHUB_EVENT_NAME: ${{ github.event_name }}
-        run: |
-          python - <<'PY'
-          import json
-          import os
-          from datetime import datetime, timezone
-          from pathlib import Path
-
-          skip_run = False
-          reason = "No recent-run skip."
-          log_path = Path("logs/auto_cycle_runs.jsonl")
-
-          if os.environ.get("GITHUB_EVENT_NAME") == "schedule" and log_path.exists():
-              lines = [line for line in log_path.read_text(encoding="utf-8").splitlines() if line.strip()]
-              if lines:
-                  try:
-                      last_record = json.loads(lines[-1])
-                      timestamp = str(last_record.get("timestamp", "")).strip()
-                      if timestamp:
-                          last_run = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
-                          age_seconds = (datetime.now(timezone.utc) - last_run).total_seconds()
-                          if age_seconds < 840:
-                              skip_run = True
-                              reason = f"Skipping scheduled duplicate: last recorded run was {int(age_seconds)}s ago."
-                  except Exception as exc:
-                      reason = f"Recent-run guard ignored malformed log entry: {exc}"
-
-          output_path = os.environ["GITHUB_OUTPUT"]
-          with open(output_path, "a", encoding="utf-8") as handle:
-              handle.write(f"skip_run={'true' if skip_run else 'false'}\n")
-              handle.write(f"reason={reason}\n")
-
-          print(reason)
-          PY
-
-      - name: Skip duplicate scheduled run
-        if: steps.recent_run_guard.outputs.skip_run == 'true'
-        run: echo "${{ steps.recent_run_guard.outputs.reason }}"
-
       - name: Set up Python
-        if: steps.recent_run_guard.outputs.skip_run != 'true'
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: "pip"
 
       - name: Install dependencies
-        if: steps.recent_run_guard.outputs.skip_run != 'true'
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Create runtime secrets and .env
-        if: steps.recent_run_guard.outputs.skip_run != 'true'
+      - name: Create runtime secrets and Jobs env
         env:
-          REQUESTED_MODE: ${{ github.event.inputs.mode || 'live' }}
-          REQUESTED_FAST_NEWS: ${{ github.event.inputs.fast_news || 'true' }}
-          REQUESTED_RECENT_HOURS: ${{ github.event.inputs.recent_hours || '2' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
@@ -157,7 +71,7 @@ jobs:
           import sys
           from pathlib import Path
 
-          masked_names = (
+          secret_names = (
               "GEMINI_API_KEY",
               "OPENROUTER_API_KEY",
               "BLOGGER_BLOG_ID",
@@ -165,218 +79,174 @@ jobs:
               "BLOGGER_TOKEN_JSON",
               "FACEBOOK_PAGE_ID",
               "FACEBOOK_PAGE_ACCESS_TOKEN",
-              "TELEGRAM_ALERTS_ENABLED",
               "TELEGRAM_BOT_TOKEN",
               "TELEGRAM_CHAT_ID",
           )
-          for name in masked_names:
+          for name in secret_names:
               value = os.environ.get(name, "")
               if value:
                   print(f"::add-mask::{value}")
 
-          required_names = [
-              "BLOGGER_BLOG_ID",
-              "BLOGGER_CLIENT_SECRET_JSON",
-              "BLOGGER_TOKEN_JSON",
-              "FACEBOOK_PAGE_ID",
-              "FACEBOOK_PAGE_ACCESS_TOKEN",
-              "TELEGRAM_BOT_TOKEN",
-              "TELEGRAM_CHAT_ID",
+          missing = [
+              name for name in (
+                  "BLOGGER_BLOG_ID",
+                  "BLOGGER_CLIENT_SECRET_JSON",
+                  "BLOGGER_TOKEN_JSON",
+                  "FACEBOOK_PAGE_ID",
+                  "FACEBOOK_PAGE_ACCESS_TOKEN",
+              )
+              if not os.environ.get(name, "").strip()
           ]
-          missing = []
-          for name in required_names:
-              if not os.environ.get(name, "").strip():
-                  missing.append(name)
           if not any(os.environ.get(name, "").strip() for name in ("GEMINI_API_KEY", "OPENROUTER_API_KEY")):
               missing.append("GEMINI_API_KEY or OPENROUTER_API_KEY")
 
-          for json_name in ("BLOGGER_CLIENT_SECRET_JSON", "BLOGGER_TOKEN_JSON"):
-              raw = os.environ.get(json_name, "").strip()
-              if not raw:
-                  continue
-              try:
-                  json.loads(raw)
-              except json.JSONDecodeError:
-                  print(f"::error::{json_name} is missing or invalid JSON.")
-                  sys.exit(1)
+          for name in ("BLOGGER_CLIENT_SECRET_JSON", "BLOGGER_TOKEN_JSON"):
+              raw = os.environ.get(name, "").strip()
+              if raw:
+                  try:
+                      json.loads(raw)
+                  except json.JSONDecodeError:
+                      print(f"::error::{name} is invalid JSON.")
+                      sys.exit(1)
 
           if missing:
-              print("::error::Missing required GitHub secrets/env vars: " + ", ".join(missing))
+              print("::error::Missing required secrets: " + ", ".join(missing))
               sys.exit(1)
 
           Path("data").mkdir(exist_ok=True)
-          mode = os.environ.get("REQUESTED_MODE", "live").strip().lower()
-          if mode != "live":
-              mode = "live"
-          safe_mode = "false"
-          facebook_enabled = "true"
-          fast_news = os.environ.get("REQUESTED_FAST_NEWS", "true").strip().lower()
-          if fast_news not in {"true", "false"}:
-              fast_news = "true"
-          recent_hours = os.environ.get("REQUESTED_RECENT_HOURS", "2").strip()
-          if recent_hours not in {"2", "3", "4", "6"}:
-              recent_hours = "2"
-
-          Path("client_secret.json").write_text(os.environ.get("BLOGGER_CLIENT_SECRET_JSON", ""), encoding="utf-8")
-          Path("data/token.json").write_text(os.environ.get("BLOGGER_TOKEN_JSON", ""), encoding="utf-8")
+          Path("client_secret.json").write_text(
+              os.environ["BLOGGER_CLIENT_SECRET_JSON"], encoding="utf-8"
+          )
+          Path("data/token.json").write_text(
+              os.environ["BLOGGER_TOKEN_JSON"], encoding="utf-8"
+          )
 
           env_lines = {
+              "JOBS_MODE": "true",
+              "JOBS_TEST_MODE": "true",
+              "JOBS_EXPECTED_BLOG_HOST": "cyberopluss.blogspot.com",
+              "JOBS_TIMEZONE": "Africa/Casablanca",
+              "JOBS_MIN_SELECTION_SCORE": "70",
+              "JOBS_QUEUE_SCORE": "50",
+              "JOBS_URGENT_EXTRA_DAILY_LIMIT": "1",
+              "WHATSAPP_CHANNEL_URL": "https://whatsapp.com/channel/0029Vb7MdMfBVJl1kmmV4T0e",
               "GEMINI_API_KEY": os.environ.get("GEMINI_API_KEY", ""),
               "GEMINI_MODEL": "gemini-2.5-flash",
               "OPENROUTER_API_KEY": os.environ.get("OPENROUTER_API_KEY", ""),
-              "OPENROUTER_MODEL": "inclusionai/ling-2.6-flash:free",
-              "OPENROUTER_MODELS": "inclusionai/ling-2.6-flash:free,liquid/lfm-2.5-1.2b-instruct:free,nvidia/nemotron-3-nano-30b-a3b:free,openai/gpt-oss-20b:free",
-              "OPENROUTER_APP_NAME": "Blogger Automation Bot",
+              "OPENROUTER_MODEL": "openai/gpt-oss-20b:free",
+              "OPENROUTER_MODELS": "openai/gpt-oss-20b:free,nvidia/nemotron-3-nano-30b-a3b:free",
+              "OPENROUTER_APP_NAME": "Cybero Plus Jobs",
               "BLOG_ID": os.environ.get("BLOGGER_BLOG_ID", ""),
-              "PUBLISH_MODE": mode,
-              "SAFE_MODE": safe_mode,
+              "PUBLISH_MODE": "live",
+              "SAFE_MODE": "false",
               "BLOGGER_LIVE_ENABLED": "true",
-              "FACEBOOK_AUTO_POST": facebook_enabled,
+              "FACEBOOK_AUTO_POST": "true",
               "FACEBOOK_LINK_MODE": "comment",
-              "FAST_NEWS_MODE": fast_news,
-              "CATEGORY_ROTATION_MODE": "true",
-              "PROCESS_FULL_CATEGORY_PER_RUN": "true",
+              "FACEBOOK_PAGE_ID": os.environ.get("FACEBOOK_PAGE_ID", ""),
+              "FACEBOOK_PAGE_ACCESS_TOKEN": os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN", ""),
+              "FAST_NEWS_MODE": "false",
+              "CATEGORY_ROTATION_MODE": "false",
+              "PROCESS_FULL_CATEGORY_PER_RUN": "false",
               "FRESH_QUEUE_MODE": "false",
-              "FIRST_VALID_ARTICLE_MODE": "true",
-              "RECENT_NEWS_ONLY": "true",
-              "RECENT_ONLY": "true",
-              "RECENT_NEWS_MAX_AGE_HOURS": recent_hours,
-              "RECENT_HOURS": recent_hours,
-              "FRESHNESS_SAFETY_MARGIN_MINUTES": "10",
-              "FALLBACK_FIRST_RUN_LOOKBACK_HOURS": "6",
-              "CRAWL_INTERVAL_MINUTES": "5",
-              "CRAWL_OVERLAP_MINUTES": "10",
-              "ALLOW_UNKNOWN_DATE_IN_FAST_MODE": "false",
+              "FIRST_VALID_ARTICLE_MODE": "false",
+              "RECENT_NEWS_ONLY": "false",
+              "RECENT_ONLY": "false",
+              "ALLOW_UNKNOWN_DATE_IN_FAST_MODE": "true",
               "MAX_POSTS_PER_RUN": "1",
               "MAX_ARTICLES_PER_RUN": "1",
-              "CATEGORY_POSTS_PER_HOUR": "1",
-              "HOURLY_POST_LIMIT": "1",
+              "SAFE_CYCLE_MAX_ARTICLES": "1",
+              "SAFE_CYCLE_DRAFT_ONLY": "false",
+              "MAX_SOURCES_PER_RUN": "20",
               "PUBLISH_WEAK_ARTICLES": "true",
               "ALLOW_SHORT_ARTICLES": "true",
-              "MIN_ARTICLE_WORDS": "80",
-              "TARGET_ARTICLE_WORDS": "700-1000",
+              "MIN_ARTICLE_WORDS": "120",
+              "TARGET_ARTICLE_WORDS": "250-650",
               "MIN_EXTRACTED_CHARS": "80",
               "MAX_SOURCE_RETRIES": "1",
               "SOURCE_RETRY_DELAY_SECONDS": "2",
-              "SOURCE_TIMEOUT_SECONDS": "10",
-              "ARTICLE_TIMEOUT_SECONDS": "12",
-              "AI_TIMEOUT_SECONDS": "180",
+              "SOURCE_TIMEOUT_SECONDS": "12",
+              "ARTICLE_TIMEOUT_SECONDS": "15",
               "AI_TOTAL_TIME_BUDGET_SECONDS": "180",
-              "GEMINI_TIMEOUT_SECONDS": "45",
-              "AI_MODEL_TIMEOUT_SECONDS": "40",
-              "OPENROUTER_TIMEOUT_SECONDS": "40",
+              "GEMINI_TIMEOUT_SECONDS": "50",
+              "AI_MODEL_TIMEOUT_SECONDS": "45",
+              "OPENROUTER_TIMEOUT_SECONDS": "45",
               "MAX_AI_RETRIES": "3",
-              "MAX_SOURCES_PER_RUN": "4",
               "DUPLICATE_PROTECTION": "true",
               "QUEUE_PERSIST": "true",
               "SOURCE_HEALTH_ENABLED": "true",
-              "SKIP_ADS_AFFILIATE_SPONSORED": "true",
-              "SOURCE_FAILURE_COOLDOWN_MINUTES": "45",
               "ENABLE_SCRAPLING_FALLBACK": "false",
-              "FACEBOOK_PAGE_ID": os.environ.get("FACEBOOK_PAGE_ID", ""),
-              "FACEBOOK_PAGE_ACCESS_TOKEN": os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN", ""),
-              "TELEGRAM_ALERTS_ENABLED": "true",
-              "TELEGRAM_ENABLED": "true",
-              "TELEGRAM_BOT_TOKEN": os.environ.get("TELEGRAM_BOT_TOKEN", ""),
-              "TELEGRAM_CHAT_ID": os.environ.get("TELEGRAM_CHAT_ID", ""),
-              "SAFE_CYCLE_MAX_ARTICLES": "1",
-              "SAFE_CYCLE_DRAFT_ONLY": "false",
-              "MAX_DRAFTS_PER_DAY": "10",
-              "MIN_MINUTES_BETWEEN_DRAFTS": "30",
-              "MAX_LIVE_POSTS_PER_DAY": "20",
-              "TARGET_LIVE_POSTS_PER_DAY": "12",
+              "MAX_DRAFTS_PER_DAY": "3",
+              "MIN_MINUTES_BETWEEN_DRAFTS": "0",
+              "MAX_LIVE_POSTS_PER_DAY": "3",
+              "TARGET_LIVE_POSTS_PER_DAY": "3",
               "MIN_MINUTES_BETWEEN_LIVE_POSTS": "0",
-              "MAX_FACEBOOK_POSTS_PER_DAY": "20",
+              "MAX_FACEBOOK_POSTS_PER_DAY": "2",
               "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": "0",
               "AI_PROVIDER": "auto",
               "LOCAL_PUBLISH_FALLBACK": "false",
+              "TELEGRAM_ALERTS_ENABLED": (
+                  "true" if os.environ.get("TELEGRAM_ALERTS_ENABLED", "").strip().lower()
+                  in {"1", "true", "yes", "on"} else "false"
+              ),
+              "TELEGRAM_ENABLED": (
+                  "true" if os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+                  and os.environ.get("TELEGRAM_CHAT_ID", "").strip() else "false"
+              ),
+              "TELEGRAM_BOT_TOKEN": os.environ.get("TELEGRAM_BOT_TOKEN", ""),
+              "TELEGRAM_CHAT_ID": os.environ.get("TELEGRAM_CHAT_ID", ""),
           }
           Path(".env").write_text(
               "\n".join(f"{key}={value}" for key, value in env_lines.items()) + "\n",
               encoding="utf-8",
           )
-          print(f"Workflow mode: {mode}")
-          print(f"SAFE_MODE: {safe_mode}")
-          print(f"FAST_NEWS_MODE: {fast_news}")
-          print("CATEGORY_ROTATION_MODE: true")
-          print("PROCESS_FULL_CATEGORY_PER_RUN: true")
-          print("FRESH_QUEUE_MODE: false")
-          print("FIRST_VALID_ARTICLE_MODE: true")
-          print(f"RECENT_NEWS_MAX_AGE_HOURS: {recent_hours}")
-          print("FRESHNESS_SAFETY_MARGIN_MINUTES: 10")
-          print("FALLBACK_FIRST_RUN_LOOKBACK_HOURS: 6")
-          print("CRAWL_INTERVAL_MINUTES: 5")
-          print("CRAWL_OVERLAP_MINUTES: 10")
-          print("Effective action: LIVE_CATEGORY_ROTATION")
-          PY
-
-      - name: Run tests
-        if: github.event_name == 'workflow_dispatch' && steps.recent_run_guard.outputs.skip_run != 'true'
-        run: python -m unittest discover -s tests
-
-      - name: Deployment check
-        if: github.event_name == 'workflow_dispatch' && steps.recent_run_guard.outputs.skip_run != 'true'
-        env:
-          BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
-          BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
-        run: python main.py deployment-check
-
-      - name: Safe runtime diagnostics
-        if: steps.recent_run_guard.outputs.skip_run != 'true'
-        run: |
-          python - <<'PY'
-          from datetime import datetime, timezone
-
-          from article_queue import load_article_queue, load_sources
-          from main import _available_category_labels
-          from runtime_state import select_category_for_rotation
-          from config import RECENT_NEWS_MAX_AGE_HOURS, MAX_SOURCES_PER_RUN
-
-          queue = load_article_queue()
-          categories = _available_category_labels(load_sources())
-          selection = select_category_for_rotation(categories)
-          active_articles = [
-              article for article in queue.get("articles", [])
-              if not article.get("archived") and article.get("status") not in {"published", "draft_created"}
-          ]
-          print(f"UTC time: {datetime.now(timezone.utc).isoformat(timespec='seconds')}")
-          print("Workflow event: ${{ github.event_name }}")
-          print("Branch: ${{ github.ref_name }}")
-          print(f"Category selected: {selection.get('category', '')}")
-          print(f"Recent hours: {RECENT_NEWS_MAX_AGE_HOURS}")
-          print(f"Max sources: {MAX_SOURCES_PER_RUN}")
-          print(f"Active queued articles: {len(active_articles)}")
+          print("Mode: Cybero Plus Jobs")
+          print("Blogger target safety: cyberopluss.blogspot.com")
+          print("Morocco timezone: Africa/Casablanca")
+          print("Job quality: >=70 publish, 50-69 queue")
           PY
 
       - name: Queue maintenance
-        if: steps.recent_run_guard.outputs.skip_run != 'true'
         run: python main.py queue-maintenance
 
-      - name: Run auto cycle
-        if: steps.recent_run_guard.outputs.skip_run != 'true'
-        timeout-minutes: 10
+      - name: Run Jobs auto cycle
+        timeout-minutes: 12
         run: python main.py auto-cycle
 
+      - name: Publish due Facebook job
+        if: always()
+        run: python main.py post-facebook
+
+      - name: Jobs status
+        if: always()
+        run: |
+          python - <<'PY'
+          from job_core import job_status_snapshot
+          import json
+          print(json.dumps(job_status_snapshot(), ensure_ascii=False, indent=2))
+          PY
+
       - name: Health summary
-        if: always() && steps.recent_run_guard.outputs.skip_run != 'true'
+        if: always()
         run: python main.py health
 
-      - name: Save auto-cycle state
-        if: always() && steps.recent_run_guard.outputs.skip_run != 'true'
+      - name: Save Jobs state cache
+        if: always()
         uses: actions/cache/save@v4
         with:
           path: |
             article_queue.json
-            data/article_backlog.json
-            data/published_ids.json
+            data/job_state.json
+            data/job_memory
+            data/job_visual_state.json
             data/crawl_state.json
-            data/topic_fingerprints.json
+            data/ai_provider_memory.json
+            data/facebook_style_memory.json
             data/source_health.json
             logs/auto_cycle_runs.jsonl
           key: ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-${{ github.run_id }}
 
-      - name: Persist runtime state fallback
-        if: always() && github.ref == 'refs/heads/main' && steps.recent_run_guard.outputs.skip_run != 'true'
+      - name: Persist Jobs runtime state
+        if: always() && github.ref == 'refs/heads/main'
         run: |
           rm -f .env client_secret.json data/token.json
           git config user.name "github-actions[bot]"
@@ -384,45 +254,23 @@ jobs:
           git rm --cached --ignore-unmatch .env client_secret.json data/token.json
           STATE_PATHS=(
             "article_queue.json"
-            "data/article_backlog.json"
-            "data/published_ids.json"
+            "data/job_state.json"
+            "data/job_memory"
+            "data/job_visual_state.json"
             "data/crawl_state.json"
             "data/ai_provider_memory.json"
             "data/facebook_style_memory.json"
-            "data/internal_link_cache.json"
-            "data/topic_fingerprints.json"
             "data/source_health.json"
             "logs/auto_cycle_runs.jsonl"
           )
           for state_path in "${STATE_PATHS[@]}"; do
             if [ -e "$state_path" ]; then
               git add -f "$state_path"
-            else
-              echo "Runtime state path missing, skipping: $state_path"
             fi
           done
           if git diff --cached --quiet; then
-            echo "No runtime state changes to commit."
+            echo "No Jobs runtime state changes to commit."
           else
-            git commit -m "Update bot runtime state [skip ci]"
+            git commit -m "Update Jobs runtime state [skip ci]"
             git push origin HEAD:main
           fi
-
-      - name: Self trigger next run
-        if: always() && github.ref == 'refs/heads/main' && github.event_name == 'workflow_dispatch' && github.event.inputs.self_trigger == 'true' && steps.recent_run_guard.outputs.skip_run != 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          elapsed=$(( $(date +%s) - RUN_STARTED_EPOCH ))
-          delay=$(( 900 - elapsed ))
-          if [ "$delay" -lt 0 ]; then
-            delay=0
-          fi
-          echo "Waiting ${delay}s before dispatching the next run."
-          sleep "$delay"
-          curl --fail-with-body -L -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${GH_TOKEN}" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            https://api.github.com/repos/${{ github.repository }}/actions/workflows/auto-cycle.yml/dispatches \
-            -d '{"ref":"main","inputs":{"mode":"live","fast_news":"true","recent_hours":"2","self_trigger":"true"}}'
