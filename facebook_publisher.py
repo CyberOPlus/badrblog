@@ -25,6 +25,7 @@ from config import (
     MIN_MINUTES_BETWEEN_FACEBOOK_POSTS,
     FACEBOOK_PAGE_ACCESS_TOKEN,
     FACEBOOK_PAGE_ID,
+    WHATSAPP_CHANNEL_URL,
 )
 from notifier import notify_facebook_result
 from production_logging import elapsed_ms, log_event
@@ -1160,7 +1161,17 @@ def _post_first_comment(facebook_post_id, blogger_post_url):
 
 
 def _first_comment_text(blogger_post_url):
-    return f"🔗 الرابط الحقيقي للمنشور:\n{blogger_post_url}"
+    lines = [
+        "🔗 رابط التفاصيل:",
+        blogger_post_url,
+    ]
+    if WHATSAPP_CHANNEL_URL:
+        lines.extend([
+            "",
+            "📲 تابع قناة واتساب للعروض الجديدة:",
+            WHATSAPP_CHANNEL_URL,
+        ])
+    return "\n".join(lines)
 
 
 def _validate_facebook_caption(caption, blogger_url="", style="", hook="", structure_id="", title="", memory=None, allow_simple=False):
