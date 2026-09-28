@@ -18,12 +18,6 @@ Add these required secrets:
 - `FACEBOOK_PAGE_ID`
 - `FACEBOOK_PAGE_ACCESS_TOKEN`
 
-Optional Telegram alert secrets:
-
-- `TELEGRAM_ALERTS_ENABLED`
-- `TELEGRAM_BOT_TOKEN`
-- `TELEGRAM_CHAT_ID`
-
 Optional extra AI secret:
 
 - `OPENAI_API_KEY`
@@ -99,7 +93,6 @@ MAX_LIVE_POSTS_PER_DAY=288
 MIN_MINUTES_BETWEEN_LIVE_POSTS=1
 MAX_FACEBOOK_POSTS_PER_DAY=288
 MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=0
-TELEGRAM_ALERTS_ENABLED=true
 ```
 
 In this mode the bot publishes live only, never creates drafts, accepts weak or short real news, and runs category rotation. Each 5-minute run selects one category, checks every source in that category, queues valid extra candidates, and publishes at most one article.
@@ -141,29 +134,6 @@ Set `AI_PROVIDER=auto` with Gemini and OpenRouter secrets. The production sequen
 
 The fallback does not invent sensitive technical details and only uses available title, summary, metadata, and source context.
 
-## Enable Telegram Alerts Safely
-
-Telegram alerts are disabled by default. To enable auto-cycle success, blocked, and failure notifications, add these GitHub Actions secrets:
-
-```env
-TELEGRAM_ALERTS_ENABLED=true
-TELEGRAM_BOT_TOKEN=your_bot_token
-TELEGRAM_CHAT_ID=your_chat_id
-```
-
-Check local configuration without sending a message:
-
-```bash
-python main.py alert-status
-```
-
-Send a test alert only after `TELEGRAM_ALERTS_ENABLED=true` is configured:
-
-```bash
-python main.py test-alert
-```
-
-Never paste the bot token into logs, issues, commits, or chat messages.
 
 ## Deployment Checks
 
@@ -194,7 +164,6 @@ python main.py facebook-limits-status
 python main.py facebook-preview
 ```
 
-If Blogger succeeds but Facebook fails, the workflow still succeeds and records the Facebook problem as a warning in the run summary and Telegram report.
 
 ## Local Deployment Check
 
@@ -204,14 +173,11 @@ Run:
 python main.py deployment-check
 ```
 
-The command verifies required environment variable names, Blogger JSON availability, GitHub Actions workflow presence, the `*/5 * * * *` schedule, live publish settings, the 6-hour recent window, the freshness safety margin, and Facebook/Telegram safety flags. It never prints secret values.
 
 You can verify production activity from:
 
 - GitHub repository `Actions` tab
-- Telegram success/skip/failure reports
 - Blogger post URLs in the workflow logs
-- Facebook status in Telegram and the queue record
 
 On GitHub Actions, `.env` is generated at runtime from GitHub Secrets. A committed `.env` file is not required and must not be committed.
 
