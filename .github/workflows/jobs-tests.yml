@@ -9,6 +9,11 @@ on:
       - "jobposting.py"
       - "main.py"
       - "tests/test_jobs_core.py"
+      - "tests/test_job_visuals.py"
+      - "utils/facebook_image_generator.py"
+      - "requirements.txt"
+      - "assets/facebook/**"
+      - "assets/article/**"
       - ".github/workflows/jobs-tests.yml"
 
 permissions:
@@ -24,4 +29,4 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python -m unittest tests.test_jobs_core -v
+      - run: python -m unittest tests.test_jobs_core tests.test_job_visuals -v
