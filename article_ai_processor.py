@@ -457,7 +457,7 @@ def _is_rich_input_package(package):
 
 def _minimum_article_words_for_package(package):
     if JOBS_MODE:
-        return 120
+        return 100
     return LONG_FORM_ARTICLE_MIN_WORDS if _is_rich_input_package(package) else MIN_PUBLISHABLE_WORDS
 
 
@@ -840,6 +840,39 @@ def _build_expansion_retry_prompt(package, previous_data, previous_error):
     if isinstance(previous_data, dict):
         previous_html = str(previous_data.get("html_content") or "")
     source_text = _source_text_for_package(package)
+    if JOBS_MODE:
+        return f"""
+Return JSON only with title, description, slug, html_content.
+
+The previous compact job listing failed this quality rule:
+{previous_error}
+
+Rewrite ONLY as a concise verified job listing.
+
+MANDATORY JOB RETRY RULES:
+- Target 120-200 Arabic words; acceptable range 100-240. Never exceed 260 words.
+- Do not expand into a long article.
+- Keep one short introduction.
+- Keep one compact facts table with verified values only.
+- Keep at most one short requirements <ul> when supported.
+- Include job_application_url exactly once when present.
+- Include useful job_document_links exactly once when present.
+- No images, captions, corporate history, career advice, filler, conclusion, or repeated facts.
+- Do not invent any fact or URL.
+- Preserve desired_slug exactly when supplied.
+- Meta description 100-160 characters.
+- Clean semantic HTML only.
+
+SOURCE PACKAGE:
+{json.dumps(package, ensure_ascii=False, indent=2)}
+
+SOURCE TEXT:
+{source_text}
+
+PREVIOUS HTML FOR DIAGNOSIS ONLY:
+{previous_html[:3500]}
+""".strip()
+
     if FAST_NEWS_MODE:
         return f"""
 Return JSON only using the same shape as before.
