@@ -378,6 +378,9 @@ JOB_TEMPLATE_FILES = tuple(JOB_TEMPLATE_DIR / f"job{index}.png" for index in ran
 JOB_ARTICLE_TEMPLATE_PATH = (
     Path(__file__).resolve().parents[1] / "assets" / "article" / "template.png"
 )
+JOB_ARTICLE_TEMPLATE_FALLBACK_PATH = (
+    Path(__file__).resolve().parents[1] / "assets" / "article" / "article img.png"
+)
 
 
 def _job_template_index():
@@ -613,6 +616,8 @@ def generate_job_article_cover(
     from PIL import Image, ImageDraw
 
     template_path = Path(template_path or JOB_ARTICLE_TEMPLATE_PATH)
+    if not template_path.exists() and JOB_ARTICLE_TEMPLATE_FALLBACK_PATH.exists():
+        template_path = JOB_ARTICLE_TEMPLATE_FALLBACK_PATH
     output_path = Path(output_path)
     if not template_path.exists():
         return {
