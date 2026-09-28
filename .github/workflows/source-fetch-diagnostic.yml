@@ -1,4 +1,4 @@
-name: Jobs Source Fetch Diagnostic
+name: Jobs Source Discovery Audit
 
 on:
   push:
@@ -7,10 +7,10 @@ on:
       - ".github/workflows/source-fetch-diagnostic.yml"
 
 jobs:
-  diagnose:
-    if: contains(github.event.head_commit.message, '[source-fetch-diagnostic]')
+  audit:
+    if: contains(github.event.head_commit.message, '[source-discovery-audit]')
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
 
@@ -19,107 +19,80 @@ jobs:
           python-version: "3.12"
           cache: "pip"
 
-      - name: Install fetch tools
-        run: |
-          pip install -r requirements.txt
-          pip install cloudscraper curl_cffi
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-      - name: Probe difficult official sources only
+      - name: Audit enabled Jobs sources only
         env:
           JOBS_MODE: "true"
-          SOURCE_TIMEOUT_SECONDS: "18"
-          ENABLE_SCRAPLING_FALLBACK: "true"
+          FAST_NEWS_MODE: "false"
+          FIRST_VALID_ARTICLE_MODE: "false"
+          SOURCE_TIMEOUT_SECONDS: "12"
+          MAX_SOURCE_RETRIES: "0"
+          ENABLE_SCRAPLING_FALLBACK: "false"
         run: |
+          set -euo pipefail
           python - <<'PY'
-          import json, time
+          import json
           import requests
-          import cloudscraper
-          from bs4 import BeautifulSoup
-          from curl_cffi import requests as curl_requests
+          from article_queue import load_sources
+          from scraper import discover_latest_article_links
+
+          sources = load_sources()
+          enabled = [s for s in sources if s.get("enabled", True)]
+          result = discover_latest_article_links(enabled)
+          rows = []
+          for row in result.get("source_results", []):
+              rows.append({
+                  "name": row.get("source_name"),
+                  "url": row.get("base_url"),
+                  "status": row.get("status"),
+                  "http": row.get("listing_status_code"),
+                  "links": row.get("links_found"),
+                  "method": row.get("method_used"),
+                  "error": row.get("error"),
+              })
+          print("=== SOURCE_RESULTS ===")
+          print(json.dumps(rows, ensure_ascii=False, indent=2))
+          print("=== COUNTS ===")
+          print(json.dumps({
+              "checked": len(rows),
+              "failed": sum(1 for x in rows if x["status"] == "failed"),
+              "zero_links": sum(1 for x in rows if x["status"] != "failed" and not x["links"]),
+              "with_links": sum(1 for x in rows if x["links"]),
+              "articles": len(result.get("articles") or []),
+          }, ensure_ascii=False, indent=2))
+
+          probes = {}
+          for name,url in {
+              "OCP_WORKDAY":"https://ocpgroup.wd103.myworkdayjobs.com/en-US/ocpcareers",
+              "ATTIJARI_ERECRUIT":"https://recrutement.attijariwafa.com/",
+          }.items():
+              try:
+                  r=requests.get(url, timeout=12, headers={"User-Agent":"Mozilla/5.0"}, allow_redirects=True)
+                  probes[name]={"status":r.status_code,"url":r.url,"chars":len(r.text)}
+              except Exception as e:
+                  probes[name]={"error":f"{type(e).__name__}: {e}"}
+
+          # Workday exposes a public jobs endpoint used by its own careers UI.
           try:
-              from scrapling.fetchers import Fetcher
-              scrapling_import_error = ""
-          except Exception as e:
-              Fetcher = None
-              scrapling_import_error = f"{type(e).__name__}: {e}"
-
-          urls = {
-              "ONDA": "https://www.onda.ma/Je-d%C3%A9couvre-ONDA/Ressources-humaines/Recrutement",
-              "ONDA_2026": "https://www.onda.ma/Je-d%C3%A9couvre-ONDA/Ressources-humaines/Recrutement-2026/AVIS-DE-RECRUTEMENT-2026",
-              "ONCF": "https://www.oncf.ma/fr/Entreprise/Faire-carriere-a-l-oncf/Recrutement",
-              "ADM_OLD": "https://www.adm.co.ma/",
-              "ADM_JOBS": "https://adm.etalent.ma/offres",
-          }
-          headers = {
-              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-              "Accept-Language": "fr-FR,fr;q=0.9,en;q=0.8,ar;q=0.7",
-              "Cache-Control": "no-cache",
-              "Upgrade-Insecure-Requests": "1",
-          }
-
-          def inspect_html(text):
-              soup = BeautifulSoup(text or "", "html.parser")
-              anchors = soup.find_all("a", href=True)
-              titles = [
-                  " ".join(a.get_text(" ", strip=True).split())
-                  for a in anchors
-                  if " ".join(a.get_text(" ", strip=True).split())
-              ]
-              return {
-                  "chars": len(text or ""),
-                  "anchors": len(anchors),
-                  "title_samples": titles[:5],
-                  "cloudflare": "cf-chl-" in (text or "").lower() or "cloudflare" in (text or "").lower(),
+              endpoint="https://ocpgroup.wd103.myworkdayjobs.com/wday/cxs/ocpgroup/ocpcareers/jobs"
+              r=requests.post(
+                  endpoint,
+                  json={"appliedFacets":{},"limit":20,"offset":0,"searchText":""},
+                  timeout=12,
+                  headers={"User-Agent":"Mozilla/5.0","Content-Type":"application/json"},
+              )
+              payload=r.json() if r.ok else {}
+              probes["OCP_WORKDAY_JOBS"]={
+                  "status":r.status_code,
+                  "chars":len(r.text),
+                  "total":payload.get("total"),
+                  "jobs":len(payload.get("jobPostings") or []),
               }
+          except Exception as e:
+              probes["OCP_WORKDAY_JOBS"]={"error":f"{type(e).__name__}: {e}"}
 
-          results = {}
-          for name, url in urls.items():
-              results[name] = {}
-              print("\n###", name, url)
-
-              started=time.time()
-              try:
-                  r=requests.get(url, headers=headers, timeout=18, allow_redirects=True)
-                  results[name]["requests"]={"status":r.status_code,"url":r.url,"seconds":round(time.time()-started,2),**inspect_html(r.text)}
-              except Exception as e:
-                  results[name]["requests"]={"error":f"{type(e).__name__}: {e}","seconds":round(time.time()-started,2)}
-
-              started=time.time()
-              try:
-                  r=curl_requests.get(url, headers=headers, timeout=18, impersonate="chrome", allow_redirects=True)
-                  results[name]["curl_cffi"]={"status":r.status_code,"url":str(r.url),"seconds":round(time.time()-started,2),**inspect_html(r.text)}
-              except Exception as e:
-                  results[name]["curl_cffi"]={"error":f"{type(e).__name__}: {e}","seconds":round(time.time()-started,2)}
-
-              started=time.time()
-              try:
-                  scraper=cloudscraper.create_scraper(browser={"browser":"chrome","platform":"windows","mobile":False})
-                  r=scraper.get(url, headers=headers, timeout=18, allow_redirects=True)
-                  results[name]["cloudscraper"]={"status":r.status_code,"url":r.url,"seconds":round(time.time()-started,2),**inspect_html(r.text)}
-              except Exception as e:
-                  results[name]["cloudscraper"]={"error":f"{type(e).__name__}: {e}","seconds":round(time.time()-started,2)}
-
-              started=time.time()
-              if Fetcher is None:
-                  results[name]["scrapling"]={"error":scrapling_import_error or "unavailable","seconds":0}
-              else:
-                  try:
-                      page=Fetcher.get(
-                          url,
-                          timeout=18,
-                          retries=0,
-                          stealthy_headers=True,
-                          impersonate="chrome",
-                          headers=headers,
-                      )
-                      text=str(page or "")
-                      results[name]["scrapling"]={"status":getattr(page,"status",None),"url":str(getattr(page,"url",url)),"seconds":round(time.time()-started,2),**inspect_html(text)}
-                  except Exception as e:
-                      results[name]["scrapling"]={"error":f"{type(e).__name__}: {e}","seconds":round(time.time()-started,2)}
-
-              print(json.dumps(results[name], ensure_ascii=False, indent=2))
-
-          print("\n=== FINAL_FETCH_DIAGNOSTIC ===")
-          print(json.dumps(results, ensure_ascii=False, indent=2))
+          print("=== ALTERNATIVE_OFFICIAL_PROBES ===")
+          print(json.dumps(probes, ensure_ascii=False, indent=2))
           PY
