@@ -551,9 +551,11 @@ def _build_prompt(package):
         return f"""
 You are the dedicated Arabic job-post editor for Cybero Plus.
 
-Create a short, factual, highly useful Blogger job listing for Moroccan readers
-from the VERIFIED JOB PACKAGE below. The reader must understand the opportunity
-and reach the strongest official application resource as quickly as possible.
+Create a short, factual, highly useful Arabic employment notice for Moroccan readers
+from the VERIFIED JOB PACKAGE below. The source may be a new vacancy/competition,
+a candidate list, a provisional list, a result, or a final result. The reader must
+understand WHAT changed, WHO it concerns, the deadline/status, and the strongest
+official action or document immediately.
 
 OUTPUT
 - Return JSON only with exactly: title, description, slug, html_content.
@@ -578,7 +580,10 @@ STRICT ACCURACY
 
 LENGTH AND STYLE
 - This is a JOB LISTING, not a long-form article.
-- Target 120-220 Arabic words. Never exceed about 260 words.
+- Keep the explanatory prose compact, normally 120-220 Arabic words.
+- Multi-specialization campaigns or candidate/result notices may contain a factual
+  official-links table beyond that prose target. Never add filler, but never delete
+  a useful verified official row merely to hit a word count.
 - Use clear Modern Standard Arabic and short mobile-friendly paragraphs.
 - No filler, generic career advice, profession explanations, corporate history,
   motivational language, clickbait, emojis, or generic conclusion.
@@ -590,7 +595,19 @@ TITLE
 - Translate the job position itself into clear Arabic in the reader-facing title.
 - Keep the original official French/English position once in parentheses when it
   helps recognition, especially for technical or specialized roles.
-- Never add mutable values such as deadline, salary, seat count, or year just for freshness.
+- Never add mutable values such as deadline, salary, or seat count just for freshness.
+- A verified competition/campaign year may appear when it is part of the official notice itself.
+
+NOTICE TYPE
+- Read job_notice_type and job_notice_status before writing.
+- vacancy: write an active opportunity/competition article and explain how to apply.
+- candidate_list: this is NOT a new vacancy. State that candidate/invited lists were
+  published and direct readers to the official lists; never tell them to submit a new application.
+- results/final_results: state the published result status accurately; never present it as a new opening.
+- provisional: explicitly say the list/result is provisional and may be updated when
+  that status is verified. final: describe it as final only when verified.
+- If the source text clearly represents an update to an existing competition, make
+  the update itself the focus instead of rewriting the old vacancy as new.
 
 INTRODUCTION
 - Start with ONE short paragraph naming the employer, the clearly translated Arabic
@@ -599,9 +616,14 @@ INTRODUCTION
 
 DETAILS
 - Prefer ONE compact semantic <table> for verified structured facts.
-- Include only available rows such as employer, position, location, contract,
-  number of positions, published date, deadline, experience, diploma.
+- Include only available rows such as employer, translated position + original title,
+  location, contract, number of positions, published date, deadline, experience, diploma,
+  competition/list status, and notice type when useful to the reader.
 - Never create rows for missing information.
+- DEADLINE IS IMPORTANT: when job_deadline_display or job_deadline exists, it MUST
+  appear clearly in the article in a row labelled "آخر أجل للترشيح". Do not bury it
+  inside prose. If an exact clock time is verified, preserve it too.
+- If no deadline is verified, omit the deadline row completely; never write "غير محدد".
 
 REQUIREMENTS
 - Add <h2>الشروط والمؤهلات</h2> only when verified requirements exist.
@@ -610,18 +632,25 @@ REQUIREMENTS
   essential responsibilities only when explicitly supported.
 - Never copy long corporate descriptions or repeat the same fact.
 
-APPLICATION AND OFFICIAL FILES
-- The strongest verified application resource is essential.
+APPLICATION, RESULTS AND OFFICIAL FILES
+- For an active vacancy, the strongest verified application resource is essential.
 - Prefer, in order: direct Apply/Postuler/Candidature URL, official application
   form, official PDF/conditions/notice file, specific official job page, then a
   general careers page only when nothing more specific exists.
 - If job_application_url exists, include it exactly once in html_content.
 - If job_application_link_kind is "direct_apply", label it clearly as "التقديم المباشر".
-- If job_document_links contains official PDF/files, include each useful exact URL
-  once with a clear label such as "ملف الشروط الرسمي" or "الإعلان الرسمي".
+- For candidate_list/results/final_results, do NOT call the link "التقديم" unless a
+  real application is still open. Label it according to its real purpose: "تحميل اللائحة",
+  "اللائحة الرسمية", "النتائج الرسمية", "الإعلان الرسمي", etc.
+- If job_document_links contains ONE useful official file, include its exact URL once.
+- If job_document_links contains MULTIPLE files/lists, build one compact table instead
+  of a long paragraph/list. Use verified link label/context to create useful columns
+  such as الدبلوم، التخصص/الفئة، والرابط الرسمي ONLY when those facts are actually supported.
+- Preserve EVERY useful verified official PDF/list URL needed by the notice; do not
+  silently drop specializations just to make the article shorter.
+- The link "context" field describes the surrounding official table/list row. Use it
+  to distinguish documents, but never invent a diploma/specialty that context does not state.
 - Preserve URLs EXACTLY. Never shorten, rewrite, fabricate, or duplicate a URL.
-- Do not create a separate source section when the official application/job page
-  already serves that purpose.
 - External links must use target="_blank" rel="nofollow noreferrer noopener".
 
 IMAGES
@@ -644,13 +673,16 @@ HTML
 
 FINAL SILENT CHECK
 Before returning JSON, verify:
-- 120-220 words when the verified facts allow it, never over 260.
+- Explanatory prose is concise and useful; multi-row official tables are allowed when needed.
 - No unsupported information.
 - No duplicated paragraph or URL.
-- Strongest verified application link included.
-- Official PDF/document links preserved when available.
+- If a verified deadline exists, "آخر أجل للترشيح" is visible with that deadline.
+- Active vacancy: strongest verified application link included.
+- Candidate list/result: status is clear and it is NOT falsely presented as a new vacancy.
+- All useful verified official PDF/list links are preserved when available.
+- Multiple official documents are organized in a table, not dumped as raw links.
 - No image tag or image URL inside html_content.
-- No fake salary, deadline, vacancies, diploma, or requirement.
+- No fake salary, deadline, vacancies, diploma, requirement, list status, or result.
 - desired_slug preserved exactly when provided.
 
 OUTPUT JSON SHAPE:
