@@ -26,6 +26,7 @@ from config import (
     FACEBOOK_PAGE_ACCESS_TOKEN,
     FACEBOOK_PAGE_ID,
     WHATSAPP_CHANNEL_URL,
+    JOBS_MODE,
 )
 from notifier import notify_facebook_result
 from production_logging import elapsed_ms, log_event
@@ -1165,7 +1166,7 @@ def _first_comment_text(blogger_post_url):
         "🔗 رابط التفاصيل:",
         blogger_post_url,
     ]
-    if WHATSAPP_CHANNEL_URL:
+    if JOBS_MODE and WHATSAPP_CHANNEL_URL:
         lines.extend([
             "",
             "📲 تابع قناة واتساب للعروض الجديدة:",
