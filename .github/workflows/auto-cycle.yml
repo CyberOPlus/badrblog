@@ -2,6 +2,10 @@ name: Cybero Plus Jobs Auto Cycle
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/auto-cycle.yml"
   schedule:
     # Run every hour at minute 47. Publishing limits and duplicate protection
     # decide whether the cycle only checks sources or actually publishes.
