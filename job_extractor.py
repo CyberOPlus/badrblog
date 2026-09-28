@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import re
+from urllib.parse import urljoin, urlparse
+
 from bs4 import BeautifulSoup
 
 
@@ -147,6 +149,68 @@ def _source_company(source_name):
     return re.sub(r"\s+", " ", value).strip(" -–—")
 
 
+APPLY_LINK_HINTS = (
+    "apply", "apply now", "postuler", "postulez", "candidater", "candidature",
+    "déposer ma candidature", "deposer ma candidature", "submit application",
+    "submit your application", "inscription", "register",
+)
+DOCUMENT_LINK_HINTS = (
+    "pdf", "avis", "conditions", "condition", "règlement", "reglement",
+    "dossier", "fiche", "communiqué", "communique", "télécharger",
+    "telecharger", "download", "job description", "descriptif",
+)
+
+
+def _public_http_url(url):
+    try:
+        parsed = urlparse(str(url or "").strip())
+    except Exception:
+        return False
+    return parsed.scheme in {"http", "https"} and bool(parsed.netloc)
+
+
+def _extract_job_action_links(soup, page_url):
+    """Find official apply/document links exposed by the verified job page."""
+    rows = []
+    seen = set()
+
+    def add(href, label="", kind=""):
+        absolute = urljoin(page_url, str(href or "").strip())
+        if not _public_http_url(absolute):
+            return
+        key = absolute.split("#", 1)[0].rstrip("/")
+        if key in seen:
+            return
+        seen.add(key)
+        rows.append(
+            {
+                "url": absolute,
+                "label": _text(label) or ("التقديم الرسمي" if kind == "apply" else "ملف رسمي"),
+                "kind": kind,
+            }
+        )
+
+    for anchor in soup.find_all("a", href=True):
+        href = str(anchor.get("href") or "").strip()
+        label = _text(anchor.get_text(" ", strip=True))
+        signature = f"{label} {href}".casefold()
+        if any(hint in signature for hint in APPLY_LINK_HINTS):
+            add(href, label, "apply")
+            continue
+        if href.casefold().split("?", 1)[0].endswith(".pdf") or any(
+            hint in signature for hint in DOCUMENT_LINK_HINTS
+        ):
+            add(href, label, "document")
+
+    for form in soup.find_all("form", action=True):
+        action = str(form.get("action") or "").strip()
+        signature = f"{form.get('id', '')} {form.get('class', '')} {action}".casefold()
+        if any(hint in signature for hint in APPLY_LINK_HINTS):
+            add(action, "التقديم الرسمي", "apply")
+
+    return rows[:8]
+
+
 def extract_job_fields(soup, article, page_url, full_text=""):
     node = _job_node(soup)
     org = _organization(node)
@@ -173,7 +237,17 @@ def extract_job_fields(soup, article, page_url, full_text=""):
     if isinstance(employment, list):
         employment = ", ".join(_text(x) for x in employment if _text(x))
 
-    application_url = _text(node.get("url")) or article.get("application_url") or page_url
+    action_links = _extract_job_action_links(soup, page_url)
+    direct_apply = next((row for row in action_links if row.get("kind") == "apply"), None)
+    documents = [row for row in action_links if row.get("kind") == "document"]
+    structured_url = _text(node.get("url"))
+    application_url = (
+        (direct_apply or {}).get("url")
+        or article.get("application_url")
+        or structured_url
+        or page_url
+    )
+    application_kind = "direct_apply" if direct_apply else "official_job_page"
     deadline = _text(node.get("validThrough")) or _deadline_from_text(body)
     published_at = _text(node.get("datePosted")) or article.get("source_published_at", "")
     remote = str(node.get("jobLocationType") or "").upper() == "TELECOMMUTE" or bool(article.get("source_remote"))
@@ -195,6 +269,10 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         "job_deadline": deadline,
         "job_published_at": published_at,
         "job_application_url": application_url,
+        "job_application_link_kind": application_kind,
+        "job_detail_url": page_url,
+        "job_action_links": action_links,
+        "job_document_links": documents,
         "job_number_of_positions": _number_of_positions(f"{job_title} {body}"),
         "job_diploma": str(article.get("job_diploma") or ""),
         "job_experience": str(article.get("job_experience") or ""),
