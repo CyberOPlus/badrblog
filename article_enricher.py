@@ -3,6 +3,7 @@
 # ============================================================
 
 import asyncio
+import html as html_lib
 import json
 import re
 import time
@@ -1282,10 +1283,259 @@ def _apply_rss_summary_fallback(article):
     return True, ""
 
 
+
+def _csod_article_config(article):
+    url = str(article.get("url") or "").strip()
+    parsed = urlparse(url)
+    if not (parsed.netloc.casefold() == "csod.com" or parsed.netloc.casefold().endswith(".csod.com")):
+        return None
+    match = re.search(
+        r"/ux/ats/careersite/(\d+)/home/requisition/(\d+)",
+        parsed.path,
+        flags=re.I,
+    )
+    if not match:
+        return None
+    site_id = int(match.group(1))
+    req_id = match.group(2)
+    query = dict(parse_qsl(parsed.query, keep_blank_values=True))
+    corp = query.get("c") or parsed.netloc.split(".")[0]
+    origin = f"{parsed.scheme}://{parsed.netloc}"
+    return {
+        "origin": origin,
+        "site_id": site_id,
+        "req_id": req_id,
+        "corp": corp,
+        "home_url": f"{origin}/ux/ats/careersite/{site_id}/home?c={corp}",
+        "detail_url": (
+            f"{origin}/services/x/job-requisition/v2/requisitions/"
+            f"{req_id}/jobDetails?cultureId=1"
+        ),
+        "ad_url": (
+            f"{origin}/Services/API/ATS/CareerSite/{site_id}/"
+            f"JobRequisitions/{req_id}?useMobileAd=false&cultureId=1"
+        ),
+        "posting_url": f"{origin}/services/x/career-site/v1/requisition/{req_id}",
+    }
+
+
+def _csod_token_from_html(html_text):
+    match = re.search(r'"token"\s*:\s*"([A-Za-z0-9._-]+)"', str(html_text or ""))
+    return match.group(1) if match else ""
+
+
+def _csod_ad_html(payload):
+    try:
+        return str(payload["data"][0]["items"][0]["fields"].get("ad") or "")
+    except (KeyError, IndexError, TypeError, AttributeError):
+        return ""
+
+
+def _csod_posting(payload):
+    try:
+        rows = payload.get("data", {}).get("postings", [])
+    except AttributeError:
+        rows = []
+    if not isinstance(rows, list):
+        return {}
+    return next((row for row in rows if isinstance(row, dict) and row.get("isDefault")), rows[0] if rows else {})
+
+
+def _apply_csod_payloads(article, detail_payload, posting_payload, ad_payload=None):
+    detail = (detail_payload or {}).get("data") or {}
+    if not isinstance(detail, dict):
+        detail = {}
+    posting = _csod_posting(posting_payload or {})
+    description = str(detail.get("externalDescription") or "").strip()
+    if len(_html_to_text(description)) < 250:
+        description = _csod_ad_html(ad_payload or {}) or description
+    if not description:
+        return False, "CSOD API returned no job description"
+
+    title = _normalize_text(detail.get("displayTitle") or article.get("title") or "")
+    primary = detail.get("primaryLocation") if isinstance(detail.get("primaryLocation"), dict) else {}
+    location = _normalize_text(
+        primary.get("locationDisplayTitle")
+        or primary.get("title")
+        or article.get("job_location")
+        or ""
+    )
+    country = str(primary.get("country") or article.get("job_country") or "").strip()
+    apply_url = str(detail.get("companyApplyUrl") or article.get("url") or "").strip()
+    deadline = str(posting.get("endDate") or "").strip()
+    published = str(posting.get("startDate") or detail.get("openDate") or "").strip()
+    deadline_date = deadline[:10] if re.match(r"^\d{4}-\d{2}-\d{2}", deadline) else ""
+
+    facts = []
+    if location:
+        facts.append(f"<p><strong>Localisation :</strong> {html_lib.escape(location)}</p>")
+    if deadline_date:
+        facts.append(f"<p><strong>Date limite de candidature :</strong> {html_lib.escape(deadline_date)}</p>")
+    apply_html = (
+        f'<p><a href="{html_lib.escape(apply_url, quote=True)}">Postuler sur le site officiel</a></p>'
+        if apply_url else ""
+    )
+    synthetic = (
+        "<html><head><title>"
+        + html_lib.escape(title or str(article.get("title") or ""))
+        + "</title></head><body><h1>"
+        + html_lib.escape(title or str(article.get("title") or ""))
+        + "</h1>"
+        + "".join(facts)
+        + description
+        + apply_html
+        + "</body></html>"
+    )
+    ok, error = _apply_enrichment_from_html(article, synthetic, article.get("url") or apply_url)
+    if not ok:
+        return ok, error
+
+    article["ats_provider"] = "csod"
+    article["ats_reference"] = str(article.get("ats_reference") or detail.get("ref") or "")
+    article["job_external_reference"] = str(detail.get("ref") or article.get("ats_reference") or "")
+    if title:
+        article["fetched_title"] = title
+        article["job_title"] = title
+    if location:
+        article["job_location"] = location
+    if country:
+        article["job_country"] = country
+    if deadline_date:
+        article["job_deadline"] = deadline_date
+        article["job_deadline_display"] = deadline_date
+    if published:
+        article["job_published_at"] = published
+        article["source_published_at"] = article.get("source_published_at") or published
+    if apply_url:
+        article["job_application_url"] = apply_url
+        article["job_application_link_kind"] = "official_job_page"
+    article["csod_requisition_status_id"] = detail.get("requisitionStatusId")
+    article["csod_allow_apply"] = bool(detail.get("allowApply"))
+    return True, ""
+
+
+def _apply_phenom_enrichment(article):
+    description = _normalize_text(article.get("ats_description") or "")
+    payload = article.get("phenom_payload") if isinstance(article.get("phenom_payload"), dict) else {}
+    facts = []
+    structured = [
+        ("Entreprise", article.get("job_company") or payload.get("company")),
+        ("Localisation", article.get("job_location") or payload.get("city")),
+        ("Type de contrat", article.get("job_contract_type")),
+        ("Catégorie", payload.get("category")),
+        ("Mode de travail", payload.get("workModel")),
+        ("Temps de travail", payload.get("hiringType")),
+        ("Salaire", article.get("job_salary")),
+    ]
+    for label, value in structured:
+        value = _normalize_text(value or "")
+        if value:
+            facts.append(f"<p><strong>{html_lib.escape(label)} :</strong> {html_lib.escape(value)}</p>")
+    if not description and not facts:
+        return False, "Phenom payload contains no usable job data"
+
+    apply_url = str(article.get("job_application_url") or article.get("url") or "").strip()
+    title = _normalize_text(article.get("title") or article.get("fetched_title") or "")
+    synthetic = (
+        "<html><head><title>" + html_lib.escape(title) + "</title></head><body>"
+        + "<h1>" + html_lib.escape(title) + "</h1>"
+        + "".join(facts)
+        + ("<p>" + html_lib.escape(description) + "</p>" if description else "")
+        + (
+            f'<p><a href="{html_lib.escape(apply_url, quote=True)}">Postuler directement</a></p>'
+            if apply_url else ""
+        )
+        + "</body></html>"
+    )
+    ok, error = _apply_enrichment_from_html(article, synthetic, apply_url or article.get("url"))
+    if not ok:
+        return ok, error
+
+    article["ats_provider"] = "phenom"
+    if apply_url:
+        article["job_application_url"] = apply_url
+        article["job_application_link_kind"] = "direct_apply"
+    article["job_country"] = article.get("job_country") or "MA"
+    if article.get("job_location"):
+        article["job_location"] = _normalize_text(article["job_location"])
+    return True, ""
+
+
+def _fetch_csod_payloads_sync(article):
+    cfg = _csod_article_config(article)
+    if not cfg:
+        return None, None, None, "invalid CSOD article URL"
+    session = requests.Session()
+    try:
+        bootstrap = session.get(cfg["home_url"], headers=HEADERS, timeout=REQUEST_TIMEOUT_SECONDS)
+        bootstrap.raise_for_status()
+        token = _csod_token_from_html(bootstrap.text)
+        if not token:
+            return None, None, None, "anonymous CSOD token missing"
+        headers = {**HEADERS, "Accept": "application/json", "Authorization": f"Bearer {token}"}
+        detail_response = session.get(cfg["detail_url"], headers=headers, timeout=REQUEST_TIMEOUT_SECONDS)
+        detail_response.raise_for_status()
+        posting_response = session.get(cfg["posting_url"], headers=headers, timeout=REQUEST_TIMEOUT_SECONDS)
+        posting_response.raise_for_status()
+        detail_payload = detail_response.json()
+        posting_payload = posting_response.json()
+        ad_payload = {}
+        if len(_html_to_text((detail_payload.get("data") or {}).get("externalDescription") or "")) < 250:
+            ad_response = session.get(cfg["ad_url"], headers=headers, timeout=REQUEST_TIMEOUT_SECONDS)
+            if ad_response.ok:
+                ad_payload = ad_response.json()
+        return detail_payload, posting_payload, ad_payload, ""
+    except (requests.RequestException, ValueError, json.JSONDecodeError) as error:
+        return None, None, None, f"CSOD API {error.__class__.__name__}"
+
+
+async def _fetch_csod_payloads_async(article, session):
+    cfg = _csod_article_config(article)
+    if not cfg:
+        return None, None, None, "invalid CSOD article URL"
+    try:
+        async with session.get(cfg["home_url"], headers=HEADERS, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+            bootstrap = await response.text(errors="ignore")
+            if response.status >= 400:
+                return None, None, None, f"CSOD bootstrap http {response.status}"
+        token = _csod_token_from_html(bootstrap)
+        if not token:
+            return None, None, None, "anonymous CSOD token missing"
+        headers = {**HEADERS, "Accept": "application/json", "Authorization": f"Bearer {token}"}
+        async with session.get(cfg["detail_url"], headers=headers, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+            detail_text = await response.text(errors="ignore")
+            if response.status >= 400:
+                return None, None, None, f"CSOD detail http {response.status}"
+        async with session.get(cfg["posting_url"], headers=headers, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+            posting_text = await response.text(errors="ignore")
+            if response.status >= 400:
+                return None, None, None, f"CSOD posting http {response.status}"
+        detail_payload = json.loads(detail_text or "{}")
+        posting_payload = json.loads(posting_text or "{}")
+        ad_payload = {}
+        if len(_html_to_text((detail_payload.get("data") or {}).get("externalDescription") or "")) < 250:
+            async with session.get(cfg["ad_url"], headers=headers, timeout=REQUEST_TIMEOUT_SECONDS) as response:
+                ad_text = await response.text(errors="ignore")
+                if response.status < 400:
+                    ad_payload = json.loads(ad_text or "{}")
+        return detail_payload, posting_payload, ad_payload, ""
+    except (asyncio.TimeoutError, aiohttp.ClientError, ValueError, json.JSONDecodeError) as error:
+        return None, None, None, f"CSOD API {error.__class__.__name__}"
+
+
 def enrich_article(article):
     url = article.get("url", "").strip()
     if not url:
         return False, "missing url"
+
+    provider = str(article.get("ats_provider") or "").strip().lower()
+    if provider == "phenom":
+        return _apply_phenom_enrichment(article)
+    if provider == "csod" or _csod_article_config(article):
+        detail, posting, ad, error = _fetch_csod_payloads_sync(article)
+        if error:
+            return False, error
+        return _apply_csod_payloads(article, detail, posting, ad)
 
     html, error = _fetch_html_with_requests(url)
     if not html:
@@ -1345,6 +1595,19 @@ async def _enrich_article_async(article, session, semaphore):
     url = article.get("url", "").strip()
     if not url:
         return article, False, "missing url"
+
+    provider = str(article.get("ats_provider") or "").strip().lower()
+    if provider == "phenom":
+        ok, error = _apply_phenom_enrichment(article)
+        return article, ok, error
+
+    if provider == "csod" or _csod_article_config(article):
+        async with semaphore:
+            detail, posting, ad, error = await _fetch_csod_payloads_async(article, session)
+        if error:
+            return article, False, error
+        ok, parse_error = _apply_csod_payloads(article, detail, posting, ad)
+        return article, ok, parse_error
 
     async with semaphore:
         html, error = await _fetch_html_with_aiohttp(session, url)
