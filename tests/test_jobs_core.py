@@ -31,6 +31,35 @@ def sample_job(**overrides):
 
 
 class JobsCoreTests(unittest.TestCase):
+    def test_job_headline_style_matches_human_moroccan_patterns(self):
+        self.assertEqual(
+            quality_gate._job_title_style_reason(
+                "inwi توظف مديرًا تقنيًا لمنصة ServiceNow بالدار البيضاء",
+                "vacancy",
+            ),
+            "",
+        )
+        self.assertEqual(
+            quality_gate._job_title_style_reason(
+                "الوكالة الوطنية للمحافظة العقارية (ANCFCC): لوائح المدعوين لاجتياز الاختبار الكتابي",
+                "candidate_list",
+            ),
+            "",
+        )
+        self.assertEqual(
+            quality_gate._job_title_style_reason(
+                "النتائج النهائية لمباريات توظيف المكتب الوطني للكهرباء ONEE",
+                "final_results",
+            ),
+            "",
+        )
+        self.assertTrue(
+            quality_gate._job_title_style_reason(
+                "inwi: مدير تقني ServiceNow بالدار البيضاء",
+                "vacancy",
+            )
+        )
+
     def test_slug_ignores_mutable_facts(self):
         a = sample_job(job_number_of_positions=100, job_deadline="2026-10-10", job_location="Casablanca")
         b = sample_job(job_number_of_positions=20, job_deadline="2026-11-20", job_location="Rabat")
