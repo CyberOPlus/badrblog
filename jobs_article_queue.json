@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-28T21:18:33",
+  "updated_at": "2026-09-28T21:21:00Z",
   "articles": [
     {
       "id": "f5a84d7e9586ac8c",
@@ -2779,7 +2779,7 @@
       "job_application_url": "",
       "job_number_of_positions": 0,
       "discovered_at": "2026-09-28T20:28:45",
-      "status": "ready",
+      "status": "skipped",
       "score": 10,
       "priority": "high",
       "source_links_removed_count": 290,
@@ -2788,11 +2788,11 @@
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=151 chars/23 words; required=250 chars/40 words; tried=main_tag:31chars/6words, content_container:31chars/6words, content_container:31chars/6words, content_container:31chars/6words, article_body:15chars/3words, meta_description:151chars/23words, page_text:15chars/3words)",
       "content_fetched_at": "2026-09-28T21:11:27",
-      "candidate_retry_after": "2026-09-28T21:26:27Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=151 chars/23 words; required=250 chars/40 words; tried=main_tag:31chars/6words, content_container:31chars/6words, content_container:31chars/6words, content_container:31chars/6words, article_body:15chars/3words, meta_description:151chars/23words, page_text:15ch",
       "candidate_failed_at": "2026-09-28T21:11:27",
-      "candidate_failure_count": 2
+      "candidate_failure_count": 2,
+      "skip_reason": "generic listing page is not a job detail"
     },
     {
       "id": "9a832894c477e6d8",
@@ -4081,7 +4081,7 @@
       "job_application_url": "",
       "job_number_of_positions": 0,
       "discovered_at": "2026-09-28T20:28:45",
-      "status": "ready",
+      "status": "skipped",
       "score": 9,
       "priority": "high",
       "source_links_removed_count": 1,
@@ -4093,11 +4093,11 @@
       "discovery_metadata_refreshed_at": "2026-09-28T21:15:20",
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=39 chars/5 words; required=250 chars/40 words; tried=article_body:39chars/5words, page_text:39chars/5words)",
-      "candidate_retry_after": "2026-09-28T21:30:23Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=39 chars/5 words; required=250 chars/40 words; tried=article_body:39chars/5words, page_text:39chars/5words)",
       "candidate_failed_at": "2026-09-28T21:15:23",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "skip_reason": "official ATS detail is too short to publish safely"
     },
     {
       "id": "c23b5b381ec65f01",
@@ -4927,17 +4927,17 @@
       "job_application_url": "https://careersfr-orange.icims.com/jobs/28407/manager---cybersecurity-consulting-%28grc%29/job/login",
       "job_number_of_positions": 0,
       "discovered_at": "2026-09-28T21:11:18",
-      "status": "ready",
+      "status": "skipped",
       "score": 9,
       "priority": "high",
       "content_fetched_at": "2026-09-28T21:15:23",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 405",
-      "candidate_retry_after": "2026-09-28T21:30:23Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 405",
       "candidate_failed_at": "2026-09-28T21:15:23",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "skip_reason": "legacy direct URL lacks structured Phenom metadata; reactivate only if rediscovered"
     },
     {
       "id": "289b37e26b348f72",
@@ -4971,17 +4971,17 @@
       "job_application_url": "https://careersfr-orange.icims.com/jobs/27454/software-engineer---consultant-servicenow-confirm%c3%a9/job/login",
       "job_number_of_positions": 0,
       "discovered_at": "2026-09-28T21:11:18",
-      "status": "ready",
+      "status": "skipped",
       "score": 9,
       "priority": "high",
       "content_fetched_at": "2026-09-28T21:15:23",
       "content_fetch_status": "failed",
       "content_fetch_error": "http 405",
-      "candidate_retry_after": "2026-09-28T21:30:23Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "http 405",
       "candidate_failed_at": "2026-09-28T21:15:23",
-      "candidate_failure_count": 1
+      "candidate_failure_count": 1,
+      "skip_reason": "legacy direct URL lacks structured Phenom metadata; reactivate only if rediscovered"
     },
     {
       "id": "697322b77accd6b4",
