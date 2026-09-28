@@ -222,6 +222,10 @@ if FACEBOOK_LINK_MODE not in {"caption", "comment", "both"}:
     FACEBOOK_LINK_MODE = "comment"
 MAX_FACEBOOK_POSTS_PER_DAY = _env_int("MAX_FACEBOOK_POSTS_PER_DAY", 20)
 MIN_MINUTES_BETWEEN_FACEBOOK_POSTS = _env_int("MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", 0)
+WHATSAPP_CHANNEL_URL = os.getenv(
+    "WHATSAPP_CHANNEL_URL",
+    "https://whatsapp.com/channel/0029VaDv5d05vKADlup5761h",
+).strip()
 
 # Optional Telegram alerts. Disabled by default.
 TELEGRAM_ALERTS_ENABLED = _env_bool_any(["TELEGRAM_ENABLED", "TELEGRAM_ALERTS_ENABLED"], False)
