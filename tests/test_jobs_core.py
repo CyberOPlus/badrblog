@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 
 import job_core
 import job_extractor
+import quality_gate
 
 
 def sample_job(**overrides):
@@ -111,6 +112,45 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(len(fields["job_document_links"]), 1)
         self.assertEqual(fields["job_document_links"][0]["url"], "https://example.com/docs/conditions.pdf")
         self.assertEqual(fields["company_logo_url"], "https://cdn.example.com/logo.png")
+
+    def test_job_quality_gate_enforces_compact_length_and_unique_links(self):
+        apply_url = "https://example.com/apply/12345"
+        base_article = {
+            "url": "https://example.com/jobs/12345",
+            "job_application_url": apply_url,
+            "seo_title": "فرصة توظيف تقني معلومات لدى شركة في الدار البيضاء",
+            "seo_description": "إعلان توظيف رسمي يوضح أهم تفاصيل المنصب وطريقة التقديم المباشر للراغبين في إرسال ترشيحهم عبر الرابط الرسمي.",
+        }
+
+        compact_html = (
+            "<p>" + " ".join(f"معلومة{i}" for i in range(130)) + "</p>"
+            "<h2>طريقة التقديم</h2>"
+            f"<p><a href='{apply_url}'>التقديم المباشر</a></p>"
+        )
+        compact = dict(base_article, final_html=compact_html)
+        result = quality_gate.validate_before_publish(compact, check_duplicate=False)
+        self.assertTrue(result.passed, result.reason)
+
+        long_html = (
+            "<p>" + " ".join(f"تفصيل{i}" for i in range(270)) + "</p>"
+            "<h2>طريقة التقديم</h2>"
+            f"<p><a href='{apply_url}'>التقديم المباشر</a></p>"
+        )
+        too_long = dict(base_article, final_html=long_html)
+        result = quality_gate.validate_before_publish(too_long, check_duplicate=False)
+        self.assertFalse(result.passed)
+        self.assertIn("too long", result.reason)
+
+        duplicate_links_html = (
+            "<p>" + " ".join(f"بيان{i}" for i in range(130)) + "</p>"
+            "<h2>طريقة التقديم</h2>"
+            f"<p><a href='{apply_url}'>التقديم</a></p>"
+            f"<p><a href='{apply_url}'>التقديم مرة ثانية</a></p>"
+        )
+        duplicate_links = dict(base_article, final_html=duplicate_links_html)
+        result = quality_gate.validate_before_publish(duplicate_links, check_duplicate=False)
+        self.assertFalse(result.passed)
+        self.assertIn("duplicate job link", result.reason)
 
     def test_campaign_rollover_next_year(self):
         old = {
