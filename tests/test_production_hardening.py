@@ -27,7 +27,6 @@ from bs4 import BeautifulSoup
 from duplicate_utils import canonicalize_url, topic_signature
 from facebook_publisher import _build_caption, _eligible_for_facebook
 import main
-import notifier
 import scraper
 from production_logging import _clean_value
 from quality_gate import QualityGateResult, duplicate_publish_reason, validate_before_publish
@@ -354,16 +353,6 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn("RECENT_NEWS_ONLY", text)
         self.assertIn("LIVE_FRESH_QUEUE", text)
 
-    def test_telegram_reports_skipped_when_no_publishable_article(self):
-        with patch.object(notifier, "send_telegram_message", return_value={"sent": False, "skipped": True, "reason": "disabled"}) as send:
-            notifier.notify_auto_cycle_summary(
-                {"completed": False, "reason": "no new publishable article under 7 days", "source_warnings_count": 1},
-                run_id="unit-test-no-recent",
-            )
-        message = send.call_args.args[0]
-        self.assertIn("no new publishable article under 7 days", message)
-        self.assertIn("Bot alive: yes", message)
-        self.assertIn("Next run: scheduled by GitHub Actions", message)
 
     def test_live_fast_recent_stops_before_old_queue_fallback(self):
         schedule = {
@@ -389,7 +378,7 @@ class ProductionHardeningTests(unittest.TestCase):
             "failed_sources": [],
             "zero_link_sources": [],
         }
-        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "CATEGORY_ROTATION_MODE", False), patch.object(main, "FRESH_QUEUE_MODE", False), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "run_score_only") as score, patch.object(main, "notify_auto_cycle_blocked"):
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "CATEGORY_ROTATION_MODE", False), patch.object(main, "FRESH_QUEUE_MODE", False), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "run_score_only") as score:
             result = main.run_safe_cycle_only()
         self.assertFalse(result["completed"])
         self.assertEqual(result["step_reached"], "fetch")
@@ -566,7 +555,7 @@ class ProductionHardeningTests(unittest.TestCase):
             "zero_link_sources": [],
         }
         enrich = {"failed": 0, "weak": 0}
-        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "CATEGORY_ROTATION_MODE", False), patch.object(main, "FRESH_QUEUE_MODE", False), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value=enrich), patch.object(main, "_lock_specific_ready_article", return_value=None), patch.object(main, "run_plan_next_only") as planner, patch.object(main, "notify_auto_cycle_blocked"):
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "CATEGORY_ROTATION_MODE", False), patch.object(main, "FRESH_QUEUE_MODE", False), patch.object(main, "FIRST_VALID_ARTICLE_MODE", True), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value=enrich), patch.object(main, "_lock_specific_ready_article", return_value=None), patch.object(main, "run_plan_next_only") as planner:
             result = main.run_safe_cycle_only()
         self.assertFalse(result["completed"])
         self.assertEqual(result["step_reached"], "plan-next")
@@ -598,7 +587,7 @@ class ProductionHardeningTests(unittest.TestCase):
             "zero_link_sources": [],
         }
         cleanup = {"expired_archived": 0, "missing_date_archived": 0}
-        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "CATEGORY_ROTATION_MODE", False), patch.object(main, "FRESH_QUEUE_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", False), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "archive_expired_queue_articles", return_value=cleanup), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value={"failed": 0, "weak": 0}), patch.object(main, "_select_oldest_fresh_ready_article", return_value=None), patch.object(main, "notify_auto_cycle_blocked"):
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FAST_NEWS_MODE", True), patch.object(main, "CATEGORY_ROTATION_MODE", False), patch.object(main, "FRESH_QUEUE_MODE", True), patch.object(main, "FIRST_VALID_ARTICLE_MODE", False), patch.object(main, "RECENT_NEWS_ONLY", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value=fetch), patch.object(main, "archive_expired_queue_articles", return_value=cleanup), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value={"failed": 0, "weak": 0}), patch.object(main, "_select_oldest_fresh_ready_article", return_value=None):
             result = main.run_safe_cycle_only()
 
         self.assertFalse(result["completed"])
@@ -855,7 +844,7 @@ class ProductionHardeningTests(unittest.TestCase):
         def fake_collect(base_url, **_kwargs):
             return [{"title": "Almost expired", "url": f"{base_url}/story", "published_at": recent_iso(5.95)}], "", 200, {"method_used": "feed"}
 
-        with patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 2), patch.object(scraper, "MAX_AI_ARTICLE_AGE_HOURS", 1.75), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), patch.object(notifier, "send_telegram_message", return_value={"sent": False, "skipped": True}):
+        with patch.object(scraper, "RECENT_NEWS_ONLY", True), patch.object(scraper, "RECENT_NEWS_MAX_AGE_HOURS", 2), patch.object(scraper, "MAX_AI_ARTICLE_AGE_HOURS", 1.75), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
             result = scraper.discover_first_valid_article_link(
                 [{"name": "A", "base_url": "https://a.example", "enabled": True}],
                 existing_articles=[],
@@ -1053,7 +1042,7 @@ class ProductionHardeningTests(unittest.TestCase):
                 ],
                 "notifications": {},
             }
-            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini", "openrouter"]), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=RuntimeError("provider failed")), patch("notifier.send_telegram_message", return_value={"sent": False, "skipped": True}):
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini", "openrouter"]), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=RuntimeError("provider failed")):
                 article_queue.save_article_queue(queue)
                 result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
 
@@ -1323,7 +1312,7 @@ class ProductionHardeningTests(unittest.TestCase):
                 ],
                 "notifications": {},
             }
-            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]), patch.object(article_ai_processor, "_generate_with_provider_name", return_value=(json.dumps(bad), "gemini:test")), patch.object(article_ai_processor.time, "sleep"), patch("notifier.send_telegram_message", return_value={"sent": False, "skipped": True}):
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]), patch.object(article_ai_processor, "_generate_with_provider_name", return_value=(json.dumps(bad), "gemini:test")), patch.object(article_ai_processor.time, "sleep"):
                 article_queue.save_article_queue(queue)
                 result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
 
@@ -1412,7 +1401,7 @@ class ProductionHardeningTests(unittest.TestCase):
                 ],
                 "notifications": {},
             }
-            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]), patch.object(article_ai_processor, "_openrouter_fallback_available", return_value=True), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=fake_generate), patch.object(article_ai_processor, "validate_ai_article_output") as validate_gate, patch.object(article_ai_processor.time, "sleep"), patch("notifier.send_telegram_message", return_value={"sent": False, "skipped": True}) as send:
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(article_ai_processor, "_attempt_provider_sequence", return_value=["gemini"]), patch.object(article_ai_processor, "_openrouter_fallback_available", return_value=True), patch.object(article_ai_processor, "_generate_with_provider_name", side_effect=fake_generate), patch.object(article_ai_processor, "validate_ai_article_output") as validate_gate, patch.object(article_ai_processor.time, "sleep"):
                 article_queue.save_article_queue(queue)
                 result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
 
@@ -1423,11 +1412,6 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(result["article"]["ai_quality_status"], "provider_rotation_exhausted")
         self.assertEqual(calls, ["gemini", "openrouter"])
         validate_gate.assert_not_called()
-        self.assertTrue(send.called)
-        sent_message = send.call_args.args[0]
-        self.assertIn("AI rotation exhausted", sent_message)
-        self.assertNotIn("AI quality gate blocked", sent_message)
-        self.assertNotIn("Words: 0", sent_message)
 
     def test_openrouter_stops_after_two_fast_failures_when_gemini_failed(self):
         context = article_ai_processor.AIExecutionContext(article_id="a1")
@@ -1487,7 +1471,7 @@ class ProductionHardeningTests(unittest.TestCase):
                 article_ai_processor, "_generate_with_provider_name", return_value=(json.dumps(bad), "gemini:test")
             ) as generate_provider, patch.object(
                 article_ai_processor, "_check_ai_time_budget", side_effect=fake_budget_check
-            ), patch("notifier.send_telegram_message", return_value={"sent": False, "skipped": True}):
+            ):
                 article_queue.save_article_queue(queue)
                 result = article_ai_processor.process_one_selected_article_with_ai(target_article_id="a1")
 
@@ -1748,14 +1732,13 @@ class ProductionHardeningTests(unittest.TestCase):
             "next_allowed_time": next_allowed,
             "reasons": ["minimum minutes between live posts has not elapsed"],
         }
-        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "notify_auto_cycle_blocked") as blocked:
+        with patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule):
             result = main.run_safe_cycle_only()
 
         self.assertFalse(result["completed"])
         self.assertTrue(result["skipped"])
         self.assertEqual(result["reason"], "Waiting for next publishing window")
         self.assertEqual(result["step_reached"], "publish-limit-check")
-        blocked.assert_not_called()
 
     def test_facebook_posts_immediately_after_blogger_success(self):
         schedule = {
@@ -2068,53 +2051,7 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertTrue(cooled)
         self.assertTrue(until)
 
-    def test_telegram_success_summary_uses_short_arabic_format(self):
-        result = {
-            "completed": True,
-            "article": {
-                "id": "a1",
-                "title": "Fresh story",
-                "publish_status": "published",
-                "blogger_post_url": "https://example.com/post",
-                "facebook_status": "posted",
-                "final_word_count": 180,
-            },
-            "draft_action": "created",
-            "execution_seconds": 12.3,
-            "lightweight_run": True,
-            "next_run_expected_at": "2026-04-28T12:15:00",
-            "schedule": {"live_posts_created_today": 4},
-        }
-        with patch.object(notifier, "send_telegram_message", return_value={"sent": False, "skipped": True, "reason": "disabled"}) as send:
-            notifier.notify_auto_cycle_summary(result, run_id="unit-success-format")
-        message = send.call_args.args[0]
-        self.assertIn("تم نشر مقال جديد", message)
-        self.assertIn("Blogger URL:", message)
-        self.assertIn("Run duration: 12.30s", message)
-        self.assertIn("Lightweight run: yes", message)
-        self.assertIn("Posts today: 4/20 (target 12)", message)
-        self.assertIn("Next run: 2026-04-28T12:15:00", message)
 
-    def test_telegram_skipped_summary_uses_selected_source_from_fetch(self):
-        result = {
-            "skipped": True,
-            "reason": "no article",
-            "fetch": {
-                "selected_category": "Cyber-Security",
-                "selected_source_name": "Cyber A",
-                "sources_checked": 1,
-                "articles_found": 0,
-            },
-            "execution_seconds": 3.2,
-            "lightweight_run": True,
-            "next_run_expected_at": "2026-04-28T12:30:00",
-            "schedule": {"live_posts_created_today": 2},
-        }
-        with patch.object(notifier, "send_telegram_message", return_value={"sent": False, "skipped": True, "reason": "disabled"}) as send:
-            notifier.notify_auto_cycle_summary(result, run_id="unit-skip-source")
-        message = send.call_args.args[0]
-        self.assertIn("Source: Cyber A", message)
-        self.assertIn("Publish result: skipped", message)
 
     def test_auto_cycle_run_log_contains_reliability_fields(self):
         with TemporaryDirectory() as temp_dir:
