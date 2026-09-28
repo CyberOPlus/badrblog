@@ -12,12 +12,22 @@ from article_queue import load_article_queue, save_article_queue
 from article_ai_processor import MIN_PUBLISHABLE_WORDS, format_phase3_article_html, validate_phase3_article_quality
 from article_selector import normalize_category_label
 from blogger_client import create_blogger_service, get_credentials, is_local_publisher
-from config import BLOG_ID, MAX_RETRIES, PUBLISH_MODE, RETRY_DELAY, SAFE_MODE
+from config import (
+    BLOG_ID,
+    MAX_RETRIES,
+    PUBLISH_MODE,
+    RETRY_DELAY,
+    SAFE_MODE,
+    JOBS_MODE,
+    JOBS_TEST_MODE,
+    JOBS_EXPECTED_BLOG_HOST,
+)
 from notifier import notify_blogger_result
 from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
 from internal_link_cache import apply_link_enrichment, record_published_article
 from source_sanitizer import sanitize_source_links
+from jobposting import append_jobposting
 
 TEMPORARY_BLOGGER_HTTP_STATUSES = {429, 500, 502, 503, 504}
 
@@ -136,15 +146,29 @@ def _ensure_post_url_for_mode(post, mode):
     parsed = urlparse(post_url)
     if not post_url or not parsed.netloc or parsed.path.strip("/") == "":
         raise RuntimeError("Blogger did not return a live post URL; refusing downstream promotion.")
+    if JOBS_MODE and JOBS_TEST_MODE:
+        host = parsed.netloc.casefold().removeprefix("www.")
+        expected = str(JOBS_EXPECTED_BLOG_HOST or "").casefold().removeprefix("www.")
+        if expected and host != expected:
+            raise RuntimeError(
+                f"Jobs test safety blocked unexpected Blogger host: {host}; expected {expected}."
+            )
 
 
 def _build_post_body(article):
     content = article.get("final_html", "")
+    labels = (
+        [str(label).strip() for label in (article.get("labels") or []) if str(label).strip()]
+        if JOBS_MODE
+        else [normalize_category_label(article.get("suggested_category", ""))]
+    )
+    if JOBS_MODE and "jobs" not in labels:
+        labels.insert(0, "jobs")
     body = {
         "kind": "blogger#post",
         "title": article.get("seo_title") or article.get("title", ""),
         "content": content,
-        "labels": [normalize_category_label(article.get("suggested_category", ""))],
+        "labels": list(dict.fromkeys(labels)),
     }
 
     if article.get("seo_description"):
@@ -163,11 +187,26 @@ def _source_domain_for_article(article):
 
 def _sanitize_article_final_html(article):
     source_domain = _source_domain_for_article(article)
-    cleaned = format_phase3_article_html(article.get("final_html", ""), article.get("ai_input_package") or article)
-    cleaned, removed_count = sanitize_source_links(cleaned, source_domain)
-    cleaned, link_stats = apply_link_enrichment(cleaned, article, source_domain=source_domain)
-    cleaned, post_link_removed_count = sanitize_source_links(cleaned, source_domain)
-    removed_count += post_link_removed_count
+    cleaned = format_phase3_article_html(
+        article.get("final_html", ""),
+        article.get("ai_input_package") or article,
+    )
+
+    if JOBS_MODE:
+        removed_count = 0
+        link_stats = {
+            "internal_cache_loaded": 0,
+            "expired_internal_links_removed": 0,
+            "internal_links_inserted_count": 0,
+            "external_trusted_links_inserted_count": 0,
+            "internal_cache_saved": False,
+        }
+    else:
+        cleaned, removed_count = sanitize_source_links(cleaned, source_domain)
+        cleaned, link_stats = apply_link_enrichment(cleaned, article, source_domain=source_domain)
+        cleaned, post_link_removed_count = sanitize_source_links(cleaned, source_domain)
+        removed_count += post_link_removed_count
+
     article["final_html"] = cleaned
     article["blogger_article_html"] = cleaned
     article["removed_source_links_count"] = removed_count
@@ -178,7 +217,6 @@ def _sanitize_article_final_html(article):
     article["internal_cache_saved"] = link_stats.get("internal_cache_saved", False)
     article["final_word_count"] = html_word_count(cleaned)
     return removed_count
-
 
 def _list_posts_by_status(service, status):
     try:
@@ -283,6 +321,28 @@ def _publish_if_live(service, post, mode):
     request = service.posts().publish(blogId=BLOG_ID, postId=post["id"])
     published = _execute_blogger_request(request, "publish existing post", safe_to_retry=True)
     return _ensure_returned_post_url(service, published)
+
+
+def _apply_jobposting_schema(service, post, article, mode):
+    """Append one idempotent JobPosting block after Blogger returns the real URL."""
+    if not JOBS_MODE or _effective_publish_mode(mode) != "live":
+        return post
+    post_url = str(post.get("url") or "").strip()
+    if not post_url:
+        return post
+
+    content = append_jobposting(article.get("final_html", ""), article, post_url)
+    if content == article.get("final_html", ""):
+        return post
+
+    article["final_html"] = content
+    article["blogger_article_html"] = content
+    body = _build_post_body(article)
+    request = service.posts().update(blogId=BLOG_ID, postId=post["id"], body=body)
+    updated = _execute_blogger_request(request, "append JobPosting schema", safe_to_retry=True)
+    updated = _ensure_returned_post_url(service, updated)
+    _ensure_post_url_for_mode(updated, mode)
+    return updated
 
 
 def _apply_success(article, post, mode):
@@ -624,6 +684,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             post = _ensure_returned_post_url(service, post)
             post = _publish_if_live(service, post, publish_mode)
             _ensure_post_url_for_mode(post, publish_mode)
+            post = _apply_jobposting_schema(service, post, article, publish_mode)
             _apply_success(article, post, publish_mode)
             article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "updated_existing"
             save_article_queue(queue)
@@ -650,6 +711,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             post = _ensure_returned_post_url(service, post)
             post = _publish_if_live(service, post, publish_mode)
             _ensure_post_url_for_mode(post, publish_mode)
+            post = _apply_jobposting_schema(service, post, article, publish_mode)
             _apply_success(article, post, publish_mode)
             article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "updated_existing"
             save_article_queue(queue)
@@ -669,6 +731,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
         post = _execute_blogger_request(request, f"insert {publish_mode}", safe_to_retry=False)
         post = _ensure_returned_post_url(service, post)
         _ensure_post_url_for_mode(post, publish_mode)
+        post = _apply_jobposting_schema(service, post, article, publish_mode)
         _apply_success(article, post, publish_mode)
         article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "created_new"
         save_article_queue(queue)
