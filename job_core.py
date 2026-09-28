@@ -258,8 +258,9 @@ def score_job(article, now=None):
     }:
         reasons.append("generic careers/listing page is not a job posting")
 
+    notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
     deadline = _parse_date(article.get("job_deadline"))
-    expired = bool(deadline and deadline < now)
+    expired = bool(notice_type == "vacancy" and deadline and deadline < now)
     if expired:
         reasons.append("deadline passed")
 
@@ -278,6 +279,14 @@ def score_job(article, now=None):
 
 def classify_urgency(article, now=None):
     now = now or datetime.now(timezone.utc)
+    notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
+    if notice_type != "vacancy":
+        return {
+            "level": "normal",
+            "publish_immediately": False,
+            "allow_daily_override": False,
+            "reason": f"employment notice update: {notice_type}",
+        }
     deadline = _parse_date(article.get("job_deadline"))
     days = (deadline - now).total_seconds() / 86400 if deadline else None
     try:
@@ -408,6 +417,11 @@ def _same_url_family(a, b):
 
 
 def _material_change(article, record):
+    document_urls = [
+        canonicalize_job_url(row.get("url"))
+        for row in (article.get("job_document_links") or [])
+        if isinstance(row, dict) and row.get("url")
+    ]
     pairs = {
         "number_of_positions": article.get("job_number_of_positions"),
         "deadline": article.get("job_deadline"),
@@ -415,6 +429,9 @@ def _material_change(article, record):
         "contract_type": article.get("job_contract_type"),
         "location": article.get("job_location"),
         "application_url": canonicalize_job_url(article.get("job_application_url")),
+        "notice_type": article.get("job_notice_type") or "vacancy",
+        "notice_status": article.get("job_notice_status") or "",
+        "document_urls": "|".join(sorted(x for x in document_urls if x)),
     }
     for field, new_value in pairs.items():
         old_value = record.get(field)
@@ -573,6 +590,13 @@ def record_job_publish(article, now=None):
         "salary": article.get("job_salary", ""),
         "contract_type": article.get("job_contract_type", ""),
         "application_url": canonicalize_job_url(article.get("job_application_url")),
+        "notice_type": article.get("job_notice_type") or "vacancy",
+        "notice_status": article.get("job_notice_status") or "",
+        "document_urls": "|".join(sorted(
+            canonicalize_job_url(row.get("url"))
+            for row in (article.get("job_document_links") or [])
+            if isinstance(row, dict) and row.get("url")
+        )),
         "source_url": canonicalize_job_url(article.get("url") or article.get("source_url")),
         "blogger_post_id": article.get("blogger_post_id", ""),
         "blogger_url": article.get("blogger_post_url", ""),
