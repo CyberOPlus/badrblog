@@ -76,6 +76,27 @@ class JobsCoreTests(unittest.TestCase):
         self.assertNotIn("100", slug)
         self.assertNotIn("2026", slug)
 
+    def test_capgemini_parser_accepts_only_official_job_details(self):
+        html = """
+        <html><body>
+          <a href="/search/?q=&locationsearch=Morocco">Search jobs</a>
+          <div><a href="/job/Casablanca-Software-Engineer/1441884333/">Software Engineer</a></div>
+          <a href="/profile/">View profile</a>
+        </body></html>
+        """
+        links = scraper._parse_capgemini_job_links(
+            html,
+            "https://careers.capgemini.com/search/?q=&locationsearch=Morocco",
+            per_source_limit=5,
+        )
+        self.assertEqual(len(links), 1)
+        self.assertEqual(
+            links[0]["url"],
+            "https://careers.capgemini.com/job/Casablanca-Software-Engineer/1441884333/",
+        )
+        self.assertEqual(links[0]["ats_provider"], "capgemini_successfactors")
+        self.assertEqual(links[0]["ats_reference"], "1441884333")
+
     def test_etalent_parser_accepts_only_real_offer_detail_links(self):
         html = """
         <html><body>
