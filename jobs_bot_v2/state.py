@@ -4,8 +4,15 @@ import hashlib
 import json
 import re
 from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
 
-from .config import DATA_DIR, DAILY_PUBLISH_LIMIT, STATE_PATH
+from .config import (
+    DATA_DIR,
+    DAILY_PUBLISH_LIMIT,
+    MOROCCO_TIMEZONE,
+    STATE_PATH,
+    URGENT_EXTRA_DAILY_LIMIT,
+)
 
 
 def _default_state():
@@ -13,8 +20,20 @@ def _default_state():
         "published": {},
         "candidates": {},
         "daily_publish_count": {},
+        "daily_urgent_override_count": {},
         "last_publish_at": "",
     }
+
+
+def _local_day_key(now=None):
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    try:
+        local = now.astimezone(ZoneInfo(MOROCCO_TIMEZONE))
+    except Exception:
+        local = now.astimezone(timezone.utc)
+    return local.date().isoformat()
 
 
 def load_state():
@@ -60,16 +79,25 @@ def already_published(candidate, state=None):
 
 def can_publish_today(state=None, now=None):
     state = state or load_state()
-    now = now or datetime.now(timezone.utc)
-    key = now.date().isoformat()
+    key = _local_day_key(now)
     return int(state.get("daily_publish_count", {}).get(key, 0)) < DAILY_PUBLISH_LIMIT
 
 
-def mark_published(candidate, article_url="", state=None, now=None):
+def can_use_urgent_override(state=None, now=None):
+    state = state or load_state()
+    key = _local_day_key(now)
+    return (
+        int(state.get("daily_urgent_override_count", {}).get(key, 0))
+        < URGENT_EXTRA_DAILY_LIMIT
+    )
+
+
+def mark_published(candidate, article_url="", state=None, now=None, urgent_override=False):
     state = state or load_state()
     now = now or datetime.now(timezone.utc)
-    key = now.date().isoformat()
+    key = _local_day_key(now)
     fp = fingerprint(candidate)
+
     state.setdefault("published", {})[fp] = {
         "title": candidate.title,
         "company": candidate.company,
@@ -77,9 +105,16 @@ def mark_published(candidate, article_url="", state=None, now=None):
         "canonical_url": candidate.canonical_url,
         "article_url": article_url,
         "published_at": now.isoformat(),
+        "urgent_override": bool(urgent_override),
     }
+
     counts = state.setdefault("daily_publish_count", {})
     counts[key] = int(counts.get(key, 0)) + 1
+
+    if urgent_override:
+        urgent = state.setdefault("daily_urgent_override_count", {})
+        urgent[key] = int(urgent.get(key, 0)) + 1
+
     state["last_publish_at"] = now.isoformat()
     save_state(state)
     return state
