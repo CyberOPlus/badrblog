@@ -1083,65 +1083,81 @@ def _apply_enrichment_from_html(article, html, url):
             eligibility=article.get("job_eligibility", ""),
         )
     
-    # Extract images using the new advanced image extractor
-    main_image_url, image_extraction_method, extra_images = _extract_and_prepare_images(
-        str(soup),
-        url,
-        article.get("title", "") or article.get("fetched_title", "")
-    )
-    main_image_url, image_extraction_method, _downloaded_alt = _select_downloadable_main_image(
-        article,
-        main_image_url,
-        image_extraction_method,
-        extra_images,
-    )
-    if not main_image_url:
-        article["image_warning"] = "missing downloadable article image"
+    if JOBS_MODE:
+        # Jobs never reuse hero/content images from the source page.
+        # The Blogger publisher creates exactly one branded cover later from
+        # the owner-supplied article template + employer logo + job title.
+        article["article_images"] = []
+        article["main_image"] = ""
+        article["main_image_source_type"] = "job_template"
+        article["main_image_extraction_method"] = "disabled_for_jobs"
+        article["extra_article_images"] = []
+        article.pop("image_warning", None)
+        article_images = []
         log_event(
-            "enrichment_fallback_used",
-            method="no_image_continue",
-            title=article.get("title"),
+            "job_source_image_extraction_disabled",
+            article_id=article.get("id"),
             source=article.get("source_name"),
             source_url=url,
-            reason="missing downloadable article image",
         )
-    
-    # Build article_images list
-    article_images = []
-    seen_article_images = set()
-    if main_image_url:
-        seen_article_images.add(main_image_url)
-        article_images.append({
-            "url": main_image_url,
-            "alt": article.get("fetched_title") or article.get("title", ""),
-            "source": image_extraction_method,
-        })
+    else:
+        # Non-job content keeps the existing article-image extraction path.
+        main_image_url, image_extraction_method, extra_images = _extract_and_prepare_images(
+            str(soup),
+            url,
+            article.get("title", "") or article.get("fetched_title", "")
+        )
+        main_image_url, image_extraction_method, _downloaded_alt = _select_downloadable_main_image(
+            article,
+            main_image_url,
+            image_extraction_method,
+            extra_images,
+        )
+        if not main_image_url:
+            article["image_warning"] = "missing downloadable article image"
+            log_event(
+                "enrichment_fallback_used",
+                method="no_image_continue",
+                title=article.get("title"),
+                source=article.get("source_name"),
+                source_url=url,
+                reason="missing downloadable article image",
+            )
 
-    for extra_image in extra_images:
-        image_url = extra_image.get("url")
-        if not image_url or image_url in seen_article_images:
-            continue
-        seen_article_images.add(image_url)
-        article_images.append({
-            "url": image_url,
-            "alt": extra_image.get("alt") or "Article image",
-            "source": "article_content",
-        })
-    
-    article["article_images"] = article_images
-    article["main_image"] = main_image_url or ""
-    article["main_image_source_type"] = image_extraction_method or "fallback"
-    article["main_image_extraction_method"] = image_extraction_method
-    article["extra_article_images"] = extra_images
-    
-    # Log image extraction results
-    log_event(
-        "image_extraction_complete",
-        url=url,
-        main_image_found="yes" if main_image_url else "no",
-        image_extraction_method=image_extraction_method,
-        extra_images_count=len(extra_images),
-    )
+        article_images = []
+        seen_article_images = set()
+        if main_image_url:
+            seen_article_images.add(main_image_url)
+            article_images.append({
+                "url": main_image_url,
+                "alt": article.get("fetched_title") or article.get("title", ""),
+                "source": image_extraction_method,
+            })
+
+        for extra_image in extra_images:
+            image_url = extra_image.get("url")
+            if not image_url or image_url in seen_article_images:
+                continue
+            seen_article_images.add(image_url)
+            article_images.append({
+                "url": image_url,
+                "alt": extra_image.get("alt") or "Article image",
+                "source": "article_content",
+            })
+
+        article["article_images"] = article_images
+        article["main_image"] = main_image_url or ""
+        article["main_image_source_type"] = image_extraction_method or "fallback"
+        article["main_image_extraction_method"] = image_extraction_method
+        article["extra_article_images"] = extra_images
+
+        log_event(
+            "image_extraction_complete",
+            url=url,
+            main_image_found="yes" if main_image_url else "no",
+            image_extraction_method=image_extraction_method,
+            extra_images_count=len(extra_images),
+        )
     article["trusted_references"] = _extract_trusted_references(
         soup,
         url,
@@ -1184,14 +1200,17 @@ def _apply_enrichment_from_html(article, html, url):
 
 
 def _apply_rss_summary_fallback(article):
-    fallback_image_url, fallback_image_source, _fallback_image_alt = _select_downloadable_main_image(
-        article,
-        "",
-        "",
-        [],
-    )
-    if not fallback_image_url:
-        article["image_warning"] = "missing downloadable article image"
+    fallback_image_url = ""
+    fallback_image_source = ""
+    if not JOBS_MODE:
+        fallback_image_url, fallback_image_source, _fallback_image_alt = _select_downloadable_main_image(
+            article,
+            "",
+            "",
+            [],
+        )
+        if not fallback_image_url:
+            article["image_warning"] = "missing downloadable article image"
 
     summary = _html_to_text(article.get("rss_summary", ""))
     if len(summary) < MIN_EXTRACTED_CHARS:
@@ -1221,10 +1240,18 @@ def _apply_rss_summary_fallback(article):
             "alt": article.get("fetched_title") or article.get("title", ""),
             "source": fallback_image_source or "fallback",
         }
-    ] if fallback_image_url else []
-    article["main_image"] = fallback_image_url
-    article["main_image_source_type"] = fallback_image_source or "fallback"
-    article["main_image_extraction_method"] = fallback_image_source or "fallback"
+    ] if (fallback_image_url and not JOBS_MODE) else []
+    article["main_image"] = fallback_image_url if not JOBS_MODE else ""
+    article["main_image_source_type"] = (
+        fallback_image_source or "fallback"
+        if not JOBS_MODE
+        else "job_template"
+    )
+    article["main_image_extraction_method"] = (
+        fallback_image_source or "fallback"
+        if not JOBS_MODE
+        else "disabled_for_jobs"
+    )
     article["extra_article_images"] = []
     article.pop("image_warning", None)
     article["trusted_references"] = []
