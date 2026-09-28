@@ -2,7 +2,7 @@
 
 ضع القالب الذي ستعطيه للبوت هنا بالاسم التالي فقط:
 
-`assets/article/template.png`
+`assets/article/article img.png`
 
 ## المقاس
 
