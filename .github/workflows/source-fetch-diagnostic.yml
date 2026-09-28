@@ -1,0 +1,117 @@
+name: Jobs Source Fetch Diagnostic
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/source-fetch-diagnostic.yml"
+
+jobs:
+  diagnose:
+    if: contains(github.event.head_commit.message, '[source-fetch-diagnostic]')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install fetch tools
+        run: |
+          pip install -r requirements.txt
+          pip install cloudscraper curl_cffi
+
+      - name: Probe difficult official sources only
+        env:
+          JOBS_MODE: "true"
+          SOURCE_TIMEOUT_SECONDS: "18"
+          ENABLE_SCRAPLING_FALLBACK: "true"
+        run: |
+          python - <<'PY'
+          import json, time
+          import requests
+          import cloudscraper
+          from bs4 import BeautifulSoup
+          from curl_cffi import requests as curl_requests
+          from scrapling.fetchers import Fetcher
+
+          urls = {
+              "ONDA": "https://www.onda.ma/Je-d%C3%A9couvre-ONDA/Ressources-humaines/Recrutement",
+              "ONDA_2026": "https://www.onda.ma/Je-d%C3%A9couvre-ONDA/Ressources-humaines/Recrutement-2026/AVIS-DE-RECRUTEMENT-2026",
+              "ONCF": "https://www.oncf.ma/fr/Entreprise/Faire-carriere-a-l-oncf/Recrutement",
+              "ADM_OLD": "https://www.adm.co.ma/",
+              "ADM_JOBS": "https://adm.etalent.ma/offres",
+          }
+          headers = {
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+              "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+              "Accept-Language": "fr-FR,fr;q=0.9,en;q=0.8,ar;q=0.7",
+              "Cache-Control": "no-cache",
+              "Upgrade-Insecure-Requests": "1",
+          }
+
+          def inspect_html(text):
+              soup = BeautifulSoup(text or "", "html.parser")
+              anchors = soup.find_all("a", href=True)
+              titles = [
+                  " ".join(a.get_text(" ", strip=True).split())
+                  for a in anchors
+                  if " ".join(a.get_text(" ", strip=True).split())
+              ]
+              return {
+                  "chars": len(text or ""),
+                  "anchors": len(anchors),
+                  "title_samples": titles[:5],
+                  "cloudflare": "cf-chl-" in (text or "").lower() or "cloudflare" in (text or "").lower(),
+              }
+
+          results = {}
+          for name, url in urls.items():
+              results[name] = {}
+              print("\n###", name, url)
+
+              started=time.time()
+              try:
+                  r=requests.get(url, headers=headers, timeout=18, allow_redirects=True)
+                  results[name]["requests"]={"status":r.status_code,"url":r.url,"seconds":round(time.time()-started,2),**inspect_html(r.text)}
+              except Exception as e:
+                  results[name]["requests"]={"error":f"{type(e).__name__}: {e}","seconds":round(time.time()-started,2)}
+
+              started=time.time()
+              try:
+                  r=curl_requests.get(url, headers=headers, timeout=18, impersonate="chrome", allow_redirects=True)
+                  results[name]["curl_cffi"]={"status":r.status_code,"url":str(r.url),"seconds":round(time.time()-started,2),**inspect_html(r.text)}
+              except Exception as e:
+                  results[name]["curl_cffi"]={"error":f"{type(e).__name__}: {e}","seconds":round(time.time()-started,2)}
+
+              started=time.time()
+              try:
+                  scraper=cloudscraper.create_scraper(browser={"browser":"chrome","platform":"windows","mobile":False})
+                  r=scraper.get(url, headers=headers, timeout=18, allow_redirects=True)
+                  results[name]["cloudscraper"]={"status":r.status_code,"url":r.url,"seconds":round(time.time()-started,2),**inspect_html(r.text)}
+              except Exception as e:
+                  results[name]["cloudscraper"]={"error":f"{type(e).__name__}: {e}","seconds":round(time.time()-started,2)}
+
+              started=time.time()
+              try:
+                  page=Fetcher.get(
+                      url,
+                      timeout=18,
+                      retries=0,
+                      stealthy_headers=True,
+                      impersonate="chrome",
+                      headers=headers,
+                  )
+                  text=str(page or "")
+                  results[name]["scrapling"]={"status":getattr(page,"status",None),"url":str(getattr(page,"url",url)),"seconds":round(time.time()-started,2),**inspect_html(text)}
+              except Exception as e:
+                  results[name]["scrapling"]={"error":f"{type(e).__name__}: {e}","seconds":round(time.time()-started,2)}
+
+              print(json.dumps(results[name], ensure_ascii=False, indent=2))
+
+          print("\n=== FINAL_FETCH_DIAGNOSTIC ===")
+          print(json.dumps(results, ensure_ascii=False, indent=2))
+          PY
