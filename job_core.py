@@ -57,13 +57,15 @@ MONTHLY_VOLUME_RANGE = {
 }
 FACEBOOK_SLOTS = {
     0: (time(12, 30), time(19, 30)),
-    1: (time(9, 0), time(19, 0)),
-    2: (time(9, 0), time(19, 0)),
-    3: (time(9, 0), time(20, 0)),
-    4: (time(9, 30), time(19, 30)),
-    5: (time(10, 0),),
-    6: (time(10, 0), time(19, 0)),
+    1: (time(12, 30), time(19, 0)),
+    2: (time(12, 30), time(19, 0)),
+    3: (time(12, 30), time(20, 0)),
+    4: (time(10, 30), time(19, 30)),
+    5: (time(11, 0),),
+    6: (time(19, 0),),
 }
+# Research-informed starting slots, not measured peaks for this Page.
+# See docs/publishing-schedule.md. Local timezone rules apply all year.
 
 
 def _local(now=None):
@@ -188,6 +190,17 @@ def _public_http(url):
         return False
 
 
+def job_deadline_time(article):
+    raw = str(article.get("job_deadline") or "").strip()
+    if re.fullmatch(r"\d{4}-\d{2}-\d{2}", raw):
+        try:
+            day = datetime.fromisoformat(raw).date()
+            return datetime.combine(day, time.max, tzinfo=ZoneInfo(MOROCCO_TIMEZONE)).astimezone(timezone.utc)
+        except ValueError:
+            return None
+    return _parse_date(raw)
+
+
 def job_labels(article):
     labels = ["jobs"]
     eligibility = str(article.get("job_eligibility") or article.get("eligibility") or "").strip().lower()
@@ -259,7 +272,7 @@ def score_job(article, now=None):
         reasons.append("generic careers/listing page is not a job posting")
 
     notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
-    deadline = _parse_date(article.get("job_deadline"))
+    deadline = job_deadline_time(article)
     expired = bool(notice_type == "vacancy" and deadline and deadline < now)
     if expired:
         reasons.append("deadline passed")
@@ -287,7 +300,7 @@ def classify_urgency(article, now=None):
             "allow_daily_override": False,
             "reason": f"employment notice update: {notice_type}",
         }
-    deadline = _parse_date(article.get("job_deadline"))
+    deadline = job_deadline_time(article)
     days = (deadline - now).total_seconds() / 86400 if deadline else None
     try:
         positions = max(0, int(article.get("job_number_of_positions") or 0))
@@ -534,6 +547,9 @@ def select_best_job_from_queue(queue, now=None):
             continue
         if article.get("content_fetch_status") != "success":
             continue
+        retry_after = _parse_date(article.get("candidate_retry_after") or article.get("enrichment_retry_after"))
+        if retry_after and retry_after > now:
+            continue
         quality, decision = prepare_job_candidate(article, now=now)
         if decision["action"] == "duplicate":
             article["status"] = "skipped"
@@ -576,6 +592,11 @@ def record_job_publish(article, now=None):
     now = now or datetime.now(timezone.utc)
     campaign_id = article.get("job_campaign_id") or _new_campaign_id()
     ikey, skey = identity_key(article), semantic_key(article)
+    previous = get_by_identity(ikey) or {}
+    already_recorded = bool(
+        article.get("blogger_post_id")
+        and previous.get("blogger_post_id") == article.get("blogger_post_id")
+    )
     record = {
         "campaign_id": campaign_id,
         "identity_key": ikey,
@@ -613,7 +634,7 @@ def record_job_publish(article, now=None):
         ids.append(campaign_id)
     _save_json(sem_path, {"campaign_ids": ids[-20:]})
 
-    if action in {"new", "new_campaign"}:
+    if action in {"new", "new_campaign"} and not already_recorded:
         state = load_job_state()
         day = _day_key(now)
         counts = state.setdefault("daily_publish_count", {})
@@ -626,7 +647,7 @@ def record_job_publish(article, now=None):
     return record
 
 
-def facebook_slot_status(posted_times=None, now=None, urgent=False, window_minutes=25):
+def facebook_slot_status(posted_times=None, now=None, urgent=False, window_minutes=50):
     local_now = _local(now)
     if urgent:
         return {"allowed_now": True, "mode": "immediate", "slot": "", "next_slot": local_now.isoformat()}
@@ -648,7 +669,8 @@ def facebook_slot_status(posted_times=None, now=None, urgent=False, window_minut
         delta = (local_now - target).total_seconds() / 60
         if 0 <= delta <= window_minutes:
             already_used = any(
-                p.date() == local_now.date() and abs((p - target).total_seconds()) <= 45 * 60
+                p.date() == local_now.date()
+                and -45 * 60 <= (p - target).total_seconds() <= window_minutes * 60
                 for p in local_posts
             )
             if not already_used:

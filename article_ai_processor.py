@@ -581,8 +581,8 @@ STRICT ACCURACY
 LENGTH AND STYLE
 - This is a JOB LISTING, not a long-form article.
 - Keep the explanatory prose compact, normally 135-200 Arabic words.
-- HARD FLOOR: html_content must contain at least 125 Arabic words. Aim above the
-  minimum so formatting cleanup never drops the article below the 120-word production gate.
+- Aim for 135-200 words; the shared production minimum is 100 words.
+  Never invent information or repeat facts to meet the target length.
 - Multi-specialization campaigns or candidate/result notices may contain a factual
   official-links table beyond that prose target. Never add filler, but never delete
   a useful verified official row merely to hit a word count.
@@ -596,8 +596,8 @@ TITLE
   not like a database row and not like "company: translated title (English title)".
 - The headline should immediately answer: WHO/WHAT + WHAT HAPPENED + the most useful
   verified distinguishing fact (positions, roles, stage, location, or campaign year).
-- The JSON "title" is the Blogger/SEO headline and MUST be 45-65 characters
-  (the production gate accepts 40-70). Count characters before returning.
+- The JSON "title" is the Blogger/SEO headline. Aim for 45-75 characters;
+  preserve clear role/employer/stage meaning (accepted range 28-150).
 - For a vacancy, the title MUST contain a clear employment action such as
   "توظف" or "تعلن عن توظيف" or "فرصة توظيف"; do not return only the role name.
 - Keep it natural and specific: employer + employment action + Arabic role
@@ -875,18 +875,24 @@ def _validate_ai_output(data, package=None):
     description = str(data["description"]).strip()
     html_content = str(data["html_content"]).strip()
 
-    if FAST_NEWS_MODE and ALLOW_SHORT_ARTICLES:
+    if JOBS_MODE:
+        title_ok = 28 <= len(title) <= 150
+        description_ok = 70 <= len(description) <= 190
+        title_range, description_range = "28-150", "70-190"
+    elif FAST_NEWS_MODE and ALLOW_SHORT_ARTICLES:
         title_ok = 10 <= len(title) <= 90
         description_ok = 40 <= len(description) <= 190
+        title_range, description_range = "10-90", "40-190"
     else:
         title_ok = 40 <= len(title) <= 70
         description_ok = 100 <= len(description) <= 170
+        title_range, description_range = "40-70", "100-170"
 
     if not title_ok:
-        raise AIIncompleteResponseError(f"SEO title length must be 40-70 characters; got {len(title)}")
+        raise AIIncompleteResponseError(f"SEO title length must be {title_range} characters; got {len(title)}")
     if not description_ok:
         raise AIIncompleteResponseError(
-            f"Meta description length must be 100-170 characters; got {len(description)}"
+            f"Meta description length must be {description_range} characters; got {len(description)}"
         )
     if not html_content:
         raise AIIncompleteResponseError("html_content is empty")
@@ -922,8 +928,8 @@ The previous compact job listing failed this quality rule:
 Rewrite ONLY as a concise verified job listing.
 
 MANDATORY JOB RETRY RULES:
-- Target 135-200 Arabic words. HARD FLOOR: 125 words; never return fewer.
-- The JSON title MUST be 45-65 characters (hard accepted range 40-70).
+- Target 135-200 Arabic words; the shared accepted minimum is 100 words.
+- Aim for a 45-75 character title; keep clear meaning (accepted range 28-150).
 - For vacancy notices, the title MUST explicitly contain an employment action:
   "توظف", "تعلن عن توظيف", "فرصة توظيف", or "مباراة توظيف" as appropriate.
 - Before returning, silently count the article words and title characters.
@@ -1074,6 +1080,13 @@ def _trim_to_length(text, max_length):
 def _shorten_metadata_once_if_needed(data):
     title = str(data.get("title", "")).strip()
     description = str(data.get("description", "")).strip()
+
+    if JOBS_MODE:
+        # Do not cut the employer, translated role or result stage to hit a
+        # generic SEO character target. Meaning is checked by the Jobs gate.
+        if len(description) > 190:
+            data["description"] = _trim_to_length(description, 180)
+        return data
 
     if len(title) <= 70 and len(description) <= 170:
         return data
@@ -2107,9 +2120,10 @@ def _is_provider_error(error):
 def _apply_success(article, data, provider_used):
     final_html = str(data["html_content"]).strip()
     word_count = html_word_count(final_html)
-    if word_count < MIN_PUBLISHABLE_WORDS:
+    minimum_words = _minimum_article_words_for_package(article.get("ai_input_package") or {})
+    if word_count < minimum_words:
         raise ValueError(
-            f"article too short ({word_count} words; minimum {MIN_PUBLISHABLE_WORDS})"
+            f"article too short ({word_count} words; minimum {minimum_words})"
         )
     article["ai_status"] = "completed"
     article["ai_processed_at"] = _now_iso()

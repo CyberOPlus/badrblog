@@ -1,0 +1,154 @@
+"""Regressions for unattended Jobs delivery; no external requests or publishing."""
+import copy
+import unittest
+from contextlib import redirect_stdout
+from datetime import datetime, timedelta, timezone
+from io import StringIO
+from unittest.mock import patch
+from zoneinfo import ZoneInfo
+
+import article_ai_processor as ai
+import facebook_publisher as facebook
+import job_core
+import main
+import quality_gate
+
+
+class JobsRuntimeTests(unittest.TestCase):
+    def test_compact_job_passes_both_word_gates(self):
+        package = {"url": "https://employer.example/jobs/42", "job_notice_type": "vacancy"}
+        data = {
+            "title": "شركة أورنج تعلن عن توظيف خبير في الأمن السيبراني",
+            "description": "فرصة توظيف لدى شركة أورنج في مجال الأمن السيبراني، تعرف على المعلومات الواردة في الإعلان الرسمي وطريقة تقديم طلب الترشيح.",
+            "slug": "orange-cybersecurity",
+            "html_content": "<p>" + " ".join("معلومة" + str(i) for i in range(118)) + "</p>",
+        }
+        article = {"ai_input_package": package}
+        with patch.object(ai, "JOBS_MODE", True), patch.object(quality_gate, "JOBS_MODE", True), \
+             patch.object(ai, "_phase3_quality_failure_reason", return_value=""):
+            ai._validate_ai_output(data, package)
+            ai._apply_success(article, data, "gemini:test")
+        self.assertEqual(article["ai_status"], "completed")
+        self.assertEqual(article["final_word_count"], 118)
+
+    def test_jobs_do_not_truncate_long_institution_result_titles(self):
+        title = "الوكالة الوطنية للمحافظة العقارية والمسح العقاري والخرائطية: لوائح المدعوين للاختبار الكتابي"
+        with patch.object(ai, "JOBS_MODE", True):
+            result = ai._shorten_metadata_once_if_needed({"title": title, "description": "وصف"})
+        self.assertEqual(result["title"], title)
+        self.assertEqual(quality_gate._job_title_style_reason(title, "candidate_list"), "")
+
+    def test_subminimum_jobs_still_rejected(self):
+        with patch.object(ai, "JOBS_MODE", True):
+            with self.assertRaises(ValueError):
+                ai._apply_success({"ai_input_package": {}}, {"html_content": "<p>قصير جدا</p>"}, "test")
+
+    def test_all_year_slots_cover_regular_and_delayed_checks(self):
+        tz = ZoneInfo("Africa/Casablanca")
+        start = datetime(2027, 1, 1, tzinfo=tz)
+        for offset in range(365):
+            day = start + timedelta(days=offset)
+            for slot in job_core.FACEBOOK_SLOTS[day.weekday()]:
+                target = day.replace(hour=slot.hour, minute=slot.minute)
+                for delay in (7, 22, 37, 49):
+                    now = target + timedelta(minutes=delay)
+                    result = job_core.facebook_slot_status(now=now.astimezone(timezone.utc))
+                    self.assertTrue(result["allowed_now"], (now, result))
+
+    def test_delayed_post_consumes_slot_without_duplicate(self):
+        target = datetime(2026, 9, 29, 12, 30, tzinfo=ZoneInfo("Africa/Casablanca"))
+        posted = target + timedelta(minutes=47)
+        result = job_core.facebook_slot_status(
+            posted_times=[posted.isoformat()], now=target + timedelta(minutes=49)
+        )
+        self.assertFalse(result["allowed_now"])
+
+    def test_no_publishing_before_slot_or_overnight(self):
+        tz = ZoneInfo("Africa/Casablanca")
+        for hour, minute in ((2, 0), (12, 29), (23, 30)):
+            result = job_core.facebook_slot_status(now=datetime(2026, 9, 29, hour, minute, tzinfo=tz))
+            self.assertFalse(result["allowed_now"])
+
+    def test_date_only_deadline_includes_whole_local_day(self):
+        deadline = job_core.job_deadline_time({"job_deadline": "2026-09-29"})
+        noon = datetime(2026, 9, 29, 12, tzinfo=ZoneInfo("Africa/Casablanca"))
+        self.assertGreater(deadline, noon)
+        self.assertEqual(deadline.astimezone(noon.tzinfo).hour, 23)
+        explicit = "2026-09-29T16:00:00+00:00"
+        self.assertEqual(job_core.job_deadline_time({"job_deadline": explicit}).isoformat(), explicit)
+
+    def test_jobs_selector_respects_failed_candidate_cooldown(self):
+        now = datetime(2026, 9, 28, tzinfo=timezone.utc)
+        row = {"status": "ready", "content_fetch_status": "success",
+               "candidate_retry_after": (now + timedelta(minutes=45)).isoformat()}
+        with patch.object(job_core, "prepare_job_candidate") as prepare:
+            self.assertIsNone(job_core.select_best_job_from_queue({"articles": [row]}, now))
+            prepare.assert_not_called()
+
+    def test_retry_uses_job_validation_and_excludes_attempted_ids(self):
+        first, second = {"id": "failed"}, {"id": "verified", "status": "ready"}
+        queue = {"articles": [first, second]}
+        with patch.object(main, "JOBS_MODE", True), \
+             patch.object(main, "load_article_queue", return_value=queue), \
+             patch.object(main, "save_article_queue"), \
+             patch.object(main, "select_best_job_from_queue", return_value=second) as select, \
+             patch.object(main, "run_plan_next_only") as generic:
+            result = main._select_retry_candidate({}, {"failed"})
+        self.assertIs(result, second)
+        self.assertEqual(select.call_args.args[0]["articles"], [second])
+        generic.assert_not_called()
+
+    def test_pending_facebook_runs_even_when_article_ai_fails(self):
+        calls = []
+        def social():
+            calls.append("facebook")
+            return {"created": 1}
+        def cycle():
+            calls.append("blogger")
+            return {"completed": False, "step_reached": "run-ai", "reason": "AI failed"}
+        with patch.object(main, "JOBS_MODE", True), patch.object(main, "FACEBOOK_AUTO_POST", True), \
+             patch.object(main, "_effective_publish_mode", return_value="live"), \
+             patch.object(main, "drain_scheduled_facebook", side_effect=social), \
+             patch.object(main, "run_safe_cycle_only", side_effect=cycle), \
+             patch.object(main, "save_runtime_state_to_git", return_value={}), \
+             patch.object(main, "_append_auto_cycle_run_log"), \
+             patch.object(main, "log_event"), redirect_stdout(StringIO()):
+            result = main.run_auto_cycle_logged()
+        self.assertEqual(calls, ["facebook", "blogger"])
+        self.assertEqual(result["scheduled_facebook"]["created"], 1)
+
+    def test_backlog_never_bypasses_schedule(self):
+        pending = [{"id": "one"}, {"id": "two"}]
+        with patch.object(facebook, "_is_configured", return_value=True), \
+             patch.object(facebook, "load_article_queue", return_value={}), \
+             patch.object(facebook, "_facebook_backfill_candidates", return_value=(pending, [])), \
+             patch.object(facebook, "get_facebook_limits_status", return_value={"allowed_now": False}), \
+             patch.object(facebook, "post_one_article_to_facebook") as post:
+            result = facebook.drain_scheduled_facebook()
+        post.assert_not_called()
+        self.assertEqual(result["created"], 0)
+
+    def test_backlog_posts_only_one_with_limits_enabled(self):
+        pending = [{"id": "one"}, {"id": "two"}]
+        with patch.object(facebook, "_is_configured", return_value=True), \
+             patch.object(facebook, "load_article_queue", return_value={}), \
+             patch.object(facebook, "_facebook_backfill_candidates", return_value=(pending, [])), \
+             patch.object(facebook, "get_facebook_limits_status", return_value={"allowed_now": True}), \
+             patch.object(facebook, "post_one_article_to_facebook", return_value={"posted": True}) as post:
+            result = facebook.drain_scheduled_facebook()
+        post.assert_called_once_with("one", respect_limits=True)
+        self.assertEqual(result["created"], 1)
+
+    def test_daily_social_count_uses_morocco_date_not_next_slot(self):
+        # After today's final slot, tomorrow's next slot must not reset today's count.
+        tz = ZoneInfo("Africa/Casablanca")
+        now = datetime(2026, 9, 29, 23, 55, tzinfo=tz)
+        rows = [{"facebook_status": "posted", "facebook_posted_at": now.isoformat()}]
+        with patch.object(facebook, "JOBS_MODE", True), \
+             patch.object(facebook, "load_article_queue", return_value={"articles": rows}):
+            result = facebook.get_facebook_limits_status(now=now)
+        self.assertEqual(result["facebook_posts_today"], 1)
+
+
+if __name__ == "__main__":
+    unittest.main()

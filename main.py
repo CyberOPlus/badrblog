@@ -102,6 +102,7 @@ from config import (
 )
 from facebook_publisher import (
     backfill_facebook_posts,
+    drain_scheduled_facebook,
     get_facebook_limits_status,
     get_facebook_status,
     preview_next_facebook_post,
@@ -1172,6 +1173,9 @@ RUNTIME_STATE_PATHS = (
     AI_PROVIDER_MEMORY_PATH,
     FACEBOOK_STYLE_MEMORY_PATH,
     INTERNAL_LINK_CACHE_PATH,
+    Path("data/job_state.json"),
+    Path("data/job_memory"),
+    Path("data/job_visual_state.json"),
 )
 
 
@@ -1190,6 +1194,9 @@ def save_runtime_state_to_git():
         "git_push_state": "skipped",
         "warning": "",
     }
+    if os.getenv("JOBS_RUNTIME_PERSIST_BY_WORKFLOW", "").lower() == "true":
+        result["git_push_state"] = "workflow-managed"
+        return result
     if os.getenv("GITHUB_ACTIONS", "").strip().lower() != "true":
         result["warning"] = "runtime state git save skipped outside GitHub Actions"
         return result
@@ -1237,7 +1244,12 @@ def run_auto_cycle_logged():
     error = None
     try:
         log_event("auto_cycle_start", run_id=run_id, mode=_effective_publish_mode())
+        if JOBS_MODE and FACEBOOK_AUTO_POST and _effective_publish_mode() == "live":
+            social = drain_scheduled_facebook()
+            print("Scheduled Facebook: " + json.dumps(social, ensure_ascii=False), flush=True)
         result = run_safe_cycle_only()
+        if JOBS_MODE and FACEBOOK_AUTO_POST and _effective_publish_mode() == "live":
+            result["scheduled_facebook"] = social
         return result
     except Exception as exc:
         error = str(exc)
@@ -2022,7 +2034,18 @@ def _mark_candidate_failure_for_retry(article, stage, reason):
 def _select_retry_candidate(fetch_stats, attempted_ids):
     attempted_ids = {item for item in (attempted_ids or set()) if item}
     selected = None
-    if CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
+    if JOBS_MODE:
+        queue = load_article_queue()
+        candidates = {"articles": [
+            article for article in queue.get("articles", [])
+            if (article.get("id") or article.get("url")) not in attempted_ids
+        ]}
+        selected = select_best_job_from_queue(candidates)
+        if selected:
+            selected["status"] = "selected"
+            selected["selected_at"] = datetime.now().isoformat(timespec="seconds")
+        save_article_queue(queue)
+    elif CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
         selected = _select_newest_fresh_ready_article(
             fetch_stats.get("selected_category", ""),
             preferred_ids=fetch_stats.get("queued_candidate_ids", []),
@@ -2170,7 +2193,7 @@ def _process_hourly_target(selected, publish_mode):
         try:
             facebook_result = post_one_article_to_facebook(
                 target_article_id=selected_id,
-                respect_limits=False,
+                respect_limits=bool(JOBS_MODE),
             )
             article = _find_article_by_id(selected_id)
         except Exception as error:
@@ -2746,7 +2769,7 @@ def run_safe_cycle_only():
         print("Posting Facebook", flush=True)
         facebook_result = post_one_article_to_facebook(
             target_article_id=selected_id,
-            respect_limits=False if JOBS_MODE else True,
+            respect_limits=True,
         )
         print_facebook_post_summary(facebook_result)
         article = _find_article_by_id(selected_id)
@@ -3385,7 +3408,10 @@ def main():
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "auto-cycle":
-        run_auto_cycle_logged()
+        result = run_auto_cycle_logged()
+        if JOBS_MODE and not result.get("completed") and not result.get("skipped"):
+            if result.get("step_reached") in {"run-ai", "prepare-ai", "publish", "safety-check"}:
+                raise SystemExit(1)
         return
 
     if len(sys.argv) > 1 and sys.argv[1] == "deployment-check":

@@ -7,16 +7,16 @@ on:
     paths:
       - ".github/workflows/auto-cycle.yml"
   schedule:
-    # Run every hour at minute 47. Publishing limits and duplicate protection
-    # decide whether the cycle only checks sources or actually publishes.
-    - cron: "47 * * * *"
+    # Check throughout the year, away from the busiest minute 00.
+    # Facebook's Africa/Casablanca slots and Blogger caps decide delivery.
+    - cron: "7,22,37,52 * * * *"
 
 concurrency:
   group: auto-cycle-${{ github.ref }}
   cancel-in-progress: false
 
 env:
-  AUTO_CYCLE_CACHE_NAMESPACE: cyberoplus-jobs-state-v4-ats
+  JOBS_RUNTIME_PERSIST_BY_WORKFLOW: "true"
 
 jobs:
   auto-cycle:
@@ -29,24 +29,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Restore Jobs state
-        uses: actions/cache/restore@v4
         with:
-          path: |
-            jobs_article_queue.json
-            data/job_state.json
-            data/job_memory
-            data/job_visual_state.json
-            data/crawl_state.json
-            data/ai_provider_memory.json
-            data/facebook_style_memory.json
-            data/internal_link_cache.json
-            data/source_health.json
-            logs/auto_cycle_runs.jsonl
-          key: ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-${{ github.run_id }}
-          restore-keys: |
-            ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-
+          ref: main
+          fetch-depth: 1
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -58,6 +43,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Verify publishing regressions
+        run: python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime -q
 
       - name: Create runtime secrets and Jobs env
         env:
@@ -198,9 +186,6 @@ jobs:
           print("Jobs quality retries: stay on Gemini")
           PY
 
-      - name: Backfill pending Facebook posts
-        run: python main.py facebook-backfill
-
       - name: Queue maintenance
         run: python main.py queue-maintenance
 
@@ -220,23 +205,6 @@ jobs:
       - name: Health summary
         if: always()
         run: python main.py health
-
-      - name: Save Jobs state cache
-        if: always()
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            jobs_article_queue.json
-            data/job_state.json
-            data/job_memory
-            data/job_visual_state.json
-            data/crawl_state.json
-            data/ai_provider_memory.json
-            data/facebook_style_memory.json
-            data/internal_link_cache.json
-            data/source_health.json
-            logs/auto_cycle_runs.jsonl
-          key: ${{ env.AUTO_CYCLE_CACHE_NAMESPACE }}-${{ github.run_id }}
 
       - name: Persist Jobs runtime state
         if: always() && github.ref == 'refs/heads/main'
@@ -266,5 +234,30 @@ jobs:
             echo "No Jobs runtime state changes to commit."
           else
             git commit -m "Update Jobs runtime state [skip ci]"
+            for attempt in 1 2 3; do
+              if git push origin HEAD:main; then
+                exit 0
+              fi
+              # Keep unrelated code updates made while this run was active.
+              git pull --rebase origin main || exit 1
+            done
             git push origin HEAD:main
           fi
+
+      - name: Keep recoverable runtime checkpoint
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jobs-state-${{ github.run_id }}-${{ github.run_attempt }}
+          retention-days: 7
+          path: |
+            jobs_article_queue.json
+            data/job_state.json
+            data/job_memory
+            data/job_visual_state.json
+            data/crawl_state.json
+            data/ai_provider_memory.json
+            data/facebook_style_memory.json
+            data/internal_link_cache.json
+            data/source_health.json
+            logs/auto_cycle_runs.jsonl

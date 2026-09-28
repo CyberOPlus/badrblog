@@ -30,7 +30,7 @@ from config import (
 )
 from production_logging import elapsed_ms, log_event
 from utils.facebook_image_generator import generate_facebook_image
-from job_core import facebook_slot_status
+from job_core import facebook_slot_status, _local as jobs_local_time, _parse_date as parse_job_date, classify_urgency
 CAPTION_STYLES = (
     "ai_tools",
     "cybersecurity",
@@ -1352,11 +1352,11 @@ def get_facebook_limits_status(now=None, urgent=False):
 
     if JOBS_MODE:
         slot = facebook_slot_status(posted_times=posted_times, now=now, urgent=urgent)
-        local_day = str(slot.get("slot") or slot.get("next_slot") or "")[:10]
+        local_day = jobs_local_time(now).date()
         today_count = sum(
             1 for value in posted_times
-            if str(value or "")[:10] == local_day
-        ) if local_day else 0
+            if parse_job_date(value) and jobs_local_time(parse_job_date(value)).date() == local_day
+        )
         daily_blocked = today_count >= MAX_FACEBOOK_POSTS_PER_DAY and not urgent
         allowed_now = bool(slot.get("allowed_now")) and not daily_blocked
         reasons = []
@@ -1531,6 +1531,10 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         article["facebook_post_text"] = blueprint["caption"]
         article.pop("facebook_error", None)
 
+        # Persist the acknowledged remote ID before the separate comment call.
+        # A comment failure must never cause a second photo post.
+        save_article_queue(queue)
+
         try:
             comment_id = _post_first_comment(facebook_post_id, blogger_url)
             article["facebook_comment_id"] = comment_id
@@ -1690,6 +1694,37 @@ def retry_facebook_first_comment(target_article_id):
         }
         log_event("facebook_comment_success", article_id=article.get("id"), success=False, error=error.__class__.__name__)
     return result
+
+
+def drain_scheduled_facebook():
+    """Retry pending social delivery independently of new Blogger generation.
+
+    Never bypass daily/slot limits. Each cycle can create at most one photo and
+    retry at most one missing first comment; actual Graph failures are reported.
+    """
+    stats = {"created": 0, "comments_created": 0, "failed": 0, "skipped": 0}
+    if not _is_configured():
+        stats["skipped"] = 1
+        return stats
+    queue = load_article_queue()
+    pending, comments = _facebook_backfill_candidates(queue.get("articles", []))
+    if comments:
+        result = retry_facebook_first_comment(comments[0].get("id") or comments[0].get("url"))
+        stats["comments_created"] = int(bool(result.get("posted")))
+        stats["failed"] += int(not result.get("posted"))
+    for article in pending:
+        if JOBS_MODE and classify_urgency(article).get("level") == "expired":
+            stats["skipped"] += 1
+            continue
+        limits = get_facebook_limits_status(urgent=bool(JOBS_MODE and article.get("job_publish_immediately")))
+        if not limits["allowed_now"]:
+            stats["skipped"] += 1
+            continue
+        result = post_one_article_to_facebook(article.get("id") or article.get("url"), respect_limits=True)
+        stats["created"] += int(bool(result.get("posted")))
+        stats["failed"] += int(not result.get("posted"))
+        break
+    return stats
 
 
 def backfill_facebook_posts():
