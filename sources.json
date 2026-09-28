@@ -1,82 +1,226 @@
 {
+  "version": 2,
+  "purpose": "Cybero Plus jobs source registry",
+  "policy": {
+    "parent_label": "jobs",
+    "official_first": true,
+    "aggregators_discovery_only": true,
+    "quality_gate": ">=70 publish; 50-69 queue; <50 reject",
+    "morocco_timezone": "Africa/Casablanca"
+  },
   "categories": [
     {
-      "key": "cybersecurity",
-      "name": "Cybersecurity",
-      "label": "Cyber-Security",
+      "key": "jobs-morocco",
+      "name": "Jobs Morocco",
+      "label": "jobs-morocco",
       "sources": [
-        {"name": "BleepingComputer", "base_url": "https://www.bleepingcomputer.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "The Hacker News", "base_url": "https://thehackernews.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Dark Reading", "base_url": "https://www.darkreading.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "SecurityWeek", "base_url": "https://www.securityweek.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "KrebsOnSecurity", "base_url": "https://krebsonsecurity.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "The Record", "base_url": "https://therecord.media", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "GBHackers", "base_url": "https://gbhackers.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Cyber Security News", "base_url": "https://cybersecuritynews.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "SentinelOne Blog", "base_url": "https://www.sentinelone.com/blog", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Unit 42", "base_url": "https://unit42.paloaltonetworks.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Cisco Talos Blog", "base_url": "https://blog.talosintelligence.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Google Project Zero", "base_url": "https://googleprojectzero.blogspot.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Malwarebytes Blog", "base_url": "https://www.malwarebytes.com/blog", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "SANS ISC", "base_url": "https://isc.sans.edu", "enabled": true, "fetch_limit_per_run": 3, "feed_url": "https://isc.sans.edu/rssfeed.xml", "extractor_type": "feed_fallback"},
-        {"name": "Troy Hunt", "base_url": "https://www.troyhunt.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Exploit-DB", "base_url": "https://www.exploit-db.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "CISA Cybersecurity Advisories", "base_url": "https://www.cisa.gov/news-events/cybersecurity-advisories", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Mandiant Blog", "base_url": "https://www.mandiant.com/resources/blog", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Heimdal Security", "base_url": "https://heimdalsecurity.com/blog", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Graham Cluley", "base_url": "https://grahamcluley.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"}
+        {
+          "name": "Emploi-Public — établissements publics",
+          "base_url": "https://www.emploi-public.ma/fr/concours-liste?corps=0&procedure=0&region=0&stat=etab_publics",
+          "enabled": true,
+          "fetch_limit_per_run": 12,
+          "extractor_type": "auto",
+          "source_priority": "S+",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco"
+        },
+        {
+          "name": "Emploi-Public — services de l'État",
+          "base_url": "https://www.emploi-public.ma/fr/concours-liste?corps=0&procedure=0&region=0&stat=service_etat",
+          "enabled": true,
+          "fetch_limit_per_run": 12,
+          "extractor_type": "auto",
+          "source_priority": "S+",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco"
+        },
+        {
+          "name": "ONCF Recrutement",
+          "base_url": "https://www.oncf.ma/fr/Entreprise/Faire-carriere-a-l-oncf/Recrutement",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "auto",
+          "source_priority": "S",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco"
+        },
+        {
+          "name": "ONDA Recrutement",
+          "base_url": "https://www.onda.ma/Je-d%C3%A9couvre-ONDA/Ressources-humaines/Recrutement",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "auto",
+          "source_priority": "S",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco"
+        },
+        {
+          "name": "Maroc Telecom",
+          "base_url": "https://iam.csod.com/ux/ats/careersite/4/home/?c=iam",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "auto",
+          "source_priority": "S",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco"
+        },
+        {
+          "name": "inwi",
+          "base_url": "https://jobs.inwi.ma/jobs",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "auto",
+          "source_priority": "S",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco"
+        },
+        {
+          "name": "Capgemini Morocco",
+          "base_url": "https://www.capgemini.com/ma-en/job-search/",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "auto",
+          "source_priority": "S",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco"
+        },
+        {
+          "name": "Crédit du Maroc",
+          "base_url": "https://carriere.creditdumaroc.ma/offre-de-emploi/liste-offres.aspx?showSearchUrl=1",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "auto",
+          "source_priority": "S",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco"
+        },
+        {
+          "name": "OCP Group",
+          "base_url": "https://careers.ocpgroup.ma/",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "auto",
+          "source_priority": "A+",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco"
+        },
+        {
+          "name": "Orange Maroc",
+          "base_url": "https://orange.jobs/fr/fr/afrique-moyen-orient/maroc",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "auto",
+          "source_priority": "A+",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco"
+        },
+        {
+          "name": "Orange Business Morocco",
+          "base_url": "https://orange.jobs/fr/fr/orange-business/maroc",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "auto",
+          "source_priority": "A+",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco"
+        },
+        {
+          "name": "Attijariwafa bank",
+          "base_url": "https://www.attijariwafabank.com/fr/emploi-carrieres",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "auto",
+          "source_priority": "A+",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco"
+        },
+        {
+          "name": "Autoroutes du Maroc",
+          "base_url": "https://www.adm.co.ma/",
+          "enabled": true,
+          "fetch_limit_per_run": 6,
+          "extractor_type": "auto",
+          "source_priority": "A",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco"
+        }
       ]
     },
     {
-      "key": "ai",
-      "name": "AI",
-      "label": "AI-Tools",
+      "key": "jobs-abroad",
+      "name": "Jobs Abroad",
+      "label": "jobs-abroad",
       "sources": [
-        {"name": "Artificial Intelligence News", "base_url": "https://www.artificialintelligence-news.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "VentureBeat AI", "base_url": "https://venturebeat.com/ai", "enabled": true, "fetch_limit_per_run": 3, "feed_url": "https://venturebeat.com/category/ai/feed/", "extractor_type": "feed_fallback"},
-        {"name": "Unite.AI", "base_url": "https://www.unite.ai", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "AI Magazine", "base_url": "https://aimagazine.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "MarkTechPost", "base_url": "https://www.marktechpost.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Analytics India Magazine", "base_url": "https://analyticsindiamag.com", "enabled": true, "fetch_limit_per_run": 3, "feed_url": "https://analyticsindiamag.com/feed/", "extractor_type": "feed_fallback"},
-        {"name": "AI Trends", "base_url": "https://www.aitrends.com", "enabled": true, "fetch_limit_per_run": 3, "feed_url": "https://www.aitrends.com/feed", "extractor_type": "feed_fallback"},
-        {"name": "Hugging Face Blog", "base_url": "https://huggingface.co/blog", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "OpenAI News", "base_url": "https://openai.com/news", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Anthropic News", "base_url": "https://anthropic.com/news", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"}
+        {
+          "name": "UN Careers RSS",
+          "base_url": "https://careers.un.org/jobfeed?isPage=true",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "feed_fallback",
+          "source_priority": "S+",
+          "official_source": true,
+          "source_country": "GLOBAL",
+          "source_eligibility": "unknown"
+        },
+        {
+          "name": "UN Careers",
+          "base_url": "https://careers.un.org/jobopening?language=en",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "auto",
+          "source_priority": "S",
+          "official_source": true,
+          "source_country": "GLOBAL",
+          "source_eligibility": "unknown"
+        },
+        {
+          "name": "UNICEF Vacancies",
+          "base_url": "https://jobs.unicef.org/cw/en-us/",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "auto",
+          "source_priority": "A+",
+          "official_source": true,
+          "source_country": "GLOBAL",
+          "source_eligibility": "unknown"
+        },
+        {
+          "name": "UN Volunteers",
+          "base_url": "https://app.unv.org/",
+          "enabled": true,
+          "fetch_limit_per_run": 8,
+          "extractor_type": "auto",
+          "source_priority": "A",
+          "official_source": true,
+          "source_country": "GLOBAL",
+          "source_eligibility": "unknown"
+        }
       ]
     },
     {
-      "key": "tech",
-      "name": "Tech",
-      "label": "Tech-News",
-      "sources": [
-        {"name": "TechCrunch", "base_url": "https://techcrunch.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "The Verge", "base_url": "https://www.theverge.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "WIRED", "base_url": "https://www.wired.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Ars Technica", "base_url": "https://arstechnica.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Engadget", "base_url": "https://www.engadget.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "9to5Mac", "base_url": "https://9to5mac.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Android Authority", "base_url": "https://www.androidauthority.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "ZDNET", "base_url": "https://www.zdnet.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Tom's Hardware", "base_url": "https://www.tomshardware.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Digital Trends", "base_url": "https://www.digitaltrends.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"}
-      ]
+      "key": "remote-jobs",
+      "name": "Remote Jobs",
+      "label": "remote-jobs",
+      "sources": []
     },
     {
-      "key": "apps",
-      "name": "Apps and Software",
-      "label": "Apps-Programs",
-      "sources": [
-        {"name": "MakeUseOf", "base_url": "https://www.makeuseof.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "How-To Geek", "base_url": "https://www.howtogeek.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Lifehacker", "base_url": "https://lifehacker.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Ghacks", "base_url": "https://www.ghacks.net", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "AlternativeTo News", "base_url": "https://alternativeto.net/news", "enabled": true, "fetch_limit_per_run": 3, "feed_url": "https://alternativeto.net/news/feed", "extractor_type": "feed_fallback"},
-        {"name": "Neowin", "base_url": "https://www.neowin.net", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "BetaNews", "base_url": "https://betanews.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "Softpedia News", "base_url": "https://www.softpedia.com/news", "enabled": true, "fetch_limit_per_run": 3, "feed_url": "https://news.softpedia.com/newsRSS/Global-0.xml", "extractor_type": "feed_fallback"},
-        {"name": "9to5Google", "base_url": "https://9to5google.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"},
-        {"name": "AppleInsider", "base_url": "https://appleinsider.com", "enabled": true, "fetch_limit_per_run": 3, "extractor_type": "auto"}
-      ]
+      "key": "visa-sponsorship",
+      "name": "Visa Sponsorship",
+      "label": "visa-sponsorship",
+      "sources": []
     }
   ]
 }
