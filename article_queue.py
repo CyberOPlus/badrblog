@@ -168,6 +168,13 @@ def load_sources():
             category_key = str(category.get("key") or "").strip()
             category_name = str(category.get("name") or category_key).strip()
             category_label = str(category.get("label") or category_name).strip()
+            if JOBS_MODE and not (
+                category_key.startswith("jobs-")
+                or category_label.startswith("jobs-")
+                or category_key == "remote-jobs"
+                or category_label == "remote-jobs"
+            ):
+                continue
             for source in category.get("sources", []):
                 if not isinstance(source, dict):
                     continue
