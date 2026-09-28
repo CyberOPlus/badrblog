@@ -53,10 +53,44 @@ class IdentityTests(unittest.TestCase):
         self.assertEqual(decision.action, "needs_review")
 
     def test_slugs_are_stable_and_collision_resistant(self):
-        a = job(raw={"job_id": "123"})
-        b = job(raw={"job_id": "999"}, application_url="https://example.com/apply/999")
+        a = job(raw={"job_id": "123", "_campaign_id": "abc123def456"})
+        b = job(raw={"job_id": "999", "_campaign_id": "fff999eee888"}, application_url="https://example.com/apply/999")
         self.assertEqual(desired_slug(a), desired_slug(a))
         self.assertNotEqual(desired_slug(a), desired_slug(b))
+
+    def test_mutable_facts_do_not_change_slug(self):
+        a = job(
+            raw={"job_id": "123", "_campaign_id": "abc123def456"},
+            number_of_positions=100,
+            deadline="2026-10-10",
+            salary="",
+            location="Casablanca",
+        )
+        b = job(
+            raw={"job_id": "123", "_campaign_id": "abc123def456"},
+            number_of_positions=20,
+            deadline="2026-11-20",
+            salary="9000 MAD",
+            location="Rabat",
+        )
+        self.assertEqual(desired_slug(a), desired_slug(b))
+        self.assertNotIn("100", desired_slug(a))
+        self.assertNotIn("2026", desired_slug(a))
+
+    def test_same_role_next_year_becomes_new_campaign(self):
+        old = job(
+            published_at="2026-01-10T08:00:00+00:00",
+            deadline="2026-02-01",
+            raw={"job_id": "123"},
+        )
+        record = snapshot(old)
+        new = job(
+            published_at="2027-01-15T08:00:00+00:00",
+            deadline="2027-02-01",
+            raw={"job_id": "123"},
+        )
+        decision = compare_to_existing(new, record)
+        self.assertEqual(decision.action, "new_campaign")
 
 
 class SourceMergeTests(unittest.TestCase):
