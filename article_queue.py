@@ -13,9 +13,11 @@ from config import (
     RECENT_NEWS_MAX_AGE_HOURS,
     SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
     SOURCES_CONFIG_PATH,
+    JOBS_MODE,
 )
 from duplicate_utils import canonicalize_url, title_hash, topic_signature
 from production_logging import log_event
+from job_core import _parse_date as _parse_job_date
 
 ALLOWED_STATUSES = {"new", "skipped", "ready", "selected", "draft_created", "published", "failed"}
 FRESHNESS_HARD_MAX_HOURS = 24 * 7
@@ -243,6 +245,14 @@ def _fresh_queue_sort_key(article):
 
 
 def is_article_within_fresh_window(article, now=None, max_age_hours=None):
+    if JOBS_MODE:
+        deadline = _parse_job_date(article.get("job_deadline"))
+        if deadline:
+            current = now or datetime.now(timezone.utc)
+            if current.tzinfo is None:
+                current = current.replace(tzinfo=timezone.utc)
+            return deadline >= current.astimezone(timezone.utc)
+        return True
     published_at = _source_published_datetime(article)
     if not published_at:
         return True
@@ -258,6 +268,8 @@ def article_age_hours(article, now=None):
 
 
 def is_article_safe_for_ai(article, now=None):
+    if JOBS_MODE:
+        return is_article_within_fresh_window(article, now=now)
     published_at = _source_published_datetime(article)
     if not published_at:
         return True
@@ -389,7 +401,7 @@ def add_articles_to_queue(discovered_articles):
             duplicate_by_category[category_hint] += 1
             continue
 
-        if normalized_title_hash and (
+        if (not JOBS_MODE) and normalized_title_hash and (
             normalized_title_hash in existing_titles
             or normalized_topic_signature in existing_topics
         ):
@@ -399,7 +411,7 @@ def add_articles_to_queue(discovered_articles):
 
         articles.append(
             {
-                "id": make_article_id(url),
+                "id": make_article_id(f"{url}|{_now_iso()}") if JOBS_MODE else make_article_id(url),
                 "source_url_hash": make_article_id(url),
                 "canonical_url": canonical_url,
                 "title_hash": normalized_title_hash,
@@ -418,6 +430,17 @@ def add_articles_to_queue(discovered_articles):
                 "category_name": category_name,
                 "category_label": category_label,
                 "category_hint": category_hint,
+                "source_priority": article.get("source_priority", ""),
+                "official_source": bool(article.get("official_source", False)),
+                "source_country": article.get("source_country", ""),
+                "source_eligibility": article.get("source_eligibility", ""),
+                "source_remote": bool(article.get("source_remote", False)),
+                "source_visa_sponsorship": bool(article.get("source_visa_sponsorship", False)),
+                "job_company": article.get("job_company", ""),
+                "job_location": article.get("job_location", ""),
+                "job_deadline": article.get("job_deadline", ""),
+                "job_application_url": article.get("job_application_url", ""),
+                "job_number_of_positions": article.get("job_number_of_positions", 0),
                 "discovered_at": _now_iso(),
                 "status": "new",
             }
