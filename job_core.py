@@ -229,7 +229,13 @@ def score_job(article, now=None):
     points["clear_diploma"] = 5 if str(article.get("job_diploma") or "").strip() else 0
 
     apply_url = article.get("job_application_url") or article.get("application_url") or article.get("url")
-    valid_apply = _public_http(apply_url)
+    valid_apply = bool(
+        _public_http(apply_url)
+        and (
+            is_job_specific_url(apply_url)
+            or bool(external_reference(article))
+        )
+    )
     points["clear_application"] = 10 if valid_apply else 0
     points["salary_listed"] = 5 if str(article.get("job_salary") or "").strip() else 0
     points["entry_level_or_student"] = 5 if bool(article.get("job_entry_level")) else 0
@@ -243,7 +249,14 @@ def score_job(article, now=None):
     if not _public_http(source_url):
         reasons.append("invalid source URL")
     if not valid_apply:
-        reasons.append("missing application URL")
+        reasons.append("missing job-specific application URL or reference")
+
+    normalized_title = normalize_text(article.get("job_title") or article.get("title"))
+    if normalized_title in {
+        "jobs", "job", "careers", "career", "recruitment", "recrutement",
+        "vacancies", "opportunities", "emploi", "offres d emploi",
+    }:
+        reasons.append("generic careers/listing page is not a job posting")
 
     deadline = _parse_date(article.get("job_deadline"))
     expired = bool(deadline and deadline < now)
