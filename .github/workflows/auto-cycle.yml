@@ -1,8 +1,8 @@
 name: Cybero Plus Jobs Auto Cycle
 
 on:
-  schedule:
-    - cron: "*/15 * * * *"
+  # Temporarily manual-only while the Jobs article format is being reviewed.
+  # Re-enable the schedule only after the owner explicitly asks for a live test.
   workflow_dispatch:
 
 concurrency:
