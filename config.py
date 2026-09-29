@@ -368,6 +368,34 @@ OPENROUTER_TIMEOUT_SECONDS = _env_int("OPENROUTER_TIMEOUT_SECONDS", AI_MODEL_TIM
 OPENROUTER_REFERER = os.getenv("OPENROUTER_REFERER", "")
 OPENROUTER_APP_NAME = os.getenv("OPENROUTER_APP_NAME", "Blogger Automation Bot")
 
+# Additional independent providers used by Jobs auto-failover.
+GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant").strip()
+GROQ_API_URL = os.getenv(
+    "GROQ_API_URL",
+    "https://api.groq.com/openai/v1/chat/completions",
+).strip()
+GROQ_MAX_TOKENS = _env_int("GROQ_MAX_TOKENS", 4096)
+GROQ_TIMEOUT_SECONDS = _env_int("GROQ_TIMEOUT_SECONDS", AI_MODEL_TIMEOUT_SECONDS)
+
+MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY", "")
+MISTRAL_MODEL = os.getenv("MISTRAL_MODEL", "mistral-small-latest").strip()
+MISTRAL_API_URL = os.getenv(
+    "MISTRAL_API_URL",
+    "https://api.mistral.ai/v1/chat/completions",
+).strip()
+MISTRAL_MAX_TOKENS = _env_int("MISTRAL_MAX_TOKENS", 4096)
+MISTRAL_TIMEOUT_SECONDS = _env_int("MISTRAL_TIMEOUT_SECONDS", AI_MODEL_TIMEOUT_SECONDS)
+
+CLOUDFLARE_API_TOKEN = os.getenv("CLOUDFLARE_API_TOKEN", "")
+CLOUDFLARE_ACCOUNT_ID = os.getenv("CLOUDFLARE_ACCOUNT_ID", "")
+CLOUDFLARE_MODEL = os.getenv(
+    "CLOUDFLARE_MODEL",
+    "@cf/meta/llama-3.1-8b-instruct",
+).strip()
+CLOUDFLARE_MAX_TOKENS = _env_int("CLOUDFLARE_MAX_TOKENS", 4096)
+CLOUDFLARE_TIMEOUT_SECONDS = _env_int("CLOUDFLARE_TIMEOUT_SECONDS", AI_MODEL_TIMEOUT_SECONDS)
+
 # OpenAI settings for Phase 6 AI processing.
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
@@ -747,17 +775,20 @@ def validate_config():
     errors = []
     warnings = []
 
-    supported_ai_providers = {"auto", "gemini", "openrouter", "openai"}
+    supported_ai_providers = {"auto", "gemini", "groq", "openrouter", "cloudflare", "mistral", "openai"}
     supported_publish_modes = {"draft", "live"}
     has_gemini_key = bool(GEMINI_API_KEY and GEMINI_API_KEY != "your_gemini_api_key_here")
     has_openrouter_key = bool(
         OPENROUTER_API_KEY and OPENROUTER_API_KEY != "your_new_key_here"
     )
     has_openai_key = bool(OPENAI_API_KEY and OPENAI_API_KEY != "your_openai_api_key_here")
+    has_groq_key = bool(GROQ_API_KEY)
+    has_mistral_key = bool(MISTRAL_API_KEY)
+    has_cloudflare_key = bool(CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID)
 
     if AI_PROVIDER not in supported_ai_providers:
         errors.append(
-            "  ❌ AI_PROVIDER must be one of: auto, gemini, openrouter, openai"
+            "  ❌ AI_PROVIDER must be one of: auto, gemini, groq, openrouter, cloudflare, mistral, openai"
         )
 
     if PUBLISH_MODE not in supported_publish_modes:
@@ -769,14 +800,35 @@ def validate_config():
     if AI_PROVIDER == "openrouter" and not has_openrouter_key:
         errors.append("  ❌ OPENROUTER_API_KEY is missing or still set to a placeholder in .env")
 
+    if AI_PROVIDER == "groq" and not has_groq_key:
+        errors.append("  ❌ GROQ_API_KEY is missing in .env")
+    if AI_PROVIDER == "cloudflare" and not has_cloudflare_key:
+        errors.append("  ❌ CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID are required.")
+    if AI_PROVIDER == "mistral" and not has_mistral_key:
+        errors.append("  ❌ MISTRAL_API_KEY is missing in .env")
     if AI_PROVIDER == "openai" and not has_openai_key:
         errors.append("  ❌ OPENAI_API_KEY is missing or still set to a placeholder in .env")
 
     if AI_PROVIDER == "auto":
-        if not has_gemini_key and not has_openrouter_key:
-            errors.append("  ❌ Set GEMINI_API_KEY or OPENROUTER_API_KEY in .env")
-        elif has_gemini_key and not has_openrouter_key:
-            warnings.append("  ⚠️  OpenRouter fallback is disabled until OPENROUTER_API_KEY is set.")
+        available = (
+            has_gemini_key
+            or has_groq_key
+            or has_openrouter_key
+            or has_cloudflare_key
+            or has_mistral_key
+            or has_openai_key
+        )
+        if not available:
+            errors.append("  ❌ Configure at least one supported AI provider key.")
+        elif sum(bool(x) for x in (
+            has_gemini_key,
+            has_groq_key,
+            has_openrouter_key,
+            has_cloudflare_key,
+            has_mistral_key,
+            has_openai_key,
+        )) < 2:
+            warnings.append("  ⚠️  Only one AI provider is configured; failover redundancy is limited.")
 
     if not BLOG_ID or BLOG_ID == "your_blog_id_here":
         errors.append("  ❌ BLOG_ID is missing or not set in .env")

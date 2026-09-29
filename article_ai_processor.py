@@ -37,6 +37,21 @@ from config import (
     GEMINI_API_KEY,
     GEMINI_MODEL,
     GEMINI_TIMEOUT_SECONDS,
+    GROQ_API_KEY,
+    GROQ_API_URL,
+    GROQ_MAX_TOKENS,
+    GROQ_MODEL,
+    GROQ_TIMEOUT_SECONDS,
+    MISTRAL_API_KEY,
+    MISTRAL_API_URL,
+    MISTRAL_MAX_TOKENS,
+    MISTRAL_MODEL,
+    MISTRAL_TIMEOUT_SECONDS,
+    CLOUDFLARE_API_TOKEN,
+    CLOUDFLARE_ACCOUNT_ID,
+    CLOUDFLARE_MODEL,
+    CLOUDFLARE_MAX_TOKENS,
+    CLOUDFLARE_TIMEOUT_SECONDS,
     MAX_AI_RETRIES,
     MIN_ARTICLE_WORDS,
     OPENAI_API_KEY,
@@ -289,6 +304,12 @@ def _provider_timeout_seconds(candidate, context=None):
         base_timeout = GEMINI_TIMEOUT_SECONDS
     elif provider == "openrouter":
         base_timeout = OPENROUTER_TIMEOUT_SECONDS
+    elif provider == "groq":
+        base_timeout = GROQ_TIMEOUT_SECONDS
+    elif provider == "mistral":
+        base_timeout = MISTRAL_TIMEOUT_SECONDS
+    elif provider == "cloudflare":
+        base_timeout = CLOUDFLARE_TIMEOUT_SECONDS
     elif provider == "openai":
         base_timeout = OPENAI_TIMEOUT_SECONDS
     else:
@@ -374,9 +395,23 @@ def _cooldown_remaining(candidate):
     return max(0, until - time.time())
 
 
+def _cooldown_seconds_for_error(error):
+    message = str(error or "").casefold()
+    if any(token in message for token in ("401", "403", "unauthorized", "forbidden", "invalid api key")):
+        return 6 * 3600
+    if any(token in message for token in ("429", "402", "quota", "rate limit", "too many requests", "resource_exhausted")):
+        return 45 * 60
+    if any(token in message for token in ("500", "502", "503", "504", "timeout", "timed out")):
+        return 10 * 60
+    if _is_empty_provider_response(error):
+        return 5 * 60
+    return AI_MODEL_COOLDOWN_SECONDS
+
+
 def _put_candidate_on_cooldown(candidate, error):
     candidate_id = _candidate_id(candidate)
-    until = time.time() + AI_MODEL_COOLDOWN_SECONDS + random.uniform(0, 5)
+    cooldown_seconds = _cooldown_seconds_for_error(error)
+    until = time.time() + cooldown_seconds + random.uniform(0, 5)
     _AI_COOLDOWNS[candidate_id] = until
     memory = _load_ai_memory()
     memory.setdefault("cooldowns", {})[candidate_id] = {
@@ -400,7 +435,7 @@ def _put_candidate_on_cooldown(candidate, error):
         model=candidate.get("model"),
         key_id=_key_id(candidate.get("api_key")),
         reason=_safe_error_reason(error),
-        cooldown_seconds=AI_MODEL_COOLDOWN_SECONDS,
+        cooldown_seconds=cooldown_seconds,
     )
 
 
@@ -1753,6 +1788,112 @@ def _generate_with_openai(prompt, api_key=None, model_name=None, timeout_seconds
     return text, f"openai:{model_name}"
 
 
+def _generate_openai_compatible(
+    prompt,
+    *,
+    api_key,
+    api_url,
+    model_name,
+    max_tokens,
+    timeout_seconds,
+    provider_name,
+):
+    if not str(api_key or "").strip():
+        raise RuntimeError(f"{provider_name.upper()} API key is missing.")
+    response = requests.post(
+        api_url,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "model": model_name,
+            "messages": [{"role": "user", "content": prompt}],
+            "max_tokens": max_tokens,
+            "temperature": 0.30,
+        },
+        timeout=timeout_seconds,
+    )
+    if response.status_code >= 400:
+        raise RuntimeError(
+            f"{provider_name} API error {response.status_code}: {response.text[:500]}"
+        )
+    data = response.json()
+    choices = data.get("choices") or []
+    if not choices:
+        raise AIProviderEmptyResponse(f"{provider_name} returned no choices.")
+    message = choices[0].get("message") or {}
+    text = _normalize_openai_content(message.get("content")).strip()
+    if not text:
+        raise AIProviderEmptyResponse(f"{provider_name} returned an empty response.")
+    return text, f"{provider_name}:{data.get('model') or model_name}"
+
+
+def _generate_with_groq(prompt, api_key=None, model_name=None, timeout_seconds=None):
+    return _generate_openai_compatible(
+        prompt,
+        api_key=api_key or GROQ_API_KEY,
+        api_url=GROQ_API_URL,
+        model_name=model_name or GROQ_MODEL,
+        max_tokens=GROQ_MAX_TOKENS,
+        timeout_seconds=timeout_seconds or GROQ_TIMEOUT_SECONDS,
+        provider_name="groq",
+    )
+
+
+def _generate_with_mistral(prompt, api_key=None, model_name=None, timeout_seconds=None):
+    return _generate_openai_compatible(
+        prompt,
+        api_key=api_key or MISTRAL_API_KEY,
+        api_url=MISTRAL_API_URL,
+        model_name=model_name or MISTRAL_MODEL,
+        max_tokens=MISTRAL_MAX_TOKENS,
+        timeout_seconds=timeout_seconds or MISTRAL_TIMEOUT_SECONDS,
+        provider_name="mistral",
+    )
+
+
+def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_seconds=None):
+    api_key = api_key or CLOUDFLARE_API_TOKEN
+    model_name = model_name or CLOUDFLARE_MODEL
+    if not api_key or not CLOUDFLARE_ACCOUNT_ID:
+        raise RuntimeError("Cloudflare Workers AI credentials are missing.")
+    api_url = (
+        "https://api.cloudflare.com/client/v4/accounts/"
+        + CLOUDFLARE_ACCOUNT_ID
+        + "/ai/run/"
+        + model_name
+    )
+    response = requests.post(
+        api_url,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "prompt": prompt,
+            "max_tokens": CLOUDFLARE_MAX_TOKENS,
+            "temperature": 0.30,
+        },
+        timeout=timeout_seconds or CLOUDFLARE_TIMEOUT_SECONDS,
+    )
+    if response.status_code >= 400:
+        raise RuntimeError(
+            f"Cloudflare API error {response.status_code}: {response.text[:500]}"
+        )
+    data = response.json()
+    if data.get("success") is False:
+        raise RuntimeError(f"Cloudflare API returned failure: {str(data.get('errors') or '')[:300]}")
+    result = data.get("result")
+    if isinstance(result, dict):
+        text = str(result.get("response") or result.get("text") or "").strip()
+    else:
+        text = str(result or "").strip()
+    if not text:
+        raise AIProviderEmptyResponse("Cloudflare returned an empty response.")
+    return text, f"cloudflare:{model_name}"
+
+
 def _is_quota_or_rate_limit_error(error):
     message = str(error).casefold()
     return any(
@@ -1800,14 +1941,24 @@ def _resolve_providers():
         providers = []
         if _has_real_key(GEMINI_API_KEY, "your_gemini_api_key_here"):
             providers.append("gemini")
+        if _has_real_key(GROQ_API_KEY, ""):
+            providers.append("groq")
         if _has_real_key(OPENROUTER_API_KEY, "your_new_key_here"):
             providers.append("openrouter")
+        if _has_real_key(CLOUDFLARE_API_TOKEN, "") and str(CLOUDFLARE_ACCOUNT_ID or "").strip():
+            providers.append("cloudflare")
+        if _has_real_key(MISTRAL_API_KEY, ""):
+            providers.append("mistral")
+        if _has_real_key(OPENAI_API_KEY, "your_openai_api_key_here"):
+            providers.append("openai")
         if providers:
             return providers
         raise RuntimeError("No AI provider key configured.")
-    if provider in {"gemini", "openrouter", "openai"}:
+    if provider in {"gemini", "groq", "openrouter", "cloudflare", "mistral", "openai"}:
         return [provider]
-    raise RuntimeError("AI_PROVIDER must be one of: gemini, openrouter, openai, auto")
+    raise RuntimeError(
+        "AI_PROVIDER must be one of: gemini, groq, openrouter, cloudflare, mistral, openai, auto"
+    )
 
 
 def _resolve_openrouter_models():
@@ -1830,6 +1981,9 @@ def _provider_candidates(context=None):
         if provider == "gemini":
             if _has_real_key(GEMINI_API_KEY, "your_gemini_api_key_here"):
                 candidates.append({"provider": "gemini", "api_key": GEMINI_API_KEY, "model": GEMINI_MODEL})
+        elif provider == "groq":
+            if _has_real_key(GROQ_API_KEY, ""):
+                candidates.append({"provider": "groq", "api_key": GROQ_API_KEY, "model": GROQ_MODEL})
         elif provider == "openrouter":
             if _has_real_key(OPENROUTER_API_KEY, "your_new_key_here"):
                 resolved_openrouter_models = _resolve_openrouter_models()
@@ -1837,6 +1991,12 @@ def _provider_candidates(context=None):
                     context.skipped_slow_models_count = _skipped_slow_models_count()
                 for model_name in resolved_openrouter_models:
                     candidates.append({"provider": "openrouter", "api_key": OPENROUTER_API_KEY, "model": model_name})
+        elif provider == "cloudflare":
+            if _has_real_key(CLOUDFLARE_API_TOKEN, "") and str(CLOUDFLARE_ACCOUNT_ID or "").strip():
+                candidates.append({"provider": "cloudflare", "api_key": CLOUDFLARE_API_TOKEN, "model": CLOUDFLARE_MODEL})
+        elif provider == "mistral":
+            if _has_real_key(MISTRAL_API_KEY, ""):
+                candidates.append({"provider": "mistral", "api_key": MISTRAL_API_KEY, "model": MISTRAL_MODEL})
         elif provider == "openai":
             if _has_real_key(OPENAI_API_KEY, "your_openai_api_key_here"):
                 candidates.append({"provider": "openai", "api_key": OPENAI_API_KEY, "model": OPENAI_MODEL})
@@ -1947,8 +2107,29 @@ def _generate_with_candidate(candidate, prompt, context=None):
             candidate.get("model"),
             timeout_seconds=timeout_seconds,
         )
+    elif provider == "groq":
+        raw_text, provider_used = _generate_with_groq(
+            prompt,
+            candidate.get("api_key"),
+            candidate.get("model"),
+            timeout_seconds=timeout_seconds,
+        )
     elif provider == "openrouter":
         raw_text, provider_used = _generate_with_openrouter(
+            prompt,
+            candidate.get("api_key"),
+            candidate.get("model"),
+            timeout_seconds=timeout_seconds,
+        )
+    elif provider == "cloudflare":
+        raw_text, provider_used = _generate_with_cloudflare(
+            prompt,
+            candidate.get("api_key"),
+            candidate.get("model"),
+            timeout_seconds=timeout_seconds,
+        )
+    elif provider == "mistral":
+        raw_text, provider_used = _generate_with_mistral(
             prompt,
             candidate.get("api_key"),
             candidate.get("model"),
@@ -1992,7 +2173,7 @@ def _attempt_provider_sequence():
         # ahead of the primary provider.
         sequence = [
             provider
-            for provider in ("gemini", "openrouter", "openai")
+            for provider in ("gemini", "groq", "openrouter", "cloudflare", "mistral", "openai")
             if provider in providers
         ]
         return sequence or providers
@@ -2149,6 +2330,98 @@ def _apply_failure(article, error):
     article["ai_error"] = str(error)
 
 
+def _deterministic_job_article(package):
+    """Build a publishable Arabic Jobs article from verified extracted facts only."""
+    package = dict(package or {})
+    role = str(package.get("job_title") or package.get("title") or "فرصة عمل").strip()
+    company = str(package.get("job_company") or package.get("source_name") or "الجهة المعلنة").strip()
+    location = str(package.get("job_location") or "").strip()
+    notice = str(package.get("job_notice_type") or "vacancy").strip().lower()
+
+    if notice == "candidate_list":
+        title = f"لوائح المدعوين لمباراة توظيف {role} لدى {company}"
+    elif notice in {"results", "final_results"}:
+        title = f"نتائج مباراة توظيف {role} لدى {company}"
+    else:
+        title = f"فرصة توظيف {role} لدى {company}"
+    if len(title) < 28:
+        title += " وفق الإعلان الرسمي"
+
+    detail_rows = []
+    facts = (
+        ("الجهة المشغلة", company),
+        ("المنصب", role),
+        ("مكان العمل", location),
+        ("نوع العقد", package.get("job_contract_type")),
+        ("عدد المناصب", package.get("job_number_of_positions")),
+        ("المؤهل المطلوب", package.get("job_diploma")),
+        ("الخبرة", package.get("job_experience")),
+    )
+    for label, value in facts:
+        value = str(value or "").strip()
+        if value and value not in {"0", "None"}:
+            detail_rows.append(
+                f"<tr><th>{escape(label)}</th><td>{escape(value)}</td></tr>"
+            )
+
+    deadline = str(
+        package.get("job_deadline_display")
+        or package.get("job_deadline")
+        or ""
+    ).strip()
+    if deadline:
+        detail_rows.append(
+            f"<tr><th>آخر أجل للترشيح</th><td>{escape(deadline)}</td></tr>"
+        )
+
+    intro = (
+        f"يهم هذا الإعلان فرصة مرتبطة بمنصب {escape(role)} لدى {escape(company)}"
+        + (f" في {escape(location)}" if location else "")
+        + ". ويعرض هذا الملخص المعلومات التي أمكن التحقق منها من المصدر الرسمي، "
+          "مع الحفاظ على تفاصيل الترشيح كما وردت دون إضافة شروط أو أرقام غير مؤكدة."
+    )
+    guidance = (
+        "قبل إرسال طلب الترشيح، راجع الإعلان الرسمي كاملا وتأكد من مطابقة بياناتك "
+        "للشروط المذكورة فيه. جهز الوثائق المطلوبة بصيغ واضحة، وتحقق من صحة معلومات "
+        "الاتصال والسيرة الذاتية قبل الإرسال. إذا كانت الجهة توفر استمارة إلكترونية، "
+        "استعمل الرابط الرسمي فقط ولا ترسل وثائقك عبر صفحات أو حسابات غير موثوقة. "
+        "احتفظ بنسخة من طلبك أو رسالة التأكيد بعد الإرسال، وراقب البريد الإلكتروني "
+        "والصفحة الرسمية للجهة لأي تحديث يخص الاختبارات أو المقابلات أو النتائج. "
+        "المعلومات المتغيرة مثل الأجل وعدد المناصب ونوع العقد تعتمد حصرا على ما هو "
+        "موثق في الإعلان الأصلي، لذلك يبقى المصدر الرسمي هو المرجع النهائي."
+    )
+    status_text = ""
+    if package.get("job_notice_status"):
+        status_text = (
+            "<p><strong>حالة الإعلان:</strong> "
+            + escape(str(package.get("job_notice_status")))
+            + "</p>"
+        )
+
+    html = (
+        f"<p>{intro}</p>"
+        "<h2>المعلومات الأساسية</h2>"
+        "<table><tbody>"
+        + "".join(detail_rows)
+        + "</tbody></table>"
+        + status_text
+        + "<h2>طريقة التقديم والمتابعة</h2>"
+        + f"<p>{guidance}</p>"
+    )
+    description = (
+        f"فرصة مرتبطة بمنصب {role} لدى {company}. "
+        "اطلع على المعلومات الموثقة وطريقة التقديم عبر المصدر الرسمي للإعلان."
+    )
+    if len(description) < 70:
+        description += " راجع الشروط والآجال بعناية قبل إرسال طلب الترشيح."
+    return {
+        "title": title[:150],
+        "description": description[:190],
+        "slug": str(package.get("desired_slug") or _normalize_slug(title)).strip(),
+        "html_content": html,
+    }
+
+
 def process_one_selected_article_with_ai(force=False, target_article_id=None):
     """
     Process only one selected ready_for_ai article. This never publishes.
@@ -2201,7 +2474,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
         ai_total_time_budget_seconds=context.total_budget_seconds,
     )
 
-    total_attempts = max(1, MAX_AI_ATTEMPTS)
+    total_attempts = max(1, MAX_AI_ATTEMPTS, len(provider_sequence)) if JOBS_MODE else max(1, MAX_AI_ATTEMPTS)
     for attempt in range(1, total_attempts + 1):
         try:
             _check_ai_time_budget(context, stage=f"attempt_{attempt}_start")
@@ -2401,6 +2674,38 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                         log_event("ai_openrouter_fallback_started", article_id=article.get("id"))
                     continue
                 break
+
+    if JOBS_MODE:
+        try:
+            fallback_data = _deterministic_job_article(package)
+            fallback_data = _finalize_html_content(fallback_data, package)
+            _validate_ai_output(fallback_data, package=package)
+            _apply_success(article, fallback_data, "deterministic:verified-job-template")
+            article["ai_rotation_exhausted"] = bool(last_error)
+            article["ai_deterministic_fallback"] = True
+            article["ai_quality_attempts"] = attempt if "attempt" in locals() else 0
+            article["ai_quality_status"] = "passed_deterministic_fallback"
+            article["ai_total_time_seconds"] = round(context.elapsed_seconds(), 2)
+            save_article_queue(queue)
+            log_event(
+                "job_deterministic_ai_fallback_success",
+                article_id=article.get("id"),
+                previous_error=_safe_error_reason(last_error) if last_error else "",
+                words=article.get("final_word_count"),
+            )
+            return {
+                "processed": 1,
+                "success": 1,
+                "failed": 0,
+                "article": article,
+                "message": "AI providers unavailable; verified deterministic Jobs template used.",
+            }
+        except Exception as fallback_error:
+            log_event(
+                "job_deterministic_ai_fallback_failed",
+                article_id=article.get("id"),
+                reason=_safe_error_reason(fallback_error),
+            )
 
     _apply_failure(article, last_error)
     provider_exhausted = bool(

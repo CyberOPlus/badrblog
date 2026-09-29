@@ -51,6 +51,10 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
           BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
           BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
@@ -66,6 +70,10 @@ jobs:
           secret_names = (
               "GEMINI_API_KEY",
               "OPENROUTER_API_KEY",
+              "GROQ_API_KEY",
+              "MISTRAL_API_KEY",
+              "CLOUDFLARE_API_TOKEN",
+              "CLOUDFLARE_ACCOUNT_ID",
               "BLOGGER_BLOG_ID",
               "BLOGGER_CLIENT_SECRET_JSON",
               "BLOGGER_TOKEN_JSON",
@@ -85,8 +93,17 @@ jobs:
               )
               if not os.environ.get(name, "").strip()
           ]
-          if not any(os.environ.get(name, "").strip() for name in ("GEMINI_API_KEY", "OPENROUTER_API_KEY")):
-              missing.append("GEMINI_API_KEY or OPENROUTER_API_KEY")
+          if not any(
+              os.environ.get(name, "").strip()
+              for name in (
+                  "GEMINI_API_KEY",
+                  "GROQ_API_KEY",
+                  "OPENROUTER_API_KEY",
+                  "MISTRAL_API_KEY",
+                  "CLOUDFLARE_API_TOKEN",
+              )
+          ):
+              missing.append("at least one AI provider key")
 
           for name in ("BLOGGER_CLIENT_SECRET_JSON", "BLOGGER_TOKEN_JSON"):
               raw = os.environ.get(name, "").strip()
@@ -131,6 +148,16 @@ jobs:
               "OPENROUTER_MODEL": "qwen/qwen3.8-27b:free",
               "OPENROUTER_MODELS": "qwen/qwen3.8-27b:free,openrouter/free",
               "OPENROUTER_APP_NAME": "Jobs Automation",
+              "GROQ_API_KEY": os.environ.get("GROQ_API_KEY", ""),
+              "GROQ_MODEL": "llama-3.1-8b-instant",
+              "GROQ_TIMEOUT_SECONDS": "30",
+              "MISTRAL_API_KEY": os.environ.get("MISTRAL_API_KEY", ""),
+              "MISTRAL_MODEL": "mistral-small-latest",
+              "MISTRAL_TIMEOUT_SECONDS": "30",
+              "CLOUDFLARE_API_TOKEN": os.environ.get("CLOUDFLARE_API_TOKEN", ""),
+              "CLOUDFLARE_ACCOUNT_ID": os.environ.get("CLOUDFLARE_ACCOUNT_ID", ""),
+              "CLOUDFLARE_MODEL": "@cf/meta/llama-3.1-8b-instruct",
+              "CLOUDFLARE_TIMEOUT_SECONDS": "30",
               "BLOG_ID": os.environ.get("BLOGGER_BLOG_ID", ""),
               "PUBLISH_MODE": "live",
               "SAFE_MODE": "false",
@@ -166,7 +193,7 @@ jobs:
               "GEMINI_TIMEOUT_SECONDS": "50",
               "AI_MODEL_TIMEOUT_SECONDS": "45",
               "OPENROUTER_TIMEOUT_SECONDS": "45",
-              "MAX_AI_RETRIES": "3",
+              "MAX_AI_RETRIES": "6",
               "DUPLICATE_PROTECTION": "true",
               "QUEUE_PERSIST": "true",
               "SOURCE_HEALTH_ENABLED": "true",
@@ -192,7 +219,7 @@ jobs:
           print("Facebook publishing: enabled after successful Blogger publish")
           print("Morocco timezone: Africa/Casablanca")
           print("Job quality: >=65 publish, 50-64 queue")
-          print("AI order: Gemini first, OpenRouter fallback")
+          print("AI order: Gemini -> Groq -> OpenRouter -> Cloudflare -> Mistral, then deterministic Jobs fallback")
           print("Jobs quality retries: stay on Gemini")
           PY
 

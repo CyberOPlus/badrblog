@@ -75,6 +75,58 @@ class JobsRuntimeTests(unittest.TestCase):
         archive.assert_called_once()
         generic.assert_not_called()
 
+    def test_auto_ai_provider_chain_uses_all_configured_backups(self):
+        with patch.object(ai, "AI_PROVIDER", "auto"), \
+             patch.object(ai, "GEMINI_API_KEY", "gemini-key"), \
+             patch.object(ai, "GROQ_API_KEY", "groq-key"), \
+             patch.object(ai, "OPENROUTER_API_KEY", "openrouter-key"), \
+             patch.object(ai, "CLOUDFLARE_API_TOKEN", "cf-token"), \
+             patch.object(ai, "CLOUDFLARE_ACCOUNT_ID", "cf-account"), \
+             patch.object(ai, "MISTRAL_API_KEY", "mistral-key"), \
+             patch.object(ai, "OPENAI_API_KEY", ""):
+            self.assertEqual(
+                ai._resolve_providers(),
+                ["gemini", "groq", "openrouter", "cloudflare", "mistral"],
+            )
+
+    def test_provider_cooldowns_are_error_specific(self):
+        self.assertGreater(
+            ai._cooldown_seconds_for_error(RuntimeError("HTTP 403 forbidden")),
+            ai._cooldown_seconds_for_error(RuntimeError("HTTP 503 unavailable")),
+        )
+        self.assertGreater(
+            ai._cooldown_seconds_for_error(RuntimeError("HTTP 429 rate limit")),
+            ai._cooldown_seconds_for_error(ai.AIProviderEmptyResponse("empty response")),
+        )
+
+    def test_deterministic_jobs_fallback_passes_jobs_quality_gate(self):
+        package = {
+            "title": "Cybersecurity Consultant",
+            "url": "https://careers.example.com/jobs/42",
+            "source_url": "https://careers.example.com",
+            "source_name": "Example Careers",
+            "job_title": "مستشار الأمن السيبراني",
+            "job_company": "Example Company",
+            "job_location": "الدار البيضاء",
+            "job_contract_type": "CDI",
+            "job_deadline": "2026-10-15",
+            "job_deadline_display": "15 أكتوبر 2026",
+            "job_application_url": "https://careers.example.com/jobs/42/apply",
+            "job_action_links": [
+                {"url": "https://careers.example.com/jobs/42/apply", "label": "التقديم الرسمي"}
+            ],
+            "job_document_links": [],
+            "job_notice_type": "vacancy",
+            "desired_slug": "example-cybersecurity-42",
+        }
+        with patch.object(ai, "JOBS_MODE", True), patch.object(quality_gate, "JOBS_MODE", True):
+            data = ai._deterministic_job_article(package)
+            data = ai._finalize_html_content(data, package)
+            ai._validate_ai_output(data, package)
+        self.assertIn("توظيف", data["title"])
+        self.assertIn(package["job_application_url"], data["html_content"])
+        self.assertGreaterEqual(ai.html_word_count(data["html_content"]), 100)
+
     def test_compact_job_passes_both_word_gates(self):
         package = {"url": "https://employer.example/jobs/42", "job_notice_type": "vacancy"}
         data = {
