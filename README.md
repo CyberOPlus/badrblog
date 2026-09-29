@@ -63,7 +63,7 @@ GitHub Actions يمكنه الفحص المتكرر، لكن قرار النشر
 - `article_ai_processor.py` — صياغة المقال مع حقائق الوظيفة.
 - `article_draft_publisher.py` / `blogger_client.py` — Blogger.
 - `facebook_publisher.py` — Facebook، الصور والتعليق الأول.
-- `assets/facebook/job1.png..job4.png` — الخلفيات الأربع الحالية.
+- `assets/facebook/job-new-orange.png`, `job-deadline-yellow.png`, `job-alert-blue.png`, `job-apply-red.png` — قوالب Facebook الأربعة الحالية.
 - `jobs_sources.json` / `sources.json` — سجل المصادر.
 - `.github/workflows/auto-cycle.yml` — التشغيل الآلي.
 
