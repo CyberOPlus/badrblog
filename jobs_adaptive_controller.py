@@ -161,9 +161,13 @@ def record_cycle_result(result=None, error=""):
         )
     ).casefold()
 
+    logo_deferred = bool(
+        (isinstance(draft, dict) and draft.get("deferred"))
+        or article.get("publish_status") == "waiting_for_logo"
+    )
     if result.get("draft_action") in {"created", "updated"} and article.get("publish_status") == "published":
         row["blogger_success"] = int(row.get("blogger_success") or 0) + 1
-    elif result.get("step_reached") == "publish" and reason:
+    elif result.get("step_reached") == "publish" and reason and not logo_deferred:
         row["blogger_failure"] = int(row.get("blogger_failure") or 0) + 1
         if any(token in reason for token in ("429", "403", "rate limit", "quota", "too many requests")):
             row["blogger_rate_limit"] = int(row.get("blogger_rate_limit") or 0) + 1
