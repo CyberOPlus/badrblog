@@ -1137,13 +1137,22 @@ def generate_job_article_cover(
             y += line_height
 
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        base.convert("RGB").save(
-            output_path,
-            "JPEG",
-            quality=95,
-            optimize=True,
-            subsampling=0,
-        )
+        rgb = base.convert("RGB")
+        # Article covers live in Git so keep future repository growth bounded.
+        # Start at high visual quality and step down only when the file would
+        # otherwise be unnecessarily large. Text/logo cards compress well with
+        # 4:2:0 chroma subsampling while remaining clear at Blogger sizes.
+        for quality in (86, 82, 78, 74, 70):
+            rgb.save(
+                output_path,
+                "JPEG",
+                quality=quality,
+                optimize=True,
+                progressive=True,
+                subsampling=2,
+            )
+            if output_path.stat().st_size <= 120_000:
+                break
         return {
             "ok": True,
             "path": str(output_path),
