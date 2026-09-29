@@ -322,12 +322,12 @@ jobs:
             git push origin HEAD:main
           fi
 
-      - name: Keep recoverable runtime checkpoint
-        if: always()
+      - name: Keep recoverable runtime checkpoint on failure
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: jobs-state-${{ github.run_id }}-${{ github.run_attempt }}
-          retention-days: 7
+          retention-days: 3
           path: |
             jobs_article_queue.json
             data/job_state.json
