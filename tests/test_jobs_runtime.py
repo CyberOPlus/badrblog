@@ -286,6 +286,38 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn(blueprint["fingerprint"], memory["recent_fingerprints"])
 
 
+    def test_jobs_caption_uses_next_truthful_variant_when_recent_caption_matches(self):
+        article = {
+            "id": "job-caption-rotation",
+            "job_campaign_id": "campaign-1",
+            "seo_title": "شركة تجريبية توظف مهندس نظم في الدار البيضاء",
+            "job_title": "مهندس نظم",
+            "job_company": "شركة تجريبية",
+            "job_location": "الدار البيضاء",
+            "job_notice_type": "vacancy",
+            "suggested_category": "jobs-morocco",
+        }
+        url = "https://example.blogspot.com/p/job-caption-rotation.html"
+        first = facebook._jobs_facebook_blueprint(article, url, variant_offset=0)
+        with __import__("tempfile").TemporaryDirectory() as temp:
+            memory_path = __import__("pathlib").Path(temp) / "facebook-style.json"
+            with patch.object(facebook, "FACEBOOK_STYLE_MEMORY_PATH", memory_path):
+                facebook._remember_caption_pattern(
+                    article,
+                    "jobs",
+                    posted=True,
+                    structure_id=first["structure"],
+                    hook=first["hook"],
+                    cta=first["cta"],
+                    hashtags=first["hashtags"],
+                    fingerprint=first["fingerprint"],
+                )
+                second = facebook._prepare_facebook_post(article, [article], url)
+
+        self.assertNotEqual(first["fingerprint"], second["fingerprint"])
+        self.assertNotEqual(first["variant_index"], second["variant_index"])
+
+
 
 if __name__ == "__main__":
     unittest.main()
