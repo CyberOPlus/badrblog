@@ -90,6 +90,10 @@ def _build_ai_input_package(article):
         "job_score": article.get("job_score", 0),
         "desired_slug": article.get("desired_slug", ""),
         "company_logo_url": article.get("company_logo_url", ""),
+        "company_logo_verified": bool(article.get("company_logo_verified", False)),
+        "company_logo_confidence": article.get("company_logo_confidence", 0),
+        "company_logo_source": article.get("company_logo_source", ""),
+        "company_official_domain": article.get("company_official_domain", ""),
     }
 
 
