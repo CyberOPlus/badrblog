@@ -288,6 +288,10 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             "الشركة المرموقة",
             "فرصة مميزة",
             "فرصة رائعة",
+            "أحدث معايير",
+            "حماية قصوى",
+            "مهام حيوية",
+            "تحديات مثيرة",
         )
         if any(phrase in body_text or phrase in seo_description for phrase in promotional_job_phrases):
             return QualityGateResult(
