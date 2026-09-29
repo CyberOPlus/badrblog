@@ -215,13 +215,31 @@ def load_article_queue():
 
 
 def save_article_queue(queue):
+    articles = queue.get("articles", [])
+    notifications = queue.get("notifications", {})
+    try:
+        if ARTICLE_QUEUE_PATH.exists():
+            with open(ARTICLE_QUEUE_PATH, "r", encoding="utf-8-sig") as handle:
+                existing = json.load(handle)
+            if (
+                existing.get("articles", []) == articles
+                and existing.get("notifications", {}) == notifications
+            ):
+                return False
+    except (json.JSONDecodeError, OSError, TypeError):
+        pass
+
     data = {
         "updated_at": _now_iso(),
-        "articles": queue.get("articles", []),
-        "notifications": queue.get("notifications", {}),
+        "articles": articles,
+        "notifications": notifications,
     }
-    with open(ARTICLE_QUEUE_PATH, "w", encoding="utf-8") as handle:
+    ARTICLE_QUEUE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    temp_path = ARTICLE_QUEUE_PATH.with_name(ARTICLE_QUEUE_PATH.name + ".tmp")
+    with open(temp_path, "w", encoding="utf-8") as handle:
         json.dump(data, handle, ensure_ascii=False, indent=2)
+    temp_path.replace(ARTICLE_QUEUE_PATH)
+    return True
 
 
 def _fresh_queue_cutoff(now=None, max_age_hours=None):
@@ -550,8 +568,51 @@ def add_articles_to_queue(discovered_articles):
     }
 
 
-def _compact_job_queue_archive(queue, retention_days=30):
-    """Move old terminal Jobs records out of the hot queue into monthly shards."""
+JOB_ARCHIVE_FIELDS = (
+    "id",
+    "canonical_url",
+    "url",
+    "source_name",
+    "source_url",
+    "title",
+    "seo_title",
+    "job_title",
+    "job_company",
+    "job_location",
+    "job_country",
+    "job_deadline",
+    "job_published_at",
+    "job_application_url",
+    "job_external_reference",
+    "ats_reference",
+    "job_campaign_id",
+    "job_identity_action",
+    "job_score",
+    "published_at",
+    "blogger_post_id",
+    "blogger_post_url",
+    "desired_slug",
+    "facebook_status",
+    "facebook_post_id",
+    "facebook_comment_id",
+    "facebook_posted_at",
+    "facebook_selection_reason",
+    "ai_provider_used",
+    "archived_at",
+    "archive_reason",
+)
+
+
+def _job_archive_record(article):
+    return {
+        key: article.get(key)
+        for key in JOB_ARCHIVE_FIELDS
+        if article.get(key) not in (None, "", [], {})
+    }
+
+
+def _compact_job_queue_archive(queue, retention_days=7):
+    """Move old terminal Jobs records out of the hot queue into slim monthly shards."""
     if not JOBS_MODE:
         return 0
 
@@ -586,7 +647,7 @@ def _compact_job_queue_archive(queue, retention_days=30):
             or ""
         )
         key = hashlib.sha256(key_seed.encode("utf-8")).hexdigest()[:24]
-        buckets.setdefault(month, {})[key] = article
+        buckets.setdefault(month, {})[key] = _job_archive_record(article)
 
     compacted = sum(len(rows) for rows in buckets.values())
     if not compacted:
@@ -638,6 +699,7 @@ def maintain_article_queue(days=7):
         "archived_old_skipped": 0,
         "archived_old_failed": 0,
         "archived_duplicate_urls": 0,
+        "archived_stale_logo_wait": 0,
         "already_archived": 0,
         "active_count": 0,
         "archived_count": 0,
@@ -648,6 +710,21 @@ def maintain_article_queue(days=7):
         if article.get("archived"):
             stats["already_archived"] += 1
             continue
+
+        if JOBS_MODE and article.get("publish_status") == "waiting_for_logo":
+            logo_anchor = _as_utc(
+                _parse_iso(
+                    article.get("logo_first_wait_at")
+                    or article.get("candidate_failed_at")
+                    or article.get("selected_at")
+                    or article.get("discovered_at")
+                )
+            )
+            now_utc = datetime.now(timezone.utc)
+            if logo_anchor and logo_anchor < now_utc - timedelta(days=14):
+                if _archive_article(article, "logo_unresolved_older_than_14_days", archived_at):
+                    stats["archived_stale_logo_wait"] += 1
+                continue
 
         url = str(article.get("url") or "").strip()
         canonical_url = article.get("canonical_url") or canonicalize_url(url)
@@ -681,7 +758,7 @@ def maintain_article_queue(days=7):
 
     stats["compacted_archived"] = _compact_job_queue_archive(
         queue,
-        retention_days=30,
+        retention_days=7,
     )
     if stats["compacted_archived"]:
         articles = queue.get("articles", [])
@@ -695,6 +772,7 @@ def maintain_article_queue(days=7):
         stats["archived_old_skipped"]
         or stats["archived_old_failed"]
         or stats["archived_duplicate_urls"]
+        or stats["archived_stale_logo_wait"]
         or stats["compacted_archived"]
     ):
         save_article_queue(queue)
