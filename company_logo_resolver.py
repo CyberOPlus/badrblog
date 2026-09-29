@@ -302,6 +302,12 @@ def _official_site_from_page(soup, company, page_url, article):
     for url in _organization_urls(org, page_url):
         add(url, 100, "jobposting_organization_url")
 
+    # The configured source may point to the employer's own careers domain even
+    # when the individual vacancy redirects into an ATS such as iCIMS/Workday.
+    configured_source_url = _eligible_official_url(article.get("source_url"))
+    if article.get("official_source") and configured_source_url:
+        add(configured_source_url, 98, "configured_official_source")
+
     for node in _iter_jsonld(soup):
         if not ({"organization", "corporation", "governmentorganization"} & _types(node)):
             continue
