@@ -248,6 +248,76 @@ class JobsRuntimeTests(unittest.TestCase):
             "2026-09-01T08:00:00+00:00",
         )
 
+    def test_no_deadline_ready_job_expires_from_hot_queue_after_60_days(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        old = (datetime.now(timezone.utc) - timedelta(days=61)).isoformat()
+        queue = {
+            "articles": [{
+                "id": "old-ready",
+                "url": "https://example.com/jobs/old-ready",
+                "title": "Old Ready Job",
+                "status": "ready",
+                "content_fetch_status": "success",
+                "job_deadline": "",
+                "discovered_at": old,
+            }]
+        }
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "jobs_article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", path), \
+                 patch.object(article_queue, "JOBS_MODE", True):
+                article_queue.save_article_queue(queue)
+                stats = article_queue.maintain_article_queue(days=7)
+                saved = article_queue.load_article_queue()
+        self.assertEqual(stats["archived_stale_no_deadline"], 1)
+        self.assertTrue(saved["articles"][0]["archived"])
+
+    def test_old_job_campaign_memory_is_pruned_with_indexes(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        now = datetime(2026, 9, 29, tzinfo=timezone.utc)
+        with TemporaryDirectory() as temp:
+            memory = Path(temp) / "job_memory"
+            campaign_id = "oldcampaign123"
+            identity = "identity123"
+            semantic = "semantic123"
+            record = {
+                "campaign_id": campaign_id,
+                "identity_key": identity,
+                "semantic_key": semantic,
+                "updated_at": "2023-01-01T00:00:00+00:00",
+            }
+            with patch.object(job_core, "MEMORY_DIR", memory):
+                job_core._save_json(
+                    job_core._memory_path("campaigns", campaign_id),
+                    record,
+                )
+                job_core._save_json(
+                    job_core._memory_path("identity", identity),
+                    {"campaign_id": campaign_id},
+                )
+                job_core._save_json(
+                    job_core._memory_path("semantic", semantic),
+                    {"campaign_ids": [campaign_id]},
+                )
+                stats = job_core.maintain_job_memory(now=now, retention_days=730)
+                campaign_exists = job_core._memory_path(
+                    "campaigns", campaign_id
+                ).exists()
+                identity_exists = job_core._memory_path(
+                    "identity", identity
+                ).exists()
+                semantic_exists = job_core._memory_path(
+                    "semantic", semantic
+                ).exists()
+        self.assertEqual(stats["campaigns_pruned"], 1)
+        self.assertFalse(campaign_exists)
+        self.assertFalse(identity_exists)
+        self.assertFalse(semantic_exists)
+
     def test_facebook_selects_only_strong_jobs_when_score_exists(self):
         base = {
             "status": "published",
