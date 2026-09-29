@@ -398,6 +398,70 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn(package["job_application_url"], data["html_content"])
         self.assertGreaterEqual(ai.html_word_count(data["html_content"]), 100)
 
+    def test_jobs_finalizer_appends_every_official_file_and_detail_page(self):
+        package = {
+            "job_application_url": "https://example.com/apply/42",
+            "job_application_link_kind": "direct_apply",
+            "job_detail_url": "https://example.com/jobs/42",
+            "job_document_links": [
+                {"url": "https://example.com/docs/avis.pdf", "label": "الإعلان الرسمي"},
+                {"url": "https://example.com/docs/decision.pdf", "label": "قرار المباراة"},
+            ],
+        }
+        with patch.object(ai, "JOBS_MODE", True):
+            html = ai._append_job_action_links_if_missing(
+                "<p>" + " ".join(["تفصيل"] * 100) + "</p>",
+                package,
+            )
+        self.assertIn(package["job_application_url"], html)
+        self.assertIn(package["job_detail_url"], html)
+        for row in package["job_document_links"]:
+            self.assertIn(row["url"], html)
+        self.assertIn("الملفات والوثائق الرسمية", html)
+
+    def test_jobs_quality_gate_rejects_scripts_and_missing_official_files(self):
+        package = {
+            "url": "https://example.com/jobs/42",
+            "job_notice_type": "vacancy",
+            "job_application_url": "https://example.com/apply/42",
+            "job_detail_url": "https://example.com/jobs/42",
+            "job_document_links": [
+                {"url": "https://example.com/docs/avis.pdf", "label": "الإعلان الرسمي"},
+            ],
+        }
+        base = {
+            "url": package["url"],
+            "job_application_url": package["job_application_url"],
+            "job_detail_url": package["job_detail_url"],
+            "job_document_links": package["job_document_links"],
+            "seo_title": "شركة Example تعلن عن توظيف مهندس نظم في الدار البيضاء",
+            "seo_description": "فرصة توظيف موثقة لدى شركة Example لمهندس نظم في الدار البيضاء، مع تفاصيل المنصب وروابط التقديم والوثائق الرسمية.",
+            "ai_input_package": package,
+        }
+        html = (
+            "<p>" + " ".join(["معلومة"] * 105) + "</p>"
+            "<h2>التقديم</h2>"
+            f"<p><a href='{package['job_application_url']}'>التقديم</a></p>"
+        )
+        with patch.object(quality_gate, "JOBS_MODE", True):
+            missing = quality_gate.validate_before_publish(
+                dict(base, final_html=html),
+                check_duplicate=False,
+            )
+            self.assertFalse(missing.passed)
+            self.assertIn("document", missing.reason)
+
+            with_doc = (
+                html
+                + f"<p><a href='{package['job_document_links'][0]['url']}'>PDF</a></p>"
+            )
+            scripted = quality_gate.validate_before_publish(
+                dict(base, final_html=with_doc + "<script>alert(1)</script>"),
+                check_duplicate=False,
+            )
+            self.assertFalse(scripted.passed)
+            self.assertIn("script", scripted.reason)
+
     def test_publishing_window_block_still_runs_jobs_ingestion(self):
         schedule = {
             "configured_publish_mode": "live",
