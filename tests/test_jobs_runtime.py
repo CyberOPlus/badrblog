@@ -439,7 +439,7 @@ class JobsRuntimeTests(unittest.TestCase):
             "ai_input_package": package,
         }
         html = (
-            "<p>" + " ".join(["معلومة"] * 105) + "</p>"
+            "<p>" + " ".join(["معلومة"] * 125) + "</p>"
             "<h2>التقديم</h2>"
             f"<p><a href='{package['job_application_url']}'>التقديم</a></p>"
         )
