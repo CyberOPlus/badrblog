@@ -236,7 +236,7 @@ jobs:
           python - <<'PY'
           from job_core import job_status_snapshot
           import json
-          print(json.dumps(job_status_snapshot(), ensure_ascii=False, indent=2))
+          print(json.dumps(job_status_snapshot(), ensure_ascii=False, indent=2, default=str))
           PY
 
       - name: Health summary
