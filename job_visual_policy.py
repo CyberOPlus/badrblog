@@ -44,15 +44,17 @@ def _save_state(path, state):
 
 
 def _has_application_path(article):
+    """Only mark Apply when the source explicitly exposes a direct apply action."""
+    link_kind = str(article.get("job_application_link_kind") or "").strip().lower()
     url = str(article.get("job_application_url") or "").strip()
-    if url.startswith(("http://", "https://")):
+    if link_kind in {"direct_apply", "apply"} and url.startswith(("http://", "https://")):
         return True
     for row in article.get("job_action_links") or []:
-        if isinstance(row, dict):
-            value = str(row.get("url") or "").strip()
-        else:
-            value = str(row or "").strip()
-        if value.startswith(("http://", "https://")):
+        if not isinstance(row, dict):
+            continue
+        value = str(row.get("url") or "").strip()
+        kind = str(row.get("kind") or "").strip().lower()
+        if kind == "apply" and value.startswith(("http://", "https://")):
             return True
     return False
 
@@ -74,9 +76,9 @@ def semantic_template_candidates(article, now=None):
             return ("deadline",), "verified-deadline-within-72h"
 
     if _has_application_path(article):
-        # Both are truthful for an active vacancy. Rotation decides which one is
-        # used so the feed does not become visually repetitive.
-        return ("new", "apply"), "active-vacancy-with-application"
+        # Both are truthful because a direct apply action is verified. Rotation
+        # decides which one is used so the feed does not become repetitive.
+        return ("new", "apply"), "active-vacancy-with-direct-apply"
 
     return ("new",), "active-vacancy"
 
