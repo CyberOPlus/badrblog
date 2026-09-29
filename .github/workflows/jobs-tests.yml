@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - "job_core.py"
+      - "job_visual_policy.py"
       - "scraper.py"
       - "config.py"
       - "sources.json"
@@ -43,4 +44,4 @@ jobs:
       - run: python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime -v
       - name: Compile critical Jobs modules
         run: |
-          python -m py_compile             main.py             scraper.py             article_enricher.py             article_ai_processor.py             article_draft_publisher.py             facebook_publisher.py             config.py             tests/test_production_hardening.py
+          python -m py_compile             main.py             scraper.py             article_enricher.py             article_ai_processor.py             article_draft_publisher.py             facebook_publisher.py             job_visual_policy.py             config.py             tests/test_production_hardening.py
