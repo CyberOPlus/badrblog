@@ -8,6 +8,7 @@ from PIL import Image
 import article_ai_processor
 import article_draft_publisher
 import facebook_publisher
+import job_visual_policy as visual_policy
 import utils.facebook_image_generator as visuals
 
 
@@ -32,6 +33,48 @@ class JobVisualTests(unittest.TestCase):
             with Image.open(path) as image:
                 self.assertEqual(image.size, (1254, 1254))
 
+    def test_visual_policy_uses_job_facts_not_random_icons(self):
+        now = __import__("datetime").datetime(2026, 9, 29, 12, tzinfo=__import__("datetime").timezone.utc)
+
+        keys, _ = visual_policy.semantic_template_candidates(
+            {"job_notice_type": "candidate_list"},
+            now=now,
+        )
+        self.assertEqual(keys, ("alert",))
+
+        keys, _ = visual_policy.semantic_template_candidates(
+            {
+                "job_notice_type": "vacancy",
+                "job_deadline": "2026-09-30",
+                "job_application_url": "https://example.com/apply/42",
+            },
+            now=now,
+        )
+        self.assertEqual(keys, ("deadline",))
+
+        keys, _ = visual_policy.semantic_template_candidates(
+            {
+                "job_notice_type": "vacancy",
+                "job_application_url": "https://example.com/apply/42",
+            },
+            now=now,
+        )
+        self.assertEqual(keys, ("new", "apply"))
+
+    def test_visual_template_is_pinned_for_retries(self):
+        with tempfile.TemporaryDirectory() as temp:
+            state = Path(temp) / "visual.json"
+            article = {
+                "id": "job-42",
+                "job_notice_type": "vacancy",
+                "job_application_url": "https://example.com/apply/42",
+            }
+            first = visual_policy.choose_job_template(article, state)
+            second = visual_policy.choose_job_template(article, state)
+            self.assertEqual(first["key"], second["key"])
+            self.assertTrue(second["pinned"])
+            self.assertEqual(article["facebook_template_key"], first["key"])
+
     def test_facebook_renderer_handles_varied_job_titles(self):
         titles = (
             "مطلوب تقنيو صيانة بالدار البيضاء",
@@ -47,8 +90,10 @@ class JobVisualTests(unittest.TestCase):
                         "",
                         temp / f"facebook-{index}.jpg",
                         hook_text="OCP Group",
+                        template_key="apply",
                     )
                     self.assertTrue(result["ok"], result.get("error"))
+                    self.assertEqual(result.get("template_key"), "apply")
                     with Image.open(result["path"]) as image:
                         self.assertEqual(image.size, (1080, 1350))
 
