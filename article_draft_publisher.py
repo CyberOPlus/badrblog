@@ -32,6 +32,7 @@ from quality_gate import validate_before_publish
 from internal_link_cache import apply_link_enrichment, record_published_article
 from source_sanitizer import sanitize_source_links
 from jobposting import append_jobposting
+from company_logo_resolver import verified_company_logo
 from utils.facebook_image_generator import generate_job_article_cover
 
 TEMPORARY_BLOGGER_HTTP_STATUSES = {429, 500, 502, 503, 504}
@@ -323,19 +324,25 @@ def _prepare_job_article_cover(article):
         or article.get("source_name")
         or ""
     ).strip()
-    logo_verified = bool(
-        article.get("company_logo_verified")
-        or package.get("company_logo_verified")
-    )
-    logo_url = str(
-        (
-            article.get("company_logo_url")
-            or package.get("company_logo_url")
-            or ""
+    logo_info = verified_company_logo(article)
+    logo_verified = bool(logo_info.get("company_logo_verified"))
+    logo_url = str(logo_info.get("company_logo_url") or "").strip()
+    if not (logo_verified and logo_url):
+        article["logo_resolution_status"] = "missing_verified_logo"
+        article["publish_block_reason"] = "verified_company_logo_required"
+        package["logo_resolution_status"] = "missing_verified_logo"
+        package["publish_block_reason"] = "verified_company_logo_required"
+        log_event(
+            "job_publish_blocked_missing_verified_logo",
+            article_id=article.get("id"),
+            company=employer,
         )
-        if logo_verified
-        else ""
-    ).strip()
+        raise RuntimeError(
+            "Verified company logo is required before generating the Jobs article cover."
+        )
+
+    article["logo_resolution_status"] = "verified"
+    package["logo_resolution_status"] = "verified"
 
     cover_key = _job_cover_key(article)
     output_path = JOB_ARTICLE_COVER_DIR / f"{cover_key}.jpg"
@@ -345,12 +352,18 @@ def _prepare_job_article_cover(article):
         output_path,
         employer_name=employer,
     )
-    if not result.get("ok"):
+    if not result.get("ok") or not result.get("logo_loaded"):
+        article["article_logo_used"] = False
+        article["publish_block_reason"] = "verified_company_logo_render_failed"
+        package["article_logo_used"] = False
+        package["publish_block_reason"] = "verified_company_logo_render_failed"
         raise RuntimeError(
-            "Could not generate the required job article cover: "
-            + str(result.get("error") or "unknown error")
+            "Could not generate the required job article cover with the verified company logo: "
+            + str(result.get("error") or "logo was not rendered")
         )
 
+    article["article_logo_used"] = True
+    package["article_logo_used"] = True
     _persist_generated_job_cover(output_path)
     public_url = f"{JOB_ARTICLE_RAW_BASE}/{quote(output_path.as_posix(), safe='/')}"
     location = str(

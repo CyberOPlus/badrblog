@@ -674,6 +674,99 @@ def _registry_lookup(registry, company, official_domain):
     return None
 
 
+def verified_company_logo(article):
+    """Return the verified employer logo used by every Jobs visual.
+
+    The article/package metadata produced by resolve_company_logo is preferred.
+    If that metadata is missing later in the pipeline, only a fresh verified
+    registry record may restore it. No unverified or guessed logo is returned.
+    """
+
+    package = article.get("ai_input_package")
+    if not isinstance(package, dict):
+        package = {}
+
+    direct_verified = bool(
+        article.get("company_logo_verified")
+        or package.get("company_logo_verified")
+    )
+    direct_url = str(
+        article.get("company_logo_url")
+        or package.get("company_logo_url")
+        or ""
+    ).strip()
+
+    if direct_verified and direct_url:
+        result = {
+            "company_logo_url": direct_url,
+            "company_logo_verified": True,
+            "company_logo_confidence": int(
+                article.get("company_logo_confidence")
+                or package.get("company_logo_confidence")
+                or 0
+            ),
+            "company_logo_source": str(
+                article.get("company_logo_source")
+                or package.get("company_logo_source")
+                or "verified_article"
+            ),
+            "company_official_domain": str(
+                article.get("company_official_domain")
+                or package.get("company_official_domain")
+                or ""
+            ),
+            "company_logo_checksum": str(
+                article.get("company_logo_checksum")
+                or package.get("company_logo_checksum")
+                or ""
+            ),
+        }
+    else:
+        company = str(
+            article.get("job_company")
+            or package.get("job_company")
+            or article.get("source_name")
+            or ""
+        ).strip()
+        official_domain = str(
+            article.get("company_official_domain")
+            or package.get("company_official_domain")
+            or ""
+        ).strip()
+        cached = _registry_lookup(_load_registry(), company, official_domain)
+        if not cached or not _record_fresh(cached):
+            return {
+                "company_logo_url": "",
+                "company_logo_verified": False,
+                "company_logo_confidence": 0,
+                "company_logo_source": "none",
+                "company_official_domain": official_domain,
+                "company_logo_checksum": "",
+            }
+        result = {
+            "company_logo_url": str(cached.get("logo_url") or ""),
+            "company_logo_verified": True,
+            "company_logo_confidence": int(cached.get("confidence") or 0),
+            "company_logo_source": "verified_registry",
+            "company_official_domain": str(
+                cached.get("official_domain") or official_domain
+            ),
+            "company_logo_checksum": str(cached.get("checksum") or ""),
+        }
+        log_event(
+            "company_logo_registry_reused",
+            company=company,
+            confidence=result["company_logo_confidence"],
+            official_domain=result["company_official_domain"],
+        )
+
+    article.update(result)
+    existing_package = article.get("ai_input_package")
+    if isinstance(existing_package, dict):
+        existing_package.update(result)
+    return result
+
+
 def _registry_store(registry, company, selected, probe, official_domain):
     domain = str(official_domain or selected.get("official_domain") or "").casefold().lstrip("www.")
     company_norm = _normalize_name(company)

@@ -33,6 +33,7 @@ from config import (
 )
 from production_logging import elapsed_ms, log_event
 from job_visual_policy import choose_job_template
+from company_logo_resolver import verified_company_logo
 from utils.facebook_image_generator import generate_facebook_image
 from job_core import facebook_slot_status, _local as jobs_local_time, _parse_date as parse_job_date, classify_urgency
 CAPTION_STYLES = (
@@ -1067,14 +1068,11 @@ def _build_caption(article, pattern, blogger_url=None):
 
 def _main_image_url(article):
     if JOBS_MODE:
-        if (
-            article.get("company_logo_verified")
-            and article.get("company_logo_url")
-        ):
-            return article["company_logo_url"]
-        # Jobs image generation expects an employer logo here, never the
-        # generated article cover or a source hero image. Empty means render
-        # the verified employer-name text fallback instead.
+        logo = verified_company_logo(article)
+        if logo.get("company_logo_verified") and logo.get("company_logo_url"):
+            return str(logo["company_logo_url"]).strip()
+        # Jobs visuals never substitute the generated article cover, a source
+        # hero image, or plain employer text for a missing verified logo.
         return ""
     if article.get("main_image"):
         return article["main_image"]

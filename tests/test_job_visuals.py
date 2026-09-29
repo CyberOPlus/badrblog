@@ -107,13 +107,15 @@ class JobVisualTests(unittest.TestCase):
         )
         with tempfile.TemporaryDirectory() as temp:
             temp = Path(temp)
-            with patch.object(visuals, "JOB_VISUAL_STATE_PATH", temp / "visual_state.json"):
+            logo_image = Image.new("RGBA", (480, 160), (20, 80, 170, 255))
+            with patch.object(visuals, "JOB_VISUAL_STATE_PATH", temp / "visual_state.json"), \
+                 patch.object(visuals, "_load_job_logo", return_value=logo_image):
                 render_index = 0
                 for template_key in visual_policy.JOB_TEMPLATE_KEYS:
                     for title in titles:
                         result = visuals._generate_job_facebook_image(
                             title,
-                            "",
+                            "https://example.com/verified-logo.png",
                             temp / f"facebook-{render_index}.jpg",
                             employer_name="وزارة الانتقال الرقمي وإصلاح الإدارة",
                             template_key=template_key,
@@ -138,7 +140,7 @@ class JobVisualTests(unittest.TestCase):
                         self.assertLessEqual(right, visuals.JOB_CONTENT_RIGHT)
                         self.assertGreaterEqual(top, visuals.JOB_TITLE_TOP)
                         self.assertLessEqual(bottom, visuals.JOB_TITLE_BOTTOM)
-                        self.assertEqual(result.get("logo_kind"), "employer_text")
+                        self.assertEqual(result.get("logo_kind"), "logo")
                         with Image.open(result["path"]) as image:
                             self.assertEqual(image.size, (1080, 1350))
 
@@ -230,8 +232,10 @@ class JobVisualTests(unittest.TestCase):
     def test_prepare_job_cover_updates_article_with_one_cover(self):
         with tempfile.TemporaryDirectory() as temp:
             temp = Path(temp)
+            logo_image = Image.new("RGBA", (480, 160), (20, 80, 170, 255))
             with patch.object(article_draft_publisher, "JOB_ARTICLE_COVER_DIR", temp), \
-                 patch.object(article_draft_publisher, "_persist_generated_job_cover", return_value=False):
+                 patch.object(article_draft_publisher, "_persist_generated_job_cover", return_value=False), \
+                 patch.object(visuals, "_load_job_logo", return_value=logo_image):
                 article = {
                     "id": "job-1",
                     "desired_slug": "servicenow-inwi",
@@ -239,7 +243,9 @@ class JobVisualTests(unittest.TestCase):
                     "seo_title": "وظيفة مدير تقني ServiceNow لدى inwi في الدار البيضاء",
                     "job_company": "inwi",
                     "job_location": "Casablanca",
-                    "company_logo_url": "",
+                    "company_logo_url": "https://example.com/verified-logo.png",
+                    "company_logo_verified": True,
+                    "company_logo_confidence": 99,
                     "ai_input_package": {
                         "job_title": "Technical Lead ServiceNow",
                         "job_company": "inwi",
@@ -308,16 +314,63 @@ class JobVisualTests(unittest.TestCase):
             template = temp / "template.png"
             Image.new("RGB", (1200, 675), "white").save(template)
 
-            result = visuals.generate_job_article_cover(
-                "فرصة توظيف Développeur Full Stack بمدينة Casablanca",
+            logo_image = Image.new("RGBA", (480, 160), (20, 80, 170, 255))
+            with patch.object(visuals, "_load_job_logo", return_value=logo_image):
+                result = visuals.generate_job_article_cover(
+                    "فرصة توظيف Développeur Full Stack بمدينة Casablanca",
+                    "https://example.com/verified-logo.png",
+                    temp / "article-cover.jpg",
+                    employer_name="Example Company",
+                    template_path=template,
+                )
+            self.assertTrue(result["ok"], result.get("error"))
+            self.assertTrue(result.get("logo_loaded"))
+            with Image.open(result["path"]) as image:
+                self.assertEqual(image.size, (1200, 675))
+
+    def test_job_visuals_refuse_missing_verified_logo(self):
+        with tempfile.TemporaryDirectory() as temp:
+            temp = Path(temp)
+            template = temp / "template.png"
+            Image.new("RGB", (1200, 675), "white").save(template)
+
+            article_result = visuals.generate_job_article_cover(
+                "وظيفة اختبار",
                 "",
                 temp / "article-cover.jpg",
                 employer_name="Example Company",
                 template_path=template,
             )
-            self.assertTrue(result["ok"], result.get("error"))
-            with Image.open(result["path"]) as image:
-                self.assertEqual(image.size, (1200, 675))
+            self.assertFalse(article_result["ok"])
+            self.assertIn("verified employer logo", article_result.get("error", ""))
+
+            facebook_result = visuals._generate_job_facebook_image(
+                "وظيفة اختبار",
+                "",
+                temp / "facebook-cover.jpg",
+                employer_name="Example Company",
+                template_key=visual_policy.JOB_TEMPLATE_KEYS[0],
+            )
+            self.assertFalse(facebook_result["ok"])
+            self.assertIn("verified employer logo", facebook_result.get("error", ""))
+
+    def test_prepare_job_cover_blocks_without_verified_logo(self):
+        article = {
+            "id": "job-no-logo",
+            "job_title": "Test Role",
+            "job_company": "Company Without Registered Logo",
+            "seo_title": "وظيفة اختبار بدون شعار",
+            "ai_input_package": {
+                "job_title": "Test Role",
+                "job_company": "Company Without Registered Logo",
+            },
+        }
+        with self.assertRaisesRegex(RuntimeError, "Verified company logo is required"):
+            article_draft_publisher._prepare_job_article_cover(article)
+        self.assertEqual(
+            article.get("publish_block_reason"),
+            "verified_company_logo_required",
+        )
 
     def test_job_cover_git_push_retries_after_concurrent_commit(self):
         def completed(returncode=0, stdout="", stderr=""):

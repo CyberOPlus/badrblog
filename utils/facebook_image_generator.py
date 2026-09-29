@@ -964,12 +964,16 @@ def _generate_job_facebook_image(
     FACEBOOK_IMAGE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     try:
+        if not str(image_url or "").strip():
+            raise RuntimeError("verified employer logo is required for Jobs Facebook images")
         base, selected_template_key = _load_job_template(template_key=template_key)
         logo_layout = _draw_job_logo_or_fallback(
             base,
             image_url,
-            employer_name or hook_text,
+            "",
         )
+        if not logo_layout.get("loaded"):
+            raise RuntimeError("verified employer logo could not be rendered for Facebook")
         title_layout = _draw_job_title(
             base,
             title,
@@ -1065,42 +1069,27 @@ def generate_job_article_cover(
                 f"article template is too small: {width}x{height}; use at least 800x450"
             )
 
-        # Logo: upper-middle. Trim transparent source padding first so the visible
-        # employer mark is large enough without changing the Facebook renderer.
+        # Logo: upper-middle. Jobs article covers require the same verified
+        # employer-logo asset used by Facebook; plain employer text is not a
+        # visual substitute.
+        if not str(image_url or "").strip():
+            raise RuntimeError("verified employer logo is required for Jobs article covers")
         logo = _load_job_logo(image_url)
+        if logo is None:
+            raise RuntimeError("verified employer logo could not be loaded for article cover")
         logo_center_x = int(width * 0.50)
         logo_center_y = int(height * 0.32)
         logo_max = (int(width * 0.40), int(height * 0.18))
-        if logo is not None:
-            logo = _prepare_article_job_logo(logo, logo_max)
-            base.alpha_composite(
-                logo,
-                (
-                    logo_center_x - logo.width // 2,
-                    logo_center_y - logo.height // 2,
-                ),
-            )
-        elif employer_name:
-            draw = ImageDraw.Draw(base)
-            font = _font(max(28, int(width * 0.038)))
-            lines = _wrap_job_title(
-                employer_name,
-                draw,
-                font,
-                int(width * 0.56),
-                max_lines=2,
-            )
-            line_height = max(38, int(width * 0.050))
-            y = logo_center_y - ((len(lines) - 1) * line_height) // 2
-            for line in lines:
-                _draw_text(
-                    draw,
-                    (logo_center_x, y),
-                    line,
-                    font,
-                    (40, 40, 40, 255),
-                )
-                y += line_height
+        logo = _prepare_article_job_logo(logo, logo_max)
+        if logo is None:
+            raise RuntimeError("verified employer logo could not be prepared for article cover")
+        base.alpha_composite(
+            logo,
+            (
+                logo_center_x - logo.width // 2,
+                logo_center_y - logo.height // 2,
+            ),
+        )
 
         # Title: lower-middle. Dynamic size handles short/medium/long Arabic,
         # French and mixed titles without touching footer/edge branding.
