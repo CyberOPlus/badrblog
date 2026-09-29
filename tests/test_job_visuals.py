@@ -77,6 +77,23 @@ class JobVisualTests(unittest.TestCase):
             self.assertTrue(second["pinned"])
             self.assertEqual(article["facebook_template_key"], first["key"])
 
+    def test_visual_template_reselects_when_job_facts_change(self):
+        with tempfile.TemporaryDirectory() as temp:
+            state = Path(temp) / "visual.json"
+            article = {
+                "id": "job-changing",
+                "job_notice_type": "vacancy",
+                "facebook_template_key": "apply",
+                "facebook_template_file": "job-apply-red.png",
+                "facebook_template_reason": "active-vacancy-with-direct-apply",
+            }
+            article["job_notice_type"] = "candidate_list"
+            selected = visual_policy.choose_job_template(article, state)
+            self.assertEqual(selected["key"], "alert")
+            self.assertFalse(selected["pinned"])
+            self.assertEqual(article["facebook_template_key"], "alert")
+            self.assertEqual(article["facebook_template_reselected_from"], "apply")
+
     def test_facebook_renderer_stress_tests_all_templates_and_title_shapes(self):
         titles = (
             "مدير استشارات الأمن السيبراني",
