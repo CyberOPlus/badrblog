@@ -25,7 +25,7 @@ def build_jobposting(article, article_url):
         },
     }
     logo = str(article.get("company_logo_url") or "").strip()
-    if logo:
+    if article.get("company_logo_verified") and logo:
         data["hiringOrganization"]["logo"] = logo
 
     location = str(article.get("job_location") or "").strip()
