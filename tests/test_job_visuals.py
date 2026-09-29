@@ -61,7 +61,7 @@ class JobVisualTests(unittest.TestCase):
         package = {
             "title": "Technical Lead ServiceNow",
             "cover_alt": "Technical Lead ServiceNow - inwi",
-            "main_image": "https://raw.githubusercontent.com/CyberOPlus/badrblog/main/assets/generated/job-articles/servicenow-inwi.jpg",
+            "main_image": "https://example.com/assets/generated/job-articles/servicenow-inwi.jpg",
             "cover_width": 1200,
             "cover_height": 675,
             "extra_article_images": [
@@ -113,7 +113,7 @@ class JobVisualTests(unittest.TestCase):
         }
         blueprint = facebook_publisher._jobs_facebook_blueprint(
             article,
-            "https://cyberopluss.blogspot.com/test.html",
+            "https://example.blogspot.com/test.html",
         )
         self.assertIn("مدير تقني ServiceNow", blueprint["caption"])
         self.assertNotIn("💼 الوظيفة: Technical Lead ServiceNow", blueprint["caption"])
