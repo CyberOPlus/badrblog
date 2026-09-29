@@ -1,0 +1,53 @@
+name: Emploi Public Runtime Probe
+on:
+  push:
+    branches: [jobs-seo-polish-20260929]
+    paths: [".github/workflows/emploi-public-runtime-probe.yml"]
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      JOBS_MODE: "true"
+      SOURCE_TIMEOUT_SECONDS: "12"
+      MAX_SOURCE_RETRIES: "0"
+      ENABLE_SCRAPLING_FALLBACK: "false"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: jobs-seo-polish-20260929
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Discover Arabic Emploi Public jobs with production scraper
+        run: |
+          python - <<'PY'
+          import json
+          import scraper
+          url = "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=0&region=0&stat=etab_publics"
+          rows, error, status, details = scraper._collect_article_links_for_source(
+              url,
+              per_source_limit=5,
+              extractor_type="auto",
+              strict_source_path=False,
+          )
+          print("STATUS", status)
+          print("ERROR", error)
+          print("DETAILS", json.dumps(details, ensure_ascii=False))
+          print("ROWS", json.dumps(rows, ensure_ascii=False, indent=2))
+          if status != 200:
+              raise SystemExit("Arabic Emploi-Public listing did not return HTTP 200")
+          if not rows:
+              raise SystemExit("Production scraper found zero Arabic Emploi-Public detail jobs")
+          valid = [
+              row for row in rows
+              if "/ar/" in row.get("url", "")
+              and ("%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84" in row.get("url", "") or "/تفاصيل/" in row.get("url", ""))
+          ]
+          if not valid:
+              raise SystemExit("No Arabic competition detail URL survived production filtering")
+          print("PROBE_OK", len(valid))
+          PY
