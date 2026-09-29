@@ -77,27 +77,115 @@ class JobVisualTests(unittest.TestCase):
             self.assertTrue(second["pinned"])
             self.assertEqual(article["facebook_template_key"], first["key"])
 
-    def test_facebook_renderer_handles_varied_job_titles(self):
+    def test_facebook_renderer_stress_tests_all_templates_and_title_shapes(self):
         titles = (
-            "مطلوب تقنيو صيانة بالدار البيضاء",
-            "Maroc Telecom recrute des Techniciens Réseaux",
-            "فرص توظيف مهندسين ومطورين لدى شركة دولية في الرباط والدار البيضاء",
+            "مدير استشارات الأمن السيبراني",
+            "مهندس بنية تحتية لافتراضية الشبكات",
+            "Développeur Fullstack Java Angular Confirmé",
+            "Salesforce/CRM Business Analyst",
+            "خبير الأمن السيبراني IAM وإدارة الهوية والوصول",
+            "Administrative Associate G-6 Temporary Appointment 364 days",
+            "النتائج النهائية لمباراة توظيف مهندسين وتقنيين من عدة تخصصات",
+            "لوائح المدعوين لاجتياز الاختبار الكتابي لمباراة توظيف تقنيين متخصصين",
         )
         with tempfile.TemporaryDirectory() as temp:
             temp = Path(temp)
             with patch.object(visuals, "JOB_VISUAL_STATE_PATH", temp / "visual_state.json"):
-                for index, title in enumerate(titles):
-                    result = visuals._generate_job_facebook_image(
-                        title,
-                        "",
-                        temp / f"facebook-{index}.jpg",
-                        hook_text="OCP Group",
-                        template_key="apply",
-                    )
-                    self.assertTrue(result["ok"], result.get("error"))
-                    self.assertEqual(result.get("template_key"), "apply")
-                    with Image.open(result["path"]) as image:
-                        self.assertEqual(image.size, (1080, 1350))
+                render_index = 0
+                for template_key in visual_policy.JOB_TEMPLATE_KEYS:
+                    for title in titles:
+                        result = visuals._generate_job_facebook_image(
+                            title,
+                            "",
+                            temp / f"facebook-{render_index}.jpg",
+                            employer_name="وزارة الانتقال الرقمي وإصلاح الإدارة",
+                            template_key=template_key,
+                        )
+                        render_index += 1
+                        self.assertTrue(
+                            result["ok"],
+                            f"{template_key}: {title}: {result.get('error')}",
+                        )
+                        self.assertTrue(result.get("layout_valid"))
+                        self.assertEqual(result.get("template_key"), template_key)
+                        self.assertGreaterEqual(
+                            int(result.get("title_font_size") or 0),
+                            visuals.JOB_TITLE_MIN_SIZE,
+                        )
+                        self.assertLessEqual(
+                            int(result.get("title_lines") or 0),
+                            visuals.JOB_TITLE_MAX_LINES,
+                        )
+                        left, top, right, bottom = result["title_bbox"]
+                        self.assertGreaterEqual(left, visuals.JOB_CONTENT_LEFT)
+                        self.assertLessEqual(right, visuals.JOB_CONTENT_RIGHT)
+                        self.assertGreaterEqual(top, visuals.JOB_TITLE_TOP)
+                        self.assertLessEqual(bottom, visuals.JOB_TITLE_BOTTOM)
+                        self.assertEqual(result.get("logo_kind"), "employer_text")
+                        with Image.open(result["path"]) as image:
+                            self.assertEqual(image.size, (1080, 1350))
+
+    def test_job_visual_title_removes_duplicate_company_and_location(self):
+        article = {
+            "job_notice_type": "vacancy",
+            "seo_title": "Orange Business توظف مديرًا لاستشارات الأمن السيبراني بالدار البيضاء",
+            "job_title": "Manager - Cybersecurity Consulting (GRC)",
+            "job_company": "Orange Business",
+            "job_location": "Casablanca",
+        }
+        visual_title = facebook_publisher._job_visual_title(article)
+        self.assertEqual(visual_title, "مديرًا لاستشارات الأمن السيبراني")
+        self.assertNotIn("Orange Business", visual_title)
+        self.assertNotIn("الدار البيضاء", visual_title)
+
+        article = {
+            "job_notice_type": "vacancy",
+            "seo_title": "وظيفة مدير تقني ServiceNow لدى inwi في الدار البيضاء",
+            "job_title": "Technical Lead ServiceNow",
+            "job_company": "inwi",
+            "job_location": "Casablanca",
+        }
+        self.assertEqual(
+            facebook_publisher._job_visual_title(article),
+            "مدير تقني ServiceNow",
+        )
+
+    def test_job_visual_title_compacts_long_administrative_suffix(self):
+        article = {
+            "job_notice_type": "vacancy",
+            "seo_title": (
+                "Administrative Associate, G-6, Temporary Appointment, "
+                "364 days, Cox's Bazar, Bangladesh"
+            ),
+            "job_title": "Administrative Associate",
+            "job_company": "UNICEF",
+            "job_location": "Cox's Bazar",
+        }
+        self.assertEqual(
+            facebook_publisher._job_visual_title(article),
+            "Administrative Associate",
+        )
+
+    def test_facebook_logo_scaling_uses_visible_mark_not_source_padding(self):
+        horizontal = Image.new("RGBA", (1200, 500), (0, 0, 0, 0))
+        for x in range(350, 850):
+            for y in range(205, 295):
+                horizontal.putpixel((x, y), (20, 80, 170, 255))
+        prepared = visuals._prepare_facebook_job_logo(horizontal)
+        self.assertIsNotNone(prepared)
+        self.assertGreaterEqual(prepared.width, 540)
+        self.assertLessEqual(prepared.width, 610)
+        self.assertLessEqual(prepared.height, 205)
+
+        square = Image.new("RGBA", (700, 700), (0, 0, 0, 0))
+        for x in range(275, 425):
+            for y in range(275, 425):
+                square.putpixel((x, y), (160, 30, 80, 255))
+        prepared_square = visuals._prepare_facebook_job_logo(square)
+        self.assertIsNotNone(prepared_square)
+        self.assertGreaterEqual(prepared_square.width, 280)
+        self.assertLessEqual(prepared_square.width, 315)
+        self.assertLessEqual(prepared_square.height, 305)
 
     def test_jobs_html_keeps_exactly_one_generated_cover(self):
         html = (
@@ -179,6 +267,10 @@ class JobVisualTests(unittest.TestCase):
         )
         self.assertIn("مدير تقني ServiceNow", blueprint["caption"])
         self.assertNotIn("💼 الوظيفة: Technical Lead ServiceNow", blueprint["caption"])
+        self.assertEqual(
+            facebook_publisher._job_visual_title(article),
+            "مدير تقني ServiceNow",
+        )
 
     def test_article_logo_trims_transparent_padding_and_scales_up(self):
         image = Image.new("RGBA", (600, 300), (0, 0, 0, 0))
