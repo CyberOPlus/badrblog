@@ -28,6 +28,7 @@ from config import (
 from production_logging import elapsed_ms, log_event
 from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
 from job_extractor import extract_job_fields
+from company_logo_resolver import resolve_company_logo
 
 try:
     import aiohttp
@@ -1075,6 +1076,21 @@ def _apply_enrichment_from_html(article, html, url):
 
     if JOBS_MODE:
         article.update(extract_job_fields(job_source_soup, article, url, full_text=full_text))
+        try:
+            article.update(resolve_company_logo(job_source_soup, article, url))
+        except Exception as error:
+            # Logo resolution must never stop a valid vacancy from publishing.
+            # Fail closed: a missing logo is safer than a wrong employer logo.
+            article["company_logo_url"] = ""
+            article["company_logo_verified"] = False
+            article["company_logo_confidence"] = 0
+            article["company_logo_source"] = "resolver_error"
+            log_event(
+                "company_logo_resolver_failed",
+                article_id=article.get("id"),
+                company=article.get("job_company", ""),
+                error=error.__class__.__name__,
+            )
         log_event(
             "job_fields_extracted",
             article_id=article.get("id"),
@@ -1083,6 +1099,9 @@ def _apply_enrichment_from_html(article, html, url):
             deadline=article.get("job_deadline", ""),
             positions=article.get("job_number_of_positions", 0),
             eligibility=article.get("job_eligibility", ""),
+            logo_verified=bool(article.get("company_logo_verified")),
+            logo_confidence=int(article.get("company_logo_confidence") or 0),
+            logo_source=article.get("company_logo_source", ""),
         )
     
     if JOBS_MODE:
