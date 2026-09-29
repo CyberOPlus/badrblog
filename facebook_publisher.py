@@ -856,7 +856,11 @@ def _build_caption(article, pattern, blogger_url=None):
 
 
 def _main_image_url(article):
-    if JOBS_MODE and article.get("company_logo_url"):
+    if (
+        JOBS_MODE
+        and article.get("company_logo_verified")
+        and article.get("company_logo_url")
+    ):
         return article["company_logo_url"]
     if article.get("main_image"):
         return article["main_image"]
