@@ -25,9 +25,15 @@ a Facebook slot. Existing bounded urgent-job policy remains in force.
 
 The workflow checks at minutes 07, 22, 37 and 52. Facebook accepts a delayed
 check up to 50 minutes after a slot and permits one post per consumed slot.
+Independent safety rails also enforce at least 45 minutes between Page posts
+and a hard ceiling of three Page posts per local day, including urgent
+overrides. The normal configured target remains two posts per day.
+
 An independent backlog pass retries a published article's Facebook delivery
-even when there is no new Blogger article or the AI fails. It preserves daily
-limits and retries missing first comments without reposting the photo.
+even when there is no new Blogger article or the AI fails. Manual backfill uses
+the same limits and can create at most one new feed post per invocation.
+Network/5xx outcomes are marked delivery-uncertain instead of being blindly
+retried, preventing duplicate photos or duplicate first comments.
 
 Git-tracked state is authoritative. A queued run checks out current main rather
 than restoring an older state cache. Each cycle saves state and retains a
