@@ -247,6 +247,36 @@ jobs:
         if: always()
         run: python main.py health
 
+      - name: Refresh daily scheduler heartbeat
+        if: always() && github.ref == 'refs/heads/main'
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          path = Path("data/automation_heartbeat.json")
+          now = datetime.now(timezone.utc)
+          today = now.date().isoformat()
+          try:
+              current = json.loads(path.read_text(encoding="utf-8"))
+          except Exception:
+              current = {}
+          if str(current.get("date_utc") or "") != today:
+              path.parent.mkdir(parents=True, exist_ok=True)
+              path.write_text(
+                  json.dumps(
+                      {"date_utc": today, "updated_at": now.isoformat()},
+                      ensure_ascii=False,
+                      indent=2,
+                  ) + "\n",
+                  encoding="utf-8",
+              )
+              print("Daily scheduler heartbeat refreshed.")
+          else:
+              print("Daily scheduler heartbeat already current.")
+          PY
+
       - name: Persist Jobs runtime state
         if: always() && github.ref == 'refs/heads/main'
         run: |
@@ -266,7 +296,7 @@ jobs:
             "data/facebook_style_memory.json"
             "data/internal_link_cache.json"
             "data/source_health.json"
-            "logs/auto_cycle_runs.jsonl"
+            "data/automation_heartbeat.json"
           )
           for state_path in "${STATE_PATHS[@]}"; do
             if [ -e "$state_path" ]; then
@@ -274,8 +304,13 @@ jobs:
             fi
           done
           if git diff --cached --quiet; then
-            echo "No Jobs runtime state changes to commit."
+            echo "No durable Jobs runtime state changes to commit."
           else
+            # Persist the bounded diagnostic log only when another durable
+            # state change (or the daily heartbeat) already requires a commit.
+            if [ -e "logs/auto_cycle_runs.jsonl" ]; then
+              git add -f "logs/auto_cycle_runs.jsonl"
+            fi
             git commit -m "Update Jobs runtime state [skip ci]"
             for attempt in 1 2 3; do
               if git push origin HEAD:main; then
@@ -305,4 +340,5 @@ jobs:
             data/facebook_style_memory.json
             data/internal_link_cache.json
             data/source_health.json
+            data/automation_heartbeat.json
             logs/auto_cycle_runs.jsonl
