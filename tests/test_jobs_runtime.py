@@ -240,6 +240,30 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(comments, [])
 
 
+    def test_jobs_never_publish_text_only_when_card_render_fails(self):
+        article = {
+            "id": "job-image-required",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/job.html",
+            "job_notice_type": "vacancy",
+            "job_company": "Example Company",
+            "seo_title": "Example Company توظف مهندس شبكات",
+            "facebook_template_key": "new",
+        }
+        blueprint = {
+            "caption": "فرصة عمل جديدة\n\n💼 الوظيفة: مهندس شبكات\n\n#وظائف #فرص_عمل #المغرب",
+            "hook": "فرصة عمل جديدة",
+        }
+        with patch.object(
+            facebook,
+            "generate_facebook_image",
+            return_value={"ok": False, "path": "", "error": "render failed"},
+        ), patch.object(facebook, "_post_to_graph") as text_post:
+            with self.assertRaisesRegex(RuntimeError, "refusing text-only publish"):
+                facebook._publish_facebook_post(article, blueprint)
+        text_post.assert_not_called()
+
     def test_jobs_caption_fingerprint_is_remembered(self):
         article = {
             "seo_title": "شركة تجريبية توظف مهندس شبكات في الرباط",
