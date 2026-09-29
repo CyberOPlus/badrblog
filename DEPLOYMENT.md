@@ -1,202 +1,117 @@
 # GitHub Actions Deployment
 
-This bot is configured for permanent GitHub Actions operation. The production workflow runs every 5 minutes, rotates sources with persistent state, skips duplicates/ads/affiliate/old stories, and publishes at most one live Blogger post per run.
+This repository is designed for unattended GitHub Actions operation. The Jobs
+workflow checks at minutes 07, 22, 37 and 52 of every hour. A scheduled check
+does not mean a post is created: Blogger caps, Facebook slots, duplicate
+protection, job freshness and delivery safety decide what is allowed.
 
 ## Required GitHub Secrets
 
-In your private repository, open:
+Configure these in repository Actions secrets:
 
-`Settings` -> `Secrets and variables` -> `Actions` -> `New repository secret`
-
-Add these required secrets:
-
-- `GEMINI_API_KEY`
-- `OPENROUTER_API_KEY`
+- `GEMINI_API_KEY` or `OPENROUTER_API_KEY`
 - `BLOGGER_BLOG_ID`
 - `BLOGGER_CLIENT_SECRET_JSON`
 - `BLOGGER_TOKEN_JSON`
 - `FACEBOOK_PAGE_ID`
 - `FACEBOOK_PAGE_ACCESS_TOKEN`
 
-Optional extra AI secret:
+Never commit OAuth files, access tokens, `.env`, or copied secret JSON.
 
-- `OPENAI_API_KEY`
+## Jobs runtime
 
-Do not paste these values into workflow logs, issues, commits, or README files.
-
-## Blogger OAuth Secrets
-
-`BLOGGER_CLIENT_SECRET_JSON` should contain the full OAuth client JSON from Google Cloud.
-
-`BLOGGER_TOKEN_JSON` should contain the full authorized token JSON from `data/token.json` after you have authenticated locally once.
-
-Never upload `client_secret.json`, `data/token.json`, or `.env` directly to GitHub.
-
-## Enable GitHub Actions
-
-1. Push this repository to a private GitHub repository.
-2. Add all required repository secrets.
-3. Open the `Actions` tab.
-4. Enable workflows if GitHub asks for confirmation.
-5. The workflow `.github/workflows/auto-cycle.yml` runs automatically every 5 minutes.
-6. Scheduled runs continue even when your computer is off.
-
-GitHub can delay scheduled jobs during busy periods, so a `*/5 * * * *` workflow may not start at the exact minute every time. The workflow is still configured for automatic 5-minute operation.
-
-## Production Defaults
-
-The workflow creates a runtime `.env` with these production defaults:
+The workflow creates its runtime environment only inside the GitHub runner. The
+important publishing controls are:
 
 ```env
+JOBS_MODE=true
+JOBS_TIMEZONE=Africa/Casablanca
 PUBLISH_MODE=live
 SAFE_MODE=false
-FAST_NEWS_MODE=true
-CATEGORY_ROTATION_MODE=true
-PROCESS_FULL_CATEGORY_PER_RUN=true
-FRESH_QUEUE_MODE=false
-FIRST_VALID_ARTICLE_MODE=true
-RECENT_NEWS_ONLY=true
-RECENT_ONLY=true
-RECENT_NEWS_MAX_AGE_HOURS=6
-RECENT_HOURS=6
-FRESHNESS_SAFETY_MARGIN_MINUTES=10
-FALLBACK_FIRST_RUN_LOOKBACK_HOURS=6
-CRAWL_INTERVAL_MINUTES=5
-CRAWL_OVERLAP_MINUTES=10
-ALLOW_UNKNOWN_DATE_IN_FAST_MODE=false
-FACEBOOK_AUTO_POST=true
-LOCAL_PUBLISH_FALLBACK=false
 MAX_POSTS_PER_RUN=1
 MAX_ARTICLES_PER_RUN=1
-MAX_SOURCES_PER_RUN=999
-PUBLISH_WEAK_ARTICLES=true
-ALLOW_SHORT_ARTICLES=true
-MIN_ARTICLE_WORDS=80
-TARGET_ARTICLE_WORDS=700-1000
-MIN_EXTRACTED_CHARS=80
-SOURCE_TIMEOUT_SECONDS=12
-ARTICLE_TIMEOUT_SECONDS=15
-AI_TIMEOUT_SECONDS=180
-AI_TOTAL_TIME_BUDGET_SECONDS=180
-GEMINI_TIMEOUT_SECONDS=45
-AI_MODEL_TIMEOUT_SECONDS=40
-OPENROUTER_TIMEOUT_SECONDS=40
-MAX_AI_RETRIES=3
-SOURCE_HEALTH_ENABLED=true
-SOURCE_FAILURE_COOLDOWN_MINUTES=45
-SKIP_ADS_AFFILIATE_SPONSORED=true
 SAFE_CYCLE_MAX_ARTICLES=1
-SAFE_CYCLE_DRAFT_ONLY=false
-MAX_DRAFTS_PER_DAY=10
-MIN_MINUTES_BETWEEN_DRAFTS=30
-MAX_LIVE_POSTS_PER_DAY=288
-MIN_MINUTES_BETWEEN_LIVE_POSTS=1
-MAX_FACEBOOK_POSTS_PER_DAY=288
-MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=0
+
+FACEBOOK_AUTO_POST=true
+META_GRAPH_API_VERSION=v26.0
+FACEBOOK_LINK_MODE=comment
+MAX_FACEBOOK_POSTS_PER_DAY=2
+FACEBOOK_HARD_MAX_POSTS_PER_DAY=3
+FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES=45
 ```
 
-In this mode the bot publishes live only, never creates drafts, accepts weak or short real news, and runs category rotation. Each 5-minute run selects one category, checks every source in that category, queues valid extra candidates, and publishes at most one article.
+The normal Facebook target is at most two Page posts per local day. The hard
+ceiling is three, including urgent overrides. Even urgent posts must respect the
+independent safety interval, so a bad environment value cannot turn the bot
+into a rapid-fire publisher.
 
-Category rotation order:
+The Page schedule and Morocco timezone policy live in
+`docs/publishing-schedule.md`.
 
-- `Cyber-Security`
-- `AI-Tools`
-- `Tech-News`
-- `Apps-Programs`
+## Facebook delivery safety
 
-If the selected category has no valid fresh candidate and no queued article, the bot tries the next category once before ending the run. Blogger labels are restricted to those four English slugs.
+A Facebook post is attempted only for a successfully published Blogger item
+with a real permalink. Jobs publishing always calls Facebook with posting
+limits enabled.
 
-With `RECENT_HOURS=6` and `FRESHNESS_SAFETY_MARGIN_MINUTES=10`, the bot accepts practical fast-news items up to nearly 6 hours old. It no longer blocks stories just because they are near the old 2-hour window.
+The bot stores the Facebook post ID before attempting the first comment. If the
+comment fails with a definite API rejection, only the comment may be retried;
+the photo is not reposted.
 
-The bot rejects:
+Network timeouts, connection failures, HTTP 408, and server-side 5xx responses
+are different: the remote outcome may be unknown. Those attempts are marked
+`delivery_uncertain` (or `posted_comment_uncertain`) and are not blindly
+retried. This prevents a timeout after a successful remote publish from
+creating a duplicate on the next run.
 
-- duplicate URLs and canonical URLs
-- repeated topics within the topic cooldown window
-- sponsored, affiliate, coupon, daily-deal, discount, and promotional pages
-- articles older than the configured recent window
+Manual `facebook-backfill` uses the same schedule, daily cap and interval
+guardrails and can create at most one new Page post per invocation. It is not a
+bulk-publish bypass.
 
-The bot accepts:
+## Facebook visuals
 
-- short real news
-- weak extraction when title plus summary/metadata is available
-- RSS-summary-only stories
-- normal business or partnership news that uses words like "deal" but is not promotional
-- Blogger posts without images when no valid image exists
+The four runtime templates are under `assets/facebook/`. Their meaning and
+selection rules are defined in `job_visual_policy.py`.
 
-## AI Fallback
+Template selection is semantic first:
 
-Set `AI_PROVIDER=auto` with Gemini and OpenRouter secrets. The production sequence is:
+- new vacancy -> new template
+- verified deadline within 72 hours -> deadline template
+- candidate/results notices -> alert template
+- verified direct-apply vacancy -> new/apply rotation
 
-1. Gemini (`GEMINI_MODEL=gemini-2.5-flash`)
-2. OpenRouter (`OPENROUTER_MODEL=openrouter/auto`)
-3. Gemini retry
-4. Basic safe Arabic HTML fallback from title and summary when both providers fail
+Once selected, the template key is pinned to the article before upload. Any
+retry therefore keeps the same visual instead of changing it randomly.
 
-The fallback does not invent sensitive technical details and only uses available title, summary, metadata, and source context.
+## Checks
 
-
-## Deployment Checks
-
-Before or after deployment, run:
+Useful read-only/status commands:
 
 ```bash
 python main.py deployment-check
 python main.py publish-status
-```
-
-## Enable Facebook Safely
-
-Facebook posting only runs after a successful live Blogger publish with a real `blogger_post_url`. In the auto-cycle workflow it posts immediately in the same run; it does not wait for a separate Facebook interval.
-
-To enable it, set:
-
-```env
-FACEBOOK_AUTO_POST=true
-MAX_FACEBOOK_POSTS_PER_DAY=288
-MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=0
-```
-
-Use the preview and status commands before posting:
-
-```bash
 python main.py facebook-status
 python main.py facebook-limits-status
 python main.py facebook-preview
 ```
 
+Core regressions run in `.github/workflows/jobs-tests.yml`, including visual
+selection, Facebook pacing and duplicate-delivery protections.
 
-## Local Deployment Check
+## Runtime state
 
-Run:
+Git-tracked runtime state is persisted after scheduled jobs, with a temporary
+workflow artifact kept as a recovery checkpoint. The runner removes temporary
+credential files before state persistence.
 
-```bash
-python main.py deployment-check
-```
+Concurrent code edits can make a runtime-state push lose a Git race. The
+workflow retries/rebases state persistence; such a Git race is separate from a
+Facebook delivery failure.
 
+## Security
 
-You can verify production activity from:
-
-- GitHub repository `Actions` tab
-- Blogger post URLs in the workflow logs
-
-On GitHub Actions, `.env` is generated at runtime from GitHub Secrets. A committed `.env` file is not required and must not be committed.
-
-## Reset Runtime State
-
-Use the built-in reset command when you need a clean production restart:
-
-```bash
-python main.py reset-state
-```
-
-This clears the runtime queue, crawl timestamps, published-history files, topic fingerprints, source health cooldowns, failed queue state, and the cached auto-cycle run log without touching code, tests, workflows, or secrets.
-
-## Security Warnings
-
-- Never commit `.env`.
-- Never commit `client_secret.json`.
-- Never commit `data/token.json`.
-- Never commit copied Facebook or Google token JSON.
-- Never print API keys or tokens in logs.
-- Use GitHub Actions Secrets only.
-- Keep the repository private.
+- Keep credentials only in GitHub Actions secrets.
+- Do not commit `.env`, OAuth client files, token files, or copied API output.
+- Do not print access tokens in logs.
+- Keep Graph API versions configurable through `META_GRAPH_API_VERSION`.
+- Review Page status and Insights before increasing publishing volume.
