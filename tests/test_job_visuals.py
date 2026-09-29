@@ -17,12 +17,20 @@ class JobVisualTests(unittest.TestCase):
         family = " ".join(str(x) for x in getattr(font, "getname", lambda: ("", ""))())
         self.assertIn("Firjar", family)
 
-    def test_four_facebook_templates_keep_portrait_size(self):
-        self.assertEqual(len(visuals.JOB_TEMPLATE_FILES), 4)
+    def test_four_facebook_templates_use_new_named_assets(self):
+        self.assertEqual(
+            [path.name for path in visuals.JOB_TEMPLATE_FILES],
+            [
+                "job-new-orange.png",
+                "job-deadline-yellow.png",
+                "job-alert-blue.png",
+                "job-apply-red.png",
+            ],
+        )
         for path in visuals.JOB_TEMPLATE_FILES:
             self.assertTrue(path.exists(), str(path))
             with Image.open(path) as image:
-                self.assertEqual(image.size, (1080, 1350))
+                self.assertEqual(image.size, (1254, 1254))
 
     def test_facebook_renderer_handles_varied_job_titles(self):
         titles = (
