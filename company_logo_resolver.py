@@ -797,6 +797,57 @@ def _registry_store(registry, company, selected, probe, official_domain):
     return registry["records"][key]
 
 
+def refresh_company_logo(article):
+    """Re-fetch the official job page and run the same strict logo resolver.
+
+    This is a late-pipeline recovery path for jobs that were enriched before a
+    logo became discoverable. It never accepts an unverified image.
+    """
+    current = verified_company_logo(article)
+    if current.get("company_logo_verified") and current.get("company_logo_url"):
+        return current
+
+    page_url = str(
+        article.get("job_detail_url")
+        or article.get("url")
+        or article.get("source_url")
+        or ""
+    ).strip()
+    safe_url = _safe_public_url(page_url)
+    if not safe_url:
+        return current
+    try:
+        response = requests.get(
+            safe_url,
+            headers=HEADERS,
+            timeout=REQUEST_TIMEOUT_SECONDS,
+            allow_redirects=True,
+        )
+        response.raise_for_status()
+        if not response.text or len(response.content) > 4_000_000:
+            return current
+        soup = BeautifulSoup(response.text, "html.parser")
+        resolved = resolve_company_logo(soup, article, response.url or safe_url)
+        article.update(resolved)
+        package = article.get("ai_input_package")
+        if isinstance(package, dict):
+            package.update(resolved)
+        log_event(
+            "company_logo_late_refresh",
+            article_id=article.get("id"),
+            company=article.get("job_company"),
+            verified=bool(resolved.get("company_logo_verified")),
+        )
+        return resolved
+    except Exception as error:
+        log_event(
+            "company_logo_late_refresh_failed",
+            article_id=article.get("id"),
+            error=error.__class__.__name__,
+        )
+        return current
+
+
 def resolve_company_logo(soup, article, page_url):
     """Return only a verified employer logo.
 
