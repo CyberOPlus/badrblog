@@ -338,11 +338,28 @@ def _latinize(value):
 def desired_slug(article, campaign_id=""):
     company = _latinize(article.get("job_company") or article.get("company"))
     title = _latinize(article.get("job_title") or article.get("title"))
-    base_words = [x for x in f"{company}-{title}".split("-") if x][:6]
+    base_words = [x for x in f"{company}-{title}".split("-") if x][:8]
     base = "-".join(base_words).strip("-") or "job"
-    token_seed = campaign_id or identity_key(article)
-    token = hashlib.sha256(token_seed.encode("utf-8")).hexdigest()[:7]
-    return f"{base}-{token}"[:80]
+
+    stable_reference = _latinize(
+        article.get("job_external_reference")
+        or article.get("ats_reference")
+        or ""
+    )
+    if not stable_reference:
+        for key in ("job_application_url", "job_detail_url", "url", "canonical_url"):
+            value = str(article.get(key) or "")
+            match = re.search(r"(?:/|=)([A-Za-z]*-?\d{3,})(?:[/?#&]|$)", value)
+            if match:
+                stable_reference = _latinize(match.group(1))
+                break
+
+    if stable_reference:
+        token = stable_reference[:24]
+    else:
+        token_seed = campaign_id or identity_key(article)
+        token = hashlib.sha256(token_seed.encode("utf-8")).hexdigest()[:7]
+    return f"{base}-{token}"[:90]
 
 
 def _state_default():
