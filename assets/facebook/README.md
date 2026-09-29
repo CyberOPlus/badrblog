@@ -1,20 +1,10 @@
-# خلفيات Facebook للوظائف
+# Facebook image assets
 
-الخلفيات الأربع المعتمدة الآن:
+Runtime image assets:
 
-- `job-new-orange.png` — حقيبة عمل + برق.
-- `job-deadline-yellow.png` — ساعة رملية.
-- `job-alert-blue.png` — جرس إشعار.
-- `job-apply-red.png` — هدف + سهم.
+- `job-new-orange.png`
+- `job-deadline-yellow.png`
+- `job-alert-blue.png`
+- `job-apply-red.png`
 
-الملفات الأصلية المرفوعة مقاسها **1254×1254 px**. يحافظ المولد على التصميم بدون تمديد مشوّه، ويضيف مساحة رأسية بيضاء داخل الجزء الفارغ ثم يخرج صورة Facebook النهائية بمقاس **1080×1350 px**.
-
-## التوزيع الحالي
-
-- شعار الجهة المشغلة: في الوسط العلوي داخل المساحة البيضاء.
-- عنوان الوظيفة: أسفل الشعار داخل المساحة الرئيسية.
-- الخط: Firjar ExtraBold/Bold.
-- العربية RTL، والفرنسية/الإنجليزية والعناوين المختلطة مدعومة.
-- اختيار القالب عشوائي بين الأربعة مع منع تكرار نفس القالب مباشرة.
-
-القالب نفسه يحمل هوية Cybero Plus والأيقونة الجانبية، لذلك لا يضيف البوت شعار Cybero Plus مرة ثانية؛ يضيف فقط شعار الجهة المشغلة وعنوان الوظيفة.
+The renderer normalizes the source artwork to the final Facebook output size. Keep these filenames unchanged unless the renderer configuration is updated in the same commit.
