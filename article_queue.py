@@ -705,6 +705,7 @@ def maintain_article_queue(days=7):
         "archived_old_failed": 0,
         "archived_duplicate_urls": 0,
         "archived_stale_logo_wait": 0,
+        "archived_stale_no_deadline": 0,
         "already_archived": 0,
         "active_count": 0,
         "archived_count": 0,
@@ -729,6 +730,27 @@ def maintain_article_queue(days=7):
             if logo_anchor and logo_anchor < now_utc - timedelta(days=14):
                 if _archive_article(article, "logo_unresolved_older_than_14_days", archived_at):
                     stats["archived_stale_logo_wait"] += 1
+                continue
+
+        if (
+            JOBS_MODE
+            and article.get("status") in {"new", "ready"}
+            and not article.get("job_deadline")
+        ):
+            stale_anchor = _as_utc(
+                _parse_iso(
+                    article.get("discovered_at")
+                    or article.get("source_published_at")
+                )
+            )
+            now_utc = datetime.now(timezone.utc)
+            if stale_anchor and stale_anchor < now_utc - timedelta(days=60):
+                if _archive_article(
+                    article,
+                    "no_deadline_unpublished_older_than_60_days",
+                    archived_at,
+                ):
+                    stats["archived_stale_no_deadline"] += 1
                 continue
 
         url = str(article.get("url") or "").strip()
@@ -778,6 +800,7 @@ def maintain_article_queue(days=7):
         or stats["archived_old_failed"]
         or stats["archived_duplicate_urls"]
         or stats["archived_stale_logo_wait"]
+        or stats["archived_stale_no_deadline"]
         or stats["compacted_archived"]
     ):
         save_article_queue(queue)
