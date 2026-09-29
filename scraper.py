@@ -11,7 +11,7 @@ import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
-from urllib.parse import parse_qs, urljoin, urlparse
+from urllib.parse import parse_qs, unquote, urljoin, urlparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -937,6 +937,90 @@ async def _collect_workday_links_async(session, source_url, per_source_limit=Non
 
 
 
+def _parse_emploi_public_links(document, source_url, per_source_limit=None):
+    """Extract only official Emploi-Public competition detail pages."""
+    soup = _get_soup_from_document(document, source_url)
+    if not soup:
+        return []
+
+    limit = max(1, min(int(per_source_limit or 20), 50))
+    links = []
+    seen = set()
+    generic_titles = {
+        "تفاصيل", "التفاصيل", "عرض التفاصيل", "voir", "voir détails",
+        "voir details", "détails", "details",
+    }
+
+    for anchor in soup.find_all("a", href=True):
+        href = urljoin(source_url, str(anchor.get("href") or "").strip())
+        parsed = urlparse(href)
+        host = parsed.netloc.casefold().removeprefix("www.")
+        if host != "emploi-public.ma":
+            continue
+
+        decoded_path = unquote(parsed.path or "")
+        match = re.search(
+            r"(?:/ar/تفاصيل/المباريات/|/fr/concours/details/)"
+            r"([0-9a-fA-F-]{8,}|[^/?#]+)$",
+            decoded_path.rstrip("/"),
+            flags=re.I,
+        )
+        if not match:
+            continue
+
+        canonical = f"https://www.emploi-public.ma{parsed.path.rstrip('/')}"
+        if canonical in seen:
+            continue
+
+        candidates = [_normalize_text(anchor.get_text(" ", strip=True))]
+        container = anchor.find_parent(["article", "li", "tr", "section", "div"])
+        if container:
+            for tag_name in ("h1", "h2", "h3", "h4", "h5", "strong"):
+                tag = container.find(tag_name)
+                if tag:
+                    candidates.append(_normalize_text(tag.get_text(" ", strip=True)))
+
+        title = next(
+            (
+                value for value in candidates
+                if value
+                and value.casefold() not in generic_titles
+                and len(value) >= 8
+            ),
+            "",
+        )
+        if not title:
+            continue
+
+        seen.add(canonical)
+        reference = match.group(1)
+        links.append({
+            "title": title,
+            "url": canonical,
+            "ats_provider": "emploi_public",
+            "ats_reference": reference,
+            "job_external_reference": reference,
+        })
+        if len(links) >= limit:
+            break
+
+    return links
+
+
+async def _collect_emploi_public_links_async(session, source_url, per_source_limit=None):
+    html_text, error, status_code = await _fetch_text_async(session, source_url)
+    if error or not html_text:
+        return [], error or "empty Emploi-Public listing", status_code
+    links = _parse_emploi_public_links(
+        html_text,
+        source_url,
+        per_source_limit=per_source_limit,
+    )
+    if not links:
+        return [], "Emploi-Public listing exposed no competition detail links", status_code or 200
+    return links, "", status_code or 200
+
+
 def _parse_capgemini_job_links(html_text, source_url, per_source_limit=None):
     """Extract only official Capgemini SuccessFactors job-detail URLs."""
     soup = BeautifulSoup(html_text or "", "html.parser")
@@ -1418,6 +1502,17 @@ async def _collect_article_links_for_source_async(
             "tried_feed_urls": [],
         }
 
+    if extractor_mode == "emploi_public":
+        links, error, status_code = await _collect_emploi_public_links_async(
+            session, source_url, per_source_limit=per_source_limit,
+        )
+        return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
+            "normal_links_found": len(links),
+            "feed_links_found": 0,
+            "method_used": "emploi_public" if links else ("failed:emploi_public" if error else "emploi_public"),
+            "tried_feed_urls": [],
+        }
+
     if extractor_mode == "capgemini_jobs":
         links, error, status_code = await _collect_capgemini_links_async(
             session, source_url, per_source_limit=per_source_limit,
@@ -1628,6 +1723,24 @@ def _collect_article_links_for_source(
             "feed_links_found": len(feed_links),
             "method_used": "feed" if feed_links else "failed",
             "tried_feed_urls": tried_feed_urls,
+        }
+
+    extractor_mode = str(extractor_type or "").lower()
+    if extractor_mode == "emploi_public":
+        links = _parse_emploi_public_links(
+            source_document,
+            source_url,
+            per_source_limit=per_source_limit,
+        )
+        print(f"  Collected {len(links)} Emploi-Public competition link(s) from this source.")
+        return [
+            _link_to_article_dict(link, source_url)
+            for link in links
+        ], "" if links else "Emploi-Public listing exposed no competition detail links", 200, {
+            "normal_links_found": len(links),
+            "feed_links_found": 0,
+            "method_used": "emploi_public",
+            "tried_feed_urls": [],
         }
 
     status_code = getattr(source_document, "status", None)

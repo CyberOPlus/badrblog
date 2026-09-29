@@ -101,7 +101,7 @@ def _article_word_count(article):
 
 def _publish_quality_error(article, articles):
     words = _article_word_count(article)
-    minimum_publishable_words = 100 if JOBS_MODE else MIN_PUBLISHABLE_WORDS
+    minimum_publishable_words = 120 if JOBS_MODE else MIN_PUBLISHABLE_WORDS
     if words < minimum_publishable_words:
         log_event(
             "article_skipped_too_short",

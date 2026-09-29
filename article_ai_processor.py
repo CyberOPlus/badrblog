@@ -615,9 +615,12 @@ STRICT ACCURACY
 
 LENGTH AND STYLE
 - This is a JOB LISTING, not a long-form article.
-- Keep the explanatory prose compact, normally 135-200 Arabic words.
-- Aim for 135-200 words; the shared production minimum is 100 words.
-  Never invent information or repeat facts to meet the target length.
+- Keep the explanatory prose compact, normally 140-220 Arabic words.
+- The shared Jobs production minimum is 120 words.
+  Never invent information or repeat facts merely to meet the target length.
+- Prefer verified facts over promotional language. Never add generic praise such as
+  "الشركة الرائدة", "الشركة المرموقة", "فرصة مميزة", "فرصة رائعة", or similar
+  marketing claims unless they are essential verified facts (normally they are not).
 - Multi-specialization campaigns or candidate/result notices may contain a factual
   official-links table beyond that prose target. Never add filler, but never delete
   a useful verified official row merely to hit a word count.
@@ -677,11 +680,14 @@ NOTICE TYPE
   the update itself the focus instead of rewriting the old vacancy as new.
 
 INTRODUCTION
-- Start with ONE short paragraph naming the employer, the clearly translated Arabic
+- Start with ONE short factual paragraph naming the employer, the clearly translated Arabic
   job title (with the original title in parentheses when useful), and verified location when available.
+- Do not describe the employer as leading, prestigious, exceptional, innovative, or similar
+  unless that wording is itself a necessary verified fact. Avoid recruitment-marketing filler.
 - Do not repeat all table facts in the introduction.
 
 DETAILS
+- Put <h2>تفاصيل الوظيفة</h2> immediately before the main facts table.
 - Prefer ONE compact semantic <table> for verified structured facts.
 - Include every useful verified structured fact that exists: employer, translated
   position + original title, location, contract, number of positions, publication date,
@@ -692,6 +698,11 @@ DETAILS
   appear clearly in the article in a row labelled "آخر أجل للترشيح". Do not bury it
   inside prose. If an exact clock time is verified, preserve it too.
 - If no deadline is verified, omit the deadline row completely; never write "غير محدد".
+
+RESPONSIBILITIES
+- For an active vacancy, when full_article_text/job description contains verified duties
+  or responsibilities, add <h2>المهام والمسؤوليات</h2> and summarize only those duties.
+  Do not bury all verified responsibilities in the introduction.
 
 REQUIREMENTS
 - Add <h2>الشروط والمؤهلات</h2> only when verified requirements exist.
