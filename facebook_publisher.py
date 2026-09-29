@@ -1251,6 +1251,7 @@ def _publish_facebook_post(article, blueprint):
         _main_image_url(article),
         _facebook_image_output_path(article),
         hook_text=blueprint.get("hook", ""),
+        template_key=article.get("facebook_template_key", ""),
     )
     if image_result.get("ok"):
         image_result["url"] = _main_image_url(article)
@@ -1405,37 +1406,90 @@ def _failure_result(queue, article, error, checked=1, extra=None):
     return result
 
 
+def _deferred_result(article, reason, extra=None):
+    result = {
+        "checked": 1 if article else 0,
+        "posted": False,
+        "deferred": True,
+        "article": article,
+        "error": str(reason or ""),
+    }
+    if extra:
+        result.update(extra)
+    return result
+
+
 def get_facebook_limits_status(now=None, urgent=False):
     queue = load_article_queue()
     posted_times = [
         article.get("facebook_posted_at")
         for article in queue.get("articles", [])
-        if article.get("facebook_status") in {"posted", "posted_comment_failed"}
+        if article.get("facebook_status") in {
+            "posted",
+            "posted_comment_failed",
+            "posted_comment_uncertain",
+        }
         and article.get("facebook_posted_at")
     ]
 
     if JOBS_MODE:
-        slot = facebook_slot_status(posted_times=posted_times, now=now, urgent=urgent)
-        local_day = jobs_local_time(now).date()
-        today_count = sum(
-            1 for value in posted_times
-            if parse_job_date(value) and jobs_local_time(parse_job_date(value)).date() == local_day
+        local_now = jobs_local_time(now)
+        local_posts = []
+        for value in posted_times:
+            parsed = parse_job_date(value)
+            if parsed:
+                local_posts.append(jobs_local_time(parsed))
+        today_posts = [value for value in local_posts if value.date() == local_now.date()]
+        last_post_time = max(local_posts) if local_posts else None
+
+        normal_daily_limit = min(
+            max(1, MAX_FACEBOOK_POSTS_PER_DAY),
+            FACEBOOK_HARD_MAX_POSTS_PER_DAY,
         )
-        daily_blocked = today_count >= MAX_FACEBOOK_POSTS_PER_DAY and not urgent
-        allowed_now = bool(slot.get("allowed_now")) and not daily_blocked
+        effective_daily_limit = min(
+            FACEBOOK_HARD_MAX_POSTS_PER_DAY,
+            normal_daily_limit + (1 if urgent else 0),
+        )
+        daily_blocked = len(today_posts) >= effective_daily_limit
+
+        safe_interval = max(
+            MIN_MINUTES_BETWEEN_FACEBOOK_POSTS,
+            FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES,
+        )
+        minutes_since_last = (
+            max(0, int((local_now - last_post_time).total_seconds() // 60))
+            if last_post_time
+            else None
+        )
+        interval_blocked = bool(
+            last_post_time
+            and (local_now - last_post_time).total_seconds() < safe_interval * 60
+        )
+
+        slot = facebook_slot_status(posted_times=posted_times, now=now, urgent=urgent)
+        allowed_now = bool(slot.get("allowed_now")) and not daily_blocked and not interval_blocked
         reasons = []
         if daily_blocked:
-            reasons.append("daily Facebook post limit reached")
+            reasons.append("Facebook hard daily safety limit reached")
+        if interval_blocked:
+            reasons.append("Facebook safety interval has not elapsed")
         if not slot.get("allowed_now") and not urgent:
             reasons.append("waiting for Morocco Facebook publishing slot")
+
+        next_allowed = slot.get("next_slot", "")
+        if interval_blocked and last_post_time:
+            next_allowed = (last_post_time + timedelta(minutes=safe_interval)).isoformat()
+
         return {
-            "facebook_posts_today": today_count,
-            "max_facebook_posts_per_day": MAX_FACEBOOK_POSTS_PER_DAY,
-            "last_facebook_post_time": posted_times[-1] if posted_times else None,
-            "minutes_since_last_facebook_post": None,
-            "min_minutes_between_facebook_posts": 0,
+            "facebook_posts_today": len(today_posts),
+            "max_facebook_posts_per_day": normal_daily_limit,
+            "effective_facebook_posts_per_day": effective_daily_limit,
+            "hard_max_facebook_posts_per_day": FACEBOOK_HARD_MAX_POSTS_PER_DAY,
+            "last_facebook_post_time": last_post_time.isoformat() if last_post_time else None,
+            "minutes_since_last_facebook_post": minutes_since_last,
+            "min_minutes_between_facebook_posts": safe_interval,
             "allowed_now": allowed_now,
-            "next_allowed_time": slot.get("next_slot", ""),
+            "next_allowed_time": next_allowed,
             "reasons": reasons,
             "jobs_slot_mode": slot.get("mode", "scheduled"),
             "jobs_slot": slot.get("slot", ""),
@@ -1456,10 +1510,18 @@ def get_facebook_limits_status(now=None, urgent=False):
         else None
     )
 
-    daily_blocked = len(today_posts) >= MAX_FACEBOOK_POSTS_PER_DAY
+    daily_limit = min(
+        max(1, MAX_FACEBOOK_POSTS_PER_DAY),
+        FACEBOOK_HARD_MAX_POSTS_PER_DAY,
+    )
+    safe_interval = max(
+        MIN_MINUTES_BETWEEN_FACEBOOK_POSTS,
+        FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES,
+    )
+    daily_blocked = len(today_posts) >= daily_limit
     interval_next_allowed = now
     if last_post_time:
-        interval_next_allowed = last_post_time + timedelta(minutes=MIN_MINUTES_BETWEEN_FACEBOOK_POSTS)
+        interval_next_allowed = last_post_time + timedelta(minutes=safe_interval)
     interval_blocked = bool(last_post_time and interval_next_allowed > now)
     daily_next_allowed = (
         datetime.combine(now.date() + timedelta(days=1), datetime.min.time())
@@ -1471,20 +1533,22 @@ def get_facebook_limits_status(now=None, urgent=False):
 
     reasons = []
     if daily_blocked:
-        reasons.append("daily Facebook post limit reached")
+        reasons.append("Facebook hard daily safety limit reached")
     if interval_blocked:
-        reasons.append("minimum minutes between Facebook posts has not elapsed")
+        reasons.append("Facebook safety interval has not elapsed")
 
     return {
         "facebook_posts_today": len(today_posts),
-        "max_facebook_posts_per_day": MAX_FACEBOOK_POSTS_PER_DAY,
+        "max_facebook_posts_per_day": daily_limit,
+        "hard_max_facebook_posts_per_day": FACEBOOK_HARD_MAX_POSTS_PER_DAY,
         "last_facebook_post_time": last_post_time,
         "minutes_since_last_facebook_post": minutes_since_last,
-        "min_minutes_between_facebook_posts": MIN_MINUTES_BETWEEN_FACEBOOK_POSTS,
+        "min_minutes_between_facebook_posts": safe_interval,
         "allowed_now": allowed_now,
         "next_allowed_time": next_allowed_time,
         "reasons": reasons,
     }
+
 
 def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
     """
@@ -1536,12 +1600,23 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             urgent=bool(JOBS_MODE and article.get("job_publish_immediately"))
         )
         if not limits["allowed_now"]:
-            return _failure_result(
-                queue,
+            return _deferred_result(
                 article,
                 "; ".join(limits["reasons"]) or "Facebook posting limits blocked this run.",
                 extra={"limits": limits},
             )
+
+    if JOBS_MODE:
+        selection = choose_job_template(article, JOB_VISUAL_STATE_PATH)
+        if not selection.get("pinned"):
+            save_article_queue(queue)
+        log_event(
+            "facebook_job_template_selected",
+            article_id=article.get("id"),
+            template_key=selection.get("key", ""),
+            reason=selection.get("reason", ""),
+            pinned=selection.get("pinned", False),
+        )
 
     try:
         blueprint = _prepare_facebook_post(article, articles, blogger_url)
