@@ -63,7 +63,7 @@ def _clean(value):
 
 def append_jobposting(html, article, article_url):
     html = re.sub(
-        r'<script[^>]*id=["\']cyberoplus-jobposting["\'][^>]*>.*?</script>',
+        r'<script[^>]*id=["\'][^"\']*jobposting["\'][^>]*>.*?</script>',
         "",
         str(html or ""),
         flags=re.I | re.S,
@@ -74,4 +74,4 @@ def append_jobposting(html, article, article_url):
         # Keep the page's normal BlogPosting schema and avoid misleading JobPosting markup.
         return html.rstrip()
     payload = json.dumps(build_jobposting(article, article_url), ensure_ascii=False, separators=(",", ":"))
-    return html.rstrip() + f'\n<script type="application/ld+json" id="cyberoplus-jobposting">{payload}</script>'
+    return html.rstrip() + f'\n<script type="application/ld+json" id="jobs-jobposting">{payload}</script>'
