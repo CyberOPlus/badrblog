@@ -641,9 +641,10 @@ TITLE
 - vacancy / single private role:
   prefer natural Arabic such as "inwi توظف مديرًا تقنيًا لمنصة ServiceNow بالدار البيضاء"
   or "شركة X تعلن عن توظيف ...". Translate the role into clear Arabic.
-  Keep an English/French technical term only when it is itself a product, acronym,
-  certification, or essential recognized role term; do NOT automatically repeat the
-  whole official title in parentheses.
+  When the official job title is in French/English and is useful for recognition/search,
+  include that exact official role ONCE in parentheses after the Arabic role, especially
+  for private-sector vacancies. This also gives Blogger a meaningful Latin permalink.
+  Do not repeat the employer or stuff synonyms/keywords.
 - public competition / multi-position campaign:
   prefer "الجهة: مباراة توظيف ..." or "الجهة – مباراة توظيف ..." and include the
   verified number/role breakdown when it is genuinely useful.
@@ -682,9 +683,10 @@ INTRODUCTION
 
 DETAILS
 - Prefer ONE compact semantic <table> for verified structured facts.
-- Include only available rows such as employer, translated position + original title,
-  location, contract, number of positions, published date, deadline, experience, diploma,
-  competition/list status, and notice type when useful to the reader.
+- Include every useful verified structured fact that exists: employer, translated
+  position + original title, location, contract, number of positions, publication date,
+  application deadline, competition/exam date, official reference, experience, diploma,
+  competition/list status, and notice type. Omit only fields that are genuinely absent.
 - Never create rows for missing information.
 - DEADLINE IS IMPORTANT: when job_deadline_display or job_deadline exists, it MUST
   appear clearly in the article in a row labelled "آخر أجل للترشيح". Do not bury it
@@ -709,6 +711,10 @@ APPLICATION, RESULTS AND OFFICIAL FILES
   real application is still open. Label it according to its real purpose: "تحميل اللائحة",
   "اللائحة الرسمية", "النتائج الرسمية", "الإعلان الرسمي", etc.
 - If job_document_links contains ONE useful official file, include its exact URL once.
+- If job_detail_url is a specific official notice/detail page and differs from the direct
+  application URL, include it once as "صفحة الإعلان الرسمية".
+- EVERY URL in job_document_links is mandatory in the final article. Never omit an official
+  PDF/list/notice/decision just to shorten the article.
 - If job_document_links contains MULTIPLE files/lists, build one compact table instead
   of a long paragraph/list. Use verified link label/context to create useful columns
   such as الدبلوم، التخصص/الفئة، والرابط الرسمي ONLY when those facts are actually supported.
@@ -726,7 +732,10 @@ IMAGES
 - Never use og:image or any source-page hero/content image.
 
 SEO
-- Meta description: natural Arabic, approximately 100-160 characters.
+- Meta description: neutral third-person Arabic, approximately 110-160 characters.
+- Mention the employer, translated role, location when verified, and one useful verified
+  fact such as contract/deadline/direct application. Do not write as if this site were the
+  employer: never use phrases such as "نبحث عن", "عملائنا", "فريقنا", "انضم إلينا/لفريقنا".
 - Use desired_slug EXACTLY when supplied.
 - Never add mutable values such as dates, deadline, salary, number of positions,
   or temporary campaign details to the slug.
@@ -1605,6 +1614,7 @@ def _remove_empty_job_fact_rows(html_content):
 
 
 def _append_job_action_links_if_missing(html_content, package):
+    """Guarantee that all verified official application/detail/document links are visible."""
     if not JOBS_MODE:
         return html_content
 
@@ -1614,18 +1624,27 @@ def _append_job_action_links_if_missing(html_content, package):
         for link in soup.find_all("a", href=True)
         if str(link.get("href") or "").strip()
     }
-    rows = []
+    blocks = []
+    application_rows = []
+    document_rows = []
     seen = set(existing)
 
     application_url = str(package.get("job_application_url") or "").strip()
+    application_kind = str(package.get("job_application_link_kind") or "").strip()
     if application_url and application_url not in seen:
-        label = (
-            "التقديم المباشر"
-            if package.get("job_application_link_kind") == "direct_apply"
-            else "صفحة الإعلان أو التقديم الرسمية"
+        application_rows.append(
+            (
+                "التقديم المباشر" if application_kind == "direct_apply"
+                else "صفحة التقديم الرسمية",
+                application_url,
+            )
         )
-        rows.append((label, application_url))
         seen.add(application_url)
+
+    detail_url = str(package.get("job_detail_url") or "").strip()
+    if detail_url and detail_url not in seen and detail_url != application_url:
+        application_rows.append(("صفحة الإعلان الرسمية", detail_url))
+        seen.add(detail_url)
 
     for index, item in enumerate(package.get("job_document_links") or [], start=1):
         if not isinstance(item, dict):
@@ -1633,28 +1652,56 @@ def _append_job_action_links_if_missing(html_content, package):
         url = str(item.get("url") or "").strip()
         if not url or url in seen:
             continue
-        label = str(item.get("label") or "").strip() or f"الملف الرسمي {index}"
-        rows.append((label, url))
+        label = str(item.get("label") or "").strip()
+        context = str(item.get("context") or "").strip()
+        if not label:
+            label = context or f"الملف الرسمي {index}"
+        label = re.sub(r"\s+", " ", label).strip()
+        if len(label) > 180:
+            label = label[:177].rstrip() + "..."
+        document_rows.append((label, url))
         seen.add(url)
 
-    if not rows:
-        return html_content
-
-    has_application_heading = any(
-        "تقديم" in heading.get_text(" ", strip=True)
-        for heading in soup.find_all(["h2", "h3"])
-    )
-    block = []
-    if not has_application_heading:
-        block.append("<h2>طريقة التقديم</h2>")
-    for label, url in rows:
-        block.append(
-            "<p><a class='extL' "
-            f"href='{escape(url, quote=True)}' "
-            "target='_blank' rel='nofollow noreferrer noopener'>"
-            f"{escape(label)}</a></p>"
+    if application_rows:
+        has_application_heading = any(
+            any(token in heading.get_text(" ", strip=True) for token in ("تقديم", "ترشيح", "روابط رسمية"))
+            for heading in soup.find_all(["h2", "h3"])
         )
-    return html_content.rstrip() + "\n" + "\n".join(block)
+        if not has_application_heading:
+            blocks.append("<h2>التقديم والروابط الرسمية</h2>")
+        for label, url in application_rows:
+            blocks.append(
+                "<p><a class='extL' "
+                f"href='{escape(url, quote=True)}' "
+                "target='_blank' rel='nofollow noreferrer noopener'>"
+                f"{escape(label)}</a></p>"
+            )
+
+    if document_rows:
+        blocks.append("<h2>الملفات والوثائق الرسمية</h2>")
+        if len(document_rows) == 1:
+            label, url = document_rows[0]
+            blocks.append(
+                "<p><a class='extL' "
+                f"href='{escape(url, quote=True)}' "
+                "target='_blank' rel='nofollow noreferrer noopener'>"
+                f"{escape(label)}</a></p>"
+            )
+        else:
+            blocks.append("<table><tbody><tr><th>الوثيقة الرسمية</th><th>الرابط</th></tr>")
+            for label, url in document_rows:
+                blocks.append(
+                    "<tr><td>"
+                    + escape(label)
+                    + "</td><td><a class='extL' href='"
+                    + escape(url, quote=True)
+                    + "' target='_blank' rel='nofollow noreferrer noopener'>فتح الملف الرسمي</a></td></tr>"
+                )
+            blocks.append("</tbody></table>")
+
+    if not blocks:
+        return html_content
+    return html_content.rstrip() + "\n" + "\n".join(blocks)
 
 
 def _finalize_html_content(data, package):
@@ -2351,6 +2398,9 @@ def _deterministic_job_article(package):
         ("مكان العمل", location),
         ("نوع العقد", package.get("job_contract_type")),
         ("عدد المناصب", package.get("job_number_of_positions")),
+        ("تاريخ النشر", package.get("job_published_at_display") or package.get("job_published_at")),
+        ("تاريخ إجراء المباراة", package.get("job_exam_date_display") or package.get("job_exam_date")),
+        ("المرجع الرسمي", package.get("job_external_reference") or package.get("ats_reference")),
         ("المؤهل المطلوب", package.get("job_diploma")),
         ("الخبرة", package.get("job_experience")),
     )
@@ -2406,8 +2456,9 @@ def _deterministic_job_article(package):
         + f"<p>{guidance}</p>"
     )
     description = (
-        f"فرصة مرتبطة بمنصب {role} لدى {company}. "
-        "اطلع على المعلومات الموثقة وطريقة التقديم عبر المصدر الرسمي للإعلان."
+        f"فرصة توظيف لدى {company} لمنصب {role}"
+        + (f" في {location}" if location else "")
+        + ". تفاصيل موثقة عن المنصب وطريقة التقديم والروابط الرسمية المتاحة."
     )
     if len(description) < 70:
         description += " راجع الشروط والآجال بعناية قبل إرسال طلب الترشيح."

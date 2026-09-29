@@ -266,6 +266,22 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
     if _expected_image_missing(article, html_content):
         return QualityGateResult(False, "expected article image is missing from final HTML", word_count)
     if JOBS_MODE:
+        if re.search(r"<script\b", html_content, flags=re.I):
+            return QualityGateResult(False, "script tag found in Jobs article body", word_count)
+
+        if len(seo_description) < 80 or len(seo_description) > 180:
+            return QualityGateResult(
+                False,
+                "job meta description should stay between 80 and 180 characters",
+                word_count,
+            )
+        if re.search(r"(?:\bنبحث\s+عن\b|\bعملائنا\b|\bفريقنا\b|انضم\s+(?:إلينا|لفريقنا))", seo_description):
+            return QualityGateResult(
+                False,
+                "job meta description uses employer first-person/promotional voice",
+                word_count,
+            )
+
         if not str(article.get("url") or article.get("source_url") or "").strip():
             return QualityGateResult(False, "missing job source URL", word_count)
 
@@ -341,7 +357,30 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             or package.get("job_document_links")
             or []
         )
-        max_job_words = 420 if len(document_links) >= 4 else 260
+        for item in document_links:
+            if not isinstance(item, dict):
+                continue
+            document_url = str(item.get("url") or "").strip()
+            if document_url and document_url not in html_content:
+                return QualityGateResult(
+                    False,
+                    "verified official job document URL is missing from final HTML",
+                    word_count,
+                )
+
+        detail_url = str(
+            article.get("job_detail_url")
+            or package.get("job_detail_url")
+            or ""
+        ).strip()
+        if detail_url and detail_url != application_url and detail_url not in html_content:
+            return QualityGateResult(
+                False,
+                "official job detail URL is missing from final HTML",
+                word_count,
+            )
+
+        max_job_words = 650 if len(document_links) >= 4 else 320
         if word_count > max_job_words:
             return QualityGateResult(
                 False,

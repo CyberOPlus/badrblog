@@ -31,7 +31,6 @@ from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
 from internal_link_cache import apply_link_enrichment, record_published_article
 from source_sanitizer import sanitize_source_links
-from jobposting import append_jobposting
 from company_logo_resolver import refresh_company_logo, verified_company_logo
 from utils.facebook_image_generator import generate_job_article_cover
 
@@ -435,6 +434,9 @@ def _sanitize_article_final_html(article):
     )
 
     if JOBS_MODE:
+        # Jobs post bodies stay content-only. Template/page-level schema may be
+        # handled separately, but no script is injected into the Blogger body.
+        cleaned = re.sub(r"<script\b[^>]*>.*?</script>", "", cleaned, flags=re.I | re.S).strip()
         removed_count = 0
         link_stats = {
             "internal_cache_loaded": 0,
@@ -566,25 +568,8 @@ def _publish_if_live(service, post, mode):
 
 
 def _apply_jobposting_schema(service, post, article, mode):
-    """Append one idempotent JobPosting block after Blogger returns the real URL."""
-    if not JOBS_MODE or _effective_publish_mode(mode) != "live":
-        return post
-    post_url = str(post.get("url") or "").strip()
-    if not post_url:
-        return post
-
-    content = append_jobposting(article.get("final_html", ""), article, post_url)
-    if content == article.get("final_html", ""):
-        return post
-
-    article["final_html"] = content
-    article["blogger_article_html"] = content
-    body = _build_post_body(article)
-    request = service.posts().update(blogId=BLOG_ID, postId=post["id"], body=body)
-    updated = _execute_blogger_request(request, "append JobPosting schema", safe_to_retry=True)
-    updated = _ensure_returned_post_url(service, updated)
-    _ensure_post_url_for_mode(updated, mode)
-    return updated
+    """Keep JobPosting/schema scripts out of the Blogger post body."""
+    return post
 
 
 def _apply_success(article, post, mode):
