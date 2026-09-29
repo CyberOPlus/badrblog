@@ -746,7 +746,14 @@ def resolve_company_logo(soup, article, page_url):
         page_url,
         official_site_url=official_site_url,
     )
-    if official_site_url:
+    # Avoid an unnecessary homepage request when the job page already provides
+    # a very strong employer-specific logo (for example JobPosting JSON-LD or
+    # emploi-public's administration artwork).
+    strongest_page_score = max(
+        (int(row.get("score") or 0) for row in candidates.values()),
+        default=0,
+    )
+    if official_site_url and strongest_page_score < 99:
         for url, row in _official_homepage_candidates(company, official_site_url).items():
             current = candidates.get(url)
             if not current or row["score"] > current["score"]:
