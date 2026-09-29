@@ -586,11 +586,11 @@ def _build_prompt(package):
         return f"""
 You are the dedicated Arabic job-post editor for a Moroccan jobs publication.
 
-Create a short, factual, highly useful Arabic employment notice for Moroccan readers
+Create a complete, factual, professionally structured Arabic employment article for Moroccan readers
 from the VERIFIED JOB PACKAGE below. The source may be a new vacancy/competition,
 a candidate list, a provisional list, a result, or a final result. The reader must
-understand WHAT changed, WHO it concerns, the deadline/status, and the strongest
-official action or document immediately.
+understand WHAT changed, WHO it concerns, the verified requirements and duties when available,
+the deadline/status, and the strongest official action or document without having to search elsewhere.
 
 OUTPUT
 - Return JSON only with exactly: title, description, slug, html_content.
@@ -614,17 +614,18 @@ STRICT ACCURACY
 - Never mention scraping, rewriting, AI, automation, or the source-processing pipeline.
 
 LENGTH AND STYLE
-- This is a JOB LISTING, not a long-form article.
-- Keep the explanatory prose compact, normally 140-220 Arabic words.
-- The shared Jobs production minimum is 120 words.
-  Never invent information or repeat facts merely to meet the target length.
+- This is a complete JOB ARTICLE, not a social caption, teaser, database row, or keyword-stuffed landing page.
+- Source richness is {"rich" if source_is_rich else "thin"}.
+- If the verified source package is rich, aim for 260-320 Arabic words of useful explanatory content
+  while preserving every verified fact, requirement, duty, official file, and application resource.
+- If the source package is thin, normally use 160-240 Arabic words, or less when the source genuinely
+  contains fewer facts. NEVER invent, speculate, repeat, or pad merely to reach a word target.
+- Multi-specialization campaigns or notices with several official documents may be longer when needed
+  to preserve all verified rows and links; completeness is more important than a fixed word count.
 - Prefer verified facts over promotional language. Never add generic praise such as
   "الشركة الرائدة", "الشركة المرموقة", "فرصة مميزة", "فرصة رائعة",
   "أحدث معايير", "حماية قصوى", "مهام حيوية", "تحديات مثيرة", or similar
   marketing claims. Prefer plain factual wording even when the source itself uses marketing copy.
-- Multi-specialization campaigns or candidate/result notices may contain a factual
-  official-links table beyond that prose target. Never add filler, but never delete
-  a useful verified official row merely to hit a word count.
 - Use clear Modern Standard Arabic and short mobile-friendly paragraphs.
 - No filler, generic career advice, profession explanations, corporate history,
   motivational language, clickbait, emojis, or generic conclusion.
@@ -800,7 +801,8 @@ SEO / ADSENSE-FRIENDLY EDITORIAL QUALITY
 
 FINAL SILENT CHECK
 Before returning JSON, verify:
-- Explanatory prose is concise and useful; multi-row official tables are allowed when needed.
+- The article is complete for the available verified source: no useful verified duty, requirement,
+  deadline, official file, or application resource was omitted merely to keep the article short.
 - No unsupported information.
 - No duplicated paragraph or URL.
 - If a verified deadline exists, "آخر أجل للترشيح" is visible with that deadline.
@@ -1021,15 +1023,17 @@ Return JSON only with title, description, slug, html_content.
 The previous compact job listing failed this quality rule:
 {previous_error}
 
-Rewrite ONLY as a concise verified job listing.
+Rewrite ONLY as a complete, professional, verified job article.
 
 MANDATORY JOB RETRY RULES:
-- Target 135-200 Arabic words; the shared accepted minimum is 100 words.
+- If the source package is rich, aim for 260-320 Arabic words of useful factual content.
+- If the source package is thin, normally use 160-240 Arabic words or less when facts are limited.
+- Never invent, repeat, speculate, or add boilerplate to reach a word count.
+- Preserve every useful verified fact, duty, requirement, deadline, official document, and application resource.
 - Aim for a 45-75 character title; keep clear meaning (accepted range 28-150).
 - For vacancy notices, the title MUST explicitly contain an employment action:
   "توظف", "تعلن عن توظيف", "فرصة توظيف", or "مباراة توظيف" as appropriate.
-- Before returning, silently count the article words and title characters.
-- Do not expand into a long article.
+- Before returning, silently verify title length, semantic HTML structure, and that no verified fact or URL was dropped.
 - Keep one short factual introduction.
 - Use this professional HTML order when the relevant facts exist:
   <p>intro</p>
