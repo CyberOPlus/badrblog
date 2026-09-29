@@ -619,8 +619,9 @@ LENGTH AND STYLE
 - The shared Jobs production minimum is 120 words.
   Never invent information or repeat facts merely to meet the target length.
 - Prefer verified facts over promotional language. Never add generic praise such as
-  "الشركة الرائدة", "الشركة المرموقة", "فرصة مميزة", "فرصة رائعة", or similar
-  marketing claims unless they are essential verified facts (normally they are not).
+  "الشركة الرائدة", "الشركة المرموقة", "فرصة مميزة", "فرصة رائعة",
+  "أحدث معايير", "حماية قصوى", "مهام حيوية", "تحديات مثيرة", or similar
+  marketing claims. Prefer plain factual wording even when the source itself uses marketing copy.
 - Multi-specialization campaigns or candidate/result notices may contain a factual
   official-links table beyond that prose target. Never add filler, but never delete
   a useful verified official row merely to hit a word count.
@@ -1624,6 +1625,85 @@ def _remove_empty_job_fact_rows(html_content):
     return str(soup) if changed else html_content
 
 
+def _ensure_verified_job_fact_rows(html_content, package):
+    """Ensure every important verified structured job fact is visible in the article table."""
+    if not JOBS_MODE:
+        return html_content
+
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    table = soup.find("table")
+    if table is None:
+        heading = soup.new_tag("h2")
+        heading.string = "تفاصيل الوظيفة"
+        table = soup.new_tag("table")
+        tbody = soup.new_tag("tbody")
+        table.append(tbody)
+        soup.append(heading)
+        soup.append(table)
+    else:
+        tbody = table.find("tbody")
+        if tbody is None:
+            tbody = soup.new_tag("tbody")
+            existing_rows = list(table.find_all("tr", recursive=False))
+            for row in existing_rows:
+                tbody.append(row.extract())
+            table.append(tbody)
+
+    def clean(value):
+        text = re.sub(r"\s+", " ", str(value or "")).strip()
+        return "" if text in {"", "0", "None", "none", "null"} else text
+
+    def has_row(*aliases):
+        aliases = tuple(re.sub(r"\s+", " ", a).strip().casefold() for a in aliases)
+        for row in table.find_all("tr"):
+            header = row.find(["th", "td"])
+            if not header:
+                continue
+            label = re.sub(r"\s+", " ", header.get_text(" ", strip=True)).casefold()
+            if any(alias and alias in label for alias in aliases):
+                return True
+        return False
+
+    reference = clean(package.get("job_external_reference") or package.get("ats_reference"))
+    published = clean(package.get("job_published_at_display") or package.get("job_published_at"))
+    if published and "T" in published:
+        published = published.split("T", 1)[0]
+    deadline = clean(package.get("job_deadline_display") or package.get("job_deadline"))
+    exam_date = clean(package.get("job_exam_date_display") or package.get("job_exam_date"))
+
+    facts = [
+        (("الشركة", "المؤسسة", "الجهة المشغلة", "الإدارة"), "الجهة المشغلة", clean(package.get("job_company") or package.get("source_name"))),
+        (("المنصب", "الوظيفة", "المسمى الرسمي"), "المسمى الرسمي", clean(package.get("job_title"))),
+        (("مكان العمل", "المدينة", "الموقع"), "مكان العمل", clean(package.get("job_location"))),
+        (("نوع العقد", "العقد"), "نوع العقد", clean(package.get("job_contract_type"))),
+        (("عدد المناصب", "عدد الوظائف"), "عدد المناصب", clean(package.get("job_number_of_positions"))),
+        (("تاريخ النشر", "تاريخ الإعلان"), "تاريخ النشر", published),
+        (("آخر أجل", "آخر موعد", "موعد الترشيح"), "آخر أجل للترشيح", deadline),
+        (("تاريخ إجراء المباراة", "تاريخ المباراة", "موعد المباراة"), "تاريخ إجراء المباراة", exam_date),
+        (("المرجع", "رقم المرجع"), "المرجع الرسمي", reference),
+        (("المؤهل", "الدبلوم", "الشهادة"), "المؤهل المطلوب", clean(package.get("job_diploma"))),
+        (("الخبرة",), "الخبرة المطلوبة", clean(package.get("job_experience"))),
+        (("الراتب", "الأجر"), "الراتب/الأجر", clean(package.get("job_salary"))),
+        (("حالة الإعلان",), "حالة الإعلان", clean(package.get("job_notice_status"))),
+    ]
+    if package.get("job_remote"):
+        facts.append((("نمط العمل", "عن بعد"), "نمط العمل", "عن بعد"))
+
+    for aliases, label, value in facts:
+        if not value or has_row(*aliases):
+            continue
+        tr = soup.new_tag("tr")
+        th = soup.new_tag("th")
+        td = soup.new_tag("td")
+        th.string = label
+        td.string = value
+        tr.append(th)
+        tr.append(td)
+        tbody.append(tr)
+
+    return str(soup)
+
+
 def _append_job_action_links_if_missing(html_content, package):
     """Guarantee that all verified official application/detail/document links are visible."""
     if not JOBS_MODE:
@@ -1724,6 +1804,7 @@ def _finalize_html_content(data, package):
         # The single branded job cover is generated later by the Blogger publisher.
         # AI output never imports or inserts images from the source job page.
         html_content = _remove_empty_job_fact_rows(html_content)
+        html_content = _ensure_verified_job_fact_rows(html_content, package)
         html_content = _append_job_action_links_if_missing(html_content, package)
     else:
         html_content = _insert_main_image_if_missing(html_content, package)
