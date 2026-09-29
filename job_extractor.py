@@ -199,6 +199,52 @@ def _deadline_from_text(text):
     return normalized
 
 
+def _labelled_date_details(text, label_pattern):
+    value = re.sub(r"\s+", " ", str(text or "")).strip()
+    if not value:
+        return "", ""
+
+    numeric = re.search(
+        rf"(?i){label_pattern}[^\d]{{0,40}}(\d{{1,2}}[/-]\d{{1,2}}[/-]\d{{4}}|\d{{4}}-\d{{2}}-\d{{2}})",
+        value,
+    )
+    if numeric:
+        raw = numeric.group(1)
+        if re.match(r"^\d{4}-\d{2}-\d{2}$", raw):
+            return raw, raw
+        parts = re.split(r"[/-]", raw)
+        normalized = _iso_date(parts[2], parts[1], parts[0]) if len(parts) == 3 else ""
+        return normalized or raw, raw
+
+    words = re.search(
+        rf"(?i){label_pattern}[^\d]{{0,45}}"
+        r"(\d{1,2})\s+([A-Za-zÀ-ÿ\u0600-\u06FF]+)\s+(\d{4})"
+        r"(?:\s*(?:à|a|الساعة|على\s+الساعة)\s*(\d{1,2}:\d{2}))?",
+        value,
+    )
+    if words:
+        day_value, month_name, year_value, clock = words.groups()
+        month_number = MONTH_NAME_TO_NUMBER.get(month_name.casefold())
+        normalized = _iso_date(year_value, month_number, day_value) if month_number else ""
+        raw = " ".join(x for x in (day_value, month_name, year_value, clock or "") if x)
+        return normalized or raw, raw
+    return "", ""
+
+
+def _exam_date_details_from_text(text):
+    return _labelled_date_details(
+        text,
+        r"(?:تاريخ\s+(?:إجراء\s+)?المباراة|date\s+du\s+concours|exam\s+date|test\s+date)",
+    )
+
+
+def _publication_date_details_from_text(text):
+    return _labelled_date_details(
+        text,
+        r"(?:تاريخ\s+النشر|date\s+de\s+publication|published\s+on|publication\s+date)",
+    )
+
+
 def _city_from_text(text):
     folded = (text or "").casefold()
     for city in MOROCCO_CITIES:
@@ -278,6 +324,9 @@ APPLY_LINK_HINTS = (
     "apply", "apply now", "postuler", "postulez", "candidater", "candidature",
     "déposer ma candidature", "deposer ma candidature", "submit application",
     "submit your application", "inscription", "register",
+    "التقديم", "الترشيح", "إيداع الترشيح", "ايداع الترشيح",
+    "إيداع الملف", "ايداع الملف", "الإيداع الإلكتروني", "الايداع الالكتروني",
+    "تسجيل الترشيح", "تقديم الطلب",
 )
 DOCUMENT_LINK_HINTS = (
     "pdf", "avis", "conditions", "condition", "règlement", "reglement",
@@ -286,6 +335,8 @@ DOCUMENT_LINK_HINTS = (
     "liste", "list", "résultat", "resultat", "results", "convoqué",
     "convoques", "convoqués", "admis", "shortlist", "المدعوين",
     "اللائحة", "اللوائح", "النتائج", "النتيجة", "تحميل",
+    "تحميل الإعلان", "نص الإعلان", "قرار المباراة", "مقرر المباراة",
+    "الاستدعاء", "استدعاء", "محضر", "الوثيقة الرسمية",
 )
 
 GENERIC_LINK_LABELS = {
@@ -458,7 +509,13 @@ def extract_job_fields(soup, article, page_url, full_text=""):
     text_deadline, text_deadline_display = _deadline_details_from_text(body)
     deadline = structured_deadline or text_deadline
     deadline_display = text_deadline_display or structured_deadline
-    published_at = _text(node.get("datePosted")) or article.get("source_published_at", "")
+    text_exam_date, text_exam_date_display = _exam_date_details_from_text(body)
+    text_published_at, text_published_display = _publication_date_details_from_text(body)
+    published_at = (
+        _text(node.get("datePosted"))
+        or article.get("source_published_at", "")
+        or text_published_at
+    )
     notice_type = _notice_type(job_title, body)
     notice_status = _notice_status(job_title, body)
     remote = str(node.get("jobLocationType") or "").upper() == "TELECOMMUTE" or bool(article.get("source_remote"))
@@ -479,9 +536,12 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         "job_salary": _salary(node),
         "job_deadline": deadline,
         "job_deadline_display": deadline_display,
+        "job_exam_date": text_exam_date,
+        "job_exam_date_display": text_exam_date_display,
         "job_notice_type": notice_type,
         "job_notice_status": notice_status,
         "job_published_at": published_at,
+        "job_published_at_display": text_published_display,
         "job_application_url": application_url,
         "job_application_link_kind": application_kind,
         "job_detail_url": page_url,
