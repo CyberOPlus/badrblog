@@ -131,6 +131,7 @@ from job_core import (
     record_job_publish,
     select_best_job_from_queue,
     job_status_snapshot,
+    maintain_job_memory,
 )
 from jobs_adaptive_controller import record_cycle_result as record_jobs_cycle_result
 
@@ -1424,6 +1425,7 @@ def run_queue_maintenance_only():
     Records are not permanently deleted.
     """
     stats = maintain_article_queue(days=7)
+    memory_stats = maintain_job_memory() if JOBS_MODE else {}
 
     print("\n" + "=" * 60)
     print("QUEUE MAINTENANCE SUMMARY")
@@ -1432,6 +1434,10 @@ def run_queue_maintenance_only():
     print(f"Archived old skipped:       {stats['archived_old_skipped']}")
     print(f"Archived old failed:        {stats['archived_old_failed']}")
     print(f"Archived duplicate URLs:    {stats['archived_duplicate_urls']}")
+    print(f"Archived stale logo waits:  {stats.get('archived_stale_logo_wait', 0)}")
+    print(f"Archived stale no-deadline: {stats.get('archived_stale_no_deadline', 0)}")
+    if memory_stats:
+        print(f"Old campaigns pruned:       {memory_stats.get('campaigns_pruned', 0)}")
     print(f"Already archived:           {stats['already_archived']}")
     print(f"Active queue count:         {stats['active_count']}")
     print(f"Archived count:             {stats['archived_count']}")
@@ -1439,6 +1445,8 @@ def run_queue_maintenance_only():
     print("Permanent deletion:         disabled")
     print("=" * 60)
 
+    if memory_stats:
+        stats["job_memory"] = memory_stats
     return stats
 
 
