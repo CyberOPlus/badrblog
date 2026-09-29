@@ -30,6 +30,12 @@ from config import (
     JOB_VISUAL_STATE_PATH,
 )
 from production_logging import log_event
+from job_visual_policy import (
+    DEFAULT_JOB_TEMPLATE_KEY,
+    JOB_TEMPLATE_FILES_BY_KEY,
+    JOB_TEMPLATE_KEYS,
+    template_filename,
+)
 
 
 FONT_PATH = Path("assets/fonts/Firjar-ExtraBold.ttf")
@@ -374,45 +380,14 @@ def _draw_brand(base):
 
 
 JOB_TEMPLATE_DIR = Path(__file__).resolve().parents[1] / "assets" / "facebook"
-JOB_TEMPLATE_FILES = (
-    JOB_TEMPLATE_DIR / "job-new-orange.png",
-    JOB_TEMPLATE_DIR / "job-deadline-yellow.png",
-    JOB_TEMPLATE_DIR / "job-alert-blue.png",
-    JOB_TEMPLATE_DIR / "job-apply-red.png",
+JOB_TEMPLATE_FILES = tuple(
+    JOB_TEMPLATE_DIR / JOB_TEMPLATE_FILES_BY_KEY[key]
+    for key in JOB_TEMPLATE_KEYS
 )
 JOB_ARTICLE_TEMPLATE_PATH = (
     Path(__file__).resolve().parents[1] / "assets" / "article" / "article img.png"
 )
 JOB_ARTICLE_TEMPLATE_FALLBACK_PATH = JOB_ARTICLE_TEMPLATE_PATH
-
-
-def _job_template_index():
-    state = {}
-    try:
-        state = json.loads(JOB_VISUAL_STATE_PATH.read_text(encoding="utf-8"))
-    except Exception:
-        state = {}
-
-    try:
-        last = int(state.get("last_background_index"))
-    except (TypeError, ValueError):
-        last = -1
-
-    available = [index for index in range(len(JOB_TEMPLATE_FILES)) if index != last]
-    index = random.SystemRandom().choice(available or list(range(len(JOB_TEMPLATE_FILES))))
-    JOB_VISUAL_STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    JOB_VISUAL_STATE_PATH.write_text(
-        json.dumps(
-            {
-                "last_background_index": index,
-                "last_background_file": JOB_TEMPLATE_FILES[index].name,
-            },
-            ensure_ascii=False,
-            indent=2,
-        ) + "\n",
-        encoding="utf-8",
-    )
-    return index
 
 
 JOB_FACEBOOK_OUTPUT_SIZE = (1080, 1350)
@@ -463,15 +438,17 @@ def _normalize_job_template(image):
     )
 
 
-def _load_job_template():
+def _load_job_template(template_key=""):
     from PIL import Image
 
-    index = _job_template_index()
-    path = JOB_TEMPLATE_FILES[index]
+    key = str(template_key or DEFAULT_JOB_TEMPLATE_KEY).strip().lower()
+    if key not in JOB_TEMPLATE_FILES_BY_KEY:
+        key = DEFAULT_JOB_TEMPLATE_KEY
+    path = JOB_TEMPLATE_DIR / template_filename(key)
     if not path.exists():
         raise FileNotFoundError(f"missing job Facebook template: {path}")
     image = Image.open(path).convert("RGBA")
-    return _normalize_job_template(image), index
+    return _normalize_job_template(image), key
 
 
 def _logo_visible_on_white(image):
@@ -734,13 +711,13 @@ def _draw_job_logo_or_fallback(base, image_url, fallback_text):
     return False
 
 
-def _generate_job_facebook_image(title, image_url, output_path, hook_text=""):
+def _generate_job_facebook_image(title, image_url, output_path, hook_text="", template_key=""):
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     FACEBOOK_IMAGE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     try:
-        base, template_index = _load_job_template()
+        base, selected_template_key = _load_job_template(template_key=template_key)
         logo_loaded = _draw_job_logo_or_fallback(base, image_url, hook_text)
         _draw_job_title(base, title)
         base.convert("RGB").save(output_path, "JPEG", quality=95, optimize=True, subsampling=0)
@@ -749,7 +726,7 @@ def _generate_job_facebook_image(title, image_url, output_path, hook_text=""):
         log_event(
             "facebook_job_image_generated",
             path=str(output_path),
-            template_index=template_index,
+            template_key=selected_template_key,
             logo_loaded=logo_loaded,
             width=base.width,
             height=base.height,
@@ -759,7 +736,7 @@ def _generate_job_facebook_image(title, image_url, output_path, hook_text=""):
             "path": str(output_path),
             "used_fallback": not logo_loaded,
             "error": "",
-            "template_index": template_index,
+            "template_key": selected_template_key,
         }
     except Exception as error:
         log_event("facebook_job_image_generation_failed", error=error.__class__.__name__)
@@ -902,9 +879,15 @@ def generate_job_article_cover(
         return {"ok": False, "path": "", "error": str(error)}
 
 
-def generate_facebook_image(title, image_url, output_path, hook_text=""):
+def generate_facebook_image(title, image_url, output_path, hook_text="", template_key=""):
     if JOBS_MODE:
-        return _generate_job_facebook_image(title, image_url, output_path, hook_text=hook_text)
+        return _generate_job_facebook_image(
+            title,
+            image_url,
+            output_path,
+            hook_text=hook_text,
+            template_key=template_key,
+        )
 
     """
     Generate a Facebook image from the article image, optional template overlay,
