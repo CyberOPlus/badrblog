@@ -3,6 +3,7 @@ on:
   push:
     branches: [jobs-reliability-final-20260929]
     paths: [".github/workflows/jobs-storage-probe.yml"]
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -10,31 +11,29 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
-      - name: Check D1 access without changing resources
+      - name: Require Cloudflare storage credentials
+        env:
+          CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          test -n "$CF_ACCOUNT" && test -n "$CF_TOKEN"
+
+      - name: Verify D1 read access
         env:
           CF_ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CF_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
         run: |
           python - <<'PY'
-          import json, os, urllib.request, urllib.error
-          account, token = os.getenv("CF_ACCOUNT", ""), os.getenv("CF_TOKEN", "")
-          if not account or not token:
-              print("D1_ACCESS=credentials_missing")
-              raise SystemExit(1)
+          import json, os, urllib.request
+          account = os.environ["CF_ACCOUNT"]
+          token = os.environ["CF_TOKEN"]
           req = urllib.request.Request(
               "https://api.cloudflare.com/client/v4/accounts/" + account + "/d1/database?per_page=1",
-              headers={"Authorization": "Bearer " + token})
-          try:
-              with urllib.request.urlopen(req, timeout=20) as response:
-                  data = json.load(response)
-              if not data.get("success"):
-                  print("D1_ACCESS=not_available")
-                  raise SystemExit(1)
-              print("D1_ACCESS=read_available")
-          except urllib.error.HTTPError as error:
-              print("D1_ACCESS=http_" + str(error.code))
+              headers={"Authorization": "Bearer " + token},
+          )
+          with urllib.request.urlopen(req, timeout=20) as response:
+              data = json.load(response)
+          if not data.get("success"):
               raise SystemExit(1)
-          except Exception as error:
-              print("D1_ACCESS=" + type(error).__name__)
-              raise SystemExit(1)
+          print("D1 read access verified.")
           PY
