@@ -819,7 +819,12 @@ def validate_config():
             or has_openai_key
         )
         if not available:
-            errors.append("  ❌ Configure at least one supported AI provider key.")
+            if JOBS_MODE:
+                warnings.append(
+                    "  ⚠️  No AI provider key is configured; Jobs will use the verified deterministic fallback."
+                )
+            else:
+                errors.append("  ❌ Configure at least one supported AI provider key.")
         elif sum(bool(x) for x in (
             has_gemini_key,
             has_groq_key,

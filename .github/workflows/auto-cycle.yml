@@ -93,7 +93,7 @@ jobs:
               )
               if not os.environ.get(name, "").strip()
           ]
-          if not any(
+          ai_provider_secret_present = any(
               os.environ.get(name, "").strip()
               for name in (
                   "GEMINI_API_KEY",
@@ -102,8 +102,12 @@ jobs:
                   "MISTRAL_API_KEY",
                   "CLOUDFLARE_API_TOKEN",
               )
-          ):
-              missing.append("at least one AI provider key")
+          )
+          if not ai_provider_secret_present:
+              print(
+                  "::warning::No AI provider secret is currently available; "
+                  "Jobs will continue with the verified deterministic fallback."
+              )
 
           for name in ("BLOGGER_CLIENT_SECRET_JSON", "BLOGGER_TOKEN_JSON"):
               raw = os.environ.get(name, "").strip()

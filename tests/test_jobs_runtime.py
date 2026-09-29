@@ -48,6 +48,53 @@ class JobsRuntimeTests(unittest.TestCase):
             adaptive.current_policy(datetime(2026, 9, 29, 8, tzinfo=timezone.utc))
         self.assertEqual(state["green_score"], 4)
 
+    def test_adaptive_ai_or_facebook_instability_holds_ramp_up(self):
+        state = {
+            "version": 1,
+            "green_score": 6,
+            "current_day": "2026-09-28",
+            "last_evaluated_day": "",
+            "days": {
+                "2026-09-28": {
+                    "blogger_success": 3,
+                    "blogger_failure": 0,
+                    "blogger_rate_limit": 0,
+                    "ai_provider_failure": 1,
+                    "facebook_failure": 0,
+                    "source_warning": 0,
+                    "deterministic_fallback": 1,
+                }
+            },
+        }
+        with patch.object(adaptive, "load_state", return_value=state), \
+             patch.object(adaptive, "save_state"), \
+             patch.object(adaptive, "JOBS_ADAPTIVE_PUBLISHING", True):
+            adaptive.current_policy(datetime(2026, 9, 29, 8, tzinfo=timezone.utc))
+        self.assertEqual(state["green_score"], 6)
+        self.assertEqual(state["days"]["2026-09-28"]["health_state"], "yellow")
+
+    def test_jobs_auto_mode_allows_zero_ai_keys_for_deterministic_fallback(self):
+        with patch.object(ai, "JOBS_MODE", True), \
+             patch.object(ai, "AI_PROVIDER", "auto"), \
+             patch.object(ai, "GEMINI_API_KEY", ""), \
+             patch.object(ai, "GROQ_API_KEY", ""), \
+             patch.object(ai, "OPENROUTER_API_KEY", ""), \
+             patch.object(ai, "CLOUDFLARE_API_TOKEN", ""), \
+             patch.object(ai, "CLOUDFLARE_ACCOUNT_ID", ""), \
+             patch.object(ai, "MISTRAL_API_KEY", ""), \
+             patch.object(ai, "OPENAI_API_KEY", ""):
+            self.assertEqual(ai._resolve_providers(), [])
+            self.assertEqual(ai._attempt_provider_sequence(), [])
+
+    def test_single_ai_candidate_on_cooldown_is_not_called(self):
+        candidate = {"provider": "groq", "api_key": "secret", "model": "test"}
+        with patch.object(ai, "_provider_candidates", return_value=[candidate]), \
+             patch.object(ai, "_cooldown_remaining", return_value=120), \
+             patch.object(ai, "_generate_with_candidate") as generate:
+            with self.assertRaises(ai.AIProviderFallbackNeeded):
+                ai._generate_with_provider_name("groq", "prompt")
+        generate.assert_not_called()
+
     def test_facebook_selects_only_strong_jobs_when_score_exists(self):
         base = {
             "status": "published",

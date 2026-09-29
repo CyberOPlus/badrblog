@@ -1953,6 +1953,8 @@ def _resolve_providers():
             providers.append("openai")
         if providers:
             return providers
+        if JOBS_MODE:
+            return []
         raise RuntimeError("No AI provider key configured.")
     if provider in {"gemini", "groq", "openrouter", "cloudflare", "mistral", "openai"}:
         return [provider]
@@ -2032,21 +2034,28 @@ def _generate_ai_article(prompt, skip_providers=None, context=None):
     if not candidates:
         candidates = _provider_candidates(context=context)
     last_error = None
-    skipped_cooldown_candidates = []
-    for index, candidate in enumerate(candidates):
-        _check_ai_time_budget(context, stage="candidate_loop")
-        provider = candidate["provider"]
+    active_candidates = []
+    for candidate in candidates:
         cooldown = _cooldown_remaining(candidate)
-        if cooldown > 0 and index < len(candidates) - 1:
-            skipped_cooldown_candidates.append(candidate)
+        if cooldown > 0:
             log_event(
                 "ai_candidate_skipped_cooldown",
-                provider=provider,
+                provider=candidate.get("provider"),
                 model=candidate.get("model"),
                 key_id=_key_id(candidate.get("api_key")),
                 remaining_seconds=int(cooldown),
             )
             continue
+        active_candidates.append(candidate)
+
+    if not active_candidates:
+        raise AIProviderRotationExhausted(
+            "All configured AI candidates are cooling down."
+        )
+
+    for index, candidate in enumerate(active_candidates):
+        _check_ai_time_budget(context, stage="candidate_loop")
+        provider = candidate["provider"]
         try:
             result = _generate_with_candidate(candidate, prompt, context=context)
             return result
@@ -2061,37 +2070,16 @@ def _generate_ai_article(prompt, skip_providers=None, context=None):
                 )
             _put_candidate_on_cooldown(candidate, error)
             reason = "quota/rate limit" if _is_quota_or_rate_limit_error(error) else "error"
-            if index < len(candidates) - 1:
+            if index < len(active_candidates) - 1:
                 print(f"  AI provider {provider} {reason}. Trying next AI candidate...")
                 log_event(
                     "ai_provider_switch",
                     article_id=getattr(context, "article_id", ""),
                     from_provider=provider,
-                    to_provider=candidates[index + 1].get("provider"),
+                    to_provider=active_candidates[index + 1].get("provider"),
                     reason=_safe_error_reason(error),
                 )
                 continue
-            for fallback_candidate in skipped_cooldown_candidates:
-                fallback_provider = fallback_candidate["provider"]
-                try:
-                    log_event(
-                        "ai_provider_switch",
-                        article_id=getattr(context, "article_id", ""),
-                        from_provider=provider,
-                        to_provider=fallback_provider,
-                        reason="retrying cooled candidate after active candidates failed",
-                    )
-                    return _generate_with_candidate(fallback_candidate, prompt, context=context)
-                except Exception as fallback_error:
-                    last_error = fallback_error
-                    if _is_empty_provider_response(fallback_error):
-                        log_event(
-                            "ai_provider_empty_response",
-                            provider=fallback_provider,
-                            model=fallback_candidate.get("model"),
-                            article_id=getattr(context, "article_id", ""),
-                        )
-                    _put_candidate_on_cooldown(fallback_candidate, fallback_error)
             raise
     raise last_error or RuntimeError("No AI provider returned a response.")
 
@@ -2203,9 +2191,11 @@ def _generate_with_provider_name(provider, prompt, context=None):
     last_error = None
     if provider == "openrouter" and context and context.gemini_failures:
         allowed = allowed[:2]
-    for index, candidate in enumerate(allowed):
+
+    active_allowed = []
+    for candidate in allowed:
         cooldown = _cooldown_remaining(candidate)
-        if cooldown > 0 and index < len(allowed) - 1:
+        if cooldown > 0:
             log_event(
                 "ai_candidate_skipped_cooldown",
                 provider=provider,
@@ -2214,7 +2204,14 @@ def _generate_with_provider_name(provider, prompt, context=None):
                 remaining_seconds=int(cooldown),
             )
             continue
+        active_allowed.append(candidate)
 
+    if not active_allowed:
+        raise AIProviderFallbackNeeded(
+            f"{provider} candidates are cooling down"
+        )
+
+    for index, candidate in enumerate(active_allowed):
         timeout_retry_count = 0
         while True:
             _check_ai_time_budget(context, stage=f"{provider}_candidate")
@@ -2275,12 +2272,12 @@ def _generate_with_provider_name(provider, prompt, context=None):
                     raise AIProviderRotationExhausted(
                         "AI rotation exhausted: Gemini failed and 2 fast OpenRouter models failed"
                     ) from error
-                if index < len(allowed) - 1:
+                if index < len(active_allowed) - 1:
                     log_event(
                         "ai_provider_switch",
                         article_id=getattr(context, "article_id", ""),
                         from_provider=provider,
-                        to_provider=allowed[index + 1].get("provider"),
+                        to_provider=active_allowed[index + 1].get("provider"),
                         reason=_safe_error_reason(error),
                     )
                     break
@@ -2474,7 +2471,21 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
         ai_total_time_budget_seconds=context.total_budget_seconds,
     )
 
-    total_attempts = max(1, MAX_AI_ATTEMPTS, len(provider_sequence)) if JOBS_MODE else max(1, MAX_AI_ATTEMPTS)
+    total_attempts = (
+        0
+        if JOBS_MODE and not provider_sequence
+        else max(1, MAX_AI_ATTEMPTS, len(provider_sequence))
+        if JOBS_MODE
+        else max(1, MAX_AI_ATTEMPTS)
+    )
+    if JOBS_MODE and not provider_sequence:
+        last_error = RuntimeError(
+            "No AI provider is currently available; using deterministic Jobs fallback."
+        )
+        log_event(
+            "ai_providers_unavailable_deterministic_fallback",
+            article_id=article.get("id"),
+        )
     for attempt in range(1, total_attempts + 1):
         try:
             _check_ai_time_budget(context, stage=f"attempt_{attempt}_start")

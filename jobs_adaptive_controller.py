@@ -75,23 +75,41 @@ def _day_row(state, day):
     )
 
 
+def _day_health(row):
+    row = row or {}
+    success = int(row.get("blogger_success") or 0)
+    failures = int(row.get("blogger_failure") or 0)
+    rate_limits = int(row.get("blogger_rate_limit") or 0)
+    ai_failures = int(row.get("ai_provider_failure") or 0)
+    deterministic = int(row.get("deterministic_fallback") or 0)
+    facebook_failures = int(row.get("facebook_failure") or 0)
+    source_warnings = int(row.get("source_warning") or 0)
+
+    if rate_limits:
+        return "red", -4
+    if failures >= 2:
+        return "red", -3
+    if failures == 1:
+        return "yellow", -1
+    if ai_failures or facebook_failures or source_warnings >= 5:
+        return "yellow", 0
+    if deterministic >= 2:
+        return "yellow", 0
+    if success:
+        return "green", 1
+    return "neutral", 0
+
+
 def _evaluate_day(state, day):
     if not day or state.get("last_evaluated_day") == day:
         return False
     row = state.get("days", {}).get(day) or {}
-    success = int(row.get("blogger_success") or 0)
-    failures = int(row.get("blogger_failure") or 0)
-    rate_limits = int(row.get("blogger_rate_limit") or 0)
-    score = int(state.get("green_score") or 0)
+    health_state, delta = _day_health(row)
+    score = int(state.get("green_score") or 0) + int(delta)
 
-    if rate_limits:
-        score -= 4
-    elif failures >= 2:
-        score -= 3
-    elif failures == 1:
-        score -= 1
-    elif success:
-        score += 1
+    if isinstance(row, dict):
+        row["health_state"] = health_state
+        row["health_delta"] = int(delta)
 
     state["green_score"] = max(0, min(30, score))
     state["last_evaluated_day"] = day
@@ -134,11 +152,28 @@ def current_policy(now=None):
             stage = index
     cap = CAP_STAGES[min(stage, len(CAP_STAGES) - 1)]
     cap = max(JOBS_ADAPTIVE_MIN_DAILY_CAP, min(JOBS_ADAPTIVE_MAX_DAILY_CAP, cap))
+    current_day = str(state.get("current_day") or "")
+    current_row = state.get("days", {}).get(current_day) or {}
+    health_state, _delta = _day_health(current_row)
     return {
         "enabled": True,
         "stage": stage,
         "green_score": score,
         "daily_cap": cap,
+        "health_state": health_state,
+        "health_metrics": {
+            key: int(current_row.get(key) or 0)
+            for key in (
+                "blogger_success",
+                "blogger_failure",
+                "blogger_rate_limit",
+                "deterministic_fallback",
+                "ai_provider_failure",
+                "facebook_failure",
+                "source_warning",
+                "logo_wait",
+            )
+        },
     }
 
 
