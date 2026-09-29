@@ -2193,7 +2193,7 @@ def _process_hourly_target(selected, publish_mode):
         try:
             facebook_result = post_one_article_to_facebook(
                 target_article_id=selected_id,
-                respect_limits=bool(JOBS_MODE),
+                respect_limits=True,
             )
             article = _find_article_by_id(selected_id)
         except Exception as error:
