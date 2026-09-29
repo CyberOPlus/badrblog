@@ -465,6 +465,31 @@ class JobsCoreTests(unittest.TestCase):
 
 
 
+    def test_job_extractor_reads_labelled_public_employer(self):
+        html = """
+        <html><body>
+          <h3>Administration qui recrute</h3>
+          <p>Ministère de l’intérieur - Province de Settat</p>
+          <h3>Délai de dépôt des candidatures</h3>
+          <p>30 Mai 2026 - 16:30</p>
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        fields = job_extractor.extract_job_fields(
+            soup,
+            {
+                "source_name": "Emploi-Public — services de l'État",
+                "source_country": "MA",
+                "official_source": True,
+            },
+            "https://www.emploi-public.ma/fr/concours/details/test",
+            full_text=soup.get_text(" ", strip=True),
+        )
+        self.assertEqual(
+            fields["job_company"],
+            "Ministère de l’intérieur - Province de Settat",
+        )
+
     def test_logo_resolver_prefers_emploi_public_administration_logo(self):
         html = """
         <html><body>
