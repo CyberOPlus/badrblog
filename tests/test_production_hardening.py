@@ -2,7 +2,7 @@ import json
 import re
 import subprocess
 import unittest
-from contextlib import redirect_stdout
+from contextlib import ExitStack, redirect_stdout
 from datetime import datetime, timedelta, timezone
 from io import BytesIO, StringIO
 from pathlib import Path
@@ -1767,9 +1767,101 @@ class ProductionHardeningTests(unittest.TestCase):
             blogger_post_url="https://blog.example/a1",
             suggested_category="Cyber-Security",
         )
-        draft_result = {"checked": 1, "duplicate_count": 0, "updated_existing": False, "created_new": True, "error": ""}
+        draft_result = {
+            "checked": 1,
+            "duplicate_count": 0,
+            "updated_existing": False,
+            "created_new": True,
+            "error": "",
+        }
 
-        with patch.object(main, "JOBS_MODE", False), patch.object(main, "SAFE_MODE", False), patch.object(main, "PUBLISH_MODE", "live"), patch.object(main, "FACEBOOK_AUTO_POST", True), patch.object(main, "CATEGORY_ROTATION_MODE", True), patch.object(main, "PROCESS_FULL_CATEGORY_PER_RUN", True), patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), patch.object(main, "get_publish_schedule_status", return_value=schedule), patch.object(main, "run_fetch_only", return_value={"selected_category": "Cyber-Security", "queued_candidate_ids": ["a1"], "failed_sources": [], "zero_link_sources": []}), patch.object(main, "archive_expired_queue_articles", return_value={"expired_archived": 0, "missing_date_archived": 0}), patch.object(main, "run_score_only", return_value={}), patch.object(main, "run_enrich_only", return_value={"failed": 0, "weak": 0}), patch.object(main, "_select_newest_fresh_ready_article", return_value=selected), patch.object(main, "prepare_selected_articles_for_ai", return_value={"checked": 1, "ready_for_ai": 1, "failed": 0}), patch.object(main, "process_one_selected_article_with_ai", return_value={"processed": 1, "success": 1, "failed": 0}), patch.object(main, "publish_one_blogger_post", return_value=draft_result), patch.object(main, "_find_article_by_id", side_effect=[ready, ai_done, published, published, published]), patch.object(main, "post_one_article_to_facebook", return_value={"posted": True, "article": published}) as post_fb, patch.object(main, "preview_next_facebook_post", return_value={"available": False, "error": "preview skipped"}), patch.object(main, "mark_many_as_published"), patch.object(main, "add_topic_fingerprint"), patch.object(main, "archive_published_queue_article"):
+        with ExitStack() as stack:
+            stack.enter_context(patch.object(main, "JOBS_MODE", False))
+            stack.enter_context(patch.object(main, "SAFE_MODE", False))
+            stack.enter_context(patch.object(main, "PUBLISH_MODE", "live"))
+            stack.enter_context(patch.object(main, "FACEBOOK_AUTO_POST", True))
+            stack.enter_context(patch.object(main, "CATEGORY_ROTATION_MODE", True))
+            stack.enter_context(patch.object(main, "PROCESS_FULL_CATEGORY_PER_RUN", True))
+            stack.enter_context(patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1))
+            stack.enter_context(
+                patch.object(main, "get_publish_schedule_status", return_value=schedule)
+            )
+            stack.enter_context(
+                patch.object(
+                    main,
+                    "run_fetch_only",
+                    return_value={
+                        "selected_category": "Cyber-Security",
+                        "queued_candidate_ids": ["a1"],
+                        "failed_sources": [],
+                        "zero_link_sources": [],
+                    },
+                )
+            )
+            stack.enter_context(
+                patch.object(
+                    main,
+                    "archive_expired_queue_articles",
+                    return_value={"expired_archived": 0, "missing_date_archived": 0},
+                )
+            )
+            stack.enter_context(patch.object(main, "run_score_only", return_value={}))
+            stack.enter_context(
+                patch.object(
+                    main,
+                    "run_enrich_only",
+                    return_value={"failed": 0, "weak": 0},
+                )
+            )
+            stack.enter_context(
+                patch.object(
+                    main,
+                    "_select_newest_fresh_ready_article",
+                    return_value=selected,
+                )
+            )
+            stack.enter_context(
+                patch.object(
+                    main,
+                    "prepare_selected_articles_for_ai",
+                    return_value={"checked": 1, "ready_for_ai": 1, "failed": 0},
+                )
+            )
+            stack.enter_context(
+                patch.object(
+                    main,
+                    "process_one_selected_article_with_ai",
+                    return_value={"processed": 1, "success": 1, "failed": 0},
+                )
+            )
+            stack.enter_context(
+                patch.object(main, "publish_one_blogger_post", return_value=draft_result)
+            )
+            stack.enter_context(
+                patch.object(
+                    main,
+                    "_find_article_by_id",
+                    side_effect=[ready, ai_done, published, published, published],
+                )
+            )
+            post_fb = stack.enter_context(
+                patch.object(
+                    main,
+                    "post_one_article_to_facebook",
+                    return_value={"posted": True, "article": published},
+                )
+            )
+            stack.enter_context(
+                patch.object(
+                    main,
+                    "preview_next_facebook_post",
+                    return_value={"available": False, "error": "preview skipped"},
+                )
+            )
+            stack.enter_context(patch.object(main, "mark_many_as_published"))
+            stack.enter_context(patch.object(main, "add_topic_fingerprint"))
+            stack.enter_context(patch.object(main, "archive_published_queue_article"))
+
             result = main.run_safe_cycle_only()
 
         self.assertTrue(result["completed"])
