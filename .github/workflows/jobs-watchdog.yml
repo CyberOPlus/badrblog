@@ -44,16 +44,33 @@ jobs:
               ? (Date.now() - latestTime) / 60000
               : Number.POSITIVE_INFINITY;
 
-            if (ageMinutes <= 45) {
+            const failedConclusions = new Set([
+              "failure",
+              "cancelled",
+              "timed_out",
+              "action_required",
+              "startup_failure",
+            ]);
+            if (latest && failedConclusions.has(latest.conclusion)) {
+              if (ageMinutes < 10) {
+                core.info(
+                  `Latest auto-cycle failed recently; allowing a short recovery window before retry.`
+                );
+                return;
+              }
+              core.warning(
+                `Latest auto-cycle concluded ${latest.conclusion}; dispatching recovery run.`
+              );
+            } else if (ageMinutes <= 45) {
               core.info(
                 `Auto-cycle healthy; last run age ${ageMinutes.toFixed(1)} minutes.`
               );
               return;
+            } else {
+              core.warning(
+                `No recent auto-cycle run for ${ageMinutes.toFixed(1)} minutes; dispatching recovery run.`
+              );
             }
-
-            core.warning(
-              `No recent auto-cycle run for ${ageMinutes.toFixed(1)} minutes; dispatching recovery run.`
-            );
             await github.rest.actions.createWorkflowDispatch({
               owner,
               repo,
