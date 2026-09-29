@@ -1421,16 +1421,18 @@ def _deferred_result(article, reason, extra=None):
 
 def get_facebook_limits_status(now=None, urgent=False):
     queue = load_article_queue()
-    posted_times = [
-        article.get("facebook_posted_at")
-        for article in queue.get("articles", [])
-        if article.get("facebook_status") in {
-            "posted",
-            "posted_comment_failed",
-            "posted_comment_uncertain",
-        }
-        and article.get("facebook_posted_at")
-    ]
+    posted_times = []
+    for article in queue.get("articles", []):
+        status = article.get("facebook_status")
+        if status in {"posted", "posted_comment_failed", "posted_comment_uncertain"}:
+            value = article.get("facebook_posted_at")
+        elif status == "delivery_uncertain":
+            # Conservatively count an uncertain upload as if it may have landed.
+            value = article.get("facebook_delivery_uncertain_at")
+        else:
+            value = None
+        if value:
+            posted_times.append(value)
 
     if JOBS_MODE:
         local_now = jobs_local_time(now)
@@ -1734,7 +1736,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         log_event(
             "facebook_post_success",
             article_id=article.get("id"),
-            success=article.get("facebook_status") in {"posted", "posted_comment_failed"},
+            success=article.get("facebook_status") in {"posted", "posted_comment_failed", "posted_comment_uncertain"},
             post_id=article.get("facebook_post_id"),
         )
         return result
