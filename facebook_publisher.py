@@ -327,6 +327,31 @@ def _job_facebook_share_worthy(article):
     return score >= JOBS_FACEBOOK_MIN_SCORE
 
 
+def _settle_unselected_job_facebook(queue):
+    if not JOBS_MODE:
+        return 0
+    settled = 0
+    for article in queue.get("articles", []):
+        if (
+            not _has_blogger_live_publish(article)
+            or article.get("facebook_post_id")
+            or article.get("facebook_status") not in {None, "", "failed"}
+            or _job_facebook_share_worthy(article)
+        ):
+            continue
+        article["facebook_status"] = "not_selected"
+        article["facebook_selection_reason"] = (
+            f"job score {int(article.get('job_score') or 0)} below selective Facebook policy"
+        )
+        article.pop("facebook_error", None)
+        _clear_facebook_failure_state(article)
+        settled += 1
+    if settled:
+        save_article_queue(queue)
+        log_event("facebook_jobs_settled_not_selected", count=settled)
+    return settled
+
+
 def _eligible_for_facebook(article):
     return (
         _has_blogger_live_publish(article)
@@ -2010,6 +2035,8 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         article["facebook_selection_reason"] = (
             f"job score {int(article.get('job_score') or 0)} below selective Facebook policy"
         )
+        article.pop("facebook_error", None)
+        _clear_facebook_failure_state(article)
         save_article_queue(queue)
         return {
             "checked": 1,
@@ -2253,6 +2280,7 @@ def _facebook_backfill_candidates(articles):
         article
         for article in articles
         if _has_blogger_live_publish(article)
+        and _job_facebook_share_worthy(article)
         and not article.get("facebook_post_id")
         and article.get("facebook_status") in {None, "", "failed"}
         and _facebook_retry_ready(article)
@@ -2359,11 +2387,16 @@ def drain_scheduled_facebook():
         stats["skipped"] = 1
         return stats
     queue = load_article_queue()
+    stats["skipped"] += _settle_unselected_job_facebook(queue)
     pending, comments = _facebook_backfill_candidates(queue.get("articles", []))
     if comments:
         result = retry_facebook_first_comment(comments[0].get("id") or comments[0].get("url"))
         stats["comments_created"] = int(bool(result.get("posted")))
-        stats["failed"] += int(not result.get("posted"))
+        stats["failed"] += int(
+            not result.get("posted")
+            and not result.get("deferred")
+            and not result.get("delivery_uncertain")
+        )
     for article in pending:
         if JOBS_MODE and classify_urgency(article).get("level") == "expired":
             stats["skipped"] += 1
@@ -2374,7 +2407,13 @@ def drain_scheduled_facebook():
             continue
         result = post_one_article_to_facebook(article.get("id") or article.get("url"), respect_limits=True)
         stats["created"] += int(bool(result.get("posted")))
-        stats["failed"] += int(not result.get("posted"))
+        result_article = result.get("article") or {}
+        stats["failed"] += int(
+            not result.get("posted")
+            and not result.get("deferred")
+            and not result.get("delivery_uncertain")
+            and result_article.get("facebook_status") != "not_selected"
+        )
         break
     return stats
 
