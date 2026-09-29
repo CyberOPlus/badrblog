@@ -240,6 +240,36 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(comments, [])
 
 
+    def test_jobs_caption_fingerprint_is_remembered(self):
+        article = {
+            "seo_title": "شركة تجريبية توظف مهندس شبكات في الرباط",
+            "job_title": "مهندس شبكات",
+            "job_company": "شركة تجريبية",
+            "job_location": "الرباط",
+            "job_notice_type": "vacancy",
+            "suggested_category": "jobs-morocco",
+        }
+        blueprint = facebook._jobs_facebook_blueprint(
+            article,
+            "https://example.blogspot.com/p/job.html",
+        )
+        with __import__("tempfile").TemporaryDirectory() as temp:
+            memory_path = __import__("pathlib").Path(temp) / "facebook-style.json"
+            with patch.object(facebook, "FACEBOOK_STYLE_MEMORY_PATH", memory_path):
+                facebook._remember_caption_pattern(
+                    article,
+                    "jobs",
+                    posted=True,
+                    structure_id=blueprint["structure"],
+                    hook=blueprint["hook"],
+                    cta=blueprint["cta"],
+                    hashtags=blueprint["hashtags"],
+                    fingerprint=blueprint["fingerprint"],
+                )
+                memory = facebook._load_style_memory()
+        self.assertIn(blueprint["fingerprint"], memory["recent_fingerprints"])
+
+
 
 if __name__ == "__main__":
     unittest.main()
