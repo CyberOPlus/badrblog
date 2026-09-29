@@ -354,6 +354,43 @@ class JobVisualTests(unittest.TestCase):
             self.assertFalse(facebook_result["ok"])
             self.assertIn("verified employer logo", facebook_result.get("error", ""))
 
+    def test_live_publisher_defers_missing_logo_instead_of_crashing(self):
+        article = {
+            "id": "job-logo-pending",
+            "status": "selected",
+            "processing_status": "ready_for_ai",
+            "ai_status": "completed",
+            "final_html": "<p>" + " ".join(["معلومة"] * 120) + "</p>",
+            "final_word_count": 120,
+            "job_title": "مهندس نظم",
+            "job_company": "Unknown Employer",
+            "seo_title": "فرصة توظيف مهندس نظم لدى Unknown Employer",
+            "seo_description": "فرصة توظيف موثقة مع تفاصيل التقديم الرسمية والمعلومات الأساسية المتاحة للمرشحين.",
+            "url": "https://example.com/jobs/42",
+            "ai_input_package": {
+                "job_title": "مهندس نظم",
+                "job_company": "Unknown Employer",
+                "url": "https://example.com/jobs/42",
+            },
+        }
+        queue = {"articles": [article]}
+        with patch.object(article_draft_publisher, "JOBS_MODE", True), \
+             patch.object(article_draft_publisher, "load_article_queue", return_value=queue), \
+             patch.object(article_draft_publisher, "save_article_queue") as save, \
+             patch.object(article_draft_publisher, "refresh_company_logo", return_value={
+                 "company_logo_url": "",
+                 "company_logo_verified": False,
+             }):
+            result = article_draft_publisher.publish_one_blogger_post(
+                target_article_id="job-logo-pending",
+                mode="live",
+            )
+        self.assertTrue(result.get("deferred"))
+        self.assertEqual(article["publish_status"], "waiting_for_logo")
+        self.assertEqual(article["candidate_failure_stage"], "company-logo")
+        self.assertTrue(article.get("candidate_retry_after"))
+        save.assert_called()
+
     def test_prepare_job_cover_blocks_without_verified_logo(self):
         article = {
             "id": "job-no-logo",

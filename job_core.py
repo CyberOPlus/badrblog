@@ -10,6 +10,14 @@ from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 from zoneinfo import ZoneInfo
 
+from config import (
+    JOBS_ACTIVE_END_HOUR,
+    JOBS_ACTIVE_START_HOUR,
+    JOBS_ADAPTIVE_PUBLISHING,
+    JOBS_MIN_PUBLISH_INTERVAL_MINUTES,
+)
+from jobs_adaptive_controller import current_policy
+
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
 MEMORY_DIR = DATA_DIR / "job_memory"
@@ -353,6 +361,12 @@ def load_job_state():
 
 
 def save_job_state(state):
+    # Daily counters are useful for pacing, but must not grow forever.
+    for key in ("daily_publish_count", "daily_urgent_override_count"):
+        rows = state.get(key)
+        if isinstance(rows, dict) and len(rows) > 180:
+            for day in sorted(rows)[:-180]:
+                rows.pop(day, None)
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
@@ -362,15 +376,77 @@ def _day_key(now=None):
 
 
 def daily_publish_cap(now=None):
+    if JOBS_ADAPTIVE_PUBLISHING:
+        return int(current_policy(now=now).get("daily_cap") or 3)
     local = _local(now)
     month_max = MONTHLY_VOLUME_RANGE.get(local.month, (1, 2))[1]
     weekday_cap = WEEKDAY_BLOGGER_CAP.get(local.weekday(), month_max)
     return min(month_max, weekday_cap)
 
 
-def can_publish_new_job(now=None):
+def job_publish_window_status(now=None):
+    local = _local(now)
     state = load_job_state()
-    return int(state.get("daily_publish_count", {}).get(_day_key(now), 0)) < daily_publish_cap(now)
+    day = local.date().isoformat()
+    published_today = int(state.get("daily_publish_count", {}).get(day, 0))
+    cap = daily_publish_cap(now)
+    active_minutes = max(60, (JOBS_ACTIVE_END_HOUR - JOBS_ACTIVE_START_HOUR) * 60)
+    spread_interval = max(
+        JOBS_MIN_PUBLISH_INTERVAL_MINUTES,
+        int(active_minutes / max(1, cap)),
+    )
+    reasons = []
+    next_allowed = local
+
+    if published_today >= cap:
+        reasons.append("adaptive daily Blogger cap reached")
+        tomorrow = local.date().fromordinal(local.date().toordinal() + 1)
+        next_allowed = datetime.combine(
+            tomorrow,
+            time(JOBS_ACTIVE_START_HOUR, 0),
+            tzinfo=local.tzinfo,
+        )
+
+    if not (JOBS_ACTIVE_START_HOUR <= local.hour < JOBS_ACTIVE_END_HOUR):
+        reasons.append("outside Blogger active publishing window")
+        if local.hour >= JOBS_ACTIVE_END_HOUR:
+            tomorrow = local.date().fromordinal(local.date().toordinal() + 1)
+            window_next = datetime.combine(
+                tomorrow,
+                time(JOBS_ACTIVE_START_HOUR, 0),
+                tzinfo=local.tzinfo,
+            )
+        else:
+            window_next = datetime.combine(
+                local.date(),
+                time(JOBS_ACTIVE_START_HOUR, 0),
+                tzinfo=local.tzinfo,
+            )
+        if window_next > next_allowed:
+            next_allowed = window_next
+
+    last_publish = _parse_date(state.get("last_publish_at"))
+    if last_publish:
+        last_local = last_publish.astimezone(local.tzinfo)
+        interval_next = last_local + __import__("datetime").timedelta(minutes=spread_interval)
+        if interval_next > local:
+            reasons.append("adaptive Blogger spacing has not elapsed")
+            if interval_next > next_allowed:
+                next_allowed = interval_next
+
+    return {
+        "allowed_now": not reasons,
+        "reasons": reasons,
+        "next_allowed_time": next_allowed,
+        "published_today": published_today,
+        "daily_cap": cap,
+        "min_interval_minutes": spread_interval,
+        "policy": current_policy(now=now),
+    }
+
+
+def can_publish_new_job(now=None):
+    return bool(job_publish_window_status(now=now)["allowed_now"])
 
 
 def can_use_urgent_override(now=None):
@@ -692,11 +768,17 @@ def job_status_snapshot(now=None):
     local = _local(now)
     state = load_job_state()
     day = local.date().isoformat()
+    window = job_publish_window_status(now=now)
     return {
         "local_time": local.isoformat(),
-        "daily_cap": daily_publish_cap(now),
+        "daily_cap": window["daily_cap"],
         "published_today": int(state.get("daily_publish_count", {}).get(day, 0)),
         "urgent_overrides_today": int(state.get("daily_urgent_override_count", {}).get(day, 0)),
         "monthly_range": MONTHLY_VOLUME_RANGE.get(local.month, (1, 2)),
         "facebook_slots": [x.strftime("%H:%M") for x in FACEBOOK_SLOTS.get(local.weekday(), ())],
+        "allowed_now": window["allowed_now"],
+        "reasons": window["reasons"],
+        "next_allowed_time": window["next_allowed_time"],
+        "min_interval_minutes": window["min_interval_minutes"],
+        "adaptive_policy": window["policy"],
     }

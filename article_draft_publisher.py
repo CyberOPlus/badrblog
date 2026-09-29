@@ -7,7 +7,7 @@ import os
 import re
 import subprocess
 import time
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from urllib.parse import quote, urlparse
 
@@ -32,10 +32,15 @@ from quality_gate import validate_before_publish
 from internal_link_cache import apply_link_enrichment, record_published_article
 from source_sanitizer import sanitize_source_links
 from jobposting import append_jobposting
-from company_logo_resolver import verified_company_logo
+from company_logo_resolver import refresh_company_logo, verified_company_logo
 from utils.facebook_image_generator import generate_job_article_cover
 
 TEMPORARY_BLOGGER_HTTP_STATUSES = {429, 500, 502, 503, 504}
+
+
+class JobLogoPendingError(RuntimeError):
+    """A verified employer logo is not ready yet; retry the job later."""
+
 JOB_ARTICLE_COVER_DIR = Path("assets/generated/job-articles")
 JOB_ARTICLE_RAW_BASE = "https://raw.githubusercontent.com/CyberOPlus/badrblog/main"
 
@@ -325,6 +330,11 @@ def _prepare_job_article_cover(article):
         or ""
     ).strip()
     logo_info = verified_company_logo(article)
+    if not (
+        logo_info.get("company_logo_verified")
+        and str(logo_info.get("company_logo_url") or "").strip()
+    ):
+        logo_info = refresh_company_logo(article)
     logo_verified = bool(logo_info.get("company_logo_verified"))
     logo_url = str(logo_info.get("company_logo_url") or "").strip()
     if not (logo_verified and logo_url):
@@ -337,7 +347,7 @@ def _prepare_job_article_cover(article):
             article_id=article.get("id"),
             company=employer,
         )
-        raise RuntimeError(
+        raise JobLogoPendingError(
             "Verified company logo is required before generating the Jobs article cover."
         )
 
@@ -357,7 +367,7 @@ def _prepare_job_article_cover(article):
         article["publish_block_reason"] = "verified_company_logo_render_failed"
         package["article_logo_used"] = False
         package["publish_block_reason"] = "verified_company_logo_render_failed"
-        raise RuntimeError(
+        raise JobLogoPendingError(
             "Could not generate the required job article cover with the verified company logo: "
             + str(result.get("error") or "logo was not rendered")
         )
@@ -622,6 +632,32 @@ def _apply_failure(article, error):
     )
 
 
+def _defer_job_logo(queue, article, error, result_shape):
+    retry_at = datetime.now(timezone.utc) + timedelta(hours=4)
+    article["status"] = "selected"
+    article["publish_status"] = "waiting_for_logo"
+    article["publish_error"] = str(error)
+    article["candidate_failure_stage"] = "company-logo"
+    article["candidate_retry_after"] = retry_at.isoformat()
+    article["logo_retry_after"] = retry_at.isoformat()
+    save_article_queue(queue)
+    log_event(
+        "job_logo_deferred",
+        article_id=article.get("id"),
+        company=article.get("job_company"),
+        retry_after=article["logo_retry_after"],
+        reason=article.get("publish_block_reason", ""),
+    )
+    result = dict(result_shape)
+    result.update({
+        "article": article,
+        "error": str(error),
+        "deferred": True,
+        "retry_after": article["logo_retry_after"],
+    })
+    return result
+
+
 def _custom_slug_warning(article):
     if article.get("seo_slug"):
         article["custom_slug_warning"] = "Custom permalink is not supported by this Blogger API method."
@@ -652,7 +688,15 @@ def publish_one_blogger_draft(target_article_id=None):
         }
 
     article = eligible[0]
-    _sanitize_article_final_html(article)
+    try:
+        _sanitize_article_final_html(article)
+    except JobLogoPendingError as error:
+        return _defer_job_logo(
+            queue,
+            article,
+            error,
+            {"checked": 1, "created": False},
+        )
     quality_error = _publish_quality_error(article, articles)
     if quality_error:
         return _block_publish(
@@ -736,7 +780,21 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
 
     article = eligible[0]
     slug_warning = _custom_slug_warning(article)
-    _sanitize_article_final_html(article)
+    try:
+        _sanitize_article_final_html(article)
+    except JobLogoPendingError as error:
+        return _defer_job_logo(
+            queue,
+            article,
+            error,
+            {
+                "checked": 1,
+                "duplicate_count": 0,
+                "updated_existing": False,
+                "created_new": False,
+                "slug_warning": slug_warning,
+            },
+        )
     quality_error = _publish_quality_error(article, articles)
     if quality_error:
         return _block_publish(
@@ -873,7 +931,21 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
 
     article = eligible[0]
     _custom_slug_warning(article)
-    _sanitize_article_final_html(article)
+    try:
+        _sanitize_article_final_html(article)
+    except JobLogoPendingError as error:
+        return _defer_job_logo(
+            queue,
+            article,
+            error,
+            {
+                "checked": 1,
+                "duplicate_count": 0,
+                "updated_existing": False,
+                "created_new": False,
+                "publishing_mode": publish_mode,
+            },
+        )
     quality_error = _publish_quality_error(article, articles)
     if quality_error:
         return _block_publish(

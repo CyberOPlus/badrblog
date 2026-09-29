@@ -8,13 +8,224 @@ from unittest.mock import patch
 from zoneinfo import ZoneInfo
 
 import article_ai_processor as ai
+import article_queue
 import facebook_publisher as facebook
 import job_core
 import main
 import quality_gate
+import jobs_adaptive_controller as adaptive
 
 
 class JobsRuntimeTests(unittest.TestCase):
+    def test_adaptive_policy_starts_conservative_and_ramps_after_healthy_days(self):
+        state = {
+            "version": 1,
+            "green_score": 0,
+            "current_day": "2026-09-28",
+            "last_evaluated_day": "",
+            "days": {"2026-09-28": {"blogger_success": 3, "blogger_failure": 0, "blogger_rate_limit": 0}},
+        }
+        with patch.object(adaptive, "load_state", return_value=state), \
+             patch.object(adaptive, "save_state"), \
+             patch.object(adaptive, "JOBS_ADAPTIVE_PUBLISHING", True):
+            policy = adaptive.current_policy(
+                datetime(2026, 9, 29, 8, tzinfo=timezone.utc)
+            )
+        self.assertEqual(state["green_score"], 1)
+        self.assertGreaterEqual(policy["daily_cap"], 3)
+        self.assertLessEqual(policy["daily_cap"], 12)
+
+    def test_adaptive_rate_limit_reduces_health_score(self):
+        state = {
+            "version": 1,
+            "green_score": 8,
+            "current_day": "2026-09-28",
+            "last_evaluated_day": "",
+            "days": {"2026-09-28": {"blogger_success": 2, "blogger_failure": 1, "blogger_rate_limit": 1}},
+        }
+        with patch.object(adaptive, "load_state", return_value=state), \
+             patch.object(adaptive, "save_state"):
+            adaptive.current_policy(datetime(2026, 9, 29, 8, tzinfo=timezone.utc))
+        self.assertEqual(state["green_score"], 4)
+
+    def test_facebook_selects_only_strong_jobs_when_score_exists(self):
+        base = {
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/job.html",
+            "facebook_status": "",
+            "job_notice_type": "vacancy",
+            "job_number_of_positions": 1,
+        }
+        with patch.object(facebook, "JOBS_MODE", True), \
+             patch.object(facebook, "JOBS_FACEBOOK_MIN_SCORE", 75), \
+             patch.object(facebook, "classify_urgency", return_value={"level": "normal"}):
+            low = dict(base, job_score=68)
+            high = dict(base, job_score=82)
+            self.assertFalse(facebook._eligible_for_facebook(low))
+            self.assertTrue(facebook._eligible_for_facebook(high))
+
+    def test_jobs_publish_bookkeeping_uses_job_memory_not_generic_db(self):
+        article = {"publish_status": "published", "id": "x", "url": "https://example.com/job"}
+        with patch.object(main, "JOBS_MODE", True), \
+             patch.object(main, "record_job_publish") as record, \
+             patch.object(main, "archive_published_queue_article") as archive, \
+             patch.object(main, "mark_many_as_published") as generic:
+            main._record_successful_publish(article)
+        record.assert_called_once_with(article)
+        archive.assert_called_once()
+        generic.assert_not_called()
+
+    def test_auto_ai_provider_chain_uses_all_configured_backups(self):
+        with patch.object(ai, "AI_PROVIDER", "auto"), \
+             patch.object(ai, "GEMINI_API_KEY", "gemini-key"), \
+             patch.object(ai, "GROQ_API_KEY", "groq-key"), \
+             patch.object(ai, "OPENROUTER_API_KEY", "openrouter-key"), \
+             patch.object(ai, "CLOUDFLARE_API_TOKEN", "cf-token"), \
+             patch.object(ai, "CLOUDFLARE_ACCOUNT_ID", "cf-account"), \
+             patch.object(ai, "MISTRAL_API_KEY", "mistral-key"), \
+             patch.object(ai, "OPENAI_API_KEY", ""):
+            self.assertEqual(
+                ai._resolve_providers(),
+                ["gemini", "groq", "openrouter", "cloudflare", "mistral"],
+            )
+
+    def test_provider_cooldowns_are_error_specific(self):
+        self.assertGreater(
+            ai._cooldown_seconds_for_error(RuntimeError("HTTP 403 forbidden")),
+            ai._cooldown_seconds_for_error(RuntimeError("HTTP 503 unavailable")),
+        )
+        self.assertGreater(
+            ai._cooldown_seconds_for_error(RuntimeError("HTTP 429 rate limit")),
+            ai._cooldown_seconds_for_error(ai.AIProviderEmptyResponse("empty response")),
+        )
+
+    def test_deterministic_jobs_fallback_passes_jobs_quality_gate(self):
+        package = {
+            "title": "Cybersecurity Consultant",
+            "url": "https://careers.example.com/jobs/42",
+            "source_url": "https://careers.example.com",
+            "source_name": "Example Careers",
+            "job_title": "مستشار الأمن السيبراني",
+            "job_company": "Example Company",
+            "job_location": "الدار البيضاء",
+            "job_contract_type": "CDI",
+            "job_deadline": "2026-10-15",
+            "job_deadline_display": "15 أكتوبر 2026",
+            "job_application_url": "https://careers.example.com/jobs/42/apply",
+            "job_action_links": [
+                {"url": "https://careers.example.com/jobs/42/apply", "label": "التقديم الرسمي"}
+            ],
+            "job_document_links": [],
+            "job_notice_type": "vacancy",
+            "desired_slug": "example-cybersecurity-42",
+        }
+        with patch.object(ai, "JOBS_MODE", True), patch.object(quality_gate, "JOBS_MODE", True):
+            data = ai._deterministic_job_article(package)
+            data = ai._finalize_html_content(data, package)
+            ai._validate_ai_output(data, package)
+        self.assertIn("توظيف", data["title"])
+        self.assertIn(package["job_application_url"], data["html_content"])
+        self.assertGreaterEqual(ai.html_word_count(data["html_content"]), 100)
+
+    def test_publishing_window_block_still_runs_jobs_ingestion(self):
+        schedule = {
+            "configured_publish_mode": "live",
+            "publish_mode": "live",
+            "allowed_now": False,
+            "reasons": ["adaptive Blogger spacing has not elapsed"],
+            "next_allowed_time": datetime.now(),
+            "drafts_created_today": 0,
+            "live_posts_created_today": 1,
+            "max_drafts_per_day": 3,
+            "max_live_posts_per_day": 3,
+            "target_live_posts_per_day": 3,
+            "last_draft_time": None,
+            "last_live_publish_time": None,
+            "minutes_since_last_draft": None,
+            "minutes_since_last_live_publish": 20,
+            "min_minutes_between_drafts": 0,
+            "min_minutes_between_live_posts": 80,
+        }
+        with patch.object(main, "JOBS_MODE", True), \
+             patch.object(main, "SAFE_MODE", False), \
+             patch.object(main, "PUBLISH_MODE", "live"), \
+             patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), \
+             patch.object(main, "get_publish_schedule_status", return_value=schedule), \
+             patch.object(main, "run_fetch_only", return_value={"articles_found": 2}) as fetch, \
+             patch.object(main, "archive_expired_queue_articles", return_value={}) as cleanup, \
+             patch.object(main, "run_score_only", return_value={"ready": 2}) as score, \
+             patch.object(main, "run_enrich_only", return_value={"enriched": 2}) as enrich, \
+             patch.object(main, "_print_safe_cycle_final_report"), \
+             redirect_stdout(StringIO()):
+            result = main.run_safe_cycle_only()
+        self.assertTrue(result["skipped"])
+        self.assertIsNotNone(result["ingest"])
+        fetch.assert_called_once()
+        cleanup.assert_called_once()
+        score.assert_called_once()
+        enrich.assert_called_once_with(force=False)
+
+    def test_adaptive_window_prevents_blogger_burst(self):
+        tz = ZoneInfo("Africa/Casablanca")
+        now = datetime(2026, 9, 29, 10, 0, tzinfo=tz)
+        state = {
+            "daily_publish_count": {"2026-09-29": 2},
+            "daily_urgent_override_count": {},
+            "last_publish_at": (now - timedelta(minutes=30)).isoformat(),
+        }
+        with patch.object(job_core, "JOBS_ADAPTIVE_PUBLISHING", True), \
+             patch.object(job_core, "load_job_state", return_value=state), \
+             patch.object(job_core, "current_policy", return_value={
+                 "enabled": True,
+                 "stage": 5,
+                 "green_score": 20,
+                 "daily_cap": 12,
+             }):
+            status = job_core.job_publish_window_status(now=now)
+        self.assertFalse(status["allowed_now"])
+        self.assertGreaterEqual(status["min_interval_minutes"], 60)
+        self.assertIn("spacing", " ".join(status["reasons"]))
+
+    def test_queue_compaction_preserves_unresolved_facebook_delivery(self):
+        from tempfile import TemporaryDirectory
+        from pathlib import Path
+
+        old = (datetime.now(timezone.utc) - timedelta(days=45)).isoformat()
+        with TemporaryDirectory() as temp:
+            queue_path = Path(temp) / "jobs_article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "posted-terminal",
+                        "archived": True,
+                        "archived_at": old,
+                        "publish_status": "published",
+                        "facebook_status": "posted",
+                    },
+                    {
+                        "id": "facebook-pending",
+                        "archived": True,
+                        "archived_at": old,
+                        "publish_status": "published",
+                        "facebook_status": "failed",
+                    },
+                ]
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), \
+                 patch.object(article_queue, "JOBS_MODE", True):
+                article_queue.save_article_queue(queue)
+                stats = article_queue.maintain_article_queue(days=7)
+                reloaded = article_queue.load_article_queue()
+
+            self.assertEqual(stats["compacted_archived"], 1)
+            self.assertEqual(
+                [row["id"] for row in reloaded["articles"]],
+                ["facebook-pending"],
+            )
+            archive_files = list((Path(temp) / "data" / "job_queue_archive").glob("*.json"))
+            self.assertEqual(len(archive_files), 1)
+
     def test_compact_job_passes_both_word_gates(self):
         package = {"url": "https://employer.example/jobs/42", "job_notice_type": "vacancy"}
         data = {

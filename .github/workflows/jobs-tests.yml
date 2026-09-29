@@ -5,6 +5,8 @@ on:
   push:
     paths:
       - "job_core.py"
+      - "company_logo_resolver.py"
+      - "jobs_adaptive_controller.py"
       - "job_visual_policy.py"
       - "scraper.py"
       - "config.py"
@@ -28,6 +30,7 @@ on:
       - "assets/facebook/**"
       - "assets/article/**"
       - ".github/workflows/jobs-tests.yml"
+      - ".github/workflows/jobs-watchdog.yml"
 
 permissions:
   contents: read
@@ -51,4 +54,4 @@ jobs:
             tests.test_production_hardening.ProductionHardeningTests.test_facebook_safety_interval_cannot_be_disabled_by_zero_env_value -v
       - name: Compile critical Jobs modules
         run: |
-          python -m py_compile             main.py             scraper.py             article_enricher.py             article_ai_processor.py             article_draft_publisher.py             facebook_publisher.py             job_visual_policy.py             config.py             tests/test_production_hardening.py
+          python -m py_compile             main.py             jobs_adaptive_controller.py             scraper.py             article_enricher.py             article_ai_processor.py             article_draft_publisher.py             facebook_publisher.py             job_visual_policy.py             config.py             tests/test_production_hardening.py
