@@ -1,11 +1,15 @@
 import json
+import tempfile
 import unittest
 from datetime import datetime, timezone
+from pathlib import Path
+from unittest.mock import patch
 
 from bs4 import BeautifulSoup
 
 import article_enricher
 import article_queue
+import company_logo_resolver
 import job_core
 import job_extractor
 import quality_gate
@@ -458,6 +462,137 @@ class JobsCoreTests(unittest.TestCase):
         }
         new = sample_job(job_published_at="2027-01-15T08:00:00+00:00")
         self.assertTrue(job_core._campaign_rollover(new, old))
+
+
+
+    def test_logo_resolver_prefers_emploi_public_administration_logo(self):
+        html = """
+        <html><body>
+          <h3>Administration organisatrice : Ministère de l’intérieur</h3>
+          <img
+            src="/backoffice/files/images/administrations/interieur.png"
+            alt="Ministère de l’intérieur"
+          >
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        article = {
+            "job_company": "Ministère de l’intérieur",
+            "source_name": "Emploi-Public — services de l'État",
+            "official_source": True,
+        }
+        probe = {
+            "ok": True,
+            "kind": "raster",
+            "width": 600,
+            "height": 300,
+            "checksum": "abc123",
+            "final_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/interieur.png",
+        }
+        with tempfile.TemporaryDirectory() as temp_dir, \
+             patch.object(
+                 company_logo_resolver,
+                 "REGISTRY_PATH",
+                 Path(temp_dir) / "company_logo_registry.json",
+             ), \
+             patch.object(company_logo_resolver, "_probe_image", return_value=probe):
+            resolved = company_logo_resolver.resolve_company_logo(
+                soup,
+                article,
+                "https://www.emploi-public.ma/fr/concours/details/test",
+            )
+
+        self.assertTrue(resolved["company_logo_verified"])
+        self.assertGreaterEqual(resolved["company_logo_confidence"], 99)
+        self.assertEqual(
+            resolved["company_logo_source"],
+            "emploi_public_administration",
+        )
+        self.assertIn("/images/administrations/", resolved["company_logo_url"])
+
+    def test_logo_resolver_rejects_platform_logo_for_unrelated_employer(self):
+        html = """
+        <html><body>
+          <header>
+            <img src="/assets/logo.png" class="logo" alt="Emploi Public">
+          </header>
+          <h3>Administration organisatrice : Archives du Maroc</h3>
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        article = {
+            "job_company": "Archives du Maroc",
+            "source_name": "Emploi-Public — établissements publics",
+            "official_source": True,
+        }
+        with tempfile.TemporaryDirectory() as temp_dir, \
+             patch.object(
+                 company_logo_resolver,
+                 "REGISTRY_PATH",
+                 Path(temp_dir) / "company_logo_registry.json",
+             ), \
+             patch.object(company_logo_resolver, "_probe_image") as probe:
+            resolved = company_logo_resolver.resolve_company_logo(
+                soup,
+                article,
+                "https://www.emploi-public.ma/fr/concours/details/test",
+            )
+
+        self.assertFalse(resolved["company_logo_verified"])
+        self.assertEqual(resolved["company_logo_url"], "")
+        probe.assert_not_called()
+
+    def test_logo_resolver_accepts_matching_jobposting_logo(self):
+        html = """
+        <html><head>
+          <script type="application/ld+json">
+          {
+            "@context": "https://schema.org",
+            "@type": "JobPosting",
+            "title": "Network Engineer",
+            "hiringOrganization": {
+              "@type": "Organization",
+              "name": "Example Telecom",
+              "logo": "https://cdn.example.com/example-telecom-logo.png"
+            }
+          }
+          </script>
+        </head><body></body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        article = {
+            "job_company": "Example Telecom",
+            "source_name": "Example Telecom Careers",
+            "official_source": True,
+        }
+        probe_result = {
+            "ok": True,
+            "kind": "raster",
+            "width": 800,
+            "height": 260,
+            "checksum": "def456",
+            "final_url": "https://cdn.example.com/example-telecom-logo.png",
+        }
+        with tempfile.TemporaryDirectory() as temp_dir, \
+             patch.object(
+                 company_logo_resolver,
+                 "REGISTRY_PATH",
+                 Path(temp_dir) / "company_logo_registry.json",
+             ), \
+             patch.object(
+                 company_logo_resolver,
+                 "_probe_image",
+                 return_value=probe_result,
+             ):
+            resolved = company_logo_resolver.resolve_company_logo(
+                soup,
+                article,
+                "https://careers.example.com/jobs/123",
+            )
+
+        self.assertTrue(resolved["company_logo_verified"])
+        self.assertEqual(resolved["company_logo_source"], "jobposting_jsonld")
+        self.assertGreaterEqual(resolved["company_logo_confidence"], 99)
 
 
 if __name__ == "__main__":
