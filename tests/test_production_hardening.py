@@ -1626,26 +1626,26 @@ class ProductionHardeningTests(unittest.TestCase):
 
         self.assertFalse(result["articles"])
 
-    def test_workflow_cron_is_quota_optimized_lightweight_run(self):
+    def test_workflow_cron_and_facebook_safety_are_current(self):
         text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
-        self.assertIn('cron: "*/15 * * * *"', text)
+        self.assertIn('cron: "7,22,37,52 * * * *"', text)
         self.assertIn("workflow_dispatch:", text)
         self.assertIn("group: auto-cycle-${{ github.ref }}", text)
         self.assertIn("cancel-in-progress: false", text)
         self.assertIn("timeout-minutes: 15", text)
         self.assertIn("timeout-minutes: 10", text)
-        self.assertIn('"CATEGORY_ROTATION_MODE": "true"', text)
-        self.assertIn('"MAX_SOURCES_PER_RUN": "4"', text)
+        self.assertIn('"CATEGORY_ROTATION_MODE": "false"', text)
+        self.assertIn('"MAX_SOURCES_PER_RUN": "20"', text)
         self.assertIn('"MAX_POSTS_PER_RUN": "1"', text)
         self.assertIn('"MAX_ARTICLES_PER_RUN": "1"', text)
         self.assertIn('"SAFE_CYCLE_MAX_ARTICLES": "1"', text)
-        self.assertIn('"CATEGORY_POSTS_PER_HOUR": "1"', text)
-        self.assertIn('"HOURLY_POST_LIMIT": "1"', text)
-        self.assertIn('"MAX_LIVE_POSTS_PER_DAY": "20"', text)
-        self.assertIn('"TARGET_LIVE_POSTS_PER_DAY": "12"', text)
+        self.assertIn('"MAX_LIVE_POSTS_PER_DAY": "3"', text)
+        self.assertIn('"TARGET_LIVE_POSTS_PER_DAY": "3"', text)
         self.assertIn('"MIN_MINUTES_BETWEEN_LIVE_POSTS": "0"', text)
-        self.assertIn('"MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": "0"', text)
-        self.assertIn('"MAX_FACEBOOK_POSTS_PER_DAY": "20"', text)
+        self.assertIn('"META_GRAPH_API_VERSION": "v26.0"', text)
+        self.assertIn('"MAX_FACEBOOK_POSTS_PER_DAY": "2"', text)
+        self.assertIn('"FACEBOOK_HARD_MAX_POSTS_PER_DAY": "3"', text)
+        self.assertIn('"FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES": "45"', text)
 
     def test_live_post_allowed_after_one_minute(self):
         now = datetime(2026, 4, 27, 12, 10, 0)
@@ -1773,13 +1773,18 @@ class ProductionHardeningTests(unittest.TestCase):
             result = main.run_safe_cycle_only()
 
         self.assertTrue(result["completed"])
-        post_fb.assert_called_once_with(target_article_id="a1", respect_limits=False)
+        post_fb.assert_called_once_with(target_article_id="a1", respect_limits=True)
 
-    def test_facebook_does_not_wait_ten_minutes_when_interval_is_zero(self):
+    def test_facebook_safety_interval_cannot_be_disabled_by_zero_env_value(self):
         now = datetime(2026, 4, 27, 12, 10, 0)
         with TemporaryDirectory() as temp_dir:
             queue_path = Path(temp_dir) / "article_queue.json"
-            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), patch.object(facebook_publisher, "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", 0), patch.object(facebook_publisher, "MAX_FACEBOOK_POSTS_PER_DAY", 288):
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), \
+                 patch.object(facebook_publisher, "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", 0), \
+                 patch.object(facebook_publisher, "FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES", 45), \
+                 patch.object(facebook_publisher, "MAX_FACEBOOK_POSTS_PER_DAY", 2), \
+                 patch.object(facebook_publisher, "FACEBOOK_HARD_MAX_POSTS_PER_DAY", 3), \
+                 patch.object(facebook_publisher, "JOBS_MODE", False):
                 article_queue.save_article_queue(
                     {
                         "articles": [
@@ -1794,8 +1799,9 @@ class ProductionHardeningTests(unittest.TestCase):
                 )
                 status = facebook_publisher.get_facebook_limits_status(now=now)
 
-        self.assertTrue(status["allowed_now"], status["reasons"])
-        self.assertEqual(status["min_minutes_between_facebook_posts"], 0)
+        self.assertFalse(status["allowed_now"])
+        self.assertEqual(status["min_minutes_between_facebook_posts"], 45)
+        self.assertIn("safety interval", " ".join(status["reasons"]))
 
     def test_blogger_failure_prevents_facebook_post(self):
         schedule = {
