@@ -606,6 +606,177 @@ def _short_title(article):
     return _clean_caption_line(title)
 
 
+_VISUAL_LOCATION_ALIASES = {
+    "casablanca": ("Casablanca", "الدار البيضاء"),
+    "rabat": ("Rabat", "الرباط"),
+    "marrakech": ("Marrakech", "Marrakesh", "مراكش"),
+    "tanger": ("Tanger", "Tangier", "طنجة"),
+    "tangier": ("Tanger", "Tangier", "طنجة"),
+    "agadir": ("Agadir", "أكادير"),
+    "fes": ("Fès", "Fes", "Fez", "فاس"),
+    "fez": ("Fès", "Fes", "Fez", "فاس"),
+    "meknes": ("Meknès", "Meknes", "مكناس"),
+    "kenitra": ("Kénitra", "Kenitra", "القنيطرة"),
+    "oujda": ("Oujda", "وجدة"),
+    "tetouan": ("Tétouan", "Tetouan", "تطوان"),
+    "el jadida": ("El Jadida", "الجديدة"),
+    "settat": ("Settat", "سطات"),
+}
+
+_GENERIC_JOB_TITLES = {
+    "job",
+    "jobs",
+    "vacancy",
+    "vacancies",
+    "career",
+    "careers",
+    "recruitment",
+    "recrutement",
+    "offre",
+    "offres",
+    "offres d emploi",
+    "فرص عمل",
+    "وظائف",
+}
+
+
+def _visual_location_aliases(article):
+    value = _clean_caption_line(article.get("job_location") or "")
+    aliases = set()
+    if value:
+        aliases.add(value)
+        for part in re.split(r"[,/|؛]+", value):
+            part = part.strip()
+            if part:
+                aliases.add(part)
+        lowered = value.casefold()
+        for key, values in _VISUAL_LOCATION_ALIASES.items():
+            if key in lowered:
+                aliases.update(values)
+    return sorted(aliases, key=len, reverse=True)
+
+
+def _is_generic_job_title(value):
+    normalized = re.sub(
+        r"[^\w\u0600-\u06ff]+",
+        " ",
+        str(value or "").casefold(),
+        flags=re.UNICODE,
+    )
+    normalized = re.sub(r"\s+", " ", normalized).strip()
+    return not normalized or normalized in _GENERIC_JOB_TITLES
+
+
+def _compact_visual_role(value):
+    value = _clean_caption_line(value)
+    if len(value) <= 112:
+        return value
+
+    # Long official titles often append grade, duration and administrative
+    # details after a comma. The role before the first comma is the part a
+    # scrolling Facebook user needs to recognize first.
+    comma_head = re.split(r"[,،]", value, maxsplit=1)[0].strip(" -–—:")
+    if len(comma_head) >= 10:
+        return comma_head
+
+    # Remove a trailing parenthetical qualifier only when the role remains clear.
+    no_tail = re.sub(r"\s*\([^()]{8,}\)\s*$", "", value).strip(" -–—:")
+    if 10 <= len(no_tail) < len(value):
+        return no_tail
+    return value
+
+
+def _job_visual_title(article):
+    notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
+    company = _clean_caption_line(
+        article.get("job_company") or article.get("source_name") or ""
+    )
+    seo_title = _short_title(article)
+    raw_role = _clean_caption_line(article.get("job_title") or "")
+
+    if notice_type == "candidate_list" and not seo_title:
+        return "لوائح المدعوين لاجتياز مباراة التوظيف"
+    if notice_type == "final_results" and not seo_title:
+        return "النتائج النهائية لمباراة التوظيف"
+    if notice_type == "results" and not seo_title:
+        return "نتائج مباراة التوظيف"
+
+    visual = seo_title or raw_role
+    if not visual:
+        return "فرصة عمل جديدة"
+
+    if company:
+        escaped = re.escape(company)
+        # Remove the employer together with grammatical glue first so we do not
+        # leave fragments such as "لدى في" after a plain name replacement.
+        patterns = (
+            rf"^\s*{escaped}\s+(?:توظف|تعلن\s+عن\s+توظيف|تعلن\s+توظيف|recrute|recrutement|is\s+hiring|hiring)\s*[:\-–—]*\s*",
+            rf"\s+(?:لدى|عند|مع|chez|at)\s+{escaped}\b",
+            rf"\s*[-–—:]?\s*{escaped}\s*$",
+            rf"^\s*{escaped}\s*[-–—:]\s*",
+        )
+        for pattern in patterns:
+            visual = re.sub(pattern, " ", visual, flags=re.I)
+        visual = re.sub(escaped, " ", visual, flags=re.I)
+
+    if notice_type == "vacancy":
+        visual = re.sub(
+            r"^\s*(?:وظيفة|فرصة\s+عمل|فرصة\s+توظيف|إعلان\s+توظيف|"
+            r"offre\s+d['’]?emploi|job\s+opening)\s*[:\-–—]*\s*",
+            "",
+            visual,
+            flags=re.I,
+        )
+        visual = re.sub(
+            r"^\s*(?:توظف|recrute|recrutement|hiring)\s*[:\-–—]*\s*",
+            "",
+            visual,
+            flags=re.I,
+        )
+
+    for alias in _visual_location_aliases(article):
+        escaped = re.escape(alias)
+        visual = re.sub(
+            rf"(?:\s+(?:في|بمدينة|à|a|in|at)\s+|\s+ب){escaped}\s*$",
+            "",
+            visual,
+            flags=re.I,
+        )
+        visual = re.sub(
+            rf"\s*[-–—,:،]\s*{escaped}\s*$",
+            "",
+            visual,
+            flags=re.I,
+        )
+
+    visual = re.sub(r"\s+", " ", visual).strip(" -–—:،,")
+    visual = _compact_visual_role(visual)
+
+    # If cleanup still leaves a very long marketing/SEO sentence, prefer the
+    # official role when it is specific and materially shorter.
+    if (
+        len(visual) > 112
+        and raw_role
+        and not _is_generic_job_title(raw_role)
+        and len(raw_role) <= 105
+    ):
+        visual = _compact_visual_role(raw_role)
+
+    if not visual or _is_generic_job_title(visual):
+        if raw_role and not _is_generic_job_title(raw_role):
+            visual = _compact_visual_role(raw_role)
+        elif notice_type == "candidate_list":
+            visual = "لوائح المدعوين لاجتياز مباراة التوظيف"
+        elif notice_type == "final_results":
+            visual = "النتائج النهائية لمباراة التوظيف"
+        elif notice_type == "results":
+            visual = "نتائج مباراة التوظيف"
+        else:
+            visual = "فرصة عمل جديدة"
+
+    return _clean_caption_line(visual)
+
+
 def _human_summary(article):
     summary = _short_summary(article) or _plain_text_from_html(article.get("final_html") or article.get("blogger_article_html"))
     return _limit_text(summary, limit=190)
@@ -1263,15 +1434,34 @@ def _publish_facebook_post(article, blueprint):
         raise RuntimeError("Missing live Blogger URL for Facebook post.")
 
     caption = blueprint["caption"]
+    visual_title = _job_visual_title(article) if JOBS_MODE else _short_title(article)
+    if JOBS_MODE:
+        article["facebook_visual_title"] = visual_title
+
     image_result = generate_facebook_image(
-        _short_title(article),
+        visual_title,
         _main_image_url(article),
         _facebook_image_output_path(article),
         hook_text=blueprint.get("hook", ""),
         template_key=article.get("facebook_template_key", ""),
+        employer_name=(
+            str(article.get("job_company") or article.get("source_name") or "").strip()
+            if JOBS_MODE
+            else ""
+        ),
     )
     if image_result.get("ok"):
         image_result["url"] = _main_image_url(article)
+        if JOBS_MODE:
+            article["facebook_visual_layout"] = {
+                "title": visual_title,
+                "font_size": image_result.get("title_font_size"),
+                "font_width": image_result.get("title_font_width"),
+                "lines": image_result.get("title_lines"),
+                "title_bbox": image_result.get("title_bbox"),
+                "logo_kind": image_result.get("logo_kind"),
+                "logo_bbox": image_result.get("logo_bbox"),
+            }
     base_payload = {
         "access_token": FACEBOOK_PAGE_ACCESS_TOKEN,
     }
