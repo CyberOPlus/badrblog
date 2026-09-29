@@ -32,13 +32,13 @@ from config import (
 from production_logging import log_event
 
 
-FONT_PATH = Path("assets/fonts/Cairo-Bold.ttf")
-CAIRO_FONT_URL = (
-    "https://raw.githubusercontent.com/google/fonts/main/ofl/cairo/"
-    "Cairo%5Bslnt%2Cwght%5D.ttf"
+FONT_PATH = Path("assets/fonts/Firjar-ExtraBold.ttf")
+FIRJAR_FONT_URL = (
+    "https://raw.githubusercontent.com/Mestaratype/Firjar/main/fonts/variable/"
+    "Firjar%5Bwdth%2Cwght%5D.ttf"
 )
-_CAIRO_FONT_BYTES = None
-_CAIRO_FONT_DOWNLOAD_FAILED = False
+_FIRJAR_FONT_BYTES = None
+_FIRJAR_FONT_DOWNLOAD_FAILED = False
 IMAGE_TIMEOUT_SECONDS = 10
 MIN_ARTICLE_IMAGE_WIDTH = 360
 MIN_ARTICLE_IMAGE_HEIGHT = 220
@@ -139,33 +139,33 @@ def _cover(image, size):
 def _font(size):
     from PIL import ImageFont
 
-    global _CAIRO_FONT_BYTES, _CAIRO_FONT_DOWNLOAD_FAILED
+    global _FIRJAR_FONT_BYTES, _FIRJAR_FONT_DOWNLOAD_FAILED
 
     absolute_font = Path(__file__).resolve().parents[1] / FONT_PATH
     if absolute_font.exists():
         return ImageFont.truetype(str(absolute_font), size=size)
 
-    # Do not commit font binaries to the repository. Fetch Cairo at runtime and
+    # Do not commit font binaries to the repository. Fetch Firjar at runtime and
     # keep it in memory for this process. This guarantees the Jobs cards use the
-    # requested Cairo family while keeping the repo clean.
-    if _CAIRO_FONT_BYTES is None and not _CAIRO_FONT_DOWNLOAD_FAILED:
+    # requested Firjar family while keeping the repo clean.
+    if _FIRJAR_FONT_BYTES is None and not _FIRJAR_FONT_DOWNLOAD_FAILED:
         try:
             response = requests.get(
-                CAIRO_FONT_URL,
+                FIRJAR_FONT_URL,
                 headers={"User-Agent": "Mozilla/5.0"},
                 timeout=15,
             )
             response.raise_for_status()
             if len(response.content) < 20_000:
-                raise RuntimeError("Cairo font download was unexpectedly small")
-            _CAIRO_FONT_BYTES = response.content
+                raise RuntimeError("Firjar font download was unexpectedly small")
+            _FIRJAR_FONT_BYTES = response.content
         except Exception as error:
-            _CAIRO_FONT_DOWNLOAD_FAILED = True
-            log_event("cairo_font_download_failed", error=error.__class__.__name__)
+            _FIRJAR_FONT_DOWNLOAD_FAILED = True
+            log_event("firjar_font_download_failed", error=error.__class__.__name__)
 
-    if _CAIRO_FONT_BYTES:
+    if _FIRJAR_FONT_BYTES:
         try:
-            font = ImageFont.truetype(BytesIO(_CAIRO_FONT_BYTES), size=size)
+            font = ImageFont.truetype(BytesIO(_FIRJAR_FONT_BYTES), size=size)
             try:
                 axes = font.get_variation_axes()
                 values = []
@@ -187,7 +187,7 @@ def _font(size):
                 pass
             return font
         except Exception as error:
-            log_event("cairo_font_load_failed", error=error.__class__.__name__)
+            log_event("firjar_font_load_failed", error=error.__class__.__name__)
 
     for fallback in (
         "DejaVuSans-Bold.ttf",
