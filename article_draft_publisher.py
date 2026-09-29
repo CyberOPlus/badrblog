@@ -633,8 +633,11 @@ def _apply_failure(article, error):
 
 
 def _defer_job_logo(queue, article, error, result_shape):
-    retry_at = datetime.now(timezone.utc) + timedelta(hours=4)
+    now = datetime.now(timezone.utc)
+    retry_at = now + timedelta(hours=4)
     article["status"] = "selected"
+    article.setdefault("logo_first_wait_at", now.isoformat())
+    article["logo_retry_count"] = int(article.get("logo_retry_count") or 0) + 1
     article["publish_status"] = "waiting_for_logo"
     article["publish_error"] = str(error)
     article["candidate_failure_stage"] = "company-logo"
