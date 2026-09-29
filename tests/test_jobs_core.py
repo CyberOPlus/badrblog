@@ -80,6 +80,44 @@ class JobsCoreTests(unittest.TestCase):
         self.assertNotIn("100", slug)
         self.assertNotIn("2026", slug)
 
+    def test_slug_prefers_stable_official_reference(self):
+        row = sample_job(
+            job_title="Consultant cyber-sécurité",
+            job_company="Orange Business",
+            ats_reference="ICM-584854",
+        )
+        slug = job_core.desired_slug(row, campaign_id="opaque-campaign")
+        self.assertIn("orange-business-consultant-cyber-securite", slug)
+        self.assertTrue(slug.endswith("icm-584854"), slug)
+
+    def test_extractor_keeps_arabic_public_job_files_and_exam_date(self):
+        html = """
+        <html><body>
+          <p>تاريخ إجراء المباراة : 25 أكتوبر 2026</p>
+          <p>آخر أجل لإيداع ملفات الترشيح : 5 أكتوبر 2026 - 16:30</p>
+          <a href="/files/avis.pdf">تحميل الإعلان</a>
+          <a href="/files/decision.pdf">قرار المباراة</a>
+          <a href="/candidature">إيداع الترشيح</a>
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        fields = job_extractor.extract_job_fields(
+            soup,
+            {
+                "source_name": "Emploi-Public — services de l'État",
+                "official_source": True,
+                "source_country": "MA",
+                "source_eligibility": "morocco",
+                "title": "مباراة لتوظيف تقني من الدرجة الثالثة",
+            },
+            "https://www.emploi-public.ma/ar/تفاصيل/المباريات/test",
+            full_text=soup.get_text(" ", strip=True),
+        )
+        self.assertEqual(fields["job_exam_date"], "2026-10-25")
+        self.assertEqual(fields["job_deadline"], "2026-10-05")
+        self.assertEqual(fields["job_application_link_kind"], "direct_apply")
+        self.assertEqual(len(fields["job_document_links"]), 2)
+
     def test_capgemini_parser_accepts_only_official_job_details(self):
         html = """
         <html><body>
