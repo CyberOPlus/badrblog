@@ -543,32 +543,38 @@ def _remember_caption_pattern(article, pattern, posted, structure_id="", hook=""
         return
     memory = _load_style_memory()
     category = _caption_memory_category(article)
-    recent = list(memory.setdefault("recent", {}).get(category, []))
-    recent.append(pattern)
-    memory["recent"][category] = recent[-8:]
-    global_styles = list(memory.get("global_styles", []))
-    global_styles.append(pattern)
-    memory["global_styles"] = global_styles[-8:]
-    if hook:
-        recent_hooks = list(memory.get("recent_hooks", []))
-        recent_hooks.append(_normalize_memory_text(hook))
-        memory["recent_hooks"] = recent_hooks[-20:]
-    if cta:
-        recent_ctas = list(memory.get("recent_ctas", []))
-        recent_ctas.append(_normalize_memory_text(cta))
-        memory["recent_ctas"] = recent_ctas[-12:]
-    if hashtags:
-        recent_hashtag_sets = list(memory.get("recent_hashtag_sets", []))
-        recent_hashtag_sets.append("|".join(sorted(str(tag).casefold() for tag in hashtags)))
-        memory["recent_hashtag_sets"] = recent_hashtag_sets[-12:]
-    if fingerprint:
-        recent_fingerprints = list(memory.get("recent_fingerprints", []))
-        recent_fingerprints.append(fingerprint)
-        memory["recent_fingerprints"] = recent_fingerprints[-30:]
-    if structure_id:
-        recent_structures = list(memory.get("recent_structures", []))
-        recent_structures.append(structure_id)
-        memory["recent_structures"] = recent_structures[-12:]
+
+    # Recency memory represents content that may actually be visible on the
+    # Page. Definite pre-publish/API failures must not poison the fingerprint
+    # cache or make a safe retry look like a duplicate.
+    if posted:
+        recent = list(memory.setdefault("recent", {}).get(category, []))
+        recent.append(pattern)
+        memory["recent"][category] = recent[-8:]
+        global_styles = list(memory.get("global_styles", []))
+        global_styles.append(pattern)
+        memory["global_styles"] = global_styles[-8:]
+        if hook:
+            recent_hooks = list(memory.get("recent_hooks", []))
+            recent_hooks.append(_normalize_memory_text(hook))
+            memory["recent_hooks"] = recent_hooks[-20:]
+        if cta:
+            recent_ctas = list(memory.get("recent_ctas", []))
+            recent_ctas.append(_normalize_memory_text(cta))
+            memory["recent_ctas"] = recent_ctas[-12:]
+        if hashtags:
+            recent_hashtag_sets = list(memory.get("recent_hashtag_sets", []))
+            recent_hashtag_sets.append("|".join(sorted(str(tag).casefold() for tag in hashtags)))
+            memory["recent_hashtag_sets"] = recent_hashtag_sets[-12:]
+        if fingerprint:
+            recent_fingerprints = list(memory.get("recent_fingerprints", []))
+            recent_fingerprints.append(fingerprint)
+            memory["recent_fingerprints"] = recent_fingerprints[-30:]
+        if structure_id:
+            recent_structures = list(memory.get("recent_structures", []))
+            recent_structures.append(structure_id)
+            memory["recent_structures"] = recent_structures[-12:]
+
     category_stats = memory.setdefault("stats", {}).setdefault(category, {})
     stats = category_stats.setdefault(pattern, {})
     stats["used"] = int(stats.get("used", 0)) + 1
@@ -1988,7 +1994,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         _remember_caption_pattern(
             article,
             caption_pattern,
-            posted=article.get("facebook_status") == "posted",
+            posted=bool(article.get("facebook_post_id")),
             structure_id=blueprint["structure"],
             hook=blueprint["hook"],
             cta=blueprint.get("cta", ""),
