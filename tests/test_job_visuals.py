@@ -12,10 +12,10 @@ import utils.facebook_image_generator as visuals
 
 
 class JobVisualTests(unittest.TestCase):
-    def test_cairo_font_is_loaded(self):
+    def test_firjar_font_is_loaded(self):
         font = visuals._font(42)
         family = " ".join(str(x) for x in getattr(font, "getname", lambda: ("", ""))())
-        self.assertIn("Cairo", family)
+        self.assertIn("Firjar", family)
 
     def test_four_facebook_templates_keep_portrait_size(self):
         self.assertEqual(len(visuals.JOB_TEMPLATE_FILES), 4)
