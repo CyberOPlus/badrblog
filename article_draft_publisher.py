@@ -223,7 +223,12 @@ def _job_cover_key(article):
 
 
 def _persist_generated_job_cover(path):
-    """Commit the generated binary before Blogger references its public raw URL."""
+    """Commit the generated binary before Blogger references its public raw URL.
+
+    Code and runtime-state commits may land while a workflow is rendering a
+    cover. Retry non-fast-forward pushes with an autostashed rebase so that a
+    harmless Git race cannot abort the publishing cycle.
+    """
     if os.getenv("GITHUB_ACTIONS", "").strip().lower() != "true":
         return False
 
@@ -248,8 +253,50 @@ def _persist_generated_job_cover(path):
         ],
         check=True,
     )
-    subprocess.run(["git", "push", "origin", "HEAD:main"], check=True)
-    return True
+
+    last_error = ""
+    for attempt in range(1, 4):
+        push = subprocess.run(
+            ["git", "push", "origin", "HEAD:main"],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if push.returncode == 0:
+            return True
+
+        last_error = (push.stderr or push.stdout or "git push failed").strip()[:500]
+        log_event(
+            "job_cover_git_push_retry",
+            attempt=attempt,
+            reason=last_error,
+        )
+        if attempt >= 3:
+            break
+
+        rebase = subprocess.run(
+            [
+                "git",
+                "-c", "rebase.autoStash=true",
+                "pull", "--rebase", "origin", "main",
+            ],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if rebase.returncode != 0:
+            last_error = (rebase.stderr or rebase.stdout or "git rebase failed").strip()[:500]
+            log_event(
+                "job_cover_git_rebase_failed",
+                attempt=attempt,
+                reason=last_error,
+            )
+            break
+
+    raise RuntimeError(
+        "Could not persist generated job cover after Git retries: "
+        + (last_error or "unknown Git error")
+    )
 
 
 def _prepare_job_article_cover(article):
