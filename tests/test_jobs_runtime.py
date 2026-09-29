@@ -398,6 +398,58 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn(package["job_application_url"], data["html_content"])
         self.assertGreaterEqual(ai.html_word_count(data["html_content"]), 100)
 
+    def test_jobs_finalizer_guarantees_missing_verified_fact_rows(self):
+        package = {
+            "job_company": "Orange Business",
+            "job_title": "Consultant cyber-sécurité",
+            "job_location": "Casablanca",
+            "job_contract_type": "CDI",
+            "job_number_of_positions": 3,
+            "job_published_at": "2026-09-29T14:32:25+00:00",
+            "job_deadline_display": "5 أكتوبر 2026",
+            "job_exam_date_display": "25 أكتوبر 2026",
+            "ats_reference": "ICM-584854",
+            "job_diploma": "Bac+5",
+            "job_experience": "3 سنوات",
+        }
+        html = (
+            "<p>" + " ".join(["معلومة"] * 125) + "</p>"
+            "<h2>تفاصيل الوظيفة</h2>"
+            "<table><tbody>"
+            "<tr><th>الشركة</th><td>Orange Business</td></tr>"
+            "<tr><th>المنصب</th><td>مستشار أمن سيبراني</td></tr>"
+            "</tbody></table>"
+        )
+        with patch.object(ai, "JOBS_MODE", True):
+            result = ai._ensure_verified_job_fact_rows(html, package)
+        self.assertEqual(result.count("ICM-584854"), 1)
+        self.assertIn("عدد المناصب", result)
+        self.assertIn(">3<", result)
+        self.assertIn("آخر أجل للترشيح", result)
+        self.assertIn("5 أكتوبر 2026", result)
+        self.assertIn("تاريخ إجراء المباراة", result)
+        self.assertIn("25 أكتوبر 2026", result)
+        self.assertIn("Bac+5", result)
+        self.assertIn("3 سنوات", result)
+
+    def test_jobs_quality_gate_rejects_marketing_filler(self):
+        article = {
+            "url": "https://example.com/jobs/42",
+            "job_application_url": "https://example.com/apply/42",
+            "seo_title": "شركة Example تعلن عن توظيف مهندس نظم في الدار البيضاء",
+            "seo_description": "فرصة توظيف موثقة لدى شركة Example لمهندس نظم في الدار البيضاء، مع تفاصيل المنصب وطريقة التقديم المباشر عبر الرابط الرسمي.",
+            "final_html": (
+                "<p>الشركة الرائدة تقدم "
+                + " ".join(["معلومة"] * 125)
+                + "</p><h2>التقديم</h2>"
+                + "<p><a href='https://example.com/apply/42'>التقديم</a></p>"
+            ),
+        }
+        with patch.object(quality_gate, "JOBS_MODE", True):
+            result = quality_gate.validate_before_publish(article, check_duplicate=False)
+        self.assertFalse(result.passed)
+        self.assertIn("promotional", result.reason)
+
     def test_jobs_finalizer_appends_every_official_file_and_detail_page(self):
         package = {
             "job_application_url": "https://example.com/apply/42",
