@@ -418,6 +418,11 @@ def _merge_job_discovery_metadata(existing, discovered):
         value = discovered.get(key)
         if value in (None, "", [], {}):
             continue
+        # Listing APIs sometimes expose a request/snapshot timestamp as
+        # "postedDate". Once a job has a verified published timestamp, keep it
+        # stable instead of rewriting the same queue row every scan.
+        if key in {"source_published_at", "job_published_at"} and existing.get(key):
+            continue
         if key in {"official_source", "source_remote", "source_visa_sponsorship", "job_remote"}:
             value = bool(value)
         if existing.get(key) != value:
