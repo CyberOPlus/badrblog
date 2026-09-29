@@ -182,7 +182,12 @@ def record_cycle_result(result=None, error=""):
         "verified_company_logo_render_failed",
     }:
         row["logo_wait"] = int(row.get("logo_wait") or 0) + 1
-    if isinstance(facebook, dict) and facebook.get("error") and not facebook.get("posted"):
+    if (
+        isinstance(facebook, dict)
+        and facebook.get("error")
+        and not facebook.get("posted")
+        and str(article.get("facebook_status") or "") != "not_selected"
+    ):
         row["facebook_failure"] = int(row.get("facebook_failure") or 0) + 1
     row["source_warning"] = int(row.get("source_warning") or 0) + int(result.get("source_warnings_count") or 0)
     save_state(state)
