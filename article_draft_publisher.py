@@ -276,10 +276,18 @@ def _prepare_job_article_cover(article):
         or article.get("source_name")
         or ""
     ).strip()
+    logo_verified = bool(
+        article.get("company_logo_verified")
+        or package.get("company_logo_verified")
+    )
     logo_url = str(
-        article.get("company_logo_url")
-        or package.get("company_logo_url")
-        or ""
+        (
+            article.get("company_logo_url")
+            or package.get("company_logo_url")
+            or ""
+        )
+        if logo_verified
+        else ""
     ).strip()
 
     cover_key = _job_cover_key(article)
