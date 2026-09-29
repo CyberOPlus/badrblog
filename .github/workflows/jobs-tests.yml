@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - "job_core.py"
+      - "company_logo_resolver.py"
       - "jobs_adaptive_controller.py"
       - "job_visual_policy.py"
       - "scraper.py"
@@ -29,6 +30,7 @@ on:
       - "assets/facebook/**"
       - "assets/article/**"
       - ".github/workflows/jobs-tests.yml"
+      - ".github/workflows/jobs-watchdog.yml"
 
 permissions:
   contents: read
