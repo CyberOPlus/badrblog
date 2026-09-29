@@ -43,9 +43,8 @@ load_dotenv(dotenv_path=dotenv_path)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
 # AI provider mode:
-# - auto: use Gemini first, then OpenRouter only when Gemini quota/rate limits fail
-# - gemini: use Gemini only
-# - openrouter: use OpenRouter only
+# - auto: rotate across configured providers, then use deterministic Jobs fallback
+# - a named provider: use that provider only when explicitly requested
 AI_PROVIDER = os.getenv("AI_PROVIDER", "auto").strip().lower()
 
 # Your Blogger Blog ID (looks like a long number)
@@ -347,7 +346,6 @@ if not GEMINI_MODELS and GEMINI_MODEL:
 # OPENROUTER_API_KEY should be kept in .env only.
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
 FAST_OPENROUTER_MODELS = [
-    "qwen/qwen3.8-27b:free",
     "openrouter/free",
 ]
 OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL", FAST_OPENROUTER_MODELS[0]).strip()
@@ -370,7 +368,7 @@ OPENROUTER_APP_NAME = os.getenv("OPENROUTER_APP_NAME", "Blogger Automation Bot")
 
 # Additional independent providers used by Jobs auto-failover.
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
-GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.1-8b-instant").strip()
+GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-20b").strip()
 GROQ_API_URL = os.getenv(
     "GROQ_API_URL",
     "https://api.groq.com/openai/v1/chat/completions",

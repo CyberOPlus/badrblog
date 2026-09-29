@@ -745,12 +745,7 @@ class ProductionHardeningTests(unittest.TestCase):
 
         self.assertEqual(
             config.FAST_OPENROUTER_MODELS,
-            [
-                "inclusionai/ling-2.6-flash:free",
-                "liquid/lfm-2.5-1.2b-instruct:free",
-                "nvidia/nemotron-3-nano-30b-a3b:free",
-                "openai/gpt-oss-20b:free",
-            ],
+            ["openrouter/free"],
         )
         self.assertEqual(config.OPENROUTER_MODELS, config.FAST_OPENROUTER_MODELS)
 
