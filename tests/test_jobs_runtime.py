@@ -208,6 +208,38 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertFalse(facebook._eligible_for_facebook(article))
 
 
+    def test_facebook_auth_failure_uses_long_retry_backoff(self):
+        article = {}
+        with patch.object(facebook.time, "time", return_value=1000):
+            facebook._apply_failure(
+                article,
+                RuntimeError('Facebook Graph API error 400: {"error":{"type":"OAuthException","code":190}}'),
+            )
+        self.assertEqual(article["facebook_status"], "failed")
+        self.assertEqual(article["facebook_failure_count"], 1)
+        self.assertEqual(article["facebook_retry_after_epoch"], 1000 + 6 * 3600)
+        self.assertFalse(facebook._facebook_retry_ready(article, now_epoch=1001))
+        self.assertTrue(
+            facebook._facebook_retry_ready(
+                article,
+                now_epoch=1000 + 6 * 3600,
+            )
+        )
+
+    def test_facebook_failed_backfill_respects_retry_cooldown(self):
+        article = {
+            "id": "cooldown",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/job.html",
+            "facebook_status": "failed",
+            "facebook_retry_after_epoch": 9999999999,
+        }
+        pending, comments = facebook._facebook_backfill_candidates([article])
+        self.assertEqual(pending, [])
+        self.assertEqual(comments, [])
+
+
 
 if __name__ == "__main__":
     unittest.main()
