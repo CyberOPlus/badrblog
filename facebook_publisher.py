@@ -675,15 +675,21 @@ def _is_generic_job_title(value):
 
 def _compact_visual_role(value):
     value = _clean_caption_line(value)
+
+    # Official vacancy titles often append grade, contract duration, reference
+    # numbers and geography after a comma. When the first segment is already a
+    # clear role and the suffix is substantial, keep the role for the image and
+    # leave the administrative detail to the caption/article.
+    comma_head = re.split(r"[,،]", value, maxsplit=1)[0].strip(" -–—:")
+    if (
+        len(comma_head) >= 10
+        and len(value) >= 64
+        and len(value) - len(comma_head) >= 20
+    ):
+        return comma_head
+
     if len(value) <= 112:
         return value
-
-    # Long official titles often append grade, duration and administrative
-    # details after a comma. The role before the first comma is the part a
-    # scrolling Facebook user needs to recognize first.
-    comma_head = re.split(r"[,،]", value, maxsplit=1)[0].strip(" -–—:")
-    if len(comma_head) >= 10:
-        return comma_head
 
     # Remove a trailing parenthetical qualifier only when the role remains clear.
     no_tail = re.sub(r"\s*\([^()]{8,}\)\s*$", "", value).strip(" -–—:")
