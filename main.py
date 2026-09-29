@@ -2023,6 +2023,17 @@ def _record_successful_publish(article):
 
 def _mark_candidate_failure_for_retry(article, stage, reason):
     article = article or {}
+    if (
+        article.get("publish_status") == "waiting_for_logo"
+        and article.get("candidate_retry_after")
+    ):
+        log_event(
+            "candidate_retry_preserved",
+            article_id=article.get("id"),
+            stage="company-logo",
+            retry_after=article.get("candidate_retry_after"),
+        )
+        return article
     failed = mark_article_recent_failure(
         article_id=article.get("id", ""),
         article_url=article.get("url", ""),
