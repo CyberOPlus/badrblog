@@ -149,6 +149,65 @@ class JobsRuntimeTests(unittest.TestCase):
             result = facebook.get_facebook_limits_status(now=now)
         self.assertEqual(result["facebook_posts_today"], 1)
 
+    def test_urgent_facebook_still_obeys_hard_daily_cap(self):
+        tz = ZoneInfo("Africa/Casablanca")
+        now = datetime(2026, 9, 29, 18, 0, tzinfo=tz)
+        rows = [
+            {
+                "facebook_status": "posted",
+                "facebook_posted_at": (now - timedelta(hours=offset + 1)).isoformat(),
+            }
+            for offset in range(3)
+        ]
+        with patch.object(facebook, "JOBS_MODE", True), \
+             patch.object(facebook, "MAX_FACEBOOK_POSTS_PER_DAY", 2), \
+             patch.object(facebook, "FACEBOOK_HARD_MAX_POSTS_PER_DAY", 3), \
+             patch.object(facebook, "load_article_queue", return_value={"articles": rows}):
+            result = facebook.get_facebook_limits_status(now=now, urgent=True)
+        self.assertFalse(result["allowed_now"])
+        self.assertEqual(result["facebook_posts_today"], 3)
+        self.assertIn("hard daily safety limit", " ".join(result["reasons"]))
+
+    def test_facebook_safety_interval_blocks_urgent_burst(self):
+        tz = ZoneInfo("Africa/Casablanca")
+        now = datetime(2026, 9, 29, 18, 0, tzinfo=tz)
+        rows = [{
+            "facebook_status": "posted",
+            "facebook_posted_at": (now - timedelta(minutes=20)).isoformat(),
+        }]
+        with patch.object(facebook, "JOBS_MODE", True), \
+             patch.object(facebook, "MAX_FACEBOOK_POSTS_PER_DAY", 2), \
+             patch.object(facebook, "FACEBOOK_HARD_MAX_POSTS_PER_DAY", 3), \
+             patch.object(facebook, "FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES", 45), \
+             patch.object(facebook, "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", 0), \
+             patch.object(facebook, "load_article_queue", return_value={"articles": rows}):
+            result = facebook.get_facebook_limits_status(now=now, urgent=True)
+        self.assertFalse(result["allowed_now"])
+        self.assertEqual(result["min_minutes_between_facebook_posts"], 45)
+        self.assertIn("safety interval", " ".join(result["reasons"]))
+
+    def test_manual_backfill_cannot_bypass_schedule(self):
+        pending = [{"id": "one"}]
+        with patch.object(facebook, "load_article_queue", return_value={"articles": []}), \
+             patch.object(facebook, "_facebook_backfill_candidates", return_value=(pending, [])), \
+             patch.object(facebook, "get_facebook_limits_status", return_value={"allowed_now": False}), \
+             patch.object(facebook, "post_one_article_to_facebook") as post:
+            result = facebook.backfill_facebook_posts()
+        post.assert_not_called()
+        self.assertEqual(result["created"], 0)
+        self.assertEqual(result["skipped"], 1)
+
+    def test_uncertain_delivery_is_not_auto_retried(self):
+        article = {
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/test.html",
+            "facebook_status": "delivery_uncertain",
+            "facebook_post_id": "",
+        }
+        self.assertFalse(facebook._eligible_for_facebook(article))
+
+
 
 if __name__ == "__main__":
     unittest.main()
