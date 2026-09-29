@@ -5,7 +5,7 @@ import json
 import os
 import re
 import unicodedata
-from datetime import datetime, time, timezone
+from datetime import datetime, time, timedelta, timezone
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 from zoneinfo import ZoneInfo
@@ -489,6 +489,84 @@ def get_semantic_candidates(key):
         row for row in (_load_json(_memory_path("campaigns", campaign_id)) for campaign_id in ids)
         if row
     ]
+
+
+def maintain_job_memory(now=None, retention_days=730):
+    """Prune campaign memory that is far beyond the campaign rollover horizon."""
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    cutoff = now.astimezone(timezone.utc) - timedelta(
+        days=max(365, int(retention_days or 730))
+    )
+    stats = {
+        "campaigns_checked": 0,
+        "campaigns_pruned": 0,
+        "identity_pointers_pruned": 0,
+        "semantic_refs_pruned": 0,
+    }
+
+    campaigns_dir = MEMORY_DIR / "campaigns"
+    if not campaigns_dir.exists():
+        return stats
+
+    for path in list(campaigns_dir.rglob("*.json")):
+        record = _load_json(path)
+        if not isinstance(record, dict):
+            continue
+        stats["campaigns_checked"] += 1
+        anchor = _parse_date(record.get("updated_at") or record.get("published_at"))
+        if not anchor:
+            continue
+        if anchor.tzinfo is None:
+            anchor = anchor.replace(tzinfo=timezone.utc)
+        if anchor.astimezone(timezone.utc) >= cutoff:
+            continue
+
+        campaign_id = str(record.get("campaign_id") or path.stem)
+        identity = str(record.get("identity_key") or "")
+        semantic = str(record.get("semantic_key") or "")
+
+        path.unlink(missing_ok=True)
+        stats["campaigns_pruned"] += 1
+
+        if identity:
+            identity_path = _memory_path("identity", identity)
+            pointer = _load_json(identity_path)
+            if (
+                isinstance(pointer, dict)
+                and str(pointer.get("campaign_id") or "") == campaign_id
+            ):
+                identity_path.unlink(missing_ok=True)
+                stats["identity_pointers_pruned"] += 1
+
+        if semantic:
+            semantic_path = _memory_path("semantic", semantic)
+            index = _load_json(semantic_path)
+            ids = list(index.get("campaign_ids", [])) if isinstance(index, dict) else []
+            kept = [value for value in ids if str(value) != campaign_id]
+            if kept != ids:
+                stats["semantic_refs_pruned"] += len(ids) - len(kept)
+                if kept:
+                    _save_json(semantic_path, {"campaign_ids": kept[-20:]})
+                else:
+                    semantic_path.unlink(missing_ok=True)
+
+    for kind in ("campaigns", "identity", "semantic"):
+        root = MEMORY_DIR / kind
+        if not root.exists():
+            continue
+        for directory in sorted(
+            (path for path in root.rglob("*") if path.is_dir()),
+            key=lambda path: len(path.parts),
+            reverse=True,
+        ):
+            try:
+                directory.rmdir()
+            except OSError:
+                pass
+
+    return stats
 
 
 def _same_url_family(a, b):
