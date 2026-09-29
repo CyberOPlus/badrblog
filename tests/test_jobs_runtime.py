@@ -370,6 +370,49 @@ class JobsRuntimeTests(unittest.TestCase):
             ai._cooldown_seconds_for_error(ai.AIProviderEmptyResponse("empty response")),
         )
 
+    def test_jobs_prompt_requires_professional_semantic_html_body(self):
+        package = {
+            "job_title": "مهندس شبكات",
+            "job_company": "Example Company",
+            "job_location": "الدار البيضاء",
+            "job_application_url": "https://example.com/apply",
+            "job_document_links": [{"url": "https://example.com/notice.pdf", "label": "الإعلان الرسمي"}],
+            "job_notice_type": "vacancy",
+            "desired_slug": "example-network-engineer",
+        }
+        with patch.object(ai, "JOBS_MODE", True):
+            prompt = ai._build_prompt(package)
+        self.assertIn("<h2>تفاصيل الوظيفة</h2>", prompt)
+        self.assertIn("<h2>المهام والمسؤوليات</h2>", prompt)
+        self.assertIn("<h2>الشروط والمؤهلات</h2>", prompt)
+        self.assertIn("<h2>الملفات والوثائق الرسمية</h2>", prompt)
+        self.assertIn("<h2>التقديم والروابط الرسمية</h2>", prompt)
+        self.assertIn("NEVER add <h1>", prompt)
+        self.assertIn("No copied boilerplate solely to increase word count", prompt)
+
+    def test_deterministic_jobs_body_uses_professional_plain_html_sections(self):
+        package = {
+            "job_title": "مهندس شبكات",
+            "job_company": "Example Company",
+            "job_location": "الدار البيضاء",
+            "job_contract_type": "CDI",
+            "job_application_url": "https://example.com/apply",
+            "job_application_link_kind": "direct_apply",
+            "job_document_links": [{"url": "https://example.com/notice.pdf", "label": "الإعلان الرسمي"}],
+            "job_notice_type": "vacancy",
+            "desired_slug": "example-network-engineer",
+        }
+        with patch.object(ai, "JOBS_MODE", True):
+            data = ai._deterministic_job_article(package)
+            data = ai._finalize_html_content(data, package)
+        html = data["html_content"]
+        self.assertIn("<h2>تفاصيل الوظيفة</h2>", html)
+        self.assertIn("<h2>التقديم والروابط الرسمية</h2>", html)
+        self.assertIn(package["job_application_url"], html)
+        self.assertIn(package["job_document_links"][0]["url"], html)
+        self.assertNotRegex(html, r"(?i)<(?:script|style|iframe|form|h1)\\b")
+        self.assertNotRegex(html, r"(?i)\\sstyle=")
+
     def test_deterministic_jobs_fallback_passes_jobs_quality_gate(self):
         package = {
             "title": "Cybersecurity Consultant",

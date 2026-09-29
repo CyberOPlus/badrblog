@@ -752,10 +752,50 @@ SEO
 - Never add mutable values such as dates, deadline, salary, number of positions,
   or temporary campaign details to the slug.
 
-HTML
-- Clean semantic Blogger HTML only.
-- Useful tags: <p>, <h2>, <ul>, <li>, <table>, <tbody>, <tr>, <th>, <td>, <a>.
-- No CSS, style attributes, scripts, iframes, fake buttons, forms, or tracking code.
+PROFESSIONAL HTML ARTICLE BODY
+- html_content is the BODY of the Blogger post only. The Blogger theme already renders the H1/title.
+  NEVER add <h1>, the SEO title, meta description, JSON-LD, schema, scripts, CSS, style blocks,
+  widgets, iframes, forms, tracking code, buttons made with JavaScript, or hidden text.
+- Output clean semantic HTML only. No Markdown and no plain-text section labels outside HTML tags.
+- Use ONLY ordinary content tags when needed:
+  <p>, <h2>, <h3>, <strong>, <ul>, <ol>, <li>,
+  <table>, <tbody>, <tr>, <th>, <td>, <a>.
+- Do not use inline style= attributes. Do not use decorative <div> wrappers.
+- Paragraphs must be short and readable on mobile: normally 1-3 sentences each.
+- Never create a section merely to make the article longer. Omit sections whose facts are unavailable.
+
+MANDATORY ORDER FOR AN ACTIVE VACANCY
+1) ONE short factual <p> introduction.
+2) <h2>تفاصيل الوظيفة</h2>
+   followed immediately by ONE compact <table><tbody>...</tbody></table>.
+   Include every verified structured fact available and omit missing facts.
+3) <h2>المهام والمسؤوليات</h2> + a short <ul> ONLY when verified duties exist.
+4) <h2>الشروط والمؤهلات</h2> + a short <ul> ONLY when verified requirements exist.
+5) <h2>الملفات والوثائق الرسمية</h2> ONLY when official files/PDFs/lists exist.
+   - One document: one descriptive <p><a ...>...</a></p>.
+   - Multiple documents: compact <table> with descriptive labels and one exact official URL per row.
+6) <h2>التقديم والروابط الرسمية</h2>
+   - Put the direct application link first when verified.
+   - Add the specific official notice/detail page only when it is different and useful.
+   - Use descriptive anchor text, never raw URLs as visible text unless no label is available.
+
+FOR CANDIDATE LISTS / RESULTS
+- Keep the same clean HTML discipline, but change headings and wording to match the notice.
+- Do not show an application section when applications are closed and the notice is only a list/result.
+- Official list/result files are the primary action and must remain visible.
+
+LINK RULES
+- Every verified official application/document/detail URL supplied in the package must remain present exactly once.
+- External links must use target="_blank" rel="nofollow noreferrer noopener".
+- Never fabricate, shorten, redirect, or duplicate a URL.
+
+SEO / ADSENSE-FRIENDLY EDITORIAL QUALITY
+- Write for the user first: clear facts, useful structure, no keyword stuffing and no repeated employer/role phrases.
+- The first paragraph should naturally contain the employer, Arabic role, original role when useful, and location when verified.
+- Headings must describe real sections, not repeat the title.
+- Do not add generic conclusions, motivational text, career advice, corporate history, promotional filler,
+  "فرصة لا تعوض", "انضم لفريقنا", or calls to click ads.
+- No copied boilerplate solely to increase word count. A shorter complete factual article is better than filler.
 - Avoid repeated paragraphs, repeated headings, repeated facts, and repeated URLs.
 
 FINAL SILENT CHECK
@@ -990,16 +1030,23 @@ MANDATORY JOB RETRY RULES:
   "توظف", "تعلن عن توظيف", "فرصة توظيف", or "مباراة توظيف" as appropriate.
 - Before returning, silently count the article words and title characters.
 - Do not expand into a long article.
-- Keep one short introduction.
-- Keep one compact facts table with verified values only.
-- Keep at most one short requirements <ul> when supported.
+- Keep one short factual introduction.
+- Use this professional HTML order when the relevant facts exist:
+  <p>intro</p>
+  <h2>تفاصيل الوظيفة</h2><table><tbody>...</tbody></table>
+  <h2>المهام والمسؤوليات</h2><ul>...</ul>
+  <h2>الشروط والمؤهلات</h2><ul>...</ul>
+  <h2>الملفات والوثائق الرسمية</h2>...
+  <h2>التقديم والروابط الرسمية</h2>...
+- Omit any optional section with no verified facts.
 - Include job_application_url exactly once when present.
-- Include useful job_document_links exactly once when present.
-- No images, captions, corporate history, career advice, filler, conclusion, or repeated facts.
+- Include EVERY useful job_document_links URL exactly once when present.
+- No <h1>, images, captions, scripts, JSON-LD, CSS/style attributes, iframes, forms,
+  corporate history, generic career advice, filler, conclusion, or repeated facts.
 - Do not invent any fact or URL.
 - Preserve desired_slug exactly when supplied.
 - Meta description 100-160 characters.
-- Clean semantic HTML only.
+- Clean semantic Blogger HTML only.
 
 SOURCE PACKAGE:
 {json.dumps(package, ensure_ascii=False, indent=2)}
@@ -2520,14 +2567,12 @@ def _deterministic_job_article(package):
           "مع الحفاظ على تفاصيل الترشيح كما وردت دون إضافة شروط أو أرقام غير مؤكدة."
     )
     guidance = (
-        "قبل إرسال طلب الترشيح، راجع الإعلان الرسمي كاملا وتأكد من مطابقة بياناتك "
-        "للشروط المذكورة فيه. جهز الوثائق المطلوبة بصيغ واضحة، وتحقق من صحة معلومات "
-        "الاتصال والسيرة الذاتية قبل الإرسال. إذا كانت الجهة توفر استمارة إلكترونية، "
-        "استعمل الرابط الرسمي فقط ولا ترسل وثائقك عبر صفحات أو حسابات غير موثوقة. "
-        "احتفظ بنسخة من طلبك أو رسالة التأكيد بعد الإرسال، وراقب البريد الإلكتروني "
-        "والصفحة الرسمية للجهة لأي تحديث يخص الاختبارات أو المقابلات أو النتائج. "
-        "المعلومات المتغيرة مثل الأجل وعدد المناصب ونوع العقد تعتمد حصرا على ما هو "
-        "موثق في الإعلان الأصلي، لذلك يبقى المصدر الرسمي هو المرجع النهائي."
+        "يتم الاعتماد في هذا الإعلان على البيانات والروابط الرسمية المتاحة للمنصب. "
+        "عند توفر رابط تقديم مباشر، يتم عرضه في قسم التقديم والروابط الرسمية دون إعادة "
+        "كتابته أو اختصاره. كما تُعرض الملفات والوثائق الرسمية المرتبطة بالإعلان عندما "
+        "تكون متاحة، مثل إعلان المباراة أو قرارها أو اللوائح والنتائج. "
+        "لا تُضاف شروط أو آجال أو مؤهلات غير موجودة في المصدر الرسمي، وتبقى الصفحة "
+        "الرسمية للجهة المرجع النهائي لأي تحديث لاحق يخص هذا الإعلان."
     )
     status_text = ""
     if package.get("job_notice_status"):
@@ -2539,12 +2584,12 @@ def _deterministic_job_article(package):
 
     html = (
         f"<p>{intro}</p>"
-        "<h2>المعلومات الأساسية</h2>"
+        "<h2>تفاصيل الوظيفة</h2>"
         "<table><tbody>"
         + "".join(detail_rows)
         + "</tbody></table>"
         + status_text
-        + "<h2>طريقة التقديم والمتابعة</h2>"
+        + "<h2>التقديم والروابط الرسمية</h2>"
         + f"<p>{guidance}</p>"
     )
     description = (
