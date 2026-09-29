@@ -214,6 +214,66 @@ def _source_company(source_name):
     return re.sub(r"\s+", " ", value).strip(" -–—")
 
 
+EMPLOYER_LABEL_PATTERNS = (
+    r"Administration\s+qui\s+recrute",
+    r"Administration\s+organisatrice",
+    r"Organisme\s+recruteur",
+    r"Employeur",
+    r"الإدارة\s+التي\s+توظف",
+    r"الإدارة\s+المنظمة",
+    r"الإدارة\s+المشغلة",
+    r"الجهة\s+المنظمة",
+)
+
+EMPLOYER_VALUE_STOP_PATTERNS = (
+    r"Délai\s+de\s+dépôt",
+    r"Date\s+du\s+concours",
+    r"Date\s+de\s+publication",
+    r"Téléchargement",
+    r"Description",
+    r"Site\s+de\s+dépôt",
+    r"آخر\s+أجل",
+    r"تاريخ\s+المباراة",
+    r"تاريخ\s+النشر",
+    r"تحميل",
+)
+
+
+def _company_from_page(soup, page_url=""):
+    """Extract a visibly labelled employer/administration without guessing."""
+    try:
+        page_text = soup.get_text("\n", strip=True)
+    except Exception:
+        return ""
+    if not page_text:
+        return ""
+
+    label_union = "|".join(f"(?:{pattern})" for pattern in EMPLOYER_LABEL_PATTERNS)
+    stop_union = "|".join(f"(?:{pattern})" for pattern in EMPLOYER_VALUE_STOP_PATTERNS)
+    pattern = (
+        rf"(?im)^\s*(?:{label_union})\s*:?[ \t]*(?:\n[ \t]*)?"
+        rf"([^\n]{{2,220}})"
+    )
+    for match in re.finditer(pattern, page_text):
+        candidate = _text(match.group(1)).strip(" :-–—")
+        if not candidate:
+            continue
+        candidate = re.split(
+            rf"(?i)\s+(?={stop_union})",
+            candidate,
+            maxsplit=1,
+        )[0].strip(" :-–—")
+        if len(candidate) < 2 or len(candidate) > 180:
+            continue
+        if re.search(
+            r"(?i)^(?:administration|organisme|employeur|وزارة|الإدارة|الجهة)$",
+            candidate,
+        ):
+            continue
+        return candidate
+    return ""
+
+
 APPLY_LINK_HINTS = (
     "apply", "apply now", "postuler", "postulez", "candidater", "candidature",
     "déposer ma candidature", "deposer ma candidature", "submit application",
@@ -359,7 +419,12 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         identifier = identifier[0] if identifier else ""
 
     job_title = _text(node.get("title")) or article.get("fetched_title") or article.get("title", "")
-    company = _text(org.get("name")) or article.get("job_company") or _source_company(article.get("source_name"))
+    company = (
+        _text(org.get("name"))
+        or _company_from_page(soup, page_url)
+        or article.get("job_company")
+        or _source_company(article.get("source_name"))
+    )
     structured_country = str(country or "").strip()
     is_morocco_source = (
         source_country == "MA"
