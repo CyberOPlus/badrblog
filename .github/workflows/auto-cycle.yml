@@ -9,6 +9,7 @@ on:
   schedule:
     # Check throughout the year, away from the busiest minute 00.
     # Facebook's Africa/Casablanca slots and Blogger caps decide delivery.
+    # Final unattended production smoke trigger verified on 2026-09-29.
     - cron: "7,22,37,52 * * * *"
 
 concurrency:
