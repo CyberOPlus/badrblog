@@ -1740,7 +1740,7 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertEqual(result["reason"], "Waiting for next publishing window")
         self.assertEqual(result["step_reached"], "publish-limit-check")
 
-    def test_facebook_posts_immediately_after_blogger_success(self):
+    def test_facebook_after_blogger_success_still_respects_limits(self):
         schedule = {
             "configured_publish_mode": "live",
             "publish_mode": "live",
