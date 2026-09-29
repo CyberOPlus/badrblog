@@ -259,6 +259,22 @@ class JobsRuntimeTests(unittest.TestCase):
                 facebook._remember_caption_pattern(
                     article,
                     "jobs",
+                    posted=False,
+                    structure_id=blueprint["structure"],
+                    hook=blueprint["hook"],
+                    cta=blueprint["cta"],
+                    hashtags=blueprint["hashtags"],
+                    fingerprint=blueprint["fingerprint"],
+                )
+                failed_memory = facebook._load_style_memory()
+                self.assertNotIn(
+                    blueprint["fingerprint"],
+                    failed_memory["recent_fingerprints"],
+                )
+
+                facebook._remember_caption_pattern(
+                    article,
+                    "jobs",
                     posted=True,
                     structure_id=blueprint["structure"],
                     hook=blueprint["hook"],
