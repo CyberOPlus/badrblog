@@ -104,6 +104,21 @@ class JobVisualTests(unittest.TestCase):
                 self.assertTrue((temp / "servicenow-inwi.jpg").exists())
 
 
+    def test_jobs_facebook_never_uses_article_cover_as_employer_logo(self):
+        article = {
+            "company_logo_url": "",
+            "company_logo_verified": False,
+            "main_image": "https://example.com/generated-job-cover.jpg",
+        }
+        self.assertEqual(facebook_publisher._main_image_url(article), "")
+
+        article["company_logo_url"] = "https://example.com/verified-logo.png"
+        article["company_logo_verified"] = True
+        self.assertEqual(
+            facebook_publisher._main_image_url(article),
+            "https://example.com/verified-logo.png",
+        )
+
     def test_jobs_facebook_uses_translated_reader_facing_title(self):
         article = {
             "job_title": "Technical Lead ServiceNow",
