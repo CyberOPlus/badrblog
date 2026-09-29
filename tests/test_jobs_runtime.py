@@ -8,6 +8,7 @@ from unittest.mock import patch
 from zoneinfo import ZoneInfo
 
 import article_ai_processor as ai
+import article_enricher
 import article_queue
 import facebook_publisher as facebook
 import job_core
@@ -94,6 +95,158 @@ class JobsRuntimeTests(unittest.TestCase):
             with self.assertRaises(ai.AIProviderFallbackNeeded):
                 ai._generate_with_provider_name("groq", "prompt")
         generate.assert_not_called()
+
+    def test_structured_job_success_is_not_reenriched_when_compact(self):
+        article = {
+            "id": "structured",
+            "status": "ready",
+            "category_label": "jobs-morocco",
+            "content_fetch_status": "success",
+            "full_article_text": " ".join(["detail"] * 55),
+            "ats_provider": "phenom",
+            "job_application_url": "https://example.com/apply",
+            "job_title": "Network Engineer",
+            "job_company": "Example",
+        }
+        with patch.object(article_enricher, "JOBS_MODE", True), \
+             patch.object(article_enricher, "load_article_queue", return_value={"articles": [article]}), \
+             patch.object(article_enricher, "save_article_queue"), \
+             patch.object(article_enricher, "enrich_article") as enrich:
+            result = article_enricher.enrich_ready_articles(force=False)
+        self.assertEqual(result["already_enriched"], 1)
+        enrich.assert_not_called()
+
+    def test_candidate_failure_backoff_grows_and_caps(self):
+        first = article_enricher._candidate_failure_backoff_minutes(1)
+        later = article_enricher._candidate_failure_backoff_minutes(4)
+        capped = article_enricher._candidate_failure_backoff_minutes(99)
+        self.assertGreaterEqual(first, 1)
+        self.assertGreater(later, first)
+        self.assertLessEqual(capped, 24 * 60)
+
+    def test_low_score_facebook_backlog_is_settled_not_failed(self):
+        article = {
+            "id": "low",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/2026/09/job.html",
+            "facebook_status": "failed",
+            "facebook_error": "waiting for Morocco Facebook publishing slot",
+            "facebook_failure_count": 3,
+            "job_score": 65,
+            "job_number_of_positions": 1,
+            "job_notice_type": "vacancy",
+        }
+        queue = {"articles": [article]}
+        with patch.object(facebook, "JOBS_MODE", True), \
+             patch.object(facebook, "JOBS_FACEBOOK_MIN_SCORE", 75), \
+             patch.object(facebook, "classify_urgency", return_value={"level": "normal"}), \
+             patch.object(facebook, "save_article_queue") as save:
+            settled = facebook._settle_unselected_job_facebook(queue)
+        self.assertEqual(settled, 1)
+        self.assertEqual(article["facebook_status"], "not_selected")
+        self.assertNotIn("facebook_error", article)
+        self.assertNotIn("facebook_failure_count", article)
+        save.assert_called_once()
+
+    def test_queue_save_is_noop_when_payload_is_unchanged(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "queue.json"
+            queue = {"articles": [{"id": "x"}], "notifications": {}}
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", path), \
+                 patch.object(article_queue, "_now_iso", return_value="first"):
+                self.assertTrue(article_queue.save_article_queue(queue))
+                first = path.read_text(encoding="utf-8")
+                self.assertFalse(article_queue.save_article_queue(queue))
+                second = path.read_text(encoding="utf-8")
+        self.assertEqual(first, second)
+        self.assertIn('"updated_at": "first"', first)
+
+    def test_stale_logo_wait_is_archived_automatically(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        old = (datetime.now(timezone.utc) - timedelta(days=15)).isoformat()
+        queue = {
+            "articles": [{
+                "id": "logo-old",
+                "status": "selected",
+                "publish_status": "waiting_for_logo",
+                "logo_first_wait_at": old,
+                "discovered_at": old,
+            }]
+        }
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", path), \
+                 patch.object(article_queue, "JOBS_MODE", True):
+                article_queue.save_article_queue(queue)
+                stats = article_queue.maintain_article_queue(days=7)
+                saved = article_queue.load_article_queue()
+        self.assertEqual(stats["archived_stale_logo_wait"], 1)
+        self.assertTrue(saved["articles"][0]["archived"])
+
+    def test_job_archive_compaction_drops_large_payload_fields(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        archived_time = datetime.now(timezone.utc) - timedelta(days=8)
+        old = archived_time.isoformat()
+        queue = {
+            "articles": [{
+                "id": "terminal",
+                "url": "https://example.com/jobs/1",
+                "title": "Job",
+                "archived": True,
+                "archived_at": old,
+                "archive_reason": "published_to_blogger",
+                "publish_status": "published",
+                "facebook_status": "posted",
+                "facebook_post_id": "fb1",
+                "blogger_post_url": "https://example.blogspot.com/job.html",
+                "full_article_text": "x" * 10000,
+                "final_html": "<p>" + ("x" * 10000) + "</p>",
+            }]
+        }
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "jobs_article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", path), \
+                 patch.object(article_queue, "JOBS_MODE", True):
+                article_queue.save_article_queue(queue)
+                stats = article_queue.maintain_article_queue(days=7)
+                archive_path = (
+                    Path(temp)
+                    / "data"
+                    / "job_queue_archive"
+                    / f"{archived_time:%Y-%m}.json"
+                )
+                archive = __import__("json").loads(
+                    archive_path.read_text(encoding="utf-8")
+                )
+        self.assertEqual(stats["compacted_archived"], 1)
+        record = next(iter(archive["records"].values()))
+        self.assertNotIn("full_article_text", record)
+        self.assertNotIn("final_html", record)
+        self.assertEqual(record["facebook_post_id"], "fb1")
+
+    def test_duplicate_ats_scan_keeps_original_publish_time(self):
+        existing = {
+            "source_published_at": "2026-09-01T08:00:00+00:00",
+            "job_published_at": "2026-09-01T08:00:00+00:00",
+        }
+        discovered = {
+            "source_published_at": "2026-09-29T19:00:00+00:00",
+            "job_published_at": "2026-09-29T19:00:00+00:00",
+        }
+        changed = article_queue._merge_job_discovery_metadata(existing, discovered)
+        self.assertFalse(changed)
+        self.assertEqual(
+            existing["source_published_at"],
+            "2026-09-01T08:00:00+00:00",
+        )
 
     def test_facebook_selects_only_strong_jobs_when_score_exists(self):
         base = {
