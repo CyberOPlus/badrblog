@@ -246,7 +246,7 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         return QualityGateResult(False, "missing seo_description")
 
     word_count = html_word_count(html_content)
-    minimum_words = 100 if JOBS_MODE else (MIN_ARTICLE_WORDS if fast_mode else MIN_BLOGGER_ARTICLE_WORDS)
+    minimum_words = 120 if JOBS_MODE else (MIN_ARTICLE_WORDS if fast_mode else MIN_BLOGGER_ARTICLE_WORDS)
     if word_count < minimum_words and not (
         (not JOBS_MODE) and fast_mode and ALLOW_SHORT_ARTICLES and word_count >= 80
     ):
@@ -279,6 +279,20 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             return QualityGateResult(
                 False,
                 "job meta description uses employer first-person/promotional voice",
+                word_count,
+            )
+
+        promotional_job_phrases = (
+            "الشركة الرائدة",
+            "شركة رائدة",
+            "الشركة المرموقة",
+            "فرصة مميزة",
+            "فرصة رائعة",
+        )
+        if any(phrase in body_text or phrase in seo_description for phrase in promotional_job_phrases):
+            return QualityGateResult(
+                False,
+                "generic promotional wording found in Jobs content",
                 word_count,
             )
 
