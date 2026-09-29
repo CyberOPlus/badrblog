@@ -1597,6 +1597,22 @@ def _publish_facebook_post(article, blueprint):
         data = _post_photo_file(f"{FACEBOOK_PAGE_ID}/photos", payload, image_result["path"])
         return data.get("post_id") or data.get("id") or "", "photo", image_result
 
+    if JOBS_MODE:
+        # Jobs posts depend on the owner-supplied visual system. Publishing a
+        # text-only fallback would permanently consume the Facebook slot and
+        # leave the article with no way to receive the intended job card later.
+        # Fail locally instead; the normal bounded retry/backoff path will try
+        # again after the render/template problem is fixed.
+        log_event(
+            "facebook_job_image_required",
+            article_id=article.get("id"),
+            template_key=article.get("facebook_template_key", ""),
+            error=image_result.get("error", ""),
+        )
+        raise RuntimeError(
+            "Jobs Facebook image generation failed; refusing text-only publish."
+        )
+
     log_event(
         "facebook_generated_image_failed_safe_text_only",
         article_id=article.get("id"),
@@ -2435,6 +2451,10 @@ def preview_next_facebook_post(target_article_id=None, include_drafts=False):
         "first_comment_text": _first_comment_text(blogger_url),
         "link_mode": FACEBOOK_LINK_MODE_ENFORCED,
         "image_url": _main_image_url(article),
+        "visual_title": _job_visual_title(article) if JOBS_MODE else _short_title(article),
+        "template_key": article.get("facebook_template_key", "") if JOBS_MODE else "",
+        "template_file": article.get("facebook_template_file", "") if JOBS_MODE else "",
+        "template_reason": article.get("facebook_template_reason", "") if JOBS_MODE else "",
         "error": "",
     }
 
