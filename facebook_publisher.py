@@ -856,12 +856,16 @@ def _build_caption(article, pattern, blogger_url=None):
 
 
 def _main_image_url(article):
-    if (
-        JOBS_MODE
-        and article.get("company_logo_verified")
-        and article.get("company_logo_url")
-    ):
-        return article["company_logo_url"]
+    if JOBS_MODE:
+        if (
+            article.get("company_logo_verified")
+            and article.get("company_logo_url")
+        ):
+            return article["company_logo_url"]
+        # Jobs image generation expects an employer logo here, never the
+        # generated article cover or a source hero image. Empty means render
+        # the verified employer-name text fallback instead.
+        return ""
     if article.get("main_image"):
         return article["main_image"]
     package = article.get("ai_input_package") or {}
