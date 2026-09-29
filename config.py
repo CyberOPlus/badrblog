@@ -216,12 +216,24 @@ SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES = _env_int("SOURCE_CANDIDATE_FAILURE_C
 FACEBOOK_AUTO_POST = _env_bool_any(["FACEBOOK_AUTO_POST"], False)
 FACEBOOK_PAGE_ID = os.getenv("FACEBOOK_PAGE_ID", "").strip()
 FACEBOOK_PAGE_ACCESS_TOKEN = os.getenv("FACEBOOK_PAGE_ACCESS_TOKEN", "").strip()
-FACEBOOK_GRAPH_API_URL = os.getenv("FACEBOOK_GRAPH_API_URL", "https://graph.facebook.com/v20.0").strip()
+META_GRAPH_API_VERSION = os.getenv("META_GRAPH_API_VERSION", "v26.0").strip().lower() or "v26.0"
+if not META_GRAPH_API_VERSION.startswith("v"):
+    META_GRAPH_API_VERSION = "v" + META_GRAPH_API_VERSION
+FACEBOOK_GRAPH_API_URL = (
+    os.getenv("FACEBOOK_GRAPH_API_URL", "").strip()
+    or f"https://graph.facebook.com/{META_GRAPH_API_VERSION}"
+)
 FACEBOOK_LINK_MODE = os.getenv("FACEBOOK_LINK_MODE", "comment").strip().lower()
 if FACEBOOK_LINK_MODE not in {"caption", "comment", "both"}:
     FACEBOOK_LINK_MODE = "comment"
 MAX_FACEBOOK_POSTS_PER_DAY = _env_int("MAX_FACEBOOK_POSTS_PER_DAY", 2)
 MIN_MINUTES_BETWEEN_FACEBOOK_POSTS = _env_int("MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", 0)
+# Independent safety rails: a bad env value or urgent override must not flood a Page.
+FACEBOOK_HARD_MAX_POSTS_PER_DAY = max(1, _env_int("FACEBOOK_HARD_MAX_POSTS_PER_DAY", 3))
+FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES = max(
+    15,
+    _env_int("FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES", 45),
+)
 WHATSAPP_CHANNEL_URL = os.getenv(
     "WHATSAPP_CHANNEL_URL",
     "https://whatsapp.com/channel/0029Vb7MdMfBVJl1kmmV4T0e",
