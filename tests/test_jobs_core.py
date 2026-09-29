@@ -473,7 +473,7 @@ class JobsCoreTests(unittest.TestCase):
         self.assertTrue(result.passed, result.reason)
 
         long_html = (
-            "<p>" + " ".join(f"تفصيل{i}" for i in range(270)) + "</p>"
+            "<p>" + " ".join(f"تفصيل{i}" for i in range(330)) + "</p>"
             "<h2>طريقة التقديم</h2>"
             f"<p><a href='{apply_url}'>التقديم المباشر</a></p>"
         )
