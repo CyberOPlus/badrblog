@@ -40,6 +40,7 @@ FIRJAR_FONT_URL = (
 _FIRJAR_FONT_BYTES = None
 _FIRJAR_FONT_DOWNLOAD_FAILED = False
 IMAGE_TIMEOUT_SECONDS = 10
+MAX_JOB_LOGO_BYTES = 3_000_000
 MIN_ARTICLE_IMAGE_WIDTH = 360
 MIN_ARTICLE_IMAGE_HEIGHT = 220
 IMAGE_TITLE_MARGIN = 28
@@ -473,6 +474,55 @@ def _load_job_template():
     return _normalize_job_template(image), index
 
 
+def _logo_visible_on_white(image):
+    """Reject effectively invisible white/transparent marks on white templates."""
+    sample = image.copy().convert("RGBA")
+    sample.thumbnail((256, 256))
+    visible = 0
+    distinguishable = 0
+    for red, green, blue, alpha in sample.getdata():
+        if alpha < 40:
+            continue
+        visible += 1
+        brightness = (red + green + blue) / 3
+        chroma = max(red, green, blue) - min(red, green, blue)
+        if brightness < 242 or chroma > 10:
+            distinguishable += 1
+    if visible < 20:
+        return False
+    return (distinguishable / visible) >= 0.03
+
+
+def _safe_svg_to_rgba(content):
+    """Rasterize a self-contained SVG without allowing remote/file references."""
+    from PIL import Image
+
+    lowered = content[:200_000].lower()
+    if b"<script" in lowered or re.search(rb"\bon\w+\s*=", lowered):
+        raise ValueError("unsafe SVG scripting")
+    if re.search(
+        rb"(?:href|xlink:href)\s*=\s*[\"']\s*(?:https?:|//|file:)",
+        lowered,
+        flags=re.I,
+    ):
+        raise ValueError("external SVG reference")
+    if re.search(
+        rb"url\(\s*[\"']?(?:https?:|//|file:)",
+        lowered,
+        flags=re.I,
+    ):
+        raise ValueError("external SVG CSS reference")
+
+    import cairosvg
+
+    png = cairosvg.svg2png(
+        bytestring=content,
+        output_width=1200,
+        unsafe=False,
+    )
+    return Image.open(BytesIO(png)).convert("RGBA")
+
+
 def _load_job_logo(image_url):
     from PIL import Image
 
@@ -485,11 +535,35 @@ def _load_job_logo(image_url):
             timeout=IMAGE_TIMEOUT_SECONDS,
         )
         response.raise_for_status()
+        length_header = response.headers.get("content-length")
+        try:
+            if length_header and int(length_header) > MAX_JOB_LOGO_BYTES:
+                raise ValueError("employer logo is too large")
+        except ValueError:
+            if length_header and str(length_header).isdigit():
+                raise
+        content = response.content
+        if not content or len(content) > MAX_JOB_LOGO_BYTES:
+            raise ValueError("employer logo is empty or too large")
+
         content_type = (response.headers.get("content-type") or "").casefold()
-        if "svg" in content_type or str(image_url).casefold().endswith(".svg"):
-            return None
-        image = Image.open(BytesIO(response.content)).convert("RGBA")
+        sample = content[:4096].lstrip().lower()
+        is_svg = (
+            "svg" in content_type
+            or str(image_url).casefold().split("?", 1)[0].endswith(".svg")
+            or b"<svg" in sample
+        )
+        if is_svg:
+            image = _safe_svg_to_rgba(content)
+        else:
+            image = Image.open(BytesIO(content)).convert("RGBA")
+
         if image.width < 24 or image.height < 16:
+            raise ValueError("employer logo is too small")
+        if image.width > 12000 or image.height > 12000:
+            raise ValueError("employer logo dimensions are too large")
+        if not _logo_visible_on_white(image):
+            log_event("facebook_job_logo_invisible_on_white")
             return None
         return image
     except Exception as error:
