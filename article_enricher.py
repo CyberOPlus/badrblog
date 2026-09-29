@@ -1660,16 +1660,42 @@ def _can_run_async_fetch():
     return False
 
 
+def _candidate_failure_backoff_minutes(failure_count):
+    base = max(1, int(SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES or 1))
+    exponent = min(max(0, int(failure_count or 1) - 1), 7)
+    return min(24 * 60, base * (2 ** exponent))
+
+
+def _job_cached_enrichment_is_sufficient(article, existing_words):
+    if not JOBS_MODE or article.get("content_fetch_status") != "success":
+        return False
+    if existing_words >= MIN_EXTRACTED_WORDS:
+        return True
+    if existing_words < 40:
+        return False
+    provider = str(article.get("ats_provider") or "").strip().casefold()
+    if provider not in {"phenom", "csod", "workday", "etalent"}:
+        return False
+    return bool(
+        article.get("job_application_url")
+        and (article.get("job_title") or article.get("title"))
+        and (article.get("job_company") or article.get("source_name"))
+    )
+
+
 def _record_enrichment_failure(article, error):
     reason = str(error or "unknown enrichment failure")
+    failure_count = int(article.get("candidate_failure_count") or 0) + 1
+    retry_minutes = _candidate_failure_backoff_minutes(failure_count)
     article["content_fetch_status"] = "failed"
     article["content_fetch_error"] = reason
     article["content_fetched_at"] = _now_iso()
-    article["candidate_retry_after"] = _retry_after_iso()
+    article["candidate_retry_after"] = _retry_after_iso(retry_minutes)
     article["candidate_failure_stage"] = "enrichment"
     article["candidate_failure_reason"] = reason[:300]
     article["candidate_failed_at"] = _now_iso()
-    article["candidate_failure_count"] = int(article.get("candidate_failure_count") or 0) + 1
+    article["candidate_failure_count"] = failure_count
+    article["candidate_retry_backoff_minutes"] = retry_minutes
     log_event(
         "enrichment_failed_reason",
         title=article.get("title"),
@@ -1711,7 +1737,10 @@ def enrich_ready_articles(force=False):
         if article.get("content_fetch_status") == "success" and not force:
             existing_text = article.get("full_article_text") or article.get("content_full") or article.get("content_preview", "")
             existing_words = _word_count(existing_text)
-            if existing_words >= MIN_EXTRACTED_WORDS:
+            if (
+                existing_words >= MIN_EXTRACTED_WORDS
+                or _job_cached_enrichment_is_sufficient(article, existing_words)
+            ):
                 already_enriched += 1
                 continue
             log_event(
