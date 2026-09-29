@@ -23,12 +23,16 @@ from config import (
     FACEBOOK_STYLE_MEMORY_PATH,
     MAX_FACEBOOK_POSTS_PER_DAY,
     MIN_MINUTES_BETWEEN_FACEBOOK_POSTS,
+    FACEBOOK_HARD_MAX_POSTS_PER_DAY,
+    FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES,
+    JOB_VISUAL_STATE_PATH,
     FACEBOOK_PAGE_ACCESS_TOKEN,
     FACEBOOK_PAGE_ID,
     WHATSAPP_CHANNEL_URL,
     JOBS_MODE,
 )
 from production_logging import elapsed_ms, log_event
+from job_visual_policy import choose_job_template
 from utils.facebook_image_generator import generate_facebook_image
 from job_core import facebook_slot_status, _local as jobs_local_time, _parse_date as parse_job_date, classify_urgency
 CAPTION_STYLES = (
@@ -47,6 +51,12 @@ FORBIDDEN_CAPTION_PHRASES = (
 )
 
 FACEBOOK_LINK_MODE_ENFORCED = "comment"
+
+
+class FacebookDeliveryUncertain(RuntimeError):
+    """Remote Facebook outcome is unknown; never auto-retry the same post."""
+
+
 ALLOWED_ENGLISH_TERMS = {
     "AI",
     "Android",
@@ -891,7 +901,31 @@ def _post_to_graph(path, payload):
     url = f"{FACEBOOK_GRAPH_API_URL.rstrip('/')}/{path.lstrip('/')}"
     started = time.perf_counter()
     log_event("facebook_graph_start", path=path)
-    response = requests.post(url, data=payload, timeout=60)
+    try:
+        response = requests.post(url, data=payload, timeout=60)
+    except (requests.Timeout, requests.ConnectionError) as error:
+        log_event(
+            "facebook_graph_end",
+            path=path,
+            status="network-uncertain",
+            error=error.__class__.__name__,
+            elapsed_ms=elapsed_ms(started),
+        )
+        raise FacebookDeliveryUncertain(
+            f"Facebook delivery outcome is uncertain after {error.__class__.__name__}."
+        ) from error
+    if response.status_code >= 500 or response.status_code == 408:
+        error_text = _redact_facebook_error(response.text[:200])
+        log_event(
+            "facebook_graph_end",
+            path=path,
+            status=response.status_code,
+            error=error_text,
+            elapsed_ms=elapsed_ms(started),
+        )
+        raise FacebookDeliveryUncertain(
+            f"Facebook delivery outcome is uncertain after HTTP {response.status_code}."
+        )
     if response.status_code >= 400:
         error_text = _redact_facebook_error(response.text[:200])
         log_event(
@@ -904,7 +938,7 @@ def _post_to_graph(path, payload):
         raise RuntimeError(f"Facebook Graph API error {response.status_code}: {_redact_facebook_error(response.text[:500])}")
     data = response.json()
     if not isinstance(data, dict):
-        raise RuntimeError("Facebook Graph API returned an unexpected response.")
+        raise FacebookDeliveryUncertain("Facebook Graph API returned an unexpected response after delivery.")
     log_event(
         "facebook_graph_end",
         path=path,
@@ -912,18 +946,41 @@ def _post_to_graph(path, payload):
         elapsed_ms=elapsed_ms(started),
     )
     return data
-
 
 def _post_photo_file(path, payload, image_path):
     url = f"{FACEBOOK_GRAPH_API_URL.rstrip('/')}/{path.lstrip('/')}"
     started = time.perf_counter()
     log_event("facebook_graph_start", path=path, upload="photo")
-    with open(image_path, "rb") as handle:
-        response = requests.post(
-            url,
-            data=payload,
-            files={"source": handle},
-            timeout=60,
+    try:
+        with open(image_path, "rb") as handle:
+            response = requests.post(
+                url,
+                data=payload,
+                files={"source": handle},
+                timeout=60,
+            )
+    except (requests.Timeout, requests.ConnectionError) as error:
+        log_event(
+            "facebook_graph_end",
+            path=path,
+            status="network-uncertain",
+            error=error.__class__.__name__,
+            elapsed_ms=elapsed_ms(started),
+        )
+        raise FacebookDeliveryUncertain(
+            f"Facebook photo delivery outcome is uncertain after {error.__class__.__name__}."
+        ) from error
+    if response.status_code >= 500 or response.status_code == 408:
+        error_text = _redact_facebook_error(response.text[:200])
+        log_event(
+            "facebook_graph_end",
+            path=path,
+            status=response.status_code,
+            error=error_text,
+            elapsed_ms=elapsed_ms(started),
+        )
+        raise FacebookDeliveryUncertain(
+            f"Facebook photo delivery outcome is uncertain after HTTP {response.status_code}."
         )
     if response.status_code >= 400:
         error_text = _redact_facebook_error(response.text[:200])
@@ -937,7 +994,7 @@ def _post_photo_file(path, payload, image_path):
         raise RuntimeError(f"Facebook Graph API error {response.status_code}: {_redact_facebook_error(response.text[:500])}")
     data = response.json()
     if not isinstance(data, dict):
-        raise RuntimeError("Facebook Graph API returned an unexpected response.")
+        raise FacebookDeliveryUncertain("Facebook Graph API returned an unexpected photo response after delivery.")
     log_event(
         "facebook_graph_end",
         path=path,
@@ -945,7 +1002,6 @@ def _post_photo_file(path, payload, image_path):
         elapsed_ms=elapsed_ms(started),
     )
     return data
-
 
 def _facebook_image_output_path(article):
     article_id = re.sub(r"[^a-zA-Z0-9_-]+", "-", str(article.get("id") or article.get("url") or "post")).strip("-")
