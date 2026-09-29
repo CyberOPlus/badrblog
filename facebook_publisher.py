@@ -30,6 +30,7 @@ from config import (
     FACEBOOK_PAGE_ID,
     WHATSAPP_CHANNEL_URL,
     JOBS_MODE,
+    JOBS_FACEBOOK_MIN_SCORE,
 )
 from production_logging import elapsed_ms, log_event
 from job_visual_policy import choose_job_template
@@ -307,9 +308,29 @@ def _facebook_comment_retry_ready(article, now_epoch=None):
     return retry_after <= float(now_epoch if now_epoch is not None else time.time())
 
 
+def _job_facebook_share_worthy(article):
+    if not JOBS_MODE:
+        return True
+    # Old/test records without a score remain eligible; production Jobs always
+    # receive job_score before Blogger publishing.
+    if "job_score" not in article:
+        return True
+    score = int(article.get("job_score") or 0)
+    urgency = classify_urgency(article)
+    if urgency.get("level") in {"critical", "high"}:
+        return True
+    if int(article.get("job_number_of_positions") or 0) >= 20:
+        return True
+    notice = str(article.get("job_notice_type") or "vacancy").lower()
+    if notice in {"candidate_list", "results", "final_results"} and score >= max(65, JOBS_FACEBOOK_MIN_SCORE - 5):
+        return True
+    return score >= JOBS_FACEBOOK_MIN_SCORE
+
+
 def _eligible_for_facebook(article):
     return (
         _has_blogger_live_publish(article)
+        and _job_facebook_share_worthy(article)
         and not article.get("facebook_post_id")
         and article.get("facebook_status") in {None, "", "failed"}
         and _facebook_retry_ready(article)
@@ -1984,6 +2005,20 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             "error": "No eligible published article without Facebook post found.",
         }
 
+    if JOBS_MODE and not _job_facebook_share_worthy(article):
+        article["facebook_status"] = "not_selected"
+        article["facebook_selection_reason"] = (
+            f"job score {int(article.get('job_score') or 0)} below selective Facebook policy"
+        )
+        save_article_queue(queue)
+        return {
+            "checked": 1,
+            "posted": False,
+            "deferred": False,
+            "article": article,
+            "error": "Job published to Blogger but not selected for Facebook.",
+        }
+
     if article.get("facebook_post_id"):
         return {
             "checked": 1,
@@ -2231,12 +2266,25 @@ def _facebook_backfill_candidates(articles):
         and article.get("facebook_status") == "posted_comment_failed"
         and _facebook_comment_retry_ready(article)
     ]
-    sort_key = lambda article: (
+    def new_post_sort_key(article):
+        urgency = classify_urgency(article).get("level") if JOBS_MODE else "normal"
+        urgency_rank = {"critical": 4, "high": 3, "elevated": 2, "normal": 1}.get(urgency, 0)
+        return (
+            urgency_rank,
+            int(article.get("job_score") or 0),
+            int(article.get("job_number_of_positions") or 0),
+            article.get("published_at", ""),
+        )
+
+    comment_sort_key = lambda article: (
         article.get("published_at", ""),
         article.get("selected_at", ""),
         article.get("discovered_at", ""),
     )
-    return sorted(new_post_candidates, key=sort_key), sorted(comment_retry_candidates, key=sort_key)
+    return (
+        sorted(new_post_candidates, key=new_post_sort_key, reverse=True),
+        sorted(comment_retry_candidates, key=comment_sort_key),
+    )
 
 
 def retry_facebook_first_comment(target_article_id):

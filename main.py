@@ -132,6 +132,7 @@ from job_core import (
     select_best_job_from_queue,
     job_status_snapshot,
 )
+from jobs_adaptive_controller import record_cycle_result as record_jobs_cycle_result
 
 
 PROBLEM_SOURCE_NAMES = {
@@ -936,10 +937,10 @@ def get_publish_schedule_status(mode=None, now=None):
             "minutes_since_last_draft": None,
             "minutes_since_last_live_publish": None,
             "min_minutes_between_drafts": MIN_MINUTES_BETWEEN_DRAFTS,
-            "min_minutes_between_live_posts": 0,
-            "allowed_now": True,
-            "next_allowed_time": now,
-            "reasons": [],
+            "min_minutes_between_live_posts": snapshot.get("min_interval_minutes", 0),
+            "allowed_now": bool(snapshot.get("allowed_now", True)),
+            "next_allowed_time": snapshot.get("next_allowed_time") or now,
+            "reasons": list(snapshot.get("reasons") or []),
             "jobs_policy": snapshot,
         }
     today = now.date().isoformat()
@@ -1268,6 +1269,13 @@ def run_auto_cycle_logged():
             error=error,
         )
         print(f"Finished in {execution_seconds:.2f} seconds", flush=True)
+        if JOBS_MODE:
+            try:
+                adaptive_policy = record_jobs_cycle_result(result or {}, error=error or "")
+                if isinstance(result, dict):
+                    result["adaptive_policy"] = adaptive_policy
+            except Exception as adaptive_error:
+                log_event("jobs_adaptive_state_warning", reason=adaptive_error.__class__.__name__)
         runtime_state_result = save_runtime_state_to_git()
         if isinstance(result, dict):
             result["runtime_state"] = runtime_state_result
@@ -2375,22 +2383,38 @@ def run_safe_cycle_only():
     print_safe_cycle_status(schedule_status)
     if not schedule_status["allowed_now"]:
         reason = "; ".join(schedule_status["reasons"]) or "safe-cycle schedule blocked"
-        interval_wait_only = (
-            publish_mode == "live"
-            and schedule_status.get("reasons") == ["minimum minutes between live posts has not elapsed"]
+        interval_wait_only = publish_mode == "live" and any(
+            "spacing" in item or "minimum minutes" in item
+            for item in schedule_status.get("reasons", [])
         )
-        if interval_wait_only:
-            reason = "Waiting for next publishing window"
-        print(f"Cycle stopping cleanly before article selection: {reason}.")
+        ingest_stats = None
+        if JOBS_MODE:
+            # Collection is independent from publication. Keep discovering,
+            # scoring and enriching jobs even while Blogger pacing blocks writes.
+            print(f"Publishing is paced ({reason}); continuing Jobs ingestion.")
+            fetch_stats = run_fetch_only()
+            cleanup_stats = archive_expired_queue_articles()
+            score_stats = run_score_only()
+            enrich_stats = run_enrich_only(force=False)
+            ingest_stats = {
+                "fetch": fetch_stats,
+                "cleanup": cleanup_stats,
+                "score": score_stats,
+                "enrich": enrich_stats,
+            }
+        else:
+            print(f"Cycle stopping cleanly before article selection: {reason}.")
         _print_safe_cycle_final_report(None, draft_result={"error": reason}, stopped_reason=reason)
         result = {
             "completed": False,
+            "skipped": True,
             "reason": reason,
             "schedule": schedule_status,
+            "ingest": ingest_stats,
             "step_reached": "publish-limit-check",
         }
         if interval_wait_only:
-            result["skipped"] = True
+            result["waiting_for_window"] = True
         return result
 
     print("\n[1/7] fetch")
@@ -2834,20 +2858,7 @@ def run_safe_cycle_only():
         enrichment_failed_count=enrichment_failed_count,
     )
     if draft_action in {"created", "updated"} and article and article.get("publish_status") == "published":
-        published_set = load_published_ids()
-        mark_many_as_published([article.get("url") or article.get("canonical_url")], published_set)
-        add_topic_fingerprint(
-            topic_signature(
-                article.get("seo_title")
-                or article.get("fetched_title")
-                or article.get("title")
-                or ""
-            )
-        )
-        archive_published_queue_article(
-            article_id=article.get("id", ""),
-            article_url=article.get("url", ""),
-        )
+        _record_successful_publish(article)
         article = _find_article_by_id(selected_id)
     return {
         "completed": draft_action in {"created", "updated"},

@@ -117,6 +117,13 @@ jobs:
               "JOBS_MIN_SELECTION_SCORE": "65",
               "JOBS_QUEUE_SCORE": "50",
               "JOBS_URGENT_EXTRA_DAILY_LIMIT": "1",
+              "JOBS_FACEBOOK_MIN_SCORE": "75",
+              "JOBS_ADAPTIVE_PUBLISHING": "true",
+              "JOBS_ADAPTIVE_MIN_DAILY_CAP": "3",
+              "JOBS_ADAPTIVE_MAX_DAILY_CAP": "12",
+              "JOBS_ACTIVE_START_HOUR": "7",
+              "JOBS_ACTIVE_END_HOUR": "23",
+              "JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "60",
               "WHATSAPP_CHANNEL_URL": "https://whatsapp.com/channel/0029Vb7MdMfBVJl1kmmV4T0e",
               "GEMINI_API_KEY": os.environ.get("GEMINI_API_KEY", ""),
               "GEMINI_MODEL": "gemini-2.5-flash",
@@ -221,6 +228,7 @@ jobs:
             "data/job_state.json"
             "data/job_memory"
             "data/job_visual_state.json"
+            "data/jobs_adaptive_state.json"
             "data/crawl_state.json"
             "data/ai_provider_memory.json"
             "data/facebook_style_memory.json"
@@ -258,6 +266,7 @@ jobs:
             data/job_state.json
             data/job_memory
             data/job_visual_state.json
+            data/jobs_adaptive_state.json
             data/crawl_state.json
             data/ai_provider_memory.json
             data/facebook_style_memory.json

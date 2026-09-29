@@ -12,9 +12,69 @@ import facebook_publisher as facebook
 import job_core
 import main
 import quality_gate
+import jobs_adaptive_controller as adaptive
 
 
 class JobsRuntimeTests(unittest.TestCase):
+    def test_adaptive_policy_starts_conservative_and_ramps_after_healthy_days(self):
+        state = {
+            "version": 1,
+            "green_score": 0,
+            "current_day": "2026-09-28",
+            "last_evaluated_day": "",
+            "days": {"2026-09-28": {"blogger_success": 3, "blogger_failure": 0, "blogger_rate_limit": 0}},
+        }
+        with patch.object(adaptive, "load_state", return_value=state), \
+             patch.object(adaptive, "save_state"), \
+             patch.object(adaptive, "JOBS_ADAPTIVE_PUBLISHING", True):
+            policy = adaptive.current_policy(
+                datetime(2026, 9, 29, 8, tzinfo=timezone.utc)
+            )
+        self.assertEqual(state["green_score"], 1)
+        self.assertGreaterEqual(policy["daily_cap"], 3)
+        self.assertLessEqual(policy["daily_cap"], 12)
+
+    def test_adaptive_rate_limit_reduces_health_score(self):
+        state = {
+            "version": 1,
+            "green_score": 8,
+            "current_day": "2026-09-28",
+            "last_evaluated_day": "",
+            "days": {"2026-09-28": {"blogger_success": 2, "blogger_failure": 1, "blogger_rate_limit": 1}},
+        }
+        with patch.object(adaptive, "load_state", return_value=state), \
+             patch.object(adaptive, "save_state"):
+            adaptive.current_policy(datetime(2026, 9, 29, 8, tzinfo=timezone.utc))
+        self.assertEqual(state["green_score"], 4)
+
+    def test_facebook_selects_only_strong_jobs_when_score_exists(self):
+        base = {
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/job.html",
+            "facebook_status": "",
+            "job_notice_type": "vacancy",
+            "job_number_of_positions": 1,
+        }
+        with patch.object(facebook, "JOBS_MODE", True), \
+             patch.object(facebook, "JOBS_FACEBOOK_MIN_SCORE", 75), \
+             patch.object(facebook, "classify_urgency", return_value={"level": "normal"}):
+            low = dict(base, job_score=68)
+            high = dict(base, job_score=82)
+            self.assertFalse(facebook._eligible_for_facebook(low))
+            self.assertTrue(facebook._eligible_for_facebook(high))
+
+    def test_jobs_publish_bookkeeping_uses_job_memory_not_generic_db(self):
+        article = {"publish_status": "published", "id": "x", "url": "https://example.com/job"}
+        with patch.object(main, "JOBS_MODE", True), \
+             patch.object(main, "record_job_publish") as record, \
+             patch.object(main, "archive_published_queue_article") as archive, \
+             patch.object(main, "mark_many_as_published") as generic:
+            main._record_successful_publish(article)
+        record.assert_called_once_with(article)
+        archive.assert_called_once()
+        generic.assert_not_called()
+
     def test_compact_job_passes_both_word_gates(self):
         package = {"url": "https://employer.example/jobs/42", "job_notice_type": "vacancy"}
         data = {
