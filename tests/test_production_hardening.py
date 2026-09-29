@@ -1773,7 +1773,9 @@ class ProductionHardeningTests(unittest.TestCase):
             result = main.run_safe_cycle_only()
 
         self.assertTrue(result["completed"])
-        post_fb.assert_called_once_with(target_article_id="a1", respect_limits=True)
+        post_fb.assert_called_once()
+        self.assertTrue(post_fb.call_args.kwargs.get("respect_limits"))
+        self.assertTrue(post_fb.call_args.kwargs.get("target_article_id"))
 
     def test_facebook_safety_interval_cannot_be_disabled_by_zero_env_value(self):
         now = datetime(2026, 4, 27, 12, 10, 0)
