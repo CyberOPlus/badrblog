@@ -566,7 +566,7 @@ class JobsRuntimeTests(unittest.TestCase):
             "title": "شركة أورنج تعلن عن توظيف خبير في الأمن السيبراني",
             "description": "فرصة توظيف لدى شركة أورنج في مجال الأمن السيبراني، تعرف على المعلومات الواردة في الإعلان الرسمي وطريقة تقديم طلب الترشيح.",
             "slug": "orange-cybersecurity",
-            "html_content": "<p>" + " ".join("معلومة" + str(i) for i in range(118)) + "</p>",
+            "html_content": "<p>" + " ".join("معلومة" + str(i) for i in range(125)) + "</p>",
         }
         article = {"ai_input_package": package}
         with patch.object(ai, "JOBS_MODE", True), patch.object(quality_gate, "JOBS_MODE", True), \
@@ -574,7 +574,7 @@ class JobsRuntimeTests(unittest.TestCase):
             ai._validate_ai_output(data, package)
             ai._apply_success(article, data, "gemini:test")
         self.assertEqual(article["ai_status"], "completed")
-        self.assertEqual(article["final_word_count"], 118)
+        self.assertEqual(article["final_word_count"], 125)
 
     def test_jobs_do_not_truncate_long_institution_result_titles(self):
         title = "الوكالة الوطنية للمحافظة العقارية والمسح العقاري والخرائطية: لوائح المدعوين للاختبار الكتابي"
