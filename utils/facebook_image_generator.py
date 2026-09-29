@@ -373,7 +373,12 @@ def _draw_brand(base):
 
 
 JOB_TEMPLATE_DIR = Path(__file__).resolve().parents[1] / "assets" / "facebook"
-JOB_TEMPLATE_FILES = tuple(JOB_TEMPLATE_DIR / f"job{index}.png" for index in range(1, 5))
+JOB_TEMPLATE_FILES = (
+    JOB_TEMPLATE_DIR / "job-new-orange.png",
+    JOB_TEMPLATE_DIR / "job-deadline-yellow.png",
+    JOB_TEMPLATE_DIR / "job-alert-blue.png",
+    JOB_TEMPLATE_DIR / "job-apply-red.png",
+)
 JOB_ARTICLE_TEMPLATE_PATH = (
     Path(__file__).resolve().parents[1] / "assets" / "article" / "article img.png"
 )
@@ -409,6 +414,54 @@ def _job_template_index():
     return index
 
 
+JOB_FACEBOOK_OUTPUT_SIZE = (1080, 1350)
+JOB_SQUARE_TEMPLATE_SIZE = (1254, 1254)
+JOB_SQUARE_SPLIT_Y = 350
+
+
+def _normalize_job_template(image):
+    """Keep the uploaded square artwork intact while producing the 1080x1350 Facebook card."""
+    from PIL import Image
+
+    if image.size == JOB_FACEBOOK_OUTPUT_SIZE:
+        return image
+
+    if image.size == JOB_SQUARE_TEMPLATE_SIZE:
+        target_w, target_h = JOB_FACEBOOK_OUTPUT_SIZE
+        square = image.resize((target_w, target_w), Image.LANCZOS)
+
+        # The templates are mostly white with only the side frame in this band.
+        # Insert vertical breathing room here instead of stretching the artwork:
+        # the top Cybero+ mark keeps its proportions, the side status icon moves
+        # beside the job title area, and the footer stays anchored to the bottom.
+        split_y = min(JOB_SQUARE_SPLIT_Y, square.height - 1)
+        insert_h = target_h - square.height
+        output = Image.new("RGBA", JOB_FACEBOOK_OUTPUT_SIZE, (255, 255, 255, 255))
+        output.paste(square.crop((0, 0, target_w, split_y)), (0, 0))
+
+        seam = square.crop((0, split_y - 1, target_w, split_y))
+        seam = seam.resize((target_w, insert_h), Image.NEAREST)
+        output.paste(seam, (0, split_y))
+        output.paste(
+            square.crop((0, split_y, target_w, square.height)),
+            (0, split_y + insert_h),
+        )
+
+        log_event(
+            "facebook_job_template_normalized",
+            source_width=image.width,
+            source_height=image.height,
+            output_width=target_w,
+            output_height=target_h,
+        )
+        return output
+
+    raise RuntimeError(
+        "unsupported job Facebook template size: "
+        f"{image.width}x{image.height}; expected 1254x1254 source or 1080x1350"
+    )
+
+
 def _load_job_template():
     from PIL import Image
 
@@ -417,11 +470,7 @@ def _load_job_template():
     if not path.exists():
         raise FileNotFoundError(f"missing job Facebook template: {path}")
     image = Image.open(path).convert("RGBA")
-    if image.size != (1080, 1350):
-        raise RuntimeError(
-            f"job Facebook template must stay 1080x1350; got {image.width}x{image.height}"
-        )
-    return image, index
+    return _normalize_job_template(image), index
 
 
 def _load_job_logo(image_url):
@@ -628,8 +677,8 @@ def _generate_job_facebook_image(title, image_url, output_path, hook_text=""):
             path=str(output_path),
             template_index=template_index,
             logo_loaded=logo_loaded,
-            width=1080,
-            height=1350,
+            width=base.width,
+            height=base.height,
         )
         return {
             "ok": True,
