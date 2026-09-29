@@ -549,7 +549,7 @@ def _build_prompt(package):
     source_is_rich = _is_rich_input_package(package)
     if JOBS_MODE:
         return f"""
-You are the dedicated Arabic job-post editor for Cybero Plus.
+You are the dedicated Arabic job-post editor for a Moroccan jobs publication.
 
 Create a short, factual, highly useful Arabic employment notice for Moroccan readers
 from the VERIFIED JOB PACKAGE below. The source may be a new vacancy/competition,
