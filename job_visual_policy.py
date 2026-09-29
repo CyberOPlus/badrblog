@@ -98,9 +98,10 @@ def _stable_tiebreak(article, key):
 
 
 def choose_job_template(article, state_path, now=None):
-    """Choose once per article, then pin that key for every retry."""
+    """Choose once per article, pin retries, but never keep a stale semantic icon."""
+    candidates, reason = semantic_template_candidates(article, now=now)
     pinned = str(article.get("facebook_template_key") or "").strip().lower()
-    if pinned in JOB_TEMPLATE_FILES_BY_KEY:
+    if pinned in JOB_TEMPLATE_FILES_BY_KEY and pinned in candidates:
         return {
             "key": pinned,
             "file": JOB_TEMPLATE_FILES_BY_KEY[pinned],
@@ -108,7 +109,16 @@ def choose_job_template(article, state_path, now=None):
             "pinned": True,
         }
 
-    candidates, reason = semantic_template_candidates(article, now=now)
+    # Job facts can legitimately change before the Facebook delivery happens
+    # (for example a vacancy becomes a candidate-list/results update). A visual
+    # that no longer matches verified facts must be replaced rather than blindly
+    # keeping the old pinned icon.
+    replaced_pinned = pinned if pinned in JOB_TEMPLATE_FILES_BY_KEY else ""
+    if replaced_pinned:
+        article["facebook_template_reselected_from"] = replaced_pinned
+        article.pop("facebook_template_key", None)
+        article.pop("facebook_template_file", None)
+        article.pop("facebook_template_reason", None)
     state = _load_state(state_path)
     recent = [
         key for key in state.get("recent_template_keys", [])
@@ -146,6 +156,10 @@ def choose_job_template(article, state_path, now=None):
     article["facebook_template_key"] = selected
     article["facebook_template_file"] = file_name
     article["facebook_template_reason"] = reason
+    if replaced_pinned:
+        article["facebook_template_reselected_from"] = replaced_pinned
+    else:
+        article.pop("facebook_template_reselected_from", None)
     return {
         "key": selected,
         "file": file_name,
