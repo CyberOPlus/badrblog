@@ -1,17 +1,44 @@
-# Facebook image assets
+# Facebook Jobs visual assets
 
-Runtime image assets:
+Runtime templates:
 
-- `job-new-orange.png` — active/new vacancy.
-- `job-deadline-yellow.png` — verified vacancy closing within 72 hours.
-- `job-alert-blue.png` — candidate lists, results and other employment notices.
-- `job-apply-red.png` — active vacancy with a verified application path.
+- `job-new-orange.png`
+- `job-deadline-yellow.png`
+- `job-alert-blue.png`
+- `job-apply-red.png`
 
-Selection is semantic first, rotation second. A template key is pinned to the
-article before upload, so retries cannot silently change the visual. Normal
-vacancies rotate between truthful eligible variants while recent-template
-memory reduces repetition.
+The source artwork stays unchanged. The renderer normalizes each 1254×1254
+template to a 1080×1350 (4:5) Facebook feed card without stretching the frame,
+logo, side icon or footer.
 
-The renderer normalizes the source artwork to the final Facebook output size.
-Keep these filenames unchanged unless `job_visual_policy.py` and the renderer
-mapping are updated together.
+## Jobs visual hierarchy
+
+The generated card follows one fixed hierarchy across all four templates:
+
+1. Cybero+ template branding remains untouched.
+2. A verified employer logo is rendered large in the upper-middle area.
+3. If no verified logo exists, the verified employer name is rendered as text;
+   a random or unverified logo is never substituted.
+4. The image title is a concise role-first Facebook visual title, not the full
+   SEO headline. Employer and location are removed when they are already
+   communicated elsewhere.
+5. The full SEO/job headline remains available in the Facebook caption/article.
+
+## Readability rules
+
+- Font family: Firjar ExtraBold, Arabic + Latin/French.
+- Final canvas: 1080×1350.
+- Job title minimum size: 48 px.
+- Job title maximum size: 88 px.
+- Maximum title lines: 4.
+- Firjar width axis may tighten from 100 to 90 before reducing the font further.
+- No title ellipsis is used to force an unreadable layout.
+- The title stays inside the shared safe zone used by all four side icons.
+- Employer logos are cropped to their visible mark before sizing.
+- Horizontal, square and vertical logos use different maximum boxes so each
+  remains visually large without distortion.
+- Header, right-side icon and footer are protected by explicit safe areas.
+
+The Jobs visual tests render Arabic, French, mixed-language, short and long
+titles against every template and reject layouts that cross the safe zone,
+drop below the minimum font size or exceed the line limit.
