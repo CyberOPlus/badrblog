@@ -129,6 +129,7 @@ jobs:
               "SAFE_MODE": "false",
               "BLOGGER_LIVE_ENABLED": "true",
               "FACEBOOK_AUTO_POST": "true",
+              "META_GRAPH_API_VERSION": "v26.0",
               "FACEBOOK_LINK_MODE": "comment",
               "FACEBOOK_PAGE_ID": os.environ.get("FACEBOOK_PAGE_ID", ""),
               "FACEBOOK_PAGE_ACCESS_TOKEN": os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN", ""),
@@ -170,6 +171,8 @@ jobs:
               "MIN_MINUTES_BETWEEN_LIVE_POSTS": "0",
               "MAX_FACEBOOK_POSTS_PER_DAY": "2",
               "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": "0",
+              "FACEBOOK_HARD_MAX_POSTS_PER_DAY": "3",
+              "FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES": "45",
               "AI_PROVIDER": "auto",
               "LOCAL_PUBLISH_FALLBACK": "false",
           }
