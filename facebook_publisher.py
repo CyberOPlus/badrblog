@@ -1683,6 +1683,16 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
                 success=True,
                 comment_id=comment_id,
             )
+        except FacebookDeliveryUncertain as comment_error:
+            article["facebook_status"] = "posted_comment_uncertain"
+            article["facebook_error"] = f"First comment delivery uncertain: {comment_error}"
+            log_event(
+                "facebook_comment_success",
+                article_id=article.get("id"),
+                success=False,
+                uncertain=True,
+                error=comment_error.__class__.__name__,
+            )
         except Exception as comment_error:
             article["facebook_status"] = "posted_comment_failed"
             article["facebook_error"] = f"First comment failed: {comment_error}"
@@ -1728,6 +1738,26 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             post_id=article.get("facebook_post_id"),
         )
         return result
+
+    except FacebookDeliveryUncertain as error:
+        article["facebook_status"] = "delivery_uncertain"
+        article["facebook_error"] = str(error)
+        article["facebook_delivery_uncertain_at"] = _now_iso()
+        save_article_queue(queue)
+        log_event(
+            "facebook_post_result",
+            status="delivery_uncertain",
+            article_id=article.get("id"),
+            blogger_url=blogger_url,
+            error=error.__class__.__name__,
+        )
+        return {
+            "checked": 1,
+            "posted": False,
+            "delivery_uncertain": True,
+            "article": article,
+            "error": article.get("facebook_error", ""),
+        }
 
     except Exception as error:
         _apply_failure(article, error)
@@ -1820,6 +1850,19 @@ def retry_facebook_first_comment(target_article_id):
             "comment_retry": True,
         }
         log_event("facebook_comment_success", article_id=article.get("id"), success=True, comment_id=comment_id)
+    except FacebookDeliveryUncertain as error:
+        article["facebook_status"] = "posted_comment_uncertain"
+        article["facebook_error"] = f"First comment delivery uncertain: {error}"
+        save_article_queue(queue)
+        result = {
+            "checked": 1,
+            "posted": False,
+            "delivery_uncertain": True,
+            "article": article,
+            "error": article.get("facebook_error", ""),
+            "comment_retry": True,
+        }
+        log_event("facebook_comment_success", article_id=article.get("id"), success=False, uncertain=True, error=error.__class__.__name__)
     except Exception as error:
         article["facebook_status"] = "posted_comment_failed"
         article["facebook_error"] = f"First comment failed: {error}"
@@ -1867,10 +1910,11 @@ def drain_scheduled_facebook():
 
 
 def backfill_facebook_posts():
-    """
-    Post every live Blogger article that is still missing a Facebook post.
-    This intentionally bypasses spacing limits because each Blogger publish is
-    expected to have a matching Facebook post as soon as possible.
+    """Safely drain old Facebook work without bypassing Page pacing.
+
+    A manual backfill may create at most one new feed post per invocation. It
+    still honors slots, daily limits and the safety interval, and retries at
+    most one known-failed first comment.
     """
     queue = load_article_queue()
     new_post_candidates, comment_retry_candidates = _facebook_backfill_candidates(
@@ -1887,35 +1931,40 @@ def backfill_facebook_posts():
         "results": [],
     }
 
-    for article in new_post_candidates:
-        target_article_id = article.get("id") or article.get("url")
-        result = post_one_article_to_facebook(
-            target_article_id=target_article_id,
-            respect_limits=False,
-        )
-        result_article = result.get("article") or {}
+    if comment_retry_candidates:
+        article = comment_retry_candidates[0]
+        result = retry_facebook_first_comment(article.get("id") or article.get("url"))
         stats["results"].append(result)
-        if result_article.get("facebook_post_id"):
-            stats["created"] += 1
-            stats["latest_facebook_post_id"] = result_article.get("facebook_post_id", "")
-            stats["latest_facebook_comment_id"] = result_article.get("facebook_comment_id", "")
+        result_article = result.get("article") or {}
         if result_article.get("facebook_comment_id"):
-            stats["comments_created"] += 1
-        if not result.get("posted"):
+            stats["comments_created"] = 1
+            stats["latest_facebook_comment_id"] = result_article.get("facebook_comment_id", "")
+        elif not result.get("delivery_uncertain"):
             stats["failed"] += 1
 
-    for article in comment_retry_candidates:
-        target_article_id = article.get("id") or article.get("url")
-        result = retry_facebook_first_comment(target_article_id=target_article_id)
-        result_article = result.get("article") or {}
+    for article in new_post_candidates:
+        if JOBS_MODE and classify_urgency(article).get("level") == "expired":
+            stats["skipped"] += 1
+            continue
+        limits = get_facebook_limits_status(
+            urgent=bool(JOBS_MODE and article.get("job_publish_immediately"))
+        )
+        if not limits.get("allowed_now"):
+            stats["skipped"] += 1
+            continue
+        result = post_one_article_to_facebook(
+            target_article_id=article.get("id") or article.get("url"),
+            respect_limits=True,
+        )
         stats["results"].append(result)
+        result_article = result.get("article") or {}
         if result_article.get("facebook_post_id"):
+            stats["created"] = 1
             stats["latest_facebook_post_id"] = result_article.get("facebook_post_id", "")
-        if result_article.get("facebook_comment_id"):
-            stats["comments_created"] += 1
             stats["latest_facebook_comment_id"] = result_article.get("facebook_comment_id", "")
-        if not result.get("posted"):
+        elif not result.get("deferred") and not result.get("delivery_uncertain"):
             stats["failed"] += 1
+        break
 
     return stats
 
@@ -1993,6 +2042,14 @@ def get_facebook_status():
         and article.get("facebook_status") in {None, "", "failed"}
     ]
     posted = [article for article in published if article.get("facebook_post_id")]
+    delivery_uncertain = [
+        article for article in published
+        if article.get("facebook_status") == "delivery_uncertain"
+    ]
+    comment_uncertain = [
+        article for article in published
+        if article.get("facebook_status") == "posted_comment_uncertain"
+    ]
 
     return {
         "auto_post_enabled": FACEBOOK_AUTO_POST,
@@ -2000,5 +2057,7 @@ def get_facebook_status():
         "token_configured": bool(FACEBOOK_PAGE_ACCESS_TOKEN),
         "published_without_facebook": len(without_post),
         "posted_to_facebook": len(posted),
+        "delivery_uncertain_count": len(delivery_uncertain),
+        "comment_uncertain_count": len(comment_uncertain),
         "latest_eligible": _find_latest_eligible_article(articles),
     }
