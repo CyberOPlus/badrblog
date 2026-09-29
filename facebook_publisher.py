@@ -1263,7 +1263,22 @@ def _split_caption_parts(caption):
     return post_text.strip(), hashtags.strip()
 
 
-def _jobs_facebook_blueprint(article, blogger_url):
+def _job_caption_variant_index(article, count, offset=0):
+    count = max(1, int(count or 1))
+    seed = "|".join(
+        [
+            str(article.get("job_campaign_id") or ""),
+            str(article.get("id") or ""),
+            str(article.get("url") or ""),
+            str(article.get("job_company") or article.get("source_name") or ""),
+            str(article.get("job_title") or article.get("seo_title") or ""),
+        ]
+    )
+    base = int(hashlib.sha256(seed.encode("utf-8")).hexdigest()[:8], 16) % count
+    return (base + int(offset or 0)) % count
+
+
+def _jobs_facebook_blueprint(article, blogger_url, variant_offset=0):
     company = str(article.get("job_company") or article.get("source_name") or "").strip()
     title = _short_title(article) or str(article.get("job_title") or "").strip()
     location = str(article.get("job_location") or "").strip()
@@ -1278,23 +1293,104 @@ def _jobs_facebook_blueprint(article, blogger_url):
 
     if notice_type == "candidate_list":
         status_word = "المؤقتة" if notice_status == "provisional" else ""
-        hook = f"صدرت لوائح المدعوين {status_word} لدى {company}".replace("  ", " ").strip() if company else "صدرت لوائح المدعوين للمباراة"
-        cta = "التفاصيل واللوائح الرسمية في أول تعليق 👇"
+        base_hook = (
+            f"صدرت لوائح المدعوين {status_word} لدى {company}".replace("  ", " ").strip()
+            if company
+            else "صدرت لوائح المدعوين للمباراة"
+        )
+        variants = (
+            (base_hook, "التفاصيل واللوائح الرسمية في أول تعليق 👇"),
+            (
+                f"نُشرت لوائح المدعوين لدى {company}" if company else "نُشرت لوائح المدعوين للمباراة",
+                "اللوائح والتفاصيل الرسمية في أول تعليق 👇",
+            ),
+            (
+                f"تحديث جديد يخص لوائح المدعوين لدى {company}" if company else "تحديث جديد يخص لوائح المدعوين",
+                "راجع اللوائح الرسمية من الرابط في أول تعليق 👇",
+            ),
+        )
     elif notice_type == "final_results":
-        hook = f"صدرت النتائج النهائية لدى {company}" if company else "صدرت النتائج النهائية للمباراة"
-        cta = "التفاصيل والنتائج الرسمية في أول تعليق 👇"
+        variants = (
+            (
+                f"صدرت النتائج النهائية لدى {company}" if company else "صدرت النتائج النهائية للمباراة",
+                "التفاصيل والنتائج الرسمية في أول تعليق 👇",
+            ),
+            (
+                f"أُعلن عن النتائج النهائية لدى {company}" if company else "أُعلن عن النتائج النهائية للمباراة",
+                "النتائج والتفاصيل الرسمية في أول تعليق 👇",
+            ),
+            (
+                f"تحديث نهائي للنتائج لدى {company}" if company else "تحديث نهائي لنتائج المباراة",
+                "راجع النتائج الرسمية من الرابط في أول تعليق 👇",
+            ),
+        )
     elif notice_type == "results":
-        hook = f"صدرت نتائج جديدة لدى {company}" if company else "صدرت نتائج المباراة"
-        cta = "التفاصيل والنتائج الرسمية في أول تعليق 👇"
+        variants = (
+            (
+                f"صدرت نتائج جديدة لدى {company}" if company else "صدرت نتائج المباراة",
+                "التفاصيل والنتائج الرسمية في أول تعليق 👇",
+            ),
+            (
+                f"نُشرت نتائج جديدة لدى {company}" if company else "نُشرت نتائج المباراة",
+                "النتائج والتفاصيل الرسمية في أول تعليق 👇",
+            ),
+            (
+                f"تحديث جديد للنتائج لدى {company}" if company else "تحديث جديد لنتائج المباراة",
+                "راجع النتائج الرسمية من الرابط في أول تعليق 👇",
+            ),
+        )
     elif positions >= 100 and company:
-        hook = f"فرصة توظيف واسعة لدى {company} تستحق الاطلاع"
-        cta = "التفاصيل وطريقة التقديم في أول تعليق 👇"
+        variants = (
+            (
+                f"فرصة توظيف واسعة لدى {company} تستحق الاطلاع",
+                "التفاصيل وطريقة التقديم في أول تعليق 👇",
+            ),
+            (
+                f"فرصة توظيف تشمل {positions} منصبًا لدى {company}",
+                "الشروط وتفاصيل الترشيح في أول تعليق 👇",
+            ),
+            (
+                f"إعلان توظيف واسع لدى {company} بعدد {positions} منصبًا",
+                "تفاصيل الفرصة وطريقة الترشح في أول تعليق 👇",
+            ),
+        )
     elif company:
-        hook = f"فرصة توظيف جديدة لدى {company} تستحق الاطلاع"
-        cta = "التفاصيل وطريقة التقديم في أول تعليق 👇"
+        variants = (
+            (
+                f"فرصة توظيف جديدة لدى {company} تستحق الاطلاع",
+                "التفاصيل وطريقة التقديم في أول تعليق 👇",
+            ),
+            (
+                f"{company} تتيح فرصة توظيف جديدة للراغبين في الترشح",
+                "الشروط وتفاصيل الترشيح في أول تعليق 👇",
+            ),
+            (
+                f"إعلان وظيفة جديد لدى {company} مع تفاصيل الترشح",
+                "تفاصيل الفرصة وطريقة التقديم في أول تعليق 👇",
+            ),
+        )
     else:
-        hook = "فرصة عمل جديدة تستحق الاطلاع قبل التقديم"
-        cta = "التفاصيل وطريقة التقديم في أول تعليق 👇"
+        variants = (
+            (
+                "فرصة عمل جديدة تستحق الاطلاع قبل التقديم",
+                "التفاصيل وطريقة التقديم في أول تعليق 👇",
+            ),
+            (
+                "إعلان توظيف جديد مع تفاصيل الشروط والترشح",
+                "الشروط وتفاصيل الترشيح في أول تعليق 👇",
+            ),
+            (
+                "فرصة توظيف جديدة مع معلومات التقديم الأساسية",
+                "تفاصيل الفرصة وطريقة التقديم في أول تعليق 👇",
+            ),
+        )
+
+    variant_index = _job_caption_variant_index(
+        article,
+        len(variants),
+        offset=variant_offset,
+    )
+    hook, cta = variants[variant_index]
 
     lines = [hook]
     if title:
@@ -1338,25 +1434,39 @@ def _jobs_facebook_blueprint(article, blogger_url):
         "lead": "",
         "sections": [],
         "style": "jobs",
-        "structure": f"jobs_{notice_type}",
+        "structure": f"jobs_{notice_type}_v{variant_index}",
+        "variant_index": variant_index,
         "blogger_url": blogger_url,
     }
 
 
 def _prepare_facebook_post(article, articles, blogger_url):
     if JOBS_MODE:
-        blueprint = _jobs_facebook_blueprint(article, blogger_url)
-        _validate_facebook_caption(
-            blueprint["caption"],
-            blogger_url=blogger_url,
-            style="",
-            hook=blueprint["hook"],
-            structure_id="",
-            title=_short_title(article),
-            memory=_load_style_memory(),
-            allow_simple=True,
-        )
-        return blueprint
+        memory = _load_style_memory()
+        last_error = None
+        for variant_offset in range(3):
+            blueprint = _jobs_facebook_blueprint(
+                article,
+                blogger_url,
+                variant_offset=variant_offset,
+            )
+            try:
+                _validate_facebook_caption(
+                    blueprint["caption"],
+                    blogger_url=blogger_url,
+                    style="",
+                    hook=blueprint["hook"],
+                    structure_id="",
+                    title=_short_title(article),
+                    memory=memory,
+                    allow_simple=True,
+                )
+                return blueprint
+            except RuntimeError as error:
+                last_error = error
+                if "too similar to a recent post" not in str(error):
+                    raise
+        raise last_error or RuntimeError("No distinct Jobs Facebook caption variant available.")
 
     last_error = None
     memory = _load_style_memory()
