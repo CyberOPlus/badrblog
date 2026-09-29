@@ -550,6 +550,78 @@ def add_articles_to_queue(discovered_articles):
     }
 
 
+def _compact_job_queue_archive(queue, retention_days=30):
+    """Move old terminal Jobs records out of the hot queue into monthly shards."""
+    if not JOBS_MODE:
+        return 0
+
+    now = datetime.now(timezone.utc)
+    cutoff = now - timedelta(days=max(7, int(retention_days or 30)))
+    archive_dir = ARTICLE_QUEUE_PATH.parent / "data" / "job_queue_archive"
+    keep = []
+    buckets = {}
+
+    for article in queue.get("articles", []):
+        if not article.get("archived"):
+            keep.append(article)
+            continue
+
+        archived_at = _as_utc(_parse_iso(article.get("archived_at")))
+        if not archived_at or archived_at > cutoff:
+            keep.append(article)
+            continue
+
+        if article.get("publish_status") == "published":
+            facebook_status = str(article.get("facebook_status") or "")
+            # Preserve unresolved social delivery indefinitely in the hot queue.
+            if facebook_status not in {"posted", "not_selected"}:
+                keep.append(article)
+                continue
+
+        month = archived_at.strftime("%Y-%m")
+        key_seed = str(
+            article.get("id")
+            or article.get("canonical_url")
+            or article.get("url")
+            or ""
+        )
+        key = hashlib.sha256(key_seed.encode("utf-8")).hexdigest()[:24]
+        buckets.setdefault(month, {})[key] = article
+
+    compacted = sum(len(rows) for rows in buckets.values())
+    if not compacted:
+        return 0
+
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    for month, rows in buckets.items():
+        path = archive_dir / f"{month}.json"
+        try:
+            existing = json.loads(path.read_text(encoding="utf-8"))
+        except Exception:
+            existing = {"version": 1, "records": {}}
+        if not isinstance(existing, dict):
+            existing = {"version": 1, "records": {}}
+        records = existing.setdefault("records", {})
+        if not isinstance(records, dict):
+            records = {}
+            existing["records"] = records
+        records.update(rows)
+        temp = path.with_suffix(".tmp")
+        temp.write_text(
+            json.dumps(existing, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        temp.replace(path)
+
+    queue["articles"] = keep
+    log_event(
+        "job_queue_compacted",
+        records=compacted,
+        archive_months=len(buckets),
+    )
+    return compacted
+
+
 def maintain_article_queue(days=7):
     """
     Non-destructive queue cleanup. Records are archived, not deleted.
@@ -607,10 +679,23 @@ def maintain_article_queue(days=7):
     stats["archived_count"] = sum(1 for article in articles if article.get("archived"))
     stats["active_count"] = len(articles) - stats["archived_count"]
 
+    stats["compacted_archived"] = _compact_job_queue_archive(
+        queue,
+        retention_days=30,
+    )
+    if stats["compacted_archived"]:
+        articles = queue.get("articles", [])
+        stats["archived_count"] = sum(
+            1 for article in articles if article.get("archived")
+        )
+        stats["active_count"] = len(articles) - stats["archived_count"]
+        stats["total_queued"] = len(articles)
+
     if (
         stats["archived_old_skipped"]
         or stats["archived_old_failed"]
         or stats["archived_duplicate_urls"]
+        or stats["compacted_archived"]
     ):
         save_article_queue(queue)
 
