@@ -1,0 +1,183 @@
+name: AI Provider Smoke Test
+
+on:
+  push:
+    paths:
+      - ".github/workflows/ai-provider-smoke-test.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+    steps:
+      - name: Test AI providers
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request, urllib.error
+
+          results = []
+
+          def request_json(name, url, *, method="GET", headers=None, body=None, required=()):
+              missing = [k for k in required if not os.environ.get(k, "").strip()]
+              if missing:
+                  results.append((name, "FAIL", "missing secret: " + ",".join(missing)))
+                  return None
+              data = None if body is None else json.dumps(body).encode()
+              req = urllib.request.Request(url, data=data, method=method)
+              for k, v in (headers or {}).items():
+                  req.add_header(k, v)
+              if data is not None:
+                  req.add_header("Content-Type", "application/json")
+              try:
+                  with urllib.request.urlopen(req, timeout=40) as resp:
+                      raw = resp.read().decode("utf-8", "replace")
+                      payload = json.loads(raw) if raw.strip() else {}
+                      return payload
+              except urllib.error.HTTPError as e:
+                  detail = e.read().decode("utf-8", "replace")
+                  try:
+                      detail_obj = json.loads(detail)
+                      detail = json.dumps(detail_obj, ensure_ascii=False)
+                  except Exception:
+                      pass
+                  detail = detail.replace("\n", " ")[:240]
+                  results.append((name, "FAIL", f"HTTP {e.code}: {detail}"))
+              except Exception as e:
+                  results.append((name, "FAIL", f"{type(e).__name__}: {str(e)[:180]}"))
+              return None
+
+          # Gemini: real generation using the same model family used by the bot.
+          gemini_key = os.environ.get("GEMINI_API_KEY", "").strip()
+          if gemini_key:
+              p = request_json(
+                  "Gemini",
+                  "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=" + gemini_key,
+                  method="POST",
+                  body={
+                      "contents": [{"parts": [{"text": "Reply with exactly OK"}]}],
+                      "generationConfig": {"maxOutputTokens": 8, "temperature": 0}
+                  },
+                  required=("GEMINI_API_KEY",),
+              )
+              if p is not None:
+                  ok = bool(p.get("candidates"))
+                  results.append(("Gemini", "PASS" if ok else "FAIL", "generation succeeded" if ok else "no candidates returned"))
+          else:
+              results.append(("Gemini", "FAIL", "missing secret: GEMINI_API_KEY"))
+
+          # OpenRouter: validate key and make a tiny free-router generation.
+          or_key = os.environ.get("OPENROUTER_API_KEY", "").strip()
+          if or_key:
+              auth = request_json(
+                  "OpenRouter-auth",
+                  "https://openrouter.ai/api/v1/key",
+                  headers={"Authorization": "Bearer " + or_key},
+                  required=("OPENROUTER_API_KEY",),
+              )
+              if auth is not None:
+                  p = request_json(
+                      "OpenRouter",
+                      "https://openrouter.ai/api/v1/chat/completions",
+                      method="POST",
+                      headers={"Authorization": "Bearer " + or_key},
+                      body={
+                          "model": "openrouter/free",
+                          "messages": [{"role": "user", "content": "Reply with exactly OK"}],
+                          "max_tokens": 8,
+                          "temperature": 0
+                      },
+                      required=("OPENROUTER_API_KEY",),
+                  )
+                  if p is not None:
+                      ok = bool(p.get("choices"))
+                      results.append(("OpenRouter", "PASS" if ok else "FAIL", "generation succeeded" if ok else "no choices returned"))
+          else:
+              results.append(("OpenRouter", "FAIL", "missing secret: OPENROUTER_API_KEY"))
+
+          # Groq: real generation.
+          groq_key = os.environ.get("GROQ_API_KEY", "").strip()
+          if groq_key:
+              p = request_json(
+                  "Groq",
+                  "https://api.groq.com/openai/v1/chat/completions",
+                  method="POST",
+                  headers={"Authorization": "Bearer " + groq_key},
+                  body={
+                      "model": "llama-3.1-8b-instant",
+                      "messages": [{"role": "user", "content": "Reply with exactly OK"}],
+                      "max_tokens": 8,
+                      "temperature": 0
+                  },
+                  required=("GROQ_API_KEY",),
+              )
+              if p is not None:
+                  ok = bool(p.get("choices"))
+                  results.append(("Groq", "PASS" if ok else "FAIL", "generation succeeded" if ok else "no choices returned"))
+          else:
+              results.append(("Groq", "FAIL", "missing secret: GROQ_API_KEY"))
+
+          # Cloudflare Workers AI: real generation using the model from the official REST quickstart.
+          cf_token = os.environ.get("CLOUDFLARE_API_TOKEN", "").strip()
+          cf_account = os.environ.get("CLOUDFLARE_ACCOUNT_ID", "").strip()
+          if cf_token and cf_account:
+              p = request_json(
+                  "Cloudflare Workers AI",
+                  f"https://api.cloudflare.com/client/v4/accounts/{cf_account}/ai/run/@cf/meta/llama-3.1-8b-instruct",
+                  method="POST",
+                  headers={"Authorization": "Bearer " + cf_token},
+                  body={"prompt": "Reply with exactly OK"},
+                  required=("CLOUDFLARE_API_TOKEN", "CLOUDFLARE_ACCOUNT_ID"),
+              )
+              if p is not None:
+                  ok = p.get("success") is True and bool(p.get("result"))
+                  results.append(("Cloudflare Workers AI", "PASS" if ok else "FAIL", "generation succeeded" if ok else "API did not return success"))
+          else:
+              miss = [k for k in ("CLOUDFLARE_API_TOKEN","CLOUDFLARE_ACCOUNT_ID") if not os.environ.get(k,"").strip()]
+              results.append(("Cloudflare Workers AI", "FAIL", "missing secret: " + ",".join(miss)))
+
+          # Mistral: actual chat generation.
+          mistral_key = os.environ.get("MISTRAL_API_KEY", "").strip()
+          if mistral_key:
+              p = request_json(
+                  "Mistral",
+                  "https://api.mistral.ai/v1/chat/completions",
+                  method="POST",
+                  headers={"Authorization": "Bearer " + mistral_key},
+                  body={
+                      "model": "mistral-small-latest",
+                      "messages": [{"role": "user", "content": "Reply with exactly OK"}],
+                      "max_tokens": 8,
+                      "temperature": 0
+                  },
+                  required=("MISTRAL_API_KEY",),
+              )
+              if p is not None:
+                  ok = bool(p.get("choices"))
+                  results.append(("Mistral", "PASS" if ok else "FAIL", "generation succeeded" if ok else "no choices returned"))
+          else:
+              results.append(("Mistral", "FAIL", "missing secret: MISTRAL_API_KEY"))
+
+          # Keep logs secret-safe: only provider/status/reason are printed.
+          print("\n=== AI PROVIDER TEST RESULTS ===")
+          # Collapse duplicate sub-checks: auth failures remain visible.
+          for name, status, reason in results:
+              print(f"{name}: {status} - {reason}")
+
+          with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
+              f.write("## AI Provider Smoke Test\n\n")
+              f.write("| Provider | Status | Detail |\n|---|---|---|\n")
+              for name, status, reason in results:
+                  f.write(f"| {name} | {status} | {reason.replace('|','/')} |\n")
+          PY
