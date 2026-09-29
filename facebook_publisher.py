@@ -539,7 +539,7 @@ def _choose_caption_pattern(article, articles):
 
 
 def _remember_caption_pattern(article, pattern, posted, structure_id="", hook="", cta="", hashtags=None, fingerprint=""):
-    if pattern not in CAPTION_STYLES:
+    if pattern not in CAPTION_STYLES and pattern != "jobs":
         return
     memory = _load_style_memory()
     category = _caption_memory_category(article)
