@@ -56,6 +56,7 @@ class JobVisualTests(unittest.TestCase):
             {
                 "job_notice_type": "vacancy",
                 "job_application_url": "https://example.com/apply/42",
+                "job_application_link_kind": "direct_apply",
             },
             now=now,
         )
@@ -68,6 +69,7 @@ class JobVisualTests(unittest.TestCase):
                 "id": "job-42",
                 "job_notice_type": "vacancy",
                 "job_application_url": "https://example.com/apply/42",
+                "job_application_link_kind": "direct_apply",
             }
             first = visual_policy.choose_job_template(article, state)
             second = visual_policy.choose_job_template(article, state)
