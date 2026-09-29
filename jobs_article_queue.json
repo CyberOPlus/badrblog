@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-09-29T19:28:33",
+  "updated_at": "2026-09-29T19:58:55",
   "articles": [
     {
       "id": "f5a84d7e9586ac8c",
@@ -2787,12 +2787,13 @@
       "removed_source_links_count": 290,
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=151 chars/23 words; required=250 chars/40 words; tried=main_tag:31chars/6words, content_container:31chars/6words, content_container:31chars/6words, content_container:31chars/6words, article_body:15chars/3words, meta_description:151chars/23words, page_text:15chars/3words)",
-      "content_fetched_at": "2026-09-29T19:20:16",
-      "candidate_retry_after": "2026-09-29T19:35:16Z",
+      "content_fetched_at": "2026-09-29T19:58:54",
+      "candidate_retry_after": "2026-09-30T19:58:54Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=151 chars/23 words; required=250 chars/40 words; tried=main_tag:31chars/6words, content_container:31chars/6words, content_container:31chars/6words, content_container:31chars/6words, article_body:15chars/3words, meta_description:151chars/23words, page_text:15ch",
-      "candidate_failed_at": "2026-09-29T19:20:16",
-      "candidate_failure_count": 11
+      "candidate_failed_at": "2026-09-29T19:58:54",
+      "candidate_failure_count": 12,
+      "candidate_retry_backoff_minutes": 1440
     },
     {
       "id": "9a832894c477e6d8",
@@ -4087,17 +4088,18 @@
       "source_links_removed_count": 1,
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 1,
-      "content_fetched_at": "2026-09-29T19:20:17",
+      "content_fetched_at": "2026-09-29T19:58:55",
       "ats_provider": "csod",
       "ats_reference": "2635",
       "discovery_metadata_refreshed_at": "2026-09-28T21:15:20",
       "content_fetch_status": "failed",
       "content_fetch_error": "weak article body after fallbacks (best=39 chars/5 words; required=250 chars/40 words; tried=article_body:39chars/5words, page_text:39chars/5words)",
-      "candidate_retry_after": "2026-09-29T19:35:17Z",
+      "candidate_retry_after": "2026-09-30T19:58:55Z",
       "candidate_failure_stage": "enrichment",
       "candidate_failure_reason": "weak article body after fallbacks (best=39 chars/5 words; required=250 chars/40 words; tried=article_body:39chars/5words, page_text:39chars/5words)",
-      "candidate_failed_at": "2026-09-29T19:20:17",
-      "candidate_failure_count": 9
+      "candidate_failed_at": "2026-09-29T19:58:55",
+      "candidate_failure_count": 10,
+      "candidate_retry_backoff_minutes": 1440
     },
     {
       "id": "c23b5b381ec65f01",
@@ -4595,7 +4597,7 @@
       "source_remote": false,
       "source_visa_sponsorship": false,
       "job_company": "Orange Business",
-      "job_location": "Casablanca",
+      "job_location": "CASABLANCA,MOROCCO",
       "job_deadline": "",
       "job_application_url": "https://careers-orange.icims.com/jobs/28099/mobile-core-network-engineer/job/login",
       "job_number_of_positions": 0,
@@ -4619,7 +4621,7 @@
       "job_application_link_kind": "direct_apply",
       "job_contract_type": "CDI",
       "job_remote": false,
-      "discovery_metadata_refreshed_at": "2026-09-29T19:28:32",
+      "discovery_metadata_refreshed_at": "2026-09-29T19:58:49",
       "source_links_removed_count": 0,
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
@@ -4710,7 +4712,7 @@
       "source_remote": false,
       "source_visa_sponsorship": false,
       "job_company": "Orange Business",
-      "job_location": "Sale",
+      "job_location": "SALA EL JADIDA,MOROCCO",
       "job_deadline": "",
       "job_application_url": "https://careers-orange.icims.com/jobs/28220/salesforce-crm-business-analyst/job/login",
       "job_number_of_positions": 0,
@@ -4734,7 +4736,7 @@
       "job_application_link_kind": "direct_apply",
       "job_contract_type": "CDI",
       "job_remote": false,
-      "discovery_metadata_refreshed_at": "2026-09-29T19:28:32",
+      "discovery_metadata_refreshed_at": "2026-09-29T19:58:49",
       "source_links_removed_count": 0,
       "affiliate_links_removed_count": 0,
       "removed_source_links_count": 0,
@@ -5139,11 +5141,11 @@
       "published_at": "2026-09-28T21:30:48",
       "publish_status": "published",
       "live_update_status": "created_new",
-      "facebook_status": "failed",
-      "facebook_error": "waiting for Morocco Facebook publishing slot",
+      "facebook_status": "not_selected",
       "archived": true,
       "archived_at": "2026-09-28T21:30:48",
-      "archive_reason": "published_to_blogger"
+      "archive_reason": "published_to_blogger",
+      "facebook_selection_reason": "job score 65 below selective Facebook policy"
     },
     {
       "id": "289b37e26b348f72",
@@ -5371,11 +5373,11 @@
       "published_at": "2026-09-28T21:47:07",
       "publish_status": "published",
       "live_update_status": "created_new",
-      "facebook_status": "failed",
-      "facebook_error": "daily Facebook post limit reached; waiting for Morocco Facebook publishing slot",
+      "facebook_status": "not_selected",
       "archived": true,
       "archived_at": "2026-09-28T21:47:07",
-      "archive_reason": "published_to_blogger"
+      "archive_reason": "published_to_blogger",
+      "facebook_selection_reason": "job score 65 below selective Facebook policy"
     },
     {
       "id": "697322b77accd6b4",
@@ -7079,11 +7081,11 @@
       "published_at": "2026-09-29T01:18:51",
       "publish_status": "published",
       "live_update_status": "created_new",
-      "facebook_status": "failed",
-      "facebook_error": "waiting for Morocco Facebook publishing slot",
+      "facebook_status": "not_selected",
       "archived": true,
       "archived_at": "2026-09-29T01:18:51",
-      "archive_reason": "published_to_blogger"
+      "archive_reason": "published_to_blogger",
+      "facebook_selection_reason": "job score 65 below selective Facebook policy"
     },
     {
       "id": "1328a012d4c9636c",
@@ -9694,7 +9696,7 @@
         "country": "MOROCCO"
       },
       "job_company": "Orange Business",
-      "job_location": "Casablanca",
+      "job_location": "CASABLANCA,MOROCCO",
       "job_country": "MA",
       "job_deadline": "",
       "job_published_at": "2026-09-29T18:29:25.000+0000",
@@ -9749,7 +9751,7 @@
       "content_fetched_at": "2026-09-29T19:28:33",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "discovery_metadata_refreshed_at": "2026-09-29T19:28:32"
+      "discovery_metadata_refreshed_at": "2026-09-29T19:58:49"
     },
     {
       "id": "a3cabbc0b64317c8",
@@ -9789,7 +9791,7 @@
         "country": "MOROCCO"
       },
       "job_company": "Orange Business",
-      "job_location": "Casablanca",
+      "job_location": "CASABLANCA,MOROCCO",
       "job_country": "MA",
       "job_deadline": "",
       "job_published_at": "2026-09-29T18:32:49.000+0000",
@@ -9844,7 +9846,7 @@
       "content_fetched_at": "2026-09-29T19:28:33",
       "enrichment_status": "weak",
       "content_fetch_status": "success",
-      "discovery_metadata_refreshed_at": "2026-09-29T19:28:32"
+      "discovery_metadata_refreshed_at": "2026-09-29T19:58:49"
     },
     {
       "id": "30d3ec061dbda2e1",
@@ -9978,7 +9980,7 @@
         "country": "MOROCCO"
       },
       "job_company": "Orange Business",
-      "job_location": "Casablanca",
+      "job_location": "CASABLANCA,MOROCCO",
       "job_country": "MA",
       "job_deadline": "",
       "job_published_at": "2026-09-29T18:32:49.000+0000",
@@ -10032,7 +10034,8 @@
       "content_preview_chars": 416,
       "content_fetched_at": "2026-09-29T19:28:33",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "discovery_metadata_refreshed_at": "2026-09-29T19:58:49"
     }
   ],
   "notifications": {}
