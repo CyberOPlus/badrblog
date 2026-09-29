@@ -8,6 +8,7 @@ from unittest.mock import patch
 from zoneinfo import ZoneInfo
 
 import article_ai_processor as ai
+import article_queue
 import facebook_publisher as facebook
 import job_core
 import main
@@ -126,6 +127,104 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn("توظيف", data["title"])
         self.assertIn(package["job_application_url"], data["html_content"])
         self.assertGreaterEqual(ai.html_word_count(data["html_content"]), 100)
+
+    def test_publishing_window_block_still_runs_jobs_ingestion(self):
+        schedule = {
+            "configured_publish_mode": "live",
+            "publish_mode": "live",
+            "allowed_now": False,
+            "reasons": ["adaptive Blogger spacing has not elapsed"],
+            "next_allowed_time": datetime.now(),
+            "drafts_created_today": 0,
+            "live_posts_created_today": 1,
+            "max_drafts_per_day": 3,
+            "max_live_posts_per_day": 3,
+            "target_live_posts_per_day": 3,
+            "last_draft_time": None,
+            "last_live_publish_time": None,
+            "minutes_since_last_draft": None,
+            "minutes_since_last_live_publish": 20,
+            "min_minutes_between_drafts": 0,
+            "min_minutes_between_live_posts": 80,
+        }
+        with patch.object(main, "JOBS_MODE", True), \
+             patch.object(main, "SAFE_MODE", False), \
+             patch.object(main, "PUBLISH_MODE", "live"), \
+             patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), \
+             patch.object(main, "get_publish_schedule_status", return_value=schedule), \
+             patch.object(main, "run_fetch_only", return_value={"articles_found": 2}) as fetch, \
+             patch.object(main, "archive_expired_queue_articles", return_value={}) as cleanup, \
+             patch.object(main, "run_score_only", return_value={"ready": 2}) as score, \
+             patch.object(main, "run_enrich_only", return_value={"enriched": 2}) as enrich, \
+             patch.object(main, "_print_safe_cycle_final_report"), \
+             redirect_stdout(StringIO()):
+            result = main.run_safe_cycle_only()
+        self.assertTrue(result["skipped"])
+        self.assertIsNotNone(result["ingest"])
+        fetch.assert_called_once()
+        cleanup.assert_called_once()
+        score.assert_called_once()
+        enrich.assert_called_once_with(force=False)
+
+    def test_adaptive_window_prevents_blogger_burst(self):
+        tz = ZoneInfo("Africa/Casablanca")
+        now = datetime(2026, 9, 29, 10, 0, tzinfo=tz)
+        state = {
+            "daily_publish_count": {"2026-09-29": 2},
+            "daily_urgent_override_count": {},
+            "last_publish_at": (now - timedelta(minutes=30)).isoformat(),
+        }
+        with patch.object(job_core, "JOBS_ADAPTIVE_PUBLISHING", True), \
+             patch.object(job_core, "load_job_state", return_value=state), \
+             patch.object(job_core, "current_policy", return_value={
+                 "enabled": True,
+                 "stage": 5,
+                 "green_score": 20,
+                 "daily_cap": 12,
+             }):
+            status = job_core.job_publish_window_status(now=now)
+        self.assertFalse(status["allowed_now"])
+        self.assertGreaterEqual(status["min_interval_minutes"], 60)
+        self.assertIn("spacing", " ".join(status["reasons"]))
+
+    def test_queue_compaction_preserves_unresolved_facebook_delivery(self):
+        from tempfile import TemporaryDirectory
+        from pathlib import Path
+
+        old = (datetime.now(timezone.utc) - timedelta(days=45)).isoformat()
+        with TemporaryDirectory() as temp:
+            queue_path = Path(temp) / "jobs_article_queue.json"
+            queue = {
+                "articles": [
+                    {
+                        "id": "posted-terminal",
+                        "archived": True,
+                        "archived_at": old,
+                        "publish_status": "published",
+                        "facebook_status": "posted",
+                    },
+                    {
+                        "id": "facebook-pending",
+                        "archived": True,
+                        "archived_at": old,
+                        "publish_status": "published",
+                        "facebook_status": "failed",
+                    },
+                ]
+            }
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), \
+                 patch.object(article_queue, "JOBS_MODE", True):
+                article_queue.save_article_queue(queue)
+                stats = article_queue.maintain_article_queue(days=7)
+                reloaded = article_queue.load_article_queue()
+
+            self.assertEqual(stats["compacted_archived"], 1)
+            self.assertEqual(
+                [row["id"] for row in reloaded["articles"]],
+                ["facebook-pending"],
+            )
+            archive_files = list((Path(temp) / "data" / "job_queue_archive").glob("*.json"))
+            self.assertEqual(len(archive_files), 1)
 
     def test_compact_job_passes_both_word_gates(self):
         package = {"url": "https://employer.example/jobs/42", "job_notice_type": "vacancy"}
