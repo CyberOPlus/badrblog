@@ -290,11 +290,28 @@ def _blogger_post_url(article):
     return _valid_public_blogger_url((article or {}).get("blogger_post_url"))
 
 
+def _facebook_retry_ready(article, now_epoch=None):
+    try:
+        retry_after = float(article.get("facebook_retry_after_epoch") or 0)
+    except (TypeError, ValueError):
+        retry_after = 0
+    return retry_after <= float(now_epoch if now_epoch is not None else time.time())
+
+
+def _facebook_comment_retry_ready(article, now_epoch=None):
+    try:
+        retry_after = float(article.get("facebook_comment_retry_after_epoch") or 0)
+    except (TypeError, ValueError):
+        retry_after = 0
+    return retry_after <= float(now_epoch if now_epoch is not None else time.time())
+
+
 def _eligible_for_facebook(article):
     return (
         _has_blogger_live_publish(article)
         and not article.get("facebook_post_id")
         and article.get("facebook_status") in {None, "", "failed"}
+        and _facebook_retry_ready(article)
     )
 
 
@@ -1376,9 +1393,72 @@ def _validate_facebook_caption(caption, blogger_url="", style="", hook="", struc
         raise RuntimeError("Facebook caption is too thin.")
 
 
+def _facebook_failure_delay_seconds(error, failure_count):
+    text = str(error or "").casefold().replace(" ", "")
+    # Authentication/permission failures need configuration changes; hammering
+    # Graph every scheduled run cannot fix them.
+    if any(token in text for token in (
+        "oauthexception",
+        '"code":190',
+        '"code":10',
+        '"code":200',
+        "accesstoken",
+        "permission",
+        "notauthorized",
+    )):
+        return 6 * 3600
+    if any(token in text for token in (
+        "ratelimit",
+        "toomanyrequests",
+        '"code":4',
+        '"code":17',
+        '"code":32',
+        '"code":613',
+        "http429",
+    )):
+        return 60 * 60
+    # Definite local/API failures can be retried, but with bounded exponential
+    # spacing rather than every 15-minute workflow tick.
+    step = max(0, min(int(failure_count or 1) - 1, 4))
+    return min(6 * 3600, 30 * 60 * (2 ** step))
+
+
 def _apply_failure(article, error):
     article["facebook_status"] = "failed"
     article["facebook_error"] = str(error)
+    count = int(article.get("facebook_failure_count") or 0) + 1
+    article["facebook_failure_count"] = count
+    article["facebook_last_failure_at"] = _now_iso()
+    delay = _facebook_failure_delay_seconds(error, count)
+    article["facebook_retry_after_epoch"] = int(time.time()) + delay
+    article["facebook_retry_delay_seconds"] = delay
+
+
+def _clear_facebook_failure_state(article):
+    for key in (
+        "facebook_failure_count",
+        "facebook_last_failure_at",
+        "facebook_retry_after_epoch",
+        "facebook_retry_delay_seconds",
+    ):
+        article.pop(key, None)
+
+
+def _schedule_comment_retry(article, error):
+    count = int(article.get("facebook_comment_failure_count") or 0) + 1
+    article["facebook_comment_failure_count"] = count
+    delay = _facebook_failure_delay_seconds(error, count)
+    article["facebook_comment_retry_after_epoch"] = int(time.time()) + delay
+    article["facebook_comment_retry_delay_seconds"] = delay
+
+
+def _clear_comment_failure_state(article):
+    for key in (
+        "facebook_comment_failure_count",
+        "facebook_comment_retry_after_epoch",
+        "facebook_comment_retry_delay_seconds",
+    ):
+        article.pop(key, None)
 
 
 def _failure_result(queue, article, error, checked=1, extra=None):
@@ -1586,6 +1666,13 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             "error": "Article already has facebook_post_id; refusing duplicate post.",
         }
 
+    if article.get("facebook_status") == "failed" and not _facebook_retry_ready(article):
+        return _deferred_result(
+            article,
+            "Facebook retry cooldown has not elapsed.",
+            extra={"retry_after_epoch": article.get("facebook_retry_after_epoch")},
+        )
+
     if not _has_blogger_live_publish(article):
         return _failure_result(
             queue,
@@ -1652,6 +1739,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         article["facebook_status"] = "posted"
         article["facebook_post_id"] = facebook_post_id
         article["facebook_posted_at"] = _now_iso()
+        _clear_facebook_failure_state(article)
         article["facebook_post_type"] = post_type
         article["facebook_image_status"] = "posted" if image_result.get("ok") else "failed_text_only"
         article["facebook_image_path"] = image_result.get("path", "")
@@ -1679,6 +1767,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         try:
             comment_id = _post_first_comment(facebook_post_id, blogger_url)
             article["facebook_comment_id"] = comment_id
+            _clear_comment_failure_state(article)
             log_event(
                 "facebook_comment_success",
                 article_id=article.get("id"),
@@ -1698,6 +1787,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         except Exception as comment_error:
             article["facebook_status"] = "posted_comment_failed"
             article["facebook_error"] = f"First comment failed: {comment_error}"
+            _schedule_comment_retry(article, comment_error)
             log_event(
                 "facebook_comment_success",
                 article_id=article.get("id"),
@@ -1804,6 +1894,7 @@ def _facebook_backfill_candidates(articles):
         if _has_blogger_live_publish(article)
         and not article.get("facebook_post_id")
         and article.get("facebook_status") in {None, "", "failed"}
+        and _facebook_retry_ready(article)
     ]
     comment_retry_candidates = [
         article
@@ -1812,6 +1903,7 @@ def _facebook_backfill_candidates(articles):
         and article.get("facebook_post_id")
         and not article.get("facebook_comment_id")
         and article.get("facebook_status") == "posted_comment_failed"
+        and _facebook_comment_retry_ready(article)
     ]
     sort_key = lambda article: (
         article.get("published_at", ""),
@@ -1843,6 +1935,7 @@ def retry_facebook_first_comment(target_article_id):
         article["facebook_comment_id"] = comment_id
         article["facebook_status"] = "posted"
         article.pop("facebook_error", None)
+        _clear_comment_failure_state(article)
         save_article_queue(queue)
         result = {
             "checked": 1,
@@ -1868,6 +1961,7 @@ def retry_facebook_first_comment(target_article_id):
     except Exception as error:
         article["facebook_status"] = "posted_comment_failed"
         article["facebook_error"] = f"First comment failed: {error}"
+        _schedule_comment_retry(article, error)
         save_article_queue(queue)
         result = {
             "checked": 1,
