@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   live-jobs-test:
@@ -200,6 +200,7 @@ jobs:
                       "blogger_post_id":post_id,
                       "blogger_post_url":article.get("blogger_post_url",""),
                       "source_url":article.get("url") or article.get("source_url") or "",
+                      "cover_path":article.get("job_article_cover_path") or "",
                   }
                   made.append(item)
                   data=json.loads(results_path.read_text(encoding="utf-8"))
@@ -323,6 +324,23 @@ jobs:
                       print(f"BLOGGER_DELETE id={pid} deleted=False error={type(e).__name__}:{str(e)[:160]}")
           except Exception as e:
               print("BLOGGER_CLEANUP_SETUP_ERROR="+type(e).__name__+":"+str(e)[:180])
+
+          # Remove only job-cover files created by this temporary test.
+          cover_paths=[str(x.get("cover_path") or "").strip() for x in data.get("blogger",[]) if str(x.get("cover_path") or "").strip()]
+          if cover_paths:
+              import subprocess
+              subprocess.run(["git","config","user.name","github-actions[bot]"],check=False)
+              subprocess.run(["git","config","user.email","41898282+github-actions[bot]@users.noreply.github.com"],check=False)
+              subprocess.run(["git","pull","--rebase","origin","main"],check=False)
+              for cover in cover_paths:
+                  subprocess.run(["git","rm","-f","--ignore-unmatch","--",cover],check=False)
+              diff=subprocess.run(["git","diff","--cached","--quiet"],check=False)
+              if diff.returncode != 0:
+                  subprocess.run(["git","commit","-m","test: remove temporary job covers [skip ci]"],check=True)
+                  push=subprocess.run(["git","push","origin","HEAD:main"],check=False,capture_output=True,text=True)
+                  print("COVER_CLEANUP_PUSH="+("success" if push.returncode==0 else "failed"))
+                  if push.returncode != 0:
+                      print((push.stderr or push.stdout or "")[:300])
 
           Path("/tmp/live_jobs_cleanup.json").write_text(json.dumps(cleanup,ensure_ascii=False,indent=2),encoding="utf-8")
           print("=== CLEANUP SUMMARY ===")
