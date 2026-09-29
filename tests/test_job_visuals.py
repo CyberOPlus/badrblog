@@ -302,6 +302,46 @@ class JobVisualTests(unittest.TestCase):
             with Image.open(result["path"]) as image:
                 self.assertEqual(image.size, (1200, 675))
 
+    def test_job_cover_git_push_retries_after_concurrent_commit(self):
+        def completed(returncode=0, stdout="", stderr=""):
+            return __import__("subprocess").CompletedProcess(
+                args=[],
+                returncode=returncode,
+                stdout=stdout,
+                stderr=stderr,
+            )
+
+        responses = [
+            completed(),  # git config name
+            completed(),  # git config email
+            completed(),  # git add
+            completed(returncode=1),  # cached diff exists
+            completed(),  # git commit
+            completed(returncode=1, stderr="non-fast-forward"),  # first push
+            completed(),  # pull --rebase with autostash
+            completed(),  # second push
+        ]
+        with tempfile.TemporaryDirectory() as temp:
+            cover = Path(temp) / "cover.jpg"
+            cover.write_bytes(b"image")
+            with patch.object(article_draft_publisher.os, "getenv", return_value="true"), \
+                 patch.object(article_draft_publisher.subprocess, "run", side_effect=responses) as run:
+                self.assertTrue(
+                    article_draft_publisher._persist_generated_job_cover(cover)
+                )
+
+        self.assertEqual(run.call_count, 8)
+        commands = [call.args[0] for call in run.call_args_list]
+        self.assertIn(
+            [
+                "git",
+                "-c", "rebase.autoStash=true",
+                "pull", "--rebase", "origin", "main",
+            ],
+            commands,
+        )
+
+
 
 if __name__ == "__main__":
     unittest.main()
