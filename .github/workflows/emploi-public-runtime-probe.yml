@@ -32,7 +32,7 @@ jobs:
           rows, error, status, details = scraper._collect_article_links_for_source(
               url,
               per_source_limit=5,
-              extractor_type="auto",
+              extractor_type="emploi_public",
               strict_source_path=False,
           )
           print("STATUS", status)
@@ -46,7 +46,7 @@ jobs:
           valid = [
               row for row in rows
               if "/ar/" in row.get("url", "")
-              and ("%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84" in row.get("url", "") or "/تفاصيل/" in row.get("url", ""))
+              and ("%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84" in row.get("url", "") or "تفاصيل" in __import__("urllib.parse", fromlist=["unquote"]).unquote(row.get("url", "")))
           ]
           if not valid:
               raise SystemExit("No Arabic competition detail URL survived production filtering")
