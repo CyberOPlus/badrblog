@@ -138,7 +138,11 @@ class JobsCoreTests(unittest.TestCase):
             per_source_limit=10,
         )
         self.assertEqual(len(links), 2)
-        self.assertTrue(all("/details/" in row["url"] or "%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84" in row["url"] for row in links))
+        self.assertTrue(all(
+            "/details/" in row["url"]
+            or "تفاصيل" in __import__("urllib.parse", fromlist=["unquote"]).unquote(row["url"])
+            for row in links
+        ))
         self.assertTrue(all(row["ats_provider"] == "emploi_public" for row in links))
         self.assertFalse(any("تسجيل" in row["url"] for row in links))
 
