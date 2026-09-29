@@ -1177,6 +1177,8 @@ RUNTIME_STATE_PATHS = (
     Path("data/job_state.json"),
     Path("data/job_memory"),
     Path("data/job_visual_state.json"),
+    Path("data/jobs_adaptive_state.json"),
+    Path("data/job_queue_archive"),
 )
 
 
