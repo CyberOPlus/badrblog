@@ -1038,6 +1038,7 @@ def _format_datetime(value):
 
 
 AUTO_CYCLE_RUN_LOG = LOGS_DIR / "auto_cycle_runs.jsonl"
+AUTO_CYCLE_LOG_MAX_RECORDS = 672
 AUTO_CYCLE_WORKFLOW_PATH = Path(".github") / "workflows" / "auto-cycle.yml"
 
 
@@ -1093,8 +1094,15 @@ def _append_auto_cycle_run_log(record):
         "execution_seconds": record.get("execution_seconds", 0),
         "success": bool(record.get("success")),
     }
-    with open(AUTO_CYCLE_RUN_LOG, "a", encoding="utf-8") as handle:
-        handle.write(json.dumps(safe_record, ensure_ascii=False) + "\n")
+    records = _load_auto_cycle_run_logs(
+        limit=max(0, AUTO_CYCLE_LOG_MAX_RECORDS - 1)
+    )
+    records.append(safe_record)
+    temp_path = AUTO_CYCLE_RUN_LOG.with_name(AUTO_CYCLE_RUN_LOG.name + ".tmp")
+    with open(temp_path, "w", encoding="utf-8") as handle:
+        for row in records[-AUTO_CYCLE_LOG_MAX_RECORDS:]:
+            handle.write(json.dumps(row, ensure_ascii=False) + "\n")
+    temp_path.replace(AUTO_CYCLE_RUN_LOG)
 
 
 def _load_auto_cycle_run_logs(limit=None):
