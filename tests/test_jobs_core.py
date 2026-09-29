@@ -118,6 +118,30 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(fields["job_application_link_kind"], "direct_apply")
         self.assertEqual(len(fields["job_document_links"]), 2)
 
+    def test_emploi_public_parser_keeps_only_competition_details(self):
+        html = """
+        <html><body>
+          <a href="/ar/المترشح/تسجيل">إنشاء حساب</a>
+          <a href="/fr/concours-liste">Français</a>
+          <a href="/ar/قائمة-المباريات">مباريات التوظيف</a>
+          <a href="/ar/تفاصيل/المباريات/3ca5d2b5-8e32-4de2-b0f7-4596d229daa2">
+            متصرف من الدرجة الثانية - تخصص المالية والمحاسبة
+          </a>
+          <a href="/fr/concours/details/abc12345">
+            Administrateur 2ème grade
+          </a>
+        </body></html>
+        """
+        links = scraper._parse_emploi_public_links(
+            html,
+            "https://www.emploi-public.ma/ar/قائمة-المباريات",
+            per_source_limit=10,
+        )
+        self.assertEqual(len(links), 2)
+        self.assertTrue(all("/details/" in row["url"] or "%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84" in row["url"] for row in links))
+        self.assertTrue(all(row["ats_provider"] == "emploi_public" for row in links))
+        self.assertFalse(any("تسجيل" in row["url"] for row in links))
+
     def test_capgemini_parser_accepts_only_official_job_details(self):
         html = """
         <html><body>
