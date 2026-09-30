@@ -912,7 +912,9 @@ def _compact_job_queue_archive(queue, retention_days=7):
         if article.get("publish_status") == "published":
             facebook_status = str(article.get("facebook_status") or "")
             # Preserve unresolved social delivery indefinitely in the hot queue.
-            if facebook_status not in {"posted", "not_selected"}:
+            # facebook_expired is terminal only for social promotion; the Blogger
+            # article remains published and can be compacted normally.
+            if facebook_status not in {"posted", "facebook_expired"}:
                 keep.append(article)
                 continue
 
