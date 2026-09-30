@@ -12,7 +12,7 @@ import warnings
 from dataclasses import dataclass, field
 from datetime import datetime
 from html import escape
-from urllib.parse import urlparse
+from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -716,10 +716,12 @@ REQUIREMENTS
 
 APPLICATION, RESULTS AND OFFICIAL FILES
 - For an active vacancy, the strongest verified application resource is essential.
-- Prefer, in order: direct Apply/Postuler/Candidature URL, official application
-  form, official PDF/conditions/notice file, specific official job page, then a
-  general careers page only when nothing more specific exists.
-- If job_application_url exists, include it exactly once in html_content.
+- The application URL MUST belong to this exact vacancy/campaign. Prefer, in order:
+  direct Apply/Postuler/Candidature URL, official application form, then the specific
+  official job-detail page. NEVER use a generic careers/jobs/search/listing page as
+  the application link. If no job-specific application resource exists, do not invent one.
+- If job_application_url exists, include it exactly once in html_content. The backend
+  standardizes it into a prominent download-style application box before publishing.
 - If job_application_link_kind is "direct_apply", label it clearly as "التقديم المباشر".
 - For candidate_list/results/final_results, do NOT call the link "التقديم" unless a
   real application is still open. Label it according to its real purpose: "تحميل اللائحة",
@@ -741,8 +743,10 @@ APPLICATION, RESULTS AND OFFICIAL FILES
 
 IMAGES
 - DO NOT add <img>, <picture>, <figure>, image URLs, logos, captions, or source images.
-- The application generates exactly ONE article cover separately from the owner
-  template + employer logo + job title.
+- The application generates ONE branded article cover separately.
+- When a verified official PDF contains vacancy conditions/notice details, the backend
+  may render its pages as sequential article images after validation. Do not generate
+  or imitate those images yourself.
 - Never use og:image or any source-page hero/content image.
 
 SEO
@@ -1887,44 +1891,103 @@ def _ensure_verified_job_fact_rows(html_content, package):
     return str(soup)
 
 
+def _job_link_key(url):
+    try:
+        parsed = urlparse(str(url or "").strip())
+    except Exception:
+        return ""
+    if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+        return ""
+    tracking = {
+        "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content",
+        "fbclid", "gclid", "mc_cid", "mc_eid",
+    }
+    query = [
+        (key, value)
+        for key, value in parse_qsl(parsed.query, keep_blank_values=True)
+        if key.casefold() not in tracking
+    ]
+    return urlunparse(
+        parsed._replace(
+            scheme=parsed.scheme.casefold(),
+            netloc=parsed.netloc.casefold(),
+            query=urlencode(query, doseq=True),
+            fragment="",
+        )
+    ).rstrip("/")
+
+
+def _remove_existing_required_job_links(soup, required_keys):
+    """Remove earlier AI-rendered copies before appending one standard action UI."""
+    for anchor in list(soup.find_all("a", href=True)):
+        key = _job_link_key(anchor.get("href"))
+        if not key or key not in required_keys:
+            continue
+        parent = anchor.parent
+        if parent and parent.name == "p" and parent.get_text(" ", strip=True) == anchor.get_text(" ", strip=True):
+            parent.decompose()
+        else:
+            anchor.replace_with(anchor.get_text(" ", strip=True))
+
+
+def _job_action_box(label, url, *, kind="apply"):
+    if kind == "apply":
+        heading = "التقديم الرسمي لهذه الوظيفة"
+        button = "التقديم الآن عبر الرابط الرسمي"
+        box_class = "dlBox jobApplyBox"
+        button_class = "button extL jobApplyButton"
+    else:
+        heading = label or "الوثيقة الرسمية"
+        button = "فتح أو تحميل الوثيقة الرسمية"
+        box_class = "dlBox jobDocumentBox"
+        button_class = "button extL jobDocumentButton"
+    return (
+        f"<div class='{box_class}'>"
+        f"<p><strong>{escape(heading)}</strong></p>"
+        f"<p><a class='{button_class}' href='{escape(url, quote=True)}' "
+        "target='_blank' rel='nofollow noreferrer noopener' role='button'>"
+        f"{escape(button)}</a></p>"
+        "</div>"
+    )
+
+
 def _append_job_action_links_if_missing(html_content, package):
-    """Guarantee that all verified official application/detail/document links are visible."""
+    """Render each verified official URL once using a consistent action UI."""
     if not JOBS_MODE:
         return html_content
 
-    soup = BeautifulSoup(html_content or "", "html.parser")
-    existing = {
-        str(link.get("href") or "").strip()
-        for link in soup.find_all("a", href=True)
-        if str(link.get("href") or "").strip()
-    }
-    blocks = []
-    application_rows = []
-    document_rows = []
-    seen = set(existing)
-
     application_url = str(package.get("job_application_url") or "").strip()
     application_kind = str(package.get("job_application_link_kind") or "").strip()
-    if application_url and application_url not in seen:
-        application_rows.append(
-            (
-                "التقديم المباشر" if application_kind == "direct_apply"
-                else "صفحة التقديم الرسمية",
-                application_url,
-            )
-        )
-        seen.add(application_url)
-
     detail_url = str(package.get("job_detail_url") or "").strip()
-    if detail_url and detail_url not in seen and detail_url != application_url:
-        application_rows.append(("صفحة الإعلان الرسمية", detail_url))
-        seen.add(detail_url)
+
+    application_rows = []
+    document_rows = []
+    seen = set()
+
+    if application_url:
+        key = _job_link_key(application_url)
+        if key and key not in seen:
+            application_rows.append(
+                (
+                    "التقديم المباشر" if application_kind == "direct_apply" else "صفحة التقديم الرسمية",
+                    application_url,
+                    "apply",
+                )
+            )
+            seen.add(key)
+
+    if detail_url and detail_url != application_url:
+        key = _job_link_key(detail_url)
+        if key and key not in seen:
+            application_rows.append(("صفحة الإعلان الرسمية", detail_url, "detail"))
+            seen.add(key)
 
     for index, item in enumerate(package.get("job_document_links") or [], start=1):
         if not isinstance(item, dict):
             continue
         url = str(item.get("url") or "").strip()
-        if not url or url in seen:
+        key = _job_link_key(url)
+        if not key or key in seen:
             continue
         label = str(item.get("label") or "").strip()
         context = str(item.get("context") or "").strip()
@@ -1934,49 +1997,96 @@ def _append_job_action_links_if_missing(html_content, package):
         if len(label) > 180:
             label = label[:177].rstrip() + "..."
         document_rows.append((label, url))
-        seen.add(url)
+        seen.add(key)
 
-    if application_rows:
-        has_application_heading = any(
-            any(token in heading.get_text(" ", strip=True) for token in ("تقديم", "ترشيح", "روابط رسمية"))
-            for heading in soup.find_all(["h2", "h3"])
+    if not application_rows and not document_rows:
+        return html_content
+
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    required_keys = {
+        key
+        for key in (
+            [_job_link_key(row[1]) for row in application_rows]
+            + [_job_link_key(row[1]) for row in document_rows]
         )
-        if not has_application_heading:
-            blocks.append("<h2>التقديم والروابط الرسمية</h2>")
-        for label, url in application_rows:
-            blocks.append(
-                "<p><a class='extL' "
-                f"href='{escape(url, quote=True)}' "
-                "target='_blank' rel='nofollow noreferrer noopener'>"
-                f"{escape(label)}</a></p>"
-            )
+        if key
+    }
+    _remove_existing_required_job_links(soup, required_keys)
+
+    blocks = []
+    if application_rows:
+        blocks.append("<h2>التقديم والروابط الرسمية</h2>")
+        for label, url, kind in application_rows:
+            if kind == "apply":
+                blocks.append(_job_action_box(label, url, kind="apply"))
+            else:
+                blocks.append(
+                    "<p><a class='extL jobOfficialDetailLink' "
+                    f"href='{escape(url, quote=True)}' "
+                    "target='_blank' rel='nofollow noreferrer noopener'>"
+                    f"{escape(label)}</a></p>"
+                )
 
     if document_rows:
         blocks.append("<h2>الملفات والوثائق الرسمية</h2>")
-        if len(document_rows) == 1:
-            label, url = document_rows[0]
-            blocks.append(
-                "<p><a class='extL' "
-                f"href='{escape(url, quote=True)}' "
-                "target='_blank' rel='nofollow noreferrer noopener'>"
-                f"{escape(label)}</a></p>"
-            )
-        else:
-            blocks.append("<table><tbody><tr><th>الوثيقة الرسمية</th><th>الرابط</th></tr>")
-            for label, url in document_rows:
-                blocks.append(
-                    "<tr><td>"
-                    + escape(label)
-                    + "</td><td><a class='extL' href='"
-                    + escape(url, quote=True)
-                    + "' target='_blank' rel='nofollow noreferrer noopener'>فتح الملف الرسمي</a></td></tr>"
-                )
-            blocks.append("</tbody></table>")
+        for label, url in document_rows:
+            blocks.append(_job_action_box(label, url, kind="document"))
 
-    if not blocks:
+    return str(soup).rstrip() + "\n" + "\n".join(blocks)
+
+
+def _append_job_document_page_images(html_content, package):
+    """Append sequential images rendered from verified official PDF pages."""
+    if not JOBS_MODE:
         return html_content
-    return html_content.rstrip() + "\n" + "\n".join(blocks)
+    pages = [
+        row
+        for row in (package.get("job_document_page_images") or [])
+        if isinstance(row, dict) and row.get("url")
+    ]
+    if not pages:
+        return html_content
 
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    existing_sources = {
+        str(img.get("src") or "").strip()
+        for img in soup.find_all("img", src=True)
+    }
+    grouped = []
+    by_document = {}
+    for row in pages:
+        src = str(row.get("url") or "").strip()
+        if not src or src in existing_sources:
+            continue
+        doc_url = str(row.get("document_url") or "").strip()
+        if doc_url not in by_document:
+            by_document[doc_url] = []
+            grouped.append((doc_url, by_document[doc_url]))
+        by_document[doc_url].append(row)
+
+    if not grouped:
+        return html_content
+
+    blocks = [
+        "<h2>صفحات الوثيقة الرسمية</h2>",
+        "<p>يمكن قراءة صفحات الوثيقة الرسمية مباشرة أدناه، مع بقاء رابط الملف الأصلي متاحًا للتحقق والتحميل.</p>",
+    ]
+    for _doc_url, rows in grouped:
+        rows = sorted(rows, key=lambda row: int(row.get("page_number") or 0))
+        label = str(rows[0].get("document_label") or "الوثيقة الرسمية").strip()
+        blocks.append(f"<h3>{escape(label)}</h3>")
+        for row in rows:
+            src = str(row.get("url") or "").strip()
+            alt = str(row.get("alt") or label).strip()
+            page_number = int(row.get("page_number") or 0)
+            blocks.append(
+                "<figure class='jobDocPage'>"
+                f"<img class='jobDocPageImage' src='{escape(src, quote=True)}' "
+                f"alt='{escape(alt, quote=True)}' loading='lazy' decoding='async'/>"
+                f"<figcaption>الصفحة {page_number}</figcaption>"
+                "</figure>"
+            )
+    return str(soup).rstrip() + "\n" + "\n".join(blocks)
 
 def _finalize_html_content(data, package):
     """Finalize HTML content for publication."""
@@ -1989,6 +2099,7 @@ def _finalize_html_content(data, package):
         html_content = _remove_empty_job_fact_rows(html_content)
         html_content = _ensure_verified_job_fact_rows(html_content, package)
         html_content = _append_job_action_links_if_missing(html_content, package)
+        html_content = _append_job_document_page_images(html_content, package)
     else:
         html_content = _insert_main_image_if_missing(html_content, package)
         html_content = _append_trusted_references_if_missing(html_content, package)
