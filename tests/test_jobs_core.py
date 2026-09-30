@@ -1139,6 +1139,27 @@ class JobsCoreTests(unittest.TestCase):
             {"example:req-1"},
         )
 
+    def test_emploi_public_parser_captures_official_listing_deadline(self):
+        html = """
+        <html><body>
+          <div class="competition-card">
+            <a href="/ar/تفاصيل/المباريات/a25bed63-cd17-4f71-abb9-60827ddb43c0">
+              مباراة لتوظيف مهندس دولة من الدرجة الأولى - سلم 11
+            </a>
+            <span>الإعلان</span>
+            <span>2 مناصب</span>
+            <span>آخر أجل لإيداع ملفات الترشيح : 27 شتنبر 2026</span>
+          </div>
+        </body></html>
+        """
+        links = scraper._parse_emploi_public_links(
+            html,
+            "https://www.emploi-public.ma/ar/قائمة-المباريات?stat=service_etat",
+            per_source_limit=20,
+        )
+        self.assertEqual(len(links), 1)
+        self.assertEqual(links[0]["job_deadline"], "2026-09-27")
+
     def test_emploi_public_parser_keeps_only_competition_details(self):
         html = """
         <html><body>
