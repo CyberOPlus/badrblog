@@ -964,21 +964,58 @@ def _find_matching_blogger_posts(service, article):
     return matches
 
 
-def _get_saved_post_by_id(service, article, mode=None):
-    publish_mode = _effective_publish_mode(mode)
+def _saved_blogger_post_id(article):
     saved_id = str(article.get("blogger_post_id") or "").strip()
-    if not saved_id:
-        saved_id = str(article.get("blogger_draft_id") or "").strip()
+    if saved_id:
+        return saved_id
+    return str(article.get("blogger_draft_id") or "").strip()
+
+
+def _saved_blogger_status_hint(article):
+    publish_status = str(article.get("publish_status") or "").strip().lower()
+    status = str(article.get("status") or "").strip().lower()
+    if publish_status in {"published", "repair_pending"} or status == "published":
+        return "LIVE"
+    return "DRAFT"
+
+
+def _assert_insert_allowed(article):
+    saved_id = _saved_blogger_post_id(article)
+    if saved_id:
+        raise RuntimeError(
+            "Blogger lifecycle invariant blocked posts.insert because this article "
+            f"already owns saved post ID {saved_id}; update that post in place."
+        )
+
+
+def _get_saved_post_by_id(service, article, mode=None):
+    saved_id = _saved_blogger_post_id(article)
     if not saved_id:
         return None
     try:
         request = service.posts().get(blogId=BLOG_ID, postId=saved_id)
         post = _execute_blogger_request(request, "get saved post", safe_to_retry=True)
-    except HttpError:
-        return None
-    post = dict(post)
-    post["_matched_status"] = post.get("status", "DRAFT")
-    return post
+        post = dict(post)
+        post["_matched_status"] = post.get("status", _saved_blogger_status_hint(article))
+        return post
+    except HttpError as error:
+        # A temporary GET/lookup failure must never erase the authoritative
+        # Blogger identity and fall through to posts.insert. Return a placeholder
+        # so the caller still attempts posts.update against the exact saved ID.
+        status_hint = _saved_blogger_status_hint(article)
+        log_event(
+            "blogger_saved_post_lookup_failed_update_preserved",
+            article_id=article.get("id"),
+            post_id=saved_id,
+            status_hint=status_hint,
+            error=error._get_reason().strip(),
+        )
+        return {
+            "id": saved_id,
+            "status": status_hint,
+            "_matched_status": status_hint,
+            "_lookup_failed": True,
+        }
 
 
 def _choose_post_to_update(matches, article, mode=None):
@@ -1177,11 +1214,35 @@ def publish_one_blogger_draft(target_article_id=None):
             raise RuntimeError("Blogger service is not available; refusing local fallback for drafts.")
 
         title = article.get("seo_title") or article.get("title", "")
+        saved_id = _saved_blogger_post_id(article)
+        if saved_id:
+            saved_draft = _get_saved_post_by_id(service, article, mode="draft")
+            if str((saved_draft or {}).get("status") or "").upper() == "LIVE":
+                raise RuntimeError(
+                    "Saved Blogger post is already live; refusing to create or overwrite a draft. "
+                    "Use the live update path for this post ID."
+                )
+            body = _build_post_body(article)
+            request = service.posts().update(blogId=BLOG_ID, postId=saved_id, body=body)
+            post = _execute_blogger_request(request, "update saved draft", safe_to_retry=True)
+            post = _ensure_returned_post_url(service, post)
+            _apply_success(article, post, "draft")
+            article["draft_update_status"] = "updated_existing"
+            save_article_queue(queue)
+            return {
+                "checked": 1,
+                "created": False,
+                "updated_existing": True,
+                "article": article,
+                "error": "",
+            }
+
         matches = _find_matching_blogger_posts(service, article)
         if matches:
             raise RuntimeError("Duplicate draft found. Updating existing draft instead.")
 
         _custom_slug_warning(article)
+        _assert_insert_allowed(article)
 
         request = service.posts().insert(blogId=BLOG_ID, body=_build_post_body(article), isDraft=True)
         post = _execute_blogger_request(request, "insert draft", safe_to_retry=False)
@@ -1267,6 +1328,7 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
             raise RuntimeError("Blogger service is not available; refusing local fallback for drafts.")
 
         body = _build_post_body(article)
+        saved_id = _saved_blogger_post_id(article)
         saved_draft = _get_saved_post_by_id(service, article, mode="draft")
         if saved_draft and saved_draft.get("status") != "LIVE":
             request = service.posts().update(blogId=BLOG_ID, postId=saved_draft["id"], body=body)
@@ -1286,6 +1348,12 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
                 "slug_warning": slug_warning,
             }
             return result
+
+        if saved_id:
+            raise RuntimeError(
+                "Saved Blogger post ID points to a live post; refusing draft insertion or "
+                "title-based replacement. Use the live update path for the same post ID."
+            )
 
         matches = _find_matching_blogger_posts(service, article)
         duplicate_count = len(matches)
@@ -1312,6 +1380,7 @@ def fix_or_update_current_blogger_draft(target_article_id=None):
             }
             return result
 
+        _assert_insert_allowed(article)
         request = service.posts().insert(blogId=BLOG_ID, body=body, isDraft=True)
         post = _execute_blogger_request(request, "insert draft", safe_to_retry=False)
         post = _ensure_returned_post_url(service, post)
@@ -1404,17 +1473,24 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             raise RuntimeError("Blogger service is not available; refusing local fallback for Blogger publishing.")
 
         _ensure_jobs_target_blog(service)
+        saved_id = _saved_blogger_post_id(article)
         saved_post = _get_saved_post_by_id(service, article, mode=publish_mode)
-        if saved_post and (publish_mode == "live" or saved_post.get("status") != "LIVE"):
+        if saved_id and saved_post and (publish_mode == "live" or saved_post.get("status") != "LIVE"):
             generating_permalink = publish_mode == "live" and saved_post.get("status") != "LIVE"
             body = _build_post_body(article, permalink_seed=generating_permalink)
-            request = service.posts().update(blogId=BLOG_ID, postId=saved_post["id"], body=body)
+            request = service.posts().update(blogId=BLOG_ID, postId=saved_id, body=body)
             post = _execute_blogger_request(request, f"update saved {publish_mode}", safe_to_retry=True)
             post = _ensure_returned_post_url(service, post)
             post = _publish_if_live(service, post, publish_mode)
             _ensure_post_url_for_mode(post, publish_mode)
-            if generating_permalink:
-                _reject_numeric_new_job_permalink(service, post, article)
+            if generating_permalink and re.search(r"\d", _job_permalink_stem(post.get("url"))):
+                article["blogger_numeric_permalink_preserved_for_update"] = str(post.get("url") or "")
+                log_event(
+                    "job_existing_permalink_preserved",
+                    article_id=article.get("id"),
+                    post_id=saved_id,
+                    url=post.get("url", ""),
+                )
             post = _apply_jobposting_schema(service, post, article, publish_mode)
             _apply_success(article, post, publish_mode)
             article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "updated_existing"
@@ -1443,8 +1519,14 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             post = _ensure_returned_post_url(service, post)
             post = _publish_if_live(service, post, publish_mode)
             _ensure_post_url_for_mode(post, publish_mode)
-            if generating_permalink:
-                _reject_numeric_new_job_permalink(service, post, article)
+            if generating_permalink and re.search(r"\d", _job_permalink_stem(post.get("url"))):
+                article["blogger_numeric_permalink_preserved_for_update"] = str(post.get("url") or "")
+                log_event(
+                    "job_existing_permalink_preserved",
+                    article_id=article.get("id"),
+                    post_id=post_to_update.get("id"),
+                    url=post.get("url", ""),
+                )
             post = _apply_jobposting_schema(service, post, article, publish_mode)
             _apply_success(article, post, publish_mode)
             article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "updated_existing"
@@ -1460,6 +1542,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             }
             return result
 
+        _assert_insert_allowed(article)
         body = _build_post_body(
             article,
             permalink_seed=(JOBS_MODE and publish_mode == "live"),
