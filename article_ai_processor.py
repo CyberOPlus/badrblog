@@ -345,7 +345,7 @@ def _fingerprint_backoff_seconds(scope, category, count):
     if scope in {"quality", "article_input"}:
         base = 30 * 60
         cap = 6 * 3600
-    elif category == "auth":
+    elif category in {"auth", "config"}:
         base = 6 * 3600
         cap = 24 * 3600
     elif category == "quota":
@@ -449,6 +449,15 @@ def _open_provider_circuit(provider, error):
 def _open_global_circuit(error, providers=None):
     providers = sorted({str(value or "").strip().lower() for value in (providers or []) if str(value or "").strip()})
     memory = _load_ai_memory()
+    existing = memory.get("global_circuit") if isinstance(memory.get("global_circuit"), dict) else {}
+    existing_until = _cooldown_entry_until(existing)
+    if existing_until > time.time():
+        return {
+            "until": existing_until,
+            "fingerprint": str(existing.get("fingerprint") or ""),
+            "category": str(existing.get("category") or ""),
+        }
+
     provider_untils = [
         _provider_circuit_until(provider)
         for provider in providers
@@ -3106,6 +3115,49 @@ def _generate_with_provider_name(provider, prompt, context=None):
     raise last_error or RuntimeError(f"No {provider} AI candidate returned a response.")
 
 
+def _jobs_pre_ai_evidence_error(package):
+    package = dict(package or {})
+    source_url = str(package.get("url") or package.get("source_url") or "").strip()
+    if not source_url:
+        return "source/evidence problem: missing verified job source URL before AI"
+
+    notice_type = str(package.get("job_notice_type") or "").strip().lower()
+    application_url = str(package.get("job_application_url") or "").strip()
+    if notice_type in {"vacancy", "competition"} and not application_url:
+        return "source/evidence problem: active job notice is missing a verified application resource"
+
+    evidence_stage = str(package.get("identity_evidence_stage_status") or "").strip().lower()
+    try:
+        pdf_failures = int(package.get("job_document_text_download_failures") or 0)
+    except (TypeError, ValueError):
+        pdf_failures = 0
+    if evidence_stage == "incomplete" and pdf_failures > 0:
+        return "source/evidence problem: official document evidence could not be retrieved"
+
+    return ""
+
+
+def _is_nonrepairable_jobs_evidence_quality_error(error, package=None):
+    reason = str(error or "").casefold()
+    package = dict(package or {})
+    original_notice_type = str(package.get("job_notice_type") or "").strip().lower()
+
+    if "missing job source url" in reason:
+        return True
+    if "generic application portal is not a verified official channel" in reason:
+        return True
+    if "job application url belongs to a different vacancy" in reason:
+        return True
+    if "generic application portal must be classified as official_application_channel" in reason:
+        return True
+    if (
+        "active job notice is missing a verified application resource" in reason
+        and original_notice_type in {"vacancy", "competition"}
+    ):
+        return True
+    return False
+
+
 def _is_quality_error(error):
     return isinstance(error, ValueError)
 
@@ -3208,8 +3260,23 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
 
     article = eligible[0]
     package = article["ai_input_package"]
-    prompt = _build_prompt(package)
+    prompt = ""
     previous_data = None
+    last_error = None
+
+    if JOBS_MODE:
+        pre_ai_evidence_error = _jobs_pre_ai_evidence_error(package)
+        if pre_ai_evidence_error:
+            last_error = AIArticleInputError(pre_ai_evidence_error)
+            log_event(
+                "ai_source_evidence_failure_deferred",
+                article_id=article.get("id"),
+                reason=pre_ai_evidence_error,
+            )
+        else:
+            prompt = _build_prompt(package)
+    else:
+        prompt = _build_prompt(package)
 
     if (
         JOBS_MODE
@@ -3229,9 +3296,28 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             str(article.get("ai_retry_reason") or ""),
         )
 
-    last_error = None
-    provider_sequence = _attempt_provider_sequence()
+    provider_sequence = []
+    if last_error is None:
+        try:
+            provider_sequence = _attempt_provider_sequence()
+        except Exception as error:
+            if not JOBS_MODE:
+                raise
+            last_error = error
+            try:
+                configured_providers = _resolve_providers()
+            except Exception:
+                configured_providers = []
+            _open_global_circuit(error, providers=configured_providers)
+            log_event(
+                "ai_provider_preflight_failed",
+                article_id=article.get("id"),
+                category=_provider_error_category(error),
+                reason=_safe_error_reason(error),
+            )
+
     failed_provider_names = set()
+    provider_failure_categories = {}
     quality_retry_counts = {}
     quality_repairs_used = 0
     forced_next_provider = ""
@@ -3266,9 +3352,13 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
         else max(1, MAX_AI_ATTEMPTS)
     )
     if JOBS_MODE and not provider_sequence:
-        last_error = RuntimeError(
-            "No AI provider is currently available; Jobs article will remain queued for a later AI retry."
-        )
+        if last_error is None:
+            if _global_circuit_remaining() > 0:
+                last_error = AIProviderRotationExhausted("global AI circuit is open")
+            else:
+                last_error = RuntimeError(
+                    "No AI provider is currently available; Jobs article will remain queued for a later AI retry."
+                )
         log_event(
             "ai_providers_unavailable_jobs_retry_pending",
             article_id=article.get("id"),
@@ -3415,6 +3505,18 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     reason=_safe_error_reason(error),
                 )
             if is_quality_failure:
+                if JOBS_MODE and _is_nonrepairable_jobs_evidence_quality_error(error, package):
+                    last_error = AIArticleInputError(
+                        f"source/evidence problem: {_safe_error_reason(error)}"
+                    )
+                    log_event(
+                        "ai_source_evidence_failure_deferred",
+                        article_id=article.get("id"),
+                        provider=provider or provider_used,
+                        reason=_safe_error_reason(error),
+                    )
+                    break
+
                 if JOBS_MODE:
                     if quality_repairs_used >= JOBS_AI_QUALITY_REPAIRS or attempt >= total_attempts:
                         log_event(
@@ -3508,6 +3610,32 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     )
                 if provider:
                     failed_provider_names.add(provider)
+                    provider_failure_categories[provider] = _provider_error_category(error)
+
+                infrastructure_failures = {
+                    name
+                    for name, category in provider_failure_categories.items()
+                    if category in {"outage", "timeout"}
+                }
+                if JOBS_MODE and len(infrastructure_failures) >= 2:
+                    try:
+                        configured_providers = _resolve_providers()
+                    except Exception:
+                        configured_providers = sorted(failed_provider_names)
+                    circuit = _open_global_circuit(
+                        error,
+                        providers=configured_providers,
+                    )
+                    log_event(
+                        "ai_global_outage_detected_early",
+                        article_id=article.get("id"),
+                        failed_providers=",".join(sorted(infrastructure_failures)),
+                        category=circuit.get("category", ""),
+                        failure_fingerprint=circuit.get("fingerprint", ""),
+                        retry_after=_epoch_to_iso(circuit.get("until", 0)),
+                    )
+                    break
+
                 if attempt < total_attempts:
                     next_provider = ""
                     if provider_sequence:
