@@ -112,16 +112,15 @@ def _article_word_count(article):
 
 def _publish_quality_error(article, articles):
     words = _article_word_count(article)
-    minimum_publishable_words = 120 if JOBS_MODE else MIN_PUBLISHABLE_WORDS
-    if words < minimum_publishable_words:
+    if (not JOBS_MODE) and words < MIN_PUBLISHABLE_WORDS:
         log_event(
             "article_skipped_too_short",
             article_id=article.get("id"),
             words=words,
-            reason=f"minimum {minimum_publishable_words}",
+            reason=f"minimum {MIN_PUBLISHABLE_WORDS}",
         )
         article["final_word_count"] = words
-        return f"article too short ({words} words; minimum {minimum_publishable_words})"
+        return f"article too short ({words} words; minimum {MIN_PUBLISHABLE_WORDS})"
 
     result = validate_before_publish(article, existing_articles=articles)
     article["pre_publish_quality"] = result.to_dict()
@@ -138,10 +137,40 @@ def _publish_quality_error(article, articles):
     return ""
 
 
+def _jobs_quality_error_is_ai_repairable(error):
+    reason = str(error or "").casefold()
+    backend_only_hints = (
+        "generated cover image",
+        "missing, reordered, duplicated, or unverified images",
+        "rendered official pdf page is missing",
+        "rendered official pdf pages are duplicated or out of order",
+        "logo",
+    )
+    return not any(hint in reason for hint in backend_only_hints)
+
+
 def _block_publish(queue, article, error, result_shape):
     article["publish_status"] = "failed"
     article["publish_error"] = f"Publish blocked: {error}"
     article["publish_blocked_reason"] = error
+
+    if JOBS_MODE and _jobs_quality_error_is_ai_repairable(error):
+        provider_used = str(article.get("ai_provider_used") or "").strip()
+        provider_family = provider_used.split(":", 1)[0].strip().lower()
+        article["ai_status"] = "failed"
+        article["ai_quality_status"] = "pre_publish_failed_retry_pending"
+        article["ai_retry_pending"] = True
+        article["ai_retry_origin"] = "pre_publish_quality"
+        article["ai_retry_reason"] = str(error)
+        if provider_family:
+            article["ai_retry_provider"] = provider_family
+        log_event(
+            "jobs_pre_publish_quality_returned_to_ai",
+            article_id=article.get("id"),
+            provider=provider_family,
+            reason=error,
+        )
+
     save_article_queue(queue)
     log_event(
         "blogger_publish_blocked",

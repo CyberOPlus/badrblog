@@ -875,16 +875,20 @@ SEO / ADSENSE-FRIENDLY EDITORIAL QUALITY
 FINAL SILENT CHECK
 Before returning JSON, verify:
 - The article is complete for the available verified source: no useful verified duty, requirement,
-  deadline, official file, or application resource was omitted merely to keep the article short.
-- No unsupported information.
-- No duplicated paragraph or URL.
-- If a verified deadline exists, "آخر أجل للترشيح" is visible with that deadline.
-- Active vacancy: strongest verified application link included.
+  specialty/grade row, position count, test detail, deadline, official file, or application resource was omitted.
+- Every factual claim is traceable to the verified package, source_tables, or job_document_texts.
+- Every date, position count, salary, age, experience period, test duration, coefficient, and percentage is supported.
+- No specialty/position/test row is duplicated or silently merged with another row.
+- No unsupported external URL is present.
+- No duplicated paragraph, structured row, fact, or URL.
+- If a verified deadline exists, its value is clearly present once; do not force a particular heading/label.
+- Active vacancy/competition: strongest verified application link included and it belongs to this exact campaign.
 - Candidate list/result: status is clear and it is NOT falsely presented as a new vacancy.
-- All useful verified official PDF/list links are preserved when available.
-- Multiple official documents are organized in a table, not dumped as raw links.
-- No image tag or image URL inside html_content.
+- Every useful verified official PDF/list link is preserved exactly once.
+- Official document links are organized in the clearest structure for this notice; do not force a table when it is not useful.
+- No image tag or image URL inside html_content; the backend owns the cover/PDF-page images.
 - No fake salary, deadline, vacancies, diploma, requirement, list status, or result.
+- No generic boilerplate, promotional filler, or template sentences that could fit any job notice.
 - slug is natural English, lowercase letters/hyphens only, with no digits or Arabic transliteration.
 
 OUTPUT JSON SHAPE:
@@ -1133,6 +1137,12 @@ MANDATORY JOB RETRY RULES:
   exam/test detail, eligibility condition, required application document, official document, and application resource.
 - Do not summarize away meaningful rows from source_tables or useful facts from job_document_texts.
 - Never invent, repeat, speculate, pad, or add boilerplate.
+- Treat the Quality Gate failure reason above as a concrete repair instruction: correct that failure while preserving
+  all other verified facts and links that were already correct.
+- Reconcile every sensitive fact against VERIFIED JOB PACKAGE before returning: dates, counts, specialties/grades,
+  salaries, ages, experience periods, test durations, coefficients, percentages, application URL, and document URLs.
+- Preserve each important source_tables data row without duplicating it; do not merge two specialties/grades/tests
+  into one row unless the verified source itself does so.
 - Re-evaluate ALL evidence, including source_tables and job_document_texts, and return the correct notice_type:
   vacancy, competition, candidate_list, results, final_results, or update. The incoming job_notice_type is only a hint.
 - Re-edit the title as a human Moroccan employment/competition editor: understand the current page type and stage first, then choose the clearest natural headline.
@@ -2818,8 +2828,15 @@ def _apply_success(article, data, provider_used):
     article["ai_provider_used"] = provider_used
     article.pop("ai_error", None)
     article.pop("ai_deterministic_fallback", None)
+    if article.get("ai_retry_origin") == "pre_publish_quality":
+        article.pop("publish_status", None)
+        article.pop("publish_error", None)
+        article.pop("publish_blocked_reason", None)
+        article.pop("pre_publish_quality", None)
     article.pop("ai_retry_pending", None)
     article.pop("ai_retry_reason", None)
+    article.pop("ai_retry_origin", None)
+    article.pop("ai_retry_provider", None)
 
 
 
@@ -2855,12 +2872,35 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     article = eligible[0]
     package = article["ai_input_package"]
     prompt = _build_prompt(package)
-    last_error = None
     previous_data = None
+
+    if (
+        JOBS_MODE
+        and article.get("ai_retry_origin") == "pre_publish_quality"
+        and str(article.get("ai_retry_reason") or "").strip()
+    ):
+        previous_data = {
+            "title": article.get("seo_title") or "",
+            "description": article.get("seo_description") or "",
+            "slug": article.get("seo_slug") or "",
+            "html_content": article.get("final_html") or "",
+            "notice_type": article.get("job_notice_type") or "",
+            "facebook_post_text": article.get("facebook_post_text") or "",
+        }
+        prompt = _build_expansion_retry_prompt(
+            package,
+            previous_data,
+            str(article.get("ai_retry_reason") or ""),
+        )
+
+    last_error = None
     provider_sequence = _attempt_provider_sequence()
     failed_provider_names = set()
     quality_retry_counts = {}
     forced_next_provider = ""
+    preferred_repair_provider = str(article.get("ai_retry_provider") or "").strip().lower()
+    if JOBS_MODE and preferred_repair_provider:
+        forced_next_provider = preferred_repair_provider
     excess_english_retry_used = False
     context = AIExecutionContext(article_id=article.get("id") or article.get("url") or "")
     context.skipped_slow_models_count = _skipped_slow_models_count()
@@ -3048,6 +3088,8 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                             reason=error,
                         )
                         prompt = _build_excess_english_retry_prompt(package, previous_data, str(error))
+                        if JOBS_MODE and provider:
+                            forced_next_provider = provider
                         continue
                     log_event(
                         "article_skipped_excess_english_after_retry",
@@ -3060,11 +3102,11 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 if provider:
                     quality_retry_counts[provider] = quality_retry_counts.get(provider, 0) + 1
                 if attempt < total_attempts and provider:
-                    if JOBS_MODE and provider == "gemini":
-                        # A valid Gemini response that misses a formatting/quality
-                        # constraint is not a provider outage. Repair it with Gemini;
-                        # reserve OpenRouter for real Gemini provider/quota failures.
-                        forced_next_provider = "gemini"
+                    if JOBS_MODE:
+                        # Quality/content failure is not a provider outage. The same
+                        # AI provider that wrote the article must repair its own output.
+                        # Rotate only when the provider itself fails.
+                        forced_next_provider = provider
                     elif quality_retry_counts.get(provider, 0) < 2:
                         forced_next_provider = provider
                     else:
