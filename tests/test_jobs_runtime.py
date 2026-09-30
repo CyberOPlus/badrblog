@@ -150,7 +150,6 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertNotIn("facebook_failure_count", article)
         save.assert_called_once()
 
-    def test_queue_save_is_noop_when_payload_is_unchanged(self):
     def test_archived_published_job_can_be_reopened_for_link_repair(self):
         with self.subTest("published archive repair"):
             original = article_queue.ARTICLE_QUEUE_PATH
