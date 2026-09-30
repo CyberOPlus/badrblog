@@ -511,7 +511,8 @@ def _normalize_memory_text(value):
 
 
 def _caption_fingerprint(caption):
-    normalized = re.sub(r"\s+", " ", str(caption or "").casefold()).strip()
+    normalized = re.sub(r"[\u200e\u200f\u202a-\u202e\u2066-\u2069]", "", str(caption or ""))
+    normalized = re.sub(r"\s+", " ", normalized.casefold()).strip()
     normalized = re.sub(r"https?://\S+", "", normalized)
     normalized = re.sub(r"#[\w\u0600-\u06FF_]+", "", normalized, flags=re.UNICODE)
     return hashlib.sha256(_normalize_memory_text(normalized).encode("utf-8")).hexdigest()[:20]
@@ -1307,167 +1308,38 @@ def _split_caption_parts(caption):
     return post_text.strip(), hashtags.strip()
 
 
-def _job_caption_variant_index(article, count, offset=0):
-    count = max(1, int(count or 1))
-    seed = "|".join(
-        [
-            str(article.get("job_campaign_id") or ""),
-            str(article.get("id") or ""),
-            str(article.get("url") or ""),
-            str(article.get("job_company") or article.get("source_name") or ""),
-            str(article.get("job_title") or article.get("seo_title") or ""),
-        ]
-    )
-    base = int(hashlib.sha256(seed.encode("utf-8")).hexdigest()[:8], 16) % count
-    return (base + int(offset or 0)) % count
+def _jobs_facebook_blueprint(article, blogger_url):
+    """Use the AI-written Jobs post and force Arabic paragraph direction for Facebook."""
+    if str(article.get("facebook_post_source") or "").strip().lower() != "ai":
+        raise RuntimeError("Jobs Facebook post is not AI-generated; refusing template fallback.")
 
+    raw_caption = str(article.get("facebook_post_text") or "").strip()
+    if not raw_caption:
+        raise RuntimeError("Missing AI-generated Jobs Facebook post.")
 
-def _jobs_facebook_blueprint(article, blogger_url, variant_offset=0):
-    company = str(article.get("job_company") or article.get("source_name") or "").strip()
-    title = _short_title(article) or str(article.get("job_title") or "").strip()
-    location = str(article.get("job_location") or "").strip()
-    deadline = str(article.get("job_deadline_display") or article.get("job_deadline") or "").strip()
-    contract = str(article.get("job_contract_type") or "").strip()
-    notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
-    notice_status = str(article.get("job_notice_status") or "").strip().lower()
-    try:
-        positions = max(0, int(article.get("job_number_of_positions") or 0))
-    except (TypeError, ValueError):
-        positions = 0
+    # AI writes the language; the publisher owns display direction. Strip any
+    # model-supplied bidi controls, then force every visible line to start RTL.
+    raw_caption = re.sub(
+        r"[\u200e\u200f\u202a-\u202e\u2066-\u2069]",
+        "",
+        raw_caption,
+    ).strip()
+    raw_caption = re.sub(r"\n{3,}", "\n\n", raw_caption)
 
-    if notice_type == "candidate_list":
-        status_word = "المؤقتة" if notice_status == "provisional" else ""
-        base_hook = (
-            f"صدرت لوائح المدعوين {status_word} لدى {company}".replace("  ", " ").strip()
-            if company
-            else "صدرت لوائح المدعوين للمباراة"
-        )
-        variants = (
-            (base_hook, "التفاصيل واللوائح الرسمية في أول تعليق 👇"),
-            (
-                f"نُشرت لوائح المدعوين لدى {company}" if company else "نُشرت لوائح المدعوين للمباراة",
-                "اللوائح والتفاصيل الرسمية في أول تعليق 👇",
-            ),
-            (
-                f"تحديث جديد يخص لوائح المدعوين لدى {company}" if company else "تحديث جديد يخص لوائح المدعوين",
-                "راجع اللوائح الرسمية من الرابط في أول تعليق 👇",
-            ),
-        )
-    elif notice_type == "final_results":
-        variants = (
-            (
-                f"صدرت النتائج النهائية لدى {company}" if company else "صدرت النتائج النهائية للمباراة",
-                "التفاصيل والنتائج الرسمية في أول تعليق 👇",
-            ),
-            (
-                f"أُعلن عن النتائج النهائية لدى {company}" if company else "أُعلن عن النتائج النهائية للمباراة",
-                "النتائج والتفاصيل الرسمية في أول تعليق 👇",
-            ),
-            (
-                f"تحديث نهائي للنتائج لدى {company}" if company else "تحديث نهائي لنتائج المباراة",
-                "راجع النتائج الرسمية من الرابط في أول تعليق 👇",
-            ),
-        )
-    elif notice_type == "results":
-        variants = (
-            (
-                f"صدرت نتائج جديدة لدى {company}" if company else "صدرت نتائج المباراة",
-                "التفاصيل والنتائج الرسمية في أول تعليق 👇",
-            ),
-            (
-                f"نُشرت نتائج جديدة لدى {company}" if company else "نُشرت نتائج المباراة",
-                "النتائج والتفاصيل الرسمية في أول تعليق 👇",
-            ),
-            (
-                f"تحديث جديد للنتائج لدى {company}" if company else "تحديث جديد لنتائج المباراة",
-                "راجع النتائج الرسمية من الرابط في أول تعليق 👇",
-            ),
-        )
-    elif positions >= 100 and company:
-        variants = (
-            (
-                f"فرصة توظيف واسعة لدى {company} تستحق الاطلاع",
-                "التفاصيل وطريقة التقديم في أول تعليق 👇",
-            ),
-            (
-                f"فرصة توظيف تشمل {positions} منصبًا لدى {company}",
-                "الشروط وتفاصيل الترشيح في أول تعليق 👇",
-            ),
-            (
-                f"إعلان توظيف واسع لدى {company} بعدد {positions} منصبًا",
-                "تفاصيل الفرصة وطريقة الترشح في أول تعليق 👇",
-            ),
-        )
-    elif company:
-        variants = (
-            (
-                f"فرصة توظيف جديدة لدى {company} تستحق الاطلاع",
-                "التفاصيل وطريقة التقديم في أول تعليق 👇",
-            ),
-            (
-                f"{company} تتيح فرصة توظيف جديدة للراغبين في الترشح",
-                "الشروط وتفاصيل الترشيح في أول تعليق 👇",
-            ),
-            (
-                f"إعلان وظيفة جديد لدى {company} مع تفاصيل الترشح",
-                "تفاصيل الفرصة وطريقة التقديم في أول تعليق 👇",
-            ),
-        )
-    else:
-        variants = (
-            (
-                "فرصة عمل جديدة تستحق الاطلاع قبل التقديم",
-                "التفاصيل وطريقة التقديم في أول تعليق 👇",
-            ),
-            (
-                "إعلان توظيف جديد مع تفاصيل الشروط والترشح",
-                "الشروط وتفاصيل الترشيح في أول تعليق 👇",
-            ),
-            (
-                "فرصة توظيف جديدة مع معلومات التقديم الأساسية",
-                "تفاصيل الفرصة وطريقة التقديم في أول تعليق 👇",
-            ),
-        )
+    plain_lines = raw_caption.splitlines()
+    nonempty_lines = [line.strip() for line in plain_lines if line.strip()]
+    if not nonempty_lines:
+        raise RuntimeError("AI-generated Jobs Facebook post is empty after cleanup.")
 
-    variant_index = _job_caption_variant_index(
-        article,
-        len(variants),
-        offset=variant_offset,
-    )
-    hook, cta = variants[variant_index]
+    hook = nonempty_lines[0]
+    cta = next((line for line in nonempty_lines if "أول تعليق" in line), "")
+    hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", raw_caption, flags=re.UNICODE)
 
-    lines = [hook]
-    if title:
-        label = "📋 الإعلان" if notice_type != "vacancy" else "💼 الوظيفة"
-        lines.append(f"{label}: {title}")
-    if company:
-        lines.append(f"🏢 الجهة: {company}")
-    if location:
-        lines.append(f"📍 المكان: {location}")
-    if positions:
-        lines.append(f"👥 عدد المناصب: {positions}")
-    if contract and notice_type == "vacancy":
-        lines.append(f"📄 نوع العقد: {contract}")
-    if deadline and notice_type == "vacancy":
-        lines.append(f"⏳ آخر أجل للترشيح: {deadline}")
-
-    if notice_type == "vacancy":
-        lines.append("راجع الشروط وآخر أجل قبل إرسال طلبك.")
-    elif notice_status == "provisional":
-        lines.append("اللائحة مؤقتة وقد يطرأ عليها تحديث قبل الإعلان النهائي.")
-    else:
-        lines.append("راجع الوثيقة أو اللائحة الرسمية للتأكد من اسمك وباقي التفاصيل.")
-    lines.append(f"🔗 {cta}")
-
-    hashtags = ["#وظائف", "#فرص_عمل", "#المغرب"]
-    if notice_type in {"candidate_list", "results", "final_results"}:
-        hashtags = ["#مباريات", "#نتائج", "#المغرب"]
-    if article.get("job_remote") and notice_type == "vacancy":
-        hashtags.append("#عمل_عن_بعد")
-    if article.get("job_visa_sponsorship") and notice_type == "vacancy":
-        hashtags.append("#تأشيرة_عمل")
-    hashtags = hashtags[:5]
-    caption = "\n\n".join(lines + [" ".join(hashtags)])
+    rtl_mark = "\u200f"
+    caption = "\n".join(
+        (rtl_mark + line.strip()) if line.strip() else ""
+        for line in plain_lines
+    ).strip()
 
     return {
         "caption": caption,
@@ -1478,39 +1350,26 @@ def _jobs_facebook_blueprint(article, blogger_url, variant_offset=0):
         "lead": "",
         "sections": [],
         "style": "jobs",
-        "structure": f"jobs_{notice_type}_v{variant_index}",
-        "variant_index": variant_index,
+        "structure": "jobs_ai",
         "blogger_url": blogger_url,
+        "source": "ai",
     }
-
 
 def _prepare_facebook_post(article, articles, blogger_url):
     if JOBS_MODE:
         memory = _load_style_memory()
-        last_error = None
-        for variant_offset in range(3):
-            blueprint = _jobs_facebook_blueprint(
-                article,
-                blogger_url,
-                variant_offset=variant_offset,
-            )
-            try:
-                _validate_facebook_caption(
-                    blueprint["caption"],
-                    blogger_url=blogger_url,
-                    style="",
-                    hook=blueprint["hook"],
-                    structure_id="",
-                    title=_short_title(article),
-                    memory=memory,
-                    allow_simple=True,
-                )
-                return blueprint
-            except RuntimeError as error:
-                last_error = error
-                if "too similar to a recent post" not in str(error):
-                    raise
-        raise last_error or RuntimeError("No distinct Jobs Facebook caption variant available.")
+        blueprint = _jobs_facebook_blueprint(article, blogger_url)
+        _validate_facebook_caption(
+            blueprint["caption"],
+            blogger_url=blogger_url,
+            style="",
+            hook=blueprint["hook"],
+            structure_id="",
+            title=_short_title(article),
+            memory=memory,
+            allow_simple=True,
+        )
+        return blueprint
 
     last_error = None
     memory = _load_style_memory()
@@ -1723,26 +1582,46 @@ def _first_comment_text(blogger_post_url):
 def _validate_facebook_caption(caption, blogger_url="", style="", hook="", structure_id="", title="", memory=None, allow_simple=False):
     if not str(caption or "").strip():
         raise RuntimeError("Facebook caption is empty.")
-    if "```" in caption or re.search(r'"\s*(title|description|html_content|facebook_post_text)\s*"\s*:', caption):
+
+    raw_caption = str(caption)
+    plain_caption = re.sub(
+        r"[\u200e\u200f\u202a-\u202e\u2066-\u2069]",
+        "",
+        raw_caption,
+    )
+
+    if JOBS_MODE:
+        visible_lines = [line for line in raw_caption.splitlines() if line.strip()]
+        if any(not line.startswith("\u200f") for line in visible_lines):
+            raise RuntimeError("Jobs Facebook caption is not forced to RTL on every visible line.")
+
+    if "```" in plain_caption or re.search(r'"\s*(title|description|html_content|facebook_post_text)\s*"\s*:', plain_caption):
         raise RuntimeError("Facebook caption contains visible JSON/markdown.")
-    if re.search(r"https?://\S+", caption):
+    if re.search(r"https?://\S+", plain_caption):
         raise RuntimeError("Facebook caption contains a URL.")
-    if re.search(r"^\s*[-*]\s+", caption, flags=re.MULTILINE):
+    if re.search(r"^\s*[-*]\s+", plain_caption, flags=re.MULTILINE):
         raise RuntimeError("Facebook caption contains markdown bullets.")
-    hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", caption, flags=re.UNICODE)
+
+    hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", plain_caption, flags=re.UNICODE)
     if len(set(hashtags)) != len(hashtags):
         raise RuntimeError("Facebook caption contains duplicate hashtags.")
-    if not (3 <= len(hashtags) <= 6):
+    if JOBS_MODE:
+        if not (3 <= len(hashtags) <= 5):
+            raise RuntimeError("Jobs Facebook caption must contain 3 to 5 hashtags.")
+    elif not (3 <= len(hashtags) <= 6):
         raise RuntimeError("Facebook caption must contain 3 to 6 hashtags.")
-    if blogger_url and "أول تعليق" not in caption:
+
+    if blogger_url and "أول تعليق" not in plain_caption:
         raise RuntimeError("Facebook caption must say the link is in the first comment.")
     if not hook or _normalize_memory_text(hook) == _normalize_memory_text(title):
         raise RuntimeError("Facebook caption hook is missing or identical to the title.")
-    first_line = next((line.strip() for line in str(caption).splitlines() if line.strip()), "")
+
+    first_line = next((line.strip() for line in plain_caption.splitlines() if line.strip()), "")
     if len(first_line) < 18 or first_line.startswith("#"):
         raise RuntimeError("Facebook caption hook is too weak.")
-    arabic_chars = len(re.findall(r"[\u0600-\u06FF]", caption))
-    latin_words = re.findall(r"\b[A-Za-z][A-Za-z0-9+._-]*\b", caption)
+
+    arabic_chars = len(re.findall(r"[\u0600-\u06FF]", plain_caption))
+    latin_words = re.findall(r"\b[A-Za-z][A-Za-z0-9+._-]*\b", plain_caption)
     allowed_latin = [
         word for word in latin_words
         if any(word.casefold() == allowed.casefold() for allowed in ALLOWED_ENGLISH_TERMS)
@@ -1750,20 +1629,25 @@ def _validate_facebook_caption(caption, blogger_url="", style="", hook="", struc
     ]
     if arabic_chars < 40:
         raise RuntimeError("Facebook caption is not Arabic enough.")
-    if (not JOBS_MODE) and latin_words and len(allowed_latin) / max(1, len(latin_words)) < 0.75:
+
+    if JOBS_MODE:
+        latin_chars = len(re.findall(r"[A-Za-zÀ-ÖØ-öø-ÿ]", plain_caption))
+        if latin_chars > max(80, int(arabic_chars * 0.60)):
+            raise RuntimeError("Jobs Facebook caption must remain Arabic-first even with foreign terms.")
+    elif latin_words and len(allowed_latin) / max(1, len(latin_words)) < 0.75:
         raise RuntimeError("Facebook caption contains unnecessary mixed-language terms.")
-    if len(caption) > 1200 or len(caption) < 120:
+
+    if len(plain_caption) > 1200 or len(plain_caption) < 120:
         raise RuntimeError("Facebook caption length is outside the expected range.")
-    fingerprint = _caption_fingerprint(caption)
+    fingerprint = _caption_fingerprint(plain_caption)
     if fingerprint in set((memory or {}).get("recent_fingerprints", [])):
         raise RuntimeError("Facebook caption is too similar to a recent post.")
     if style and structure_id:
         for header in STYLE_HEADERS.get(style, ()):
-            if header not in caption:
+            if header not in plain_caption:
                 raise RuntimeError("Facebook caption is missing its required structure.")
-    if not allow_simple and len([line for line in str(caption).splitlines() if line.strip()]) < 5:
+    if not allow_simple and len([line for line in plain_caption.splitlines() if line.strip()]) < 5:
         raise RuntimeError("Facebook caption is too thin.")
-
 
 def _facebook_failure_delay_seconds(error, failure_count):
     text = str(error or "").casefold().replace(" ", "")
