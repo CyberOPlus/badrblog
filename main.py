@@ -2246,6 +2246,23 @@ def _log_retry_next_candidate(failed_article, next_article, stage, reason):
     )
 
 
+def _is_retryable_publish_deferral(reason, article=None):
+    """Return True for a clean Blogger retry that should wait for the next cycle."""
+    text = str(reason or "").strip().casefold()
+    numeric_permalink_retry = (
+        "blogger generated a numeric jobs permalink" in text
+        and "deleted and will retry" in text
+    )
+    if not numeric_permalink_retry:
+        return False
+    if isinstance(article, dict):
+        try:
+            return int(article.get("permalink_attempt") or 0) > 0
+        except (TypeError, ValueError):
+            return bool(article.get("blogger_numeric_permalink_rejected"))
+    return True
+
+
 def _retry_after_single_candidate_failure(
     failed_article,
     stage,
@@ -2258,6 +2275,20 @@ def _retry_after_single_candidate_failure(
     initial_failure_scope = str(
         (failed_article or {}).get("ai_failure_scope") or ""
     ).strip().lower()
+
+    if stage == "publish" and _is_retryable_publish_deferral(reason, failed_article):
+        # Blogger occasionally appends digits to a requested Jobs permalink.
+        # The publisher deletes that unwanted post and advances an alphabetic
+        # permalink seed. Keep this already-generated article intact and retry it
+        # on the next scheduled cycle; rotating through other candidates here
+        # wastes AI/publish budget and can push the run into its timeout.
+        log_event(
+            "blogger_publish_deferred_to_next_cycle",
+            article_id=(failed_article or {}).get("id"),
+            permalink_attempt=(failed_article or {}).get("permalink_attempt", 0),
+            reason=reason,
+        )
+        return None, []
 
     # A retry-backoff result means the article was intentionally not sent to
     # any provider. Do not count it as another failure and do not rotate to more
@@ -2320,6 +2351,8 @@ def _retry_after_single_candidate_failure(
         retry_results.append(item_result)
         if item_result.get("completed"):
             return item_result, retry_results
+        if item_result.get("waiting_for_publish_retry"):
+            return None, retry_results
         last_failed = item_result.get("article") or next_selected
     return None, retry_results
 
@@ -2401,11 +2434,29 @@ def _process_hourly_target(selected, publish_mode):
         draft_action = "created"
     result.update({"draft": draft_result, "draft_action": draft_action})
     if draft_action not in {"created", "updated"}:
-        _mark_candidate_failure_for_retry(article or selected, "publish", draft_result.get("error") or "Blogger failed")
+        publish_error = draft_result.get("error") or "Blogger failed"
+        if _is_retryable_publish_deferral(publish_error, article or selected):
+            result.update(
+                {
+                    "article": article,
+                    "reason": publish_error,
+                    "step_reached": "publish",
+                    "skipped": True,
+                    "waiting_for_publish_retry": True,
+                }
+            )
+            log_event(
+                "blogger_publish_deferred_to_next_cycle",
+                article_id=(article or selected).get("id"),
+                permalink_attempt=(article or selected).get("permalink_attempt", 0),
+                reason=publish_error,
+            )
+            return result
+        _mark_candidate_failure_for_retry(article or selected, "publish", publish_error)
         result.update(
             {
                 "article": article,
-                "reason": draft_result.get("error") or "Blogger failed",
+                "reason": publish_error,
                 "step_reached": "publish",
             }
         )
@@ -3215,8 +3266,13 @@ def run_safe_cycle_only():
     print_facebook_preview(facebook_preview)
 
     stopped_reason = ""
+    publish_retry_deferred = False
     if draft_action not in {"created", "updated"}:
         stopped_reason = draft_result.get("error", "")
+        publish_retry_deferred = _is_retryable_publish_deferral(
+            stopped_reason,
+            article or selected,
+        )
         retry_success, retry_results = _retry_after_single_candidate_failure(
             article or selected,
             "publish",
@@ -3270,6 +3326,8 @@ def run_safe_cycle_only():
         article = _find_article_by_id(selected_id)
     return {
         "completed": draft_action in {"created", "updated"},
+        "skipped": bool(publish_retry_deferred),
+        "waiting_for_publish_retry": bool(publish_retry_deferred),
         "article": article,
         "fetch": fetch_stats,
         "schedule": schedule_status,
