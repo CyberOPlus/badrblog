@@ -1866,7 +1866,10 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertTrue(result["completed"])
         post_fb.assert_called_once()
         self.assertTrue(post_fb.call_args.kwargs.get("respect_limits"))
-        self.assertTrue(post_fb.call_args.kwargs.get("target_article_id"))
+        # Facebook is a real pending queue now. Blogger success triggers a queue
+        # drain, not a forced post for the article that just published; deadline
+        # and queue priority decide which pending job is promoted next.
+        self.assertNotIn("target_article_id", post_fb.call_args.kwargs)
 
     def test_facebook_safety_interval_cannot_be_disabled_by_zero_env_value(self):
         now = datetime(2026, 4, 27, 12, 10, 0)
