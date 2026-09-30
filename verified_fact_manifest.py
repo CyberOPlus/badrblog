@@ -218,11 +218,86 @@ def _position_source(article, positions):
     return "extracted_field", MEDIUM
 
 
-def _labeled_table_facts(article, hints, category):
-    facts = []
+def _table_confidence(article):
     official = bool(article.get("official_source") or article.get("job_official_source"))
     truncated = bool(article.get("source_tables_truncated"))
-    confidence = HIGH if official and not truncated else MEDIUM
+    return HIGH if official and not truncated else MEDIUM
+
+
+def _column_table_facts(article, hints, category):
+    facts = []
+    confidence = _table_confidence(article)
+
+    for table_index, table in enumerate(article.get("source_tables") or []):
+        if not isinstance(table, dict):
+            continue
+        rows = [
+            list(row)
+            for row in (table.get("rows") or [])
+            if isinstance(row, (list, tuple)) and row
+        ]
+        if len(rows) < 2:
+            continue
+
+        header_index = None
+        matching_columns = []
+        for row_index, row in enumerate(rows[:3]):
+            normalized_cells = [_normalize(cell) for cell in row]
+            columns = [
+                index
+                for index, cell in enumerate(normalized_cells)
+                if any(_normalize(hint) in cell for hint in hints)
+            ]
+            if columns:
+                header_index = row_index
+                matching_columns = columns
+                break
+
+        if header_index is None:
+            continue
+
+        for row_index in range(header_index + 1, len(rows)):
+            row = rows[row_index]
+            for column_index in matching_columns:
+                if column_index >= len(row):
+                    continue
+                value = re.sub(r"\s+", " ", str(row[column_index] or "")).strip()
+                if len(_normalize(value)) < 3 or _looks_like_header_value(value):
+                    continue
+                facts.append(_fact(
+                    value,
+                    "source_table_column",
+                    confidence,
+                    required=(confidence == HIGH),
+                    meta={
+                        "table_index": table_index,
+                        "row_index": row_index,
+                        "column_index": column_index,
+                        "kind": category,
+                    },
+                ))
+    return facts
+
+
+def _dedupe_facts(facts):
+    deduped = []
+    seen = set()
+    for fact in facts:
+        key = (
+            _normalize(fact.get("value")),
+            str(fact.get("confidence") or ""),
+            str(fact.get("source") or ""),
+        )
+        if not key[0] or key in seen:
+            continue
+        seen.add(key)
+        deduped.append(fact)
+    return deduped
+
+
+def _labeled_table_facts(article, hints, category):
+    facts = []
+    confidence = _table_confidence(article)
 
     for table_index, table in enumerate(article.get("source_tables") or []):
         if not isinstance(table, dict):
@@ -370,10 +445,27 @@ def build_verified_fact_manifest(article):
             ),
         )
 
-    for fact in _labeled_table_facts(article, SPECIALTY_HINTS, "specialty"):
-        _append_fact(manifest, "specialties", fact)
-    for fact in _labeled_table_facts(article, TEST_HINTS, "test"):
-        _append_fact(manifest, "tests", fact)
+    explicit_table_specs = (
+        ("specialties", SPECIALTY_HINTS, "specialty"),
+        ("tests", TEST_HINTS, "test"),
+        ("salary", SALARY_HINTS, "salary"),
+        ("experience", EXPERIENCE_HINTS, "experience"),
+        ("diploma", DIPLOMA_HINTS, "diploma"),
+    )
+    for manifest_category, hints, kind in explicit_table_specs:
+        table_facts = _dedupe_facts(
+            _labeled_table_facts(article, hints, kind)
+            + _column_table_facts(article, hints, kind)
+        )
+        existing_values = {
+            _normalize(fact.get("value"))
+            for fact in (manifest.get("facts") or {}).get(manifest_category) or []
+        }
+        for fact in table_facts:
+            if _normalize(fact.get("value")) in existing_values:
+                continue
+            _append_fact(manifest, manifest_category, fact)
+            existing_values.add(_normalize(fact.get("value")))
 
     manifest["summary"] = {
         "high": sum(
