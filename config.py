@@ -217,6 +217,23 @@ JOBS_ENRICH_MAX_TARGETS_PER_CYCLE = max(
     min(50, _env_int("JOBS_ENRICH_MAX_TARGETS_PER_CYCLE", 12)),
 )
 
+# Jobs are intentionally time-sensitive inventory. Exact/verified postings up to
+# 12 hours old get the highest priority; 24 hours is the hard source-age ceiling.
+# Unknown publication times may be enriched to recover official date evidence,
+# but they cannot publish until that evidence is verified.
+JOBS_PREFERRED_FRESH_HOURS = max(
+    1,
+    min(24, _env_int("JOBS_PREFERRED_FRESH_HOURS", 12)),
+)
+JOBS_MAX_SOURCE_AGE_HOURS = max(
+    JOBS_PREFERRED_FRESH_HOURS,
+    min(72, _env_int("JOBS_MAX_SOURCE_AGE_HOURS", 24)),
+)
+JOBS_REQUIRE_VERIFIED_PUBLISHED_AT = _env_bool_any(
+    ["JOBS_REQUIRE_VERIFIED_PUBLISHED_AT"],
+    True,
+)
+
 # Jobs discovery pagination. fetch_limit_per_run remains a compatibility/page-size
 # hint; it is no longer the total number of vacancies a source may expose.
 JOBS_DISCOVERY_PAGE_SIZE = max(5, min(50, _env_int("JOBS_DISCOVERY_PAGE_SIZE", 20)))
