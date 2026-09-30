@@ -9,7 +9,7 @@ from article_selector import normalize_category_label
 from config import MIN_EXTRACTED_CHARS, JOBS_MODE
 from internal_link_cache import load_internal_link_cache, select_internal_link_candidates
 from job_document_renderer import extract_job_document_texts
-from job_core import classify_identity
+from job_core import canonicalize_job_url, classify_identity, finalize_identity_evidence_stage
 
 
 def _now_iso():
@@ -125,12 +125,60 @@ def _related_posts_for(article):
     ]
 
 
+def _identity_document_fingerprint(article):
+    urls = {
+        canonicalize_job_url(item.get("url"))
+        for item in (article.get("job_document_links") or [])
+        if isinstance(item, dict) and canonicalize_job_url(item.get("url"))
+    }
+    return "|".join(sorted(urls))
+
+
+def _prepare_identity_evidence(article):
+    """
+    Complete the non-AI evidence stage used by identity decisions and future
+    campaign comparisons.
+    """
+    document_fingerprint = _identity_document_fingerprint(article)
+    previous_fingerprint = str(
+        article.get("identity_evidence_document_fingerprint") or ""
+    )
+    previous_failures = int(article.get("job_document_text_download_failures") or 0)
+
+    should_extract_documents = bool(
+        document_fingerprint
+        and (
+            document_fingerprint != previous_fingerprint
+            or previous_failures > 0
+            or not article.get("identity_evidence_stage_checked_at")
+        )
+    )
+
+    if should_extract_documents:
+        if document_fingerprint != previous_fingerprint:
+            article["job_document_texts"] = []
+            article["job_document_text_pages"] = 0
+            article["job_document_text_chars"] = 0
+            article["job_document_text_download_failures"] = 0
+        extract_job_document_texts(article)
+        failures = int(article.get("job_document_text_download_failures") or 0)
+        if failures == 0:
+            article["identity_evidence_document_fingerprint"] = document_fingerprint
+        else:
+            article.pop("identity_evidence_document_fingerprint", None)
+    elif not document_fingerprint:
+        article["identity_evidence_document_fingerprint"] = ""
+        article["job_document_text_download_failures"] = 0
+
+    return finalize_identity_evidence_stage(article)
+
+
 def resolve_identity_pending_articles(target_article_id=None):
     """
     Resolve ambiguous Jobs identities without AI or publishing.
 
-    identity_pending is temporary: gather/cache official PDF text evidence, then
-    re-run identity classification. Only a confirmed duplicate becomes skipped.
+    identity_pending is temporary: complete verified evidence first, then re-run
+    identity classification. Only a confirmed duplicate becomes skipped.
     """
     queue = load_article_queue()
     articles = queue.get("articles", [])
@@ -152,43 +200,23 @@ def resolve_identity_pending_articles(target_article_id=None):
         checked += 1
         article["identity_pending_last_checked_at"] = _now_iso()
 
-        document_urls = [
-            str(item.get("url") or "").strip()
-            for item in (article.get("job_document_links") or [])
-            if isinstance(item, dict) and str(item.get("url") or "").strip()
-        ]
-        document_fingerprint = "|".join(sorted(set(document_urls)))
-        previous_fingerprint = str(
-            article.get("identity_pending_document_fingerprint") or ""
-        )
-        should_extract_documents = bool(
-            document_urls
-            and (
-                not article.get("identity_pending_evidence_checked_at")
-                or document_fingerprint != previous_fingerprint
-            )
-        )
-
-        if should_extract_documents:
-            try:
-                extract_job_document_texts(article)
-                article["identity_pending_document_fingerprint"] = document_fingerprint
-                article.pop("identity_pending_evidence_error", None)
-            except Exception as error:
-                # Identity uncertainty must never be converted into a permanent
-                # failure because one official PDF is temporarily unavailable.
-                article["identity_pending_evidence_error"] = str(error)
-                evidence_errors += 1
+        try:
+            snapshot = _prepare_identity_evidence(article)
+            article.pop("identity_pending_evidence_error", None)
+        except Exception as error:
+            article["identity_pending_evidence_error"] = str(error)
+            article["identity_evidence_stage_status"] = "incomplete"
+            evidence_errors += 1
+            snapshot = {}
 
         article["identity_pending_evidence_checked_at"] = _now_iso()
-        if document_urls:
-            article["identity_pending_evidence_status"] = (
-                "documents_checked_with_text"
-                if article.get("job_document_texts")
-                else "documents_checked_no_text"
+        article["identity_pending_evidence_status"] = str(
+            article.get("identity_evidence_stage_status") or "incomplete"
+        )
+        if snapshot:
+            article["identity_pending_evidence_strength"] = int(
+                snapshot.get("strength") or 0
             )
-        else:
-            article["identity_pending_evidence_status"] = "no_official_documents"
 
         decision = classify_identity(article)
         article["job_identity_action"] = decision["action"]
@@ -230,7 +258,6 @@ def resolve_identity_pending_articles(target_article_id=None):
         "evidence_errors": evidence_errors,
     }
 
-
 def prepare_selected_articles_for_ai(target_article_id=None):
     """
     Prepare selected articles for a future AI phase without calling any AI API.
@@ -258,14 +285,15 @@ def prepare_selected_articles_for_ai(target_article_id=None):
             article["processing_error"] = "Missing required field(s): " + ", ".join(missing_fields)
             failed += 1
         else:
-            if JOBS_MODE and article.get("job_document_links"):
+            if JOBS_MODE:
                 try:
-                    extract_job_document_texts(article)
+                    _prepare_identity_evidence(article)
                     article.pop("job_document_text_error", None)
                 except Exception as error:
                     # PDF evidence is enrichment. A temporary PDF failure must not
                     # erase the already verified source-page evidence.
                     article["job_document_text_error"] = str(error)
+                    article["identity_evidence_stage_status"] = "incomplete"
             package = _build_ai_input_package(article)
             article["processing_status"] = "ready_for_ai"
             article["processing_prepared_at"] = _now_iso()
