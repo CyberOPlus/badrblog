@@ -478,7 +478,7 @@ def _release_legacy_logo_wait(article):
 
     article["publish_status"] = "visual_optional_ready"
     article["logo_resolution_status"] = "unavailable_optional"
-    article["job_article_cover_status"] = "skipped_missing_verified_logo"
+    article["job_article_cover_status"] = "optional_missing_verified_logo"
     article["visual_readiness_status"] = "content_ready_visual_optional"
     article["article_logo_used"] = False
 
