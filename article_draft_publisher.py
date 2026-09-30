@@ -31,8 +31,6 @@ from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
 from internal_link_cache import (
     apply_link_enrichment,
-    insert_internal_links,
-    load_internal_link_cache,
     record_published_article,
 )
 from jobposting import append_jobposting, jobposting_validation_errors
@@ -575,18 +573,16 @@ def _sanitize_article_final_html(article):
     )
 
     if JOBS_MODE:
-        # AI output stays content-only. Structured data is appended separately
-        # after Blogger returns the canonical live URL.
+        # Jobs articles keep the AI/editorial body intact. Do not inject random
+        # keyword links, a Jobs-hub anchor, or pRelate/"قد يهمك" blocks.
         cleaned = re.sub(r"<script\b[^>]*>.*?</script>", "", cleaned, flags=re.I | re.S).strip()
         removed_count = 0
-        cache_data, cache_stats = load_internal_link_cache(save=True)
-        cleaned, internal_count = insert_internal_links(cleaned, article, cache_data)
         link_stats = {
-            "internal_cache_loaded": cache_stats.get("loaded", 0),
-            "expired_internal_links_removed": cache_stats.get("expired_removed", 0),
-            "internal_links_inserted_count": internal_count,
+            "internal_cache_loaded": 0,
+            "expired_internal_links_removed": 0,
+            "internal_links_inserted_count": 0,
             "external_trusted_links_inserted_count": 0,
-            "internal_cache_saved": bool(cache_stats.get("saved")),
+            "internal_cache_saved": False,
         }
     else:
         cleaned, removed_count = sanitize_source_links(cleaned, source_domain)
