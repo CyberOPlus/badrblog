@@ -1018,6 +1018,21 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             )
         if application_url and application_url not in html_content:
             return QualityGateResult(False, "job application URL is missing from final HTML", word_count)
+        if application_kind == "official_application_channel":
+            visible_application_text = html_to_text(html_content)
+            if any(
+                phrase in visible_application_text
+                for phrase in (
+                    "التقديم المباشر",
+                    "رابط التقديم المباشر",
+                    "رابط الوظيفة المباشر",
+                )
+            ):
+                return QualityGateResult(
+                    False,
+                    "official application channel is mislabeled as a direct vacancy link",
+                    word_count,
+                )
 
         deadline_value = str(
             article.get("job_deadline_display")
