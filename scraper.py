@@ -2541,7 +2541,7 @@ async def _collect_article_links_for_source_async(
             )
             if current_links:
                 feed_links.extend(current_links)
-                if len(feed_links) >= (per_source_limit or 3):
+                if not JOBS_MODE and len(feed_links) >= (per_source_limit or 3):
                     break
 
     method_used = "html"
@@ -2562,7 +2562,7 @@ async def _collect_article_links_for_source_async(
         source_url,
         strict_source_path=False if feed_links else strict_source_path,
     )
-    if per_source_limit:
+    if per_source_limit and not JOBS_MODE:
         combined_links = combined_links[:per_source_limit]
 
     if not combined_links and not JOBS_MODE:
@@ -2619,10 +2619,10 @@ def _collect_article_links_for_source(
             print(f"  Feed yielded {len(current_links)} candidate link(s): {fallback_feed_url}")
             if current_links:
                 feed_links.extend(current_links)
-                if len(feed_links) >= (per_source_limit or 3):
+                if not JOBS_MODE and len(feed_links) >= (per_source_limit or 3):
                     break
 
-        if per_source_limit:
+        if per_source_limit and not JOBS_MODE:
             feed_links = feed_links[:per_source_limit]
 
         return [
@@ -2771,7 +2771,7 @@ def _collect_article_links_for_source(
             )
             if current_links:
                 feed_links.extend(current_links)
-                if len(feed_links) >= (per_source_limit or 3):
+                if not JOBS_MODE and len(feed_links) >= (per_source_limit or 3):
                     break
 
     method_used = "html"
@@ -2790,7 +2790,7 @@ def _collect_article_links_for_source(
         source_url,
         strict_source_path=False if feed_links else strict_source_path,
     )
-    if per_source_limit:
+    if per_source_limit and not JOBS_MODE:
         combined_links = combined_links[:per_source_limit]
 
     print(f"  Collected {len(combined_links)} article link(s) from this source.")
