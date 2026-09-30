@@ -721,6 +721,7 @@ class JobsRuntimeTests(unittest.TestCase):
         with patch.object(job_core, "JOBS_ADAPTIVE_PUBLISHING", True), \
              patch.object(job_core, "JOBS_MIN_PUBLISH_INTERVAL_MINUTES", 5), \
              patch.object(job_core, "load_job_state", return_value=state), \
+             patch.object(job_core, "publishable_backlog_count", return_value=20), \
              patch.object(job_core, "current_policy", return_value={
                  "enabled": True,
                  "stage": 5,
@@ -731,6 +732,13 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertFalse(status["allowed_now"])
         self.assertEqual(status["min_interval_minutes"], 5)
         self.assertIn("spacing", " ".join(status["reasons"]))
+
+
+    def test_adaptive_blogger_interval_tracks_publishable_backlog(self):
+        with patch.object(job_core, "JOBS_MIN_PUBLISH_INTERVAL_MINUTES", 5):
+            self.assertEqual(job_core.adaptive_publish_interval_minutes(2), 10)
+            self.assertEqual(job_core.adaptive_publish_interval_minutes(8), 7)
+            self.assertEqual(job_core.adaptive_publish_interval_minutes(20), 5)
 
     def test_job_permalink_seed_is_alphabetic_even_with_numeric_reference(self):
         article = {

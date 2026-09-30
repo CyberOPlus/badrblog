@@ -47,6 +47,28 @@ class JobsCoreTests(unittest.TestCase):
         self.assertFalse(job_core.is_job_specific_url("https://company.example/careers?page=2"))
         self.assertTrue(job_core.is_job_specific_url("https://company.example/jobs/8448475-manager-security"))
         self.assertTrue(job_core.is_job_specific_url("https://company.example/apply?job_id=8448475"))
+        self.assertFalse(
+            job_core.is_job_specific_url(
+                "https://secure.dc7.pageuppeople.com/apply/671/cw/applicationForm/default.asp"
+            )
+        )
+        self.assertTrue(
+            job_core.is_job_specific_url(
+                "https://secure.dc7.pageuppeople.com/apply/671/cw/applicationForm/default.asp?lJobID=595952"
+            )
+        )
+
+
+    def test_application_url_cannot_cross_wire_same_host_vacancy(self):
+        current = sample_job(
+            url="https://www.emploi-public.ma/ar/تفاصيل/المباريات/85a046f8-2af5-4f26-8b3f-a811967e2a4e",
+            canonical_url="https://www.emploi-public.ma/ar/تفاصيل/المباريات/85a046f8-2af5-4f26-8b3f-a811967e2a4e",
+            job_application_url="https://www.emploi-public.ma/ar/تفاصيل/المباريات/85a046f8-2af5-4f26-8b3f-a811967e2a4e",
+            raw={"job_id": "85a046f8-2af5-4f26-8b3f-a811967e2a4e"},
+        )
+        other = "https://www.emploi-public.ma/ar/تفاصيل/المباريات/59305efc-899b-4884-906d-d39e894e6099"
+        self.assertTrue(job_core.is_application_url_bound_to_job(current, current["canonical_url"]))
+        self.assertFalse(job_core.is_application_url_bound_to_job(current, other))
 
 
     def test_job_headline_style_matches_human_moroccan_patterns(self):

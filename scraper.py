@@ -1847,7 +1847,7 @@ def _can_run_async_discovery():
 
 async def _discover_latest_article_links_async(enabled_sources):
     discovered = []
-    source_results = []
+    source_results = list(cooldown_results)
     timeout = aiohttp.ClientTimeout(total=ASYNC_FETCH_TIMEOUT_SECONDS + 10)
     connector = aiohttp.TCPConnector(limit=ASYNC_SOURCE_FETCH_CONCURRENCY, ttl_dns_cache=300)
     semaphore = asyncio.Semaphore(ASYNC_SOURCE_FETCH_CONCURRENCY)
@@ -1983,12 +1983,20 @@ def discover_latest_article_links(sources):
     This does not fetch article bodies, call AI, or publish anything.
     """
     enabled_sources = [source for source in sources if source.get("enabled", True)]
+    cooldown_results = []
+    if JOBS_MODE:
+        enabled_sources, cooldown_results = _filter_healthy_sources(
+            _order_sources_for_fast_run(enabled_sources)
+        )
     if FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE and MAX_SOURCES_PER_RUN > 0:
         enabled_sources = _prioritize_sources(enabled_sources)
         enabled_sources = enabled_sources[:MAX_SOURCES_PER_RUN]
     if _can_run_async_discovery():
         log_event("source_discovery_start", sources=len(enabled_sources), mode="aiohttp")
         result = asyncio.run(_discover_latest_article_links_async(enabled_sources))
+        if cooldown_results:
+            result["source_results"] = cooldown_results + list(result.get("source_results") or [])
+            result["checked_sources"] = len(result["source_results"])
         log_event(
             "source_discovery_end",
             sources=result.get("checked_sources", 0),
