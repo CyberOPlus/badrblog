@@ -61,6 +61,46 @@ def save_crawl_state(state):
     _write_json(CRAWL_STATE_PATH, data)
 
 
+
+def reset_job_discovery_state(reason="queue_state_mismatch"):
+    """Forget discovery cursors/seen IDs after durable Jobs queue loss."""
+    state = load_crawl_state()
+    sources = state.setdefault("sources", {})
+    changed_sources = 0
+    forgotten_ids = 0
+
+    for record in sources.values():
+        if not isinstance(record, dict):
+            continue
+        seen_ids = record.get("job_seen_ids") or []
+        resume = record.get("job_discovery_resume") or {}
+        has_discovery_state = bool(
+            seen_ids
+            or resume
+            or int(record.get("job_seen_ids_count") or 0)
+            or int(record.get("discovery_pages_scanned") or 0)
+        )
+        if not has_discovery_state:
+            continue
+
+        forgotten_ids += len(seen_ids) if isinstance(seen_ids, list) else 0
+        record["job_seen_ids"] = []
+        record["job_seen_ids_count"] = 0
+        record["discovery_last_new_count"] = 0
+        record["job_discovery_resume"] = {}
+        record["discovery_stop_reason"] = str(reason or "queue_state_mismatch")
+        record["discovery_pages_scanned"] = 0
+        changed_sources += 1
+
+    if changed_sources:
+        save_crawl_state(state)
+
+    return {
+        "changed_sources": changed_sources,
+        "forgotten_ids": forgotten_ids,
+        "reason": str(reason or "queue_state_mismatch"),
+    }
+
 def source_crawl_record(source_key):
     state = load_crawl_state()
     return state.get("sources", {}).get(source_key, {})
