@@ -800,12 +800,19 @@ class JobsRuntimeTests(unittest.TestCase):
             self.assertEqual(len(archive_files), 1)
 
     def test_compact_job_passes_both_word_gates(self):
-        package = {"url": "https://employer.example/jobs/42", "job_notice_type": "vacancy"}
+        package = {
+            "url": "https://employer.example/jobs/42",
+            "job_notice_type": "vacancy",
+            "job_application_url": "https://employer.example/jobs/42/apply",
+        }
         data = {
             "title": "شركة أورنج تعلن عن توظيف خبير في الأمن السيبراني",
             "description": "فرصة توظيف لدى شركة أورنج في مجال الأمن السيبراني، تعرف على المعلومات الواردة في الإعلان الرسمي وطريقة تقديم طلب الترشيح.",
             "slug": "orange-cybersecurity",
-            "html_content": "<p>" + " ".join("معلومة" + str(i) for i in range(125)) + "</p>",
+            "html_content": (
+                "<p>" + " ".join("معلومة" + str(i) for i in range(125)) + "</p>"
+                "<p><a href='https://employer.example/jobs/42/apply'>التقديم الرسمي</a></p>"
+            ),
         }
         article = {"ai_input_package": package}
         with patch.object(ai, "JOBS_MODE", True), patch.object(quality_gate, "JOBS_MODE", True), \
