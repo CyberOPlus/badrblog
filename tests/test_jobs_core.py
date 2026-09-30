@@ -1622,7 +1622,7 @@ class JobsCoreTests(unittest.TestCase):
         self.assertFalse(fields.get("job_location"))
         self.assertNotEqual(fields.get("job_location"), "Fes")
 
-    def test_job_quality_gate_enforces_compact_length_and_unique_links(self):
+    def test_job_quality_gate_allows_complete_length_and_rejects_duplicate_links(self):
         apply_url = "https://example.com/apply/12345"
         base_article = {
             "url": "https://example.com/jobs/12345",
@@ -1645,10 +1645,9 @@ class JobsCoreTests(unittest.TestCase):
             "<h2>طريقة التقديم</h2>"
             f"<p><a href='{apply_url}'>التقديم المباشر</a></p>"
         )
-        too_long = dict(base_article, final_html=long_html)
-        result = quality_gate.validate_before_publish(too_long, check_duplicate=False)
-        self.assertFalse(result.passed)
-        self.assertIn("too long", result.reason)
+        longer_complete = dict(base_article, final_html=long_html)
+        result = quality_gate.validate_before_publish(longer_complete, check_duplicate=False)
+        self.assertTrue(result.passed, result.reason)
 
         duplicate_links_html = (
             "<p>" + " ".join(f"بيان{i}" for i in range(130)) + "</p>"
