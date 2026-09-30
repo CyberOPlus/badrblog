@@ -104,12 +104,21 @@ def _retry_after_iso(minutes=None, now=None):
     return retry_at.isoformat(timespec="seconds").replace("+00:00", "Z")
 
 
+def _candidate_failure_fingerprint(stage, reason):
+    normalized = re.sub(r"https?://\S+", "<url>", str(reason or "").casefold())
+    normalized = re.sub(r"\b[0-9a-f]{8,}\b", "<id>", normalized)
+    normalized = re.sub(r"\b\d+\b", "<n>", normalized)
+    normalized = re.sub(r"\s+", " ", normalized).strip()[:180]
+    seed = f"{str(stage or '').strip().casefold()}|{normalized}"
+    return hashlib.sha256(seed.encode("utf-8")).hexdigest()[:20]
+
+
 def mark_article_recent_failure(article_id="", article_url="", stage="", reason="", cooldown_minutes=None):
     if not article_id and not article_url:
         return None
     queue = load_article_queue()
-    retry_after = _retry_after_iso(cooldown_minutes)
     matched = None
+    failure_fingerprint = _candidate_failure_fingerprint(stage, reason)
     for article in queue.get("articles", []):
         if article_id and article.get("id") != article_id:
             if not article_url or article.get("url") != article_url:
@@ -120,9 +129,26 @@ def mark_article_recent_failure(article_id="", article_url="", stage="", reason=
             return article
         if article.get("status") == "selected":
             article["status"] = "ready"
+
+        same_failure = article.get("candidate_failure_fingerprint") == failure_fingerprint
+        repeated_count = (
+            int(article.get("candidate_failure_repeat_count") or 0) + 1
+            if same_failure
+            else 1
+        )
+        base_minutes = max(
+            1,
+            int(cooldown_minutes or SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES or 1),
+        )
+        backoff_minutes = min(24 * 60, base_minutes * (2 ** min(repeated_count - 1, 6)))
+        retry_after = _retry_after_iso(backoff_minutes)
+
         article["candidate_retry_after"] = retry_after
         article["candidate_failure_stage"] = stage
         article["candidate_failure_reason"] = str(reason or "")[:300]
+        article["candidate_failure_fingerprint"] = failure_fingerprint
+        article["candidate_failure_repeat_count"] = repeated_count
+        article["candidate_failure_backoff_minutes"] = backoff_minutes
         article["candidate_failed_at"] = _now_iso()
         article["candidate_failure_count"] = int(article.get("candidate_failure_count") or 0) + 1
         matched = article
