@@ -3356,7 +3356,6 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 "retry_after": retry_after,
             }
 
-    article = eligible[0]
     package = article["ai_input_package"]
     prompt = ""
     previous_data = None
