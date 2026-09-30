@@ -1062,15 +1062,24 @@ class JobsRuntimeTests(unittest.TestCase):
             ]
             return article["job_document_texts"]
 
-        with patch.object(article_processor, "load_article_queue", return_value=queue),              patch.object(article_processor, "save_article_queue") as save,              patch.object(article_processor, "extract_job_document_texts", side_effect=add_pdf_evidence) as extract,              patch.object(
-                 article_processor,
-                 "classify_identity",
-                 return_value={
-                     "action": "new_campaign",
-                     "reason": "different external reference",
-                     "existing": {},
-                 },
-             ):
+        with (
+            patch.object(article_processor, "load_article_queue", return_value=queue),
+            patch.object(article_processor, "save_article_queue") as save,
+            patch.object(
+                article_processor,
+                "extract_job_document_texts",
+                side_effect=add_pdf_evidence,
+            ) as extract,
+            patch.object(
+                article_processor,
+                "classify_identity",
+                return_value={
+                    "action": "new_campaign",
+                    "reason": "different external reference",
+                    "existing": {},
+                },
+            ),
+        ):
             stats = article_processor.resolve_identity_pending_articles()
 
         self.assertEqual(stats["resolved_ready"], 1)
@@ -1089,15 +1098,19 @@ class JobsRuntimeTests(unittest.TestCase):
             "skip_reason": "old hold reason",
         }
         queue = {"articles": [row]}
-        with patch.object(article_processor, "load_article_queue", return_value=queue),              patch.object(article_processor, "save_article_queue"),              patch.object(
-                 article_processor,
-                 "classify_identity",
-                 return_value={
-                     "action": "hold",
-                     "reason": "ambiguous same role without strong identifier",
-                     "existing": {},
-                 },
-             ):
+        with (
+            patch.object(article_processor, "load_article_queue", return_value=queue),
+            patch.object(article_processor, "save_article_queue"),
+            patch.object(
+                article_processor,
+                "classify_identity",
+                return_value={
+                    "action": "hold",
+                    "reason": "ambiguous same role without strong identifier",
+                    "existing": {},
+                },
+            ),
+        ):
             stats = article_processor.resolve_identity_pending_articles()
 
         self.assertEqual(stats["still_pending"], 1)
@@ -1114,15 +1127,19 @@ class JobsRuntimeTests(unittest.TestCase):
             "job_document_links": [],
         }
         queue = {"articles": [row]}
-        with patch.object(article_processor, "load_article_queue", return_value=queue),              patch.object(article_processor, "save_article_queue"),              patch.object(
-                 article_processor,
-                 "classify_identity",
-                 return_value={
-                     "action": "duplicate",
-                     "reason": "same external reference",
-                     "existing": {},
-                 },
-             ):
+        with (
+            patch.object(article_processor, "load_article_queue", return_value=queue),
+            patch.object(article_processor, "save_article_queue"),
+            patch.object(
+                article_processor,
+                "classify_identity",
+                return_value={
+                    "action": "duplicate",
+                    "reason": "same external reference",
+                    "existing": {},
+                },
+            ),
+        ):
             stats = article_processor.resolve_identity_pending_articles()
 
         self.assertEqual(stats["duplicates"], 1)
