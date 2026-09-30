@@ -37,7 +37,7 @@ EXAM_DATE_HINTS = ("تاريخ المباراة", "تاريخ الاختبار",
 
 HEADER_LIKE_HINTS = (
     "التخصص", "التخصصات", "الشعبة", "الشعب", "المسلك", "المسالك",
-    "عدد المناصب", "المناصب", "منصب", "الدرجة", "الإطار", "الاطار",
+    "عدد المناصب", "عدد", "العدد", "المناصب", "منصب", "الدرجة", "الإطار", "الاطار",
     "الاختبار", "الاختبارات", "المعامل", "المدة", "الشهادة", "الدبلوم",
     "specialite", "spécialité", "specialites", "spécialités",
     "filiere", "filière", "poste", "postes", "nombre de postes",
@@ -246,6 +246,19 @@ def _column_table_facts(article, hints, category):
         matching_columns = []
         for row_index, row in enumerate(rows[:3]):
             normalized_cells = [_normalize(cell) for cell in row]
+            header_like_count = sum(
+                1 for cell in row if _looks_like_header_value(cell)
+            )
+            # A two-column label/value row such as
+            # ["التخصص", "الأمن السيبراني"] is a fact row, not a header.
+            # Accept a header only when the row is clearly header-shaped,
+            # or when it is an explicit one-column header.
+            is_header_row = (
+                header_like_count >= 2
+                or (len(row) == 1 and header_like_count == 1)
+            )
+            if not is_header_row:
+                continue
             columns = [
                 index
                 for index, cell in enumerate(normalized_cells)
