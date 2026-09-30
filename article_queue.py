@@ -278,7 +278,12 @@ def repair_job_link_bindings():
     queue = load_article_queue()
     changed_any = False
     for article in queue.get("articles", []):
-        if article.get("archived"):
+        published_record = (
+            article.get("status") == "published"
+            or article.get("publish_status") == "published"
+            or article.get("archive_reason") == "published_to_blogger"
+        )
+        if article.get("archived") and not published_record:
             continue
         stats["checked"] += 1
         changed = False
@@ -334,11 +339,14 @@ def repair_job_link_bindings():
         article["job_link_binding_repaired_at"]=_now_iso()
         article["job_quality_status"]=""
         article["job_quality_reasons"]=[]
-        if article.get("status")=="published" or article.get("publish_status")=="published":
+        if published_record:
             article["status"]="ready"
             article["publish_status"]="repair_pending"
             article["job_link_repair_pending"]=True
             article["job_identity_action"]="update"
+            article["archived"]=False
+            article.pop("archived_at", None)
+            article.pop("archive_reason", None)
             stats["reopened_published"] += 1
     if changed_any:
         save_article_queue(queue)

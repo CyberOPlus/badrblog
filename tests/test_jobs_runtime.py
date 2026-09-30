@@ -151,6 +151,42 @@ class JobsRuntimeTests(unittest.TestCase):
         save.assert_called_once()
 
     def test_queue_save_is_noop_when_payload_is_unchanged(self):
+    def test_archived_published_job_can_be_reopened_for_link_repair(self):
+        with self.subTest("published archive repair"):
+            original = article_queue.ARTICLE_QUEUE_PATH
+            from tempfile import TemporaryDirectory
+            from pathlib import Path
+            with TemporaryDirectory() as temp_dir:
+                article_queue.ARTICLE_QUEUE_PATH = Path(temp_dir) / "jobs_article_queue.json"
+                try:
+                    article_queue.save_article_queue({
+                        "articles": [{
+                            "id": "published-bad-link",
+                            "status": "published",
+                            "publish_status": "published",
+                            "archived": True,
+                            "archive_reason": "published_to_blogger",
+                            "archived_at": "2026-09-30T10:00:00",
+                            "url": "https://www.emploi-public.ma/ar/تفاصيل/المباريات/85a046f8-2af5-4f26-8b3f-a811967e2a4e",
+                            "canonical_url": "https://www.emploi-public.ma/ar/تفاصيل/المباريات/85a046f8-2af5-4f26-8b3f-a811967e2a4e",
+                            "job_detail_url": "https://www.emploi-public.ma/ar/تفاصيل/المباريات/85a046f8-2af5-4f26-8b3f-a811967e2a4e",
+                            "job_application_url": "https://www.emploi-public.ma/ar/تفاصيل/المباريات/59305efc-899b-4884-906d-d39e894e6099",
+                            "job_action_links": [],
+                            "job_document_links": [],
+                        }],
+                        "notifications": {},
+                    })
+                    stats = article_queue.repair_job_link_bindings()
+                    repaired = article_queue.load_article_queue()["articles"][0]
+                    self.assertEqual(stats["reopened_published"], 1)
+                    self.assertEqual(repaired["status"], "ready")
+                    self.assertEqual(repaired["publish_status"], "repair_pending")
+                    self.assertFalse(repaired["archived"])
+                    self.assertEqual(repaired["job_application_url"], repaired["job_detail_url"])
+                finally:
+                    article_queue.ARTICLE_QUEUE_PATH = original
+
+    def test_queue_save_is_noop_when_payload_is_unchanged(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory
 
@@ -739,6 +775,24 @@ class JobsRuntimeTests(unittest.TestCase):
             self.assertEqual(job_core.adaptive_publish_interval_minutes(2), 10)
             self.assertEqual(job_core.adaptive_publish_interval_minutes(8), 7)
             self.assertEqual(job_core.adaptive_publish_interval_minutes(20), 5)
+
+
+    def test_job_score_accepts_naive_scheduler_datetime(self):
+        article = {
+            "official_source": True,
+            "job_published_at": "2026-09-30T08:00:00+00:00",
+            "source_priority": "S",
+            "job_number_of_positions": 10,
+            "job_deadline": "2026-10-10",
+            "job_location": "Casablanca",
+            "job_diploma": "Bac+2",
+            "job_application_url": "https://example.com/jobs/12345",
+            "canonical_url": "https://example.com/jobs/12345",
+            "job_eligibility": "morocco",
+            "job_title": "Technicien informatique",
+        }
+        result = job_core.score_job(article, now=datetime(2026, 9, 30, 12, 0, 0))
+        self.assertGreaterEqual(result["score"], 65)
 
     def test_job_permalink_seed_is_alphabetic_even_with_numeric_reference(self):
         article = {

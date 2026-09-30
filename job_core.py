@@ -329,6 +329,10 @@ def job_labels(article):
 
 def score_job(article, now=None):
     now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    else:
+        now = now.astimezone(timezone.utc)
     points = {}
     official = bool(article.get("official_source") or article.get("job_official_source"))
     points["official_source"] = 25 if official else 0
