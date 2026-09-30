@@ -2052,6 +2052,71 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(article["ai_status"], "completed")
         save.assert_called_once()
 
+    def test_exhausted_visual_sync_retry_archives_published_job(self):
+        article = {
+            "id": "visual-sync-exhausted",
+            "url": "https://example.com/jobs/visual-sync",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_id": "post-999",
+            "blogger_post_url": "https://example.blogspot.com/visual-sync.html",
+            "visual_sync_retry_pending": True,
+            "visual_sync_retry_after": "2000-01-01T00:00:00+00:00",
+            "visual_sync_retry_count": (
+                draft.MAX_JOB_DOCUMENT_RENDER_RETRIES - 1
+            ),
+            "final_html": "<p>مقال منشور صحيح.</p>",
+            "seo_title": "وظيفة مهندس نظم",
+            "seo_description": "تفاصيل موثقة حول وظيفة مهندس نظم.",
+            "ai_input_package": {},
+        }
+        queue = {"articles": [article]}
+        service = MagicMock()
+        service.posts.return_value.update.return_value = MagicMock()
+
+        with (
+            patch.object(draft, "JOBS_MODE", True),
+            patch.object(draft, "load_article_queue", return_value=queue),
+            patch.object(draft, "save_article_queue") as save,
+            patch.object(draft, "_sanitize_article_final_html"),
+            patch.object(draft, "get_credentials", return_value=object()),
+            patch.object(draft, "create_blogger_service", return_value=service),
+            patch.object(draft, "is_local_publisher", return_value=False),
+            patch.object(draft, "_ensure_jobs_target_blog"),
+            patch.object(
+                draft,
+                "_get_saved_post_by_id",
+                return_value={
+                    "id": "post-999",
+                    "url": article["blogger_post_url"],
+                    "status": "LIVE",
+                },
+            ),
+            patch.object(draft, "_build_post_body", return_value={}),
+            patch.object(
+                draft,
+                "_execute_blogger_request",
+                side_effect=RuntimeError("temporary blogger sync outage"),
+            ),
+            patch.object(
+                draft,
+                "archive_published_queue_article",
+                return_value=True,
+            ) as archive,
+        ):
+            stats = draft.retry_pending_job_visuals(max_articles=1)
+
+        self.assertEqual(stats["checked"], 1)
+        self.assertEqual(stats["still_pending"], 0)
+        self.assertEqual(stats["archived_after_retry"], 1)
+        self.assertFalse(article["visual_sync_retry_pending"])
+        self.assertEqual(article["visual_sync_status"], "unavailable_optional")
+        archive.assert_called_once_with(
+            article_id="visual-sync-exhausted",
+            article_url="https://example.com/jobs/visual-sync",
+        )
+        save.assert_called_once()
+
     def test_jobs_quality_gate_rejects_scripts_and_missing_official_files(self):
         package = {
             "url": "https://example.com/jobs/42",
