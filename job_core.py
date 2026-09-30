@@ -1501,6 +1501,65 @@ def record_job_publish(article, now=None):
     return record
 
 
+def list_active_job_campaign_records(limit=500):
+    """Return durable published campaign records newest-first for queue recovery."""
+    campaigns_dir = MEMORY_DIR / "campaigns"
+    if not campaigns_dir.exists():
+        return []
+
+    records = []
+    for path in campaigns_dir.rglob("*.json"):
+        record = _load_json(path)
+        if not isinstance(record, dict):
+            continue
+        if str(record.get("status") or "active").strip().lower() != "active":
+            continue
+        if not str(record.get("blogger_url") or "").strip():
+            continue
+        records.append(record)
+
+    records.sort(
+        key=lambda row: str(row.get("updated_at") or row.get("published_at") or ""),
+        reverse=True,
+    )
+    return records[: max(1, int(limit or 1))]
+
+
+def record_job_social_state(article, now=None):
+    """Persist Facebook delivery state independently from the volatile article queue."""
+    if not isinstance(article, dict):
+        return {}
+
+    campaign_id = str(article.get("job_campaign_id") or "").strip()
+    if not campaign_id:
+        pointer = get_by_identity(identity_key(article))
+        campaign_id = str((pointer or {}).get("campaign_id") or "").strip()
+    if not campaign_id:
+        return {}
+
+    path = _memory_path("campaigns", campaign_id)
+    record = _load_json(path)
+    if not isinstance(record, dict) or not record:
+        return {}
+
+    now = now or datetime.now(timezone.utc)
+    record.update({
+        "facebook_status": str(article.get("facebook_status") or ""),
+        "facebook_post_id": str(article.get("facebook_post_id") or ""),
+        "facebook_posted_at": str(article.get("facebook_posted_at") or ""),
+        "facebook_comment_id": str(article.get("facebook_comment_id") or ""),
+        "facebook_queued_at": str(article.get("facebook_queued_at") or ""),
+        "facebook_retry_after_epoch": article.get("facebook_retry_after_epoch") or 0,
+        "facebook_comment_retry_after_epoch": article.get("facebook_comment_retry_after_epoch") or 0,
+        "facebook_delivery_uncertain_at": str(article.get("facebook_delivery_uncertain_at") or ""),
+        "facebook_image_status": str(article.get("facebook_image_status") or ""),
+        "facebook_error": str(article.get("facebook_error") or "")[:300],
+        "updated_at": now.isoformat(),
+    })
+    _save_json(path, record)
+    return record
+
+
 def facebook_slot_status(posted_times=None, now=None, urgent=False, window_minutes=50):
     local_now = _local(now)
     if urgent:
