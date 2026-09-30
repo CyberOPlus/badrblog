@@ -1504,6 +1504,25 @@ class JobsCoreTests(unittest.TestCase):
         bad = job_core.score_job(sample_job(job_eligibility="unknown"), now=now)
         self.assertFalse(bad["passed"])
 
+    def test_low_ranking_score_does_not_block_verified_job(self):
+        now = datetime(2026, 9, 30, 9, 0, tzinfo=timezone.utc)
+        sparse = sample_job(
+            job_location="",
+            job_number_of_positions=1,
+            job_published_at="2026-09-20T08:00:00+00:00",
+            source_priority="",
+            job_diploma="",
+            job_salary="",
+            job_entry_level=False,
+            job_deadline="2026-10-08",
+        )
+        result = job_core.score_job(sparse, now=now)
+        self.assertLess(result["score"], job_core.MIN_SELECTION_SCORE)
+        self.assertTrue(result["hard_gate_passed"])
+        self.assertTrue(result["passed"])
+        self.assertEqual(result["status"], "publish")
+        self.assertEqual(result["threshold_applies_to"], "ranking_only")
+
     def test_large_official_near_deadline_is_urgent(self):
         now = datetime(2026, 9, 28, 9, 0, tzinfo=timezone.utc)
         urgency = job_core.classify_urgency(
