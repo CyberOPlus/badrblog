@@ -686,7 +686,7 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
                 tuple(job_warnings),
             )
 
-        unverified_link_reason = _job_unverified_external_link_reason(html_content, package)
+        unverified_link_reason = _job_unverified_external_link_reason(html_content, verification_context)
         if unverified_link_reason:
             return QualityGateResult(False, unverified_link_reason, word_count, tuple(job_warnings))
 
