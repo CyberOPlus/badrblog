@@ -8,6 +8,7 @@ from article_queue import load_article_queue, save_article_queue
 from article_selector import normalize_category_label
 from config import MIN_EXTRACTED_CHARS, JOBS_MODE
 from internal_link_cache import load_internal_link_cache, select_internal_link_candidates
+from job_document_renderer import extract_job_document_texts
 
 
 def _now_iso():
@@ -56,6 +57,9 @@ def _build_ai_input_package(article):
         "rss_summary": article.get("rss_summary", ""),
         "full_article_text": full_text,
         "full_article_text_chars": len(full_text),
+        "source_tables": article.get("source_tables", []),
+        "source_tables_count": article.get("source_tables_count", 0),
+        "source_tables_truncated": bool(article.get("source_tables_truncated", False)),
         "enrichment_status": article.get("enrichment_status", ""),
         "source_url": article.get("source_url", ""),
         "source_published_at": article.get("source_published_at", ""),
@@ -75,6 +79,8 @@ def _build_ai_input_package(article):
         "job_exam_date": article.get("job_exam_date", ""),
         "job_exam_date_display": article.get("job_exam_date_display", ""),
         "job_notice_type": article.get("job_notice_type", "vacancy"),
+        "job_notice_type_hint": article.get("job_notice_type", "vacancy"),
+        "job_notice_type_source": article.get("job_notice_type_source", "heuristic"),
         "job_notice_status": article.get("job_notice_status", ""),
         "job_published_at": article.get("job_published_at", ""),
         "job_published_at_display": article.get("job_published_at_display", ""),
@@ -85,6 +91,10 @@ def _build_ai_input_package(article):
         "job_detail_url": article.get("job_detail_url", ""),
         "job_action_links": article.get("job_action_links", []),
         "job_document_links": article.get("job_document_links", []),
+        "job_document_texts": article.get("job_document_texts", []),
+        "job_document_text_pages": article.get("job_document_text_pages", 0),
+        "job_document_text_chars": article.get("job_document_text_chars", 0),
+        "job_document_text_truncated": bool(article.get("job_document_text_truncated", False)),
         "job_number_of_positions": article.get("job_number_of_positions", 0),
         "job_diploma": article.get("job_diploma", ""),
         "job_experience": article.get("job_experience", ""),
@@ -137,6 +147,14 @@ def prepare_selected_articles_for_ai(target_article_id=None):
             article["processing_error"] = "Missing required field(s): " + ", ".join(missing_fields)
             failed += 1
         else:
+            if JOBS_MODE and article.get("job_document_links"):
+                try:
+                    extract_job_document_texts(article)
+                    article.pop("job_document_text_error", None)
+                except Exception as error:
+                    # PDF evidence is enrichment. A temporary PDF failure must not
+                    # erase the already verified source-page evidence.
+                    article["job_document_text_error"] = str(error)
             package = _build_ai_input_package(article)
             article["processing_status"] = "ready_for_ai"
             article["processing_prepared_at"] = _now_iso()
