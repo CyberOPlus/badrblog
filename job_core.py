@@ -457,8 +457,9 @@ def identity_evidence_snapshot(article):
         if isinstance(item, dict) and canonicalize_job_url(item.get("url"))
     })
 
-    payload = {
-        "reference": reference,
+    # Cross-source campaign comparison deliberately excludes the source/employer
+    # reference. Different systems can assign different IDs to the same campaign.
+    comparison_payload = {
         "deadline": deadline,
         "positions": positions,
         "table_facts": table_facts,
@@ -466,40 +467,45 @@ def identity_evidence_snapshot(article):
     }
     categories = []
     strength = 0
+    comparison_strength = 0
     if reference:
         categories.append("reference")
         strength += 4
     if deadline:
         categories.append("deadline")
         strength += 1
+        comparison_strength += 1
     if positions > 0:
         categories.append("positions")
         strength += 1
+        comparison_strength += 1
     if table_facts:
         categories.append("tables")
         strength += 2
+        comparison_strength += 2
     if document_facts:
         categories.append("pdf_text")
         strength += 3
+        comparison_strength += 3
     if document_urls:
         categories.append("documents")
         strength += 1
 
     signature = ""
     if any((
-        reference,
         deadline,
         positions > 0,
         table_facts,
         document_facts,
     )):
         signature = hashlib.sha256(
-            json.dumps(payload, ensure_ascii=False, sort_keys=True).encode("utf-8")
+            json.dumps(comparison_payload, ensure_ascii=False, sort_keys=True).encode("utf-8")
         ).hexdigest()[:24]
 
     return {
         "signature": signature,
         "strength": strength,
+        "comparison_strength": comparison_strength,
         "categories": categories,
         "reference": reference,
         "deadline": deadline,
@@ -553,6 +559,7 @@ def finalize_identity_evidence_stage(article, now=None):
     article["identity_evidence_stage_checked_at"] = now.isoformat(timespec="seconds")
     article["identity_evidence_signature"] = snapshot["signature"]
     article["identity_evidence_strength"] = snapshot["strength"]
+    article["identity_evidence_comparison_strength"] = snapshot["comparison_strength"]
     article["identity_evidence_categories"] = snapshot["categories"]
     article["identity_evidence_reference"] = snapshot["reference"]
     article["identity_evidence_deadline"] = snapshot["deadline"]
@@ -566,8 +573,12 @@ def _identity_evidence_relation(article, record):
 
     article_signature = str(article.get("identity_evidence_signature") or "")
     record_signature = str(record.get("identity_evidence_signature") or "")
-    article_strength = int(article.get("identity_evidence_strength") or 0)
-    record_strength = int(record.get("identity_evidence_strength") or 0)
+    article_strength = int(article.get("identity_evidence_comparison_strength") or 0)
+    record_strength = int(
+        record.get("identity_evidence_comparison_strength")
+        or record.get("identity_evidence_strength")
+        or 0
+    )
 
     if article_signature and record_signature:
         if article_signature == record_signature and min(article_strength, record_strength) >= 4:
@@ -1094,8 +1105,12 @@ def _material_change(article, record):
     if identity_evidence_stage_complete(article):
         article_signature = str(article.get("identity_evidence_signature") or "")
         record_signature = str(record.get("identity_evidence_signature") or "")
-        article_strength = int(article.get("identity_evidence_strength") or 0)
-        record_strength = int(record.get("identity_evidence_strength") or 0)
+        article_strength = int(article.get("identity_evidence_comparison_strength") or 0)
+        record_strength = int(
+            record.get("identity_evidence_comparison_strength")
+            or record.get("identity_evidence_strength")
+            or 0
+        )
         if (
             article_signature
             and record_signature
@@ -1367,6 +1382,9 @@ def record_job_publish(article, now=None):
         "identity_evidence_stage_status": article.get("identity_evidence_stage_status", ""),
         "identity_evidence_signature": article.get("identity_evidence_signature", ""),
         "identity_evidence_strength": int(article.get("identity_evidence_strength") or 0),
+        "identity_evidence_comparison_strength": int(
+            article.get("identity_evidence_comparison_strength") or 0
+        ),
         "identity_evidence_categories": list(article.get("identity_evidence_categories") or []),
         "identity_evidence_reference": article.get("identity_evidence_reference", ""),
         "identity_evidence_deadline": article.get("identity_evidence_deadline", ""),
