@@ -567,6 +567,7 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         "job_exam_date": text_exam_date,
         "job_exam_date_display": text_exam_date_display,
         "job_notice_type": notice_type,
+        "job_notice_type_source": "heuristic",
         "job_notice_status": notice_status,
         "job_published_at": published_at,
         "job_published_at_display": text_published_display,
