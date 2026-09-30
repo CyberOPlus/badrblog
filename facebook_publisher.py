@@ -2022,6 +2022,7 @@ def _clear_comment_failure_state(article):
 def _failure_result(queue, article, error, checked=1, extra=None):
     if article:
         _apply_failure(article, error)
+        _persist_jobs_social_state(article)
         save_article_queue(queue)
         result = {
             "checked": checked,
@@ -2344,11 +2345,15 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         article.pop("facebook_error", None)
 
         # Persist the acknowledged remote ID before the separate comment call.
-        # A comment failure must never cause a second photo post.
+        # A comment failure must never cause a second photo post, even if the
+        # volatile queue is lost between the photo and comment requests.
+        _persist_jobs_social_state(article)
         save_article_queue(queue)
 
         try:
             comment_id = _post_first_comment(facebook_post_id, blogger_url)
+            if not comment_id:
+                raise RuntimeError("Facebook first comment did not return a comment id.")
             article["facebook_comment_id"] = comment_id
             _clear_comment_failure_state(article)
             log_event(
@@ -2388,7 +2393,19 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             hashtags=blueprint.get("hashtags", []),
             fingerprint=blueprint.get("fingerprint", ""),
         )
+        _persist_jobs_social_state(article)
         save_article_queue(queue)
+        if (
+            JOBS_MODE
+            and article.get("facebook_status") == "posted"
+            and article.get("facebook_post_id")
+            and article.get("facebook_comment_id")
+        ):
+            archive_published_queue_article(
+                article_id=article.get("id", ""),
+                article_url=article.get("url", ""),
+                reason="facebook_post_and_comment_completed",
+            )
         result = {
             "checked": 1,
             "posted": bool(article.get("facebook_post_id")),
@@ -2418,6 +2435,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         article["facebook_status"] = "delivery_uncertain"
         article["facebook_error"] = str(error)
         article["facebook_delivery_uncertain_at"] = _now_iso()
+        _persist_jobs_social_state(article)
         save_article_queue(queue)
         log_event(
             "facebook_post_result",
@@ -2447,6 +2465,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
                 hashtags=blueprint.get("hashtags", []) if "blueprint" in locals() else [],
                 fingerprint=blueprint.get("fingerprint", "") if "blueprint" in locals() else "",
             )
+        _persist_jobs_social_state(article)
         save_article_queue(queue)
         result = {
             "checked": 1,
@@ -2528,7 +2547,14 @@ def retry_facebook_first_comment(target_article_id):
         article["facebook_status"] = "posted"
         article.pop("facebook_error", None)
         _clear_comment_failure_state(article)
+        _persist_jobs_social_state(article)
         save_article_queue(queue)
+        if JOBS_MODE:
+            archive_published_queue_article(
+                article_id=article.get("id", ""),
+                article_url=article.get("url", ""),
+                reason="facebook_comment_retry_completed",
+            )
         result = {
             "checked": 1,
             "posted": True,
@@ -2540,6 +2566,7 @@ def retry_facebook_first_comment(target_article_id):
     except FacebookDeliveryUncertain as error:
         article["facebook_status"] = "posted_comment_uncertain"
         article["facebook_error"] = f"First comment delivery uncertain: {error}"
+        _persist_jobs_social_state(article)
         save_article_queue(queue)
         result = {
             "checked": 1,
@@ -2554,6 +2581,7 @@ def retry_facebook_first_comment(target_article_id):
         article["facebook_status"] = "posted_comment_failed"
         article["facebook_error"] = f"First comment failed: {error}"
         _schedule_comment_retry(article, error)
+        _persist_jobs_social_state(article)
         save_article_queue(queue)
         result = {
             "checked": 1,
