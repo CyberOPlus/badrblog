@@ -65,6 +65,68 @@ class JobsCoreTests(unittest.TestCase):
 
 
     def test_application_url_cannot_cross_wire_same_host_vacancy(self):
+    def test_public_competition_accepts_verified_central_application_channel(self):
+        portal = "https://recrutement.enssup.gov.ma/"
+        detail = (
+            "https://www.emploi-public.ma/ar/تفاصيل/المباريات/"
+            "85a046f8-2af5-4f26-8b3f-a811967e2a4e"
+        )
+        competition = sample_job(
+            url=detail,
+            canonical_url=detail,
+            job_detail_url=detail,
+            job_notice_type="competition",
+            official_source=True,
+            job_application_url=portal,
+            job_action_links=[
+                {"url": portal, "label": "إيداع الترشيح", "kind": "apply"}
+            ],
+        )
+        self.assertFalse(job_core.is_job_specific_url(portal))
+        self.assertTrue(
+            job_core.is_verified_official_application_channel(competition, portal)
+        )
+        self.assertTrue(job_core.is_application_url_bound_to_job(competition, portal))
+
+    def test_generic_application_portal_stays_rejected_without_public_competition_evidence(self):
+        portal = "https://recrutement.enssup.gov.ma/"
+        detail = "https://company.example/jobs/12345"
+
+        private_job = sample_job(
+            url=detail,
+            canonical_url=detail,
+            job_detail_url=detail,
+            job_notice_type="vacancy",
+            official_source=True,
+            job_application_url=portal,
+            job_action_links=[
+                {"url": portal, "label": "Apply", "kind": "apply"}
+            ],
+        )
+        self.assertFalse(job_core.is_application_url_bound_to_job(private_job, portal))
+
+        unlinked_competition = sample_job(
+            url=(
+                "https://www.emploi-public.ma/ar/تفاصيل/المباريات/"
+                "85a046f8-2af5-4f26-8b3f-a811967e2a4e"
+            ),
+            canonical_url=(
+                "https://www.emploi-public.ma/ar/تفاصيل/المباريات/"
+                "85a046f8-2af5-4f26-8b3f-a811967e2a4e"
+            ),
+            job_detail_url=(
+                "https://www.emploi-public.ma/ar/تفاصيل/المباريات/"
+                "85a046f8-2af5-4f26-8b3f-a811967e2a4e"
+            ),
+            job_notice_type="competition",
+            official_source=True,
+            job_application_url=portal,
+            job_action_links=[],
+        )
+        self.assertFalse(
+            job_core.is_application_url_bound_to_job(unlinked_competition, portal)
+        )
+
         current = sample_job(
             url="https://www.emploi-public.ma/ar/تفاصيل/المباريات/85a046f8-2af5-4f26-8b3f-a811967e2a4e",
             canonical_url="https://www.emploi-public.ma/ar/تفاصيل/المباريات/85a046f8-2af5-4f26-8b3f-a811967e2a4e",
@@ -269,8 +331,10 @@ class JobsCoreTests(unittest.TestCase):
         )
         self.assertEqual(fields["job_exam_date"], "2026-10-25")
         self.assertEqual(fields["job_deadline"], "2026-10-05")
-        self.assertEqual(fields["job_application_link_kind"], "official_job_page")
-        self.assertEqual(fields["job_application_url"], "https://www.emploi-public.ma/ar/تفاصيل/المباريات/test")
+        self.assertEqual(fields["job_notice_type"], "competition")
+        self.assertEqual(fields["job_application_link_kind"], "official_application_channel")
+        self.assertEqual(fields["job_application_url"], "https://www.emploi-public.ma/candidature")
+        self.assertTrue(fields["job_application_is_official_channel"])
         self.assertEqual(len(fields["job_document_links"]), 2)
 
     def test_emploi_public_parser_keeps_only_competition_details(self):
