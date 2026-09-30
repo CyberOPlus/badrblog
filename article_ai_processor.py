@@ -90,6 +90,7 @@ LONG_FORM_ARTICLE_TARGET_RANGE = "700-1000"
 RICH_INPUT_MIN_SOURCE_WORDS = 180
 RICH_INPUT_MIN_SOURCE_CHARS = 1200
 REQUIRED_ARTICLE_FIELDS = ("title", "description", "slug", "html_content")
+JOBS_REQUIRED_ARTICLE_FIELDS = REQUIRED_ARTICLE_FIELDS + ("facebook_post_text",)
 
 
 class AIProviderFallbackNeeded(RuntimeError):
@@ -594,7 +595,7 @@ understand WHAT changed, WHO it concerns, the verified requirements and duties w
 the deadline/status, and the strongest official action or document without having to search elsewhere.
 
 OUTPUT
-- Return JSON only with exactly: title, description, slug, html_content.
+- Return JSON only with exactly: title, description, slug, html_content, facebook_post_text.
 - No markdown fences, notes, commentary, or extra keys.
 
 STRICT ACCURACY
@@ -654,6 +655,24 @@ TITLE — AI EDITORIAL DECISION
 - Never append domains, slugs, source-site fragments, raw IDs, "الإعلان 1", tracking-like text, or long source chains such as "آخر أجل... تاريخ إجراء المباراة...".
 - Avoid duplicated employer names, duplicated counts, repeated "توظيف", keyword stuffing, database-row syntax, broken Arabic/French concatenation, and clickbait.
 - Never invent a number, role, institution, stage, year, location, date, or status. If verified fields conflict, use only the unambiguous facts.
+FACEBOOK POST — AI EDITORIAL DECISION
+- facebook_post_text is mandatory for Jobs. It is a real Arabic Facebook post, NOT a database dump, NOT a copy of the article title, and NOT a fixed template.
+- First understand the same current-page intent used for the article title: new vacancy/competition, invited-candidate list, written/oral stage, provisional list, results, final results, admission/registration notice, or update. The post MUST describe that exact stage.
+- Write in clear Modern Standard Arabic for an Arabic-reading audience. Arabic must dominate the post.
+- Keep verified brand names, acronyms, official role names, product names, certifications, and genuinely useful English/French terms when needed; do not translate or mutilate them. Do not add foreign words merely for style.
+- The first non-empty line must be a natural factual hook written by you after understanding the notice. It must NOT be identical to the Blogger title and must not use repetitive boilerplate such as "فرصة تستحق الاطلاع", "فرصة توظيف جديدة", or "تحديث جديد" unless that wording is genuinely the clearest factual description.
+- Do not format the post as repetitive field labels such as "الجهة:", "المكان:", "عدد المناصب:" one line after another. Turn the useful verified facts into natural Arabic paragraphs.
+- Preserve the strongest useful verified information: institution/company, role or role groups, position count when useful, location when useful, deadline for an active vacancy, exam/stage/result status, and any essential eligibility/application fact supported by the source.
+- Do not repeat the same fact in the hook, body and CTA. Each fact should normally appear once.
+- For a new public competition, say clearly that it is a مباراة/مباريات توظيف when appropriate. For a private vacancy, use natural employment wording. For candidate lists/results, NEVER write as if applications are newly open.
+- If a verified application deadline exists for an active vacancy, mention it clearly once. Do not invent urgency and do not use fake countdown language.
+- Do not include any URL in facebook_post_text. The Blogger link is published separately in the first comment.
+- End with one context-appropriate Arabic CTA that explicitly says the details/application/list/results link is in "أول تعليق" followed by 👇.
+- End with 3 to 5 relevant hashtags only. Avoid generic hashtag stuffing and duplicate hashtags.
+- No markdown bullets, no HTML, no JSON inside the value, no raw source chains, no copied legal boilerplate, no motivational filler, no corporate praise, no emojis except a few useful ones when they improve scanning.
+- Keep the post concise but information-rich; normally 140-700 characters before hashtags, and longer only when verified facts genuinely require it.
+- Mixed-script display is handled by the publisher: write English/French terms normally; do NOT reverse their letters and do NOT insert bidi control characters yourself.
+
 NOTICE TYPE
 - Read job_notice_type and job_notice_status before writing.
 - vacancy: write an active opportunity/competition article and explain how to apply.
@@ -809,7 +828,8 @@ OUTPUT JSON SHAPE:
   "title": "Arabic SEO title",
   "description": "Arabic meta description",
   "slug": "english-company-role-location",
-  "html_content": "clean semantic HTML"
+  "html_content": "clean semantic HTML",
+  "facebook_post_text": "Arabic Facebook post with no URL; end with first-comment CTA and 3-5 hashtags"
 }}
 
 VERIFIED JOB PACKAGE:
@@ -955,7 +975,8 @@ def _parse_ai_json(raw_text):
 
 
 def _validate_ai_output(data, package=None):
-    missing = [field for field in REQUIRED_ARTICLE_FIELDS if not str(data.get(field, "")).strip()]
+    required_fields = JOBS_REQUIRED_ARTICLE_FIELDS if JOBS_MODE else REQUIRED_ARTICLE_FIELDS
+    missing = [field for field in required_fields if not str(data.get(field, "")).strip()]
     if missing:
         raise AIIncompleteResponseError("Missing AI output field(s): " + ", ".join(missing))
 
@@ -990,6 +1011,19 @@ def _validate_ai_output(data, package=None):
         )
     if not html_content:
         raise AIIncompleteResponseError("html_content is empty")
+    if JOBS_MODE:
+        facebook_post_text = str(data.get("facebook_post_text") or "").strip()
+        if re.search(r"https?://\S+", facebook_post_text):
+            raise AIIncompleteResponseError("Jobs facebook_post_text must not contain a URL")
+        if re.search(r"<[^>]+>", facebook_post_text) or "```" in facebook_post_text:
+            raise AIIncompleteResponseError("Jobs facebook_post_text must be plain text")
+        if "أول تعليق" not in facebook_post_text:
+            raise AIIncompleteResponseError("Jobs facebook_post_text must point readers to the first comment")
+        facebook_hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", facebook_post_text, flags=re.UNICODE)
+        if not (3 <= len(facebook_hashtags) <= 5) or len(set(facebook_hashtags)) != len(facebook_hashtags):
+            raise AIIncompleteResponseError("Jobs facebook_post_text must end with 3-5 unique hashtags")
+        if len(re.findall(r"[\u0600-\u06FF]", facebook_post_text)) < 40:
+            raise AIIncompleteResponseError("Jobs facebook_post_text must be Arabic-first")
     word_count = html_word_count(html_content)
     minimum_words = _minimum_article_words_for_package(package)
     if word_count < minimum_words:
@@ -1014,7 +1048,7 @@ def _build_expansion_retry_prompt(package, previous_data, previous_error):
     source_text = _source_text_for_package(package)
     if JOBS_MODE:
         return f"""
-Return JSON only with title, description, slug, html_content.
+Return JSON only with title, description, slug, html_content, facebook_post_text.
 
 The previous compact job listing failed this quality rule:
 {previous_error}
@@ -1047,6 +1081,8 @@ MANDATORY JOB RETRY RULES:
 - Do not invent any fact or URL.
 - Return a natural English slug using lowercase a-z and hyphens only; no digits, IDs, years, or Arabic transliteration.
 - Meta description 100-160 characters.
+- facebook_post_text is mandatory: rewrite it as a natural Modern Standard Arabic Facebook post that reflects the exact current notice stage, is not a copy of the article title, contains no URL, avoids repetitive field-label/template wording, mentions verified deadline/status once when useful, ends with an "أول تعليق" CTA, and finishes with 3-5 relevant hashtags.
+- Arabic must dominate facebook_post_text. Preserve necessary verified English/French names or terms normally; the publisher will force RTL display, so do not insert bidi controls yourself.
 - Clean semantic Blogger HTML only.
 
 SOURCE PACKAGE:
@@ -2733,6 +2769,9 @@ def _apply_success(article, data, provider_used):
     )
     article["final_html"] = final_html
     article["blogger_article_html"] = final_html
+    if JOBS_MODE:
+        article["facebook_post_text"] = str(data.get("facebook_post_text") or "").strip()
+        article["facebook_post_source"] = "ai"
     article["final_word_count"] = word_count
     article["final_html_chars"] = len(final_html)
     article["final_content_hash"] = content_hash_from_html(final_html)
@@ -2939,7 +2978,11 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 if provider
                 else _generate_ai_article(prompt, context=context)
             )
-            data = _parse_complete_ai_json(raw_text, REQUIRED_ARTICLE_FIELDS, "AI article response")
+            data = _parse_complete_ai_json(
+                raw_text,
+                JOBS_REQUIRED_ARTICLE_FIELDS if JOBS_MODE else REQUIRED_ARTICLE_FIELDS,
+                "AI article response",
+            )
             previous_data = data
             data = _shorten_metadata_once_if_needed(data)
             data = _normalize_ai_output(data)
