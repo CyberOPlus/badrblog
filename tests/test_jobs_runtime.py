@@ -906,6 +906,24 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(select.call_count, 1)
         self.assertEqual(process.call_count, 1)
 
+    def test_mark_candidate_failure_preserves_ai_retry_backoff(self):
+        article = {
+            "id": "backoff-job",
+            "url": "https://example.com/jobs/backoff",
+            "ai_failure_scope": "retry_backoff",
+            "ai_failure_fingerprint": "quality-fp",
+            "ai_retry_after": "2099-01-01T00:00:00+00:00",
+        }
+        with patch.object(main, "mark_article_recent_failure") as mark:
+            result = main._mark_candidate_failure_for_retry(
+                article,
+                "run-ai",
+                "AI retry backoff active",
+            )
+
+        self.assertIs(result, article)
+        mark.assert_not_called()
+
     def test_retry_backoff_does_not_increment_failure_or_rotate_candidate(self):
         failed = {
             "id": "backoff-job",
