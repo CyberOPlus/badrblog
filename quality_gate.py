@@ -188,9 +188,11 @@ def _job_title_style_reason(seo_title, notice_type="vacancy"):
     elif notice_type in {"results", "final_results"}:
         if not any(hint in title for hint in JOB_TITLE_RESULT_HINTS):
             return "results title does not clearly say it contains results"
-    else:
+    elif notice_type in {"vacancy", "competition"}:
         if not any(hint.casefold() in folded for hint in JOB_TITLE_ACTION_HINTS):
-            return "vacancy title lacks a clear employment/competition action"
+            return "active job title lacks a clear employment/competition action"
+    elif notice_type == "update":
+        pass
 
     if re.search(r"\bSi[eè]ge\b", title, flags=re.I):
         return "job SEO title contains raw source-page layout text"
@@ -315,8 +317,9 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             or package.get("job_application_url")
             or ""
         ).strip()
-        if notice_type == "vacancy" and not application_url:
-            return QualityGateResult(False, "active vacancy is missing a job-specific application URL", word_count)
+        active_notice = notice_type in {"vacancy", "competition"}
+        if active_notice and not application_url:
+            return QualityGateResult(False, "active job notice is missing a job-specific application URL", word_count)
         if application_url and not is_job_specific_url(application_url):
             return QualityGateResult(False, "job application URL is a generic careers/listing page", word_count)
         if application_url and not is_application_url_bound_to_job(article or package, application_url):
@@ -335,7 +338,7 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         if title_style_reason:
             return QualityGateResult(False, title_style_reason, word_count)
 
-        if notice_type == "vacancy" and deadline_value:
+        if active_notice and deadline_value:
             deadline_labels = (
                 "آخر أجل للترشيح",
                 "آخر أجل",
