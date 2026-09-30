@@ -24,7 +24,7 @@ from article_backlog import (
     mark_backlog_published,
     remember_articles,
 )
-from article_ai_processor import process_one_selected_article_with_ai
+from article_ai_processor import ai_circuit_status, process_one_selected_article_with_ai
 from article_draft_publisher import (
     fix_or_update_current_blogger_draft,
     publish_one_blogger_post,
@@ -2368,6 +2368,36 @@ def run_hourly_category_cycle():
     print("\n[3/6] enrich")
     enrich_stats = run_enrich_only(force=False)
 
+    if JOBS_MODE:
+        identity_stats = resolve_identity_pending_articles()
+        circuit = ai_circuit_status()
+        if circuit.get("global_open"):
+            reason = (
+                "AI circuit open; ingestion/enrichment continued without AI calls "
+                f"until {circuit.get('global_retry_after') or 'later'}"
+            )
+            log_event(
+                "ai_cycle_deferred_by_global_circuit",
+                failure_fingerprint=circuit.get("global_fingerprint", ""),
+                category=circuit.get("global_category", ""),
+                retry_after=circuit.get("global_retry_after", ""),
+                mode="hourly",
+            )
+            _print_safe_cycle_final_report(None, stopped_reason=reason)
+            return {
+                "completed": False,
+                "skipped": True,
+                "reason": reason,
+                "fetch": fetch_stats,
+                "score": score_stats,
+                "enrich": enrich_stats,
+                "identity_pending": identity_stats,
+                "hourly": hourly_counts,
+                "waiting_for_ai_circuit": True,
+                "ai_circuit": circuit,
+                "step_reached": "ai-circuit-check",
+            }
+
     results = []
     successes = 0
     failures = 0
@@ -2596,11 +2626,48 @@ def run_safe_cycle_only():
         enrich_stats,
     )
 
+    identity_stats = {}
+    if JOBS_MODE:
+        identity_stats = resolve_identity_pending_articles()
+        circuit = ai_circuit_status()
+        if circuit.get("global_open"):
+            reason = (
+                "AI circuit open; ingestion/enrichment continued without AI calls "
+                f"until {circuit.get('global_retry_after') or 'later'}"
+            )
+            log_event(
+                "ai_cycle_deferred_by_global_circuit",
+                failure_fingerprint=circuit.get("global_fingerprint", ""),
+                category=circuit.get("global_category", ""),
+                retry_after=circuit.get("global_retry_after", ""),
+                mode="safe-cycle",
+            )
+            _print_safe_cycle_final_report(
+                None,
+                stopped_reason=reason,
+                source_warnings_count=source_warnings_count,
+                enrichment_failed_count=enrichment_failed_count,
+            )
+            return {
+                "completed": False,
+                "skipped": True,
+                "reason": reason,
+                "fetch": fetch_stats,
+                "score": score_stats,
+                "enrich": enrich_stats,
+                "identity_pending": identity_stats,
+                "schedule": schedule_status,
+                "waiting_for_ai_circuit": True,
+                "ai_circuit": circuit,
+                "source_warnings_count": source_warnings_count,
+                "enrichment_failed_count": enrichment_failed_count,
+                "step_reached": "ai-circuit-check",
+            }
+
     print("\n[4/7] plan-next --lock")
     selected = None
     plan_result = {}
     if JOBS_MODE:
-        identity_stats = resolve_identity_pending_articles()
         queue = load_article_queue()
         selected = select_best_job_from_queue(queue)
         save_article_queue(queue)
