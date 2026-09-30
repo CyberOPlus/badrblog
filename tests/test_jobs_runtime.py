@@ -1157,7 +1157,7 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(generate.call_count, 1)
         cooldown.assert_called_once()
 
-    def test_article_input_failure_does_not_rotate_providers(self):
+    def test_model_capacity_failure_rotates_provider_instead_of_backing_off_article(self):
         candidates = [
             {"provider": "groq", "api_key": "k1", "model": "m1"},
         ]
@@ -1170,12 +1170,14 @@ class JobsRuntimeTests(unittest.TestCase):
              patch.object(
                  ai,
                  "_generate_with_candidate",
-                 side_effect=RuntimeError("HTTP 413 input too long for context length"),
+                 side_effect=RuntimeError(
+                     "groq API error 413: Request too large for model openai/gpt-oss-20b"
+                 ),
              ) as generate:
-            with self.assertRaises(ai.AIArticleInputError):
+            with self.assertRaises(ai.AIProviderFallbackNeeded):
                 ai._generate_with_provider_name("groq", "prompt")
         self.assertEqual(generate.call_count, 1)
-        cooldown.assert_not_called()
+        cooldown.assert_called_once_with(candidates[0], generate.side_effect)
 
     def test_failure_fingerprint_ignores_dynamic_numeric_ids(self):
         first, _category = ai._failure_fingerprint(
