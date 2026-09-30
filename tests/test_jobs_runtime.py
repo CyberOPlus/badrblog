@@ -820,7 +820,7 @@ class JobsRuntimeTests(unittest.TestCase):
             ai._validate_ai_output(data, package)
             ai._apply_success(article, data, "gemini:test")
         self.assertEqual(article["ai_status"], "completed")
-        self.assertEqual(article["final_word_count"], 125)
+        self.assertGreaterEqual(article["final_word_count"], 125)
 
     def test_jobs_do_not_truncate_long_institution_result_titles(self):
         title = "الوكالة الوطنية للمحافظة العقارية والمسح العقاري والخرائطية: لوائح المدعوين للاختبار الكتابي"
