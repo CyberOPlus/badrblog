@@ -785,6 +785,80 @@ class JobsCoreTests(unittest.TestCase):
         self.assertTrue(job_core._campaign_rollover(new, old))
 
 
+    def test_identity_hold_becomes_pending_not_skipped(self):
+        row = sample_job(
+            status="ready",
+            content_fetch_status="success",
+        )
+        quality = {
+            "score": 90,
+            "status": "publish",
+            "passed": True,
+            "reasons": [],
+        }
+        decision = {
+            "action": "hold",
+            "reason": "ambiguous same role without strong identifier",
+            "existing": {"campaign_id": "existing"},
+        }
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        with patch.object(job_core, "prepare_job_candidate", return_value=(quality, decision)):
+            selected = job_core.select_best_job_from_queue({"articles": [row]}, now=now)
+        self.assertIsNone(selected)
+        self.assertEqual(row["status"], "identity_pending")
+        self.assertEqual(row["job_identity_action"], "hold")
+        self.assertNotIn("skip_reason", row)
+        self.assertEqual(row["identity_pending_evidence_status"], "awaiting_more_evidence")
+
+    def test_confirmed_identity_duplicate_is_the_identity_terminal_skip(self):
+        row = sample_job(
+            status="ready",
+            content_fetch_status="success",
+        )
+        quality = {
+            "score": 90,
+            "status": "publish",
+            "passed": True,
+            "reasons": [],
+        }
+        decision = {
+            "action": "duplicate",
+            "reason": "same external reference",
+            "existing": {"campaign_id": "existing"},
+        }
+        with patch.object(job_core, "prepare_job_candidate", return_value=(quality, decision)):
+            selected = job_core.select_best_job_from_queue({"articles": [row]})
+        self.assertIsNone(selected)
+        self.assertEqual(row["status"], "skipped")
+        self.assertTrue(row["job_identity_final"])
+        self.assertIn("duplicate confirmed", row["skip_reason"])
+
+    def test_pdf_reference_can_become_identity_evidence(self):
+        row = sample_job(
+            job_external_reference="",
+            raw={},
+            job_document_texts=[
+                {
+                    "text": "Référence du concours : ENS-TECH-2026-17",
+                    "page_number": 1,
+                }
+            ],
+        )
+        self.assertEqual(job_core.external_reference(row), "ENS-TECH-2026-17")
+
+    def test_central_application_channel_is_not_identity_strong(self):
+        row = sample_job(
+            job_application_url="https://recrutement.enssup.gov.ma/",
+            job_application_link_kind="official_application_channel",
+        )
+        self.assertEqual(
+            job_core._identity_strong_application_url(
+                row,
+                row["job_application_url"],
+            ),
+            "",
+        )
+
     def test_cross_source_same_campaign_is_duplicate_with_strong_evidence(self):
         article = sample_job(
             source_name="Second Official Source",
