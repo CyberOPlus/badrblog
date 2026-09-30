@@ -2171,13 +2171,20 @@ def _retry_after_single_candidate_failure(
             or (failed_article or {}).get("ai_failure_scope")
             or ""
         ).strip().lower()
-        if failure_scope in {"global_outage", "cycle_budget"}:
+        circuit = ai_circuit_status() if JOBS_MODE else {}
+        if failure_scope in {"global_outage", "cycle_budget"} or circuit.get("global_open"):
             log_event(
                 "ai_candidate_rotation_stopped",
                 failed_article_id=(failed_article or {}).get("id"),
-                failure_scope=failure_scope,
-                failure_fingerprint=(failed_article or {}).get("ai_failure_fingerprint", ""),
-                retry_after=(failed_article or {}).get("ai_retry_after", ""),
+                failure_scope=failure_scope or "global_outage",
+                failure_fingerprint=(
+                    (failed_article or {}).get("ai_failure_fingerprint", "")
+                    or circuit.get("global_fingerprint", "")
+                ),
+                retry_after=(
+                    (failed_article or {}).get("ai_retry_after", "")
+                    or circuit.get("global_retry_after", "")
+                ),
                 reason=reason,
             )
             return None, retry_results
@@ -2432,15 +2439,23 @@ def run_hourly_category_cycle():
             else:
                 failures += 1
                 print(f"Skipped failed article: {item_result.get('reason', '')}")
-                if str(item_result.get("failure_scope") or "").strip().lower() in {
-                    "global_outage",
-                    "cycle_budget",
-                }:
+                circuit = ai_circuit_status() if JOBS_MODE else {}
+                if (
+                    str(item_result.get("failure_scope") or "").strip().lower()
+                    in {"global_outage", "cycle_budget"}
+                    or circuit.get("global_open")
+                ):
                     log_event(
                         "ai_hourly_batch_stopped_by_circuit",
-                        failure_scope=item_result.get("failure_scope", ""),
-                        failure_fingerprint=item_result.get("failure_fingerprint", ""),
-                        retry_after=item_result.get("retry_after", ""),
+                        failure_scope=item_result.get("failure_scope", "") or "global_outage",
+                        failure_fingerprint=(
+                            item_result.get("failure_fingerprint", "")
+                            or circuit.get("global_fingerprint", "")
+                        ),
+                        retry_after=(
+                            item_result.get("retry_after", "")
+                            or circuit.get("global_retry_after", "")
+                        ),
                     )
                     remaining_total = 0
                     break
