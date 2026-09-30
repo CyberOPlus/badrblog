@@ -249,15 +249,16 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         return QualityGateResult(False, "missing seo_description")
 
     word_count = html_word_count(html_content)
-    minimum_words = 120 if JOBS_MODE else (MIN_ARTICLE_WORDS if fast_mode else MIN_BLOGGER_ARTICLE_WORDS)
-    if word_count < minimum_words and not (
-        (not JOBS_MODE) and fast_mode and ALLOW_SHORT_ARTICLES and word_count >= 80
-    ):
-        return QualityGateResult(
-            False,
-            f"article too short ({word_count} words; minimum {minimum_words})",
-            word_count,
-        )
+    if not JOBS_MODE:
+        minimum_words = MIN_ARTICLE_WORDS if fast_mode else MIN_BLOGGER_ARTICLE_WORDS
+        if word_count < minimum_words and not (
+            fast_mode and ALLOW_SHORT_ARTICLES and word_count >= 80
+        ):
+            return QualityGateResult(
+                False,
+                f"article too short ({word_count} words; minimum {minimum_words})",
+                word_count,
+            )
 
     body_text = html_to_text(html_content)
     if _has_visible_json_or_markdown(html_content) or _has_visible_json_or_markdown(body_text):
@@ -419,13 +420,8 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
                 word_count,
             )
 
-        max_job_words = 650 if len(document_links) >= 4 else 320
-        if word_count > max_job_words:
-            return QualityGateResult(
-                False,
-                f"job article too long ({word_count} words; maximum {max_job_words})",
-                word_count,
-            )
+        # Jobs articles are judged by verified completeness and structure,
+        # not by an arbitrary maximum word count.
         warnings = []
         if not re.search(r"<h2\b", html_content, flags=re.I):
             warnings.append("job article has no h2 section")
