@@ -18,11 +18,128 @@ import job_core
 import job_document_renderer
 import main
 import quality_gate
+import runtime_state
 import verified_fact_manifest as fact_manifest
 import jobs_adaptive_controller as adaptive
 
 
 class JobsRuntimeTests(unittest.TestCase):
+    def test_jobs_queue_storage_health_distinguishes_corrupt_from_valid_empty(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "jobs_article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", path):
+                path.write_text("", encoding="utf-8")
+                corrupt = article_queue.article_queue_storage_status()
+                self.assertFalse(corrupt["valid"])
+                self.assertEqual(corrupt["article_count"], 0)
+
+                path.write_text(
+                    json.dumps({"updated_at": "", "articles": [], "notifications": {}}),
+                    encoding="utf-8",
+                )
+                valid_empty = article_queue.article_queue_storage_status()
+                self.assertTrue(valid_empty["valid"])
+                self.assertEqual(valid_empty["article_count"], 0)
+
+    def test_jobs_discovery_state_reset_forgets_seen_ids_but_not_other_source_fields(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "crawl_state.json"
+            state = {
+                "sources": {
+                    "https://example.com/jobs": {
+                        "source_name": "Example",
+                        "last_crawled_at": "2026-09-30T22:00:00Z",
+                        "job_seen_ids": ["source:1", "source:2"],
+                        "job_seen_ids_count": 2,
+                        "job_discovery_resume": {"kind": "html", "url": "https://example.com/jobs?page=2"},
+                        "discovery_pages_scanned": 1,
+                        "discovery_stop_reason": "max_pages",
+                    }
+                },
+                "category_rotation": {},
+                "source_rotation": {},
+                "updated_at": "",
+            }
+            path.write_text(json.dumps(state), encoding="utf-8")
+
+            with patch.object(runtime_state, "CRAWL_STATE_PATH", path):
+                result = runtime_state.reset_job_discovery_state(
+                    "recovery_reset_after_queue_storage_loss"
+                )
+                saved = runtime_state.load_crawl_state()
+
+        record = saved["sources"]["https://example.com/jobs"]
+        self.assertEqual(result["changed_sources"], 1)
+        self.assertEqual(result["forgotten_ids"], 2)
+        self.assertEqual(record["job_seen_ids"], [])
+        self.assertEqual(record["job_seen_ids_count"], 0)
+        self.assertEqual(record["job_discovery_resume"], {})
+        self.assertEqual(record["discovery_pages_scanned"], 0)
+        self.assertEqual(
+            record["discovery_stop_reason"],
+            "recovery_reset_after_queue_storage_loss",
+        )
+        self.assertEqual(record["source_name"], "Example")
+        self.assertEqual(record["last_crawled_at"], "2026-09-30T22:00:00Z")
+
+    def test_jobs_fetch_self_heals_discovery_after_corrupt_queue_storage(self):
+        sources = [{
+            "name": "Source A",
+            "base_url": "https://example.com/a",
+            "enabled": True,
+        }]
+        discovery = {
+            "checked_sources": 1,
+            "articles": [],
+            "source_results": [],
+            "reason": "",
+        }
+        queue_stats = {
+            "added": 0,
+            "duplicates": 0,
+            "duplicate_url": 0,
+            "duplicate_title": 0,
+            "total_queued": 0,
+            "added_by_category": {},
+        }
+        with (
+            patch.object(main, "JOBS_MODE", True),
+            patch.object(main, "load_sources", return_value=sources),
+            patch.object(
+                main,
+                "article_queue_storage_status",
+                return_value={
+                    "exists": True,
+                    "valid": False,
+                    "article_count": 0,
+                    "reason": "JSONDecodeError",
+                },
+            ),
+            patch.object(
+                main,
+                "reset_job_discovery_state",
+                return_value={
+                    "changed_sources": 1,
+                    "forgotten_ids": 8,
+                    "reason": "recovery_reset_after_queue_storage_loss",
+                },
+            ) as reset,
+            patch.object(main, "discover_latest_article_links", return_value=discovery),
+            patch.object(main, "add_articles_to_queue", return_value=queue_stats),
+            redirect_stdout(StringIO()),
+        ):
+            main.run_fetch_only()
+
+        reset.assert_called_once_with(
+            reason="recovery_reset_after_queue_storage_loss"
+        )
+
     def test_jobs_fetch_uses_exhaustive_discovery_not_news_shortcuts(self):
         sources = [
             {
@@ -58,6 +175,11 @@ class JobsRuntimeTests(unittest.TestCase):
             patch.object(main, "FAST_NEWS_MODE", True),
             patch.object(main, "FIRST_VALID_ARTICLE_MODE", True),
             patch.object(main, "load_sources", return_value=sources),
+            patch.object(
+                main,
+                "article_queue_storage_status",
+                return_value={"exists": True, "valid": True, "article_count": 0, "reason": ""},
+            ),
             patch.object(
                 main,
                 "discover_latest_article_links",
