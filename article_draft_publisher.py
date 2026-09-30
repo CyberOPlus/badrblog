@@ -1453,18 +1453,72 @@ def _retry_time_due(value, now=None):
         return True
 
 
-def retry_pending_job_document_renders(max_articles=1):
-    """
-    Retry Jobs PDF page rendering and sync only the same saved Blogger post.
+def _visual_asset_signature(article):
+    package = article.get("ai_input_package") or {}
+    cover = str(
+        article.get("job_article_cover_url")
+        or package.get("job_article_cover_url")
+        or article.get("main_image")
+        or package.get("main_image")
+        or ""
+    ).strip()
+    pages = tuple(
+        str(row.get("url") or "").strip()
+        for row in (
+            article.get("job_document_page_images")
+            or package.get("job_document_page_images")
+            or []
+        )
+        if isinstance(row, dict) and str(row.get("url") or "").strip()
+    )
+    return cover, pages
 
-    This path never calls AI and never inserts a new Blogger post.
+
+def _mark_visual_sync_retry(article, error):
+    count = int(article.get("visual_sync_retry_count") or 0) + 1
+    article["visual_sync_retry_count"] = count
+    article["visual_sync_error"] = str(error or "visual sync failed")[:1000]
+    if count >= MAX_JOB_DOCUMENT_RENDER_RETRIES:
+        article["visual_sync_retry_pending"] = False
+        article["visual_sync_status"] = "unavailable_optional"
+        article.pop("visual_sync_retry_after", None)
+        article["visual_readiness_status"] = "content_ready_visual_optional"
+        log_event(
+            "job_visual_sync_abandoned_optional",
+            article_id=article.get("id"),
+            retries=count,
+            error=article["visual_sync_error"],
+        )
+        return
+    article["visual_sync_retry_pending"] = True
+    article["visual_sync_status"] = "visual_sync_retry"
+    article["visual_sync_retry_after"] = _document_render_retry_at()
+    article["visual_readiness_status"] = "content_ready_visual_retry"
+    log_event(
+        "job_visual_sync_deferred",
+        article_id=article.get("id"),
+        retries=count,
+        retry_after=article["visual_sync_retry_after"],
+        error=article["visual_sync_error"],
+    )
+
+
+def retry_pending_job_visuals(max_articles=1):
+    """
+    Retry optional Jobs visuals and sync only the same saved Blogger post.
+
+    This path never calls AI and never inserts a new Blogger post. Missing
+    unverified logos are not retries; they remain optional until a future design
+    decision introduces a text-only employer template.
     """
     if not JOBS_MODE:
         return {
             "checked": 0,
-            "rendered": 0,
+            "document_rendered": 0,
+            "logo_rendered": 0,
             "synced": 0,
             "still_pending": 0,
+            "archived_after_retry": 0,
         }
 
     queue = load_article_queue()
@@ -1472,22 +1526,37 @@ def retry_pending_job_document_renders(max_articles=1):
     now = datetime.now(timezone.utc)
     stats = {
         "checked": 0,
-        "rendered": 0,
+        "document_rendered": 0,
+        "logo_rendered": 0,
         "synced": 0,
         "still_pending": 0,
+        "archived_after_retry": 0,
     }
     changed = False
+    resolved_live = []
 
     candidates = []
     for article in articles:
         if article.get("archived"):
             continue
-        if article.get("job_document_render_status") != "document_render_retry":
-            continue
         if article.get("publish_status") not in {"published", "draft_created"}:
             continue
-        if not _retry_time_due(article.get("job_document_render_retry_after"), now=now):
+
+        document_due = bool(
+            article.get("job_document_render_status") == "document_render_retry"
+            and _retry_time_due(article.get("job_document_render_retry_after"), now=now)
+        )
+        logo_due = bool(
+            article.get("logo_visual_retry_pending")
+            and _retry_time_due(article.get("logo_visual_retry_after"), now=now)
+        )
+        sync_due = bool(
+            article.get("visual_sync_retry_pending")
+            and _retry_time_due(article.get("visual_sync_retry_after"), now=now)
+        )
+        if not (document_due or logo_due or sync_due):
             continue
+
         saved_id = str(
             article.get("blogger_post_id")
             or article.get("blogger_draft_id")
@@ -1495,92 +1564,118 @@ def retry_pending_job_document_renders(max_articles=1):
         ).strip()
         if not saved_id:
             continue
-        candidates.append(article)
+        candidates.append((article, document_due, logo_due, sync_due))
 
-    for article in candidates[:max(0, int(max_articles or 0))]:
+    for article, document_due, logo_due, sync_due in candidates[:max(0, int(max_articles or 0))]:
         stats["checked"] += 1
         package = article.get("ai_input_package")
         if not isinstance(package, dict):
             package = {}
             article["ai_input_package"] = package
 
+        before_signature = _visual_asset_signature(article)
         try:
-            pages = _prepare_job_document_page_images(article, force_retry=True)
-            changed = True
-            if not pages:
+            if logo_due:
+                before_cover = before_signature[0]
+                _prepare_job_article_cover(article)
+                after_cover = _visual_asset_signature(article)[0]
+                if after_cover and after_cover != before_cover:
+                    stats["logo_rendered"] += 1
+                changed = True
+
+            if document_due:
+                before_pages = before_signature[1]
+                pages = _prepare_job_document_page_images(article, force_retry=True)
+                after_pages = _visual_asset_signature(article)[1]
+                if after_pages and after_pages != before_pages:
+                    stats["document_rendered"] += 1
+                changed = True
+
+            after_signature = _visual_asset_signature(article)
+            needs_sync = bool(sync_due or after_signature != before_signature)
+
+            if needs_sync:
+                # Rebuild HTML from the already-approved article and current
+                # visual package. Do not prepare visuals again and do not call AI.
+                _sanitize_article_final_html(article, prepare_visuals=False)
+
+                creds = get_credentials()
+                if not creds:
+                    raise RuntimeError(
+                        "Blogger credentials are not available for visual retry sync."
+                    )
+                service = create_blogger_service(creds)
+                if not service or is_local_publisher(service):
+                    raise RuntimeError(
+                        "Blogger service is not available for visual retry sync."
+                    )
+
+                _ensure_jobs_target_blog(service)
+                mode = "live" if article.get("publish_status") == "published" else "draft"
+                post = _get_saved_post_by_id(service, article, mode=mode)
+                if not post or not post.get("id"):
+                    raise RuntimeError(
+                        "Saved Blogger post was not found for visual retry sync."
+                    )
+
+                body = _build_post_body(article)
+                request = service.posts().update(
+                    blogId=BLOG_ID,
+                    postId=post["id"],
+                    body=body,
+                )
+                updated = _execute_blogger_request(
+                    request,
+                    "sync retried job visuals",
+                    safe_to_retry=True,
+                )
+                updated = _ensure_returned_post_url(service, updated)
+                if mode == "live":
+                    _apply_jobposting_schema(service, updated, article, "live")
+
+                article["visual_sync_status"] = "synced"
+                article["visual_sync_synced_at"] = _now_iso()
+                article.pop("visual_sync_retry_pending", None)
+                article.pop("visual_sync_retry_after", None)
+                article.pop("visual_sync_error", None)
+                stats["synced"] += 1
+                changed = True
+                log_event(
+                    "job_visual_retry_synced",
+                    article_id=article.get("id"),
+                    post_id=post.get("id"),
+                    document_status=article.get("job_document_render_status", ""),
+                    cover_status=article.get("job_article_cover_status", ""),
+                )
+
+            pending = job_visual_retry_pending(article)
+            if pending:
                 stats["still_pending"] += 1
-                continue
-
-            stats["rendered"] += 1
-            _sanitize_article_final_html(article)
-
-            creds = get_credentials()
-            if not creds:
-                raise RuntimeError(
-                    "Blogger credentials are not available for document render sync."
-                )
-            service = create_blogger_service(creds)
-            if not service or is_local_publisher(service):
-                raise RuntimeError(
-                    "Blogger service is not available for document render sync."
+            elif article.get("publish_status") == "published":
+                resolved_live.append(
+                    (article.get("id", ""), article.get("url", ""))
                 )
 
-            _ensure_jobs_target_blog(service)
-            mode = (
-                "live"
-                if article.get("publish_status") == "published"
-                else "draft"
-            )
-            post = _get_saved_post_by_id(service, article, mode=mode)
-            if not post or not post.get("id"):
-                raise RuntimeError(
-                    "Saved Blogger post was not found for document render sync."
-                )
-
-            body = _build_post_body(article)
-            request = service.posts().update(
-                blogId=BLOG_ID,
-                postId=post["id"],
-                body=body,
-            )
-            updated = _execute_blogger_request(
-                request,
-                "sync rendered job document pages",
-                safe_to_retry=True,
-            )
-            updated = _ensure_returned_post_url(service, updated)
-
-            if mode == "live":
-                _apply_jobposting_schema(service, updated, article, "live")
-
-            article["job_document_render_synced_at"] = _now_iso()
-            if article.get("job_document_render_status") == "rendered":
-                article.pop("job_document_render_retry_after", None)
-                article.pop("job_document_render_retry_reason", None)
-                article.pop("job_document_render_error", None)
-            else:
-                stats["still_pending"] += 1
-
-            stats["synced"] += 1
-            changed = True
-            log_event(
-                "job_document_render_retry_synced",
-                article_id=article.get("id"),
-                post_id=post.get("id"),
-                pages=len(pages),
-                status=article.get("job_document_render_status"),
-            )
         except Exception as error:
-            _mark_document_render_retry(
-                article,
-                package,
-                error,
-                reason="blogger_sync_failed",
-            )
+            _mark_visual_sync_retry(article, error)
             stats["still_pending"] += 1
             changed = True
 
     if changed:
         save_article_queue(queue)
+
+    # Once optional visuals have either succeeded or been exhausted, the
+    # already-published article can enter the normal archive path.
+    for article_id, article_url in resolved_live:
+        if archive_published_queue_article(
+            article_id=article_id,
+            article_url=article_url,
+        ):
+            stats["archived_after_retry"] += 1
+
     return stats
 
+
+def retry_pending_job_document_renders(max_articles=1):
+    """Backward-compatible alias for the independent visual retry worker."""
+    return retry_pending_job_visuals(max_articles=max_articles)
