@@ -1056,7 +1056,12 @@ class JobsCoreTests(unittest.TestCase):
             job_external_reference="REF-NEW",
             job_deadline="2026-10-10",
             job_number_of_positions=100,
+            source_tables=[
+                {"rows": [["التخصص", "تقني في الشبكات"], ["عدد المناصب", "100"]]}
+            ],
+            source_tables_count=1,
         )
+        self._complete_identity_evidence(article)
         record = {
             "campaign_id": "campaign-a",
             "identity_key": "old",
@@ -1066,6 +1071,9 @@ class JobsCoreTests(unittest.TestCase):
             "number_of_positions": 100,
             "published_at": "2026-09-28T08:00:00+00:00",
             "application_url": "https://other.example/jobs/old",
+            "identity_evidence_signature": article["identity_evidence_signature"],
+            "identity_evidence_strength": article["identity_evidence_strength"],
+            "identity_evidence_comparison_strength": article["identity_evidence_comparison_strength"],
         }
         with patch.object(job_core, "get_by_identity", return_value={}), \
              patch.object(job_core, "get_semantic_candidates", return_value=[record]):
