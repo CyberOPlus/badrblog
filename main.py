@@ -43,7 +43,7 @@ from article_queue import (
     save_article_queue,
 )
 from article_enricher import enrich_ready_articles
-from article_processor import prepare_selected_articles_for_ai
+from article_processor import prepare_selected_articles_for_ai, resolve_identity_pending_articles
 from article_scorer import score_new_articles
 from article_selector import normalize_category_label, select_next_article, suggest_category
 from duplicate_utils import title_hash, topic_signature
@@ -2073,16 +2073,34 @@ def _select_retry_candidate(fetch_stats, attempted_ids):
     attempted_ids = {item for item in (attempted_ids or set()) if item}
     selected = None
     if JOBS_MODE:
+        resolve_identity_pending_articles()
         queue = load_article_queue()
         candidates = {"articles": [
             article for article in queue.get("articles", [])
             if (article.get("id") or article.get("url")) not in attempted_ids
         ]}
         selected = select_best_job_from_queue(candidates)
-        if selected:
-            selected["status"] = "selected"
-            selected["selected_at"] = datetime.now().isoformat(timespec="seconds")
         save_article_queue(queue)
+        if not selected:
+            pending_stats = resolve_identity_pending_articles()
+            if pending_stats.get("resolved_ready"):
+                queue = load_article_queue()
+                candidates = {"articles": [
+                    article for article in queue.get("articles", [])
+                    if (article.get("id") or article.get("url")) not in attempted_ids
+                ]}
+                selected = select_best_job_from_queue(candidates)
+                save_article_queue(queue)
+        if selected:
+            queue = load_article_queue()
+            for article in queue.get("articles", []):
+                if (article.get("id") or article.get("url")) != (selected.get("id") or selected.get("url")):
+                    continue
+                article["status"] = "selected"
+                article["selected_at"] = datetime.now().isoformat(timespec="seconds")
+                selected = article
+                break
+            save_article_queue(queue)
     elif CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
         selected = _select_newest_fresh_ready_article(
             fetch_stats.get("selected_category", ""),
@@ -2437,11 +2455,13 @@ def run_safe_cycle_only():
             cleanup_stats = archive_expired_queue_articles()
             score_stats = run_score_only()
             enrich_stats = run_enrich_only(force=False)
+            identity_stats = resolve_identity_pending_articles()
             ingest_stats = {
                 "fetch": fetch_stats,
                 "cleanup": cleanup_stats,
                 "score": score_stats,
                 "enrich": enrich_stats,
+                "identity_pending": identity_stats,
             }
         else:
             print(f"Cycle stopping cleanly before article selection: {reason}.")
@@ -2521,17 +2541,39 @@ def run_safe_cycle_only():
     selected = None
     plan_result = {}
     if JOBS_MODE:
+        identity_stats = resolve_identity_pending_articles()
         queue = load_article_queue()
         selected = select_best_job_from_queue(queue)
-        if selected:
-            selected["status"] = "selected"
-            selected["selected_at"] = datetime.now().isoformat(timespec="seconds")
-            selected["selection_reason"] = (
-                f"jobs quality {selected.get('job_score', 0)}/100; "
-                f"identity={selected.get('job_identity_action', '')}; "
-                f"urgency={(selected.get('job_urgency') or {}).get('level', 'normal')}"
-            )
         save_article_queue(queue)
+
+        # A first identity pass can discover a brand-new ambiguous candidate.
+        # If no other publishable job exists, gather its official PDF evidence
+        # immediately and retry identity once in the same cycle.
+        if not selected:
+            second_identity_stats = resolve_identity_pending_articles()
+            for key, value in second_identity_stats.items():
+                if isinstance(value, int):
+                    identity_stats[key] = int(identity_stats.get(key) or 0) + value
+            if second_identity_stats.get("resolved_ready"):
+                queue = load_article_queue()
+                selected = select_best_job_from_queue(queue)
+                save_article_queue(queue)
+
+        if selected:
+            queue = load_article_queue()
+            for article in queue.get("articles", []):
+                if (article.get("id") or article.get("url")) != (selected.get("id") or selected.get("url")):
+                    continue
+                article["status"] = "selected"
+                article["selected_at"] = datetime.now().isoformat(timespec="seconds")
+                article["selection_reason"] = (
+                    f"jobs quality {article.get('job_score', 0)}/100; "
+                    f"identity={article.get('job_identity_action', '')}; "
+                    f"urgency={(article.get('job_urgency') or {}).get('level', 'normal')}"
+                )
+                selected = article
+                break
+            save_article_queue(queue)
         plan_result = {
             "selected": selected,
             "reason": selected.get("selection_reason", "") if selected else "no verified job passed quality/identity/daily policy",
