@@ -510,6 +510,11 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         employment = ", ".join(_text(x) for x in employment if _text(x))
 
     notice_type = _notice_type(job_title, body)
+    if (
+        notice_type == "vacancy"
+        and str(article.get("ats_provider") or "").strip().lower() == "emploi_public"
+    ):
+        notice_type = "competition"
     notice_status = _notice_status(job_title, body)
 
     action_links = _extract_job_action_links(soup, page_url)
