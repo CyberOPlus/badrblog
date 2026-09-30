@@ -1713,6 +1713,166 @@ class JobsCoreTests(unittest.TestCase):
         self.assertNotIn("skip_reason", row)
         self.assertEqual(row["identity_pending_evidence_status"], "awaiting_more_evidence")
 
+    def test_jobs_queue_prefers_newer_verified_job_over_higher_score_old_job(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        older = sample_job(
+            id="older-high-score",
+            status="ready",
+            content_fetch_status="success",
+            job_published_at="2026-09-23T08:00:00+00:00",
+            source_published_at="2026-09-23T08:00:00+00:00",
+            job_number_of_positions=1,
+            job_urgency={"level": "normal"},
+        )
+        newer = sample_job(
+            id="newer-lower-score",
+            status="ready",
+            content_fetch_status="success",
+            job_published_at="2026-09-30T10:00:00+00:00",
+            source_published_at="2026-09-30T10:00:00+00:00",
+            job_number_of_positions=1,
+            job_urgency={"level": "normal"},
+        )
+
+        def fake_prepare(article, now=None):
+            score = 95 if article["id"] == "older-high-score" else 55
+            return (
+                {"score": score, "status": "publish", "passed": True, "reasons": []},
+                {"action": "new", "reason": "new verified job", "existing": {}},
+            )
+
+        with (
+            patch.object(job_core, "prepare_job_candidate", side_effect=fake_prepare),
+            patch.object(job_core, "can_publish_new_job", return_value=True),
+        ):
+            selected = job_core.select_best_job_from_queue(
+                {"articles": [older, newer]},
+                now=now,
+            )
+
+        self.assertEqual(selected["id"], "newer-lower-score")
+
+
+    def test_jobs_discovery_refreshes_head_before_resuming_deep_backlog(self):
+        source = {
+            "name": "Large official source",
+            "base_url": "https://jobs.example/list",
+            "enabled": True,
+            "fetch_limit_per_run": 8,
+            "extractor_type": "workday_api",
+            "official_source": True,
+        }
+        crawl_record = {
+            "job_seen_ids": ["source:known"],
+            "job_discovery_resume": {"kind": "workday", "offset": 250},
+        }
+        calls = []
+
+        def fake_collect(_base_url, **kwargs):
+            calls.append(dict(kwargs))
+            if not kwargs.get("resume_state"):
+                return (
+                    [{
+                        "title": "Newest role",
+                        "url": "https://jobs.example/job/newest",
+                        "ats_provider": "source",
+                        "ats_reference": "NEWEST",
+                    }],
+                    "",
+                    200,
+                    {
+                        "discovery_resume": {},
+                        "discovery_meta": {"stop_reason": "seen_streak", "pages_scanned": 1},
+                    },
+                )
+            return (
+                [{
+                    "title": "Deep backlog role",
+                    "url": "https://jobs.example/job/deep",
+                    "ats_provider": "source",
+                    "ats_reference": "DEEP",
+                }],
+                "",
+                200,
+                {
+                    "discovery_resume": {"kind": "workday", "offset": 500},
+                    "discovery_meta": {"stop_reason": "max_items", "pages_scanned": 12},
+                },
+            )
+
+        with (
+            patch.object(scraper, "JOBS_MODE", True),
+            patch.object(scraper, "_can_run_async_discovery", return_value=False),
+            patch.object(scraper, "source_crawl_record", return_value=crawl_record),
+            patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect),
+            patch.object(scraper, "_record_source_result"),
+            patch.object(scraper, "update_source_crawl"),
+        ):
+            result = scraper.discover_latest_article_links([source])
+
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(calls[0]["resume_state"], {})
+        self.assertEqual(calls[1]["resume_state"], {"kind": "workday", "offset": 250})
+        self.assertEqual(
+            {row["url"] for row in result["articles"]},
+            {"https://jobs.example/job/newest", "https://jobs.example/job/deep"},
+        )
+        self.assertEqual(
+            result["source_results"][0]["resume_after"],
+            {"kind": "workday", "offset": 500},
+        )
+
+
+    def test_jobs_discovery_rebases_resume_when_fresh_head_burst_is_not_exhausted(self):
+        source = {
+            "name": "Burst source",
+            "base_url": "https://burst.example/jobs",
+            "enabled": True,
+            "fetch_limit_per_run": 8,
+            "extractor_type": "workday_api",
+        }
+        crawl_record = {
+            "job_seen_ids": ["source:known"],
+            "job_discovery_resume": {"kind": "workday", "offset": 1000},
+        }
+        calls = []
+
+        def fake_collect(_base_url, **kwargs):
+            calls.append(dict(kwargs))
+            return (
+                [{
+                    "title": "Fresh burst role",
+                    "url": "https://burst.example/jobs/fresh",
+                    "ats_provider": "source",
+                    "ats_reference": "FRESH-BURST",
+                }],
+                "",
+                200,
+                {
+                    "discovery_resume": {"kind": "workday", "offset": 250},
+                    "discovery_meta": {"stop_reason": "max_items", "pages_scanned": 12},
+                },
+            )
+
+        with (
+            patch.object(scraper, "JOBS_MODE", True),
+            patch.object(scraper, "_can_run_async_discovery", return_value=False),
+            patch.object(scraper, "source_crawl_record", return_value=crawl_record),
+            patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect),
+            patch.object(scraper, "_record_source_result"),
+            patch.object(scraper, "update_source_crawl"),
+        ):
+            result = scraper.discover_latest_article_links([source])
+
+        self.assertEqual(len(calls), 1)
+        self.assertEqual(calls[0]["resume_state"], {})
+        self.assertTrue(result["source_results"][0]["head_refresh_rebased_resume"])
+        self.assertEqual(
+            result["source_results"][0]["resume_after"],
+            {"kind": "workday", "offset": 250},
+        )
+
+
     def test_confirmed_identity_duplicate_is_the_identity_terminal_skip(self):
         row = sample_job(
             status="ready",
