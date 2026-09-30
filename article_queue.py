@@ -590,6 +590,7 @@ def job_visual_retry_pending(article):
     return bool(
         article.get("job_document_render_status") == "document_render_retry"
         or article.get("logo_visual_retry_pending")
+        or article.get("visual_sync_retry_pending")
         or article.get("job_article_cover_status") in {
             "render_retry_optional",
             "asset_persist_retry_optional",
