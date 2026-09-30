@@ -113,14 +113,10 @@ def _source_for_scalar(article, value, hints=()):
     if value in (None, "", [], {}):
         return "missing", HEURISTIC
 
-    ats_provider = str(article.get("ats_provider") or "").strip()
     official = bool(article.get("official_source") or article.get("job_official_source"))
     table_text = _table_text(article)
     pdf_text = _pdf_text(article)
     detail_text = _detail_text(article)
-
-    if ats_provider:
-        return "structured_ats", HIGH
 
     if hints:
         if _has_context_value(table_text, value, hints):
@@ -161,8 +157,6 @@ def _append_fact(manifest, category, fact):
 def _position_source(article, positions):
     if not positions:
         return "missing", HEURISTIC
-    if str(article.get("ats_provider") or "").strip():
-        return "structured_ats", HIGH
     value = str(positions)
     for source_name, text in (
         ("source_table", _table_text(article)),
@@ -265,7 +259,14 @@ def build_verified_fact_manifest(article):
     for category, value, hints, required in scalar_specs:
         if value in (None, "", [], {}):
             continue
-        source, confidence = _source_for_scalar(article, value, hints)
+        if (
+            category == "reference"
+            and str(article.get("ats_reference") or "").strip()
+            and str(value).strip() == str(article.get("ats_reference") or "").strip()
+        ):
+            source, confidence = "structured_ats", HIGH
+        else:
+            source, confidence = _source_for_scalar(article, value, hints)
         aliases = []
         if category == "exam_date" and article.get("job_exam_date_display"):
             aliases.append(article.get("job_exam_date_display"))
