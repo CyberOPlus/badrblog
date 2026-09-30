@@ -2918,12 +2918,17 @@ def discover_latest_article_links(sources):
                 )
             except (TypeError, ValueError):
                 discovery_max_items = JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE
+            source_crawl = source_crawl_record(base_url)
             known_ids = _source_known_discovery_ids(base_url)
+            resume_state = source_crawl.get("job_discovery_resume") or {}
+            if not isinstance(resume_state, dict):
+                resume_state = {}
         else:
             discovery_max_pages = 1
             discovery_seen_streak = JOBS_DISCOVERY_SEEN_STREAK
             discovery_max_items = fetch_limit
             known_ids = set()
+            resume_state = {}
 
         print(f"\n[{checked_sources}] Checking {source_name}")
         category_hint = source.get("category_hint", "")
@@ -2941,6 +2946,7 @@ def discover_latest_article_links(sources):
                 max_pages=discovery_max_pages,
                 seen_streak_stop=discovery_seen_streak,
                 max_items=discovery_max_items,
+                resume_state=resume_state,
             )
         except Exception as exc:
             links = []
@@ -2992,6 +2998,9 @@ def discover_latest_article_links(sources):
                 discovery_max_pages=discovery_max_pages,
                 discovery_seen_streak=discovery_seen_streak,
                 discovery_max_items=discovery_max_items,
+                job_discovery_resume=details.get("discovery_resume") or {},
+                discovery_stop_reason=details.get("discovery_meta", {}).get("stop_reason", ""),
+                discovery_pages_scanned=details.get("discovery_meta", {}).get("pages_scanned", 0),
             )
 
         source_results.append(
@@ -3008,6 +3017,10 @@ def discover_latest_article_links(sources):
                 "discovery_seen_streak": discovery_seen_streak,
                 "discovery_max_items": discovery_max_items,
                 "known_ids_before": len(known_ids),
+                "resume_before": resume_state,
+                "resume_after": details.get("discovery_resume") or {},
+                "stop_reason": details.get("discovery_meta", {}).get("stop_reason", ""),
+                "pages_scanned": details.get("discovery_meta", {}).get("pages_scanned", 0),
                 "links_found": len(links),
                 "status": "failed" if error else "success",
                 "listing_status_code": status_code,
