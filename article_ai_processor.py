@@ -3600,7 +3600,20 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     )
     article["ai_quality_attempts"] = attempt if "attempt" in locals() else 0
     save_article_queue(queue)
-    if isinstance(last_error, AITimeBudgetExceeded):
+    if isinstance(last_error, AIArticleInputError):
+        log_event(
+            "ai_article_input_failure_deferred",
+            article_id=article.get("id"),
+            failure_fingerprint=article.get("ai_failure_fingerprint", ""),
+            retry_after=article.get("ai_retry_after", ""),
+            reason=_safe_error_reason(last_error),
+        )
+        log_event(
+            "ai_article_skipped_after_ai_failure",
+            article_id=article.get("id"),
+            reason="article_input_backoff",
+        )
+    elif isinstance(last_error, AITimeBudgetExceeded):
         log_event(
             "ai_time_budget_exceeded",
             article_id=article.get("id"),
