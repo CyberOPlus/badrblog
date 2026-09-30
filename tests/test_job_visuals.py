@@ -436,6 +436,55 @@ class JobVisualTests(unittest.TestCase):
         self.assertTrue(article["logo_visual_retry_pending"])
         self.assertNotIn("publish_block_reason", article)
 
+    def test_exhausted_logo_retry_stays_optional_without_exception(self):
+        article = {
+            "id": "job-logo-exhausted",
+            "job_title": "مهندس نظم",
+            "job_company": "Example Company",
+            "seo_title": "فرصة توظيف مهندس نظم لدى Example Company",
+            "logo_visual_retry_count": (
+                article_draft_publisher.MAX_JOB_LOGO_RENDER_RETRIES - 1
+            ),
+            "ai_input_package": {
+                "job_title": "مهندس نظم",
+                "job_company": "Example Company",
+            },
+        }
+        with (
+            patch.object(article_draft_publisher, "JOBS_MODE", True),
+            patch.object(
+                article_draft_publisher,
+                "verified_company_logo",
+                return_value={
+                    "company_logo_url": "https://example.com/logo.png",
+                    "company_logo_verified": True,
+                },
+            ),
+            patch.object(
+                article_draft_publisher,
+                "generate_job_article_cover",
+                return_value={
+                    "ok": False,
+                    "logo_loaded": False,
+                    "error": "renderer unavailable",
+                },
+            ),
+        ):
+            cover = article_draft_publisher._prepare_job_article_cover(article)
+
+        self.assertEqual(cover, "")
+        self.assertFalse(article["logo_visual_retry_pending"])
+        self.assertNotIn("logo_visual_retry_after", article)
+        self.assertEqual(
+            article["job_article_cover_status"],
+            "render_unavailable_optional",
+        )
+        self.assertEqual(
+            article["ai_input_package"]["job_article_cover_status"],
+            "render_unavailable_optional",
+        )
+        self.assertNotIn("publish_block_reason", article)
+
     def test_job_cover_git_push_retries_after_concurrent_commit(self):
         def completed(returncode=0, stdout="", stderr=""):
             return __import__("subprocess").CompletedProcess(
