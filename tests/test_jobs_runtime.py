@@ -1,4 +1,5 @@
 """Regressions for unattended Jobs delivery; no external requests or publishing."""
+import json
 import copy
 import unittest
 from contextlib import redirect_stdout
