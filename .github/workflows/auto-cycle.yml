@@ -58,6 +58,8 @@ jobs:
           python -m unittest \
             tests.test_jobs_core.JobsCoreTests.test_generic_tuple_discovery_identity_is_supported \
             tests.test_jobs_core.JobsCoreTests.test_discovery_seen_streak_stops_after_known_run \
+            tests.test_jobs_core.JobsCoreTests.test_low_ranking_score_does_not_block_verified_job \
+            tests.test_jobs_runtime.JobsRuntimeTests.test_jobs_deadline_cleanup_archives_expired_before_enrichment \
             tests.test_jobs_runtime.JobsRuntimeTests.test_ai_retry_backoff_preflight_makes_no_provider_call \
             tests.test_jobs_runtime.JobsRuntimeTests.test_document_render_retry_updates_same_blogger_post_without_ai \
             tests.test_jobs_runtime.JobsRuntimeTests.test_pending_facebook_runs_even_when_article_ai_fails \
