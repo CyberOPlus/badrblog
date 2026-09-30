@@ -1094,12 +1094,15 @@ def _workflow_schedule():
     return ""
 
 
-def _next_quarter_hour(now=None):
+def _next_auto_cycle_tick(now=None):
     now = now or datetime.now()
-    minute = ((now.minute // 15) + 1) * 15
-    if minute >= 60:
-        return (now.replace(minute=0, second=0, microsecond=0) + timedelta(hours=1))
-    return now.replace(minute=minute, second=0, microsecond=0)
+    ticks = (1, 7, 13, 19, 25, 31, 37, 43, 49, 55)
+    base = now.replace(second=0, microsecond=0)
+    for minute in ticks:
+        candidate = base.replace(minute=minute)
+        if candidate > now:
+            return candidate
+    return (base.replace(minute=ticks[0]) + timedelta(hours=1))
 
 
 def _new_run_id():
@@ -1310,7 +1313,7 @@ def run_auto_cycle_logged():
         if isinstance(result, dict):
             result["execution_seconds"] = execution_seconds
             result["lightweight_run"] = SAFE_CYCLE_MAX_ARTICLES == 1 and MAX_ARTICLES_PER_RUN == 1
-            result["next_run_expected_at"] = _next_quarter_hour().isoformat(timespec="seconds")
+            result["next_run_expected_at"] = _next_auto_cycle_tick().isoformat(timespec="seconds")
         log_event(
             "auto_cycle_end",
             run_id=run_id,
@@ -2928,7 +2931,17 @@ def run_safe_cycle_only():
             plan_result = run_plan_next_only(lock=True)
             selected = plan_result.get("selected")
     if not selected:
-        no_article_reason = fetch_stats.get("reason") or f"no fresh article in the last {RECENT_NEWS_MAX_AGE_HOURS} hours"
+        if JOBS_MODE:
+            no_article_reason = (
+                plan_result.get("reason")
+                or fetch_stats.get("reason")
+                or "no verified job ready after discovery, enrichment and identity checks"
+            )
+        else:
+            no_article_reason = (
+                fetch_stats.get("reason")
+                or f"no fresh article in the last {RECENT_NEWS_MAX_AGE_HOURS} hours"
+            )
         print(f"Cycle stopping cleanly: {no_article_reason}.")
         _print_safe_cycle_final_report(
             None,
