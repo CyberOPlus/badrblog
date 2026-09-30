@@ -935,6 +935,21 @@ def _new_campaign_id():
     return hashlib.sha256(os.urandom(24)).hexdigest()[:20]
 
 
+def _mark_identity_pending(article, decision, now=None):
+    now = now or datetime.now(timezone.utc)
+    article["status"] = "identity_pending"
+    article["job_identity_action"] = "hold"
+    article["job_identity_reason"] = str(decision.get("reason") or "ambiguous identity")
+    article["identity_pending_since"] = (
+        article.get("identity_pending_since")
+        or now.isoformat(timespec="seconds")
+    )
+    article["identity_pending_last_checked_at"] = now.isoformat(timespec="seconds")
+    article["identity_pending_evidence_status"] = "awaiting_more_evidence"
+    article.pop("skip_reason", None)
+    return article
+
+
 def prepare_job_candidate(article, now=None):
     quality = score_job(article, now=now)
     article["job_score"] = quality["score"]
@@ -978,11 +993,12 @@ def select_best_job_from_queue(queue, now=None):
         quality, decision = prepare_job_candidate(article, now=now)
         if decision["action"] == "duplicate":
             article["status"] = "skipped"
-            article["skip_reason"] = f"job duplicate: {decision['reason']}"
+            article["skip_reason"] = f"job duplicate confirmed: {decision['reason']}"
+            article["job_identity_final"] = True
+            article["job_duplicate_confirmed_at"] = now.isoformat(timespec="seconds")
             continue
         if decision["action"] == "hold":
-            article["status"] = "skipped"
-            article["skip_reason"] = f"job identity held: {decision['reason']}"
+            _mark_identity_pending(article, decision, now=now)
             continue
         if not quality["passed"]:
             if quality["status"] == "reject":
@@ -990,6 +1006,10 @@ def select_best_job_from_queue(queue, now=None):
                 article["skip_reason"] = "; ".join(quality["reasons"]) or f"job score below {QUEUE_SCORE}"
             continue
 
+        article.pop("identity_pending_last_checked_at", None)
+        article.pop("identity_pending_evidence_status", None)
+        article.pop("job_duplicate_confirmed_at", None)
+        article["job_identity_final"] = False
         is_update = decision["action"] == "update"
         urgency = article.get("job_urgency") or {}
         normal_slot = is_update or can_publish_new_job(now=now)
