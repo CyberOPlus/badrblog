@@ -204,10 +204,30 @@ def _pagination_next_url(html_text, current_url):
             candidates.append(href)
             continue
         next_labels = (
-            "next", "next page", "suivant", "page suivante",
-            "التالي", "الصفحة التالية", "suivante",
+            "next", "next page", "suivant", "page suivante", "suivante",
+            "load more", "show more", "view more", "see more",
+            "afficher plus", "voir plus", "charger plus",
+            "التالي", "الصفحة التالية",
+            "أظهر المزيد", "اظهر المزيد", "عرض المزيد", "المزيد",
         )
         if any(label in text for label in next_labels):
+            candidates.append(href)
+            continue
+
+        # Some official recruitment portals expose pagination as a load-more
+        # endpoint whose visible label can be icon-only or localized by JS.
+        # Follow only a same-host endpoint that explicitly identifies itself as
+        # a card/listing loader; loop guards still prevent repeated self-fetches.
+        path_hint = str(urlparse(href).path or "").casefold()
+        if any(
+            marker in path_hint
+            for marker in (
+                "loadcards",
+                "load-more",
+                "load_more",
+                "loadmore",
+            )
+        ):
             candidates.append(href)
 
     for candidate in candidates:
