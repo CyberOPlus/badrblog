@@ -981,13 +981,32 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             or package.get("job_application_url")
             or ""
         ).strip()
+        application_kind = str(
+            article.get("job_application_link_kind")
+            or package.get("job_application_link_kind")
+            or ""
+        ).strip().lower()
         active_notice = notice_type in {"vacancy", "competition"}
         if active_notice and not application_url:
-            return QualityGateResult(False, "active job notice is missing a job-specific application URL", word_count)
-        if application_url and not is_job_specific_url(application_url):
-            return QualityGateResult(False, "job application URL is a generic careers/listing page", word_count)
+            return QualityGateResult(False, "active job notice is missing a verified application resource", word_count)
         if application_url and not is_application_url_bound_to_job(article or package, application_url):
+            if not is_job_specific_url(application_url):
+                return QualityGateResult(
+                    False,
+                    "generic application portal is not a verified official channel for this competition",
+                    word_count,
+                )
             return QualityGateResult(False, "job application URL belongs to a different vacancy", word_count)
+        if (
+            application_url
+            and not is_job_specific_url(application_url)
+            and application_kind != "official_application_channel"
+        ):
+            return QualityGateResult(
+                False,
+                "generic application portal must be classified as official_application_channel",
+                word_count,
+            )
         if application_url and application_url not in html_content:
             return QualityGateResult(False, "job application URL is missing from final HTML", word_count)
 
