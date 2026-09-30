@@ -119,6 +119,10 @@ class AITimeBudgetExceeded(RuntimeError):
     """Raised when the full AI generation budget is exhausted."""
 
 
+class AIArticleInputError(RuntimeError):
+    """Raised when this article/input cannot be processed by the provider request."""
+
+
 class AIIncompleteResponseError(ValueError):
     """Raised when the AI response is incomplete or structurally invalid."""
 
@@ -547,6 +551,26 @@ def _provider_timeout_seconds(candidate, context=None):
     desired_timeout = max(int(base_timeout or 0), MIN_PROVIDER_TIMEOUT_SECONDS)
     remaining_seconds = int(remaining) if remaining >= 1 else 1
     return max(1, min(desired_timeout, remaining_seconds))
+
+
+def _is_article_input_error(error):
+    message = str(error or "").casefold()
+    return any(
+        token in message
+        for token in (
+            "413",
+            "context length",
+            "context_length",
+            "maximum context",
+            "max context",
+            "input too long",
+            "prompt too long",
+            "too many tokens",
+            "request too large",
+            "payload too large",
+            "token limit",
+        )
+    )
 
 
 def _is_timeout_error(error):
@@ -3007,6 +3031,8 @@ def _generate_with_provider_name(provider, prompt, context=None):
                 return result
             except Exception as error:
                 last_error = error
+                if JOBS_MODE and _is_article_input_error(error):
+                    raise AIArticleInputError(_safe_error_reason(error)) from error
                 if _is_timeout_error(error) and timeout_retry_count < AI_TIMEOUT_RETRIES:
                     timeout_retry_count += 1
                     log_event(
@@ -3329,6 +3355,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
         except Exception as error:
             last_error = error
             is_quality_failure = _is_quality_error(error)
+            is_article_input_failure = isinstance(error, AIArticleInputError)
             is_incomplete_response = isinstance(error, AIIncompleteResponseError)
             is_short_output = isinstance(error, AIOutputRejectedShortError)
             if is_quality_failure:
@@ -3443,6 +3470,14 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     else:
                         forced_next_provider = _next_provider_in_sequence(provider_sequence, provider)
                 continue
+            if is_article_input_failure:
+                log_event(
+                    "ai_article_input_backoff",
+                    article_id=article.get("id"),
+                    provider=provider or provider_used,
+                    reason=_safe_error_reason(error),
+                )
+                break
             if _is_provider_error(error):
                 if _is_empty_provider_response(error):
                     log_event(
@@ -3506,7 +3541,14 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     failure_scope = "quality"
     failure_provider = str(locals().get("provider") or "").strip().lower()
     failure_retry_until = 0
-    if isinstance(last_error, AITimeBudgetExceeded):
+    if isinstance(last_error, AIArticleInputError):
+        failure_scope = "article_input"
+        fingerprint, failure_category, failure_retry_until = _record_failure_fingerprint(
+            last_error,
+            scope="article_input",
+            provider=failure_provider,
+        )
+    elif isinstance(last_error, AITimeBudgetExceeded):
         failure_scope = "cycle_budget"
         fingerprint, failure_category, failure_retry_until = _record_failure_fingerprint(
             last_error,
