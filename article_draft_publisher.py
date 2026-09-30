@@ -435,40 +435,166 @@ def _persist_generated_job_cover(path):
     )
 
 
-def _prepare_job_document_page_images(article):
+def _document_render_retry_at(hours=6):
+    return (datetime.now(timezone.utc) + timedelta(hours=hours)).isoformat()
+
+
+def _mark_document_render_retry(article, package, error, *, reason="render_failed"):
+    article["job_document_render_status"] = "document_render_retry"
+    article["job_document_render_retry_count"] = int(
+        article.get("job_document_render_retry_count") or 0
+    ) + 1
+    article["job_document_render_retry_after"] = _document_render_retry_at()
+    article["job_document_render_error"] = str(error or reason)[:1000]
+    article["job_document_render_retry_reason"] = reason
+    package["job_document_render_status"] = "document_render_retry"
+    package["job_document_render_retry_after"] = article["job_document_render_retry_after"]
+    article["ai_input_package"] = package
+    log_event(
+        "job_document_render_deferred",
+        article_id=article.get("id"),
+        retry_after=article["job_document_render_retry_after"],
+        reason=reason,
+        error=article["job_document_render_error"],
+    )
+
+
+def _prepare_job_document_page_images(article, force_retry=False):
     if not JOBS_MODE:
         return []
 
-    package = article.get("ai_input_package") or article
-    # Reuse rendered URLs if the article is retried in the same queue state.
-    existing = article.get("job_document_page_images") or package.get("job_document_page_images") or []
-    if existing:
+    package = article.get("ai_input_package")
+    if not isinstance(package, dict):
+        package = {}
+        article["ai_input_package"] = package
+
+    existing = (
+        article.get("job_document_page_images")
+        or package.get("job_document_page_images")
+        or []
+    )
+    if existing and not force_retry:
         return existing
 
-    pages = render_job_document_pages(
-        article,
-        raw_base=JOB_ARTICLE_RAW_BASE,
-    )
-    if not pages:
+    document_links = article.get("job_document_links") or package.get("job_document_links") or []
+    if not document_links:
         article["job_document_render_status"] = "not_available"
+        package["job_document_render_status"] = "not_available"
+        article["ai_input_package"] = package
         return []
 
-    _persist_generated_job_assets(
-        [row.get("path") for row in pages],
-        commit_label=f"job document pages {_job_cover_key(article)}",
-    )
+    if force_retry:
+        article["job_document_page_images"] = []
+        package["job_document_page_images"] = []
+        package["job_document_rendered_pages"] = 0
+
+    try:
+        pages = render_job_document_pages(
+            article,
+            raw_base=JOB_ARTICLE_RAW_BASE,
+        )
+    except Exception as error:
+        _mark_document_render_retry(
+            article,
+            package,
+            error,
+            reason="renderer_exception",
+        )
+        return []
+
+    failures = int(article.get("job_document_render_failures") or 0)
+    attempted = int(article.get("job_document_render_attempted_documents") or 0)
+
+    if not pages:
+        if failures > 0 or attempted > 0:
+            _mark_document_render_retry(
+                article,
+                package,
+                "Official document rendering produced no publishable page images.",
+                reason="no_rendered_pages",
+            )
+        else:
+            article["job_document_render_status"] = "not_available"
+            package["job_document_render_status"] = "not_available"
+            article["ai_input_package"] = package
+        return []
+
+    try:
+        _persist_generated_job_assets(
+            [row.get("path") for row in pages],
+            commit_label=f"job document pages {_job_cover_key(article)}",
+        )
+    except Exception as error:
+        article["job_document_page_images"] = []
+        package["job_document_page_images"] = []
+        package["job_document_rendered_pages"] = 0
+        _mark_document_render_retry(
+            article,
+            package,
+            error,
+            reason="asset_persist_failed",
+        )
+        return []
+
     article["job_document_page_images"] = pages
-    article["job_document_render_status"] = "rendered"
     package["job_document_page_images"] = list(pages)
     package["job_document_rendered_pages"] = len(pages)
     article["ai_input_package"] = package
+
+    if failures > 0:
+        article["job_document_render_status"] = "document_render_retry"
+        package["job_document_render_status"] = "document_render_retry"
+        article["job_document_render_retry_count"] = int(
+            article.get("job_document_render_retry_count") or 0
+        ) + 1
+        article["job_document_render_retry_after"] = _document_render_retry_at()
+        article["job_document_render_retry_reason"] = "partial_render"
+        article["job_document_render_error"] = (
+            f"{failures} official document(s) could not be rendered."
+        )
+    else:
+        article["job_document_render_status"] = "rendered"
+        package["job_document_render_status"] = "rendered"
+        article.pop("job_document_render_retry_after", None)
+        article.pop("job_document_render_retry_reason", None)
+        article.pop("job_document_render_error", None)
+
     log_event(
         "job_document_pages_ready",
         article_id=article.get("id"),
         pages=len(pages),
         documents=len({row.get("document_url") for row in pages}),
+        status=article.get("job_document_render_status"),
+        failures=failures,
     )
     return pages
+
+
+def _clear_optional_job_cover(article, package):
+    cover_url = str(
+        article.get("job_article_cover_url")
+        or package.get("job_article_cover_url")
+        or ""
+    ).strip()
+    if cover_url:
+        article.pop("job_article_cover_path", None)
+        article.pop("job_article_cover_url", None)
+        package.pop("job_article_cover_url", None)
+    if (
+        article.get("main_image_source_type") == "generated_job_template"
+        or str(article.get("main_image") or "").strip() == cover_url
+    ):
+        article["main_image"] = ""
+        article["article_images"] = []
+        article["extra_article_images"] = []
+        article.pop("main_image_source_type", None)
+        article.pop("main_image_extraction_method", None)
+        package["main_image"] = ""
+        package["article_images"] = []
+        package["extra_article_images"] = []
+        package.pop("cover_alt", None)
+        package.pop("cover_width", None)
+        package.pop("cover_height", None)
 
 
 def _prepare_job_article_cover(article):
@@ -479,6 +605,15 @@ def _prepare_job_article_cover(article):
     if not isinstance(package, dict):
         package = {}
         article["ai_input_package"] = package
+
+    existing_cover = str(
+        article.get("job_article_cover_url")
+        or package.get("job_article_cover_url")
+        or ""
+    ).strip()
+    if existing_cover and article.get("article_logo_used"):
+        article["job_article_cover_status"] = "ready"
+        return existing_cover
 
     job_title = str(
         article.get("seo_title")
@@ -495,48 +630,77 @@ def _prepare_job_article_cover(article):
         or article.get("source_name")
         or ""
     ).strip()
+
     logo_info = verified_company_logo(article)
     if not (
         logo_info.get("company_logo_verified")
         and str(logo_info.get("company_logo_url") or "").strip()
     ):
-        logo_info = refresh_company_logo(article)
+        try:
+            logo_info = refresh_company_logo(article)
+        except Exception as error:
+            logo_info = {}
+            article["logo_resolution_error"] = str(error)[:1000]
+
     logo_verified = bool(logo_info.get("company_logo_verified"))
     logo_url = str(logo_info.get("company_logo_url") or "").strip()
+
     if not (logo_verified and logo_url):
-        article["logo_resolution_status"] = "missing_verified_logo"
-        article["publish_block_reason"] = "verified_company_logo_required"
-        package["logo_resolution_status"] = "missing_verified_logo"
-        package["publish_block_reason"] = "verified_company_logo_required"
+        _clear_optional_job_cover(article, package)
+        article["logo_resolution_status"] = "unavailable_optional"
+        article["job_article_cover_status"] = "skipped_missing_verified_logo"
+        article["article_logo_used"] = False
+        article["visual_readiness_status"] = "content_ready_visual_optional"
+        package["logo_resolution_status"] = "unavailable_optional"
+        package["job_article_cover_status"] = "skipped_missing_verified_logo"
+        package["article_logo_used"] = False
+        article.pop("publish_block_reason", None)
+        package.pop("publish_block_reason", None)
         log_event(
-            "job_publish_blocked_missing_verified_logo",
+            "job_article_cover_skipped_missing_logo",
             article_id=article.get("id"),
             company=employer,
         )
-        raise JobLogoPendingError(
-            "Verified company logo is required before generating the Jobs article cover."
-        )
+        return ""
 
     article["logo_resolution_status"] = "verified"
     package["logo_resolution_status"] = "verified"
 
     cover_key = _job_cover_key(article)
     output_path = JOB_ARTICLE_COVER_DIR / f"{cover_key}.jpg"
-    result = generate_job_article_cover(
-        job_title,
-        logo_url,
-        output_path,
-        employer_name=employer,
-    )
-    if not result.get("ok") or not result.get("logo_loaded"):
-        article["article_logo_used"] = False
-        article["publish_block_reason"] = "verified_company_logo_render_failed"
-        package["article_logo_used"] = False
-        package["publish_block_reason"] = "verified_company_logo_render_failed"
-        raise JobLogoPendingError(
-            "Could not generate the required job article cover with the verified company logo: "
-            + str(result.get("error") or "logo was not rendered")
+    try:
+        result = generate_job_article_cover(
+            job_title,
+            logo_url,
+            output_path,
+            employer_name=employer,
         )
+    except Exception as error:
+        result = {"ok": False, "logo_loaded": False, "error": str(error)}
+
+    if not result.get("ok") or not result.get("logo_loaded"):
+        _clear_optional_job_cover(article, package)
+        article["article_logo_used"] = False
+        article["job_article_cover_status"] = "render_retry_optional"
+        article["logo_resolution_status"] = "verified_render_failed_optional"
+        article["logo_visual_retry_pending"] = True
+        article["logo_visual_retry_after"] = _document_render_retry_at(hours=12)
+        article["logo_visual_error"] = str(
+            result.get("error") or "verified logo was not rendered"
+        )[:1000]
+        package["article_logo_used"] = False
+        package["job_article_cover_status"] = "render_retry_optional"
+        package["logo_resolution_status"] = "verified_render_failed_optional"
+        article.pop("publish_block_reason", None)
+        package.pop("publish_block_reason", None)
+        log_event(
+            "job_article_cover_render_deferred_optional",
+            article_id=article.get("id"),
+            company=employer,
+            retry_after=article["logo_visual_retry_after"],
+            error=article["logo_visual_error"],
+        )
+        return ""
 
     article["article_logo_used"] = True
     package["article_logo_used"] = True
@@ -561,6 +725,8 @@ def _prepare_job_article_cover(article):
 
     article["job_article_cover_path"] = output_path.as_posix()
     article["job_article_cover_url"] = public_url
+    article["job_article_cover_status"] = "ready"
+    article["visual_readiness_status"] = "ready"
     article["main_image"] = public_url
     article["article_images"] = [
         {
@@ -572,21 +738,27 @@ def _prepare_job_article_cover(article):
     article["extra_article_images"] = []
     article["main_image_source_type"] = "generated_job_template"
     article["main_image_extraction_method"] = "generated_job_template"
+    article.pop("logo_visual_retry_pending", None)
+    article.pop("logo_visual_retry_after", None)
+    article.pop("logo_visual_error", None)
+    article.pop("publish_block_reason", None)
 
     package["main_image"] = public_url
     package["article_images"] = list(article["article_images"])
     package["extra_article_images"] = []
     package["job_article_cover_url"] = public_url
+    package["job_article_cover_status"] = "ready"
     package["cover_alt"] = cover_alt
     package["cover_width"] = result.get("width") or ""
     package["cover_height"] = result.get("height") or ""
+    package.pop("publish_block_reason", None)
 
     log_event(
         "job_article_cover_ready",
         article_id=article.get("id"),
         path=output_path.as_posix(),
         url=public_url,
-        logo_loaded="yes" if result.get("logo_loaded") else "no",
+        logo_loaded="yes",
     )
     return public_url
 
