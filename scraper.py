@@ -1810,6 +1810,7 @@ async def _collect_phenom_links_async(
     resume_offset = 0
     last_error = ""
     previous_page_signature = None
+    observed_page_size = 0
 
     for _page_number in range(max_pages):
         pages_scanned += 1
@@ -1868,16 +1869,17 @@ async def _collect_phenom_links_async(
             break
 
         # Phenom search pages currently expose offset-style pagination through
-        # the "from" query parameter. Use the actual embedded row count when
-        # available; keep the source page-size hint only as a safe fallback.
-        step = len(raw_rows) or page_size_hint
+        # the "from" query parameter. Infer the real page size from the first
+        # payload instead of treating fetch_limit_per_run as a total/page-size
+        # contract; that setting is only a compatibility hint.
+        current_page_size = len(raw_rows)
+        if observed_page_size <= 0:
+            observed_page_size = current_page_size or page_size_hint
+
+        step = current_page_size or observed_page_size or page_size_hint
         next_offset = current_offset + max(1, step)
 
-        # A short raw page is the natural end of the listing once a prior full
-        # page established the page size. For the first page, continue once so
-        # routes with a small initial payload can still prove whether "from"
-        # pagination is supported; page_repeat guards ignored offsets.
-        if _page_number > 0 and len(raw_rows) < page_size_hint:
+        if _page_number > 0 and current_page_size < observed_page_size:
             stop_reason = "end"
             resume_offset = 0
             break
@@ -1896,7 +1898,7 @@ async def _collect_phenom_links_async(
         "stop_reason": stop_reason,
         "resume_offset": resume_offset,
         "pages_scanned": pages_scanned,
-        "page_size": page_size_hint,
+        "page_size": observed_page_size or page_size_hint,
         "seen_streak": seen_streak,
     }
 
