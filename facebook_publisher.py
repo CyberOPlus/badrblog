@@ -339,6 +339,7 @@ def _mark_facebook_pending(article, now=None, reason="published_to_blogger"):
     )
     article["facebook_queue_reason"] = str(reason or "published_to_blogger")
     article.pop("facebook_selection_reason", None)
+    article.pop("facebook_error", None)
     article.pop("facebook_expired_at", None)
     article.pop("facebook_expired_reason", None)
     if current in {"not_selected", "facebook_expired"}:
@@ -544,6 +545,14 @@ def _find_latest_preview_article(articles, include_drafts=False):
     ]
     if not eligible:
         return None
+    if JOBS_MODE:
+        live_pending = [
+            article
+            for article in eligible
+            if _has_blogger_live_publish(article) and _eligible_for_facebook(article)
+        ]
+        if live_pending:
+            return max(live_pending, key=_facebook_job_priority)
     return max(
         eligible,
         key=lambda article: (
