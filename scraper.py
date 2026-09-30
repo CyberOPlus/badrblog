@@ -130,6 +130,7 @@ def _filter_new_discovery_links(
     *,
     seen_streak_stop=None,
     max_items=None,
+    initial_seen_streak=0,
 ):
     known = known_ids if isinstance(known_ids, set) else set(known_ids or ())
     seen_streak_stop = max(
@@ -142,7 +143,7 @@ def _filter_new_discovery_links(
     )
 
     selected = []
-    consecutive_seen = 0
+    consecutive_seen = max(0, int(initial_seen_streak or 0))
     scanned = 0
     stop_reason = ""
 
@@ -1028,6 +1029,7 @@ async def _collect_paginated_html_links_async(
     seen_streak_stop = max(1, int(seen_streak_stop or JOBS_DISCOVERY_SEEN_STREAK))
     working_known = set(known_ids or ())
     collected = []
+    seen_streak = 0
     current_url = source_url
     visited = set()
     status_code = None
@@ -1056,7 +1058,9 @@ async def _collect_paginated_html_links_async(
             working_known,
             seen_streak_stop=seen_streak_stop,
             max_items=max_items - len(collected),
+            initial_seen_streak=seen_streak,
         )
+        seen_streak = int(meta.get("seen_streak") or 0)
         collected.extend(new_links)
 
         if meta.get("stop_reason") == "seen_streak":
@@ -1087,6 +1091,7 @@ def _collect_paginated_html_links_sync(
     seen_streak_stop = max(1, int(seen_streak_stop or JOBS_DISCOVERY_SEEN_STREAK))
     working_known = set(known_ids or ())
     collected = []
+    seen_streak = 0
     current_url = source_url
     visited = set()
     last_status = 200
@@ -1120,7 +1125,9 @@ def _collect_paginated_html_links_sync(
             working_known,
             seen_streak_stop=seen_streak_stop,
             max_items=max_items - len(collected),
+            initial_seen_streak=seen_streak,
         )
+        seen_streak = int(meta.get("seen_streak") or 0)
         collected.extend(new_links)
 
         if meta.get("stop_reason") == "seen_streak":
@@ -1183,6 +1190,7 @@ async def _collect_workday_links_async(
     seen_streak_stop = max(1, int(seen_streak_stop or JOBS_DISCOVERY_SEEN_STREAK))
     working_known = set(known_ids or ())
     links = []
+    seen_streak = 0
     offset = 0
     started = time.perf_counter()
     status_code = 200
@@ -1251,7 +1259,9 @@ async def _collect_workday_links_async(
             working_known,
             seen_streak_stop=seen_streak_stop,
             max_items=max_items - len(links),
+            initial_seen_streak=seen_streak,
         )
+        seen_streak = int(meta.get("seen_streak") or 0)
         links.extend(new_links)
 
         if meta.get("stop_reason") == "seen_streak":
@@ -1778,7 +1788,9 @@ async def _collect_csod_links_async(
             working_known,
             seen_streak_stop=seen_streak_stop,
             max_items=max_items - len(links),
+            initial_seen_streak=seen_streak,
         )
+        seen_streak = int(meta.get("seen_streak") or 0)
         links.extend(new_links)
 
         if meta.get("stop_reason") == "seen_streak":
