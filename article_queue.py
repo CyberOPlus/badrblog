@@ -265,6 +265,41 @@ def _misfiled_application_document(row):
     return any(h in text for h in apply_hints) and not any(h in text for h in doc_hints)
 
 
+def _reset_generated_job_content_for_repair(article):
+    """Force a clean regeneration while preserving verified source/enrichment facts."""
+    generated_fields = (
+        "ai_status",
+        "ai_processed_at",
+        "ai_quality_status",
+        "ai_quality_attempts",
+        "ai_total_time_seconds",
+        "ai_provider_used",
+        "ai_error",
+        "ai_input_package",
+        "processing_status",
+        "processing_error",
+        "final_html",
+        "blogger_article_html",
+        "final_word_count",
+        "final_html_chars",
+        "final_content_hash",
+        "publish_error",
+        "publish_blocked_reason",
+        "candidate_retry_after",
+        "candidate_failure_stage",
+        "candidate_failure_reason",
+        "candidate_failed_at",
+    )
+    for field in generated_fields:
+        article.pop(field, None)
+    article["status"] = "ready"
+    article["publish_status"] = "repair_pending"
+    article["job_link_repair_pending"] = True
+    article["archived"] = False
+    article.pop("archived_at", None)
+    article.pop("archive_reason", None)
+
+
 def repair_job_link_bindings():
     stats = {
         "checked": 0,
@@ -332,21 +367,18 @@ def repair_job_link_bindings():
         if documents != (article.get("job_document_links") or []):
             article["job_document_links"]=documents
 
-        if not changed:
+        repair_pending = bool(article.get("job_link_repair_pending"))
+        if not changed and not repair_pending:
             continue
+
         changed_any=True
         stats["repaired"] += 1
         article["job_link_binding_repaired_at"]=_now_iso()
         article["job_quality_status"]=""
         article["job_quality_reasons"]=[]
-        if published_record:
-            article["status"]="ready"
-            article["publish_status"]="repair_pending"
-            article["job_link_repair_pending"]=True
+        if published_record or repair_pending:
+            _reset_generated_job_content_for_repair(article)
             article["job_identity_action"]="update"
-            article["archived"]=False
-            article.pop("archived_at", None)
-            article.pop("archive_reason", None)
             stats["reopened_published"] += 1
     if changed_any:
         save_article_queue(queue)

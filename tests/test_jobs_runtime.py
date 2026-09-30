@@ -172,6 +172,13 @@ class JobsRuntimeTests(unittest.TestCase):
                             "job_application_url": "https://www.emploi-public.ma/ar/تفاصيل/المباريات/59305efc-899b-4884-906d-d39e894e6099",
                             "job_action_links": [],
                             "job_document_links": [],
+                            "ai_status": "completed",
+                            "ai_quality_status": "passed",
+                            "processing_status": "ready_for_ai",
+                            "ai_input_package": {"job_application_url": "stale"},
+                            "final_html": "<p>stale wrong link</p>",
+                            "blogger_article_html": "<p>stale wrong link</p>",
+                            "final_word_count": 4,
                         }],
                         "notifications": {},
                     })
@@ -182,8 +189,52 @@ class JobsRuntimeTests(unittest.TestCase):
                     self.assertEqual(repaired["publish_status"], "repair_pending")
                     self.assertFalse(repaired["archived"])
                     self.assertEqual(repaired["job_application_url"], repaired["job_detail_url"])
+                    self.assertNotIn("final_html", repaired)
+                    self.assertNotIn("blogger_article_html", repaired)
+                    self.assertNotIn("ai_status", repaired)
+                    self.assertNotIn("ai_input_package", repaired)
+                    self.assertNotIn("processing_status", repaired)
                 finally:
                     article_queue.ARTICLE_QUEUE_PATH = original
+
+    def test_pending_link_repair_regenerates_even_after_previous_publish_block(self):
+        article = {
+            "status": "selected",
+            "publish_status": "failed",
+            "job_link_repair_pending": True,
+            "job_link_binding_repaired_at": "2026-09-30T14:00:00",
+            "blogger_post_id": "post-1",
+            "blogger_post_url": "https://example.blogspot.com/job.html",
+            "url": "https://example.com/jobs/12345",
+            "canonical_url": "https://example.com/jobs/12345",
+            "job_detail_url": "https://example.com/jobs/12345",
+            "job_application_url": "https://example.com/jobs/12345",
+            "job_action_links": [],
+            "job_document_links": [],
+            "ai_status": "completed",
+            "processing_status": "ready_for_ai",
+            "ai_input_package": {"stale": True},
+            "final_html": "<p>stale</p>",
+        }
+        original = article_queue.ARTICLE_QUEUE_PATH
+        from tempfile import TemporaryDirectory
+        from pathlib import Path
+        with TemporaryDirectory() as temp_dir:
+            article_queue.ARTICLE_QUEUE_PATH = Path(temp_dir) / "jobs_article_queue.json"
+            try:
+                article_queue.save_article_queue({"articles": [article], "notifications": {}})
+                stats = article_queue.repair_job_link_bindings()
+                repaired = article_queue.load_article_queue()["articles"][0]
+                self.assertEqual(stats["repaired"], 1)
+                self.assertEqual(repaired["status"], "ready")
+                self.assertEqual(repaired["publish_status"], "repair_pending")
+                self.assertEqual(repaired["blogger_post_id"], "post-1")
+                self.assertNotIn("final_html", repaired)
+                self.assertNotIn("ai_status", repaired)
+                self.assertNotIn("processing_status", repaired)
+                self.assertNotIn("ai_input_package", repaired)
+            finally:
+                article_queue.ARTICLE_QUEUE_PATH = original
 
     def test_queue_save_is_noop_when_payload_is_unchanged(self):
         from pathlib import Path
