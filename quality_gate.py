@@ -159,16 +159,16 @@ _JOB_FACT_SEMANTIC_REPLACEMENTS = (
     (r"موعد\s+انتهاء\s+الترشيح", " deadline "),
     (r"تاريخ\s+انتهاء\s+الترشيح", " deadline "),
     (r"اخر\s+موعد\s+للتقديم", " deadline "),
-    (r"تاريخ\s+اجراء\s+(?:المباراه|الاختبار)", " examdate "),
-    (r"موعد\s+(?:المباراه|الاختبار)", " examdate "),
-    (r"تاريخ\s+(?:المباراه|الاختبار)", " examdate "),
+    (r"تاريخ\s+اجراء\s+(?:المباراة|الاختبار)", " examdate "),
+    (r"موعد\s+(?:المباراة|الاختبار)", " examdate "),
+    (r"تاريخ\s+(?:المباراة|الاختبار)", " examdate "),
     (r"تاريخ\s+النشر", " publishdate "),
     (r"عدد\s+المناصب", " positions "),
     (r"نوع\s+العقد", " contract "),
     (r"مكان\s+العمل|مقر\s+العمل", " location "),
-    (r"سنوات?\s+الخبره|الخبره\s+المطلوبه", " experience "),
-    (r"الشهاده\s+المطلوبه|الدبلوم\s+المطلوب", " diploma "),
-    (r"النتائج\s+النهائيه", " finalresults "),
+    (r"سنوات?\s+الخبرة|الخبرة\s+المطلوبة", " experience "),
+    (r"الشهادة\s+المطلوبة|الدبلوم\s+المطلوب", " diploma "),
+    (r"النتائج\s+النهائية", " finalresults "),
 )
 
 _JOB_DATE_MONTHS = (
@@ -273,14 +273,14 @@ def _job_fact_categories(text):
         "publishdate": ("publishdate",),
         "positions": ("positions", "منصب", "مناصب"),
         "contract": ("contract", "عقد"),
-        "location": ("location", "المكان", "المدينه", "المدينه"),
-        "experience": ("experience", "الخبره"),
-        "diploma": ("diploma", "دبلوم", "شهاده", "الشهاده"),
+        "location": ("location", "المكان", "المدينة"),
+        "experience": ("experience", "الخبرة"),
+        "diploma": ("diploma", "دبلوم", "شهادة", "الشهادة"),
         "salary": ("الراتب", "الاجر", "درهم", " mad ", " dh "),
         "age": ("السن", "العمر"),
-        "test_duration": ("المده", "ساعات", "ساعه", "دقيقه", "دقائق"),
+        "test_duration": ("المدة", "ساعات", "ساعة", "دقيقة", "دقائق"),
         "coefficient": ("المعامل",),
-        "status": ("finalresults", "النتائج", "المدعوين", "اللائحه", "اللوائح"),
+        "status": ("finalresults", "النتائج", "المدعوين", "اللائحة", "اللوائح"),
     }
     padded = f" {normalized} "
     for category, hints in category_hints.items():
