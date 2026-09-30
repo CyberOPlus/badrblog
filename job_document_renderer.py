@@ -137,7 +137,8 @@ def extract_job_document_texts(
 ):
     """Extract selectable PDF text as pre-AI evidence; scanned pages remain image-only evidence."""
     existing = article.get("job_document_texts")
-    if isinstance(existing, list) and existing:
+    previous_failures = int(article.get("job_document_text_download_failures") or 0)
+    if isinstance(existing, list) and existing and previous_failures == 0:
         return existing
 
     eligible = _eligible_documents(article, max_documents=max_documents)
