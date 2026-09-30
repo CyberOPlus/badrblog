@@ -2494,7 +2494,7 @@ class JobsRuntimeTests(unittest.TestCase):
         )
 
     def test_official_pdf_renderer_creates_readable_page_images(self):
-        import fitz
+        import pymupdf as fitz
         import tempfile
         from pathlib import Path
 
