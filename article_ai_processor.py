@@ -7,6 +7,7 @@ import random
 import re
 import hashlib
 import time
+import unicodedata
 import warnings
 from dataclasses import dataclass, field
 from datetime import datetime
