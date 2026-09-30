@@ -471,7 +471,12 @@ def build_verified_fact_manifest(article):
     application_url = str(article.get("job_application_url") or "").strip()
     if application_url:
         bound = is_application_url_bound_to_job(article, application_url)
-        confidence = HIGH if bound else HEURISTIC
+        official_context = bool(
+            article.get("official_source")
+            or article.get("job_official_source")
+            or str(article.get("ats_provider") or "").strip()
+        )
+        confidence = HIGH if (bound and official_context) else MEDIUM if bound else HEURISTIC
         _append_fact(
             manifest,
             "application",
@@ -495,14 +500,20 @@ def build_verified_fact_manifest(article):
         and detail_url != application_url
         and is_job_specific_url(detail_url)
     ):
+        detail_official = bool(
+            article.get("official_source")
+            or article.get("job_official_source")
+            or str(article.get("ats_provider") or "").strip()
+        )
+        detail_confidence = HIGH if detail_official else MEDIUM
         _append_fact(
             manifest,
             "detail",
             _fact(
                 detail_url,
                 "specific_notice_detail",
-                HIGH,
-                required=True,
+                detail_confidence,
+                required=(detail_confidence == HIGH),
             ),
         )
 
