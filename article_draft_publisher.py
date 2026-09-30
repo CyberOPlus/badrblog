@@ -1454,3 +1454,149 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
         "publishing_mode": publish_mode,
     }
     return result
+
+def _retry_time_due(value, now=None):
+    text = str(value or "").strip()
+    if not text:
+        return True
+    now = now or datetime.now(timezone.utc)
+    try:
+        parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc) <= now
+    except ValueError:
+        return True
+
+
+def retry_pending_job_document_renders(max_articles=1):
+    """
+    Retry Jobs PDF page rendering and sync only the same saved Blogger post.
+
+    This path never calls AI and never inserts a new Blogger post.
+    """
+    if not JOBS_MODE:
+        return {
+            "checked": 0,
+            "rendered": 0,
+            "synced": 0,
+            "still_pending": 0,
+        }
+
+    queue = load_article_queue()
+    articles = queue.get("articles", [])
+    now = datetime.now(timezone.utc)
+    stats = {
+        "checked": 0,
+        "rendered": 0,
+        "synced": 0,
+        "still_pending": 0,
+    }
+    changed = False
+
+    candidates = []
+    for article in articles:
+        if article.get("archived"):
+            continue
+        if article.get("job_document_render_status") != "document_render_retry":
+            continue
+        if article.get("publish_status") not in {"published", "draft_created"}:
+            continue
+        if not _retry_time_due(article.get("job_document_render_retry_after"), now=now):
+            continue
+        saved_id = str(
+            article.get("blogger_post_id")
+            or article.get("blogger_draft_id")
+            or ""
+        ).strip()
+        if not saved_id:
+            continue
+        candidates.append(article)
+
+    for article in candidates[:max(0, int(max_articles or 0))]:
+        stats["checked"] += 1
+        package = article.get("ai_input_package")
+        if not isinstance(package, dict):
+            package = {}
+            article["ai_input_package"] = package
+
+        try:
+            pages = _prepare_job_document_page_images(article, force_retry=True)
+            changed = True
+            if not pages:
+                stats["still_pending"] += 1
+                continue
+
+            stats["rendered"] += 1
+            _sanitize_article_final_html(article)
+
+            creds = get_credentials()
+            if not creds:
+                raise RuntimeError(
+                    "Blogger credentials are not available for document render sync."
+                )
+            service = create_blogger_service(creds)
+            if not service or is_local_publisher(service):
+                raise RuntimeError(
+                    "Blogger service is not available for document render sync."
+                )
+
+            _ensure_jobs_target_blog(service)
+            mode = (
+                "live"
+                if article.get("publish_status") == "published"
+                else "draft"
+            )
+            post = _get_saved_post_by_id(service, article, mode=mode)
+            if not post or not post.get("id"):
+                raise RuntimeError(
+                    "Saved Blogger post was not found for document render sync."
+                )
+
+            body = _build_post_body(article)
+            request = service.posts().update(
+                blogId=BLOG_ID,
+                postId=post["id"],
+                body=body,
+            )
+            updated = _execute_blogger_request(
+                request,
+                "sync rendered job document pages",
+                safe_to_retry=True,
+            )
+            updated = _ensure_returned_post_url(service, updated)
+
+            if mode == "live":
+                _apply_jobposting_schema(service, updated, article, "live")
+
+            article["job_document_render_synced_at"] = _now_iso()
+            if article.get("job_document_render_status") == "rendered":
+                article.pop("job_document_render_retry_after", None)
+                article.pop("job_document_render_retry_reason", None)
+                article.pop("job_document_render_error", None)
+            else:
+                stats["still_pending"] += 1
+
+            stats["synced"] += 1
+            changed = True
+            log_event(
+                "job_document_render_retry_synced",
+                article_id=article.get("id"),
+                post_id=post.get("id"),
+                pages=len(pages),
+                status=article.get("job_document_render_status"),
+            )
+        except Exception as error:
+            _mark_document_render_retry(
+                article,
+                package,
+                error,
+                reason="blogger_sync_failed",
+            )
+            stats["still_pending"] += 1
+            changed = True
+
+    if changed:
+        save_article_queue(queue)
+    return stats
+
