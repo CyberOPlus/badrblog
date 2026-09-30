@@ -1098,7 +1098,12 @@ class JobsRuntimeTests(unittest.TestCase):
                 {"url": "https://example.com/notice.pdf", "label": "الإعلان"}
             ],
             "identity_pending_evidence_checked_at": "2026-09-30T10:00:00",
-            "identity_pending_document_fingerprint": "https://example.com/notice.pdf",
+            "identity_evidence_stage_checked_at": "2026-09-30T10:00:00",
+            "identity_evidence_document_fingerprint": "https://example.com/notice.pdf",
+            "job_document_text_download_failures": 0,
+            "source_tables": [],
+            "source_tables_count": 0,
+            "job_detail_url": "https://example.com/jobs/pending",
             "job_document_texts": [],
         }
         queue = {"articles": [row]}
