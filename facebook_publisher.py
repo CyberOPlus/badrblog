@@ -415,45 +415,65 @@ def _sync_jobs_facebook_queue(queue, now=None):
 
 
 def _facebook_job_priority(article, now=None):
-    """Nearer verified deadlines lead; score only ranks jobs, never filters them."""
+    """Deadline-aware, aging-safe queue priority; score ranks but never filters."""
     now = now or datetime.now(timezone.utc)
     deadline = job_deadline_time(article)
+
+    deadline_boost = 0.0
+    hours_remaining = None
     if deadline:
-        seconds_remaining = max(0.0, (deadline - now).total_seconds())
-        has_deadline = 1
-        deadline_priority = -seconds_remaining
-    else:
-        has_deadline = 0
-        deadline_priority = float("-inf")
-
-    urgency = classify_urgency(article, now=now).get("level") if JOBS_MODE else "normal"
-    urgency_rank = {
-        "critical": 4,
-        "high": 3,
-        "elevated": 2,
-        "normal": 1,
-    }.get(urgency, 0)
-
-    try:
-        score = int(article.get("job_score") or 0)
-    except (TypeError, ValueError):
-        score = 0
-    try:
-        positions = int(article.get("job_number_of_positions") or 0)
-    except (TypeError, ValueError):
-        positions = 0
+        hours_remaining = max(0.0, (deadline - now).total_seconds() / 3600.0)
+        if hours_remaining <= 24:
+            deadline_boost = 30.0
+        elif hours_remaining <= 48:
+            deadline_boost = 26.0
+        elif hours_remaining <= 72:
+            deadline_boost = 22.0
+        elif hours_remaining <= 7 * 24:
+            deadline_boost = 16.0
+        elif hours_remaining <= 14 * 24:
+            deadline_boost = 10.0
+        else:
+            deadline_boost = 4.0
 
     queued_time = parse_job_date(
         article.get("facebook_queued_at")
         or article.get("published_at")
         or article.get("selected_at")
     )
+    if queued_time:
+        age_hours = max(0.0, (now - queued_time).total_seconds() / 3600.0)
+    else:
+        age_hours = 0.0
+
+    # Aging prevents starvation without allowing very old/no-deadline work to
+    # jump ahead of jobs that are about to close.
+    age_days_boost = min(age_hours / 24.0, 14.0)
+
+    urgency = classify_urgency(article, now=now).get("level") if JOBS_MODE else "normal"
+    urgency_boost = {
+        "critical": 4.0,
+        "high": 3.0,
+        "elevated": 1.5,
+        "normal": 0.0,
+    }.get(urgency, 0.0)
+
+    try:
+        score = max(0, min(100, int(article.get("job_score") or 0)))
+    except (TypeError, ValueError):
+        score = 0
+    try:
+        positions = max(0, int(article.get("job_number_of_positions") or 0))
+    except (TypeError, ValueError):
+        positions = 0
+
     fifo_priority = -queued_time.timestamp() if queued_time else 0.0
+    priority_points = deadline_boost + age_days_boost + urgency_boost
 
     return (
-        has_deadline,
-        deadline_priority,
-        urgency_rank,
+        priority_points,
+        deadline_boost,
+        age_days_boost,
         score,
         positions,
         fifo_priority,
