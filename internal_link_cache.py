@@ -346,8 +346,20 @@ def insert_jobs_hub_link(html):
     return str(soup), 1
 
 
+def _is_jobs_article(article):
+    labels = {str(value).strip().casefold() for value in (article.get("labels") or [])}
+    return bool(
+        article.get("job_notice_type")
+        or article.get("job_title")
+        or article.get("job_company")
+        or "jobs" in labels
+    )
+
+
 def insert_internal_links(html, article, cache_data):
-    html, hub_count = insert_jobs_hub_link(html)
+    hub_count = 0
+    if _is_jobs_article(article):
+        html, hub_count = insert_jobs_hub_link(html)
     candidates = select_internal_link_candidates(article, cache_data.get("links", []))
     if not candidates or _has_prelate(html):
         return html, hub_count
