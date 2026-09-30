@@ -419,6 +419,7 @@ class JobsRuntimeTests(unittest.TestCase):
             patch.object(draft, "create_blogger_service", return_value=service),
             patch.object(draft, "is_local_publisher", return_value=False),
             patch.object(draft, "_ensure_jobs_target_blog"),
+            patch.object(draft, "JOBS_TEST_MODE", False),
             patch.object(
                 draft,
                 "_get_saved_post_by_id",
@@ -1545,64 +1546,33 @@ class JobsRuntimeTests(unittest.TestCase):
         }
         with patch.object(ai, "JOBS_MODE", True):
             prompt = ai._build_prompt(package)
-        self.assertIn("<h2>تفاصيل الوظيفة</h2>", prompt)
-        self.assertIn("<h2>المهام والمسؤوليات</h2>", prompt)
-        self.assertIn("<h2>الشروط والمؤهلات</h2>", prompt)
-        self.assertIn("<h2>الملفات والوثائق الرسمية</h2>", prompt)
-        self.assertIn("<h2>التقديم والروابط الرسمية</h2>", prompt)
+        self.assertIn("ADAPTIVE ARTICLE STRUCTURE", prompt)
+        self.assertIn("There is NO mandatory universal sequence", prompt)
+        self.assertIn("Do NOT force all generic fields into one summary table", prompt)
+        self.assertIn("EVERY useful URL in job_document_links must remain", prompt)
         self.assertIn("NEVER add <h1>", prompt)
         self.assertIn("No copied boilerplate solely to increase word count", prompt)
 
-    def test_deterministic_jobs_body_uses_professional_plain_html_sections(self):
+    def test_jobs_article_ai_has_no_deterministic_content_fallback(self):
+        # Article content must come from the AI/evidence pipeline; removing the
+        # old deterministic fallback prevents silent low-quality publishing.
+        self.assertFalse(hasattr(ai, "_deterministic_job_article"))
+
+    def test_jobs_ai_output_requires_complete_structured_fields(self):
         package = {
-            "job_title": "مهندس شبكات",
-            "job_company": "Example Company",
-            "job_location": "الدار البيضاء",
-            "job_contract_type": "CDI",
-            "job_application_url": "https://example.com/apply",
-            "job_application_link_kind": "direct_apply",
-            "job_document_links": [{"url": "https://example.com/notice.pdf", "label": "الإعلان الرسمي"}],
+            "url": "https://careers.example.com/jobs/42",
             "job_notice_type": "vacancy",
-            "desired_slug": "example-network-engineer",
+            "job_application_url": "https://careers.example.com/jobs/42/apply",
+        }
+        incomplete = {
+            "description": "وصف موثق للوظيفة.",
+            "slug": "example-cybersecurity-consultant",
+            "html_content": "<p>محتوى موثق.</p>",
+            "notice_type": "vacancy",
         }
         with patch.object(ai, "JOBS_MODE", True):
-            data = ai._deterministic_job_article(package)
-            data = ai._finalize_html_content(data, package)
-        html = data["html_content"]
-        self.assertIn("<h2>تفاصيل الوظيفة</h2>", html)
-        self.assertIn("<h2>التقديم والروابط الرسمية</h2>", html)
-        self.assertIn(package["job_application_url"], html)
-        self.assertIn(package["job_document_links"][0]["url"], html)
-        self.assertNotRegex(html, r"(?i)<(?:script|style|iframe|form|h1)\\b")
-        self.assertNotRegex(html, r"(?i)\\sstyle=")
-
-    def test_deterministic_jobs_fallback_passes_jobs_quality_gate(self):
-        package = {
-            "title": "Cybersecurity Consultant",
-            "url": "https://careers.example.com/jobs/42",
-            "source_url": "https://careers.example.com",
-            "source_name": "Example Careers",
-            "job_title": "مستشار الأمن السيبراني",
-            "job_company": "Example Company",
-            "job_location": "الدار البيضاء",
-            "job_contract_type": "CDI",
-            "job_deadline": "2026-10-15",
-            "job_deadline_display": "15 أكتوبر 2026",
-            "job_application_url": "https://careers.example.com/jobs/42/apply",
-            "job_action_links": [
-                {"url": "https://careers.example.com/jobs/42/apply", "label": "التقديم الرسمي"}
-            ],
-            "job_document_links": [],
-            "job_notice_type": "vacancy",
-            "desired_slug": "example-cybersecurity-42",
-        }
-        with patch.object(ai, "JOBS_MODE", True), patch.object(quality_gate, "JOBS_MODE", True):
-            data = ai._deterministic_job_article(package)
-            data = ai._finalize_html_content(data, package)
-            ai._validate_ai_output(data, package)
-        self.assertIn("توظيف", data["title"])
-        self.assertIn(package["job_application_url"], data["html_content"])
-        self.assertGreaterEqual(ai.html_word_count(data["html_content"]), 100)
+            with self.assertRaises(ai.AIIncompleteResponseError):
+                ai._validate_ai_output(incomplete, package)
 
     def test_verified_fact_manifest_marks_only_explicit_supported_facts_high(self):
         article = {
@@ -2080,7 +2050,7 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertFalse(result.passed)
         self.assertIn("promotional", result.reason)
 
-    def test_jobs_finalizer_appends_every_official_file_and_detail_page(self):
+    def test_jobs_finalizer_does_not_relocate_missing_verified_links(self):
         package = {
             "job_application_url": "https://example.com/apply/42",
             "job_application_link_kind": "direct_apply",
@@ -2095,11 +2065,12 @@ class JobsRuntimeTests(unittest.TestCase):
                 "<p>" + " ".join(["تفصيل"] * 100) + "</p>",
                 package,
             )
-        self.assertIn(package["job_application_url"], html)
-        self.assertIn(package["job_detail_url"], html)
+        # Missing verified links are not silently injected into a different
+        # editorial location; the quality gate must send the article back to AI.
+        self.assertNotIn(package["job_application_url"], html)
+        self.assertNotIn(package["job_detail_url"], html)
         for row in package["job_document_links"]:
-            self.assertIn(row["url"], html)
-        self.assertIn("الملفات والوثائق الرسمية", html)
+            self.assertNotIn(row["url"], html)
 
     def test_jobs_action_links_are_standardized_and_not_duplicated(self):
         package = {
@@ -2121,8 +2092,9 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(html.count(package["job_document_links"][0]["url"]), 1)
         self.assertIn("jobApplyButton", html)
         self.assertIn("jobDocumentButton", html)
-        self.assertIn("التقديم الآن عبر الرابط الرسمي", html)
+        self.assertIn("فتح رابط التقديم الرسمي", html)
         self.assertIn("فتح أو تحميل الوثيقة الرسمية", html)
+        self.assertNotIn(package["job_detail_url"], html)
 
     def test_jobs_quality_gate_accepts_verified_public_application_channel(self):
         portal = "https://recrutement.enssup.gov.ma/"
@@ -2555,7 +2527,8 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(article["ai_status"], "completed")
         self.assertEqual(article["ai_quality_status"], "passed")
         self.assertTrue(article["logo_visual_retry_pending"])
-        self.assertNotIn("main_image", article)
+        self.assertEqual(article.get("main_image"), "")
+        self.assertEqual(article["ai_input_package"].get("main_image"), "")
         self.assertTrue(any(
             "optional visual removed before publish" in warning
             for warning in article.get("pre_publish_warnings", [])
@@ -2586,6 +2559,7 @@ class JobsRuntimeTests(unittest.TestCase):
             "<p>" + " ".join(["معلومة"] * 125) + "</p>"
             "<h2>التقديم</h2>"
             f"<p><a href='{package['job_application_url']}'>التقديم</a></p>"
+            f"<p><a href='{package['job_detail_url']}'>صفحة الإعلان الرسمية</a></p>"
         )
         with patch.object(quality_gate, "JOBS_MODE", True):
             missing = quality_gate.validate_before_publish(
@@ -2786,6 +2760,7 @@ class JobsRuntimeTests(unittest.TestCase):
             "title": "شركة أورنج تعلن عن توظيف خبير في الأمن السيبراني",
             "description": "فرصة توظيف لدى شركة أورنج في مجال الأمن السيبراني، تعرف على المعلومات الواردة في الإعلان الرسمي وطريقة تقديم طلب الترشيح.",
             "slug": "orange-cybersecurity",
+            "notice_type": "vacancy",
             "html_content": (
                 "<p>" + " ".join("معلومة" + str(i) for i in range(125)) + "</p>"
                 "<p><a href='https://employer.example/jobs/42/apply'>التقديم الرسمي</a></p>"
@@ -2806,10 +2781,15 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(result["title"], title)
         self.assertEqual(quality_gate._job_title_style_reason(title, "candidate_list"), "")
 
-    def test_subminimum_jobs_still_rejected(self):
+    def test_incomplete_jobs_ai_output_is_rejected_even_when_short(self):
+        package = {"url": "https://example.com/jobs/short", "job_notice_type": "vacancy"}
+        data = {
+            "html_content": "<p>قصير جدا</p>",
+            "notice_type": "vacancy",
+        }
         with patch.object(ai, "JOBS_MODE", True):
-            with self.assertRaises(ValueError):
-                ai._apply_success({"ai_input_package": {}}, {"html_content": "<p>قصير جدا</p>"}, "test")
+            with self.assertRaises(ai.AIIncompleteResponseError):
+                ai._validate_ai_output(data, package)
 
     def test_all_year_slots_cover_regular_and_delayed_checks(self):
         tz = ZoneInfo("Africa/Casablanca")
@@ -3197,10 +3177,19 @@ class JobsRuntimeTests(unittest.TestCase):
             "job_location": "الرباط",
             "job_notice_type": "vacancy",
             "suggested_category": "jobs-morocco",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/job.html",
+            "facebook_post_source": "social_ai",
+            "facebook_post_text": (
+                "فرصة توظيف لمهندس شبكات في الرباط.\n\n"
+                "راجع تفاصيل الشروط والمهام في المقال.\n\n"
+                "رابط المقال في أول تعليق 👇\n"
+                "#وظائف #المغرب #شبكات"
+            ),
         }
         blueprint = facebook._jobs_facebook_blueprint(
             article,
-            "https://example.blogspot.com/p/job.html",
+            article["blogger_post_url"],
         )
         with __import__("tempfile").TemporaryDirectory() as temp:
             memory_path = __import__("pathlib").Path(temp) / "facebook-style.json"
@@ -3235,9 +3224,10 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn(blueprint["fingerprint"], memory["recent_fingerprints"])
 
 
-    def test_jobs_caption_uses_next_truthful_variant_when_recent_caption_matches(self):
+
+    def test_jobs_cached_social_ai_copy_is_reused_without_regeneration(self):
         article = {
-            "id": "job-caption-rotation",
+            "id": "job-caption-cache",
             "job_campaign_id": "campaign-1",
             "seo_title": "شركة تجريبية توظف مهندس نظم في الدار البيضاء",
             "job_title": "مهندس نظم",
@@ -3245,26 +3235,28 @@ class JobsRuntimeTests(unittest.TestCase):
             "job_location": "الدار البيضاء",
             "job_notice_type": "vacancy",
             "suggested_category": "jobs-morocco",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/job-caption-cache.html",
+            "facebook_post_source": "social_ai",
+            "facebook_post_text": (
+                "فرصة جديدة لمهندس نظم في الدار البيضاء.\n\n"
+                "التفاصيل الكاملة والشروط في المقال.\n\n"
+                "رابط المقال في أول تعليق 👇\n"
+                "#وظائف #المغرب #تقنية"
+            ),
         }
-        url = "https://example.blogspot.com/p/job-caption-rotation.html"
-        first = facebook._jobs_facebook_blueprint(article, url, variant_offset=0)
-        with __import__("tempfile").TemporaryDirectory() as temp:
-            memory_path = __import__("pathlib").Path(temp) / "facebook-style.json"
-            with patch.object(facebook, "FACEBOOK_STYLE_MEMORY_PATH", memory_path):
-                facebook._remember_caption_pattern(
-                    article,
-                    "jobs",
-                    posted=True,
-                    structure_id=first["structure"],
-                    hook=first["hook"],
-                    cta=first["cta"],
-                    hashtags=first["hashtags"],
-                    fingerprint=first["fingerprint"],
-                )
-                second = facebook._prepare_facebook_post(article, [article], url)
-
-        self.assertNotEqual(first["fingerprint"], second["fingerprint"])
-        self.assertNotEqual(first["variant_index"], second["variant_index"])
+        with patch.object(facebook, "generate_jobs_facebook_post") as generate:
+            first = facebook._jobs_facebook_blueprint(
+                article,
+                article["blogger_post_url"],
+            )
+            second = facebook._jobs_facebook_blueprint(
+                article,
+                article["blogger_post_url"],
+            )
+        generate.assert_not_called()
+        self.assertEqual(first["fingerprint"], second["fingerprint"])
+        self.assertEqual(first["caption"], second["caption"])
 
 
 
