@@ -98,6 +98,7 @@ from config import (
     SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
     TARGET_LIVE_POSTS_PER_DAY,
     JOBS_MODE,
+    JOBS_AI_CROSS_CANDIDATE_RETRIES,
     TOPIC_FINGERPRINTS_PATH,
     validate_config,
 )
@@ -2161,6 +2162,24 @@ def _retry_after_single_candidate_failure(
     attempted_ids,
     max_extra_attempts=3,
 ):
+    initial_failure_scope = str(
+        (failed_article or {}).get("ai_failure_scope") or ""
+    ).strip().lower()
+
+    # A retry-backoff result means the article was intentionally not sent to
+    # any provider. Do not count it as another failure and do not rotate to more
+    # candidates in the same cycle.
+    if stage == "run-ai" and initial_failure_scope == "retry_backoff":
+        log_event(
+            "ai_candidate_rotation_stopped",
+            failed_article_id=(failed_article or {}).get("id"),
+            failure_scope="retry_backoff",
+            failure_fingerprint=(failed_article or {}).get("ai_failure_fingerprint", ""),
+            retry_after=(failed_article or {}).get("ai_retry_after", ""),
+            reason=reason,
+        )
+        return None, []
+
     marked_failed = _mark_candidate_failure_for_retry(failed_article, stage, reason)
     retry_results = []
     last_failed = marked_failed or failed_article or {}
@@ -2188,6 +2207,15 @@ def _retry_after_single_candidate_failure(
                 reason=reason,
             )
             return None, retry_results
+
+        # Provider rotation already happens inside one article. After an
+        # article-specific AI failure, allow at most one fresh candidate in this
+        # cycle so a quality/input problem cannot fan out into four AI jobs.
+        max_extra_attempts = min(
+            max(0, int(max_extra_attempts or 0)),
+            JOBS_AI_CROSS_CANDIDATE_RETRIES,
+        )
+
     for _ in range(max(0, max_extra_attempts)):
         next_selected = _select_retry_candidate(fetch_stats, attempted_ids)
         if not next_selected:
