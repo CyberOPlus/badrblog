@@ -1476,6 +1476,56 @@ def record_job_publish(article, now=None):
         "blogger_post_id": article.get("blogger_post_id", ""),
         "blogger_url": article.get("blogger_post_url", ""),
         "desired_slug": article.get("desired_slug", ""),
+        "facebook_status": (
+            article.get("facebook_status")
+            or previous.get("facebook_status")
+            or ""
+        ),
+        "facebook_post_id": (
+            article.get("facebook_post_id")
+            or previous.get("facebook_post_id")
+            or ""
+        ),
+        "facebook_posted_at": (
+            article.get("facebook_posted_at")
+            or previous.get("facebook_posted_at")
+            or ""
+        ),
+        "facebook_comment_id": (
+            article.get("facebook_comment_id")
+            or previous.get("facebook_comment_id")
+            or ""
+        ),
+        "facebook_queued_at": (
+            article.get("facebook_queued_at")
+            or previous.get("facebook_queued_at")
+            or ""
+        ),
+        "facebook_retry_after_epoch": (
+            article.get("facebook_retry_after_epoch")
+            or previous.get("facebook_retry_after_epoch")
+            or 0
+        ),
+        "facebook_comment_retry_after_epoch": (
+            article.get("facebook_comment_retry_after_epoch")
+            or previous.get("facebook_comment_retry_after_epoch")
+            or 0
+        ),
+        "facebook_delivery_uncertain_at": (
+            article.get("facebook_delivery_uncertain_at")
+            or previous.get("facebook_delivery_uncertain_at")
+            or ""
+        ),
+        "facebook_image_status": (
+            article.get("facebook_image_status")
+            or previous.get("facebook_image_status")
+            or ""
+        ),
+        "facebook_error": str(
+            article.get("facebook_error")
+            or previous.get("facebook_error")
+            or ""
+        )[:300],
         "status": "active",
         "updated_at": now.isoformat(),
     }
