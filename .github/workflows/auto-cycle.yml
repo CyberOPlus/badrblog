@@ -51,6 +51,20 @@ jobs:
         if: github.event_name == 'workflow_dispatch'
         run: python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime -q
 
+      - name: Verify scheduled production smoke
+        if: github.event_name == 'schedule'
+        run: |
+          python -m py_compile \
+            main.py scraper.py article_ai_processor.py article_draft_publisher.py \
+            facebook_publisher.py quality_gate.py verified_fact_manifest.py
+          python -m unittest \
+            tests.test_jobs_core.JobsCoreTests.test_generic_tuple_discovery_identity_is_supported \
+            tests.test_jobs_core.JobsCoreTests.test_discovery_seen_streak_stops_after_known_run \
+            tests.test_jobs_runtime.JobsRuntimeTests.test_ai_retry_backoff_preflight_makes_no_provider_call \
+            tests.test_jobs_runtime.JobsRuntimeTests.test_document_render_retry_updates_same_blogger_post_without_ai \
+            tests.test_jobs_runtime.JobsRuntimeTests.test_pending_facebook_runs_even_when_article_ai_fails \
+            -q
+
       - name: Verify one-shot Blogger smoke
         if: github.event_name == 'push'
         run: |
