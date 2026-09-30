@@ -2370,6 +2370,35 @@ async def _discover_latest_article_links_async(enabled_sources):
             fetch_limit = 3
         fetch_limit = max(1, min(fetch_limit, 30 if JOBS_MODE else 3))
 
+        if JOBS_MODE:
+            try:
+                discovery_max_pages = int(
+                    source.get("discovery_max_pages", JOBS_DISCOVERY_MAX_PAGES)
+                )
+            except (TypeError, ValueError):
+                discovery_max_pages = JOBS_DISCOVERY_MAX_PAGES
+            try:
+                discovery_seen_streak = int(
+                    source.get("discovery_seen_streak", JOBS_DISCOVERY_SEEN_STREAK)
+                )
+            except (TypeError, ValueError):
+                discovery_seen_streak = JOBS_DISCOVERY_SEEN_STREAK
+            try:
+                discovery_max_items = int(
+                    source.get(
+                        "discovery_max_items",
+                        JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
+                    )
+                )
+            except (TypeError, ValueError):
+                discovery_max_items = JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE
+            known_ids = _source_known_discovery_ids(base_url)
+        else:
+            discovery_max_pages = 1
+            discovery_seen_streak = JOBS_DISCOVERY_SEEN_STREAK
+            discovery_max_items = fetch_limit
+            known_ids = set()
+
         print(f"\n[{index}] Checking {source_name}")
         async with semaphore:
             try:
@@ -2380,6 +2409,10 @@ async def _discover_latest_article_links_async(enabled_sources):
                     feed_url=source.get("feed_url"),
                     extractor_type=source.get("extractor_type", "auto"),
                     strict_source_path=bool(source.get("strict_source_path", True)),
+                    known_ids=known_ids,
+                    max_pages=discovery_max_pages,
+                    seen_streak_stop=discovery_seen_streak,
+                    max_items=discovery_max_items,
                 )
             except Exception as exc:
                 links = []
@@ -2408,6 +2441,10 @@ async def _discover_latest_article_links_async(enabled_sources):
                     "source_remote": bool(source.get("source_remote", False)),
                     "source_visa_sponsorship": bool(source.get("source_visa_sponsorship", False)),
             "fetch_limit": fetch_limit,
+            "discovery_max_pages": discovery_max_pages,
+            "discovery_seen_streak": discovery_seen_streak,
+            "discovery_max_items": discovery_max_items,
+            "known_ids_before": len(known_ids),
             "links": links,
             "error": error,
             "status_code": status_code,
@@ -2431,13 +2468,31 @@ async def _discover_latest_article_links_async(enabled_sources):
             len(result["links"]),
             empty_ok=bool(result["details"].get("empty_ok")),
         )
-        update_source_crawl(
-            result["base_url"],
-            source_name=result["source_name"],
-            last_crawled_at=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-            overlap_minutes=CRAWL_OVERLAP_MINUTES,
-        )
-        for link in result["links"][:fetch_limit]:
+        crawl_fields = {
+            "source_name": result["source_name"],
+            "last_crawled_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "overlap_minutes": CRAWL_OVERLAP_MINUTES,
+        }
+        if JOBS_MODE:
+            crawl_fields.update({
+                "job_seen_ids": _merge_source_seen_ids(
+                    result["base_url"],
+                    result["links"],
+                ),
+                "job_seen_ids_count": min(
+                    JOBS_DISCOVERY_SEEN_MEMORY,
+                    result.get("known_ids_before", 0) + len(result["links"]),
+                ),
+                "discovery_last_new_count": len(result["links"]),
+                "discovery_page_size_hint": fetch_limit,
+                "discovery_max_pages": result.get("discovery_max_pages"),
+                "discovery_seen_streak": result.get("discovery_seen_streak"),
+                "discovery_max_items": result.get("discovery_max_items"),
+            })
+        update_source_crawl(result["base_url"], **crawl_fields)
+
+        result_links = result["links"] if JOBS_MODE else result["links"][:fetch_limit]
+        for link in result_links:
             discovered.append(
                 {
                     **{key: value for key, value in link.items() if key not in {"source_name", "source_url"}},
@@ -2467,6 +2522,11 @@ async def _discover_latest_article_links_async(enabled_sources):
                 "category_name": result["category_name"],
                 "category_label": result["category_label"],
                 "fetch_limit_per_run": fetch_limit,
+                "discovery_mode": "paginated_seen_ids" if JOBS_MODE else "fixed_limit",
+                "discovery_max_pages": result.get("discovery_max_pages"),
+                "discovery_seen_streak": result.get("discovery_seen_streak"),
+                "discovery_max_items": result.get("discovery_max_items"),
+                "known_ids_before": result.get("known_ids_before", 0),
                 "links_found": len(result["links"]),
                 "status": "failed" if result["error"] else "success",
                 "listing_status_code": result["status_code"],
