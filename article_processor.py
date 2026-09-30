@@ -150,7 +150,6 @@ def _prepare_identity_evidence(article):
         and (
             document_fingerprint != previous_fingerprint
             or previous_failures > 0
-            or not article.get("identity_evidence_stage_checked_at")
         )
     )
 
