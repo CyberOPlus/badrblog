@@ -448,6 +448,176 @@ class JobsRuntimeTests(unittest.TestCase):
                 ["gemini", "groq", "openrouter", "cloudflare", "mistral"],
             )
 
+    def test_jobs_pre_ai_evidence_preflight_avoids_unrepairable_calls(self):
+        structured_missing_application = {
+            "url": "https://example.com/jobs/123",
+            "job_notice_type": "vacancy",
+            "job_notice_type_source": "structured",
+            "job_application_url": "",
+        }
+        self.assertIn(
+            "application resource",
+            ai._jobs_pre_ai_evidence_error(structured_missing_application),
+        )
+
+        heuristic_missing_application = dict(
+            structured_missing_application,
+            job_notice_type_source="heuristic",
+        )
+        self.assertEqual(
+            ai._jobs_pre_ai_evidence_error(heuristic_missing_application),
+            "",
+        )
+
+        failed_pdf_evidence = {
+            "url": "https://example.com/jobs/123",
+            "job_notice_type": "candidate_list",
+            "job_notice_type_source": "heuristic",
+            "identity_evidence_stage_status": "incomplete",
+            "job_document_text_download_failures": 1,
+        }
+        self.assertIn(
+            "document evidence",
+            ai._jobs_pre_ai_evidence_error(failed_pdf_evidence),
+        )
+
+    def test_open_global_circuit_does_not_extend_existing_open_circuit(self):
+        memory = {
+            "avg_time": 0.0,
+            "cooldowns": {},
+            "provider_circuits": {},
+            "global_circuit": {
+                "until": 2000,
+                "fingerprint": "existing-fp",
+                "category": "outage",
+            },
+            "failure_fingerprints": {},
+            "fastest_success_model": "",
+            "stats": {},
+        }
+        with patch.object(ai, "_AI_MEMORY_CACHE", memory), \
+             patch.object(ai.time, "time", return_value=1000), \
+             patch.object(ai, "_record_failure_fingerprint") as record:
+            result = ai._open_global_circuit(
+                RuntimeError("HTTP 503 unavailable"),
+                providers=["gemini", "groq"],
+            )
+        self.assertEqual(result["until"], 2000)
+        self.assertEqual(result["fingerprint"], "existing-fp")
+        record.assert_not_called()
+
+    def test_two_provider_outages_open_global_circuit_before_third_provider(self):
+        article = {
+            "id": "outage-job",
+            "url": "https://example.com/jobs/outage",
+            "source_name": "Official Source",
+            "status": "selected",
+            "processing_status": "ready_for_ai",
+            "ai_input_package": {
+                "title": "Network Engineer",
+                "url": "https://example.com/jobs/outage",
+                "full_article_text": "verified source evidence",
+                "job_notice_type": "candidate_list",
+                "job_notice_type_source": "heuristic",
+            },
+        }
+        queue = {"articles": [article]}
+        generate = [
+            ai.AIProviderFallbackNeeded("gemini provider failed: HTTP 503 unavailable"),
+            ai.AIProviderFallbackNeeded("groq provider failed: HTTP 503 unavailable"),
+        ]
+        circuit = {
+            "until": 2000000000,
+            "fingerprint": "global-outage-fp",
+            "category": "outage",
+        }
+        with patch.object(ai, "JOBS_MODE", True), \
+             patch.object(ai, "load_article_queue", return_value=queue), \
+             patch.object(ai, "save_article_queue"), \
+             patch.object(ai, "_attempt_provider_sequence", return_value=["gemini", "groq", "openrouter"]), \
+             patch.object(ai, "_resolve_providers", return_value=["gemini", "groq", "openrouter"]), \
+             patch.object(ai, "_build_prompt", return_value="prompt"), \
+             patch.object(ai, "_source_stats", return_value=("text", 100, 20)), \
+             patch.object(ai, "_skipped_slow_models_count", return_value=0), \
+             patch.object(ai, "_generate_with_provider_name", side_effect=generate) as call_provider, \
+             patch.object(ai, "_open_global_circuit", return_value=circuit) as open_global, \
+             patch.object(
+                 ai,
+                 "ai_circuit_status",
+                 return_value={
+                     "global_open": True,
+                     "global_fingerprint": "global-outage-fp",
+                     "global_category": "outage",
+                 },
+             ), \
+             patch.object(ai, "_global_circuit_until", return_value=2000000000):
+            result = ai.process_one_selected_article_with_ai(
+                target_article_id="outage-job"
+            )
+
+        self.assertEqual(call_provider.call_count, 2)
+        open_global.assert_called_once()
+        self.assertEqual(result["failure_scope"], "global_outage")
+        self.assertEqual(result["failure_category"], "outage")
+
+    def test_provider_preflight_failure_becomes_global_backoff_without_ai_call(self):
+        article = {
+            "id": "no-provider-job",
+            "url": "https://example.com/jobs/no-provider",
+            "source_name": "Official Source",
+            "status": "selected",
+            "processing_status": "ready_for_ai",
+            "ai_input_package": {
+                "title": "Network Engineer",
+                "url": "https://example.com/jobs/no-provider",
+                "full_article_text": "verified source evidence",
+                "job_notice_type": "candidate_list",
+                "job_notice_type_source": "heuristic",
+            },
+        }
+        queue = {"articles": [article]}
+        circuit = {
+            "until": 2000000000,
+            "fingerprint": "config-fp",
+            "category": "config",
+        }
+        with patch.object(ai, "JOBS_MODE", True), \
+             patch.object(ai, "load_article_queue", return_value=queue), \
+             patch.object(ai, "save_article_queue"), \
+             patch.object(ai, "_build_prompt", return_value="prompt"), \
+             patch.object(ai, "_source_stats", return_value=("text", 100, 20)), \
+             patch.object(ai, "_skipped_slow_models_count", return_value=0), \
+             patch.object(
+                 ai,
+                 "_attempt_provider_sequence",
+                 side_effect=RuntimeError("No AI provider key configured."),
+             ), \
+             patch.object(
+                 ai,
+                 "_resolve_providers",
+                 side_effect=RuntimeError("No AI provider key configured."),
+             ), \
+             patch.object(ai, "_generate_with_provider_name") as call_provider, \
+             patch.object(ai, "_open_global_circuit", return_value=circuit) as open_global, \
+             patch.object(
+                 ai,
+                 "ai_circuit_status",
+                 return_value={
+                     "global_open": True,
+                     "global_fingerprint": "config-fp",
+                     "global_category": "config",
+                 },
+             ), \
+             patch.object(ai, "_global_circuit_until", return_value=2000000000):
+            result = ai.process_one_selected_article_with_ai(
+                target_article_id="no-provider-job"
+            )
+
+        call_provider.assert_not_called()
+        open_global.assert_called_once()
+        self.assertEqual(result["failure_scope"], "global_outage")
+        self.assertEqual(result["failure_category"], "config")
+
     def test_jobs_provider_failure_uses_one_call_then_rotates(self):
         candidates = [
             {"provider": "groq", "api_key": "k1", "model": "m1"},
