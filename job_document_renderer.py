@@ -164,10 +164,10 @@ def _clean_pdf_page_text(value):
 def extract_job_document_texts(
     article,
     *,
-    max_documents=3,
-    max_total_pages=24,
+    max_documents=6,
+    max_total_pages=48,
     max_chars_per_page=8000,
-    max_total_chars=40000,
+    max_total_chars=80000,
 ):
     """Extract selectable PDF text as pre-AI evidence; scanned pages remain image-only evidence."""
     existing = article.get("job_document_texts")
@@ -276,8 +276,8 @@ def render_job_document_pages(
     *,
     output_root="assets/generated/job-documents",
     raw_base="https://raw.githubusercontent.com/CyberOPlus/badrblog/main",
-    max_documents=3,
-    max_total_pages=24,
+    max_documents=6,
+    max_total_pages=48,
 ):
     """Render verified official job PDFs into sequential JPEG pages.
 
