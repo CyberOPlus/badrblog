@@ -1421,10 +1421,33 @@ def select_best_job_from_queue(queue, now=None):
         article["job_urgent_override"] = bool(urgent_override)
         article["job_publish_immediately"] = bool(urgency.get("publish_immediately"))
         priority = 2 if urgency.get("level") in {"critical", "high"} else 1 if urgency.get("level") == "elevated" else 0
-        ranked.append((quality["score"], priority, article.get("source_published_at") or "", article))
 
-    ranked.sort(key=lambda row: (row[0], row[1], row[2]), reverse=True)
-    return ranked[0][3] if ranked else None
+        # For otherwise publishable Jobs, freshness is the main queue order.
+        # Quality score is a tie-breaker, never a reason to let a week-old job
+        # sit in front of a newly published verified vacancy. Closing-soon/high
+        # urgency notices still stay ahead so we do not miss a real deadline.
+        published = _parse_date(
+            article.get("job_published_at")
+            or article.get("source_published_at")
+        )
+        discovered = _parse_date(article.get("discovered_at"))
+        published_epoch = published.timestamp() if published else 0.0
+        discovered_epoch = discovered.timestamp() if discovered else 0.0
+        ranked.append(
+            (
+                priority,
+                published_epoch,
+                discovered_epoch,
+                quality["score"],
+                article,
+            )
+        )
+
+    ranked.sort(
+        key=lambda row: (row[0], row[1], row[2], row[3]),
+        reverse=True,
+    )
+    return ranked[0][4] if ranked else None
 
 
 def record_job_publish(article, now=None):
