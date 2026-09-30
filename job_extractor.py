@@ -27,7 +27,10 @@ def _text(value):
         return ""
     if isinstance(value, (dict, list)):
         return ""
-    return re.sub(r"\s+", " ", BeautifulSoup(str(value), "html.parser").get_text(" ", strip=True)).strip()
+    raw = str(value).strip()
+    if re.fullmatch(r"(?:https?://|www\.)\S+", raw, flags=re.I):
+        return raw
+    return re.sub(r"\s+", " ", BeautifulSoup(raw, "html.parser").get_text(" ", strip=True)).strip()
 
 
 def _jsonld_nodes(value):
