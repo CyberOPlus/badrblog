@@ -930,6 +930,37 @@ class JobsCoreTests(unittest.TestCase):
             final = job_core.classify_identity(article)
         self.assertEqual(final["action"], "duplicate")
 
+    def test_pdf_failure_keeps_matching_reference_pending(self):
+        article = sample_job(
+            job_external_reference="REF-2026-FAIL",
+            content_fetch_status="success",
+            job_detail_url="https://example.com/jobs/12345",
+            source_tables=[],
+            source_tables_count=0,
+            job_document_links=[
+                {"url": "https://example.com/notice.pdf", "label": "الإعلان"}
+            ],
+            job_document_text_download_failures=1,
+        )
+        job_core.finalize_identity_evidence_stage(article)
+        self.assertFalse(job_core.identity_evidence_stage_complete(article))
+
+        record = {
+            "campaign_id": "campaign-a",
+            "identity_key": job_core.identity_key(article),
+            "semantic_key": job_core.semantic_key(article),
+            "external_reference": "REF-2026-FAIL",
+            "deadline": article["job_deadline"],
+            "number_of_positions": article["job_number_of_positions"],
+            "published_at": article["job_published_at"],
+            "application_url": article["job_application_url"],
+        }
+        with patch.object(job_core, "get_by_identity", return_value=record), \
+             patch.object(job_core, "get_semantic_candidates", return_value=[]):
+            result = job_core.classify_identity(article)
+        self.assertEqual(result["action"], "hold")
+        self.assertIn("awaiting evidence stage", result["reason"])
+
     def test_same_reference_with_different_verified_evidence_is_update(self):
         article = sample_job(
             job_external_reference="REF-2026-101",
