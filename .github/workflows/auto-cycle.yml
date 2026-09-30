@@ -12,6 +12,7 @@ on:
     # Official vacancy PDFs may be rendered as sequential reader images before publish.
     # Each Jobs cycle repairs verified job-link mismatches before scheduling a Blogger write.
     # Source health and cooldown state are persisted so one sick source cannot stall the pipeline.
+    # Link-repair retries regenerate stale article output from the cleaned verified facts.
     # Facebook keeps its stricter Morocco slots and hard anti-spam limits.
     - cron: "1,7,13,19,25,31,37,43,49,55 * * * *"
 
