@@ -492,6 +492,7 @@ class JobsRuntimeTests(unittest.TestCase):
         }
         with (
             patch.object(draft, "JOBS_MODE", True),
+            patch.object(draft, "_effective_publish_mode", return_value="live"),
             patch.object(draft, "record_published_article", return_value={"saved": True}),
             patch.object(draft, "notify_job_url", return_value={"status": "disabled"}),
         ):
