@@ -2051,12 +2051,31 @@ def _mark_candidate_failure_for_retry(article, stage, reason):
             retry_after=article.get("candidate_retry_after"),
         )
         return article
+    cooldown_minutes = SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES
+    if stage == "run-ai" and article.get("ai_retry_after"):
+        try:
+            retry_at = datetime.fromisoformat(
+                str(article.get("ai_retry_after")).replace("Z", "+00:00")
+            )
+            if retry_at.tzinfo is None:
+                retry_at = retry_at.replace(tzinfo=timezone.utc)
+            remaining_seconds = (
+                retry_at.astimezone(timezone.utc) - datetime.now(timezone.utc)
+            ).total_seconds()
+            if remaining_seconds > 0:
+                cooldown_minutes = max(
+                    cooldown_minutes,
+                    int((remaining_seconds + 59) // 60),
+                )
+        except ValueError:
+            pass
+
     failed = mark_article_recent_failure(
         article_id=article.get("id", ""),
         article_url=article.get("url", ""),
         stage=stage,
         reason=reason,
-        cooldown_minutes=SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
+        cooldown_minutes=cooldown_minutes,
     )
     log_event(
         "candidate_skipped_recent_failure",
@@ -2065,6 +2084,8 @@ def _mark_candidate_failure_for_retry(article, stage, reason):
         stage=stage,
         reason=reason,
         retry_after=(failed or {}).get("candidate_retry_after"),
+        failure_scope=article.get("ai_failure_scope", "") if stage == "run-ai" else "",
+        failure_fingerprint=article.get("ai_failure_fingerprint", "") if stage == "run-ai" else "",
     )
     return failed
 
@@ -2140,9 +2161,26 @@ def _retry_after_single_candidate_failure(
     attempted_ids,
     max_extra_attempts=3,
 ):
-    _mark_candidate_failure_for_retry(failed_article, stage, reason)
+    marked_failed = _mark_candidate_failure_for_retry(failed_article, stage, reason)
     retry_results = []
-    last_failed = failed_article or {}
+    last_failed = marked_failed or failed_article or {}
+
+    if stage == "run-ai":
+        failure_scope = str(
+            (last_failed or {}).get("ai_failure_scope")
+            or (failed_article or {}).get("ai_failure_scope")
+            or ""
+        ).strip().lower()
+        if failure_scope in {"global_outage", "cycle_budget"}:
+            log_event(
+                "ai_candidate_rotation_stopped",
+                failed_article_id=(failed_article or {}).get("id"),
+                failure_scope=failure_scope,
+                failure_fingerprint=(failed_article or {}).get("ai_failure_fingerprint", ""),
+                retry_after=(failed_article or {}).get("ai_retry_after", ""),
+                reason=reason,
+            )
+            return None, retry_results
     for _ in range(max(0, max_extra_attempts)):
         next_selected = _select_retry_candidate(fetch_stats, attempted_ids)
         if not next_selected:
