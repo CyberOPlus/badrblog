@@ -1561,16 +1561,44 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             return result
 
         _assert_insert_allowed(article)
-        body = _build_post_body(
-            article,
-            permalink_seed=(JOBS_MODE and publish_mode == "live"),
-        )
-        request = service.posts().insert(blogId=BLOG_ID, body=body, isDraft=(publish_mode != "live"))
-        post = _execute_blogger_request(request, f"insert {publish_mode}", safe_to_retry=False)
-        post = _ensure_returned_post_url(service, post)
-        _ensure_post_url_for_mode(post, publish_mode)
-        if JOBS_MODE and publish_mode == "live":
-            _reject_numeric_new_job_permalink(service, post, article)
+        post = None
+        max_permalink_attempts = 2 if JOBS_MODE and publish_mode == "live" else 1
+        for permalink_try in range(max_permalink_attempts):
+            body = _build_post_body(
+                article,
+                permalink_seed=(JOBS_MODE and publish_mode == "live"),
+            )
+            request = service.posts().insert(
+                blogId=BLOG_ID,
+                body=body,
+                isDraft=(publish_mode != "live"),
+            )
+            post = _execute_blogger_request(
+                request,
+                f"insert {publish_mode}",
+                safe_to_retry=False,
+            )
+            post = _ensure_returned_post_url(service, post)
+            _ensure_post_url_for_mode(post, publish_mode)
+
+            if JOBS_MODE and publish_mode == "live":
+                try:
+                    _reject_numeric_new_job_permalink(service, post, article)
+                except RuntimeError as error:
+                    retryable_numeric = (
+                        "was deleted and will retry" in str(error)
+                        and permalink_try + 1 < max_permalink_attempts
+                    )
+                    if retryable_numeric:
+                        log_event(
+                            "job_numeric_permalink_retry_inline",
+                            article_id=article.get("id"),
+                            next_attempt=int(article.get("permalink_attempt") or 0),
+                        )
+                        continue
+                    raise
+            break
+
         post = _apply_jobposting_schema(service, post, article, publish_mode)
         _apply_success(article, post, publish_mode)
         article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "created_new"
