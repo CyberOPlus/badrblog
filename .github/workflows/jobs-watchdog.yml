@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Ensure auto-cycle is alive
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: |
             const { owner, repo } = context.repo;
@@ -62,10 +62,40 @@ jobs:
                 `Latest auto-cycle concluded ${latest.conclusion}; dispatching recovery run.`
               );
             } else if (ageMinutes <= 45) {
-              core.info(
-                `Auto-cycle healthy; last run age ${ageMinutes.toFixed(1)} minutes.`
-              );
-              return;
+              try {
+                const queueResponse = await github.rest.repos.getContent({
+                  owner, repo, path: "jobs_article_queue.json", ref: "main",
+                });
+                const stateResponse = await github.rest.repos.getContent({
+                  owner, repo, path: "data/job_state.json", ref: "main",
+                });
+                const queue = JSON.parse(Buffer.from(queueResponse.data.content, "base64").toString("utf8"));
+                const state = JSON.parse(Buffer.from(stateResponse.data.content, "base64").toString("utf8"));
+                const publishable = (queue.articles || []).filter(article =>
+                  !article.archived
+                  && (article.status === "ready" || article.status === "selected")
+                  && article.content_fetch_status === "success"
+                  && article.job_quality_status === "publish"
+                  && (!Array.isArray(article.job_quality_reasons) || article.job_quality_reasons.length === 0)
+                );
+                const lastPublish = state.last_publish_at ? new Date(state.last_publish_at).getTime() : 0;
+                const publishAgeMinutes = lastPublish
+                  ? (Date.now() - lastPublish) / 60000
+                  : Number.POSITIVE_INFINITY;
+                if (!(publishable.length > 0 && publishAgeMinutes > 25)) {
+                  core.info(
+                    `Auto-cycle healthy; last run age ${ageMinutes.toFixed(1)} minutes; `
+                    + `publishable backlog=${publishable.length}.`
+                  );
+                  return;
+                }
+                core.warning(
+                  `Publishable backlog stalled for ${publishAgeMinutes.toFixed(1)} minutes; dispatching recovery run.`
+                );
+              } catch (error) {
+                core.warning(`Could not inspect durable Jobs state: ${error.message}`);
+                return;
+              }
             } else {
               core.warning(
                 `No recent auto-cycle run for ${ageMinutes.toFixed(1)} minutes; dispatching recovery run.`

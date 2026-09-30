@@ -17,7 +17,11 @@ from config import (
 )
 from duplicate_utils import canonicalize_url, title_hash, topic_signature
 from production_logging import log_event
-from job_core import _parse_date as _parse_job_date
+from job_core import (
+    _parse_date as _parse_job_date,
+    is_application_url_bound_to_job,
+    is_foreign_job_detail_url,
+)
 
 ALLOWED_STATUSES = {"new", "skipped", "ready", "selected", "draft_created", "published", "failed"}
 FRESHNESS_HARD_MAX_HOURS = 24 * 7
@@ -240,6 +244,106 @@ def save_article_queue(queue):
         json.dump(data, handle, ensure_ascii=False, indent=2)
     temp_path.replace(ARTICLE_QUEUE_PATH)
     return True
+
+
+def _misfiled_application_document(row):
+    url = str((row or {}).get("url") or "").strip().casefold()
+    if not url or url.split("?", 1)[0].endswith(".pdf"):
+        return False
+    text = " ".join(
+        str((row or {}).get(key) or "")
+        for key in ("label", "context", "url")
+    ).casefold()
+    apply_hints = (
+        "موقع الإيداع", "التقديم", "الترشيح", "إيداع", "ايداع",
+        "apply", "postuler", "candidature", "application form",
+    )
+    doc_hints = (
+        "تحميل", "قرار", "مقرر", "اللائحة", "النتائج", "communiqué",
+        "communique", "download", "résultat", "resultat",
+    )
+    return any(h in text for h in apply_hints) and not any(h in text for h in doc_hints)
+
+
+def repair_job_link_bindings():
+    stats = {
+        "checked": 0,
+        "repaired": 0,
+        "reopened_published": 0,
+        "removed_action_links": 0,
+        "removed_document_links": 0,
+    }
+    if not JOBS_MODE:
+        return stats
+    queue = load_article_queue()
+    changed_any = False
+    for article in queue.get("articles", []):
+        if article.get("archived"):
+            continue
+        stats["checked"] += 1
+        changed = False
+        detail_url = str(
+            article.get("job_detail_url")
+            or article.get("canonical_url")
+            or article.get("url")
+            or ""
+        ).strip()
+        application_url = str(article.get("job_application_url") or "").strip()
+        if application_url and not is_application_url_bound_to_job(article, application_url):
+            if detail_url and is_application_url_bound_to_job(article, detail_url):
+                article["job_application_url"] = detail_url
+                article["job_application_link_kind"] = "official_job_page"
+                article["job_application_is_specific"] = True
+            else:
+                article["job_application_url"] = ""
+                article["job_application_link_kind"] = ""
+                article["job_application_is_specific"] = False
+            changed = True
+
+        actions=[]
+        for row in article.get("job_action_links") or []:
+            if not isinstance(row, dict):
+                continue
+            url=str(row.get("url") or "").strip()
+            kind=str(row.get("kind") or "").strip().lower()
+            if is_foreign_job_detail_url(article, url):
+                stats["removed_action_links"] += 1; changed=True; continue
+            if kind=="apply" and not is_application_url_bound_to_job(article, url):
+                stats["removed_action_links"] += 1; changed=True; continue
+            if kind=="document" and _misfiled_application_document(row):
+                stats["removed_action_links"] += 1; changed=True; continue
+            actions.append(row)
+        if actions != (article.get("job_action_links") or []):
+            article["job_action_links"]=actions
+
+        documents=[]
+        for row in article.get("job_document_links") or []:
+            if not isinstance(row, dict):
+                continue
+            url=str(row.get("url") or "").strip()
+            if is_foreign_job_detail_url(article, url) or _misfiled_application_document(row):
+                stats["removed_document_links"] += 1; changed=True; continue
+            documents.append(row)
+        if documents != (article.get("job_document_links") or []):
+            article["job_document_links"]=documents
+
+        if not changed:
+            continue
+        changed_any=True
+        stats["repaired"] += 1
+        article["job_link_binding_repaired_at"]=_now_iso()
+        article["job_quality_status"]=""
+        article["job_quality_reasons"]=[]
+        if article.get("status")=="published" or article.get("publish_status")=="published":
+            article["status"]="ready"
+            article["publish_status"]="repair_pending"
+            article["job_link_repair_pending"]=True
+            article["job_identity_action"]="update"
+            stats["reopened_published"] += 1
+    if changed_any:
+        save_article_queue(queue)
+        log_event("job_link_bindings_repaired", **stats)
+    return stats
 
 
 def _fresh_queue_cutoff(now=None, max_age_hours=None):

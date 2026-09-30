@@ -114,6 +114,45 @@ def canonicalize_job_url(url):
     return urlunparse(("https", host, path, "", urlencode(sorted(filtered)), ""))
 
 
+_JOB_REFERENCE_QUERY_KEYS = {
+    "id", "job", "jobid", "job_id", "job-id", "requisitionid",
+    "requisition_id", "reqid", "req_id", "vacancyid", "vacancy_id",
+    "postingid", "posting_id", "positionid", "position_id", "reference",
+    "ljobid",
+}
+
+
+def _url_job_reference(url):
+    normalized = canonicalize_job_url(url)
+    if not normalized:
+        return ""
+    parsed = urlparse(normalized)
+    query = {
+        key.casefold(): str(value or "").strip()
+        for key, value in parse_qsl(parsed.query, keep_blank_values=True)
+    }
+    for key in _JOB_REFERENCE_QUERY_KEYS:
+        value = query.get(key, "")
+        if value:
+            return normalize_text(value)
+    uuid_match = re.search(
+        r"(?i)([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})",
+        parsed.path,
+    )
+    if uuid_match:
+        return normalize_text(uuid_match.group(1))
+    for pattern in (
+        r"/requisition/(\d{2,})(?:/|$)",
+        r"/jobs?/(\d{3,})(?:/|$)",
+        r"/job/(\d{3,})(?:/|$)",
+        r"/offre/(\d{2,})(?:/|$)",
+    ):
+        match = re.search(pattern, parsed.path, flags=re.I)
+        if match:
+            return normalize_text(match.group(1))
+    return ""
+
+
 def is_job_specific_url(url):
     normalized = canonicalize_job_url(url)
     if not normalized:
@@ -125,15 +164,16 @@ def is_job_specific_url(url):
         for key, value in parse_qsl(parsed.query, keep_blank_values=True)
     }
 
-    specific_query_keys = {
-        "id", "job", "jobid", "job_id", "job-id", "requisitionid",
-        "requisition_id", "reqid", "req_id", "vacancyid", "vacancy_id",
-        "postingid", "posting_id", "positionid", "position_id", "reference",
-    }
     has_specific_query = any(
-        key in specific_query_keys and len(value) >= 3
+        key in _JOB_REFERENCE_QUERY_KEYS and len(value) >= 3
         for key, value in query.items()
     )
+
+    if (
+        "pageuppeople.com" in parsed.netloc.casefold()
+        and re.search(r"/applicationform/default\.asp$", parsed.path, flags=re.I)
+    ):
+        return has_specific_query
 
     if not segments:
         return has_specific_query
@@ -143,7 +183,8 @@ def is_job_specific_url(url):
         "search", "job-search", "jobs-search", "offres", "offres-emploi",
         "emplois", "openings", "positions", "all-jobs", "all-jobs-search",
         "candidature", "postuler", "application", "applications", "register",
-        "registration", "inscription",
+        "registration", "inscription", "list", "listing", "liste",
+        "annonce", "annonces",
     }
     if generic_tail:
         if has_specific_query:
@@ -176,6 +217,31 @@ def external_reference(article):
     return str(article.get("job_external_reference") or "").strip()
 
 
+def is_foreign_job_detail_url(article, url):
+    candidate = canonicalize_job_url(url)
+    source = canonicalize_job_url(
+        article.get("job_detail_url")
+        or article.get("canonical_url")
+        or article.get("url")
+        or article.get("source_url")
+    )
+    if not candidate or not source:
+        return False
+    pc, ps = urlparse(candidate), urlparse(source)
+    if pc.netloc != ps.netloc:
+        return False
+    candidate_ref = _url_job_reference(candidate)
+    source_ref = _url_job_reference(source)
+    return bool(candidate_ref and source_ref and candidate_ref != source_ref)
+
+
+def is_application_url_bound_to_job(article, url):
+    candidate = canonicalize_job_url(url)
+    if not candidate or not _public_http(candidate) or not is_job_specific_url(candidate):
+        return False
+    return not is_foreign_job_detail_url(article, candidate)
+
+
 def _core_key(article):
     return "|".join([
         normalize_text(article.get("job_company") or article.get("company")),
@@ -187,7 +253,9 @@ def _core_key(article):
 def identity_key(article):
     reference = external_reference(article)
     if reference:
-        base = f"ref|{normalize_text(article.get('source_name'))}|{normalize_text(reference)}"
+        employer = normalize_text(article.get("job_company") or article.get("company"))
+        scope = employer or normalize_text(article.get("source_name"))
+        base = f"ref|{scope}|{normalize_text(reference)}"
     else:
         apply_url = canonicalize_job_url(article.get("job_application_url") or article.get("application_url"))
         canonical = canonicalize_job_url(article.get("canonical_url") or article.get("url") or article.get("source_url"))
@@ -284,10 +352,7 @@ def score_job(article, now=None):
     apply_url = article.get("job_application_url") or article.get("application_url") or article.get("url")
     valid_apply = bool(
         _public_http(apply_url)
-        and (
-            is_job_specific_url(apply_url)
-            or bool(external_reference(article))
-        )
+        and is_application_url_bound_to_job(article, apply_url)
     )
     points["clear_application"] = 10 if valid_apply else 0
     points["salary_listed"] = 5 if str(article.get("job_salary") or "").strip() else 0
@@ -447,7 +512,30 @@ def daily_publish_cap(now=None):
     return min(month_max, weekday_cap)
 
 
-def job_publish_window_status(now=None):
+def publishable_backlog_count(now=None):
+    path = BASE_DIR / "jobs_article_queue.json"
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8-sig"))
+    except (OSError, json.JSONDecodeError, TypeError):
+        return 0
+    count = 0
+    for article in payload.get("articles", []):
+        if article.get("archived") or article.get("status") not in {"ready", "selected"}:
+            continue
+        if article.get("content_fetch_status") != "success":
+            continue
+        if score_job(dict(article), now=now).get("passed"):
+            count += 1
+    return count
+
+
+def adaptive_publish_interval_minutes(publishable_backlog=None):
+    backlog = publishable_backlog_count() if publishable_backlog is None else max(0, int(publishable_backlog or 0))
+    target = 5 if backlog >= 16 else 7 if backlog >= 6 else 10
+    return max(JOBS_MIN_PUBLISH_INTERVAL_MINUTES, target)
+
+
+def job_publish_window_status(now=None, publishable_backlog=None):
     local = _local(now)
     state = load_job_state()
     day = local.date().isoformat()
@@ -455,7 +543,12 @@ def job_publish_window_status(now=None):
     cap = daily_publish_cap(now)
     # Publish the next verified queued job as soon as the anti-spam interval
     # has elapsed. The adaptive daily cap still limits total volume.
-    spread_interval = JOBS_MIN_PUBLISH_INTERVAL_MINUTES
+    publishable_backlog = (
+        publishable_backlog_count(now=now)
+        if publishable_backlog is None
+        else max(0, int(publishable_backlog or 0))
+    )
+    spread_interval = adaptive_publish_interval_minutes(publishable_backlog)
     reasons = []
     next_allowed = local
 
@@ -502,6 +595,7 @@ def job_publish_window_status(now=None):
         "published_today": published_today,
         "daily_cap": cap,
         "min_interval_minutes": spread_interval,
+        "publishable_backlog": publishable_backlog,
         "policy": current_policy(now=now),
     }
 
@@ -681,6 +775,32 @@ def _campaign_rollover(article, record):
     return False
 
 
+def _same_campaign_evidence(article, record):
+    if semantic_key(article) != str(record.get("semantic_key") or ""):
+        return False
+    evidence = 0
+    new_deadline = str(article.get("job_deadline") or "").strip()
+    old_deadline = str(record.get("deadline") or "").strip()
+    if new_deadline and old_deadline and new_deadline == old_deadline:
+        evidence += 3
+    try:
+        new_positions = int(article.get("job_number_of_positions") or 0)
+        old_positions = int(record.get("number_of_positions") or 0)
+    except (TypeError, ValueError):
+        new_positions = old_positions = 0
+    if new_positions > 0 and old_positions > 0 and new_positions == old_positions:
+        evidence += 2
+    new_posted = _parse_date(article.get("job_published_at") or article.get("source_published_at"))
+    old_posted = _parse_date(record.get("published_at"))
+    if new_posted and old_posted and abs((new_posted - old_posted).days) <= 3:
+        evidence += 1
+    new_apply = canonicalize_job_url(article.get("job_application_url"))
+    old_apply = canonicalize_job_url(record.get("application_url"))
+    if new_apply and old_apply and _same_url_family(new_apply, old_apply):
+        evidence += 4
+    return evidence >= 4
+
+
 def classify_identity(article):
     exact = identity_key(article)
     records = []
@@ -709,8 +829,12 @@ def classify_identity(article):
     if semantic_key(article) != record.get("semantic_key"):
         return {"action": "new", "reason": "different company/title/location", "existing": {}}
     if new_ref and old_ref and normalize_text(new_ref) != normalize_text(old_ref):
+        if _same_campaign_evidence(article, record):
+            return {"action": "duplicate", "reason": "same campaign confirmed across sources", "existing": record}
         return {"action": "new_campaign", "reason": "different external reference", "existing": record}
     if new_apply and old_apply and not _same_url_family(new_apply, old_apply):
+        if _same_campaign_evidence(article, record):
+            return {"action": "duplicate", "reason": "same campaign facts across different application URLs", "existing": record}
         return {"action": "new_campaign", "reason": "different application URL", "existing": record}
 
     new_posted = _parse_date(article.get("job_published_at") or article.get("source_published_at"))
@@ -834,6 +958,8 @@ def record_job_publish(article, now=None):
             if isinstance(row, dict) and row.get("url")
         )),
         "source_url": canonicalize_job_url(article.get("url") or article.get("source_url")),
+        "source_name": article.get("source_name", ""),
+        "source_priority": article.get("source_priority", ""),
         "blogger_post_id": article.get("blogger_post_id", ""),
         "blogger_url": article.get("blogger_post_url", ""),
         "desired_slug": article.get("desired_slug", ""),

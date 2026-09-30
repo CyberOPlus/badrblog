@@ -54,6 +54,7 @@ from config import (
 )
 from runtime_state import (
     is_source_cooled_down,
+    record_source_cooldown,
     record_source_failure,
     record_source_success,
     source_crawl_record,
@@ -288,10 +289,18 @@ def _filter_healthy_sources(sources):
 
 
 def _record_source_result(base_url, source_name, error, links_found, empty_ok=False):
-    if empty_ok and not error and links_found <= 0:
+    error_text = str(error or "")
+    lowered = error_text.casefold()
+    if "http 429" in lowered:
+        record_source_cooldown(base_url, source_name=source_name, error=error_text, minutes=60)
+    elif "http 403" in lowered:
+        record_source_cooldown(base_url, source_name=source_name, error=error_text, minutes=180)
+    elif "timeout" in lowered or "timed out" in lowered:
+        record_source_cooldown(base_url, source_name=source_name, error=error_text, minutes=30)
+    elif empty_ok and not error and links_found <= 0:
         record_source_success(base_url, source_name=source_name)
     elif error or links_found <= 0:
-        record_source_failure(base_url, source_name=source_name, error=error or "zero links")
+        record_source_failure(base_url, source_name=source_name, error=error_text or "zero links")
     else:
         record_source_success(base_url, source_name=source_name)
 
@@ -1847,7 +1856,7 @@ def _can_run_async_discovery():
 
 async def _discover_latest_article_links_async(enabled_sources):
     discovered = []
-    source_results = []
+    source_results = list(cooldown_results)
     timeout = aiohttp.ClientTimeout(total=ASYNC_FETCH_TIMEOUT_SECONDS + 10)
     connector = aiohttp.TCPConnector(limit=ASYNC_SOURCE_FETCH_CONCURRENCY, ttl_dns_cache=300)
     semaphore = asyncio.Semaphore(ASYNC_SOURCE_FETCH_CONCURRENCY)
@@ -1859,12 +1868,11 @@ async def _discover_latest_article_links_async(enabled_sources):
         category_key = source.get("category_key", "")
         category_name = source.get("category_name", "")
         category_label = source.get("category_label", category_hint)
-        fetch_limit = source.get("fetch_limit_per_run", 3)
         try:
-            fetch_limit = int(fetch_limit)
+            fetch_limit = int(source.get("fetch_limit_per_run", 3))
         except (TypeError, ValueError):
             fetch_limit = 3
-        fetch_limit = max(1, min(fetch_limit, 3))
+        fetch_limit = max(1, min(fetch_limit, 30 if JOBS_MODE else 3))
 
         print(f"\n[{index}] Checking {source_name}")
         async with semaphore:
@@ -1920,6 +1928,19 @@ async def _discover_latest_article_links_async(enabled_sources):
 
     for result in results:
         fetch_limit = result["fetch_limit"]
+        _record_source_result(
+            result["base_url"],
+            result["source_name"],
+            result["error"],
+            len(result["links"]),
+            empty_ok=bool(result["details"].get("empty_ok")),
+        )
+        update_source_crawl(
+            result["base_url"],
+            source_name=result["source_name"],
+            last_crawled_at=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            overlap_minutes=CRAWL_OVERLAP_MINUTES,
+        )
         for link in result["links"][:fetch_limit]:
             discovered.append(
                 {
@@ -1971,12 +1992,20 @@ def discover_latest_article_links(sources):
     This does not fetch article bodies, call AI, or publish anything.
     """
     enabled_sources = [source for source in sources if source.get("enabled", True)]
+    cooldown_results = []
+    if JOBS_MODE:
+        enabled_sources, cooldown_results = _filter_healthy_sources(
+            _order_sources_for_fast_run(enabled_sources)
+        )
     if FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE and MAX_SOURCES_PER_RUN > 0:
         enabled_sources = _prioritize_sources(enabled_sources)
         enabled_sources = enabled_sources[:MAX_SOURCES_PER_RUN]
     if _can_run_async_discovery():
         log_event("source_discovery_start", sources=len(enabled_sources), mode="aiohttp")
         result = asyncio.run(_discover_latest_article_links_async(enabled_sources))
+        if cooldown_results:
+            result["source_results"] = cooldown_results + list(result.get("source_results") or [])
+            result["checked_sources"] = len(result["source_results"])
         log_event(
             "source_discovery_end",
             sources=result.get("checked_sources", 0),
@@ -2001,12 +2030,11 @@ def discover_latest_article_links(sources):
             continue
 
         checked_sources += 1
-        fetch_limit = source.get("fetch_limit_per_run", 3)
         try:
-            fetch_limit = int(fetch_limit)
+            fetch_limit = int(source.get("fetch_limit_per_run", 3))
         except (TypeError, ValueError):
             fetch_limit = 3
-        fetch_limit = max(1, min(fetch_limit, 3))
+        fetch_limit = max(1, min(fetch_limit, 30 if JOBS_MODE else 3))
 
         print(f"\n[{checked_sources}] Checking {source_name}")
         category_hint = source.get("category_hint", "")

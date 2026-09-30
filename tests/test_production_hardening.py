@@ -1641,6 +1641,9 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn('"MAX_FACEBOOK_POSTS_PER_DAY": "2"', text)
         self.assertIn('"FACEBOOK_HARD_MAX_POSTS_PER_DAY": "3"', text)
         self.assertIn('"FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES": "45"', text)
+        self.assertIn('"JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "5"', text)
+        self.assertIn("actions/checkout@v7", text)
+        self.assertIn("actions/setup-python@v7", text)
 
     def test_live_post_allowed_after_one_minute(self):
         now = datetime(2026, 4, 27, 12, 10, 0)

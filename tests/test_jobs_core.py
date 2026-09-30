@@ -47,6 +47,33 @@ class JobsCoreTests(unittest.TestCase):
         self.assertFalse(job_core.is_job_specific_url("https://company.example/careers?page=2"))
         self.assertTrue(job_core.is_job_specific_url("https://company.example/jobs/8448475-manager-security"))
         self.assertTrue(job_core.is_job_specific_url("https://company.example/apply?job_id=8448475"))
+        self.assertFalse(
+            job_core.is_job_specific_url(
+                "https://secure.dc7.pageuppeople.com/apply/671/cw/applicationForm/default.asp"
+            )
+        )
+        self.assertFalse(
+            job_core.is_job_specific_url(
+                "https://recrutement.enssup.gov.ma/annonce/list?statutExpiration=ACTIVE"
+            )
+        )
+        self.assertTrue(
+            job_core.is_job_specific_url(
+                "https://secure.dc7.pageuppeople.com/apply/671/cw/applicationForm/default.asp?lJobID=595952"
+            )
+        )
+
+
+    def test_application_url_cannot_cross_wire_same_host_vacancy(self):
+        current = sample_job(
+            url="https://www.emploi-public.ma/ar/تفاصيل/المباريات/85a046f8-2af5-4f26-8b3f-a811967e2a4e",
+            canonical_url="https://www.emploi-public.ma/ar/تفاصيل/المباريات/85a046f8-2af5-4f26-8b3f-a811967e2a4e",
+            job_application_url="https://www.emploi-public.ma/ar/تفاصيل/المباريات/85a046f8-2af5-4f26-8b3f-a811967e2a4e",
+            raw={"job_id": "85a046f8-2af5-4f26-8b3f-a811967e2a4e"},
+        )
+        other = "https://www.emploi-public.ma/ar/تفاصيل/المباريات/59305efc-899b-4884-906d-d39e894e6099"
+        self.assertTrue(job_core.is_application_url_bound_to_job(current, current["canonical_url"]))
+        self.assertFalse(job_core.is_application_url_bound_to_job(current, other))
 
 
     def test_job_headline_style_matches_human_moroccan_patterns(self):
@@ -656,6 +683,52 @@ class JobsCoreTests(unittest.TestCase):
         }
         new = sample_job(job_published_at="2027-01-15T08:00:00+00:00")
         self.assertTrue(job_core._campaign_rollover(new, old))
+
+
+    def test_cross_source_same_campaign_is_duplicate_with_strong_evidence(self):
+        article = sample_job(
+            source_name="Second Official Source",
+            job_external_reference="REF-NEW",
+            job_deadline="2026-10-10",
+            job_number_of_positions=100,
+        )
+        record = {
+            "campaign_id": "campaign-a",
+            "identity_key": "old",
+            "semantic_key": job_core.semantic_key(article),
+            "external_reference": "REF-OLD",
+            "deadline": "2026-10-10",
+            "number_of_positions": 100,
+            "published_at": "2026-09-28T08:00:00+00:00",
+            "application_url": "https://other.example/jobs/old",
+        }
+        with patch.object(job_core, "get_by_identity", return_value={}), \
+             patch.object(job_core, "get_semantic_candidates", return_value=[record]):
+            result = job_core.classify_identity(article)
+        self.assertEqual(result["action"], "duplicate")
+        self.assertIn("same campaign", result["reason"])
+
+    def test_cross_source_same_role_with_different_deadline_stays_new_campaign(self):
+        article = sample_job(
+            source_name="Second Official Source",
+            job_external_reference="REF-NEW",
+            job_deadline="2026-11-20",
+            job_number_of_positions=3,
+        )
+        record = {
+            "campaign_id": "campaign-a",
+            "identity_key": "old",
+            "semantic_key": job_core.semantic_key(article),
+            "external_reference": "REF-OLD",
+            "deadline": "2026-10-10",
+            "number_of_positions": 100,
+            "published_at": "2026-07-01T08:00:00+00:00",
+            "application_url": "https://other.example/jobs/old",
+        }
+        with patch.object(job_core, "get_by_identity", return_value={}), \
+             patch.object(job_core, "get_semantic_candidates", return_value=[record]):
+            result = job_core.classify_identity(article)
+        self.assertEqual(result["action"], "new_campaign")
 
 
 
