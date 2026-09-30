@@ -264,6 +264,230 @@ def _job_fact_atoms(text):
     return atoms
 
 
+
+_JOB_MONTH_NUMBER = {
+    "يناير": 1,
+    "فبراير": 2,
+    "مارس": 3,
+    "ابريل": 4,
+    "أبريل": 4,
+    "ماي": 5,
+    "مايو": 5,
+    "يونيو": 6,
+    "يوليوز": 7,
+    "يوليو": 7,
+    "غشت": 8,
+    "اغسطس": 8,
+    "أغسطس": 8,
+    "شتنبر": 9,
+    "سبتمبر": 9,
+    "اكتوبر": 10,
+    "أكتوبر": 10,
+    "نونبر": 11,
+    "نوفمبر": 11,
+    "دجنبر": 12,
+    "ديسمبر": 12,
+}
+
+
+def _job_canonical_dates(text):
+    raw = _normalize_job_fact_text(text)
+    dates = set()
+
+    for a, b, d in re.findall(r"\b(\d{1,4})[./-](\d{1,2})[./-](\d{1,4})\b", raw):
+        try:
+            if len(a) == 4:
+                year, month, day = int(a), int(b), int(d)
+            elif len(d) == 4:
+                day, month, year = int(a), int(b), int(d)
+            else:
+                continue
+            parsed = datetime(year, month, day)
+            dates.add(parsed.strftime("%Y-%m-%d"))
+        except (TypeError, ValueError):
+            continue
+
+    month_map = {
+        _normalize_job_fact_text(name): number
+        for name, number in _JOB_MONTH_NUMBER.items()
+    }
+    if month_map:
+        month_pattern = "|".join(sorted((re.escape(name) for name in month_map), key=len, reverse=True))
+        for day, month_name, year in re.findall(
+            rf"\b(\d{{1,2}})\s+({month_pattern})\s+(\d{{4}})\b",
+            raw,
+            flags=re.I,
+        ):
+            try:
+                parsed = datetime(int(year), month_map[month_name], int(day))
+                dates.add(parsed.strftime("%Y-%m-%d"))
+            except (KeyError, TypeError, ValueError):
+                continue
+    return dates
+
+
+def _job_evidence_text(package):
+    package = package or {}
+    parts = []
+
+    scalar_keys = (
+        "title",
+        "full_article_text",
+        "content_preview",
+        "rss_summary",
+        "job_title",
+        "job_company",
+        "job_location",
+        "job_country",
+        "job_contract_type",
+        "job_salary",
+        "job_deadline",
+        "job_deadline_display",
+        "job_exam_date",
+        "job_exam_date_display",
+        "job_published_at",
+        "job_published_at_display",
+        "job_number_of_positions",
+        "job_diploma",
+        "job_experience",
+        "job_eligibility",
+        "job_notice_status",
+    )
+    for key in scalar_keys:
+        value = package.get(key)
+        if value not in (None, "", [], {}):
+            parts.append(str(value))
+
+    for table in package.get("source_tables") or []:
+        if not isinstance(table, dict):
+            continue
+        if table.get("caption"):
+            parts.append(str(table.get("caption")))
+        for row in table.get("rows") or []:
+            if isinstance(row, (list, tuple)):
+                parts.append(" | ".join(str(cell or "") for cell in row))
+
+    for page in package.get("job_document_texts") or []:
+        if isinstance(page, dict) and page.get("text"):
+            parts.append(str(page.get("text")))
+
+    return "\n".join(part for part in parts if str(part or "").strip())
+
+
+def _job_high_risk_atoms(text):
+    normalized = _normalize_job_fact_text(text)
+    atoms = set()
+
+    for date in _job_canonical_dates(text):
+        atoms.add(f"date:{date}")
+
+    for number in re.findall(r"\b(\d{1,4})\s*(?:منصب|مناصب|منصبا)\b", normalized):
+        atoms.add(f"positions:{int(number)}")
+
+    for amount in re.findall(
+        r"\b(\d[\d\s.,]{1,14})\s*(?:درهم|dh|mad)\b",
+        normalized,
+        flags=re.I,
+    ):
+        atoms.add("salary:" + re.sub(r"\s+", "", amount))
+
+    for years in re.findall(
+        r"\b(\d{1,2})\s*(?:سنوات|سنة|عاما|عام)\s+(?:من\s+)?الخبرة\b",
+        normalized,
+    ):
+        atoms.add(f"experience_years:{int(years)}")
+
+    if any(hint in normalized for hint in ("السن", "العمر")):
+        for age in re.findall(r"\b(\d{1,2})\s*(?:سنة|عاما|عام)\b", normalized):
+            atoms.add(f"age:{int(age)}")
+
+    for value, unit in re.findall(
+        r"\b(\d+(?:[.,]\d+)?)\s*(ساعات|ساعة|دقائق|دقيقة)\b",
+        normalized,
+    ):
+        unit_key = "hours" if unit.startswith("ساع") else "minutes"
+        atoms.add(f"duration_{unit_key}:{value.replace(',', '.')}")
+
+    for coefficient in re.findall(r"(?:المعامل|معامل)\s*:?\s*(\d+(?:[.,]\d+)?)", normalized):
+        atoms.add(f"coefficient:{coefficient.replace(',', '.')}")
+
+    for percentage in re.findall(r"\b(\d+(?:[.,]\d+)?)\s*%", normalized):
+        atoms.add(f"percentage:{percentage.replace(',', '.')}")
+
+    return atoms
+
+
+def _job_unsupported_fact_reason(seo_title, html_content, package):
+    evidence = _job_evidence_text(package)
+    if not evidence.strip():
+        return ""
+
+    output_text = f"{seo_title}\n{html_to_text(html_content)}"
+    evidence_atoms = _job_high_risk_atoms(evidence)
+    output_atoms = _job_high_risk_atoms(output_text)
+    unsupported = sorted(output_atoms - evidence_atoms)
+    if unsupported:
+        return "unsupported verified-sensitive fact found in Jobs output: " + unsupported[0]
+    return ""
+
+
+def _job_duplicate_structured_rows_reason(html_content):
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    seen = set()
+    for table in soup.find_all("table"):
+        for row in table.find_all("tr"):
+            cells = [
+                _normalize_job_fact_text(cell.get_text(" ", strip=True))
+                for cell in row.find_all(["th", "td"])
+            ]
+            cells = [cell for cell in cells if cell]
+            if len(cells) < 2:
+                continue
+            fingerprint = " | ".join(cells)
+            if len(fingerprint) < 8:
+                continue
+            if fingerprint in seen:
+                return "duplicate structured row found in Jobs article"
+            seen.add(fingerprint)
+    return ""
+
+
+def _job_document_coverage_reason(html_content, package):
+    package = package or {}
+    expected = []
+    for item in package.get("job_document_links") or []:
+        if not isinstance(item, dict):
+            continue
+        url = str(item.get("url") or "").strip()
+        if url:
+            expected.append(url)
+
+    for url in expected:
+        if url not in html_content:
+            return "verified official job document URL is missing from final HTML"
+
+    rendered_pages = [
+        str(item.get("url") or "").strip()
+        for item in package.get("job_document_page_images") or []
+        if isinstance(item, dict) and str(item.get("url") or "").strip()
+    ]
+    if rendered_pages:
+        html_images = re.findall(
+            r"<img\b[^>]*\bsrc=['\"]([^'\"]+)['\"]",
+            html_content,
+            flags=re.I,
+        )
+        positions = []
+        for page_url in rendered_pages:
+            try:
+                positions.append(html_images.index(page_url))
+            except ValueError:
+                return "rendered official PDF page is missing from final HTML"
+        if positions != sorted(positions) or len(positions) != len(set(positions)):
+            return "rendered official PDF pages are duplicated or out of order"
+    return ""
+
+
 def _job_fact_categories(text):
     normalized = _normalize_job_fact_text(text)
     categories = set()
@@ -435,6 +659,11 @@ def _job_title_style_reason(seo_title, notice_type="vacancy"):
         return "job SEO title is too short and vague"
     if len(title) > 150:
         return "job SEO title is excessively long"
+    meaningful_tokens = _job_fact_tokens(title)
+    if len(meaningful_tokens) < 4:
+        return "job SEO title is not specific enough to understand the notice"
+    if re.search(r"(?:الإعلانs*d+|اخرs+اجل.*تاريخs+اجراء|آخرs+أجل.*تاريخs+إجراء)", title, flags=re.I):
+        return "job SEO title contains raw source-chain text instead of a clear editorial headline"
     folded = title.casefold()
     notice_type = str(notice_type or "vacancy").strip().lower()
 
@@ -575,6 +804,14 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             "حماية قصوى",
             "مهام حيوية",
             "تحديات مثيرة",
+            "يهم هذا الإعلان فرصة",
+            "يتم الاعتماد في هذا الإعلان على البيانات",
+            "تعد هذه الفرصة مناسبة",
+            "تُعد هذه الفرصة مناسبة",
+            "فرصة تستحق الاطلاع",
+            "فرصة توظيف جديدة",
+            "لمزيد من التفاصيل يرجى",
+            "للمزيد من التفاصيل يرجى",
         )
         if any(phrase in body_text or phrase in seo_description for phrase in promotional_job_phrases):
             return QualityGateResult(
@@ -587,6 +824,19 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             return QualityGateResult(False, "missing job source URL", word_count)
 
         package = article.get("ai_input_package") or {}
+
+        duplicate_row_reason = _job_duplicate_structured_rows_reason(html_content)
+        if duplicate_row_reason:
+            return QualityGateResult(False, duplicate_row_reason, word_count)
+
+        unsupported_fact_reason = _job_unsupported_fact_reason(seo_title, html_content, package)
+        if unsupported_fact_reason:
+            return QualityGateResult(False, unsupported_fact_reason, word_count)
+
+        document_coverage_reason = _job_document_coverage_reason(html_content, package)
+        if document_coverage_reason:
+            return QualityGateResult(False, document_coverage_reason, word_count)
+
         notice_type = str(
             article.get("job_notice_type")
             or package.get("job_notice_type")
@@ -676,22 +926,6 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
                     word_count,
                 )
 
-        document_links = (
-            article.get("job_document_links")
-            or package.get("job_document_links")
-            or []
-        )
-        for item in document_links:
-            if not isinstance(item, dict):
-                continue
-            document_url = str(item.get("url") or "").strip()
-            if document_url and document_url not in html_content:
-                return QualityGateResult(
-                    False,
-                    "verified official job document URL is missing from final HTML",
-                    word_count,
-                )
-
         detail_url = str(
             article.get("job_detail_url")
             or package.get("job_detail_url")
@@ -704,12 +938,9 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
                 word_count,
             )
 
-        # Jobs articles are judged by verified completeness and structure,
-        # not by an arbitrary maximum word count.
-        warnings = []
-        if not re.search(r"<h2\b", html_content, flags=re.I):
-            warnings.append("job article has no h2 section")
-        return QualityGateResult(True, "", word_count, tuple(warnings))
+        # Jobs pass/fail is based on verified completeness and accuracy,
+        # not word count or a mandatory heading shape.
+        return QualityGateResult(True, "", word_count, ())
 
     if fast_mode:
         promotional, promo_reason = is_promotional_article(article)
