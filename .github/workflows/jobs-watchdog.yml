@@ -3,7 +3,7 @@ name: Jobs Watchdog
 on:
   workflow_dispatch:
   schedule:
-    - cron: "13,43 * * * *"
+    - cron: "3,18,33,48 * * * *"
 
 permissions:
   actions: write
@@ -52,7 +52,7 @@ jobs:
               "startup_failure",
             ]);
             if (latest && failedConclusions.has(latest.conclusion)) {
-              if (ageMinutes < 10) {
+              if (ageMinutes < 8) {
                 core.info(
                   `Latest auto-cycle failed recently; allowing a short recovery window before retry.`
                 );
@@ -61,7 +61,7 @@ jobs:
               core.warning(
                 `Latest auto-cycle concluded ${latest.conclusion}; dispatching recovery run.`
               );
-            } else if (ageMinutes <= 45) {
+            } else if (ageMinutes <= 20) {
               try {
                 const queueResponse = await github.rest.repos.getContent({
                   owner, repo, path: "jobs_article_queue.json", ref: "main",
@@ -82,7 +82,7 @@ jobs:
                 const publishAgeMinutes = lastPublish
                   ? (Date.now() - lastPublish) / 60000
                   : Number.POSITIVE_INFINITY;
-                if (!(publishable.length > 0 && publishAgeMinutes > 25)) {
+                if (!(publishable.length > 0 && publishAgeMinutes > 15)) {
                   core.info(
                     `Auto-cycle healthy; last run age ${ageMinutes.toFixed(1)} minutes; `
                     + `publishable backlog=${publishable.length}.`
