@@ -28,7 +28,7 @@ from config import (
 )
 from production_logging import elapsed_ms, log_event
 from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
-from job_extractor import extract_job_fields
+from job_extractor import _deadline_from_text, extract_job_fields
 from job_core import invalidate_identity_evidence, job_deadline_time
 from company_logo_resolver import resolve_company_logo
 
@@ -1781,6 +1781,19 @@ def _jobs_enrichment_priority(article, queue_index=0, now=None):
 
     deadline_rank = 0
     deadline = job_deadline_time(article)
+    if (
+        deadline is None
+        and str(article.get("ats_provider") or "").strip().lower() == "emploi_public"
+    ):
+        # Emploi-Public listing cards include an explicit "آخر أجل" in the
+        # discovered title/card text before the detail page is enriched. Use it
+        # only as a queue-order hint so expired historical notices do not consume
+        # the small fresh-enrichment batch ahead of still-open opportunities.
+        # The verified detail-page extraction remains authoritative and persists
+        # the real job_deadline later.
+        listing_deadline = _deadline_from_text(article.get("title") or "")
+        if listing_deadline:
+            deadline = job_deadline_time({"job_deadline": listing_deadline})
     if deadline:
         hours_remaining = (deadline - now).total_seconds() / 3600.0
         if hours_remaining < 0:
