@@ -29,7 +29,7 @@ from config import (
 from production_logging import elapsed_ms, log_event
 from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
 from job_extractor import extract_job_fields
-from job_core import invalidate_identity_evidence, job_deadline_time
+from job_core import invalidate_identity_evidence, job_deadline_time, job_focus_rank
 from company_logo_resolver import resolve_company_logo
 
 try:
@@ -1848,6 +1848,7 @@ def _jobs_enrichment_priority(article, queue_index=0, now=None):
     return (
         -deadline_rank,
         -published_epoch,
+        -job_focus_rank(article),
         -status_rank,
         -score,
         -source_rank,
