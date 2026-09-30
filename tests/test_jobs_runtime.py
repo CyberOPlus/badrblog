@@ -364,6 +364,7 @@ class JobsRuntimeTests(unittest.TestCase):
             patch.object(facebook, "list_active_job_campaign_records", return_value=[campaign]),
             patch.object(facebook, "load_internal_link_cache", return_value=(cache, {})),
             patch.object(facebook, "classify_urgency", return_value={"level": "normal"}),
+            patch.object(facebook, "_persist_jobs_social_state") as persist_social,
             patch.object(facebook, "save_article_queue") as save,
         ):
             stats = facebook._sync_jobs_facebook_queue(queue, now=now)
@@ -377,6 +378,7 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(recovered["blogger_post_url"], campaign["blogger_url"])
         self.assertEqual(recovered["seo_title"], cache["links"][0]["title"])
         self.assertTrue(recovered["facebook_queue_recovered"])
+        persist_social.assert_called_once_with(recovered)
         save.assert_called_once()
 
     def test_legacy_not_selected_job_is_requeued_for_facebook(self):
