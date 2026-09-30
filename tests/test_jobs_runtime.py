@@ -1088,6 +1088,39 @@ class JobsRuntimeTests(unittest.TestCase):
         extract.assert_called_once_with(row)
         save.assert_called_once()
 
+    def test_identity_pending_resolver_does_not_redownload_unchanged_documents(self):
+        row = {
+            "id": "pending-job",
+            "url": "https://example.com/jobs/pending",
+            "status": "identity_pending",
+            "content_fetch_status": "success",
+            "job_document_links": [
+                {"url": "https://example.com/notice.pdf", "label": "الإعلان"}
+            ],
+            "identity_pending_evidence_checked_at": "2026-09-30T10:00:00",
+            "identity_pending_document_fingerprint": "https://example.com/notice.pdf",
+            "job_document_texts": [],
+        }
+        queue = {"articles": [row]}
+        with (
+            patch.object(article_processor, "load_article_queue", return_value=queue),
+            patch.object(article_processor, "save_article_queue"),
+            patch.object(article_processor, "extract_job_document_texts") as extract,
+            patch.object(
+                article_processor,
+                "classify_identity",
+                return_value={
+                    "action": "hold",
+                    "reason": "ambiguous same role without strong identifier",
+                    "existing": {},
+                },
+            ),
+        ):
+            stats = article_processor.resolve_identity_pending_articles()
+
+        self.assertEqual(stats["still_pending"], 1)
+        extract.assert_not_called()
+
     def test_identity_pending_resolver_keeps_ambiguous_job_pending(self):
         row = {
             "id": "pending-job",
