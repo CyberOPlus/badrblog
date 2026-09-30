@@ -977,6 +977,177 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["jobId"], "ICM-588622")
 
+    def test_phenom_pagination_collects_beyond_first_page(self):
+        def page_html(start, count):
+            rows = [
+                {
+                    "jobId": f"JOB-{index}",
+                    "jobSeqNo": f"SEQ-{index}",
+                    "title": f"Orange Role {index}",
+                    "applyUrl": f"https://orange.jobs/apply?jobSeqNo=SEQ-{index}",
+                    "country": "MOROCCO",
+                    "location": "Casablanca, Morocco",
+                }
+                for index in range(start, start + count)
+            ]
+            payload = {"search": {"results": rows}}
+            return (
+                "<html><body><script>"
+                + "phApp.ddo = "
+                + json.dumps(payload)
+                + ";</script></body></html>"
+            )
+
+        responses = {
+            "https://orange.jobs/fr/fr/mea-morocco-job-search-results": (
+                page_html(1, 10), "", 200
+            ),
+            "https://orange.jobs/fr/fr/mea-morocco-job-search-results?from=10": (
+                page_html(11, 10), "", 200
+            ),
+            "https://orange.jobs/fr/fr/mea-morocco-job-search-results?from=20": (
+                page_html(21, 5), "", 200
+            ),
+        }
+
+        async def fake_fetch(_session, url):
+            return responses[url]
+
+        with patch.object(scraper, "_fetch_text_async", side_effect=fake_fetch):
+            links, error, status, meta = asyncio.run(
+                scraper._collect_phenom_links_async(
+                    object(),
+                    "https://orange.jobs/fr/fr/mea-morocco-job-search-results",
+                    per_source_limit=8,
+                    known_ids=set(),
+                    max_pages=10,
+                    seen_streak_stop=8,
+                    max_items=100,
+                )
+            )
+
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        self.assertEqual(len(links), 25)
+        self.assertEqual(links[0]["ats_reference"], "JOB-1")
+        self.assertEqual(links[-1]["ats_reference"], "JOB-25")
+        self.assertEqual(meta["stop_reason"], "end")
+        self.assertEqual(meta["resume_offset"], 0)
+        self.assertEqual(meta["pages_scanned"], 3)
+        self.assertEqual(meta["page_size"], 10)
+
+    def test_phenom_resume_cursor_reaches_jobs_beyond_safety_cap(self):
+        def page_html(start, count):
+            rows = [
+                {
+                    "jobId": f"JOB-{index}",
+                    "jobSeqNo": f"SEQ-{index}",
+                    "title": f"Orange Role {index}",
+                    "applyUrl": f"https://orange.jobs/apply?jobSeqNo=SEQ-{index}",
+                    "country": "MOROCCO",
+                    "location": "Rabat, Morocco",
+                }
+                for index in range(start, start + count)
+            ]
+            return (
+                "<script>phApp.ddo = "
+                + json.dumps({"search": {"results": rows}})
+                + ";</script>"
+            )
+
+        all_pages = {
+            0: page_html(1, 10),
+            10: page_html(11, 10),
+            20: page_html(21, 10),
+            30: page_html(31, 10),
+            40: page_html(41, 10),
+            50: page_html(51, 5),
+        }
+
+        async def fake_fetch(_session, url):
+            query = __import__(
+                "urllib.parse",
+                fromlist=["urlparse", "parse_qs"],
+            )
+            parsed = query.urlparse(url)
+            offset = int((query.parse_qs(parsed.query).get("from") or [0])[0])
+            return all_pages[offset], "", 200
+
+        with patch.object(scraper, "_fetch_text_async", side_effect=fake_fetch):
+            first, error, _status, first_meta = asyncio.run(
+                scraper._collect_phenom_links_async(
+                    object(),
+                    "https://orange.jobs/fr/fr/mea-morocco-job-search-results",
+                    per_source_limit=8,
+                    known_ids=set(),
+                    max_pages=10,
+                    seen_streak_stop=8,
+                    max_items=30,
+                )
+            )
+
+        self.assertEqual(error, "")
+        self.assertEqual(len(first), 30)
+        self.assertEqual(first_meta["stop_reason"], "max_items")
+        self.assertEqual(first_meta["resume_offset"], 30)
+
+        known = {scraper._discovery_identity(row) for row in first}
+        with patch.object(scraper, "_fetch_text_async", side_effect=fake_fetch):
+            second, error, _status, second_meta = asyncio.run(
+                scraper._collect_phenom_links_async(
+                    object(),
+                    "https://orange.jobs/fr/fr/mea-morocco-job-search-results",
+                    per_source_limit=8,
+                    known_ids=known,
+                    max_pages=10,
+                    seen_streak_stop=8,
+                    max_items=30,
+                    start_offset=first_meta["resume_offset"],
+                )
+            )
+
+        self.assertEqual(error, "")
+        self.assertEqual(len(second), 25)
+        self.assertEqual(second[0]["ats_reference"], "JOB-31")
+        self.assertEqual(second[-1]["ats_reference"], "JOB-55")
+        self.assertEqual(second_meta["stop_reason"], "end")
+        self.assertEqual(second_meta["resume_offset"], 0)
+
+    def test_phenom_page_repeat_stops_if_offset_is_ignored(self):
+        rows = [
+            {
+                "jobId": f"JOB-{index}",
+                "jobSeqNo": f"SEQ-{index}",
+                "title": f"Orange Role {index}",
+                "applyUrl": f"https://orange.jobs/apply?jobSeqNo=SEQ-{index}",
+                "country": "MOROCCO",
+            }
+            for index in range(1, 11)
+        ]
+        html = "<script>phApp.ddo = " + json.dumps({"rows": rows}) + ";</script>"
+
+        async def fake_fetch(_session, _url):
+            return html, "", 200
+
+        with patch.object(scraper, "_fetch_text_async", side_effect=fake_fetch):
+            links, error, _status, meta = asyncio.run(
+                scraper._collect_phenom_links_async(
+                    object(),
+                    "https://orange.jobs/fr/fr/mea-morocco-job-search-results",
+                    per_source_limit=8,
+                    known_ids=set(),
+                    max_pages=10,
+                    seen_streak_stop=8,
+                    max_items=100,
+                )
+            )
+
+        self.assertEqual(error, "")
+        self.assertEqual(len(links), 10)
+        self.assertEqual(meta["stop_reason"], "page_repeat")
+        self.assertEqual(meta["resume_offset"], 0)
+        self.assertEqual(meta["pages_scanned"], 2)
+
     def test_phenom_structured_payload_enriches_without_scraping_marketing_page(self):
         description = " ".join([
             "Nous recherchons un ingénieur réseau expérimenté pour rejoindre notre équipe au Maroc.",
