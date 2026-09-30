@@ -155,20 +155,20 @@ _JOB_FACT_STOPWORDS = {
 }
 
 _JOB_FACT_SEMANTIC_REPLACEMENTS = (
-    (r"آخر\s+أجل(?:\s+لإيداع\s+ملفات\s+الترشيح|\s+للترشيح)?", " deadline "),
+    (r"اخر\s+اجل(?:\s+لايداع\s+ملفات\s+الترشيح|\s+للترشيح)?", " deadline "),
     (r"موعد\s+انتهاء\s+الترشيح", " deadline "),
     (r"تاريخ\s+انتهاء\s+الترشيح", " deadline "),
-    (r"آخر\s+موعد\s+للتقديم", " deadline "),
-    (r"تاريخ\s+إجراء\s+(?:المباراة|الاختبار)", " examdate "),
-    (r"موعد\s+(?:المباراة|الاختبار)", " examdate "),
-    (r"تاريخ\s+(?:المباراة|الاختبار)", " examdate "),
+    (r"اخر\s+موعد\s+للتقديم", " deadline "),
+    (r"تاريخ\s+اجراء\s+(?:المباراه|الاختبار)", " examdate "),
+    (r"موعد\s+(?:المباراه|الاختبار)", " examdate "),
+    (r"تاريخ\s+(?:المباراه|الاختبار)", " examdate "),
     (r"تاريخ\s+النشر", " publishdate "),
     (r"عدد\s+المناصب", " positions "),
     (r"نوع\s+العقد", " contract "),
     (r"مكان\s+العمل|مقر\s+العمل", " location "),
-    (r"سنوات?\s+الخبرة|الخبرة\s+المطلوبة", " experience "),
-    (r"الشهادة\s+المطلوبة|الدبلوم\s+المطلوب", " diploma "),
-    (r"النتائج\s+النهائية", " finalresults "),
+    (r"سنوات?\s+الخبره|الخبره\s+المطلوبه", " experience "),
+    (r"الشهاده\s+المطلوبه|الدبلوم\s+المطلوب", " diploma "),
+    (r"النتائج\s+النهائيه", " finalresults "),
 )
 
 _JOB_DATE_MONTHS = (
@@ -264,6 +264,31 @@ def _job_fact_atoms(text):
     return atoms
 
 
+def _job_fact_categories(text):
+    normalized = _normalize_job_fact_text(text)
+    categories = set()
+    category_hints = {
+        "deadline": ("deadline",),
+        "examdate": ("examdate",),
+        "publishdate": ("publishdate",),
+        "positions": ("positions", "منصب", "مناصب"),
+        "contract": ("contract", "عقد"),
+        "location": ("location", "المكان", "المدينه", "المدينه"),
+        "experience": ("experience", "الخبره"),
+        "diploma": ("diploma", "دبلوم", "شهاده", "الشهاده"),
+        "salary": ("الراتب", "الاجر", "درهم", " mad ", " dh "),
+        "age": ("السن", "العمر"),
+        "test_duration": ("المده", "ساعات", "ساعه", "دقيقه", "دقائق"),
+        "coefficient": ("المعامل",),
+        "status": ("finalresults", "النتائج", "المدعوين", "اللائحه", "اللوائح"),
+    }
+    padded = f" {normalized} "
+    for category, hints in category_hints.items():
+        if any(hint in padded for hint in hints):
+            categories.add(category)
+    return categories
+
+
 def _job_content_blocks(html_content):
     soup = BeautifulSoup(html_content or "", "html.parser")
     blocks = []
@@ -302,6 +327,19 @@ def _job_semantic_repetition_reason(html_content, seo_title):
     if soup.find("h1") is not None:
         return "Jobs article body must not contain an h1; Blogger already renders the page title"
 
+    title_tokens = _job_fact_tokens(seo_title)
+    if len(title_tokens) >= 4:
+        for block in blocks:
+            if block["kind"] != "heading":
+                continue
+            heading_tokens = _job_fact_tokens(block["text"])
+            if len(heading_tokens) < 4:
+                continue
+            shared = title_tokens & heading_tokens
+            containment = len(shared) / max(1, min(len(title_tokens), len(heading_tokens)))
+            if containment >= 0.90:
+                return "Jobs article body semantically repeats the Blogger/SEO title as a heading"
+
     intro_blocks = [block for block in blocks if block["region"] == "intro" and block["kind"] == "p"]
     if intro_blocks:
         intro = intro_blocks[0]["text"]
@@ -313,7 +351,6 @@ def _job_semantic_repetition_reason(html_content, seo_title):
         if len(sentences) > 2:
             return "Jobs introduction must be one short paragraph of no more than two sentences"
 
-        title_tokens = _job_fact_tokens(seo_title)
         intro_first_tokens = _job_fact_tokens(sentences[0] if sentences else intro)
         if len(title_tokens) >= 4 and len(intro_first_tokens) >= 4:
             shared = title_tokens & intro_first_tokens
@@ -352,10 +389,13 @@ def _job_semantic_repetition_reason(html_content, seo_title):
             containment = len(shared) / max(1, min(len(left_tokens), len(right_tokens)))
             jaccard = len(shared) / max(1, len(left_tokens | right_tokens))
             shared_atoms = left_atoms & _job_fact_atoms(right["text"])
+            shared_categories = _job_fact_categories(left["text"]) & _job_fact_categories(right["text"])
             if containment >= 0.84 and jaccard >= 0.55:
                 return "Jobs article repeats the same fact across different sections"
             if shared_atoms and containment >= 0.65:
                 return "Jobs article paraphrases the same structured fact in multiple sections"
+            if shared_categories and len(shared) >= 3 and containment >= 0.55:
+                return "Jobs article semantically repeats a fact category across table/intro/sections"
 
     return ""
 
