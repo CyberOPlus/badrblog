@@ -1625,7 +1625,7 @@ class ProductionHardeningTests(unittest.TestCase):
         text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
         self.assertIn('cron: "1,7,13,19,25,31,37,43,49,55 * * * *"', text)
         self.assertIn("workflow_dispatch:", text)
-        self.assertIn("group: auto-cycle-${{ github.ref }}", text)
+        self.assertIn("group: jobs-production-${{ github.ref }}", text)
         self.assertIn("cancel-in-progress: false", text)
         self.assertIn("timeout-minutes: 15", text)
         self.assertIn("timeout-minutes: 10", text)
