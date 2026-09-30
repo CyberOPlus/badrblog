@@ -1911,6 +1911,11 @@ async def _collect_article_links_for_source_async(
     feed_url=None,
     extractor_type="auto",
     strict_source_path=True,
+    *,
+    known_ids=None,
+    max_pages=None,
+    seen_streak_stop=None,
+    max_items=None,
 ):
     print(f"\n--- Discovering links from source: {source_url} ---")
 
@@ -1920,6 +1925,10 @@ async def _collect_article_links_for_source_async(
             session,
             source_url,
             per_source_limit=per_source_limit,
+            known_ids=known_ids,
+            max_pages=max_pages,
+            seen_streak_stop=seen_streak_stop,
+            max_items=max_items,
         )
         print(f"  Collected {len(links)} Workday job link(s) from this source.")
         return [
@@ -1933,8 +1942,15 @@ async def _collect_article_links_for_source_async(
         }
 
     if extractor_mode == "emploi_public":
-        links, error, status_code = await _collect_emploi_public_links_async(
-            session, source_url, per_source_limit=per_source_limit,
+        links, error, status_code = await _collect_paginated_html_links_async(
+            session,
+            source_url,
+            _parse_emploi_public_links,
+            known_ids=known_ids,
+            page_size=per_source_limit,
+            max_pages=max_pages,
+            seen_streak_stop=seen_streak_stop,
+            max_items=max_items,
         )
         return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
             "normal_links_found": len(links),
@@ -1944,8 +1960,15 @@ async def _collect_article_links_for_source_async(
         }
 
     if extractor_mode == "capgemini_jobs":
-        links, error, status_code = await _collect_capgemini_links_async(
-            session, source_url, per_source_limit=per_source_limit,
+        links, error, status_code = await _collect_paginated_html_links_async(
+            session,
+            source_url,
+            _parse_capgemini_job_links,
+            known_ids=known_ids,
+            page_size=per_source_limit,
+            max_pages=max_pages,
+            seen_streak_stop=seen_streak_stop,
+            max_items=max_items,
         )
         return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
             "normal_links_found": len(links),
@@ -1955,8 +1978,15 @@ async def _collect_article_links_for_source_async(
         }
 
     if extractor_mode in {"etalent", "ats_listing"}:
-        links, error, status_code = await _collect_etalent_links_async(
-            session, source_url, per_source_limit=per_source_limit,
+        links, error, status_code = await _collect_paginated_html_links_async(
+            session,
+            source_url,
+            _parse_etalent_links,
+            known_ids=known_ids,
+            page_size=per_source_limit,
+            max_pages=max_pages,
+            seen_streak_stop=seen_streak_stop,
+            max_items=max_items,
         )
         return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
             "normal_links_found": len(links),
@@ -1968,8 +1998,17 @@ async def _collect_article_links_for_source_async(
 
     if extractor_mode == "phenom_ddo":
         links, error, status_code = await _collect_phenom_links_async(
-            session, source_url, per_source_limit=per_source_limit,
+            session,
+            source_url,
+            per_source_limit=max_items or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
         )
+        if JOBS_MODE:
+            links, _phenom_meta = _filter_new_discovery_links(
+                links,
+                set(known_ids or ()),
+                seen_streak_stop=seen_streak_stop,
+                max_items=max_items,
+            )
         return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
             "normal_links_found": len(links),
             "feed_links_found": 0,
@@ -1983,6 +2022,10 @@ async def _collect_article_links_for_source_async(
             session,
             source_url,
             per_source_limit=per_source_limit,
+            known_ids=known_ids,
+            max_pages=max_pages,
+            seen_streak_stop=seen_streak_stop,
+            max_items=max_items,
         )
         print(f"  Collected {len(links)} CSOD job link(s) from this source.")
         return [
@@ -2009,6 +2052,38 @@ async def _collect_article_links_for_source_async(
             "normal_links_found": len(links),
             "feed_links_found": 0,
             "method_used": "un_careers" if links else ("failed:un_careers" if error else "un_careers"),
+            "tried_feed_urls": [],
+        }
+
+    if JOBS_MODE:
+        generic_parser = lambda html_text, current_url, per_source_limit=None: get_article_links(
+            html_text,
+            current_url,
+            strict_source_path=strict_source_path,
+        )
+        html_links, error, status_code = await _collect_paginated_html_links_async(
+            session,
+            source_url,
+            generic_parser,
+            known_ids=known_ids,
+            page_size=per_source_limit,
+            max_pages=max_pages,
+            seen_streak_stop=seen_streak_stop,
+            max_items=max_items,
+        )
+        combined_links = _filter_article_links(
+            html_links,
+            source_url,
+            strict_source_path=strict_source_path,
+        )
+        print(f"  Collected {len(combined_links)} paginated Jobs link(s) from this source.")
+        return [
+            _link_to_article_dict(link, source_url)
+            for link in combined_links
+        ], error, status_code, {
+            "normal_links_found": len(html_links),
+            "feed_links_found": 0,
+            "method_used": "html-pagination",
             "tried_feed_urls": [],
         }
 
