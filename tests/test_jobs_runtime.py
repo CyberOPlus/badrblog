@@ -3005,6 +3005,24 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(select.call_args.args[0]["articles"], [second])
         generic.assert_not_called()
 
+    def test_jobs_auto_cycle_schedule_is_continuous_six_minute_cadence(self):
+        self.assertEqual(
+            main._workflow_schedule(),
+            "1,7,13,19,25,31,37,43,49,55 * * * *",
+        )
+
+    def test_next_auto_cycle_tick_matches_workflow_minutes(self):
+        now = datetime(2026, 9, 30, 21, 51, 8)
+        self.assertEqual(
+            main._next_auto_cycle_tick(now),
+            datetime(2026, 9, 30, 21, 55),
+        )
+        exact_tick = datetime(2026, 9, 30, 21, 55)
+        self.assertEqual(
+            main._next_auto_cycle_tick(exact_tick),
+            datetime(2026, 9, 30, 22, 1),
+        )
+
     def test_pending_facebook_runs_even_when_article_ai_fails(self):
         calls = []
         def social():
