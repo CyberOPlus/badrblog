@@ -4,7 +4,7 @@ import unittest
 from contextlib import redirect_stdout
 from datetime import datetime, timedelta, timezone
 from io import StringIO
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 from zoneinfo import ZoneInfo
 
 import article_ai_processor as ai
@@ -254,7 +254,7 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertIn('"updated_at": "first"', first)
 
-    def test_stale_logo_wait_is_archived_automatically(self):
+    def test_legacy_logo_wait_is_released_not_archived(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory
 
@@ -265,7 +265,11 @@ class JobsRuntimeTests(unittest.TestCase):
                 "status": "selected",
                 "publish_status": "waiting_for_logo",
                 "logo_first_wait_at": old,
+                "candidate_failure_stage": "company-logo",
+                "candidate_retry_after": old,
                 "discovered_at": old,
+                "ai_status": "completed",
+                "final_html": "<p>مقال جاهز للنشر.</p>",
             }]
         }
         with TemporaryDirectory() as temp:
@@ -275,8 +279,17 @@ class JobsRuntimeTests(unittest.TestCase):
                 article_queue.save_article_queue(queue)
                 stats = article_queue.maintain_article_queue(days=7)
                 saved = article_queue.load_article_queue()
-        self.assertEqual(stats["archived_stale_logo_wait"], 1)
-        self.assertTrue(saved["articles"][0]["archived"])
+
+        article = saved["articles"][0]
+        self.assertEqual(stats["released_logo_waits"], 1)
+        self.assertFalse(article.get("archived", False))
+        self.assertEqual(article["publish_status"], "visual_optional_ready")
+        self.assertEqual(article["status"], "ready")
+        self.assertEqual(
+            article["job_article_cover_status"],
+            "skipped_missing_verified_logo",
+        )
+        self.assertNotIn("candidate_retry_after", article)
 
     def test_job_archive_compaction_drops_large_payload_fields(self):
         from pathlib import Path
@@ -994,6 +1007,7 @@ class JobsRuntimeTests(unittest.TestCase):
             patch.object(main, "_published_hourly_counts", return_value=hourly),
             patch.object(main, "run_fetch_only", return_value={}),
             patch.object(main, "archive_expired_queue_articles", return_value=cleanup),
+            patch.object(main, "retry_pending_job_document_renders", return_value={}),
             patch.object(main, "run_score_only", return_value={}),
             patch.object(main, "run_enrich_only", return_value={}),
             patch.object(main, "resolve_identity_pending_articles", return_value={}),
@@ -1863,6 +1877,124 @@ class JobsRuntimeTests(unittest.TestCase):
             self.assertEqual(pages[0]["page_number"], 1)
             self.assertTrue(pages[0]["url"].endswith(".jpg"))
 
+    def test_pdf_render_failure_sets_visual_retry_without_touching_ai(self):
+        article = {
+            "id": "pdf-render-retry",
+            "ai_status": "completed",
+            "ai_quality_status": "passed",
+            "final_html": "<p>مقال صحيح.</p>",
+            "job_document_links": [
+                {"url": "https://example.com/notice.pdf", "label": "الإعلان"}
+            ],
+            "ai_input_package": {
+                "job_document_links": [
+                    {"url": "https://example.com/notice.pdf", "label": "الإعلان"}
+                ]
+            },
+        }
+
+        def failed_render(target, **_kwargs):
+            target["job_document_render_attempted_documents"] = 1
+            target["job_document_render_failures"] = 1
+            target["job_document_render_failed_urls"] = [
+                "https://example.com/notice.pdf"
+            ]
+            return []
+
+        with (
+            patch.object(draft, "JOBS_MODE", True),
+            patch.object(draft, "render_job_document_pages", side_effect=failed_render),
+        ):
+            pages = draft._prepare_job_document_page_images(article)
+
+        self.assertEqual(pages, [])
+        self.assertEqual(
+            article["job_document_render_status"],
+            "document_render_retry",
+        )
+        self.assertTrue(article["job_document_render_retry_after"])
+        self.assertEqual(article["ai_status"], "completed")
+        self.assertEqual(article["final_html"], "<p>مقال صحيح.</p>")
+
+    def test_document_render_retry_updates_same_blogger_post_without_ai(self):
+        article = {
+            "id": "published-pdf-retry",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_id": "post-123",
+            "blogger_post_url": "https://example.blogspot.com/job.html",
+            "job_document_render_status": "document_render_retry",
+            "job_document_render_retry_after": "2000-01-01T00:00:00+00:00",
+            "ai_status": "completed",
+            "ai_quality_status": "passed",
+            "final_html": "<p>مقال صحيح.</p>",
+            "seo_title": "وظيفة مهندس نظم",
+            "seo_description": "تفاصيل موثقة حول وظيفة مهندس نظم وروابطها الرسمية.",
+            "ai_input_package": {},
+        }
+        queue = {"articles": [article]}
+        pages = [{
+            "document_url": "https://example.com/notice.pdf",
+            "document_label": "الإعلان",
+            "page_number": 1,
+            "url": "https://raw.example/page-1.jpg",
+            "path": "assets/generated/page-1.jpg",
+            "alt": "الإعلان — الصفحة 1",
+        }]
+
+        post_get = MagicMock()
+        post_get.execute.return_value = {
+            "id": "post-123",
+            "url": article["blogger_post_url"],
+            "status": "LIVE",
+            "title": article["seo_title"],
+        }
+        post_update = MagicMock()
+        post_update.execute.return_value = {
+            "id": "post-123",
+            "url": article["blogger_post_url"],
+            "status": "LIVE",
+            "title": article["seo_title"],
+        }
+        posts = MagicMock()
+        posts.get.return_value = post_get
+        posts.update.return_value = post_update
+        service = MagicMock()
+        service.posts.return_value = posts
+
+        def successful_render(target, force_retry=False):
+            self.assertTrue(force_retry)
+            target["job_document_page_images"] = list(pages)
+            target["job_document_render_status"] = "rendered"
+            return list(pages)
+
+        with (
+            patch.object(draft, "JOBS_MODE", True),
+            patch.object(draft, "load_article_queue", return_value=queue),
+            patch.object(draft, "save_article_queue") as save,
+            patch.object(
+                draft,
+                "_prepare_job_document_page_images",
+                side_effect=successful_render,
+            ),
+            patch.object(draft, "_sanitize_article_final_html"),
+            patch.object(draft, "get_credentials", return_value=object()),
+            patch.object(draft, "create_blogger_service", return_value=service),
+            patch.object(draft, "is_local_publisher", return_value=False),
+            patch.object(draft, "_ensure_jobs_target_blog"),
+            patch.object(draft, "_apply_jobposting_schema"),
+        ):
+            stats = draft.retry_pending_job_document_renders(max_articles=1)
+
+        self.assertEqual(stats["checked"], 1)
+        self.assertEqual(stats["rendered"], 1)
+        self.assertEqual(stats["synced"], 1)
+        posts.get.assert_called_once_with(blogId=draft.BLOG_ID, postId="post-123")
+        self.assertEqual(posts.update.call_args.kwargs["postId"], "post-123")
+        self.assertEqual(article["job_document_render_status"], "rendered")
+        self.assertEqual(article["ai_status"], "completed")
+        save.assert_called_once()
+
     def test_jobs_quality_gate_rejects_scripts_and_missing_official_files(self):
         package = {
             "url": "https://example.com/jobs/42",
@@ -1934,6 +2066,7 @@ class JobsRuntimeTests(unittest.TestCase):
              patch.object(main, "get_publish_schedule_status", return_value=schedule), \
              patch.object(main, "run_fetch_only", return_value={"articles_found": 2}) as fetch, \
              patch.object(main, "archive_expired_queue_articles", return_value={}) as cleanup, \
+             patch.object(main, "retry_pending_job_document_renders", return_value={}) as visual_retry, \
              patch.object(main, "run_score_only", return_value={"ready": 2}) as score, \
              patch.object(main, "run_enrich_only", return_value={"enriched": 2}) as enrich, \
              patch.object(main, "_print_safe_cycle_final_report"), \
@@ -1943,6 +2076,7 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIsNotNone(result["ingest"])
         fetch.assert_called_once()
         cleanup.assert_called_once()
+        visual_retry.assert_called_once_with(max_articles=1)
         score.assert_called_once()
         enrich.assert_called_once_with(force=False)
 
