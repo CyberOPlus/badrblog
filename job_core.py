@@ -400,6 +400,203 @@ def semantic_key(article):
     return hashlib.sha256(_core_key(article).encode("utf-8")).hexdigest()[:20]
 
 
+IDENTITY_EVIDENCE_HINTS = (
+    "تخصص", "التخصص", "التخصصات", "شعبة", "الشعبة", "درجة", "الدرجة",
+    "منصب", "المناصب", "دورة", "الدورة", "فوج", "الفوج", "مباراة", "المباراة",
+    "specialite", "spécialité", "specialites", "spécialités", "filiere", "filière",
+    "grade", "poste", "postes", "session", "concours", "reference", "référence",
+)
+
+
+def _identity_evidence_fact_rows(article):
+    table_facts = set()
+    for table in (article.get("source_tables") or []):
+        if not isinstance(table, dict):
+            continue
+        caption = normalize_text(table.get("caption"))
+        if caption:
+            table_facts.add(caption)
+        for row in (table.get("rows") or []):
+            if not isinstance(row, (list, tuple)):
+                continue
+            text = normalize_text(" | ".join(str(cell or "") for cell in row))
+            if len(text) < 4:
+                continue
+            if any(hint in text for hint in IDENTITY_EVIDENCE_HINTS) or re.search(r"\b\d{1,5}\b", text):
+                table_facts.add(text)
+
+    document_facts = set()
+    for page in (article.get("job_document_texts") or []):
+        if not isinstance(page, dict):
+            continue
+        for raw_line in str(page.get("text") or "").splitlines():
+            text = normalize_text(raw_line)
+            if len(text) < 4:
+                continue
+            if any(hint in text for hint in IDENTITY_EVIDENCE_HINTS):
+                document_facts.add(text)
+
+    return (
+        sorted(table_facts)[:120],
+        sorted(document_facts)[:180],
+    )
+
+
+def identity_evidence_snapshot(article):
+    table_facts, document_facts = _identity_evidence_fact_rows(article)
+    try:
+        positions = max(0, int(article.get("job_number_of_positions") or 0))
+    except (TypeError, ValueError):
+        positions = 0
+
+    reference = normalize_text(external_reference(article))
+    deadline = str(article.get("job_deadline") or "").strip()
+    document_urls = sorted({
+        canonicalize_job_url(item.get("url"))
+        for item in (article.get("job_document_links") or [])
+        if isinstance(item, dict) and canonicalize_job_url(item.get("url"))
+    })
+
+    payload = {
+        "reference": reference,
+        "deadline": deadline,
+        "positions": positions,
+        "table_facts": table_facts,
+        "document_facts": document_facts,
+    }
+    categories = []
+    strength = 0
+    if reference:
+        categories.append("reference")
+        strength += 4
+    if deadline:
+        categories.append("deadline")
+        strength += 1
+    if positions > 0:
+        categories.append("positions")
+        strength += 1
+    if table_facts:
+        categories.append("tables")
+        strength += 2
+    if document_facts:
+        categories.append("pdf_text")
+        strength += 3
+    if document_urls:
+        categories.append("documents")
+        strength += 1
+
+    signature = ""
+    if any((
+        reference,
+        deadline,
+        positions > 0,
+        table_facts,
+        document_facts,
+    )):
+        signature = hashlib.sha256(
+            json.dumps(payload, ensure_ascii=False, sort_keys=True).encode("utf-8")
+        ).hexdigest()[:24]
+
+    return {
+        "signature": signature,
+        "strength": strength,
+        "categories": categories,
+        "reference": reference,
+        "deadline": deadline,
+        "positions": positions,
+        "table_facts": table_facts,
+        "document_facts": document_facts,
+        "document_urls": document_urls,
+    }
+
+
+def identity_evidence_stage_complete(article):
+    return str(article.get("identity_evidence_stage_status") or "").strip().lower() == "complete"
+
+
+def finalize_identity_evidence_stage(article, now=None):
+    now = now or datetime.now(timezone.utc)
+    detail_ready = bool(
+        article.get("content_fetch_status") == "success"
+        and (
+            article.get("job_detail_url")
+            or article.get("canonical_url")
+            or article.get("url")
+        )
+    )
+    tables_checked = (
+        "source_tables" in article
+        or "source_tables_count" in article
+    )
+    document_urls = [
+        canonicalize_job_url(item.get("url"))
+        for item in (article.get("job_document_links") or [])
+        if isinstance(item, dict) and canonicalize_job_url(item.get("url"))
+    ]
+    expected_document_fingerprint = "|".join(sorted(set(document_urls)))
+    document_failures = int(article.get("job_document_text_download_failures") or 0)
+    documents_checked = (
+        not document_urls
+        or (
+            str(article.get("identity_evidence_document_fingerprint") or "")
+            == expected_document_fingerprint
+            and document_failures == 0
+        )
+    )
+
+    snapshot = identity_evidence_snapshot(article)
+    complete = bool(detail_ready and tables_checked and documents_checked)
+    article["identity_evidence_detail_checked"] = detail_ready
+    article["identity_evidence_tables_checked"] = tables_checked
+    article["identity_evidence_documents_checked"] = documents_checked
+    article["identity_evidence_stage_status"] = "complete" if complete else "incomplete"
+    article["identity_evidence_stage_checked_at"] = now.isoformat(timespec="seconds")
+    article["identity_evidence_signature"] = snapshot["signature"]
+    article["identity_evidence_strength"] = snapshot["strength"]
+    article["identity_evidence_categories"] = snapshot["categories"]
+    article["identity_evidence_reference"] = snapshot["reference"]
+    article["identity_evidence_deadline"] = snapshot["deadline"]
+    article["identity_evidence_positions"] = snapshot["positions"]
+    return snapshot
+
+
+def _identity_evidence_relation(article, record):
+    if not identity_evidence_stage_complete(article):
+        return "pending"
+
+    article_signature = str(article.get("identity_evidence_signature") or "")
+    record_signature = str(record.get("identity_evidence_signature") or "")
+    article_strength = int(article.get("identity_evidence_strength") or 0)
+    record_strength = int(record.get("identity_evidence_strength") or 0)
+
+    if article_signature and record_signature:
+        if article_signature == record_signature and min(article_strength, record_strength) >= 4:
+            return "same"
+        if article_signature != record_signature and min(article_strength, record_strength) >= 4:
+            return "different"
+
+    article_docs = set(identity_evidence_snapshot(article).get("document_urls") or [])
+    record_docs = {
+        canonicalize_job_url(value)
+        for value in str(record.get("document_urls") or "").split("|")
+        if canonicalize_job_url(value)
+    }
+    if article_docs and record_docs and article_docs.intersection(record_docs):
+        return "same"
+
+    return "unknown"
+
+
+def _final_duplicate_decision(article, reason, record):
+    if not identity_evidence_stage_complete(article):
+        return {
+            "action": "hold",
+            "reason": f"potential duplicate awaiting evidence stage: {reason}",
+            "existing": record,
+        }
+    return {"action": "duplicate", "reason": reason, "existing": record}
+
+
 def _parse_date(value):
     text = str(value or "").strip()
     if not text:
