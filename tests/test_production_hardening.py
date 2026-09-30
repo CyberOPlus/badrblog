@@ -1643,6 +1643,8 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn('"FACEBOOK_HARD_MAX_POSTS_PER_DAY": "3"', text)
         self.assertIn('"FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES": "45"', text)
         self.assertIn('"JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "5"', text)
+        self.assertIn("continue-on-error: true", text)
+        self.assertIn("for attempt in 1 2 3 4 5 6; do", text)
         self.assertIn("actions/checkout@v7", text)
         self.assertIn("actions/setup-python@v7", text)
         self.assertIn('RUN_BASE_SHA="${GITHUB_SHA}"', text)
