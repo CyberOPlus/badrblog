@@ -257,6 +257,8 @@ JOBS_MIN_PUBLISH_INTERVAL_MINUTES = max(
 )
 JOBS_EXPECTED_BLOG_HOST = os.getenv("JOBS_EXPECTED_BLOG_HOST", "example.invalid").strip().casefold()
 JOBS_TEST_MODE = _env_bool_any(["JOBS_TEST_MODE"], True)
+JOBS_GOOGLE_INDEXING_ENABLED = _env_bool_any(["JOBS_GOOGLE_INDEXING_ENABLED"], False)
+GOOGLE_SERVICE_ACCOUNT_JSON = os.getenv("GOOGLE_SERVICE_ACCOUNT_JSON", "").strip()
 JOBS_MEMORY_DIR = BASE_DIR / "data" / "job_memory"
 JOBS_STATE_PATH = BASE_DIR / "data" / "job_state.json"
 JOB_VISUAL_STATE_PATH = BASE_DIR / "data" / "job_visual_state.json"
