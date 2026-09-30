@@ -2195,6 +2195,11 @@ def _collect_article_links_for_source(
     feed_url=None,
     extractor_type="auto",
     strict_source_path=True,
+    *,
+    known_ids=None,
+    max_pages=None,
+    seen_streak_stop=None,
+    max_items=None,
 ):
     print(f"\n--- Discovering links from source: {source_url} ---")
 
@@ -2231,20 +2236,57 @@ def _collect_article_links_for_source(
         }
 
     extractor_mode = str(extractor_type or "").lower()
-    if extractor_mode == "emploi_public":
-        links = _parse_emploi_public_links(
-            source_document,
+    if JOBS_MODE and extractor_mode in {"emploi_public", "capgemini_jobs", "etalent", "ats_listing"}:
+        parser = {
+            "emploi_public": _parse_emploi_public_links,
+            "capgemini_jobs": _parse_capgemini_job_links,
+            "etalent": _parse_etalent_links,
+            "ats_listing": _parse_etalent_links,
+        }[extractor_mode]
+        links, error, status_code = _collect_paginated_html_links_sync(
             source_url,
-            per_source_limit=per_source_limit,
+            parser,
+            known_ids=known_ids,
+            page_size=per_source_limit,
+            max_pages=max_pages,
+            seen_streak_stop=seen_streak_stop,
+            max_items=max_items,
         )
-        print(f"  Collected {len(links)} Emploi-Public competition link(s) from this source.")
+        print(f"  Collected {len(links)} paginated {extractor_mode} link(s) from this source.")
         return [
             _link_to_article_dict(link, source_url)
             for link in links
-        ], "" if links else "Emploi-Public listing exposed no competition detail links", 200, {
+        ], error, status_code, {
             "normal_links_found": len(links),
             "feed_links_found": 0,
-            "method_used": "emploi_public",
+            "method_used": f"{extractor_mode}-pagination",
+            "tried_feed_urls": [],
+            "empty_ok": extractor_mode in {"etalent", "ats_listing"} and not links and not error,
+        }
+
+    if JOBS_MODE and extractor_mode == "auto":
+        parser = lambda html_text, current_url, per_source_limit=None: get_article_links(
+            html_text,
+            current_url,
+            strict_source_path=strict_source_path,
+        )
+        links, error, status_code = _collect_paginated_html_links_sync(
+            source_url,
+            parser,
+            known_ids=known_ids,
+            page_size=per_source_limit,
+            max_pages=max_pages,
+            seen_streak_stop=seen_streak_stop,
+            max_items=max_items,
+        )
+        print(f"  Collected {len(links)} paginated Jobs link(s) from this source.")
+        return [
+            _link_to_article_dict(link, source_url)
+            for link in links
+        ], error, status_code, {
+            "normal_links_found": len(links),
+            "feed_links_found": 0,
+            "method_used": "html-pagination",
             "tried_feed_urls": [],
         }
 
