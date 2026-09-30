@@ -82,9 +82,15 @@ FRESHNESS_HARD_MAX_HOURS = 24 * 7
 
 
 def _discovery_identity(link):
-    link = link or {}
-    provider = str(link.get("ats_provider") or "").strip().casefold()
-    canonical = canonicalize_url(link.get("url"))
+    if isinstance(link, dict):
+        link_data = link
+    elif isinstance(link, (tuple, list)) and len(link) >= 2:
+        link_data = {"title": link[0], "url": link[1]}
+    else:
+        return ""
+
+    provider = str(link_data.get("ats_provider") or "").strip().casefold()
+    canonical = canonicalize_url(link_data.get("url"))
 
     # Workday bulletFields are not guaranteed to be requisition IDs; they may
     # contain location/category labels. The specific job URL is the stable
@@ -93,8 +99,8 @@ def _discovery_identity(link):
         return f"url:{canonical}" if canonical else ""
 
     reference = str(
-        link.get("ats_reference")
-        or link.get("job_external_reference")
+        link_data.get("ats_reference")
+        or link_data.get("job_external_reference")
         or ""
     ).strip()
     if reference:
