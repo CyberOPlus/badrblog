@@ -1806,6 +1806,103 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIs(result, article)
         mark.assert_not_called()
 
+    def test_numeric_permalink_deferral_does_not_rotate_to_another_candidate(self):
+        failed = {
+            "id": "numeric-permalink-job",
+            "url": "https://example.com/jobs/numeric",
+            "permalink_attempt": 2,
+            "blogger_numeric_permalink_rejected": (
+                "https://example.blogspot.com/2026/09/job-title_1234567890.html"
+            ),
+        }
+        reason = (
+            "Blogger generated a numeric Jobs permalink; it was deleted and will retry "
+            "with a new alphabetic permalink seed."
+        )
+        with (
+            patch.object(main, "_mark_candidate_failure_for_retry") as mark,
+            patch.object(main, "_select_retry_candidate") as select,
+            patch.object(main, "_process_hourly_target") as process,
+        ):
+            success, retries = main._retry_after_single_candidate_failure(
+                failed,
+                "publish",
+                reason,
+                "live",
+                {},
+                {"numeric-permalink-job"},
+            )
+
+        self.assertIsNone(success)
+        self.assertEqual(retries, [])
+        mark.assert_not_called()
+        select.assert_not_called()
+        process.assert_not_called()
+
+
+    def test_hourly_target_defers_clean_numeric_permalink_retry_without_ai_fanout(self):
+        selected = {
+            "id": "numeric-permalink-job",
+            "url": "https://example.com/jobs/numeric",
+            "source_name": "Official source",
+            "category_label": "jobs-morocco",
+            "permalink_attempt": 2,
+        }
+        ready = dict(selected, processing_status="ready_for_ai")
+        ai_done = dict(
+            ready,
+            ai_status="completed",
+            final_html="<p>" + " ".join(["ready"] * 130) + "</p>",
+        )
+        publish_failed = dict(
+            ai_done,
+            publish_status="failed",
+            blogger_numeric_permalink_rejected=(
+                "https://example.blogspot.com/2026/09/job-title_1234567890.html"
+            ),
+        )
+        reason = (
+            "Blogger generated a numeric Jobs permalink; it was deleted and will retry "
+            "with a new alphabetic permalink seed."
+        )
+        draft_result = {
+            "checked": 1,
+            "duplicate_count": 0,
+            "updated_existing": False,
+            "created_new": False,
+            "error": reason,
+        }
+
+        with (
+            patch.object(
+                main,
+                "prepare_selected_articles_for_ai",
+                return_value={"checked": 1, "ready_for_ai": 1, "failed": 0},
+            ),
+            patch.object(
+                main,
+                "process_one_selected_article_with_ai",
+                return_value={"processed": 0, "success": 0, "failed": 0},
+            ),
+            patch.object(main, "publish_one_blogger_post", return_value=draft_result),
+            patch.object(
+                main,
+                "_find_article_by_id",
+                side_effect=[ready, ai_done, publish_failed],
+            ),
+            patch.object(main, "_mark_candidate_failure_for_retry") as mark,
+            patch.object(main, "post_one_article_to_facebook") as post_fb,
+        ):
+            result = main._process_hourly_target(selected, "live")
+
+        self.assertFalse(result["completed"])
+        self.assertTrue(result["skipped"])
+        self.assertTrue(result["waiting_for_publish_retry"])
+        self.assertEqual(result["reason"], reason)
+        mark.assert_not_called()
+        post_fb.assert_not_called()
+
+
     def test_retry_backoff_does_not_increment_failure_or_rotate_candidate(self):
         failed = {
             "id": "backoff-job",
