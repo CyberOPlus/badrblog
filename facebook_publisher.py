@@ -2014,6 +2014,8 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
     This is a no-op unless Facebook auto-posting is explicitly enabled.
     """
     queue = load_article_queue()
+    if JOBS_MODE:
+        _sync_jobs_facebook_queue(queue)
     articles = queue.get("articles", [])
     article = _target_article(articles, target_article_id=target_article_id)
 
@@ -2034,20 +2036,16 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             "error": "No eligible published article without Facebook post found.",
         }
 
-    if JOBS_MODE and not _job_facebook_share_worthy(article):
-        article["facebook_status"] = "not_selected"
-        article["facebook_selection_reason"] = (
-            f"job score {int(article.get('job_score') or 0)} below selective Facebook policy"
-        )
-        article.pop("facebook_error", None)
-        _clear_facebook_failure_state(article)
+    if JOBS_MODE and _job_facebook_expired(article):
+        _mark_facebook_expired(article)
         save_article_queue(queue)
         return {
             "checked": 1,
             "posted": False,
             "deferred": False,
+            "dropped_from_social_queue": True,
             "article": article,
-            "error": "Job published to Blogger but not selected for Facebook.",
+            "error": "Job expired before its Facebook queue turn.",
         }
 
     if article.get("facebook_post_id"):
@@ -2283,11 +2281,7 @@ def _facebook_backfill_candidates(articles):
     new_post_candidates = [
         article
         for article in articles
-        if _has_blogger_live_publish(article)
-        and _job_facebook_share_worthy(article)
-        and not article.get("facebook_post_id")
-        and article.get("facebook_status") in {None, "", "failed"}
-        and _facebook_retry_ready(article)
+        if _eligible_for_facebook(article)
     ]
     comment_retry_candidates = [
         article
@@ -2299,13 +2293,12 @@ def _facebook_backfill_candidates(articles):
         and _facebook_comment_retry_ready(article)
     ]
     def new_post_sort_key(article):
-        urgency = classify_urgency(article).get("level") if JOBS_MODE else "normal"
-        urgency_rank = {"critical": 4, "high": 3, "elevated": 2, "normal": 1}.get(urgency, 0)
+        if JOBS_MODE:
+            return _facebook_job_priority(article)
         return (
-            urgency_rank,
-            int(article.get("job_score") or 0),
-            int(article.get("job_number_of_positions") or 0),
             article.get("published_at", ""),
+            article.get("selected_at", ""),
+            article.get("discovered_at", ""),
         )
 
     comment_sort_key = lambda article: (
@@ -2391,8 +2384,12 @@ def drain_scheduled_facebook():
         stats["skipped"] = 1
         return stats
     queue = load_article_queue()
-    stats["skipped"] += _settle_unselected_job_facebook(queue)
+    sync_stats = _sync_jobs_facebook_queue(queue) if JOBS_MODE else {"queued": 0, "expired": 0, "revived": 0}
+    stats["queued"] = sync_stats.get("queued", 0)
+    stats["expired"] = sync_stats.get("expired", 0)
+    stats["revived"] = sync_stats.get("revived", 0)
     pending, comments = _facebook_backfill_candidates(queue.get("articles", []))
+    stats["pending"] = len(pending)
     if comments:
         result = retry_facebook_first_comment(comments[0].get("id") or comments[0].get("url"))
         stats["comments_created"] = int(bool(result.get("posted")))
@@ -2402,8 +2399,10 @@ def drain_scheduled_facebook():
             and not result.get("delivery_uncertain")
         )
     for article in pending:
-        if JOBS_MODE and classify_urgency(article).get("level") == "expired":
-            stats["skipped"] += 1
+        if JOBS_MODE and _job_facebook_expired(article):
+            if _mark_facebook_expired(article):
+                save_article_queue(queue)
+                stats["expired"] += 1
             continue
         limits = get_facebook_limits_status(urgent=bool(JOBS_MODE and article.get("job_publish_immediately")))
         if not limits["allowed_now"]:
@@ -2416,7 +2415,7 @@ def drain_scheduled_facebook():
             not result.get("posted")
             and not result.get("deferred")
             and not result.get("delivery_uncertain")
-            and result_article.get("facebook_status") != "not_selected"
+            and not result.get("dropped_from_social_queue")
         )
         break
     return stats
@@ -2430,6 +2429,7 @@ def backfill_facebook_posts():
     most one known-failed first comment.
     """
     queue = load_article_queue()
+    sync_stats = _sync_jobs_facebook_queue(queue) if JOBS_MODE else {"queued": 0, "expired": 0, "revived": 0}
     new_post_candidates, comment_retry_candidates = _facebook_backfill_candidates(
         queue.get("articles", [])
     )
@@ -2442,6 +2442,10 @@ def backfill_facebook_posts():
         "latest_facebook_post_id": "",
         "latest_facebook_comment_id": "",
         "results": [],
+        "queued": sync_stats.get("queued", 0),
+        "expired": sync_stats.get("expired", 0),
+        "revived": sync_stats.get("revived", 0),
+        "pending": len(new_post_candidates),
     }
 
     if comment_retry_candidates:
@@ -2456,8 +2460,10 @@ def backfill_facebook_posts():
             stats["failed"] += 1
 
     for article in new_post_candidates:
-        if JOBS_MODE and classify_urgency(article).get("level") == "expired":
-            stats["skipped"] += 1
+        if JOBS_MODE and _job_facebook_expired(article):
+            if _mark_facebook_expired(article):
+                save_article_queue(queue)
+                stats["expired"] += 1
             continue
         limits = get_facebook_limits_status(
             urgent=bool(JOBS_MODE and article.get("job_publish_immediately"))
