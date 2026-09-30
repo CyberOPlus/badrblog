@@ -213,6 +213,20 @@ SOURCE_FAILURE_COOLDOWN_MINUTES = _env_int("SOURCE_FAILURE_COOLDOWN_MINUTES", 45
 SOURCE_FAILURE_THRESHOLD = _env_int("SOURCE_FAILURE_THRESHOLD", 3)
 SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES = _env_int("SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES", 15)
 
+# Jobs discovery pagination. fetch_limit_per_run remains a compatibility/page-size
+# hint; it is no longer the total number of vacancies a source may expose.
+JOBS_DISCOVERY_PAGE_SIZE = max(5, min(50, _env_int("JOBS_DISCOVERY_PAGE_SIZE", 20)))
+JOBS_DISCOVERY_MAX_PAGES = max(1, min(25, _env_int("JOBS_DISCOVERY_MAX_PAGES", 12)))
+JOBS_DISCOVERY_SEEN_STREAK = max(3, min(50, _env_int("JOBS_DISCOVERY_SEEN_STREAK", 8)))
+JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE = max(
+    JOBS_DISCOVERY_PAGE_SIZE,
+    min(500, _env_int("JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE", 250)),
+)
+JOBS_DISCOVERY_SEEN_MEMORY = max(
+    JOBS_DISCOVERY_SEEN_STREAK * 4,
+    min(5000, _env_int("JOBS_DISCOVERY_SEEN_MEMORY", 1200)),
+)
+
 # Facebook Page auto-posting is disabled by default and only runs after a
 # successful live Blogger publish.
 FACEBOOK_AUTO_POST = _env_bool_any(["FACEBOOK_AUTO_POST"], False)
