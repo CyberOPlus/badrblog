@@ -33,6 +33,7 @@ from article_draft_publisher import (
 )
 from article_queue import (
     add_articles_to_queue,
+    article_queue_storage_status,
     archive_expired_queue_articles,
     archive_published_queue_article,
     repair_job_link_bindings,
@@ -122,6 +123,7 @@ from runtime_state import (
     load_topic_fingerprints,
     order_sources_for_rotation,
     record_source_cooldown,
+    reset_job_discovery_state,
     save_crawl_state,
     save_topic_fingerprints,
     select_category_for_rotation,
@@ -386,6 +388,27 @@ def run_fetch_only():
     topic_fingerprints = set() if JOBS_MODE else load_topic_fingerprints()
     category_context = {}
     if JOBS_MODE:
+        # If durable queue storage is missing/corrupt while discovery cursors
+        # still remember IDs, those IDs would be skipped forever. Reset only
+        # discovery seen/resume state; a valid intentionally-empty queue is left
+        # untouched.
+        queue_storage = article_queue_storage_status()
+        if not queue_storage.get("valid"):
+            recovery = reset_job_discovery_state(
+                reason="recovery_reset_after_queue_storage_loss"
+            )
+            if recovery.get("changed_sources"):
+                log_event(
+                    "job_discovery_state_recovered",
+                    queue_reason=queue_storage.get("reason", ""),
+                    changed_sources=recovery.get("changed_sources", 0),
+                    forgotten_ids=recovery.get("forgotten_ids", 0),
+                )
+                print(
+                    "Jobs discovery recovery: reset seen IDs/cursors after "
+                    f"{queue_storage.get('reason') or 'invalid queue storage'}."
+                )
+
         # Jobs discovery is exhaustive and stateful. Do not route it through
         # recent-news/category first-valid shortcuts that can hide lower listing
         # pages or defer whole sources indefinitely.
