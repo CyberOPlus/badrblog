@@ -1647,12 +1647,12 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn("for attempt in 1 2 3 4 5 6; do", text)
         self.assertIn("actions/checkout@v7", text)
         self.assertIn("actions/setup-python@v7", text)
-        self.assertIn('RUN_BASE_SHA="${GITHUB_SHA}"', text)
-        self.assertIn("prefer_jobs_queue_snapshot", text)
-        self.assertIn(
-            "Remote Jobs queue is empty/invalid; restoring valid non-empty runner snapshot.",
-            text,
-        )
+        self.assertIn('JOBS_RUN_BASE_SHA=$(git rev-parse HEAD)', text)
+        self.assertIn('RUN_BASE_SHA="${JOBS_RUN_BASE_SHA:-}"', text)
+        self.assertIn("merge_jobs_queue_snapshot", text)
+        self.assertIn("Jobs queue changed upstream; merging remote and runner snapshot.", text)
+        self.assertIn("added_snapshot_only", text)
+        self.assertNotIn("prefer_jobs_queue_snapshot", text)
 
     def test_live_post_allowed_after_one_minute(self):
         now = datetime(2026, 4, 27, 12, 10, 0)
