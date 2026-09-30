@@ -29,6 +29,7 @@ from article_draft_publisher import (
     fix_or_update_current_blogger_draft,
     publish_one_blogger_post,
     publish_one_blogger_draft,
+    retry_pending_job_document_renders,
 )
 from article_queue import (
     add_articles_to_queue,
@@ -2052,17 +2053,6 @@ def _mark_candidate_failure_for_retry(article, stage, reason):
             retry_after=article.get("ai_retry_after", ""),
         )
         return article
-    if (
-        article.get("publish_status") == "waiting_for_logo"
-        and article.get("candidate_retry_after")
-    ):
-        log_event(
-            "candidate_retry_preserved",
-            article_id=article.get("id"),
-            stage="company-logo",
-            retry_after=article.get("candidate_retry_after"),
-        )
-        return article
     cooldown_minutes = SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES
     if stage == "run-ai" and article.get("ai_retry_after"):
         try:
@@ -2401,6 +2391,11 @@ def run_hourly_category_cycle():
     print("\n[1/6] fetch all categories")
     fetch_stats = run_fetch_only()
     cleanup_stats = archive_expired_queue_articles()
+    visual_retry_stats = (
+        retry_pending_job_document_renders(max_articles=1)
+        if JOBS_MODE
+        else {}
+    )
     if cleanup_stats["expired_archived"] or cleanup_stats["missing_date_archived"]:
         print(
             "Fresh queue cleanup: "
@@ -2612,12 +2607,14 @@ def run_safe_cycle_only():
             print(f"Publishing is paced ({reason}); continuing Jobs ingestion.")
             fetch_stats = run_fetch_only()
             cleanup_stats = archive_expired_queue_articles()
+            visual_retry_stats = retry_pending_job_document_renders(max_articles=1)
             score_stats = run_score_only()
             enrich_stats = run_enrich_only(force=False)
             identity_stats = resolve_identity_pending_articles()
             ingest_stats = {
                 "fetch": fetch_stats,
                 "cleanup": cleanup_stats,
+                "visual_retry": visual_retry_stats,
                 "score": score_stats,
                 "enrich": enrich_stats,
                 "identity_pending": identity_stats,
@@ -2647,6 +2644,11 @@ def run_safe_cycle_only():
     if zero_link_warnings_count:
         print(f"Zero-link source warnings recorded: {zero_link_warnings_count}")
     cleanup_stats = archive_expired_queue_articles()
+    visual_retry_stats = (
+        retry_pending_job_document_renders(max_articles=1)
+        if JOBS_MODE
+        else {}
+    )
     if cleanup_stats["expired_archived"] or cleanup_stats["missing_date_archived"]:
         print(
             "Fresh queue cleanup: "
