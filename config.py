@@ -43,7 +43,7 @@ load_dotenv(dotenv_path=dotenv_path)
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
 # AI provider mode:
-# - auto: rotate across configured providers, then use deterministic Jobs fallback
+# - auto: rotate across configured providers; Jobs defer behind circuit/backoff when AI is unavailable
 # - a named provider: use that provider only when explicitly requested
 AI_PROVIDER = os.getenv("AI_PROVIDER", "auto").strip().lower()
 
@@ -198,7 +198,7 @@ MAX_AI_ARTICLE_AGE_HOURS = max(
 )
 ALLOW_UNKNOWN_DATE_IN_FAST_MODE = _env_bool_any(["ALLOW_UNKNOWN_DATE_IN_FAST_MODE"], False)
 ENABLE_SCRAPLING_FALLBACK = _env_bool_any(["ENABLE_SCRAPLING_FALLBACK"], False)
-MAX_AI_RETRIES = _env_int("MAX_AI_RETRIES", 3)
+MAX_AI_RETRIES = _env_int("MAX_AI_RETRIES", 2)
 JOBS_AI_QUALITY_REPAIRS = max(0, min(2, _env_int("JOBS_AI_QUALITY_REPAIRS", 1)))
 JOBS_AI_TIMEOUT_RETRIES = max(0, min(1, _env_int("JOBS_AI_TIMEOUT_RETRIES", 0)))
 AI_TIMEOUT_SECONDS = _env_int("AI_TIMEOUT_SECONDS", 180)
@@ -823,7 +823,7 @@ def validate_config():
         if not available:
             if JOBS_MODE:
                 warnings.append(
-                    "  ⚠️  No AI provider key is configured; Jobs will use the verified deterministic fallback."
+                    "  ⚠️  No AI provider key is configured; Jobs AI will defer behind circuit/backoff until a provider is available."
                 )
             else:
                 errors.append("  ❌ Configure at least one supported AI provider key.")
