@@ -754,16 +754,38 @@ def score_job(article, now=None):
     if expired:
         reasons.append("deadline passed")
 
-    passed = score >= MIN_SELECTION_SCORE and not reasons
-    status = "publish" if passed else ("queue" if score >= QUEUE_SCORE and not expired else "reject")
+    # Ranking score is intentionally NOT a publication gate. A legitimate,
+    # verified vacancy can score low simply because salary, diploma, location,
+    # recency or large-hiring signals are absent. Those signals only decide
+    # priority between otherwise publishable jobs.
+    hard_gate_passed = not reasons
+    permanent_hard_failure = bool(
+        expired
+        or not _public_http(source_url)
+        or normalized_title in {
+            "jobs", "job", "careers", "career", "recruitment", "recrutement",
+            "vacancies", "opportunities", "emploi", "offres d emploi",
+        }
+    )
+    passed = hard_gate_passed
+    status = (
+        "publish"
+        if hard_gate_passed
+        else ("reject" if permanent_hard_failure else "queue")
+    )
     return {
         "score": score,
+        "ranking_score": score,
         "status": status,
         "passed": passed,
+        "hard_gate_passed": hard_gate_passed,
         "points": points,
         "reasons": reasons,
+        # Kept for compatibility/diagnostics only. This threshold no longer
+        # decides publishability; it is a historical ranking reference.
         "threshold": MIN_SELECTION_SCORE,
         "queue_threshold": QUEUE_SCORE,
+        "threshold_applies_to": "ranking_only",
     }
 
 
@@ -1325,9 +1347,12 @@ def _mark_identity_pending(article, decision, now=None):
 def prepare_job_candidate(article, now=None):
     quality = score_job(article, now=now)
     article["job_score"] = quality["score"]
+    article["job_rank_score"] = quality.get("ranking_score", quality["score"])
     article["score"] = quality["score"]
     article["job_quality_status"] = quality["status"]
     article["job_quality_reasons"] = quality["reasons"]
+    article["job_hard_gate_passed"] = bool(quality.get("hard_gate_passed", quality["passed"]))
+    article["job_hard_gate_reasons"] = list(quality["reasons"])
     article["labels"] = job_labels(article)
     urgency = classify_urgency(article, now=now)
     article["job_urgency"] = urgency
@@ -1375,7 +1400,7 @@ def select_best_job_from_queue(queue, now=None):
         if not quality["passed"]:
             if quality["status"] == "reject":
                 article["status"] = "skipped"
-                article["skip_reason"] = "; ".join(quality["reasons"]) or f"job score below {QUEUE_SCORE}"
+                article["skip_reason"] = "; ".join(quality["reasons"]) or "hard gate rejected job"
             continue
 
         article.pop("identity_pending_last_checked_at", None)
