@@ -989,7 +989,16 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         active_notice = notice_type in {"vacancy", "competition"}
         if active_notice and not application_url:
             return QualityGateResult(False, "active job notice is missing a verified application resource", word_count)
-        if application_url and not is_application_url_bound_to_job(article or package, application_url):
+        application_context = dict(package)
+        application_context.update({
+            key: value
+            for key, value in article.items()
+            if value not in (None, "", [], {})
+        })
+        application_context["job_notice_type"] = notice_type
+        application_context["job_application_link_kind"] = application_kind
+
+        if application_url and not is_application_url_bound_to_job(application_context, application_url):
             if not is_job_specific_url(application_url):
                 return QualityGateResult(
                     False,
