@@ -726,12 +726,25 @@ EVIDENCE AND NOTICE TYPE
 - For candidate_list/results/final_results/update, make the current update the focus and never tell readers to submit
   a new application unless the current evidence explicitly reopens applications.
 
-INTRODUCTION
-- Start with ONE short factual paragraph naming the employer, the clearly translated Arabic
-  job title (with the original title in parentheses when useful), and verified location when available.
+INTRODUCTION AND SEMANTIC DEDUPLICATION
+- Blogger already renders the page title as H1. NEVER output <h1> and NEVER restate, paraphrase,
+  or expand the SEO title as a heading or opening sentence inside html_content.
+- The introduction must be ONE short paragraph of ONE or TWO sentences only.
+- The introduction must add useful context that is not already obvious from the title and must not
+  preview a list of facts that will immediately appear in the structured table.
+- Treat facts semantically, not lexically: changing wording does NOT make a repeated fact new.
+  Example: "آخر أجل هو 16 أكتوبر" and a table row "آخر أجل للترشيح: 16 أكتوبر" are the SAME fact.
+- Give each verified fact ONE primary home in the article:
+  structured facts -> table; duties -> responsibilities section; eligibility/qualifications -> requirements;
+  application documents -> application-file section; tests -> tests table/list; official links -> action/document area.
+- If a fact is already clear in a table, do not repeat it in the introduction or a later paragraph merely
+  with different wording. Repeat a fact only when a short reference is strictly necessary to explain a
+  new consequence or instruction, and do not restate its full value.
+- Before returning, compare the introduction, tables, lists, and prose sections and remove semantic duplicates,
+  including repeated dates, deadlines, position counts, locations, diploma/experience requirements, test details,
+  application-document requirements, and status/result facts.
 - Do not describe the employer as leading, prestigious, exceptional, innovative, or similar
   unless that wording is itself a necessary verified fact. Avoid recruitment-marketing filler.
-- Do not repeat all table facts in the introduction.
 
 DETAILS
 - Put <h2>تفاصيل الوظيفة</h2> immediately before the main facts table.
@@ -1118,7 +1131,12 @@ MANDATORY JOB RETRY RULES:
 - A new public recruitment notice should read naturally as "مباراة توظيف/مباريات توظيف" when appropriate; a private role may use "توظف/تعلن عن توظيف"; candidate lists and results MUST foreground their verified stage and must never be rewritten as a fresh vacancy.
 - Keep useful verified institution + role/count/stage information once, and remove raw source fragments, duplicated employer/role/count wording, IDs, domains, and deadline/date chains.
 - Before returning, silently verify that the title accurately describes THIS page, is not mechanically copied from the source, and contains no invented fact.
-- Keep one short factual introduction.
+- Blogger already displays the H1 title: do not output <h1> and do not repeat/paraphrase the title in the body.
+- Keep one short introduction paragraph of one or two sentences that adds information instead of previewing the table.
+- Perform a semantic deduplication pass before returning: the same fact must not appear in intro/table/sections
+  merely with different wording. Keep each date, deadline, count, requirement, test detail, document requirement,
+  location/status fact, and other structured value in its clearest single location unless a brief reference is
+  strictly necessary to explain a new instruction.
 - Use this professional HTML order when the relevant facts exist:
   <p>intro</p>
   <h2>تفاصيل الوظيفة</h2><table><tbody>...</tbody></table>
