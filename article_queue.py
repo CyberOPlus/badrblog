@@ -23,7 +23,7 @@ from job_core import (
     is_foreign_job_detail_url,
 )
 
-ALLOWED_STATUSES = {"new", "skipped", "ready", "selected", "draft_created", "published", "failed"}
+ALLOWED_STATUSES = {"new", "identity_pending", "skipped", "ready", "selected", "draft_created", "published", "failed"}
 FRESHNESS_HARD_MAX_HOURS = 24 * 7
 
 
@@ -878,7 +878,7 @@ def maintain_article_queue(days=7):
 
         if (
             JOBS_MODE
-            and article.get("status") in {"new", "ready"}
+            and article.get("status") in {"new", "ready", "identity_pending"}
             and not article.get("job_deadline")
         ):
             stale_anchor = _as_utc(
