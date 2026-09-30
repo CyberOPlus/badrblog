@@ -1784,7 +1784,7 @@ def enrich_ready_articles(force=False):
     targets = []
 
     for article in articles:
-        allowed_statuses = {"ready"} if not force else {"ready", "selected", "draft_created"}
+        allowed_statuses = {"ready", "identity_pending"} if not force else {"ready", "identity_pending", "selected", "draft_created"}
         if article.get("status") not in allowed_statuses:
             continue
         if JOBS_MODE and not str(
