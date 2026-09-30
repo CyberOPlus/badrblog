@@ -10,6 +10,7 @@ from config import MIN_EXTRACTED_CHARS, JOBS_MODE
 from internal_link_cache import load_internal_link_cache, select_internal_link_candidates
 from job_document_renderer import extract_job_document_texts
 from job_core import canonicalize_job_url, classify_identity, finalize_identity_evidence_stage
+from verified_fact_manifest import build_verified_fact_manifest
 
 
 def _now_iso():
@@ -41,6 +42,11 @@ def _validate_selected_article(article):
 
 def _build_ai_input_package(article):
     full_text = article.get("full_article_text") or article.get("content_full") or article.get("content_preview", "")
+    verified_fact_manifest = (
+        build_verified_fact_manifest(article) if JOBS_MODE else {}
+    )
+    if JOBS_MODE:
+        article["verified_fact_manifest"] = verified_fact_manifest
     return {
         "title": article.get("fetched_title") or article.get("title", ""),
         "url": article.get("url", ""),
@@ -102,6 +108,7 @@ def _build_ai_input_package(article):
         "job_document_text_truncated": bool(article.get("job_document_text_truncated", False)),
         "job_document_text_download_failures": int(article.get("job_document_text_download_failures") or 0),
         "identity_evidence_stage_status": article.get("identity_evidence_stage_status", ""),
+        "verified_fact_manifest": verified_fact_manifest,
         "job_number_of_positions": article.get("job_number_of_positions", 0),
         "job_diploma": article.get("job_diploma", ""),
         "job_experience": article.get("job_experience", ""),
