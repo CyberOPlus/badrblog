@@ -2612,16 +2612,23 @@ def drain_scheduled_facebook():
     retry at most one missing first comment; actual Graph failures are reported.
     """
     stats = {"created": 0, "comments_created": 0, "failed": 0, "skipped": 0}
-    if not _is_configured():
-        stats["skipped"] = 1
-        return stats
     queue = load_article_queue()
-    sync_stats = _sync_jobs_facebook_queue(queue) if JOBS_MODE else {"queued": 0, "expired": 0, "revived": 0}
+    sync_stats = (
+        _sync_jobs_facebook_queue(queue)
+        if JOBS_MODE
+        else {"queued": 0, "recovered": 0, "expired": 0, "revived": 0}
+    )
     stats["queued"] = sync_stats.get("queued", 0)
+    stats["recovered"] = sync_stats.get("recovered", 0)
     stats["expired"] = sync_stats.get("expired", 0)
     stats["revived"] = sync_stats.get("revived", 0)
     pending, comments = _facebook_backfill_candidates(queue.get("articles", []))
     stats["pending"] = len(pending)
+
+    if not _is_configured():
+        stats["skipped"] = 1
+        stats["configuration_missing"] = True
+        return stats
     if comments:
         result = retry_facebook_first_comment(comments[0].get("id") or comments[0].get("url"))
         stats["comments_created"] = int(bool(result.get("posted")))
