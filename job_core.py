@@ -142,9 +142,20 @@ def is_job_specific_url(url):
     generic_tail = last in GENERIC_JOB_PATHS or last in {
         "search", "job-search", "jobs-search", "offres", "offres-emploi",
         "emplois", "openings", "positions", "all-jobs", "all-jobs-search",
+        "candidature", "postuler", "application", "applications", "register",
+        "registration", "inscription",
     }
     if generic_tail:
-        return has_specific_query
+        if has_specific_query:
+            return True
+        parent = segments[-2] if len(segments) >= 2 else ""
+        if re.search(r"\d{3,}|[a-f0-9]{8,}", parent):
+            return True
+        # A descriptive job slug immediately before /apply or /application is
+        # also specific enough when it is not another generic careers segment.
+        if len(segments) >= 3 and parent and parent not in GENERIC_JOB_PATHS:
+            return True
+        return False
 
     if re.search(r"\d{3,}|[a-f0-9]{8,}", last):
         return True
