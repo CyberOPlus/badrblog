@@ -256,6 +256,9 @@ def external_reference(article):
     explicit = str(article.get("job_external_reference") or "").strip()
     if explicit:
         return explicit
+    ats_reference = str(article.get("ats_reference") or "").strip()
+    if ats_reference:
+        return ats_reference
     return _document_external_reference(article)
 
 
