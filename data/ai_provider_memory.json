@@ -1,1 +1,31 @@
-{}
+{
+  "avg_time": 14.4851,
+  "cooldowns": {},
+  "failure_fingerprints": {
+    "4f6beb1fe24b729304e0": {
+      "category": "quality",
+      "count": 1,
+      "first_seen_at": "2026-09-30T22:28:57",
+      "last_seen_at": "2026-09-30T22:28:57",
+      "last_seen_epoch": 1790807337.42574,
+      "provider": "gemini",
+      "reason": "Jobs output contradicts high-confidence manifest deadline",
+      "retry_until": 1790809137.42574,
+      "scope": "quality"
+    }
+  },
+  "fastest_success_model": "gemini:gemini-2.5-flash",
+  "global_circuit": {},
+  "provider_circuits": {},
+  "stats": {
+    "gemini:gemini-2.5-flash:64f603a8c0": {
+      "avg_time": 14.5004,
+      "key_id": "64f603a8c0",
+      "last_success_at": "2026-09-30T22:29:35",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini",
+      "successes": 4,
+      "total_success_time": 58.0017
+    }
+  }
+}
