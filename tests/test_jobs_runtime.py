@@ -1933,6 +1933,28 @@ class JobsRuntimeTests(unittest.TestCase):
             self.assertEqual(pages[0]["page_number"], 1)
             self.assertTrue(pages[0]["url"].endswith(".jpg"))
 
+    def test_missing_logo_and_pdf_render_failure_do_not_block_publish_eligibility(self):
+        article = {
+            "id": "content-ready-visual-missing",
+            "url": "https://example.com/jobs/content-ready",
+            "status": "selected",
+            "processing_status": "ready_for_ai",
+            "ai_status": "completed",
+            "ai_quality_status": "passed",
+            "ai_provider_used": "gemini",
+            "final_html": "<p>مقال وظيفة موثق ومكتمل.</p>",
+            "job_article_cover_status": "skipped_missing_verified_logo",
+            "logo_resolution_status": "unavailable_optional",
+            "article_logo_used": False,
+            "job_document_render_status": "document_render_retry",
+            "job_document_render_retry_after": "2099-01-01T00:00:00+00:00",
+            "visual_readiness_status": "content_ready_visual_retry",
+        }
+
+        self.assertTrue(draft._eligible_for_publish(article))
+        self.assertEqual(article["ai_status"], "completed")
+        self.assertEqual(article["ai_quality_status"], "passed")
+
     def test_pdf_render_failure_sets_visual_retry_without_touching_ai(self):
         article = {
             "id": "pdf-render-retry",
