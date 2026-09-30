@@ -66,7 +66,7 @@ def _build_ai_input_package(article):
         "published_at_source": article.get("published_at_source", ""),
         "article_age_hours": article.get("article_age_hours"),
         "trusted_references": article.get("trusted_references", []),
-        "related_posts": _related_posts_for(article),
+        "related_posts": [] if JOBS_MODE else _related_posts_for(article),
         "labels": article.get("labels", []),
         "job_title": article.get("job_title", ""),
         "job_company": article.get("job_company", ""),

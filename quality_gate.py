@@ -530,6 +530,25 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         if semantic_repeat_reason:
             return QualityGateResult(False, semantic_repeat_reason, word_count)
 
+        if re.search(r"class\s*=\s*['\"][^'\"]*\bpRelate\b", html_content, flags=re.I):
+            return QualityGateResult(False, "related-post pRelate block is forbidden in Jobs articles", word_count)
+        if any(
+            phrase in body_text
+            for phrase in (
+                "قد يهمك أيضًا",
+                "قد يهمك أيضا",
+                "مقالات ذات صلة",
+                "مواضيع ذات صلة",
+            )
+        ):
+            return QualityGateResult(False, "related-post text is forbidden in Jobs articles", word_count)
+        if re.search(
+            r"<a\b[^>]*\bhref=['\"][^'\"]*/search/label/[^'\"]*['\"]",
+            html_content,
+            flags=re.I,
+        ):
+            return QualityGateResult(False, "automatic label/category internal link is forbidden in Jobs articles", word_count)
+
         if re.search(r"<script\b", html_content, flags=re.I):
             return QualityGateResult(False, "script tag found in Jobs article body", word_count)
 
