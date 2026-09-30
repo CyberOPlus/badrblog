@@ -1078,6 +1078,15 @@ def _apply_success(article, post, mode):
         article["status"] = "published"
         article["published_at"] = now
         article["publish_status"] = "published"
+        if JOBS_MODE and not article.get("facebook_post_id"):
+            current_facebook_status = str(article.get("facebook_status") or "").strip()
+            if current_facebook_status in {"", "not_selected", "facebook_expired"}:
+                article["facebook_status"] = "facebook_pending"
+                article["facebook_queued_at"] = article.get("facebook_queued_at") or now
+                article["facebook_queue_reason"] = "published_to_blogger"
+                article.pop("facebook_selection_reason", None)
+                article.pop("facebook_expired_at", None)
+                article.pop("facebook_expired_reason", None)
         cache_stats = record_published_article(article, article.get("blogger_post_url", ""))
         article["internal_cache_saved"] = bool(cache_stats.get("saved"))
         indexing = notify_job_url(article.get("blogger_post_url", ""), article=article)
