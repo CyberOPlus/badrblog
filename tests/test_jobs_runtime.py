@@ -45,6 +45,60 @@ class JobsRuntimeTests(unittest.TestCase):
                 self.assertTrue(valid_empty["valid"])
                 self.assertEqual(valid_empty["article_count"], 0)
 
+    def test_jobs_queue_recovery_marker_is_distinct_from_intentional_empty(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "jobs_article_queue.json"
+            payload = {
+                "updated_at": "",
+                "articles": [],
+                "notifications": {
+                    "queue_recovery_required": True,
+                    "queue_recovery_reason": "zero_byte_runtime_state_repair",
+                },
+            }
+            path.write_text(json.dumps(payload), encoding="utf-8")
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", path):
+                status = article_queue.article_queue_storage_status()
+
+        self.assertTrue(status["valid"])
+        self.assertTrue(status["recovery_required"])
+        self.assertEqual(status["reason"], "zero_byte_runtime_state_repair")
+
+    def test_jobs_enrichment_batch_limits_work_without_dropping_backlog(self):
+        rows = []
+        for index in range(8):
+            rows.append({
+                "id": f"job-{index}",
+                "url": f"https://example.com/jobs/{index}",
+                "status": "ready",
+                "category_label": "jobs-morocco",
+                "job_score": 60 + index,
+                "source_priority": "A+" if index % 2 else "B",
+            })
+        queue = {"articles": rows}
+
+        with (
+            patch.object(article_enricher, "JOBS_MODE", True),
+            patch.object(article_enricher, "JOBS_ENRICH_MAX_TARGETS_PER_CYCLE", 3),
+            patch.object(article_enricher, "load_article_queue", return_value=queue),
+            patch.object(article_enricher, "save_article_queue") as save,
+            patch.object(article_enricher, "_can_run_async_fetch", return_value=False),
+            patch.object(article_enricher, "enrich_article", return_value=(True, "")) as enrich,
+        ):
+            stats = article_enricher.enrich_ready_articles(force=False)
+
+        self.assertEqual(stats["enriched"], 3)
+        self.assertEqual(stats["deferred_targets"], 5)
+        self.assertEqual(stats["batch_limit"], 3)
+        self.assertEqual(enrich.call_count, 3)
+        enriched_ids = [call.args[0]["id"] for call in enrich.call_args_list]
+        self.assertEqual(enriched_ids, ["job-7", "job-6", "job-5"])
+        self.assertEqual(len(queue["articles"]), 8)
+        save.assert_called_once()
+
     def test_jobs_discovery_state_reset_forgets_seen_ids_but_not_other_source_fields(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory
