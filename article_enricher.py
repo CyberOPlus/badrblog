@@ -29,7 +29,7 @@ from config import (
 from production_logging import elapsed_ms, log_event
 from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
 from job_extractor import extract_job_fields
-from job_core import invalidate_identity_evidence
+from job_core import invalidate_identity_evidence, job_deadline_time
 from company_logo_resolver import resolve_company_logo
 
 try:
@@ -1771,8 +1771,40 @@ def _record_enrichment_failure(article, error):
     )
 
 
-def _jobs_enrichment_priority(article, queue_index=0):
-    """Prioritize likely publishable Jobs without dropping lower-ranked backlog."""
+def _jobs_enrichment_priority(article, queue_index=0, now=None):
+    """Prioritize urgent/publishable Jobs while aging prevents starvation."""
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    else:
+        now = now.astimezone(timezone.utc)
+
+    deadline_rank = 0
+    deadline = job_deadline_time(article)
+    if deadline:
+        hours_remaining = (deadline - now).total_seconds() / 3600.0
+        if hours_remaining < 0:
+            deadline_rank = -1
+        elif hours_remaining <= 24:
+            deadline_rank = 6
+        elif hours_remaining <= 72:
+            deadline_rank = 5
+        elif hours_remaining <= 7 * 24:
+            deadline_rank = 4
+        elif hours_remaining <= 14 * 24:
+            deadline_rank = 3
+        elif hours_remaining <= 30 * 24:
+            deadline_rank = 2
+        else:
+            deadline_rank = 1
+
+    status_rank = {
+        "selected": 4,
+        "ready": 3,
+        "identity_pending": 2,
+        "draft_created": 1,
+    }.get(str(article.get("status") or "").strip(), 0)
+
     source_rank = {
         "S+": 6,
         "S": 5,
@@ -1780,17 +1812,28 @@ def _jobs_enrichment_priority(article, queue_index=0):
         "A": 3,
         "B+": 2,
         "B": 1,
-    }
+    }.get(str(article.get("source_priority") or "").strip().upper(), 0)
+    if article.get("official_source") or article.get("job_official_source"):
+        source_rank += 2
+
     try:
-        score = int(article.get("job_score") or 0)
+        job_score = int(article.get("job_score") or 0)
     except (TypeError, ValueError):
-        score = 0
-    priority = source_rank.get(
-        str(article.get("source_priority") or "").strip().upper(),
-        0,
+        job_score = 0
+    try:
+        queue_score = int(article.get("score") or 0) * 10
+    except (TypeError, ValueError):
+        queue_score = 0
+    score = max(job_score, queue_score)
+
+    # Lower queue index wins the last tie, so old queued work eventually drains.
+    return (
+        -deadline_rank,
+        -status_rank,
+        -score,
+        -source_rank,
+        int(queue_index or 0),
     )
-    deadline = str(article.get("job_deadline") or "").strip()
-    return (-score, -priority, 0 if deadline else 1, int(queue_index or 0))
 
 
 def enrich_ready_articles(force=False):
