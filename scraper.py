@@ -2066,12 +2066,14 @@ async def _collect_article_links_for_source_async(
     max_pages=None,
     seen_streak_stop=None,
     max_items=None,
+    resume_state=None,
 ):
     print(f"\n--- Discovering links from source: {source_url} ---")
 
     extractor_mode = str(extractor_type or "").lower()
+    resume_state = resume_state if isinstance(resume_state, dict) else {}
     if extractor_mode == "workday_api":
-        links, error, status_code = await _collect_workday_links_async(
+        links, error, status_code, discovery_meta = await _collect_workday_links_async(
             session,
             source_url,
             per_source_limit=per_source_limit,
@@ -2079,6 +2081,11 @@ async def _collect_article_links_for_source_async(
             max_pages=max_pages,
             seen_streak_stop=seen_streak_stop,
             max_items=max_items,
+            start_offset=(
+                resume_state.get("offset", 0)
+                if resume_state.get("kind") == "workday"
+                else 0
+            ),
         )
         print(f"  Collected {len(links)} Workday job link(s) from this source.")
         return [
@@ -2089,10 +2096,16 @@ async def _collect_article_links_for_source_async(
             "feed_links_found": 0,
             "method_used": "workday_api" if links else ("failed:workday_api" if error else "workday_api"),
             "tried_feed_urls": [],
+            "discovery_meta": discovery_meta,
+            "discovery_resume": (
+                {"kind": "workday", "offset": discovery_meta.get("resume_offset")}
+                if int(discovery_meta.get("resume_offset") or 0) > 0
+                else {}
+            ),
         }
 
     if extractor_mode == "emploi_public":
-        links, error, status_code = await _collect_paginated_html_links_async(
+        links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
             session,
             source_url,
             _parse_emploi_public_links,
@@ -2101,16 +2114,27 @@ async def _collect_article_links_for_source_async(
             max_pages=max_pages,
             seen_streak_stop=seen_streak_stop,
             max_items=max_items,
+            start_url=(
+                resume_state.get("url")
+                if resume_state.get("kind") == "html"
+                else None
+            ),
         )
         return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
             "normal_links_found": len(links),
             "feed_links_found": 0,
             "method_used": "emploi_public" if links else ("failed:emploi_public" if error else "emploi_public"),
             "tried_feed_urls": [],
+            "discovery_meta": discovery_meta,
+            "discovery_resume": (
+                {"kind": "html", "url": discovery_meta.get("resume_url")}
+                if discovery_meta.get("resume_url")
+                else {}
+            ),
         }
 
     if extractor_mode == "capgemini_jobs":
-        links, error, status_code = await _collect_paginated_html_links_async(
+        links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
             session,
             source_url,
             _parse_capgemini_job_links,
@@ -2119,16 +2143,27 @@ async def _collect_article_links_for_source_async(
             max_pages=max_pages,
             seen_streak_stop=seen_streak_stop,
             max_items=max_items,
+            start_url=(
+                resume_state.get("url")
+                if resume_state.get("kind") == "html"
+                else None
+            ),
         )
         return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
             "normal_links_found": len(links),
             "feed_links_found": 0,
             "method_used": "capgemini_jobs" if links else ("failed:capgemini_jobs" if error else "capgemini_jobs"),
             "tried_feed_urls": [],
+            "discovery_meta": discovery_meta,
+            "discovery_resume": (
+                {"kind": "html", "url": discovery_meta.get("resume_url")}
+                if discovery_meta.get("resume_url")
+                else {}
+            ),
         }
 
     if extractor_mode in {"etalent", "ats_listing"}:
-        links, error, status_code = await _collect_paginated_html_links_async(
+        links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
             session,
             source_url,
             _parse_etalent_links,
@@ -2137,12 +2172,23 @@ async def _collect_article_links_for_source_async(
             max_pages=max_pages,
             seen_streak_stop=seen_streak_stop,
             max_items=max_items,
+            start_url=(
+                resume_state.get("url")
+                if resume_state.get("kind") == "html"
+                else None
+            ),
         )
         return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
             "normal_links_found": len(links),
             "feed_links_found": 0,
             "method_used": "etalent",
             "tried_feed_urls": [],
+            "discovery_meta": discovery_meta,
+            "discovery_resume": (
+                {"kind": "html", "url": discovery_meta.get("resume_url")}
+                if discovery_meta.get("resume_url")
+                else {}
+            ),
             "empty_ok": not links and not error and status_code == 200,
         }
 
@@ -2168,7 +2214,7 @@ async def _collect_article_links_for_source_async(
         }
 
     if extractor_mode == "csod":
-        links, error, status_code = await _collect_csod_links_async(
+        links, error, status_code, discovery_meta = await _collect_csod_links_async(
             session,
             source_url,
             per_source_limit=per_source_limit,
@@ -2176,6 +2222,11 @@ async def _collect_article_links_for_source_async(
             max_pages=max_pages,
             seen_streak_stop=seen_streak_stop,
             max_items=max_items,
+            start_page=(
+                resume_state.get("page", 1)
+                if resume_state.get("kind") == "csod"
+                else 1
+            ),
         )
         print(f"  Collected {len(links)} CSOD job link(s) from this source.")
         return [
@@ -2186,6 +2237,12 @@ async def _collect_article_links_for_source_async(
             "feed_links_found": 0,
             "method_used": "csod" if links else ("failed:csod" if error else "csod"),
             "tried_feed_urls": [],
+            "discovery_meta": discovery_meta,
+            "discovery_resume": (
+                {"kind": "csod", "page": discovery_meta.get("resume_page")}
+                if int(discovery_meta.get("resume_page") or 0) > 0
+                else {}
+            ),
         }
 
     if extractor_mode == "un_careers":
@@ -2211,7 +2268,7 @@ async def _collect_article_links_for_source_async(
             current_url,
             strict_source_path=strict_source_path,
         )
-        html_links, error, status_code = await _collect_paginated_html_links_async(
+        html_links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
             session,
             source_url,
             generic_parser,
@@ -2220,6 +2277,11 @@ async def _collect_article_links_for_source_async(
             max_pages=max_pages,
             seen_streak_stop=seen_streak_stop,
             max_items=max_items,
+            start_url=(
+                resume_state.get("url")
+                if resume_state.get("kind") == "html"
+                else None
+            ),
         )
         combined_links = _filter_article_links(
             html_links,
@@ -2235,6 +2297,12 @@ async def _collect_article_links_for_source_async(
             "feed_links_found": 0,
             "method_used": "html-pagination",
             "tried_feed_urls": [],
+            "discovery_meta": discovery_meta,
+            "discovery_resume": (
+                {"kind": "html", "url": discovery_meta.get("resume_url")}
+                if discovery_meta.get("resume_url")
+                else {}
+            ),
         }
 
     listing_html, error, status_code = await _fetch_text_async(session, source_url)
@@ -2350,6 +2418,7 @@ def _collect_article_links_for_source(
     max_pages=None,
     seen_streak_stop=None,
     max_items=None,
+    resume_state=None,
 ):
     print(f"\n--- Discovering links from source: {source_url} ---")
 
@@ -2386,6 +2455,7 @@ def _collect_article_links_for_source(
         }
 
     extractor_mode = str(extractor_type or "").lower()
+    resume_state = resume_state if isinstance(resume_state, dict) else {}
     if JOBS_MODE and extractor_mode in {"emploi_public", "capgemini_jobs", "etalent", "ats_listing"}:
         parser = {
             "emploi_public": _parse_emploi_public_links,
@@ -2393,7 +2463,7 @@ def _collect_article_links_for_source(
             "etalent": _parse_etalent_links,
             "ats_listing": _parse_etalent_links,
         }[extractor_mode]
-        links, error, status_code = _collect_paginated_html_links_sync(
+        links, error, status_code, discovery_meta = _collect_paginated_html_links_sync(
             source_url,
             parser,
             known_ids=known_ids,
@@ -2401,6 +2471,11 @@ def _collect_article_links_for_source(
             max_pages=max_pages,
             seen_streak_stop=seen_streak_stop,
             max_items=max_items,
+            start_url=(
+                resume_state.get("url")
+                if resume_state.get("kind") == "html"
+                else None
+            ),
         )
         print(f"  Collected {len(links)} paginated {extractor_mode} link(s) from this source.")
         return [
@@ -2411,6 +2486,12 @@ def _collect_article_links_for_source(
             "feed_links_found": 0,
             "method_used": f"{extractor_mode}-pagination",
             "tried_feed_urls": [],
+            "discovery_meta": discovery_meta,
+            "discovery_resume": (
+                {"kind": "html", "url": discovery_meta.get("resume_url")}
+                if discovery_meta.get("resume_url")
+                else {}
+            ),
             "empty_ok": extractor_mode in {"etalent", "ats_listing"} and not links and not error,
         }
 
@@ -2420,7 +2501,7 @@ def _collect_article_links_for_source(
             current_url,
             strict_source_path=strict_source_path,
         )
-        links, error, status_code = _collect_paginated_html_links_sync(
+        links, error, status_code, discovery_meta = _collect_paginated_html_links_sync(
             source_url,
             parser,
             known_ids=known_ids,
@@ -2428,6 +2509,11 @@ def _collect_article_links_for_source(
             max_pages=max_pages,
             seen_streak_stop=seen_streak_stop,
             max_items=max_items,
+            start_url=(
+                resume_state.get("url")
+                if resume_state.get("kind") == "html"
+                else None
+            ),
         )
         print(f"  Collected {len(links)} paginated Jobs link(s) from this source.")
         return [
@@ -2438,6 +2524,12 @@ def _collect_article_links_for_source(
             "feed_links_found": 0,
             "method_used": "html-pagination",
             "tried_feed_urls": [],
+            "discovery_meta": discovery_meta,
+            "discovery_resume": (
+                {"kind": "html", "url": discovery_meta.get("resume_url")}
+                if discovery_meta.get("resume_url")
+                else {}
+            ),
         }
 
     status_code = getattr(source_document, "status", None)
