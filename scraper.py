@@ -1157,55 +1157,134 @@ def _workday_config(source_url):
     }
 
 
-async def _collect_workday_links_async(session, source_url, per_source_limit=None):
+async def _collect_workday_links_async(
+    session,
+    source_url,
+    per_source_limit=None,
+    *,
+    known_ids=None,
+    max_pages=None,
+    seen_streak_stop=None,
+    max_items=None,
+):
     cfg = _workday_config(source_url)
     if not cfg:
         return [], "invalid workday source URL", None
-    limit = max(1, min(int(per_source_limit or 20), 20))
-    started = time.perf_counter()
-    try:
-        async with session.post(
-            cfg["api_url"],
-            json={"appliedFacets": {}, "limit": limit, "offset": 0, "searchText": ""},
-            headers={**HEADERS, "Accept": "application/json", "Content-Type": "application/json"},
-            timeout=ASYNC_FETCH_TIMEOUT_SECONDS,
-        ) as response:
-            text = await response.text(errors="ignore")
-            if response.status >= 400:
-                return [], f"http {response.status}", response.status
-            data = json.loads(text or "{}")
-    except (asyncio.TimeoutError, aiohttp.ClientError, ValueError, json.JSONDecodeError) as error:
-        return [], error.__class__.__name__, None
 
+    page_size = max(
+        1,
+        min(
+            max(int(per_source_limit or 0), JOBS_DISCOVERY_PAGE_SIZE),
+            20,
+        ),
+    )
+    max_pages = max(1, int(max_pages or JOBS_DISCOVERY_MAX_PAGES))
+    max_items = max(1, int(max_items or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE))
+    seen_streak_stop = max(1, int(seen_streak_stop or JOBS_DISCOVERY_SEEN_STREAK))
+    working_known = set(known_ids or ())
     links = []
-    for row in data.get("jobPostings") or []:
-        if not isinstance(row, dict):
-            continue
-        title = _normalize_text(row.get("title") or "")
-        external_path = str(row.get("externalPath") or "").strip()
-        if not title or not external_path:
-            continue
-        if external_path.startswith("/"):
-            url = cfg["listing_url"] + external_path
-        else:
-            url = cfg["listing_url"] + "/" + external_path
-        links.append({
-            "title": title,
-            "url": url,
-            "ats_provider": "workday",
-            "ats_reference": (row.get("bulletFields") or [""])[0] if isinstance(row.get("bulletFields"), list) else "",
-            "source_published_label": str(row.get("postedOn") or "").strip(),
-        })
-        if len(links) >= limit:
+    offset = 0
+    started = time.perf_counter()
+    status_code = 200
+    stop_reason = "end"
+
+    for page_number in range(1, max_pages + 1):
+        try:
+            async with session.post(
+                cfg["api_url"],
+                json={
+                    "appliedFacets": {},
+                    "limit": page_size,
+                    "offset": offset,
+                    "searchText": "",
+                },
+                headers={
+                    **HEADERS,
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                },
+                timeout=ASYNC_FETCH_TIMEOUT_SECONDS,
+            ) as response:
+                status_code = response.status
+                text = await response.text(errors="ignore")
+                if response.status >= 400:
+                    if links:
+                        stop_reason = f"partial_http_{response.status}"
+                        break
+                    return [], f"http {response.status}", response.status
+                data = json.loads(text or "{}")
+        except (asyncio.TimeoutError, aiohttp.ClientError, ValueError, json.JSONDecodeError) as error:
+            if links:
+                stop_reason = f"partial_{error.__class__.__name__}"
+                break
+            return [], error.__class__.__name__, None
+
+        rows = [
+            row
+            for row in (data.get("jobPostings") or [])
+            if isinstance(row, dict)
+        ]
+        page_links = []
+        for row in rows:
+            title = _normalize_text(row.get("title") or "")
+            external_path = str(row.get("externalPath") or "").strip()
+            if not title or not external_path:
+                continue
+            if external_path.startswith("/"):
+                url = cfg["listing_url"] + external_path
+            else:
+                url = cfg["listing_url"] + "/" + external_path
+            page_links.append({
+                "title": title,
+                "url": url,
+                "ats_provider": "workday",
+                "ats_reference": (
+                    (row.get("bulletFields") or [""])[0]
+                    if isinstance(row.get("bulletFields"), list)
+                    else ""
+                ),
+                "source_published_label": str(row.get("postedOn") or "").strip(),
+            })
+
+        new_links, meta = _filter_new_discovery_links(
+            page_links,
+            working_known,
+            seen_streak_stop=seen_streak_stop,
+            max_items=max_items - len(links),
+        )
+        links.extend(new_links)
+
+        if meta.get("stop_reason") == "seen_streak":
+            stop_reason = "seen_streak"
             break
+        if len(links) >= max_items:
+            stop_reason = "max_items"
+            break
+        if not rows or len(rows) < page_size:
+            stop_reason = "end"
+            break
+
+        total = data.get("total")
+        try:
+            total = int(total)
+        except (TypeError, ValueError):
+            total = 0
+        offset += len(rows)
+        if total and offset >= total:
+            stop_reason = "end"
+            break
+    else:
+        stop_reason = "max_pages"
+
     log_event(
         "workday_source_fetch",
         url=source_url,
         jobs=len(links),
+        pages=min(max_pages, max(1, (offset // page_size) + 1)),
+        stop_reason=stop_reason,
         elapsed_ms=elapsed_ms(started),
     )
-    return links, "", 200
-
+    return links, "", status_code or 200
 
 
 
@@ -1215,7 +1294,7 @@ def _parse_emploi_public_links(document, source_url, per_source_limit=None):
     if not soup:
         return []
 
-    limit = max(1, min(int(per_source_limit or 20), 50))
+    limit = max(1, min(int(per_source_limit or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE), JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE))
     links = []
     seen = set()
     generic_titles = {
@@ -1296,7 +1375,7 @@ async def _collect_emploi_public_links_async(session, source_url, per_source_lim
 def _parse_capgemini_job_links(html_text, source_url, per_source_limit=None):
     """Extract only official Capgemini SuccessFactors job-detail URLs."""
     soup = BeautifulSoup(html_text or "", "html.parser")
-    limit = max(1, min(int(per_source_limit or 20), 30))
+    limit = max(1, min(int(per_source_limit or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE), JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE))
     links = []
     seen = set()
     for anchor in soup.find_all("a", href=True):
@@ -1359,7 +1438,7 @@ async def _collect_capgemini_links_async(session, source_url, per_source_limit=N
 def _parse_etalent_links(html_text, source_url, per_source_limit=None):
     """Return only real eTalent vacancy detail URLs (/offre/<id>)."""
     soup = BeautifulSoup(html_text or "", "html.parser")
-    limit = max(1, min(int(per_source_limit or 20), 30))
+    limit = max(1, min(int(per_source_limit or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE), JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE))
     links = []
     seen = set()
     for anchor in soup.find_all("a", href=True):
