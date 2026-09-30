@@ -34,8 +34,8 @@ class JobsRuntimeTests(unittest.TestCase):
                 datetime(2026, 9, 29, 8, tzinfo=timezone.utc)
             )
         self.assertEqual(state["green_score"], 1)
-        self.assertGreaterEqual(policy["daily_cap"], 3)
-        self.assertLessEqual(policy["daily_cap"], 12)
+        self.assertGreaterEqual(policy["daily_cap"], 24)
+        self.assertLessEqual(policy["daily_cap"], 32)
 
     def test_adaptive_rate_limit_reduces_health_score(self):
         state = {
@@ -370,6 +370,28 @@ class JobsRuntimeTests(unittest.TestCase):
             ai._cooldown_seconds_for_error(RuntimeError("HTTP 429 rate limit")),
             ai._cooldown_seconds_for_error(ai.AIProviderEmptyResponse("empty response")),
         )
+
+    def test_jobs_slug_is_english_and_digit_free(self):
+        slug = ai._normalize_job_english_slug(
+            "Orange Business Cybersecurity Consultant Casablanca 2026"
+        )
+        self.assertEqual(
+            slug,
+            "orange-business-cybersecurity-consultant-casablanca",
+        )
+        self.assertNotRegex(slug, r"\d")
+
+        fallback = ai._fallback_job_english_slug(
+            {
+                "job_company": "جامعة محمد الأول",
+                "job_title": "أستاذ محاضر",
+                "job_location": "وجدة",
+            }
+        )
+        self.assertIn("university", fallback)
+        self.assertIn("lecturer", fallback)
+        self.assertIn("oujda", fallback)
+        self.assertNotRegex(fallback, r"\d")
 
     def test_jobs_prompt_requires_professional_semantic_html_body(self):
         package = {
