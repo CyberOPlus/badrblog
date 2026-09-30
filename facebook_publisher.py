@@ -443,14 +443,20 @@ def _facebook_job_priority(article, now=None):
     except (TypeError, ValueError):
         positions = 0
 
+    queued_time = parse_job_date(
+        article.get("facebook_queued_at")
+        or article.get("published_at")
+        or article.get("selected_at")
+    )
+    fifo_priority = -queued_time.timestamp() if queued_time else 0.0
+
     return (
         has_deadline,
         deadline_priority,
         urgency_rank,
         score,
         positions,
-        article.get("facebook_queued_at", ""),
-        article.get("published_at", ""),
+        fifo_priority,
     )
 
 
@@ -2023,13 +2029,13 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
     article = _target_article(articles, target_article_id=target_article_id)
 
     if not FACEBOOK_AUTO_POST:
-        return _failure_result(queue, article, "FACEBOOK_AUTO_POST is disabled.", checked=0)
+        return _deferred_result(article, "FACEBOOK_AUTO_POST is disabled.")
 
     if not FACEBOOK_PAGE_ID:
-        return _failure_result(queue, article, "FACEBOOK_PAGE_ID is not configured.", checked=0)
+        return _deferred_result(article, "FACEBOOK_PAGE_ID is not configured.")
 
     if not FACEBOOK_PAGE_ACCESS_TOKEN:
-        return _failure_result(queue, article, "FACEBOOK_PAGE_ACCESS_TOKEN is not configured.", checked=0)
+        return _deferred_result(article, "FACEBOOK_PAGE_ACCESS_TOKEN is not configured.")
 
     if not article:
         return {
