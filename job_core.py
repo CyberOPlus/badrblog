@@ -244,9 +244,12 @@ def _document_external_reference(article):
 def external_reference(article):
     raw = article.get("raw") or {}
     for key in REFERENCE_KEYS:
-        value = article.get(key)
-        if value not in (None, ""):
-            return str(value).strip()
+        # article["id"] is the queue's internal hash, not an employer/source
+        # vacancy identifier. raw["id"] may still be a real source reference.
+        if key != "id":
+            value = article.get(key)
+            if value not in (None, ""):
+                return str(value).strip()
         value = raw.get(key) if isinstance(raw, dict) else None
         if value not in (None, ""):
             return str(value).strip()
