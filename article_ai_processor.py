@@ -604,6 +604,8 @@ def _cooldown_entry_until(entry):
 def _prune_ai_memory(now=None):
     now = now or time.time()
     memory = _load_ai_memory()
+    changed = False
+
     cooldowns = memory.get("cooldowns", {})
     expired = [
         candidate_id
@@ -612,7 +614,31 @@ def _prune_ai_memory(now=None):
     ]
     for candidate_id in expired:
         cooldowns.pop(candidate_id, None)
-    if expired:
+        changed = True
+
+    circuits = memory.setdefault("provider_circuits", {})
+    for provider, entry in list(circuits.items()):
+        if _cooldown_entry_until(entry) <= now:
+            circuits.pop(provider, None)
+            changed = True
+
+    global_entry = memory.get("global_circuit")
+    if isinstance(global_entry, dict) and global_entry and _cooldown_entry_until(global_entry) <= now:
+        memory["global_circuit"] = {}
+        changed = True
+
+    fingerprints = memory.setdefault("failure_fingerprints", {})
+    retention_cutoff = now - (14 * 24 * 3600)
+    for fingerprint, entry in list(fingerprints.items()):
+        if not isinstance(entry, dict):
+            fingerprints.pop(fingerprint, None)
+            changed = True
+            continue
+        if float(entry.get("last_seen_epoch") or 0) < retention_cutoff:
+            fingerprints.pop(fingerprint, None)
+            changed = True
+
+    if changed:
         _save_ai_memory(memory)
 
 
