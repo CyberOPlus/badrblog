@@ -11,6 +11,7 @@ import article_ai_processor as ai
 import article_draft_publisher as draft
 import article_enricher
 import article_queue
+import article_processor
 import facebook_publisher as facebook
 import job_core
 import job_document_renderer
@@ -1044,6 +1045,90 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(deadline.astimezone(noon.tzinfo).hour, 23)
         explicit = "2026-09-29T16:00:00+00:00"
         self.assertEqual(job_core.job_deadline_time({"job_deadline": explicit}).isoformat(), explicit)
+
+    def test_identity_pending_resolver_uses_document_evidence_and_reopens_ready(self):
+        row = {
+            "id": "pending-job",
+            "url": "https://example.com/jobs/pending",
+            "status": "identity_pending",
+            "content_fetch_status": "success",
+            "job_document_links": [{"url": "https://example.com/notice.pdf", "label": "الإعلان"}],
+        }
+        queue = {"articles": [row]}
+
+        def add_pdf_evidence(article):
+            article["job_document_texts"] = [
+                {"text": "Référence du concours : REF-2026-9001", "page_number": 1}
+            ]
+            return article["job_document_texts"]
+
+        with patch.object(article_processor, "load_article_queue", return_value=queue),              patch.object(article_processor, "save_article_queue") as save,              patch.object(article_processor, "extract_job_document_texts", side_effect=add_pdf_evidence) as extract,              patch.object(
+                 article_processor,
+                 "classify_identity",
+                 return_value={
+                     "action": "new_campaign",
+                     "reason": "different external reference",
+                     "existing": {},
+                 },
+             ):
+            stats = article_processor.resolve_identity_pending_articles()
+
+        self.assertEqual(stats["resolved_ready"], 1)
+        self.assertEqual(row["status"], "ready")
+        self.assertEqual(row["job_identity_action"], "new_campaign")
+        extract.assert_called_once_with(row)
+        save.assert_called_once()
+
+    def test_identity_pending_resolver_keeps_ambiguous_job_pending(self):
+        row = {
+            "id": "pending-job",
+            "url": "https://example.com/jobs/pending",
+            "status": "identity_pending",
+            "content_fetch_status": "success",
+            "job_document_links": [],
+            "skip_reason": "old hold reason",
+        }
+        queue = {"articles": [row]}
+        with patch.object(article_processor, "load_article_queue", return_value=queue),              patch.object(article_processor, "save_article_queue"),              patch.object(
+                 article_processor,
+                 "classify_identity",
+                 return_value={
+                     "action": "hold",
+                     "reason": "ambiguous same role without strong identifier",
+                     "existing": {},
+                 },
+             ):
+            stats = article_processor.resolve_identity_pending_articles()
+
+        self.assertEqual(stats["still_pending"], 1)
+        self.assertEqual(row["status"], "identity_pending")
+        self.assertNotIn("skip_reason", row)
+        self.assertFalse(row["job_identity_final"])
+
+    def test_identity_pending_resolver_skips_only_confirmed_duplicate(self):
+        row = {
+            "id": "pending-job",
+            "url": "https://example.com/jobs/pending",
+            "status": "identity_pending",
+            "content_fetch_status": "success",
+            "job_document_links": [],
+        }
+        queue = {"articles": [row]}
+        with patch.object(article_processor, "load_article_queue", return_value=queue),              patch.object(article_processor, "save_article_queue"),              patch.object(
+                 article_processor,
+                 "classify_identity",
+                 return_value={
+                     "action": "duplicate",
+                     "reason": "same external reference",
+                     "existing": {},
+                 },
+             ):
+            stats = article_processor.resolve_identity_pending_articles()
+
+        self.assertEqual(stats["duplicates"], 1)
+        self.assertEqual(row["status"], "skipped")
+        self.assertTrue(row["job_identity_final"])
+        self.assertIn("duplicate confirmed", row["skip_reason"])
 
     def test_jobs_selector_respects_failed_candidate_cooldown(self):
         now = datetime(2026, 9, 28, tzinfo=timezone.utc)
