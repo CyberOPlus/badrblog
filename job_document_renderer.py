@@ -145,12 +145,16 @@ def extract_job_document_texts(
         article["job_document_texts"] = []
         article["job_document_text_pages"] = 0
         article["job_document_text_chars"] = 0
+        article["job_document_text_attempted_documents"] = 0
+        article["job_document_text_download_failures"] = 0
         return []
 
     extracted = []
     total_pages = 0
     total_chars = 0
     truncated = False
+    attempted_documents = 0
+    download_failures = 0
 
     for document_index, item in enumerate(eligible, start=1):
         if total_pages >= max_total_pages or total_chars >= max_total_chars:
@@ -163,10 +167,12 @@ def extract_job_document_texts(
             or item.get("context")
             or f"الوثيقة الرسمية {document_index}"
         )
+        attempted_documents += 1
         try:
             payload = _download_pdf(url)
             document = fitz.open(stream=payload, filetype="pdf")
         except Exception as error:
+            download_failures += 1
             log_event(
                 "job_document_text_skipped",
                 article_id=article.get("id"),
@@ -219,6 +225,8 @@ def extract_job_document_texts(
     article["job_document_text_pages"] = len(extracted)
     article["job_document_text_chars"] = total_chars
     article["job_document_text_truncated"] = bool(truncated)
+    article["job_document_text_attempted_documents"] = attempted_documents
+    article["job_document_text_download_failures"] = download_failures
     return extracted
 
 
