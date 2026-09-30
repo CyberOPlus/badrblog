@@ -42,7 +42,14 @@ jobs:
           pip install -r requirements.txt
 
       - name: Verify publishing regressions
+        if: github.event_name != 'push'
         run: python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime -q
+
+      - name: Verify one-shot Blogger smoke
+        if: github.event_name == 'push'
+        run: |
+          python -m py_compile main.py article_ai_processor.py article_draft_publisher.py quality_gate.py verified_fact_manifest.py
+          python -m unittest tests.test_jobs_runtime.JobsRuntimeTests.test_verified_fact_manifest_marks_only_explicit_supported_facts_high -q
 
       - name: Create runtime secrets and Jobs env
         env:
