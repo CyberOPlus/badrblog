@@ -1238,6 +1238,41 @@ class JobsRuntimeTests(unittest.TestCase):
             for fact in manifest["facts"]["specialties"]
         ))
 
+    def test_manifest_extracts_explicit_pdf_label_values(self):
+        article = {
+            "url": "https://example.gov.ma/jobs/77",
+            "job_detail_url": "https://example.gov.ma/jobs/77",
+            "official_source": True,
+            "job_official_source": True,
+            "source_tables": [],
+            "source_tables_count": 0,
+            "source_tables_truncated": False,
+            "job_document_texts": [{
+                "page_number": 1,
+                "text": (
+                    "التخصص: الذكاء الاصطناعي\n"
+                    "الاختبار: اختبار كتابي\n"
+                    "ملاحظة داخلية بدون تسمية موثقة 4455"
+                ),
+            }],
+            "job_document_links": [],
+        }
+        manifest = fact_manifest.build_verified_fact_manifest(article)
+
+        specialties = [
+            fact["value"] for fact in manifest["facts"].get("specialties", [])
+        ]
+        tests = [
+            fact["value"] for fact in manifest["facts"].get("tests", [])
+        ]
+        self.assertIn("الذكاء الاصطناعي", specialties)
+        self.assertIn("اختبار كتابي", tests)
+        self.assertTrue(all(
+            fact["confidence"] == "high"
+            for fact in manifest["facts"].get("specialties", [])
+        ))
+        self.assertNotIn("4455", str(manifest))
+
     def test_manifest_high_fact_missing_blocks_but_medium_fact_only_warns(self):
         high_manifest = {
             "facts": {
