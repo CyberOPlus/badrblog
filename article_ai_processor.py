@@ -7,6 +7,7 @@ import random
 import re
 import hashlib
 import time
+import unicodedata
 import warnings
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -749,9 +750,11 @@ SEO
 - Mention the employer, translated role, location when verified, and one useful verified
   fact such as contract/deadline/direct application. Do not write as if this site were the
   employer: never use phrases such as "نبحث عن", "عملائنا", "فريقنا", "انضم إلينا/لفريقنا".
-- Use desired_slug EXACTLY when supplied.
-- Never add mutable values such as dates, deadline, salary, number of positions,
-  or temporary campaign details to the slug.
+- The JSON slug MUST be a concise ENGLISH SEO slug, not Arabic transliteration.
+- Translate generic role/category/location wording into natural English; keep brand/proper names in Latin when useful.
+- Use lowercase a-z letters and hyphens ONLY. NEVER use digits, underscores, dates, years, seat counts, salaries, deadlines, references, IDs, or random numeric suffixes.
+- Use 3-7 descriptive words. Example: orange-business-cybersecurity-consultant-casablanca.
+- Do NOT copy desired_slug when it is transliterated Arabic; desired_slug is only an identity hint.
 
 PROFESSIONAL HTML ARTICLE BODY
 - html_content is the BODY of the Blogger post only. The Blogger theme already renders the H1/title.
@@ -812,13 +815,13 @@ Before returning JSON, verify:
 - Multiple official documents are organized in a table, not dumped as raw links.
 - No image tag or image URL inside html_content.
 - No fake salary, deadline, vacancies, diploma, requirement, list status, or result.
-- desired_slug preserved exactly when provided.
+- slug is natural English, lowercase letters/hyphens only, with no digits or Arabic transliteration.
 
 OUTPUT JSON SHAPE:
 {{
   "title": "Arabic SEO title",
   "description": "Arabic meta description",
-  "slug": "{package.get('desired_slug') or 'stable-job-slug'}",
+  "slug": "english-company-role-location",
   "html_content": "clean semantic HTML"
 }}
 
@@ -974,6 +977,12 @@ def _validate_ai_output(data, package=None):
     html_content = str(data["html_content"]).strip()
 
     if JOBS_MODE:
+        slug = _normalize_job_english_slug(data.get("slug", ""))
+        if not re.fullmatch(r"[a-z]+(?:-[a-z]+){1,6}", slug or ""):
+            raise AIIncompleteResponseError(
+                "Jobs slug must be 2-7 English words using lowercase letters and hyphens only; digits are forbidden"
+            )
+        data["slug"] = slug
         title_ok = 28 <= len(title) <= 150
         description_ok = 70 <= len(description) <= 190
         title_range, description_range = "28-150", "70-190"
@@ -1048,7 +1057,7 @@ MANDATORY JOB RETRY RULES:
 - No <h1>, images, captions, scripts, JSON-LD, CSS/style attributes, iframes, forms,
   corporate history, generic career advice, filler, conclusion, or repeated facts.
 - Do not invent any fact or URL.
-- Preserve desired_slug exactly when supplied.
+- Return a natural English slug using lowercase a-z and hyphens only; no digits, IDs, years, or Arabic transliteration.
 - Meta description 100-160 characters.
 - Clean semantic Blogger HTML only.
 
@@ -1171,6 +1180,125 @@ def _normalize_slug(slug, max_words=7):
     return "-".join(words)[:80]
 
 
+_JOB_SLUG_ARABIC_PHRASES = (
+    ("أستاذ محاضر", "lecturer"),
+    ("أستاذ التعليم العالي", "professor"),
+    ("أستاذ", "professor"),
+    ("مهندس دولة", "engineer"),
+    ("مهندس", "engineer"),
+    ("تقني متخصص", "specialist technician"),
+    ("تقني", "technician"),
+    ("متصرف", "administrator"),
+    ("مستشار", "consultant"),
+    ("مدير", "manager"),
+    ("محاسب", "accountant"),
+    ("مطور", "developer"),
+    ("الأمن السيبراني", "cybersecurity"),
+    ("أمن سيبراني", "cybersecurity"),
+    ("المعلوميات", "it"),
+    ("الإعلاميات", "it"),
+    ("شبكات", "network"),
+    ("الموارد البشرية", "human resources"),
+    ("موارد بشرية", "human resources"),
+    ("التسويق", "marketing"),
+    ("المبيعات", "sales"),
+    ("جامعة", "university"),
+    ("وزارة", "ministry"),
+    ("وكالة", "agency"),
+    ("المكتب", "office"),
+    ("مكتب", "office"),
+    ("المعهد", "institute"),
+    ("معهد", "institute"),
+    ("كلية", "faculty"),
+)
+
+_JOB_SLUG_LATIN_MAP = {
+    "ingenieur": "engineer",
+    "ingenieurs": "engineer",
+    "technicien": "technician",
+    "techniciens": "technician",
+    "responsable": "manager",
+    "developpeur": "developer",
+    "developpeurs": "developer",
+    "comptable": "accountant",
+    "consultante": "consultant",
+    "stagiaire": "intern",
+    "stage": "internship",
+    "securite": "security",
+    "informatique": "it",
+    "reseaux": "network",
+    "reseau": "network",
+    "emploi": "job",
+    "recrutement": "recruitment",
+}
+
+_JOB_SLUG_PLACES = {
+    "الدار البيضاء": "casablanca",
+    "الرباط": "rabat",
+    "مراكش": "marrakech",
+    "فاس": "fes",
+    "طنجة": "tangier",
+    "وجدة": "oujda",
+    "أكادير": "agadir",
+    "اكادير": "agadir",
+    "القنيطرة": "kenitra",
+    "الجديدة": "el jadida",
+    "تطوان": "tetouan",
+    "مكناس": "meknes",
+    "سلا": "sale",
+}
+
+
+def _job_english_words(value):
+    text = str(value or "").strip().casefold()
+    if not text:
+        return []
+    for source, target in _JOB_SLUG_PLACES.items():
+        text = text.replace(source.casefold(), " " + target + " ")
+    for source, target in _JOB_SLUG_ARABIC_PHRASES:
+        text = text.replace(source.casefold(), " " + target + " ")
+    text = unicodedata.normalize("NFKD", text)
+    text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    text = text.encode("ascii", "ignore").decode("ascii").lower()
+    words = re.findall(r"[a-z]+", text)
+    mapped = [_JOB_SLUG_LATIN_MAP.get(word, word) for word in words]
+    stop = {
+        "a", "an", "and", "at", "de", "des", "du", "en", "et", "for", "la",
+        "le", "les", "of", "the", "to", "with", "job", "jobs", "recruitment",
+    }
+    return [word for word in mapped if len(word) > 1 and word not in stop]
+
+
+def _normalize_job_english_slug(slug, max_words=7):
+    cleaned = str(slug or "").strip().casefold()
+    cleaned = unicodedata.normalize("NFKD", cleaned)
+    cleaned = "".join(ch for ch in cleaned if not unicodedata.combining(ch))
+    cleaned = cleaned.encode("ascii", "ignore").decode("ascii").lower()
+    words = re.findall(r"[a-z]+", cleaned)
+    words = [_JOB_SLUG_LATIN_MAP.get(word, word) for word in words]
+    words = [word for word in words if word]
+    if len(words) > max_words:
+        words = words[:max_words]
+    if len(words) == 1:
+        words.append("job")
+    return "-".join(words)[:80].strip("-")
+
+
+def _fallback_job_english_slug(package):
+    company_words = _job_english_words(package.get("job_company") or package.get("company"))[:2]
+    role_words = _job_english_words(package.get("job_title") or package.get("title"))[:3]
+    location_words = _job_english_words(package.get("job_location") or package.get("location"))[:2]
+    words = []
+    for word in company_words + role_words + location_words:
+        if word not in words:
+            words.append(word)
+    if not words:
+        words = ["employment", "opportunity"]
+    elif len(words) == 1:
+        words.append("job")
+    return "-".join(words[:7])[:80].strip("-")
+
+
 def _trim_to_length(text, max_length):
     value = str(text or "").strip()
     if len(value) <= max_length:
@@ -1210,7 +1338,11 @@ def _shorten_metadata_once_if_needed(data):
 def _normalize_ai_output(data):
     data["title"] = str(data.get("title", "")).strip()
     data["description"] = str(data.get("description", "")).strip()
-    data["slug"] = _normalize_slug(data.get("slug", ""), max_words=7)
+    data["slug"] = (
+        _normalize_job_english_slug(data.get("slug", ""), max_words=7)
+        if JOBS_MODE
+        else _normalize_slug(data.get("slug", ""), max_words=7)
+    )
     data["html_content"] = str(data.get("html_content", "")).strip()
     return data
 
@@ -2497,11 +2629,13 @@ def _apply_success(article, data, provider_used):
     article["ai_processed_at"] = _now_iso()
     article["seo_title"] = str(data["title"]).strip()
     article["seo_description"] = str(data["description"]).strip()
+    package = article.get("ai_input_package") or {}
     article["seo_slug"] = (
-        str((article.get("ai_input_package") or {}).get("desired_slug") or "").strip()
+        _normalize_job_english_slug(data["slug"])
+        or _fallback_job_english_slug(package)
         if JOBS_MODE
         else _normalize_slug(data["slug"])
-    ) or _normalize_slug(data["slug"])
+    )
     article["final_html"] = final_html
     article["blogger_article_html"] = final_html
     article["final_word_count"] = word_count
@@ -2606,7 +2740,7 @@ def _deterministic_job_article(package):
     return {
         "title": title[:150],
         "description": description[:190],
-        "slug": str(package.get("desired_slug") or _normalize_slug(title)).strip(),
+        "slug": _fallback_job_english_slug(package),
         "html_content": html,
     }
 

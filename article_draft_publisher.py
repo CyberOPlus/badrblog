@@ -204,7 +204,7 @@ def _attempt_letters(value):
 
 
 def _permalink_seed_title(article):
-    slug = str(article.get("desired_slug") or article.get("seo_slug") or "").strip().casefold()
+    slug = str(article.get("seo_slug") or article.get("desired_slug") or "").strip().casefold()
     slug = re.sub(r"[^a-z-]+", "-", slug)
     slug = re.sub(r"-{2,}", "-", slug).strip("-")
     if not slug:
@@ -300,8 +300,8 @@ def _source_domain_for_article(article):
 
 def _job_cover_key(article):
     candidate = str(
-        article.get("desired_slug")
-        or article.get("seo_slug")
+        article.get("seo_slug")
+        or article.get("desired_slug")
         or article.get("job_campaign_id")
         or ""
     ).strip().casefold()
