@@ -43,6 +43,11 @@ from config import (
     MAX_SOURCES_PER_RUN,
     MAX_SOURCE_RETRIES,
     JOBS_MODE,
+    JOBS_DISCOVERY_PAGE_SIZE,
+    JOBS_DISCOVERY_MAX_PAGES,
+    JOBS_DISCOVERY_SEEN_STREAK,
+    JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
+    JOBS_DISCOVERY_SEEN_MEMORY,
     RECENT_NEWS_MAX_AGE_HOURS,
     RECENT_NEWS_ONLY,
     RETRY_DELAY,
@@ -74,6 +79,139 @@ if SCRAPLING_AVAILABLE:
 SMART_FRESHNESS_INITIAL_HOURS = 6
 SMART_FRESHNESS_EXPANDED_HOURS = 12
 FRESHNESS_HARD_MAX_HOURS = 24 * 7
+
+
+def _discovery_identity(link):
+    link = link or {}
+    provider = str(link.get("ats_provider") or "").strip().casefold()
+    reference = str(
+        link.get("ats_reference")
+        or link.get("job_external_reference")
+        or ""
+    ).strip()
+    if reference:
+        return f"{provider or 'source'}:{reference.casefold()}"
+    canonical = canonicalize_url(link.get("url"))
+    return f"url:{canonical}" if canonical else ""
+
+
+def _source_known_discovery_ids(source_url):
+    record = source_crawl_record(source_url)
+    raw = record.get("job_seen_ids") or []
+    if not isinstance(raw, list):
+        return set()
+    return {
+        str(value).strip()
+        for value in raw
+        if str(value or "").strip()
+    }
+
+
+def _merge_source_seen_ids(source_url, links):
+    existing = list(source_crawl_record(source_url).get("job_seen_ids") or [])
+    ordered = []
+    seen = set()
+    for value in [
+        *(_discovery_identity(link) for link in links or []),
+        *(str(item or "").strip() for item in existing),
+    ]:
+        if not value or value in seen:
+            continue
+        seen.add(value)
+        ordered.append(value)
+        if len(ordered) >= JOBS_DISCOVERY_SEEN_MEMORY:
+            break
+    return ordered
+
+
+def _filter_new_discovery_links(
+    links,
+    known_ids=None,
+    *,
+    seen_streak_stop=None,
+    max_items=None,
+):
+    known = set(known_ids or ())
+    seen_streak_stop = max(
+        1,
+        int(seen_streak_stop or JOBS_DISCOVERY_SEEN_STREAK),
+    )
+    max_items = max(
+        1,
+        int(max_items or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE),
+    )
+
+    selected = []
+    consecutive_seen = 0
+    scanned = 0
+    stop_reason = ""
+
+    for link in links or []:
+        identity = _discovery_identity(link)
+        if not identity:
+            continue
+        scanned += 1
+        if identity in known:
+            consecutive_seen += 1
+            if consecutive_seen >= seen_streak_stop:
+                stop_reason = "seen_streak"
+                break
+            continue
+
+        consecutive_seen = 0
+        selected.append(link)
+        known.add(identity)
+        if len(selected) >= max_items:
+            stop_reason = "max_items"
+            break
+
+    return selected, {
+        "scanned": scanned,
+        "new_links": len(selected),
+        "seen_streak": consecutive_seen,
+        "stop_reason": stop_reason,
+    }
+
+
+def _pagination_next_url(html_text, current_url):
+    soup = BeautifulSoup(html_text or "", "html.parser")
+    current = urlparse(current_url)
+    candidates = []
+
+    for tag in soup.find_all(["a", "link"], href=True):
+        rel = " ".join(tag.get("rel") or []).casefold()
+        text = _normalize_text(
+            " ".join(
+                [
+                    tag.get_text(" ", strip=True) if hasattr(tag, "get_text") else "",
+                    str(tag.get("aria-label") or ""),
+                    str(tag.get("title") or ""),
+                ]
+            )
+        ).casefold()
+        href = urljoin(current_url, str(tag.get("href") or "").strip())
+        if not href:
+            continue
+        if "next" in rel:
+            candidates.append(href)
+            continue
+        next_labels = (
+            "next", "next page", "suivant", "page suivante",
+            "التالي", "الصفحة التالية", "suivante",
+        )
+        if any(label in text for label in next_labels):
+            candidates.append(href)
+
+    for candidate in candidates:
+        parsed = urlparse(candidate)
+        if parsed.scheme not in {"http", "https"}:
+            continue
+        if parsed.netloc.casefold() != current.netloc.casefold():
+            continue
+        if canonicalize_url(candidate) == canonicalize_url(current_url):
+            continue
+        return candidate
+    return ""
 
 
 BLOCKED_IMAGE_HINTS = (
