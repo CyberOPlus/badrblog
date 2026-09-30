@@ -101,21 +101,52 @@ def _download_pdf(url, timeout=20, max_bytes=25 * 1024 * 1024):
     return payload
 
 
+IDENTITY_DOCUMENT_HINTS = (
+    "avis", "announcement", "notice", "decision", "conditions", "condition",
+    "concours", "descriptif", "description", "fiche de poste",
+    "إعلان", "الاعلان", "الإعلان", "قرار", "مقرر", "شروط", "المباراة",
+)
+
+
+def _document_identity_priority(item, article):
+    signature = " ".join(
+        [
+            str((item or {}).get("label") or ""),
+            str((item or {}).get("context") or ""),
+            str((item or {}).get("url") or ""),
+        ]
+    ).casefold()
+    notice_type = str((article or {}).get("job_notice_type") or "").strip().lower()
+    result_notice = notice_type in {"candidate_list", "results", "final_results"}
+
+    score = 0
+    if any(hint in signature for hint in IDENTITY_DOCUMENT_HINTS):
+        score += 8
+    if any(hint in signature for hint in RESULT_HINTS):
+        score += 7 if result_notice else -5
+    if str((item or {}).get("url") or "").casefold().split("?", 1)[0].endswith(".pdf"):
+        score += 1
+    return score
+
+
 def _eligible_documents(article, max_documents=3):
     documents = article.get("job_document_links") or []
-    eligible = []
+    candidates = []
     seen = set()
-    for item in documents:
+    for index, item in enumerate(documents):
         if not _document_should_render(item):
             continue
         key = _canonical_key(item.get("url"))
         if not key or key in seen:
             continue
         seen.add(key)
-        eligible.append(item)
-        if len(eligible) >= max(1, int(max_documents or 1)):
-            break
-    return eligible
+        candidates.append(
+            (_document_identity_priority(item, article), -index, item)
+        )
+
+    candidates.sort(key=lambda row: (row[0], row[1]), reverse=True)
+    limit = max(1, int(max_documents or 1))
+    return [item for _priority, _index, item in candidates[:limit]]
 
 
 def _clean_pdf_page_text(value):
