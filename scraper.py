@@ -137,6 +137,22 @@ def _merge_source_seen_ids(source_url, links):
     return ordered
 
 
+def _merge_discovery_link_groups(*groups):
+    """Merge head-refresh and backlog-resume results without duplicate job IDs."""
+    merged = []
+    seen = set()
+    for group in groups:
+        for link in group or []:
+            identity = _discovery_identity(link)
+            if not identity:
+                identity = f"url:{canonicalize_url((link or {}).get('url'))}" if isinstance(link, dict) else ""
+            if not identity or identity in seen:
+                continue
+            seen.add(identity)
+            merged.append(link)
+    return merged
+
+
 def _filter_new_discovery_links(
     links,
     known_ids=None,
@@ -2904,19 +2920,81 @@ async def _discover_latest_article_links_async(enabled_sources):
         print(f"\n[{index}] Checking {source_name}")
         async with semaphore:
             try:
-                links, error, status_code, details = await _collect_article_links_for_source_async(
-                    session,
-                    base_url,
-                    per_source_limit=fetch_limit,
-                    feed_url=source.get("feed_url"),
-                    extractor_type=source.get("extractor_type", "auto"),
-                    strict_source_path=bool(source.get("strict_source_path", True)),
-                    known_ids=known_ids,
-                    max_pages=discovery_max_pages,
-                    seen_streak_stop=discovery_seen_streak,
-                    max_items=discovery_max_items,
-                    resume_state=resume_state,
-                )
+                common_kwargs = {
+                    "per_source_limit": fetch_limit,
+                    "feed_url": source.get("feed_url"),
+                    "extractor_type": source.get("extractor_type", "auto"),
+                    "strict_source_path": bool(source.get("strict_source_path", True)),
+                    "max_pages": discovery_max_pages,
+                    "seen_streak_stop": discovery_seen_streak,
+                    "max_items": discovery_max_items,
+                }
+
+                if JOBS_MODE and resume_state:
+                    # Refresh the newest listing head on every cycle even while
+                    # a deep initial backlog is still being drained.
+                    head_links, head_error, head_status, head_details = await _collect_article_links_for_source_async(
+                        session,
+                        base_url,
+                        known_ids=known_ids,
+                        resume_state={},
+                        **common_kwargs,
+                    )
+                    head_resume = (head_details or {}).get("discovery_resume") or {}
+
+                    if head_resume and not head_error:
+                        # A large fresh burst itself exceeded this run's budget.
+                        # Rebase onto that burst before older backlog work.
+                        links = head_links
+                        error = ""
+                        status_code = head_status
+                        details = dict(head_details or {})
+                        details["head_refresh_links_found"] = len(head_links)
+                        details["head_refresh_rebased_resume"] = True
+                        details["backlog_resume_deferred"] = True
+                    else:
+                        resumed_known = set(known_ids)
+                        resumed_known.update(
+                            identity
+                            for identity in (_discovery_identity(link) for link in head_links)
+                            if identity
+                        )
+                        resume_links, resume_error, resume_status, resume_details = await _collect_article_links_for_source_async(
+                            session,
+                            base_url,
+                            known_ids=resumed_known,
+                            resume_state=resume_state,
+                            **common_kwargs,
+                        )
+                        links = _merge_discovery_link_groups(head_links, resume_links)
+                        details = dict(resume_details or head_details or {})
+                        details["head_refresh_links_found"] = len(head_links)
+                        details["backlog_resume_links_found"] = len(resume_links)
+                        details["head_refresh_stop_reason"] = (
+                            (head_details or {}).get("discovery_meta", {}).get("stop_reason", "")
+                        )
+                        details["backlog_resume_stop_reason"] = (
+                            (resume_details or {}).get("discovery_meta", {}).get("stop_reason", "")
+                        )
+                        if head_error:
+                            details["head_refresh_error"] = head_error
+                        if resume_error:
+                            details["backlog_resume_error"] = resume_error
+                            details["discovery_resume"] = dict(resume_state)
+                        error = (
+                            f"head refresh: {head_error}; backlog resume: {resume_error}"
+                            if head_error and resume_error
+                            else ""
+                        )
+                        status_code = resume_status or head_status
+                else:
+                    links, error, status_code, details = await _collect_article_links_for_source_async(
+                        session,
+                        base_url,
+                        known_ids=known_ids,
+                        resume_state=resume_state,
+                        **common_kwargs,
+                    )
             except Exception as exc:
                 links = []
                 error = f"{type(exc).__name__}: {exc}"
@@ -3154,18 +3232,74 @@ def discover_latest_article_links(sources):
         category_name = source.get("category_name", "")
         category_label = source.get("category_label", category_hint)
         try:
-            links, error, status_code, details = _collect_article_links_for_source(
-                base_url,
-                per_source_limit=fetch_limit,
-                feed_url=source.get("feed_url"),
-                extractor_type=source.get("extractor_type", "auto"),
-                strict_source_path=bool(source.get("strict_source_path", True)),
-                known_ids=known_ids,
-                max_pages=discovery_max_pages,
-                seen_streak_stop=discovery_seen_streak,
-                max_items=discovery_max_items,
-                resume_state=resume_state,
-            )
+            common_kwargs = {
+                "per_source_limit": fetch_limit,
+                "feed_url": source.get("feed_url"),
+                "extractor_type": source.get("extractor_type", "auto"),
+                "strict_source_path": bool(source.get("strict_source_path", True)),
+                "max_pages": discovery_max_pages,
+                "seen_streak_stop": discovery_seen_streak,
+                "max_items": discovery_max_items,
+            }
+
+            if JOBS_MODE and resume_state:
+                head_links, head_error, head_status, head_details = _collect_article_links_for_source(
+                    base_url,
+                    known_ids=known_ids,
+                    resume_state={},
+                    **common_kwargs,
+                )
+                head_resume = (head_details or {}).get("discovery_resume") or {}
+
+                if head_resume and not head_error:
+                    links = head_links
+                    error = ""
+                    status_code = head_status
+                    details = dict(head_details or {})
+                    details["head_refresh_links_found"] = len(head_links)
+                    details["head_refresh_rebased_resume"] = True
+                    details["backlog_resume_deferred"] = True
+                else:
+                    resumed_known = set(known_ids)
+                    resumed_known.update(
+                        identity
+                        for identity in (_discovery_identity(link) for link in head_links)
+                        if identity
+                    )
+                    resume_links, resume_error, resume_status, resume_details = _collect_article_links_for_source(
+                        base_url,
+                        known_ids=resumed_known,
+                        resume_state=resume_state,
+                        **common_kwargs,
+                    )
+                    links = _merge_discovery_link_groups(head_links, resume_links)
+                    details = dict(resume_details or head_details or {})
+                    details["head_refresh_links_found"] = len(head_links)
+                    details["backlog_resume_links_found"] = len(resume_links)
+                    details["head_refresh_stop_reason"] = (
+                        (head_details or {}).get("discovery_meta", {}).get("stop_reason", "")
+                    )
+                    details["backlog_resume_stop_reason"] = (
+                        (resume_details or {}).get("discovery_meta", {}).get("stop_reason", "")
+                    )
+                    if head_error:
+                        details["head_refresh_error"] = head_error
+                    if resume_error:
+                        details["backlog_resume_error"] = resume_error
+                        details["discovery_resume"] = dict(resume_state)
+                    error = (
+                        f"head refresh: {head_error}; backlog resume: {resume_error}"
+                        if head_error and resume_error
+                        else ""
+                    )
+                    status_code = resume_status or head_status
+            else:
+                links, error, status_code, details = _collect_article_links_for_source(
+                    base_url,
+                    known_ids=known_ids,
+                    resume_state=resume_state,
+                    **common_kwargs,
+                )
         except Exception as exc:
             links = []
             error = f"{type(exc).__name__}: {exc}"
