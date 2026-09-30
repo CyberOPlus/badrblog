@@ -1205,6 +1205,32 @@ def _build_excess_english_retry_prompt(package, previous_data, previous_error):
     if isinstance(previous_data, dict):
         previous_html = str(previous_data.get("html_content") or "")
     source_text = _source_text_for_package(package)
+    if JOBS_MODE:
+        return f"""
+Return JSON only with title, description, slug, html_content, notice_type, facebook_post_text.
+
+The previous Jobs response failed because the article body contained too much English:
+{previous_error}
+
+Rewrite the SAME verified notice in natural Modern Standard Arabic.
+- Re-read source_tables and job_document_texts as evidence.
+- Decide notice_type again from the evidence: vacancy, competition, candidate_list, results, final_results, or update.
+- Preserve necessary company names, acronyms, official role names, products, certifications, and technical terms in their original language only when useful.
+- Arabic must dominate article paragraphs and facebook_post_text.
+- Preserve every verified fact, number, date, official link, role breakdown, and current notice stage.
+- Do not invent, omit, or turn a list/result/update into a fresh opening.
+- facebook_post_text remains mandatory, contains no URL, points to "أول تعليق", and ends with 3-5 relevant hashtags.
+- Return complete semantic HTML with no truncated tags.
+
+SOURCE PACKAGE:
+{json.dumps(package, ensure_ascii=False, indent=2)}
+
+SOURCE TEXT:
+{source_text}
+
+PREVIOUS HTML, for diagnosis only:
+{previous_html[:4000]}
+""".strip()
     return f"""
 Return JSON only using the same shape as before.
 
