@@ -343,7 +343,7 @@ jobs:
             # only runtime files, then create a fresh state commit.
             PERSIST_PATHS=("${STATE_PATHS[@]}" "logs/auto_cycle_runs.jsonl")
             SNAPSHOT_DIR="$(mktemp -d)"
-            RUN_BASE_SHA="$(git rev-parse HEAD)"
+            RUN_BASE_SHA="${GITHUB_SHA}"
 
             snapshot_runtime() {
               rm -rf "$SNAPSHOT_DIR"
@@ -354,6 +354,34 @@ jobs:
                   cp -a "$state_path" "$SNAPSHOT_DIR/$state_path"
                 fi
               done
+            }
+
+            prefer_jobs_queue_snapshot() {
+              python - "$SNAPSHOT_DIR/jobs_article_queue.json" "jobs_article_queue.json" <<'PY'
+import json
+import sys
+
+def article_count(path):
+    try:
+        with open(path, "r", encoding="utf-8-sig") as handle:
+            data = json.load(handle)
+    except Exception:
+        return None
+    articles = data.get("articles") if isinstance(data, dict) else None
+    return len(articles) if isinstance(articles, list) else None
+
+snapshot_count = article_count(sys.argv[1])
+remote_count = article_count(sys.argv[2])
+# A valid non-empty runner snapshot is stronger than a remote queue that is
+# missing/corrupt/empty. If both are valid and non-empty, keep newer remote.
+raise SystemExit(
+    0
+    if snapshot_count is not None
+    and snapshot_count > 0
+    and (remote_count is None or remote_count == 0)
+    else 1
+)
+PY
             }
 
             restore_runtime() {
@@ -367,8 +395,12 @@ jobs:
                 # recovery/manual fix (or another completed production run)
                 # with an older snapshot from this runner.
                 if ! git diff --quiet "$RUN_BASE_SHA" origin/main -- "$state_path"; then
-                  echo "Keeping newer remote runtime state: $state_path"
-                  continue
+                  if [ "$state_path" = "jobs_article_queue.json" ] && prefer_jobs_queue_snapshot; then
+                    echo "Remote Jobs queue is empty/invalid; restoring valid non-empty runner snapshot."
+                  else
+                    echo "Keeping newer remote runtime state: $state_path"
+                    continue
+                  fi
                 fi
 
                 mkdir -p "$(dirname "$state_path")"
