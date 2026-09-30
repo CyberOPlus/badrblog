@@ -11,7 +11,7 @@ import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
-from urllib.parse import parse_qs, unquote, urljoin, urlparse
+from urllib.parse import parse_qs, parse_qsl, unquote, urlencode, urljoin, urlparse, urlunparse
 
 import requests
 from bs4 import BeautifulSoup
@@ -1713,20 +1713,32 @@ def _phenom_jobs_from_html(html_text, country="MOROCCO"):
     return found
 
 
-async def _collect_phenom_links_async(session, source_url, per_source_limit=None):
-    html_text, error, status_code = await _fetch_text_async(session, source_url)
-    if error or not html_text:
-        return [], error or "empty Phenom listing", status_code
-    rows = _phenom_jobs_from_html(html_text, country="MOROCCO")
-    limit = max(
-        1,
-        min(
-            int(per_source_limit or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE),
-            JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
-        ),
-    )
+def _phenom_page_url(source_url, offset):
+    offset = max(0, int(offset or 0))
+    if offset <= 0:
+        return source_url
+    parsed = urlparse(str(source_url or ""))
+    query = dict(parse_qsl(parsed.query, keep_blank_values=True))
+    query["from"] = str(offset)
+    return urlunparse(parsed._replace(query=urlencode(query)))
+
+
+def _phenom_rows_for_country(rows, country="MOROCCO"):
+    country_folded = str(country or "").casefold()
+    if not country_folded:
+        return list(rows or [])
+    return [
+        row
+        for row in (rows or [])
+        if str(row.get("country") or "").casefold() == country_folded
+        or country_folded in str(row.get("location") or "").casefold()
+        or country_folded in str(row.get("cityStateCountry") or "").casefold()
+    ]
+
+
+def _phenom_rows_to_links(rows):
     links = []
-    for row in rows[:limit]:
+    for row in rows or []:
         apply_url = str(row.get("applyUrl") or "").strip()
         job_id = str(row.get("jobId") or row.get("reqId") or "").strip()
         title = _normalize_text(row.get("title") or "")
@@ -1766,7 +1778,127 @@ async def _collect_phenom_links_async(session, source_url, per_source_limit=None
                 "country": row.get("country"),
             },
         })
-    return links, "", status_code or 200
+    return links
+
+
+async def _collect_phenom_links_async(
+    session,
+    source_url,
+    per_source_limit=None,
+    *,
+    known_ids=None,
+    max_pages=None,
+    seen_streak_stop=None,
+    max_items=None,
+    start_offset=0,
+):
+    page_size_hint = max(5, int(per_source_limit or JOBS_DISCOVERY_PAGE_SIZE))
+    max_pages = max(1, int(max_pages or JOBS_DISCOVERY_MAX_PAGES))
+    max_items = max(1, int(max_items or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE))
+    seen_streak_stop = max(1, int(seen_streak_stop or JOBS_DISCOVERY_SEEN_STREAK))
+    working_known = set(known_ids or ())
+    try:
+        offset = max(0, int(start_offset or 0))
+    except (TypeError, ValueError):
+        offset = 0
+
+    collected = []
+    seen_streak = 0
+    status_code = 200
+    pages_scanned = 0
+    stop_reason = "end"
+    resume_offset = 0
+    last_error = ""
+    previous_page_signature = None
+
+    for _page_number in range(max_pages):
+        pages_scanned += 1
+        current_offset = offset
+        page_url = _phenom_page_url(source_url, current_offset)
+        html_text, error, status_code = await _fetch_text_async(session, page_url)
+        if error or not html_text:
+            last_error = error or "empty Phenom listing"
+            stop_reason = "partial_error" if collected else "error"
+            resume_offset = current_offset
+            if collected:
+                break
+            return [], last_error, status_code, {
+                "stop_reason": stop_reason,
+                "resume_offset": resume_offset,
+                "pages_scanned": pages_scanned,
+            }
+
+        # Parse the complete embedded page first. The source routes can be wider
+        # than Morocco, so raw row count controls pagination while filtering only
+        # controls which vacancies enter this Jobs source.
+        raw_rows = _phenom_jobs_from_html(html_text, country="")
+        if not raw_rows:
+            stop_reason = "end"
+            resume_offset = 0
+            break
+
+        page_signature = tuple(
+            sorted(
+                str(row.get("jobSeqNo") or row.get("jobId") or row.get("reqId") or "").strip()
+                for row in raw_rows
+                if str(row.get("jobSeqNo") or row.get("jobId") or row.get("reqId") or "").strip()
+            )
+        )
+        if previous_page_signature is not None and page_signature == previous_page_signature:
+            stop_reason = "page_repeat"
+            resume_offset = 0
+            break
+        previous_page_signature = page_signature
+
+        page_rows = _phenom_rows_for_country(raw_rows, country="MOROCCO")
+        page_links = _phenom_rows_to_links(page_rows)
+        new_links, meta = _filter_new_discovery_links(
+            page_links,
+            working_known,
+            seen_streak_stop=seen_streak_stop,
+            max_items=max(max_items + len(page_links), len(page_links) + 1),
+            initial_seen_streak=seen_streak,
+        )
+        seen_streak = int(meta.get("seen_streak") or 0)
+        collected.extend(new_links)
+
+        if meta.get("stop_reason") == "seen_streak":
+            stop_reason = "seen_streak"
+            resume_offset = 0
+            break
+
+        # Phenom search pages currently expose offset-style pagination through
+        # the "from" query parameter. Use the actual embedded row count when
+        # available; keep the source page-size hint only as a safe fallback.
+        step = len(raw_rows) or page_size_hint
+        next_offset = current_offset + max(1, step)
+
+        # A short raw page is the natural end of the listing once a prior full
+        # page established the page size. For the first page, continue once so
+        # routes with a small initial payload can still prove whether "from"
+        # pagination is supported; page_repeat guards ignored offsets.
+        if _page_number > 0 and len(raw_rows) < page_size_hint:
+            stop_reason = "end"
+            resume_offset = 0
+            break
+
+        if len(collected) >= max_items:
+            stop_reason = "max_items"
+            resume_offset = next_offset
+            break
+
+        offset = next_offset
+    else:
+        stop_reason = "max_pages"
+        resume_offset = offset
+
+    return collected, last_error, status_code or 200, {
+        "stop_reason": stop_reason,
+        "resume_offset": resume_offset,
+        "pages_scanned": pages_scanned,
+        "page_size": page_size_hint,
+        "seen_streak": seen_streak,
+    }
 
 
 def _csod_config(source_url):
@@ -2232,23 +2364,31 @@ async def _collect_article_links_for_source_async(
         }
 
     if extractor_mode == "phenom_ddo":
-        links, error, status_code = await _collect_phenom_links_async(
+        links, error, status_code, discovery_meta = await _collect_phenom_links_async(
             session,
             source_url,
-            per_source_limit=max_items or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
+            per_source_limit=per_source_limit,
+            known_ids=known_ids,
+            max_pages=max_pages,
+            seen_streak_stop=seen_streak_stop,
+            max_items=max_items,
+            start_offset=(
+                resume_state.get("offset", 0)
+                if resume_state.get("kind") == "phenom"
+                else 0
+            ),
         )
-        if JOBS_MODE:
-            links, _phenom_meta = _filter_new_discovery_links(
-                links,
-                set(known_ids or ()),
-                seen_streak_stop=seen_streak_stop,
-                max_items=max_items,
-            )
         return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
             "normal_links_found": len(links),
             "feed_links_found": 0,
             "method_used": "phenom_ddo" if links else ("failed:phenom_ddo" if error else "phenom_ddo"),
             "tried_feed_urls": [],
+            "discovery_meta": discovery_meta,
+            "discovery_resume": (
+                {"kind": "phenom", "offset": discovery_meta.get("resume_offset")}
+                if int(discovery_meta.get("resume_offset") or 0) > 0
+                else {}
+            ),
             "empty_ok": not links and not error and status_code == 200,
         }
 
