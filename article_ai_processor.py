@@ -329,14 +329,20 @@ def _provider_error_category(error):
 
 def _failure_fingerprint(error, *, scope="", provider=""):
     normalized = _normalized_failure_text(error)
-    category = _provider_error_category(error) if scope in {"provider", "global", "cycle_budget"} else "quality"
+    category = (
+        _provider_error_category(error)
+        if scope in {"provider", "global", "cycle_budget"}
+        else "article_input"
+        if scope == "article_input"
+        else "quality"
+    )
     seed = f"{scope}|{provider}|{category}|{normalized}"
     return hashlib.sha256(seed.encode("utf-8")).hexdigest()[:20], category
 
 
 def _fingerprint_backoff_seconds(scope, category, count):
     count = max(1, int(count or 1))
-    if scope == "quality":
+    if scope in {"quality", "article_input"}:
         base = 30 * 60
         cap = 6 * 3600
     elif category == "auth":
@@ -3100,6 +3106,8 @@ def _is_quality_error(error):
 
 
 def _is_provider_error(error):
+    if isinstance(error, AIArticleInputError):
+        return False
     return isinstance(error, (RuntimeError, AIProviderFallbackNeeded, AIProviderRotationExhausted))
 
 
@@ -3582,7 +3590,9 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     article["ai_failure_category"] = failure_category
     article["ai_retry_after"] = _epoch_to_iso(failure_retry_until)
     article["ai_quality_status"] = (
-        "time_budget_exceeded"
+        "article_input_backoff"
+        if isinstance(last_error, AIArticleInputError)
+        else "time_budget_exceeded"
         if isinstance(last_error, AITimeBudgetExceeded)
         else "provider_rotation_exhausted"
         if provider_exhausted
