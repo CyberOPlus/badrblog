@@ -3171,6 +3171,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     provider_sequence = _attempt_provider_sequence()
     failed_provider_names = set()
     quality_retry_counts = {}
+    quality_repairs_used = 0
     forced_next_provider = ""
     preferred_repair_provider = str(article.get("ai_retry_provider") or "").strip().lower()
     if JOBS_MODE and preferred_repair_provider:
@@ -3198,7 +3199,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     total_attempts = (
         0
         if JOBS_MODE and not provider_sequence
-        else max(1, MAX_AI_ATTEMPTS, len(provider_sequence))
+        else max(1, len(provider_sequence) + JOBS_AI_QUALITY_REPAIRS)
         if JOBS_MODE
         else max(1, MAX_AI_ATTEMPTS)
     )
@@ -3351,6 +3352,44 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     reason=_safe_error_reason(error),
                 )
             if is_quality_failure:
+                if JOBS_MODE:
+                    if quality_repairs_used >= JOBS_AI_QUALITY_REPAIRS or attempt >= total_attempts:
+                        log_event(
+                            "ai_quality_repair_limit_reached",
+                            article_id=article.get("id"),
+                            provider=provider or provider_used,
+                            repairs_used=quality_repairs_used,
+                            max_repairs=JOBS_AI_QUALITY_REPAIRS,
+                            reason=str(error),
+                        )
+                        break
+
+                    quality_repairs_used += 1
+                    article["ai_quality_repairs_used"] = quality_repairs_used
+                    if "too much english inside article paragraphs" in str(error).casefold():
+                        article["ai_excess_english_retry_used"] = True
+                        prompt = _build_excess_english_retry_prompt(
+                            package,
+                            previous_data,
+                            str(error),
+                        )
+                    else:
+                        prompt = _build_expansion_retry_prompt(
+                            package,
+                            previous_data,
+                            str(error),
+                        )
+                    forced_next_provider = provider or provider_used.split(":", 1)[0]
+                    log_event(
+                        "ai_quality_repair_retry",
+                        article_id=article.get("id"),
+                        provider=forced_next_provider,
+                        repair=quality_repairs_used,
+                        max_repairs=JOBS_AI_QUALITY_REPAIRS,
+                        reason=str(error),
+                    )
+                    continue
+
                 if "too much english inside article paragraphs" in str(error).casefold():
                     if not excess_english_retry_used and attempt < total_attempts:
                         excess_english_retry_used = True
@@ -3362,7 +3401,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                             reason=error,
                         )
                         prompt = _build_excess_english_retry_prompt(package, previous_data, str(error))
-                        if JOBS_MODE and provider:
+                        if provider:
                             forced_next_provider = provider
                         continue
                     log_event(
@@ -3376,12 +3415,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 if provider:
                     quality_retry_counts[provider] = quality_retry_counts.get(provider, 0) + 1
                 if attempt < total_attempts and provider:
-                    if JOBS_MODE:
-                        # Quality/content failure is not a provider outage. The same
-                        # AI provider that wrote the article must repair its own output.
-                        # Rotate only when the provider itself fails.
-                        forced_next_provider = provider
-                    elif quality_retry_counts.get(provider, 0) < 2:
+                    if quality_retry_counts.get(provider, 0) < 2:
                         forced_next_provider = provider
                     else:
                         forced_next_provider = _next_provider_in_sequence(provider_sequence, provider)
@@ -3413,6 +3447,11 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                                 next_provider = candidate_provider
                                 break
                     if not next_provider:
+                        if JOBS_MODE:
+                            _open_global_circuit(
+                                error,
+                                providers=_resolve_providers(),
+                            )
                         break
                     forced_next_provider = next_provider
                     log_event(
