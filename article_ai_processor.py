@@ -608,7 +608,12 @@ def _provider_timeout_seconds(candidate, context=None):
     return max(1, min(desired_timeout, remaining_seconds))
 
 
-def _is_article_input_error(error):
+def _is_provider_model_capacity_error(error):
+    """
+    Provider/model context-capacity failures are not source-evidence failures.
+    The same verified article may fit the next provider/model, so rotate instead
+    of putting the article itself into input backoff.
+    """
     message = str(error or "").casefold()
     return any(
         token in message
@@ -626,6 +631,12 @@ def _is_article_input_error(error):
             "token limit",
         )
     )
+
+
+def _is_article_input_error(error):
+    # Article/source input failures are established before provider calls by
+    # _jobs_pre_ai_evidence_error(). Provider/model capacity errors must rotate.
+    return isinstance(error, AIArticleInputError)
 
 
 def _is_timeout_error(error):
@@ -3095,6 +3106,18 @@ def _generate_with_provider_name(provider, prompt, context=None):
                 return result
             except Exception as error:
                 last_error = error
+                if JOBS_MODE and _is_provider_model_capacity_error(error):
+                    _put_candidate_on_cooldown(candidate, error)
+                    log_event(
+                        "ai_provider_model_capacity_rejected",
+                        article_id=getattr(context, "article_id", ""),
+                        provider=provider,
+                        model=candidate.get("model"),
+                        reason=_safe_error_reason(error),
+                    )
+                    raise AIProviderFallbackNeeded(
+                        f"{provider} model capacity failed: {_safe_error_reason(error)}"
+                    ) from error
                 if JOBS_MODE and _is_article_input_error(error):
                     raise AIArticleInputError(_safe_error_reason(error)) from error
                 if _is_timeout_error(error) and timeout_retry_count < AI_TIMEOUT_RETRIES:
