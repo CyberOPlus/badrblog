@@ -216,6 +216,31 @@ def is_job_specific_url(url):
     return has_specific_query
 
 
+def _document_external_reference(article):
+    pages = article.get("job_document_texts") or []
+    if not isinstance(pages, list):
+        return ""
+    patterns = (
+        r"(?i)(?:référence|reference|réf\.?|ref\.?)\s*(?:du\s+concours|de\s+l['’]annonce|de\s+l['’]offre)?\s*[:#№-]?\s*([A-Z0-9][A-Z0-9._/-]{2,40})",
+        r"(?:المرجع|رقم\s+(?:المباراة|الإعلان|الاعلان))\s*[:#№-]?\s*([A-Za-z0-9][A-Za-z0-9._/-]{2,40})",
+    )
+    for page in pages:
+        if not isinstance(page, dict):
+            continue
+        text = str(page.get("text") or "")
+        for pattern in patterns:
+            match = re.search(pattern, text)
+            if not match:
+                continue
+            value = str(match.group(1) or "").strip(" .,:;#-")
+            if not value:
+                continue
+            if value.isdigit() and len(value) < 5:
+                continue
+            return value
+    return ""
+
+
 def external_reference(article):
     raw = article.get("raw") or {}
     for key in REFERENCE_KEYS:
@@ -225,7 +250,10 @@ def external_reference(article):
         value = raw.get(key) if isinstance(raw, dict) else None
         if value not in (None, ""):
             return str(value).strip()
-    return str(article.get("job_external_reference") or "").strip()
+    explicit = str(article.get("job_external_reference") or "").strip()
+    if explicit:
+        return explicit
+    return _document_external_reference(article)
 
 
 def is_foreign_job_detail_url(article, url):
@@ -324,6 +352,15 @@ def is_application_url_bound_to_job(article, url):
     return is_verified_official_application_channel(article, candidate)
 
 
+def _identity_strong_application_url(article, url):
+    url = canonicalize_job_url(url)
+    if not url or not is_job_specific_url(url):
+        return ""
+    if str(article.get("job_application_link_kind") or "").strip().lower() == "official_application_channel":
+        return ""
+    return url
+
+
 def _core_key(article):
     return "|".join([
         normalize_text(article.get("job_company") or article.get("company")),
@@ -339,11 +376,14 @@ def identity_key(article):
         scope = employer or normalize_text(article.get("source_name"))
         base = f"ref|{scope}|{normalize_text(reference)}"
     else:
-        apply_url = canonicalize_job_url(article.get("job_application_url") or article.get("application_url"))
+        apply_url = _identity_strong_application_url(
+            article,
+            article.get("job_application_url") or article.get("application_url"),
+        )
         canonical = canonicalize_job_url(article.get("canonical_url") or article.get("url") or article.get("source_url"))
         if canonical and is_job_specific_url(canonical):
             base = f"url|{canonical}"
-        elif apply_url and is_job_specific_url(apply_url):
+        elif apply_url:
             base = f"apply|{apply_url}"
         else:
             base = f"core|{_core_key(article)}"
@@ -880,9 +920,9 @@ def _same_campaign_evidence(article, record):
     old_posted = _parse_date(record.get("published_at"))
     if new_posted and old_posted and abs((new_posted - old_posted).days) <= 3:
         evidence += 1
-    new_apply = canonicalize_job_url(article.get("job_application_url"))
+    new_apply = _identity_strong_application_url(article, article.get("job_application_url"))
     old_apply = canonicalize_job_url(record.get("application_url"))
-    if new_apply and old_apply and _same_url_family(new_apply, old_apply):
+    if new_apply and old_apply and is_job_specific_url(old_apply) and _same_url_family(new_apply, old_apply):
         evidence += 4
     return evidence >= 4
 
@@ -906,9 +946,9 @@ def classify_identity(article):
         changed = _material_change(article, record)
         return {"action": "update" if changed else "duplicate", "reason": "same external reference", "existing": record}
 
-    new_apply = canonicalize_job_url(article.get("job_application_url"))
+    new_apply = _identity_strong_application_url(article, article.get("job_application_url"))
     old_apply = canonicalize_job_url(record.get("application_url"))
-    if new_apply and old_apply and new_apply == old_apply:
+    if new_apply and old_apply and is_job_specific_url(old_apply) and new_apply == old_apply:
         changed = _material_change(article, record)
         return {"action": "update" if changed else "duplicate", "reason": "same application URL", "existing": record}
 
@@ -918,7 +958,7 @@ def classify_identity(article):
         if _same_campaign_evidence(article, record):
             return {"action": "duplicate", "reason": "same campaign confirmed across sources", "existing": record}
         return {"action": "new_campaign", "reason": "different external reference", "existing": record}
-    if new_apply and old_apply and not _same_url_family(new_apply, old_apply):
+    if new_apply and old_apply and is_job_specific_url(old_apply) and not _same_url_family(new_apply, old_apply):
         if _same_campaign_evidence(article, record):
             return {"action": "duplicate", "reason": "same campaign facts across different application URLs", "existing": record}
         return {"action": "new_campaign", "reason": "different application URL", "existing": record}
