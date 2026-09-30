@@ -390,7 +390,7 @@ class JobVisualTests(unittest.TestCase):
         )
         self.assertEqual(
             article["job_article_cover_status"],
-            "skipped_missing_verified_logo",
+            "optional_missing_verified_logo",
         )
         self.assertFalse(article["article_logo_used"])
         self.assertNotIn("publish_block_reason", article)
