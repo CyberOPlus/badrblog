@@ -224,6 +224,35 @@ def load_sources():
     return sources
 
 
+
+def article_queue_storage_status():
+    """Inspect queue persistence without hiding corrupt/zero-byte state."""
+    if not ARTICLE_QUEUE_PATH.exists():
+        return {"exists": False, "valid": False, "article_count": 0, "reason": "missing"}
+    try:
+        with open(ARTICLE_QUEUE_PATH, "r", encoding="utf-8-sig") as handle:
+            data = json.load(handle)
+    except (json.JSONDecodeError, OSError, TypeError) as error:
+        return {
+            "exists": True,
+            "valid": False,
+            "article_count": 0,
+            "reason": error.__class__.__name__,
+        }
+    if not isinstance(data, dict) or not isinstance(data.get("articles"), list):
+        return {
+            "exists": True,
+            "valid": False,
+            "article_count": 0,
+            "reason": "invalid_shape",
+        }
+    return {
+        "exists": True,
+        "valid": True,
+        "article_count": len(data.get("articles") or []),
+        "reason": "",
+    }
+
 def load_article_queue():
     if not ARTICLE_QUEUE_PATH.exists():
         return {"updated_at": "", "articles": []}
