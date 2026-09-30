@@ -45,6 +45,8 @@ TEMPORARY_BLOGGER_HTTP_STATUSES = {429, 500, 502, 503, 504}
 
 JOB_ARTICLE_COVER_DIR = Path("assets/generated/job-articles")
 JOB_ARTICLE_RAW_BASE = "https://raw.githubusercontent.com/CyberOPlus/badrblog/main"
+MAX_JOB_DOCUMENT_RENDER_RETRIES = 6
+MAX_JOB_LOGO_RENDER_RETRIES = 4
 
 
 def _now_iso():
@@ -437,20 +439,38 @@ def _document_render_retry_at(hours=6):
 
 
 def _mark_document_render_retry(article, package, error, *, reason="render_failed"):
-    article["job_document_render_status"] = "document_render_retry"
-    article["job_document_render_retry_count"] = int(
-        article.get("job_document_render_retry_count") or 0
-    ) + 1
-    article["job_document_render_retry_after"] = _document_render_retry_at()
+    retry_count = int(article.get("job_document_render_retry_count") or 0) + 1
+    article["job_document_render_retry_count"] = retry_count
     article["job_document_render_error"] = str(error or reason)[:1000]
     article["job_document_render_retry_reason"] = reason
+
+    if retry_count >= MAX_JOB_DOCUMENT_RENDER_RETRIES:
+        article["job_document_render_status"] = "unavailable_optional"
+        package["job_document_render_status"] = "unavailable_optional"
+        article.pop("job_document_render_retry_after", None)
+        package.pop("job_document_render_retry_after", None)
+        article["visual_readiness_status"] = "content_ready_visual_optional"
+        article["ai_input_package"] = package
+        log_event(
+            "job_document_render_abandoned_optional",
+            article_id=article.get("id"),
+            retries=retry_count,
+            reason=reason,
+            error=article["job_document_render_error"],
+        )
+        return
+
+    article["job_document_render_status"] = "document_render_retry"
+    article["job_document_render_retry_after"] = _document_render_retry_at()
     package["job_document_render_status"] = "document_render_retry"
     package["job_document_render_retry_after"] = article["job_document_render_retry_after"]
+    article["visual_readiness_status"] = "content_ready_visual_retry"
     article["ai_input_package"] = package
     log_event(
         "job_document_render_deferred",
         article_id=article.get("id"),
         retry_after=article["job_document_render_retry_after"],
+        retries=retry_count,
         reason=reason,
         error=article["job_document_render_error"],
     )
@@ -648,6 +668,15 @@ def _prepare_job_article_cover(article):
         article["job_article_cover_status"] = "skipped_missing_verified_logo"
         article["article_logo_used"] = False
         article["visual_readiness_status"] = "content_ready_visual_optional"
+        article.pop("logo_visual_retry_pending", None)
+        article.pop("logo_visual_retry_after", None)
+        article.pop("logo_visual_error", None)
+        article.pop("logo_retry_after", None)
+        article.pop("logo_first_wait_at", None)
+        article.pop("visual_content_reuse_required", None)
+        if article.get("candidate_failure_stage") == "company-logo":
+            article.pop("candidate_failure_stage", None)
+            article.pop("candidate_retry_after", None)
         package["logo_resolution_status"] = "unavailable_optional"
         package["job_article_cover_status"] = "skipped_missing_verified_logo"
         package["article_logo_used"] = False
@@ -680,8 +709,16 @@ def _prepare_job_article_cover(article):
         article["article_logo_used"] = False
         article["job_article_cover_status"] = "render_retry_optional"
         article["logo_resolution_status"] = "verified_render_failed_optional"
-        article["logo_visual_retry_pending"] = True
-        article["logo_visual_retry_after"] = _document_render_retry_at(hours=12)
+        logo_retry_count = int(article.get("logo_visual_retry_count") or 0) + 1
+        article["logo_visual_retry_count"] = logo_retry_count
+        article["logo_visual_retry_pending"] = logo_retry_count < MAX_JOB_LOGO_RENDER_RETRIES
+        if article["logo_visual_retry_pending"]:
+            article["logo_visual_retry_after"] = _document_render_retry_at(hours=12)
+            article["visual_readiness_status"] = "content_ready_visual_retry"
+        else:
+            article.pop("logo_visual_retry_after", None)
+            article["job_article_cover_status"] = "render_unavailable_optional"
+            article["visual_readiness_status"] = "content_ready_visual_optional"
         article["logo_visual_error"] = str(
             result.get("error") or "verified logo was not rendered"
         )[:1000]
@@ -707,8 +744,16 @@ def _prepare_job_article_cover(article):
         _clear_optional_job_cover(article, package)
         article["article_logo_used"] = False
         article["job_article_cover_status"] = "asset_persist_retry_optional"
-        article["logo_visual_retry_pending"] = True
-        article["logo_visual_retry_after"] = _document_render_retry_at(hours=12)
+        logo_retry_count = int(article.get("logo_visual_retry_count") or 0) + 1
+        article["logo_visual_retry_count"] = logo_retry_count
+        article["logo_visual_retry_pending"] = logo_retry_count < MAX_JOB_LOGO_RENDER_RETRIES
+        if article["logo_visual_retry_pending"]:
+            article["logo_visual_retry_after"] = _document_render_retry_at(hours=12)
+            article["visual_readiness_status"] = "content_ready_visual_retry"
+        else:
+            article.pop("logo_visual_retry_after", None)
+            article["job_article_cover_status"] = "asset_persist_unavailable_optional"
+            article["visual_readiness_status"] = "content_ready_visual_optional"
         article["logo_visual_error"] = str(error)[:1000]
         package["article_logo_used"] = False
         package["job_article_cover_status"] = "asset_persist_retry_optional"
@@ -755,6 +800,12 @@ def _prepare_job_article_cover(article):
     article.pop("logo_visual_retry_pending", None)
     article.pop("logo_visual_retry_after", None)
     article.pop("logo_visual_error", None)
+    article.pop("logo_retry_after", None)
+    article.pop("logo_first_wait_at", None)
+    article.pop("visual_content_reuse_required", None)
+    if article.get("candidate_failure_stage") == "company-logo":
+        article.pop("candidate_failure_stage", None)
+        article.pop("candidate_retry_after", None)
     article.pop("publish_block_reason", None)
 
     package["main_image"] = public_url
@@ -777,9 +828,9 @@ def _prepare_job_article_cover(article):
     return public_url
 
 
-def _sanitize_article_final_html(article):
+def _sanitize_article_final_html(article, prepare_visuals=True):
     source_domain = _source_domain_for_article(article)
-    if JOBS_MODE:
+    if JOBS_MODE and prepare_visuals:
         _prepare_job_article_cover(article)
         _prepare_job_document_page_images(article)
     cleaned = format_phase3_article_html(
