@@ -1010,15 +1010,18 @@ TITLE — AI EDITORIAL DECISION
 - Avoid duplicated employer names, duplicated counts, repeated "توظيف", keyword stuffing, database-row syntax, broken Arabic/French concatenation, and clickbait.
 - Never invent a number, role, institution, stage, year, location, date, or status. If verified fields conflict, use only the unambiguous facts.
 EVIDENCE AND NOTICE TYPE
-- Treat job_notice_type/job_notice_type_hint as a heuristic hint only, never as the final editorial decision.
-- Read ALL available verified evidence before deciding: source title, full_article_text, dates,
-  job_number_of_positions, source_tables, job_action_links, job_document_links, and every non-empty
-  job_document_texts page extracted from official PDFs.
-- source_tables preserve row/cell relationships. Use them to understand role breakdowns, specialties,
-  seat/position counts, test duration/coefficient, institutions, dates, and other structured facts.
-  Do not flatten unrelated cells into invented relationships.
-- job_document_texts are page-numbered text extracted directly from official PDFs. Treat a non-empty page
-  as verified documentary evidence. If a PDF page has no extractable text, do not guess what the image says.
+- verified_fact_manifest is the PRIMARY factual contract for this article.
+- Facts marked confidence="high" and required_in_output=true MUST be preserved accurately.
+- Facts marked confidence="medium" or "heuristic" are supporting context, not mandatory output requirements.
+  Use them only when the underlying evidence is clear; never invent relationships merely to include them.
+- Treat job_notice_type/job_notice_type_hint as a heuristic hint unless the manifest marks notice_type high-confidence.
+- Read the remaining source title, full_article_text, source_tables and job_document_texts as supporting evidence.
+  Raw table rows and regex-like patterns are NOT automatically mandatory facts. Use row/cell relationships only
+  when their meaning is explicit and consistent with the manifest.
+- source_tables may help explain role breakdowns, specialties, tests and counts, but do not flatten unrelated cells
+  into invented relationships and do not force every arbitrary row into the article.
+- job_document_texts are page-numbered text extracted from official PDFs. Use them to understand context and verify
+  manifest facts. If a PDF page has no extractable text, do not guess what the image says.
 - Decide the final notice_type yourself and return exactly ONE of:
   "vacancy", "competition", "candidate_list", "results", "final_results", "update".
 - vacancy = a private/company employment opening or ordinary job vacancy accepting applications.
@@ -1187,11 +1190,11 @@ SEO / ADSENSE-FRIENDLY EDITORIAL QUALITY
 
 FINAL SILENT CHECK
 Before returning JSON, verify:
-- The article is complete for the available verified source: no useful verified duty, requirement,
-  specialty/grade row, position count, test detail, deadline, official file, or application resource was omitted.
-- Every factual claim is traceable to the verified package, source_tables, or job_document_texts.
-- Every date, position count, salary, age, experience period, test duration, coefficient, and percentage is supported.
-- No specialty/position/test row is duplicated or silently merged with another row.
+- The article is complete against verified_fact_manifest: every high-confidence required fact is present once and accurate.
+- Medium/heuristic manifest facts may be omitted when their meaning is uncertain; never invent text to satisfy them.
+- Every factual claim must remain grounded in the manifest or clearly supported source evidence.
+- Dates, position counts, salary and experience must never contradict high-confidence manifest values.
+- Do not duplicate or silently merge explicit specialty/position/test relationships.
 - No unsupported external URL is present.
 - No duplicated paragraph, structured row, fact, or URL.
 - If a verified deadline exists, its value is clearly present once; do not force a particular heading/label.
@@ -1412,6 +1415,7 @@ def _validate_ai_output(data, package=None):
     phase3_reason = _phase3_quality_failure_reason(data, package=package)
     if phase3_reason:
         raise ValueError(phase3_reason)
+    return result
 
 
 def _build_expansion_retry_prompt(package, previous_data, previous_error):
@@ -1437,10 +1441,10 @@ MANDATORY JOB RETRY RULES:
 - Never invent, repeat, speculate, pad, or add boilerplate.
 - Treat the Quality Gate failure reason above as a concrete repair instruction: correct that failure while preserving
   all other verified facts and links that were already correct.
-- Reconcile every sensitive fact against VERIFIED JOB PACKAGE before returning: dates, counts, specialties/grades,
-  salaries, ages, experience periods, test durations, coefficients, percentages, application URL, and document URLs.
-- Preserve each important source_tables data row without duplicating it; do not merge two specialties/grades/tests
-  into one row unless the verified source itself does so.
+- Reconcile every sensitive fact against verified_fact_manifest before returning.
+  High-confidence facts are authoritative. Medium/heuristic facts are repair hints, not mandatory claims.
+- Use source_tables/job_document_texts only to clarify relationships explicitly supported by the manifest/evidence.
+  Do not preserve arbitrary rows merely because they contain numbers or keywords.
 - Re-evaluate ALL evidence, including source_tables and job_document_texts, and return the correct notice_type:
   vacancy, competition, candidate_list, results, final_results, or update. The incoming job_notice_type is only a hint.
 - Re-edit the title as a human Moroccan employment/competition editor: understand the current page type and stage first, then choose the clearest natural headline.
@@ -3515,7 +3519,17 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 finalize_package["job_notice_type_ai"] = ai_notice_type
                 finalize_package["job_notice_type_source"] = "ai"
             data = _finalize_html_content(data, finalize_package)
-            _validate_ai_output(data, package=finalize_package)
+            validation_result = _validate_ai_output(data, package=finalize_package)
+            manifest_warnings = list(getattr(validation_result, "warnings", ()) or ())
+            article["ai_quality_warnings"] = manifest_warnings
+            if manifest_warnings:
+                log_event(
+                    "ai_manifest_warnings",
+                    article_id=article.get("id"),
+                    provider=provider_used or provider,
+                    warnings=" | ".join(manifest_warnings[:6]),
+                    warning_count=len(manifest_warnings),
+                )
             log_event(
                 "ai_complete_response_accepted",
                 article_id=article.get("id"),
