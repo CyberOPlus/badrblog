@@ -120,16 +120,48 @@ def is_job_specific_url(url):
         return False
     parsed = urlparse(normalized)
     segments = [x.casefold() for x in parsed.path.split("/") if x]
-    if parsed.query:
-        return True
+    query = {
+        key.casefold(): str(value or "").strip()
+        for key, value in parse_qsl(parsed.query, keep_blank_values=True)
+    }
+
+    specific_query_keys = {
+        "id", "job", "jobid", "job_id", "job-id", "requisitionid",
+        "requisition_id", "reqid", "req_id", "vacancyid", "vacancy_id",
+        "postingid", "posting_id", "positionid", "position_id", "reference",
+    }
+    has_specific_query = any(
+        key in specific_query_keys and len(value) >= 3
+        for key, value in query.items()
+    )
+
     if not segments:
-        return False
+        return has_specific_query
+
     last = segments[-1]
-    if last in GENERIC_JOB_PATHS and len(segments) <= 2:
+    generic_tail = last in GENERIC_JOB_PATHS or last in {
+        "search", "job-search", "jobs-search", "offres", "offres-emploi",
+        "emplois", "openings", "positions", "all-jobs", "all-jobs-search",
+        "candidature", "postuler", "application", "applications", "register",
+        "registration", "inscription",
+    }
+    if generic_tail:
+        if has_specific_query:
+            return True
+        parent = segments[-2] if len(segments) >= 2 else ""
+        if re.search(r"\d{3,}|[a-f0-9]{8,}", parent):
+            return True
+        # A descriptive job slug immediately before /apply or /application is
+        # also specific enough when it is not another generic careers segment.
+        if len(segments) >= 3 and parent and parent not in GENERIC_JOB_PATHS:
+            return True
         return False
+
     if re.search(r"\d{3,}|[a-f0-9]{8,}", last):
         return True
-    return len(segments) >= 2 and last not in GENERIC_JOB_PATHS
+    if len(segments) >= 2 and last not in GENERIC_JOB_PATHS:
+        return True
+    return has_specific_query
 
 
 def external_reference(article):

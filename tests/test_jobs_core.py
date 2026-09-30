@@ -41,6 +41,14 @@ def sample_job(**overrides):
 
 
 class JobsCoreTests(unittest.TestCase):
+    def test_job_specific_application_url_rejects_generic_search_and_careers(self):
+        self.assertFalse(job_core.is_job_specific_url("https://company.example/jobs"))
+        self.assertFalse(job_core.is_job_specific_url("https://company.example/jobs?search=security"))
+        self.assertFalse(job_core.is_job_specific_url("https://company.example/careers?page=2"))
+        self.assertTrue(job_core.is_job_specific_url("https://company.example/jobs/8448475-manager-security"))
+        self.assertTrue(job_core.is_job_specific_url("https://company.example/apply?job_id=8448475"))
+
+
     def test_job_headline_style_matches_human_moroccan_patterns(self):
         self.assertEqual(
             quality_gate._job_title_style_reason(
@@ -234,7 +242,8 @@ class JobsCoreTests(unittest.TestCase):
         )
         self.assertEqual(fields["job_exam_date"], "2026-10-25")
         self.assertEqual(fields["job_deadline"], "2026-10-05")
-        self.assertEqual(fields["job_application_link_kind"], "direct_apply")
+        self.assertEqual(fields["job_application_link_kind"], "official_job_page")
+        self.assertEqual(fields["job_application_url"], "https://www.emploi-public.ma/ar/تفاصيل/المباريات/test")
         self.assertEqual(len(fields["job_document_links"]), 2)
 
     def test_emploi_public_parser_keeps_only_competition_details(self):

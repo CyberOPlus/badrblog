@@ -7,6 +7,8 @@ from urllib.parse import urljoin, urlparse
 
 from bs4 import BeautifulSoup
 
+from job_core import is_job_specific_url
+
 
 MOROCCO_CITIES = (
     "Casablanca", "Rabat", "Salé", "Sale", "Marrakech", "Marrakesh", "Fès", "Fes",
@@ -495,16 +497,32 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         employment = ", ".join(_text(x) for x in employment if _text(x))
 
     action_links = _extract_job_action_links(soup, page_url)
-    direct_apply = next((row for row in action_links if row.get("kind") == "apply"), None)
+    direct_apply = next(
+        (
+            row
+            for row in action_links
+            if row.get("kind") == "apply"
+            and is_job_specific_url(row.get("url"))
+        ),
+        None,
+    )
     documents = [row for row in action_links if row.get("kind") == "document"]
     structured_url = _text(node.get("url"))
-    application_url = (
-        (direct_apply or {}).get("url")
-        or article.get("application_url")
-        or structured_url
-        or page_url
-    )
-    application_kind = "direct_apply" if direct_apply else "official_job_page"
+
+    application_candidates = [
+        ("direct_apply", (direct_apply or {}).get("url")),
+        ("official_job_page", article.get("application_url")),
+        ("official_job_page", structured_url),
+        ("official_job_page", page_url),
+    ]
+    application_kind = ""
+    application_url = ""
+    for candidate_kind, candidate_url in application_candidates:
+        candidate_url = str(candidate_url or "").strip()
+        if candidate_url and is_job_specific_url(candidate_url):
+            application_url = candidate_url
+            application_kind = candidate_kind
+            break
     structured_deadline = _text(node.get("validThrough"))
     text_deadline, text_deadline_display = _deadline_details_from_text(body)
     deadline = structured_deadline or text_deadline
@@ -544,6 +562,7 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         "job_published_at_display": text_published_display,
         "job_application_url": application_url,
         "job_application_link_kind": application_kind,
+        "job_application_is_specific": bool(application_url and is_job_specific_url(application_url)),
         "job_detail_url": page_url,
         "job_action_links": action_links,
         "job_document_links": documents,

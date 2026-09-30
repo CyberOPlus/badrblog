@@ -8,6 +8,7 @@ from datetime import datetime, timezone
 
 from duplicate_utils import canonicalize_url, content_hash_from_html, similar_topic_signature, title_hash, topic_signature
 from production_logging import html_to_text, html_word_count
+from job_core import is_job_specific_url
 from config import (
     ALLOW_UNKNOWN_DATE_IN_FAST_MODE,
     ALLOW_SHORT_ARTICLES,
@@ -304,11 +305,20 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             return QualityGateResult(False, "missing job source URL", word_count)
 
         package = article.get("ai_input_package") or {}
+        notice_type = str(
+            article.get("job_notice_type")
+            or package.get("job_notice_type")
+            or "vacancy"
+        ).strip().lower()
         application_url = str(
             article.get("job_application_url")
             or package.get("job_application_url")
             or ""
         ).strip()
+        if notice_type == "vacancy" and not application_url:
+            return QualityGateResult(False, "active vacancy is missing a job-specific application URL", word_count)
+        if application_url and not is_job_specific_url(application_url):
+            return QualityGateResult(False, "job application URL is a generic careers/listing page", word_count)
         if application_url and application_url not in html_content:
             return QualityGateResult(False, "job application URL is missing from final HTML", word_count)
 
@@ -319,11 +329,6 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             or package.get("job_deadline")
             or ""
         ).strip()
-        notice_type = str(
-            article.get("job_notice_type")
-            or package.get("job_notice_type")
-            or "vacancy"
-        ).strip().lower()
         title_style_reason = _job_title_style_reason(seo_title, notice_type=notice_type)
         if title_style_reason:
             return QualityGateResult(False, title_style_reason, word_count)
@@ -347,7 +352,8 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             html_content,
             flags=re.I,
         )
-        if len(job_links) != len(set(job_links)):
+        job_link_keys = [canonicalize_url(url) or url for url in job_links]
+        if len(job_link_keys) != len(set(job_link_keys)):
             return QualityGateResult(False, "duplicate job link found in final HTML", word_count)
 
         cover_url = str(
@@ -361,14 +367,24 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
                 html_content,
                 flags=re.I,
             )
-            if len(image_sources) != 1:
+            expected_document_images = [
+                str(item.get("url") or "").strip()
+                for item in (
+                    article.get("job_document_page_images")
+                    or package.get("job_document_page_images")
+                    or []
+                )
+                if isinstance(item, dict) and str(item.get("url") or "").strip()
+            ]
+            expected_images = [cover_url] + expected_document_images
+            if not image_sources or image_sources[0] != cover_url:
+                return QualityGateResult(False, "job article must start with the generated cover image", word_count)
+            if image_sources != expected_images:
                 return QualityGateResult(
                     False,
-                    f"job article must contain exactly one generated cover image; found {len(image_sources)}",
+                    "job article contains missing, reordered, duplicated, or unverified images",
                     word_count,
                 )
-            if image_sources[0] != cover_url:
-                return QualityGateResult(False, "job article image is not the generated cover", word_count)
 
         document_links = (
             article.get("job_document_links")
