@@ -481,6 +481,18 @@ class JobsRuntimeTests(unittest.TestCase):
             ai._jobs_pre_ai_evidence_error(failed_pdf_evidence),
         )
 
+        incomplete_evidence = {
+            "url": "https://example.com/jobs/123",
+            "job_notice_type": "candidate_list",
+            "job_notice_type_source": "heuristic",
+            "identity_evidence_stage_status": "incomplete",
+            "job_document_text_download_failures": 0,
+        }
+        self.assertIn(
+            "evidence stage is incomplete",
+            ai._jobs_pre_ai_evidence_error(incomplete_evidence),
+        )
+
     def test_invalid_application_evidence_never_calls_ai_provider(self):
         article = {
             "id": "bad-application-job",
