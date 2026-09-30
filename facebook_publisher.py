@@ -517,10 +517,11 @@ def _sync_jobs_facebook_queue(queue, now=None):
 
     now = now or datetime.now(timezone.utc)
     recovery = _recover_jobs_facebook_queue_from_memory(queue, now=now)
-    queued = int(recovery.get("recovered") or 0)
+    recovered = int(recovery.get("recovered") or 0)
+    queued = 0
     expired = 0
     revived = 0
-    changed = bool(queued)
+    changed = bool(recovered)
 
     for article in queue.get("articles", []):
         if not _has_blogger_live_publish(article) or article.get("facebook_post_id"):
@@ -556,11 +557,17 @@ def _sync_jobs_facebook_queue(queue, now=None):
         log_event(
             "facebook_jobs_queue_synced",
             queued=queued,
+            recovered=recovered,
             expired=expired,
             revived=revived,
         )
 
-    return {"queued": queued, "expired": expired, "revived": revived}
+    return {
+        "queued": queued,
+        "recovered": recovered,
+        "expired": expired,
+        "revived": revived,
+    }
 
 
 def _facebook_job_priority(article, now=None):
