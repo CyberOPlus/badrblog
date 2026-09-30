@@ -504,6 +504,7 @@ def _release_legacy_logo_wait(article):
         article.pop("candidate_failure_stage", None)
         article.pop("candidate_failure_reason", None)
         article.pop("candidate_failed_at", None)
+        article.pop("candidate_failure_count", None)
 
     if "Verified company logo" in str(article.get("publish_error") or ""):
         article.pop("publish_error", None)
