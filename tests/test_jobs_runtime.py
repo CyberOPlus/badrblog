@@ -1169,6 +1169,170 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn(package["job_application_url"], data["html_content"])
         self.assertGreaterEqual(ai.html_word_count(data["html_content"]), 100)
 
+    def test_verified_fact_manifest_marks_only_explicit_supported_facts_high(self):
+        article = {
+            "url": "https://example.gov.ma/jobs/42",
+            "job_detail_url": "https://example.gov.ma/jobs/42",
+            "official_source": True,
+            "job_official_source": True,
+            "content_fetch_status": "success",
+            "full_article_text": (
+                "آخر أجل للترشيح هو 15/10/2026. عدد المناصب 3. "
+                "التقديم عبر الرابط الرسمي."
+            ),
+            "job_deadline": "2026-10-15",
+            "job_deadline_display": "15 أكتوبر 2026",
+            "job_number_of_positions": 3,
+            "job_application_url": "https://example.gov.ma/jobs/42/apply",
+            "job_application_link_kind": "direct_apply",
+            "source_tables": [
+                {"rows": [
+                    ["التخصص", "الأمن السيبراني"],
+                    ["الاختبار", "اختبار كتابي"],
+                    ["ملاحظة إدارية", "الرقم 7788 للاستعمال الداخلي"],
+                ]}
+            ],
+            "source_tables_count": 1,
+            "source_tables_truncated": False,
+            "job_document_links": [],
+        }
+        manifest = fact_manifest.build_verified_fact_manifest(article)
+
+        self.assertEqual(manifest["facts"]["deadline"][0]["confidence"], "high")
+        self.assertEqual(manifest["facts"]["positions"][0]["confidence"], "high")
+        self.assertEqual(manifest["facts"]["application"][0]["confidence"], "high")
+        self.assertEqual(manifest["facts"]["specialties"][0]["confidence"], "high")
+        self.assertEqual(manifest["facts"]["tests"][0]["confidence"], "high")
+        self.assertNotIn("7788", str(manifest))
+
+    def test_manifest_high_fact_missing_blocks_but_medium_fact_only_warns(self):
+        high_manifest = {
+            "facts": {
+                "positions": [{
+                    "value": 3,
+                    "source": "official_detail_page",
+                    "confidence": "high",
+                    "blocking": True,
+                    "required_in_output": True,
+                    "aliases": [],
+                    "meta": {},
+                }]
+            },
+            "warnings": [],
+        }
+        blocking, warnings = fact_manifest.validate_output_against_manifest(
+            high_manifest,
+            "شركة Example تعلن عن توظيف مهندسين",
+            "<p>تفاصيل موثقة عن عملية التوظيف.</p>",
+        )
+        self.assertTrue(blocking)
+        self.assertFalse(warnings)
+
+        medium_manifest = {
+            "facts": {
+                "salary": [{
+                    "value": "12000 MAD",
+                    "source": "extracted_field",
+                    "confidence": "medium",
+                    "blocking": False,
+                    "required_in_output": True,
+                    "aliases": [],
+                    "meta": {},
+                }]
+            },
+            "warnings": [],
+        }
+        blocking, warnings = fact_manifest.validate_output_against_manifest(
+            medium_manifest,
+            "شركة Example تعلن عن توظيف مهندس نظم",
+            "<p>تفاصيل المنصب وطريقة التقديم الرسمية.</p>",
+        )
+        self.assertEqual(blocking, [])
+        self.assertTrue(any("salary" in warning for warning in warnings))
+
+    def test_manifest_contradicting_high_position_count_blocks(self):
+        manifest = {
+            "facts": {
+                "positions": [{
+                    "value": 3,
+                    "source": "official_detail_page",
+                    "confidence": "high",
+                    "blocking": True,
+                    "required_in_output": True,
+                    "aliases": [],
+                    "meta": {},
+                }]
+            },
+            "warnings": [],
+        }
+        blocking, _warnings = fact_manifest.validate_output_against_manifest(
+            manifest,
+            "شركة Example تعلن عن توظيف 5 مهندسين",
+            "<p>تفتح الشركة 5 مناصب ضمن هذا الإعلان.</p>",
+        )
+        self.assertTrue(any("contradicts" in reason for reason in blocking))
+
+    def test_manifest_accepts_arabic_deadline_format_and_grouped_salary(self):
+        manifest = {
+            "facts": {
+                "deadline": [{
+                    "value": "2026-10-15",
+                    "source": "official_detail_page",
+                    "confidence": "high",
+                    "blocking": True,
+                    "required_in_output": True,
+                    "aliases": ["15 أكتوبر 2026"],
+                    "meta": {},
+                }],
+                "salary": [{
+                    "value": "10 000 MAD",
+                    "source": "official_detail_page",
+                    "confidence": "high",
+                    "blocking": True,
+                    "required_in_output": True,
+                    "aliases": [],
+                    "meta": {},
+                }],
+            },
+            "warnings": [],
+        }
+        blocking, _warnings = fact_manifest.validate_output_against_manifest(
+            manifest,
+            "شركة Example تعلن عن توظيف مهندس",
+            "<p>آخر أجل للترشيح هو 15 أكتوبر 2026، والراتب 10 000 MAD.</p>",
+        )
+        self.assertEqual(blocking, [])
+
+    def test_ai_input_package_contains_verified_fact_manifest(self):
+        article = {
+            "title": "Network Engineer",
+            "fetched_title": "Network Engineer",
+            "url": "https://example.com/jobs/42",
+            "source_name": "Example Careers",
+            "official_source": True,
+            "content_fetch_status": "success",
+            "full_article_text": "عدد المناصب 2 وطريقة التقديم عبر الرابط الرسمي.",
+            "job_number_of_positions": 2,
+            "job_detail_url": "https://example.com/jobs/42",
+            "job_application_url": "https://example.com/jobs/42/apply",
+            "job_application_link_kind": "direct_apply",
+            "job_notice_type": "vacancy",
+            "job_notice_type_source": "official",
+            "source_tables": [],
+            "job_document_links": [],
+        }
+        with patch.object(article_processor, "JOBS_MODE", True):
+            package = article_processor._build_ai_input_package(article)
+        self.assertIn("verified_fact_manifest", package)
+        self.assertEqual(
+            package["verified_fact_manifest"]["facts"]["positions"][0]["confidence"],
+            "high",
+        )
+        self.assertIs(
+            article["verified_fact_manifest"],
+            package["verified_fact_manifest"],
+        )
+
     def test_jobs_quality_gate_rejects_marketing_filler(self):
         article = {
             "url": "https://example.com/jobs/42",
