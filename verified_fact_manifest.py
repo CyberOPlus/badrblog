@@ -324,6 +324,39 @@ def _labeled_table_facts(article, hints, category):
     return facts
 
 
+def _labeled_text_facts(article, hints, category):
+    facts = []
+    official = bool(article.get("official_source") or article.get("job_official_source"))
+    for source_name, text in (
+        ("official_pdf", _pdf_text(article)),
+        ("official_detail_page", _detail_text(article)),
+    ):
+        if not text:
+            continue
+        confidence = HIGH if official else MEDIUM
+        for raw_line in re.split(r"[\r\n]+", str(text)):
+            line = re.sub(r"\s+", " ", raw_line).strip()
+            if len(line) < 5 or len(line) > 260:
+                continue
+            match = re.match(r"^([^:：]{2,80})\s*[:：]\s*(.{3,180})$", line)
+            if not match:
+                continue
+            label = _normalize(match.group(1))
+            if not any(_normalize(hint) in label for hint in hints):
+                continue
+            value = match.group(2).strip()
+            if _looks_like_header_value(value):
+                continue
+            facts.append(_fact(
+                value,
+                source_name,
+                confidence,
+                required=(confidence == HIGH),
+                meta={"kind": category, "explicit_label": match.group(1).strip()},
+            ))
+    return facts
+
+
 def build_verified_fact_manifest(article):
     article = dict(article or {})
     manifest = {
@@ -456,6 +489,7 @@ def build_verified_fact_manifest(article):
         table_facts = _dedupe_facts(
             _labeled_table_facts(article, hints, kind)
             + _column_table_facts(article, hints, kind)
+            + _labeled_text_facts(article, hints, kind)
         )
         existing_values = {
             _normalize(fact.get("value"))
