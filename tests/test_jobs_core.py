@@ -1522,17 +1522,107 @@ class JobsCoreTests(unittest.TestCase):
         bad = job_core.score_job(sample_job(job_eligibility="unknown"), now=now)
         self.assertFalse(bad["passed"])
 
+    def test_jobs_freshness_prefers_first_12_hours_and_rejects_after_24(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+
+        very_fresh = job_core.score_job(
+            sample_job(job_published_at="2026-09-30T06:00:00+00:00"),
+            now=now,
+        )
+        self.assertTrue(very_fresh["passed"], very_fresh["reasons"])
+        self.assertEqual(very_fresh["points"]["fresh_under_12h"], 20)
+        self.assertEqual(very_fresh["points"]["fresh_12_to_24h"], 0)
+
+        fallback_fresh = job_core.score_job(
+            sample_job(job_published_at="2026-09-29T20:00:00+00:00"),
+            now=now,
+        )
+        self.assertTrue(fallback_fresh["passed"], fallback_fresh["reasons"])
+        self.assertEqual(fallback_fresh["points"]["fresh_under_12h"], 0)
+        self.assertEqual(fallback_fresh["points"]["fresh_12_to_24h"], 8)
+
+        stale = job_core.score_job(
+            sample_job(job_published_at="2026-09-29T10:00:00+00:00"),
+            now=now,
+        )
+        self.assertFalse(stale["passed"])
+        self.assertEqual(stale["status"], "reject")
+        self.assertIn("older than 24 hours", " ".join(stale["reasons"]))
+
+        unknown = job_core.score_job(
+            sample_job(job_published_at="", source_published_at=""),
+            now=now,
+        )
+        self.assertFalse(unknown["passed"])
+        self.assertEqual(unknown["status"], "reject")
+        self.assertIn("publication time is not verified", " ".join(unknown["reasons"]))
+
+    def test_job_focus_flags_prioritize_tech_and_internships_without_excluding_general_jobs(self):
+        tech = job_core.job_focus_flags(
+            sample_job(job_title="Cybersecurity SOC Analyst")
+        )
+        self.assertTrue(tech["tech"])
+        self.assertFalse(tech["internship"])
+        self.assertEqual(
+            job_core.job_focus_rank(sample_job(job_title="DevOps Cloud Engineer")),
+            2,
+        )
+
+        tech_stage = sample_job(
+            job_title="Stage PFE Développeur Backend",
+            job_contract_type="Stage",
+        )
+        self.assertEqual(job_core.job_focus_rank(tech_stage), 3)
+
+        hr_stage = sample_job(
+            job_title="Stagiaire Ressources Humaines",
+            job_contract_type="Stage",
+        )
+        self.assertEqual(job_core.job_focus_rank(hr_stage), 1)
+
+        general = sample_job(job_title="Comptable confirmé", job_contract_type="CDI")
+        self.assertEqual(job_core.job_focus_rank(general), 0)
+
+    def test_workday_relative_posted_labels_are_normalized_for_strict_freshness(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        today = job_core._parse_date(scraper._workday_posted_iso("Posted Today", now=now))
+        two_days = job_core._parse_date(scraper._workday_posted_iso("Posted 2 Days Ago", now=now))
+        self.assertIsNotNone(today)
+        self.assertIsNotNone(two_days)
+        self.assertLessEqual((now - today).total_seconds(), 60)
+        self.assertGreater((now - two_days).total_seconds() / 3600.0, 24)
+
+    def test_job_extractor_marks_stage_as_internship_when_employment_type_is_missing(self):
+        soup = BeautifulSoup("<html><body><h1>Stage PFE Développeur Backend</h1></body></html>", "html.parser")
+        article = {
+            "title": "Stage PFE Développeur Backend",
+            "fetched_title": "Stage PFE Développeur Backend",
+            "source_name": "Example Careers",
+            "source_country": "MA",
+            "source_eligibility": "morocco",
+            "official_source": True,
+        }
+        fields = job_extractor.extract_job_fields(
+            soup,
+            article,
+            "https://example.com/jobs/stage-pfe-backend",
+            full_text="Stage PFE Développeur Backend pour jeunes diplômés à Casablanca.",
+        )
+        self.assertTrue(fields["job_internship"])
+        self.assertTrue(fields["job_entry_level"])
+        self.assertEqual(fields["job_contract_type"], "Internship")
+
     def test_low_ranking_score_does_not_block_verified_job(self):
         now = datetime(2026, 9, 30, 9, 0, tzinfo=timezone.utc)
         sparse = sample_job(
             job_location="",
             job_number_of_positions=1,
-            job_published_at="2026-09-20T08:00:00+00:00",
+            job_published_at="2026-09-30T08:00:00+00:00",
             source_priority="",
             job_diploma="",
             job_salary="",
             job_entry_level=False,
-            job_deadline="2026-10-08",
+            job_deadline="",
         )
         result = job_core.score_job(sparse, now=now)
         self.assertLess(result["score"], job_core.MIN_SELECTION_SCORE)
