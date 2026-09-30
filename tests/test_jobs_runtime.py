@@ -2008,6 +2008,59 @@ class JobsRuntimeTests(unittest.TestCase):
         )
         self.assertTrue(any("contradicts" in reason for reason in blocking))
 
+    def test_manifest_deadline_check_ignores_exam_date_in_same_sentence(self):
+        manifest = {
+            "facts": {
+                "deadline": [{
+                    "value": "2026-09-29",
+                    "source": "official_detail_page",
+                    "confidence": "high",
+                    "blocking": True,
+                    "required_in_output": True,
+                    "aliases": ["29 شتنبر 2026"],
+                    "meta": {},
+                }]
+            },
+            "warnings": [],
+        }
+        blocking, _warnings = fact_manifest.validate_output_against_manifest(
+            manifest,
+            "إعلان مباراة توظيف",
+            (
+                "<p>آخر أجل للترشيح هو 29 شتنبر 2026، "
+                "وتاريخ إجراء المباراة هو 15 أكتوبر 2026.</p>"
+            ),
+        )
+        self.assertEqual(blocking, [])
+
+    def test_manifest_deadline_check_blocks_wrong_date_attached_to_deadline_cue(self):
+        manifest = {
+            "facts": {
+                "deadline": [{
+                    "value": "2026-09-29",
+                    "source": "official_detail_page",
+                    "confidence": "high",
+                    "blocking": True,
+                    "required_in_output": True,
+                    "aliases": ["29 شتنبر 2026"],
+                    "meta": {},
+                }]
+            },
+            "warnings": [],
+        }
+        blocking, _warnings = fact_manifest.validate_output_against_manifest(
+            manifest,
+            "إعلان مباراة توظيف",
+            (
+                "<p>تاريخ إجراء المباراة هو 29 شتنبر 2026. "
+                "آخر أجل للترشيح هو 30 شتنبر 2026.</p>"
+            ),
+        )
+        self.assertTrue(
+            any("contradicts high-confidence manifest deadline" in reason for reason in blocking),
+            blocking,
+        )
+
     def test_manifest_accepts_arabic_deadline_format_and_grouped_salary(self):
         manifest = {
             "facts": {
