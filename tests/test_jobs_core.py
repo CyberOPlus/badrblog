@@ -753,6 +753,131 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(meta["stop_reason"], "seen_streak")
         self.assertEqual(meta["resume_offset"], 0)
 
+    def test_jobs_top_level_discovery_does_not_truncate_to_fetch_limit(self):
+        source = {
+            "name": "Official Bulk Source",
+            "base_url": "https://jobs.example.com/openings",
+            "enabled": True,
+            "fetch_limit_per_run": 8,
+            "extractor_type": "auto",
+            "official_source": True,
+            "source_country": "MA",
+            "source_eligibility": "morocco",
+        }
+        links = [
+            {
+                "title": f"Role {index}",
+                "url": f"https://jobs.example.com/openings/{index}",
+                "ats_provider": "example",
+                "ats_reference": f"REQ-{index}",
+            }
+            for index in range(1, 51)
+        ]
+
+        with (
+            patch.object(scraper, "JOBS_MODE", True),
+            patch.object(scraper, "_can_run_async_discovery", return_value=False),
+            patch.object(scraper, "_filter_healthy_sources", side_effect=lambda rows: (rows, [])),
+            patch.object(scraper, "_order_sources_for_fast_run", side_effect=lambda rows: rows),
+            patch.object(
+                scraper,
+                "_collect_article_links_for_source",
+                return_value=(
+                    links,
+                    "",
+                    200,
+                    {
+                        "normal_links_found": 50,
+                        "feed_links_found": 0,
+                        "method_used": "html-pagination",
+                        "tried_feed_urls": [],
+                        "discovery_meta": {
+                            "stop_reason": "end",
+                            "pages_scanned": 5,
+                        },
+                        "discovery_resume": {},
+                    },
+                ),
+            ) as collect,
+            patch.object(scraper, "source_crawl_record", return_value={"job_seen_ids": []}),
+            patch.object(scraper, "update_source_crawl") as update_crawl,
+            patch.object(scraper, "_record_source_result"),
+        ):
+            result = scraper.discover_latest_article_links([source])
+
+        self.assertEqual(len(result["articles"]), 50)
+        self.assertEqual(result["source_results"][0]["fetch_limit_per_run"], 8)
+        self.assertEqual(result["source_results"][0]["links_found"], 50)
+        self.assertEqual(
+            result["source_results"][0]["discovery_mode"],
+            "paginated_seen_ids",
+        )
+        self.assertEqual(
+            collect.call_args.kwargs["max_items"],
+            scraper.JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
+        )
+        update_kwargs = update_crawl.call_args.kwargs
+        self.assertEqual(len(update_kwargs["job_seen_ids"]), 50)
+        self.assertEqual(update_kwargs["discovery_last_new_count"], 50)
+
+    def test_jobs_discovery_reuses_persisted_resume_cursor(self):
+        source = {
+            "name": "Official Cursor Source",
+            "base_url": "https://jobs.example.com/openings",
+            "enabled": True,
+            "fetch_limit_per_run": 8,
+            "extractor_type": "auto",
+            "official_source": True,
+            "source_country": "MA",
+            "source_eligibility": "morocco",
+        }
+        resume = {
+            "kind": "html",
+            "url": "https://jobs.example.com/openings?page=4",
+        }
+        crawl_record = {
+            "job_seen_ids": ["example:req-1"],
+            "job_discovery_resume": resume,
+        }
+
+        with (
+            patch.object(scraper, "JOBS_MODE", True),
+            patch.object(scraper, "_can_run_async_discovery", return_value=False),
+            patch.object(scraper, "_filter_healthy_sources", side_effect=lambda rows: (rows, [])),
+            patch.object(scraper, "_order_sources_for_fast_run", side_effect=lambda rows: rows),
+            patch.object(scraper, "source_crawl_record", return_value=crawl_record),
+            patch.object(
+                scraper,
+                "_collect_article_links_for_source",
+                return_value=(
+                    [],
+                    "",
+                    200,
+                    {
+                        "normal_links_found": 0,
+                        "feed_links_found": 0,
+                        "method_used": "html-pagination",
+                        "tried_feed_urls": [],
+                        "discovery_meta": {
+                            "stop_reason": "end",
+                            "pages_scanned": 1,
+                        },
+                        "discovery_resume": {},
+                        "empty_ok": True,
+                    },
+                ),
+            ) as collect,
+            patch.object(scraper, "update_source_crawl"),
+            patch.object(scraper, "_record_source_result"),
+        ):
+            scraper.discover_latest_article_links([source])
+
+        self.assertEqual(collect.call_args.kwargs["resume_state"], resume)
+        self.assertEqual(
+            collect.call_args.kwargs["known_ids"],
+            {"example:req-1"},
+        )
+
     def test_emploi_public_parser_keeps_only_competition_details(self):
         html = """
         <html><body>
