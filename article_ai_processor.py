@@ -3164,6 +3164,8 @@ def _jobs_pre_ai_evidence_error(package):
         pdf_failures = 0
     if evidence_stage == "incomplete" and pdf_failures > 0:
         return "source/evidence problem: official document evidence could not be retrieved"
+    if evidence_stage == "incomplete":
+        return "source/evidence problem: verified identity evidence stage is incomplete"
 
     return ""
 
