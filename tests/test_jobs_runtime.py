@@ -1333,6 +1333,66 @@ class JobsRuntimeTests(unittest.TestCase):
             package["verified_fact_manifest"],
         )
 
+    def test_jobs_gate_keeps_medium_manifest_and_arbitrary_rows_as_warnings(self):
+        manifest = {
+            "version": 1,
+            "facts": {
+                "salary": [{
+                    "value": "12000 MAD",
+                    "source": "extracted_field",
+                    "confidence": "medium",
+                    "blocking": False,
+                    "required_in_output": True,
+                    "aliases": [],
+                    "meta": {},
+                }],
+                "notice_type": [{
+                    "value": "update",
+                    "source": "heuristic",
+                    "confidence": "heuristic",
+                    "blocking": False,
+                    "required_in_output": False,
+                    "aliases": [],
+                    "meta": {},
+                }],
+            },
+            "warnings": [],
+        }
+        package = {
+            "url": "https://example.com/jobs/update-42",
+            "source_url": "https://example.com/jobs/update-42",
+            "job_notice_type": "update",
+            "job_notice_type_source": "heuristic",
+            "verified_fact_manifest": manifest,
+            "source_tables": [
+                {"rows": [["ملاحظة إدارية", "الرقم 7788 للاستعمال الداخلي"]]}
+            ],
+        }
+        article = {
+            "url": package["url"],
+            "source_url": package["source_url"],
+            "seo_title": "تحديث حول إجراءات مباراة توظيف تقنيين بإحدى المؤسسات المغربية",
+            "seo_description": (
+                "تحديث موثق يوضح مستجدات إجراءات المباراة والخطوات الحالية "
+                "للمترشحين بالاعتماد على المعلومات المنشورة في الإعلان."
+            ),
+            "final_html": (
+                "<p>نشرت الجهة المنظمة توضيحات جديدة حول المرحلة الحالية من "
+                "الإجراءات، مع الإبقاء على التفاصيل المؤكدة فقط.</p>"
+            ),
+            "job_notice_type": "update",
+            "ai_input_package": package,
+        }
+        with patch.object(quality_gate, "JOBS_MODE", True):
+            result = quality_gate.validate_before_publish(
+                article,
+                check_duplicate=False,
+            )
+
+        self.assertTrue(result.passed, result.reason)
+        self.assertTrue(any("salary" in warning for warning in result.warnings))
+        self.assertFalse(any("7788" in warning for warning in result.warnings))
+
     def test_jobs_quality_gate_rejects_marketing_filler(self):
         article = {
             "url": "https://example.com/jobs/42",
