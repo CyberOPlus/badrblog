@@ -7,7 +7,11 @@ from urllib.parse import urljoin, urlparse
 
 from bs4 import BeautifulSoup
 
-from job_core import is_job_specific_url
+from job_core import (
+    is_application_url_bound_to_job,
+    is_foreign_job_detail_url,
+    is_job_specific_url,
+)
 
 
 MOROCCO_CITIES = (
@@ -378,6 +382,8 @@ def _extract_job_action_links(soup, page_url):
         absolute = urljoin(page_url, str(href or "").strip())
         if not _public_http_url(absolute):
             return
+        if is_foreign_job_detail_url({"canonical_url": page_url, "url": page_url}, absolute):
+            return
         key = absolute.split("#", 1)[0].rstrip("/")
         if key in seen:
             return
@@ -399,15 +405,16 @@ def _extract_job_action_links(soup, page_url):
         href = str(anchor.get("href") or "").strip()
         label = _text(anchor.get_text(" ", strip=True))
         context = _link_context(anchor, label=label)
-        primary_signature = f"{label} {href}".casefold()
-        document_signature = f"{label} {context} {href}".casefold()
+        signature = f"{label} {context} {href}".casefold()
         is_pdf = href.casefold().split("?", 1)[0].endswith(".pdf")
-        is_document = is_pdf or any(hint in document_signature for hint in DOCUMENT_LINK_HINTS)
-        if is_document:
+        if is_pdf:
             add(href, label, "document", context=context)
             continue
-        if any(hint in primary_signature for hint in APPLY_LINK_HINTS):
+        if any(hint in signature for hint in APPLY_LINK_HINTS):
             add(href, label, "apply", context=context)
+            continue
+        if any(hint in signature for hint in DOCUMENT_LINK_HINTS):
+            add(href, label, "document", context=context)
 
     for form in soup.find_all("form", action=True):
         action = str(form.get("action") or "").strip()
@@ -497,12 +504,15 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         employment = ", ".join(_text(x) for x in employment if _text(x))
 
     action_links = _extract_job_action_links(soup, page_url)
+    binding_article = dict(article)
+    binding_article["canonical_url"] = page_url
+    binding_article["url"] = page_url
     direct_apply = next(
         (
             row
             for row in action_links
             if row.get("kind") == "apply"
-            and is_job_specific_url(row.get("url"))
+            and is_application_url_bound_to_job(binding_article, row.get("url"))
         ),
         None,
     )
@@ -519,7 +529,7 @@ def extract_job_fields(soup, article, page_url, full_text=""):
     application_url = ""
     for candidate_kind, candidate_url in application_candidates:
         candidate_url = str(candidate_url or "").strip()
-        if candidate_url and is_job_specific_url(candidate_url):
+        if candidate_url and is_application_url_bound_to_job(binding_article, candidate_url):
             application_url = candidate_url
             application_kind = candidate_kind
             break

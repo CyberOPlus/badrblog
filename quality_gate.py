@@ -8,7 +8,7 @@ from datetime import datetime, timezone
 
 from duplicate_utils import canonicalize_url, content_hash_from_html, similar_topic_signature, title_hash, topic_signature
 from production_logging import html_to_text, html_word_count
-from job_core import is_job_specific_url
+from job_core import is_application_url_bound_to_job, is_job_specific_url
 from config import (
     ALLOW_UNKNOWN_DATE_IN_FAST_MODE,
     ALLOW_SHORT_ARTICLES,
@@ -319,6 +319,8 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             return QualityGateResult(False, "active vacancy is missing a job-specific application URL", word_count)
         if application_url and not is_job_specific_url(application_url):
             return QualityGateResult(False, "job application URL is a generic careers/listing page", word_count)
+        if application_url and not is_application_url_bound_to_job(article or package, application_url):
+            return QualityGateResult(False, "job application URL belongs to a different vacancy", word_count)
         if application_url and application_url not in html_content:
             return QualityGateResult(False, "job application URL is missing from final HTML", word_count)
 

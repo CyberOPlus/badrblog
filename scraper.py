@@ -1859,12 +1859,11 @@ async def _discover_latest_article_links_async(enabled_sources):
         category_key = source.get("category_key", "")
         category_name = source.get("category_name", "")
         category_label = source.get("category_label", category_hint)
-        fetch_limit = source.get("fetch_limit_per_run", 3)
         try:
-            fetch_limit = int(fetch_limit)
+            fetch_limit = int(source.get("fetch_limit_per_run", 3))
         except (TypeError, ValueError):
             fetch_limit = 3
-        fetch_limit = max(1, min(fetch_limit, 3))
+        fetch_limit = max(1, min(fetch_limit, 30 if JOBS_MODE else 3))
 
         print(f"\n[{index}] Checking {source_name}")
         async with semaphore:
@@ -1920,6 +1919,19 @@ async def _discover_latest_article_links_async(enabled_sources):
 
     for result in results:
         fetch_limit = result["fetch_limit"]
+        _record_source_result(
+            result["base_url"],
+            result["source_name"],
+            result["error"],
+            len(result["links"]),
+            empty_ok=bool(result["details"].get("empty_ok")),
+        )
+        update_source_crawl(
+            result["base_url"],
+            source_name=result["source_name"],
+            last_crawled_at=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            overlap_minutes=CRAWL_OVERLAP_MINUTES,
+        )
         for link in result["links"][:fetch_limit]:
             discovered.append(
                 {
@@ -2001,12 +2013,11 @@ def discover_latest_article_links(sources):
             continue
 
         checked_sources += 1
-        fetch_limit = source.get("fetch_limit_per_run", 3)
         try:
-            fetch_limit = int(fetch_limit)
+            fetch_limit = int(source.get("fetch_limit_per_run", 3))
         except (TypeError, ValueError):
             fetch_limit = 3
-        fetch_limit = max(1, min(fetch_limit, 3))
+        fetch_limit = max(1, min(fetch_limit, 30 if JOBS_MODE else 3))
 
         print(f"\n[{checked_sources}] Checking {source_name}")
         category_hint = source.get("category_hint", "")
