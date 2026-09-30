@@ -332,6 +332,47 @@ class JobsCoreTests(unittest.TestCase):
         self.assertTrue(fields["job_application_is_official_channel"])
         self.assertEqual(len(fields["job_document_links"]), 2)
 
+    def test_extractor_accepts_text_only_official_application_channel(self):
+        html = """
+        <html><body>
+          <p>Nom du poste : Recrutement administrateur 2ème grade</p>
+          <p>Type de dépôt : dépôt en ligne sur le site de l'administration</p>
+          <p>Site de dépôt : https://recrutement.enssup.gov.ma/</p>
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        fields = job_extractor.extract_job_fields(
+            soup,
+            {
+                "source_name": "Emploi-Public — établissements publics",
+                "official_source": True,
+                "source_country": "MA",
+                "source_eligibility": "morocco",
+                "ats_provider": "emploi_public",
+                "title": "Recrutement administrateur 2ème grade",
+            },
+            (
+                "https://www.emploi-public.ma/fr/concours/details/"
+                "e33a1e44-b745-40d8-b32e-7db723c10c27"
+            ),
+            full_text=soup.get_text(" ", strip=True),
+        )
+        self.assertEqual(fields["job_notice_type"], "competition")
+        self.assertEqual(
+            fields["job_application_url"],
+            "https://recrutement.enssup.gov.ma/",
+        )
+        self.assertEqual(
+            fields["job_application_link_kind"],
+            "official_application_channel",
+        )
+        self.assertTrue(fields["job_application_is_official_channel"])
+        self.assertTrue(any(
+            row.get("kind") == "apply"
+            and row.get("url") == "https://recrutement.enssup.gov.ma/"
+            for row in fields["job_action_links"]
+        ))
+
     def test_emploi_public_parser_keeps_only_competition_details(self):
         html = """
         <html><body>
