@@ -199,6 +199,16 @@ class JobsCoreTests(unittest.TestCase):
         self.assertNotRegex(slug, r"\\d")
         self.assertTrue(slug.startswith("wzara"), slug)
 
+    def test_jobs_hub_link_is_not_added_to_non_jobs_articles(self):
+        html = "<p>هذا خبر تقني عن العمل على تحديث جديد.</p>"
+        linked, count = internal_link_cache.insert_internal_links(
+            html,
+            {"seo_title": "تحديث تقني", "suggested_category": "Tech-News"},
+            {"links": []},
+        )
+        self.assertEqual(count, 0)
+        self.assertNotIn(internal_link_cache.JOBS_HUB_URL, linked)
+
     def test_extractor_keeps_arabic_public_job_files_and_exam_date(self):
         html = """
         <html><body>
