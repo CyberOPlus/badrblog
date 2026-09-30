@@ -1506,6 +1506,12 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             }
             return result
 
+        if saved_id:
+            raise RuntimeError(
+                "Saved Blogger post ID is authoritative for this article; refusing "
+                "title-based matching or insertion for a different post."
+            )
+
         matches = _find_matching_blogger_posts(service, article)
         duplicate_count = len(matches)
         if matches:
