@@ -14,7 +14,7 @@ from urllib.parse import urlparse
 
 import requests
 
-from article_queue import load_article_queue, save_article_queue
+from article_queue import load_article_queue, save_article_queue, archive_published_queue_article
 from config import (
     FACEBOOK_AUTO_POST,
     FACEBOOK_GRAPH_API_URL,
@@ -32,10 +32,19 @@ from config import (
     JOBS_MODE,
 )
 from production_logging import elapsed_ms, log_event
+from internal_link_cache import load_internal_link_cache
 from job_visual_policy import choose_job_template
 from company_logo_resolver import verified_company_logo
 from utils.facebook_image_generator import generate_facebook_image
-from job_core import facebook_slot_status, _local as jobs_local_time, _parse_date as parse_job_date, classify_urgency, job_deadline_time
+from job_core import (
+    facebook_slot_status,
+    _local as jobs_local_time,
+    _parse_date as parse_job_date,
+    classify_urgency,
+    job_deadline_time,
+    list_active_job_campaign_records,
+    record_job_social_state,
+)
 from social_ai_processor import generate_jobs_facebook_post
 CAPTION_STYLES = (
     "ai_tools",
@@ -344,6 +353,8 @@ def _mark_facebook_pending(article, now=None, reason="published_to_blogger"):
     article.pop("facebook_expired_reason", None)
     if current in {"not_selected", "facebook_expired"}:
         _clear_facebook_failure_state(article)
+    if changed:
+        _persist_jobs_social_state(article)
     return changed
 
 
@@ -360,7 +371,139 @@ def _mark_facebook_expired(article, now=None):
     article.pop("facebook_selection_reason", None)
     article.pop("facebook_error", None)
     _clear_facebook_failure_state(article)
+    if changed:
+        _persist_jobs_social_state(article)
     return changed
+
+
+def _persist_jobs_social_state(article):
+    if not JOBS_MODE or not isinstance(article, dict):
+        return {}
+    try:
+        return record_job_social_state(article)
+    except Exception as error:
+        log_event(
+            "facebook_social_state_persist_failed",
+            article_id=article.get("id"),
+            error=error.__class__.__name__,
+        )
+        return {}
+
+
+def _recover_jobs_facebook_queue_from_memory(queue, now=None, max_age_days=30):
+    """Recover Blogger-published Jobs that vanished from the volatile queue."""
+    if not JOBS_MODE:
+        return {"recovered": 0, "skipped_terminal": 0}
+
+    now = now or datetime.now(timezone.utc)
+    articles = queue.setdefault("articles", [])
+    existing_urls = {
+        str(article.get("blogger_post_url") or "").strip()
+        for article in articles
+        if str(article.get("blogger_post_url") or "").strip()
+    }
+    existing_campaigns = {
+        str(article.get("job_campaign_id") or "").strip()
+        for article in articles
+        if str(article.get("job_campaign_id") or "").strip()
+    }
+
+    try:
+        cache, _stats = load_internal_link_cache(save=False)
+        cache_by_url = {
+            str(entry.get("url") or "").strip(): entry
+            for entry in (cache.get("links") or [])
+            if isinstance(entry, dict) and str(entry.get("url") or "").strip()
+        }
+    except Exception:
+        cache_by_url = {}
+
+    recovered = 0
+    skipped_terminal = 0
+    for record in list_active_job_campaign_records():
+        blogger_url = str(record.get("blogger_url") or "").strip()
+        campaign_id = str(record.get("campaign_id") or "").strip()
+        if not blogger_url or not campaign_id:
+            continue
+        if blogger_url in existing_urls or campaign_id in existing_campaigns:
+            continue
+
+        facebook_status = str(record.get("facebook_status") or "").strip()
+        facebook_post_id = str(record.get("facebook_post_id") or "").strip()
+        facebook_comment_id = str(record.get("facebook_comment_id") or "").strip()
+
+        if facebook_post_id and facebook_comment_id and facebook_status == "posted":
+            skipped_terminal += 1
+            continue
+        if facebook_status == "facebook_expired":
+            skipped_terminal += 1
+            continue
+
+        updated_at = parse_job_date(record.get("updated_at"))
+        if (
+            not facebook_post_id
+            and updated_at
+            and (now - updated_at).total_seconds() > max(1, int(max_age_days)) * 86400
+        ):
+            continue
+
+        cache_entry = cache_by_url.get(blogger_url) or {}
+        source_url = str(record.get("source_url") or "").strip()
+        stable_seed = blogger_url or source_url or campaign_id
+        article_id = hashlib.sha1(stable_seed.encode("utf-8")).hexdigest()[:16]
+
+        article = {
+            "id": article_id,
+            "url": source_url or blogger_url,
+            "canonical_url": source_url or blogger_url,
+            "source_url": source_url,
+            "source_name": record.get("source_name", ""),
+            "source_priority": record.get("source_priority", ""),
+            "status": "published",
+            "publish_status": "published",
+            "published_at": cache_entry.get("published_at") or record.get("updated_at") or _now_iso(),
+            "blogger_post_id": record.get("blogger_post_id", ""),
+            "blogger_post_url": blogger_url,
+            "seo_title": cache_entry.get("title") or record.get("title") or "",
+            "title": cache_entry.get("title") or record.get("title") or "",
+            "suggested_category": cache_entry.get("category") or "jobs-morocco",
+            "job_campaign_id": campaign_id,
+            "job_company": record.get("company", ""),
+            "job_title": record.get("title", ""),
+            "job_location": record.get("location", ""),
+            "job_deadline": record.get("deadline", ""),
+            "job_number_of_positions": record.get("number_of_positions", 0),
+            "job_salary": record.get("salary", ""),
+            "job_contract_type": record.get("contract_type", ""),
+            "job_application_url": record.get("application_url", ""),
+            "job_notice_type": record.get("notice_type") or "vacancy",
+            "job_notice_status": record.get("notice_status", ""),
+            "job_external_reference": record.get("external_reference", ""),
+            "facebook_status": facebook_status or "facebook_pending",
+            "facebook_post_id": facebook_post_id,
+            "facebook_posted_at": record.get("facebook_posted_at", ""),
+            "facebook_comment_id": facebook_comment_id,
+            "facebook_queued_at": record.get("facebook_queued_at") or record.get("updated_at") or _now_iso(),
+            "facebook_retry_after_epoch": record.get("facebook_retry_after_epoch") or 0,
+            "facebook_comment_retry_after_epoch": record.get("facebook_comment_retry_after_epoch") or 0,
+            "facebook_delivery_uncertain_at": record.get("facebook_delivery_uncertain_at", ""),
+            "facebook_image_status": record.get("facebook_image_status", ""),
+            "facebook_error": record.get("facebook_error", ""),
+            "facebook_queue_reason": "campaign_memory_recovery",
+            "facebook_queue_recovered": True,
+        }
+        articles.append(article)
+        existing_urls.add(blogger_url)
+        existing_campaigns.add(campaign_id)
+        recovered += 1
+
+    if recovered:
+        log_event(
+            "facebook_jobs_queue_recovered",
+            recovered=recovered,
+            queue_size=len(articles),
+        )
+    return {"recovered": recovered, "skipped_terminal": skipped_terminal}
 
 
 def _sync_jobs_facebook_queue(queue, now=None):
@@ -369,10 +512,11 @@ def _sync_jobs_facebook_queue(queue, now=None):
         return {"queued": 0, "expired": 0, "revived": 0}
 
     now = now or datetime.now(timezone.utc)
-    queued = 0
+    recovery = _recover_jobs_facebook_queue_from_memory(queue, now=now)
+    queued = int(recovery.get("recovered") or 0)
     expired = 0
     revived = 0
-    changed = False
+    changed = bool(queued)
 
     for article in queue.get("articles", []):
         if not _has_blogger_live_publish(article) or article.get("facebook_post_id"):
