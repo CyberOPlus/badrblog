@@ -646,6 +646,50 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn("التقديم الآن عبر الرابط الرسمي", html)
         self.assertIn("فتح أو تحميل الوثيقة الرسمية", html)
 
+    def test_jobs_quality_gate_accepts_verified_public_application_channel(self):
+        portal = "https://recrutement.enssup.gov.ma/"
+        detail = (
+            "https://www.emploi-public.ma/ar/تفاصيل/المباريات/"
+            "85a046f8-2af5-4f26-8b3f-a811967e2a4e"
+        )
+        package = {
+            "url": detail,
+            "source_url": detail,
+            "official_source": True,
+            "job_official_source": True,
+            "job_notice_type": "competition",
+            "job_application_url": portal,
+            "job_application_link_kind": "official_application_channel",
+            "job_detail_url": detail,
+            "job_action_links": [
+                {"url": portal, "label": "إيداع الترشيح", "kind": "apply"}
+            ],
+            "job_document_links": [],
+        }
+        article = {
+            "url": detail,
+            "source_url": detail,
+            "seo_title": "جامعة مغربية تعلن عن مباراة توظيف تقنيين من الدرجة الثالثة",
+            "seo_description": (
+                "تفاصيل مباراة توظيف تقنيين من الدرجة الثالثة مع شروط الترشيح "
+                "والمواعيد والروابط الرسمية المعتمدة لإيداع الطلبات."
+            ),
+            "final_html": (
+                "<p>تتوفر المعطيات الرسمية الخاصة بهذه المباراة وشروط المشاركة "
+                "والمراحل المطلوبة للترشيح وفق الإعلان المنشور من الجهة المنظمة.</p>"
+                f"<p><a href='{portal}'>منصة الترشيح الرسمية</a></p>"
+                f"<p><a href='{detail}'>صفحة الإعلان الرسمية</a></p>"
+            ),
+            "job_notice_type": "competition",
+            "job_application_url": portal,
+            "job_application_link_kind": "official_application_channel",
+            "job_detail_url": detail,
+            "ai_input_package": package,
+        }
+        with patch.object(quality_gate, "JOBS_MODE", True):
+            result = quality_gate.validate_before_publish(article, check_duplicate=False)
+        self.assertTrue(result.passed, result.reason)
+
     def test_public_application_channel_is_never_labeled_direct_apply(self):
         portal = "https://recrutement.enssup.gov.ma/"
         package = {
