@@ -3122,8 +3122,15 @@ def _jobs_pre_ai_evidence_error(package):
         return "source/evidence problem: missing verified job source URL before AI"
 
     notice_type = str(package.get("job_notice_type") or "").strip().lower()
+    notice_type_source = str(package.get("job_notice_type_source") or "").strip().lower()
     application_url = str(package.get("job_application_url") or "").strip()
-    if notice_type in {"vacancy", "competition"} and not application_url:
+    # A heuristic notice type may be corrected by the AI (for example a result
+    # notice initially looking like a vacancy). Do not pre-block that case.
+    if (
+        notice_type in {"vacancy", "competition"}
+        and not application_url
+        and notice_type_source in {"official", "verified", "structured", "ats", "source"}
+    ):
         return "source/evidence problem: active job notice is missing a verified application resource"
 
     evidence_stage = str(package.get("identity_evidence_stage_status") or "").strip().lower()
@@ -3141,6 +3148,7 @@ def _is_nonrepairable_jobs_evidence_quality_error(error, package=None):
     reason = str(error or "").casefold()
     package = dict(package or {})
     original_notice_type = str(package.get("job_notice_type") or "").strip().lower()
+    original_notice_source = str(package.get("job_notice_type_source") or "").strip().lower()
 
     if "missing job source url" in reason:
         return True
@@ -3153,6 +3161,7 @@ def _is_nonrepairable_jobs_evidence_quality_error(error, package=None):
     if (
         "active job notice is missing a verified application resource" in reason
         and original_notice_type in {"vacancy", "competition"}
+        and original_notice_source in {"official", "verified", "structured", "ats", "source"}
     ):
         return True
     return False
