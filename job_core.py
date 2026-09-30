@@ -1090,6 +1090,19 @@ def _material_change(article, record):
             old_value = canonicalize_job_url(old_value)
         if str(new_value or "").strip() != str(old_value or "").strip():
             return True
+
+    if identity_evidence_stage_complete(article):
+        article_signature = str(article.get("identity_evidence_signature") or "")
+        record_signature = str(record.get("identity_evidence_signature") or "")
+        article_strength = int(article.get("identity_evidence_strength") or 0)
+        record_strength = int(record.get("identity_evidence_strength") or 0)
+        if (
+            article_signature
+            and record_signature
+            and article_signature != record_signature
+            and min(article_strength, record_strength) >= 4
+        ):
+            return True
     return False
 
 
@@ -1107,18 +1120,31 @@ def _campaign_rollover(article, record):
 def _same_campaign_evidence(article, record):
     if semantic_key(article) != str(record.get("semantic_key") or ""):
         return False
+    if not identity_evidence_stage_complete(article):
+        return False
+
+    relation = _identity_evidence_relation(article, record)
+    if relation == "same":
+        return True
+    if relation == "different":
+        return False
+
+    # Legacy campaign records may not yet have an evidence signature. In that
+    # case only a strong vacancy-specific application relation plus matching
+    # campaign facts can confirm a duplicate. Deadline/positions alone are not
+    # enough to bury a potentially distinct specialization or recruitment round.
     evidence = 0
     new_deadline = str(article.get("job_deadline") or "").strip()
     old_deadline = str(record.get("deadline") or "").strip()
     if new_deadline and old_deadline and new_deadline == old_deadline:
-        evidence += 3
+        evidence += 1
     try:
         new_positions = int(article.get("job_number_of_positions") or 0)
         old_positions = int(record.get("number_of_positions") or 0)
     except (TypeError, ValueError):
         new_positions = old_positions = 0
     if new_positions > 0 and old_positions > 0 and new_positions == old_positions:
-        evidence += 2
+        evidence += 1
     new_posted = _parse_date(article.get("job_published_at") or article.get("source_published_at"))
     old_posted = _parse_date(record.get("published_at"))
     if new_posted and old_posted and abs((new_posted - old_posted).days) <= 3:
@@ -1127,7 +1153,7 @@ def _same_campaign_evidence(article, record):
     old_apply = canonicalize_job_url(record.get("application_url"))
     if new_apply and old_apply and is_job_specific_url(old_apply) and _same_url_family(new_apply, old_apply):
         evidence += 4
-    return evidence >= 4
+    return evidence >= 6
 
 
 def classify_identity(article):
@@ -1146,24 +1172,44 @@ def classify_identity(article):
 
     new_ref, old_ref = external_reference(article), str(record.get("external_reference") or "")
     if new_ref and old_ref and normalize_text(new_ref) == normalize_text(old_ref):
+        if not identity_evidence_stage_complete(article):
+            return {
+                "action": "hold",
+                "reason": "same external reference awaiting evidence stage",
+                "existing": record,
+            }
         changed = _material_change(article, record)
-        return {"action": "update" if changed else "duplicate", "reason": "same external reference", "existing": record}
+        return (
+            {"action": "update", "reason": "same external reference with verified material change", "existing": record}
+            if changed
+            else _final_duplicate_decision(article, "same external reference", record)
+        )
 
     new_apply = _identity_strong_application_url(article, article.get("job_application_url"))
     old_apply = canonicalize_job_url(record.get("application_url"))
     if new_apply and old_apply and is_job_specific_url(old_apply) and new_apply == old_apply:
+        if not identity_evidence_stage_complete(article):
+            return {
+                "action": "hold",
+                "reason": "same application URL awaiting evidence stage",
+                "existing": record,
+            }
         changed = _material_change(article, record)
-        return {"action": "update" if changed else "duplicate", "reason": "same application URL", "existing": record}
+        return (
+            {"action": "update", "reason": "same application URL with verified material change", "existing": record}
+            if changed
+            else _final_duplicate_decision(article, "same application URL", record)
+        )
 
     if semantic_key(article) != record.get("semantic_key"):
         return {"action": "new", "reason": "different company/title/location", "existing": {}}
     if new_ref and old_ref and normalize_text(new_ref) != normalize_text(old_ref):
         if _same_campaign_evidence(article, record):
-            return {"action": "duplicate", "reason": "same campaign confirmed across sources", "existing": record}
+            return _final_duplicate_decision(article, "same campaign confirmed across sources", record)
         return {"action": "new_campaign", "reason": "different external reference", "existing": record}
     if new_apply and old_apply and is_job_specific_url(old_apply) and not _same_url_family(new_apply, old_apply):
         if _same_campaign_evidence(article, record):
-            return {"action": "duplicate", "reason": "same campaign facts across different application URLs", "existing": record}
+            return _final_duplicate_decision(article, "same campaign facts across different application URLs", record)
         return {"action": "new_campaign", "reason": "different application URL", "existing": record}
 
     new_posted = _parse_date(article.get("job_published_at") or article.get("source_published_at"))
@@ -1171,7 +1217,19 @@ def classify_identity(article):
     if new_posted and old_posted and abs((new_posted - old_posted).days) >= 30:
         return {"action": "new_campaign", "reason": "same role reposted at least 30 days later", "existing": record}
 
-    return {"action": "hold", "reason": "ambiguous same role without strong identifier", "existing": record}
+    relation = _identity_evidence_relation(article, record)
+    if relation == "same":
+        return _final_duplicate_decision(article, "verified evidence matches existing campaign", record)
+    if relation == "different":
+        return {"action": "new_campaign", "reason": "verified evidence differs from existing campaign", "existing": record}
+    if identity_evidence_stage_complete(article):
+        return {
+            "action": "new_campaign",
+            "reason": "evidence stage complete; duplicate not confirmed",
+            "existing": record,
+        }
+
+    return {"action": "hold", "reason": "ambiguous same role awaiting evidence stage", "existing": record}
 
 
 def _new_campaign_id():
