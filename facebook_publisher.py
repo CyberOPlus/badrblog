@@ -347,6 +347,10 @@ def _mark_facebook_pending(article, now=None, reason="published_to_blogger"):
         or (now.isoformat() if hasattr(now, "isoformat") else _now_iso())
     )
     article["facebook_queue_reason"] = str(reason or "published_to_blogger")
+    # A live Blogger article awaiting Facebook must not remain in the generic
+    # published archive; archived items can be pruned before social backfill.
+    for key in ("archived", "archived_at", "archive_reason", "archive_deferred_reason", "archive_deferred_at"):
+        article.pop(key, None)
     article.pop("facebook_selection_reason", None)
     article.pop("facebook_error", None)
     article.pop("facebook_expired_at", None)
