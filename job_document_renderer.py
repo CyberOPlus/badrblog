@@ -296,15 +296,56 @@ def render_job_document_pages(
 
     rendered = []
     total_pages = 0
+    attempted_documents = 0
+    render_failures = 0
+    failed_urls = []
     for document_index, item in enumerate(eligible, start=1):
         if total_pages >= max_total_pages:
             break
         url = str(item.get("url") or "").strip()
         label = _clean_text(item.get("label") or item.get("context") or f"الوثيقة الرسمية {document_index}")
+        attempted_documents += 1
+        document = None
         try:
             payload = _download_pdf(url)
             document = fitz.open(stream=payload, filetype="pdf")
+
+            digest = hashlib.sha256(_canonical_key(url).encode("utf-8")).hexdigest()[:10]
+            document_page_count = document.page_count
+            available = max_total_pages - total_pages
+            page_limit = min(document_page_count, available)
+            for page_index in range(page_limit):
+                page = document.load_page(page_index)
+                # A moderate scale keeps Arabic/French conditions readable on phones
+                # without turning every article into a multi-megabyte payload.
+                pix = page.get_pixmap(matrix=fitz.Matrix(1.6, 1.6), alpha=False)
+                mode = "RGB" if pix.n < 4 else "RGBA"
+                image = Image.frombytes(mode, (pix.width, pix.height), pix.samples)
+                if image.mode != "RGB":
+                    image = image.convert("RGB")
+                filename = f"doc-{document_index:02d}-{digest}-page-{page_index + 1:02d}.jpg"
+                path = root / filename
+                image.save(path, format="JPEG", quality=84, optimize=True, progressive=True)
+                public_url = raw_base.rstrip("/") + "/" + path.as_posix()
+                rendered.append(
+                    {
+                        "document_url": url,
+                        "document_label": label,
+                        "page_number": page_index + 1,
+                        "page_count": document_page_count,
+                        "url": public_url,
+                        "path": path.as_posix(),
+                        "alt": f"{label} — الصفحة {page_index + 1}",
+                    }
+                )
+                total_pages += 1
+
+            if page_limit < document_page_count:
+                article["job_document_pages_truncated"] = True
+                break
         except Exception as error:
+            render_failures += 1
+            failed_urls.append(url)
             log_event(
                 "job_document_render_skipped",
                 article_id=article.get("id"),
@@ -312,42 +353,16 @@ def render_job_document_pages(
                 error=str(error),
             )
             continue
-
-        digest = hashlib.sha256(_canonical_key(url).encode("utf-8")).hexdigest()[:10]
-        document_page_count = document.page_count
-        available = max_total_pages - total_pages
-        page_limit = min(document_page_count, available)
-        for page_index in range(page_limit):
-            page = document.load_page(page_index)
-            # A moderate scale keeps Arabic/French conditions readable on phones
-            # without turning every article into a multi-megabyte payload.
-            pix = page.get_pixmap(matrix=fitz.Matrix(1.6, 1.6), alpha=False)
-            mode = "RGB" if pix.n < 4 else "RGBA"
-            image = Image.frombytes(mode, (pix.width, pix.height), pix.samples)
-            if image.mode != "RGB":
-                image = image.convert("RGB")
-            filename = f"doc-{document_index:02d}-{digest}-page-{page_index + 1:02d}.jpg"
-            path = root / filename
-            image.save(path, format="JPEG", quality=84, optimize=True, progressive=True)
-            public_url = raw_base.rstrip("/") + "/" + path.as_posix()
-            rendered.append(
-                {
-                    "document_url": url,
-                    "document_label": label,
-                    "page_number": page_index + 1,
-                    "page_count": document_page_count,
-                    "url": public_url,
-                    "path": path.as_posix(),
-                    "alt": f"{label} — الصفحة {page_index + 1}",
-                }
-            )
-            total_pages += 1
-        document.close()
-
-        if page_limit < document_page_count:
-            article["job_document_pages_truncated"] = True
-            break
+        finally:
+            if document is not None:
+                try:
+                    document.close()
+                except Exception:
+                    pass
 
     article["job_document_page_images"] = rendered
     article["job_document_rendered_pages"] = len(rendered)
+    article["job_document_render_attempted_documents"] = attempted_documents
+    article["job_document_render_failures"] = render_failures
+    article["job_document_render_failed_urls"] = failed_urls
     return rendered
