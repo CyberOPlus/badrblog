@@ -388,6 +388,40 @@ def _record_failure_fingerprint(error, *, scope, provider="", retry_until=0):
     return fingerprint, category, retry_until
 
 
+def _failure_fingerprint_retry_until(fingerprint):
+    fingerprint = str(fingerprint or "").strip()
+    if not fingerprint:
+        return 0.0
+    entry = (_load_ai_memory().get("failure_fingerprints") or {}).get(fingerprint)
+    if not isinstance(entry, dict):
+        return 0.0
+    try:
+        return float(entry.get("retry_until") or 0)
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _iso_retry_until(value):
+    text = str(value or "").strip()
+    if not text:
+        return 0.0
+    try:
+        parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.astimezone()
+        return float(parsed.timestamp())
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _article_ai_retry_until(article):
+    article = article or {}
+    return max(
+        _iso_retry_until(article.get("ai_retry_after")),
+        _failure_fingerprint_retry_until(article.get("ai_failure_fingerprint")),
+    )
+
+
 def _provider_circuit_until(provider):
     entry = _load_ai_memory().get("provider_circuits", {}).get(str(provider or "").lower())
     return _cooldown_entry_until(entry)
@@ -3292,6 +3326,35 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             "article": None,
             "message": "No selected ready_for_ai article found.",
         }
+
+    article = eligible[0]
+
+    if JOBS_MODE and not force:
+        retry_until = _article_ai_retry_until(article)
+        if retry_until > time.time():
+            retry_after = _epoch_to_iso(retry_until)
+            article["ai_retry_pending"] = True
+            article["ai_quality_status"] = "retry_backoff"
+            article["ai_retry_after"] = retry_after
+            save_article_queue(queue)
+            log_event(
+                "ai_retry_backoff_preflight",
+                article_id=article.get("id"),
+                failure_scope=article.get("ai_failure_scope", ""),
+                failure_fingerprint=article.get("ai_failure_fingerprint", ""),
+                retry_after=retry_after,
+            )
+            return {
+                "processed": 0,
+                "success": 0,
+                "failed": 0,
+                "article": article,
+                "message": f"AI retry backoff active until {retry_after}",
+                "failure_scope": "retry_backoff",
+                "failure_fingerprint": article.get("ai_failure_fingerprint", ""),
+                "failure_category": article.get("ai_failure_category", ""),
+                "retry_after": retry_after,
+            }
 
     article = eligible[0]
     package = article["ai_input_package"]
