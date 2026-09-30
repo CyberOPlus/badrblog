@@ -2436,6 +2436,7 @@ def run_hourly_category_cycle():
     results = []
     successes = 0
     failures = 0
+    ai_failed_candidates = 0
     used_article_ids = set()
     used_sources_by_category = {
         category: set((hourly_counts.get("by_category_source") or {}).get(category, {}).keys())
@@ -2468,14 +2469,16 @@ def run_hourly_category_cycle():
                 failures += 1
                 print(f"Skipped failed article: {item_result.get('reason', '')}")
                 circuit = ai_circuit_status() if JOBS_MODE else {}
+                failure_scope = str(
+                    item_result.get("failure_scope") or ""
+                ).strip().lower()
                 if (
-                    str(item_result.get("failure_scope") or "").strip().lower()
-                    in {"global_outage", "cycle_budget"}
+                    failure_scope in {"global_outage", "cycle_budget", "retry_backoff"}
                     or circuit.get("global_open")
                 ):
                     log_event(
                         "ai_hourly_batch_stopped_by_circuit",
-                        failure_scope=item_result.get("failure_scope", "") or "global_outage",
+                        failure_scope=failure_scope or "global_outage",
                         failure_fingerprint=(
                             item_result.get("failure_fingerprint", "")
                             or circuit.get("global_fingerprint", "")
@@ -2487,6 +2490,19 @@ def run_hourly_category_cycle():
                     )
                     remaining_total = 0
                     break
+
+                if item_result.get("step_reached") == "run-ai":
+                    ai_failed_candidates += 1
+                    if ai_failed_candidates > JOBS_AI_CROSS_CANDIDATE_RETRIES:
+                        log_event(
+                            "ai_hourly_candidate_fanout_limit_reached",
+                            failed_candidates=ai_failed_candidates,
+                            allowed_extra_candidates=JOBS_AI_CROSS_CANDIDATE_RETRIES,
+                            failure_scope=failure_scope or "article_specific",
+                            failure_fingerprint=item_result.get("failure_fingerprint", ""),
+                        )
+                        remaining_total = 0
+                        break
         if remaining_total <= 0:
             break
 
