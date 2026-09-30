@@ -727,11 +727,6 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             or package.get("job_application_link_kind")
             or ""
         ).strip().lower()
-        active_notice = notice_type in {"vacancy", "competition"}
-        if active_notice and not application_url:
-            job_warnings.append(
-                "active notice has no verified application resource; source/evidence preflight should resolve this before AI"
-            )
         application_context = dict(verification_context)
         application_context["job_notice_type"] = notice_type
         application_context["job_application_link_kind"] = application_kind
