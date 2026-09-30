@@ -1856,7 +1856,7 @@ def _can_run_async_discovery():
 
 async def _discover_latest_article_links_async(enabled_sources):
     discovered = []
-    source_results = list(cooldown_results)
+    source_results = []
     timeout = aiohttp.ClientTimeout(total=ASYNC_FETCH_TIMEOUT_SECONDS + 10)
     connector = aiohttp.TCPConnector(limit=ASYNC_SOURCE_FETCH_CONCURRENCY, ttl_dns_cache=300)
     semaphore = asyncio.Semaphore(ASYNC_SOURCE_FETCH_CONCURRENCY)
@@ -2020,7 +2020,7 @@ def discover_latest_article_links(sources):
 
     discovered = []
     checked_sources = 0
-    source_results = []
+    source_results = list(cooldown_results)
 
     log_event("source_discovery_start", sources=len(enabled_sources), mode="requests")
     for source in enabled_sources:
