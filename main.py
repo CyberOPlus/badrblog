@@ -1437,7 +1437,7 @@ def run_queue_maintenance_only():
     print(f"Archived old skipped:       {stats['archived_old_skipped']}")
     print(f"Archived old failed:        {stats['archived_old_failed']}")
     print(f"Archived duplicate URLs:    {stats['archived_duplicate_urls']}")
-    print(f"Archived stale logo waits:  {stats.get('archived_stale_logo_wait', 0)}")
+    print(f"Released legacy logo waits: {stats.get('released_logo_waits', 0)}")
     print(f"Archived stale no-deadline: {stats.get('archived_stale_no_deadline', 0)}")
     if memory_stats:
         print(f"Old campaigns pruned:       {memory_stats.get('campaigns_pruned', 0)}")
