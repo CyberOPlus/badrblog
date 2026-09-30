@@ -680,6 +680,52 @@ class JobsCoreTests(unittest.TestCase):
         self.assertTrue(job_core._campaign_rollover(new, old))
 
 
+    def test_cross_source_same_campaign_is_duplicate_with_strong_evidence(self):
+        article = sample_job(
+            source_name="Second Official Source",
+            job_external_reference="REF-NEW",
+            job_deadline="2026-10-10",
+            job_number_of_positions=100,
+        )
+        record = {
+            "campaign_id": "campaign-a",
+            "identity_key": "old",
+            "semantic_key": job_core.semantic_key(article),
+            "external_reference": "REF-OLD",
+            "deadline": "2026-10-10",
+            "number_of_positions": 100,
+            "published_at": "2026-09-28T08:00:00+00:00",
+            "application_url": "https://other.example/jobs/old",
+        }
+        with patch.object(job_core, "get_by_identity", return_value={}), \
+             patch.object(job_core, "get_semantic_candidates", return_value=[record]):
+            result = job_core.classify_identity(article)
+        self.assertEqual(result["action"], "duplicate")
+        self.assertIn("same campaign", result["reason"])
+
+    def test_cross_source_same_role_with_different_deadline_stays_new_campaign(self):
+        article = sample_job(
+            source_name="Second Official Source",
+            job_external_reference="REF-NEW",
+            job_deadline="2026-11-20",
+            job_number_of_positions=3,
+        )
+        record = {
+            "campaign_id": "campaign-a",
+            "identity_key": "old",
+            "semantic_key": job_core.semantic_key(article),
+            "external_reference": "REF-OLD",
+            "deadline": "2026-10-10",
+            "number_of_positions": 100,
+            "published_at": "2026-07-01T08:00:00+00:00",
+            "application_url": "https://other.example/jobs/old",
+        }
+        with patch.object(job_core, "get_by_identity", return_value={}), \
+             patch.object(job_core, "get_semantic_candidates", return_value=[record]):
+            result = job_core.classify_identity(article)
+        self.assertEqual(result["action"], "new_campaign")
+
+
 
     def test_job_extractor_reads_labelled_public_employer(self):
         html = """

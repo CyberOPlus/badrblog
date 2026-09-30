@@ -774,6 +774,32 @@ def _campaign_rollover(article, record):
     return False
 
 
+def _same_campaign_evidence(article, record):
+    if semantic_key(article) != str(record.get("semantic_key") or ""):
+        return False
+    evidence = 0
+    new_deadline = str(article.get("job_deadline") or "").strip()
+    old_deadline = str(record.get("deadline") or "").strip()
+    if new_deadline and old_deadline and new_deadline == old_deadline:
+        evidence += 3
+    try:
+        new_positions = int(article.get("job_number_of_positions") or 0)
+        old_positions = int(record.get("number_of_positions") or 0)
+    except (TypeError, ValueError):
+        new_positions = old_positions = 0
+    if new_positions > 0 and old_positions > 0 and new_positions == old_positions:
+        evidence += 2
+    new_posted = _parse_date(article.get("job_published_at") or article.get("source_published_at"))
+    old_posted = _parse_date(record.get("published_at"))
+    if new_posted and old_posted and abs((new_posted - old_posted).days) <= 3:
+        evidence += 1
+    new_apply = canonicalize_job_url(article.get("job_application_url"))
+    old_apply = canonicalize_job_url(record.get("application_url"))
+    if new_apply and old_apply and _same_url_family(new_apply, old_apply):
+        evidence += 4
+    return evidence >= 4
+
+
 def classify_identity(article):
     exact = identity_key(article)
     records = []
@@ -802,8 +828,12 @@ def classify_identity(article):
     if semantic_key(article) != record.get("semantic_key"):
         return {"action": "new", "reason": "different company/title/location", "existing": {}}
     if new_ref and old_ref and normalize_text(new_ref) != normalize_text(old_ref):
+        if _same_campaign_evidence(article, record):
+            return {"action": "duplicate", "reason": "same campaign confirmed across sources", "existing": record}
         return {"action": "new_campaign", "reason": "different external reference", "existing": record}
     if new_apply and old_apply and not _same_url_family(new_apply, old_apply):
+        if _same_campaign_evidence(article, record):
+            return {"action": "duplicate", "reason": "same campaign facts across different application URLs", "existing": record}
         return {"action": "new_campaign", "reason": "different application URL", "existing": record}
 
     new_posted = _parse_date(article.get("job_published_at") or article.get("source_published_at"))
@@ -927,6 +957,8 @@ def record_job_publish(article, now=None):
             if isinstance(row, dict) and row.get("url")
         )),
         "source_url": canonicalize_job_url(article.get("url") or article.get("source_url")),
+        "source_name": article.get("source_name", ""),
+        "source_priority": article.get("source_priority", ""),
         "blogger_post_id": article.get("blogger_post_id", ""),
         "blogger_url": article.get("blogger_post_url", ""),
         "desired_slug": article.get("desired_slug", ""),

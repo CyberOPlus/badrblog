@@ -54,6 +54,7 @@ from config import (
 )
 from runtime_state import (
     is_source_cooled_down,
+    record_source_cooldown,
     record_source_failure,
     record_source_success,
     source_crawl_record,
@@ -288,10 +289,18 @@ def _filter_healthy_sources(sources):
 
 
 def _record_source_result(base_url, source_name, error, links_found, empty_ok=False):
-    if empty_ok and not error and links_found <= 0:
+    error_text = str(error or "")
+    lowered = error_text.casefold()
+    if "http 429" in lowered:
+        record_source_cooldown(base_url, source_name=source_name, error=error_text, minutes=60)
+    elif "http 403" in lowered:
+        record_source_cooldown(base_url, source_name=source_name, error=error_text, minutes=180)
+    elif "timeout" in lowered or "timed out" in lowered:
+        record_source_cooldown(base_url, source_name=source_name, error=error_text, minutes=30)
+    elif empty_ok and not error and links_found <= 0:
         record_source_success(base_url, source_name=source_name)
     elif error or links_found <= 0:
-        record_source_failure(base_url, source_name=source_name, error=error or "zero links")
+        record_source_failure(base_url, source_name=source_name, error=error_text or "zero links")
     else:
         record_source_success(base_url, source_name=source_name)
 
