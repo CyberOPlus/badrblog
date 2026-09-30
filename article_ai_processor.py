@@ -2777,106 +2777,16 @@ def _apply_success(article, data, provider_used):
     article["final_content_hash"] = content_hash_from_html(final_html)
     article["ai_provider_used"] = provider_used
     article.pop("ai_error", None)
+    article.pop("ai_deterministic_fallback", None)
+    article.pop("ai_retry_pending", None)
+    article.pop("ai_retry_reason", None)
 
 
 
 def _apply_failure(article, error):
     article["ai_status"] = "failed"
     article["ai_error"] = str(error)
-
-
-def _deterministic_job_article(package):
-    """Build a publishable Arabic Jobs article from verified extracted facts only."""
-    package = dict(package or {})
-    role = str(package.get("job_title") or package.get("title") or "فرصة عمل").strip()
-    company = str(package.get("job_company") or package.get("source_name") or "الجهة المعلنة").strip()
-    location = str(package.get("job_location") or "").strip()
-    notice = str(package.get("job_notice_type") or "vacancy").strip().lower()
-
-    if notice == "candidate_list":
-        title = f"لوائح المدعوين لمباراة توظيف {role} لدى {company}"
-    elif notice in {"results", "final_results"}:
-        title = f"نتائج مباراة توظيف {role} لدى {company}"
-    else:
-        title = f"فرصة توظيف {role} لدى {company}"
-    if len(title) < 28:
-        title += " وفق الإعلان الرسمي"
-
-    detail_rows = []
-    facts = (
-        ("الجهة المشغلة", company),
-        ("المنصب", role),
-        ("مكان العمل", location),
-        ("نوع العقد", package.get("job_contract_type")),
-        ("عدد المناصب", package.get("job_number_of_positions")),
-        ("تاريخ النشر", package.get("job_published_at_display") or package.get("job_published_at")),
-        ("تاريخ إجراء المباراة", package.get("job_exam_date_display") or package.get("job_exam_date")),
-        ("المرجع الرسمي", package.get("job_external_reference") or package.get("ats_reference")),
-        ("المؤهل المطلوب", package.get("job_diploma")),
-        ("الخبرة", package.get("job_experience")),
-    )
-    for label, value in facts:
-        value = str(value or "").strip()
-        if value and value not in {"0", "None"}:
-            detail_rows.append(
-                f"<tr><th>{escape(label)}</th><td>{escape(value)}</td></tr>"
-            )
-
-    deadline = str(
-        package.get("job_deadline_display")
-        or package.get("job_deadline")
-        or ""
-    ).strip()
-    if deadline:
-        detail_rows.append(
-            f"<tr><th>آخر أجل للترشيح</th><td>{escape(deadline)}</td></tr>"
-        )
-
-    intro = (
-        f"يهم هذا الإعلان فرصة مرتبطة بمنصب {escape(role)} لدى {escape(company)}"
-        + (f" في {escape(location)}" if location else "")
-        + ". ويعرض هذا الملخص المعلومات التي أمكن التحقق منها من المصدر الرسمي، "
-          "مع الحفاظ على تفاصيل الترشيح كما وردت دون إضافة شروط أو أرقام غير مؤكدة."
-    )
-    guidance = (
-        "يتم الاعتماد في هذا الإعلان على البيانات والروابط الرسمية المتاحة للمنصب. "
-        "عند توفر رابط تقديم مباشر، يتم عرضه في قسم التقديم والروابط الرسمية دون إعادة "
-        "كتابته أو اختصاره. كما تُعرض الملفات والوثائق الرسمية المرتبطة بالإعلان عندما "
-        "تكون متاحة، مثل إعلان المباراة أو قرارها أو اللوائح والنتائج. "
-        "لا تُضاف شروط أو آجال أو مؤهلات غير موجودة في المصدر الرسمي، وتبقى الصفحة "
-        "الرسمية للجهة المرجع النهائي لأي تحديث لاحق يخص هذا الإعلان."
-    )
-    status_text = ""
-    if package.get("job_notice_status"):
-        status_text = (
-            "<p><strong>حالة الإعلان:</strong> "
-            + escape(str(package.get("job_notice_status")))
-            + "</p>"
-        )
-
-    html = (
-        f"<p>{intro}</p>"
-        "<h2>تفاصيل الوظيفة</h2>"
-        "<table><tbody>"
-        + "".join(detail_rows)
-        + "</tbody></table>"
-        + status_text
-        + "<h2>التقديم والروابط الرسمية</h2>"
-        + f"<p>{guidance}</p>"
-    )
-    description = (
-        f"فرصة توظيف لدى {company} لمنصب {role}"
-        + (f" في {location}" if location else "")
-        + ". تفاصيل موثقة عن المنصب وطريقة التقديم والروابط الرسمية المتاحة."
-    )
-    if len(description) < 70:
-        description += " راجع الشروط والآجال بعناية قبل إرسال طلب الترشيح."
-    return {
-        "title": title[:150],
-        "description": description[:190],
-        "slug": _fallback_job_english_slug(package),
-        "html_content": html,
-    }
+    article.pop("ai_deterministic_fallback", None)
 
 
 def process_one_selected_article_with_ai(force=False, target_article_id=None):
@@ -2940,10 +2850,10 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     )
     if JOBS_MODE and not provider_sequence:
         last_error = RuntimeError(
-            "No AI provider is currently available; using deterministic Jobs fallback."
+            "No AI provider is currently available; Jobs article will remain queued for a later AI retry."
         )
         log_event(
-            "ai_providers_unavailable_deterministic_fallback",
+            "ai_providers_unavailable_jobs_retry_pending",
             article_id=article.get("id"),
         )
     for attempt in range(1, total_attempts + 1):
@@ -3150,39 +3060,10 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     continue
                 break
 
-    if JOBS_MODE:
-        try:
-            fallback_data = _deterministic_job_article(package)
-            fallback_data = _finalize_html_content(fallback_data, package)
-            _validate_ai_output(fallback_data, package=package)
-            _apply_success(article, fallback_data, "deterministic:verified-job-template")
-            article["ai_rotation_exhausted"] = bool(last_error)
-            article["ai_deterministic_fallback"] = True
-            article["ai_quality_attempts"] = attempt if "attempt" in locals() else 0
-            article["ai_quality_status"] = "passed_deterministic_fallback"
-            article["ai_total_time_seconds"] = round(context.elapsed_seconds(), 2)
-            save_article_queue(queue)
-            log_event(
-                "job_deterministic_ai_fallback_success",
-                article_id=article.get("id"),
-                previous_error=_safe_error_reason(last_error) if last_error else "",
-                words=article.get("final_word_count"),
-            )
-            return {
-                "processed": 1,
-                "success": 1,
-                "failed": 0,
-                "article": article,
-                "message": "AI providers unavailable; verified deterministic Jobs template used.",
-            }
-        except Exception as fallback_error:
-            log_event(
-                "job_deterministic_ai_fallback_failed",
-                article_id=article.get("id"),
-                reason=_safe_error_reason(fallback_error),
-            )
-
     _apply_failure(article, last_error)
+    if JOBS_MODE:
+        article["ai_retry_pending"] = True
+        article["ai_retry_reason"] = _safe_error_reason(last_error) if last_error else "AI generation failed"
     provider_exhausted = bool(
         last_error
         and not isinstance(last_error, AITimeBudgetExceeded)

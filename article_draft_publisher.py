@@ -91,10 +91,15 @@ def _execute_blogger_request(request, operation, safe_to_retry=True):
 
 
 def _eligible_for_publish(article):
+    ai_provider = str(article.get("ai_provider_used") or "").strip().lower()
     return (
         article.get("status") in {"selected", "draft_created", "published"}
         and article.get("processing_status") == "ready_for_ai"
         and article.get("ai_status") == "completed"
+        and article.get("ai_quality_status") == "passed"
+        and bool(ai_provider)
+        and not ai_provider.startswith("deterministic:")
+        and not article.get("ai_deterministic_fallback")
         and bool(article.get("final_html"))
     )
 
