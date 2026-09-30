@@ -7,10 +7,6 @@ on:
     # internal 5-minute pacing still prevents bursts.
     - cron: "1,7,13,19,25,31,37,43,49,55 * * * *"
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/auto-cycle.yml"
 
 concurrency:
   # Production schedule/manual runs share their own lock. Older push-smoke
