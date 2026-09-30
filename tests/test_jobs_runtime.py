@@ -368,7 +368,8 @@ class JobsRuntimeTests(unittest.TestCase):
         ):
             stats = facebook._sync_jobs_facebook_queue(queue, now=now)
 
-        self.assertEqual(stats["queued"], 1)
+        self.assertEqual(stats["queued"], 0)
+        self.assertEqual(stats["recovered"], 1)
         self.assertEqual(len(queue["articles"]), 1)
         recovered = queue["articles"][0]
         self.assertEqual(recovered["facebook_status"], "facebook_pending")
