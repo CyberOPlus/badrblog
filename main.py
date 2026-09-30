@@ -2373,6 +2373,12 @@ def run_hourly_category_cycle():
     print(f"Already this hour: {hourly_counts['total']}")
     print("=" * 60)
 
+    visual_retry_stats = (
+        retry_pending_job_document_renders(max_articles=1)
+        if JOBS_MODE
+        else {}
+    )
+
     if publish_mode != "live":
         reason = "Hourly category batch requires live publishing"
         _print_safe_cycle_final_report(None, stopped_reason=reason)
@@ -2391,11 +2397,6 @@ def run_hourly_category_cycle():
     print("\n[1/6] fetch all categories")
     fetch_stats = run_fetch_only()
     cleanup_stats = archive_expired_queue_articles()
-    visual_retry_stats = (
-        retry_pending_job_document_renders(max_articles=1)
-        if JOBS_MODE
-        else {}
-    )
     if cleanup_stats["expired_archived"] or cleanup_stats["missing_date_archived"]:
         print(
             "Fresh queue cleanup: "
