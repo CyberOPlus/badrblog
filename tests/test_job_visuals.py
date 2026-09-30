@@ -354,60 +354,87 @@ class JobVisualTests(unittest.TestCase):
             self.assertFalse(facebook_result["ok"])
             self.assertIn("verified employer logo", facebook_result.get("error", ""))
 
-    def test_live_publisher_defers_missing_logo_instead_of_crashing(self):
+    def test_missing_verified_logo_is_optional_for_article_publishing(self):
         article = {
-            "id": "job-logo-pending",
-            "status": "selected",
-            "processing_status": "ready_for_ai",
-            "ai_status": "completed",
-            "final_html": "<p>" + " ".join(["معلومة"] * 120) + "</p>",
-            "final_word_count": 120,
+            "id": "job-no-logo",
             "job_title": "مهندس نظم",
             "job_company": "Unknown Employer",
             "seo_title": "فرصة توظيف مهندس نظم لدى Unknown Employer",
-            "seo_description": "فرصة توظيف موثقة مع تفاصيل التقديم الرسمية والمعلومات الأساسية المتاحة للمرشحين.",
-            "url": "https://example.com/jobs/42",
             "ai_input_package": {
                 "job_title": "مهندس نظم",
                 "job_company": "Unknown Employer",
-                "url": "https://example.com/jobs/42",
             },
         }
-        queue = {"articles": [article]}
-        with patch.object(article_draft_publisher, "JOBS_MODE", True), \
-             patch.object(article_draft_publisher, "load_article_queue", return_value=queue), \
-             patch.object(article_draft_publisher, "save_article_queue") as save, \
-             patch.object(article_draft_publisher, "refresh_company_logo", return_value={
-                 "company_logo_url": "",
-                 "company_logo_verified": False,
-             }):
-            result = article_draft_publisher.publish_one_blogger_post(
-                target_article_id="job-logo-pending",
-                mode="live",
-            )
-        self.assertTrue(result.get("deferred"))
-        self.assertEqual(article["publish_status"], "waiting_for_logo")
-        self.assertEqual(article["candidate_failure_stage"], "company-logo")
-        self.assertTrue(article.get("candidate_retry_after"))
-        save.assert_called()
+        with (
+            patch.object(article_draft_publisher, "JOBS_MODE", True),
+            patch.object(
+                article_draft_publisher,
+                "verified_company_logo",
+                return_value={},
+            ),
+            patch.object(
+                article_draft_publisher,
+                "refresh_company_logo",
+                return_value={
+                    "company_logo_url": "",
+                    "company_logo_verified": False,
+                },
+            ),
+        ):
+            cover = article_draft_publisher._prepare_job_article_cover(article)
 
-    def test_prepare_job_cover_blocks_without_verified_logo(self):
+        self.assertEqual(cover, "")
+        self.assertEqual(
+            article["logo_resolution_status"],
+            "unavailable_optional",
+        )
+        self.assertEqual(
+            article["job_article_cover_status"],
+            "skipped_missing_verified_logo",
+        )
+        self.assertFalse(article["article_logo_used"])
+        self.assertNotIn("publish_block_reason", article)
+
+    def test_verified_logo_render_failure_is_optional_for_article_publishing(self):
         article = {
-            "id": "job-no-logo",
-            "job_title": "Test Role",
-            "job_company": "Company Without Registered Logo",
-            "seo_title": "وظيفة اختبار بدون شعار",
+            "id": "job-logo-render-fail",
+            "job_title": "مهندس نظم",
+            "job_company": "Example Company",
+            "seo_title": "فرصة توظيف مهندس نظم لدى Example Company",
             "ai_input_package": {
-                "job_title": "Test Role",
-                "job_company": "Company Without Registered Logo",
+                "job_title": "مهندس نظم",
+                "job_company": "Example Company",
             },
         }
-        with self.assertRaisesRegex(RuntimeError, "Verified company logo is required"):
-            article_draft_publisher._prepare_job_article_cover(article)
+        with (
+            patch.object(article_draft_publisher, "JOBS_MODE", True),
+            patch.object(
+                article_draft_publisher,
+                "verified_company_logo",
+                return_value={
+                    "company_logo_url": "https://example.com/logo.png",
+                    "company_logo_verified": True,
+                },
+            ),
+            patch.object(
+                article_draft_publisher,
+                "generate_job_article_cover",
+                return_value={
+                    "ok": False,
+                    "logo_loaded": False,
+                    "error": "temporary render error",
+                },
+            ),
+        ):
+            cover = article_draft_publisher._prepare_job_article_cover(article)
+
+        self.assertEqual(cover, "")
         self.assertEqual(
-            article.get("publish_block_reason"),
-            "verified_company_logo_required",
+            article["job_article_cover_status"],
+            "render_retry_optional",
         )
+        self.assertTrue(article["logo_visual_retry_pending"])
+        self.assertNotIn("publish_block_reason", article)
 
     def test_job_cover_git_push_retries_after_concurrent_commit(self):
         def completed(returncode=0, stdout="", stderr=""):
