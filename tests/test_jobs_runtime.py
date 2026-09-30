@@ -737,6 +737,46 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertLess(html.index("page-01.jpg"), html.index("page-02.jpg"))
         self.assertEqual(html.count("jobDocPageImage"), 2)
 
+    def test_identity_pdf_priority_follows_notice_type(self):
+        documents = [
+            {"url": "https://example.com/results.pdf", "label": "لائحة النتائج"},
+            {"url": "https://example.com/notice.pdf", "label": "الإعلان الرسمي للمباراة"},
+            {"url": "https://example.com/conditions.pdf", "label": "شروط المباراة"},
+            {"url": "https://example.com/list.pdf", "label": "Liste des admis"},
+        ]
+
+        competition = {
+            "job_notice_type": "competition",
+            "job_document_links": documents,
+        }
+        competition_selected = job_document_renderer._eligible_documents(
+            competition,
+            max_documents=2,
+        )
+        self.assertEqual(
+            [item["url"] for item in competition_selected],
+            [
+                "https://example.com/notice.pdf",
+                "https://example.com/conditions.pdf",
+            ],
+        )
+
+        results = {
+            "job_notice_type": "results",
+            "job_document_links": documents,
+        }
+        result_selected = job_document_renderer._eligible_documents(
+            results,
+            max_documents=2,
+        )
+        self.assertEqual(
+            [item["url"] for item in result_selected],
+            [
+                "https://example.com/results.pdf",
+                "https://example.com/list.pdf",
+            ],
+        )
+
     def test_official_pdf_renderer_creates_readable_page_images(self):
         import fitz
         import tempfile
