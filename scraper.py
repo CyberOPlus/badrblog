@@ -1479,6 +1479,47 @@ async def _collect_workday_links_async(
 
 
 
+EMPLOI_PUBLIC_AR_MONTHS = {
+    "يناير": 1,
+    "فبراير": 2,
+    "مارس": 3,
+    "أبريل": 4,
+    "ابريل": 4,
+    "ماي": 5,
+    "يونيو": 6,
+    "يوليوز": 7,
+    "يوليو": 7,
+    "غشت": 8,
+    "شتنبر": 9,
+    "سبتمبر": 9,
+    "أكتوبر": 10,
+    "اكتوبر": 10,
+    "نونبر": 11,
+    "نوفمبر": 11,
+    "دجنبر": 12,
+    "ديسمبر": 12,
+}
+
+
+def _emploi_public_deadline_from_listing_text(value):
+    text = _normalize_text(value)
+    match = re.search(
+        r"آخر\s+أجل\s+لإيداع\s+ملفات\s+الترشيح\s*:?\s*"
+        r"(\d{1,2})\s+([\u0600-\u06FF]+)\s+(\d{4})",
+        text,
+    )
+    if not match:
+        return ""
+    day_value, month_name, year_value = match.groups()
+    month_value = EMPLOI_PUBLIC_AR_MONTHS.get(month_name)
+    if not month_value:
+        return ""
+    try:
+        return date(int(year_value), month_value, int(day_value)).isoformat()
+    except ValueError:
+        return ""
+
+
 def _parse_emploi_public_links(document, source_url, per_source_limit=None):
     """Extract only official Emploi-Public competition detail pages."""
     soup = _get_soup_from_document(document, source_url)
@@ -1516,7 +1557,9 @@ def _parse_emploi_public_links(document, source_url, per_source_limit=None):
 
         candidates = [_normalize_text(anchor.get_text(" ", strip=True))]
         container = anchor.find_parent(["article", "li", "tr", "section", "div"])
+        container_text = ""
         if container:
+            container_text = _normalize_text(container.get_text(" ", strip=True))
             for tag_name in ("h1", "h2", "h3", "h4", "h5", "strong"):
                 tag = container.find(tag_name)
                 if tag:
@@ -1536,13 +1579,19 @@ def _parse_emploi_public_links(document, source_url, per_source_limit=None):
 
         seen.add(canonical)
         reference = match.group(1)
-        links.append({
+        deadline = _emploi_public_deadline_from_listing_text(
+            container_text or title
+        )
+        row = {
             "title": title,
             "url": canonical,
             "ats_provider": "emploi_public",
             "ats_reference": reference,
             "job_external_reference": reference,
-        })
+        }
+        if deadline:
+            row["job_deadline"] = deadline
+        links.append(row)
         if len(links) >= limit:
             break
 
