@@ -574,6 +574,10 @@ class JobsCoreTests(unittest.TestCase):
             "content_fetch_status": "failed",
             "content_fetch_error": "http 405",
             "candidate_retry_after": "2099-01-01T00:00:00Z",
+            "identity_evidence_stage_status": "complete",
+            "identity_evidence_signature": "stale-signature",
+            "identity_evidence_strength": 6,
+            "identity_evidence_comparison_strength": 4,
         }
         discovered = {
             "ats_provider": "phenom",
@@ -596,6 +600,12 @@ class JobsCoreTests(unittest.TestCase):
         self.assertNotIn("candidate_retry_after", existing)
         self.assertNotIn("content_fetch_status", existing)
         self.assertNotIn("content_fetch_error", existing)
+        self.assertNotIn("identity_evidence_stage_status", existing)
+        self.assertNotIn("identity_evidence_signature", existing)
+        self.assertEqual(
+            existing["identity_evidence_invalidation_reason"],
+            "structured discovery identity facts changed",
+        )
 
     def test_tracking_parameters_do_not_change_job_url(self):
         a = job_core.canonicalize_job_url("https://Example.com/jobs/123?utm_source=x&gclid=1")
