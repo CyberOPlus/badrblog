@@ -127,29 +127,32 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertGreater(later, first)
         self.assertLessEqual(capped, 24 * 60)
 
-    def test_low_score_facebook_backlog_is_settled_not_failed(self):
+    def test_legacy_not_selected_job_is_requeued_for_facebook(self):
         article = {
             "id": "low",
             "status": "published",
             "publish_status": "published",
             "blogger_post_url": "https://example.blogspot.com/2026/09/job.html",
-            "facebook_status": "failed",
-            "facebook_error": "waiting for Morocco Facebook publishing slot",
-            "facebook_failure_count": 3,
+            "facebook_status": "not_selected",
+            "facebook_selection_reason": "old score policy",
             "job_score": 65,
             "job_number_of_positions": 1,
             "job_notice_type": "vacancy",
         }
         queue = {"articles": [article]}
-        with patch.object(facebook, "JOBS_MODE", True), \
-             patch.object(facebook, "JOBS_FACEBOOK_MIN_SCORE", 75), \
-             patch.object(facebook, "classify_urgency", return_value={"level": "normal"}), \
-             patch.object(facebook, "save_article_queue") as save:
-            settled = facebook._settle_unselected_job_facebook(queue)
-        self.assertEqual(settled, 1)
-        self.assertEqual(article["facebook_status"], "not_selected")
-        self.assertNotIn("facebook_error", article)
-        self.assertNotIn("facebook_failure_count", article)
+        with (
+            patch.object(facebook, "JOBS_MODE", True),
+            patch.object(facebook, "classify_urgency", return_value={"level": "normal"}),
+            patch.object(facebook, "save_article_queue") as save,
+        ):
+            stats = facebook._sync_jobs_facebook_queue(
+                queue,
+                now=datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc),
+            )
+        self.assertEqual(stats["queued"], 1)
+        self.assertEqual(article["facebook_status"], "facebook_pending")
+        self.assertEqual(article["facebook_queue_reason"], "legacy_requeued")
+        self.assertNotIn("facebook_selection_reason", article)
         save.assert_called_once()
 
     def test_archived_published_job_can_be_reopened_for_link_repair(self):
@@ -476,22 +479,68 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertFalse(identity_exists)
         self.assertFalse(semantic_exists)
 
-    def test_facebook_selects_only_strong_jobs_when_score_exists(self):
+    def test_facebook_score_ranks_jobs_but_never_filters_them(self):
         base = {
             "status": "published",
             "publish_status": "published",
             "blogger_post_url": "https://example.blogspot.com/p/job.html",
-            "facebook_status": "",
+            "facebook_status": "facebook_pending",
             "job_notice_type": "vacancy",
             "job_number_of_positions": 1,
         }
-        with patch.object(facebook, "JOBS_MODE", True), \
-             patch.object(facebook, "JOBS_FACEBOOK_MIN_SCORE", 75), \
-             patch.object(facebook, "classify_urgency", return_value={"level": "normal"}):
-            low = dict(base, job_score=68)
-            high = dict(base, job_score=82)
-            self.assertFalse(facebook._eligible_for_facebook(low))
+        with (
+            patch.object(facebook, "JOBS_MODE", True),
+            patch.object(facebook, "classify_urgency", return_value={"level": "normal"}),
+        ):
+            low = dict(base, id="low", job_score=68)
+            high = dict(base, id="high", job_score=82)
+            self.assertTrue(facebook._eligible_for_facebook(low))
             self.assertTrue(facebook._eligible_for_facebook(high))
+            pending, _comments = facebook._facebook_backfill_candidates([low, high])
+        self.assertEqual([row["id"] for row in pending], ["high", "low"])
+
+    def test_facebook_nearer_deadline_outranks_higher_score(self):
+        base = {
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/job.html",
+            "facebook_status": "facebook_pending",
+            "job_notice_type": "vacancy",
+            "job_number_of_positions": 1,
+        }
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        near = dict(base, id="near", job_score=60, job_deadline="2026-10-01")
+        far = dict(base, id="far", job_score=95, job_deadline="2026-10-20")
+        self.assertGreater(
+            facebook._facebook_job_priority(near, now=now),
+            facebook._facebook_job_priority(far, now=now),
+        )
+
+    def test_expired_job_drops_only_from_social_queue(self):
+        article = {
+            "id": "expired-social",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/2026/09/job.html",
+            "facebook_status": "facebook_pending",
+            "job_notice_type": "vacancy",
+            "job_deadline": "2026-09-29",
+        }
+        queue = {"articles": [article]}
+        with (
+            patch.object(facebook, "JOBS_MODE", True),
+            patch.object(facebook, "save_article_queue") as save,
+        ):
+            stats = facebook._sync_jobs_facebook_queue(
+                queue,
+                now=datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc),
+            )
+        self.assertEqual(stats["expired"], 1)
+        self.assertEqual(article["facebook_status"], "facebook_expired")
+        self.assertEqual(article["status"], "published")
+        self.assertEqual(article["publish_status"], "published")
+        self.assertTrue(article["blogger_post_url"])
+        save.assert_called_once()
 
     def test_jobs_publish_bookkeeping_uses_job_memory_not_generic_db(self):
         article = {"publish_status": "published", "id": "x", "url": "https://example.com/job"}
