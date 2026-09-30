@@ -130,7 +130,62 @@ def _publish_quality_error(article, articles):
     article["pre_publish_quality"] = result.to_dict()
     article["final_word_count"] = result.word_count or _article_word_count(article)
     if not result.passed:
-        return result.reason
+        if JOBS_MODE and not _jobs_quality_error_is_ai_repairable(result.reason):
+            package = article.get("ai_input_package")
+            if not isinstance(package, dict):
+                package = {}
+                article["ai_input_package"] = package
+
+            visual_warning = f"optional visual removed before publish: {result.reason}"
+            warnings = list(article.get("pre_publish_warnings") or [])
+            if visual_warning not in warnings:
+                warnings.append(visual_warning)
+            article["pre_publish_warnings"] = warnings
+
+            reason_folded = str(result.reason or "").casefold()
+            if "cover" in reason_folded or "logo" in reason_folded or "image" in reason_folded:
+                had_verified_logo = bool(
+                    article.get("company_logo_verified")
+                    or article.get("logo_resolution_status") == "verified"
+                )
+                _clear_optional_job_cover(article, package)
+                if had_verified_logo:
+                    article["logo_visual_retry_pending"] = True
+                    article["logo_visual_retry_after"] = _document_render_retry_at(hours=12)
+                    article["job_article_cover_status"] = "render_retry_optional"
+                    article["visual_readiness_status"] = "content_ready_visual_retry"
+
+            if "pdf" in reason_folded or "document" in reason_folded or "image" in reason_folded:
+                article["job_document_page_images"] = []
+                package["job_document_page_images"] = []
+                package["job_document_rendered_pages"] = 0
+                if article.get("job_document_links") or package.get("job_document_links"):
+                    _mark_document_render_retry(
+                        article,
+                        package,
+                        result.reason,
+                        reason="pre_publish_visual_mismatch",
+                    )
+
+            article["final_html"] = format_phase3_article_html(
+                article.get("final_html") or article.get("blogger_article_html") or "",
+                package,
+            )
+            article["blogger_article_html"] = article["final_html"]
+            retry_result = validate_before_publish(article, existing_articles=articles)
+            article["pre_publish_quality"] = retry_result.to_dict()
+            article["final_word_count"] = (
+                retry_result.word_count or _article_word_count(article)
+            )
+            if not retry_result.passed:
+                return retry_result.reason
+            log_event(
+                "jobs_visual_quality_downgraded_to_optional",
+                article_id=article.get("id"),
+                reason=result.reason,
+            )
+        else:
+            return result.reason
     phase3_reason = validate_phase3_article_quality(article)
     if phase3_reason:
         return phase3_reason
