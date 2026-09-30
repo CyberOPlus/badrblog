@@ -81,11 +81,13 @@
           "base_url": "https://jobs.inwi.ma/jobs",
           "enabled": true,
           "fetch_limit_per_run": 8,
-          "extractor_type": "auto",
+          "extractor_type": "inwi_jobs",
           "source_priority": "S",
           "official_source": true,
           "source_country": "MA",
-          "source_eligibility": "morocco"
+          "source_eligibility": "morocco",
+          "strict_source_path": false,
+          "source_note": "Official inwi Teamtailor listing; adapter accepts only /jobs/<id>-<slug> vacancy detail URLs while load-more remains pagination only."
         },
         {
           "name": "Capgemini Morocco",
@@ -105,12 +107,13 @@
           "base_url": "https://carriere.creditdumaroc.ma/offre-de-emploi/liste-offres.aspx?showSearchUrl=1",
           "enabled": true,
           "fetch_limit_per_run": 8,
-          "extractor_type": "auto",
+          "extractor_type": "credit_du_maroc_jobs",
           "source_priority": "S",
           "official_source": true,
           "source_country": "MA",
           "source_eligibility": "morocco",
-          "strict_source_path": false
+          "strict_source_path": false,
+          "source_note": "Official Crédit du Maroc careers listing; adapter accepts only /offre-de-emploi/emploi-..._<id>.aspx vacancies and captures listing reference/date for fresh-first priority."
         },
         {
           "name": "OCP Group",
