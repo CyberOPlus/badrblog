@@ -2857,7 +2857,12 @@ def discover_latest_article_links(sources):
         enabled_sources, cooldown_results = _filter_healthy_sources(
             _order_sources_for_fast_run(enabled_sources)
         )
-    if FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE and MAX_SOURCES_PER_RUN > 0:
+    if (
+        not JOBS_MODE
+        and FAST_NEWS_MODE
+        and FIRST_VALID_ARTICLE_MODE
+        and MAX_SOURCES_PER_RUN > 0
+    ):
         enabled_sources = _prioritize_sources(enabled_sources)
         enabled_sources = enabled_sources[:MAX_SOURCES_PER_RUN]
     if _can_run_async_discovery():
