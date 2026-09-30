@@ -393,21 +393,37 @@ def run_fetch_only():
         # discovery seen/resume state; a valid intentionally-empty queue is left
         # untouched.
         queue_storage = article_queue_storage_status()
-        if not queue_storage.get("valid"):
+        recovery_required = bool(
+            not queue_storage.get("valid")
+            or queue_storage.get("recovery_required")
+        )
+        if recovery_required:
+            recovery_reason = (
+                queue_storage.get("reason")
+                or "recovery_reset_after_queue_storage_loss"
+            )
             recovery = reset_job_discovery_state(
                 reason="recovery_reset_after_queue_storage_loss"
             )
-            if recovery.get("changed_sources"):
-                log_event(
-                    "job_discovery_state_recovered",
-                    queue_reason=queue_storage.get("reason", ""),
-                    changed_sources=recovery.get("changed_sources", 0),
-                    forgotten_ids=recovery.get("forgotten_ids", 0),
-                )
-                print(
-                    "Jobs discovery recovery: reset seen IDs/cursors after "
-                    f"{queue_storage.get('reason') or 'invalid queue storage'}."
-                )
+            log_event(
+                "job_discovery_state_recovered",
+                queue_reason=recovery_reason,
+                changed_sources=recovery.get("changed_sources", 0),
+                forgotten_ids=recovery.get("forgotten_ids", 0),
+            )
+            print(
+                "Jobs discovery recovery: reset seen IDs/cursors after "
+                f"{recovery_reason}."
+            )
+
+            # A repaired-but-valid empty queue can carry a one-shot recovery
+            # marker. Clear it only after discovery state has been reopened.
+            if queue_storage.get("recovery_required"):
+                recovery_queue = load_article_queue()
+                notifications = recovery_queue.setdefault("notifications", {})
+                notifications.pop("queue_recovery_required", None)
+                notifications.pop("queue_recovery_reason", None)
+                save_article_queue(recovery_queue)
 
         # Jobs discovery is exhaustive and stateful. Do not route it through
         # recent-news/category first-valid shortcuts that can hide lower listing
