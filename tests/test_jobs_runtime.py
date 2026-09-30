@@ -646,6 +646,27 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn("التقديم الآن عبر الرابط الرسمي", html)
         self.assertIn("فتح أو تحميل الوثيقة الرسمية", html)
 
+    def test_public_application_channel_is_never_labeled_direct_apply(self):
+        portal = "https://recrutement.enssup.gov.ma/"
+        package = {
+            "job_application_url": portal,
+            "job_application_link_kind": "official_application_channel",
+            "job_detail_url": (
+                "https://www.emploi-public.ma/ar/تفاصيل/المباريات/"
+                "85a046f8-2af5-4f26-8b3f-a811967e2a4e"
+            ),
+            "job_document_links": [],
+        }
+        source = (
+            "<p>معلومات المباراة.</p>"
+            f"<p><a href='{portal}'>التقديم المباشر</a></p>"
+        )
+        with patch.object(ai, "JOBS_MODE", True):
+            html = ai._append_job_action_links_if_missing(source, package)
+        self.assertIn("منصة الترشيح الرسمية", html)
+        self.assertIn("jobApplicationChannelButton", html)
+        self.assertNotIn(">التقديم المباشر</a>", html)
+
     def test_jobs_document_pages_are_appended_in_sequence(self):
         package = {
             "job_document_page_images": [
