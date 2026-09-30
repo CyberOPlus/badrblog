@@ -724,7 +724,7 @@ def _prepare_job_article_cover(article):
             result.get("error") or "verified logo was not rendered"
         )[:1000]
         package["article_logo_used"] = False
-        package["job_article_cover_status"] = "render_retry_optional"
+        package["job_article_cover_status"] = article["job_article_cover_status"]
         package["logo_resolution_status"] = "verified_render_failed_optional"
         article.pop("publish_block_reason", None)
         package.pop("publish_block_reason", None)
@@ -732,7 +732,7 @@ def _prepare_job_article_cover(article):
             "job_article_cover_render_deferred_optional",
             article_id=article.get("id"),
             company=employer,
-            retry_after=article["logo_visual_retry_after"],
+            retry_after=article.get("logo_visual_retry_after", ""),
             error=article["logo_visual_error"],
         )
         return ""
@@ -757,11 +757,11 @@ def _prepare_job_article_cover(article):
             article["visual_readiness_status"] = "content_ready_visual_optional"
         article["logo_visual_error"] = str(error)[:1000]
         package["article_logo_used"] = False
-        package["job_article_cover_status"] = "asset_persist_retry_optional"
+        package["job_article_cover_status"] = article["job_article_cover_status"]
         log_event(
             "job_article_cover_asset_persist_deferred_optional",
             article_id=article.get("id"),
-            retry_after=article["logo_visual_retry_after"],
+            retry_after=article.get("logo_visual_retry_after", ""),
             error=article["logo_visual_error"],
         )
         return ""
