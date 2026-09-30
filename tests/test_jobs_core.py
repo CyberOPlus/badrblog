@@ -1737,8 +1737,17 @@ class JobsCoreTests(unittest.TestCase):
         def fake_prepare(article, now=None):
             score = 95 if article["id"] == "older-high-score" else 55
             return (
-                {"score": score, "status": "publish", "passed": True, "reasons": []},
-                {"action": "new", "reason": "new verified job", "existing": {}},
+                {
+                    "score": score,
+                    "status": "publish",
+                    "passed": True,
+                    "reasons": [],
+                },
+                {
+                    "action": "new",
+                    "reason": "new verified job",
+                    "existing": {},
+                },
             )
 
         with (
@@ -1782,7 +1791,10 @@ class JobsCoreTests(unittest.TestCase):
                     200,
                     {
                         "discovery_resume": {},
-                        "discovery_meta": {"stop_reason": "seen_streak", "pages_scanned": 1},
+                        "discovery_meta": {
+                            "stop_reason": "seen_streak",
+                            "pages_scanned": 1,
+                        },
                     },
                 )
             return (
@@ -1796,7 +1808,10 @@ class JobsCoreTests(unittest.TestCase):
                 200,
                 {
                     "discovery_resume": {"kind": "workday", "offset": 500},
-                    "discovery_meta": {"stop_reason": "max_items", "pages_scanned": 12},
+                    "discovery_meta": {
+                        "stop_reason": "max_items",
+                        "pages_scanned": 12,
+                    },
                 },
             )
 
@@ -1815,7 +1830,10 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(calls[1]["resume_state"], {"kind": "workday", "offset": 250})
         self.assertEqual(
             {row["url"] for row in result["articles"]},
-            {"https://jobs.example/job/newest", "https://jobs.example/job/deep"},
+            {
+                "https://jobs.example/job/newest",
+                "https://jobs.example/job/deep",
+            },
         )
         self.assertEqual(
             result["source_results"][0]["resume_after"],
@@ -1850,7 +1868,10 @@ class JobsCoreTests(unittest.TestCase):
                 200,
                 {
                     "discovery_resume": {"kind": "workday", "offset": 250},
-                    "discovery_meta": {"stop_reason": "max_items", "pages_scanned": 12},
+                    "discovery_meta": {
+                        "stop_reason": "max_items",
+                        "pages_scanned": 12,
+                    },
                 },
             )
 
