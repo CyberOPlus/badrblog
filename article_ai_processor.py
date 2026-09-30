@@ -792,7 +792,7 @@ APPLICATION, RESULTS AND OFFICIAL FILES
   or equivalent wording. NEVER call it "التقديم المباشر" or imply that the generic portal URL identifies
   this exact vacancy by itself.
 - For candidate_list/results/final_results, do NOT call a list/result link "التقديم" unless applications are truly open.
-- If job_detail_url is a specific useful official detail page and differs from the direct application URL, include it once.
+- If job_detail_url is a specific useful official detail page and differs from the application resource, include it once.
 - EVERY useful URL in job_document_links must remain in the final article exactly once.
 - When multiple official files are naturally comparable, a compact table may be useful; otherwise use concise descriptive links.
 - Use verified link label/context to distinguish files, but never invent a diploma/specialty/category from a URL or vague context.
@@ -1139,6 +1139,9 @@ MANDATORY JOB RETRY RULES:
 - Lists/results/updates must focus on their current stage/status and verified next action.
 - Omit any section with no verified facts; do not create "تفاصيل الوظيفة", "المهام", or "الشروط" merely because a template expects them.
 - Include job_application_url exactly once when present.
+- If job_application_link_kind is "official_application_channel", present that URL only as the official
+  application/registration platform ("منصة الترشيح الرسمية"), never as a direct vacancy link.
+- If job_detail_url differs from job_application_url, preserve the specific official notice/detail URL once as well.
 - Include EVERY useful job_document_links URL exactly once when present.
 - Do not add any internal related-post/category-hub link, pRelate block, "قد يهمك", "مقالات ذات صلة",
   or automatic link on ordinary words such as "وظائف", "التوظيف", "الوظيفة", "الترشيح", or "العمل".
