@@ -325,7 +325,7 @@ def _provider_error_category(error):
 
 def _failure_fingerprint(error, *, scope="", provider=""):
     normalized = _normalized_failure_text(error)
-    category = _provider_error_category(error) if scope in {"provider", "global"} else "quality"
+    category = _provider_error_category(error) if scope in {"provider", "global", "cycle_budget"} else "quality"
     seed = f"{scope}|{provider}|{category}|{normalized}"
     return hashlib.sha256(seed.encode("utf-8")).hexdigest()[:20], category
 
@@ -3121,6 +3121,16 @@ def _apply_success(article, data, provider_used):
     article.pop("ai_retry_reason", None)
     article.pop("ai_retry_origin", None)
     article.pop("ai_retry_provider", None)
+    for field in (
+        "candidate_retry_after",
+        "candidate_failure_stage",
+        "candidate_failure_reason",
+        "candidate_failure_fingerprint",
+        "candidate_failure_repeat_count",
+        "candidate_failure_backoff_minutes",
+        "candidate_failed_at",
+    ):
+        article.pop(field, None)
     article.pop("ai_failure_scope", None)
     article.pop("ai_failure_fingerprint", None)
     article.pop("ai_failure_category", None)
