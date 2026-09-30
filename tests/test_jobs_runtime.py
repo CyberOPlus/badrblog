@@ -394,6 +394,25 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertTrue(all(not article.get("archived") for article in articles[2:]))
         save.assert_called_once()
 
+    def test_jobs_enrichment_priority_prefers_newer_job_before_higher_score_old_job(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        older_high_score = {
+            "status": "ready",
+            "score": 100,
+            "source_priority": "S+",
+            "source_published_at": "2026-09-23T08:00:00+00:00",
+        }
+        newer_lower_score = {
+            "status": "ready",
+            "score": 10,
+            "source_priority": "B",
+            "source_published_at": "2026-09-30T10:00:00+00:00",
+        }
+        self.assertLess(
+            article_enricher._jobs_enrichment_priority(newer_lower_score, 1, now=now),
+            article_enricher._jobs_enrichment_priority(older_high_score, 0, now=now),
+        )
+
     def test_jobs_enrichment_priority_advances_near_deadline_before_score(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         urgent = {
