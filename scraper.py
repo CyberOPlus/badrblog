@@ -1301,6 +1301,52 @@ def _workday_config(source_url):
     }
 
 
+def _workday_posted_iso(raw, now=None):
+    """Normalize Workday relative posted labels for strict Jobs freshness checks."""
+    text = re.sub(r"\s+", " ", str(raw or "").strip()).casefold()
+    if not text:
+        return ""
+
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    else:
+        now = now.astimezone(timezone.utc)
+
+    if any(token in text for token in ("today", "aujourd'hui", "aujourd’hui", "aujourdhui")):
+        return now.isoformat()
+
+    minute_match = re.search(r"(\d+)\s*(?:minutes?|mins?)\b", text)
+    if minute_match:
+        return (now - timedelta(minutes=int(minute_match.group(1)))).isoformat()
+
+    hour_match = re.search(r"(\d+)\s*(?:hours?|hrs?|heures?)\b", text)
+    if hour_match:
+        return (now - timedelta(hours=int(hour_match.group(1)))).isoformat()
+
+    # "Yesterday" / "1 Day Ago" is ambiguous with a strict 24-hour ceiling.
+    # Place it just beyond the hard window unless a detail page later supplies
+    # a precise date/time. This avoids treating a potentially 47-hour-old row as new.
+    if "yesterday" in text or re.search(r"\bhier\b", text):
+        return (now - timedelta(hours=25)).isoformat()
+
+    day_match = re.search(r"(\d+)\s*\+?\s*(?:days?|jours?)\b", text)
+    if day_match:
+        days = int(day_match.group(1))
+        if days <= 0:
+            return now.isoformat()
+        return (now - timedelta(hours=(days * 24) + 1)).isoformat()
+
+    raw_text = str(raw or "").strip()
+    try:
+        parsed = datetime.fromisoformat(raw_text.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc).isoformat()
+    except ValueError:
+        return ""
+
+
 async def _collect_workday_links_async(
     session,
     source_url,
@@ -1407,6 +1453,7 @@ async def _collect_workday_links_async(
                 url = cfg["listing_url"] + external_path
             else:
                 url = cfg["listing_url"] + "/" + external_path
+            posted_label = str(row.get("postedOn") or "").strip()
             page_links.append({
                 "title": title,
                 "url": url,
@@ -1416,7 +1463,8 @@ async def _collect_workday_links_async(
                     if isinstance(row.get("bulletFields"), list)
                     else ""
                 ),
-                "source_published_label": str(row.get("postedOn") or "").strip(),
+                "source_published_label": posted_label,
+                "source_published_at": _workday_posted_iso(posted_label),
             })
 
         new_links, meta = _filter_new_discovery_links(
