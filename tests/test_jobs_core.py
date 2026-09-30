@@ -833,6 +833,21 @@ class JobsCoreTests(unittest.TestCase):
         self.assertTrue(row["job_identity_final"])
         self.assertIn("duplicate confirmed", row["skip_reason"])
 
+    def test_internal_queue_id_is_not_an_external_job_reference(self):
+        row = sample_job(
+            id="internal-queue-hash",
+            job_external_reference="",
+            raw={},
+        )
+        self.assertEqual(job_core.external_reference(row), "")
+
+        source_row = sample_job(
+            id="internal-queue-hash",
+            job_external_reference="",
+            raw={"id": "SOURCE-7788"},
+        )
+        self.assertEqual(job_core.external_reference(source_row), "SOURCE-7788")
+
     def test_pdf_reference_can_become_identity_evidence(self):
         row = sample_job(
             job_external_reference="",
