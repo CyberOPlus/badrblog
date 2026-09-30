@@ -189,8 +189,20 @@ def _publish_quality_error(article, articles):
     phase3_reason = validate_phase3_article_quality(article)
     if phase3_reason:
         return phase3_reason
-    if result.warnings:
-        article["pre_publish_warnings"] = list(result.warnings)
+
+    combined_warnings = list(article.get("pre_publish_warnings") or [])
+    for warning in getattr(result, "warnings", ()) or ():
+        warning = str(warning or "").strip()
+        if warning and warning not in combined_warnings:
+            combined_warnings.append(warning)
+    if 'retry_result' in locals():
+        for warning in getattr(retry_result, "warnings", ()) or ():
+            warning = str(warning or "").strip()
+            if warning and warning not in combined_warnings:
+                combined_warnings.append(warning)
+
+    if combined_warnings:
+        article["pre_publish_warnings"] = combined_warnings
     else:
         article.pop("pre_publish_warnings", None)
     return ""
