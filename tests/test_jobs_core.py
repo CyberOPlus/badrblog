@@ -374,9 +374,28 @@ class JobsCoreTests(unittest.TestCase):
             for row in fields["job_action_links"]
         ))
 
+    def test_workday_discovery_identity_uses_specific_url_not_bullet_field(self):
+        first = {
+            "url": "https://tenant.wd5.myworkdayjobs.com/site/job/one",
+            "ats_provider": "workday",
+            "ats_reference": "Casablanca",
+        }
+        second = {
+            "url": "https://tenant.wd5.myworkdayjobs.com/site/job/two",
+            "ats_provider": "workday",
+            "ats_reference": "Casablanca",
+        }
+        self.assertNotEqual(
+            scraper._discovery_identity(first),
+            scraper._discovery_identity(second),
+        )
+        self.assertTrue(
+            scraper._discovery_identity(first).startswith("url:")
+        )
+
     def test_discovery_seen_streak_stops_after_known_run(self):
         known = {
-            f"workday:known-{index}"
+            f"url:https://example.com/jobs/known-{index}"
             for index in range(1, 9)
         }
         links = [
@@ -637,7 +656,10 @@ class JobsCoreTests(unittest.TestCase):
                 self.calls += 1
                 return FakeResponse()
 
-        known = {f"workday:req-{index}" for index in range(1, 9)}
+        known = {
+            f"url:https://tenant.wd5.myworkdayjobs.com/site/job/{index}"
+            for index in range(1, 9)
+        }
         session = FakeSession()
         links, error, status, meta = asyncio.run(
             scraper._collect_workday_links_async(
