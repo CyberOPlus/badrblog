@@ -288,7 +288,7 @@ def _job_duplicate_structured_rows_reason(html_content):
 
 
 
-def _job_unverified_external_link_reason(html_content, package):
+def _job_unverified_external_link_reason(html_content, verification_context):
     package = package or {}
     allowed = set()
 
@@ -653,6 +653,12 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             return QualityGateResult(False, "missing job source URL", word_count)
 
         package = article.get("ai_input_package") or {}
+        verification_context = dict(package)
+        verification_context.update({
+            key: value
+            for key, value in article.items()
+            if key != "ai_input_package" and value not in (None, "", [], {})
+        })
 
         duplicate_row_reason = _job_duplicate_structured_rows_reason(html_content)
         if duplicate_row_reason:
@@ -664,13 +670,7 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             else {}
         )
         if not manifest:
-            manifest_context = dict(package)
-            manifest_context.update({
-                key: value
-                for key, value in article.items()
-                if key != "ai_input_package" and value not in (None, "", [], {})
-            })
-            manifest = build_verified_fact_manifest(manifest_context)
+            manifest = build_verified_fact_manifest(verification_context)
 
         manifest_blocking, manifest_warnings = validate_output_against_manifest(
             manifest,
@@ -722,12 +722,7 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             job_warnings.append(
                 "active notice has no verified application resource, but notice type is not high-confidence"
             )
-        application_context = dict(package)
-        application_context.update({
-            key: value
-            for key, value in article.items()
-            if value not in (None, "", [], {})
-        })
+        application_context = dict(verification_context)
         application_context["job_notice_type"] = notice_type
         application_context["job_application_link_kind"] = application_kind
 
