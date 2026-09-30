@@ -8,6 +8,7 @@ from unittest.mock import patch
 from zoneinfo import ZoneInfo
 
 import article_ai_processor as ai
+import article_draft_publisher as draft
 import article_enricher
 import article_queue
 import facebook_publisher as facebook
@@ -604,6 +605,7 @@ class JobsRuntimeTests(unittest.TestCase):
             "last_publish_at": (now - timedelta(minutes=30)).isoformat(),
         }
         with patch.object(job_core, "JOBS_ADAPTIVE_PUBLISHING", True), \
+             patch.object(job_core, "JOBS_MIN_PUBLISH_INTERVAL_MINUTES", 45), \
              patch.object(job_core, "load_job_state", return_value=state), \
              patch.object(job_core, "current_policy", return_value={
                  "enabled": True,
@@ -613,8 +615,36 @@ class JobsRuntimeTests(unittest.TestCase):
              }):
             status = job_core.job_publish_window_status(now=now)
         self.assertFalse(status["allowed_now"])
-        self.assertGreaterEqual(status["min_interval_minutes"], 60)
+        self.assertEqual(status["min_interval_minutes"], 45)
         self.assertIn("spacing", " ".join(status["reasons"]))
+
+    def test_job_permalink_seed_is_alphabetic_even_with_numeric_reference(self):
+        article = {
+            "desired_slug": "orange-business-consultant-cyber-securite-abcdwxyz",
+            "ats_reference": "ICM-584854",
+        }
+        seed = draft._permalink_seed_title(article)
+        self.assertNotRegex(seed, r"\\d")
+        self.assertEqual(
+            draft._job_permalink_stem(
+                "https://example.blogspot.com/2026/09/orange-business-consultant-cyber-securite-abcdwxyz.html"
+            ),
+            "orange-business-consultant-cyber-securite-abcdwxyz",
+        )
+        self.assertFalse(
+            any(ch.isdigit() for ch in draft._job_permalink_stem(
+                "https://example.blogspot.com/2026/09/orange-business-consultant-cyber-securite-abcdwxyz.html"
+            ))
+        )
+
+    def test_permalink_retry_suffix_stays_alphabetic(self):
+        article = {
+            "desired_slug": "orange-business-consultant-cyber-securite-abcdwxyz",
+            "permalink_attempt": 2,
+        }
+        seed = draft._permalink_seed_title(article)
+        self.assertTrue(seed.endswith(" b"), seed)
+        self.assertNotRegex(seed, r"\\d")
 
     def test_queue_compaction_preserves_unresolved_facebook_delivery(self):
         from tempfile import TemporaryDirectory
