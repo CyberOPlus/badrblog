@@ -327,12 +327,30 @@ def classify_urgency(article, now=None):
     return {"level": "normal", "publish_immediately": False, "allow_daily_override": False, "reason": ""}
 
 
+_ARABIC_SLUG_MAP = {
+    "ا": "a", "أ": "a", "إ": "a", "آ": "a", "ء": "a", "ؤ": "w", "ئ": "y",
+    "ب": "b", "ت": "t", "ث": "th", "ج": "j", "ح": "h", "خ": "kh",
+    "د": "d", "ذ": "dh", "ر": "r", "ز": "z", "س": "s", "ش": "sh",
+    "ص": "s", "ض": "d", "ط": "t", "ظ": "z", "ع": "a", "غ": "gh",
+    "ف": "f", "ق": "q", "ك": "k", "ل": "l", "م": "m", "ن": "n",
+    "ه": "h", "ة": "a", "و": "w", "ي": "y", "ى": "a",
+}
+
+
 def _latinize(value):
     text = unicodedata.normalize("NFKD", str(value or ""))
     text = "".join(ch for ch in text if not unicodedata.combining(ch))
+    text = "".join(_ARABIC_SLUG_MAP.get(ch, ch) for ch in text)
     text = text.encode("ascii", "ignore").decode("ascii").lower()
-    text = re.sub(r"[^a-z0-9]+", "-", text).strip("-")
+    # Job permalink stems are intentionally alphabetic: Blogger's date folders
+    # contain digits, but the post filename itself must never contain them.
+    text = re.sub(r"[^a-z]+", "-", text).strip("-")
     return text
+
+
+def _alpha_token(seed, length=8):
+    digest = hashlib.sha256(str(seed or "job").encode("utf-8")).digest()
+    return "".join(chr(ord("a") + (byte % 26)) for byte in digest[:length])
 
 
 def desired_slug(article, campaign_id=""):
@@ -341,25 +359,21 @@ def desired_slug(article, campaign_id=""):
     base_words = [x for x in f"{company}-{title}".split("-") if x][:8]
     base = "-".join(base_words).strip("-") or "job"
 
-    stable_reference = _latinize(
+    reference_seed = str(
         article.get("job_external_reference")
         or article.get("ats_reference")
         or ""
-    )
-    if not stable_reference:
+    ).strip()
+    if not reference_seed:
         for key in ("job_application_url", "job_detail_url", "url", "canonical_url"):
-            value = str(article.get(key) or "")
-            match = re.search(r"(?:/|=)([A-Za-z]*-?\d{3,})(?:[/?#&]|$)", value)
-            if match:
-                stable_reference = _latinize(match.group(1))
+            value = str(article.get(key) or "").strip()
+            if value:
+                reference_seed = value
                 break
 
-    if stable_reference:
-        token = stable_reference[:24]
-    else:
-        token_seed = campaign_id or identity_key(article)
-        token = hashlib.sha256(token_seed.encode("utf-8")).hexdigest()[:7]
-    return f"{base}-{token}"[:90]
+    token_seed = reference_seed or campaign_id or identity_key(article)
+    token = _alpha_token(token_seed)
+    return f"{base}-{token}"[:90].strip("-")
 
 
 def _state_default():
@@ -407,11 +421,9 @@ def job_publish_window_status(now=None):
     day = local.date().isoformat()
     published_today = int(state.get("daily_publish_count", {}).get(day, 0))
     cap = daily_publish_cap(now)
-    active_minutes = max(60, (JOBS_ACTIVE_END_HOUR - JOBS_ACTIVE_START_HOUR) * 60)
-    spread_interval = max(
-        JOBS_MIN_PUBLISH_INTERVAL_MINUTES,
-        int(active_minutes / max(1, cap)),
-    )
+    # Publish the next verified queued job as soon as the anti-spam interval
+    # has elapsed. The adaptive daily cap still limits total volume.
+    spread_interval = JOBS_MIN_PUBLISH_INTERVAL_MINUTES
     reasons = []
     next_allowed = local
 
