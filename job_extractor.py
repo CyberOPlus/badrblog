@@ -452,6 +452,12 @@ def _notice_type(title, body):
         return "candidate_list"
     if re.search(r"(النتائج|النتيجة|résultats?|results?)", haystack):
         return "results"
+    if re.search(
+        r"(مباراة(?:\s+توظيف)?|مباريات(?:\s+توظيف)?|"
+        r"concours(?:\s+de\s+recrutement)?|recrutement\s+par\s+concours)",
+        haystack,
+    ):
+        return "competition"
     return "vacancy"
 
 
@@ -503,10 +509,16 @@ def extract_job_fields(soup, article, page_url, full_text=""):
     if isinstance(employment, list):
         employment = ", ".join(_text(x) for x in employment if _text(x))
 
+    notice_type = _notice_type(job_title, body)
+    notice_status = _notice_status(job_title, body)
+
     action_links = _extract_job_action_links(soup, page_url)
     binding_article = dict(article)
     binding_article["canonical_url"] = page_url
     binding_article["url"] = page_url
+    binding_article["job_detail_url"] = page_url
+    binding_article["job_notice_type"] = notice_type
+    binding_article["job_action_links"] = action_links
     direct_apply = next(
         (
             row
@@ -531,7 +543,11 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         candidate_url = str(candidate_url or "").strip()
         if candidate_url and is_application_url_bound_to_job(binding_article, candidate_url):
             application_url = candidate_url
-            application_kind = candidate_kind
+            application_kind = (
+                candidate_kind
+                if is_job_specific_url(candidate_url)
+                else "official_application_channel"
+            )
             break
     structured_deadline = _text(node.get("validThrough"))
     text_deadline, text_deadline_display = _deadline_details_from_text(body)
@@ -544,8 +560,6 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         or article.get("source_published_at", "")
         or text_published_at
     )
-    notice_type = _notice_type(job_title, body)
-    notice_status = _notice_status(job_title, body)
     remote = str(node.get("jobLocationType") or "").upper() == "TELECOMMUTE" or bool(article.get("source_remote"))
     visa = bool(re.search(r"(?i)visa\s+sponsor|sponsorship|parrainage\s+visa", body or ""))
 
@@ -574,6 +588,7 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         "job_application_url": application_url,
         "job_application_link_kind": application_kind,
         "job_application_is_specific": bool(application_url and is_job_specific_url(application_url)),
+        "job_application_is_official_channel": application_kind == "official_application_channel",
         "job_detail_url": page_url,
         "job_action_links": action_links,
         "job_document_links": documents,
