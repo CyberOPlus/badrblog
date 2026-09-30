@@ -1658,8 +1658,13 @@ def retry_pending_job_visuals(max_articles=1):
 
         except Exception as error:
             _mark_visual_sync_retry(article, error)
-            stats["still_pending"] += 1
             changed = True
+            if job_visual_retry_pending(article):
+                stats["still_pending"] += 1
+            elif article.get("publish_status") == "published":
+                resolved_live.append(
+                    (article.get("id", ""), article.get("url", ""))
+                )
 
     if changed:
         save_article_queue(queue)
