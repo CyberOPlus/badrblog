@@ -778,12 +778,19 @@ FACT PLACEMENT
 
 APPLICATION, RESULTS AND OFFICIAL FILES
 - For an active vacancy/competition, the strongest verified application resource is essential.
-- The application URL MUST belong to this exact vacancy/campaign. Prefer, in order:
-  direct Apply/Postuler/Candidature URL, official application form, then the specific official job-detail page.
-  NEVER use a generic careers/jobs/search/listing page as the application link.
+- Private/company vacancies remain strict: use a job-specific direct Apply/Postuler/Candidature URL,
+  an official application form tied to this exact vacancy, or the specific official job-detail page.
+  NEVER substitute a generic careers/jobs/search/listing page.
+- Public recruitment competitions may use a central official application platform that is not job-specific.
+  This is allowed ONLY when the verified package explicitly classifies job_application_link_kind as
+  "official_application_channel". In that case the specific notice/detail page identifies the campaign,
+  while job_application_url is the verified official channel used to submit the application.
 - If job_application_url exists, include it exactly once at the point in the article where application makes sense.
   The backend only upgrades that exact link visually in place; it must not decide the article section/order for you.
 - If job_application_link_kind is "direct_apply", make its visible label clearly mean direct application.
+- If job_application_link_kind is "official_application_channel", label it as "منصة الترشيح الرسمية"
+  or equivalent wording. NEVER call it "التقديم المباشر" or imply that the generic portal URL identifies
+  this exact vacancy by itself.
 - For candidate_list/results/final_results, do NOT call a list/result link "التقديم" unless applications are truly open.
 - If job_detail_url is a specific useful official detail page and differs from the direct application URL, include it once.
 - EVERY useful URL in job_document_links must remain in the final article exactly once.
@@ -1943,8 +1950,13 @@ def _job_link_key(url):
 
 
 def _job_action_box(label, url, *, kind="apply"):
-    if kind == "apply":
-        heading = "التقديم الرسمي"
+    if kind == "application_channel":
+        heading = "منصة الترشيح الرسمية"
+        button = "فتح منصة الترشيح الرسمية"
+        box_class = "dlBox jobApplyBox jobApplicationChannelBox"
+        button_class = "button extL jobApplyButton jobApplicationChannelButton"
+    elif kind == "apply":
+        heading = label or "التقديم الرسمي"
         button = "فتح رابط التقديم الرسمي"
         box_class = "dlBox jobApplyBox"
         button_class = "button extL jobApplyButton"
@@ -1976,10 +1988,16 @@ def _append_job_action_links_if_missing(html_content, package):
     if application_url:
         key = _job_link_key(application_url)
         if key:
-            specs[key] = {
-                "kind": "apply",
-                "label": "التقديم المباشر" if application_kind == "direct_apply" else "التقديم الرسمي",
-            }
+            if application_kind == "official_application_channel":
+                specs[key] = {
+                    "kind": "application_channel",
+                    "label": "منصة الترشيح الرسمية",
+                }
+            else:
+                specs[key] = {
+                    "kind": "apply",
+                    "label": "التقديم المباشر" if application_kind == "direct_apply" else "التقديم الرسمي",
+                }
 
     if detail_url and detail_url != application_url:
         key = _job_link_key(detail_url)
@@ -2028,7 +2046,9 @@ def _append_job_action_links_if_missing(html_content, package):
 
         classes = list(anchor.get("class") or [])
         required_classes = (
-            ("button", "extL", "jobApplyButton")
+            ("button", "extL", "jobApplyButton", "jobApplicationChannelButton")
+            if kind == "application_channel"
+            else ("button", "extL", "jobApplyButton")
             if kind == "apply"
             else ("button", "extL", "jobDocumentButton")
         )
@@ -2037,6 +2057,9 @@ def _append_job_action_links_if_missing(html_content, package):
                 classes.append(value)
         anchor["class"] = classes
         anchor["role"] = "button"
+        if kind == "application_channel":
+            anchor.clear()
+            anchor.append("فتح منصة الترشيح الرسمية")
 
         # When AI put the link in a simple standalone paragraph, upgrade that exact
         # paragraph to the existing download-style box at the same editorial location.
