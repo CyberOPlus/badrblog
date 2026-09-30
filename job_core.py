@@ -516,6 +516,38 @@ def identity_evidence_snapshot(article):
     }
 
 
+IDENTITY_EVIDENCE_STATE_FIELDS = (
+    "identity_evidence_detail_checked",
+    "identity_evidence_tables_checked",
+    "identity_evidence_documents_checked",
+    "identity_evidence_stage_status",
+    "identity_evidence_stage_checked_at",
+    "identity_evidence_signature",
+    "identity_evidence_strength",
+    "identity_evidence_comparison_strength",
+    "identity_evidence_categories",
+    "identity_evidence_reference",
+    "identity_evidence_deadline",
+    "identity_evidence_positions",
+)
+
+
+def invalidate_identity_evidence(article, reason=""):
+    if not isinstance(article, dict):
+        return False
+    changed = False
+    for field in IDENTITY_EVIDENCE_STATE_FIELDS:
+        if field in article:
+            article.pop(field, None)
+            changed = True
+    if changed or reason:
+        article["identity_evidence_invalidated_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        article["identity_evidence_invalidation_reason"] = str(reason or "verified facts changed")[:180]
+    if article.get("status") == "identity_pending":
+        article["identity_pending_evidence_status"] = "awaiting_more_evidence"
+    return changed
+
+
 def identity_evidence_stage_complete(article):
     return str(article.get("identity_evidence_stage_status") or "").strip().lower() == "complete"
 
