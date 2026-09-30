@@ -289,7 +289,7 @@ def _job_duplicate_structured_rows_reason(html_content):
 
 
 def _job_unverified_external_link_reason(html_content, verification_context):
-    package = package or {}
+    package = verification_context or {}
     allowed = set()
 
     def add_url(value):
