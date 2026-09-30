@@ -1573,7 +1573,13 @@ async def _collect_phenom_links_async(session, source_url, per_source_limit=None
     if error or not html_text:
         return [], error or "empty Phenom listing", status_code
     rows = _phenom_jobs_from_html(html_text, country="MOROCCO")
-    limit = max(1, min(int(per_source_limit or 20), 25))
+    limit = max(
+        1,
+        min(
+            int(per_source_limit or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE),
+            JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
+        ),
+    )
     links = []
     for row in rows[:limit]:
         apply_url = str(row.get("applyUrl") or "").strip()
@@ -1650,12 +1656,33 @@ def _csod_posted_iso(raw):
         return ""
 
 
-async def _collect_csod_links_async(session, source_url, per_source_limit=None):
+async def _collect_csod_links_async(
+    session,
+    source_url,
+    per_source_limit=None,
+    *,
+    known_ids=None,
+    max_pages=None,
+    seen_streak_stop=None,
+    max_items=None,
+):
     cfg = _csod_config(source_url)
     if not cfg:
         return [], "invalid csod source URL", None
-    limit = max(1, min(int(per_source_limit or 20), 25))
+
+    page_size = max(
+        1,
+        min(
+            max(int(per_source_limit or 0), JOBS_DISCOVERY_PAGE_SIZE),
+            50,
+        ),
+    )
+    max_pages = max(1, int(max_pages or JOBS_DISCOVERY_MAX_PAGES))
+    max_items = max(1, int(max_items or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE))
+    seen_streak_stop = max(1, int(seen_streak_stop or JOBS_DISCOVERY_SEEN_STREAK))
+    working_known = set(known_ids or ())
     started = time.perf_counter()
+
     try:
         async with session.get(
             cfg["home_url"],
@@ -1669,12 +1696,19 @@ async def _collect_csod_links_async(session, source_url, per_source_limit=None):
         if not token_match:
             return [], "anonymous csod token missing", 200
         token = token_match.group(1)
+    except (asyncio.TimeoutError, aiohttp.ClientError) as error:
+        return [], error.__class__.__name__, None
 
+    links = []
+    stop_reason = "end"
+    status_code = 200
+
+    for page_number in range(1, max_pages + 1):
         payload = {
             "careerSiteId": cfg["site_id"],
             "careerSitePageId": cfg["site_id"],
-            "pageNumber": 1,
-            "pageSize": limit,
+            "pageNumber": page_number,
+            "pageSize": page_size,
             "cultureId": 1,
             "cultureName": "en-US",
             "searchText": "",
@@ -1688,52 +1722,85 @@ async def _collect_csod_links_async(session, source_url, per_source_limit=None):
             "customFieldDropdowns": [],
             "customFieldRadios": [],
         }
-        async with session.post(
-            cfg["search_url"],
-            json=payload,
-            headers={
-                **HEADERS,
-                "Accept": "application/json",
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {token}",
-            },
-            timeout=ASYNC_FETCH_TIMEOUT_SECONDS,
-        ) as response:
-            text = await response.text(errors="ignore")
-            if response.status >= 400:
-                return [], f"http {response.status}", response.status
-            data = json.loads(text or "{}")
-    except (asyncio.TimeoutError, aiohttp.ClientError, ValueError, json.JSONDecodeError) as error:
-        return [], error.__class__.__name__, None
+        try:
+            async with session.post(
+                cfg["search_url"],
+                json=payload,
+                headers={
+                    **HEADERS,
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {token}",
+                },
+                timeout=ASYNC_FETCH_TIMEOUT_SECONDS,
+            ) as response:
+                status_code = response.status
+                text = await response.text(errors="ignore")
+                if response.status >= 400:
+                    if links:
+                        stop_reason = f"partial_http_{response.status}"
+                        break
+                    return [], f"http {response.status}", response.status
+                data = json.loads(text or "{}")
+        except (asyncio.TimeoutError, aiohttp.ClientError, ValueError, json.JSONDecodeError) as error:
+            if links:
+                stop_reason = f"partial_{error.__class__.__name__}"
+                break
+            return [], error.__class__.__name__, None
 
-    links = []
-    for row in ((data.get("data") or {}).get("requisitions") or []):
-        if not isinstance(row, dict):
-            continue
-        req_id = str(row.get("requisitionId") or "").strip()
-        title = _normalize_text(re.sub(r"<[^>]+>", " ", str(row.get("displayJobTitle") or "")))
-        if not req_id or not title:
-            continue
-        url = (
-            f"{cfg['origin']}/ux/ats/careersite/{cfg['site_id']}/home/"
-            f"requisition/{req_id}?c={cfg['corp']}"
+        rows = [
+            row
+            for row in ((data.get("data") or {}).get("requisitions") or [])
+            if isinstance(row, dict)
+        ]
+        page_links = []
+        for row in rows:
+            req_id = str(row.get("requisitionId") or "").strip()
+            title = _normalize_text(
+                re.sub(r"<[^>]+>", " ", str(row.get("displayJobTitle") or ""))
+            )
+            if not req_id or not title:
+                continue
+            url = (
+                f"{cfg['origin']}/ux/ats/careersite/{cfg['site_id']}/home/"
+                f"requisition/{req_id}?c={cfg['corp']}"
+            )
+            page_links.append({
+                "title": title,
+                "url": url,
+                "ats_provider": "csod",
+                "ats_reference": req_id,
+                "source_published_at": _csod_posted_iso(row.get("postingEffectiveDate")),
+            })
+
+        new_links, meta = _filter_new_discovery_links(
+            page_links,
+            working_known,
+            seen_streak_stop=seen_streak_stop,
+            max_items=max_items - len(links),
         )
-        links.append({
-            "title": title,
-            "url": url,
-            "ats_provider": "csod",
-            "ats_reference": req_id,
-            "source_published_at": _csod_posted_iso(row.get("postingEffectiveDate")),
-        })
-        if len(links) >= limit:
+        links.extend(new_links)
+
+        if meta.get("stop_reason") == "seen_streak":
+            stop_reason = "seen_streak"
             break
+        if len(links) >= max_items:
+            stop_reason = "max_items"
+            break
+        if not rows or len(rows) < page_size:
+            stop_reason = "end"
+            break
+    else:
+        stop_reason = "max_pages"
+
     log_event(
         "csod_source_fetch",
         url=source_url,
         jobs=len(links),
+        stop_reason=stop_reason,
         elapsed_ms=elapsed_ms(started),
     )
-    return links, "", 200
+    return links, "", status_code or 200
 
 
 def _un_careers_title_from_html(html_text, job_id):
