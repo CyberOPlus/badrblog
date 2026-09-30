@@ -489,6 +489,7 @@ _JOB_CRITICAL_TABLE_HINTS = (
 def _job_source_table_coverage_reason(html_content, package):
     package = package or {}
     output = _normalize_job_fact_text(html_to_text(html_content))
+    output_tokens = _job_fact_tokens(output)
     output_numbers = {
         str(int(value))
         for value in re.findall(r"\b\d{1,4}\b", output)
@@ -509,11 +510,15 @@ def _job_source_table_coverage_reason(html_content, package):
             if not any(hint in normalized_row for hint in _JOB_CRITICAL_TABLE_HINTS):
                 continue
 
-            row_numbers = {
-                str(int(value))
-                for value in re.findall(r"\b\d{1,4}\b", normalized_row)
-                if value.isdigit()
-            }
+            row_numbers = []
+            for cell_index, cell in enumerate(raw_cells):
+                normalized_cell = _normalize_job_fact_text(cell)
+                numbers = re.findall(r"\b\d{1,4}\b", normalized_cell)
+                if cell_index == 0 and re.match(r"^\s*\d+\s*[-.)]", cell):
+                    numbers = numbers[1:]
+                row_numbers.extend(str(int(value)) for value in numbers if value.isdigit())
+            row_numbers = set(row_numbers)
+
             distinctive_cells = []
             for cell in raw_cells:
                 normalized_cell = _normalize_job_fact_text(cell)
@@ -521,14 +526,23 @@ def _job_source_table_coverage_reason(html_content, package):
                     continue
                 tokens = _job_fact_tokens(normalized_cell)
                 if len(tokens) >= 2 and len(normalized_cell) >= 6:
-                    distinctive_cells.append(normalized_cell)
+                    distinctive_cells.append((normalized_cell, tokens))
 
             # Headers and explanatory rows without a count/date are not enough to
             # prove a missing specialty/position record, so audit only data rows.
             if not row_numbers or not distinctive_cells:
                 continue
 
-            cell_present = any(cell in output for cell in distinctive_cells)
+            cell_present = False
+            for normalized_cell, cell_tokens in distinctive_cells:
+                if normalized_cell in output:
+                    cell_present = True
+                    break
+                overlap = cell_tokens & output_tokens
+                if len(overlap) >= 2 and len(overlap) / max(1, len(cell_tokens)) >= 0.65:
+                    cell_present = True
+                    break
+
             numbers_present = row_numbers.issubset(output_numbers)
             if not (cell_present and numbers_present):
                 return "important source-table row is missing or incomplete in Jobs article"
