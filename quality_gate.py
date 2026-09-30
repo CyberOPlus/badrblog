@@ -600,16 +600,21 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             return QualityGateResult(False, title_style_reason, word_count)
 
         if active_notice and deadline_value:
-            deadline_labels = (
-                "آخر أجل للترشيح",
-                "آخر أجل",
-                "موعد انتهاء الترشيح",
-                "تاريخ انتهاء الترشيح",
+            deadline_normalized = _normalize_job_fact_text(deadline_value)
+            body_normalized = _normalize_job_fact_text(body_text)
+            deadline_dates = _job_date_tokens(deadline_value)
+            body_dates = _job_date_tokens(body_text)
+            deadline_present = bool(
+                deadline_normalized
+                and (
+                    deadline_normalized in body_normalized
+                    or (deadline_dates and deadline_dates & body_dates)
+                )
             )
-            if not any(label in body_text for label in deadline_labels):
+            if not deadline_present:
                 return QualityGateResult(
                     False,
-                    "verified job deadline is missing from final HTML",
+                    "verified job deadline value is missing from final HTML",
                     word_count,
                 )
 
