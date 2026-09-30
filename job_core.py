@@ -382,7 +382,7 @@ def score_job(article, now=None):
 
     notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
     deadline = job_deadline_time(article)
-    expired = bool(notice_type == "vacancy" and deadline and deadline < now)
+    expired = bool(notice_type in {"vacancy", "competition"} and deadline and deadline < now)
     if expired:
         reasons.append("deadline passed")
 
@@ -402,7 +402,7 @@ def score_job(article, now=None):
 def classify_urgency(article, now=None):
     now = now or datetime.now(timezone.utc)
     notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
-    if notice_type != "vacancy":
+    if notice_type not in {"vacancy", "competition"}:
         return {
             "level": "normal",
             "publish_immediately": False,
