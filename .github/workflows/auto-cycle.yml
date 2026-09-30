@@ -46,7 +46,9 @@ jobs:
           pip install -r requirements.txt
 
       - name: Verify publishing regressions
-        if: github.event_name != 'push'
+        # Full regressions are a manual/deployment check, not production-cycle work.
+        # Scheduled runs must reach discovery/AI/Blogger quickly and repeatedly.
+        if: github.event_name == 'workflow_dispatch'
         run: python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime -q
 
       - name: Verify one-shot Blogger smoke
