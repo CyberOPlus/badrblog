@@ -479,6 +479,54 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertFalse(identity_exists)
         self.assertFalse(semantic_exists)
 
+    def test_blogger_publish_sets_jobs_facebook_pending(self):
+        article = {
+            "id": "job-published",
+            "status": "selected",
+            "publish_status": "",
+            "facebook_status": "",
+        }
+        post = {
+            "id": "blogger-1",
+            "url": "https://example.blogspot.com/2026/09/job-published.html",
+        }
+        with (
+            patch.object(draft, "JOBS_MODE", True),
+            patch.object(draft, "record_published_article", return_value={"saved": True}),
+            patch.object(draft, "notify_job_url", return_value={"status": "disabled"}),
+        ):
+            draft._apply_success(article, post, "live")
+
+        self.assertEqual(article["publish_status"], "published")
+        self.assertEqual(article["facebook_status"], "facebook_pending")
+        self.assertEqual(article["facebook_queue_reason"], "published_to_blogger")
+        self.assertTrue(article["facebook_queued_at"])
+
+    def test_facebook_missing_configuration_keeps_pending_not_failed(self):
+        article = {
+            "id": "pending-config",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/2026/09/pending-config.html",
+            "facebook_status": "facebook_pending",
+            "job_notice_type": "vacancy",
+        }
+        queue = {"articles": [article]}
+        with (
+            patch.object(facebook, "JOBS_MODE", True),
+            patch.object(facebook, "FACEBOOK_AUTO_POST", True),
+            patch.object(facebook, "FACEBOOK_PAGE_ID", ""),
+            patch.object(facebook, "FACEBOOK_PAGE_ACCESS_TOKEN", "token"),
+            patch.object(facebook, "load_article_queue", return_value=queue),
+            patch.object(facebook, "save_article_queue"),
+            patch.object(facebook, "classify_urgency", return_value={"level": "normal"}),
+        ):
+            result = facebook.post_one_article_to_facebook()
+
+        self.assertTrue(result["deferred"])
+        self.assertEqual(article["facebook_status"], "facebook_pending")
+        self.assertNotIn("facebook_failure_count", article)
+
     def test_facebook_score_ranks_jobs_but_never_filters_them(self):
         base = {
             "status": "published",
