@@ -24,6 +24,7 @@ from config import (
     SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
     SOURCE_RETRY_DELAY_SECONDS,
     MAX_SOURCE_RETRIES,
+    JOBS_ENRICH_MAX_TARGETS_PER_CYCLE,
 )
 from production_logging import elapsed_ms, log_event
 from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
@@ -1770,6 +1771,28 @@ def _record_enrichment_failure(article, error):
     )
 
 
+def _jobs_enrichment_priority(article, queue_index=0):
+    """Prioritize likely publishable Jobs without dropping lower-ranked backlog."""
+    source_rank = {
+        "S+": 6,
+        "S": 5,
+        "A+": 4,
+        "A": 3,
+        "B+": 2,
+        "B": 1,
+    }
+    try:
+        score = int(article.get("job_score") or 0)
+    except (TypeError, ValueError):
+        score = 0
+    priority = source_rank.get(
+        str(article.get("source_priority") or "").strip().upper(),
+        0,
+    )
+    deadline = str(article.get("job_deadline") or "").strip()
+    return (-score, -priority, 0 if deadline else 1, int(queue_index or 0))
+
+
 def enrich_ready_articles(force=False):
     """
     Enrich ready articles only. Existing successful enrichments are skipped
@@ -1787,8 +1810,9 @@ def enrich_ready_articles(force=False):
     failed_articles = []
     successful_articles = []
     targets = []
+    deferred_targets = 0
 
-    for article in articles:
+    for queue_index, article in enumerate(articles):
         allowed_statuses = {"ready", "identity_pending"} if not force else {"ready", "identity_pending", "selected", "draft_created"}
         if article.get("status") not in allowed_statuses:
             continue
@@ -1827,7 +1851,21 @@ def enrich_ready_articles(force=False):
             )
             continue
 
-        targets.append(article)
+        targets.append((queue_index, article))
+
+    if JOBS_MODE and not force and len(targets) > JOBS_ENRICH_MAX_TARGETS_PER_CYCLE:
+        targets.sort(key=lambda row: _jobs_enrichment_priority(row[1], row[0]))
+        deferred_targets = len(targets) - JOBS_ENRICH_MAX_TARGETS_PER_CYCLE
+        targets = targets[:JOBS_ENRICH_MAX_TARGETS_PER_CYCLE]
+        log_event(
+            "jobs_enrichment_batch_limited",
+            selected=len(targets),
+            deferred=deferred_targets,
+            total_candidates=len(targets) + deferred_targets,
+            max_targets=JOBS_ENRICH_MAX_TARGETS_PER_CYCLE,
+        )
+
+    targets = [article for _index, article in targets]
 
     if targets and _can_run_async_fetch():
         log_event("enrich_batch_start", articles=len(targets), mode="aiohttp")
@@ -1957,6 +1995,8 @@ def enrich_ready_articles(force=False):
         "weak": weak,
         "already_enriched": already_enriched,
         "recent_failure_skipped": recent_failure_skipped,
+        "deferred_targets": deferred_targets,
+        "batch_limit": JOBS_ENRICH_MAX_TARGETS_PER_CYCLE if JOBS_MODE and not force else 0,
         "failed_articles": failed_articles,
         "successful_articles": successful_articles,
         "total_queued": len(articles),
