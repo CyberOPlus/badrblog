@@ -788,7 +788,7 @@ def _job_title_style_reason(seo_title, notice_type="vacancy"):
     meaningful_tokens = _job_fact_tokens(title)
     if len(meaningful_tokens) < 4:
         return "job SEO title is not specific enough to understand the notice"
-    if re.search(r"(?:الإعلانs*d+|اخرs+اجل.*تاريخs+اجراء|آخرs+أجل.*تاريخs+إجراء)", title, flags=re.I):
+    if re.search(r"(?:الإعلان\s*\d+|اخر\s+اجل.*تاريخ\s+اجراء|آخر\s+أجل.*تاريخ\s+إجراء)", title, flags=re.I):
         return "job SEO title contains raw source-chain text instead of a clear editorial headline"
     folded = title.casefold()
     notice_type = str(notice_type or "vacancy").strip().lower()
