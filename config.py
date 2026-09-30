@@ -217,6 +217,17 @@ JOBS_ENRICH_MAX_TARGETS_PER_CYCLE = max(
     min(50, _env_int("JOBS_ENRICH_MAX_TARGETS_PER_CYCLE", 12)),
 )
 
+# Jobs freshness policy: newly posted vacancies are the hot inventory. The first
+# 12 hours are preferred; 24 hours is the absolute publication-age ceiling.
+JOBS_PREFERRED_FRESH_HOURS = max(
+    1,
+    min(24, _env_int("JOBS_PREFERRED_FRESH_HOURS", 12)),
+)
+JOBS_MAX_JOB_AGE_HOURS = max(
+    JOBS_PREFERRED_FRESH_HOURS,
+    min(48, _env_int("JOBS_MAX_JOB_AGE_HOURS", 24)),
+)
+
 # Jobs discovery pagination. fetch_limit_per_run remains a compatibility/page-size
 # hint; it is no longer the total number of vacancies a source may expose.
 JOBS_DISCOVERY_PAGE_SIZE = max(5, min(50, _env_int("JOBS_DISCOVERY_PAGE_SIZE", 20)))
