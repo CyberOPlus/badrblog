@@ -280,19 +280,21 @@ def _column_table_facts(article, hints, category):
 
 
 def _dedupe_facts(facts):
-    deduped = []
-    seen = set()
+    confidence_rank = {HEURISTIC: 0, MEDIUM: 1, HIGH: 2}
+    by_value = {}
+    order = []
     for fact in facts:
-        key = (
-            _normalize(fact.get("value")),
-            str(fact.get("confidence") or ""),
-            str(fact.get("source") or ""),
-        )
-        if not key[0] or key in seen:
+        key = _normalize(fact.get("value"))
+        if not key:
             continue
-        seen.add(key)
-        deduped.append(fact)
-    return deduped
+        if key not in by_value:
+            by_value[key] = fact
+            order.append(key)
+            continue
+        existing = by_value[key]
+        if confidence_rank.get(fact.get("confidence"), 0) > confidence_rank.get(existing.get("confidence"), 0):
+            by_value[key] = fact
+    return [by_value[key] for key in order]
 
 
 def _labeled_table_facts(article, hints, category):
