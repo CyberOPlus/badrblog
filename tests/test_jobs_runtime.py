@@ -6,6 +6,7 @@ from datetime import datetime, timedelta, timezone
 from io import StringIO
 from unittest.mock import MagicMock, patch
 from zoneinfo import ZoneInfo
+from googleapiclient.errors import HttpError
 
 import article_ai_processor as ai
 import article_draft_publisher as draft
@@ -236,6 +237,9 @@ class JobsRuntimeTests(unittest.TestCase):
                             "final_html": "<p>stale wrong link</p>",
                             "blogger_article_html": "<p>stale wrong link</p>",
                             "final_word_count": 4,
+                            "blogger_post_id": "post-repair-1",
+                            "blogger_post_url": "https://example.blogspot.com/job.html",
+                            "job_campaign_id": "campaign-repair-1",
                         }],
                         "notifications": {},
                     })
@@ -251,6 +255,8 @@ class JobsRuntimeTests(unittest.TestCase):
                     self.assertNotIn("ai_status", repaired)
                     self.assertNotIn("ai_input_package", repaired)
                     self.assertNotIn("processing_status", repaired)
+                    self.assertEqual(repaired["blogger_post_id"], "post-repair-1")
+                    self.assertEqual(repaired["job_campaign_id"], "campaign-repair-1")
                 finally:
                     article_queue.ARTICLE_QUEUE_PATH = original
 
@@ -346,6 +352,102 @@ class JobsRuntimeTests(unittest.TestCase):
             "optional_missing_verified_logo",
         )
         self.assertNotIn("candidate_retry_after", article)
+
+    def test_saved_blogger_lookup_failure_preserves_authoritative_post_id(self):
+        article = {
+            "id": "repair-job",
+            "status": "selected",
+            "publish_status": "repair_pending",
+            "blogger_post_id": "post-404",
+            "blogger_post_url": "https://example.blogspot.com/job.html",
+        }
+        service = MagicMock()
+        service.posts.return_value.get.return_value = MagicMock()
+        response = MagicMock()
+        response.status = 404
+        error = HttpError(response, b'{"error":{"message":"not found"}}')
+
+        with patch.object(draft, "_execute_blogger_request", side_effect=error):
+            post = draft._get_saved_post_by_id(service, article, mode="live")
+
+        self.assertEqual(post["id"], "post-404")
+        self.assertEqual(post["status"], "LIVE")
+        self.assertTrue(post["_lookup_failed"])
+
+    def test_saved_blogger_id_blocks_insert_fallback(self):
+        with self.assertRaises(RuntimeError):
+            draft._assert_insert_allowed({
+                "blogger_post_id": "post-existing",
+                "job_campaign_id": "campaign-existing",
+            })
+
+    def test_live_repair_updates_same_blogger_post_and_never_inserts(self):
+        article = {
+            "id": "repair-live",
+            "url": "https://example.com/jobs/repair-live",
+            "status": "selected",
+            "publish_status": "repair_pending",
+            "processing_status": "ready_for_ai",
+            "ai_status": "completed",
+            "ai_quality_status": "passed",
+            "ai_provider_used": "gemini",
+            "final_html": "<p>محتوى الوظيفة المصحح.</p>",
+            "seo_title": "إعلان وظيفي مصحح",
+            "blogger_post_id": "post-123",
+            "blogger_post_url": "https://example.blogspot.com/2026/09/job.html",
+            "job_campaign_id": "campaign-123",
+            "job_identity_action": "update",
+        }
+        queue = {"articles": [article]}
+        service = MagicMock()
+        posts = MagicMock()
+        service.posts.return_value = posts
+        posts.update.return_value = MagicMock()
+
+        updated = {
+            "id": "post-123",
+            "status": "LIVE",
+            "url": "https://example.blogspot.com/2026/09/job.html",
+        }
+
+        with (
+            patch.object(draft, "load_article_queue", return_value=queue),
+            patch.object(draft, "save_article_queue"),
+            patch.object(draft, "_sanitize_article_final_html"),
+            patch.object(draft, "_publish_quality_error", return_value=""),
+            patch.object(draft, "get_credentials", return_value=object()),
+            patch.object(draft, "create_blogger_service", return_value=service),
+            patch.object(draft, "is_local_publisher", return_value=False),
+            patch.object(draft, "_ensure_jobs_target_blog"),
+            patch.object(
+                draft,
+                "_get_saved_post_by_id",
+                return_value={
+                    "id": "post-123",
+                    "status": "LIVE",
+                    "url": article["blogger_post_url"],
+                },
+            ),
+            patch.object(draft, "_execute_blogger_request", return_value=updated),
+            patch.object(draft, "_ensure_returned_post_url", side_effect=lambda _s, post: post),
+            patch.object(draft, "_publish_if_live", side_effect=lambda _s, post, _m: post),
+            patch.object(draft, "_apply_jobposting_schema", side_effect=lambda _s, post, _a, _m: post),
+            patch.object(draft, "record_published_article", return_value={"saved": True}),
+            patch.object(draft, "notify_job_url", return_value={"status": "disabled"}),
+            patch.object(draft, "_reject_numeric_new_job_permalink") as reject_numeric,
+        ):
+            result = draft.publish_one_blogger_post(
+                target_article_id="repair-live",
+                mode="live",
+            )
+
+        self.assertTrue(result["updated_existing"])
+        self.assertFalse(result["created_new"])
+        self.assertEqual(article["blogger_post_id"], "post-123")
+        self.assertEqual(article["job_campaign_id"], "campaign-123")
+        self.assertEqual(posts.update.call_args.kwargs["postId"], "post-123")
+        posts.insert.assert_not_called()
+        reject_numeric.assert_not_called()
 
     def test_published_job_waits_for_visual_retry_before_archive(self):
         article = {
