@@ -848,6 +848,14 @@ class JobsCoreTests(unittest.TestCase):
         )
         self.assertEqual(job_core.external_reference(source_row), "SOURCE-7788")
 
+    def test_ats_reference_is_strong_identity_evidence(self):
+        row = sample_job(
+            job_external_reference="",
+            ats_reference="ICM-588622",
+            raw={},
+        )
+        self.assertEqual(job_core.external_reference(row), "ICM-588622")
+
     def test_pdf_reference_can_become_identity_evidence(self):
         row = sample_job(
             job_external_reference="",
