@@ -1645,6 +1645,12 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn('"JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "5"', text)
         self.assertIn("actions/checkout@v7", text)
         self.assertIn("actions/setup-python@v7", text)
+        self.assertIn('RUN_BASE_SHA="${GITHUB_SHA}"', text)
+        self.assertIn("prefer_jobs_queue_snapshot", text)
+        self.assertIn(
+            "Remote Jobs queue is empty/invalid; restoring valid non-empty runner snapshot.",
+            text,
+        )
 
     def test_live_post_allowed_after_one_minute(self):
         now = datetime(2026, 4, 27, 12, 10, 0)
