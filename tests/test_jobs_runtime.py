@@ -449,6 +449,59 @@ class JobsRuntimeTests(unittest.TestCase):
         posts.insert.assert_not_called()
         reject_numeric.assert_not_called()
 
+    def test_saved_live_post_refuses_draft_title_fallback(self):
+        article = {
+            "id": "repair-live-draft-mode",
+            "url": "https://example.com/jobs/repair-live-draft-mode",
+            "status": "selected",
+            "publish_status": "repair_pending",
+            "processing_status": "ready_for_ai",
+            "ai_status": "completed",
+            "ai_quality_status": "passed",
+            "ai_provider_used": "gemini",
+            "final_html": "<p>محتوى مصحح.</p>",
+            "seo_title": "إعلان مصحح",
+            "blogger_post_id": "post-live-77",
+            "blogger_post_url": "https://example.blogspot.com/job-77.html",
+            "job_campaign_id": "campaign-77",
+        }
+        queue = {"articles": [article]}
+        service = MagicMock()
+        posts = MagicMock()
+        service.posts.return_value = posts
+
+        with (
+            patch.object(draft, "load_article_queue", return_value=queue),
+            patch.object(draft, "save_article_queue"),
+            patch.object(draft, "_sanitize_article_final_html"),
+            patch.object(draft, "_publish_quality_error", return_value=""),
+            patch.object(draft, "get_credentials", return_value=object()),
+            patch.object(draft, "create_blogger_service", return_value=service),
+            patch.object(draft, "is_local_publisher", return_value=False),
+            patch.object(draft, "_ensure_jobs_target_blog"),
+            patch.object(
+                draft,
+                "_get_saved_post_by_id",
+                return_value={
+                    "id": "post-live-77",
+                    "status": "LIVE",
+                    "url": article["blogger_post_url"],
+                },
+            ),
+            patch.object(draft, "_find_matching_blogger_posts") as find_matches,
+        ):
+            result = draft.publish_one_blogger_post(
+                target_article_id="repair-live-draft-mode",
+                mode="draft",
+            )
+
+        self.assertFalse(result["created_new"])
+        self.assertFalse(result["updated_existing"])
+        self.assertIn("authoritative", result["error"])
+        find_matches.assert_not_called()
+        posts.insert.assert_not_called()
+        posts.update.assert_not_called()
+
     def test_published_job_waits_for_visual_retry_before_archive(self):
         article = {
             "id": "published-visual-pending",
