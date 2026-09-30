@@ -288,7 +288,7 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertTrue(article["visual_content_reuse_required"])
         self.assertEqual(
             article["job_article_cover_status"],
-            "skipped_missing_verified_logo",
+            "optional_missing_verified_logo",
         )
         self.assertNotIn("candidate_retry_after", article)
 
@@ -1943,7 +1943,7 @@ class JobsRuntimeTests(unittest.TestCase):
             "ai_quality_status": "passed",
             "ai_provider_used": "gemini",
             "final_html": "<p>مقال وظيفة موثق ومكتمل.</p>",
-            "job_article_cover_status": "skipped_missing_verified_logo",
+            "job_article_cover_status": "optional_missing_verified_logo",
             "logo_resolution_status": "unavailable_optional",
             "article_logo_used": False,
             "job_document_render_status": "document_render_retry",
