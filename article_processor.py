@@ -9,6 +9,7 @@ from article_selector import normalize_category_label
 from config import MIN_EXTRACTED_CHARS, JOBS_MODE
 from internal_link_cache import load_internal_link_cache, select_internal_link_candidates
 from job_document_renderer import extract_job_document_texts
+from job_core import classify_identity
 
 
 def _now_iso():
@@ -122,6 +123,91 @@ def _related_posts_for(article):
         {"title": candidate.get("title", ""), "url": candidate.get("url", "")}
         for candidate in select_internal_link_candidates(article, cache_data.get("links", []))
     ]
+
+
+def resolve_identity_pending_articles(target_article_id=None):
+    """
+    Resolve ambiguous Jobs identities without AI or publishing.
+
+    identity_pending is temporary: gather/cache official PDF text evidence, then
+    re-run identity classification. Only a confirmed duplicate becomes skipped.
+    """
+    queue = load_article_queue()
+    articles = queue.get("articles", [])
+
+    checked = 0
+    resolved_ready = 0
+    duplicates = 0
+    still_pending = 0
+    evidence_errors = 0
+
+    for article in articles:
+        if target_article_id and target_article_id not in {article.get("id"), article.get("url")}:
+            continue
+        if article.get("status") != "identity_pending":
+            continue
+        if article.get("content_fetch_status") != "success":
+            continue
+
+        checked += 1
+        article["identity_pending_last_checked_at"] = _now_iso()
+
+        if article.get("job_document_links"):
+            try:
+                extract_job_document_texts(article)
+                article.pop("identity_pending_evidence_error", None)
+            except Exception as error:
+                # Identity uncertainty must never be converted into a permanent
+                # failure because one official PDF is temporarily unavailable.
+                article["identity_pending_evidence_error"] = str(error)
+                evidence_errors += 1
+
+        article["identity_pending_evidence_checked_at"] = _now_iso()
+        article["identity_pending_evidence_status"] = (
+            "documents_checked"
+            if article.get("job_document_links")
+            else "no_official_documents"
+        )
+
+        decision = classify_identity(article)
+        article["job_identity_action"] = decision["action"]
+        article["job_identity_reason"] = decision["reason"]
+
+        if decision["action"] == "duplicate":
+            article["status"] = "skipped"
+            article["skip_reason"] = f"job duplicate confirmed: {decision['reason']}"
+            article["job_identity_final"] = True
+            article["job_duplicate_confirmed_at"] = _now_iso()
+            duplicates += 1
+            continue
+
+        if decision["action"] == "hold":
+            article["status"] = "identity_pending"
+            article["job_identity_final"] = False
+            article.pop("skip_reason", None)
+            still_pending += 1
+            continue
+
+        # new/new_campaign/update are publishable identity outcomes. Return the
+        # candidate to the normal ready queue; the regular selector will score,
+        # schedule and prepare it again before any AI/Blogger work.
+        article["status"] = "ready"
+        article["job_identity_final"] = False
+        article["identity_pending_resolved_at"] = _now_iso()
+        article.pop("skip_reason", None)
+        article.pop("job_duplicate_confirmed_at", None)
+        resolved_ready += 1
+
+    if checked:
+        save_article_queue(queue)
+
+    return {
+        "checked": checked,
+        "resolved_ready": resolved_ready,
+        "duplicates": duplicates,
+        "still_pending": still_pending,
+        "evidence_errors": evidence_errors,
+    }
 
 
 def prepare_selected_articles_for_ai(target_article_id=None):
