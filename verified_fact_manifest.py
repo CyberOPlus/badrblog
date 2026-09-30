@@ -32,6 +32,24 @@ EXPERIENCE_HINTS = ("خبرة", "الخبرة", "experience", "expérience")
 DIPLOMA_HINTS = ("دبلوم", "الدبلوم", "شهادة", "الشهادة", "diplome", "diplôme", "degree")
 EXAM_DATE_HINTS = ("تاريخ المباراة", "تاريخ الاختبار", "موعد المباراة", "exam date", "date du concours")
 
+HEADER_LIKE_HINTS = (
+    "التخصص", "التخصصات", "الشعبة", "الشعب", "المسلك", "المسالك",
+    "عدد المناصب", "المناصب", "منصب", "الدرجة", "الإطار", "الاطار",
+    "الاختبار", "الاختبارات", "المعامل", "المدة", "الشهادة", "الدبلوم",
+    "specialite", "spécialité", "specialites", "spécialités",
+    "filiere", "filière", "poste", "postes", "nombre de postes",
+    "grade", "epreuve", "épreuve", "coefficient", "duree", "durée",
+)
+
+
+def _looks_like_header_value(value):
+    normalized = _normalize(value)
+    if not normalized:
+        return True
+    if any(normalized == _normalize(hint) for hint in HEADER_LIKE_HINTS):
+        return True
+    return False
+
 
 def _normalize(value):
     text = str(value or "").casefold()
@@ -219,7 +237,7 @@ def _labeled_table_facts(article, hints, category):
                 continue
             for cell in cells[1:]:
                 value = cell.strip()
-                if len(_normalize(value)) < 3:
+                if len(_normalize(value)) < 3 or _looks_like_header_value(value):
                     continue
                 facts.append(_fact(
                     value,
