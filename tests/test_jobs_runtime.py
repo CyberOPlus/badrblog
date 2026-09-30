@@ -22,6 +22,58 @@ import jobs_adaptive_controller as adaptive
 
 
 class JobsRuntimeTests(unittest.TestCase):
+    def test_jobs_fetch_uses_exhaustive_discovery_not_news_shortcuts(self):
+        sources = [
+            {
+                "name": "Source A",
+                "base_url": "https://example.com/a",
+                "enabled": True,
+            },
+            {
+                "name": "Source B",
+                "base_url": "https://example.com/b",
+                "enabled": True,
+            },
+        ]
+        discovery = {
+            "checked_sources": 2,
+            "articles": [],
+            "source_results": [],
+            "reason": "",
+        }
+        queue_stats = {
+            "added": 0,
+            "duplicates": 0,
+            "duplicate_url": 0,
+            "duplicate_title": 0,
+            "total_queued": 0,
+            "added_by_category": {},
+        }
+
+        with (
+            patch.object(main, "JOBS_MODE", True),
+            patch.object(main, "CATEGORY_ROTATION_MODE", True),
+            patch.object(main, "PROCESS_FULL_CATEGORY_PER_RUN", True),
+            patch.object(main, "FAST_NEWS_MODE", True),
+            patch.object(main, "FIRST_VALID_ARTICLE_MODE", True),
+            patch.object(main, "load_sources", return_value=sources),
+            patch.object(
+                main,
+                "discover_latest_article_links",
+                return_value=discovery,
+            ) as latest,
+            patch.object(main, "discover_fresh_article_links") as fresh,
+            patch.object(main, "discover_first_valid_article_link") as first,
+            patch.object(main, "add_articles_to_queue", return_value=queue_stats),
+            redirect_stdout(StringIO()),
+        ):
+            result = main.run_fetch_only()
+
+        latest.assert_called_once_with(sources)
+        fresh.assert_not_called()
+        first.assert_not_called()
+        self.assertEqual(result["sources_checked"], 2)
+
     def test_adaptive_policy_starts_conservative_and_ramps_after_healthy_days(self):
         state = {
             "version": 1,
