@@ -384,13 +384,13 @@ def _job_semantic_repetition_reason(html_content, seo_title):
                 continue
             right_tokens = _job_fact_tokens(right["text"])
             shared = left_tokens & right_tokens
-            if len(shared) < 4:
+            shared_atoms = left_atoms & _job_fact_atoms(right["text"])
+            shared_categories = _job_fact_categories(left["text"]) & _job_fact_categories(right["text"])
+            if len(shared) < 3 and not shared_atoms:
                 continue
             containment = len(shared) / max(1, min(len(left_tokens), len(right_tokens)))
             jaccard = len(shared) / max(1, len(left_tokens | right_tokens))
-            shared_atoms = left_atoms & _job_fact_atoms(right["text"])
-            shared_categories = _job_fact_categories(left["text"]) & _job_fact_categories(right["text"])
-            if containment >= 0.84 and jaccard >= 0.55:
+            if len(shared) >= 4 and containment >= 0.84 and jaccard >= 0.55:
                 return "Jobs article repeats the same fact across different sections"
             if shared_atoms and containment >= 0.65:
                 return "Jobs article paraphrases the same structured fact in multiple sections"
