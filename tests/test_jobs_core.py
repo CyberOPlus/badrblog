@@ -493,6 +493,126 @@ class JobsCoreTests(unittest.TestCase):
             ],
         )
 
+    def test_html_pagination_follows_official_load_more_link(self):
+        first = """
+        <html><body>
+          <a class="job" href="/jobs/1">One</a>
+          <a href="/ar/loadCardsConcours?page=2">أظهر المزيد</a>
+        </body></html>
+        """
+        second = """
+        <html><body>
+          <a class="job" href="/jobs/2">Two</a>
+          <a href="/ar/loadCardsConcours?page=3" aria-label="عرض المزيد"></a>
+        </body></html>
+        """
+        third = """
+        <html><body>
+          <a class="job" href="/jobs/3">Three</a>
+          <a href="https://evil.example/loadCardsConcours?page=4">أظهر المزيد</a>
+        </body></html>
+        """
+        responses = {
+            "https://example.com/jobs": (first, "", 200),
+            "https://example.com/ar/loadCardsConcours?page=2": (second, "", 200),
+            "https://example.com/ar/loadCardsConcours?page=3": (third, "", 200),
+        }
+
+        async def fake_fetch(_session, url):
+            return responses[url]
+
+        def parser(html_text, current_url, per_source_limit=None):
+            soup = BeautifulSoup(html_text, "html.parser")
+            return [
+                {
+                    "title": anchor.get_text(" ", strip=True),
+                    "url": __import__(
+                        "urllib.parse",
+                        fromlist=["urljoin"],
+                    ).urljoin(current_url, anchor["href"]),
+                }
+                for anchor in soup.select("a.job[href]")
+            ]
+
+        with patch.object(scraper, "_fetch_text_async", side_effect=fake_fetch):
+            links, error, status, meta = asyncio.run(
+                scraper._collect_paginated_html_links_async(
+                    object(),
+                    "https://example.com/jobs",
+                    parser,
+                    known_ids=set(),
+                    page_size=8,
+                    max_pages=10,
+                    seen_streak_stop=8,
+                    max_items=50,
+                )
+            )
+
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        self.assertEqual(meta["stop_reason"], "end")
+        self.assertEqual(meta["pages_scanned"], 3)
+        self.assertEqual(
+            [row["url"] for row in links],
+            [
+                "https://example.com/jobs/1",
+                "https://example.com/jobs/2",
+                "https://example.com/jobs/3",
+            ],
+        )
+
+    def test_emploi_public_load_more_collects_beyond_fetch_hint(self):
+        def page(start, count, next_page=None):
+            cards = []
+            for index in range(start, start + count):
+                ref = f"00000000-0000-0000-0000-{index:012d}"
+                cards.append(
+                    f"<div><h3>مباراة توظيف تقني رقم {index}</h3>"
+                    f"<a href='/ar/تفاصيل/المباريات/{ref}'>التفاصيل</a></div>"
+                )
+            more = (
+                f"<a href='/ar/loadCardsConcours?page={next_page}'>أظهر المزيد</a>"
+                if next_page
+                else ""
+            )
+            return "<html><body>" + "".join(cards) + more + "</body></html>"
+
+        responses = {
+            "https://www.emploi-public.ma/ar/list": (page(1, 10, 2), "", 200),
+            "https://www.emploi-public.ma/ar/loadCardsConcours?page=2": (
+                page(11, 10, 3), "", 200
+            ),
+            "https://www.emploi-public.ma/ar/loadCardsConcours?page=3": (
+                page(21, 5), "", 200
+            ),
+        }
+
+        async def fake_fetch(_session, url):
+            return responses[url]
+
+        with patch.object(scraper, "_fetch_text_async", side_effect=fake_fetch):
+            links, error, status, meta = asyncio.run(
+                scraper._collect_paginated_html_links_async(
+                    object(),
+                    "https://www.emploi-public.ma/ar/list",
+                    scraper._parse_emploi_public_links,
+                    known_ids=set(),
+                    page_size=8,
+                    max_pages=10,
+                    seen_streak_stop=8,
+                    max_items=100,
+                )
+            )
+
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        self.assertEqual(len(links), 25)
+        self.assertEqual(meta["pages_scanned"], 3)
+        self.assertEqual(meta["stop_reason"], "end")
+        self.assertTrue(
+            links[-1]["ats_reference"].endswith("000000000025")
+        )
+
     def test_workday_pagination_collects_beyond_first_eight(self):
         class FakeResponse:
             def __init__(self, payload):
