@@ -1826,9 +1826,28 @@ def _jobs_enrichment_priority(article, queue_index=0, now=None):
         queue_score = 0
     score = max(job_score, queue_score)
 
-    # Lower queue index wins the last tie, so old queued work eventually drains.
+    published_raw = str(
+        article.get("job_published_at")
+        or article.get("source_published_at")
+        or article.get("discovered_at")
+        or ""
+    ).strip()
+    published_epoch = 0.0
+    if published_raw:
+        try:
+            parsed = datetime.fromisoformat(published_raw.replace("Z", "+00:00"))
+            if parsed.tzinfo is None:
+                parsed = parsed.replace(tzinfo=timezone.utc)
+            published_epoch = parsed.astimezone(timezone.utc).timestamp()
+        except ValueError:
+            published_epoch = 0.0
+
+    # Deadline urgency stays first. For normal Jobs, newer verified listings are
+    # enriched before older backlog rows; score/source remain tie-breakers only.
+    # Lower queue index wins the last tie so identical/undated work still drains.
     return (
         -deadline_rank,
+        -published_epoch,
         -status_rank,
         -score,
         -source_rank,
