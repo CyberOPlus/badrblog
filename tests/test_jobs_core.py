@@ -42,6 +42,38 @@ def sample_job(**overrides):
 
 
 class JobsCoreTests(unittest.TestCase):
+    def test_emploi_public_labelled_dates_are_read_from_full_page_not_body_only(self):
+        html = """
+        <html><body>
+          <main>
+            <h1>مباراة لتوظيف مهندس دولة من الدرجة الأولى</h1>
+            <section>
+              <h3>آخر أجل لإيداع الترشيحات</h3><p>27 شتنبر 2026</p>
+              <h3>تاريخ إجراء المباراة</h3><p>10 أكتوبر 2026</p>
+              <h3>تاريخ النشر</h3><p>7 شتنبر 2026</p>
+            </section>
+          </main>
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        article = sample_job(
+            title="مباراة لتوظيف مهندس دولة من الدرجة الأولى",
+            job_deadline="",
+            job_published_at="",
+            source_published_at="",
+            ats_provider="emploi_public",
+        )
+        fields = job_extractor.extract_job_fields(
+            soup,
+            article,
+            "https://www.emploi-public.ma/ar/details/job-id",
+            full_text="وصف مختصر للمباراة بدون تواريخ.",
+        )
+        self.assertEqual(fields["job_deadline"], "2026-09-27")
+        self.assertEqual(fields["job_exam_date"], "2026-10-10")
+        self.assertEqual(fields["job_published_at"], "2026-09-07")
+        self.assertEqual(fields["job_published_at_display"], "7 شتنبر 2026")
+
     def test_job_specific_application_url_rejects_generic_search_and_careers(self):
         self.assertFalse(job_core.is_job_specific_url("https://company.example/jobs"))
         self.assertFalse(job_core.is_job_specific_url("https://company.example/jobs?search=security"))
