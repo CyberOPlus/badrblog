@@ -1906,9 +1906,14 @@ def validate_phase3_article_quality(article):
 
 
 def format_phase3_article_html(html_content, package=None):
-    formatted = _plus_ui_format_html(html_content, package or {})
+    package = package or {}
+    formatted = _plus_ui_format_html(html_content, package)
     if JOBS_MODE:
         formatted = _remove_empty_job_fact_rows(formatted)
+        # PDF pages are rendered/persisted by the Blogger publisher after AI.
+        # Attach those verified page images here, in document/page order, so the
+        # final Blogger body always contains the visual copy of the official PDF.
+        formatted = _append_job_document_page_images(formatted, package)
     return formatted
 
 
@@ -2216,7 +2221,6 @@ def _finalize_html_content(data, package):
         html_content = _remove_empty_job_fact_rows(html_content)
         html_content = _ensure_verified_job_fact_rows(html_content, package)
         html_content = _append_job_action_links_if_missing(html_content, package)
-        html_content = _append_job_document_page_images(html_content, package)
     else:
         html_content = _insert_main_image_if_missing(html_content, package)
         html_content = _append_trusted_references_if_missing(html_content, package)
