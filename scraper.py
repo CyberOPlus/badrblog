@@ -2676,12 +2676,17 @@ async def _discover_latest_article_links_async(enabled_sources):
                 )
             except (TypeError, ValueError):
                 discovery_max_items = JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE
+            source_crawl = source_crawl_record(base_url)
             known_ids = _source_known_discovery_ids(base_url)
+            resume_state = source_crawl.get("job_discovery_resume") or {}
+            if not isinstance(resume_state, dict):
+                resume_state = {}
         else:
             discovery_max_pages = 1
             discovery_seen_streak = JOBS_DISCOVERY_SEEN_STREAK
             discovery_max_items = fetch_limit
             known_ids = set()
+            resume_state = {}
 
         print(f"\n[{index}] Checking {source_name}")
         async with semaphore:
@@ -2697,6 +2702,7 @@ async def _discover_latest_article_links_async(enabled_sources):
                     max_pages=discovery_max_pages,
                     seen_streak_stop=discovery_seen_streak,
                     max_items=discovery_max_items,
+                    resume_state=resume_state,
                 )
             except Exception as exc:
                 links = []
@@ -2729,6 +2735,7 @@ async def _discover_latest_article_links_async(enabled_sources):
             "discovery_seen_streak": discovery_seen_streak,
             "discovery_max_items": discovery_max_items,
             "known_ids_before": len(known_ids),
+            "resume_state_before": resume_state,
             "links": links,
             "error": error,
             "status_code": status_code,
@@ -2772,6 +2779,15 @@ async def _discover_latest_article_links_async(enabled_sources):
                 "discovery_max_pages": result.get("discovery_max_pages"),
                 "discovery_seen_streak": result.get("discovery_seen_streak"),
                 "discovery_max_items": result.get("discovery_max_items"),
+                "job_discovery_resume": (
+                    result.get("details", {}).get("discovery_resume") or {}
+                ),
+                "discovery_stop_reason": (
+                    result.get("details", {}).get("discovery_meta", {}).get("stop_reason", "")
+                ),
+                "discovery_pages_scanned": (
+                    result.get("details", {}).get("discovery_meta", {}).get("pages_scanned", 0)
+                ),
             })
         update_source_crawl(result["base_url"], **crawl_fields)
 
@@ -2811,6 +2827,10 @@ async def _discover_latest_article_links_async(enabled_sources):
                 "discovery_seen_streak": result.get("discovery_seen_streak"),
                 "discovery_max_items": result.get("discovery_max_items"),
                 "known_ids_before": result.get("known_ids_before", 0),
+                "resume_before": result.get("resume_state_before") or {},
+                "resume_after": result.get("details", {}).get("discovery_resume") or {},
+                "stop_reason": result.get("details", {}).get("discovery_meta", {}).get("stop_reason", ""),
+                "pages_scanned": result.get("details", {}).get("discovery_meta", {}).get("pages_scanned", 0),
                 "links_found": len(result["links"]),
                 "status": "failed" if result["error"] else "success",
                 "listing_status_code": result["status_code"],
