@@ -37,6 +37,7 @@ from internal_link_cache import (
 )
 from jobposting import append_jobposting, jobposting_validation_errors
 from google_indexing import notify_job_url
+from job_document_renderer import render_job_document_pages
 from source_sanitizer import sanitize_source_links
 from company_logo_resolver import refresh_company_logo, verified_company_logo
 from utils.facebook_image_generator import generate_job_article_cover
@@ -319,25 +320,24 @@ def _job_cover_key(article):
     return "job-" + hashlib.sha256(seed.encode("utf-8")).hexdigest()[:16]
 
 
-def _persist_generated_job_cover(path):
-    """Commit the generated binary before Blogger references its public raw URL.
-
-    Code and runtime-state commits may land while a workflow is rendering a
-    cover. Retry non-fast-forward pushes with an autostashed rebase so that a
-    harmless Git race cannot abort the publishing cycle.
-    """
+def _persist_generated_job_assets(paths, commit_label="job assets"):
+    """Commit generated binary assets before Blogger references their raw URLs."""
     if os.getenv("GITHUB_ACTIONS", "").strip().lower() != "true":
         return False
 
-    path = Path(path)
+    paths = [Path(path) for path in (paths or []) if Path(path).exists()]
+    if not paths:
+        return False
+
+    path_args = [path.as_posix() for path in paths]
     subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=True)
     subprocess.run(
         ["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"],
         check=True,
     )
-    subprocess.run(["git", "add", "-f", "--", path.as_posix()], check=True)
+    subprocess.run(["git", "add", "-f", "--", *path_args], check=True)
     diff = subprocess.run(
-        ["git", "diff", "--cached", "--quiet", "--", path.as_posix()],
+        ["git", "diff", "--cached", "--quiet", "--", *path_args],
         check=False,
     )
     if diff.returncode == 0:
@@ -345,8 +345,8 @@ def _persist_generated_job_cover(path):
     subprocess.run(
         [
             "git", "commit", "-m",
-            f"Add job article cover {path.stem} [skip ci]",
-            "--", path.as_posix(),
+            f"Add {commit_label} [skip ci]",
+            "--", *path_args,
         ],
         check=True,
     )
@@ -364,7 +364,7 @@ def _persist_generated_job_cover(path):
 
         last_error = (push.stderr or push.stdout or "git push failed").strip()[:500]
         log_event(
-            "job_cover_git_push_retry",
+            "job_asset_git_push_retry",
             attempt=attempt,
             reason=last_error,
         )
@@ -384,16 +384,59 @@ def _persist_generated_job_cover(path):
         if rebase.returncode != 0:
             last_error = (rebase.stderr or rebase.stdout or "git rebase failed").strip()[:500]
             log_event(
-                "job_cover_git_rebase_failed",
+                "job_asset_git_rebase_failed",
                 attempt=attempt,
                 reason=last_error,
             )
             break
 
     raise RuntimeError(
-        "Could not persist generated job cover after Git retries: "
+        "Could not persist generated job assets after Git retries: "
         + (last_error or "unknown Git error")
     )
+
+
+def _persist_generated_job_cover(path):
+    return _persist_generated_job_assets(
+        [path],
+        commit_label=f"job article cover {Path(path).stem}",
+    )
+
+
+def _prepare_job_document_page_images(article):
+    if not JOBS_MODE:
+        return []
+
+    package = article.get("ai_input_package") or article
+    # Reuse rendered URLs if the article is retried in the same queue state.
+    existing = article.get("job_document_page_images") or package.get("job_document_page_images") or []
+    if existing:
+        return existing
+
+    pages = render_job_document_pages(
+        article,
+        raw_base=JOB_ARTICLE_RAW_BASE,
+    )
+    if not pages:
+        article["job_document_render_status"] = "not_available"
+        return []
+
+    _persist_generated_job_assets(
+        [row.get("path") for row in pages],
+        commit_label=f"job document pages {_job_cover_key(article)}",
+    )
+    article["job_document_page_images"] = pages
+    article["job_document_render_status"] = "rendered"
+    package["job_document_page_images"] = list(pages)
+    package["job_document_rendered_pages"] = len(pages)
+    article["ai_input_package"] = package
+    log_event(
+        "job_document_pages_ready",
+        article_id=article.get("id"),
+        pages=len(pages),
+        documents=len({row.get("document_url") for row in pages}),
+    )
+    return pages
 
 
 def _prepare_job_article_cover(article):
@@ -520,6 +563,7 @@ def _sanitize_article_final_html(article):
     source_domain = _source_domain_for_article(article)
     if JOBS_MODE:
         _prepare_job_article_cover(article)
+        _prepare_job_document_page_images(article)
     cleaned = format_phase3_article_html(
         article.get("final_html", ""),
         article.get("ai_input_package") or article,
