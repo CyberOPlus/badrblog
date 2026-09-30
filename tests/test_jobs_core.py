@@ -90,7 +90,8 @@ class JobsCoreTests(unittest.TestCase):
         )
         slug = job_core.desired_slug(row, campaign_id="opaque-campaign")
         self.assertIn("orange-business-consultant-cyber-securite", slug)
-        self.assertTrue(slug.endswith("icm-584854"), slug)
+        self.assertNotRegex(slug, r"\\d")
+        self.assertRegex(slug, r"^[a-z-]+$")
 
     def test_jobposting_schema_uses_verified_job_entities(self):
         row = sample_job(
@@ -169,6 +170,44 @@ class JobsCoreTests(unittest.TestCase):
             )
             self.assertEqual(len(selected), 1)
             self.assertEqual(selected[0]["job_company"], "Orange Business")
+
+    def test_jobs_hub_link_is_always_inserted_contextually(self):
+        html = "<p>تعلن الشركة عن التوظيف في منصب تقني بالدار البيضاء.</p>"
+        linked, count = internal_link_cache.insert_jobs_hub_link(html)
+        self.assertEqual(count, 1)
+        self.assertEqual(
+            linked.count("https://www.cyberoplus.com/search/label/jobs"),
+            1,
+        )
+        self.assertIn(">التوظيف</a>", linked)
+
+        linked_again, second_count = internal_link_cache.insert_jobs_hub_link(linked)
+        self.assertEqual(second_count, 0)
+        self.assertEqual(
+            linked_again.count("https://www.cyberoplus.com/search/label/jobs"),
+            1,
+        )
+
+    def test_arabic_job_slug_is_readable_and_contains_no_digits(self):
+        row = sample_job(
+            job_company="وزارة الصحة",
+            job_title="تقني من الدرجة الثالثة",
+            ats_reference="REF-2026-584854",
+        )
+        slug = job_core.desired_slug(row, campaign_id="campaign-2026")
+        self.assertRegex(slug, r"^[a-z-]+$")
+        self.assertNotRegex(slug, r"\\d")
+        self.assertTrue(slug.startswith("wzara"), slug)
+
+    def test_jobs_hub_link_is_not_added_to_non_jobs_articles(self):
+        html = "<p>هذا خبر تقني عن العمل على تحديث جديد.</p>"
+        linked, count = internal_link_cache.insert_internal_links(
+            html,
+            {"seo_title": "تحديث تقني", "suggested_category": "Tech-News"},
+            {"links": []},
+        )
+        self.assertEqual(count, 0)
+        self.assertNotIn(internal_link_cache.JOBS_HUB_URL, linked)
 
     def test_extractor_keeps_arabic_public_job_files_and_exam_date(self):
         html = """
