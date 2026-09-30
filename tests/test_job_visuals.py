@@ -283,10 +283,19 @@ class JobVisualTests(unittest.TestCase):
             "seo_title": "وظيفة مدير تقني ServiceNow لدى inwi في الدار البيضاء",
             "job_company": "inwi",
             "job_location": "الدار البيضاء",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/test.html",
+            "facebook_post_source": "social_ai",
+            "facebook_post_text": (
+                "فرصة تقنية لدى inwi لمدير تقني ServiceNow في الدار البيضاء.\n\n"
+                "تفاصيل الوظيفة والشروط متاحة في المقال.\n\n"
+                "رابط المقال في أول تعليق 👇\n"
+                "#وظائف #المغرب #تقنية"
+            ),
         }
         blueprint = facebook_publisher._jobs_facebook_blueprint(
             article,
-            "https://example.blogspot.com/test.html",
+            article["blogger_post_url"],
         )
         self.assertIn("مدير تقني ServiceNow", blueprint["caption"])
         self.assertNotIn("💼 الوظيفة: Technical Lead ServiceNow", blueprint["caption"])
