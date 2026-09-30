@@ -13,6 +13,7 @@ on:
       - "sources.json"
       - "job_extractor.py"
       - "jobposting.py"
+      - "job_document_renderer.py"
       - "article_enricher.py"
       - "article_queue.py"
       - "article_processor.py"
@@ -63,4 +64,4 @@ jobs:
             tests.test_production_hardening.ProductionHardeningTests.test_facebook_safety_interval_cannot_be_disabled_by_zero_env_value -v
       - name: Compile critical Jobs modules
         run: |
-          python -m py_compile             main.py             jobs_adaptive_controller.py             scraper.py             article_enricher.py             article_ai_processor.py             article_draft_publisher.py             facebook_publisher.py             job_visual_policy.py             config.py             tests/test_production_hardening.py
+          python -m py_compile             main.py             jobs_adaptive_controller.py             scraper.py             article_enricher.py             article_ai_processor.py             article_draft_publisher.py             job_document_renderer.py             facebook_publisher.py             job_visual_policy.py             config.py             tests/test_production_hardening.py
