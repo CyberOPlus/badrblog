@@ -1515,7 +1515,12 @@ def _emploi_public_deadline_from_listing_text(value):
     if not month_value:
         return ""
     try:
-        return date(int(year_value), month_value, int(day_value)).isoformat()
+        return datetime(
+            int(year_value),
+            month_value,
+            int(day_value),
+            tzinfo=timezone.utc,
+        ).date().isoformat()
     except ValueError:
         return ""
 
