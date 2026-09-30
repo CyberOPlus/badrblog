@@ -1364,6 +1364,13 @@ def record_job_publish(article, now=None):
             for row in (article.get("job_document_links") or [])
             if isinstance(row, dict) and row.get("url")
         )),
+        "identity_evidence_stage_status": article.get("identity_evidence_stage_status", ""),
+        "identity_evidence_signature": article.get("identity_evidence_signature", ""),
+        "identity_evidence_strength": int(article.get("identity_evidence_strength") or 0),
+        "identity_evidence_categories": list(article.get("identity_evidence_categories") or []),
+        "identity_evidence_reference": article.get("identity_evidence_reference", ""),
+        "identity_evidence_deadline": article.get("identity_evidence_deadline", ""),
+        "identity_evidence_positions": article.get("identity_evidence_positions", 0),
         "source_url": canonicalize_job_url(article.get("url") or article.get("source_url")),
         "source_name": article.get("source_name", ""),
         "source_priority": article.get("source_priority", ""),
