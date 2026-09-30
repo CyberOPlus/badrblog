@@ -7,7 +7,7 @@ import random
 import re
 import json
 import time
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from html import unescape
 from pathlib import Path
 from urllib.parse import urlparse
@@ -30,13 +30,12 @@ from config import (
     FACEBOOK_PAGE_ID,
     WHATSAPP_CHANNEL_URL,
     JOBS_MODE,
-    JOBS_FACEBOOK_MIN_SCORE,
 )
 from production_logging import elapsed_ms, log_event
 from job_visual_policy import choose_job_template
 from company_logo_resolver import verified_company_logo
 from utils.facebook_image_generator import generate_facebook_image
-from job_core import facebook_slot_status, _local as jobs_local_time, _parse_date as parse_job_date, classify_urgency
+from job_core import facebook_slot_status, _local as jobs_local_time, _parse_date as parse_job_date, classify_urgency, job_deadline_time
 from social_ai_processor import generate_jobs_facebook_post
 CAPTION_STYLES = (
     "ai_tools",
@@ -309,56 +308,160 @@ def _facebook_comment_retry_ready(article, now_epoch=None):
     return retry_after <= float(now_epoch if now_epoch is not None else time.time())
 
 
-def _job_facebook_share_worthy(article):
+def _job_facebook_expired(article, now=None):
     if not JOBS_MODE:
-        return True
-    # Old/test records without a score remain eligible; production Jobs always
-    # receive job_score before Blogger publishing.
-    if "job_score" not in article:
-        return True
-    score = int(article.get("job_score") or 0)
-    urgency = classify_urgency(article)
-    if urgency.get("level") in {"critical", "high"}:
-        return True
-    if int(article.get("job_number_of_positions") or 0) >= 20:
-        return True
-    notice = str(article.get("job_notice_type") or "vacancy").lower()
-    if notice in {"candidate_list", "results", "final_results"} and score >= max(65, JOBS_FACEBOOK_MIN_SCORE - 5):
-        return True
-    return score >= JOBS_FACEBOOK_MIN_SCORE
+        return False
+    return classify_urgency(article, now=now).get("level") == "expired"
 
 
-def _settle_unselected_job_facebook(queue):
-    if not JOBS_MODE:
-        return 0
-    settled = 0
-    for article in queue.get("articles", []):
-        if (
-            not _has_blogger_live_publish(article)
-            or article.get("facebook_post_id")
-            or article.get("facebook_status") not in {None, "", "failed"}
-            or _job_facebook_share_worthy(article)
-        ):
-            continue
-        article["facebook_status"] = "not_selected"
-        article["facebook_selection_reason"] = (
-            f"job score {int(article.get('job_score') or 0)} below selective Facebook policy"
-        )
-        article.pop("facebook_error", None)
+def _mark_facebook_pending(article, now=None, reason="published_to_blogger"):
+    if not JOBS_MODE or not _has_blogger_live_publish(article) or article.get("facebook_post_id"):
+        return False
+    if _job_facebook_expired(article, now=now):
+        return _mark_facebook_expired(article, now=now)
+
+    current = str(article.get("facebook_status") or "").strip()
+    if current in {
+        "posted",
+        "posted_comment_failed",
+        "posted_comment_uncertain",
+        "delivery_uncertain",
+    }:
+        return False
+    if current == "failed" and not _facebook_retry_ready(article):
+        return False
+
+    changed = current != "facebook_pending"
+    article["facebook_status"] = "facebook_pending"
+    article["facebook_queued_at"] = (
+        article.get("facebook_queued_at")
+        or (now.isoformat() if hasattr(now, "isoformat") else _now_iso())
+    )
+    article["facebook_queue_reason"] = str(reason or "published_to_blogger")
+    article.pop("facebook_selection_reason", None)
+    article.pop("facebook_expired_at", None)
+    article.pop("facebook_expired_reason", None)
+    if current in {"not_selected", "facebook_expired"}:
         _clear_facebook_failure_state(article)
-        settled += 1
-    if settled:
+    return changed
+
+
+def _mark_facebook_expired(article, now=None):
+    if not JOBS_MODE or article.get("facebook_post_id"):
+        return False
+    current = str(article.get("facebook_status") or "").strip()
+    changed = current != "facebook_expired"
+    article["facebook_status"] = "facebook_expired"
+    article["facebook_expired_at"] = (
+        now.isoformat() if hasattr(now, "isoformat") else _now_iso()
+    )
+    article["facebook_expired_reason"] = "job expired before Facebook queue turn"
+    article.pop("facebook_selection_reason", None)
+    article.pop("facebook_error", None)
+    _clear_facebook_failure_state(article)
+    return changed
+
+
+def _sync_jobs_facebook_queue(queue, now=None):
+    """Migrate every live unpublished Jobs article into the real Facebook queue."""
+    if not JOBS_MODE:
+        return {"queued": 0, "expired": 0, "revived": 0}
+
+    now = now or datetime.now(timezone.utc)
+    queued = 0
+    expired = 0
+    revived = 0
+    changed = False
+
+    for article in queue.get("articles", []):
+        if not _has_blogger_live_publish(article) or article.get("facebook_post_id"):
+            continue
+
+        current = str(article.get("facebook_status") or "").strip()
+        if _job_facebook_expired(article, now=now):
+            if _mark_facebook_expired(article, now=now):
+                expired += 1
+                changed = True
+            continue
+
+        if current == "facebook_expired":
+            revived += 1
+
+        # Legacy selective-policy records are deliberately re-opened. A real
+        # Blogger job must not remain buried because its old score was low.
+        if current in {"", "not_selected", "facebook_expired"} or current is None:
+            if _mark_facebook_pending(
+                article,
+                now=now,
+                reason="legacy_requeued" if current in {"not_selected", "facebook_expired"} else "published_to_blogger",
+            ):
+                queued += 1
+                changed = True
+        elif current == "failed" and _facebook_retry_ready(article):
+            if _mark_facebook_pending(article, now=now, reason="retry_ready"):
+                queued += 1
+                changed = True
+
+    if changed:
         save_article_queue(queue)
-        log_event("facebook_jobs_settled_not_selected", count=settled)
-    return settled
+        log_event(
+            "facebook_jobs_queue_synced",
+            queued=queued,
+            expired=expired,
+            revived=revived,
+        )
+
+    return {"queued": queued, "expired": expired, "revived": revived}
+
+
+def _facebook_job_priority(article, now=None):
+    """Nearer verified deadlines lead; score only ranks jobs, never filters them."""
+    now = now or datetime.now(timezone.utc)
+    deadline = job_deadline_time(article)
+    if deadline:
+        seconds_remaining = max(0.0, (deadline - now).total_seconds())
+        has_deadline = 1
+        deadline_priority = -seconds_remaining
+    else:
+        has_deadline = 0
+        deadline_priority = float("-inf")
+
+    urgency = classify_urgency(article, now=now).get("level") if JOBS_MODE else "normal"
+    urgency_rank = {
+        "critical": 4,
+        "high": 3,
+        "elevated": 2,
+        "normal": 1,
+    }.get(urgency, 0)
+
+    try:
+        score = int(article.get("job_score") or 0)
+    except (TypeError, ValueError):
+        score = 0
+    try:
+        positions = int(article.get("job_number_of_positions") or 0)
+    except (TypeError, ValueError):
+        positions = 0
+
+    return (
+        has_deadline,
+        deadline_priority,
+        urgency_rank,
+        score,
+        positions,
+        article.get("facebook_queued_at", ""),
+        article.get("published_at", ""),
+    )
 
 
 def _eligible_for_facebook(article):
+    if not _has_blogger_live_publish(article) or article.get("facebook_post_id"):
+        return False
+    if JOBS_MODE and _job_facebook_expired(article):
+        return False
+    status = str(article.get("facebook_status") or "").strip()
     return (
-        _has_blogger_live_publish(article)
-        and _job_facebook_share_worthy(article)
-        and not article.get("facebook_post_id")
-        and article.get("facebook_status") in {None, "", "failed"}
+        status in {"facebook_pending", "failed"}
         and _facebook_retry_ready(article)
     )
 
@@ -367,6 +470,8 @@ def _find_latest_eligible_article(articles):
     eligible = [article for article in articles if _eligible_for_facebook(article)]
     if not eligible:
         return None
+    if JOBS_MODE:
+        return max(eligible, key=_facebook_job_priority)
     return max(
         eligible,
         key=lambda article: (
