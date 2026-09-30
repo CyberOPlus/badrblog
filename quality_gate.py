@@ -353,10 +353,22 @@ def _job_evidence_text(package):
         "job_eligibility",
         "job_notice_status",
     )
+    evidence_labels = {
+        "job_number_of_positions": "عدد المناصب",
+        "job_salary": "الراتب",
+        "job_deadline": "آخر أجل",
+        "job_deadline_display": "آخر أجل",
+        "job_exam_date": "تاريخ إجراء المباراة",
+        "job_exam_date_display": "تاريخ إجراء المباراة",
+        "job_published_at": "تاريخ النشر",
+        "job_published_at_display": "تاريخ النشر",
+        "job_experience": "الخبرة",
+    }
     for key in scalar_keys:
         value = package.get(key)
         if value not in (None, "", [], {}):
-            parts.append(str(value))
+            label = evidence_labels.get(key, "")
+            parts.append(f"{label}: {value}" if label else str(value))
 
     for table in package.get("source_tables") or []:
         if not isinstance(table, dict):
@@ -449,6 +461,106 @@ def _job_duplicate_structured_rows_reason(html_content):
             if fingerprint in seen:
                 return "duplicate structured row found in Jobs article"
             seen.add(fingerprint)
+    return ""
+
+
+
+_JOB_CRITICAL_TABLE_HINTS = (
+    "منصب",
+    "مناصب",
+    "التخصص",
+    "التخصصات",
+    "الدرجة",
+    "الاطار",
+    "الإطار",
+    "تقني",
+    "مهندس",
+    "متصرف",
+    "استاذ",
+    "أستاذ",
+    "اختبار",
+    "المعامل",
+    "المدة",
+    "الدبلوم",
+    "الشهادة",
+)
+
+
+def _job_source_table_coverage_reason(html_content, package):
+    package = package or {}
+    output = _normalize_job_fact_text(html_to_text(html_content))
+    output_numbers = {
+        str(int(value))
+        for value in re.findall(r"\b\d{1,4}\b", output)
+        if value.isdigit()
+    }
+
+    for table in package.get("source_tables") or []:
+        if not isinstance(table, dict):
+            continue
+        for row in table.get("rows") or []:
+            if not isinstance(row, (list, tuple)) or len(row) < 2:
+                continue
+            raw_cells = [re.sub(r"\s+", " ", str(cell or "")).strip() for cell in row]
+            row_text = " | ".join(cell for cell in raw_cells if cell)
+            normalized_row = _normalize_job_fact_text(row_text)
+            if not normalized_row:
+                continue
+            if not any(hint in normalized_row for hint in _JOB_CRITICAL_TABLE_HINTS):
+                continue
+
+            row_numbers = {
+                str(int(value))
+                for value in re.findall(r"\b\d{1,4}\b", normalized_row)
+                if value.isdigit()
+            }
+            distinctive_cells = []
+            for cell in raw_cells:
+                normalized_cell = _normalize_job_fact_text(cell)
+                if not normalized_cell or re.fullmatch(r"[\d\s./-]+", normalized_cell):
+                    continue
+                tokens = _job_fact_tokens(normalized_cell)
+                if len(tokens) >= 2 and len(normalized_cell) >= 6:
+                    distinctive_cells.append(normalized_cell)
+
+            # Headers and explanatory rows without a count/date are not enough to
+            # prove a missing specialty/position record, so audit only data rows.
+            if not row_numbers or not distinctive_cells:
+                continue
+
+            cell_present = any(cell in output for cell in distinctive_cells)
+            numbers_present = row_numbers.issubset(output_numbers)
+            if not (cell_present and numbers_present):
+                return "important source-table row is missing or incomplete in Jobs article"
+    return ""
+
+
+def _job_unverified_external_link_reason(html_content, package):
+    package = package or {}
+    allowed = set()
+
+    def add_url(value):
+        url = str(value or "").strip()
+        if url:
+            allowed.add(canonicalize_url(url) or url)
+
+    add_url(package.get("job_application_url"))
+    add_url(package.get("job_detail_url"))
+
+    for item in package.get("job_document_links") or []:
+        if isinstance(item, dict):
+            add_url(item.get("url"))
+
+    for item in package.get("job_action_links") or []:
+        if isinstance(item, dict):
+            add_url(item.get("url"))
+
+    for href in re.findall(r"<a\b[^>]*\bhref=['\"]([^'\"]+)['\"]", html_content, flags=re.I):
+        if not re.match(r"^https?://", href, flags=re.I):
+            continue
+        key = canonicalize_url(href) or href
+        if key not in allowed:
+            return "Jobs article contains an external URL not present in verified application/document evidence"
     return ""
 
 
@@ -832,6 +944,14 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         unsupported_fact_reason = _job_unsupported_fact_reason(seo_title, html_content, package)
         if unsupported_fact_reason:
             return QualityGateResult(False, unsupported_fact_reason, word_count)
+
+        source_table_coverage_reason = _job_source_table_coverage_reason(html_content, package)
+        if source_table_coverage_reason:
+            return QualityGateResult(False, source_table_coverage_reason, word_count)
+
+        unverified_link_reason = _job_unverified_external_link_reason(html_content, package)
+        if unverified_link_reason:
+            return QualityGateResult(False, unverified_link_reason, word_count)
 
         document_coverage_reason = _job_document_coverage_reason(html_content, package)
         if document_coverage_reason:
