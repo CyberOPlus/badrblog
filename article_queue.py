@@ -245,12 +245,24 @@ def article_queue_storage_status():
             "valid": False,
             "article_count": 0,
             "reason": "invalid_shape",
+            "recovery_required": False,
         }
+    notifications = (
+        data.get("notifications")
+        if isinstance(data.get("notifications"), dict)
+        else {}
+    )
+    recovery_required = bool(notifications.get("queue_recovery_required"))
     return {
         "exists": True,
         "valid": True,
         "article_count": len(data.get("articles") or []),
-        "reason": "",
+        "reason": (
+            str(notifications.get("queue_recovery_reason") or "queue_recovery_marker")
+            if recovery_required
+            else ""
+        ),
+        "recovery_required": recovery_required,
     }
 
 def load_article_queue():
