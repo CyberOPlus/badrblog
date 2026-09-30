@@ -511,6 +511,13 @@ def extract_job_fields(soup, article, page_url, full_text=""):
     org = _organization(node)
     location, country = _location(node)
     body = full_text or _text(node.get("description"))
+    try:
+        page_evidence_text = soup.get_text("\n", strip=True)
+    except Exception:
+        page_evidence_text = ""
+    labelled_evidence = "\n".join(
+        part for part in (body, page_evidence_text) if str(part or "").strip()
+    )
     source_country = str(article.get("source_country") or "").upper()
     source_eligibility = str(article.get("source_eligibility") or "").strip().lower()
 
@@ -591,11 +598,15 @@ def extract_job_fields(soup, article, page_url, full_text=""):
             )
             break
     structured_deadline = _text(node.get("validThrough"))
-    text_deadline, text_deadline_display = _deadline_details_from_text(body)
+    # Some official portals (notably Emploi-Public) keep labelled metadata
+    # outside the content container selected as the article body. Read only
+    # labelled date facts from the complete official page evidence so freshness
+    # and deadlines are not lost, while keeping the clean body for article copy.
+    text_deadline, text_deadline_display = _deadline_details_from_text(labelled_evidence)
     deadline = structured_deadline or text_deadline
     deadline_display = text_deadline_display or structured_deadline
-    text_exam_date, text_exam_date_display = _exam_date_details_from_text(body)
-    text_published_at, text_published_display = _publication_date_details_from_text(body)
+    text_exam_date, text_exam_date_display = _exam_date_details_from_text(labelled_evidence)
+    text_published_at, text_published_display = _publication_date_details_from_text(labelled_evidence)
     published_at = (
         _text(node.get("datePosted"))
         or article.get("source_published_at", "")
