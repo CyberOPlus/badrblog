@@ -28,6 +28,7 @@ from config import (
 from production_logging import elapsed_ms, log_event
 from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
 from job_extractor import extract_job_fields
+from job_core import invalidate_identity_evidence
 from company_logo_resolver import resolve_company_logo
 
 try:
@@ -1130,6 +1131,10 @@ def _apply_enrichment_from_html(article, html, url):
     article["meta_description"] = meta_description
 
     if JOBS_MODE:
+        invalidate_identity_evidence(
+            article,
+            reason="source detail enrichment refreshed identity facts",
+        )
         source_tables, source_tables_truncated = _extract_source_tables(job_source_soup)
         article["source_tables"] = source_tables
         article["source_tables_count"] = len(source_tables)
