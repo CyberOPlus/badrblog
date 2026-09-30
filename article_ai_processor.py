@@ -2977,6 +2977,11 @@ def _attempt_provider_candidates():
 
 
 def _openrouter_fallback_available():
+    if JOBS_MODE and (
+        _global_circuit_remaining() > 0
+        or _provider_circuit_remaining("openrouter") > 0
+    ):
+        return False
     return bool(_openrouter_candidates())
 
 
