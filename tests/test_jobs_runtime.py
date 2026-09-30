@@ -1205,6 +1205,39 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(manifest["facts"]["tests"][0]["confidence"], "high")
         self.assertNotIn("7788", str(manifest))
 
+    def test_manifest_extracts_values_under_explicit_table_headers(self):
+        article = {
+            "url": "https://example.gov.ma/jobs/99",
+            "job_detail_url": "https://example.gov.ma/jobs/99",
+            "official_source": True,
+            "job_official_source": True,
+            "source_tables": [{
+                "rows": [
+                    ["التخصص", "عدد المناصب", "الاختبار"],
+                    ["الأمن السيبراني", "2", "اختبار كتابي"],
+                    ["الشبكات", "1", "اختبار شفوي"],
+                ]
+            }],
+            "source_tables_count": 1,
+            "source_tables_truncated": False,
+            "job_document_links": [],
+        }
+        manifest = fact_manifest.build_verified_fact_manifest(article)
+
+        specialties = [
+            fact["value"] for fact in manifest["facts"].get("specialties", [])
+        ]
+        tests = [
+            fact["value"] for fact in manifest["facts"].get("tests", [])
+        ]
+        self.assertEqual(specialties, ["الأمن السيبراني", "الشبكات"])
+        self.assertEqual(tests, ["اختبار كتابي", "اختبار شفوي"])
+        self.assertNotIn("عدد المناصب", specialties)
+        self.assertTrue(all(
+            fact["confidence"] == "high"
+            for fact in manifest["facts"]["specialties"]
+        ))
+
     def test_manifest_high_fact_missing_blocks_but_medium_fact_only_warns(self):
         high_manifest = {
             "facts": {
