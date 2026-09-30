@@ -450,7 +450,7 @@ class JobsCoreTests(unittest.TestCase):
             ]
 
         with patch.object(scraper, "_fetch_text_async", side_effect=fake_fetch):
-            links, error, status = asyncio.run(
+            links, error, status, meta = asyncio.run(
                 scraper._collect_paginated_html_links_async(
                     object(),
                     "https://example.com/jobs",
@@ -464,6 +464,8 @@ class JobsCoreTests(unittest.TestCase):
 
         self.assertEqual(error, "")
         self.assertEqual(status, 200)
+        self.assertEqual(meta["stop_reason"], "end")
+        self.assertEqual(meta["resume_url"], "")
         self.assertEqual(
             [row["url"] for row in links],
             [
@@ -509,7 +511,7 @@ class JobsCoreTests(unittest.TestCase):
                 })
 
         session = FakeSession()
-        links, error, status = asyncio.run(
+        links, error, status, meta = asyncio.run(
             scraper._collect_workday_links_async(
                 session,
                 "https://tenant.wd5.myworkdayjobs.com/site",
@@ -526,6 +528,83 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(len(links), 45)
         self.assertEqual(session.offsets, [0, 20, 40])
         self.assertEqual(links[-1]["ats_reference"], "REQ-45")
+        self.assertEqual(meta["stop_reason"], "end")
+        self.assertEqual(meta["resume_offset"], 0)
+
+    def test_workday_resume_cursor_reaches_jobs_beyond_safety_cap(self):
+        class FakeResponse:
+            def __init__(self, payload):
+                self.status = 200
+                self._payload = payload
+
+            async def __aenter__(self):
+                return self
+
+            async def __aexit__(self, exc_type, exc, tb):
+                return False
+
+            async def text(self, errors="ignore"):
+                return json.dumps(self._payload)
+
+        class FakeSession:
+            def __init__(self):
+                self.offsets = []
+
+            def post(self, _url, json=None, headers=None, timeout=None):
+                offset = int((json or {}).get("offset") or 0)
+                limit = int((json or {}).get("limit") or 20)
+                self.offsets.append(offset)
+                rows = [
+                    {
+                        "title": f"Role {index + 1}",
+                        "externalPath": f"/job/{index + 1}",
+                        "bulletFields": [f"REQ-{index + 1}"],
+                    }
+                    for index in range(offset, min(offset + limit, 70))
+                ]
+                return FakeResponse({"jobPostings": rows, "total": 70})
+
+        first_session = FakeSession()
+        first_links, first_error, _status, first_meta = asyncio.run(
+            scraper._collect_workday_links_async(
+                first_session,
+                "https://tenant.wd5.myworkdayjobs.com/site",
+                per_source_limit=8,
+                known_ids=set(),
+                max_pages=10,
+                seen_streak_stop=8,
+                max_items=40,
+            )
+        )
+        self.assertEqual(first_error, "")
+        self.assertEqual(len(first_links), 40)
+        self.assertEqual(first_meta["stop_reason"], "max_items")
+        self.assertEqual(first_meta["resume_offset"], 40)
+
+        known = {
+            scraper._discovery_identity(row)
+            for row in first_links
+        }
+        second_session = FakeSession()
+        second_links, second_error, _status, second_meta = asyncio.run(
+            scraper._collect_workday_links_async(
+                second_session,
+                "https://tenant.wd5.myworkdayjobs.com/site",
+                per_source_limit=8,
+                known_ids=known,
+                max_pages=10,
+                seen_streak_stop=8,
+                max_items=40,
+                start_offset=first_meta["resume_offset"],
+            )
+        )
+        self.assertEqual(second_error, "")
+        self.assertEqual(second_session.offsets, [40, 60])
+        self.assertEqual(len(second_links), 30)
+        self.assertEqual(second_links[0]["ats_reference"], "REQ-41")
+        self.assertEqual(second_links[-1]["ats_reference"], "REQ-70")
+        self.assertEqual(second_meta["stop_reason"], "end")
+        self.assertEqual(second_meta["resume_offset"], 0)
 
     def test_workday_seen_streak_stops_before_later_pages(self):
         class FakeResponse:
@@ -560,7 +639,7 @@ class JobsCoreTests(unittest.TestCase):
 
         known = {f"workday:req-{index}" for index in range(1, 9)}
         session = FakeSession()
-        links, error, status = asyncio.run(
+        links, error, status, meta = asyncio.run(
             scraper._collect_workday_links_async(
                 session,
                 "https://tenant.wd5.myworkdayjobs.com/site",
@@ -576,6 +655,8 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertEqual(links, [])
         self.assertEqual(session.calls, 1)
+        self.assertEqual(meta["stop_reason"], "seen_streak")
+        self.assertEqual(meta["resume_offset"], 0)
 
     def test_emploi_public_parser_keeps_only_competition_details(self):
         html = """
