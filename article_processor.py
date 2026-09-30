@@ -152,9 +152,27 @@ def resolve_identity_pending_articles(target_article_id=None):
         checked += 1
         article["identity_pending_last_checked_at"] = _now_iso()
 
-        if article.get("job_document_links"):
+        document_urls = [
+            str(item.get("url") or "").strip()
+            for item in (article.get("job_document_links") or [])
+            if isinstance(item, dict) and str(item.get("url") or "").strip()
+        ]
+        document_fingerprint = "|".join(sorted(set(document_urls)))
+        previous_fingerprint = str(
+            article.get("identity_pending_document_fingerprint") or ""
+        )
+        should_extract_documents = bool(
+            document_urls
+            and (
+                not article.get("identity_pending_evidence_checked_at")
+                or document_fingerprint != previous_fingerprint
+            )
+        )
+
+        if should_extract_documents:
             try:
                 extract_job_document_texts(article)
+                article["identity_pending_document_fingerprint"] = document_fingerprint
                 article.pop("identity_pending_evidence_error", None)
             except Exception as error:
                 # Identity uncertainty must never be converted into a permanent
@@ -163,11 +181,14 @@ def resolve_identity_pending_articles(target_article_id=None):
                 evidence_errors += 1
 
         article["identity_pending_evidence_checked_at"] = _now_iso()
-        article["identity_pending_evidence_status"] = (
-            "documents_checked"
-            if article.get("job_document_links")
-            else "no_official_documents"
-        )
+        if document_urls:
+            article["identity_pending_evidence_status"] = (
+                "documents_checked_with_text"
+                if article.get("job_document_texts")
+                else "documents_checked_no_text"
+            )
+        else:
+            article["identity_pending_evidence_status"] = "no_official_documents"
 
         decision = classify_identity(article)
         article["job_identity_action"] = decision["action"]
