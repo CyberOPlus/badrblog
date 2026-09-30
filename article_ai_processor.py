@@ -2828,6 +2828,11 @@ def _apply_success(article, data, provider_used):
     article["ai_provider_used"] = provider_used
     article.pop("ai_error", None)
     article.pop("ai_deterministic_fallback", None)
+    if article.get("ai_retry_origin") == "pre_publish_quality":
+        article.pop("publish_status", None)
+        article.pop("publish_error", None)
+        article.pop("publish_blocked_reason", None)
+        article.pop("pre_publish_quality", None)
     article.pop("ai_retry_pending", None)
     article.pop("ai_retry_reason", None)
     article.pop("ai_retry_origin", None)
