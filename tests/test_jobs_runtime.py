@@ -481,6 +481,82 @@ class JobsRuntimeTests(unittest.TestCase):
             ai._jobs_pre_ai_evidence_error(failed_pdf_evidence),
         )
 
+    def test_invalid_application_evidence_never_calls_ai_provider(self):
+        article = {
+            "id": "bad-application-job",
+            "url": "https://company.example/jobs/12345",
+            "source_name": "Official Employer",
+            "status": "selected",
+            "processing_status": "ready_for_ai",
+            "ai_input_package": {
+                "title": "Network Engineer",
+                "url": "https://company.example/jobs/12345",
+                "source_url": "https://company.example/jobs/12345",
+                "job_detail_url": "https://company.example/jobs/12345",
+                "full_article_text": "verified source evidence",
+                "job_notice_type": "vacancy",
+                "job_notice_type_source": "official",
+                "job_application_url": "https://company.example/careers",
+                "job_application_link_kind": "official_job_page",
+                "job_action_links": [],
+            },
+        }
+        queue = {"articles": [article]}
+
+        with (
+            patch.object(ai, "JOBS_MODE", True),
+            patch.object(ai, "load_article_queue", return_value=queue),
+            patch.object(ai, "save_article_queue"),
+            patch.object(ai, "_generate_with_provider_name") as generate,
+            patch.object(ai, "_generate_ai_article") as generate_any,
+        ):
+            result = ai.process_one_selected_article_with_ai(
+                target_article_id="bad-application-job"
+            )
+
+        generate.assert_not_called()
+        generate_any.assert_not_called()
+        self.assertEqual(result["failure_scope"], "article_input")
+        self.assertIn("generic application portal", result["message"])
+
+    def test_global_circuit_reopens_when_earliest_provider_recovers(self):
+        memory = {
+            "avg_time": 0.0,
+            "cooldowns": {},
+            "provider_circuits": {
+                "gemini": {
+                    "until": 1100,
+                    "fingerprint": "gemini-fp",
+                    "category": "quota",
+                },
+                "groq": {
+                    "until": 1500,
+                    "fingerprint": "groq-fp",
+                    "category": "outage",
+                },
+            },
+            "global_circuit": {},
+            "failure_fingerprints": {},
+            "fastest_success_model": "",
+            "stats": {},
+        }
+        with (
+            patch.object(ai, "_AI_MEMORY_CACHE", memory),
+            patch.object(ai.time, "time", return_value=1000),
+            patch.object(
+                ai,
+                "_record_failure_fingerprint",
+                return_value=("global-fp", "outage", 5000),
+            ),
+        ):
+            result = ai._open_global_circuit(
+                RuntimeError("HTTP 503 unavailable"),
+                providers=["gemini", "groq"],
+            )
+
+        self.assertEqual(result["until"], 1100)
+        self.assertEqual(memory["global_circuit"]["until"], 1100)
+
     def test_open_global_circuit_does_not_extend_existing_open_circuit(self):
         memory = {
             "avg_time": 0.0,
