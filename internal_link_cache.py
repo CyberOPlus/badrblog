@@ -15,6 +15,7 @@ INTERNAL_LINK_TTL_MINUTES = 60 * 24 * 180
 INTERNAL_LINK_CACHE_LIMIT = 500
 MAX_INSERTED_INTERNAL_LINKS = 3
 MAX_INSERTED_TRUSTED_LINKS = 3
+JOBS_HUB_URL = "https://www.cyberoplus.com/search/label/jobs"
 
 TRUSTED_EXTERNAL_HOSTS = (
     "cisa.gov",
@@ -304,10 +305,52 @@ def _has_prelate(html):
     return "class=\"pRelate\"" in html or "class='pRelate'" in html
 
 
+def insert_jobs_hub_link(html):
+    """Guarantee one contextual internal link to the canonical Jobs label."""
+    html = str(html or "")
+    if JOBS_HUB_URL in html:
+        return html, 0
+
+    soup = BeautifulSoup(html, "html.parser")
+    pattern = re.compile(r"(وظائف|التوظيف|الوظيفة|الترشيح|العمل)")
+    for container in soup.find_all(["p", "li", "td"]):
+        for text_node in container.find_all(string=True):
+            if text_node.find_parent("a"):
+                continue
+            text = str(text_node)
+            match = pattern.search(text)
+            if not match:
+                continue
+            before = text[:match.start()]
+            matched = text[match.start():match.end()]
+            after = text[match.end():]
+            link = soup.new_tag("a", href=JOBS_HUB_URL)
+            link.string = matched
+            replacements = []
+            if before:
+                replacements.append(soup.new_string(before))
+            replacements.append(link)
+            if after:
+                replacements.append(soup.new_string(after))
+            text_node.replace_with(*replacements)
+            return str(soup), 1
+
+    # Rare fallback for notices whose wording contains none of the anchor terms.
+    paragraph = soup.new_tag("p")
+    paragraph.append("للاطلاع على المزيد، راجع ")
+    link = soup.new_tag("a", href=JOBS_HUB_URL)
+    link.string = "قسم الوظائف"
+    paragraph.append(link)
+    paragraph.append(".")
+    soup.append(paragraph)
+    return str(soup), 1
+
+
 def insert_internal_links(html, article, cache_data):
+    html, hub_count = insert_jobs_hub_link(html)
     candidates = select_internal_link_candidates(article, cache_data.get("links", []))
     if not candidates or _has_prelate(html):
-        return html, 0
+        return html, hub_count
     items = []
     for candidate in candidates[:MAX_INSERTED_INTERNAL_LINKS]:
         if _same_url(candidate.get("url"), article.get("blogger_post_url") or article.get("url")):
@@ -317,9 +360,9 @@ def insert_internal_links(html, article, cache_data):
             f"{escape(candidate.get('title') or candidate.get('url') or '')}</a></li>"
         )
     if len(items) < 2:
-        return html, 0
+        return html, hub_count
     block = "\n<div class='pRelate'><b>قد يهمك أيضًا:</b><ul>" + "".join(items) + "</ul></div>"
-    return html.rstrip() + block, len(items)
+    return html.rstrip() + block, hub_count + len(items)
 
 
 def _is_trusted_external(url, source_domain=""):
