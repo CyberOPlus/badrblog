@@ -73,6 +73,7 @@ from config import (
     JOBS_MODE,
 )
 from production_logging import elapsed_ms, html_word_count, log_event
+from job_core import is_application_url_bound_to_job, is_job_specific_url
 from quality_gate import (
     REQUIRED_READER_SECTION,
     REQUIRED_READER_SECTION_WITH_QUESTION,
@@ -470,9 +471,14 @@ def _open_global_circuit(error, providers=None):
         provider=",".join(providers),
         retry_until=base_until,
     )
-    # Global circuit should reopen when the earliest provider can reasonably be
-    # retried; fingerprint backoff is capped by that same recovery horizon.
-    until = max(base_until, min(fingerprint_until, time.time() + 60 * 60))
+    # When provider circuits already exist, reopen the global circuit as soon
+    # as the earliest provider is eligible again. The persisted fingerprint may
+    # live longer for repeated-failure backoff, but must not unnecessarily hide
+    # a provider that has recovered.
+    if provider_untils:
+        until = base_until
+    else:
+        until = max(base_until, min(fingerprint_until, time.time() + 60 * 60))
     memory = _load_ai_memory()
     memory["global_circuit"] = {
         "until": until,
@@ -3132,6 +3138,24 @@ def _jobs_pre_ai_evidence_error(package):
         and notice_type_source in {"official", "verified", "structured", "ats", "source"}
     ):
         return "source/evidence problem: active job notice is missing a verified application resource"
+
+    if application_url:
+        if not is_application_url_bound_to_job(package, application_url):
+            if not is_job_specific_url(application_url):
+                return (
+                    "source/evidence problem: generic application portal is not "
+                    "a verified official channel for this competition"
+                )
+            return "source/evidence problem: job application URL belongs to a different vacancy"
+        if (
+            not is_job_specific_url(application_url)
+            and str(package.get("job_application_link_kind") or "").strip().lower()
+            != "official_application_channel"
+        ):
+            return (
+                "source/evidence problem: generic application portal must be "
+                "classified as official_application_channel"
+            )
 
     evidence_stage = str(package.get("identity_evidence_stage_status") or "").strip().lower()
     try:
