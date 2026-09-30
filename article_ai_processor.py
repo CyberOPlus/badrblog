@@ -857,6 +857,10 @@ AI STRUCTURE AUTHORITY
 LINK RULES
 - Every verified official application/document/detail URL supplied in the package must remain present exactly once.
 - External links must use target="_blank" rel="nofollow noreferrer noopener".
+- Jobs articles must NOT contain automatic/internal promotional links to other site articles, category hubs, or label pages.
+- Do NOT create "قد يهمك", "مقالات ذات صلة", "مواضيع ذات صلة", pRelate, related-posts, recommended-posts, or similar blocks.
+- Do NOT turn ordinary words such as "وظائف", "التوظيف", "الوظيفة", "الترشيح", or "العمل" into internal links.
+- related_posts is intentionally empty in Jobs mode. Do not invent internal recommendations.
 - Never fabricate, shorten, redirect, or duplicate a URL.
 
 SEO / ADSENSE-FRIENDLY EDITORIAL QUALITY
@@ -1152,6 +1156,8 @@ MANDATORY JOB RETRY RULES:
 - Omit any section with no verified facts; do not create "تفاصيل الوظيفة", "المهام", or "الشروط" merely because a template expects them.
 - Include job_application_url exactly once when present.
 - Include EVERY useful job_document_links URL exactly once when present.
+- Do not add any internal related-post/category-hub link, pRelate block, "قد يهمك", "مقالات ذات صلة",
+  or automatic link on ordinary words such as "وظائف", "التوظيف", "الوظيفة", "الترشيح", or "العمل".
 - No <h1>, images, captions, scripts, JSON-LD, CSS/style attributes, iframes, forms,
   corporate history, generic career advice, filler, conclusion, or repeated facts.
 - Do not invent any fact or URL.
