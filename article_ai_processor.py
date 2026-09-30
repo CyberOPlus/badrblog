@@ -2830,6 +2830,8 @@ def _apply_success(article, data, provider_used):
     article.pop("ai_deterministic_fallback", None)
     article.pop("ai_retry_pending", None)
     article.pop("ai_retry_reason", None)
+    article.pop("ai_retry_origin", None)
+    article.pop("ai_retry_provider", None)
 
 
 
@@ -2865,12 +2867,35 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     article = eligible[0]
     package = article["ai_input_package"]
     prompt = _build_prompt(package)
-    last_error = None
     previous_data = None
+
+    if (
+        JOBS_MODE
+        and article.get("ai_retry_origin") == "pre_publish_quality"
+        and str(article.get("ai_retry_reason") or "").strip()
+    ):
+        previous_data = {
+            "title": article.get("seo_title") or "",
+            "description": article.get("seo_description") or "",
+            "slug": article.get("seo_slug") or "",
+            "html_content": article.get("final_html") or "",
+            "notice_type": article.get("job_notice_type") or "",
+            "facebook_post_text": article.get("facebook_post_text") or "",
+        }
+        prompt = _build_expansion_retry_prompt(
+            package,
+            previous_data,
+            str(article.get("ai_retry_reason") or ""),
+        )
+
+    last_error = None
     provider_sequence = _attempt_provider_sequence()
     failed_provider_names = set()
     quality_retry_counts = {}
     forced_next_provider = ""
+    preferred_repair_provider = str(article.get("ai_retry_provider") or "").strip().lower()
+    if JOBS_MODE and preferred_repair_provider:
+        forced_next_provider = preferred_repair_provider
     excess_english_retry_used = False
     context = AIExecutionContext(article_id=article.get("id") or article.get("url") or "")
     context.skipped_slow_models_count = _skipped_slow_models_count()
