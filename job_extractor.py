@@ -452,7 +452,14 @@ def _extract_job_action_links(soup, page_url, full_text=""):
     # contextual text ("Site de dépôt: ...") instead of a clickable anchor.
     # Capture only URLs immediately tied to an explicit application-channel label;
     # never promote arbitrary URLs found elsewhere in the page text.
-    text_source = _text(full_text) if full_text else _text(soup.get_text(" ", strip=True))
+    text_source = " ".join(
+        part
+        for part in (
+            _text(full_text),
+            _text(soup.get_text(" ", strip=True)),
+        )
+        if part
+    ).strip()
     for match in APPLICATION_CHANNEL_TEXT_RE.finditer(text_source):
         channel_url = str(match.group(1) or "").strip().rstrip(".,;:،؛)]}>\"'")
         if channel_url.casefold().startswith("www."):
