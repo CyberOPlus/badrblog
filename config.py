@@ -226,9 +226,12 @@ JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE = max(
     JOBS_DISCOVERY_PAGE_SIZE,
     min(500, _env_int("JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE", 250)),
 )
+# Keep a deep durable per-source discovery memory. Large official portals can
+# expose hundreds or thousands of active vacancies; forgetting IDs too quickly
+# makes later cycles waste time rediscovering old listing rows.
 JOBS_DISCOVERY_SEEN_MEMORY = max(
     JOBS_DISCOVERY_SEEN_STREAK * 4,
-    min(5000, _env_int("JOBS_DISCOVERY_SEEN_MEMORY", 1200)),
+    min(20000, _env_int("JOBS_DISCOVERY_SEEN_MEMORY", 5000)),
 )
 
 # Facebook Page auto-posting is disabled by default and only runs after a
