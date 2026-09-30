@@ -10,7 +10,7 @@ on:
     # Check throughout the year, away from the busiest minute 00.
     # Facebook's Africa/Casablanca slots and Blogger caps decide delivery.
     # Professional SEO Jobs HTML prompt activated and production trigger refreshed on 2026-09-29.
-    - cron: "7,22,37,52 * * * *"
+    - cron: "1,7,13,19,25,31,37,43,49,55 * * * *"
 
 concurrency:
   group: auto-cycle-${{ github.ref }}
@@ -144,11 +144,11 @@ jobs:
               "JOBS_URGENT_EXTRA_DAILY_LIMIT": "1",
               "JOBS_FACEBOOK_MIN_SCORE": "75",
               "JOBS_ADAPTIVE_PUBLISHING": "true",
-              "JOBS_ADAPTIVE_MIN_DAILY_CAP": "24",
-              "JOBS_ADAPTIVE_MAX_DAILY_CAP": "32",
+              "JOBS_ADAPTIVE_MIN_DAILY_CAP": "240",
+              "JOBS_ADAPTIVE_MAX_DAILY_CAP": "240",
               "JOBS_ACTIVE_START_HOUR": "0",
               "JOBS_ACTIVE_END_HOUR": "24",
-              "JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "45",
+              "JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "5",
               "WHATSAPP_CHANNEL_URL": "https://whatsapp.com/channel/0029Vb7MdMfBVJl1kmmV4T0e",
               "GEMINI_API_KEY": os.environ.get("GEMINI_API_KEY", ""),
               "GEMINI_MODEL": "gemini-2.5-flash",
@@ -210,8 +210,8 @@ jobs:
               "ENABLE_SCRAPLING_FALLBACK": "false",
               "MAX_DRAFTS_PER_DAY": "3",
               "MIN_MINUTES_BETWEEN_DRAFTS": "0",
-              "MAX_LIVE_POSTS_PER_DAY": "3",
-              "TARGET_LIVE_POSTS_PER_DAY": "3",
+              "MAX_LIVE_POSTS_PER_DAY": "240",
+              "TARGET_LIVE_POSTS_PER_DAY": "240",
               "MIN_MINUTES_BETWEEN_LIVE_POSTS": "0",
               "MAX_FACEBOOK_POSTS_PER_DAY": "2",
               "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": "0",
