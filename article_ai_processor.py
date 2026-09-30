@@ -516,7 +516,8 @@ def _is_rich_input_package(package):
 
 def _minimum_article_words_for_package(package):
     if JOBS_MODE:
-        return 100
+        # Jobs quality is evidence-completeness driven, not word-count driven.
+        return 0
     return LONG_FORM_ARTICLE_MIN_WORDS if _is_rich_input_package(package) else MIN_PUBLISHABLE_WORDS
 
 
@@ -639,13 +640,21 @@ STRICT ACCURACY
 
 LENGTH AND STYLE
 - This is a complete JOB ARTICLE, not a social caption, teaser, database row, or keyword-stuffed landing page.
-- Source richness is {"rich" if source_is_rich else "thin"}.
-- If the verified source package is rich, aim for 260-320 Arabic words of useful explanatory content
-  while preserving every verified fact, requirement, duty, official file, and application resource.
-- If the source package is thin, normally use 160-240 Arabic words, or less when the source genuinely
-  contains fewer facts. NEVER invent, speculate, repeat, or pad merely to reach a word target.
-- Multi-specialization campaigns or notices with several official documents may be longer when needed
-  to preserve all verified rows and links; completeness is more important than a fixed word count.
+- DO NOT target a word count. There is no preferred minimum, maximum, or SEO word-count range for Jobs articles.
+- Let the verified evidence determine the length. A notice with only a few useful facts may be short.
+  A university/public competition with many specialties, positions, tests, conditions, required documents,
+  dates, tables, and official PDF evidence may be much longer.
+- Completeness has priority over brevity: include every useful, actionable, verified fact a candidate needs
+  to understand this exact notice without forcing the reader to reconstruct information from the source.
+- Do not summarize away meaningful distinctions in source_tables or job_document_texts. Preserve useful
+  role/specialty breakdowns, position counts, eligibility conditions, tests, durations/coefficients,
+  required application documents, dates, deadlines, and official application/document resources when verified.
+- Each fact should normally appear once in the clearest place. Prefer a table for structured comparisons,
+  a short list for requirements/documents, and concise prose only when prose adds clarity.
+- Do not inflate a short notice with generic explanations. Do not compress a rich notice merely to keep
+  the article short. Never invent, speculate, repeat, pad, or keyword-stuff.
+- Preserve materially important legal/eligibility conditions when they affect who may apply or how the
+  competition works; omit only genuinely irrelevant navigation, promotional, or repeated boilerplate.
 - Prefer verified facts over promotional language. Never add generic praise such as
   "الشركة الرائدة", "الشركة المرموقة", "فرصة مميزة", "فرصة رائعة",
   "أحدث معايير", "حماية قصوى", "مهام حيوية", "تحديات مثيرة", or similar
@@ -654,7 +663,6 @@ LENGTH AND STYLE
 - No filler, generic career advice, profession explanations, corporate history,
   motivational language, clickbait, emojis, or generic conclusion.
 - Do not write phrases such as "في هذا المقال سنتعرف" or "تابع القراءة".
-
 TITLE — AI EDITORIAL DECISION
 - YOU are the headline editor. Do not build the headline from a fixed template and do not merely copy or mechanically shorten the raw source title.
 - First understand exactly what this page is: a new vacancy, public recruitment competition, candidate/invited list, written/oral stage, provisional list, results, final results, admission competition, registration notice, or an update to an older campaign.
@@ -1097,10 +1105,12 @@ The previous compact job listing failed this quality rule:
 Rewrite ONLY as a complete, professional, verified job article.
 
 MANDATORY JOB RETRY RULES:
-- If the source package is rich, aim for 260-320 Arabic words of useful factual content.
-- If the source package is thin, normally use 160-240 Arabic words or less when facts are limited.
-- Never invent, repeat, speculate, or add boilerplate to reach a word count.
-- Preserve every useful verified fact, duty, requirement, deadline, official document, and application resource.
+- Do NOT aim for any word count and do NOT shorten or expand merely to hit a range.
+- Let the verified evidence determine the final length: short when facts are few, longer when the notice is rich.
+- Preserve every useful verified fact, duty, requirement, role/specialty breakdown, position count, deadline,
+  exam/test detail, eligibility condition, required application document, official document, and application resource.
+- Do not summarize away meaningful rows from source_tables or useful facts from job_document_texts.
+- Never invent, repeat, speculate, pad, or add boilerplate.
 - Re-evaluate ALL evidence, including source_tables and job_document_texts, and return the correct notice_type:
   vacancy, competition, candidate_list, results, final_results, or update. The incoming job_notice_type is only a hint.
 - Re-edit the title as a human Moroccan employment/competition editor: understand the current page type and stage first, then choose the clearest natural headline.
