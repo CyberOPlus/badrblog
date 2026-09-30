@@ -7,10 +7,6 @@ on:
     # internal 5-minute pacing still prevents bursts.
     - cron: "1,7,13,19,25,31,37,43,49,55 * * * *"
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - ".github/workflows/auto-cycle.yml"
 
 concurrency:
   group: auto-cycle-${{ github.ref }}
@@ -63,15 +59,6 @@ jobs:
             tests.test_jobs_runtime.JobsRuntimeTests.test_ai_retry_backoff_preflight_makes_no_provider_call \
             tests.test_jobs_runtime.JobsRuntimeTests.test_document_render_retry_updates_same_blogger_post_without_ai \
             tests.test_jobs_runtime.JobsRuntimeTests.test_pending_facebook_runs_even_when_article_ai_fails \
-            -q
-
-      - name: Verify one-shot Blogger smoke
-        if: github.event_name == 'push'
-        run: |
-          python -m py_compile main.py article_ai_processor.py article_draft_publisher.py quality_gate.py verified_fact_manifest.py
-          python -m unittest \
-            tests.test_jobs_runtime.JobsRuntimeTests.test_verified_fact_manifest_marks_only_explicit_supported_facts_high \
-            tests.test_jobs_runtime.JobsRuntimeTests.test_model_capacity_failure_rotates_provider_instead_of_backing_off_article \
             -q
 
       - name: Create runtime secrets and Jobs env
@@ -232,7 +219,7 @@ jobs:
               "JOBS_AI_QUALITY_REPAIRS": "1",
               "JOBS_AI_TIMEOUT_RETRIES": "0",
               "JOBS_AI_CROSS_CANDIDATE_RETRIES": "1",
-              "JOBS_ONE_SHOT_FORCE_RUN": "true" if os.environ.get("GITHUB_EVENT_NAME") == "push" else "false",
+              "JOBS_ONE_SHOT_FORCE_RUN": "false",
               "DUPLICATE_PROTECTION": "true",
               "QUEUE_PERSIST": "true",
               "SOURCE_HEALTH_ENABLED": "true",
