@@ -32,6 +32,9 @@ jobs:
           ref: main
           fetch-depth: 1
 
+      - name: Capture Jobs run base
+        run: echo "JOBS_RUN_BASE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
@@ -350,7 +353,11 @@ jobs:
             # only runtime files, then create a fresh state commit.
             PERSIST_PATHS=("${STATE_PATHS[@]}" "logs/auto_cycle_runs.jsonl")
             SNAPSHOT_DIR="$(mktemp -d)"
-            RUN_BASE_SHA="${GITHUB_SHA}"
+            RUN_BASE_SHA="${JOBS_RUN_BASE_SHA:-}"
+            if [ -z "$RUN_BASE_SHA" ] || ! git cat-file -e "$RUN_BASE_SHA^{commit}" 2>/dev/null; then
+              echo "::warning::Captured Jobs run base is unavailable; runtime recovery will use conservative merge/remote precedence."
+              RUN_BASE_SHA=""
+            fi
 
             snapshot_runtime() {
               rm -rf "$SNAPSHOT_DIR"
@@ -363,30 +370,90 @@ jobs:
               done
             }
 
-            prefer_jobs_queue_snapshot() {
+            merge_jobs_queue_snapshot() {
               python - "$SNAPSHOT_DIR/jobs_article_queue.json" "jobs_article_queue.json" <<'PY'
           import json
+          import os
           import sys
+          from pathlib import Path
 
-          def article_count(path):
+          snapshot_path = Path(sys.argv[1])
+          remote_path = Path(sys.argv[2])
+
+          def load_queue(path):
               try:
-                  with open(path, "r", encoding="utf-8-sig") as handle:
+                  with path.open("r", encoding="utf-8-sig") as handle:
                       data = json.load(handle)
               except Exception:
                   return None
-              articles = data.get("articles") if isinstance(data, dict) else None
-              return len(articles) if isinstance(articles, list) else None
+              if not isinstance(data, dict) or not isinstance(data.get("articles"), list):
+                  return None
+              return data
 
-          snapshot_count = article_count(sys.argv[1])
-          remote_count = article_count(sys.argv[2])
-          # A valid non-empty runner snapshot is stronger than a remote queue that is
-          # missing/corrupt/empty. If both are valid and non-empty, keep newer remote.
-          raise SystemExit(
-              0
-              if snapshot_count is not None
-              and snapshot_count > 0
-              and (remote_count is None or remote_count == 0)
-              else 1
+          def article_key(article):
+              if not isinstance(article, dict):
+                  return ""
+              for field in ("id", "url", "canonical_url", "original_url"):
+                  value = str(article.get(field) or "").strip()
+                  if value:
+                      return f"{field}:{value}"
+              return ""
+
+          snapshot = load_queue(snapshot_path)
+          remote = load_queue(remote_path)
+
+          if snapshot is None:
+              print("Runner Jobs queue snapshot is invalid; keeping remote queue.")
+              raise SystemExit(2)
+
+          if remote is None:
+              remote = {"articles": [], "notifications": {}}
+
+          merged = dict(snapshot)
+          merged.update(remote)
+
+          remote_articles = list(remote.get("articles") or [])
+          index = {}
+          for position, article in enumerate(remote_articles):
+              key = article_key(article)
+              if key:
+                  index[key] = position
+
+          added = 0
+          for article in snapshot.get("articles") or []:
+              key = article_key(article)
+              if not key or key in index:
+                  continue
+              index[key] = len(remote_articles)
+              remote_articles.append(article)
+              added += 1
+
+          snapshot_notifications = snapshot.get("notifications")
+          remote_notifications = remote.get("notifications")
+          notifications = {}
+          if isinstance(snapshot_notifications, dict):
+              notifications.update(snapshot_notifications)
+          if isinstance(remote_notifications, dict):
+              notifications.update(remote_notifications)
+
+          merged["articles"] = remote_articles
+          merged["notifications"] = notifications
+          merged["updated_at"] = max(
+              str(snapshot.get("updated_at") or ""),
+              str(remote.get("updated_at") or ""),
+          )
+
+          remote_path.parent.mkdir(parents=True, exist_ok=True)
+          temp_path = remote_path.with_suffix(remote_path.suffix + ".merge.tmp")
+          temp_path.write_text(
+              json.dumps(merged, ensure_ascii=False, indent=2) + "\n",
+              encoding="utf-8",
+          )
+          os.replace(temp_path, remote_path)
+          print(
+              f"Merged Jobs queue: remote={len(remote.get('articles') or [])}, "
+              f"snapshot={len(snapshot.get('articles') or [])}, "
+              f"added_snapshot_only={added}, merged={len(remote_articles)}"
           )
           PY
             }
@@ -398,16 +465,31 @@ jobs:
                 fi
 
                 # If this state path changed upstream after the run started,
-                # the newer remote state wins. Never overwrite a deliberate
-                # recovery/manual fix (or another completed production run)
-                # with an older snapshot from this runner.
+                # keep newer remote state. The Jobs queue is the exception:
+                # merge both sides so overlapping production runs cannot lose
+                # distinct vacancies discovered by either runner.
+                if [ -z "$RUN_BASE_SHA" ]; then
+                  if [ "$state_path" = "jobs_article_queue.json" ]; then
+                    echo "Run base unavailable; conservatively merging Jobs queues."
+                    if ! merge_jobs_queue_snapshot; then
+                      echo "::warning::Jobs queue merge failed; keeping remote queue."
+                    fi
+                  else
+                    echo "Run base unavailable; keeping remote runtime state: $state_path"
+                  fi
+                  continue
+                fi
+
                 if ! git diff --quiet "$RUN_BASE_SHA" origin/main -- "$state_path"; then
-                  if [ "$state_path" = "jobs_article_queue.json" ] && prefer_jobs_queue_snapshot; then
-                    echo "Remote Jobs queue is empty/invalid; restoring valid non-empty runner snapshot."
+                  if [ "$state_path" = "jobs_article_queue.json" ]; then
+                    echo "Jobs queue changed upstream; merging remote and runner snapshot."
+                    if ! merge_jobs_queue_snapshot; then
+                      echo "::warning::Jobs queue merge failed; keeping remote queue."
+                    fi
                   else
                     echo "Keeping newer remote runtime state: $state_path"
-                    continue
                   fi
+                  continue
                 fi
 
                 mkdir -p "$(dirname "$state_path")"
