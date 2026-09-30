@@ -43,6 +43,17 @@ GENERIC_JOB_PATHS = {
 GOOD_ELIGIBILITY = {"morocco", "remote_morocco", "abroad_open", "visa_confirmed"}
 TOP_SOURCE_PRIORITIES = {"s+", "s", "a+"}
 
+# A generic application portal is never enough on its own. For public recruitment
+# competitions it can be accepted only when the specific official notice itself
+# exposes that exact channel as an application action.
+PUBLIC_APPLICATION_HOSTS = {
+    "emploi-public.ma",
+}
+PUBLIC_APPLICATION_HOST_SUFFIXES = (
+    ".gov.ma",
+    ".ac.ma",
+)
+
 # Latest agreed Morocco publishing experiment. Blogger publishes verified jobs
 # immediately until the daily cap. Facebook uses these local slots.
 WEEKDAY_BLOGGER_CAP = {
@@ -235,11 +246,82 @@ def is_foreign_job_detail_url(article, url):
     return bool(candidate_ref and source_ref and candidate_ref != source_ref)
 
 
+def _url_host(url):
+    try:
+        host = urlparse(canonicalize_job_url(url)).netloc.casefold()
+    except Exception:
+        return ""
+    return host[4:] if host.startswith("www.") else host
+
+
+def _is_public_application_host(host):
+    host = str(host or "").casefold().strip(".")
+    if not host:
+        return False
+    return (
+        host in PUBLIC_APPLICATION_HOSTS
+        or any(host.endswith(suffix) for suffix in PUBLIC_APPLICATION_HOST_SUFFIXES)
+    )
+
+
+def _application_action_exposes_url(article, candidate):
+    candidate = canonicalize_job_url(candidate)
+    if not candidate:
+        return False
+    for row in (article.get("job_action_links") or []):
+        if not isinstance(row, dict) or str(row.get("kind") or "").strip().lower() != "apply":
+            continue
+        row_url = canonicalize_job_url(row.get("url"))
+        if row_url and row_url == candidate:
+            return True
+    return False
+
+
+def is_verified_official_application_channel(article, url):
+    """
+    Allow a non-job-specific application portal only for a verified public
+    recruitment competition whose specific official notice exposes that exact
+    portal as the application action.
+    """
+    candidate = canonicalize_job_url(url)
+    if not candidate or not _public_http(candidate) or is_job_specific_url(candidate):
+        return False
+
+    notice_type = str(article.get("job_notice_type") or "").strip().lower()
+    if notice_type != "competition":
+        return False
+    if not bool(article.get("official_source") or article.get("job_official_source")):
+        return False
+
+    detail_url = canonicalize_job_url(
+        article.get("job_detail_url")
+        or article.get("canonical_url")
+        or article.get("url")
+        or article.get("source_url")
+    )
+    if not detail_url or not is_job_specific_url(detail_url):
+        return False
+    if not _application_action_exposes_url(article, candidate):
+        return False
+
+    candidate_host = _url_host(candidate)
+    detail_host = _url_host(detail_url)
+    if not candidate_host or not detail_host:
+        return False
+
+    # Same-host application channels are allowed because the specific official
+    # competition page explicitly points to them. Cross-domain channels must
+    # themselves be a recognized Moroccan public/academic host.
+    return candidate_host == detail_host or _is_public_application_host(candidate_host)
+
+
 def is_application_url_bound_to_job(article, url):
     candidate = canonicalize_job_url(url)
-    if not candidate or not _public_http(candidate) or not is_job_specific_url(candidate):
+    if not candidate or not _public_http(candidate):
         return False
-    return not is_foreign_job_detail_url(article, candidate)
+    if is_job_specific_url(candidate):
+        return not is_foreign_job_detail_url(article, candidate)
+    return is_verified_official_application_channel(article, candidate)
 
 
 def _core_key(article):
