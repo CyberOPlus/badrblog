@@ -995,7 +995,7 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertFalse(result["completed"])
         self.assertEqual(process.call_count, 2)
         self.assertEqual(lock.call_count, 2)
-        self.assertEqual(result["failures"], 2)
+        self.assertEqual(result["failed_count"], 2)
 
     def test_global_ai_outage_stops_cross_candidate_retry(self):
         failed = {
