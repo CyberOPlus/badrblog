@@ -1507,10 +1507,12 @@ def print_facebook_status(status):
     print(f"Page ID configured:                 {'yes' if status['page_id_configured'] else 'no'}")
     print(f"Page access token configured:       {'yes' if status['token_configured'] else 'no'}")
     print(f"Published articles without Facebook:{status['published_without_facebook']}")
+    print(f"Facebook pending queue:             {status.get('facebook_pending_count', 0)}")
+    print(f"Expired from social queue only:     {status.get('facebook_expired_count', 0)}")
     print(f"Articles already posted to Facebook:{status['posted_to_facebook']}")
     latest = status.get("latest_eligible")
     if latest:
-        print(f"Latest eligible title:              {latest.get('title', '')}")
+        print(f"Next Facebook queue title:          {latest.get('title', '')}")
         print(f"Blogger URL:                        {latest.get('blogger_post_url', '')}")
     print("=" * 60)
 
