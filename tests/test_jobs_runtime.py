@@ -284,7 +284,8 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(stats["released_logo_waits"], 1)
         self.assertFalse(article.get("archived", False))
         self.assertEqual(article["publish_status"], "visual_optional_ready")
-        self.assertEqual(article["status"], "ready")
+        self.assertEqual(article["status"], "selected")
+        self.assertTrue(article["visual_content_reuse_required"])
         self.assertEqual(
             article["job_article_cover_status"],
             "skipped_missing_verified_logo",
@@ -1983,11 +1984,12 @@ class JobsRuntimeTests(unittest.TestCase):
             patch.object(draft, "is_local_publisher", return_value=False),
             patch.object(draft, "_ensure_jobs_target_blog"),
             patch.object(draft, "_apply_jobposting_schema"),
+            patch.object(draft, "archive_published_queue_article", return_value=True),
         ):
             stats = draft.retry_pending_job_document_renders(max_articles=1)
 
         self.assertEqual(stats["checked"], 1)
-        self.assertEqual(stats["rendered"], 1)
+        self.assertEqual(stats["document_rendered"], 1)
         self.assertEqual(stats["synced"], 1)
         posts.get.assert_called_once_with(blogId=draft.BLOG_ID, postId="post-123")
         self.assertEqual(posts.update.call_args.kwargs["postId"], "post-123")
