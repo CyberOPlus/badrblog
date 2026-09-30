@@ -42,6 +42,38 @@ def sample_job(**overrides):
 
 
 class JobsCoreTests(unittest.TestCase):
+    def test_emploi_public_labelled_dates_are_read_from_full_page_not_body_only(self):
+        html = """
+        <html><body>
+          <main>
+            <h1>مباراة لتوظيف مهندس دولة من الدرجة الأولى</h1>
+            <section>
+              <h3>آخر أجل لإيداع الترشيحات</h3><p>27 شتنبر 2026</p>
+              <h3>تاريخ إجراء المباراة</h3><p>10 أكتوبر 2026</p>
+              <h3>تاريخ النشر</h3><p>7 شتنبر 2026</p>
+            </section>
+          </main>
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        article = sample_job(
+            title="مباراة لتوظيف مهندس دولة من الدرجة الأولى",
+            job_deadline="",
+            job_published_at="",
+            source_published_at="",
+            ats_provider="emploi_public",
+        )
+        fields = job_extractor.extract_job_fields(
+            soup,
+            article,
+            "https://www.emploi-public.ma/ar/details/job-id",
+            full_text="وصف مختصر للمباراة بدون تواريخ.",
+        )
+        self.assertEqual(fields["job_deadline"], "2026-09-27")
+        self.assertEqual(fields["job_exam_date"], "2026-10-10")
+        self.assertEqual(fields["job_published_at"], "2026-09-07")
+        self.assertEqual(fields["job_published_at_display"], "7 شتنبر 2026")
+
     def test_job_specific_application_url_rejects_generic_search_and_careers(self):
         self.assertFalse(job_core.is_job_specific_url("https://company.example/jobs"))
         self.assertFalse(job_core.is_job_specific_url("https://company.example/jobs?search=security"))
@@ -460,6 +492,88 @@ class JobsCoreTests(unittest.TestCase):
         )
         self.assertEqual(meta["stop_reason"], "seen_streak")
         self.assertEqual(meta["seen_streak"], 8)
+
+    def test_inwi_parser_keeps_only_real_job_details(self):
+        html = """
+        <html><body>
+          <div class="job-card">
+            <a href="/jobs/8479198-responsable-experience-client">
+              Responsable Expérience Client
+            </a>
+          </div>
+          <a href="/jobs/show_more?page=2">Afficher 20 de plus</a>
+          <a href="/jobs">Offres d'emploi</a>
+          <a href="/locations/casablanca">Casablanca</a>
+        </body></html>
+        """
+        links = scraper._parse_inwi_job_links(
+            html,
+            "https://jobs.inwi.ma/jobs",
+            per_source_limit=20,
+        )
+        self.assertEqual(len(links), 1)
+        self.assertEqual(
+            links[0]["url"],
+            "https://jobs.inwi.ma/jobs/8479198-responsable-experience-client",
+        )
+        self.assertEqual(links[0]["ats_provider"], "teamtailor")
+        self.assertEqual(links[0]["ats_reference"], "8479198")
+
+    def test_inwi_load_more_is_pagination_not_a_job(self):
+        html = """
+        <html><body>
+          <a href="/jobs/8479198-responsable-experience-client">Role</a>
+          <a href="/jobs/show_more?page=2">Afficher 20 de plus</a>
+        </body></html>
+        """
+        self.assertEqual(
+            scraper._pagination_next_url(html, "https://jobs.inwi.ma/jobs"),
+            "https://jobs.inwi.ma/jobs/show_more?page=2",
+        )
+        links = scraper._parse_inwi_job_links(
+            html,
+            "https://jobs.inwi.ma/jobs",
+            per_source_limit=20,
+        )
+        self.assertNotIn(
+            "https://jobs.inwi.ma/jobs/show_more?page=2",
+            [row["url"] for row in links],
+        )
+
+    def test_credit_du_maroc_parser_rejects_navigation_and_captures_listing_facts(self):
+        html = """
+        <html><body>
+          <div class="offer">
+            <h3>
+              <a href="/offre-de-emploi/emploi-conseiller-clientele-particuliers-polyvalent-h-f_3331.aspx">
+                Conseiller Clientèle Particuliers Polyvalent H/F
+              </a>
+            </h3>
+            <span>Réf. : 2026-3331</span>
+            <span>29/09/2026</span>
+          </div>
+          <a href="/my-account/log-in.aspx">Connexion</a>
+          <a href="/mon-compte/retrouver-mon-mot-de-passe.aspx">Mot de passe perdu</a>
+          <a href="/offre-de-emploi/tous-les-flux-rss.aspx">Flux RSS</a>
+          <a href="/mention-legale.aspx">Mentions légales</a>
+          <a href="/offre-de-emploi/liste-toutes-offres.aspx">Nos offres d'emploi</a>
+          <a href="/offre-de-emploi/ma-selection-offres.aspx">Ma sélection d'offres</a>
+        </body></html>
+        """
+        links = scraper._parse_credit_du_maroc_job_links(
+            html,
+            "https://carriere.creditdumaroc.ma/offre-de-emploi/liste-offres.aspx?showSearchUrl=1",
+            per_source_limit=20,
+        )
+        self.assertEqual(len(links), 1)
+        self.assertEqual(links[0]["ats_reference"], "2026-3331")
+        self.assertEqual(links[0]["source_published_at"], "2026-09-29T00:00:00Z")
+        self.assertEqual(links[0]["published_at_source"], "official_listing")
+        self.assertTrue(
+            links[0]["url"].endswith(
+                "/offre-de-emploi/emploi-conseiller-clientele-particuliers-polyvalent-h-f_3331.aspx"
+            )
+        )
 
     def test_html_pagination_follows_only_real_next_link(self):
         first = """
