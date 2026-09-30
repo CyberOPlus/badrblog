@@ -212,6 +212,10 @@ SOURCE_HEALTH_ENABLED = _env_bool_any(["SOURCE_HEALTH_ENABLED"], True)
 SOURCE_FAILURE_COOLDOWN_MINUTES = _env_int("SOURCE_FAILURE_COOLDOWN_MINUTES", 45)
 SOURCE_FAILURE_THRESHOLD = _env_int("SOURCE_FAILURE_THRESHOLD", 3)
 SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES = _env_int("SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES", 15)
+JOBS_ENRICH_MAX_TARGETS_PER_CYCLE = max(
+    1,
+    min(50, _env_int("JOBS_ENRICH_MAX_TARGETS_PER_CYCLE", 12)),
+)
 
 # Jobs discovery pagination. fetch_limit_per_run remains a compatibility/page-size
 # hint; it is no longer the total number of vacancies a source may expose.
