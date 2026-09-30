@@ -147,6 +147,26 @@ def _jobs_one_shot_force_run():
     )
 
 
+def _jobs_one_shot_candidate_articles(articles, attempted_ids=None):
+    attempted_ids = {item for item in (attempted_ids or set()) if item}
+    candidates = [
+        article
+        for article in (articles or [])
+        if (article.get("id") or article.get("url")) not in attempted_ids
+        and not article.get("blogger_post_id")
+        and str(article.get("publish_status") or "").strip().lower() != "published"
+    ]
+    with_documents = [
+        article
+        for article in candidates
+        if any(
+            isinstance(item, dict) and str(item.get("url") or "").strip()
+            for item in (article.get("job_document_links") or [])
+        )
+    ]
+    return with_documents or candidates
+
+
 PROBLEM_SOURCE_NAMES = {
     "SANS ISC",
     "AI Trends",
@@ -2116,20 +2136,32 @@ def _select_retry_candidate(fetch_stats, attempted_ids):
     if JOBS_MODE:
         resolve_identity_pending_articles()
         queue = load_article_queue()
-        candidates = {"articles": [
+        candidate_articles = [
             article for article in queue.get("articles", [])
             if (article.get("id") or article.get("url")) not in attempted_ids
-        ]}
+        ]
+        if _jobs_one_shot_force_run():
+            candidate_articles = _jobs_one_shot_candidate_articles(
+                queue.get("articles", []),
+                attempted_ids=attempted_ids,
+            )
+        candidates = {"articles": candidate_articles}
         selected = select_best_job_from_queue(candidates)
         save_article_queue(queue)
         if not selected:
             pending_stats = resolve_identity_pending_articles()
             if pending_stats.get("resolved_ready"):
                 queue = load_article_queue()
-                candidates = {"articles": [
+                candidate_articles = [
                     article for article in queue.get("articles", [])
                     if (article.get("id") or article.get("url")) not in attempted_ids
-                ]}
+                ]
+                if _jobs_one_shot_force_run():
+                    candidate_articles = _jobs_one_shot_candidate_articles(
+                        queue.get("articles", []),
+                        attempted_ids=attempted_ids,
+                    )
+                candidates = {"articles": candidate_articles}
                 selected = select_best_job_from_queue(candidates)
                 save_article_queue(queue)
         if selected:
@@ -2771,7 +2803,14 @@ def run_safe_cycle_only():
     plan_result = {}
     if JOBS_MODE:
         queue = load_article_queue()
-        selected = select_best_job_from_queue(queue)
+        selection_queue = queue
+        if _jobs_one_shot_force_run():
+            selection_queue = {
+                "articles": _jobs_one_shot_candidate_articles(
+                    queue.get("articles", [])
+                )
+            }
+        selected = select_best_job_from_queue(selection_queue)
         save_article_queue(queue)
 
         # A first identity pass can discover a brand-new ambiguous candidate.
@@ -2784,7 +2823,14 @@ def run_safe_cycle_only():
                     identity_stats[key] = int(identity_stats.get(key) or 0) + value
             if second_identity_stats.get("resolved_ready"):
                 queue = load_article_queue()
-                selected = select_best_job_from_queue(queue)
+                selection_queue = queue
+                if _jobs_one_shot_force_run():
+                    selection_queue = {
+                        "articles": _jobs_one_shot_candidate_articles(
+                            queue.get("articles", [])
+                        )
+                    }
+                selected = select_best_job_from_queue(selection_queue)
                 save_article_queue(queue)
 
         if selected:
