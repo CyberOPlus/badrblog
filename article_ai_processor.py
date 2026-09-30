@@ -2766,6 +2766,15 @@ def _generate_ai_article(prompt, skip_providers=None, context=None):
         and (not JOBS_MODE or _provider_circuit_remaining(candidate["provider"]) <= 0)
     ]
     if not candidates:
+        if JOBS_MODE:
+            providers = _resolve_providers()
+            _open_global_circuit(
+                AIProviderRotationExhausted("all configured AI providers are unavailable or cooling down"),
+                providers=providers,
+            )
+            raise AIProviderRotationExhausted(
+                "All configured AI providers are unavailable or cooling down."
+            )
         candidates = _provider_candidates(context=context)
     if JOBS_MODE:
         unique_candidates = []
