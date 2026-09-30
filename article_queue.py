@@ -14,6 +14,8 @@ from config import (
     SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
     SOURCES_CONFIG_PATH,
     JOBS_MODE,
+    JOBS_PREFERRED_FRESH_HOURS,
+    JOBS_MAX_JOB_AGE_HOURS,
 )
 from duplicate_utils import canonicalize_url, title_hash, topic_signature
 from production_logging import log_event
@@ -462,7 +464,10 @@ def _fresh_queue_cutoff(now=None, max_age_hours=None):
 
 
 def _source_published_datetime(article):
-    published_at = _parse_iso(article.get("source_published_at"))
+    published_at = _parse_iso(
+        article.get("job_published_at")
+        or article.get("source_published_at")
+    )
     if not published_at:
         return None
     if published_at.tzinfo is None:
@@ -484,12 +489,25 @@ def _fresh_queue_sort_key(article):
 
 def is_article_within_fresh_window(article, now=None, max_age_hours=None):
     if JOBS_MODE:
+        current = now or datetime.now(timezone.utc)
+        if current.tzinfo is None:
+            current = current.replace(tzinfo=timezone.utc)
+        else:
+            current = current.astimezone(timezone.utc)
+
+        published_at = _source_published_datetime(article)
+        if published_at:
+            age_hours = (current - published_at).total_seconds() / 3600.0
+            if age_hours < -2 or age_hours > JOBS_MAX_JOB_AGE_HOURS:
+                return False
+        elif article.get("content_fetch_status") == "success":
+            # Once the detail page was enriched, a missing publication timestamp
+            # means freshness cannot be verified. Never publish an unknown-age Job.
+            return False
+
         deadline = _parse_job_date(article.get("job_deadline"))
-        if deadline:
-            current = now or datetime.now(timezone.utc)
-            if current.tzinfo is None:
-                current = current.replace(tzinfo=timezone.utc)
-            return deadline >= current.astimezone(timezone.utc)
+        if deadline and deadline < current:
+            return False
         return True
     published_at = _source_published_datetime(article)
     if not published_at:
@@ -579,25 +597,33 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
             continue
 
         if JOBS_MODE:
-            # Jobs are not news. A listing can be older than seven days and still
-            # be valid. Only active vacancy/competition notices expire when their
-            # verified application deadline passes. Candidate lists, results and
-            # updates may legitimately be published after the original deadline.
+            current = now or datetime.now(timezone.utc)
+            if current.tzinfo is None:
+                current = current.replace(tzinfo=timezone.utc)
+            else:
+                current = current.astimezone(timezone.utc)
+
+            published_at = _source_published_datetime(article)
+            if published_at:
+                age_hours = (current - published_at).total_seconds() / 3600.0
+                if age_hours < -2 or age_hours > JOBS_MAX_JOB_AGE_HOURS:
+                    if _archive_article(article, "job_posting_outside_24h_window", archived_at):
+                        expired += 1
+                        changed = True
+                    continue
+            elif article.get("content_fetch_status") == "success":
+                if _archive_article(article, "job_publication_time_unverified", archived_at):
+                    missing_date += 1
+                    changed = True
+                continue
+
             notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
             if notice_type in {"vacancy", "competition"}:
                 deadline = job_deadline_time(article)
-                if deadline:
-                    current = now or datetime.now(timezone.utc)
-                    if current.tzinfo is None:
-                        current = current.replace(tzinfo=timezone.utc)
-                    else:
-                        current = current.astimezone(timezone.utc)
-                    if deadline < current:
-                        if _archive_article(article, "job_deadline_passed", archived_at):
-                            expired += 1
-                            changed = True
-            # No-deadline Jobs are handled by the separate 60-day stale safeguard
-            # in maintain_article_queue(); post-deadline result/update notices stay hot.
+                if deadline and deadline < current:
+                    if _archive_article(article, "job_deadline_passed", archived_at):
+                        expired += 1
+                        changed = True
             continue
 
         published_at = _source_published_datetime(article)
@@ -645,7 +671,11 @@ def get_fresh_queue_candidates(statuses=None, now=None, max_age_hours=None):
         if not is_article_safe_for_ai(article, now=now):
             continue
         candidates.append(article)
-    return sorted(candidates, key=_fresh_queue_sort_key)
+    return sorted(
+        candidates,
+        key=_fresh_queue_sort_key,
+        reverse=bool(JOBS_MODE),
+    )
 
 
 def job_visual_retry_pending(article):
@@ -739,6 +769,7 @@ IDENTITY_EVIDENCE_MERGE_FIELDS = {
 
 ATS_QUEUE_MERGE_FIELDS = (
     "source_published_at",
+    "source_published_label",
     "published_at_source",
     "article_age_hours",
     "rss_summary",
@@ -762,6 +793,7 @@ ATS_QUEUE_MERGE_FIELDS = (
     "job_application_url",
     "job_application_link_kind",
     "job_contract_type",
+    "job_internship",
     "job_salary",
     "job_remote",
     "job_number_of_positions",
@@ -844,6 +876,7 @@ def add_articles_to_queue(discovered_articles):
     }
 
     added = 0
+    stale_jobs_skipped = 0
     duplicate_url = 0
     duplicate_title = 0
     added_by_category = Counter()
@@ -862,6 +895,15 @@ def add_articles_to_queue(discovered_articles):
 
         if not url or not title:
             continue
+
+        if JOBS_MODE:
+            published_at = _source_published_datetime(article)
+            if published_at:
+                current = datetime.now(timezone.utc)
+                age_hours = (current - published_at).total_seconds() / 3600.0
+                if age_hours < -2 or age_hours > JOBS_MAX_JOB_AGE_HOURS:
+                    stale_jobs_skipped += 1
+                    continue
 
         if canonical_url in existing_urls:
             existing = existing_by_url.get(canonical_url)
@@ -891,6 +933,7 @@ def add_articles_to_queue(discovered_articles):
                 "source_name": article.get("source_name", ""),
                 "source_url": article.get("source_url", ""),
                 "source_published_at": article.get("source_published_at", ""),
+                "source_published_label": article.get("source_published_label", ""),
                 "published_at_source": article.get("published_at_source", ""),
                 "article_age_hours": article.get("article_age_hours"),
                 "rss_summary": article.get("rss_summary", ""),
@@ -918,6 +961,7 @@ def add_articles_to_queue(discovered_articles):
                 "job_application_url": article.get("job_application_url", ""),
                 "job_application_link_kind": article.get("job_application_link_kind", ""),
                 "job_contract_type": article.get("job_contract_type", ""),
+                "job_internship": bool(article.get("job_internship", False)),
                 "job_salary": article.get("job_salary", ""),
                 "job_remote": bool(article.get("job_remote", False)),
                 "job_number_of_positions": article.get("job_number_of_positions", 0),
@@ -934,6 +978,7 @@ def add_articles_to_queue(discovered_articles):
     save_article_queue(queue)
     return {
         "added": added,
+        "stale_jobs_skipped": stale_jobs_skipped,
         "duplicate_url": duplicate_url,
         "duplicate_title": duplicate_title,
         "duplicates": duplicate_url + duplicate_title,
