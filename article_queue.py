@@ -539,20 +539,24 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
 
         if JOBS_MODE:
             # Jobs are not news. A listing can be older than seven days and still
-            # be a valid open vacancy. Archive only when a verified deadline has
-            # actually passed; no-deadline Jobs are handled by the separate
-            # 60-day stale safeguard in maintain_article_queue().
-            deadline = job_deadline_time(article)
-            if deadline:
-                current = now or datetime.now(timezone.utc)
-                if current.tzinfo is None:
-                    current = current.replace(tzinfo=timezone.utc)
-                else:
-                    current = current.astimezone(timezone.utc)
-                if deadline < current:
-                    if _archive_article(article, "job_deadline_passed", archived_at):
-                        expired += 1
-                        changed = True
+            # be valid. Only active vacancy/competition notices expire when their
+            # verified application deadline passes. Candidate lists, results and
+            # updates may legitimately be published after the original deadline.
+            notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
+            if notice_type in {"vacancy", "competition"}:
+                deadline = job_deadline_time(article)
+                if deadline:
+                    current = now or datetime.now(timezone.utc)
+                    if current.tzinfo is None:
+                        current = current.replace(tzinfo=timezone.utc)
+                    else:
+                        current = current.astimezone(timezone.utc)
+                    if deadline < current:
+                        if _archive_article(article, "job_deadline_passed", archived_at):
+                            expired += 1
+                            changed = True
+            # No-deadline Jobs are handled by the separate 60-day stale safeguard
+            # in maintain_article_queue(); post-deadline result/update notices stay hot.
             continue
 
         published_at = _source_published_datetime(article)
