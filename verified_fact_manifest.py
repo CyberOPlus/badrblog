@@ -19,8 +19,11 @@ SPECIALTY_HINTS = (
     "filiere", "filière", "profil", "profile", "grade", "الدرجة", "الإطار", "الاطار",
 )
 TEST_HINTS = (
-    "اختبار", "الاختبار", "امتحان", "الامتحان", "المباراة", "كتابي", "شفوي",
-    "epreuve", "épreuve", "epreuves", "épreuves", "test", "exam", "oral", "ecrit", "écrit",
+    "اختبار", "الاختبار", "اختبارات", "الاختبارات",
+    "امتحان", "الامتحان", "امتحانات", "الامتحانات",
+    "كتابي", "شفوي",
+    "epreuve", "épreuve", "epreuves", "épreuves",
+    "test", "tests", "exam", "examen", "oral", "ecrit", "écrit",
 )
 POSITION_HINTS = ("منصب", "مناصب", "poste", "postes", "position", "positions")
 DEADLINE_HINTS = (
