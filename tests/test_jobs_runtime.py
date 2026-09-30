@@ -565,6 +565,64 @@ class JobsRuntimeTests(unittest.TestCase):
             facebook._facebook_job_priority(far, now=now),
         )
 
+    def test_facebook_queue_aging_prevents_low_score_starvation(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        base = {
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/job.html",
+            "facebook_status": "facebook_pending",
+            "job_notice_type": "vacancy",
+            "job_number_of_positions": 1,
+        }
+        old_low = dict(
+            base,
+            id="old-low",
+            job_score=55,
+            facebook_queued_at=(now - timedelta(days=14)).isoformat(),
+        )
+        fresh_high_far_deadline = dict(
+            base,
+            id="fresh-high",
+            job_score=95,
+            job_deadline="2026-11-15",
+            facebook_queued_at=now.isoformat(),
+        )
+
+        self.assertGreater(
+            facebook._facebook_job_priority(old_low, now=now),
+            facebook._facebook_job_priority(fresh_high_far_deadline, now=now),
+        )
+
+    def test_closing_soon_still_outranks_aged_no_deadline_job(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        base = {
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/job.html",
+            "facebook_status": "facebook_pending",
+            "job_notice_type": "vacancy",
+            "job_number_of_positions": 1,
+        }
+        aged = dict(
+            base,
+            id="aged",
+            job_score=95,
+            facebook_queued_at=(now - timedelta(days=14)).isoformat(),
+        )
+        closing = dict(
+            base,
+            id="closing",
+            job_score=50,
+            job_deadline="2026-10-05",
+            facebook_queued_at=now.isoformat(),
+        )
+
+        self.assertGreater(
+            facebook._facebook_job_priority(closing, now=now),
+            facebook._facebook_job_priority(aged, now=now),
+        )
+
     def test_expired_job_drops_only_from_social_queue(self):
         article = {
             "id": "expired-social",
@@ -2478,6 +2536,21 @@ class JobsRuntimeTests(unittest.TestCase):
                         "publish_status": "published",
                         "facebook_status": "failed",
                     },
+                    {
+                        "id": "legacy-not-selected",
+                        "archived": True,
+                        "archived_at": old,
+                        "publish_status": "published",
+                        "facebook_status": "not_selected",
+                    },
+                    {
+                        "id": "social-expired-terminal",
+                        "archived": True,
+                        "archived_at": old,
+                        "publish_status": "published",
+                        "facebook_status": "facebook_expired",
+                        "facebook_expired_reason": "job expired before Facebook queue turn",
+                    },
                 ]
             }
             with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path), \
@@ -2486,10 +2559,10 @@ class JobsRuntimeTests(unittest.TestCase):
                 stats = article_queue.maintain_article_queue(days=7)
                 reloaded = article_queue.load_article_queue()
 
-            self.assertEqual(stats["compacted_archived"], 1)
+            self.assertEqual(stats["compacted_archived"], 2)
             self.assertEqual(
                 [row["id"] for row in reloaded["articles"]],
-                ["facebook-pending"],
+                ["facebook-pending", "legacy-not-selected"],
             )
             archive_files = list((Path(temp) / "data" / "job_queue_archive").glob("*.json"))
             self.assertEqual(len(archive_files), 1)
