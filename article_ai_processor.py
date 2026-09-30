@@ -746,55 +746,67 @@ INTRODUCTION AND SEMANTIC DEDUPLICATION
 - Do not describe the employer as leading, prestigious, exceptional, innovative, or similar
   unless that wording is itself a necessary verified fact. Avoid recruitment-marketing filler.
 
-DETAILS
-- Put <h2>تفاصيل الوظيفة</h2> immediately before the main facts table.
-- Prefer ONE compact semantic <table> for verified structured facts.
-- Include every useful verified structured fact that exists: employer, translated
-  position + original title, location, contract, number of positions, publication date,
-  application deadline, competition/exam date, official reference, experience, diploma,
-  competition/list status, and notice type. Omit only fields that are genuinely absent.
-- Never create rows for missing information.
-- DEADLINE IS IMPORTANT: when job_deadline_display or job_deadline exists, it MUST
-  appear clearly in the article in a row labelled "آخر أجل للترشيح". Do not bury it
-  inside prose. If an exact clock time is verified, preserve it too.
-- If no deadline is verified, omit the deadline row completely; never write "غير محدد".
+ADAPTIVE ARTICLE STRUCTURE
+- YOU decide the article structure AFTER understanding notice_type and the available verified evidence.
+- There is NO mandatory universal sequence such as "تفاصيل الوظيفة / المهام / الشروط". Do not create a section
+  just because a template normally contains it.
+- Choose only the sections that help this exact reader understand this exact notice. Section names must describe
+  the actual content and may vary from one article to another.
+- Use prose, <ul>/<ol>, or <table> according to the data:
+  * use a table when rows/columns genuinely help compare specialties, position counts, tests, durations,
+    coefficients, institutions, categories, or other structured evidence;
+  * use a short list for requirements, application-file documents, duties, steps, or grouped conditions;
+  * use concise prose for context or explanations that do not benefit from a table/list.
+- Do NOT force all generic fields into one summary table. A fact should appear where it is most useful and only once.
+- Keep ONE short introduction paragraph of one or two sentences. The backend inserts the branded article cover
+  after the introduction; do not add an image yourself.
 
-RESPONSIBILITIES
-- For an active vacancy, when full_article_text/job description contains verified duties
-  or responsibilities, add <h2>المهام والمسؤوليات</h2> and summarize only those duties.
-  Do not bury all verified responsibilities in the introduction.
+STRUCTURE EXAMPLES — GUIDANCE, NOT TEMPLATES
+- Public recruitment competition / multi-position university or administration notice:
+  a natural structure may be:
+  short introduction -> specialties/grades and position counts -> tests/exams when verified ->
+  eligibility/conditions -> application file/documents -> how to apply -> deadline/important notices ->
+  official files/links -> rendered official PDF pages.
+  Use the actual section names supported by the evidence; skip any missing part.
+- Private-company vacancy:
+  a natural structure may focus on:
+  short introduction -> role and useful context -> verified duties -> qualifications/skills ->
+  location/contract/working conditions when useful -> how to apply.
+  Do not add public-competition sections that do not exist.
+- Candidate/invited list:
+  focus on the current list/stage, who is concerned, written/oral stage details when verified,
+  official list/document links, and the verified next step. Do not rewrite the old vacancy.
+- Results/final results:
+  focus on the result status, the competition/campaign concerned, useful result details,
+  official result files/links, and any verified next step. Do not add application instructions unless applications
+  are explicitly reopened.
+- Update:
+  make the changed fact itself the center of the article; include old campaign details only when needed to understand
+  the update.
 
-REQUIREMENTS
-- Add <h2>الشروط والمؤهلات</h2> only when verified requirements exist.
-- Summarize the useful candidate requirements in a short <ul>.
-- Keep education, experience, technical skills, languages, certifications, or
-  essential responsibilities only when explicitly supported.
-- Never copy long corporate descriptions or repeat the same fact.
+FACT PLACEMENT
+- Preserve every useful verified fact, but let its meaning determine its place.
+- A verified deadline must be clearly visible once, but it does NOT have to be inside a generic "تفاصيل الوظيفة" table.
+- Position/specialty breakdowns from source_tables should remain structured when structure helps comprehension.
+- Tests, durations and coefficients should stay together when they belong together.
+- Application-file requirements should stay together and must not be scattered across unrelated sections.
+- Duties belong in a duties/role section only when duties actually exist.
+- Requirements belong together only when verified requirements actually exist.
+- For candidate lists/results/updates, use wording and sections matching that status rather than employment-opening headings.
 
 APPLICATION, RESULTS AND OFFICIAL FILES
-- For an active vacancy, the strongest verified application resource is essential.
+- For an active vacancy/competition, the strongest verified application resource is essential.
 - The application URL MUST belong to this exact vacancy/campaign. Prefer, in order:
-  direct Apply/Postuler/Candidature URL, official application form, then the specific
-  official job-detail page. NEVER use a generic careers/jobs/search/listing page as
-  the application link. If no job-specific application resource exists, do not invent one.
-- If job_application_url exists, include it exactly once in html_content. The backend
-  standardizes it into a prominent download-style application box before publishing.
-- If job_application_link_kind is "direct_apply", label it clearly as "التقديم المباشر".
-- For candidate_list/results/final_results, do NOT call the link "التقديم" unless a
-  real application is still open. Label it according to its real purpose: "تحميل اللائحة",
-  "اللائحة الرسمية", "النتائج الرسمية", "الإعلان الرسمي", etc.
-- If job_document_links contains ONE useful official file, include its exact URL once.
-- If job_detail_url is a specific official notice/detail page and differs from the direct
-  application URL, include it once as "صفحة الإعلان الرسمية".
-- EVERY URL in job_document_links is mandatory in the final article. Never omit an official
-  PDF/list/notice/decision just to shorten the article.
-- If job_document_links contains MULTIPLE files/lists, build one compact table instead
-  of a long paragraph/list. Use verified link label/context to create useful columns
-  such as الدبلوم، التخصص/الفئة، والرابط الرسمي ONLY when those facts are actually supported.
-- Preserve EVERY useful verified official PDF/list URL needed by the notice; do not
-  silently drop specializations just to make the article shorter.
-- The link "context" field describes the surrounding official table/list row. Use it
-  to distinguish documents, but never invent a diploma/specialty that context does not state.
+  direct Apply/Postuler/Candidature URL, official application form, then the specific official job-detail page.
+  NEVER use a generic careers/jobs/search/listing page as the application link.
+- If job_application_url exists, include it exactly once at the point in the article where application makes sense.
+  The backend only upgrades that exact link visually in place; it must not decide the article section/order for you.
+- If job_application_link_kind is "direct_apply", make its visible label clearly mean direct application.
+- For candidate_list/results/final_results, do NOT call a list/result link "التقديم" unless applications are truly open.
+- If job_detail_url is a specific useful official detail page and differs from the direct application URL, include it once.
+- EVERY useful URL in job_document_links must remain in the final article exactly once.
+- When multiple official files are naturally comparable, a compact table may be useful; otherwise use concise descriptive links.
+- Use verified link label/context to distinguish files, but never invent a diploma/specialty/category from a URL or vague context.
 - Preserve URLs EXACTLY. Never shorten, rewrite, fabricate, or duplicate a URL.
 - External links must use target="_blank" rel="nofollow noreferrer noopener".
 
@@ -829,25 +841,18 @@ PROFESSIONAL HTML ARTICLE BODY
 - Paragraphs must be short and readable on mobile: normally 1-3 sentences each.
 - Never create a section merely to make the article longer. Omit sections whose facts are unavailable.
 
-MANDATORY ORDER FOR AN ACTIVE VACANCY
-1) ONE short factual <p> introduction.
-2) <h2>تفاصيل الوظيفة</h2>
-   followed immediately by ONE compact <table><tbody>...</tbody></table>.
-   Include every verified structured fact available and omit missing facts.
-3) <h2>المهام والمسؤوليات</h2> + a short <ul> ONLY when verified duties exist.
-4) <h2>الشروط والمؤهلات</h2> + a short <ul> ONLY when verified requirements exist.
-5) <h2>الملفات والوثائق الرسمية</h2> ONLY when official files/PDFs/lists exist.
-   - One document: one descriptive <p><a ...>...</a></p>.
-   - Multiple documents: compact <table> with descriptive labels and one exact official URL per row.
-6) <h2>التقديم والروابط الرسمية</h2>
-   - Put the direct application link first when verified.
-   - Add the specific official notice/detail page only when it is different and useful.
-   - Use descriptive anchor text, never raw URLs as visible text unless no label is available.
-
-FOR CANDIDATE LISTS / RESULTS
-- Keep the same clean HTML discipline, but change headings and wording to match the notice.
-- Do not show an application section when applications are closed and the notice is only a list/result.
-- Official list/result files are the primary action and must remain visible.
+AI STRUCTURE AUTHORITY
+- The AI editorial decision controls headings, section order, tables, lists, and prose based on the evidence.
+- Do not force a "تفاصيل الوظيفة" section or any fixed sequence.
+- Do not manufacture "المهام والمسؤوليات" or "الشروط والمؤهلات" when those facts do not exist.
+- Do not reuse private-vacancy headings for a public competition, candidate list, results page, or update.
+- Prefer descriptive headings specific to the evidence, for example:
+  "التخصصات وعدد المناصب", "الاختبارات", "شروط الترشيح", "ملف الترشيح",
+  "طريقة التقديم", "آخر أجل للترشيح", "لوائح المدعوين", "النتائج النهائية".
+  These are examples only; choose them only when supported and useful.
+- If the notice is so small that one or two short sections are clearer, keep it small. Do not create headings only to satisfy a template.
+- The application/document link position chosen in html_content is intentional. The backend may style that link,
+  but must preserve its editorial location.
 
 LINK RULES
 - Every verified official application/document/detail URL supplied in the package must remain present exactly once.
@@ -856,7 +861,7 @@ LINK RULES
 
 SEO / ADSENSE-FRIENDLY EDITORIAL QUALITY
 - Write for the user first: clear facts, useful structure, no keyword stuffing and no repeated employer/role phrases.
-- The first paragraph should naturally contain the employer, Arabic role, original role when useful, and location when verified.
+- The first paragraph must add useful context without mechanically repeating employer/role/location already obvious from the title.
 - Headings must describe real sections, not repeat the title.
 - Do not add generic conclusions, motivational text, career advice, corporate history, promotional filler,
   "فرصة لا تعوض", "انضم لفريقنا", or calls to click ads.
@@ -1137,14 +1142,14 @@ MANDATORY JOB RETRY RULES:
   merely with different wording. Keep each date, deadline, count, requirement, test detail, document requirement,
   location/status fact, and other structured value in its clearest single location unless a brief reference is
   strictly necessary to explain a new instruction.
-- Use this professional HTML order when the relevant facts exist:
-  <p>intro</p>
-  <h2>تفاصيل الوظيفة</h2><table><tbody>...</tbody></table>
-  <h2>المهام والمسؤوليات</h2><ul>...</ul>
-  <h2>الشروط والمؤهلات</h2><ul>...</ul>
-  <h2>الملفات والوثائق الرسمية</h2>...
-  <h2>التقديم والروابط الرسمية</h2>...
-- Omit any optional section with no verified facts.
+- Re-plan the article structure from the evidence and notice_type; do not reuse a fixed Jobs template.
+- Choose headings, tables, lists, and order according to the actual notice. A public competition, private vacancy,
+  candidate list, results page, final results, and update should not share the same compulsory section sequence.
+- Public competition data may naturally use sections for specialties/counts, tests, eligibility, application file,
+  application method, deadline and official documents when those facts exist.
+- A private vacancy may instead focus on role, duties, qualifications, location/contract and application.
+- Lists/results/updates must focus on their current stage/status and verified next action.
+- Omit any section with no verified facts; do not create "تفاصيل الوظيفة", "المهام", or "الشروط" merely because a template expects them.
 - Include job_application_url exactly once when present.
 - Include EVERY useful job_document_links URL exactly once when present.
 - No <h1>, images, captions, scripts, JSON-LD, CSS/style attributes, iframes, forms,
@@ -1855,7 +1860,7 @@ def _looks_poorly_formatted(html_content, package=None):
     normal_paragraphs = _normal_paragraphs(soup)
     if not normal_paragraphs:
         return "missing paragraphs"
-    if len(soup.find_all("h2")) < (1 if (FAST_NEWS_MODE or JOBS_MODE) else 2):
+    if (not JOBS_MODE) and len(soup.find_all("h2")) < (1 if FAST_NEWS_MODE else 2):
         return "missing clear h2 sections"
     
     # Check image placement if main_image is provided
@@ -1934,85 +1939,6 @@ def _remove_empty_job_fact_rows(html_content):
     return str(soup) if changed else html_content
 
 
-def _ensure_verified_job_fact_rows(html_content, package):
-    """Ensure every important verified structured job fact is visible in the article table."""
-    if not JOBS_MODE:
-        return html_content
-
-    soup = BeautifulSoup(html_content or "", "html.parser")
-    table = soup.find("table")
-    if table is None:
-        heading = soup.new_tag("h2")
-        heading.string = "تفاصيل الوظيفة"
-        table = soup.new_tag("table")
-        tbody = soup.new_tag("tbody")
-        table.append(tbody)
-        soup.append(heading)
-        soup.append(table)
-    else:
-        tbody = table.find("tbody")
-        if tbody is None:
-            tbody = soup.new_tag("tbody")
-            existing_rows = list(table.find_all("tr", recursive=False))
-            for row in existing_rows:
-                tbody.append(row.extract())
-            table.append(tbody)
-
-    def clean(value):
-        text = re.sub(r"\s+", " ", str(value or "")).strip()
-        return "" if text in {"", "0", "None", "none", "null"} else text
-
-    def has_row(*aliases):
-        aliases = tuple(re.sub(r"\s+", " ", a).strip().casefold() for a in aliases)
-        for row in table.find_all("tr"):
-            header = row.find(["th", "td"])
-            if not header:
-                continue
-            label = re.sub(r"\s+", " ", header.get_text(" ", strip=True)).casefold()
-            if any(alias and alias in label for alias in aliases):
-                return True
-        return False
-
-    reference = clean(package.get("job_external_reference") or package.get("ats_reference"))
-    published = clean(package.get("job_published_at_display") or package.get("job_published_at"))
-    if published and "T" in published:
-        published = published.split("T", 1)[0]
-    deadline = clean(package.get("job_deadline_display") or package.get("job_deadline"))
-    exam_date = clean(package.get("job_exam_date_display") or package.get("job_exam_date"))
-
-    facts = [
-        (("الشركة", "المؤسسة", "الجهة المشغلة", "الإدارة"), "الجهة المشغلة", clean(package.get("job_company") or package.get("source_name"))),
-        (("المنصب", "الوظيفة", "المسمى الرسمي"), "المسمى الرسمي", clean(package.get("job_title"))),
-        (("مكان العمل", "المدينة", "الموقع"), "مكان العمل", clean(package.get("job_location"))),
-        (("نوع العقد", "العقد"), "نوع العقد", clean(package.get("job_contract_type"))),
-        (("عدد المناصب", "عدد الوظائف"), "عدد المناصب", clean(package.get("job_number_of_positions"))),
-        (("تاريخ النشر", "تاريخ الإعلان"), "تاريخ النشر", published),
-        (("آخر أجل", "آخر موعد", "موعد الترشيح"), "آخر أجل للترشيح", deadline),
-        (("تاريخ إجراء المباراة", "تاريخ المباراة", "موعد المباراة"), "تاريخ إجراء المباراة", exam_date),
-        (("المرجع", "رقم المرجع"), "المرجع الرسمي", reference),
-        (("المؤهل", "الدبلوم", "الشهادة"), "المؤهل المطلوب", clean(package.get("job_diploma"))),
-        (("الخبرة",), "الخبرة المطلوبة", clean(package.get("job_experience"))),
-        (("الراتب", "الأجر"), "الراتب/الأجر", clean(package.get("job_salary"))),
-        (("حالة الإعلان",), "حالة الإعلان", clean(package.get("job_notice_status"))),
-    ]
-    if package.get("job_remote"):
-        facts.append((("نمط العمل", "عن بعد"), "نمط العمل", "عن بعد"))
-
-    for aliases, label, value in facts:
-        if not value or has_row(*aliases):
-            continue
-        tr = soup.new_tag("tr")
-        th = soup.new_tag("th")
-        td = soup.new_tag("td")
-        th.string = label
-        td.string = value
-        tr.append(th)
-        tr.append(td)
-        tbody.append(tr)
-
-    return str(soup)
-
-
 def _job_link_key(url):
     try:
         parsed = urlparse(str(url or "").strip())
@@ -2039,23 +1965,10 @@ def _job_link_key(url):
     ).rstrip("/")
 
 
-def _remove_existing_required_job_links(soup, required_keys):
-    """Remove earlier AI-rendered copies before appending one standard action UI."""
-    for anchor in list(soup.find_all("a", href=True)):
-        key = _job_link_key(anchor.get("href"))
-        if not key or key not in required_keys:
-            continue
-        parent = anchor.parent
-        if parent and parent.name == "p" and parent.get_text(" ", strip=True) == anchor.get_text(" ", strip=True):
-            parent.decompose()
-        else:
-            anchor.replace_with(anchor.get_text(" ", strip=True))
-
-
 def _job_action_box(label, url, *, kind="apply"):
     if kind == "apply":
-        heading = "التقديم الرسمي لهذه الوظيفة"
-        button = "التقديم الآن عبر الرابط الرسمي"
+        heading = "التقديم الرسمي"
+        button = "فتح رابط التقديم الرسمي"
         box_class = "dlBox jobApplyBox"
         button_class = "button extL jobApplyButton"
     else:
@@ -2074,7 +1987,7 @@ def _job_action_box(label, url, *, kind="apply"):
 
 
 def _append_job_action_links_if_missing(html_content, package):
-    """Render each verified official URL once using a consistent action UI."""
+    """Style verified Jobs links in place without changing AI-chosen article structure."""
     if not JOBS_MODE:
         return html_content
 
@@ -2082,79 +1995,93 @@ def _append_job_action_links_if_missing(html_content, package):
     application_kind = str(package.get("job_application_link_kind") or "").strip()
     detail_url = str(package.get("job_detail_url") or "").strip()
 
-    application_rows = []
-    document_rows = []
-    seen = set()
-
+    specs = {}
     if application_url:
         key = _job_link_key(application_url)
-        if key and key not in seen:
-            application_rows.append(
-                (
-                    "التقديم المباشر" if application_kind == "direct_apply" else "صفحة التقديم الرسمية",
-                    application_url,
-                    "apply",
-                )
-            )
-            seen.add(key)
+        if key:
+            specs[key] = {
+                "kind": "apply",
+                "label": "التقديم المباشر" if application_kind == "direct_apply" else "التقديم الرسمي",
+            }
 
     if detail_url and detail_url != application_url:
         key = _job_link_key(detail_url)
-        if key and key not in seen:
-            application_rows.append(("صفحة الإعلان الرسمية", detail_url, "detail"))
-            seen.add(key)
+        if key:
+            specs[key] = {"kind": "detail", "label": "صفحة الإعلان الرسمية"}
 
     for index, item in enumerate(package.get("job_document_links") or [], start=1):
         if not isinstance(item, dict):
             continue
         url = str(item.get("url") or "").strip()
         key = _job_link_key(url)
-        if not key or key in seen:
+        if not key or key in specs:
             continue
-        label = str(item.get("label") or "").strip()
-        context = str(item.get("context") or "").strip()
-        if not label:
-            label = context or f"الملف الرسمي {index}"
-        label = re.sub(r"\s+", " ", label).strip()
-        if len(label) > 180:
-            label = label[:177].rstrip() + "..."
-        document_rows.append((label, url))
-        seen.add(key)
+        label = re.sub(
+            r"\s+",
+            " ",
+            str(item.get("label") or item.get("context") or f"الملف الرسمي {index}"),
+        ).strip()
+        specs[key] = {"kind": "document", "label": label[:180]}
 
-    if not application_rows and not document_rows:
+    if not specs:
         return html_content
 
     soup = BeautifulSoup(html_content or "", "html.parser")
-    required_keys = {
-        key
-        for key in (
-            [_job_link_key(row[1]) for row in application_rows]
-            + [_job_link_key(row[1]) for row in document_rows]
+    styled = set()
+
+    for anchor in soup.find_all("a", href=True):
+        key = _job_link_key(anchor.get("href"))
+        spec = specs.get(key)
+        if not spec or key in styled:
+            continue
+
+        kind = spec["kind"]
+        label = spec["label"]
+        anchor["target"] = "_blank"
+        anchor["rel"] = ["nofollow", "noreferrer", "noopener"]
+
+        if kind == "detail":
+            classes = list(anchor.get("class") or [])
+            for value in ("extL", "jobOfficialDetailLink"):
+                if value not in classes:
+                    classes.append(value)
+            anchor["class"] = classes
+            styled.add(key)
+            continue
+
+        classes = list(anchor.get("class") or [])
+        required_classes = (
+            ("button", "extL", "jobApplyButton")
+            if kind == "apply"
+            else ("button", "extL", "jobDocumentButton")
         )
-        if key
-    }
-    _remove_existing_required_job_links(soup, required_keys)
+        for value in required_classes:
+            if value not in classes:
+                classes.append(value)
+        anchor["class"] = classes
+        anchor["role"] = "button"
 
-    blocks = []
-    if application_rows:
-        blocks.append("<h2>التقديم والروابط الرسمية</h2>")
-        for label, url, kind in application_rows:
-            if kind == "apply":
-                blocks.append(_job_action_box(label, url, kind="apply"))
-            else:
-                blocks.append(
-                    "<p><a class='extL jobOfficialDetailLink' "
-                    f"href='{escape(url, quote=True)}' "
-                    "target='_blank' rel='nofollow noreferrer noopener'>"
-                    f"{escape(label)}</a></p>"
-                )
+        # When AI put the link in a simple standalone paragraph, upgrade that exact
+        # paragraph to the existing download-style box at the same editorial location.
+        parent = anchor.parent
+        if (
+            parent is not None
+            and parent.name == "p"
+            and len(parent.find_all("a", recursive=False)) == 1
+            and parent.get_text(" ", strip=True) == anchor.get_text(" ", strip=True)
+        ):
+            fragment = BeautifulSoup(
+                _job_action_box(label, anchor.get("href"), kind=kind),
+                "html.parser",
+            )
+            box = fragment.find("div")
+            if box is not None:
+                parent.replace_with(box)
+        styled.add(key)
 
-    if document_rows:
-        blocks.append("<h2>الملفات والوثائق الرسمية</h2>")
-        for label, url in document_rows:
-            blocks.append(_job_action_box(label, url, kind="document"))
-
-    return str(soup).rstrip() + "\n" + "\n".join(blocks)
+    # Missing verified links are intentionally NOT appended elsewhere. The quality
+    # gate rejects missing URLs so AI must place them in the correct editorial section.
+    return str(soup)
 
 
 def _append_job_document_page_images(html_content, package):
@@ -2219,7 +2146,6 @@ def _finalize_html_content(data, package):
         # The single branded job cover is generated later by the Blogger publisher.
         # AI output never imports or inserts images from the source job page.
         html_content = _remove_empty_job_fact_rows(html_content)
-        html_content = _ensure_verified_job_fact_rows(html_content, package)
         html_content = _append_job_action_links_if_missing(html_content, package)
     else:
         html_content = _insert_main_image_if_missing(html_content, package)
