@@ -292,6 +292,61 @@ class JobsRuntimeTests(unittest.TestCase):
         )
         self.assertNotIn("candidate_retry_after", article)
 
+    def test_published_job_waits_for_visual_retry_before_archive(self):
+        article = {
+            "id": "published-visual-pending",
+            "url": "https://example.com/jobs/visual-pending",
+            "status": "published",
+            "publish_status": "published",
+            "job_document_render_status": "document_render_retry",
+            "job_document_render_retry_after": "2099-01-01T00:00:00+00:00",
+        }
+        queue = {"articles": [article]}
+        with patch.object(article_queue, "load_article_queue", return_value=queue), \
+             patch.object(article_queue, "save_article_queue") as save, \
+             patch.object(article_queue, "JOBS_MODE", True):
+            archived = article_queue.archive_published_queue_article(
+                article_id=article["id"],
+                article_url=article["url"],
+            )
+
+        self.assertFalse(archived)
+        self.assertFalse(article.get("archived", False))
+        self.assertEqual(article["archive_deferred_reason"], "visual_retry_pending")
+        save.assert_called_once()
+
+    def test_released_logo_wait_does_not_call_ai_again(self):
+        article = {
+            "id": "legacy-logo-ready",
+            "url": "https://example.com/jobs/legacy-logo",
+            "status": "selected",
+            "processing_status": "ready_for_ai",
+            "ai_status": "completed",
+            "ai_quality_status": "passed",
+            "ai_provider_used": "gemini",
+            "final_html": "<p>مقال جاهز ومراجع.</p>",
+            "visual_content_reuse_required": True,
+            "ai_input_package": {
+                "url": "https://example.com/jobs/legacy-logo",
+            },
+        }
+        queue = {"articles": [article]}
+        with (
+            patch.object(ai, "JOBS_MODE", True),
+            patch.object(ai, "load_article_queue", return_value=queue),
+            patch.object(ai, "save_article_queue"),
+            patch.object(ai, "_attempt_provider_sequence") as providers,
+            patch.object(ai, "_generate_with_provider_name") as generate,
+        ):
+            result = ai.process_one_selected_article_with_ai(
+                target_article_id=article["id"],
+            )
+
+        self.assertEqual(result["processed"], 0)
+        self.assertEqual(article["ai_status"], "completed")
+        providers.assert_not_called()
+        generate.assert_not_called()
+
     def test_job_archive_compaction_drops_large_payload_fields(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory
