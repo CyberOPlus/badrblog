@@ -4,6 +4,8 @@
 
 import re
 from dataclasses import dataclass
+
+from bs4 import BeautifulSoup
 from datetime import datetime, timezone
 
 from duplicate_utils import canonicalize_url, content_hash_from_html, similar_topic_signature, title_hash, topic_signature
@@ -144,6 +146,260 @@ def _has_repeated_text_blocks(body_text):
     return False
 
 
+
+_JOB_FACT_STOPWORDS = {
+    "في", "من", "الى", "إلى", "على", "عن", "مع", "لدى", "عند", "حسب",
+    "هذا", "هذه", "ذلك", "تلك", "الذي", "التي", "الذين", "كما", "تم", "يتم",
+    "هو", "هي", "وهو", "وهي", "ثم", "او", "أو", "قد", "فقط", "كل", "ضمن",
+    "بالنسبة", "يمكن", "يجب", "وفق", "وفقا", "خلال", "بعد", "قبل", "بين",
+}
+
+_JOB_FACT_SEMANTIC_REPLACEMENTS = (
+    (r"اخر\s+اجل(?:\s+لايداع\s+ملفات\s+الترشيح|\s+للترشيح)?", " deadline "),
+    (r"موعد\s+انتهاء\s+الترشيح", " deadline "),
+    (r"تاريخ\s+انتهاء\s+الترشيح", " deadline "),
+    (r"اخر\s+موعد\s+للتقديم", " deadline "),
+    (r"تاريخ\s+اجراء\s+(?:المباراة|الاختبار)", " examdate "),
+    (r"موعد\s+(?:المباراة|الاختبار)", " examdate "),
+    (r"تاريخ\s+(?:المباراة|الاختبار)", " examdate "),
+    (r"تاريخ\s+النشر", " publishdate "),
+    (r"عدد\s+المناصب", " positions "),
+    (r"نوع\s+العقد", " contract "),
+    (r"مكان\s+العمل|مقر\s+العمل", " location "),
+    (r"سنوات?\s+الخبرة|الخبرة\s+المطلوبة", " experience "),
+    (r"الشهادة\s+المطلوبة|الدبلوم\s+المطلوب", " diploma "),
+    (r"النتائج\s+النهائية", " finalresults "),
+)
+
+_JOB_DATE_MONTHS = (
+    "يناير", "فبراير", "مارس", "ابريل", "أبريل", "ماي", "مايو", "يونيو",
+    "يوليوز", "يوليو", "غشت", "اغسطس", "أغسطس", "شتنبر", "سبتمبر",
+    "اكتوبر", "أكتوبر", "نونبر", "نوفمبر", "دجنبر", "ديسمبر",
+)
+
+
+def _normalize_job_fact_text(text):
+    value = html_to_text(str(text or ""))
+    value = value.casefold()
+    value = re.sub(r"[\u064b-\u065f\u0670\u0640]", "", value)
+    value = value.translate(str.maketrans({
+        "أ": "ا",
+        "إ": "ا",
+        "آ": "ا",
+        "ى": "ي",
+    }))
+    for pattern, replacement in _JOB_FACT_SEMANTIC_REPLACEMENTS:
+        value = re.sub(pattern, replacement, value, flags=re.I)
+    value = re.sub(r"[^\w\u0600-\u06ff./-]+", " ", value, flags=re.UNICODE)
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def _job_fact_tokens(text):
+    normalized = _normalize_job_fact_text(text)
+    tokens = []
+    for token in normalized.split():
+        if token in _JOB_FACT_STOPWORDS:
+            continue
+        if len(token) == 1 and not token.isdigit():
+            continue
+        tokens.append(token)
+    return set(tokens)
+
+
+def _job_date_tokens(text):
+    normalized = _normalize_job_fact_text(text)
+    dates = set(re.findall(
+        r"\b(?:\d{1,2}[./-]\d{1,2}[./-]\d{2,4}|\d{4}[./-]\d{1,2}[./-]\d{1,2})\b",
+        normalized,
+    ))
+    month_pattern = "|".join(re.escape(_normalize_job_fact_text(month)) for month in _JOB_DATE_MONTHS)
+    if month_pattern:
+        for match in re.findall(
+            rf"\b\d{{1,2}}\s+(?:{month_pattern})(?:\s+\d{{4}})?\b",
+            normalized,
+            flags=re.I,
+        ):
+            dates.add(re.sub(r"\s+", " ", match).strip())
+    return dates
+
+
+def _job_fact_atoms(text):
+    normalized = _normalize_job_fact_text(text)
+    atoms = set()
+
+    for number in re.findall(r"\b(\d{1,4})\s*(?:منصب|مناصب|منصبا)\b", normalized):
+        atoms.add(f"positions:{int(number)}")
+    for number in re.findall(r"\bpositions\s*:?\s*(\d{1,4})\b", normalized):
+        atoms.add(f"positions:{int(number)}")
+
+    dates = _job_date_tokens(normalized)
+    if "deadline" in normalized:
+        atoms.update(f"deadline:{date}" for date in dates)
+    if "examdate" in normalized:
+        atoms.update(f"examdate:{date}" for date in dates)
+    if "publishdate" in normalized:
+        atoms.update(f"publishdate:{date}" for date in dates)
+
+    for amount in re.findall(
+        r"\b(\d[\d\s.,]{1,12})\s*(?:درهم|dh|mad)\b",
+        normalized,
+        flags=re.I,
+    ):
+        compact = re.sub(r"\s+", "", amount)
+        atoms.add(f"salary:{compact}")
+
+    for years in re.findall(
+        r"\b(\d{1,2})\s*(?:سنوات|سنواتا|سنة|عاما|عام)\s+(?:من\s+)?الخبرة\b",
+        normalized,
+    ):
+        atoms.add(f"experience_years:{int(years)}")
+
+    for age in re.findall(
+        r"\b(\d{1,2})\s*(?:سنة|عاما|عام)\b",
+        normalized,
+    ):
+        if any(hint in normalized for hint in ("السن", "العمر", "age")):
+            atoms.add(f"age:{int(age)}")
+
+    return atoms
+
+
+def _job_fact_categories(text):
+    normalized = _normalize_job_fact_text(text)
+    categories = set()
+    category_hints = {
+        "deadline": ("deadline",),
+        "examdate": ("examdate",),
+        "publishdate": ("publishdate",),
+        "positions": ("positions", "منصب", "مناصب"),
+        "contract": ("contract", "عقد"),
+        "location": ("location", "المكان", "المدينة"),
+        "experience": ("experience", "الخبرة"),
+        "diploma": ("diploma", "دبلوم", "شهادة", "الشهادة"),
+        "salary": ("الراتب", "الاجر", "درهم", " mad ", " dh "),
+        "age": ("السن", "العمر"),
+        "test_duration": ("المدة", "ساعات", "ساعة", "دقيقة", "دقائق"),
+        "coefficient": ("المعامل",),
+        "status": ("finalresults", "النتائج", "المدعوين", "اللائحة", "اللوائح"),
+    }
+    padded = f" {normalized} "
+    for category, hints in category_hints.items():
+        if any(hint in padded for hint in hints):
+            categories.add(category)
+    return categories
+
+
+def _job_content_blocks(html_content):
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    blocks = []
+    current_heading = "intro"
+    heading_seen = False
+
+    for node in soup.find_all(["h2", "h3", "p", "li", "tr"]):
+        if node.name in {"h2", "h3"}:
+            heading_seen = True
+            current_heading = _normalize_job_fact_text(node.get_text(" ", strip=True)) or "section"
+            blocks.append({
+                "kind": "heading",
+                "region": f"heading:{current_heading}",
+                "text": node.get_text(" ", strip=True),
+            })
+            continue
+
+        text = node.get_text(" ", strip=True)
+        if not text:
+            continue
+        if node.name == "tr":
+            region = f"table:{current_heading}"
+            kind = "table"
+        else:
+            region = "intro" if not heading_seen else f"section:{current_heading}"
+            kind = node.name
+
+        blocks.append({"kind": kind, "region": region, "text": text})
+
+    return soup, blocks
+
+
+def _job_semantic_repetition_reason(html_content, seo_title):
+    soup, blocks = _job_content_blocks(html_content)
+
+    if soup.find("h1") is not None:
+        return "Jobs article body must not contain an h1; Blogger already renders the page title"
+
+    title_tokens = _job_fact_tokens(seo_title)
+    if len(title_tokens) >= 4:
+        for block in blocks:
+            if block["kind"] != "heading":
+                continue
+            heading_tokens = _job_fact_tokens(block["text"])
+            if len(heading_tokens) < 4:
+                continue
+            shared = title_tokens & heading_tokens
+            containment = len(shared) / max(1, min(len(title_tokens), len(heading_tokens)))
+            if containment >= 0.90:
+                return "Jobs article body semantically repeats the Blogger/SEO title as a heading"
+
+    intro_blocks = [block for block in blocks if block["region"] == "intro" and block["kind"] == "p"]
+    if intro_blocks:
+        intro = intro_blocks[0]["text"]
+        sentences = [
+            part.strip()
+            for part in re.split(r"[.!؟]+", intro)
+            if part.strip()
+        ]
+        if len(sentences) > 2:
+            return "Jobs introduction must be one short paragraph of no more than two sentences"
+
+        intro_first_tokens = _job_fact_tokens(sentences[0] if sentences else intro)
+        if len(title_tokens) >= 4 and len(intro_first_tokens) >= 4:
+            shared = title_tokens & intro_first_tokens
+            containment = len(shared) / max(1, min(len(title_tokens), len(intro_first_tokens)))
+            if containment >= 0.90:
+                return "Jobs introduction semantically repeats the Blogger/SEO title"
+
+    table_atoms = set()
+    for block in blocks:
+        if block["kind"] == "table":
+            table_atoms.update(_job_fact_atoms(block["text"]))
+
+    if table_atoms:
+        for block in blocks:
+            if block["kind"] in {"table", "heading"}:
+                continue
+            overlap = _job_fact_atoms(block["text"]) & table_atoms
+            if overlap:
+                fact = sorted(overlap)[0]
+                return f"Jobs prose repeats a structured table fact ({fact})"
+
+    comparable = [
+        block for block in blocks
+        if block["kind"] != "heading" and len(_job_fact_tokens(block["text"])) >= 4
+    ]
+    for index, left in enumerate(comparable):
+        left_tokens = _job_fact_tokens(left["text"])
+        left_atoms = _job_fact_atoms(left["text"])
+        for right in comparable[index + 1:]:
+            if left["region"] == right["region"]:
+                continue
+            right_tokens = _job_fact_tokens(right["text"])
+            shared = left_tokens & right_tokens
+            shared_atoms = left_atoms & _job_fact_atoms(right["text"])
+            shared_categories = _job_fact_categories(left["text"]) & _job_fact_categories(right["text"])
+            if len(shared) < 3 and not shared_atoms:
+                continue
+            containment = len(shared) / max(1, min(len(left_tokens), len(right_tokens)))
+            jaccard = len(shared) / max(1, len(left_tokens | right_tokens))
+            if len(shared) >= 4 and containment >= 0.84 and jaccard >= 0.55:
+                return "Jobs article repeats the same fact across different sections"
+            if shared_atoms and containment >= 0.65:
+                return "Jobs article paraphrases the same structured fact in multiple sections"
+            if shared_categories and len(shared) >= 3 and containment >= 0.55:
+                return "Jobs article semantically repeats a fact category across table/intro/sections"
+
+    return ""
+
+
 def _has_random_language_mixing(body_text):
     arabic_tokens = re.findall(r"[\u0600-\u06FF]{2,}", body_text or "")
     latin_tokens = re.findall(r"\b[A-Za-z][A-Za-z0-9+._-]{1,}\b", body_text or "")
@@ -270,6 +526,10 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
     if _expected_image_missing(article, html_content):
         return QualityGateResult(False, "expected article image is missing from final HTML", word_count)
     if JOBS_MODE:
+        semantic_repeat_reason = _job_semantic_repetition_reason(html_content, seo_title)
+        if semantic_repeat_reason:
+            return QualityGateResult(False, semantic_repeat_reason, word_count)
+
         if re.search(r"<script\b", html_content, flags=re.I):
             return QualityGateResult(False, "script tag found in Jobs article body", word_count)
 
