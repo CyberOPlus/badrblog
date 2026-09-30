@@ -183,7 +183,88 @@ def _ensure_jobs_target_blog(service):
         )
 
 
-def _build_post_body(article):
+def _alpha_letters(seed, length=8):
+    digest = hashlib.sha256(str(seed or "job").encode("utf-8")).digest()
+    return "".join(chr(ord("a") + (byte % 26)) for byte in digest[:length])
+
+
+def _attempt_letters(value):
+    try:
+        number = max(0, int(value or 0))
+    except (TypeError, ValueError):
+        number = 0
+    if number <= 0:
+        return ""
+    letters = ""
+    while number:
+        number -= 1
+        letters = chr(ord("a") + (number % 26)) + letters
+        number //= 26
+    return letters
+
+
+def _permalink_seed_title(article):
+    slug = str(article.get("desired_slug") or article.get("seo_slug") or "").strip().casefold()
+    slug = re.sub(r"[^a-z-]+", "-", slug)
+    slug = re.sub(r"-{2,}", "-", slug).strip("-")
+    if not slug:
+        seed = (
+            article.get("job_campaign_id")
+            or article.get("canonical_url")
+            or article.get("url")
+            or article.get("job_title")
+            or "job"
+        )
+        slug = "job-" + _alpha_letters(seed)
+    attempt = _attempt_letters(article.get("permalink_attempt"))
+    if attempt:
+        slug = f"{slug}-{attempt}"
+    return slug.replace("-", " ").strip()
+
+
+def _job_permalink_stem(url):
+    path = urlparse(str(url or "")).path.rstrip("/")
+    filename = path.rsplit("/", 1)[-1]
+    return re.sub(r"\.html?$", "", filename, flags=re.I)
+
+
+def _reject_numeric_new_job_permalink(service, post, article):
+    if not JOBS_MODE:
+        return
+    url = str((post or {}).get("url") or "").strip()
+    stem = _job_permalink_stem(url)
+    if not stem or not re.search(r"\d", stem):
+        return
+
+    article["blogger_numeric_permalink_rejected"] = url
+    article["permalink_attempt"] = int(article.get("permalink_attempt") or 0) + 1
+    delete_error = ""
+    try:
+        request = service.posts().delete(blogId=BLOG_ID, postId=post["id"])
+        _execute_blogger_request(request, "delete numeric-permalink Jobs post", safe_to_retry=True)
+    except Exception as error:
+        delete_error = str(error)
+    for key in ("blogger_post_id", "blogger_post_url", "blogger_draft_id", "blogger_draft_url"):
+        article.pop(key, None)
+    log_event(
+        "job_numeric_permalink_rejected",
+        article_id=article.get("id"),
+        url=url,
+        stem=stem,
+        delete_error=delete_error,
+    )
+    if delete_error:
+        raise RuntimeError(
+            "Blogger generated a numeric Jobs permalink and cleanup failed: "
+            + delete_error
+        )
+    raise RuntimeError(
+        "Blogger generated a numeric Jobs permalink; it was deleted and will retry "
+        "with a new alphabetic permalink seed."
+    )
+
+
+def _build_post_body(article, permalink_seed=False):
     content = article.get("final_html", "")
     labels = (
         [str(label).strip() for label in (article.get("labels") or []) if str(label).strip()]
@@ -194,7 +275,11 @@ def _build_post_body(article):
         labels.insert(0, "jobs")
     body = {
         "kind": "blogger#post",
-        "title": article.get("seo_title") or article.get("title", ""),
+        "title": (
+            _permalink_seed_title(article)
+            if JOBS_MODE and permalink_seed
+            else article.get("seo_title") or article.get("title", "")
+        ),
         "content": content,
         "labels": list(dict.fromkeys(labels)),
     }
@@ -577,12 +662,23 @@ def _publish_if_live(service, post, mode):
 
 
 def _apply_jobposting_schema(service, post, article, mode):
-    """Append one backend-generated JobPosting JSON-LD block to a live Jobs post."""
+    """Restore the SEO title and append one backend-generated JobPosting block."""
     if not JOBS_MODE or _effective_publish_mode(mode) != "live":
         return post
 
     post_url = str((post or {}).get("url") or "").strip()
     errors = jobposting_validation_errors(article)
+    body = _build_post_body(article)
+    if post_url and not errors:
+        body["content"] = append_jobposting(body.get("content", ""), article, post_url)
+        operation = "restore SEO title and append JobPosting structured data"
+    else:
+        operation = "restore SEO title without JobPosting structured data"
+
+    request = service.posts().update(blogId=BLOG_ID, postId=post["id"], body=body)
+    updated = _execute_blogger_request(request, operation, safe_to_retry=True)
+    updated = _ensure_returned_post_url(service, updated)
+
     if not post_url or errors:
         article["jobposting_schema_status"] = "skipped"
         article["jobposting_schema_errors"] = list(errors or ["missing live post URL"])
@@ -591,17 +687,8 @@ def _apply_jobposting_schema(service, post, article, mode):
             article_id=article.get("id"),
             errors="; ".join(article["jobposting_schema_errors"]),
         )
-        return post
+        return updated
 
-    body = _build_post_body(article)
-    body["content"] = append_jobposting(body.get("content", ""), article, post_url)
-    request = service.posts().update(blogId=BLOG_ID, postId=post["id"], body=body)
-    updated = _execute_blogger_request(
-        request,
-        "append JobPosting structured data",
-        safe_to_retry=True,
-    )
-    updated = _ensure_returned_post_url(service, updated)
     article["jobposting_schema_status"] = "applied"
     article.pop("jobposting_schema_errors", None)
     log_event(
@@ -1006,14 +1093,17 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             raise RuntimeError("Blogger service is not available; refusing local fallback for Blogger publishing.")
 
         _ensure_jobs_target_blog(service)
-        body = _build_post_body(article)
         saved_post = _get_saved_post_by_id(service, article, mode=publish_mode)
         if saved_post and (publish_mode == "live" or saved_post.get("status") != "LIVE"):
+            generating_permalink = publish_mode == "live" and saved_post.get("status") != "LIVE"
+            body = _build_post_body(article, permalink_seed=generating_permalink)
             request = service.posts().update(blogId=BLOG_ID, postId=saved_post["id"], body=body)
             post = _execute_blogger_request(request, f"update saved {publish_mode}", safe_to_retry=True)
             post = _ensure_returned_post_url(service, post)
             post = _publish_if_live(service, post, publish_mode)
             _ensure_post_url_for_mode(post, publish_mode)
+            if generating_permalink:
+                _reject_numeric_new_job_permalink(service, post, article)
             post = _apply_jobposting_schema(service, post, article, publish_mode)
             _apply_success(article, post, publish_mode)
             article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "updated_existing"
@@ -1035,11 +1125,15 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             post_to_update = _choose_post_to_update(matches, article, mode=publish_mode)
             if not post_to_update:
                 raise RuntimeError("Matching Blogger post found, but no post is safe to update for this mode.")
+            generating_permalink = publish_mode == "live" and post_to_update.get("_matched_status") != "LIVE"
+            body = _build_post_body(article, permalink_seed=generating_permalink)
             request = service.posts().update(blogId=BLOG_ID, postId=post_to_update["id"], body=body)
             post = _execute_blogger_request(request, f"update matching {publish_mode}", safe_to_retry=True)
             post = _ensure_returned_post_url(service, post)
             post = _publish_if_live(service, post, publish_mode)
             _ensure_post_url_for_mode(post, publish_mode)
+            if generating_permalink:
+                _reject_numeric_new_job_permalink(service, post, article)
             post = _apply_jobposting_schema(service, post, article, publish_mode)
             _apply_success(article, post, publish_mode)
             article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "updated_existing"
@@ -1055,10 +1149,16 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             }
             return result
 
+        body = _build_post_body(
+            article,
+            permalink_seed=(JOBS_MODE and publish_mode == "live"),
+        )
         request = service.posts().insert(blogId=BLOG_ID, body=body, isDraft=(publish_mode != "live"))
         post = _execute_blogger_request(request, f"insert {publish_mode}", safe_to_retry=False)
         post = _ensure_returned_post_url(service, post)
         _ensure_post_url_for_mode(post, publish_mode)
+        if JOBS_MODE and publish_mode == "live":
+            _reject_numeric_new_job_permalink(service, post, article)
         post = _apply_jobposting_schema(service, post, article, publish_mode)
         _apply_success(article, post, publish_mode)
         article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "created_new"
