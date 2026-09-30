@@ -1801,6 +1801,12 @@ async def _collect_phenom_links_async(
         offset = max(0, int(start_offset or 0))
     except (TypeError, ValueError):
         offset = 0
+    resume_active = offset > 0
+    effective_seen_streak_stop = (
+        10**9
+        if resume_active
+        else seen_streak_stop
+    )
 
     collected = []
     seen_streak = 0
@@ -1856,7 +1862,7 @@ async def _collect_phenom_links_async(
         new_links, meta = _filter_new_discovery_links(
             page_links,
             working_known,
-            seen_streak_stop=seen_streak_stop,
+            seen_streak_stop=effective_seen_streak_stop,
             max_items=max(max_items + len(page_links), len(page_links) + 1),
             initial_seen_streak=seen_streak,
         )
