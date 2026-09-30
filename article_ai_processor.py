@@ -682,6 +682,8 @@ def _put_candidate_on_cooldown(candidate, error):
     stats["failures"] = int(stats.get("failures", 0)) + 1
     stats["last_failure_at"] = _now_iso()
     _save_ai_memory(memory)
+    if JOBS_MODE:
+        _open_provider_circuit(candidate.get("provider"), error)
     log_event(
         "ai_candidate_cooldown",
         provider=candidate.get("provider"),
@@ -2753,12 +2755,29 @@ def _openrouter_candidates(context=None):
 
 def _generate_ai_article(prompt, skip_providers=None, context=None):
     skip_providers = set(skip_providers or [])
+    if JOBS_MODE and _global_circuit_remaining() > 0:
+        status = ai_circuit_status()
+        raise AIProviderRotationExhausted(
+            f"Global AI circuit open until {status.get('global_retry_after') or 'later'}"
+        )
     candidates = [
         candidate for candidate in _provider_candidates(context=context)
         if candidate["provider"] not in skip_providers
+        and (not JOBS_MODE or _provider_circuit_remaining(candidate["provider"]) <= 0)
     ]
     if not candidates:
         candidates = _provider_candidates(context=context)
+    if JOBS_MODE:
+        unique_candidates = []
+        seen_providers = set()
+        for candidate in candidates:
+            provider_name = str(candidate.get("provider") or "")
+            if provider_name in seen_providers:
+                continue
+            seen_providers.add(provider_name)
+            unique_candidates.append(candidate)
+        candidates = unique_candidates
+
     last_error = None
     active_candidates = []
     for candidate in candidates:
@@ -2881,16 +2900,36 @@ def _generate_with_candidate(candidate, prompt, context=None):
 
 def _attempt_provider_sequence():
     providers = _resolve_providers()
+    if JOBS_MODE and _global_circuit_remaining() > 0:
+        return []
+
     if (AI_PROVIDER or "").strip().lower() == "auto":
-        # Auto mode has a fixed safety order: Gemini first, OpenRouter fallback.
-        # Runtime speed memory must never promote a flaky fallback provider
-        # ahead of the primary provider.
+        # Auto mode has a fixed safety order. Provider circuits filter known
+        # quota/outage failures before any new request is attempted.
         sequence = [
             provider
             for provider in ("gemini", "groq", "openrouter", "cloudflare", "mistral", "openai")
             if provider in providers
+            and (not JOBS_MODE or _provider_circuit_remaining(provider) <= 0)
         ]
-        return sequence or providers
+        if JOBS_MODE and providers and not sequence:
+            _open_global_circuit(
+                AIProviderRotationExhausted("all configured AI providers are cooling down"),
+                providers=providers,
+            )
+        return sequence or ([] if JOBS_MODE else providers)
+
+    if JOBS_MODE:
+        sequence = [
+            provider for provider in providers
+            if _provider_circuit_remaining(provider) <= 0
+        ]
+        if providers and not sequence:
+            _open_global_circuit(
+                AIProviderRotationExhausted("configured AI provider is cooling down"),
+                providers=providers,
+            )
+        return sequence
     return (providers * MAX_AI_ATTEMPTS)[:MAX_AI_ATTEMPTS]
 
 
@@ -2907,6 +2946,10 @@ def _should_switch_gemini_to_openrouter(provider, error):
 
 
 def _generate_with_provider_name(provider, prompt, context=None):
+    if JOBS_MODE and _global_circuit_remaining() > 0:
+        raise AIProviderRotationExhausted("global AI circuit is open")
+    if JOBS_MODE and _provider_circuit_remaining(provider) > 0:
+        raise AIProviderFallbackNeeded(f"{provider} provider circuit is open")
     allowed = (
         _openrouter_candidates(context=context)
         if provider == "openrouter"
@@ -2977,6 +3020,10 @@ def _generate_with_provider_name(provider, prompt, context=None):
                         article_id=getattr(context, "article_id", ""),
                     )
                 _put_candidate_on_cooldown(candidate, error)
+                if JOBS_MODE:
+                    raise AIProviderFallbackNeeded(
+                        f"{provider} provider failed: {_safe_error_reason(error)}"
+                    ) from error
                 if provider == "gemini" and context:
                     context.gemini_failures += 1
                 if provider == "openrouter" and context and context.gemini_failures:
