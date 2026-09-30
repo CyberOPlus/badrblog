@@ -681,6 +681,17 @@ def archive_published_queue_article(article_id="", article_url="", reason="publi
         if article.get("id") == article_id or article.get("url") == article_url:
             if article.get("archived"):
                 return False
+            if job_visual_retry_pending(article):
+                article["archive_deferred_reason"] = "visual_retry_pending"
+                article["archive_deferred_at"] = _now_iso()
+                save_article_queue(queue)
+                log_event(
+                    "job_archive_deferred_visual_retry",
+                    article_id=article.get("id"),
+                    document_status=article.get("job_document_render_status", ""),
+                    logo_retry=bool(article.get("logo_visual_retry_pending")),
+                )
+                return False
             if job_social_retry_pending(article):
                 article["archive_deferred_reason"] = "facebook_retry_pending"
                 article["archive_deferred_at"] = _now_iso()
@@ -691,17 +702,6 @@ def archive_published_queue_article(article_id="", article_url="", reason="publi
                     facebook_status=article.get("facebook_status", ""),
                     facebook_post_id=article.get("facebook_post_id", ""),
                     facebook_comment_id=article.get("facebook_comment_id", ""),
-                )
-                return False
-            if job_visual_retry_pending(article):
-                article["archive_deferred_reason"] = "visual_retry_pending"
-                article["archive_deferred_at"] = _now_iso()
-                save_article_queue(queue)
-                log_event(
-                    "job_archive_deferred_visual_retry",
-                    article_id=article.get("id"),
-                    document_status=article.get("job_document_render_status", ""),
-                    logo_retry=bool(article.get("logo_visual_retry_pending")),
                 )
                 return False
             article.pop("archive_deferred_reason", None)
