@@ -968,11 +968,11 @@ LENGTH AND STYLE
 - Let the verified evidence determine the length. A notice with only a few useful facts may be short.
   A university/public competition with many specialties, positions, tests, conditions, required documents,
   dates, tables, and official PDF evidence may be much longer.
-- Completeness has priority over brevity: include every useful, actionable, verified fact a candidate needs
-  to understand this exact notice without forcing the reader to reconstruct information from the source.
-- Do not summarize away meaningful distinctions in source_tables or job_document_texts. Preserve useful
-  role/specialty breakdowns, position counts, eligibility conditions, tests, durations/coefficients,
-  required application documents, dates, deadlines, and official application/document resources when verified.
+- Completeness is defined primarily by verified_fact_manifest. Every high-confidence required fact must be present
+  accurately; medium/heuristic facts are optional supporting context and may be omitted when ambiguous.
+- Use source_tables and job_document_texts to explain explicit relationships, but do not treat every raw row,
+  number, keyword match, or OCR-like fragment as a mandatory fact. Preserve distinctions only when the evidence
+  clearly supports them and they do not conflict with the manifest.
 - Each fact should normally appear once in the clearest place. Prefer a table for structured comparisons,
   a short list for requirements/documents, and concise prose only when prose adds clarity.
 - Do not inflate a short notice with generic explanations. Do not compress a rich notice merely to keep
@@ -1435,9 +1435,9 @@ Rewrite ONLY as a complete, professional, verified job article.
 MANDATORY JOB RETRY RULES:
 - Do NOT aim for any word count and do NOT shorten or expand merely to hit a range.
 - Let the verified evidence determine the final length: short when facts are few, longer when the notice is rich.
-- Preserve every useful verified fact, duty, requirement, role/specialty breakdown, position count, deadline,
-  exam/test detail, eligibility condition, required application document, official document, and application resource.
-- Do not summarize away meaningful rows from source_tables or useful facts from job_document_texts.
+- Preserve every high-confidence required manifest fact and every clearly supported material instruction.
+- Medium/heuristic facts are repair hints only. Do not force arbitrary source-table rows or ambiguous PDF fragments
+  into the article merely because they contain numbers or recruitment keywords.
 - Never invent, repeat, speculate, pad, or add boilerplate.
 - Treat the Quality Gate failure reason above as a concrete repair instruction: correct that failure while preserving
   all other verified facts and links that were already correct.
