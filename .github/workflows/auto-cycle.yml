@@ -206,6 +206,7 @@ jobs:
               "SAFE_CYCLE_MAX_ARTICLES": "1",
               "SAFE_CYCLE_DRAFT_ONLY": "false",
               "MAX_SOURCES_PER_RUN": "20",
+              "JOBS_ENRICH_MAX_TARGETS_PER_CYCLE": "12",
               "PUBLISH_WEAK_ARTICLES": "false",
               "ALLOW_SHORT_ARTICLES": "true",
               "MIN_ARTICLE_WORDS": "120",
@@ -256,11 +257,9 @@ jobs:
         run: python main.py queue-maintenance
 
       - name: Run auto cycle
-        # Pagination/evidence recovery can make the first cycle after queue loss
-        # exceed 10 minutes. Keep this below the 15-minute job ceiling while
-        # allowing the cycle to finish/persist instead of being killed after a
-        # successful discovery/AI pass.
-        timeout-minutes: 13
+        # Discovery remains paginated/exhaustive, while enrichment is bounded
+        # per run so the cycle still reaches AI/Blogger/Facebook within budget.
+        timeout-minutes: 10
         run: python main.py auto-cycle
 
       - name: Jobs status
