@@ -2931,8 +2931,9 @@ async def _discover_latest_article_links_async(enabled_sources):
                 }
 
                 if JOBS_MODE and resume_state:
-                    # Refresh the newest listing head on every cycle even while
-                    # a deep initial backlog is still being drained.
+                    # Always refresh the listing head first so newly inserted jobs
+                    # are visible immediately even while a deep initial backlog is
+                    # still being drained from a saved cursor.
                     head_links, head_error, head_status, head_details = await _collect_article_links_for_source_async(
                         session,
                         base_url,
@@ -2943,8 +2944,9 @@ async def _discover_latest_article_links_async(enabled_sources):
                     head_resume = (head_details or {}).get("discovery_resume") or {}
 
                     if head_resume and not head_error:
-                        # A large fresh burst itself exceeded this run's budget.
-                        # Rebase onto that burst before older backlog work.
+                        # A large burst at the head itself exceeded this run's
+                        # budget. Rebase the cursor onto that fresh burst first;
+                        # older backlog work can wait, but new vacancies cannot.
                         links = head_links
                         error = ""
                         status_code = head_status
@@ -2979,6 +2981,9 @@ async def _discover_latest_article_links_async(enabled_sources):
                         if head_error:
                             details["head_refresh_error"] = head_error
                         if resume_error:
+                            # Never lose a deep cursor because one resumed fetch
+                            # failed. The next cycle will refresh the head again
+                            # and retry this same backlog position.
                             details["backlog_resume_error"] = resume_error
                             details["discovery_resume"] = dict(resume_state)
                         error = (
