@@ -1113,6 +1113,76 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(second_meta["stop_reason"], "end")
         self.assertEqual(second_meta["resume_offset"], 0)
 
+    def test_phenom_resume_continues_through_known_overlap(self):
+        def page_html(rows):
+            return (
+                "<script>phApp.ddo = "
+                + json.dumps({"search": {"results": rows}})
+                + ";</script>"
+            )
+
+        known_rows = [
+            {
+                "jobId": f"KNOWN-{index}",
+                "jobSeqNo": f"KNOWN-SEQ-{index}",
+                "title": f"Known Orange Role {index}",
+                "applyUrl": f"https://orange.jobs/apply?jobSeqNo=KNOWN-SEQ-{index}",
+                "country": "MOROCCO",
+            }
+            for index in range(1, 11)
+        ]
+        fresh_rows = [
+            {
+                "jobId": f"FRESH-{index}",
+                "jobSeqNo": f"FRESH-SEQ-{index}",
+                "title": f"Fresh Orange Role {index}",
+                "applyUrl": f"https://orange.jobs/apply?jobSeqNo=FRESH-SEQ-{index}",
+                "country": "MOROCCO",
+            }
+            for index in range(1, 6)
+        ]
+
+        async def fake_fetch(_session, url):
+            parsed = __import__(
+                "urllib.parse",
+                fromlist=["urlparse", "parse_qs"],
+            )
+            query = parsed.parse_qs(parsed.urlparse(url).query)
+            offset = int((query.get("from") or [0])[0])
+            if offset == 30:
+                return page_html(known_rows), "", 200
+            if offset == 40:
+                return page_html(fresh_rows), "", 200
+            raise AssertionError(f"unexpected offset {offset}")
+
+        known = {
+            f"phenom:known-{index}"
+            for index in range(1, 11)
+        }
+        with patch.object(scraper, "_fetch_text_async", side_effect=fake_fetch):
+            links, error, status, meta = asyncio.run(
+                scraper._collect_phenom_links_async(
+                    object(),
+                    "https://orange.jobs/fr/fr/mea-morocco-job-search-results",
+                    per_source_limit=8,
+                    known_ids=known,
+                    max_pages=5,
+                    seen_streak_stop=8,
+                    max_items=100,
+                    start_offset=30,
+                )
+            )
+
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        self.assertEqual(
+            [row["ats_reference"] for row in links],
+            [f"FRESH-{index}" for index in range(1, 6)],
+        )
+        self.assertEqual(meta["stop_reason"], "end")
+        self.assertEqual(meta["resume_offset"], 0)
+        self.assertEqual(meta["pages_scanned"], 2)
+
     def test_phenom_page_repeat_stops_if_offset_is_ignored(self):
         rows = [
             {
