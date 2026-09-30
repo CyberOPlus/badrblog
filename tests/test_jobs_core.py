@@ -625,6 +625,79 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(second_meta["stop_reason"], "end")
         self.assertEqual(second_meta["resume_offset"], 0)
 
+    def test_workday_resume_continues_through_known_overlap(self):
+        class FakeResponse:
+            def __init__(self, payload):
+                self.status = 200
+                self._payload = payload
+
+            async def __aenter__(self):
+                return self
+
+            async def __aexit__(self, exc_type, exc, tb):
+                return False
+
+            async def text(self, errors="ignore"):
+                return json.dumps(self._payload)
+
+        class FakeSession:
+            def __init__(self):
+                self.offsets = []
+
+            def post(self, _url, json=None, headers=None, timeout=None):
+                offset = int((json or {}).get("offset") or 0)
+                self.offsets.append(offset)
+                if offset == 40:
+                    rows = [
+                        {
+                            "title": f"Known shifted role {index}",
+                            "externalPath": f"/job/{index}",
+                            "bulletFields": ["Casablanca"],
+                        }
+                        for index in range(1, 21)
+                    ]
+                    return FakeResponse({"jobPostings": rows, "total": 65})
+                rows = [
+                    {
+                        "title": f"Fresh deep role {index}",
+                        "externalPath": f"/job/{index}",
+                        "bulletFields": ["Casablanca"],
+                    }
+                    for index in range(61, 66)
+                ]
+                return FakeResponse({"jobPostings": rows, "total": 65})
+
+        known = {
+            f"url:https://tenant.wd5.myworkdayjobs.com/site/job/{index}"
+            for index in range(1, 21)
+        }
+        session = FakeSession()
+        links, error, status, meta = asyncio.run(
+            scraper._collect_workday_links_async(
+                session,
+                "https://tenant.wd5.myworkdayjobs.com/site",
+                per_source_limit=8,
+                known_ids=known,
+                max_pages=5,
+                seen_streak_stop=8,
+                max_items=100,
+                start_offset=40,
+            )
+        )
+
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        self.assertEqual(session.offsets, [40, 60])
+        self.assertEqual(
+            [row["url"] for row in links],
+            [
+                f"https://tenant.wd5.myworkdayjobs.com/site/job/{index}"
+                for index in range(61, 66)
+            ],
+        )
+        self.assertEqual(meta["stop_reason"], "end")
+        self.assertEqual(meta["resume_offset"], 0)
+
     def test_workday_seen_streak_stops_before_later_pages(self):
         class FakeResponse:
             status = 200
