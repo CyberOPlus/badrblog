@@ -13,6 +13,7 @@ import article_enricher
 import article_queue
 import facebook_publisher as facebook
 import job_core
+import job_document_renderer
 import main
 import quality_gate
 import jobs_adaptive_controller as adaptive
@@ -535,6 +536,98 @@ class JobsRuntimeTests(unittest.TestCase):
         for row in package["job_document_links"]:
             self.assertIn(row["url"], html)
         self.assertIn("الملفات والوثائق الرسمية", html)
+
+    def test_jobs_action_links_are_standardized_and_not_duplicated(self):
+        package = {
+            "job_application_url": "https://example.com/jobs/42/apply",
+            "job_application_link_kind": "direct_apply",
+            "job_detail_url": "https://example.com/jobs/42",
+            "job_document_links": [
+                {"url": "https://example.com/docs/notice.pdf", "label": "الإعلان الرسمي"},
+            ],
+        }
+        source = (
+            "<p>مقدمة الوظيفة.</p>"
+            "<p><a href='https://example.com/jobs/42/apply'>رابط قديم</a></p>"
+            "<p><a href='https://example.com/docs/notice.pdf'>ملف</a></p>"
+        )
+        with patch.object(ai, "JOBS_MODE", True):
+            html = ai._append_job_action_links_if_missing(source, package)
+        self.assertEqual(html.count(package["job_application_url"]), 1)
+        self.assertEqual(html.count(package["job_document_links"][0]["url"]), 1)
+        self.assertIn("jobApplyButton", html)
+        self.assertIn("jobDocumentButton", html)
+        self.assertIn("التقديم الآن عبر الرابط الرسمي", html)
+        self.assertIn("فتح أو تحميل الوثيقة الرسمية", html)
+
+    def test_jobs_document_pages_are_appended_in_sequence(self):
+        package = {
+            "job_document_page_images": [
+                {
+                    "document_url": "https://example.com/docs/notice.pdf",
+                    "document_label": "إعلان وشروط المباراة",
+                    "page_number": 1,
+                    "url": "https://raw.example/page-01.jpg",
+                    "alt": "إعلان وشروط المباراة — الصفحة 1",
+                },
+                {
+                    "document_url": "https://example.com/docs/notice.pdf",
+                    "document_label": "إعلان وشروط المباراة",
+                    "page_number": 2,
+                    "url": "https://raw.example/page-02.jpg",
+                    "alt": "إعلان وشروط المباراة — الصفحة 2",
+                },
+            ]
+        }
+        with patch.object(ai, "JOBS_MODE", True):
+            html = ai._append_job_document_page_images("<p>مقدمة</p>", package)
+        self.assertIn("صفحات الوثيقة الرسمية", html)
+        self.assertLess(html.index("page-01.jpg"), html.index("page-02.jpg"))
+        self.assertEqual(html.count("jobDocPageImage"), 2)
+
+    def test_official_pdf_renderer_creates_readable_page_images(self):
+        import fitz
+        import tempfile
+        from pathlib import Path
+
+        pdf = fitz.open()
+        page = pdf.new_page()
+        page.insert_text((72, 72), "Official job conditions")
+        payload = pdf.tobytes()
+        pdf.close()
+
+        class Response:
+            headers = {"Content-Type": "application/pdf"}
+
+            def raise_for_status(self):
+                return None
+
+            def iter_content(self, chunk_size=0):
+                yield payload
+
+        article = {
+            "id": "pdf-job",
+            "seo_slug": "example-engineer-casablanca",
+            "job_notice_type": "vacancy",
+            "job_document_links": [
+                {
+                    "url": "https://example.com/docs/conditions.pdf",
+                    "label": "إعلان وشروط المباراة",
+                    "context": "الشروط الرسمية",
+                }
+            ],
+        }
+        with tempfile.TemporaryDirectory() as temp, \
+             patch.object(job_document_renderer.requests, "get", return_value=Response()):
+            pages = job_document_renderer.render_job_document_pages(
+                article,
+                output_root=Path(temp),
+                raw_base="https://raw.example/main",
+            )
+            self.assertEqual(len(pages), 1)
+            self.assertTrue(Path(pages[0]["path"]).exists())
+            self.assertEqual(pages[0]["page_number"], 1)
+            self.assertTrue(pages[0]["url"].endswith(".jpg"))
 
     def test_jobs_quality_gate_rejects_scripts_and_missing_official_files(self):
         package = {
