@@ -175,8 +175,9 @@ def render_job_document_pages(
             continue
 
         digest = hashlib.sha256(_canonical_key(url).encode("utf-8")).hexdigest()[:10]
+        document_page_count = document.page_count
         available = max_total_pages - total_pages
-        page_limit = min(document.page_count, available)
+        page_limit = min(document_page_count, available)
         for page_index in range(page_limit):
             page = document.load_page(page_index)
             # A moderate scale keeps Arabic/French conditions readable on phones
@@ -195,7 +196,7 @@ def render_job_document_pages(
                     "document_url": url,
                     "document_label": label,
                     "page_number": page_index + 1,
-                    "page_count": document.page_count,
+                    "page_count": document_page_count,
                     "url": public_url,
                     "path": path.as_posix(),
                     "alt": f"{label} — الصفحة {page_index + 1}",
@@ -204,7 +205,7 @@ def render_job_document_pages(
             total_pages += 1
         document.close()
 
-        if page_limit < document.page_count:
+        if page_limit < document_page_count:
             article["job_document_pages_truncated"] = True
             break
 
