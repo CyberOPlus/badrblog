@@ -354,7 +354,12 @@ def run_fetch_only():
     published_set = set() if JOBS_MODE else load_published_ids()
     topic_fingerprints = set() if JOBS_MODE else load_topic_fingerprints()
     category_context = {}
-    if CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
+    if JOBS_MODE:
+        # Jobs discovery is exhaustive and stateful. Do not route it through
+        # recent-news/category first-valid shortcuts that can hide lower listing
+        # pages or defer whole sources indefinitely.
+        discovery = discover_latest_article_links(enabled_sources)
+    elif CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
         existing_queue = load_article_queue()
         category_order = _available_category_labels(enabled_sources)
         hourly_batch = SAFE_CYCLE_MAX_ARTICLES > 1
