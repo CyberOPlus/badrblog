@@ -16,6 +16,8 @@ on:
       - "job_document_renderer.py"
       - "article_enricher.py"
       - "article_queue.py"
+      - "runtime_state.py"
+      - "google_indexing.py"
       - "article_processor.py"
       - "article_ai_processor.py"
       - "article_draft_publisher.py"
@@ -40,14 +42,14 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime -v
+      - run: python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime tests.test_production_hardening -v
       - name: Verify workflow publishing guardrails
         run: |
           python -m unittest \

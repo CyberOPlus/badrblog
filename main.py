@@ -34,6 +34,7 @@ from article_queue import (
     add_articles_to_queue,
     archive_expired_queue_articles,
     archive_published_queue_article,
+    repair_job_link_bindings,
     get_fresh_queue_candidates,
     load_article_queue,
     load_sources,
@@ -2407,6 +2408,17 @@ def run_safe_cycle_only():
 
     if SAFE_CYCLE_MAX_ARTICLES != 1:
         return run_hourly_category_cycle()
+
+    if JOBS_MODE:
+        repair_stats = repair_job_link_bindings()
+        if repair_stats.get("repaired"):
+            print(
+                "Jobs link repair: "
+                f"repaired={repair_stats['repaired']} | "
+                f"reopened_published={repair_stats['reopened_published']} | "
+                f"removed_actions={repair_stats['removed_action_links']} | "
+                f"removed_documents={repair_stats['removed_document_links']}"
+            )
 
     schedule_status = get_publish_schedule_status(mode=publish_mode)
     print_safe_cycle_status(schedule_status)
