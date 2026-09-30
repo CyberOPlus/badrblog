@@ -721,7 +721,7 @@ def _prepare_job_article_cover(article):
     if not (logo_verified and logo_url):
         _clear_optional_job_cover(article, package)
         article["logo_resolution_status"] = "unavailable_optional"
-        article["job_article_cover_status"] = "skipped_missing_verified_logo"
+        article["job_article_cover_status"] = "optional_missing_verified_logo"
         article["article_logo_used"] = False
         article["visual_readiness_status"] = "content_ready_visual_optional"
         article.pop("logo_visual_retry_pending", None)
@@ -734,7 +734,7 @@ def _prepare_job_article_cover(article):
             article.pop("candidate_failure_stage", None)
             article.pop("candidate_retry_after", None)
         package["logo_resolution_status"] = "unavailable_optional"
-        package["job_article_cover_status"] = "skipped_missing_verified_logo"
+        package["job_article_cover_status"] = "optional_missing_verified_logo"
         package["article_logo_used"] = False
         article.pop("publish_block_reason", None)
         package.pop("publish_block_reason", None)
