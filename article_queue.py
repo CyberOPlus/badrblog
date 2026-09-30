@@ -974,7 +974,6 @@ def maintain_article_queue(days=7):
         "archived_old_skipped": 0,
         "archived_old_failed": 0,
         "archived_duplicate_urls": 0,
-        "archived_stale_logo_wait": 0,
         "released_logo_waits": 0,
         "archived_stale_no_deadline": 0,
         "already_archived": 0,
@@ -1058,7 +1057,6 @@ def maintain_article_queue(days=7):
         stats["archived_old_skipped"]
         or stats["archived_old_failed"]
         or stats["archived_duplicate_urls"]
-        or stats["archived_stale_logo_wait"]
         or stats["released_logo_waits"]
         or stats["archived_stale_no_deadline"]
         or stats["compacted_archived"]
