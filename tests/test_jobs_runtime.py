@@ -677,8 +677,10 @@ class JobsRuntimeTests(unittest.TestCase):
             "processing_status": "ready_for_ai",
             "ai_input_package": {
                 "title": "Network Engineer",
+                "url": "https://example.com/jobs/quality",
                 "full_article_text": "verified source text",
                 "job_notice_type": "vacancy",
+                "job_notice_type_source": "heuristic",
             },
         }
         queue = {"articles": [article]}
