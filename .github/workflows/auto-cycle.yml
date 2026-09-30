@@ -9,7 +9,9 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: auto-cycle-${{ github.ref }}
+  # Production schedule/manual runs share their own lock. Older push-smoke
+  # runs used a different group and cannot starve the live schedule anymore.
+  group: jobs-production-${{ github.ref }}
   cancel-in-progress: false
 
 env:
