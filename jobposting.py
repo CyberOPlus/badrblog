@@ -161,8 +161,8 @@ def _salary_schema(article):
 
 def jobposting_validation_errors(article):
     notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
-    if notice_type != "vacancy":
-        return ["notice is not an active vacancy"]
+    if notice_type not in {"vacancy", "competition"}:
+        return ["notice is not an active job opening"]
 
     errors = []
     title = str(article.get("job_title") or article.get("seo_title") or article.get("title") or "").strip()
