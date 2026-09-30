@@ -100,6 +100,8 @@ def _build_ai_input_package(article):
         "job_document_text_pages": article.get("job_document_text_pages", 0),
         "job_document_text_chars": article.get("job_document_text_chars", 0),
         "job_document_text_truncated": bool(article.get("job_document_text_truncated", False)),
+        "job_document_text_download_failures": int(article.get("job_document_text_download_failures") or 0),
+        "identity_evidence_stage_status": article.get("identity_evidence_stage_status", ""),
         "job_number_of_positions": article.get("job_number_of_positions", 0),
         "job_diploma": article.get("job_diploma", ""),
         "job_experience": article.get("job_experience", ""),
