@@ -11,8 +11,8 @@ from config import INTERNAL_LINK_CACHE_PATH
 from production_logging import log_event
 
 
-INTERNAL_LINK_TTL_MINUTES = 60
-INTERNAL_LINK_CACHE_LIMIT = 50
+INTERNAL_LINK_TTL_MINUTES = 60 * 24 * 180
+INTERNAL_LINK_CACHE_LIMIT = 500
 MAX_INSERTED_INTERNAL_LINKS = 3
 MAX_INSERTED_TRUSTED_LINKS = 3
 
@@ -185,7 +185,14 @@ def _article_keywords(article):
             article.get("title"),
             article.get("fetched_title"),
             article.get("suggested_category"),
+            article.get("job_company"),
+            article.get("job_title"),
+            article.get("job_location"),
+            article.get("job_contract_type"),
             package.get("title"),
+            package.get("job_company"),
+            package.get("job_title"),
+            package.get("job_location"),
             " ".join(values or []),
         )
     )
@@ -209,6 +216,11 @@ def record_published_article(article, post_url, path=INTERNAL_LINK_CACHE_PATH, n
         "slug": article.get("seo_slug") or article.get("slug") or "",
         "published_at": _iso(_parse_dt(article.get("published_at")) or now),
         "keywords": _article_keywords(article),
+        "job_company": article.get("job_company") or "",
+        "job_title": article.get("job_title") or "",
+        "job_location": article.get("job_location") or "",
+        "job_contract_type": article.get("job_contract_type") or "",
+        "notice_type": article.get("job_notice_type") or "",
     }
     links.insert(0, entry)
     data["links"] = links
@@ -232,11 +244,39 @@ def _score_internal_candidate(article, candidate):
         article.get("final_html"),
         " ".join(_article_keywords(article)),
     )
-    candidate_tokens = _tokenize(title_b, candidate.get("category"), " ".join(candidate.get("keywords") or []))
+    candidate_tokens = _tokenize(
+        title_b,
+        candidate.get("category"),
+        candidate.get("job_company"),
+        candidate.get("job_title"),
+        candidate.get("job_location"),
+        candidate.get("job_contract_type"),
+        " ".join(candidate.get("keywords") or []),
+    )
     overlap = current_tokens & candidate_tokens
     score = len(overlap)
     if article.get("suggested_category") and article.get("suggested_category") == candidate.get("category"):
         score += 2
+
+    current_company = str(article.get("job_company") or "").strip().casefold()
+    candidate_company = str(candidate.get("job_company") or "").strip().casefold()
+    if current_company and candidate_company and current_company == candidate_company:
+        score += 8
+
+    current_location = str(article.get("job_location") or "").strip().casefold()
+    candidate_location = str(candidate.get("job_location") or "").strip().casefold()
+    if current_location and candidate_location and current_location == candidate_location:
+        score += 4
+
+    current_contract = str(article.get("job_contract_type") or "").strip().casefold()
+    candidate_contract = str(candidate.get("job_contract_type") or "").strip().casefold()
+    if current_contract and candidate_contract and current_contract == candidate_contract:
+        score += 2
+
+    current_notice = str(article.get("job_notice_type") or "").strip().casefold()
+    candidate_notice = str(candidate.get("notice_type") or "").strip().casefold()
+    if current_notice and candidate_notice and current_notice == candidate_notice:
+        score += 1
     return score
 
 

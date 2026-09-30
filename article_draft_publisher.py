@@ -29,7 +29,14 @@ from config import (
 )
 from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
-from internal_link_cache import apply_link_enrichment, record_published_article
+from internal_link_cache import (
+    apply_link_enrichment,
+    insert_internal_links,
+    load_internal_link_cache,
+    record_published_article,
+)
+from jobposting import append_jobposting, jobposting_validation_errors
+from google_indexing import notify_job_url
 from source_sanitizer import sanitize_source_links
 from company_logo_resolver import refresh_company_logo, verified_company_logo
 from utils.facebook_image_generator import generate_job_article_cover
@@ -434,16 +441,18 @@ def _sanitize_article_final_html(article):
     )
 
     if JOBS_MODE:
-        # Jobs post bodies stay content-only. Template/page-level schema may be
-        # handled separately, but no script is injected into the Blogger body.
+        # AI output stays content-only. Structured data is appended separately
+        # after Blogger returns the canonical live URL.
         cleaned = re.sub(r"<script\b[^>]*>.*?</script>", "", cleaned, flags=re.I | re.S).strip()
         removed_count = 0
+        cache_data, cache_stats = load_internal_link_cache(save=True)
+        cleaned, internal_count = insert_internal_links(cleaned, article, cache_data)
         link_stats = {
-            "internal_cache_loaded": 0,
-            "expired_internal_links_removed": 0,
-            "internal_links_inserted_count": 0,
+            "internal_cache_loaded": cache_stats.get("loaded", 0),
+            "expired_internal_links_removed": cache_stats.get("expired_removed", 0),
+            "internal_links_inserted_count": internal_count,
             "external_trusted_links_inserted_count": 0,
-            "internal_cache_saved": False,
+            "internal_cache_saved": bool(cache_stats.get("saved")),
         }
     else:
         cleaned, removed_count = sanitize_source_links(cleaned, source_domain)
@@ -568,8 +577,40 @@ def _publish_if_live(service, post, mode):
 
 
 def _apply_jobposting_schema(service, post, article, mode):
-    """Keep JobPosting/schema scripts out of the Blogger post body."""
-    return post
+    """Append one backend-generated JobPosting JSON-LD block to a live Jobs post."""
+    if not JOBS_MODE or _effective_publish_mode(mode) != "live":
+        return post
+
+    post_url = str((post or {}).get("url") or "").strip()
+    errors = jobposting_validation_errors(article)
+    if not post_url or errors:
+        article["jobposting_schema_status"] = "skipped"
+        article["jobposting_schema_errors"] = list(errors or ["missing live post URL"])
+        log_event(
+            "jobposting_schema_skipped",
+            article_id=article.get("id"),
+            errors="; ".join(article["jobposting_schema_errors"]),
+        )
+        return post
+
+    body = _build_post_body(article)
+    body["content"] = append_jobposting(body.get("content", ""), article, post_url)
+    request = service.posts().update(blogId=BLOG_ID, postId=post["id"], body=body)
+    updated = _execute_blogger_request(
+        request,
+        "append JobPosting structured data",
+        safe_to_retry=True,
+    )
+    updated = _ensure_returned_post_url(service, updated)
+    article["jobposting_schema_status"] = "applied"
+    article.pop("jobposting_schema_errors", None)
+    log_event(
+        "jobposting_schema_applied",
+        article_id=article.get("id"),
+        post_id=post.get("id"),
+        url=post_url,
+    )
+    return updated
 
 
 def _apply_success(article, post, mode):
@@ -585,6 +626,12 @@ def _apply_success(article, post, mode):
         article["publish_status"] = "published"
         cache_stats = record_published_article(article, article.get("blogger_post_url", ""))
         article["internal_cache_saved"] = bool(cache_stats.get("saved"))
+        indexing = notify_job_url(article.get("blogger_post_url", ""), article=article)
+        article["google_indexing_status"] = indexing.get("status", "disabled")
+        if indexing.get("error"):
+            article["google_indexing_error"] = indexing["error"]
+        else:
+            article.pop("google_indexing_error", None)
     else:
         article["status"] = "draft_created"
         article["draft_created_at"] = now
