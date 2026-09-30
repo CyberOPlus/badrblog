@@ -123,7 +123,7 @@ def _document_identity_priority(item, article):
     if any(hint in signature for hint in IDENTITY_DOCUMENT_HINTS):
         score += 8
     if any(hint in signature for hint in RESULT_HINTS):
-        score += 7 if result_notice else -5
+        score += 12 if result_notice else -5
     if str((item or {}).get("url") or "").casefold().split("?", 1)[0].endswith(".pdf"):
         score += 1
     return score
