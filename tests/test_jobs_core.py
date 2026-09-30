@@ -12,6 +12,8 @@ import article_queue
 import company_logo_resolver
 import job_core
 import job_extractor
+import jobposting
+import internal_link_cache
 import quality_gate
 import scraper
 
@@ -89,6 +91,84 @@ class JobsCoreTests(unittest.TestCase):
         slug = job_core.desired_slug(row, campaign_id="opaque-campaign")
         self.assertIn("orange-business-consultant-cyber-securite", slug)
         self.assertTrue(slug.endswith("icm-584854"), slug)
+
+    def test_jobposting_schema_uses_verified_job_entities(self):
+        row = sample_job(
+            job_contract_type="Temps plein",
+            job_salary="8 000 - 12 000 MAD par mois",
+            job_application_link_kind="direct_apply",
+            company_logo_verified=True,
+            company_logo_url="https://example.com/logo.png",
+            ats_reference="ICM-584854",
+            final_html="<p>Description détaillée du poste.</p>",
+        )
+        schema = jobposting.build_jobposting(
+            row,
+            "https://jobs.example.com/2026/09/example-role.html",
+        )
+        self.assertEqual(schema["@type"], "JobPosting")
+        self.assertEqual(schema["title"], "Technicien informatique")
+        self.assertEqual(schema["employmentType"], "FULL_TIME")
+        self.assertEqual(schema["hiringOrganization"]["name"], "Example SA")
+        self.assertTrue(schema["directApply"])
+        self.assertEqual(schema["baseSalary"]["currency"], "MAD")
+        self.assertEqual(schema["baseSalary"]["value"]["minValue"], 8000)
+        self.assertEqual(schema["baseSalary"]["value"]["maxValue"], 12000)
+        self.assertEqual(schema["baseSalary"]["value"]["unitText"], "MONTH")
+        self.assertFalse(jobposting.jobposting_validation_errors(row))
+
+    def test_jobposting_does_not_guess_unparseable_salary(self):
+        row = sample_job(
+            job_salary="راتب تنافسي",
+            final_html="<p>تفاصيل الوظيفة الرسمية.</p>",
+        )
+        schema = jobposting.build_jobposting(row, "https://example.com/job")
+        self.assertNotIn("baseSalary", schema)
+
+    def test_jobs_internal_link_cache_is_long_lived_and_entity_weighted(self):
+        now = datetime(2026, 9, 30, 10, 0, tzinfo=timezone.utc)
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "internal-links.json"
+            old = now.replace(year=2026, month=8, day=1)
+            data = {
+                "links": [
+                    {
+                        "title": "Orange Business توظف مهندس أمن سيبراني",
+                        "url": "https://example.com/jobs/orange-security",
+                        "category": "jobs",
+                        "published_at": old.isoformat(),
+                        "keywords": ["orange", "cyber"],
+                        "job_company": "Orange Business",
+                        "job_title": "مهندس أمن سيبراني",
+                        "job_location": "Casablanca",
+                        "job_contract_type": "CDI",
+                        "notice_type": "vacancy",
+                    }
+                ]
+            }
+            path.write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+            loaded, stats = internal_link_cache.load_internal_link_cache(
+                path=path,
+                now=now,
+                save=False,
+            )
+            self.assertEqual(stats["expired_removed"], 0)
+            current = sample_job(
+                seo_title="Orange Business توظف مستشار أمن سيبراني بالدار البيضاء",
+                job_company="Orange Business",
+                job_title="مستشار أمن سيبراني",
+                job_location="Casablanca",
+                job_contract_type="CDI",
+                final_html="<p>أمن سيبراني</p>",
+                suggested_category="jobs",
+            )
+            selected = internal_link_cache.select_internal_link_candidates(
+                current,
+                loaded["links"],
+                limit=3,
+            )
+            self.assertEqual(len(selected), 1)
+            self.assertEqual(selected[0]["job_company"], "Orange Business")
 
     def test_extractor_keeps_arabic_public_job_files_and_exam_date(self):
         html = """
