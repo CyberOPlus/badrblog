@@ -90,7 +90,15 @@ LONG_FORM_ARTICLE_TARGET_RANGE = "700-1000"
 RICH_INPUT_MIN_SOURCE_WORDS = 180
 RICH_INPUT_MIN_SOURCE_CHARS = 1200
 REQUIRED_ARTICLE_FIELDS = ("title", "description", "slug", "html_content")
-JOBS_REQUIRED_ARTICLE_FIELDS = REQUIRED_ARTICLE_FIELDS + ("facebook_post_text",)
+ALLOWED_JOB_NOTICE_TYPES = {
+    "vacancy",
+    "competition",
+    "candidate_list",
+    "results",
+    "final_results",
+    "update",
+}
+JOBS_REQUIRED_ARTICLE_FIELDS = REQUIRED_ARTICLE_FIELDS + ("notice_type", "facebook_post_text",)
 
 
 class AIProviderFallbackNeeded(RuntimeError):
@@ -483,8 +491,22 @@ def _source_text_for_package(package):
 
 def _source_stats(package):
     source_text = _source_text_for_package(package)
-    words = len(re.findall(r"\b\w+\b", source_text, flags=re.UNICODE))
-    return source_text, len(source_text), words
+    evidence_parts = [source_text]
+
+    for table in (package or {}).get("source_tables") or []:
+        if not isinstance(table, dict):
+            continue
+        for row in table.get("rows") or []:
+            if isinstance(row, (list, tuple)):
+                evidence_parts.extend(str(cell or "") for cell in row)
+
+    for page in (package or {}).get("job_document_texts") or []:
+        if isinstance(page, dict):
+            evidence_parts.append(str(page.get("text") or ""))
+
+    evidence_text = "\n".join(part for part in evidence_parts if str(part or "").strip())
+    words = len(re.findall(r"\b\w+\b", evidence_text, flags=re.UNICODE))
+    return source_text, len(evidence_text), words
 
 
 def _is_rich_input_package(package):
@@ -595,7 +617,7 @@ understand WHAT changed, WHO it concerns, the verified requirements and duties w
 the deadline/status, and the strongest official action or document without having to search elsewhere.
 
 OUTPUT
-- Return JSON only with exactly: title, description, slug, html_content, facebook_post_text.
+- Return JSON only with exactly: title, description, slug, html_content, notice_type, facebook_post_text.
 - No markdown fences, notes, commentary, or extra keys.
 
 STRICT ACCURACY
@@ -673,16 +695,28 @@ FACEBOOK POST — AI EDITORIAL DECISION
 - Keep the post concise but information-rich; normally 140-700 characters before hashtags, and longer only when verified facts genuinely require it.
 - Mixed-script display is handled by the publisher: write English/French terms normally; do NOT reverse their letters and do NOT insert bidi control characters yourself.
 
-NOTICE TYPE
-- Read job_notice_type and job_notice_status before writing.
-- vacancy: write an active opportunity/competition article and explain how to apply.
-- candidate_list: this is NOT a new vacancy. State that candidate/invited lists were
-  published and direct readers to the official lists; never tell them to submit a new application.
-- results/final_results: state the published result status accurately; never present it as a new opening.
-- provisional: explicitly say the list/result is provisional and may be updated when
-  that status is verified. final: describe it as final only when verified.
-- If the source text clearly represents an update to an existing competition, make
-  the update itself the focus instead of rewriting the old vacancy as new.
+EVIDENCE AND NOTICE TYPE
+- Treat job_notice_type/job_notice_type_hint as a heuristic hint only, never as the final editorial decision.
+- Read ALL available verified evidence before deciding: source title, full_article_text, dates,
+  job_number_of_positions, source_tables, job_action_links, job_document_links, and every non-empty
+  job_document_texts page extracted from official PDFs.
+- source_tables preserve row/cell relationships. Use them to understand role breakdowns, specialties,
+  seat/position counts, test duration/coefficient, institutions, dates, and other structured facts.
+  Do not flatten unrelated cells into invented relationships.
+- job_document_texts are page-numbered text extracted directly from official PDFs. Treat a non-empty page
+  as verified documentary evidence. If a PDF page has no extractable text, do not guess what the image says.
+- Decide the final notice_type yourself and return exactly ONE of:
+  "vacancy", "competition", "candidate_list", "results", "final_results", "update".
+- vacancy = a private/company employment opening or ordinary job vacancy accepting applications.
+- competition = a new public recruitment competition/match accepting applications, including multi-position campaigns.
+- candidate_list = invited/accepted candidate lists or written/oral-stage summons; it is not a fresh opening.
+- results = published non-final/intermediate results.
+- final_results = explicitly final results.
+- update = a material update to an existing campaign that is not itself a fresh opening, candidate list, or results page.
+- job_notice_status may help with provisional/final wording, but never call something final unless the evidence says so.
+- For vacancy/competition, explain how to apply only when the verified evidence supports an active application.
+- For candidate_list/results/final_results/update, make the current update the focus and never tell readers to submit
+  a new application unless the current evidence explicitly reopens applications.
 
 INTRODUCTION
 - Start with ONE short factual paragraph naming the employer, the clearly translated Arabic
@@ -829,6 +863,7 @@ OUTPUT JSON SHAPE:
   "description": "Arabic meta description",
   "slug": "english-company-role-location",
   "html_content": "clean semantic HTML",
+  "notice_type": "vacancy | competition | candidate_list | results | final_results | update",
   "facebook_post_text": "Arabic Facebook post with no URL; end with first-comment CTA and 3-5 hashtags"
 }}
 
@@ -985,6 +1020,12 @@ def _validate_ai_output(data, package=None):
     html_content = str(data["html_content"]).strip()
 
     if JOBS_MODE:
+        notice_type = str(data.get("notice_type") or "").strip().lower()
+        if notice_type not in ALLOWED_JOB_NOTICE_TYPES:
+            raise AIIncompleteResponseError(
+                "Jobs notice_type must be one of: " + ", ".join(sorted(ALLOWED_JOB_NOTICE_TYPES))
+            )
+        data["notice_type"] = notice_type
         slug = _normalize_job_english_slug(data.get("slug", ""))
         if not re.fullmatch(r"[a-z]+(?:-[a-z]+){1,6}", slug or ""):
             raise AIIncompleteResponseError(
@@ -1048,7 +1089,7 @@ def _build_expansion_retry_prompt(package, previous_data, previous_error):
     source_text = _source_text_for_package(package)
     if JOBS_MODE:
         return f"""
-Return JSON only with title, description, slug, html_content, facebook_post_text.
+Return JSON only with title, description, slug, html_content, notice_type, facebook_post_text.
 
 The previous compact job listing failed this quality rule:
 {previous_error}
@@ -1060,6 +1101,8 @@ MANDATORY JOB RETRY RULES:
 - If the source package is thin, normally use 160-240 Arabic words or less when facts are limited.
 - Never invent, repeat, speculate, or add boilerplate to reach a word count.
 - Preserve every useful verified fact, duty, requirement, deadline, official document, and application resource.
+- Re-evaluate ALL evidence, including source_tables and job_document_texts, and return the correct notice_type:
+  vacancy, competition, candidate_list, results, final_results, or update. The incoming job_notice_type is only a hint.
 - Re-edit the title as a human Moroccan employment/competition editor: understand the current page type and stage first, then choose the clearest natural headline.
 - Do not force a fixed formula or a 45-75-character target; preserve useful verified meaning within the accepted 28-150 range.
 - A new public recruitment notice should read naturally as "مباراة توظيف/مباريات توظيف" when appropriate; a private role may use "توظف/تعلن عن توظيف"; candidate lists and results MUST foreground their verified stage and must never be rewritten as a fresh vacancy.
@@ -2770,6 +2813,13 @@ def _apply_success(article, data, provider_used):
     article["final_html"] = final_html
     article["blogger_article_html"] = final_html
     if JOBS_MODE:
+        ai_notice_type = str(data.get("notice_type") or "").strip().lower()
+        article["job_notice_type"] = ai_notice_type
+        article["job_notice_type_source"] = "ai"
+        package["job_notice_type"] = ai_notice_type
+        package["job_notice_type_ai"] = ai_notice_type
+        package["job_notice_type_source"] = "ai"
+        article["ai_input_package"] = package
         article["facebook_post_text"] = str(data.get("facebook_post_text") or "").strip()
         article["facebook_post_source"] = "ai"
     article["final_word_count"] = word_count
@@ -2896,8 +2946,19 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             previous_data = data
             data = _shorten_metadata_once_if_needed(data)
             data = _normalize_ai_output(data)
-            data = _finalize_html_content(data, package)
-            _validate_ai_output(data, package=package)
+            finalize_package = package
+            if JOBS_MODE:
+                ai_notice_type = str(data.get("notice_type") or "").strip().lower()
+                if ai_notice_type not in ALLOWED_JOB_NOTICE_TYPES:
+                    raise AIIncompleteResponseError(
+                        "Jobs notice_type must be one of: " + ", ".join(sorted(ALLOWED_JOB_NOTICE_TYPES))
+                    )
+                finalize_package = dict(package)
+                finalize_package["job_notice_type"] = ai_notice_type
+                finalize_package["job_notice_type_ai"] = ai_notice_type
+                finalize_package["job_notice_type_source"] = "ai"
+            data = _finalize_html_content(data, finalize_package)
+            _validate_ai_output(data, package=finalize_package)
             log_event(
                 "ai_complete_response_accepted",
                 article_id=article.get("id"),
