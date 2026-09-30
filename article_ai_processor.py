@@ -879,7 +879,7 @@ OUTPUT JSON SHAPE:
   "description": "Arabic meta description",
   "slug": "english-company-role-location",
   "html_content": "clean semantic HTML",
-  "notice_type": "vacancy | competition | candidate_list | results | final_results | update",
+  "notice_type": "vacancy | competition | candidate_list | results | final_results | update"
 }}
 
 VERIFIED JOB PACKAGE:
@@ -889,7 +889,7 @@ VERIFIED JOB PACKAGE:
         return f"""
 You are a fast Arabic technology news editor for a Blogger automation pipeline.
 
-Create blogger_article_html: a useful, publish-ready Arabic news article. This is
+Create blogger_article_html: a useful, publish-ready Arabic news article. This is a Blogger article, not a social report or short social caption.
 
 STRICT FAST NEWS RULES:
 - Return JSON only. No markdown fences, notes, or explanations.
@@ -1187,8 +1187,7 @@ Return JSON only using the same shape as before.
 The previous Blogger article failed the production quality gate:
 {previous_error}
 
-Rewrite the article from the source material into a complete long-form Arabic
-not a social report.
+Rewrite the article from the source material into a complete long-form Arabic Blogger article, not a social report.
 
 Mandatory fixes:
 - The response is rejected unless title, description, slug, and html_content are all present.
