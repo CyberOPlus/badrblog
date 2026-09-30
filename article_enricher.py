@@ -830,6 +830,61 @@ def _container_text(container, include_tables=True):
     return "" if _is_noisy_text(fallback) else fallback
 
 
+def _extract_source_tables(
+    soup,
+    *,
+    max_tables=12,
+    max_rows_per_table=120,
+    max_cells_per_row=16,
+    max_total_chars=24000,
+):
+    """Preserve source table structure as AI evidence instead of flattening every cell into prose."""
+    extracted = []
+    total_chars = 0
+    truncated = False
+
+    for table_index, table in enumerate(soup.find_all("table"), start=1):
+        if len(extracted) >= max_tables or total_chars >= max_total_chars:
+            truncated = True
+            break
+        if table.find_parent(["nav", "header", "footer", "aside", "form"]):
+            continue
+
+        caption_node = table.find("caption")
+        caption = _normalize_text(caption_node.get_text(" ", strip=True) if caption_node else "")
+        rows = []
+
+        for row in table.find_all("tr"):
+            if len(rows) >= max_rows_per_table or total_chars >= max_total_chars:
+                truncated = True
+                break
+            cells = []
+            for cell in row.find_all(["th", "td"], recursive=False)[:max_cells_per_row]:
+                text = _normalize_text(cell.get_text(" ", strip=True))
+                if text:
+                    cells.append(text)
+            if not cells:
+                continue
+
+            row_chars = sum(len(cell) for cell in cells) + max(0, len(cells) - 1) * 3
+            if total_chars + row_chars > max_total_chars:
+                truncated = True
+                break
+            rows.append(cells)
+            total_chars += row_chars
+
+        if rows:
+            extracted.append(
+                {
+                    "table_index": table_index,
+                    "caption": caption,
+                    "rows": rows,
+                }
+            )
+
+    return extracted, truncated
+
+
 def _best_text_for_selector(soup, selector, method):
     best = ""
     for candidate in soup.select(selector):
@@ -1075,6 +1130,10 @@ def _apply_enrichment_from_html(article, html, url):
     article["meta_description"] = meta_description
 
     if JOBS_MODE:
+        source_tables, source_tables_truncated = _extract_source_tables(job_source_soup)
+        article["source_tables"] = source_tables
+        article["source_tables_count"] = len(source_tables)
+        article["source_tables_truncated"] = bool(source_tables_truncated)
         article.update(extract_job_fields(job_source_soup, article, url, full_text=full_text))
         try:
             article.update(resolve_company_logo(job_source_soup, article, url))
