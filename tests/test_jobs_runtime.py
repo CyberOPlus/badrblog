@@ -454,6 +454,7 @@ class JobsRuntimeTests(unittest.TestCase):
             {"provider": "groq", "api_key": "k1", "model": "m2"},
         ]
         with patch.object(ai, "JOBS_MODE", True), \
+             patch.object(ai, "AI_TIMEOUT_RETRIES", 0), \
              patch.object(ai, "_global_circuit_remaining", return_value=0), \
              patch.object(ai, "_provider_circuit_remaining", return_value=0), \
              patch.object(ai, "_provider_candidates", return_value=candidates), \
