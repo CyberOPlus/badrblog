@@ -472,6 +472,47 @@ def is_article_safe_for_ai(article, now=None):
     return published_at >= _fresh_queue_cutoff(now=now, max_age_hours=FRESHNESS_HARD_MAX_HOURS)
 
 
+def _release_legacy_logo_wait(article):
+    if not JOBS_MODE or article.get("publish_status") != "waiting_for_logo":
+        return False
+
+    article["publish_status"] = "visual_optional_ready"
+    article["logo_resolution_status"] = "unavailable_optional"
+    article["job_article_cover_status"] = "skipped_missing_verified_logo"
+    article["visual_readiness_status"] = "content_ready_visual_optional"
+    article["article_logo_used"] = False
+
+    if (
+        article.get("ai_status") == "completed"
+        and article.get("final_html")
+        and article.get("status") not in {"published", "draft_created"}
+    ):
+        article["status"] = "ready"
+
+    for field in (
+        "logo_first_wait_at",
+        "logo_retry_after",
+        "candidate_retry_after",
+        "publish_block_reason",
+    ):
+        article.pop(field, None)
+
+    if article.get("candidate_failure_stage") == "company-logo":
+        article.pop("candidate_failure_stage", None)
+        article.pop("candidate_failure_reason", None)
+        article.pop("candidate_failed_at", None)
+
+    if "Verified company logo" in str(article.get("publish_error") or ""):
+        article.pop("publish_error", None)
+
+    log_event(
+        "job_legacy_logo_wait_released",
+        article_id=article.get("id"),
+        company=article.get("job_company"),
+    )
+    return True
+
+
 def archive_expired_queue_articles(now=None, max_age_hours=None):
     queue = load_article_queue()
     articles = queue.get("articles", [])
@@ -480,9 +521,14 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
     expired = 0
     missing_date = 0
 
+    released_logo_waits = 0
+
     for article in articles:
         if article.get("archived"):
             continue
+        if _release_legacy_logo_wait(article):
+            released_logo_waits += 1
+            changed = True
         if article.get("status") in {"published", "draft_created"}:
             continue
 
@@ -502,6 +548,7 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
         "expired_archived": expired,
         "missing_date_archived": missing_date,
         "changed": changed,
+        "released_logo_waits": released_logo_waits,
         "total_queued": len(articles),
     }
 
@@ -899,6 +946,7 @@ def maintain_article_queue(days=7):
         "archived_old_failed": 0,
         "archived_duplicate_urls": 0,
         "archived_stale_logo_wait": 0,
+        "released_logo_waits": 0,
         "archived_stale_no_deadline": 0,
         "already_archived": 0,
         "active_count": 0,
@@ -911,20 +959,8 @@ def maintain_article_queue(days=7):
             stats["already_archived"] += 1
             continue
 
-        if JOBS_MODE and article.get("publish_status") == "waiting_for_logo":
-            logo_anchor = _as_utc(
-                _parse_iso(
-                    article.get("logo_first_wait_at")
-                    or article.get("candidate_failed_at")
-                    or article.get("selected_at")
-                    or article.get("discovered_at")
-                )
-            )
-            now_utc = datetime.now(timezone.utc)
-            if logo_anchor and logo_anchor < now_utc - timedelta(days=14):
-                if _archive_article(article, "logo_unresolved_older_than_14_days", archived_at):
-                    stats["archived_stale_logo_wait"] += 1
-                continue
+        if _release_legacy_logo_wait(article):
+            stats["released_logo_waits"] += 1
 
         if (
             JOBS_MODE
@@ -994,6 +1030,7 @@ def maintain_article_queue(days=7):
         or stats["archived_old_failed"]
         or stats["archived_duplicate_urls"]
         or stats["archived_stale_logo_wait"]
+        or stats["released_logo_waits"]
         or stats["archived_stale_no_deadline"]
         or stats["compacted_archived"]
     ):
