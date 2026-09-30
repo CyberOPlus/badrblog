@@ -1238,10 +1238,15 @@ async def _collect_workday_links_async(
     max_pages=None,
     seen_streak_stop=None,
     max_items=None,
+    start_offset=0,
 ):
     cfg = _workday_config(source_url)
     if not cfg:
-        return [], "invalid workday source URL", None
+        return [], "invalid workday source URL", None, {
+            "stop_reason": "invalid_source",
+            "resume_offset": 0,
+            "pages_scanned": 0,
+        }
 
     page_size = max(
         1,
@@ -1256,19 +1261,26 @@ async def _collect_workday_links_async(
     working_known = set(known_ids or ())
     links = []
     seen_streak = 0
-    offset = 0
+    try:
+        offset = max(0, int(start_offset or 0))
+    except (TypeError, ValueError):
+        offset = 0
     started = time.perf_counter()
     status_code = 200
     stop_reason = "end"
+    resume_offset = 0
+    pages_scanned = 0
 
-    for page_number in range(1, max_pages + 1):
+    for _page_number in range(1, max_pages + 1):
+        pages_scanned += 1
+        current_offset = offset
         try:
             async with session.post(
                 cfg["api_url"],
                 json={
                     "appliedFacets": {},
                     "limit": page_size,
-                    "offset": offset,
+                    "offset": current_offset,
                     "searchText": "",
                 },
                 headers={
@@ -1281,16 +1293,26 @@ async def _collect_workday_links_async(
                 status_code = response.status
                 text = await response.text(errors="ignore")
                 if response.status >= 400:
+                    stop_reason = f"partial_http_{response.status}" if links else f"http_{response.status}"
+                    resume_offset = current_offset
                     if links:
-                        stop_reason = f"partial_http_{response.status}"
                         break
-                    return [], f"http {response.status}", response.status
+                    return [], f"http {response.status}", response.status, {
+                        "stop_reason": stop_reason,
+                        "resume_offset": resume_offset,
+                        "pages_scanned": pages_scanned,
+                    }
                 data = json.loads(text or "{}")
         except (asyncio.TimeoutError, aiohttp.ClientError, ValueError, json.JSONDecodeError) as error:
+            stop_reason = f"partial_{error.__class__.__name__}" if links else error.__class__.__name__
+            resume_offset = current_offset
             if links:
-                stop_reason = f"partial_{error.__class__.__name__}"
                 break
-            return [], error.__class__.__name__, None
+            return [], error.__class__.__name__, None, {
+                "stop_reason": stop_reason,
+                "resume_offset": resume_offset,
+                "pages_scanned": pages_scanned,
+            }
 
         rows = [
             row
@@ -1323,20 +1345,21 @@ async def _collect_workday_links_async(
             page_links,
             working_known,
             seen_streak_stop=seen_streak_stop,
-            max_items=max_items - len(links),
+            max_items=max(max_items + len(page_links), len(page_links) + 1),
             initial_seen_streak=seen_streak,
         )
         seen_streak = int(meta.get("seen_streak") or 0)
         links.extend(new_links)
 
+        next_offset = current_offset + len(rows)
+
         if meta.get("stop_reason") == "seen_streak":
             stop_reason = "seen_streak"
-            break
-        if len(links) >= max_items:
-            stop_reason = "max_items"
+            resume_offset = 0
             break
         if not rows or len(rows) < page_size:
             stop_reason = "end"
+            resume_offset = 0
             break
 
         total = data.get("total")
@@ -1344,22 +1367,36 @@ async def _collect_workday_links_async(
             total = int(total)
         except (TypeError, ValueError):
             total = 0
-        offset += len(rows)
-        if total and offset >= total:
+        if total and next_offset >= total:
             stop_reason = "end"
+            resume_offset = 0
+            break
+
+        offset = next_offset
+        if len(links) >= max_items:
+            stop_reason = "max_items"
+            resume_offset = next_offset
             break
     else:
         stop_reason = "max_pages"
+        resume_offset = offset
 
     log_event(
         "workday_source_fetch",
         url=source_url,
         jobs=len(links),
-        pages=min(max_pages, max(1, (offset // page_size) + 1)),
+        pages=pages_scanned,
         stop_reason=stop_reason,
+        resume_offset=resume_offset,
         elapsed_ms=elapsed_ms(started),
     )
-    return links, "", status_code or 200
+    return links, "", status_code or 200, {
+        "stop_reason": stop_reason,
+        "resume_offset": resume_offset,
+        "pages_scanned": pages_scanned,
+        "page_size": page_size,
+        "seen_streak": seen_streak,
+    }
 
 
 
@@ -1740,10 +1777,15 @@ async def _collect_csod_links_async(
     max_pages=None,
     seen_streak_stop=None,
     max_items=None,
+    start_page=1,
 ):
     cfg = _csod_config(source_url)
     if not cfg:
-        return [], "invalid csod source URL", None
+        return [], "invalid csod source URL", None, {
+            "stop_reason": "invalid_source",
+            "resume_page": 0,
+            "pages_scanned": 0,
+        }
 
     page_size = max(
         1,
@@ -1756,6 +1798,10 @@ async def _collect_csod_links_async(
     max_items = max(1, int(max_items or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE))
     seen_streak_stop = max(1, int(seen_streak_stop or JOBS_DISCOVERY_SEEN_STREAK))
     working_known = set(known_ids or ())
+    try:
+        first_page = max(1, int(start_page or 1))
+    except (TypeError, ValueError):
+        first_page = 1
     started = time.perf_counter()
 
     try:
@@ -1766,19 +1812,36 @@ async def _collect_csod_links_async(
         ) as bootstrap:
             html = await bootstrap.text(errors="ignore")
             if bootstrap.status >= 400:
-                return [], f"http {bootstrap.status}", bootstrap.status
+                return [], f"http {bootstrap.status}", bootstrap.status, {
+                    "stop_reason": f"http_{bootstrap.status}",
+                    "resume_page": first_page,
+                    "pages_scanned": 0,
+                }
         token_match = re.search(r'"token"\s*:\s*"([A-Za-z0-9._-]+)"', html)
         if not token_match:
-            return [], "anonymous csod token missing", 200
+            return [], "anonymous csod token missing", 200, {
+                "stop_reason": "token_missing",
+                "resume_page": first_page,
+                "pages_scanned": 0,
+            }
         token = token_match.group(1)
     except (asyncio.TimeoutError, aiohttp.ClientError) as error:
-        return [], error.__class__.__name__, None
+        return [], error.__class__.__name__, None, {
+            "stop_reason": error.__class__.__name__,
+            "resume_page": first_page,
+            "pages_scanned": 0,
+        }
 
     links = []
+    seen_streak = 0
     stop_reason = "end"
     status_code = 200
+    resume_page = 0
+    pages_scanned = 0
 
-    for page_number in range(1, max_pages + 1):
+    for relative_page in range(max_pages):
+        page_number = first_page + relative_page
+        pages_scanned += 1
         payload = {
             "careerSiteId": cfg["site_id"],
             "careerSitePageId": cfg["site_id"],
@@ -1812,16 +1875,26 @@ async def _collect_csod_links_async(
                 status_code = response.status
                 text = await response.text(errors="ignore")
                 if response.status >= 400:
+                    stop_reason = f"partial_http_{response.status}" if links else f"http_{response.status}"
+                    resume_page = page_number
                     if links:
-                        stop_reason = f"partial_http_{response.status}"
                         break
-                    return [], f"http {response.status}", response.status
+                    return [], f"http {response.status}", response.status, {
+                        "stop_reason": stop_reason,
+                        "resume_page": resume_page,
+                        "pages_scanned": pages_scanned,
+                    }
                 data = json.loads(text or "{}")
         except (asyncio.TimeoutError, aiohttp.ClientError, ValueError, json.JSONDecodeError) as error:
+            stop_reason = f"partial_{error.__class__.__name__}" if links else error.__class__.__name__
+            resume_page = page_number
             if links:
-                stop_reason = f"partial_{error.__class__.__name__}"
                 break
-            return [], error.__class__.__name__, None
+            return [], error.__class__.__name__, None, {
+                "stop_reason": stop_reason,
+                "resume_page": resume_page,
+                "pages_scanned": pages_scanned,
+            }
 
         rows = [
             row
@@ -1852,7 +1925,7 @@ async def _collect_csod_links_async(
             page_links,
             working_known,
             seen_streak_stop=seen_streak_stop,
-            max_items=max_items - len(links),
+            max_items=max(max_items + len(page_links), len(page_links) + 1),
             initial_seen_streak=seen_streak,
         )
         seen_streak = int(meta.get("seen_streak") or 0)
@@ -1860,24 +1933,36 @@ async def _collect_csod_links_async(
 
         if meta.get("stop_reason") == "seen_streak":
             stop_reason = "seen_streak"
-            break
-        if len(links) >= max_items:
-            stop_reason = "max_items"
+            resume_page = 0
             break
         if not rows or len(rows) < page_size:
             stop_reason = "end"
+            resume_page = 0
+            break
+        if len(links) >= max_items:
+            stop_reason = "max_items"
+            resume_page = page_number + 1
             break
     else:
         stop_reason = "max_pages"
+        resume_page = first_page + max_pages
 
     log_event(
         "csod_source_fetch",
         url=source_url,
         jobs=len(links),
+        pages=pages_scanned,
         stop_reason=stop_reason,
+        resume_page=resume_page,
         elapsed_ms=elapsed_ms(started),
     )
-    return links, "", status_code or 200
+    return links, "", status_code or 200, {
+        "stop_reason": stop_reason,
+        "resume_page": resume_page,
+        "pages_scanned": pages_scanned,
+        "page_size": page_size,
+        "seen_streak": seen_streak,
+    }
 
 
 def _un_careers_title_from_html(html_text, job_id):
