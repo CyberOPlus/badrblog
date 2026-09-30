@@ -6,15 +6,6 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/auto-cycle.yml"
-  schedule:
-    # Check ten times per hour. Each run can publish at most one verified Job,
-    # so a backlog drains gradually instead of bursting all posts at once.
-    # Official vacancy PDFs may be rendered as sequential reader images before publish.
-    # Each Jobs cycle repairs verified job-link mismatches before scheduling a Blogger write.
-    # Source health and cooldown state are persisted so one sick source cannot stall the pipeline.
-    # Link-repair retries regenerate stale article output from the cleaned verified facts.
-    # Facebook keeps its stricter Morocco slots and hard anti-spam limits.
-    - cron: "1,7,13,19,25,31,37,43,49,55 * * * *"
 
 concurrency:
   group: auto-cycle-${{ github.ref }}
@@ -210,6 +201,7 @@ jobs:
               "JOBS_AI_QUALITY_REPAIRS": "1",
               "JOBS_AI_TIMEOUT_RETRIES": "0",
               "JOBS_AI_CROSS_CANDIDATE_RETRIES": "1",
+              "JOBS_ONE_SHOT_FORCE_RUN": "true" if os.environ.get("GITHUB_EVENT_NAME") == "push" else "false",
               "DUPLICATE_PROTECTION": "true",
               "QUEUE_PERSIST": "true",
               "SOURCE_HEALTH_ENABLED": "true",
