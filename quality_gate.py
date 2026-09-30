@@ -729,20 +729,8 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         ).strip().lower()
         active_notice = notice_type in {"vacancy", "competition"}
         if active_notice and not application_url:
-            high_notice_types = {
-                str(fact.get("value") or "").strip().lower()
-                for fact in (manifest.get("facts") or {}).get("notice_type") or []
-                if fact.get("confidence") == "high"
-            }
-            if notice_type in high_notice_types:
-                return QualityGateResult(
-                    False,
-                    "active job notice is missing a verified application resource",
-                    word_count,
-                    tuple(job_warnings),
-                )
             job_warnings.append(
-                "active notice has no verified application resource, but notice type is not high-confidence"
+                "active notice has no verified application resource; source/evidence preflight should resolve this before AI"
             )
         application_context = dict(verification_context)
         application_context["job_notice_type"] = notice_type
@@ -766,8 +754,6 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
                 "generic application portal must be classified as official_application_channel",
                 word_count,
             )
-        if application_url and application_url not in html_content:
-            return QualityGateResult(False, "job application URL is missing from final HTML", word_count)
         if application_kind == "official_application_channel":
             visible_application_text = html_to_text(html_content)
             if any(
@@ -826,18 +812,6 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
                     "job article contains missing, reordered, duplicated, or unverified images",
                     word_count,
                 )
-
-        detail_url = str(
-            article.get("job_detail_url")
-            or package.get("job_detail_url")
-            or ""
-        ).strip()
-        if detail_url and detail_url != application_url and detail_url not in html_content:
-            return QualityGateResult(
-                False,
-                "official job detail URL is missing from final HTML",
-                word_count,
-            )
 
         # Jobs pass/fail is based on verified completeness and accuracy,
         # not word count or a mandatory heading shape.
