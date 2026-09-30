@@ -375,6 +375,7 @@ def _job_content_blocks(html_content):
 
 
 def _job_semantic_repetition_reason(html_content, seo_title):
+    """Return only deterministic structural repetition blockers."""
     soup, blocks = _job_content_blocks(html_content)
 
     if soup.find("h1") is not None:
@@ -401,15 +402,30 @@ def _job_semantic_repetition_reason(html_content, seo_title):
             for part in re.split(r"[.!؟]+", intro)
             if part.strip()
         ]
-        if len(sentences) > 2:
-            return "Jobs introduction must be one short paragraph of no more than two sentences"
-
         intro_first_tokens = _job_fact_tokens(sentences[0] if sentences else intro)
         if len(title_tokens) >= 4 and len(intro_first_tokens) >= 4:
             shared = title_tokens & intro_first_tokens
             containment = len(shared) / max(1, min(len(title_tokens), len(intro_first_tokens)))
             if containment >= 0.90:
                 return "Jobs introduction semantically repeats the Blogger/SEO title"
+
+    return ""
+
+
+def _job_semantic_repetition_warnings(html_content):
+    """Heuristic repetition signals are advisory and must never reject a real job."""
+    _soup, blocks = _job_content_blocks(html_content)
+    warnings = []
+
+    intro_blocks = [block for block in blocks if block["region"] == "intro" and block["kind"] == "p"]
+    if intro_blocks:
+        sentences = [
+            part.strip()
+            for part in re.split(r"[.!؟]+", intro_blocks[0]["text"])
+            if part.strip()
+        ]
+        if len(sentences) > 2:
+            warnings.append("Jobs introduction is longer than the preferred two-sentence shape")
 
     table_atoms = set()
     for block in blocks:
@@ -422,8 +438,10 @@ def _job_semantic_repetition_reason(html_content, seo_title):
                 continue
             overlap = _job_fact_atoms(block["text"]) & table_atoms
             if overlap:
-                fact = sorted(overlap)[0]
-                return f"Jobs prose repeats a structured table fact ({fact})"
+                warnings.append(
+                    f"Jobs prose may repeat a structured table fact ({sorted(overlap)[0]})"
+                )
+                break
 
     comparable = [
         block for block in blocks
@@ -444,13 +462,16 @@ def _job_semantic_repetition_reason(html_content, seo_title):
             containment = len(shared) / max(1, min(len(left_tokens), len(right_tokens)))
             jaccard = len(shared) / max(1, len(left_tokens | right_tokens))
             if len(shared) >= 4 and containment >= 0.84 and jaccard >= 0.55:
-                return "Jobs article repeats the same fact across different sections"
+                warnings.append("Jobs content may repeat the same fact across different sections")
+                return warnings
             if shared_atoms and containment >= 0.65:
-                return "Jobs article paraphrases the same structured fact in multiple sections"
+                warnings.append("Jobs content may paraphrase a structured fact in multiple sections")
+                return warnings
             if shared_categories and len(shared) >= 3 and containment >= 0.55:
-                return "Jobs article semantically repeats a fact category across table/intro/sections"
+                warnings.append("Jobs content may repeat a fact category across table/intro/sections")
+                return warnings
 
-    return ""
+    return warnings
 
 
 def _has_random_language_mixing(body_text):
@@ -587,6 +608,7 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         semantic_repeat_reason = _job_semantic_repetition_reason(html_content, seo_title)
         if semantic_repeat_reason:
             return QualityGateResult(False, semantic_repeat_reason, word_count)
+        semantic_warnings = _job_semantic_repetition_warnings(html_content)
 
         if re.search(r"class\s*=\s*['\"][^'\"]*\bpRelate\b", html_content, flags=re.I):
             return QualityGateResult(False, "related-post pRelate block is forbidden in Jobs articles", word_count)
@@ -677,7 +699,7 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             seo_title,
             html_content,
         )
-        job_warnings = list(manifest_warnings)
+        job_warnings = list(semantic_warnings) + list(manifest_warnings)
         if manifest_blocking:
             return QualityGateResult(
                 False,
