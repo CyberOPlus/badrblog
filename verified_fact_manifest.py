@@ -6,7 +6,7 @@ import re
 from datetime import datetime
 
 from duplicate_utils import canonicalize_url
-from job_core import is_application_url_bound_to_job
+from job_core import is_application_url_bound_to_job, is_job_specific_url
 
 
 HIGH = "high"
@@ -361,6 +361,19 @@ def _labeled_text_facts(article, hints, category):
 
 def build_verified_fact_manifest(article):
     article = dict(article or {})
+
+    notice_type = str(article.get("job_notice_type") or "").strip().lower()
+    notice_source = str(article.get("job_notice_type_source") or "heuristic").strip().lower()
+    notice_confidence = (
+        HIGH
+        if notice_source in {"official", "verified", "structured", "ats", "source"}
+        else HEURISTIC
+    )
+    active_notice_reliable = (
+        notice_confidence == HIGH
+        and notice_type in {"vacancy", "competition"}
+    )
+
     manifest = {
         "version": 1,
         "policy": {
@@ -384,7 +397,7 @@ def build_verified_fact_manifest(article):
                 deadline,
                 source,
                 confidence,
-                required=True,
+                required=active_notice_reliable,
                 aliases=[deadline_display] if deadline_display else [],
             ),
         )
@@ -398,14 +411,24 @@ def build_verified_fact_manifest(article):
         _append_fact(
             manifest,
             "positions",
-            _fact(positions, source, confidence, required=True),
+            _fact(
+                positions,
+                source,
+                confidence,
+                required=(confidence == HIGH),
+            ),
         )
 
     scalar_specs = (
-        ("salary", article.get("job_salary"), SALARY_HINTS, True),
-        ("experience", article.get("job_experience"), EXPERIENCE_HINTS, True),
-        ("diploma", article.get("job_diploma"), DIPLOMA_HINTS, True),
-        ("exam_date", article.get("job_exam_date"), EXAM_DATE_HINTS, True),
+        ("salary", article.get("job_salary"), SALARY_HINTS, active_notice_reliable),
+        ("experience", article.get("job_experience"), EXPERIENCE_HINTS, active_notice_reliable),
+        ("diploma", article.get("job_diploma"), DIPLOMA_HINTS, active_notice_reliable),
+        (
+            "exam_date",
+            article.get("job_exam_date"),
+            EXAM_DATE_HINTS,
+            notice_confidence == HIGH and notice_type in {"competition", "candidate_list"},
+        ),
         ("contract_type", article.get("job_contract_type"), (), False),
         ("location", article.get("job_location"), (), False),
         ("reference", article.get("job_external_reference") or article.get("ats_reference"), (), False),
@@ -430,14 +453,16 @@ def build_verified_fact_manifest(article):
             _fact(value, source, confidence, required=required, aliases=aliases),
         )
 
-    notice_type = str(article.get("job_notice_type") or "").strip().lower()
     if notice_type:
-        notice_source = str(article.get("job_notice_type_source") or "heuristic").strip().lower()
-        confidence = HIGH if notice_source in {"official", "verified", "structured", "ats", "source"} else HEURISTIC
         _append_fact(
             manifest,
             "notice_type",
-            _fact(notice_type, notice_source or "heuristic", confidence, required=False),
+            _fact(
+                notice_type,
+                notice_source or "heuristic",
+                notice_confidence,
+                required=False,
+            ),
         )
 
     application_url = str(article.get("job_application_url") or "").strip()
@@ -451,12 +476,32 @@ def build_verified_fact_manifest(article):
                 application_url,
                 "verified_application_channel" if bound else "unverified_application_field",
                 confidence,
-                required=True,
-                meta={"kind": str(article.get("job_application_link_kind") or "")},
+                required=active_notice_reliable,
+                meta={
+                    "kind": str(article.get("job_application_link_kind") or ""),
+                    "notice_type": notice_type,
+                },
             ),
         )
         if not bound:
             manifest["warnings"].append("application URL is not verified as belonging to this notice")
+
+    detail_url = str(article.get("job_detail_url") or "").strip()
+    if (
+        detail_url
+        and detail_url != application_url
+        and is_job_specific_url(detail_url)
+    ):
+        _append_fact(
+            manifest,
+            "detail",
+            _fact(
+                detail_url,
+                "specific_notice_detail",
+                HIGH,
+                required=True,
+            ),
+        )
 
     official = bool(article.get("official_source") or article.get("job_official_source"))
     for item in article.get("job_document_links") or []:
@@ -531,7 +576,7 @@ def _fact_present(text, category, fact):
     aliases = [value] + list(fact.get("aliases") or [])
     normalized = _normalize(text)
 
-    if category in {"application", "documents"}:
+    if category in {"application", "documents", "detail"}:
         key = canonicalize_url(value) or str(value or "")
         urls = {
             canonicalize_url(match) or match
