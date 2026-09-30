@@ -55,6 +55,32 @@ def _canonical_dates(value):
             out.add(dt.strftime("%Y-%m-%d"))
         except (TypeError, ValueError):
             continue
+
+    month_numbers = {
+        "يناير": 1, "فبراير": 2, "مارس": 3, "ابريل": 4, "ماي": 5,
+        "مايو": 5, "يونيو": 6, "يوليوز": 7, "يوليو": 7, "غشت": 8,
+        "اغسطس": 8, "شتنبر": 9, "سبتمبر": 9, "اكتوبر": 10,
+        "نونبر": 11, "نوفمبر": 11, "دجنبر": 12, "ديسمبر": 12,
+        "janvier": 1, "fevrier": 2, "février": 2, "mars": 3, "avril": 4,
+        "mai": 5, "juin": 6, "juillet": 7, "aout": 8, "août": 8,
+        "septembre": 9, "octobre": 10, "novembre": 11, "decembre": 12,
+        "décembre": 12,
+    }
+    normalized_months = {_normalize(name): number for name, number in month_numbers.items()}
+    if normalized_months:
+        month_pattern = "|".join(
+            sorted((re.escape(name) for name in normalized_months), key=len, reverse=True)
+        )
+        for day, month_name, year in re.findall(
+            rf"\b(\d{{1,2}})\s+({month_pattern})\s+(\d{{4}})\b",
+            text,
+            flags=re.I,
+        ):
+            try:
+                dt = datetime(int(year), normalized_months[month_name], int(day))
+                out.add(dt.strftime("%Y-%m-%d"))
+            except (KeyError, TypeError, ValueError):
+                continue
     return out
 
 
@@ -475,12 +501,30 @@ def validate_output_against_manifest(manifest, seo_title, html_content):
                 allowed.update(_canonical_dates(fact.get("value")))
                 for alias in fact.get("aliases") or []:
                     allowed.update(_canonical_dates(alias))
-        else:
+        elif category == "salary":
             allowed = set()
             for fact in high_facts:
                 value = _normalize(fact.get("value"))
-                numbers = re.findall(r"\d+(?:[.,]\d+)?", value)
-                allowed.update(number.replace(",", ".") for number in numbers)
+                for number in re.findall(
+                    r"\d[\d\s.,]{0,14}(?=\s*(?:درهم|mad|dh)\b)",
+                    value,
+                    flags=re.I,
+                ):
+                    compact = re.sub(r"\s+", "", number).strip(".,")
+                    if compact:
+                        allowed.add(compact.replace(",", "."))
+        elif category == "experience":
+            allowed = set()
+            for fact in high_facts:
+                value = _normalize(fact.get("value"))
+                matches = re.findall(
+                    r"\b(\d{1,2})\s*(?:سنوات|سنة|عاما|عام|ans?|years?)\b",
+                    value,
+                    flags=re.I,
+                )
+                allowed.update(str(int(number)) for number in matches)
+        else:
+            allowed = set()
 
         normalized_values = {str(value).replace(",", ".") for value in values}
         if allowed and normalized_values and not normalized_values.issubset(allowed):
