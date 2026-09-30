@@ -628,16 +628,16 @@ def _prepare_job_article_cover(article):
         or ""
     ).strip()
 
-    logo_info = verified_company_logo(article)
-    if not (
-        logo_info.get("company_logo_verified")
-        and str(logo_info.get("company_logo_url") or "").strip()
-    ):
-        try:
+    try:
+        logo_info = verified_company_logo(article)
+        if not (
+            logo_info.get("company_logo_verified")
+            and str(logo_info.get("company_logo_url") or "").strip()
+        ):
             logo_info = refresh_company_logo(article)
-        except Exception as error:
-            logo_info = {}
-            article["logo_resolution_error"] = str(error)[:1000]
+    except Exception as error:
+        logo_info = {}
+        article["logo_resolution_error"] = str(error)[:1000]
 
     logo_verified = bool(logo_info.get("company_logo_verified"))
     logo_url = str(logo_info.get("company_logo_url") or "").strip()
