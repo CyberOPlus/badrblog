@@ -1022,6 +1022,7 @@ async def _collect_paginated_html_links_async(
     max_pages=None,
     seen_streak_stop=None,
     max_items=None,
+    start_url=None,
 ):
     page_size = max(5, int(page_size or JOBS_DISCOVERY_PAGE_SIZE))
     max_pages = max(1, int(max_pages or JOBS_DISCOVERY_MAX_PAGES))
@@ -1030,50 +1031,82 @@ async def _collect_paginated_html_links_async(
     working_known = set(known_ids or ())
     collected = []
     seen_streak = 0
-    current_url = source_url
+    current_url = str(start_url or source_url).strip() or source_url
     visited = set()
     status_code = None
     last_error = ""
+    stop_reason = "end"
+    pages_scanned = 0
+    resume_url = ""
 
     for _page_number in range(1, max_pages + 1):
         current_key = canonicalize_url(current_url) or current_url
         if not current_key or current_key in visited:
+            stop_reason = "loop_guard"
             break
         visited.add(current_key)
+        pages_scanned += 1
 
         html_text, error, status_code = await _fetch_text_async(session, current_url)
         if error or not html_text:
             last_error = error or "empty paginated listing"
+            stop_reason = "partial_error" if collected else "error"
+            resume_url = current_url
             if collected:
                 break
-            return [], last_error, status_code
+            return [], last_error, status_code, {
+                "stop_reason": stop_reason,
+                "pages_scanned": pages_scanned,
+                "resume_url": resume_url,
+            }
 
         page_links = parser(
             html_text,
             current_url,
-            per_source_limit=max_items,
+            per_source_limit=max(
+                JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
+                max_items,
+            ),
         )
         new_links, meta = _filter_new_discovery_links(
             page_links,
             working_known,
             seen_streak_stop=seen_streak_stop,
-            max_items=max_items - len(collected),
+            # Never cut a listing page in half; the global cap is checked after
+            # this full page so a resume cursor can safely start at next page.
+            max_items=max(max_items + len(page_links), len(page_links) + 1),
             initial_seen_streak=seen_streak,
         )
         seen_streak = int(meta.get("seen_streak") or 0)
         collected.extend(new_links)
 
+        next_url = _pagination_next_url(html_text, current_url)
+
         if meta.get("stop_reason") == "seen_streak":
+            stop_reason = "seen_streak"
+            resume_url = ""
+            break
+        if not next_url:
+            stop_reason = "end"
+            resume_url = ""
             break
         if len(collected) >= max_items:
+            stop_reason = "max_items"
+            resume_url = next_url
             break
 
-        next_url = _pagination_next_url(html_text, current_url)
-        if not next_url:
-            break
         current_url = next_url
+    else:
+        stop_reason = "max_pages"
+        resume_url = current_url
 
-    return collected, last_error, status_code or 200
+    return collected, last_error, status_code or 200, {
+        "stop_reason": stop_reason,
+        "pages_scanned": pages_scanned,
+        "resume_url": resume_url,
+        "seen_streak": seen_streak,
+        "page_size": page_size,
+    }
 
 
 def _collect_paginated_html_links_sync(
@@ -1085,30 +1118,43 @@ def _collect_paginated_html_links_sync(
     max_pages=None,
     seen_streak_stop=None,
     max_items=None,
+    start_url=None,
 ):
+    page_size = max(5, int(page_size or JOBS_DISCOVERY_PAGE_SIZE))
     max_pages = max(1, int(max_pages or JOBS_DISCOVERY_MAX_PAGES))
     max_items = max(1, int(max_items or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE))
     seen_streak_stop = max(1, int(seen_streak_stop or JOBS_DISCOVERY_SEEN_STREAK))
     working_known = set(known_ids or ())
     collected = []
     seen_streak = 0
-    current_url = source_url
+    current_url = str(start_url or source_url).strip() or source_url
     visited = set()
     last_status = 200
     last_error = ""
+    stop_reason = "end"
+    pages_scanned = 0
+    resume_url = ""
 
     for _page_number in range(1, max_pages + 1):
         current_key = canonicalize_url(current_url) or current_url
         if not current_key or current_key in visited:
+            stop_reason = "loop_guard"
             break
         visited.add(current_key)
+        pages_scanned += 1
 
         document = make_request(current_url)
         if not document:
             last_error = "fetch failed"
+            stop_reason = "partial_error" if collected else "error"
+            resume_url = current_url
             if collected:
                 break
-            return [], last_error, None
+            return [], last_error, None, {
+                "stop_reason": stop_reason,
+                "pages_scanned": pages_scanned,
+                "resume_url": resume_url,
+            }
         try:
             last_status = int(getattr(document, "status", 200) or 200)
         except (TypeError, ValueError):
@@ -1118,29 +1164,48 @@ def _collect_paginated_html_links_sync(
         page_links = parser(
             html_text,
             current_url,
-            per_source_limit=max_items,
+            per_source_limit=max(
+                JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
+                max_items,
+            ),
         )
         new_links, meta = _filter_new_discovery_links(
             page_links,
             working_known,
             seen_streak_stop=seen_streak_stop,
-            max_items=max_items - len(collected),
+            max_items=max(max_items + len(page_links), len(page_links) + 1),
             initial_seen_streak=seen_streak,
         )
         seen_streak = int(meta.get("seen_streak") or 0)
         collected.extend(new_links)
 
+        next_url = _pagination_next_url(html_text, current_url)
+
         if meta.get("stop_reason") == "seen_streak":
+            stop_reason = "seen_streak"
+            resume_url = ""
+            break
+        if not next_url:
+            stop_reason = "end"
+            resume_url = ""
             break
         if len(collected) >= max_items:
+            stop_reason = "max_items"
+            resume_url = next_url
             break
 
-        next_url = _pagination_next_url(html_text, current_url)
-        if not next_url:
-            break
         current_url = next_url
+    else:
+        stop_reason = "max_pages"
+        resume_url = current_url
 
-    return collected, last_error, last_status
+    return collected, last_error, last_status, {
+        "stop_reason": stop_reason,
+        "pages_scanned": pages_scanned,
+        "resume_url": resume_url,
+        "seen_streak": seen_streak,
+        "page_size": page_size,
+    }
 
 
 def _workday_config(source_url):
