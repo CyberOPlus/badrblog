@@ -485,7 +485,10 @@ def _record_source_result(base_url, source_name, error, links_found, empty_ok=Fa
         record_source_cooldown(base_url, source_name=source_name, error=error_text, minutes=180)
     elif "timeout" in lowered or "timed out" in lowered:
         record_source_cooldown(base_url, source_name=source_name, error=error_text, minutes=30)
-    elif empty_ok and not error and links_found <= 0:
+    elif (empty_ok or JOBS_MODE) and not error and links_found <= 0:
+        # A healthy Jobs source is allowed to have no NEW vacancies in a cycle.
+        # Treating that as a failure would eventually cool down quiet sources and
+        # make the bot miss a vacancy that appears during the cooldown window.
         record_source_success(base_url, source_name=source_name)
     elif error or links_found <= 0:
         record_source_failure(base_url, source_name=source_name, error=error_text or "zero links")
