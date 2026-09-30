@@ -14,6 +14,7 @@ from config import (
     JOBS_ACTIVE_END_HOUR,
     JOBS_ACTIVE_START_HOUR,
     JOBS_ADAPTIVE_PUBLISHING,
+    JOBS_MAX_PUBLISH_AGE_HOURS,
     JOBS_MIN_PUBLISH_INTERVAL_MINUTES,
 )
 from jobs_adaptive_controller import current_policy
@@ -42,6 +43,84 @@ GENERIC_JOB_PATHS = {
 }
 GOOD_ELIGIBILITY = {"morocco", "remote_morocco", "abroad_open", "visa_confirmed"}
 TOP_SOURCE_PRIORITIES = {"s+", "s", "a+"}
+
+
+# Editorial priority only. These patterns never make an otherwise invalid job
+# publishable; they only move the user's preferred technical/student roles ahead
+# of other equally fresh verified opportunities.
+_CYBER_FOCUS_PATTERNS = (
+    r"\bcyber(?:security|securite|sécurité)?\b",
+    r"\bcybers[eé]curit[eé]\b",
+    r"\binfosec\b",
+    r"\bpentest(?:er|ing)?\b",
+    r"\bdevsecops\b",
+    r"\bsoc\s+(?:analyst|analyste|engineer|ing[eé]nieur)\b",
+    r"\bsiem\b",
+    r"\biam\b",
+    r"s[eé]curit[eé]\s+(?:informatique|des\s+syst[eè]mes|r[eé]seau)",
+    r"information\s+security",
+)
+_TECH_FOCUS_PATTERNS = (
+    r"\binformatique\b",
+    r"\b(?:it|ict)\b",
+    r"\bd[eé]veloppeur\b",
+    r"\bdeveloper\b",
+    r"\bsoftware\b",
+    r"\blogiciel\b",
+    r"\b(?:front\s*end|frontend|back\s*end|backend|full\s*stack|fullstack)\b",
+    r"\b(?:web|mobile)\s+(?:developer|d[eé]veloppeur|engineer|ing[eé]nieur)\b",
+    r"\bdevops\b",
+    r"\bcloud\b",
+    r"\br[eé]seau(?:x)?\b",
+    r"\bnetwork(?:ing)?\b",
+    r"\bsyst[eè]mes?\b",
+    r"\bsysadmin\b",
+    r"\bdata\s+(?:engineer|scientist|analyst|analyste)\b",
+    r"\b(?:database|dba)\b",
+    r"\bmachine\s+learning\b",
+    r"\bintelligence\s+artificielle\b",
+    r"\bartificial\s+intelligence\b",
+    r"\b(?:ai|ia)\s+(?:engineer|developer|ing[eé]nieur|d[eé]veloppeur)\b",
+    r"\b(?:sap|erp|salesforce|servicenow)\b",
+)
+_STUDENT_FOCUS_PATTERNS = (
+    r"\bstage\b",
+    r"\bstagiaire\b",
+    r"\binternship\b",
+    r"\bintern\b",
+    r"\balternance\b",
+    r"\bapprentissage\b",
+    r"\bpfe\b",
+)
+
+
+def job_focus_priority(article):
+    """Rank cyber/IT/developer and internship opportunities ahead of general jobs."""
+    text = " ".join(
+        str(article.get(key) or "")
+        for key in (
+            "job_title",
+            "fetched_title",
+            "title",
+            "job_contract_type",
+            "job_description",
+        )
+    )
+    folded = unicodedata.normalize("NFKC", text).casefold()
+    cyber = any(re.search(pattern, folded, flags=re.I) for pattern in _CYBER_FOCUS_PATTERNS)
+    tech = cyber or any(re.search(pattern, folded, flags=re.I) for pattern in _TECH_FOCUS_PATTERNS)
+    student = bool(article.get("job_entry_level")) or any(
+        re.search(pattern, folded, flags=re.I) for pattern in _STUDENT_FOCUS_PATTERNS
+    )
+    if cyber or (tech and student):
+        return 4
+    if tech:
+        return 3
+    if student:
+        return 2
+    return 0
+
+
 
 # A generic application portal is never enough on its own. For public recruitment
 # competitions it can be accepted only when the specific official notice itself
@@ -706,8 +785,17 @@ def score_job(article, now=None):
     points["official_source"] = 25 if official else 0
 
     published = _parse_date(article.get("job_published_at") or article.get("source_published_at"))
-    fresh = bool(published and 0 <= (now - published).total_seconds() / 3600 <= 24)
-    points["fresh_under_24h"] = 15 if fresh else 0
+    publication_age_hours = (
+        (now - published).total_seconds() / 3600
+        if published
+        else None
+    )
+    fresh = bool(
+        publication_age_hours is not None
+        and 0 <= publication_age_hours <= JOBS_MAX_PUBLISH_AGE_HOURS
+    )
+    points[f"fresh_under_{JOBS_MAX_PUBLISH_AGE_HOURS}h"] = 15 if fresh else 0
+    points["preferred_tech_or_student"] = 10 if job_focus_priority(article) > 0 else 0
 
     priority = str(article.get("source_priority") or "").strip().lower()
     points["trusted_priority_source"] = 10 if priority in TOP_SOURCE_PRIORITIES else 0
@@ -741,6 +829,15 @@ def score_job(article, now=None):
     if not valid_apply:
         reasons.append("missing verified application resource")
 
+    if published is None:
+        reasons.append("publication time is not verified")
+    elif publication_age_hours is not None and publication_age_hours < 0:
+        reasons.append("publication time is in the future")
+    elif publication_age_hours is not None and publication_age_hours > JOBS_MAX_PUBLISH_AGE_HOURS:
+        reasons.append(
+            f"job is older than {JOBS_MAX_PUBLISH_AGE_HOURS} hours"
+        )
+
     normalized_title = normalize_text(article.get("job_title") or article.get("title"))
     if normalized_title in {
         "jobs", "job", "careers", "career", "recruitment", "recrutement",
@@ -761,6 +858,10 @@ def score_job(article, now=None):
     hard_gate_passed = not reasons
     permanent_hard_failure = bool(
         expired
+        or published is None
+        or publication_age_hours is None
+        or publication_age_hours < 0
+        or publication_age_hours > JOBS_MAX_PUBLISH_AGE_HOURS
         or not _public_http(source_url)
         or normalized_title in {
             "jobs", "job", "careers", "career", "recruitment", "recrutement",
@@ -779,6 +880,9 @@ def score_job(article, now=None):
         "status": status,
         "passed": passed,
         "hard_gate_passed": hard_gate_passed,
+        "publication_age_hours": round(publication_age_hours, 2) if publication_age_hours is not None else None,
+        "max_publish_age_hours": JOBS_MAX_PUBLISH_AGE_HOURS,
+        "focus_priority": job_focus_priority(article),
         "points": points,
         "reasons": reasons,
         # Kept for compatibility/diagnostics only. This threshold no longer
@@ -1422,10 +1526,9 @@ def select_best_job_from_queue(queue, now=None):
         article["job_publish_immediately"] = bool(urgency.get("publish_immediately"))
         priority = 2 if urgency.get("level") in {"critical", "high"} else 1 if urgency.get("level") == "elevated" else 0
 
-        # For otherwise publishable Jobs, freshness is the main queue order.
-        # Quality score is a tie-breaker, never a reason to let a week-old job
-        # sit in front of a newly published verified vacancy. Closing-soon/high
-        # urgency notices still stay ahead so we do not miss a real deadline.
+        # Closing-soon notices stay first. Inside the verified <= freshness
+        # window, the user's preferred cyber/IT/developer/internship roles come
+        # before general jobs, then the newest publication wins.
         published = _parse_date(
             article.get("job_published_at")
             or article.get("source_published_at")
@@ -1433,9 +1536,11 @@ def select_best_job_from_queue(queue, now=None):
         discovered = _parse_date(article.get("discovered_at"))
         published_epoch = published.timestamp() if published else 0.0
         discovered_epoch = discovered.timestamp() if discovered else 0.0
+        focus_priority = job_focus_priority(article)
         ranked.append(
             (
                 priority,
+                focus_priority,
                 published_epoch,
                 discovered_epoch,
                 quality["score"],
@@ -1444,10 +1549,10 @@ def select_best_job_from_queue(queue, now=None):
         )
 
     ranked.sort(
-        key=lambda row: (row[0], row[1], row[2], row[3]),
+        key=lambda row: (row[0], row[1], row[2], row[3], row[4]),
         reverse=True,
     )
-    return ranked[0][4] if ranked else None
+    return ranked[0][5] if ranked else None
 
 
 def record_job_publish(article, now=None):
