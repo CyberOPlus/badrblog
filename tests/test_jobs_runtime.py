@@ -932,6 +932,71 @@ class JobsRuntimeTests(unittest.TestCase):
         mark.assert_not_called()
         select.assert_not_called()
 
+    def test_hourly_jobs_batch_stops_after_one_extra_ai_candidate(self):
+        candidates = [
+            {"id": "job-1", "url": "https://example.com/jobs/1", "source_name": "S1"},
+            {"id": "job-2", "url": "https://example.com/jobs/2", "source_name": "S2"},
+            {"id": "job-3", "url": "https://example.com/jobs/3", "source_name": "S3"},
+        ]
+        failed_results = [
+            {
+                "completed": False,
+                "article": candidates[0],
+                "reason": "quality mismatch",
+                "step_reached": "run-ai",
+                "failure_scope": "quality",
+                "failure_fingerprint": "fp-1",
+            },
+            {
+                "completed": False,
+                "article": candidates[1],
+                "reason": "quality mismatch",
+                "step_reached": "run-ai",
+                "failure_scope": "quality",
+                "failure_fingerprint": "fp-2",
+            },
+        ]
+        hourly = {
+            "total": 0,
+            "by_category": {},
+            "by_category_source": {},
+        }
+        cleanup = {"expired_archived": 0, "missing_date_archived": 0}
+
+        with (
+            patch.object(main, "JOBS_MODE", True),
+            patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1),
+            patch.object(main, "HOURLY_POST_LIMIT", 10),
+            patch.object(main, "CATEGORY_POSTS_PER_HOUR", 5),
+            patch.object(main, "JOBS_AI_CROSS_CANDIDATE_RETRIES", 1),
+            patch.object(main, "_effective_publish_mode", return_value="live"),
+            patch.object(main, "load_sources", return_value=[]),
+            patch.object(main, "_available_category_labels", return_value=["jobs"]),
+            patch.object(main, "_published_hourly_counts", return_value=hourly),
+            patch.object(main, "run_fetch_only", return_value={}),
+            patch.object(main, "archive_expired_queue_articles", return_value=cleanup),
+            patch.object(main, "run_score_only", return_value={}),
+            patch.object(main, "run_enrich_only", return_value={}),
+            patch.object(main, "resolve_identity_pending_articles", return_value={}),
+            patch.object(main, "ai_circuit_status", return_value={"global_open": False}),
+            patch.object(
+                main,
+                "_lock_hourly_candidate",
+                side_effect=candidates,
+            ) as lock,
+            patch.object(
+                main,
+                "_process_hourly_target",
+                side_effect=failed_results,
+            ) as process,
+        ):
+            result = main.run_hourly_category_cycle()
+
+        self.assertFalse(result["completed"])
+        self.assertEqual(process.call_count, 2)
+        self.assertEqual(lock.call_count, 2)
+        self.assertEqual(result["failures"], 2)
+
     def test_global_ai_outage_stops_cross_candidate_retry(self):
         failed = {
             "id": "failed-job",
