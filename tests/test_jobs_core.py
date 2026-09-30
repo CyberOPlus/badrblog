@@ -402,6 +402,24 @@ class JobsCoreTests(unittest.TestCase):
             "url:https://jobs.example.com/jobs/123",
         )
 
+    def test_jobs_zero_new_links_does_not_cool_down_healthy_source(self):
+        with (
+            patch.object(scraper, "JOBS_MODE", True),
+            patch.object(scraper, "record_source_success") as success,
+            patch.object(scraper, "record_source_failure") as failure,
+            patch.object(scraper, "record_source_cooldown") as cooldown,
+        ):
+            scraper._record_source_result(
+                "https://jobs.example/list",
+                "Quiet official source",
+                "",
+                0,
+            )
+
+        success.assert_called_once()
+        failure.assert_not_called()
+        cooldown.assert_not_called()
+
     def test_discovery_seen_streak_stops_after_known_run(self):
         known = {
             f"url:https://example.com/jobs/known-{index}"
