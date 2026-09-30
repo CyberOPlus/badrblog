@@ -1273,6 +1273,58 @@ class JobsRuntimeTests(unittest.TestCase):
         ))
         self.assertNotIn("4455", str(manifest))
 
+    def test_manifest_requiredness_follows_notice_confidence(self):
+        base = {
+            "url": "https://example.com/jobs/42",
+            "job_detail_url": "https://example.com/jobs/42",
+            "official_source": True,
+            "job_official_source": True,
+            "full_article_text": (
+                "آخر أجل للترشيح 15/10/2026. "
+                "التقديم عبر https://example.com/jobs/42/apply"
+            ),
+            "job_deadline": "2026-10-15",
+            "job_application_url": "https://example.com/jobs/42/apply",
+            "job_application_link_kind": "direct_apply",
+            "job_notice_type": "vacancy",
+            "source_tables": [],
+            "job_document_links": [],
+        }
+
+        heuristic = dict(base, job_notice_type_source="heuristic")
+        heuristic_manifest = fact_manifest.build_verified_fact_manifest(heuristic)
+        self.assertFalse(
+            heuristic_manifest["facts"]["deadline"][0]["required_in_output"]
+        )
+        self.assertFalse(
+            heuristic_manifest["facts"]["application"][0]["required_in_output"]
+        )
+
+        official = dict(base, job_notice_type_source="official")
+        official_manifest = fact_manifest.build_verified_fact_manifest(official)
+        self.assertTrue(
+            official_manifest["facts"]["deadline"][0]["required_in_output"]
+        )
+        self.assertTrue(
+            official_manifest["facts"]["application"][0]["required_in_output"]
+        )
+
+    def test_manifest_specific_detail_url_is_high_required_fact(self):
+        article = {
+            "url": "https://example.com/jobs/42",
+            "job_detail_url": "https://example.com/jobs/42",
+            "official_source": True,
+            "job_official_source": True,
+            "job_notice_type": "update",
+            "job_notice_type_source": "official",
+            "source_tables": [],
+            "job_document_links": [],
+        }
+        manifest = fact_manifest.build_verified_fact_manifest(article)
+        detail = manifest["facts"]["detail"][0]
+        self.assertEqual(detail["confidence"], "high")
+        self.assertTrue(detail["required_in_output"])
+
     def test_manifest_high_fact_missing_blocks_but_medium_fact_only_warns(self):
         high_manifest = {
             "facts": {
@@ -1551,6 +1603,29 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertTrue(result.passed, result.reason)
         self.assertTrue(any("salary" in warning for warning in result.warnings))
         self.assertFalse(any("7788" in warning for warning in result.warnings))
+
+    def test_ai_success_preserves_manifest_warnings(self):
+        article = {
+            "ai_input_package": {},
+            "ai_quality_warnings": ["medium salary fact omitted"],
+        }
+        data = {
+            "title": "شركة Example تعلن عن توظيف مهندس نظم في المغرب",
+            "description": (
+                "تفاصيل موثقة حول فرصة توظيف مهندس نظم ومتطلبات المنصب "
+                "والمعلومات الرسمية المتاحة للمرشحين."
+            ),
+            "slug": "example-systems-engineer",
+            "html_content": "<p>تفاصيل موثقة حول المنصب.</p>",
+            "notice_type": "vacancy",
+        }
+        with patch.object(ai, "JOBS_MODE", True):
+            ai._apply_success(article, data, "test-provider")
+
+        self.assertEqual(
+            article["ai_quality_warnings"],
+            ["medium salary fact omitted"],
+        )
 
     def test_jobs_quality_gate_rejects_marketing_filler(self):
         article = {
