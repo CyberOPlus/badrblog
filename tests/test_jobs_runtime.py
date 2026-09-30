@@ -448,6 +448,132 @@ class JobsRuntimeTests(unittest.TestCase):
                 ["gemini", "groq", "openrouter", "cloudflare", "mistral"],
             )
 
+    def test_jobs_provider_failure_uses_one_call_then_rotates(self):
+        candidates = [
+            {"provider": "groq", "api_key": "k1", "model": "m1"},
+            {"provider": "groq", "api_key": "k1", "model": "m2"},
+        ]
+        with patch.object(ai, "JOBS_MODE", True), \
+             patch.object(ai, "_global_circuit_remaining", return_value=0), \
+             patch.object(ai, "_provider_circuit_remaining", return_value=0), \
+             patch.object(ai, "_provider_candidates", return_value=candidates), \
+             patch.object(ai, "_cooldown_remaining", return_value=0), \
+             patch.object(ai, "_put_candidate_on_cooldown") as cooldown, \
+             patch.object(ai, "_generate_with_candidate", side_effect=RuntimeError("HTTP 503 unavailable")) as generate:
+            with self.assertRaises(ai.AIProviderFallbackNeeded):
+                ai._generate_with_provider_name("groq", "prompt")
+        self.assertEqual(generate.call_count, 1)
+        cooldown.assert_called_once()
+
+    def test_jobs_quality_failure_repairs_same_provider_once(self):
+        article = {
+            "id": "quality-job",
+            "url": "https://example.com/jobs/quality",
+            "status": "selected",
+            "processing_status": "ready_for_ai",
+            "ai_input_package": {
+                "title": "Network Engineer",
+                "full_article_text": "verified source text",
+                "job_notice_type": "vacancy",
+            },
+        }
+        queue = {"articles": [article]}
+        response = {
+            "title": "عنوان",
+            "description": "وصف صالح للمقال",
+            "slug": "network-engineer",
+            "html_content": "<p>نص</p>",
+            "notice_type": "vacancy",
+        }
+        generated = []
+
+        def fake_generate(provider, prompt, context=None):
+            generated.append(provider)
+            return "raw", f"{provider}:model"
+
+        with patch.object(ai, "JOBS_MODE", True), \
+             patch.object(ai, "JOBS_AI_QUALITY_REPAIRS", 1), \
+             patch.object(ai, "load_article_queue", return_value=queue), \
+             patch.object(ai, "save_article_queue"), \
+             patch.object(ai, "_attempt_provider_sequence", return_value=["gemini", "groq"]), \
+             patch.object(ai, "_skipped_slow_models_count", return_value=0), \
+             patch.object(ai, "_source_stats", return_value=("text", 100, 20)), \
+             patch.object(ai, "_build_prompt", return_value="prompt"), \
+             patch.object(ai, "_build_expansion_retry_prompt", return_value="repair"), \
+             patch.object(ai, "_generate_with_provider_name", side_effect=fake_generate), \
+             patch.object(ai, "_parse_complete_ai_json", return_value=dict(response)), \
+             patch.object(ai, "_shorten_metadata_once_if_needed", side_effect=lambda data: data), \
+             patch.object(ai, "_normalize_ai_output", side_effect=lambda data: data), \
+             patch.object(ai, "_finalize_html_content", side_effect=lambda data, package: data), \
+             patch.object(ai, "_validate_ai_output", side_effect=ValueError("quality mismatch")), \
+             patch.object(ai, "_record_failure_fingerprint", return_value=("quality-fp", "quality", 2000000000)):
+            result = ai.process_one_selected_article_with_ai(target_article_id="quality-job")
+
+        self.assertEqual(generated, ["gemini", "gemini"])
+        self.assertEqual(result["failure_scope"], "quality")
+        self.assertEqual(article["ai_quality_repairs_used"], 1)
+
+    def test_provider_sequence_skips_open_provider_circuits(self):
+        with patch.object(ai, "JOBS_MODE", True), \
+             patch.object(ai, "_resolve_providers", return_value=["gemini", "groq"]), \
+             patch.object(ai, "_global_circuit_remaining", return_value=0), \
+             patch.object(
+                 ai,
+                 "_provider_circuit_remaining",
+                 side_effect=lambda provider: 120 if provider == "gemini" else 0,
+             ):
+            self.assertEqual(ai._attempt_provider_sequence(), ["groq"])
+
+    def test_global_ai_outage_stops_cross_candidate_retry(self):
+        failed = {
+            "id": "failed-job",
+            "url": "https://example.com/jobs/failed",
+            "ai_failure_scope": "global_outage",
+            "ai_failure_fingerprint": "global-fp",
+            "ai_retry_after": "2099-01-01T00:00:00+00:00",
+        }
+        with patch.object(main, "_mark_candidate_failure_for_retry", return_value=failed), \
+             patch.object(main, "_select_retry_candidate") as select:
+            success, retries = main._retry_after_single_candidate_failure(
+                failed,
+                "run-ai",
+                "provider rotation exhausted",
+                "live",
+                {},
+                {"failed-job"},
+            )
+        self.assertIsNone(success)
+        self.assertEqual(retries, [])
+        select.assert_not_called()
+
+    def test_candidate_failure_fingerprint_increases_backoff(self):
+        row = {
+            "id": "candidate",
+            "url": "https://example.com/jobs/candidate",
+            "status": "ready",
+        }
+        queue = {"articles": [row]}
+        with patch.object(article_queue, "load_article_queue", return_value=queue), \
+             patch.object(article_queue, "save_article_queue"):
+            article_queue.mark_article_recent_failure(
+                article_id="candidate",
+                stage="prepare-ai",
+                reason="missing evidence 12345",
+                cooldown_minutes=15,
+            )
+            first_fp = row["candidate_failure_fingerprint"]
+            first_backoff = row["candidate_failure_backoff_minutes"]
+            article_queue.mark_article_recent_failure(
+                article_id="candidate",
+                stage="prepare-ai",
+                reason="missing evidence 67890",
+                cooldown_minutes=15,
+            )
+
+        self.assertEqual(row["candidate_failure_fingerprint"], first_fp)
+        self.assertGreater(row["candidate_failure_backoff_minutes"], first_backoff)
+        self.assertEqual(row["candidate_failure_repeat_count"], 2)
+
     def test_provider_cooldowns_are_error_specific(self):
         self.assertGreater(
             ai._cooldown_seconds_for_error(RuntimeError("HTTP 403 forbidden")),
