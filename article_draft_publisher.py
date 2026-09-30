@@ -473,6 +473,7 @@ def _prepare_job_document_page_images(article, force_retry=False):
         or package.get("job_document_page_images")
         or []
     )
+    previous_pages = list(existing) if isinstance(existing, list) else []
     if existing and not force_retry:
         return existing
 
@@ -482,11 +483,6 @@ def _prepare_job_document_page_images(article, force_retry=False):
         package["job_document_render_status"] = "not_available"
         article["ai_input_package"] = package
         return []
-
-    if force_retry:
-        article["job_document_page_images"] = []
-        package["job_document_page_images"] = []
-        package["job_document_rendered_pages"] = 0
 
     try:
         pages = render_job_document_pages(
@@ -506,6 +502,10 @@ def _prepare_job_document_page_images(article, force_retry=False):
     attempted = int(article.get("job_document_render_attempted_documents") or 0)
 
     if not pages:
+        if previous_pages:
+            article["job_document_page_images"] = list(previous_pages)
+            package["job_document_page_images"] = list(previous_pages)
+            package["job_document_rendered_pages"] = len(previous_pages)
         if failures > 0 or attempted > 0:
             _mark_document_render_retry(
                 article,
@@ -517,7 +517,7 @@ def _prepare_job_document_page_images(article, force_retry=False):
             article["job_document_render_status"] = "not_available"
             package["job_document_render_status"] = "not_available"
             article["ai_input_package"] = package
-        return []
+        return list(previous_pages)
 
     try:
         _persist_generated_job_assets(
@@ -525,16 +525,16 @@ def _prepare_job_document_page_images(article, force_retry=False):
             commit_label=f"job document pages {_job_cover_key(article)}",
         )
     except Exception as error:
-        article["job_document_page_images"] = []
-        package["job_document_page_images"] = []
-        package["job_document_rendered_pages"] = 0
+        article["job_document_page_images"] = list(previous_pages)
+        package["job_document_page_images"] = list(previous_pages)
+        package["job_document_rendered_pages"] = len(previous_pages)
         _mark_document_render_retry(
             article,
             package,
             error,
             reason="asset_persist_failed",
         )
-        return []
+        return list(previous_pages)
 
     article["job_document_page_images"] = pages
     package["job_document_page_images"] = list(pages)
@@ -704,7 +704,24 @@ def _prepare_job_article_cover(article):
 
     article["article_logo_used"] = True
     package["article_logo_used"] = True
-    _persist_generated_job_cover(output_path)
+    try:
+        _persist_generated_job_cover(output_path)
+    except Exception as error:
+        _clear_optional_job_cover(article, package)
+        article["article_logo_used"] = False
+        article["job_article_cover_status"] = "asset_persist_retry_optional"
+        article["logo_visual_retry_pending"] = True
+        article["logo_visual_retry_after"] = _document_render_retry_at(hours=12)
+        article["logo_visual_error"] = str(error)[:1000]
+        package["article_logo_used"] = False
+        package["job_article_cover_status"] = "asset_persist_retry_optional"
+        log_event(
+            "job_article_cover_asset_persist_deferred_optional",
+            article_id=article.get("id"),
+            retry_after=article["logo_visual_retry_after"],
+            error=article["logo_visual_error"],
+        )
+        return ""
     public_url = f"{JOB_ARTICLE_RAW_BASE}/{quote(output_path.as_posix(), safe='/')}"
     location = str(
         article.get("job_location")
