@@ -1401,6 +1401,97 @@ class JobsRuntimeTests(unittest.TestCase):
             package["verified_fact_manifest"],
         )
 
+    def test_jobs_gate_downgrades_fact_repetition_heuristics_to_warning(self):
+        manifest = {
+            "version": 1,
+            "facts": {
+                "positions": [{
+                    "value": 3,
+                    "source": "official_detail_page",
+                    "confidence": "high",
+                    "blocking": True,
+                    "required_in_output": True,
+                    "aliases": [],
+                    "meta": {},
+                }],
+                "notice_type": [{
+                    "value": "update",
+                    "source": "verified",
+                    "confidence": "high",
+                    "blocking": False,
+                    "required_in_output": False,
+                    "aliases": [],
+                    "meta": {},
+                }],
+            },
+            "warnings": [],
+        }
+        package = {
+            "url": "https://example.com/jobs/update-55",
+            "source_url": "https://example.com/jobs/update-55",
+            "job_notice_type": "update",
+            "verified_fact_manifest": manifest,
+        }
+        article = {
+            "url": package["url"],
+            "source_url": package["source_url"],
+            "seo_title": "تحديث رسمي حول إجراءات مباراة توظيف تقنيين بإحدى المؤسسات",
+            "seo_description": (
+                "تحديث رسمي يوضح المرحلة الحالية من المباراة والمعطيات المؤكدة "
+                "التي تهم المترشحين وفق الإعلان المنشور من الجهة المنظمة."
+            ),
+            "final_html": (
+                "<p>تشمل المعطيات الحالية 3 مناصب ضمن هذه المرحلة.</p>"
+                "<h2>المعطيات المؤكدة</h2>"
+                "<table><tbody><tr><th>عدد المناصب</th><td>3 مناصب</td></tr></tbody></table>"
+            ),
+            "job_notice_type": "update",
+            "ai_input_package": package,
+        }
+        with patch.object(quality_gate, "JOBS_MODE", True):
+            result = quality_gate.validate_before_publish(
+                article,
+                check_duplicate=False,
+            )
+
+        self.assertTrue(result.passed, result.reason)
+        self.assertTrue(any("repeat" in warning.lower() for warning in result.warnings))
+
+    def test_jobs_gate_keeps_h1_as_structural_blocker(self):
+        package = {
+            "url": "https://example.com/jobs/update-56",
+            "source_url": "https://example.com/jobs/update-56",
+            "job_notice_type": "update",
+            "verified_fact_manifest": {
+                "version": 1,
+                "facts": {},
+                "warnings": [],
+            },
+        }
+        article = {
+            "url": package["url"],
+            "source_url": package["source_url"],
+            "seo_title": "تحديث رسمي حول إجراءات مباراة توظيف تقنيين بإحدى المؤسسات",
+            "seo_description": (
+                "تحديث رسمي يوضح المرحلة الحالية من المباراة والمعطيات المؤكدة "
+                "التي تهم المترشحين وفق الإعلان المنشور من الجهة المنظمة."
+            ),
+            "final_html": (
+                "<h1>عنوان داخل جسم المقال</h1>"
+                "<p>تفاصيل موثقة حول المرحلة الحالية من الإجراءات.</p>"
+            ),
+            "job_notice_type": "update",
+            "ai_input_package": package,
+        }
+        with patch.object(quality_gate, "JOBS_MODE", True):
+            result = quality_gate.validate_before_publish(
+                article,
+                check_duplicate=False,
+            )
+
+        self.assertFalse(result.passed)
+        self.assertIn("h1", result.reason.lower())
+
     def test_jobs_gate_keeps_medium_manifest_and_arbitrary_rows_as_warnings(self):
         manifest = {
             "version": 1,
