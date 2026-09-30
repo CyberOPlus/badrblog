@@ -13,7 +13,12 @@ from urllib.parse import quote, urlparse
 
 from googleapiclient.errors import HttpError
 
-from article_queue import load_article_queue, save_article_queue
+from article_queue import (
+    archive_published_queue_article,
+    job_visual_retry_pending,
+    load_article_queue,
+    save_article_queue,
+)
 from article_ai_processor import MIN_PUBLISHABLE_WORDS, format_phase3_article_html, validate_phase3_article_quality
 from article_selector import normalize_category_label
 from blogger_client import create_blogger_service, get_credentials, is_local_publisher
@@ -559,15 +564,11 @@ def _prepare_job_document_page_images(article, force_retry=False):
     article["ai_input_package"] = package
 
     if failures > 0:
-        article["job_document_render_status"] = "document_render_retry"
-        package["job_document_render_status"] = "document_render_retry"
-        article["job_document_render_retry_count"] = int(
-            article.get("job_document_render_retry_count") or 0
-        ) + 1
-        article["job_document_render_retry_after"] = _document_render_retry_at()
-        article["job_document_render_retry_reason"] = "partial_render"
-        article["job_document_render_error"] = (
-            f"{failures} official document(s) could not be rendered."
+        _mark_document_render_retry(
+            article,
+            package,
+            f"{failures} official document(s) could not be rendered.",
+            reason="partial_render",
         )
     else:
         article["job_document_render_status"] = "rendered"
