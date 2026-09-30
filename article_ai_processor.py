@@ -1965,19 +1965,6 @@ def _job_link_key(url):
     ).rstrip("/")
 
 
-def _remove_existing_required_job_links(soup, required_keys):
-    """Remove earlier AI-rendered copies before appending one standard action UI."""
-    for anchor in list(soup.find_all("a", href=True)):
-        key = _job_link_key(anchor.get("href"))
-        if not key or key not in required_keys:
-            continue
-        parent = anchor.parent
-        if parent and parent.name == "p" and parent.get_text(" ", strip=True) == anchor.get_text(" ", strip=True):
-            parent.decompose()
-        else:
-            anchor.replace_with(anchor.get_text(" ", strip=True))
-
-
 def _job_action_box(label, url, *, kind="apply"):
     if kind == "apply":
         heading = "التقديم الرسمي"
