@@ -19,6 +19,7 @@ from duplicate_utils import canonicalize_url, title_hash, topic_signature
 from production_logging import log_event
 from job_core import (
     _parse_date as _parse_job_date,
+    invalidate_identity_evidence,
     is_application_url_bound_to_job,
     is_foreign_job_detail_url,
 )
@@ -522,6 +523,18 @@ def archive_published_queue_article(article_id="", article_url="", reason="publi
     return False
 
 
+IDENTITY_EVIDENCE_MERGE_FIELDS = {
+    "ats_reference",
+    "job_company",
+    "job_location",
+    "job_deadline",
+    "job_published_at",
+    "job_application_url",
+    "job_application_link_kind",
+    "job_number_of_positions",
+}
+
+
 ATS_QUEUE_MERGE_FIELDS = (
     "source_published_at",
     "published_at_source",
@@ -558,6 +571,7 @@ def _merge_job_discovery_metadata(existing, discovered):
     if not JOBS_MODE or not isinstance(existing, dict) or not isinstance(discovered, dict):
         return False
     changed = False
+    identity_evidence_changed = False
     for key in ATS_QUEUE_MERGE_FIELDS:
         value = discovered.get(key)
         if value in (None, "", [], {}):
@@ -572,7 +586,14 @@ def _merge_job_discovery_metadata(existing, discovered):
         if existing.get(key) != value:
             existing[key] = value
             changed = True
+            if key in IDENTITY_EVIDENCE_MERGE_FIELDS:
+                identity_evidence_changed = True
     if changed:
+        if identity_evidence_changed:
+            invalidate_identity_evidence(
+                existing,
+                reason="structured discovery identity facts changed",
+            )
         existing["discovery_metadata_refreshed_at"] = _now_iso()
         # A previously failed generic-HTML enrichment should be retried when
         # structured ATS metadata is now available.
