@@ -1,7 +1,27 @@
 {
   "avg_time": 0.0,
-  "cooldowns": {},
+  "cooldowns": {
+    "gemini:gemini-2.5-flash:64f603a8c0": {
+      "failed_at": "2026-09-30T21:32:33",
+      "key_id": "64f603a8c0",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini",
+      "reason": "504 The request timed out. Please try again.",
+      "until": 1790804553.958583
+    }
+  },
   "failure_fingerprints": {
+    "5b989acb6acd07ebbf6e": {
+      "category": "article_input",
+      "count": 2,
+      "first_seen_at": "2026-09-30T21:32:33",
+      "last_seen_at": "2026-09-30T21:32:33",
+      "last_seen_epoch": 1790803953.7735708,
+      "provider": "groq",
+      "reason": "groq API error 413: {\"error\":{\"message\":\"Request too large for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dema",
+      "retry_until": 1790807553.7735708,
+      "scope": "article_input"
+    },
     "c10c0e8ef2bd27adc53f": {
       "category": "article_input",
       "count": 1,
@@ -12,10 +32,38 @@
       "reason": "source/evidence problem: generic application portal is not a verified official channel for this competition",
       "retry_until": 1790805131.7755346,
       "scope": "article_input"
+    },
+    "d15c8a5d2460c1216a2b": {
+      "category": "outage",
+      "count": 1,
+      "first_seen_at": "2026-09-30T21:32:33",
+      "last_seen_at": "2026-09-30T21:32:33",
+      "last_seen_epoch": 1790803953.1134913,
+      "provider": "gemini",
+      "reason": "504 The request timed out. Please try again.",
+      "retry_until": 1790804553.1134913,
+      "scope": "provider"
     }
   },
   "fastest_success_model": "",
   "global_circuit": {},
-  "provider_circuits": {},
-  "stats": {}
+  "provider_circuits": {
+    "gemini": {
+      "category": "outage",
+      "fingerprint": "d15c8a5d2460c1216a2b",
+      "opened_at": "2026-09-30T21:32:33",
+      "provider": "gemini",
+      "reason": "504 The request timed out. Please try again.",
+      "until": 1790804553.1134913
+    }
+  },
+  "stats": {
+    "gemini:gemini-2.5-flash:64f603a8c0": {
+      "failures": 1,
+      "key_id": "64f603a8c0",
+      "last_failure_at": "2026-09-30T21:32:33",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini"
+    }
+  }
 }
