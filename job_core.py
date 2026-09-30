@@ -183,7 +183,8 @@ def is_job_specific_url(url):
         "search", "job-search", "jobs-search", "offres", "offres-emploi",
         "emplois", "openings", "positions", "all-jobs", "all-jobs-search",
         "candidature", "postuler", "application", "applications", "register",
-        "registration", "inscription",
+        "registration", "inscription", "list", "listing", "liste",
+        "annonce", "annonces",
     }
     if generic_tail:
         if has_specific_query:

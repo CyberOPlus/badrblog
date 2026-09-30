@@ -52,6 +52,11 @@ class JobsCoreTests(unittest.TestCase):
                 "https://secure.dc7.pageuppeople.com/apply/671/cw/applicationForm/default.asp"
             )
         )
+        self.assertFalse(
+            job_core.is_job_specific_url(
+                "https://recrutement.enssup.gov.ma/annonce/list?statutExpiration=ACTIVE"
+            )
+        )
         self.assertTrue(
             job_core.is_job_specific_url(
                 "https://secure.dc7.pageuppeople.com/apply/671/cw/applicationForm/default.asp?lJobID=595952"
