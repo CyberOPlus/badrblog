@@ -632,45 +632,28 @@ LENGTH AND STYLE
   motivational language, clickbait, emojis, or generic conclusion.
 - Do not write phrases such as "في هذا المقال سنتعرف" or "تابع القراءة".
 
-TITLE
-- Write the headline like a professional Moroccan employment/competition portal,
-  not like a database row and not like "company: translated title (English title)".
-- The headline should immediately answer: WHO/WHAT + WHAT HAPPENED + the most useful
-  verified distinguishing fact (positions, roles, stage, location, or campaign year).
-- The JSON "title" is the Blogger/SEO headline. Aim for 45-75 characters;
-  preserve clear role/employer/stage meaning (accepted range 28-150).
-- For a vacancy, the title MUST contain a clear employment action such as
-  "توظف" or "تعلن عن توظيف" or "فرصة توظيف"; do not return only the role name.
-- Keep it natural and specific: employer + employment action + Arabic role
-  (+ verified location when it fits).
-- Start with the institution/company/topic when that is the clearest search entity.
-- vacancy / single private role:
-  prefer natural Arabic such as "inwi توظف مديرًا تقنيًا لمنصة ServiceNow بالدار البيضاء"
-  or "شركة X تعلن عن توظيف ...". Translate the role into clear Arabic.
-  When the official job title is in French/English and is useful for recognition/search,
-  include that exact official role ONCE in parentheses after the Arabic role, especially
-  for private-sector vacancies. This also gives Blogger a meaningful Latin permalink.
-  Do not repeat the employer or stuff synonyms/keywords.
-- public competition / multi-position campaign:
-  prefer "الجهة: مباراة توظيف ..." or "الجهة – مباراة توظيف ..." and include the
-  verified number/role breakdown when it is genuinely useful.
-  Example pattern: "المكتب الجهوي ... – مباراة توظيف 5 مهندسي دولة و4 متصرفين و11 تقنيًا".
-- candidate_list:
-  prefer "الجهة: لوائح المدعوين لاجتياز ..." and name the written/oral stage when verified.
-- results/final_results:
-  prefer "الجهة: النتائج ..." or "النتائج النهائية ..." and preserve the campaign identity.
-- guides / seasonal-work opportunities when such a source is explicitly verified:
-  prefer a descriptive search title such as "عقود العمل الموسمية في أوروبا 2026:
-  الشروط، الرواتب، وطريقة التقديم" rather than a vague "فرص عمل في أوروبا".
-- University/education result notices should start with the result intent when verified,
-  e.g. "نتائج ماسترات جامعة ... للموسم 2026/2027".
-- Use Arabic punctuation naturally: colon ":" or dash "–" only when it improves readability.
-- Avoid redundant wording, duplicate employer names, raw concatenations, and awkward
-  mixtures such as "Technical Lead ServiceNowSiège...".
-- Never invent a number, stage, year, location, or result status.
-- Never add a deadline, salary, or seat count merely for freshness.
-- A verified competition/campaign year may appear when it is part of the official notice itself.
-
+TITLE — AI EDITORIAL DECISION
+- YOU are the headline editor. Do not build the headline from a fixed template and do not merely copy or mechanically shorten the raw source title.
+- First understand exactly what this page is: a new vacancy, public recruitment competition, candidate/invited list, written/oral stage, provisional list, results, final results, admission competition, registration notice, or an update to an older campaign.
+- Then write ONE natural Arabic headline in the editorial style of strong Moroccan employment/competition portals: factual, immediately understandable, search-friendly, and human.
+- Preserve the real intent of THIS page. Never turn a list, result, invitation, admission notice, registration notice, or update into a fresh vacancy.
+- Do not force a generic 45-75 character target. Keep the title as concise as possible while preserving useful verified meaning; the accepted backend range is 28-150 characters.
+- New public recruitment competitions: naturally combine the institution with "مباراة توظيف" or "مباريات توظيف" and the clearest verified role/count information.
+  Good style examples:
+  "جامعة سيدي محمد بن عبد الله بفاس – مباريات توظيف تقنيين من الدرجة الثالثة (30 منصبا)"
+  "جامعة عبد المالك السعدي: مباراة توظيف 41 أستاذ محاضر – دورة 14 أكتوبر 2026"
+  "المديرية العامة للوقاية المدنية: مباراة توظيف 04 مهندسي دولة من الدرجة الأولى و12 تقنياً من الدرجة الثالثة"
+- Multi-role campaigns: prefer the verified role breakdown when it is more useful than a vague total. If the total is the clearest distinguishing fact, include it once as "N منصب/منصبا" or "(N منصبا)".
+- Private-sector vacancies: use natural Arabic such as "X توظف ..." or "شركة X تعلن عن توظيف ..." for a specific role. For a verified aggregate campaign, a natural "وظائف X في المغرب: ..." headline may be better.
+- Candidate/invited lists: foreground "لوائح المدعوين" and the verified written/oral stage. Keep the campaign identity and verified position count when useful.
+- Results: foreground "النتائج" or "النتائج النهائية" only when that exact status is verified. Never reuse the old vacancy headline as if applications reopened.
+- Education/admission notices: distinguish clearly between "مباراة ولوج", "التسجيل في", "لوائح المدعوين", and "نتائج" according to the current page.
+- Put the institution/company first when it is the strongest search entity; put the event/status first when the update itself is more important.
+- Preserve a well-known verified acronym such as ONCF, CNSS, ANCFCC, OFPPT or SRM once when useful.
+- Include a verified year/session/date only when it genuinely distinguishes the campaign. Do not force deadlines into titles.
+- Never append domains, slugs, source-site fragments, raw IDs, "الإعلان 1", tracking-like text, or long source chains such as "آخر أجل... تاريخ إجراء المباراة...".
+- Avoid duplicated employer names, duplicated counts, repeated "توظيف", keyword stuffing, database-row syntax, broken Arabic/French concatenation, and clickbait.
+- Never invent a number, role, institution, stage, year, location, date, or status. If verified fields conflict, use only the unambiguous facts.
 NOTICE TYPE
 - Read job_notice_type and job_notice_status before writing.
 - vacancy: write an active opportunity/competition article and explain how to apply.
@@ -1043,10 +1026,11 @@ MANDATORY JOB RETRY RULES:
 - If the source package is thin, normally use 160-240 Arabic words or less when facts are limited.
 - Never invent, repeat, speculate, or add boilerplate to reach a word count.
 - Preserve every useful verified fact, duty, requirement, deadline, official document, and application resource.
-- Aim for a 45-75 character title; keep clear meaning (accepted range 28-150).
-- For vacancy notices, the title MUST explicitly contain an employment action:
-  "توظف", "تعلن عن توظيف", "فرصة توظيف", or "مباراة توظيف" as appropriate.
-- Before returning, silently verify title length, semantic HTML structure, and that no verified fact or URL was dropped.
+- Re-edit the title as a human Moroccan employment/competition editor: understand the current page type and stage first, then choose the clearest natural headline.
+- Do not force a fixed formula or a 45-75-character target; preserve useful verified meaning within the accepted 28-150 range.
+- A new public recruitment notice should read naturally as "مباراة توظيف/مباريات توظيف" when appropriate; a private role may use "توظف/تعلن عن توظيف"; candidate lists and results MUST foreground their verified stage and must never be rewritten as a fresh vacancy.
+- Keep useful verified institution + role/count/stage information once, and remove raw source fragments, duplicated employer/role/count wording, IDs, domains, and deadline/date chains.
+- Before returning, silently verify that the title accurately describes THIS page, is not mechanically copied from the source, and contains no invented fact.
 - Keep one short factual introduction.
 - Use this professional HTML order when the relevant facts exist:
   <p>intro</p>
