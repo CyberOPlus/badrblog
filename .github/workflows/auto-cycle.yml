@@ -342,6 +342,7 @@ jobs:
             # only runtime files, then create a fresh state commit.
             PERSIST_PATHS=("${STATE_PATHS[@]}" "logs/auto_cycle_runs.jsonl")
             SNAPSHOT_DIR="$(mktemp -d)"
+            RUN_BASE_SHA="$(git rev-parse HEAD)"
 
             snapshot_runtime() {
               rm -rf "$SNAPSHOT_DIR"
@@ -356,11 +357,22 @@ jobs:
 
             restore_runtime() {
               for state_path in "${PERSIST_PATHS[@]}"; do
-                if [ -e "$SNAPSHOT_DIR/$state_path" ]; then
-                  mkdir -p "$(dirname "$state_path")"
-                  rm -rf "$state_path"
-                  cp -a "$SNAPSHOT_DIR/$state_path" "$state_path"
+                if [ ! -e "$SNAPSHOT_DIR/$state_path" ]; then
+                  continue
                 fi
+
+                # If this state path changed upstream after the run started,
+                # the newer remote state wins. Never overwrite a deliberate
+                # recovery/manual fix (or another completed production run)
+                # with an older snapshot from this runner.
+                if ! git diff --quiet "$RUN_BASE_SHA" origin/main -- "$state_path"; then
+                  echo "Keeping newer remote runtime state: $state_path"
+                  continue
+                fi
+
+                mkdir -p "$(dirname "$state_path")"
+                rm -rf "$state_path"
+                cp -a "$SNAPSHOT_DIR/$state_path" "$state_path"
               done
             }
 
