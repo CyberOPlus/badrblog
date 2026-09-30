@@ -349,6 +349,70 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(result["already_enriched"], 1)
         enrich.assert_not_called()
 
+    def test_jobs_enrichment_batch_defers_backlog_without_dropping_jobs(self):
+        articles = [
+            {
+                "id": f"job-{index}",
+                "url": f"https://example.com/jobs/{index}",
+                "status": "ready",
+                "category_label": "jobs-morocco",
+                "content_fetch_status": "",
+                "score": score,
+                "source_priority": priority,
+            }
+            for index, score, priority in (
+                (1, 10, "A+"),
+                (2, 9, "A"),
+                (3, 4, "S"),
+                (4, 3, "A"),
+                (5, 1, "B"),
+            )
+        ]
+        queue = {"articles": articles}
+
+        def enrich(article):
+            article["content_fetch_status"] = "success"
+            article["full_article_text"] = " ".join(["verified"] * 60)
+            return True, ""
+
+        with (
+            patch.object(article_enricher, "JOBS_MODE", True),
+            patch.object(article_enricher, "JOBS_ENRICH_MAX_TARGETS_PER_CYCLE", 2),
+            patch.object(article_enricher, "load_article_queue", return_value=queue),
+            patch.object(article_enricher, "save_article_queue") as save,
+            patch.object(article_enricher, "_can_run_async_fetch", return_value=False),
+            patch.object(article_enricher, "enrich_article", side_effect=enrich) as enrich_call,
+        ):
+            result = article_enricher.enrich_ready_articles(force=False)
+
+        enriched_ids = [call.args[0]["id"] for call in enrich_call.call_args_list]
+        self.assertEqual(enriched_ids, ["job-1", "job-2"])
+        self.assertEqual(result["deferred_targets"], 3)
+        self.assertEqual(result["batch_limit"], 2)
+        self.assertEqual(result["enriched"], 2)
+        self.assertTrue(all(article["status"] == "ready" for article in articles[2:]))
+        self.assertTrue(all(not article.get("archived") for article in articles[2:]))
+        save.assert_called_once()
+
+    def test_jobs_enrichment_priority_advances_near_deadline_before_score(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        urgent = {
+            "status": "ready",
+            "score": 1,
+            "source_priority": "A",
+            "job_deadline": "2026-10-01T08:00:00+00:00",
+        }
+        later = {
+            "status": "ready",
+            "score": 10,
+            "source_priority": "S+",
+            "job_deadline": "2026-10-20T08:00:00+00:00",
+        }
+        self.assertLess(
+            article_enricher._jobs_enrichment_priority(urgent, 1, now=now),
+            article_enricher._jobs_enrichment_priority(later, 0, now=now),
+        )
+
     def test_candidate_failure_backoff_grows_and_caps(self):
         first = article_enricher._candidate_failure_backoff_minutes(1)
         later = article_enricher._candidate_failure_backoff_minutes(4)
