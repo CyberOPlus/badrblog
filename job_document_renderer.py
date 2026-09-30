@@ -5,7 +5,10 @@ import re
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
-import fitz
+try:
+    import pymupdf as fitz
+except ImportError:  # Backward compatibility with older PyMuPDF installs.
+    import fitz
 import requests
 from PIL import Image
 
