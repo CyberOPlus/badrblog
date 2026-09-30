@@ -1623,7 +1623,7 @@ class ProductionHardeningTests(unittest.TestCase):
 
     def test_workflow_cron_and_facebook_safety_are_current(self):
         text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
-        self.assertIn('cron: "7,22,37,52 * * * *"', text)
+        self.assertIn('cron: "1,7,13,19,25,31,37,43,49,55 * * * *"', text)
         self.assertIn("workflow_dispatch:", text)
         self.assertIn("group: auto-cycle-${{ github.ref }}", text)
         self.assertIn("cancel-in-progress: false", text)
@@ -1634,8 +1634,8 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn('"MAX_POSTS_PER_RUN": "1"', text)
         self.assertIn('"MAX_ARTICLES_PER_RUN": "1"', text)
         self.assertIn('"SAFE_CYCLE_MAX_ARTICLES": "1"', text)
-        self.assertIn('"MAX_LIVE_POSTS_PER_DAY": "3"', text)
-        self.assertIn('"TARGET_LIVE_POSTS_PER_DAY": "3"', text)
+        self.assertIn('"MAX_LIVE_POSTS_PER_DAY": "240"', text)
+        self.assertIn('"TARGET_LIVE_POSTS_PER_DAY": "240"', text)
         self.assertIn('"MIN_MINUTES_BETWEEN_LIVE_POSTS": "0"', text)
         self.assertIn('"META_GRAPH_API_VERSION": "v26.0"', text)
         self.assertIn('"MAX_FACEBOOK_POSTS_PER_DAY": "2"', text)

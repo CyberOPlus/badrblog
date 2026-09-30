@@ -34,8 +34,7 @@ class JobsRuntimeTests(unittest.TestCase):
                 datetime(2026, 9, 29, 8, tzinfo=timezone.utc)
             )
         self.assertEqual(state["green_score"], 1)
-        self.assertGreaterEqual(policy["daily_cap"], 24)
-        self.assertLessEqual(policy["daily_cap"], 32)
+        self.assertEqual(policy["daily_cap"], 240)
 
     def test_adaptive_rate_limit_reduces_health_score(self):
         state = {
@@ -624,20 +623,20 @@ class JobsRuntimeTests(unittest.TestCase):
         state = {
             "daily_publish_count": {"2026-09-29": 2},
             "daily_urgent_override_count": {},
-            "last_publish_at": (now - timedelta(minutes=30)).isoformat(),
+            "last_publish_at": (now - timedelta(minutes=3)).isoformat(),
         }
         with patch.object(job_core, "JOBS_ADAPTIVE_PUBLISHING", True), \
-             patch.object(job_core, "JOBS_MIN_PUBLISH_INTERVAL_MINUTES", 45), \
+             patch.object(job_core, "JOBS_MIN_PUBLISH_INTERVAL_MINUTES", 5), \
              patch.object(job_core, "load_job_state", return_value=state), \
              patch.object(job_core, "current_policy", return_value={
                  "enabled": True,
                  "stage": 5,
                  "green_score": 20,
-                 "daily_cap": 12,
+                 "daily_cap": 240,
              }):
             status = job_core.job_publish_window_status(now=now)
         self.assertFalse(status["allowed_now"])
-        self.assertEqual(status["min_interval_minutes"], 45)
+        self.assertEqual(status["min_interval_minutes"], 5)
         self.assertIn("spacing", " ".join(status["reasons"]))
 
     def test_job_permalink_seed_is_alphabetic_even_with_numeric_reference(self):
