@@ -1039,6 +1039,16 @@ async def _collect_paginated_html_links_async(
     collected = []
     seen_streak = 0
     current_url = str(start_url or source_url).strip() or source_url
+    resume_active = bool(
+        start_url
+        and (canonicalize_url(start_url) or str(start_url))
+        != (canonicalize_url(source_url) or str(source_url))
+    )
+    effective_seen_streak_stop = (
+        JOBS_DISCOVERY_SEEN_MEMORY + max_items + 1
+        if resume_active
+        else seen_streak_stop
+    )
     visited = set()
     status_code = None
     last_error = ""
@@ -1078,7 +1088,7 @@ async def _collect_paginated_html_links_async(
         new_links, meta = _filter_new_discovery_links(
             page_links,
             working_known,
-            seen_streak_stop=seen_streak_stop,
+            seen_streak_stop=effective_seen_streak_stop,
             # Never cut a listing page in half; the global cap is checked after
             # this full page so a resume cursor can safely start at next page.
             max_items=max(max_items + len(page_links), len(page_links) + 1),
@@ -1135,6 +1145,16 @@ def _collect_paginated_html_links_sync(
     collected = []
     seen_streak = 0
     current_url = str(start_url or source_url).strip() or source_url
+    resume_active = bool(
+        start_url
+        and (canonicalize_url(start_url) or str(start_url))
+        != (canonicalize_url(source_url) or str(source_url))
+    )
+    effective_seen_streak_stop = (
+        JOBS_DISCOVERY_SEEN_MEMORY + max_items + 1
+        if resume_active
+        else seen_streak_stop
+    )
     visited = set()
     last_status = 200
     last_error = ""
@@ -1179,7 +1199,7 @@ def _collect_paginated_html_links_sync(
         new_links, meta = _filter_new_discovery_links(
             page_links,
             working_known,
-            seen_streak_stop=seen_streak_stop,
+            seen_streak_stop=effective_seen_streak_stop,
             max_items=max(max_items + len(page_links), len(page_links) + 1),
             initial_seen_streak=seen_streak,
         )
@@ -1272,6 +1292,12 @@ async def _collect_workday_links_async(
         offset = max(0, int(start_offset or 0))
     except (TypeError, ValueError):
         offset = 0
+    resume_active = offset > 0
+    effective_seen_streak_stop = (
+        JOBS_DISCOVERY_SEEN_MEMORY + max_items + 1
+        if resume_active
+        else seen_streak_stop
+    )
     started = time.perf_counter()
     status_code = 200
     stop_reason = "end"
@@ -1351,7 +1377,7 @@ async def _collect_workday_links_async(
         new_links, meta = _filter_new_discovery_links(
             page_links,
             working_known,
-            seen_streak_stop=seen_streak_stop,
+            seen_streak_stop=effective_seen_streak_stop,
             max_items=max(max_items + len(page_links), len(page_links) + 1),
             initial_seen_streak=seen_streak,
         )
@@ -1809,6 +1835,12 @@ async def _collect_csod_links_async(
         first_page = max(1, int(start_page or 1))
     except (TypeError, ValueError):
         first_page = 1
+    resume_active = first_page > 1
+    effective_seen_streak_stop = (
+        JOBS_DISCOVERY_SEEN_MEMORY + max_items + 1
+        if resume_active
+        else seen_streak_stop
+    )
     started = time.perf_counter()
 
     try:
@@ -1931,7 +1963,7 @@ async def _collect_csod_links_async(
         new_links, meta = _filter_new_discovery_links(
             page_links,
             working_known,
-            seen_streak_stop=seen_streak_stop,
+            seen_streak_stop=effective_seen_streak_stop,
             max_items=max(max_items + len(page_links), len(page_links) + 1),
             initial_seen_streak=seen_streak,
         )
