@@ -393,6 +393,15 @@ class JobsCoreTests(unittest.TestCase):
             scraper._discovery_identity(first).startswith("url:")
         )
 
+    def test_generic_tuple_discovery_identity_is_supported(self):
+        identity = scraper._discovery_identity(
+            ("Network Engineer", "https://jobs.example.com/jobs/123")
+        )
+        self.assertEqual(
+            identity,
+            "url:https://jobs.example.com/jobs/123",
+        )
+
     def test_discovery_seen_streak_stops_after_known_run(self):
         known = {
             f"url:https://example.com/jobs/known-{index}"
