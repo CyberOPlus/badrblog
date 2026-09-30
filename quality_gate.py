@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from duplicate_utils import canonicalize_url, content_hash_from_html, similar_topic_signature, title_hash, topic_signature
 from production_logging import html_to_text, html_word_count
 from job_core import is_application_url_bound_to_job, is_job_specific_url
+from verified_fact_manifest import build_verified_fact_manifest, validate_output_against_manifest
 from config import (
     ALLOW_UNKNOWN_DATE_IN_FAST_MODE,
     ALLOW_SHORT_ARTICLES,
@@ -955,21 +956,31 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         if duplicate_row_reason:
             return QualityGateResult(False, duplicate_row_reason, word_count)
 
-        unsupported_fact_reason = _job_unsupported_fact_reason(seo_title, html_content, package)
-        if unsupported_fact_reason:
-            return QualityGateResult(False, unsupported_fact_reason, word_count)
+        manifest = (
+            package.get("verified_fact_manifest")
+            if isinstance(package.get("verified_fact_manifest"), dict)
+            else {}
+        )
+        if not manifest:
+            manifest = build_verified_fact_manifest(package)
 
-        source_table_coverage_reason = _job_source_table_coverage_reason(html_content, package)
-        if source_table_coverage_reason:
-            return QualityGateResult(False, source_table_coverage_reason, word_count)
+        manifest_blocking, manifest_warnings = validate_output_against_manifest(
+            manifest,
+            seo_title,
+            html_content,
+        )
+        job_warnings = list(manifest_warnings)
+        if manifest_blocking:
+            return QualityGateResult(
+                False,
+                manifest_blocking[0],
+                word_count,
+                tuple(job_warnings),
+            )
 
         unverified_link_reason = _job_unverified_external_link_reason(html_content, package)
         if unverified_link_reason:
-            return QualityGateResult(False, unverified_link_reason, word_count)
-
-        document_coverage_reason = _job_document_coverage_reason(html_content, package)
-        if document_coverage_reason:
-            return QualityGateResult(False, document_coverage_reason, word_count)
+            return QualityGateResult(False, unverified_link_reason, word_count, tuple(job_warnings))
 
         notice_type = str(
             article.get("job_notice_type")
@@ -988,7 +999,21 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         ).strip().lower()
         active_notice = notice_type in {"vacancy", "competition"}
         if active_notice and not application_url:
-            return QualityGateResult(False, "active job notice is missing a verified application resource", word_count)
+            high_notice_types = {
+                str(fact.get("value") or "").strip().lower()
+                for fact in (manifest.get("facts") or {}).get("notice_type") or []
+                if fact.get("confidence") == "high"
+            }
+            if notice_type in high_notice_types:
+                return QualityGateResult(
+                    False,
+                    "active job notice is missing a verified application resource",
+                    word_count,
+                    tuple(job_warnings),
+                )
+            job_warnings.append(
+                "active notice has no verified application resource, but notice type is not high-confidence"
+            )
         application_context = dict(package)
         application_context.update({
             key: value
@@ -1034,35 +1059,9 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
                     word_count,
                 )
 
-        deadline_value = str(
-            article.get("job_deadline_display")
-            or article.get("job_deadline")
-            or package.get("job_deadline_display")
-            or package.get("job_deadline")
-            or ""
-        ).strip()
         title_style_reason = _job_title_style_reason(seo_title, notice_type=notice_type)
         if title_style_reason:
-            return QualityGateResult(False, title_style_reason, word_count)
-
-        if active_notice and deadline_value:
-            deadline_normalized = _normalize_job_fact_text(deadline_value)
-            body_normalized = _normalize_job_fact_text(body_text)
-            deadline_dates = _job_date_tokens(deadline_value)
-            body_dates = _job_date_tokens(body_text)
-            deadline_present = bool(
-                deadline_normalized
-                and (
-                    deadline_normalized in body_normalized
-                    or (deadline_dates and deadline_dates & body_dates)
-                )
-            )
-            if not deadline_present:
-                return QualityGateResult(
-                    False,
-                    "verified job deadline value is missing from final HTML",
-                    word_count,
-                )
+            return QualityGateResult(False, title_style_reason, word_count, tuple(job_warnings))
 
         job_links = re.findall(
             r"<a\b[^>]*\bhref=['\"]([^'\"]+)['\"]",
@@ -1117,7 +1116,7 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
 
         # Jobs pass/fail is based on verified completeness and accuracy,
         # not word count or a mandatory heading shape.
-        return QualityGateResult(True, "", word_count, ())
+        return QualityGateResult(True, "", word_count, tuple(job_warnings))
 
     if fast_mode:
         promotional, promo_reason = is_promotional_article(article)
