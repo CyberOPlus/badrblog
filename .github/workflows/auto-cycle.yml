@@ -332,15 +332,71 @@ jobs:
             if [ -e "logs/auto_cycle_runs.jsonl" ]; then
               git add -f "logs/auto_cycle_runs.jsonl"
             fi
+
+            # Runtime state is generated data, not source code. If main advances
+            # while this run is active, rebasing JSON state can create conflicts
+            # and lose the queue. Snapshot state, move to latest main, restore
+            # only runtime files, then create a fresh state commit.
+            PERSIST_PATHS=("${STATE_PATHS[@]}" "logs/auto_cycle_runs.jsonl")
+            SNAPSHOT_DIR="$(mktemp -d)"
+
+            snapshot_runtime() {
+              rm -rf "$SNAPSHOT_DIR"
+              mkdir -p "$SNAPSHOT_DIR"
+              for state_path in "${PERSIST_PATHS[@]}"; do
+                if [ -e "$state_path" ]; then
+                  mkdir -p "$SNAPSHOT_DIR/$(dirname "$state_path")"
+                  cp -a "$state_path" "$SNAPSHOT_DIR/$state_path"
+                fi
+              done
+            }
+
+            restore_runtime() {
+              for state_path in "${PERSIST_PATHS[@]}"; do
+                if [ -e "$SNAPSHOT_DIR/$state_path" ]; then
+                  mkdir -p "$(dirname "$state_path")"
+                  rm -rf "$state_path"
+                  cp -a "$SNAPSHOT_DIR/$state_path" "$state_path"
+                fi
+              done
+            }
+
+            stage_runtime() {
+              for state_path in "${PERSIST_PATHS[@]}"; do
+                if [ -e "$state_path" ]; then
+                  git add -f "$state_path"
+                fi
+              done
+            }
+
+            snapshot_runtime
             git commit -m "Update Jobs runtime state [skip ci]"
+
             for attempt in 1 2 3; do
               if git push origin HEAD:main; then
+                rm -rf "$SNAPSHOT_DIR"
                 exit 0
               fi
-              # Keep unrelated code updates made while this run was active.
-              git pull --rebase origin main || exit 1
+
+              echo "Runtime push raced with a newer main commit; refreshing code and restoring state (attempt $attempt)."
+              git fetch origin main
+              git reset --hard origin/main
+              restore_runtime
+              stage_runtime
+
+              if git diff --cached --quiet; then
+                echo "Latest main already contains equivalent runtime state."
+                rm -rf "$SNAPSHOT_DIR"
+                exit 0
+              fi
+
+              git commit -m "Update Jobs runtime state [skip ci]"
+              snapshot_runtime
             done
-            git push origin HEAD:main
+
+            echo "::error::Could not persist Jobs runtime state after 3 push attempts."
+            rm -rf "$SNAPSHOT_DIR"
+            exit 1
           fi
 
       - name: Keep recoverable runtime checkpoint on failure
