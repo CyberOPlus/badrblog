@@ -44,6 +44,8 @@ def _build_ai_input_package(article):
         "title": article.get("fetched_title") or article.get("title", ""),
         "url": article.get("url", ""),
         "source_name": article.get("source_name", ""),
+        "official_source": bool(article.get("official_source") or article.get("job_official_source")),
+        "job_official_source": bool(article.get("job_official_source") or article.get("official_source")),
         "suggested_category": normalize_category_label(
             article.get("suggested_category")
             or (article.get("category_label") if JOBS_MODE else "")
@@ -88,6 +90,8 @@ def _build_ai_input_package(article):
         "ats_reference": article.get("ats_reference", ""),
         "job_application_url": article.get("job_application_url", ""),
         "job_application_link_kind": article.get("job_application_link_kind", ""),
+        "job_application_is_specific": bool(article.get("job_application_is_specific", False)),
+        "job_application_is_official_channel": bool(article.get("job_application_is_official_channel", False)),
         "job_detail_url": article.get("job_detail_url", ""),
         "job_action_links": article.get("job_action_links", []),
         "job_document_links": article.get("job_document_links", []),
