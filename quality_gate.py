@@ -664,7 +664,13 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             else {}
         )
         if not manifest:
-            manifest = build_verified_fact_manifest(package)
+            manifest_context = dict(package)
+            manifest_context.update({
+                key: value
+                for key, value in article.items()
+                if key != "ai_input_package" and value not in (None, "", [], {})
+            })
+            manifest = build_verified_fact_manifest(manifest_context)
 
         manifest_blocking, manifest_warnings = validate_output_against_manifest(
             manifest,
