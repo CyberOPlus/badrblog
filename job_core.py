@@ -1171,17 +1171,7 @@ def _same_campaign_evidence(article, record):
     return evidence >= 6
 
 
-def classify_identity(article):
-    exact = identity_key(article)
-    records = []
-    exact_record = get_by_identity(exact)
-    if exact_record:
-        records.append(exact_record)
-    records.extend(x for x in get_semantic_candidates(semantic_key(article)) if x not in records)
-    if not records:
-        return {"action": "new", "reason": "no existing campaign", "existing": {}}
-
-    record = records[0]
+def _classify_identity_against_record(article, record):
     if _campaign_rollover(article, record):
         return {"action": "new_campaign", "reason": "campaign rollover", "existing": record}
 
@@ -1245,6 +1235,40 @@ def classify_identity(article):
         }
 
     return {"action": "hold", "reason": "ambiguous same role awaiting evidence stage", "existing": record}
+
+
+def classify_identity(article):
+    exact = identity_key(article)
+    exact_record = get_by_identity(exact)
+    if exact_record:
+        return _classify_identity_against_record(article, exact_record)
+
+    records = list(get_semantic_candidates(semantic_key(article)))
+    if not records:
+        return {"action": "new", "reason": "no existing campaign", "existing": {}}
+
+    # Semantic memory can contain several historical campaigns for the same
+    # company/title/location. Compare all of them instead of trusting index order.
+    decisions = [
+        _classify_identity_against_record(article, record)
+        for record in reversed(records)
+        if isinstance(record, dict) and record
+    ]
+    if not decisions:
+        return {"action": "new", "reason": "no usable existing campaign", "existing": {}}
+
+    # Updating the campaign identified by strong verified evidence is preferable
+    # to inserting another post. A confirmed duplicate is next. If any candidate
+    # still needs evidence, do not declare a new campaign yet.
+    for preferred_action in ("update", "duplicate", "hold"):
+        for decision in decisions:
+            if decision.get("action") == preferred_action:
+                return decision
+
+    for decision in decisions:
+        if decision.get("action") == "new_campaign":
+            return decision
+    return decisions[0]
 
 
 def _new_campaign_id():
