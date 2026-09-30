@@ -250,7 +250,7 @@ jobs:
           print("Blogger target safety: configured")
           print("Facebook publishing: enabled after successful Blogger publish")
           print("Morocco timezone: Africa/Casablanca")
-          print("Job quality: >=65 publish, 50-64 queue")
+          print("Job quality: hard gate decides publishability; score ranks valid jobs only")
           print("AI order: Gemini -> Groq -> OpenRouter -> Cloudflare -> Mistral; provider failures rotate, global outages defer")
           print("Jobs quality repair: one same-provider repair; source/evidence failures back off without another AI call")
           PY
