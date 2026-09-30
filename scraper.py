@@ -1562,6 +1562,145 @@ async def _collect_emploi_public_links_async(session, source_url, per_source_lim
     return links, "", status_code or 200
 
 
+def _parse_inwi_job_links(html_text, source_url, per_source_limit=None):
+    """Return only real inwi Teamtailor job-detail URLs, never listing/load-more links."""
+    soup = BeautifulSoup(html_text or "", "html.parser")
+    limit = max(
+        1,
+        min(
+            int(per_source_limit or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE),
+            JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
+        ),
+    )
+    links = []
+    seen = set()
+    source_host = urlparse(source_url).netloc.casefold()
+
+    for anchor in soup.find_all("a", href=True):
+        href = urljoin(source_url, str(anchor.get("href") or "").strip())
+        parsed = urlparse(href)
+        if parsed.netloc.casefold() != source_host:
+            continue
+        path = parsed.path.rstrip("/")
+        match = re.fullmatch(r"/jobs/(\d+)-[^/]+", path, flags=re.I)
+        if not match:
+            continue
+
+        canonical = canonicalize_url(href) or href
+        if canonical in seen:
+            continue
+        seen.add(canonical)
+
+        title = _normalize_text(anchor.get_text(" ", strip=True))
+        if not title:
+            container = anchor.find_parent(["article", "li", "section", "div"])
+            if container:
+                heading = container.find(["h1", "h2", "h3", "h4"])
+                if heading:
+                    title = _normalize_text(heading.get_text(" ", strip=True))
+        if not title:
+            continue
+
+        links.append({
+            "title": title,
+            "url": href,
+            "ats_provider": "teamtailor",
+            "ats_reference": match.group(1),
+        })
+        if len(links) >= limit:
+            break
+
+    return links
+
+
+def _credit_du_maroc_listing_date_iso(value):
+    text = _normalize_text(value)
+    match = re.search(r"\b(\d{2}/\d{2}/\d{4})\b", text)
+    if not match:
+        return ""
+    try:
+        return (
+            datetime.strptime(match.group(1), "%d/%m/%Y")
+            .replace(tzinfo=timezone.utc)
+            .isoformat()
+            .replace("+00:00", "Z")
+        )
+    except ValueError:
+        return ""
+
+
+def _parse_credit_du_maroc_job_links(html_text, source_url, per_source_limit=None):
+    """Return only Crédit du Maroc vacancy detail URLs and listing metadata."""
+    soup = BeautifulSoup(html_text or "", "html.parser")
+    limit = max(
+        1,
+        min(
+            int(per_source_limit or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE),
+            JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
+        ),
+    )
+    links = []
+    seen = set()
+    source_host = urlparse(source_url).netloc.casefold()
+
+    for anchor in soup.find_all("a", href=True):
+        href = urljoin(source_url, str(anchor.get("href") or "").strip())
+        parsed = urlparse(href)
+        if parsed.netloc.casefold() != source_host:
+            continue
+        path = parsed.path.rstrip("/")
+        match = re.fullmatch(
+            r"/offre-de-emploi/emploi-[^/]+_(\d+)\.aspx",
+            path,
+            flags=re.I,
+        )
+        if not match:
+            continue
+
+        canonical = canonicalize_url(href) or href
+        if canonical in seen:
+            continue
+        seen.add(canonical)
+
+        title = _normalize_text(anchor.get_text(" ", strip=True))
+        container = anchor.find_parent(["li", "article", "tr", "section", "div"])
+        container_text = (
+            _normalize_text(container.get_text(" ", strip=True))
+            if container
+            else title
+        )
+        if not title and container:
+            heading = container.find(["h1", "h2", "h3", "h4"])
+            if heading:
+                title = _normalize_text(heading.get_text(" ", strip=True))
+        if not title:
+            continue
+
+        reference_match = re.search(
+            r"(?:Réf(?:érence)?\.?\s*:?\s*)(\d{4}-\d+)",
+            container_text,
+            flags=re.I,
+        )
+        reference = reference_match.group(1) if reference_match else match.group(1)
+        published_at = _credit_du_maroc_listing_date_iso(container_text)
+
+        row = {
+            "title": title,
+            "url": href,
+            "ats_provider": "credit_du_maroc",
+            "ats_reference": reference,
+        }
+        if published_at:
+            row["source_published_at"] = published_at
+            row["job_published_at"] = published_at
+            row["published_at_source"] = "official_listing"
+        links.append(row)
+        if len(links) >= limit:
+            break
+
+    return links
+
+
 def _parse_capgemini_job_links(html_text, source_url, per_source_limit=None):
     """Extract only official Capgemini SuccessFactors job-detail URLs."""
     soup = BeautifulSoup(html_text or "", "html.parser")
@@ -2357,6 +2496,41 @@ async def _collect_article_links_for_source_async(
             ),
         }
 
+    if extractor_mode in {"inwi_jobs", "credit_du_maroc_jobs"}:
+        parser = (
+            _parse_inwi_job_links
+            if extractor_mode == "inwi_jobs"
+            else _parse_credit_du_maroc_job_links
+        )
+        links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
+            session,
+            source_url,
+            parser,
+            known_ids=known_ids,
+            page_size=per_source_limit,
+            max_pages=max_pages,
+            seen_streak_stop=seen_streak_stop,
+            max_items=max_items,
+            start_url=(
+                resume_state.get("url")
+                if resume_state.get("kind") == "html"
+                else None
+            ),
+        )
+        return [_link_to_article_dict(link, source_url) for link in links], error, status_code, {
+            "normal_links_found": len(links),
+            "feed_links_found": 0,
+            "method_used": extractor_mode,
+            "tried_feed_urls": [],
+            "discovery_meta": discovery_meta,
+            "discovery_resume": (
+                {"kind": "html", "url": discovery_meta.get("resume_url")}
+                if discovery_meta.get("resume_url")
+                else {}
+            ),
+            "empty_ok": not links and not error and status_code == 200,
+        }
+
     if extractor_mode == "capgemini_jobs":
         links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
             session,
@@ -2688,12 +2862,21 @@ def _collect_article_links_for_source(
 
     extractor_mode = str(extractor_type or "").lower()
     resume_state = resume_state if isinstance(resume_state, dict) else {}
-    if JOBS_MODE and extractor_mode in {"emploi_public", "capgemini_jobs", "etalent", "ats_listing"}:
+    if JOBS_MODE and extractor_mode in {
+        "emploi_public",
+        "capgemini_jobs",
+        "etalent",
+        "ats_listing",
+        "inwi_jobs",
+        "credit_du_maroc_jobs",
+    }:
         parser = {
             "emploi_public": _parse_emploi_public_links,
             "capgemini_jobs": _parse_capgemini_job_links,
             "etalent": _parse_etalent_links,
             "ats_listing": _parse_etalent_links,
+            "inwi_jobs": _parse_inwi_job_links,
+            "credit_du_maroc_jobs": _parse_credit_du_maroc_job_links,
         }[extractor_mode]
         links, error, status_code, discovery_meta = _collect_paginated_html_links_sync(
             source_url,
@@ -2724,7 +2907,12 @@ def _collect_article_links_for_source(
                 if discovery_meta.get("resume_url")
                 else {}
             ),
-            "empty_ok": extractor_mode in {"etalent", "ats_listing"} and not links and not error,
+            "empty_ok": extractor_mode in {
+                "etalent",
+                "ats_listing",
+                "inwi_jobs",
+                "credit_du_maroc_jobs",
+            } and not links and not error,
         }
 
     if JOBS_MODE and extractor_mode == "auto":
