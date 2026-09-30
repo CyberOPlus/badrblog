@@ -37,6 +37,7 @@ from job_visual_policy import choose_job_template
 from company_logo_resolver import verified_company_logo
 from utils.facebook_image_generator import generate_facebook_image
 from job_core import facebook_slot_status, _local as jobs_local_time, _parse_date as parse_job_date, classify_urgency
+from social_ai_processor import generate_jobs_facebook_post
 CAPTION_STYLES = (
     "ai_tools",
     "cybersecurity",
@@ -1309,13 +1310,27 @@ def _split_caption_parts(caption):
 
 
 def _jobs_facebook_blueprint(article, blogger_url):
-    """Use the AI-written Jobs post and force Arabic paragraph direction for Facebook."""
-    if str(article.get("facebook_post_source") or "").strip().lower() != "ai":
-        raise RuntimeError("Jobs Facebook post is not AI-generated; refusing template fallback.")
-
+    """Generate/use independent social AI copy after Blogger succeeds, then force RTL display."""
     raw_caption = str(article.get("facebook_post_text") or "").strip()
-    if not raw_caption:
-        raise RuntimeError("Missing AI-generated Jobs Facebook post.")
+    source = str(article.get("facebook_post_source") or "").strip().lower()
+
+    if source != "social_ai" or not raw_caption:
+        social_result = generate_jobs_facebook_post(article)
+        raw_caption = str(social_result.get("facebook_post_text") or "").strip()
+        if not raw_caption:
+            raise RuntimeError("Social AI returned an empty Jobs Facebook post.")
+        article["facebook_post_text"] = raw_caption
+        article["facebook_post_source"] = "social_ai"
+        article["facebook_ai_provider_used"] = str(social_result.get("provider") or "")
+        article["facebook_ai_attempts"] = int(social_result.get("attempts") or 1)
+        article["facebook_ai_generated_at"] = _now_iso()
+        article.pop("facebook_ai_error", None)
+        log_event(
+            "facebook_social_ai_attached",
+            article_id=article.get("id"),
+            provider=article.get("facebook_ai_provider_used"),
+            attempts=article.get("facebook_ai_attempts"),
+        )
 
     # AI writes the language; the publisher owns display direction. Strip any
     # model-supplied bidi controls, then force every visible line to start RTL.
