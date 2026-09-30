@@ -2244,7 +2244,14 @@ def _process_hourly_target(selected, publish_mode):
             reason=(ai_stats or {}).get("message") or "AI failed",
         )
         _mark_candidate_failure_for_retry(article or selected, "run-ai", (ai_stats or {}).get("message") or "AI failed")
-        result.update({"article": article, "reason": "AI failed", "step_reached": "run-ai"})
+        result.update({
+            "article": article,
+            "reason": "AI failed",
+            "step_reached": "run-ai",
+            "failure_scope": (ai_stats or {}).get("failure_scope") or (article or {}).get("ai_failure_scope", ""),
+            "failure_fingerprint": (ai_stats or {}).get("failure_fingerprint") or (article or {}).get("ai_failure_fingerprint", ""),
+            "retry_after": (ai_stats or {}).get("retry_after") or (article or {}).get("ai_retry_after", ""),
+        })
         return result
 
     try:
@@ -2395,6 +2402,20 @@ def run_hourly_category_cycle():
             else:
                 failures += 1
                 print(f"Skipped failed article: {item_result.get('reason', '')}")
+                if str(item_result.get("failure_scope") or "").strip().lower() in {
+                    "global_outage",
+                    "cycle_budget",
+                }:
+                    log_event(
+                        "ai_hourly_batch_stopped_by_circuit",
+                        failure_scope=item_result.get("failure_scope", ""),
+                        failure_fingerprint=item_result.get("failure_fingerprint", ""),
+                        retry_after=item_result.get("retry_after", ""),
+                    )
+                    remaining_total = 0
+                    break
+        if remaining_total <= 0:
+            break
 
     print("\n[5/6] batch summary")
     print(f"Published successfully: {successes}")
