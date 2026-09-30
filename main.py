@@ -2329,7 +2329,6 @@ def _process_hourly_target(selected, publish_mode):
     ):
         try:
             facebook_result = post_one_article_to_facebook(
-                target_article_id=selected_id,
                 respect_limits=True,
             )
             article = _find_article_by_id(selected_id)
@@ -3072,9 +3071,8 @@ def run_safe_cycle_only():
         and article.get("blogger_post_url")
     ):
         print("\n[8/8] post-facebook", flush=True)
-        print("Posting Facebook", flush=True)
+        print("Draining Facebook pending queue", flush=True)
         facebook_result = post_one_article_to_facebook(
-            target_article_id=selected_id,
             respect_limits=True,
         )
         print_facebook_post_summary(facebook_result)
