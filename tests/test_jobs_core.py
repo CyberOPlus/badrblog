@@ -882,6 +882,174 @@ class JobsCoreTests(unittest.TestCase):
             "",
         )
 
+    def _complete_identity_evidence(self, article):
+        article["content_fetch_status"] = "success"
+        article["job_detail_url"] = article.get("job_detail_url") or article.get("url")
+        article.setdefault("source_tables", [])
+        article.setdefault("source_tables_count", len(article.get("source_tables") or []))
+        article.setdefault("job_document_links", [])
+        article["identity_evidence_document_fingerprint"] = "|".join(sorted(
+            job_core.canonicalize_job_url(item.get("url"))
+            for item in article.get("job_document_links") or []
+            if isinstance(item, dict) and job_core.canonicalize_job_url(item.get("url"))
+        ))
+        article["job_document_text_download_failures"] = 0
+        job_core.finalize_identity_evidence_stage(article)
+        return article
+
+    def test_same_external_reference_waits_for_evidence_before_duplicate(self):
+        article = sample_job(
+            job_external_reference="REF-2026-100",
+            content_fetch_status="success",
+        )
+        record = {
+            "campaign_id": "campaign-a",
+            "identity_key": job_core.identity_key(article),
+            "semantic_key": job_core.semantic_key(article),
+            "external_reference": "REF-2026-100",
+            "deadline": article["job_deadline"],
+            "number_of_positions": article["job_number_of_positions"],
+            "published_at": article["job_published_at"],
+            "application_url": article["job_application_url"],
+            "location": article["job_location"],
+            "notice_type": "vacancy",
+            "notice_status": "",
+            "document_urls": "",
+        }
+        with patch.object(job_core, "get_by_identity", return_value=record), \
+             patch.object(job_core, "get_semantic_candidates", return_value=[]):
+            pending = job_core.classify_identity(article)
+        self.assertEqual(pending["action"], "hold")
+        self.assertIn("awaiting evidence stage", pending["reason"])
+
+        self._complete_identity_evidence(article)
+        record["identity_evidence_signature"] = article["identity_evidence_signature"]
+        record["identity_evidence_strength"] = article["identity_evidence_strength"]
+        with patch.object(job_core, "get_by_identity", return_value=record), \
+             patch.object(job_core, "get_semantic_candidates", return_value=[]):
+            final = job_core.classify_identity(article)
+        self.assertEqual(final["action"], "duplicate")
+
+    def test_same_reference_with_different_verified_evidence_is_update(self):
+        article = sample_job(
+            job_external_reference="REF-2026-101",
+            source_tables=[
+                {"rows": [["التخصص", "الأمن السيبراني"], ["عدد المناصب", "3"]]}
+            ],
+            source_tables_count=1,
+            job_number_of_positions=3,
+        )
+        self._complete_identity_evidence(article)
+        record = {
+            "campaign_id": "campaign-a",
+            "identity_key": job_core.identity_key(article),
+            "semantic_key": job_core.semantic_key(article),
+            "external_reference": "REF-2026-101",
+            "deadline": article["job_deadline"],
+            "number_of_positions": 3,
+            "published_at": article["job_published_at"],
+            "application_url": article["job_application_url"],
+            "location": article["job_location"],
+            "notice_type": "vacancy",
+            "notice_status": "",
+            "document_urls": "",
+            "identity_evidence_signature": "different-signature",
+            "identity_evidence_strength": max(4, int(article["identity_evidence_strength"])),
+        }
+        with patch.object(job_core, "get_by_identity", return_value=record), \
+             patch.object(job_core, "get_semantic_candidates", return_value=[]):
+            result = job_core.classify_identity(article)
+        self.assertEqual(result["action"], "update")
+        self.assertIn("material change", result["reason"])
+
+    def test_matching_verified_evidence_can_confirm_semantic_duplicate(self):
+        article = sample_job(
+            job_external_reference="",
+            ats_reference="",
+            raw={},
+            job_application_url="",
+            source_tables=[
+                {"rows": [["التخصص", "الشبكات والأنظمة"], ["عدد المناصب", "5"]]}
+            ],
+            source_tables_count=1,
+            job_number_of_positions=5,
+        )
+        self._complete_identity_evidence(article)
+        record = {
+            "campaign_id": "campaign-a",
+            "identity_key": "old",
+            "semantic_key": job_core.semantic_key(article),
+            "external_reference": "",
+            "deadline": article["job_deadline"],
+            "number_of_positions": 5,
+            "published_at": article["job_published_at"],
+            "application_url": "",
+            "identity_evidence_signature": article["identity_evidence_signature"],
+            "identity_evidence_strength": article["identity_evidence_strength"],
+        }
+        with patch.object(job_core, "get_by_identity", return_value={}), \
+             patch.object(job_core, "get_semantic_candidates", return_value=[record]):
+            result = job_core.classify_identity(article)
+        self.assertEqual(result["action"], "duplicate")
+        self.assertIn("verified evidence", result["reason"])
+
+    def test_different_verified_evidence_keeps_same_title_as_new_campaign(self):
+        article = sample_job(
+            job_external_reference="",
+            ats_reference="",
+            raw={},
+            job_application_url="",
+            source_tables=[
+                {"rows": [["التخصص", "الذكاء الاصطناعي"], ["عدد المناصب", "2"]]}
+            ],
+            source_tables_count=1,
+            job_number_of_positions=2,
+        )
+        self._complete_identity_evidence(article)
+        record = {
+            "campaign_id": "campaign-a",
+            "identity_key": "old",
+            "semantic_key": job_core.semantic_key(article),
+            "external_reference": "",
+            "deadline": article["job_deadline"],
+            "number_of_positions": 2,
+            "published_at": article["job_published_at"],
+            "application_url": "",
+            "identity_evidence_signature": "other-specialty-signature",
+            "identity_evidence_strength": max(4, int(article["identity_evidence_strength"])),
+        }
+        with patch.object(job_core, "get_by_identity", return_value={}), \
+             patch.object(job_core, "get_semantic_candidates", return_value=[record]):
+            result = job_core.classify_identity(article)
+        self.assertEqual(result["action"], "new_campaign")
+        self.assertIn("evidence differs", result["reason"])
+
+    def test_legacy_campaign_without_strong_evidence_cannot_confirm_duplicate(self):
+        article = sample_job(
+            job_external_reference="",
+            ats_reference="",
+            raw={},
+            job_application_url="",
+            source_tables=[],
+            source_tables_count=0,
+        )
+        self._complete_identity_evidence(article)
+        record = {
+            "campaign_id": "legacy",
+            "identity_key": "old",
+            "semantic_key": job_core.semantic_key(article),
+            "external_reference": "",
+            "deadline": article["job_deadline"],
+            "number_of_positions": article["job_number_of_positions"],
+            "published_at": article["job_published_at"],
+            "application_url": "",
+        }
+        with patch.object(job_core, "get_by_identity", return_value={}), \
+             patch.object(job_core, "get_semantic_candidates", return_value=[record]):
+            result = job_core.classify_identity(article)
+        self.assertEqual(result["action"], "new_campaign")
+        self.assertIn("duplicate not confirmed", result["reason"])
+
     def test_cross_source_same_campaign_is_duplicate_with_strong_evidence(self):
         article = sample_job(
             source_name="Second Official Source",
