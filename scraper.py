@@ -1045,7 +1045,7 @@ async def _collect_paginated_html_links_async(
         != (canonicalize_url(source_url) or str(source_url))
     )
     effective_seen_streak_stop = (
-        JOBS_DISCOVERY_SEEN_MEMORY + max_items + 1
+        10**9
         if resume_active
         else seen_streak_stop
     )
@@ -1151,7 +1151,7 @@ def _collect_paginated_html_links_sync(
         != (canonicalize_url(source_url) or str(source_url))
     )
     effective_seen_streak_stop = (
-        JOBS_DISCOVERY_SEEN_MEMORY + max_items + 1
+        10**9
         if resume_active
         else seen_streak_stop
     )
@@ -1294,7 +1294,7 @@ async def _collect_workday_links_async(
         offset = 0
     resume_active = offset > 0
     effective_seen_streak_stop = (
-        JOBS_DISCOVERY_SEEN_MEMORY + max_items + 1
+        10**9
         if resume_active
         else seen_streak_stop
     )
@@ -1837,7 +1837,7 @@ async def _collect_csod_links_async(
         first_page = 1
     resume_active = first_page > 1
     effective_seen_streak_stop = (
-        JOBS_DISCOVERY_SEEN_MEMORY + max_items + 1
+        10**9
         if resume_active
         else seen_streak_stop
     )
