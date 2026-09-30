@@ -511,7 +511,10 @@ def _find_latest_preview_article(articles, include_drafts=False):
         for article in articles
         if _eligible_for_preview(article, include_drafts=include_drafts)
         and not article.get("facebook_post_id")
-        and article.get("facebook_status") in {None, "", "failed"}
+        and (
+            article.get("facebook_status") in {None, "", "facebook_pending", "failed"}
+            or (include_drafts and _has_blogger_draft(article))
+        )
     ]
     if not eligible:
         return None
@@ -2048,6 +2051,17 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             "error": "Job expired before its Facebook queue turn.",
         }
 
+    if (
+        JOBS_MODE
+        and not article.get("facebook_post_id")
+        and str(article.get("facebook_status") or "").strip() not in {"facebook_pending", "failed"}
+    ):
+        return _deferred_result(
+            article,
+            "Job is not pending in the Facebook queue.",
+            extra={"facebook_status": article.get("facebook_status", "")},
+        )
+
     if article.get("facebook_post_id"):
         return {
             "checked": 1,
@@ -2556,13 +2570,27 @@ def preview_next_facebook_post(target_article_id=None, include_drafts=False):
 
 def get_facebook_status():
     queue = load_article_queue()
+    if JOBS_MODE:
+        _sync_jobs_facebook_queue(queue)
     articles = queue.get("articles", [])
     published = [article for article in articles if _has_blogger_live_publish(article)]
     without_post = [
         article
         for article in published
         if not article.get("facebook_post_id")
-        and article.get("facebook_status") in {None, "", "failed"}
+        and article.get("facebook_status") in {"facebook_pending", "failed"}
+    ]
+    pending = [
+        article
+        for article in published
+        if not article.get("facebook_post_id")
+        and article.get("facebook_status") == "facebook_pending"
+    ]
+    social_expired = [
+        article
+        for article in published
+        if not article.get("facebook_post_id")
+        and article.get("facebook_status") == "facebook_expired"
     ]
     posted = [article for article in published if article.get("facebook_post_id")]
     delivery_uncertain = [
@@ -2579,6 +2607,8 @@ def get_facebook_status():
         "page_id_configured": bool(FACEBOOK_PAGE_ID),
         "token_configured": bool(FACEBOOK_PAGE_ACCESS_TOKEN),
         "published_without_facebook": len(without_post),
+        "facebook_pending_count": len(pending),
+        "facebook_expired_count": len(social_expired),
         "posted_to_facebook": len(posted),
         "delivery_uncertain_count": len(delivery_uncertain),
         "comment_uncertain_count": len(comment_uncertain),
