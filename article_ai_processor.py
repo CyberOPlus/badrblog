@@ -243,7 +243,15 @@ def _candidate_id(candidate):
 
 
 def _empty_ai_memory():
-    return {"avg_time": 0.0, "cooldowns": {}, "fastest_success_model": "", "stats": {}}
+    return {
+        "avg_time": 0.0,
+        "cooldowns": {},
+        "provider_circuits": {},
+        "global_circuit": {},
+        "failure_fingerprints": {},
+        "fastest_success_model": "",
+        "stats": {},
+    }
 
 
 def _load_ai_memory():
@@ -257,6 +265,9 @@ def _load_ai_memory():
             if isinstance(data, dict):
                 data.setdefault("avg_time", 0.0)
                 data.setdefault("cooldowns", {})
+                data.setdefault("provider_circuits", {})
+                data.setdefault("global_circuit", {})
+                data.setdefault("failure_fingerprints", {})
                 data.setdefault("fastest_success_model", "")
                 data.setdefault("stats", {})
                 _AI_MEMORY_CACHE = data
@@ -282,6 +293,210 @@ def _safe_error_reason(error):
     text = re.sub(r"AIza[0-9A-Za-z_\-]{20,}", "AIza***", text)
     text = re.sub(r"sk-[0-9A-Za-z_\-]{12,}", "sk-***", text)
     return text[:160] or error.__class__.__name__
+
+
+def _normalized_failure_text(error):
+    reason = _safe_error_reason(error).casefold()
+    reason = re.sub(r"https?://\S+", "<url>", reason)
+    reason = re.sub(r"\b[0-9a-f]{8,}\b", "<id>", reason)
+    reason = re.sub(r"\b\d+\b", "<n>", reason)
+    reason = re.sub(r"\s+", " ", reason).strip()
+    return reason[:180]
+
+
+def _provider_error_category(error):
+    message = str(error or "").casefold()
+    if any(token in message for token in ("401", "403", "unauthorized", "forbidden", "invalid api key", "invalid key")):
+        return "auth"
+    if any(token in message for token in ("429", "402", "quota", "rate limit", "rate-limit", "rate_limited", "resource_exhausted", "too many requests")):
+        return "quota"
+    if any(token in message for token in ("500", "502", "503", "504", "service unavailable", "temporarily unavailable")):
+        return "outage"
+    if _is_timeout_error(error):
+        return "timeout"
+    if _is_empty_provider_response(error):
+        return "empty"
+    if "cooling down" in message or "cooldown" in message:
+        return "cooldown"
+    if "missing key" in message or "no ai provider key" in message:
+        return "config"
+    return "provider_error"
+
+
+def _failure_fingerprint(error, *, scope="", provider=""):
+    normalized = _normalized_failure_text(error)
+    category = _provider_error_category(error) if scope in {"provider", "global"} else "quality"
+    seed = f"{scope}|{provider}|{category}|{normalized}"
+    return hashlib.sha256(seed.encode("utf-8")).hexdigest()[:20], category
+
+
+def _fingerprint_backoff_seconds(scope, category, count):
+    count = max(1, int(count or 1))
+    if scope == "quality":
+        base = 30 * 60
+        cap = 6 * 3600
+    elif category == "auth":
+        base = 6 * 3600
+        cap = 24 * 3600
+    elif category == "quota":
+        base = 45 * 60
+        cap = 6 * 3600
+    elif category in {"outage", "timeout"}:
+        base = 10 * 60
+        cap = 2 * 3600
+    elif category == "empty":
+        base = 5 * 60
+        cap = 60 * 60
+    else:
+        base = 15 * 60
+        cap = 2 * 3600
+    return min(cap, base * (2 ** min(count - 1, 5)))
+
+
+def _record_failure_fingerprint(error, *, scope, provider="", retry_until=0):
+    memory = _load_ai_memory()
+    fingerprint, category = _failure_fingerprint(error, scope=scope, provider=provider)
+    entries = memory.setdefault("failure_fingerprints", {})
+    previous = entries.get(fingerprint) if isinstance(entries.get(fingerprint), dict) else {}
+    count = int(previous.get("count") or 0) + 1
+    now = time.time()
+    computed_until = now + _fingerprint_backoff_seconds(scope, category, count)
+    retry_until = max(float(retry_until or 0), computed_until)
+    entries[fingerprint] = {
+        "scope": scope,
+        "provider": provider,
+        "category": category,
+        "reason": _safe_error_reason(error),
+        "count": count,
+        "first_seen_at": previous.get("first_seen_at") or _now_iso(),
+        "last_seen_at": _now_iso(),
+        "last_seen_epoch": now,
+        "retry_until": retry_until,
+    }
+    _save_ai_memory(memory)
+    return fingerprint, category, retry_until
+
+
+def _provider_circuit_until(provider):
+    entry = _load_ai_memory().get("provider_circuits", {}).get(str(provider or "").lower())
+    return _cooldown_entry_until(entry)
+
+
+def _provider_circuit_remaining(provider):
+    return max(0.0, _provider_circuit_until(provider) - time.time())
+
+
+def _global_circuit_until():
+    return _cooldown_entry_until(_load_ai_memory().get("global_circuit", {}))
+
+
+def _global_circuit_remaining():
+    return max(0.0, _global_circuit_until() - time.time())
+
+
+def _epoch_to_iso(value):
+    try:
+        return datetime.fromtimestamp(float(value)).astimezone().isoformat(timespec="seconds")
+    except Exception:
+        return ""
+
+
+def _open_provider_circuit(provider, error):
+    provider = str(provider or "").strip().lower()
+    if not provider:
+        return {"until": 0, "fingerprint": "", "category": ""}
+    memory = _load_ai_memory()
+    category = _provider_error_category(error)
+    seconds = _cooldown_seconds_for_error(error)
+    until = time.time() + seconds
+    fingerprint, category, fingerprint_until = _record_failure_fingerprint(
+        error,
+        scope="provider",
+        provider=provider,
+        retry_until=until,
+    )
+    until = max(until, fingerprint_until)
+    memory = _load_ai_memory()
+    memory.setdefault("provider_circuits", {})[provider] = {
+        "until": until,
+        "provider": provider,
+        "category": category,
+        "fingerprint": fingerprint,
+        "reason": _safe_error_reason(error),
+        "opened_at": _now_iso(),
+    }
+    _save_ai_memory(memory)
+    log_event(
+        "ai_provider_circuit_opened",
+        provider=provider,
+        category=category,
+        fingerprint=fingerprint,
+        retry_after=_epoch_to_iso(until),
+    )
+    return {"until": until, "fingerprint": fingerprint, "category": category}
+
+
+def _open_global_circuit(error, providers=None):
+    providers = sorted({str(value or "").strip().lower() for value in (providers or []) if str(value or "").strip()})
+    memory = _load_ai_memory()
+    provider_untils = [
+        _provider_circuit_until(provider)
+        for provider in providers
+        if _provider_circuit_until(provider) > time.time()
+    ]
+    base_until = min(provider_untils) if provider_untils else time.time() + 10 * 60
+    fingerprint, category, fingerprint_until = _record_failure_fingerprint(
+        error,
+        scope="global",
+        provider=",".join(providers),
+        retry_until=base_until,
+    )
+    # Global circuit should reopen when the earliest provider can reasonably be
+    # retried; fingerprint backoff is capped by that same recovery horizon.
+    until = max(base_until, min(fingerprint_until, time.time() + 60 * 60))
+    memory = _load_ai_memory()
+    memory["global_circuit"] = {
+        "until": until,
+        "providers": providers,
+        "category": category,
+        "fingerprint": fingerprint,
+        "reason": _safe_error_reason(error),
+        "opened_at": _now_iso(),
+    }
+    _save_ai_memory(memory)
+    log_event(
+        "ai_global_circuit_opened",
+        providers=",".join(providers),
+        category=category,
+        fingerprint=fingerprint,
+        retry_after=_epoch_to_iso(until),
+    )
+    return {"until": until, "fingerprint": fingerprint, "category": category}
+
+
+def ai_circuit_status():
+    _prune_ai_memory()
+    memory = _load_ai_memory()
+    global_entry = memory.get("global_circuit") if isinstance(memory.get("global_circuit"), dict) else {}
+    providers = {}
+    for provider, entry in (memory.get("provider_circuits") or {}).items():
+        remaining = max(0.0, _cooldown_entry_until(entry) - time.time())
+        if remaining > 0:
+            providers[provider] = {
+                "remaining_seconds": int(remaining),
+                "retry_after": _epoch_to_iso(_cooldown_entry_until(entry)),
+                "fingerprint": str((entry or {}).get("fingerprint") or ""),
+                "category": str((entry or {}).get("category") or ""),
+            }
+    global_remaining = max(0.0, _cooldown_entry_until(global_entry) - time.time())
+    return {
+        "global_open": global_remaining > 0,
+        "global_remaining_seconds": int(global_remaining),
+        "global_retry_after": _epoch_to_iso(_cooldown_entry_until(global_entry)) if global_remaining > 0 else "",
+        "global_fingerprint": str(global_entry.get("fingerprint") or "") if global_remaining > 0 else "",
+        "global_category": str(global_entry.get("category") or "") if global_remaining > 0 else "",
+        "provider_circuits": providers,
+    }
 
 
 def _candidate_memory_key(candidate):
