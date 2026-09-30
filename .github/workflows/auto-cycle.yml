@@ -7,9 +7,9 @@ on:
     paths:
       - ".github/workflows/auto-cycle.yml"
   schedule:
-    # Check throughout the year, away from the busiest minute 00.
-    # Facebook's Africa/Casablanca slots and Blogger caps decide delivery.
-    # Professional SEO Jobs HTML prompt activated and production trigger refreshed on 2026-09-29.
+    # Check ten times per hour. Each run can publish at most one verified Job,
+    # so a backlog drains gradually instead of bursting all posts at once.
+    # Facebook keeps its stricter Morocco slots and hard anti-spam limits.
     - cron: "1,7,13,19,25,31,37,43,49,55 * * * *"
 
 concurrency:
@@ -190,7 +190,7 @@ jobs:
               "SAFE_CYCLE_MAX_ARTICLES": "1",
               "SAFE_CYCLE_DRAFT_ONLY": "false",
               "MAX_SOURCES_PER_RUN": "20",
-              "PUBLISH_WEAK_ARTICLES": "true",
+              "PUBLISH_WEAK_ARTICLES": "false",
               "ALLOW_SHORT_ARTICLES": "true",
               "MIN_ARTICLE_WORDS": "120",
               "TARGET_ARTICLE_WORDS": "260-320",
