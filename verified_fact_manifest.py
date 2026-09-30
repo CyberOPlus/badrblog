@@ -378,7 +378,7 @@ def build_verified_fact_manifest(article):
     )
 
     manifest = {
-        "version": 1,
+        "version": 2,
         "policy": {
             "blocking_confidence": [HIGH],
             "non_high_behavior": "warning",
@@ -493,6 +493,11 @@ def build_verified_fact_manifest(article):
         )
         if not bound:
             manifest["warnings"].append("application URL is not verified as belonging to this notice")
+
+    elif active_notice_reliable:
+        manifest["warnings"].append(
+            "high-confidence active notice has no verified application resource in the evidence package"
+        )
 
     detail_url = str(article.get("job_detail_url") or "").strip()
     if (
