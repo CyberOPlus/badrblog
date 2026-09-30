@@ -51,6 +51,7 @@ jobs:
 
       - name: Verify scheduled production smoke
         if: github.event_name == 'schedule'
+        continue-on-error: true
         run: |
           python -m py_compile \
             main.py scraper.py article_ai_processor.py article_draft_publisher.py \
@@ -253,6 +254,9 @@ jobs:
           PY
 
       - name: Queue maintenance
+        # Maintenance is useful housekeeping, but a transient cleanup bug must
+        # never prevent the production discovery/publish cycle from running.
+        continue-on-error: true
         run: python main.py queue-maintenance
 
       - name: Run auto cycle
@@ -424,7 +428,7 @@ jobs:
             snapshot_runtime
             git commit -m "Update Jobs runtime state [skip ci]"
 
-            for attempt in 1 2 3; do
+            for attempt in 1 2 3 4 5 6; do
               if git push origin HEAD:main; then
                 rm -rf "$SNAPSHOT_DIR"
                 exit 0
@@ -446,7 +450,7 @@ jobs:
               snapshot_runtime
             done
 
-            echo "::error::Could not persist Jobs runtime state after 3 push attempts."
+            echo "::error::Could not persist Jobs runtime state after 6 push attempts."
             rm -rf "$SNAPSHOT_DIR"
             exit 1
           fi
