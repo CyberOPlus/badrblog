@@ -139,6 +139,14 @@ from job_core import (
 from jobs_adaptive_controller import record_cycle_result as record_jobs_cycle_result
 
 
+def _jobs_one_shot_force_run():
+    return (
+        JOBS_MODE
+        and os.getenv("JOBS_ONE_SHOT_FORCE_RUN", "").strip().lower()
+        in {"1", "true", "yes", "on"}
+    )
+
+
 PROBLEM_SOURCE_NAMES = {
     "SANS ISC",
     "AI Trends",
@@ -2339,7 +2347,7 @@ def _process_hourly_target(selected, publish_mode):
     ):
         try:
             facebook_result = post_one_article_to_facebook(
-                respect_limits=True,
+                respect_limits=not _jobs_one_shot_force_run(),
             )
             article = _find_article_by_id(selected_id)
         except Exception as error:
@@ -2603,6 +2611,18 @@ def run_safe_cycle_only():
             )
 
     schedule_status = get_publish_schedule_status(mode=publish_mode)
+    if _jobs_one_shot_force_run() and publish_mode == "live":
+        original_reasons = list(schedule_status.get("reasons") or [])
+        if not schedule_status.get("allowed_now"):
+            log_event(
+                "jobs_one_shot_publish_pacing_override",
+                reasons=" | ".join(original_reasons),
+            )
+        schedule_status = dict(schedule_status)
+        schedule_status["allowed_now"] = True
+        schedule_status["reasons"] = []
+        schedule_status["one_shot_override"] = True
+        schedule_status["original_reasons"] = original_reasons
     print_safe_cycle_status(schedule_status)
     if not schedule_status["allowed_now"]:
         reason = "; ".join(schedule_status["reasons"]) or "safe-cycle schedule blocked"
@@ -3083,7 +3103,7 @@ def run_safe_cycle_only():
         print("\n[8/8] post-facebook", flush=True)
         print("Draining Facebook pending queue", flush=True)
         facebook_result = post_one_article_to_facebook(
-            respect_limits=True,
+            respect_limits=not _jobs_one_shot_force_run(),
         )
         print_facebook_post_summary(facebook_result)
         article = _find_article_by_id(selected_id)
