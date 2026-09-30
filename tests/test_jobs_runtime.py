@@ -643,6 +643,65 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(stats["archived_stale_no_deadline"], 1)
         self.assertTrue(saved["articles"][0]["archived"])
 
+    def test_jobs_deadline_cleanup_archives_expired_before_enrichment(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        queue = {
+            "articles": [{
+                "id": "expired-deadline",
+                "url": "https://example.com/jobs/expired-deadline",
+                "title": "Expired Deadline Job",
+                "status": "ready",
+                "content_fetch_status": "success",
+                "job_deadline": "2026-09-29",
+            }]
+        }
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "jobs_article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", path), \
+                 patch.object(article_queue, "JOBS_MODE", True):
+                article_queue.save_article_queue(queue)
+                stats = article_queue.archive_expired_queue_articles(
+                    now=datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+                )
+                saved = article_queue.load_article_queue()
+
+        self.assertEqual(stats["expired_archived"], 1)
+        self.assertTrue(saved["articles"][0]["archived"])
+        self.assertEqual(
+            saved["articles"][0]["archive_reason"],
+            "job_deadline_passed",
+        )
+
+    def test_old_jobs_listing_with_future_deadline_is_not_news_expired(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        queue = {
+            "articles": [{
+                "id": "old-listing-open-deadline",
+                "url": "https://example.com/jobs/open",
+                "title": "Still Open Job",
+                "status": "ready",
+                "content_fetch_status": "success",
+                "source_published_at": "2026-09-01T08:00:00+00:00",
+                "job_deadline": "2026-10-08",
+            }]
+        }
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "jobs_article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", path), \
+                 patch.object(article_queue, "JOBS_MODE", True):
+                article_queue.save_article_queue(queue)
+                stats = article_queue.archive_expired_queue_articles(
+                    now=datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+                )
+                saved = article_queue.load_article_queue()
+
+        self.assertEqual(stats["expired_archived"], 0)
+        self.assertFalse(saved["articles"][0].get("archived", False))
+
     def test_old_job_campaign_memory_is_pruned_with_indexes(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory
