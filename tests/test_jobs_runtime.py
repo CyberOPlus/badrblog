@@ -303,6 +303,81 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertGreater(later, first)
         self.assertLessEqual(capped, 24 * 60)
 
+    def test_published_job_is_not_archived_while_facebook_is_pending(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        with TemporaryDirectory() as temp:
+            queue_path = Path(temp) / "jobs_article_queue.json"
+            article = {
+                "id": "published-pending-facebook",
+                "url": "https://example.com/jobs/42",
+                "status": "published",
+                "publish_status": "published",
+                "blogger_post_url": "https://example.blogspot.com/2026/09/job.html",
+                "facebook_status": "facebook_pending",
+            }
+            with (
+                patch.object(article_queue, "JOBS_MODE", True),
+                patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path),
+            ):
+                article_queue.save_article_queue({"articles": [article]})
+                archived = article_queue.archive_published_queue_article(
+                    article_id=article["id"],
+                    article_url=article["url"],
+                )
+                saved = article_queue.load_article_queue()["articles"][0]
+
+        self.assertFalse(archived)
+        self.assertFalse(saved.get("archived", False))
+        self.assertEqual(saved["archive_deferred_reason"], "facebook_retry_pending")
+
+    def test_facebook_queue_recovers_blogger_publish_from_campaign_memory(self):
+        now = datetime(2026, 9, 30, 23, 0, tzinfo=timezone.utc)
+        queue = {"articles": []}
+        campaign = {
+            "campaign_id": "campaign-orange",
+            "company": "Orange Business",
+            "title": "Analyste Cybersécurité Junior",
+            "location": "Casablanca",
+            "contract_type": "CDI",
+            "notice_type": "vacancy",
+            "source_url": "https://careers.example.com/jobs/28406",
+            "source_name": "Orange Maroc",
+            "source_priority": "A+",
+            "blogger_post_id": "8146187171530968237",
+            "blogger_url": "https://example.blogspot.com/2026/09/orange.html",
+            "updated_at": "2026-09-30T22:29:42+00:00",
+            "status": "active",
+        }
+        cache = {
+            "links": [{
+                "title": "توظيف محلل أمن سيبراني مبتدئ لدى Orange Business بالدار البيضاء",
+                "url": campaign["blogger_url"],
+                "category": "jobs-morocco",
+                "published_at": "2026-09-30T22:29:42Z",
+            }]
+        }
+
+        with (
+            patch.object(facebook, "JOBS_MODE", True),
+            patch.object(facebook, "list_active_job_campaign_records", return_value=[campaign]),
+            patch.object(facebook, "load_internal_link_cache", return_value=(cache, {})),
+            patch.object(facebook, "classify_urgency", return_value={"level": "normal"}),
+            patch.object(facebook, "save_article_queue") as save,
+        ):
+            stats = facebook._sync_jobs_facebook_queue(queue, now=now)
+
+        self.assertEqual(stats["queued"], 1)
+        self.assertEqual(len(queue["articles"]), 1)
+        recovered = queue["articles"][0]
+        self.assertEqual(recovered["facebook_status"], "facebook_pending")
+        self.assertEqual(recovered["blogger_post_id"], campaign["blogger_post_id"])
+        self.assertEqual(recovered["blogger_post_url"], campaign["blogger_url"])
+        self.assertEqual(recovered["seo_title"], cache["links"][0]["title"])
+        self.assertTrue(recovered["facebook_queue_recovered"])
+        save.assert_called_once()
+
     def test_legacy_not_selected_job_is_requeued_for_facebook(self):
         article = {
             "id": "low",
