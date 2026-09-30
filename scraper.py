@@ -248,6 +248,7 @@ def _pagination_next_url(html_text, current_url):
                 "load-more",
                 "load_more",
                 "loadmore",
+                "show_more",
             )
         ):
             candidates.append(href)
