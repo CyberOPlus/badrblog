@@ -3515,13 +3515,19 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
         )
     elif provider_exhausted:
         failure_scope = "global_outage"
-        circuit = _open_global_circuit(
-            last_error or AIProviderRotationExhausted("AI provider rotation exhausted"),
-            providers=_resolve_providers(),
-        )
-        fingerprint = str(circuit.get("fingerprint") or "")
-        failure_category = str(circuit.get("category") or "provider_error")
-        failure_retry_until = float(circuit.get("until") or 0)
+        current_circuit = ai_circuit_status()
+        if current_circuit.get("global_open"):
+            fingerprint = str(current_circuit.get("global_fingerprint") or "")
+            failure_category = str(current_circuit.get("global_category") or "provider_error")
+            failure_retry_until = _global_circuit_until()
+        else:
+            circuit = _open_global_circuit(
+                last_error or AIProviderRotationExhausted("AI provider rotation exhausted"),
+                providers=_resolve_providers(),
+            )
+            fingerprint = str(circuit.get("fingerprint") or "")
+            failure_category = str(circuit.get("category") or "provider_error")
+            failure_retry_until = float(circuit.get("until") or 0)
     else:
         fingerprint, failure_category, failure_retry_until = _record_failure_fingerprint(
             last_error or ValueError("AI quality failed"),
