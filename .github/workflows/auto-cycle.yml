@@ -1,7 +1,11 @@
 name: Jobs Auto Cycle
-# one-shot Blogger validation from refreshed Orange discovery; Facebook disabled
+# continuous Jobs discovery/publishing; push-trigger remains a one-shot smoke validation
 
 on:
+  schedule:
+    # Ten checks per hour. One verified Blogger article max per run; the
+    # internal 5-minute pacing still prevents bursts.
+    - cron: "1,7,13,19,25,31,37,43,49,55 * * * *"
   workflow_dispatch:
   push:
     branches: [main]
