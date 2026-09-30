@@ -358,30 +358,30 @@ jobs:
 
             prefer_jobs_queue_snapshot() {
               python - "$SNAPSHOT_DIR/jobs_article_queue.json" "jobs_article_queue.json" <<'PY'
-import json
-import sys
+          import json
+          import sys
 
-def article_count(path):
-    try:
-        with open(path, "r", encoding="utf-8-sig") as handle:
-            data = json.load(handle)
-    except Exception:
-        return None
-    articles = data.get("articles") if isinstance(data, dict) else None
-    return len(articles) if isinstance(articles, list) else None
+          def article_count(path):
+              try:
+                  with open(path, "r", encoding="utf-8-sig") as handle:
+                      data = json.load(handle)
+              except Exception:
+                  return None
+              articles = data.get("articles") if isinstance(data, dict) else None
+              return len(articles) if isinstance(articles, list) else None
 
-snapshot_count = article_count(sys.argv[1])
-remote_count = article_count(sys.argv[2])
-# A valid non-empty runner snapshot is stronger than a remote queue that is
-# missing/corrupt/empty. If both are valid and non-empty, keep newer remote.
-raise SystemExit(
-    0
-    if snapshot_count is not None
-    and snapshot_count > 0
-    and (remote_count is None or remote_count == 0)
-    else 1
-)
-PY
+          snapshot_count = article_count(sys.argv[1])
+          remote_count = article_count(sys.argv[2])
+          # A valid non-empty runner snapshot is stronger than a remote queue that is
+          # missing/corrupt/empty. If both are valid and non-empty, keep newer remote.
+          raise SystemExit(
+              0
+              if snapshot_count is not None
+              and snapshot_count > 0
+              and (remote_count is None or remote_count == 0)
+              else 1
+          )
+          PY
             }
 
             restore_runtime() {
