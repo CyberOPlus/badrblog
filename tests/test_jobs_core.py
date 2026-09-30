@@ -41,6 +41,14 @@ def sample_job(**overrides):
 
 
 class JobsCoreTests(unittest.TestCase):
+    def test_job_specific_application_url_rejects_generic_search_and_careers(self):
+        self.assertFalse(job_core.is_job_specific_url("https://company.example/jobs"))
+        self.assertFalse(job_core.is_job_specific_url("https://company.example/jobs?search=security"))
+        self.assertFalse(job_core.is_job_specific_url("https://company.example/careers?page=2"))
+        self.assertTrue(job_core.is_job_specific_url("https://company.example/jobs/8448475-manager-security"))
+        self.assertTrue(job_core.is_job_specific_url("https://company.example/apply?job_id=8448475"))
+
+
     def test_job_headline_style_matches_human_moroccan_patterns(self):
         self.assertEqual(
             quality_gate._job_title_style_reason(
