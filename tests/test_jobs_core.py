@@ -1,3 +1,4 @@
+import asyncio
 import json
 import tempfile
 import unittest
@@ -372,6 +373,209 @@ class JobsCoreTests(unittest.TestCase):
             and row.get("url") == "https://recrutement.enssup.gov.ma/"
             for row in fields["job_action_links"]
         ))
+
+    def test_discovery_seen_streak_stops_after_known_run(self):
+        known = {
+            f"workday:known-{index}"
+            for index in range(1, 9)
+        }
+        links = [
+            {
+                "title": "Fresh role",
+                "url": "https://example.com/jobs/fresh",
+                "ats_provider": "workday",
+                "ats_reference": "fresh-1",
+            },
+            *[
+                {
+                    "title": f"Known role {index}",
+                    "url": f"https://example.com/jobs/known-{index}",
+                    "ats_provider": "workday",
+                    "ats_reference": f"known-{index}",
+                }
+                for index in range(1, 10)
+            ],
+            {
+                "title": "Buried role",
+                "url": "https://example.com/jobs/buried",
+                "ats_provider": "workday",
+                "ats_reference": "buried-1",
+            },
+        ]
+        selected, meta = scraper._filter_new_discovery_links(
+            links,
+            known,
+            seen_streak_stop=8,
+            max_items=100,
+        )
+        self.assertEqual(
+            [row["ats_reference"] for row in selected],
+            ["fresh-1"],
+        )
+        self.assertEqual(meta["stop_reason"], "seen_streak")
+        self.assertEqual(meta["seen_streak"], 8)
+
+    def test_html_pagination_follows_only_real_next_link(self):
+        first = """
+        <html><body>
+          <a class="job" href="/jobs/1">One</a>
+          <a rel="next" href="/jobs?page=2">Next</a>
+        </body></html>
+        """
+        second = """
+        <html><body>
+          <a class="job" href="/jobs/2">Two</a>
+          <a href="https://evil.example/jobs?page=3">Next page</a>
+        </body></html>
+        """
+        responses = {
+            "https://example.com/jobs": (first, "", 200),
+            "https://example.com/jobs?page=2": (second, "", 200),
+        }
+
+        async def fake_fetch(_session, url):
+            return responses[url]
+
+        def parser(html_text, current_url, per_source_limit=None):
+            soup = BeautifulSoup(html_text, "html.parser")
+            return [
+                {
+                    "title": anchor.get_text(" ", strip=True),
+                    "url": __import__(
+                        "urllib.parse",
+                        fromlist=["urljoin"],
+                    ).urljoin(current_url, anchor["href"]),
+                }
+                for anchor in soup.select("a.job[href]")
+            ]
+
+        with patch.object(scraper, "_fetch_text_async", side_effect=fake_fetch):
+            links, error, status = asyncio.run(
+                scraper._collect_paginated_html_links_async(
+                    object(),
+                    "https://example.com/jobs",
+                    parser,
+                    known_ids=set(),
+                    max_pages=5,
+                    seen_streak_stop=8,
+                    max_items=50,
+                )
+            )
+
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        self.assertEqual(
+            [row["url"] for row in links],
+            [
+                "https://example.com/jobs/1",
+                "https://example.com/jobs/2",
+            ],
+        )
+
+    def test_workday_pagination_collects_beyond_first_eight(self):
+        class FakeResponse:
+            def __init__(self, payload):
+                self.status = 200
+                self._payload = payload
+
+            async def __aenter__(self):
+                return self
+
+            async def __aexit__(self, exc_type, exc, tb):
+                return False
+
+            async def text(self, errors="ignore"):
+                return json.dumps(self._payload)
+
+        class FakeSession:
+            def __init__(self):
+                self.offsets = []
+
+            def post(self, _url, json=None, headers=None, timeout=None):
+                offset = int((json or {}).get("offset") or 0)
+                limit = int((json or {}).get("limit") or 20)
+                self.offsets.append(offset)
+                rows = []
+                for index in range(offset, min(offset + limit, 45)):
+                    rows.append({
+                        "title": f"Role {index + 1}",
+                        "externalPath": f"/job/{index + 1}",
+                        "bulletFields": [f"REQ-{index + 1}"],
+                        "postedOn": "Posted Today",
+                    })
+                return FakeResponse({
+                    "jobPostings": rows,
+                    "total": 45,
+                })
+
+        session = FakeSession()
+        links, error, status = asyncio.run(
+            scraper._collect_workday_links_async(
+                session,
+                "https://tenant.wd5.myworkdayjobs.com/site",
+                per_source_limit=8,
+                known_ids=set(),
+                max_pages=10,
+                seen_streak_stop=8,
+                max_items=100,
+            )
+        )
+
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        self.assertEqual(len(links), 45)
+        self.assertEqual(session.offsets, [0, 20, 40])
+        self.assertEqual(links[-1]["ats_reference"], "REQ-45")
+
+    def test_workday_seen_streak_stops_before_later_pages(self):
+        class FakeResponse:
+            status = 200
+
+            async def __aenter__(self):
+                return self
+
+            async def __aexit__(self, exc_type, exc, tb):
+                return False
+
+            async def text(self, errors="ignore"):
+                return json.dumps({
+                    "jobPostings": [
+                        {
+                            "title": f"Known {index}",
+                            "externalPath": f"/job/{index}",
+                            "bulletFields": [f"REQ-{index}"],
+                        }
+                        for index in range(1, 21)
+                    ],
+                    "total": 100,
+                })
+
+        class FakeSession:
+            def __init__(self):
+                self.calls = 0
+
+            def post(self, _url, json=None, headers=None, timeout=None):
+                self.calls += 1
+                return FakeResponse()
+
+        known = {f"workday:req-{index}" for index in range(1, 9)}
+        session = FakeSession()
+        links, error, status = asyncio.run(
+            scraper._collect_workday_links_async(
+                session,
+                "https://tenant.wd5.myworkdayjobs.com/site",
+                per_source_limit=8,
+                known_ids=known,
+                max_pages=10,
+                seen_streak_stop=8,
+                max_items=100,
+            )
+        )
+
+        self.assertEqual(error, "")
+        self.assertEqual(status, 200)
+        self.assertEqual(links, [])
+        self.assertEqual(session.calls, 1)
 
     def test_emploi_public_parser_keeps_only_competition_details(self):
         html = """
