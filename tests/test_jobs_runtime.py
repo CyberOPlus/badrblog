@@ -998,6 +998,45 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(article["facebook_queue_reason"], "published_to_blogger")
         self.assertTrue(article["facebook_queued_at"])
 
+    def test_scheduled_facebook_recovers_queue_even_when_configuration_is_missing(self):
+        queue = {"articles": []}
+        campaign = {
+            "campaign_id": "campaign-recover-missing-config",
+            "company": "Example Company",
+            "title": "Network Engineer",
+            "location": "Casablanca",
+            "notice_type": "vacancy",
+            "source_url": "https://example.com/jobs/42",
+            "blogger_post_id": "blogger-42",
+            "blogger_url": "https://example.blogspot.com/2026/09/job-42.html",
+            "updated_at": "2026-09-30T22:00:00+00:00",
+            "status": "active",
+        }
+        cache = {
+            "links": [{
+                "title": "شركة Example توظف مهندس شبكات بالدار البيضاء",
+                "url": campaign["blogger_url"],
+                "category": "jobs-morocco",
+                "published_at": "2026-09-30T22:00:00Z",
+            }]
+        }
+        with (
+            patch.object(facebook, "JOBS_MODE", True),
+            patch.object(facebook, "load_article_queue", return_value=queue),
+            patch.object(facebook, "save_article_queue"),
+            patch.object(facebook, "list_active_job_campaign_records", return_value=[campaign]),
+            patch.object(facebook, "load_internal_link_cache", return_value=(cache, {})),
+            patch.object(facebook, "classify_urgency", return_value={"level": "normal"}),
+            patch.object(facebook, "_is_configured", return_value=False),
+        ):
+            stats = facebook.drain_scheduled_facebook()
+
+        self.assertEqual(stats["recovered"], 1)
+        self.assertEqual(stats["pending"], 1)
+        self.assertEqual(stats["skipped"], 1)
+        self.assertTrue(stats["configuration_missing"])
+        self.assertEqual(queue["articles"][0]["facebook_status"], "facebook_pending")
+
     def test_facebook_missing_configuration_keeps_pending_not_failed(self):
         article = {
             "id": "pending-config",
