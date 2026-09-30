@@ -627,6 +627,9 @@ def _merge_job_discovery_metadata(existing, discovered):
             existing.pop("candidate_retry_after", None)
             existing.pop("candidate_failure_stage", None)
             existing.pop("candidate_failure_reason", None)
+            existing.pop("candidate_failure_fingerprint", None)
+            existing.pop("candidate_failure_repeat_count", None)
+            existing.pop("candidate_failure_backoff_minutes", None)
             existing.pop("candidate_failed_at", None)
             existing.pop("content_fetch_error", None)
             if existing.get("content_fetch_status") == "failed":
