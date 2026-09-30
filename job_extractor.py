@@ -350,6 +350,16 @@ GENERIC_LINK_LABELS = {
     "الرابط", "اضغط هنا", "voir", "consulter",
 }
 
+APPLICATION_CHANNEL_TEXT_RE = re.compile(
+    r"(?i)(?:"
+    r"site\s+de\s+d[eé]p[oô]t|"
+    r"site\s+de\s+candidature|"
+    r"plateforme\s+(?:de\s+)?(?:candidature|d[eé]p[oô]t)|"
+    r"موقع\s+(?:إيداع|ايداع|التقديم|الترشيح)(?:\s+الترشيحات)?|"
+    r"منصة\s+(?:إيداع|ايداع|التقديم|الترشيح)(?:\s+الترشيحات)?"
+    r")\s*:?\s*((?:https?://|www\.)[^\s<>'\"،؛]+)"
+)
+
 
 def _public_http_url(url):
     try:
@@ -373,7 +383,7 @@ def _link_context(anchor, label=""):
     return ""
 
 
-def _extract_job_action_links(soup, page_url):
+def _extract_job_action_links(soup, page_url, full_text=""):
     """Find official apply/document/result links exposed by the verified job page."""
     rows = []
     seen = set()
@@ -437,6 +447,22 @@ def _extract_job_action_links(soup, page_url):
             or re.search(r"/applications?/(?:new|apply)(?:[/?#]|$)", src, flags=re.I)
         ):
             add(src, label or "التقديم المباشر", "apply")
+
+    # Some official public-recruitment pages expose the deposit platform as
+    # contextual text ("Site de dépôt: ...") instead of a clickable anchor.
+    # Capture only URLs immediately tied to an explicit application-channel label;
+    # never promote arbitrary URLs found elsewhere in the page text.
+    text_source = _text(full_text) if full_text else _text(soup.get_text(" ", strip=True))
+    for match in APPLICATION_CHANNEL_TEXT_RE.finditer(text_source):
+        channel_url = str(match.group(1) or "").strip().rstrip(".,;:،؛)]}>\"'")
+        if channel_url.casefold().startswith("www."):
+            channel_url = "https://" + channel_url
+        add(
+            channel_url,
+            "منصة الترشيح الرسمية",
+            "apply",
+            context=match.group(0)[:320],
+        )
 
     # Public recruitment campaigns can expose many specialization/result PDFs.
     # Keep enough exact official links to build a complete table instead of silently
@@ -517,7 +543,7 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         notice_type = "competition"
     notice_status = _notice_status(job_title, body)
 
-    action_links = _extract_job_action_links(soup, page_url)
+    action_links = _extract_job_action_links(soup, page_url, full_text=body)
     binding_article = dict(article)
     binding_article["canonical_url"] = page_url
     binding_article["url"] = page_url
