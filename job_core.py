@@ -453,7 +453,7 @@ def score_job(article, now=None):
     if not _public_http(source_url):
         reasons.append("invalid source URL")
     if not valid_apply:
-        reasons.append("missing job-specific application URL or reference")
+        reasons.append("missing verified application resource")
 
     normalized_title = normalize_text(article.get("job_title") or article.get("title"))
     if normalized_title in {
