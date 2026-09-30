@@ -2042,6 +2042,17 @@ def _record_successful_publish(article):
 def _mark_candidate_failure_for_retry(article, stage, reason):
     article = article or {}
     if (
+        stage == "run-ai"
+        and str(article.get("ai_failure_scope") or "").strip().lower() == "retry_backoff"
+    ):
+        log_event(
+            "ai_retry_backoff_preserved",
+            article_id=article.get("id"),
+            failure_fingerprint=article.get("ai_failure_fingerprint", ""),
+            retry_after=article.get("ai_retry_after", ""),
+        )
+        return article
+    if (
         article.get("publish_status") == "waiting_for_logo"
         and article.get("candidate_retry_after")
     ):
