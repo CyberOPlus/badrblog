@@ -497,6 +497,10 @@ def _recover_jobs_facebook_queue_from_memory(queue, now=None, max_age_days=30):
             "facebook_queue_recovered": True,
         }
         articles.append(article)
+        # Recovery itself is a durable social-state transition. Persist the
+        # reconstructed pending/retry state immediately so a second queue loss
+        # cannot erase the fact that this Blogger post still needs Facebook.
+        _persist_jobs_social_state(article)
         existing_urls.add(blogger_url)
         existing_campaigns.add(campaign_id)
         recovered += 1
