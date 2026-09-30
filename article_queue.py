@@ -487,7 +487,10 @@ def _release_legacy_logo_wait(article):
         and article.get("final_html")
         and article.get("status") not in {"published", "draft_created"}
     ):
-        article["status"] = "ready"
+        # Reuse the already-approved article. A legacy logo wait must never send
+        # the job back through AI just because visual preparation failed.
+        article["status"] = "selected"
+        article["visual_content_reuse_required"] = True
 
     for field in (
         "logo_first_wait_at",
@@ -580,6 +583,19 @@ def get_fresh_queue_candidates(statuses=None, now=None, max_age_hours=None):
     return sorted(candidates, key=_fresh_queue_sort_key)
 
 
+def job_visual_retry_pending(article):
+    if not JOBS_MODE or not isinstance(article, dict):
+        return False
+    return bool(
+        article.get("job_document_render_status") == "document_render_retry"
+        or article.get("logo_visual_retry_pending")
+        or article.get("job_article_cover_status") in {
+            "render_retry_optional",
+            "asset_persist_retry_optional",
+        }
+    )
+
+
 def archive_published_queue_article(article_id="", article_url="", reason="published_to_blogger"):
     if not article_id and not article_url:
         return False
@@ -589,6 +605,19 @@ def archive_published_queue_article(article_id="", article_url="", reason="publi
         if article.get("id") == article_id or article.get("url") == article_url:
             if article.get("archived"):
                 return False
+            if job_visual_retry_pending(article):
+                article["archive_deferred_reason"] = "visual_retry_pending"
+                article["archive_deferred_at"] = _now_iso()
+                save_article_queue(queue)
+                log_event(
+                    "job_archive_deferred_visual_retry",
+                    article_id=article.get("id"),
+                    document_status=article.get("job_document_render_status", ""),
+                    logo_retry=bool(article.get("logo_visual_retry_pending")),
+                )
+                return False
+            article.pop("archive_deferred_reason", None)
+            article.pop("archive_deferred_at", None)
             changed = _archive_article(article, reason, _now_iso())
             if changed:
                 save_article_queue(queue)
