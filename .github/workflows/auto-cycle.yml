@@ -114,7 +114,7 @@ jobs:
           if not ai_provider_secret_present:
               print(
                   "::warning::No AI provider secret is currently available; "
-                  "Jobs will continue with the verified deterministic fallback."
+                  "Jobs AI generation will defer until a configured provider is available."
               )
 
           for name in ("BLOGGER_CLIENT_SECRET_JSON", "BLOGGER_TOKEN_JSON"):
@@ -197,7 +197,6 @@ jobs:
               "PUBLISH_WEAK_ARTICLES": "false",
               "ALLOW_SHORT_ARTICLES": "true",
               "MIN_ARTICLE_WORDS": "120",
-              "TARGET_ARTICLE_WORDS": "260-320",
               "MIN_EXTRACTED_CHARS": "80",
               "MAX_SOURCE_RETRIES": "0",
               "SOURCE_RETRY_DELAY_SECONDS": "0",
