@@ -2117,6 +2117,63 @@ class JobsRuntimeTests(unittest.TestCase):
         )
         save.assert_called_once()
 
+    def test_visual_only_quality_failure_is_downgraded_without_ai_retry(self):
+        article = {
+            "id": "visual-quality-only",
+            "url": "https://example.com/jobs/visual-quality",
+            "status": "selected",
+            "processing_status": "ready_for_ai",
+            "ai_status": "completed",
+            "ai_quality_status": "passed",
+            "ai_provider_used": "gemini",
+            "seo_title": "وظيفة مهندس نظم لدى Example Company",
+            "seo_description": (
+                "تفاصيل موثقة حول وظيفة مهندس نظم لدى Example Company "
+                "ومتطلبات المنصب وطريقة التقديم الرسمية."
+            ),
+            "final_html": "<p>مقال صحيح ومكتمل عن الوظيفة.</p>",
+            "main_image": "https://raw.example/cover.jpg",
+            "job_article_cover_url": "https://raw.example/cover.jpg",
+            "company_logo_verified": True,
+            "job_document_links": [],
+            "ai_input_package": {
+                "url": "https://example.com/jobs/visual-quality",
+                "main_image": "https://raw.example/cover.jpg",
+                "job_article_cover_url": "https://raw.example/cover.jpg",
+                "article_images": [{"url": "https://raw.example/cover.jpg"}],
+            },
+        }
+        articles = [article]
+        failed = quality_gate.QualityGateResult(
+            False,
+            "job article must start with the generated cover image",
+            120,
+            (),
+        )
+        passed = quality_gate.QualityGateResult(True, "", 120, ())
+
+        with (
+            patch.object(draft, "JOBS_MODE", True),
+            patch.object(
+                draft,
+                "validate_before_publish",
+                side_effect=[failed, passed],
+            ),
+            patch.object(draft, "validate_phase3_article_quality", return_value=""),
+            patch.object(draft, "format_phase3_article_html", return_value=article["final_html"]),
+        ):
+            reason = draft._publish_quality_error(article, articles)
+
+        self.assertEqual(reason, "")
+        self.assertEqual(article["ai_status"], "completed")
+        self.assertEqual(article["ai_quality_status"], "passed")
+        self.assertTrue(article["logo_visual_retry_pending"])
+        self.assertNotIn("main_image", article)
+        self.assertTrue(any(
+            "optional visual removed before publish" in warning
+            for warning in article.get("pre_publish_warnings", [])
+        ))
+
     def test_jobs_quality_gate_rejects_scripts_and_missing_official_files(self):
         package = {
             "url": "https://example.com/jobs/42",
