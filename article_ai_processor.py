@@ -3292,6 +3292,7 @@ def _apply_success(article, data, provider_used):
     ):
         article.pop(field, None)
     article.pop("ai_failure_scope", None)
+    article.pop("ai_previous_failure_scope", None)
     article.pop("ai_failure_fingerprint", None)
     article.pop("ai_failure_category", None)
     article.pop("ai_retry_after", None)
@@ -3335,6 +3336,8 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             retry_after = _epoch_to_iso(retry_until)
             article["ai_retry_pending"] = True
             article["ai_quality_status"] = "retry_backoff"
+            article["ai_previous_failure_scope"] = str(article.get("ai_failure_scope") or "")
+            article["ai_failure_scope"] = "retry_backoff"
             article["ai_retry_after"] = retry_after
             save_article_queue(queue)
             log_event(
