@@ -465,6 +465,39 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(generate.call_count, 1)
         cooldown.assert_called_once()
 
+    def test_article_input_failure_does_not_rotate_providers(self):
+        candidates = [
+            {"provider": "groq", "api_key": "k1", "model": "m1"},
+        ]
+        with patch.object(ai, "JOBS_MODE", True), \
+             patch.object(ai, "_global_circuit_remaining", return_value=0), \
+             patch.object(ai, "_provider_circuit_remaining", return_value=0), \
+             patch.object(ai, "_provider_candidates", return_value=candidates), \
+             patch.object(ai, "_cooldown_remaining", return_value=0), \
+             patch.object(ai, "_put_candidate_on_cooldown") as cooldown, \
+             patch.object(
+                 ai,
+                 "_generate_with_candidate",
+                 side_effect=RuntimeError("HTTP 413 input too long for context length"),
+             ) as generate:
+            with self.assertRaises(ai.AIArticleInputError):
+                ai._generate_with_provider_name("groq", "prompt")
+        self.assertEqual(generate.call_count, 1)
+        cooldown.assert_not_called()
+
+    def test_failure_fingerprint_ignores_dynamic_numeric_ids(self):
+        first, _category = ai._failure_fingerprint(
+            RuntimeError("HTTP 429 request 123456 quota exceeded"),
+            scope="provider",
+            provider="groq",
+        )
+        second, _category = ai._failure_fingerprint(
+            RuntimeError("HTTP 429 request 987654 quota exceeded"),
+            scope="provider",
+            provider="groq",
+        )
+        self.assertEqual(first, second)
+
     def test_jobs_quality_failure_repairs_same_provider_once(self):
         article = {
             "id": "quality-job",
