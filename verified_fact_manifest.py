@@ -105,6 +105,77 @@ def _canonical_dates(value):
     return out
 
 
+def _first_canonical_date(value):
+    """Return the earliest date expression in text, preserving textual order."""
+    text = _normalize(value)
+    candidates = []
+
+    for match in re.finditer(r"\b(\d{1,4})[./-](\d{1,2})[./-](\d{1,4})\b", text):
+        a, b, c = match.groups()
+        try:
+            if len(a) == 4:
+                dt = datetime(int(a), int(b), int(c))
+            elif len(c) == 4:
+                dt = datetime(int(c), int(b), int(a))
+            else:
+                continue
+            candidates.append((match.start(), dt.strftime("%Y-%m-%d")))
+        except (TypeError, ValueError):
+            continue
+
+    month_numbers = {
+        "يناير": 1, "فبراير": 2, "مارس": 3, "ابريل": 4, "ماي": 5,
+        "مايو": 5, "يونيو": 6, "يوليوز": 7, "يوليو": 7, "غشت": 8,
+        "اغسطس": 8, "شتنبر": 9, "سبتمبر": 9, "اكتوبر": 10,
+        "نونبر": 11, "نوفمبر": 11, "دجنبر": 12, "ديسمبر": 12,
+        "janvier": 1, "fevrier": 2, "février": 2, "mars": 3, "avril": 4,
+        "mai": 5, "juin": 6, "juillet": 7, "aout": 8, "août": 8,
+        "septembre": 9, "octobre": 10, "novembre": 11, "decembre": 12,
+        "décembre": 12,
+    }
+    normalized_months = {_normalize(name): number for name, number in month_numbers.items()}
+    month_pattern = "|".join(
+        sorted((re.escape(name) for name in normalized_months), key=len, reverse=True)
+    )
+    if month_pattern:
+        for match in re.finditer(
+            rf"\b(\d{{1,2}})\s+({month_pattern})\s+(\d{{4}})\b",
+            text,
+            flags=re.I,
+        ):
+            day, month_name, year = match.groups()
+            try:
+                dt = datetime(int(year), normalized_months[month_name], int(day))
+                candidates.append((match.start(), dt.strftime("%Y-%m-%d")))
+            except (KeyError, TypeError, ValueError):
+                continue
+
+    if not candidates:
+        return ""
+    candidates.sort(key=lambda row: row[0])
+    return candidates[0][1]
+
+
+def _deadline_claim_dates(text):
+    """Extract only dates contextually attached to a deadline cue."""
+    claims = set()
+    for sentence in re.split(r"[\n.!؟؛]+", _normalize(text)):
+        if not sentence:
+            continue
+        for hint in DEADLINE_HINTS:
+            normalized_hint = _normalize(hint)
+            start = sentence.find(normalized_hint)
+            if start < 0:
+                continue
+            claimed = _first_canonical_date(
+                sentence[start + len(normalized_hint):]
+            )
+            if claimed:
+                claims.add(claimed)
+            break
+    return claims
+
+
 def _text_contains_value(text, value):
     value_text = _normalize(value)
     if not value_text:
@@ -667,10 +738,7 @@ def _explicit_sensitive_claims(text):
     ):
         claims["experience"].add(str(int(value)))
 
-    for sentence in re.split(r"[\n.!؟؛]+", normalized):
-        if not any(_normalize(hint) in sentence for hint in DEADLINE_HINTS):
-            continue
-        claims["deadline"].update(_canonical_dates(sentence))
+    claims["deadline"].update(_deadline_claim_dates(normalized))
 
     return claims
 
