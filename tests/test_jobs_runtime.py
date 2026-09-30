@@ -818,6 +818,120 @@ class JobsRuntimeTests(unittest.TestCase):
              ):
             self.assertEqual(ai._attempt_provider_sequence(), ["groq"])
 
+    def test_ai_retry_backoff_preflight_makes_no_provider_call(self):
+        article = {
+            "id": "backoff-job",
+            "url": "https://example.com/jobs/backoff",
+            "status": "selected",
+            "processing_status": "ready_for_ai",
+            "ai_status": "failed",
+            "ai_failure_scope": "quality",
+            "ai_failure_fingerprint": "quality-fp",
+            "ai_failure_category": "quality",
+            "ai_retry_after": "2099-01-01T00:00:00+00:00",
+            "ai_input_package": {
+                "title": "Network Engineer",
+                "url": "https://example.com/jobs/backoff",
+                "full_article_text": "verified source evidence",
+                "job_notice_type": "vacancy",
+                "job_notice_type_source": "heuristic",
+            },
+        }
+        queue = {"articles": [article]}
+        with (
+            patch.object(ai, "JOBS_MODE", True),
+            patch.object(ai, "load_article_queue", return_value=queue),
+            patch.object(ai, "save_article_queue"),
+            patch.object(ai, "_attempt_provider_sequence") as sequence,
+            patch.object(ai, "_generate_with_provider_name") as generate,
+            patch.object(
+                ai,
+                "_failure_fingerprint_retry_until",
+                return_value=0,
+            ),
+        ):
+            result = ai.process_one_selected_article_with_ai(
+                target_article_id="backoff-job"
+            )
+
+        sequence.assert_not_called()
+        generate.assert_not_called()
+        self.assertEqual(result["failure_scope"], "retry_backoff")
+        self.assertEqual(result["processed"], 0)
+        self.assertEqual(article["ai_quality_status"], "retry_backoff")
+
+    def test_run_ai_cross_candidate_retry_is_capped_to_one(self):
+        failed = {
+            "id": "failed-job",
+            "url": "https://example.com/jobs/failed",
+            "ai_failure_scope": "quality",
+            "ai_failure_fingerprint": "quality-fp",
+            "ai_retry_after": "2099-01-01T00:00:00+00:00",
+        }
+        next_one = {"id": "next-one", "url": "https://example.com/jobs/next-one"}
+        next_two = {"id": "next-two", "url": "https://example.com/jobs/next-two"}
+
+        with (
+            patch.object(main, "JOBS_MODE", True),
+            patch.object(main, "JOBS_AI_CROSS_CANDIDATE_RETRIES", 1),
+            patch.object(main, "_mark_candidate_failure_for_retry", return_value=failed),
+            patch.object(
+                main,
+                "_select_retry_candidate",
+                side_effect=[next_one, next_two],
+            ) as select,
+            patch.object(
+                main,
+                "_process_hourly_target",
+                return_value={
+                    "completed": False,
+                    "article": next_one,
+                    "reason": "AI quality failed",
+                    "step_reached": "run-ai",
+                },
+            ) as process,
+            patch.object(main, "ai_circuit_status", return_value={"global_open": False}),
+        ):
+            success, retries = main._retry_after_single_candidate_failure(
+                failed,
+                "run-ai",
+                "quality mismatch",
+                "live",
+                {},
+                {"failed-job"},
+            )
+
+        self.assertIsNone(success)
+        self.assertEqual(len(retries), 1)
+        self.assertEqual(select.call_count, 1)
+        self.assertEqual(process.call_count, 1)
+
+    def test_retry_backoff_does_not_increment_failure_or_rotate_candidate(self):
+        failed = {
+            "id": "backoff-job",
+            "url": "https://example.com/jobs/backoff",
+            "ai_failure_scope": "retry_backoff",
+            "ai_failure_fingerprint": "quality-fp",
+            "ai_retry_after": "2099-01-01T00:00:00+00:00",
+        }
+        with (
+            patch.object(main, "_mark_candidate_failure_for_retry") as mark,
+            patch.object(main, "_select_retry_candidate") as select,
+        ):
+            success, retries = main._retry_after_single_candidate_failure(
+                failed,
+                "run-ai",
+                "AI retry backoff active",
+                "live",
+                {},
+                {"backoff-job"},
+            )
+
+        self.assertIsNone(success)
+        self.assertEqual(retries, [])
+        mark.assert_not_called()
+        select.assert_not_called()
+
     def test_global_ai_outage_stops_cross_candidate_retry(self):
         failed = {
             "id": "failed-job",
