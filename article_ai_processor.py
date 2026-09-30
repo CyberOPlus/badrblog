@@ -3112,6 +3112,10 @@ def _apply_success(article, data, provider_used):
     article.pop("ai_retry_reason", None)
     article.pop("ai_retry_origin", None)
     article.pop("ai_retry_provider", None)
+    article.pop("ai_failure_scope", None)
+    article.pop("ai_failure_fingerprint", None)
+    article.pop("ai_failure_category", None)
+    article.pop("ai_retry_after", None)
 
 
 
@@ -3479,6 +3483,37 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     article["ai_rotation_exhausted"] = provider_exhausted
     article["ai_time_budget_exceeded"] = isinstance(last_error, AITimeBudgetExceeded)
     article["ai_total_time_seconds"] = round(context.elapsed_seconds(), 2)
+
+    failure_scope = "quality"
+    failure_provider = str(locals().get("provider") or "").strip().lower()
+    failure_retry_until = 0
+    if isinstance(last_error, AITimeBudgetExceeded):
+        failure_scope = "cycle_budget"
+        fingerprint, failure_category, failure_retry_until = _record_failure_fingerprint(
+            last_error,
+            scope="cycle_budget",
+            provider=failure_provider,
+        )
+    elif provider_exhausted:
+        failure_scope = "global_outage"
+        circuit = _open_global_circuit(
+            last_error or AIProviderRotationExhausted("AI provider rotation exhausted"),
+            providers=_resolve_providers(),
+        )
+        fingerprint = str(circuit.get("fingerprint") or "")
+        failure_category = str(circuit.get("category") or "provider_error")
+        failure_retry_until = float(circuit.get("until") or 0)
+    else:
+        fingerprint, failure_category, failure_retry_until = _record_failure_fingerprint(
+            last_error or ValueError("AI quality failed"),
+            scope="quality",
+            provider=failure_provider,
+        )
+
+    article["ai_failure_scope"] = failure_scope
+    article["ai_failure_fingerprint"] = fingerprint
+    article["ai_failure_category"] = failure_category
+    article["ai_retry_after"] = _epoch_to_iso(failure_retry_until)
     article["ai_quality_status"] = (
         "time_budget_exceeded"
         if isinstance(last_error, AITimeBudgetExceeded)
@@ -3537,4 +3572,8 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
         "failed": 1,
         "article": article,
         "message": str(last_error),
+        "failure_scope": article.get("ai_failure_scope", ""),
+        "failure_fingerprint": article.get("ai_failure_fingerprint", ""),
+        "failure_category": article.get("ai_failure_category", ""),
+        "retry_after": article.get("ai_retry_after", ""),
     }
