@@ -1980,8 +1980,8 @@ def _remove_existing_required_job_links(soup, required_keys):
 
 def _job_action_box(label, url, *, kind="apply"):
     if kind == "apply":
-        heading = "التقديم الرسمي لهذه الوظيفة"
-        button = "التقديم الآن عبر الرابط الرسمي"
+        heading = "التقديم الرسمي"
+        button = "فتح رابط التقديم الرسمي"
         box_class = "dlBox jobApplyBox"
         button_class = "button extL jobApplyButton"
     else:
