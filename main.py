@@ -335,7 +335,7 @@ def run_fetch_only():
     print(f"Configured sources: {len(sources)}")
     print(f"Enabled sources:    {len(enabled_sources)}")
     print("Fetch limit:        per-source fetch_limit_per_run")
-    if RECENT_NEWS_ONLY:
+    if RECENT_NEWS_ONLY and not JOBS_MODE:
         smart_recent_hours = min(24, max(6, RECENT_NEWS_MAX_AGE_HOURS))
         smart_expanded_hours = min(24, max(12, smart_recent_hours))
         print(
