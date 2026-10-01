@@ -1654,6 +1654,16 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn("added_snapshot_only", text)
         self.assertNotIn("prefer_jobs_queue_snapshot", text)
 
+        watchdog = Path(".github/workflows/jobs-watchdog.yml").read_text(encoding="utf-8")
+        self.assertIn('workflows: ["Jobs Auto Cycle"]', watchdog)
+        self.assertIn("types: [completed]", watchdog)
+        self.assertIn("branches: [main]", watchdog)
+        self.assertIn("if: github.event_name == 'workflow_run'", watchdog)
+        self.assertIn("run: sleep 120", watchdog)
+        self.assertIn('context.eventName === "workflow_run"', watchdog)
+        self.assertIn("createWorkflowDispatch", watchdog)
+        self.assertIn('cron: "3,18,33,48 * * * *"', watchdog)
+
     def test_live_post_allowed_after_one_minute(self):
         now = datetime(2026, 4, 27, 12, 10, 0)
         with TemporaryDirectory() as temp_dir:
