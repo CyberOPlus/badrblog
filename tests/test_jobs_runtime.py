@@ -1012,7 +1012,7 @@ class JobsRuntimeTests(unittest.TestCase):
             "job_deadline_passed",
         )
 
-    def test_old_jobs_listing_with_future_deadline_is_not_news_expired(self):
+    def test_old_jobs_listing_is_archived_even_when_deadline_is_future(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory
 
@@ -1037,8 +1037,78 @@ class JobsRuntimeTests(unittest.TestCase):
                 )
                 saved = article_queue.load_article_queue()
 
-        self.assertEqual(stats["expired_archived"], 0)
-        self.assertFalse(saved["articles"][0].get("archived", False))
+        self.assertEqual(stats["expired_archived"], 1)
+        self.assertTrue(saved["articles"][0].get("archived", False))
+        self.assertEqual(
+            saved["articles"][0].get("archive_reason"),
+            "job_source_older_than_24h",
+        )
+
+    def test_unknown_job_date_is_archived_after_24h_discovery_window(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        queue = {
+            "articles": [{
+                "id": "unknown-date-stale",
+                "url": "https://example.com/jobs/unknown",
+                "title": "Unknown Date Role",
+                "status": "ready",
+                "content_fetch_status": "success",
+                "source_published_at": "",
+                "job_published_at": "",
+                "discovered_at": "2026-09-29T08:00:00+00:00",
+                "job_deadline": "2026-10-08",
+            }]
+        }
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "jobs_article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", path), \
+                 patch.object(article_queue, "JOBS_MODE", True):
+                article_queue.save_article_queue(queue)
+                stats = article_queue.archive_expired_queue_articles(
+                    now=datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+                )
+                saved = article_queue.load_article_queue()
+
+        self.assertEqual(stats["missing_date_archived"], 1)
+        self.assertTrue(saved["articles"][0].get("archived", False))
+        self.assertEqual(
+            saved["articles"][0].get("archive_reason"),
+            "job_publish_date_unverified_after_24h",
+        )
+
+    def test_facebook_priority_prefers_fresh_technical_job_and_expires_stale_source(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        general = {
+            "job_title": "Assistant administratif",
+            "source_published_at": "2026-09-30T08:00:00+00:00",
+            "job_published_at": "2026-09-30T08:00:00+00:00",
+            "facebook_queued_at": "2026-09-30T09:00:00+00:00",
+            "job_deadline": "2026-10-10",
+            "job_score": 90,
+        }
+        cyber = {
+            "job_title": "Cybersecurity SOC Analyst",
+            "source_published_at": "2026-09-30T08:00:00+00:00",
+            "job_published_at": "2026-09-30T08:00:00+00:00",
+            "facebook_queued_at": "2026-09-30T09:00:00+00:00",
+            "job_deadline": "2026-10-10",
+            "job_score": 60,
+        }
+        stale = {
+            "job_title": "Old Developer",
+            "source_published_at": "2026-09-28T08:00:00+00:00",
+            "job_published_at": "2026-09-28T08:00:00+00:00",
+            "job_deadline": "2026-10-10",
+        }
+
+        self.assertGreater(
+            facebook._facebook_job_priority(cyber, now=now),
+            facebook._facebook_job_priority(general, now=now),
+        )
+        self.assertTrue(facebook._job_facebook_expired(stale, now=now))
+        self.assertFalse(facebook._job_facebook_expired(cyber, now=now))
 
     def test_post_deadline_results_notice_stays_publishable(self):
         from pathlib import Path
