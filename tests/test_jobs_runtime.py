@@ -140,6 +140,31 @@ class JobsRuntimeTests(unittest.TestCase):
             for row in article["job_action_links"]
         ))
 
+    def test_official_pdf_position_count_is_bound_to_current_grade(self):
+        article = {
+            "id": "pdf-count",
+            "official_source": True,
+            "job_official_source": True,
+            "job_title": "مباريات التوظيف : متصرف من الدرجة الثانية - سلم 11",
+            "job_number_of_positions": 0,
+            "job_document_texts": [
+                {
+                    "page_number": 1,
+                    "page_count": 4,
+                    "text": (
+                        "الثانية الدرجة من متصرفين (04) أربعة توظيف مباريات وبرنامج\n"
+                        "الثالثة الدرجة من متصرفا (11) أحد عشر توظيف مباريات وبرنامج"
+                    ),
+                }
+            ],
+        }
+
+        count = job_document_renderer.promote_job_document_position_count(article)
+
+        self.assertEqual(count, 4)
+        self.assertEqual(article["job_number_of_positions"], 4)
+        self.assertEqual(article["job_number_of_positions_source"], "official_pdf")
+
     def test_compact_jobs_prompt_keeps_pdf_evidence_without_false_defaults(self):
         manifest = {
             "version": 2,
