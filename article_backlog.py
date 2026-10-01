@@ -6,6 +6,7 @@ import json
 from datetime import datetime
 
 from config import ARTICLE_BACKLOG_PATH
+from state_io import atomic_write_json
 
 
 def _now_iso():
@@ -33,13 +34,11 @@ def load_article_backlog():
 
 
 def save_article_backlog(backlog):
-    ARTICLE_BACKLOG_PATH.parent.mkdir(parents=True, exist_ok=True)
     data = {
         "updated_at": _now_iso(),
         "articles": backlog,
     }
-    with open(ARTICLE_BACKLOG_PATH, "w", encoding="utf-8") as handle:
-        json.dump(data, handle, ensure_ascii=False, indent=2)
+    atomic_write_json(ARTICLE_BACKLOG_PATH, data)
 
 
 def remember_articles(articles, published_set):

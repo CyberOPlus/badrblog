@@ -18,6 +18,7 @@ import json
 from config import PUBLISHED_DB_PATH
 from duplicate_utils import canonicalize_url, stable_hash
 from production_logging import log_event
+from state_io import atomic_write_json
 
 
 def load_published_ids():
@@ -53,9 +54,6 @@ def save_published_ids(published_set):
     Args:
         published_set (set): The set of URL strings to save
     """
-    # Ensure the data directory exists
-    PUBLISHED_DB_PATH.parent.mkdir(parents=True, exist_ok=True)
-
     canonical_urls = sorted({canonicalize_url(url) for url in published_set if url})
     data = {
         "published_urls": canonical_urls,
@@ -69,8 +67,7 @@ def save_published_ids(published_set):
         ],
     }
 
-    with open(PUBLISHED_DB_PATH, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
+    atomic_write_json(PUBLISHED_DB_PATH, data)
 
 
 def is_already_published(url, published_set):

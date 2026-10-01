@@ -1,5 +1,6 @@
 import json
 from datetime import datetime, timedelta, timezone
+from state_io import atomic_write_json
 
 from config import (
     CRAWL_STATE_PATH,
@@ -25,9 +26,7 @@ def _read_json(path, default):
 
 
 def _write_json(path, data):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with open(path, "w", encoding="utf-8") as handle:
-        json.dump(data, handle, ensure_ascii=False, indent=2)
+    atomic_write_json(path, data)
 
 
 def load_crawl_state():

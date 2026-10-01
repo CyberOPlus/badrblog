@@ -221,7 +221,9 @@ class ProductionHardeningTests(unittest.TestCase):
             calls.append(base_url)
             return [("Fresh story", f"{base_url}/story")], "", 200, {"method_used": "html"}
 
-        with patch.object(scraper, "RECENT_NEWS_ONLY", False), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "source_crawl_record", return_value={}), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
+        with patch.object(scraper, "RECENT_NEWS_ONLY", False), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "source_crawl_record", return_value={}), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), \
+             patch.object(scraper, "_filter_healthy_sources", side_effect=lambda sources: (sources, [])), \
+             patch.object(scraper, "_record_source_result"), patch.object(scraper, "update_source_crawl"):
             result = scraper.discover_first_valid_article_link(
                 [
                     {"name": "A", "base_url": "https://a.example", "enabled": True},
@@ -242,7 +244,9 @@ class ProductionHardeningTests(unittest.TestCase):
                 return [], "http 403", 403, {"method_used": "failed"}
             return [("Fresh story", f"{base_url}/story")], "", 200, {"method_used": "html"}
 
-        with patch.object(scraper, "RECENT_NEWS_ONLY", False), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "source_crawl_record", return_value={}), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect):
+        with patch.object(scraper, "RECENT_NEWS_ONLY", False), patch.object(scraper, "MAX_SOURCES_PER_RUN", 0), patch.object(scraper, "source_crawl_record", return_value={}), patch.object(scraper, "_collect_article_links_for_source", side_effect=fake_collect), \
+             patch.object(scraper, "_filter_healthy_sources", side_effect=lambda sources: (sources, [])), \
+             patch.object(scraper, "_record_source_result"), patch.object(scraper, "update_source_crawl"):
             result = scraper.discover_first_valid_article_link(
                 [
                     {"name": "Blocked", "base_url": "https://blocked.example", "enabled": True},
@@ -1626,7 +1630,8 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn('cron: "1,7,13,19,25,31,37,43,49,55 * * * *"', text)
         self.assertIn("workflow_dispatch:", text)
         self.assertNotIn("  push:\n", text)
-        self.assertIn("group: jobs-production-${{ github.ref }}", text)
+        self.assertIn("group: jobs-production-refs/heads/main", text)
+        self.assertIn("auto-cycle:\n    if: github.ref == 'refs/heads/main'", text)
         self.assertIn("cancel-in-progress: false", text)
         self.assertIn("timeout-minutes: 15", text)
         self.assertIn("timeout-minutes: 10", text)

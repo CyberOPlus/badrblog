@@ -25,6 +25,129 @@ import jobs_adaptive_controller as adaptive
 
 
 class JobsRuntimeTests(unittest.TestCase):
+    def test_pdf_outages_keep_retrying_with_bounded_backoff(self):
+        article = {"job_document_render_retry_count": 20, "ai_input_package": {}}
+        draft._mark_document_render_retry(article, article["ai_input_package"], "offline")
+        self.assertEqual(article["job_document_render_status"], "document_render_retry")
+        delay = datetime.fromisoformat(article["job_document_render_retry_after"]) - datetime.now(timezone.utc)
+        self.assertGreater(delay, timedelta(hours=5, minutes=59))
+        self.assertLessEqual(delay, timedelta(hours=6))
+        article["job_document_page_images"] = [{"url": "https://assets.example/page.jpg"}]
+        article["visual_sync_retry_count"] = 20
+        draft._mark_visual_sync_retry(article, "Blogger outage")
+        self.assertTrue(article["visual_sync_retry_pending"])
+        self.assertEqual(article["visual_sync_status"], "visual_sync_retry")
+
+    def test_pdf_html_stays_in_one_ordered_section_across_batches(self):
+        from bs4 import BeautifulSoup
+
+        rows = [
+            {"document_url": "https://official.example/notice.pdf", "page_number": number,
+             "url": f"https://assets.example/page-{number}.jpg"}
+            for number in range(1, 4)
+        ]
+        with patch.object(ai, "JOBS_MODE", True):
+            html = ai._append_job_document_page_images("<p>مقدمة</p>", {"job_document_page_images": rows[:1]})
+            html = ai.format_phase3_article_html(html, {"job_document_page_images": rows})
+            html = ai.format_phase3_article_html(html, {"job_document_page_images": rows})
+        soup = BeautifulSoup(html, "html.parser")
+        self.assertEqual(len(soup.select("section.jobOfficialDocuments")), 1)
+        self.assertEqual([image["src"] for image in soup.select("img.jobDocPageImage")], [row["url"] for row in rows])
+        self.assertEqual([h.get_text() for h in soup.find_all("h2")].count("صفحات الوثيقة الرسمية"), 1)
+
+    def test_queue_maintenance_accepts_mixed_timezone_timestamps(self):
+        now = datetime.now(timezone.utc)
+        rows = [
+            {"id": "aware", "status": "failed", "updated_at": (now - timedelta(days=10)).isoformat()},
+            {"id": "legacy", "status": "skipped", "updated_at": (now - timedelta(days=10)).replace(tzinfo=None).isoformat()},
+            {"id": "recent", "status": "failed", "updated_at": now.astimezone(ZoneInfo("Africa/Casablanca")).isoformat()},
+        ]
+        with patch.object(article_queue, "load_article_queue", return_value={"articles": rows}), \
+             patch.object(article_queue, "save_article_queue") as save, \
+             patch.object(article_queue, "_compact_job_queue_archive", return_value=0):
+            stats = article_queue.maintain_article_queue(days=7)
+        self.assertEqual(stats["archived_old_failed"], 1)
+        self.assertEqual(stats["archived_old_skipped"], 1)
+        self.assertFalse(rows[2].get("archived"))
+        save.assert_called_once()
+
+    def test_pdf_batches_resume_every_page_and_every_document(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        pdf = job_document_renderer.fitz.open()
+        for _ in range(3):
+            pdf.new_page(width=100, height=100)
+        payload = pdf.tobytes()
+        pdf.close()
+        article = {
+            "id": "batched-pdf", "seo_slug": "batched-pdf",
+            "job_document_links": [{"url": f"https://official.example/doc-{n}.pdf"} for n in range(7)],
+        }
+        with TemporaryDirectory() as temporary, \
+             patch.object(job_document_renderer, "_download_pdf", return_value=payload) as download:
+            for batch in range(14):
+                pages = job_document_renderer.render_job_document_pages(
+                    article, output_root=Path(temporary), max_documents=1, max_total_pages=2,
+                )
+                self.assertLessEqual(article["job_document_render_new_pages"], 2)
+                self.assertLessEqual(article["job_document_render_attempted_documents"], 1)
+                if not article["job_document_pages_truncated"]:
+                    break
+            self.assertEqual(len(pages), 21)
+            self.assertEqual(len({(row["document_url"], row["page_number"]) for row in pages}), 21)
+            self.assertTrue(all(Path(row["path"]).is_file() for row in pages))
+            self.assertFalse(article["job_document_pages_truncated"])
+            download.reset_mock()
+            self.assertEqual(job_document_renderer.render_job_document_pages(article, output_root=Path(temporary)), pages)
+            download.assert_not_called()
+
+    def test_partial_pdf_download_failure_keeps_already_rendered_pages(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        pdf = job_document_renderer.fitz.open()
+        pdf.new_page(width=100, height=100)
+        pdf.new_page(width=100, height=100)
+        payload = pdf.tobytes()
+        pdf.close()
+        article = {"job_document_links": [{"url": "https://official.example/conditions.pdf"}]}
+        with TemporaryDirectory() as temporary:
+            with patch.object(job_document_renderer, "_download_pdf", return_value=payload):
+                before = job_document_renderer.render_job_document_pages(article, output_root=Path(temporary), max_total_pages=1)
+            with patch.object(job_document_renderer, "_download_pdf", side_effect=OSError("offline")):
+                after = job_document_renderer.render_job_document_pages(article, output_root=Path(temporary))
+        self.assertEqual(after, before)
+        self.assertEqual(article["job_document_render_failures"], 1)
+
+    def test_pdf_batch_progress_does_not_exhaust_failure_retry_limit(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        pdf = job_document_renderer.fitz.open()
+        for _ in range(49):
+            pdf.new_page(width=50, height=50)
+        payload = pdf.tobytes()
+        pdf.close()
+        article = {
+            "job_document_links": [{"url": "https://official.example/conditions.pdf"}],
+            "job_document_render_retry_count": draft.MAX_JOB_DOCUMENT_RENDER_RETRIES,
+        }
+        renderer = job_document_renderer.render_job_document_pages
+        with TemporaryDirectory() as temporary, \
+             patch.object(draft, "JOBS_MODE", True), \
+             patch.object(job_document_renderer, "_download_pdf", return_value=payload), \
+             patch.object(draft, "_persist_generated_job_assets"), \
+             patch.object(draft, "render_job_document_pages", side_effect=lambda row, **kw: renderer(row, output_root=Path(temporary), **kw)):
+            first = draft._prepare_job_document_page_images(article)
+            self.assertEqual(len(first), 48)
+            self.assertEqual(article["job_document_render_status"], "document_render_retry")
+            self.assertEqual(article["job_document_render_retry_reason"], "batch_remaining")
+            second = draft._prepare_job_document_page_images(article, force_retry=True)
+            self.assertEqual(len(second), 49)
+            self.assertEqual(article["job_document_render_status"], "rendered")
+            self.assertFalse(article["job_document_pages_truncated"])
+
     def test_jobs_queue_storage_health_distinguishes_corrupt_from_valid_empty(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory

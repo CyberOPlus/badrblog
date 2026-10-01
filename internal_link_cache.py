@@ -1,4 +1,5 @@
 import json
+from state_io import atomic_write_json
 import re
 from datetime import datetime, timedelta, timezone
 from html import escape
@@ -119,9 +120,7 @@ def _load_raw_cache(path=INTERNAL_LINK_CACHE_PATH):
 
 
 def _write_cache(data, path=INTERNAL_LINK_CACHE_PATH):
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    atomic_write_json(path, data)
 
 
 def prune_internal_link_cache(data, now=None, max_links=INTERNAL_LINK_CACHE_LIMIT):
