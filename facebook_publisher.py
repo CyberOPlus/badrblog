@@ -1446,6 +1446,37 @@ def _build_caption(article, pattern, blogger_url=None):
     return blueprint["caption"]
 
 
+def _repair_job_facebook_application_semantics(article):
+    """Restore only strong legacy application semantics before template selection."""
+    if not JOBS_MODE or not isinstance(article, dict):
+        return False
+
+    current = str(article.get("job_application_link_kind") or "").strip().lower()
+    if current:
+        return False
+
+    inferred = _recovered_application_link_kind({
+        "application_url": article.get("job_application_url") or "",
+    })
+    if inferred != "direct_apply":
+        return False
+
+    article["job_application_link_kind"] = "direct_apply"
+    article["job_application_is_specific"] = True
+    package = article.get("ai_input_package")
+    if isinstance(package, dict):
+        package["job_application_link_kind"] = "direct_apply"
+        package["job_application_is_specific"] = True
+
+    log_event(
+        "facebook_job_application_semantics_repaired",
+        article_id=article.get("id"),
+        application_kind="direct_apply",
+    )
+    _persist_jobs_social_state(article)
+    return True
+
+
 def _refresh_job_logo_before_facebook(article):
     """Late verified-logo recovery immediately before the Facebook visual step."""
     if not JOBS_MODE:
@@ -2371,6 +2402,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             )
 
     if JOBS_MODE:
+        _repair_job_facebook_application_semantics(article)
         logo = _refresh_job_logo_before_facebook(article)
         if not (
             logo.get("company_logo_verified")
