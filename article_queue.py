@@ -20,6 +20,7 @@ from production_logging import log_event
 from job_core import (
     _parse_date as _parse_job_date,
     invalidate_identity_evidence,
+    job_publication_freshness,
     is_application_url_bound_to_job,
     is_foreign_job_detail_url,
     job_deadline_time,
@@ -797,15 +798,14 @@ def _merge_job_discovery_metadata(existing, discovered):
 
 
 def _known_stale_job(article, now=None):
-    published = _parse_job_date(
-        article.get("job_published_at") or article.get("source_published_at")
+    freshness = job_publication_freshness(
+        article,
+        now=now,
+        max_age_hours=JOBS_MAX_PUBLISH_AGE_HOURS,
     )
-    if not published:
+    if not freshness["verified"]:
         return False
-    current = now or datetime.now(timezone.utc)
-    if current.tzinfo is None:
-        current = current.replace(tzinfo=timezone.utc)
-    return (current - published).total_seconds() > JOBS_MAX_PUBLISH_AGE_HOURS * 3600
+    return bool(freshness["future"] or not freshness["fresh"])
 
 
 def add_articles_to_queue(discovered_articles):
