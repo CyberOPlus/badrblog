@@ -332,30 +332,8 @@
     }
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
-  "global_circuit": {
-    "category": "timeout",
-    "fingerprint": "5536f2970a79bc5a87a5",
-    "opened_at": "2026-10-01T23:02:32",
-    "providers": [
-      "cloudflare",
-      "gemini",
-      "groq",
-      "mistral",
-      "openrouter"
-    ],
-    "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-    "until": 1790896955.835324
-  },
+  "global_circuit": {},
   "provider_circuits": {
-    "cloudflare": {
-      "category": "format",
-      "fingerprint": "dfcd58b89b9a06a1d960",
-      "model": "@cf/meta/llama-3.1-8b-instruct",
-      "opened_at": "2026-10-01T22:22:35",
-      "provider": "cloudflare",
-      "reason": "AI article response returned incomplete JSON.",
-      "until": 1790896955.835324
-    },
     "gemini": {
       "category": "quota",
       "fingerprint": "9b8ec695d1ca9e549f46",
