@@ -1103,8 +1103,9 @@ def maintain_article_queue(days=7):
         ):
             stale_anchor = _as_utc(
                 _parse_iso(
-                    article.get("discovered_at")
+                    article.get("job_published_at")
                     or article.get("source_published_at")
+                    or article.get("discovered_at")
                 )
             )
             now_utc = datetime.now(timezone.utc)
