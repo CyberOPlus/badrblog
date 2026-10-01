@@ -25,7 +25,6 @@ from config import (
     SOURCE_RETRY_DELAY_SECONDS,
     MAX_SOURCE_RETRIES,
     JOBS_ENRICH_MAX_TARGETS_PER_CYCLE,
-    JOBS_MAX_PUBLISH_AGE_HOURS,
 )
 from production_logging import elapsed_ms, log_event
 from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
@@ -1928,36 +1927,9 @@ def enrich_ready_articles(force=False):
             )
             continue
 
-        # Known stale rows never spend an enrichment slot. Unknown publication
-        # times still get one detail-page enrichment attempt so the source can
-        # prove they are within the strict freshness window.
-        if JOBS_MODE and not force:
-            published_raw = str(
-                article.get("job_published_at")
-                or article.get("source_published_at")
-                or ""
-            ).strip()
-            if published_raw:
-                try:
-                    published = datetime.fromisoformat(published_raw.replace("Z", "+00:00"))
-                    if published.tzinfo is None:
-                        published = published.replace(tzinfo=timezone.utc)
-                    age_hours = (
-                        datetime.now(timezone.utc) - published.astimezone(timezone.utc)
-                    ).total_seconds() / 3600
-                except ValueError:
-                    age_hours = None
-                if age_hours is not None and (
-                    age_hours < 0 or age_hours > JOBS_MAX_PUBLISH_AGE_HOURS
-                ):
-                    article["status"] = "skipped"
-                    article["skip_reason"] = (
-                        "job publication age outside fresh window: "
-                        f"{age_hours:.2f}h (max {JOBS_MAX_PUBLISH_AGE_HOURS}h)"
-                    )
-                    article["freshness_rejected_at"] = datetime.now(timezone.utc).isoformat()
-                    continue
-
+        # Do not terminally skip an active vacancy merely because its official
+        # publication date is outside the fresh-priority window. Expiry and
+        # long-lived no-deadline lifecycle cleanup are handled separately.
         targets.append((queue_index, article))
 
     if JOBS_MODE and not force and len(targets) > JOBS_ENRICH_MAX_TARGETS_PER_CYCLE:
