@@ -70,7 +70,7 @@ from facebook_publisher import (
     preview_next_facebook_post,
     post_one_article_to_facebook,
 )
-from scraper import discover_latest_article_links
+from scraper import discover_latest_article_links, persist_discovery_state
 from runtime_state import record_source_cooldown, reset_job_discovery_state
 from source_validator import check_sources_config
 from production_logging import html_word_count, log_event
@@ -219,9 +219,16 @@ def run_fetch_only():
     # Jobs discovery is exhaustive and stateful. Do not route it through
     # recent-news/category first-valid shortcuts that can hide lower listing
     # pages or defer whole sources indefinitely.
-    discovery = discover_latest_article_links(enabled_sources)
+    discovery = discover_latest_article_links(
+        enabled_sources,
+        persist_state=False,
+    )
     articles = (discovery["articles"])
+    # Queue durability comes first. If the process dies after this write but
+    # before crawl-state persistence, the next run may rediscover a URL, but the
+    # queue dedup layer will reject it instead of losing the vacancy forever.
     queue_stats = add_articles_to_queue(articles)
+    persist_discovery_state(discovery)
     source_results = discovery.get("source_results", [])
     found_by_category = Counter(
         article.get("category_hint", "Uncategorized") or "Uncategorized"
