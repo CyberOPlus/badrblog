@@ -79,6 +79,7 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertNotIn("30 شتنبر 2026", cleaned)
         self.assertNotIn("المرجع", cleaned)
         self.assertNotIn("C43918/26", cleaned)
+        self.assertNotIn("، ،", cleaned)
         self.assertIn("16 أكتوبر 2026", cleaned)
 
     def test_jobs_ai_package_keeps_freshness_and_reference_internal(self):
