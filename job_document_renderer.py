@@ -245,12 +245,22 @@ def extract_job_document_texts(
     max_total_pages=48,
     max_chars_per_page=8000,
     max_total_chars=80000,
-    max_ocr_pages=8,
+    max_ocr_pages=48,
 ):
-    """Extract selectable PDF text as pre-AI evidence; scanned pages remain image-only evidence."""
+    """Extract official PDF text before AI, using OCR for scanned pages when needed."""
     existing = article.get("job_document_texts")
     previous_failures = int(article.get("job_document_text_download_failures") or 0)
-    if isinstance(existing, list) and existing and previous_failures == 0:
+    previous_ocr_failures = int(article.get("job_document_ocr_failures") or 0)
+    previous_ocr_unavailable = bool(article.get("job_document_ocr_unavailable"))
+    previous_unread_pages = int(article.get("job_document_unread_pages") or 0)
+    if (
+        isinstance(existing, list)
+        and existing
+        and previous_failures == 0
+        and previous_ocr_failures == 0
+        and not previous_ocr_unavailable
+        and previous_unread_pages == 0
+    ):
         return existing
 
     eligible = _eligible_documents(article, max_documents=max_documents)
@@ -260,6 +270,11 @@ def extract_job_document_texts(
         article["job_document_text_chars"] = 0
         article["job_document_text_attempted_documents"] = 0
         article["job_document_text_download_failures"] = 0
+        article["job_document_ocr_attempts"] = 0
+        article["job_document_ocr_pages"] = 0
+        article["job_document_ocr_failures"] = 0
+        article["job_document_ocr_unavailable"] = False
+        article["job_document_unread_pages"] = 0
         return []
 
     extracted = []
@@ -268,9 +283,11 @@ def extract_job_document_texts(
     truncated = False
     attempted_documents = 0
     download_failures = 0
+    ocr_attempts = 0
     ocr_pages = 0
     ocr_failures = 0
     ocr_unavailable = False
+    unread_pages = 0
 
     for document_index, item in enumerate(eligible, start=1):
         if total_pages >= max_total_pages or total_chars >= max_total_chars:
@@ -313,7 +330,12 @@ def extract_job_document_texts(
             page_text = _clean_pdf_page_text(page_text)
             total_pages += 1
 
-            if not page_text and ocr_pages < max(0, int(max_ocr_pages or 0)):
+            if (
+                not page_text
+                and not ocr_unavailable
+                and ocr_attempts < max(0, int(max_ocr_pages or 0))
+            ):
+                ocr_attempts += 1
                 ocr_text, ocr_error = _ocr_pdf_page_text(
                     page,
                     article_id=article.get("id"),
@@ -336,6 +358,7 @@ def extract_job_document_texts(
                     ocr_failures += 1
 
             if not page_text:
+                unread_pages += 1
                 continue
 
             remaining = max_total_chars - total_chars
@@ -366,9 +389,11 @@ def extract_job_document_texts(
     article["job_document_text_truncated"] = bool(truncated)
     article["job_document_text_attempted_documents"] = attempted_documents
     article["job_document_text_download_failures"] = download_failures
+    article["job_document_ocr_attempts"] = ocr_attempts
     article["job_document_ocr_pages"] = ocr_pages
     article["job_document_ocr_failures"] = ocr_failures
     article["job_document_ocr_unavailable"] = bool(ocr_unavailable)
+    article["job_document_unread_pages"] = unread_pages
     return extracted
 
 
