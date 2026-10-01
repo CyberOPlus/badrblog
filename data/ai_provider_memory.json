@@ -1,23 +1,6 @@
 {
   "avg_time": 3.2157,
-  "cooldowns": {
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-09-30T23:21:59",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1790813221.1226454
-    },
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-09-30T23:22:02",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1790813222.6072009
-    }
-  },
+  "cooldowns": {},
   "failure_fingerprints": {
     "4b929cc3ad78785ed806": {
       "category": "quota",
@@ -54,36 +37,19 @@
     },
     "c10c0e8ef2bd27adc53f": {
       "category": "article_input",
-      "count": 2,
+      "count": 3,
       "first_seen_at": "2026-09-30T23:12:50",
-      "last_seen_at": "2026-09-30T23:51:56",
-      "last_seen_epoch": 1790812316.5118809,
+      "last_seen_at": "2026-10-01T00:20:03",
+      "last_seen_epoch": 1790814003.8307567,
       "provider": "",
       "reason": "source/evidence problem: generic application portal is not a verified official channel for this competition",
-      "retry_until": 1790815916.5118809,
+      "retry_until": 1790821203.8307567,
       "scope": "article_input"
     }
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {},
-  "provider_circuits": {
-    "gemini": {
-      "category": "quota",
-      "fingerprint": "9b8ec695d1ca9e549f46",
-      "opened_at": "2026-09-30T23:21:59",
-      "provider": "gemini",
-      "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
-      "until": 1790813219.005733
-    },
-    "groq": {
-      "category": "quota",
-      "fingerprint": "4b929cc3ad78785ed806",
-      "opened_at": "2026-09-30T23:22:02",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1790813222.326167
-    }
-  },
+  "provider_circuits": {},
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 14.5004,
