@@ -33,7 +33,12 @@ from config import (
 )
 from production_logging import elapsed_ms, log_event
 from job_extractor import _deadline_from_text, extract_job_fields
-from job_core import invalidate_identity_evidence, job_deadline_time, job_focus_priority
+from job_core import (
+    invalidate_identity_evidence,
+    job_deadline_time,
+    job_focus_priority,
+    job_publication_freshness,
+)
 from company_logo_resolver import resolve_company_logo
 
 try:
@@ -1584,22 +1589,23 @@ def enrich_ready_articles(force=False):
                 or ""
             ).strip()
             if published_raw:
-                try:
-                    published = datetime.fromisoformat(published_raw.replace("Z", "+00:00"))
-                    if published.tzinfo is None:
-                        published = published.replace(tzinfo=timezone.utc)
-                    age_hours = (
-                        datetime.now(timezone.utc) - published.astimezone(timezone.utc)
-                    ).total_seconds() / 3600
-                except ValueError:
-                    age_hours = None
-                if age_hours is not None and (
-                    age_hours < 0 or age_hours > JOBS_MAX_PUBLISH_AGE_HOURS
+                freshness = job_publication_freshness(
+                    article,
+                    max_age_hours=JOBS_MAX_PUBLISH_AGE_HOURS,
+                )
+                if freshness["verified"] and (
+                    freshness["future"] or not freshness["fresh"]
                 ):
+                    age_hours = freshness.get("age_hours")
+                    age_label = (
+                        f"{age_hours:.2f}h"
+                        if age_hours is not None
+                        else "date-only outside current publication day"
+                    )
                     article["status"] = "skipped"
                     article["skip_reason"] = (
                         "job publication age outside fresh window: "
-                        f"{age_hours:.2f}h (max {JOBS_MAX_PUBLISH_AGE_HOURS}h)"
+                        f"{age_label} (max {JOBS_MAX_PUBLISH_AGE_HOURS}h)"
                     )
                     article["freshness_rejected_at"] = datetime.now(timezone.utc).isoformat()
                     continue
