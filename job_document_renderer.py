@@ -20,7 +20,7 @@ PDF_HINTS = (
     "dossier", "fiche", "communique", "communiqué", "descriptif",
     "announcement", "notice", "decision", "description", "download",
     "إعلان", "الاعلان", "الإعلان", "شروط", "الشروط", "قرار", "مقرر",
-    "ملف", "وثيقة", "الوثيقة", "تحميل",
+    "بطاقة", "بطاقة الوظيفة", "بطاقة المنصب", "ملف", "وثيقة", "الوثيقة", "تحميل",
 )
 RESULT_HINTS = (
     "result", "résultat", "resultat", "liste", "list", "shortlist",
