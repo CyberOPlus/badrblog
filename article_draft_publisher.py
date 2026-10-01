@@ -31,7 +31,9 @@ from config import (
     JOBS_MODE,
     JOBS_TEST_MODE,
     JOBS_EXPECTED_BLOG_HOST,
+    JOBS_MAX_PUBLISH_AGE_HOURS,
 )
+from job_core import _parse_date as parse_job_date, job_deadline_time
 from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
 from internal_link_cache import (
@@ -580,6 +582,11 @@ def _prepare_job_document_page_images(article, force_retry=False):
         article["ai_input_package"] = package
         return []
 
+    # Recovered queue records can keep verified document links only in their AI
+    # package. The renderer reads the article, so pass through that same evidence.
+    article["job_document_links"] = list(document_links)
+    package["job_document_links"] = list(document_links)
+
     try:
         pages = render_job_document_pages(
             article,
@@ -1005,6 +1012,30 @@ def _assert_insert_allowed(article):
             "Blogger lifecycle invariant blocked posts.insert because this article "
             f"already owns saved post ID {saved_id}; update that post in place."
         )
+
+
+def _assert_fresh_job_for_new_live_publish(article, now=None):
+    """Recheck official time at the write boundary, after AI/visual preparation."""
+    if not JOBS_MODE:
+        return
+    current = now or datetime.now(timezone.utc)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=timezone.utc)
+    published = parse_job_date(
+        article.get("job_published_at") or article.get("source_published_at")
+    )
+    if published is None:
+        raise RuntimeError("Job publication time is not verified; refusing new live publication.")
+    age_hours = (current - published).total_seconds() / 3600
+    if age_hours < 0 or age_hours > JOBS_MAX_PUBLISH_AGE_HOURS:
+        raise RuntimeError(
+            f"Job publication age is outside the {JOBS_MAX_PUBLISH_AGE_HOURS}-hour window; "
+            "refusing new live publication."
+        )
+    notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
+    deadline = job_deadline_time(article)
+    if notice_type in {"vacancy", "competition"} and deadline and deadline < current:
+        raise RuntimeError("Job deadline passed; refusing new live publication.")
 
 
 def _get_saved_post_by_id(service, article, mode=None):
@@ -1496,10 +1527,14 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
         saved_post = _get_saved_post_by_id(service, article, mode=publish_mode)
         if saved_id and saved_post and (publish_mode == "live" or saved_post.get("status") != "LIVE"):
             generating_permalink = publish_mode == "live" and saved_post.get("status") != "LIVE"
+            if generating_permalink:
+                _assert_fresh_job_for_new_live_publish(article)
             body = _build_post_body(article, permalink_seed=generating_permalink)
             request = service.posts().update(blogId=BLOG_ID, postId=saved_id, body=body)
             post = _execute_blogger_request(request, f"update saved {publish_mode}", safe_to_retry=True)
             post = _ensure_returned_post_url(service, post)
+            if generating_permalink:
+                _assert_fresh_job_for_new_live_publish(article)
             post = _publish_if_live(service, post, publish_mode)
             _ensure_post_url_for_mode(post, publish_mode)
             if generating_permalink and re.search(r"\d", _job_permalink_stem(post.get("url"))):
@@ -1538,10 +1573,14 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             if not post_to_update:
                 raise RuntimeError("Matching Blogger post found, but no post is safe to update for this mode.")
             generating_permalink = publish_mode == "live" and post_to_update.get("_matched_status") != "LIVE"
+            if generating_permalink:
+                _assert_fresh_job_for_new_live_publish(article)
             body = _build_post_body(article, permalink_seed=generating_permalink)
             request = service.posts().update(blogId=BLOG_ID, postId=post_to_update["id"], body=body)
             post = _execute_blogger_request(request, f"update matching {publish_mode}", safe_to_retry=True)
             post = _ensure_returned_post_url(service, post)
+            if generating_permalink:
+                _assert_fresh_job_for_new_live_publish(article)
             post = _publish_if_live(service, post, publish_mode)
             _ensure_post_url_for_mode(post, publish_mode)
             if generating_permalink and re.search(r"\d", _job_permalink_stem(post.get("url"))):
@@ -1571,6 +1610,8 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
         post = None
         max_permalink_attempts = 2 if JOBS_MODE and publish_mode == "live" else 1
         for permalink_try in range(max_permalink_attempts):
+            if publish_mode == "live":
+                _assert_fresh_job_for_new_live_publish(article)
             body = _build_post_body(
                 article,
                 permalink_seed=(JOBS_MODE and publish_mode == "live"),

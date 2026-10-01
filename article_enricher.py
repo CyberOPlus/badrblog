@@ -1890,6 +1890,8 @@ def enrich_ready_articles(force=False):
     deferred_targets = 0
 
     for queue_index, article in enumerate(articles):
+        if article.get("archived"):
+            continue
         allowed_statuses = {"ready", "identity_pending"} if not force else {"ready", "identity_pending", "selected", "draft_created"}
         if article.get("status") not in allowed_statuses:
             continue
@@ -1899,35 +1901,6 @@ def enrich_ready_articles(force=False):
             continue
 
         checked += 1
-        if article.get("content_fetch_status") == "success" and not force:
-            existing_text = article.get("full_article_text") or article.get("content_full") or article.get("content_preview", "")
-            existing_words = _word_count(existing_text)
-            if (
-                existing_words >= MIN_EXTRACTED_WORDS
-                or _job_cached_enrichment_is_sufficient(article, existing_words)
-            ):
-                already_enriched += 1
-                continue
-            log_event(
-                "extraction_primary_failed",
-                article_id=article.get("id"),
-                title=article.get("title"),
-                source=article.get("source_name"),
-                method="cached_success_too_short",
-                words=str(existing_words),
-                required_words=MIN_EXTRACTED_WORDS,
-            )
-        if not force and is_candidate_in_recent_failure(article):
-            recent_failure_skipped += 1
-            log_event(
-                "candidate_skipped_recent_failure",
-                article_id=article.get("id"),
-                source=article.get("source_name"),
-                stage=article.get("candidate_failure_stage"),
-                retry_after=article.get("candidate_retry_after"),
-            )
-            continue
-
         # Known stale rows never spend an enrichment slot. Unknown publication
         # times still get one detail-page enrichment attempt so the source can
         # prove they are within the strict freshness window.
@@ -1957,6 +1930,35 @@ def enrich_ready_articles(force=False):
                     )
                     article["freshness_rejected_at"] = datetime.now(timezone.utc).isoformat()
                     continue
+
+        if article.get("content_fetch_status") == "success" and not force:
+            existing_text = article.get("full_article_text") or article.get("content_full") or article.get("content_preview", "")
+            existing_words = _word_count(existing_text)
+            if (
+                existing_words >= MIN_EXTRACTED_WORDS
+                or _job_cached_enrichment_is_sufficient(article, existing_words)
+            ):
+                already_enriched += 1
+                continue
+            log_event(
+                "extraction_primary_failed",
+                article_id=article.get("id"),
+                title=article.get("title"),
+                source=article.get("source_name"),
+                method="cached_success_too_short",
+                words=str(existing_words),
+                required_words=MIN_EXTRACTED_WORDS,
+            )
+        if not force and is_candidate_in_recent_failure(article):
+            recent_failure_skipped += 1
+            log_event(
+                "candidate_skipped_recent_failure",
+                article_id=article.get("id"),
+                source=article.get("source_name"),
+                stage=article.get("candidate_failure_stage"),
+                retry_after=article.get("candidate_retry_after"),
+            )
+            continue
 
         targets.append((queue_index, article))
 

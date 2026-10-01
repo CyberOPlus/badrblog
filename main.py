@@ -592,6 +592,8 @@ def run_fetch_only():
     print(f"Articles found:           {len(articles)}")
     print(f"New articles added:       {queue_stats['added']}")
     print(f"Duplicates skipped:       {queue_stats['duplicates']}")
+    if JOBS_MODE:
+        print(f"Known stale Jobs rejected:{queue_stats.get('stale_jobs_rejected', 0)}")
     print(f"  - Same URL:             {queue_stats['duplicate_url']}")
     print(f"  - Same normalized title:{queue_stats['duplicate_title']}")
     print(f"Total queued articles:    {queue_stats['total_queued']}")
