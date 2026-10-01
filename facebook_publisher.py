@@ -1124,6 +1124,59 @@ def _split_caption_parts(caption):
     return post_text.strip(), hashtags.strip()
 
 
+def _format_jobs_facebook_caption(raw_caption):
+    """Format approved Jobs social copy without rewriting its factual content."""
+    text = re.sub(
+        r"[\u200e\u200f\u202a-\u202e\u2066-\u2069]",
+        "",
+        str(raw_caption or ""),
+    ).strip()
+    if not text:
+        return ""
+
+    hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", text, flags=re.UNICODE)
+    text = re.sub(r"#[\w\u0600-\u06FF_]+", " ", text, flags=re.UNICODE)
+
+    paragraphs = []
+    for raw_line in text.splitlines():
+        raw_line = re.sub(r"\s+", " ", raw_line).strip()
+        if not raw_line:
+            continue
+
+        # Split only at sentence boundaries; words and verified facts stay intact.
+        sentences = [
+            part.strip()
+            for part in re.split(r"(?<=[.!؟])\s+", raw_line)
+            if part.strip()
+        ]
+        for sentence in sentences:
+            normalized = sentence.strip()
+            lowered = normalized.casefold()
+            independent_cta = (
+                "أول تعليق" in normalized
+                and lowered.startswith(
+                    (
+                        "للمزيد",
+                        "للاطلاع",
+                        "لمعرفة",
+                        "للتفاصيل",
+                        "التفاصيل",
+                        "رابط",
+                        "تجد الرابط",
+                    )
+                )
+            )
+            if independent_cta:
+                normalized = "التفاصيل وشروط التقديم في أول تعليق 👇"
+            if normalized:
+                paragraphs.append(normalized)
+
+    if hashtags:
+        paragraphs.append(" ".join(dict.fromkeys(hashtags)))
+
+    return "\n\n".join(paragraphs).strip()
+
+
 def _jobs_facebook_blueprint(article, blogger_url):
     """Generate/use independent social AI copy after Blogger succeeds, then force RTL display."""
     raw_caption = str(article.get("facebook_post_text") or "").strip()
@@ -1149,14 +1202,9 @@ def _jobs_facebook_blueprint(article, blogger_url):
             attempts=article.get("facebook_ai_attempts"),
         )
 
-    # AI writes the language; the publisher owns display direction. Strip any
-    # model-supplied bidi controls, then force every visible line to start RTL.
-    raw_caption = re.sub(
-        r"[\u200e\u200f\u202a-\u202e\u2066-\u2069]",
-        "",
-        raw_caption,
-    ).strip()
-    raw_caption = re.sub(r"\n{3,}", "\n\n", raw_caption)
+    # AI owns the wording; the publisher only formats it into short readable
+    # paragraphs before forcing RTL display.
+    raw_caption = _format_jobs_facebook_caption(raw_caption)
 
     plain_lines = raw_caption.splitlines()
     nonempty_lines = [line.strip() for line in plain_lines if line.strip()]

@@ -4840,6 +4840,41 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertGreaterEqual(len(re.findall(r"#[\w\u0600-\u06FF_]+", caption)), 3)
         social_ai.validate_jobs_facebook_post(caption, article=article)
 
+    def test_jobs_facebook_formatter_keeps_facts_and_adds_readable_paragraphs(self):
+        raw = (
+            "يعلن مكتب التكوين المهني وإنعاش الشغل عن تنظيم مباراة لتوظيف مكون "
+            "في النسيج التقليدي بمدينة الرشيدية.\n"
+            "المباراة تفتح الباب أمام حاملي دبلوم تقني متخصص أو ما يعادله في "
+            "مهن النسيج، لشغل منصب واحد.\n"
+            "آخر أجل للترشيح هو 18 أكتوبر 2026.\n"
+            "للمزيد من التفاصيل حول المهام، الشروط المطلوبة، وكيفية التقديم، "
+            "يرجى الاطلاع على أول تعليق 👇.\n"
+            "#مباريات_التوظيف #التكوين_المهني #الرشيدية #النسيج_التقليدي"
+        )
+
+        formatted = facebook._format_jobs_facebook_caption(raw)
+
+        self.assertIn("مكتب التكوين المهني وإنعاش الشغل", formatted)
+        self.assertIn("لشغل منصب واحد", formatted)
+        self.assertIn("آخر أجل للترشيح هو 18 أكتوبر 2026.", formatted)
+        self.assertIn("التفاصيل وشروط التقديم في أول تعليق 👇", formatted)
+        self.assertNotIn("للمزيد من التفاصيل حول المهام", formatted)
+        self.assertIn("\n\nآخر أجل للترشيح هو 18 أكتوبر 2026.\n\n", formatted)
+        self.assertTrue(
+            formatted.endswith(
+                "#مباريات_التوظيف #التكوين_المهني #الرشيدية #النسيج_التقليدي"
+            )
+        )
+
+    def test_jobs_facebook_formatter_does_not_drop_fact_when_cta_shares_line(self):
+        raw = (
+            "آخر أجل للترشيح هو 18 أكتوبر 2026، ويمكن الاطلاع على التفاصيل في أول تعليق 👇.\n"
+            "#وظائف #المغرب #توظيف"
+        )
+        formatted = facebook._format_jobs_facebook_caption(raw)
+        self.assertIn("آخر أجل للترشيح هو 18 أكتوبر 2026", formatted)
+        self.assertIn("أول تعليق", formatted)
+
     def test_deterministic_social_fallback_is_cached_without_second_ai_call(self):
         article = {
             "id": "cached-social-fallback",
