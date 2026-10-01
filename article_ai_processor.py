@@ -1034,8 +1034,12 @@ EVIDENCE AND NOTICE TYPE
   when their meaning is explicit and consistent with the manifest.
 - source_tables may help explain role breakdowns, specialties, tests and counts, but do not flatten unrelated cells
   into invented relationships and do not force every arbitrary row into the article.
-- job_document_texts are page-numbered text extracted from official PDFs. Use them to understand context and verify
-  manifest facts. If a PDF page has no extractable text, do not guess what the image says.
+- job_document_texts are page-numbered text extracted from official PDFs, including OCR for scanned pages.
+  Treat them as official article evidence, not attachment metadata. Bring every material job-specific fact that is
+  explicit there and useful to the candidate into the article once in the clearest place: requirements, duties,
+  specialties, tests, required documents, application instructions, locations, counts, deadlines and current status.
+  Keep the article concise and never copy the PDF verbatim, but do not leave important PDF-only facts stranded only
+  in the file link or rendered page images. If a page still has no extracted/OCR text, do not guess what it says.
 - Decide the final notice_type yourself and return exactly ONE of:
   "vacancy", "competition", "candidate_list", "results", "final_results", "update".
 - vacancy = a private/company employment opening or ordinary job vacancy accepting applications.
@@ -1895,10 +1899,12 @@ def format_phase3_article_html(html_content, package=None):
 
 _INTERNAL_JOB_ROW_LABEL_RE = re.compile(
     r"^(?:"
-    r"تاريخ\s+النشر|تاريخ\s+نشر\s+(?:الإعلان|الوظيفة)|"
+    r"تاريخ\s+النشر|تاريخ\s+نشر\s+(?:الإعلان|الوظيفة)|تاريخ\s+الإعلان|"
+    r"(?:تم\s+)?نشر(?:ت)?\s+(?:الإعلان|الوظيفة)\s*(?:بتاريخ)?|"
     r"date\s+de\s+publication|publication\s+date|published\s+on|"
-    r"المرجع|الرقم\s+المرجعي|رمز\s+المباراة|"
-    r"r[eé]f(?:[ée]rence)?\.?|reference"
+    r"المرجع|مرجع\s+(?:الإعلان|الوظيفة|المباراة)|"
+    r"(?:ال)?رقم\s+(?:المرجعي|المرجع|الإعلان|المباراة)|رمز\s+المباراة|"
+    r"r[eé]f(?:[ée]rence)?\.?|reference(?:\s+(?:no\.?|number))?"
     r")\s*[:：-]?",
     flags=re.I,
 )
