@@ -116,6 +116,29 @@ class JobsWorkflowTests(unittest.TestCase):
         self.assertIn("[redacted]", cleaned)
 
 
+    def test_example_environment_and_facebook_styles_are_jobs_only(self):
+        env_text = Path("env.example").read_text(encoding="utf-8")
+        self.assertIn("JOBS_MODE=true", env_text)
+        self.assertIn("JOBS_MAX_PUBLISH_AGE_HOURS=12", env_text)
+        self.assertIn("JOBS_DISCOVERY_SEEN_MEMORY=5000", env_text)
+        self.assertIn("JOBS_FACEBOOK_MIN_INTERVAL_MINUTES=5", env_text)
+        for retired in (
+            "FAST_NEWS_MODE",
+            "CATEGORY_ROTATION_MODE",
+            "PROCESS_FULL_CATEGORY_PER_RUN",
+            "RECENT_NEWS_ONLY",
+            "SOURCE_URL=",
+            "SOURCES=",
+            "FACEBOOK_LINK_MODE",
+            "JOBS_MODE=false",
+        ):
+            self.assertNotIn(retired, env_text)
+
+        facebook_text = Path("facebook_publisher.py").read_text(encoding="utf-8")
+        for retired_style in ("tech_news", "apps_programs", "ai_tools"):
+            self.assertNotIn(retired_style, facebook_text)
+        self.assertIn('JOBS_CAPTION_STYLE = "jobs"', facebook_text)
+
     def test_legacy_environment_cannot_enable_news_or_disable_jobs_spacing(self):
         env = dict(os.environ, JOBS_MODE="false", JOBS_FACEBOOK_FOLLOW_ARTICLE="false",
                    JOBS_FACEBOOK_MIN_INTERVAL_MINUTES="0", JOBS_MAX_PUBLISH_AGE_HOURS="999",
