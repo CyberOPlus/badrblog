@@ -1764,6 +1764,47 @@ class JobsCoreTests(unittest.TestCase):
 
         self.assertEqual(selected["id"], "general-newer")
 
+    def test_jobs_queue_prefers_technical_role_inside_same_freshness_band(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        general = sample_job(
+            id="general-same-band",
+            job_title="Chargé de clientèle",
+            status="ready",
+            content_fetch_status="success",
+            job_published_at="2026-09-30T10:30:00+00:00",
+            source_published_at="2026-09-30T10:30:00+00:00",
+        )
+        technical = sample_job(
+            id="technical-same-band",
+            job_title="Stage PFE Cybersécurité SOC",
+            status="ready",
+            content_fetch_status="success",
+            job_published_at="2026-09-30T10:00:00+00:00",
+            source_published_at="2026-09-30T10:00:00+00:00",
+        )
+
+        def fake_prepare(article, now=None):
+            return (
+                {"score": 95 if article["id"] == "general-same-band" else 60,
+                 "status": "publish", "passed": True, "reasons": []},
+                {"action": "new", "reason": "new verified job", "existing": {}},
+            )
+
+        with (
+            patch.object(job_core, "prepare_job_candidate", side_effect=fake_prepare),
+            patch.object(job_core, "can_publish_new_job", return_value=True),
+        ):
+            selected = job_core.select_best_job_from_queue(
+                {"articles": [general, technical]},
+                now=now,
+            )
+
+        self.assertEqual(selected["id"], "technical-same-band")
+        self.assertEqual(
+            job_core.job_freshness_band(general, now=now),
+            job_core.job_freshness_band(technical, now=now),
+        )
+
     def test_large_official_near_deadline_is_urgent(self):
         now = datetime(2026, 9, 28, 9, 0, tzinfo=timezone.utc)
         urgency = job_core.classify_urgency(
