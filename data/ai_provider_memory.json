@@ -255,20 +255,7 @@
     }
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
-  "global_circuit": {
-    "category": "quota",
-    "fingerprint": "554cda85fb88ccc5d23e",
-    "opened_at": "2026-10-01T19:28:13",
-    "providers": [
-      "cloudflare",
-      "gemini",
-      "groq",
-      "mistral",
-      "openrouter"
-    ],
-    "reason": "gemini provider failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai",
-    "until": 1790883730.2557735
-  },
+  "global_circuit": {},
   "provider_circuits": {
     "gemini": {
       "category": "quota",
@@ -285,14 +272,6 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1790886195.5733137
-    },
-    "mistral": {
-      "category": "quota",
-      "fingerprint": "16f0cdcebb62d34cab0f",
-      "opened_at": "2026-10-01T18:12:10",
-      "provider": "mistral",
-      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "until": 1790883730.2557735
     },
     "openrouter": {
       "category": "empty",
@@ -312,15 +291,15 @@
       "provider": "cloudflare"
     },
     "cloudflare:@cf/meta/llama-3.1-8b-instruct:be6dab2cd8": {
-      "avg_time": 14.2511,
+      "avg_time": 13.2127,
       "failures": 1,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-01T18:12:20",
-      "last_success_at": "2026-10-01T19:27:58",
+      "last_success_at": "2026-10-01T19:43:28",
       "model": "@cf/meta/llama-3.1-8b-instruct",
       "provider": "cloudflare",
-      "successes": 34,
-      "total_success_time": 484.538
+      "successes": 37,
+      "total_success_time": 488.8697
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
       "avg_time": 11.5777,
