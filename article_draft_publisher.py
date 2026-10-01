@@ -215,8 +215,11 @@ def _jobs_quality_error_is_ai_repairable(error):
     backend_only_hints = (
         "generated cover image",
         "missing, reordered, duplicated, or unverified images",
-        "rendered official pdf page is missing",
-        "rendered official pdf pages are duplicated or out of order",
+        # Any official-PDF page readiness/order problem belongs to the renderer,
+        # never to Article AI. Keep this broad so runtime wording changes
+        # (missing, pending, reordered, duplicated, unverified) cannot waste an
+        # AI retry.
+        "official pdf page",
         "logo",
     )
     return not any(hint in reason for hint in backend_only_hints)
