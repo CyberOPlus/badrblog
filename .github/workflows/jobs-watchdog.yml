@@ -4,6 +4,10 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "3,18,33,48 * * * *"
+  workflow_run:
+    workflows: ["Jobs Auto Cycle"]
+    types: [completed]
+    branches: [main]
 
 permissions:
   actions: write
@@ -12,8 +16,12 @@ permissions:
 jobs:
   watchdog:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
+      - name: Pace completion chain
+        if: github.event_name == 'workflow_run'
+        run: sleep 120
+
       - name: Ensure auto-cycle is alive
         uses: actions/github-script@v8
         with:
@@ -33,6 +41,21 @@ jobs:
             );
             if (active) {
               core.info(`Auto-cycle already active: ${active.id}`);
+              return;
+            }
+
+            // GitHub cron is intentionally kept as a backup, but scheduled
+            // workflows can be delayed. A completed Auto Cycle therefore wakes
+            // this watchdog; after the short pacing delay above, dispatch the
+            // next cycle directly when no cycle is already active.
+            if (context.eventName === "workflow_run") {
+              core.info("Completion-chain wake: dispatching the next Jobs Auto Cycle.");
+              await github.rest.actions.createWorkflowDispatch({
+                owner,
+                repo,
+                workflow_id,
+                ref: "main",
+              });
               return;
             }
 
