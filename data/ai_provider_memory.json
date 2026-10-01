@@ -1,41 +1,41 @@
 {
   "avg_time": 2.883,
   "cooldowns": {
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-10-01T17:46:56",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "504 The request timed out. Please try again.",
-      "until": 1790877418.1789062
+    "cloudflare:@cf/meta/llama-3.1-8b-instruct:be6dab2cd8": {
+      "failed_at": "2026-10-01T18:12:20",
+      "key_id": "be6dab2cd8",
+      "model": "@cf/meta/llama-3.1-8b-instruct",
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 10s'))",
+      "until": 1790878943.742632
     },
-    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "failed_at": "2026-10-01T17:23:15",
-      "key_id": "fb4fab4ba1",
-      "model": "openai/gpt-oss-20b",
-      "provider": "groq",
-      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1790878096.1817687
+    "mistral:mistral-small-latest:8feed32495": {
+      "failed_at": "2026-10-01T18:12:10",
+      "key_id": "8feed32495",
+      "model": "mistral-small-latest",
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "until": 1790881032.3837483
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-01T17:47:18",
+      "failed_at": "2026-10-01T18:12:09",
       "key_id": "1af698c9b3",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 20s')\", Timeout('AI provider wall-clock timeout after 20s'))",
-      "until": 1790877440.0772913
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 30s')\", Timeout('AI provider wall-clock timeout after 30s'))",
+      "until": 1790878931.3753839
     }
   },
   "failure_fingerprints": {
     "16f0cdcebb62d34cab0f": {
       "category": "quota",
-      "count": 1,
+      "count": 2,
       "first_seen_at": "2026-10-01T14:53:22",
-      "last_seen_at": "2026-10-01T14:53:22",
-      "last_seen_epoch": 1790866402.6121318,
+      "last_seen_at": "2026-10-01T18:12:10",
+      "last_seen_epoch": 1790878330.2557735,
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "retry_until": 1790869102.6121318,
+      "retry_until": 1790883730.2557735,
       "scope": "provider"
     },
     "21d4f95aef0b3e555bda": {
@@ -70,6 +70,17 @@
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "retry_until": 1790886195.5733137,
       "scope": "provider"
+    },
+    "4de9bce2b1f2bf21e522": {
+      "category": "timeout",
+      "count": 1,
+      "first_seen_at": "2026-10-01T18:12:20",
+      "last_seen_at": "2026-10-01T18:12:20",
+      "last_seen_epoch": 1790878340.2627485,
+      "provider": "cloudflare,gemini,groq,mistral,openrouter",
+      "reason": "cloudflare provider failed: ('Connection aborted.', Timeout('AI provider wall-clock timeout after 10s'))",
+      "retry_until": 1790878940.2627485,
+      "scope": "global"
     },
     "4f6beb1fe24b729304e0": {
       "category": "quality",
@@ -181,6 +192,17 @@
       "retry_until": 1790881617.0002236,
       "scope": "provider"
     },
+    "d967456434c9c7b082a8": {
+      "category": "timeout",
+      "count": 1,
+      "first_seen_at": "2026-10-01T18:12:20",
+      "last_seen_at": "2026-10-01T18:12:20",
+      "last_seen_epoch": 1790878340.2604225,
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 10s'))",
+      "retry_until": 1790878940.2604225,
+      "scope": "provider"
+    },
     "e54adca08768c8b77065": {
       "category": "quality",
       "count": 2,
@@ -191,6 +213,17 @@
       "reason": "AI article response is missing required field(s): title, description, slug, html_content, notice_type",
       "retry_until": 1790868112.6864583,
       "scope": "quality"
+    },
+    "f6112ccbbf5b7da19378": {
+      "category": "timeout",
+      "count": 1,
+      "first_seen_at": "2026-10-01T18:12:09",
+      "last_seen_at": "2026-10-01T18:12:09",
+      "last_seen_epoch": 1790878329.9214897,
+      "provider": "openrouter",
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 30s')\", Timeout('AI provider wall-clock timeout after 30s'))",
+      "retry_until": 1790878929.9214897,
+      "scope": "provider"
     },
     "fde6cf46cadeff71bc26": {
       "category": "quota",
@@ -207,8 +240,8 @@
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {
     "category": "timeout",
-    "fingerprint": "21d4f95aef0b3e555bda",
-    "opened_at": "2026-10-01T17:47:18",
+    "fingerprint": "4de9bce2b1f2bf21e522",
+    "opened_at": "2026-10-01T18:12:20",
     "providers": [
       "cloudflare",
       "gemini",
@@ -216,10 +249,18 @@
       "mistral",
       "openrouter"
     ],
-    "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 20s')\", Timeout('AI provider wall-clock timeout after 20s'))",
-    "until": 1790877438.819446
+    "reason": "cloudflare provider failed: ('Connection aborted.', Timeout('AI provider wall-clock timeout after 10s'))",
+    "until": 1790878929.9214897
   },
   "provider_circuits": {
+    "cloudflare": {
+      "category": "timeout",
+      "fingerprint": "d967456434c9c7b082a8",
+      "opened_at": "2026-10-01T18:12:20",
+      "provider": "cloudflare",
+      "reason": "('Connection aborted.', Timeout('AI provider wall-clock timeout after 10s'))",
+      "until": 1790878940.2604225
+    },
     "gemini": {
       "category": "outage",
       "fingerprint": "d15c8a5d2460c1216a2b",
@@ -236,13 +277,21 @@
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1790886195.5733137
     },
+    "mistral": {
+      "category": "quota",
+      "fingerprint": "16f0cdcebb62d34cab0f",
+      "opened_at": "2026-10-01T18:12:10",
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "until": 1790883730.2557735
+    },
     "openrouter": {
       "category": "timeout",
-      "fingerprint": "ca084dd149ce5a4dee5c",
-      "opened_at": "2026-10-01T17:47:18",
+      "fingerprint": "f6112ccbbf5b7da19378",
+      "opened_at": "2026-10-01T18:12:09",
       "provider": "openrouter",
-      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 20s')\", Timeout('AI provider wall-clock timeout after 20s'))",
-      "until": 1790877438.819446
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 30s')\", Timeout('AI provider wall-clock timeout after 30s'))",
+      "until": 1790878929.9214897
     }
   },
   "stats": {
@@ -254,13 +303,15 @@
       "provider": "cloudflare"
     },
     "cloudflare:@cf/meta/llama-3.1-8b-instruct:be6dab2cd8": {
-      "avg_time": 9.879,
+      "avg_time": 11.678,
+      "failures": 1,
       "key_id": "be6dab2cd8",
-      "last_success_at": "2026-10-01T17:46:58",
+      "last_failure_at": "2026-10-01T18:12:20",
+      "last_success_at": "2026-10-01T18:11:39",
       "model": "@cf/meta/llama-3.1-8b-instruct",
       "provider": "cloudflare",
-      "successes": 6,
-      "total_success_time": 59.2739
+      "successes": 8,
+      "total_success_time": 93.4237
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
       "avg_time": 11.5777,
@@ -294,17 +345,17 @@
       "total_success_time": 14.4152
     },
     "mistral:mistral-small-latest:8feed32495": {
-      "failures": 1,
+      "failures": 2,
       "key_id": "8feed32495",
-      "last_failure_at": "2026-10-01T14:53:22",
+      "last_failure_at": "2026-10-01T18:12:10",
       "model": "mistral-small-latest",
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 116.5646,
-      "failures": 3,
+      "failures": 4,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-01T17:47:18",
+      "last_failure_at": "2026-10-01T18:12:09",
       "last_success_at": "2026-10-01T17:26:48",
       "model": "openrouter/free",
       "provider": "openrouter",
