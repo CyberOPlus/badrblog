@@ -17,16 +17,27 @@
       "reason": "groq API error 413: {\"error\":{\"message\":\"Request too large for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dema",
       "until": 1790867682.7639651
     },
-    "openrouter:openrouter/free:1af698c9b3": {
-      "failed_at": "2026-10-01T14:46:11",
-      "key_id": "1af698c9b3",
-      "model": "openrouter/free",
-      "provider": "openrouter",
-      "reason": "OpenRouter returned an empty response.",
-      "until": 1790866273.3857782
+    "mistral:mistral-small-latest:8feed32495": {
+      "failed_at": "2026-10-01T14:53:22",
+      "key_id": "8feed32495",
+      "model": "mistral-small-latest",
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "until": 1790869104.1921563
     }
   },
   "failure_fingerprints": {
+    "16f0cdcebb62d34cab0f": {
+      "category": "quota",
+      "count": 1,
+      "first_seen_at": "2026-10-01T14:53:22",
+      "last_seen_at": "2026-10-01T14:53:22",
+      "last_seen_epoch": 1790866402.6121318,
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "retry_until": 1790869102.6121318,
+      "scope": "provider"
+    },
     "4b929cc3ad78785ed806": {
       "category": "quota",
       "count": 1,
@@ -136,10 +147,30 @@
       "reason": "504 The request timed out. Please try again.",
       "retry_until": 1790867077.6820464,
       "scope": "provider"
+    },
+    "fde6cf46cadeff71bc26": {
+      "category": "quota",
+      "count": 1,
+      "first_seen_at": "2026-10-01T14:53:22",
+      "last_seen_at": "2026-10-01T14:53:22",
+      "last_seen_epoch": 1790866402.6148467,
+      "provider": "mistral",
+      "reason": "mistral provider failed: mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_c",
+      "retry_until": 1790869102.6148467,
+      "scope": "global"
     }
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "quota",
+    "fingerprint": "fde6cf46cadeff71bc26",
+    "opened_at": "2026-10-01T14:53:22",
+    "providers": [
+      "mistral"
+    ],
+    "reason": "mistral provider failed: mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_c",
+    "until": 1790869102.6121318
+  },
   "provider_circuits": {
     "gemini": {
       "category": "outage",
@@ -157,13 +188,13 @@
       "reason": "groq API error 413: {\"error\":{\"message\":\"Request too large for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dema",
       "until": 1790867678.3187847
     },
-    "openrouter": {
-      "category": "empty",
-      "fingerprint": "6a52ff2ce198a0896fe8",
-      "opened_at": "2026-10-01T14:46:11",
-      "provider": "openrouter",
-      "reason": "OpenRouter returned an empty response.",
-      "until": 1790866271.5539124
+    "mistral": {
+      "category": "quota",
+      "fingerprint": "16f0cdcebb62d34cab0f",
+      "opened_at": "2026-10-01T14:53:22",
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "until": 1790869102.6121318
     }
   },
   "stats": {
@@ -197,6 +228,13 @@
       "provider": "groq",
       "successes": 3,
       "total_success_time": 8.8534
+    },
+    "mistral:mistral-small-latest:8feed32495": {
+      "failures": 1,
+      "key_id": "8feed32495",
+      "last_failure_at": "2026-10-01T14:53:22",
+      "model": "mistral-small-latest",
+      "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 21.1355,
