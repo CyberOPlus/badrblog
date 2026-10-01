@@ -99,6 +99,79 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(len(queue["articles"]), 8)
         save.assert_called_once()
 
+    def test_jobs_queue_skips_verified_listing_older_than_24_hours(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        stale = {
+            "title": "Old Network Engineer",
+            "url": "https://example.com/jobs/old-network",
+            "source_name": "Official Careers",
+            "source_published_at": "2026-09-28T08:00:00+00:00",
+            "official_source": True,
+        }
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "jobs_article_queue.json"
+            with (
+                patch.object(article_queue, "ARTICLE_QUEUE_PATH", path),
+                patch.object(article_queue, "JOBS_MODE", True),
+                patch.object(article_queue, "JOBS_MAX_JOB_AGE_HOURS", 24),
+            ):
+                stats = article_queue.add_articles_to_queue([stale])
+                saved = article_queue.load_article_queue()
+
+        self.assertEqual(stats["added"], 0)
+        self.assertEqual(stats["stale_jobs_skipped"], 1)
+        self.assertEqual(saved["articles"], [])
+
+    def test_enriched_job_without_verified_publication_time_is_archived(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        queue = {
+            "articles": [{
+                "id": "unknown-age",
+                "url": "https://example.com/jobs/unknown-age",
+                "title": "Cloud Engineer",
+                "status": "ready",
+                "content_fetch_status": "success",
+                "job_deadline": "2026-10-10",
+            }]
+        }
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "jobs_article_queue.json"
+            with (
+                patch.object(article_queue, "ARTICLE_QUEUE_PATH", path),
+                patch.object(article_queue, "JOBS_MODE", True),
+            ):
+                article_queue.save_article_queue(queue)
+                stats = article_queue.archive_expired_queue_articles(
+                    now=datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+                )
+                saved = article_queue.load_article_queue()
+
+        self.assertEqual(stats["missing_date_archived"], 1)
+        self.assertTrue(saved["articles"][0]["archived"])
+        self.assertEqual(
+            saved["articles"][0]["archive_reason"],
+            "job_publication_time_unverified",
+        )
+
+    def test_jobs_enrichment_priority_prefers_tech_when_freshness_is_equal(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        common = {
+            "status": "ready",
+            "source_published_at": "2026-09-30T10:00:00+00:00",
+            "source_priority": "A",
+            "score": 50,
+        }
+        technical = dict(common, job_title="Cybersecurity SOC Analyst")
+        general = dict(common, job_title="Administrative Assistant")
+        self.assertLess(
+            article_enricher._jobs_enrichment_priority(technical, 1, now=now),
+            article_enricher._jobs_enrichment_priority(general, 0, now=now),
+        )
+
     def test_jobs_discovery_state_reset_forgets_seen_ids_but_not_other_source_fields(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory
@@ -992,6 +1065,7 @@ class JobsRuntimeTests(unittest.TestCase):
                 "title": "Expired Deadline Job",
                 "status": "ready",
                 "content_fetch_status": "success",
+                "source_published_at": "2026-09-30T08:00:00+00:00",
                 "job_deadline": "2026-09-29",
             }]
         }
@@ -1012,7 +1086,7 @@ class JobsRuntimeTests(unittest.TestCase):
             "job_deadline_passed",
         )
 
-    def test_old_jobs_listing_with_future_deadline_is_not_news_expired(self):
+    def test_job_older_than_24_hours_is_archived_even_with_future_deadline(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory
 
@@ -1037,8 +1111,12 @@ class JobsRuntimeTests(unittest.TestCase):
                 )
                 saved = article_queue.load_article_queue()
 
-        self.assertEqual(stats["expired_archived"], 0)
-        self.assertFalse(saved["articles"][0].get("archived", False))
+        self.assertEqual(stats["expired_archived"], 1)
+        self.assertTrue(saved["articles"][0].get("archived", False))
+        self.assertEqual(
+            saved["articles"][0]["archive_reason"],
+            "job_posting_outside_24h_window",
+        )
 
     def test_post_deadline_results_notice_stays_publishable(self):
         from pathlib import Path
