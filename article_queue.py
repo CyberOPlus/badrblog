@@ -66,7 +66,7 @@ def _article_age_anchor(article):
     ):
         parsed = _parse_iso(article.get(field))
         if parsed:
-            return parsed
+            return _as_utc(parsed)
     return None
 
 
@@ -1104,7 +1104,7 @@ def maintain_article_queue(days=7):
     """
     queue = load_article_queue()
     articles = queue.get("articles", [])
-    now = datetime.now()
+    now = datetime.now(timezone.utc)
     archived_at = _now_iso()
     cutoff = now - timedelta(days=days)
     seen_urls = {}

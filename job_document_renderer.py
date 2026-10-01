@@ -148,6 +148,8 @@ def _eligible_documents(article, max_documents=3):
         )
 
     candidates.sort(key=lambda row: (row[0], row[1]), reverse=True)
+    if max_documents is None:
+        return [item for _priority, _index, item in candidates]
     limit = max(1, int(max_documents or 1))
     return [item for _priority, _index, item in candidates[:limit]]
 
@@ -279,12 +281,13 @@ def render_job_document_pages(
     max_documents=6,
     max_total_pages=48,
 ):
-    """Render verified official job PDFs into sequential JPEG pages.
+    """Render all official PDF pages, checkpointing bounded batches across runs.
 
     The original official URLs remain available as action links. Rendering is a
-    reader-facing representation of the same verified document.
+    reader-facing representation of the same verified document. The limits
+    bound new work per pass, never the final number of documents or pages.
     """
-    eligible = _eligible_documents(article, max_documents=max_documents)
+    eligible = _eligible_documents(article, max_documents=None)
     if not eligible:
         return []
 
@@ -297,27 +300,64 @@ def render_job_document_pages(
     root = Path(output_root) / job_key
     root.mkdir(parents=True, exist_ok=True)
 
+    previous = article.get("job_document_page_images") or []
+    cached = {}
+    for row in previous:
+        if not isinstance(row, dict) or not row.get("path") or not row.get("url"):
+            continue
+        try:
+            page_number = int(row.get("page_number") or 0)
+            page_count = int(row.get("page_count") or 0)
+        except (TypeError, ValueError):
+            continue
+        path = Path(row["path"])
+        if 1 <= page_number <= page_count and path.is_file():
+            cached.setdefault(_canonical_key(row.get("document_url")), {})[page_number] = row
+
     rendered = []
-    total_pages = 0
+    new_pages = 0
     attempted_documents = 0
     render_failures = 0
     failed_urls = []
+    pending_urls = []
+    page_budget = max(1, int(max_total_pages or 1))
+    document_budget = max(1, int(max_documents or 1))
     for document_index, item in enumerate(eligible, start=1):
-        if total_pages >= max_total_pages:
-            break
         url = str(item.get("url") or "").strip()
         label = _clean_text(item.get("label") or item.get("context") or f"الوثيقة الرسمية {document_index}")
+        existing = cached.get(_canonical_key(url), {})
+        known_count = max((int(row["page_count"]) for row in existing.values()), default=0)
+        if known_count and len(existing) == known_count and all(
+            int(row["page_count"]) == known_count for row in existing.values()
+        ):
+            rendered.extend(existing[index] for index in sorted(existing))
+            continue
+        if new_pages >= page_budget or attempted_documents >= document_budget:
+            rendered.extend(existing[index] for index in sorted(existing))
+            pending_urls.append(url)
+            continue
+
         attempted_documents += 1
         document = None
+        pages = dict(existing)
         try:
             payload = _download_pdf(url)
             document = fitz.open(stream=payload, filetype="pdf")
 
             digest = hashlib.sha256(_canonical_key(url).encode("utf-8")).hexdigest()[:10]
             document_page_count = document.page_count
-            available = max_total_pages - total_pages
-            page_limit = min(document_page_count, available)
-            for page_index in range(page_limit):
+            if document_page_count < 1:
+                raise ValueError("official PDF contains no pages")
+            pages = {
+                number: dict(row, page_count=document_page_count)
+                for number, row in pages.items() if number <= document_page_count
+            }
+            for page_index in range(document_page_count):
+                if page_index + 1 in pages:
+                    continue
+                if new_pages >= page_budget:
+                    pending_urls.append(url)
+                    break
                 page = document.load_page(page_index)
                 # A moderate scale keeps Arabic/French conditions readable on phones
                 # without turning every article into a multi-megabyte payload.
@@ -330,22 +370,16 @@ def render_job_document_pages(
                 path = root / filename
                 image.save(path, format="JPEG", quality=84, optimize=True, progressive=True)
                 public_url = raw_base.rstrip("/") + "/" + path.as_posix()
-                rendered.append(
-                    {
-                        "document_url": url,
-                        "document_label": label,
-                        "page_number": page_index + 1,
-                        "page_count": document_page_count,
-                        "url": public_url,
-                        "path": path.as_posix(),
-                        "alt": f"{label} — الصفحة {page_index + 1}",
-                    }
-                )
-                total_pages += 1
-
-            if page_limit < document_page_count:
-                article["job_document_pages_truncated"] = True
-                break
+                pages[page_index + 1] = {
+                    "document_url": url,
+                    "document_label": label,
+                    "page_number": page_index + 1,
+                    "page_count": document_page_count,
+                    "url": public_url,
+                    "path": path.as_posix(),
+                    "alt": f"{label} — الصفحة {page_index + 1}",
+                }
+                new_pages += 1
         except Exception as error:
             render_failures += 1
             failed_urls.append(url)
@@ -355,15 +389,18 @@ def render_job_document_pages(
                 url=url,
                 error=str(error),
             )
-            continue
         finally:
             if document is not None:
                 try:
                     document.close()
                 except Exception:
                     pass
+        rendered.extend(pages[index] for index in sorted(pages))
 
     article["job_document_page_images"] = rendered
+    article["job_document_pages_truncated"] = bool(pending_urls)
+    article["job_document_render_pending_urls"] = pending_urls
+    article["job_document_render_new_pages"] = new_pages
     article["job_document_rendered_pages"] = len(rendered)
     article["job_document_render_attempted_documents"] = attempted_documents
     article["job_document_render_failures"] = render_failures

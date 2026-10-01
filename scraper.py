@@ -3833,6 +3833,7 @@ def discover_first_valid_article_link(sources, existing_articles=None, published
                 link_title, url = link
                 feed_published_at = ""
                 rss_summary = ""
+                link = {"title": link_title, "url": url}
             canonical = canonicalize_url(url)
             current_title_hash = title_hash(link_title)
             current_topic_signature = topic_signature(link_title)

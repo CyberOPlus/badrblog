@@ -11,6 +11,7 @@ from datetime import datetime, timedelta, timezone
 from html import unescape
 from pathlib import Path
 from urllib.parse import urlparse
+from state_io import atomic_write_json
 
 import requests
 
@@ -820,9 +821,7 @@ def _load_style_memory():
 
 def _save_style_memory(memory):
     try:
-        FACEBOOK_STYLE_MEMORY_PATH.parent.mkdir(parents=True, exist_ok=True)
-        with FACEBOOK_STYLE_MEMORY_PATH.open("w", encoding="utf-8") as handle:
-            json.dump(memory, handle, ensure_ascii=False, indent=2, sort_keys=True)
+        atomic_write_json(FACEBOOK_STYLE_MEMORY_PATH, memory, sort_keys=True)
     except Exception as error:
         log_event("facebook_style_memory_save_failed", error=error.__class__.__name__)
 

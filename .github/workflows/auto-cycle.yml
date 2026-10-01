@@ -15,9 +15,8 @@ on:
         default: false
 
 concurrency:
-  # Production schedule/manual runs share their own lock. Older push-smoke
-  # runs used a different group and cannot starve the live schedule anymore.
-  group: jobs-production-${{ github.ref }}
+  # Keep main's existing lock across upgrades; all entrypoints use the same one.
+  group: jobs-production-refs/heads/main
   cancel-in-progress: false
 
 env:
@@ -25,6 +24,7 @@ env:
 
 jobs:
   auto-cycle:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -61,7 +61,7 @@ jobs:
           trap 'rm -rf "$TEST_DIR"' EXIT
           cp -a . "$TEST_DIR/repo"
           cd "$TEST_DIR/repo"
-          python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime -q
+          python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime tests.test_state_io -q
 
       - name: Verify scheduled production smoke
         if: github.event_name == 'schedule' || !inputs.verify

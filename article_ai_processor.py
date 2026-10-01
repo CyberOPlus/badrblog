@@ -13,6 +13,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from html import escape
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
+from state_io import atomic_write_json
 
 import requests
 from bs4 import BeautifulSoup
@@ -285,9 +286,7 @@ def _load_ai_memory():
 
 def _save_ai_memory(memory):
     try:
-        AI_PROVIDER_MEMORY_PATH.parent.mkdir(parents=True, exist_ok=True)
-        with AI_PROVIDER_MEMORY_PATH.open("w", encoding="utf-8") as handle:
-            json.dump(memory, handle, ensure_ascii=False, indent=2, sort_keys=True)
+        atomic_write_json(AI_PROVIDER_MEMORY_PATH, memory, sort_keys=True)
     except Exception as error:
         log_event("ai_memory_save_failed", error=error.__class__.__name__)
 
@@ -1885,6 +1884,12 @@ def _plus_ui_format_html(html_content, package):
     """Format HTML for Blogger publication with image insertion."""
     soup = BeautifulSoup(html_content or "", "html.parser")
 
+    if JOBS_MODE:
+        # This generated section is rebuilt from the current verified page
+        # manifest after formatting. Remove it before stripping class markers.
+        for section in soup.select("section.jobOfficialDocuments"):
+            section.decompose()
+
     # Remove unwanted tags
     for tag in soup.find_all(["script", "style"]):
         tag.decompose()
@@ -2439,6 +2444,11 @@ def _append_job_document_page_images(html_content, package):
         return html_content
 
     soup = BeautifulSoup(html_content or "", "html.parser")
+    # Replace our complete section when a later rendering batch adds pages.
+    # Repeated formatting must not accumulate duplicate headings or reorder a
+    # partially rendered document after the following document.
+    for section in soup.select("section.jobOfficialDocuments"):
+        section.decompose()
     existing_sources = {
         str(img.get("src") or "").strip()
         for img in soup.find_all("img", src=True)
@@ -2459,6 +2469,7 @@ def _append_job_document_page_images(html_content, package):
         return html_content
 
     blocks = [
+        "<section class='jobOfficialDocuments'>",
         "<h2>صفحات الوثيقة الرسمية</h2>",
         "<p>يمكن قراءة صفحات الوثيقة الرسمية مباشرة أدناه، مع بقاء رابط الملف الأصلي متاحًا للتحقق والتحميل.</p>",
     ]
@@ -2477,6 +2488,7 @@ def _append_job_document_page_images(html_content, package):
                 f"<figcaption>الصفحة {page_number}</figcaption>"
                 "</figure>"
             )
+    blocks.append("</section>")
     return str(soup).rstrip() + "\n" + "\n".join(blocks)
 
 def _finalize_html_content(data, package):

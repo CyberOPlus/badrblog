@@ -19,6 +19,7 @@ from config import (
     JOBS_MIN_PUBLISH_INTERVAL_MINUTES,
 )
 from jobs_adaptive_controller import current_policy
+from state_io import atomic_write_json
 
 BASE_DIR = Path(__file__).resolve().parent
 DATA_DIR = BASE_DIR / "data"
@@ -1012,8 +1013,7 @@ def save_job_state(state):
         if isinstance(rows, dict) and len(rows) > 180:
             for day in sorted(rows)[:-180]:
                 rows.pop(day, None)
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    STATE_PATH.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    atomic_write_json(STATE_PATH, state)
 
 
 def _day_key(now=None):
@@ -1142,8 +1142,7 @@ def _load_json(path):
 
 
 def _save_json(path, data):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    atomic_write_json(path, data)
 
 
 def get_by_identity(key):

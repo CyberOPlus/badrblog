@@ -13,6 +13,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from job_core import job_deadline_time
+from state_io import atomic_write_json
 
 JOB_TEMPLATE_FILES_BY_KEY = {
     "new": "job-new-orange.png",
@@ -35,12 +36,7 @@ def _load_state(path):
 
 
 def _save_state(path, state):
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
-        json.dumps(state, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-        encoding="utf-8",
-    )
+    atomic_write_json(path, state, sort_keys=True)
 
 
 def _has_application_path(article):

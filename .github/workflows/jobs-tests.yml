@@ -4,31 +4,8 @@ on:
   workflow_dispatch:
   push:
     paths:
-      - "job_core.py"
-      - "company_logo_resolver.py"
-      - "jobs_adaptive_controller.py"
-      - "job_visual_policy.py"
-      - "scraper.py"
-      - "config.py"
+      - "**.py"
       - "sources.json"
-      - "job_extractor.py"
-      - "jobposting.py"
-      - "job_document_renderer.py"
-      - "article_enricher.py"
-      - "article_queue.py"
-      - "runtime_state.py"
-      - "google_indexing.py"
-      - "article_processor.py"
-      - "article_ai_processor.py"
-      - "article_draft_publisher.py"
-      - "quality_gate.py"
-      - "main.py"
-      - "facebook_publisher.py"
-      - "tests/test_jobs_runtime.py"
-      - "tests/test_jobs_core.py"
-      - "tests/test_job_visuals.py"
-      - "tests/test_production_hardening.py"
-      - "utils/facebook_image_generator.py"
       - "requirements.txt"
       - "assets/facebook/**"
       - "assets/article/**"
@@ -55,10 +32,12 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime -v
+      - run: python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime tests.test_state_io -v
       - name: Verify workflow publishing guardrails
         run: |
           python -m unittest \
+            tests.test_production_hardening.ProductionHardeningTests.test_first_valid_article_mode_stops_after_first_valid_source \
+            tests.test_production_hardening.ProductionHardeningTests.test_403_source_is_skipped_fast_to_next_source \
             tests.test_production_hardening.ProductionHardeningTests.test_workflow_cron_and_facebook_safety_are_current -v
 
       - name: Verify Facebook follows successful Blogger publish safely
@@ -70,6 +49,6 @@ jobs:
         run: |
           python -m unittest \
             tests.test_production_hardening.ProductionHardeningTests.test_facebook_safety_interval_cannot_be_disabled_by_zero_env_value -v
-      - name: Compile critical Jobs modules
+      - name: Compile all tracked Python modules
         run: |
-          python -m py_compile             main.py             jobs_adaptive_controller.py             scraper.py             article_enricher.py             article_ai_processor.py             article_draft_publisher.py             job_document_renderer.py             facebook_publisher.py             job_visual_policy.py             config.py             tests/test_production_hardening.py
+          git ls-files -z '*.py' | xargs -0 python -m py_compile

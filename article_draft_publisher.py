@@ -525,24 +525,11 @@ def _mark_document_render_retry(article, package, error, *, reason="render_faile
     article["job_document_render_error"] = str(error or reason)[:1000]
     article["job_document_render_retry_reason"] = reason
 
-    if retry_count >= MAX_JOB_DOCUMENT_RENDER_RETRIES:
-        article["job_document_render_status"] = "unavailable_optional"
-        package["job_document_render_status"] = "unavailable_optional"
-        article.pop("job_document_render_retry_after", None)
-        package.pop("job_document_render_retry_after", None)
-        article["visual_readiness_status"] = "content_ready_visual_optional"
-        article["ai_input_package"] = package
-        log_event(
-            "job_document_render_abandoned_optional",
-            article_id=article.get("id"),
-            retries=retry_count,
-            reason=reason,
-            error=article["job_document_render_error"],
-        )
-        return
-
+    # Official conditions remain pending through outages. Bound the work and
+    # back off up to six hours without permanently abandoning required pages.
+    delay_minutes = min(360, 15 * (2 ** min(retry_count - 1, 5)))
     article["job_document_render_status"] = "document_render_retry"
-    article["job_document_render_retry_after"] = _document_render_retry_at()
+    article["job_document_render_retry_after"] = _document_render_retry_at(minutes=delay_minutes)
     package["job_document_render_status"] = "document_render_retry"
     package["job_document_render_retry_after"] = article["job_document_render_retry_after"]
     article["visual_readiness_status"] = "content_ready_visual_retry"
@@ -572,7 +559,7 @@ def _prepare_job_document_page_images(article, force_retry=False):
         or []
     )
     previous_pages = list(existing) if isinstance(existing, list) else []
-    if existing and not force_retry:
+    if existing and not force_retry and not article.get("job_document_pages_truncated"):
         return existing
 
     document_links = article.get("job_document_links") or package.get("job_document_links") or []
@@ -586,6 +573,7 @@ def _prepare_job_document_page_images(article, force_retry=False):
     # package. The renderer reads the article, so pass through that same evidence.
     article["job_document_links"] = list(document_links)
     package["job_document_links"] = list(document_links)
+    article["job_document_page_images"] = list(previous_pages)
 
     try:
         pages = render_job_document_pages(
@@ -644,7 +632,16 @@ def _prepare_job_document_page_images(article, force_retry=False):
     package["job_document_rendered_pages"] = len(pages)
     article["ai_input_package"] = package
 
-    if failures > 0:
+    if article.get("job_document_pages_truncated"):
+        # A full work batch is progress, not a failure. Keep resuming until every
+        # official page is present, including documents beyond the first six.
+        article["job_document_render_status"] = "document_render_retry"
+        article["job_document_render_retry_reason"] = "batch_remaining"
+        article["job_document_render_retry_after"] = _document_render_retry_at(minutes=1)
+        package["job_document_render_status"] = "document_render_retry"
+        package["job_document_render_retry_after"] = article["job_document_render_retry_after"]
+        article["visual_readiness_status"] = "content_ready_visual_retry"
+    elif failures > 0:
         _mark_document_render_retry(
             article,
             package,
@@ -653,6 +650,7 @@ def _prepare_job_document_page_images(article, force_retry=False):
         )
     else:
         article["job_document_render_status"] = "rendered"
+        article["job_document_render_retry_count"] = 0
         package["job_document_render_status"] = "rendered"
         article.pop("job_document_render_retry_after", None)
         article.pop("job_document_render_retry_reason", None)
@@ -1719,7 +1717,8 @@ def _mark_visual_sync_retry(article, error):
     count = int(article.get("visual_sync_retry_count") or 0) + 1
     article["visual_sync_retry_count"] = count
     article["visual_sync_error"] = str(error or "visual sync failed")[:1000]
-    if count >= MAX_JOB_DOCUMENT_RENDER_RETRIES:
+    has_document_pages = bool(_visual_asset_signature(article)[1])
+    if count >= MAX_JOB_DOCUMENT_RENDER_RETRIES and not has_document_pages:
         article["visual_sync_retry_pending"] = False
         article["visual_sync_status"] = "unavailable_optional"
         article.pop("visual_sync_retry_after", None)
@@ -1733,7 +1732,8 @@ def _mark_visual_sync_retry(article, error):
         return
     article["visual_sync_retry_pending"] = True
     article["visual_sync_status"] = "visual_sync_retry"
-    article["visual_sync_retry_after"] = _document_render_retry_at()
+    delay_minutes = min(360, 15 * (2 ** min(count - 1, 5))) if has_document_pages else 15
+    article["visual_sync_retry_after"] = _document_render_retry_at(minutes=delay_minutes)
     article["visual_readiness_status"] = "content_ready_visual_retry"
     log_event(
         "job_visual_sync_deferred",
@@ -1875,6 +1875,7 @@ def retry_pending_job_visuals(max_articles=1):
                     _apply_jobposting_schema(service, updated, article, "live")
 
                 article["visual_sync_status"] = "synced"
+                article["visual_sync_retry_count"] = 0
                 article["visual_sync_synced_at"] = _now_iso()
                 article.pop("visual_sync_retry_pending", None)
                 article.pop("visual_sync_retry_after", None)
