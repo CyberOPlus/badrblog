@@ -7,7 +7,10 @@ from datetime import datetime
 from article_queue import load_article_queue, save_article_queue
 from config import MIN_EXTRACTED_CHARS, JOBS_MODE
 from internal_link_cache import load_internal_link_cache, select_internal_link_candidates
-from job_document_renderer import extract_job_document_texts
+from job_document_renderer import (
+    extract_job_document_texts,
+    promote_job_document_application_channel,
+)
 from job_core import canonicalize_job_url, classify_identity, finalize_identity_evidence_stage
 from verified_fact_manifest import build_verified_fact_manifest
 
@@ -171,6 +174,11 @@ def _prepare_identity_evidence(article):
     elif not document_fingerprint:
         article["identity_evidence_document_fingerprint"] = ""
         article["job_document_text_download_failures"] = 0
+
+    # PDF/OCR evidence is not only identity evidence. If the official document
+    # exposes the real public application channel, promote it before the manifest
+    # and AI package are built so the article uses the correct submission link.
+    promote_job_document_application_channel(article)
 
     return finalize_identity_evidence_stage(article)
 
