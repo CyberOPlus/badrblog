@@ -253,6 +253,30 @@ def _pagination_next_url(html_text, current_url):
         ):
             candidates.append(href)
 
+    # Numeric page navigation is common on official careers portals. Follow
+    # only the exact next integer page on the same host and path.
+    current_query = dict(parse_qsl(current.query, keep_blank_values=True))
+    try:
+        current_page = int(current_query.get("page") or 0)
+    except (TypeError, ValueError):
+        current_page = 0
+    for tag in soup.find_all("a", href=True):
+        href = urljoin(current_url, str(tag.get("href") or "").strip())
+        parsed = urlparse(href)
+        if (
+            parsed.scheme not in {"http", "https"}
+            or parsed.netloc.casefold() != current.netloc.casefold()
+            or parsed.path.rstrip("/") != current.path.rstrip("/")
+        ):
+            continue
+        query = dict(parse_qsl(parsed.query, keep_blank_values=True))
+        try:
+            page = int(query.get("page"))
+        except (TypeError, ValueError):
+            continue
+        if page == current_page + 1:
+            candidates.append(href)
+
     for candidate in candidates:
         parsed = urlparse(candidate)
         if parsed.scheme not in {"http", "https"}:
@@ -1756,6 +1780,88 @@ def _parse_credit_du_maroc_job_links(html_text, source_url, per_source_limit=Non
     return links
 
 
+def _cih_listing_date_iso(value):
+    text = _normalize_text(value)
+    match = re.search(r"\b(\d{2}-\d{2}-\d{4})\b", text)
+    if not match:
+        return ""
+    try:
+        return (
+            datetime.strptime(match.group(1), "%d-%m-%Y")
+            .replace(tzinfo=timezone.utc)
+            .isoformat()
+            .replace("+00:00", "Z")
+        )
+    except ValueError:
+        return ""
+
+
+def _parse_cih_job_links(html_text, source_url, per_source_limit=None):
+    """Extract only CIH Bank vacancy details with their official listing date."""
+    soup = BeautifulSoup(html_text or "", "html.parser")
+    limit = max(
+        1,
+        min(
+            int(per_source_limit or JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE),
+            JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
+        ),
+    )
+    source_host = urlparse(source_url).netloc.casefold()
+    links = []
+    seen = set()
+
+    for anchor in soup.find_all("a", href=True):
+        href = urljoin(source_url, str(anchor.get("href") or "").strip())
+        parsed = urlparse(href)
+        if parsed.netloc.casefold() != source_host:
+            continue
+        path = parsed.path.rstrip("/")
+        match = re.fullmatch(
+            r"/(\d+)_offre-emploi-[^/]+\.html",
+            path,
+            flags=re.I,
+        )
+        if not match:
+            continue
+
+        canonical = canonicalize_url(href) or href
+        if canonical in seen:
+            continue
+        seen.add(canonical)
+
+        title = _normalize_text(anchor.get_text(" ", strip=True))
+        container = anchor.find_parent(["li", "article", "tr", "section", "div"])
+        container_text = (
+            _normalize_text(container.get_text(" ", strip=True))
+            if container
+            else title
+        )
+        if not title and container:
+            heading = container.find(["h1", "h2", "h3", "h4"])
+            if heading:
+                title = _normalize_text(heading.get_text(" ", strip=True))
+        if not title:
+            continue
+
+        published_at = _cih_listing_date_iso(container_text)
+        row = {
+            "title": title,
+            "url": href,
+            "ats_provider": "cih_bank",
+            "ats_reference": match.group(1),
+            "job_external_reference": match.group(1),
+        }
+        if published_at:
+            row["source_published_at"] = published_at
+            row["job_published_at"] = published_at
+            row["published_at_source"] = "official_listing"
+        links.append(row)
+        if len(links) >= limit:
+            break
+
+    return links
+
+
 def _parse_capgemini_job_links(html_text, source_url, per_source_limit=None):
     """Extract only official Capgemini SuccessFactors job-detail URLs."""
     soup = BeautifulSoup(html_text or "", "html.parser")
@@ -2551,12 +2657,12 @@ async def _collect_article_links_for_source_async(
             ),
         }
 
-    if extractor_mode in {"inwi_jobs", "credit_du_maroc_jobs"}:
-        parser = (
-            _parse_inwi_job_links
-            if extractor_mode == "inwi_jobs"
-            else _parse_credit_du_maroc_job_links
-        )
+    if extractor_mode in {"inwi_jobs", "credit_du_maroc_jobs", "cih_jobs"}:
+        parser = {
+            "inwi_jobs": _parse_inwi_job_links,
+            "credit_du_maroc_jobs": _parse_credit_du_maroc_job_links,
+            "cih_jobs": _parse_cih_job_links,
+        }[extractor_mode]
         links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
             session,
             source_url,
@@ -2924,6 +3030,7 @@ def _collect_article_links_for_source(
         "ats_listing",
         "inwi_jobs",
         "credit_du_maroc_jobs",
+        "cih_jobs",
     }:
         parser = {
             "emploi_public": _parse_emploi_public_links,
@@ -2932,6 +3039,7 @@ def _collect_article_links_for_source(
             "ats_listing": _parse_etalent_links,
             "inwi_jobs": _parse_inwi_job_links,
             "credit_du_maroc_jobs": _parse_credit_du_maroc_job_links,
+            "cih_jobs": _parse_cih_job_links,
         }[extractor_mode]
         links, error, status_code, discovery_meta = _collect_paginated_html_links_sync(
             source_url,
@@ -2967,6 +3075,7 @@ def _collect_article_links_for_source(
                 "ats_listing",
                 "inwi_jobs",
                 "credit_du_maroc_jobs",
+                "cih_jobs",
             } and not links and not error,
         }
 
