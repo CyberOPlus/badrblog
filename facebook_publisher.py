@@ -44,12 +44,7 @@ from job_core import (
     record_job_social_state,
 )
 from social_ai_processor import generate_jobs_facebook_post
-CAPTION_STYLES = (
-    "ai_tools",
-    "cybersecurity",
-    "tech_news",
-    "apps_programs",
-)
+JOBS_CAPTION_STYLE = "jobs"
 
 FORBIDDEN_CAPTION_PHRASES = (
     "مقال",
@@ -96,12 +91,36 @@ def _blogger_post_url(article):
     return _valid_public_blogger_url((article or {}).get("blogger_post_url"))
 
 
+def _is_jobs_image_generation_failure(error):
+    text = re.sub(r"\s+", "", str(error or "").casefold())
+    return "jobsfacebookimagegenerationfailed" in text
+
+
 def _facebook_retry_ready(article, now_epoch=None):
     try:
         retry_after = float(article.get("facebook_retry_after_epoch") or 0)
     except (TypeError, ValueError):
         retry_after = 0
-    return retry_after <= float(now_epoch if now_epoch is not None else time.time())
+    now_value = float(now_epoch if now_epoch is not None else time.time())
+    if retry_after <= now_value:
+        return True
+
+    # Rendering happens locally before any Graph request. Older queue entries may
+    # carry the former 30m/1h exponential delay, which only postpones a fix that
+    # is already deployed and creates no Facebook API pressure. Recompute those
+    # legacy local-render retries from their recorded failure time and use the
+    # normal Jobs social pacing instead. Graph/API failures keep their original
+    # longer backoff below.
+    if _is_jobs_image_generation_failure(article.get("facebook_error")):
+        try:
+            previous_delay = float(article.get("facebook_retry_delay_seconds") or 0)
+        except (TypeError, ValueError):
+            previous_delay = 0
+        if previous_delay > 0:
+            failed_at = retry_after - previous_delay
+            local_delay = max(5 * 60, int(JOBS_FACEBOOK_MIN_INTERVAL_MINUTES) * 60)
+            return failed_at + local_delay <= now_value
+    return False
 
 
 def _facebook_comment_retry_ready(article, now_epoch=None):
@@ -595,7 +614,7 @@ def _caption_fingerprint(caption):
 
 
 def _remember_caption_pattern(article, pattern, posted, structure_id="", hook="", cta="", hashtags=None, fingerprint=""):
-    if pattern not in CAPTION_STYLES and pattern != "jobs":
+    if pattern != JOBS_CAPTION_STYLE:
         return
     memory = _load_style_memory()
     category = _caption_memory_category(article)
@@ -1160,6 +1179,7 @@ def _publish_facebook_post(article, blueprint):
             "font_size": image_result.get("title_font_size"),
             "font_width": image_result.get("title_font_width"),
             "lines": image_result.get("title_lines"),
+            "truncated": bool(image_result.get("title_truncated")),
             "title_bbox": image_result.get("title_bbox"),
             "logo_kind": image_result.get("logo_kind"),
             "logo_bbox": image_result.get("logo_bbox"),
@@ -1269,6 +1289,11 @@ def _validate_facebook_caption(caption, blogger_url="", style="", hook="", struc
 
 def _facebook_failure_delay_seconds(error, failure_count):
     text = str(error or "").casefold().replace(" ", "")
+    # A Jobs image render failure occurs before any Graph request. Retrying at
+    # the normal social interval recovers quickly after a renderer/code fix
+    # without increasing Facebook API traffic.
+    if _is_jobs_image_generation_failure(error):
+        return max(5 * 60, int(JOBS_FACEBOOK_MIN_INTERVAL_MINUTES) * 60)
     # Authentication/permission failures need configuration changes; hammering
     # Graph every scheduled run cannot fix them.
     if any(token in text for token in (
