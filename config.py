@@ -217,13 +217,22 @@ JOBS_ENRICH_MAX_TARGETS_PER_CYCLE = max(
     min(50, _env_int("JOBS_ENRICH_MAX_TARGETS_PER_CYCLE", 12)),
 )
 
-# Publish only opportunities whose official publication time proves they are fresh.
-# Unknown publication time is not treated as fresh. The configured value is
-# deliberately capped at 24h; production uses the stricter agreed 12h window.
-JOBS_MAX_PUBLISH_AGE_HOURS = max(
+# Jobs are time-sensitive inventory. <=12h is the preferred tier; 24h is the
+# hard verified source-age ceiling. The legacy value remains the preferred
+# ranking window for compatibility with existing code and diagnostics.
+JOBS_PREFERRED_FRESH_HOURS = max(
     1,
-    min(24, _env_int("JOBS_MAX_PUBLISH_AGE_HOURS", 12)),
+    min(24, _env_int("JOBS_PREFERRED_FRESH_HOURS", 12)),
 )
+JOBS_MAX_SOURCE_AGE_HOURS = max(
+    JOBS_PREFERRED_FRESH_HOURS,
+    min(72, _env_int("JOBS_MAX_SOURCE_AGE_HOURS", 24)),
+)
+JOBS_REQUIRE_VERIFIED_PUBLISHED_AT = _env_bool_any(
+    ["JOBS_REQUIRE_VERIFIED_PUBLISHED_AT"],
+    True,
+)
+JOBS_MAX_PUBLISH_AGE_HOURS = JOBS_PREFERRED_FRESH_HOURS
 
 # Jobs discovery pagination. fetch_limit_per_run remains a compatibility/page-size
 # hint; it is no longer the total number of vacancies a source may expose.
