@@ -968,9 +968,16 @@ STRICT ACCURACY
 - Never mistranslate a specialized title. Keep product names, certifications,
   company names and necessary technical terms such as ServiceNow unchanged.
 - Never mention scraping, rewriting, AI, automation, or the source-processing pipeline.
+- Publication dates/source timestamps are INTERNAL freshness metadata. Never show "تاريخ النشر",
+  "تاريخ نشر الإعلان", Date de publication, Published on, or equivalent in the article body.
+- ATS IDs, competition codes, source references and internal/external reference numbers are INTERNAL identity metadata.
+  Never show "المرجع", "رمز المباراة", Référence/Reference/Ref, ats_reference, or job_external_reference in the article body.
+- Use official PDF text to extract only useful job facts for the reader; do not copy the PDF verbatim.
 
 LENGTH AND STYLE
-- This is a complete JOB ARTICLE, not a social caption, teaser, database row, or keyword-stuffed landing page.
+- This is a concise complete JOB ARTICLE, not a social caption, teaser, database row, or keyword-stuffed landing page.
+- Prefer the shortest article that fully answers the reader's practical questions. If the verified evidence is small,
+  keep the article small; do not add generic context just to create more sections.
 - DO NOT target a word count. There is no preferred minimum, maximum, or SEO word-count range for Jobs articles.
 - Let the verified evidence determine the length. A notice with only a few useful facts may be short.
   A university/public competition with many specialties, positions, tests, conditions, required documents,
@@ -1878,11 +1885,52 @@ def format_phase3_article_html(html_content, package=None):
     package = package or {}
     formatted = _plus_ui_format_html(html_content, package)
     formatted = _remove_empty_job_fact_rows(formatted)
+    formatted = _remove_internal_job_metadata(formatted)
     # PDF pages are rendered/persisted by the Blogger publisher after AI.
     # Attach those verified page images here, in document/page order, so the
     # final Blogger body always contains the visual copy of the official PDF.
     formatted = _append_job_document_page_images(formatted, package)
     return formatted
+
+
+_INTERNAL_JOB_ROW_LABEL_RE = re.compile(
+    r"^(?:"
+    r"تاريخ\s+النشر|تاريخ\s+نشر\s+(?:الإعلان|الوظيفة)|"
+    r"date\s+de\s+publication|publication\s+date|published\s+on|"
+    r"المرجع|الرقم\s+المرجعي|رمز\s+المباراة|"
+    r"r[eé]f(?:[ée]rence)?\.?|reference"
+    r")\s*[:：-]?",
+    flags=re.I,
+)
+
+
+def _remove_internal_job_metadata(html_content):
+    """Keep freshness/identity metadata internal while preserving useful job facts."""
+    soup = BeautifulSoup(html_content or "", "html.parser")
+    changed = False
+
+    for row in list(soup.find_all("tr")):
+        cells = row.find_all(["th", "td"])
+        if not cells:
+            continue
+        label = re.sub(r"\s+", " ", cells[0].get_text(" ", strip=True)).strip()
+        if _INTERNAL_JOB_ROW_LABEL_RE.search(label):
+            row.decompose()
+            changed = True
+
+    for tag in list(soup.find_all(["li", "p"])):
+        text = re.sub(r"\s+", " ", tag.get_text(" ", strip=True)).strip()
+        if text and len(text) <= 320 and _INTERNAL_JOB_ROW_LABEL_RE.search(text):
+            tag.decompose()
+            changed = True
+
+    for heading in list(soup.find_all(["h2", "h3"])):
+        text = re.sub(r"\s+", " ", heading.get_text(" ", strip=True)).strip()
+        if text and _INTERNAL_JOB_ROW_LABEL_RE.fullmatch(text.rstrip(":：- ")):
+            heading.decompose()
+            changed = True
+
+    return str(soup) if changed else html_content
 
 
 def _remove_empty_job_fact_rows(html_content):
@@ -2097,7 +2145,6 @@ def _append_job_document_page_images(html_content, package):
     blocks = [
         "<section class='jobOfficialDocuments'>",
         "<h2>صفحات الوثيقة الرسمية</h2>",
-        "<p>يمكن قراءة صفحات الوثيقة الرسمية مباشرة أدناه، مع بقاء رابط الملف الأصلي متاحًا للتحقق والتحميل.</p>",
     ]
     for _doc_url, rows in grouped:
         rows = sorted(rows, key=lambda row: int(row.get("page_number") or 0))
@@ -2123,6 +2170,7 @@ def _finalize_html_content(data, package):
     html_content = _sanitize_source_links(html_content, package)
     html_content = _plus_ui_format_html(html_content, package)
     html_content = _remove_empty_job_fact_rows(html_content)
+    html_content = _remove_internal_job_metadata(html_content)
     html_content = _append_job_action_links_if_missing(html_content, package)
     html_content = _sanitize_source_links(html_content, package)
     html_content = _clean_general_english_in_paragraphs(html_content)
