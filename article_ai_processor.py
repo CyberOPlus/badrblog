@@ -1247,6 +1247,65 @@ def _parse_ai_json(raw_text):
         return json.loads(text[start : end + 1])
 
 
+def _ensure_verified_position_count(data, package=None):
+    """Deterministically preserve a verified required position count."""
+    package = dict(package or {})
+    manifest = package.get("verified_fact_manifest") or {}
+    position_facts = (manifest.get("facts") or {}).get("positions") or []
+    required = [
+        fact for fact in position_facts
+        if isinstance(fact, dict)
+        and fact.get("required_in_output")
+        and str(fact.get("confidence") or "").strip().lower() == "high"
+    ]
+    if not required:
+        return data
+
+    title = str((data or {}).get("title") or "")
+    html_content = str((data or {}).get("html_content") or "")
+    combined = BeautifulSoup(f"{title}\n{html_content}", "html.parser").get_text(" ", strip=True)
+
+    missing = []
+    for fact in required:
+        try:
+            number = int(fact.get("value") or 0)
+        except (TypeError, ValueError):
+            continue
+        if number <= 0:
+            continue
+        if re.search(
+            rf"\b{number}\s*(?:منصب|مناصب|منصبا|poste|postes|position|positions)\b",
+            combined,
+            flags=re.I,
+        ):
+            continue
+        missing.append(number)
+
+    if not missing:
+        return data
+
+    soup = BeautifulSoup(html_content, "html.parser")
+    insertion = soup.new_tag("p")
+    insertion["class"] = ["jobVerifiedFact"]
+    strong = soup.new_tag("strong")
+    strong.string = "عدد المناصب:"
+    insertion.append(strong)
+    insertion.append(" " + "، ".join(f"{number} منصب" for number in missing))
+
+    first_heading = soup.find(["h2", "h3"])
+    if first_heading is not None:
+        first_heading.insert_before(insertion)
+    else:
+        soup.append(insertion)
+
+    data["html_content"] = str(soup)
+    log_event(
+        "ai_verified_position_count_injected",
+        positions=",".join(str(number) for number in missing),
+    )
+    return data
+
+
 def _validate_ai_output(data, package=None):
     required_fields = (JOBS_REQUIRED_ARTICLE_FIELDS)
     missing = [field for field in required_fields if not str(data.get(field, "")).strip()]
@@ -3058,6 +3117,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             finalize_package["job_notice_type_ai"] = ai_notice_type
             finalize_package["job_notice_type_source"] = "ai"
             data = _finalize_html_content(data, finalize_package)
+            data = _ensure_verified_position_count(data, finalize_package)
             validation_result = _validate_ai_output(data, package=finalize_package)
             manifest_warnings = list(getattr(validation_result, "warnings", ()) or ())
             article["ai_quality_warnings"] = manifest_warnings
