@@ -15,7 +15,6 @@ from config import (
     JOBS_ACTIVE_START_HOUR,
     JOBS_ADAPTIVE_PUBLISHING,
     JOBS_MAX_PUBLISH_AGE_HOURS,
-    JOBS_FACEBOOK_FOLLOW_ARTICLE,
     JOBS_MIN_PUBLISH_INTERVAL_MINUTES,
 )
 from jobs_adaptive_controller import current_policy
@@ -1818,7 +1817,7 @@ def record_job_social_state(article, now=None):
 
 def facebook_slot_status(posted_times=None, now=None, urgent=False, window_minutes=50):
     local_now = _local(now)
-    if urgent or JOBS_FACEBOOK_FOLLOW_ARTICLE:
+    if urgent:
         return {"allowed_now": True, "mode": "immediate", "slot": "", "next_slot": local_now.isoformat()}
 
     posted_times = posted_times or []
