@@ -24,13 +24,13 @@
     },
     "1a9c344d00234801e923": {
       "category": "format",
-      "count": 3,
+      "count": 4,
       "first_seen_at": "2026-10-01T20:47:15",
-      "last_seen_at": "2026-10-01T22:22:35",
-      "last_seen_epoch": 1790893355.8383844,
+      "last_seen_at": "2026-10-01T23:23:52",
+      "last_seen_epoch": 1790897032.4222534,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1790896955.8383844,
+      "retry_until": 1790900632.4222534,
       "scope": "global"
     },
     "21d4f95aef0b3e555bda": {
@@ -277,13 +277,13 @@
     },
     "dfcd58b89b9a06a1d960": {
       "category": "format",
-      "count": 5,
+      "count": 6,
       "first_seen_at": "2026-10-01T19:27:58",
-      "last_seen_at": "2026-10-01T22:22:35",
-      "last_seen_epoch": 1790893355.835324,
+      "last_seen_at": "2026-10-01T23:23:52",
+      "last_seen_epoch": 1790897032.4192436,
       "provider": "cloudflare",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1790896955.835324,
+      "retry_until": 1790900632.4192436,
       "scope": "provider"
     },
     "e54adca08768c8b77065": {
@@ -332,8 +332,30 @@
     }
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
-  "global_circuit": {},
+  "global_circuit": {
+    "category": "format",
+    "fingerprint": "1a9c344d00234801e923",
+    "opened_at": "2026-10-01T23:23:52",
+    "providers": [
+      "cloudflare",
+      "gemini",
+      "groq",
+      "mistral",
+      "openrouter"
+    ],
+    "reason": "AI article response returned incomplete JSON.",
+    "until": 1790898152.7050607
+  },
   "provider_circuits": {
+    "cloudflare": {
+      "category": "format",
+      "fingerprint": "dfcd58b89b9a06a1d960",
+      "model": "@cf/meta/llama-3.1-8b-instruct",
+      "opened_at": "2026-10-01T23:23:52",
+      "provider": "cloudflare",
+      "reason": "AI article response returned incomplete JSON.",
+      "until": 1790900632.4192436
+    },
     "gemini": {
       "category": "quota",
       "fingerprint": "9b8ec695d1ca9e549f46",
@@ -376,15 +398,15 @@
       "provider": "cloudflare"
     },
     "cloudflare:@cf/meta/llama-3.1-8b-instruct:be6dab2cd8": {
-      "avg_time": 13.3579,
+      "avg_time": 13.299,
       "failures": 1,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-01T18:12:20",
-      "last_success_at": "2026-10-01T22:22:35",
+      "last_success_at": "2026-10-01T23:23:52",
       "model": "@cf/meta/llama-3.1-8b-instruct",
       "provider": "cloudflare",
-      "successes": 41,
-      "total_success_time": 547.6757
+      "successes": 42,
+      "total_success_time": 558.56
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
       "avg_time": 11.5777,
