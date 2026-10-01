@@ -890,9 +890,21 @@ def _sanitize_article_final_html(article, prepare_visuals=True):
     if prepare_visuals:
         _prepare_job_article_cover(article)
         _prepare_job_document_page_images(article)
+    format_package = dict(article.get("ai_input_package") or article)
+    format_package["_internal_hidden_job_values"] = [
+        value
+        for value in (
+            article.get("job_external_reference"),
+            article.get("ats_reference"),
+            article.get("job_published_at"),
+            article.get("job_published_at_display"),
+            article.get("source_published_at"),
+        )
+        if str(value or "").strip()
+    ]
     cleaned = format_phase3_article_html(
         article.get("final_html", ""),
-        article.get("ai_input_package") or article,
+        format_package,
     )
 
     cleaned = re.sub(r"<script\b[^>]*>.*?</script>", "", cleaned, flags=re.I | re.S).strip()
