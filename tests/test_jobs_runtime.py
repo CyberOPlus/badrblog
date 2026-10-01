@@ -68,6 +68,19 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn("عدد المناصب", cleaned)
         self.assertIn("1 منصب", cleaned)
 
+    def test_jobs_metadata_scrubber_removes_embedded_labels_but_keeps_real_dates(self):
+        text = (
+            "تفاصيل المباراة، تاريخ النشر: 30 شتنبر 2026، "
+            "المرجع: C43918/26، آخر أجل للترشيح 16 أكتوبر 2026."
+        )
+        cleaned = ai._strip_internal_job_metadata_text(text, collapse_whitespace=True)
+
+        self.assertNotIn("تاريخ النشر", cleaned)
+        self.assertNotIn("30 شتنبر 2026", cleaned)
+        self.assertNotIn("المرجع", cleaned)
+        self.assertNotIn("C43918/26", cleaned)
+        self.assertIn("16 أكتوبر 2026", cleaned)
+
     def test_jobs_ai_package_keeps_freshness_and_reference_internal(self):
         article = {
             "title": "وظيفة اختبار",
