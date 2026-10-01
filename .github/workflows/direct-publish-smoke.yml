@@ -119,11 +119,10 @@ jobs:
 
           from article_enricher import enrich_article
           from article_processor import _prepare_identity_evidence
-          from article_queue import load_article_queue, save_article_queue
+          from article_queue import load_article_queue, save_article_queue, make_article_id
           from duplicate_utils import canonicalize_url
           from job_core import prepare_job_candidate, _parse_date
           from main import _process_job_target
-          from utils import make_article_id
 
           targets = [
               ("8479198", "Responsable Expérience Client",
