@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 from datetime import date
-from urllib.parse import urljoin, urlparse
+from urllib.parse import unquote, urljoin, urlparse
 
 from bs4 import BeautifulSoup
 
@@ -345,6 +345,7 @@ DOCUMENT_LINK_HINTS = (
     "convoques", "convoqués", "admis", "shortlist", "المدعوين",
     "اللائحة", "اللوائح", "النتائج", "النتيجة", "تحميل",
     "تحميل الإعلان", "نص الإعلان", "قرار المباراة", "مقرر المباراة",
+    "قرار فتح", "قرار فتح المباراة", "بطاقة الوظيفة", "بطاقة المنصب",
     "الاستدعاء", "استدعاء", "محضر", "الوثيقة الرسمية",
 )
 
@@ -418,7 +419,8 @@ def _extract_job_action_links(soup, page_url, full_text=""):
         href = str(anchor.get("href") or "").strip()
         label = _text(anchor.get_text(" ", strip=True))
         context = _link_context(anchor, label=label)
-        signature = f"{label} {context} {href}".casefold()
+        decoded_href = unquote(href)
+        signature = f"{label} {context} {href} {decoded_href}".casefold()
         is_pdf = href.casefold().split("?", 1)[0].endswith(".pdf")
         if is_pdf:
             add(href, label, "document", context=context)
