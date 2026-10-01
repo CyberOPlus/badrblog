@@ -1678,28 +1678,30 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(result["status"], "publish")
         self.assertEqual(result["threshold_applies_to"], "ranking_only")
 
-    def test_job_older_than_twelve_hours_remains_publishable_if_still_valid(self):
+    def test_job_older_than_twelve_hours_is_rejected_as_stale(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         result = job_core.score_job(
             sample_job(job_published_at="2026-09-29T22:59:00+00:00"),
             now=now,
         )
-        self.assertTrue(result["passed"])
-        self.assertEqual(result["status"], "publish")
+        self.assertFalse(result["passed"])
+        self.assertEqual(result["status"], "reject")
         self.assertGreater(result["publication_age_hours"], 12)
         self.assertEqual(result["points"]["fresh_under_12h"], 0)
-        self.assertNotIn("job is older than 12 hours", result["reasons"])
+        self.assertIn("job is older than 12 hours", result["reasons"])
+        self.assertEqual(result["freshness_gate"], "hard")
 
-    def test_job_without_verified_publication_time_can_publish_when_other_hard_facts_are_valid(self):
+    def test_job_without_verified_publication_time_waits_in_queue(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         result = job_core.score_job(
             sample_job(job_published_at="", source_published_at=""),
             now=now,
         )
-        self.assertTrue(result["passed"])
-        self.assertEqual(result["status"], "publish")
+        self.assertFalse(result["passed"])
+        self.assertEqual(result["status"], "queue")
         self.assertIsNone(result["publication_age_hours"])
-        self.assertNotIn("publication time is not verified", result["reasons"])
+        self.assertIn("publication time is not verified", result["reasons"])
+        self.assertEqual(result["freshness_gate"], "hard")
 
     def test_job_at_exact_twelve_hour_boundary_is_allowed(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
@@ -1710,6 +1712,7 @@ class JobsCoreTests(unittest.TestCase):
         self.assertTrue(result["passed"])
         self.assertEqual(result["max_publish_age_hours"], 12)
         self.assertEqual(result["publication_age_hours"], 12.0)
+        self.assertEqual(result["freshness_gate"], "hard")
 
     def test_focus_priority_prefers_technical_student_and_arabic_roles(self):
         cyber = sample_job(job_title="Cybersecurity SOC Analyst")
