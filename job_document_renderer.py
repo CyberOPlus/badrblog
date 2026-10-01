@@ -189,7 +189,16 @@ def _ocr_pdf_page_text(page, *, article_id="", language_hint=""):
 
     preferred = []
     hint = str(language_hint or "").casefold()
-    if "arab" in hint or "ar" == hint:
+    # Moroccan official notices are commonly Arabic, French, or bilingual.
+    # Prefer Arabic+French whenever the notice itself is Arabic or the source
+    # context is Morocco; keep English only as a fallback for foreign ATS PDFs.
+    if (
+        "arab" in hint
+        or "/ar/" in hint
+        or "morocco" in hint
+        or "maroc" in hint
+        or hint == "ma"
+    ):
         preferred.extend(["ara", "fra", "eng"])
     else:
         preferred.extend(["fra", "eng", "ara"])
@@ -308,7 +317,15 @@ def extract_job_document_texts(
                 ocr_text, ocr_error = _ocr_pdf_page_text(
                     page,
                     article_id=article.get("id"),
-                    language_hint=article.get("source_country") or article.get("job_country"),
+                    language_hint=" ".join(
+                        str(value or "")
+                        for value in (
+                            article.get("source_country"),
+                            article.get("job_country"),
+                            article.get("url"),
+                            article.get("source_url"),
+                        )
+                    ),
                 )
                 if ocr_text:
                     page_text = ocr_text
