@@ -518,19 +518,11 @@ def build_verified_fact_manifest(article):
         ),
         ("contract_type", article.get("job_contract_type"), (), False),
         ("location", article.get("job_location"), (), False),
-        ("reference", article.get("job_external_reference") or article.get("ats_reference"), (), False),
     )
     for category, value, hints, required in scalar_specs:
         if value in (None, "", [], {}):
             continue
-        if (
-            category == "reference"
-            and str(article.get("ats_reference") or "").strip()
-            and str(value).strip() == str(article.get("ats_reference") or "").strip()
-        ):
-            source, confidence = "structured_ats", HIGH
-        else:
-            source, confidence = _source_for_scalar(article, value, hints)
+        source, confidence = _source_for_scalar(article, value, hints)
         aliases = []
         if category == "exam_date" and article.get("job_exam_date_display"):
             aliases.append(article.get("job_exam_date_display"))
