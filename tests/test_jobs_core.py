@@ -365,6 +365,23 @@ class JobsCoreTests(unittest.TestCase):
         self.assertTrue(fields["job_application_is_official_channel"])
         self.assertEqual(len(fields["job_document_links"]), 2)
 
+    def test_extractor_captures_encoded_emploi_public_download_documents(self):
+        page_url = "https://www.emploi-public.ma/ar/details/jobs/example"
+        html = """
+        <html><body>
+          <h2>تحميل الملفات</h2>
+          <a href="/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/example">قرار فتح المباراة</a>
+          <h2>الملفات المرفقة</h2>
+          <a href="/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/fichiers_att/example/0">بطاقة الوظيفة</a>
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        rows = job_extractor._extract_job_action_links(soup, page_url)
+        docs = [row for row in rows if row.get("kind") == "document"]
+        self.assertEqual(len(docs), 2)
+        self.assertEqual(docs[0]["label"], "قرار فتح المباراة")
+        self.assertEqual(docs[1]["label"], "بطاقة الوظيفة")
+
     def test_extractor_accepts_text_only_official_application_channel(self):
         html = """
         <html><body>
