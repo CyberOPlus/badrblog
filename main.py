@@ -1941,6 +1941,8 @@ def run_safe_cycle_only():
         )
         return {
             "completed": False,
+            "skipped": True,
+            "waiting_for_candidate_retry": True,
             "reason": "prepare-ai failed",
             "article": article,
             "fetch": fetch_stats,
@@ -2028,6 +2030,8 @@ def run_safe_cycle_only():
         )
         return {
             "completed": False,
+            "skipped": True,
+            "waiting_for_ai_retry": True,
             "reason": "AI failed",
             "article": article,
             "ai": ai_stats,
