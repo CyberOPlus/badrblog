@@ -42,6 +42,8 @@ from job_core import (
     _parse_date as parse_job_date,
     classify_urgency,
     job_deadline_time,
+    job_focus_priority,
+    job_publication_freshness,
     list_active_job_campaign_records,
     record_job_social_state,
 )
@@ -320,7 +322,13 @@ def _facebook_comment_retry_ready(article, now_epoch=None):
 def _job_facebook_expired(article, now=None):
     if not JOBS_MODE:
         return False
-    return classify_urgency(article, now=now).get("level") == "expired"
+    if classify_urgency(article, now=now).get("level") == "expired":
+        return True
+    # Social promotion follows the same freshness promise as Blogger. A job that
+    # waited in the Facebook queue until its source posting became >24h old is
+    # dropped from social only; the already-published Blogger article remains.
+    freshness = job_publication_freshness(article, now=now)
+    return not bool(freshness.get("publishable"))
 
 
 def _mark_facebook_pending(article, now=None, reason="published_to_blogger"):
@@ -606,10 +614,6 @@ def _facebook_job_priority(article, now=None):
     else:
         age_hours = 0.0
 
-    # Aging prevents starvation without allowing very old/no-deadline work to
-    # jump ahead of jobs that are about to close.
-    age_days_boost = min(age_hours / 24.0, 14.0)
-
     urgency = classify_urgency(article, now=now).get("level") if JOBS_MODE else "normal"
     urgency_boost = {
         "critical": 4.0,
@@ -627,13 +631,20 @@ def _facebook_job_priority(article, now=None):
     except (TypeError, ValueError):
         positions = 0
 
+    freshness = job_publication_freshness(article, now=now)
+    focus = job_focus_priority(article)
+    source_age = freshness.get("age_hours")
+    source_newness = -float(source_age) if source_age is not None else -24.0
     fifo_priority = -queued_time.timestamp() if queued_time else 0.0
-    priority_points = deadline_boost + age_days_boost + urgency_boost
 
+    # Deadline urgency stays first; otherwise promote the newest verified
+    # technical/internship jobs before general jobs. Score only breaks ties.
     return (
-        priority_points,
         deadline_boost,
-        age_days_boost,
+        int(freshness.get("preferred_rank") or 0),
+        int(focus.get("rank") or 0),
+        source_newness,
+        urgency_boost,
         score,
         positions,
         fifo_priority,
