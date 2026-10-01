@@ -1,6 +1,14 @@
 {
-  "avg_time": 2.883,
+  "avg_time": 2.802,
   "cooldowns": {
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-01T20:24:13",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
+      "until": 1790888955.9363632
+    },
     "mistral:mistral-small-latest:8feed32495": {
       "failed_at": "2026-10-01T19:49:57",
       "key_id": "8feed32495",
@@ -54,13 +62,13 @@
     },
     "4b929cc3ad78785ed806": {
       "category": "quota",
-      "count": 3,
+      "count": 4,
       "first_seen_at": "2026-09-30T23:22:02",
-      "last_seen_at": "2026-10-01T17:23:15",
-      "last_seen_epoch": 1790875395.5733137,
+      "last_seen_at": "2026-10-01T20:24:13",
+      "last_seen_epoch": 1790886253.6102152,
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "retry_until": 1790886195.5733137,
+      "retry_until": 1790907853.6102152,
       "scope": "provider"
     },
     "4de9bce2b1f2bf21e522": {
@@ -139,6 +147,17 @@
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "retry_until": 1790888293.4111133,
       "scope": "provider"
+    },
+    "9c566984111dbf1278c7": {
+      "category": "quota",
+      "count": 1,
+      "first_seen_at": "2026-10-01T20:24:13",
+      "last_seen_at": "2026-10-01T20:24:13",
+      "last_seen_epoch": 1790886253.6122808,
+      "provider": "cloudflare,gemini,groq,mistral,openrouter",
+      "reason": "groq provider failed: groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y",
+      "retry_until": 1790888953.6122808,
+      "scope": "global"
     },
     "9cd5bdcb42034dceea88": {
       "category": "timeout",
@@ -297,9 +316,9 @@
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {
-    "category": "timeout",
-    "fingerprint": "5536f2970a79bc5a87a5",
-    "opened_at": "2026-10-01T20:22:56",
+    "category": "quota",
+    "fingerprint": "9c566984111dbf1278c7",
+    "opened_at": "2026-10-01T20:24:13",
     "providers": [
       "cloudflare",
       "gemini",
@@ -307,8 +326,8 @@
       "mistral",
       "openrouter"
     ],
-    "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-    "until": 1790886195.5733137
+    "reason": "groq provider failed: groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y",
+    "until": 1790887376.6452982
   },
   "provider_circuits": {
     "cloudflare": {
@@ -331,10 +350,10 @@
     "groq": {
       "category": "quota",
       "fingerprint": "4b929cc3ad78785ed806",
-      "opened_at": "2026-10-01T17:23:15",
+      "opened_at": "2026-10-01T20:24:13",
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
-      "until": 1790886195.5733137
+      "until": 1790907853.6102152
     },
     "mistral": {
       "category": "quota",
@@ -393,15 +412,15 @@
       "total_success_time": 300.0774
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
-      "avg_time": 2.883,
-      "failures": 4,
+      "avg_time": 2.802,
+      "failures": 5,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-01T17:23:15",
-      "last_success_at": "2026-10-01T17:23:15",
+      "last_failure_at": "2026-10-01T20:24:13",
+      "last_success_at": "2026-10-01T20:24:13",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
-      "successes": 5,
-      "total_success_time": 14.4152
+      "successes": 6,
+      "total_success_time": 16.8117
     },
     "mistral:mistral-small-latest:8feed32495": {
       "failures": 3,
