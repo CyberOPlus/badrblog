@@ -650,14 +650,17 @@ def _facebook_job_priority(article, now=None):
     # source-age evidence. New jobs are ordered by verified source freshness.
     legacy_age_boost = min(age_hours / 24.0, 14.0) if not has_source_age_evidence else 0.0
     fifo_priority = -queued_time.timestamp() if queued_time else 0.0
+    queue_priority_points = deadline_boost + legacy_age_boost
 
     # Deadline urgency stays first; otherwise promote <=12h source posts and then
-    # cyber/IT/development/internships. Score only breaks later ties.
+    # cyber/IT/development/internships. Legacy no-date rows retain their old
+    # anti-starvation aging only until that historical queue is drained.
     return (
-        deadline_boost,
+        queue_priority_points,
         int(freshness.get("preferred_rank") or 0),
-        legacy_age_boost,
         int(focus.get("rank") or 0),
+        deadline_boost,
+        legacy_age_boost,
         source_newness,
         urgency_boost,
         score,
