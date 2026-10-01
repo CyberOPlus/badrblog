@@ -1626,13 +1626,10 @@ def _trim_to_length(text, max_length):
 
 
 def _shorten_metadata_once_if_needed(data):
-    title = str(data.get("title", "")).strip()
     description = str(data.get("description", "")).strip()
 
-    # These are deterministic formatting limits, not editorial judgments.
+    # This is a deterministic metadata limit, not an editorial judgment.
     # Repair harmless overflow locally instead of wasting another provider call.
-    if len(title) > 150:
-        data["title"] = _trim_to_length(title, 150)
     if len(description) > 180:
         data["description"] = _trim_to_length(description, 180)
     return data
