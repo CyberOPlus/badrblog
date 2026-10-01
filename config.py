@@ -217,9 +217,9 @@ JOBS_ENRICH_MAX_TARGETS_PER_CYCLE = max(
     min(50, _env_int("JOBS_ENRICH_MAX_TARGETS_PER_CYCLE", 12)),
 )
 
-# Ranking-only freshness window. Jobs inside this window receive a recency
-# bonus, but an older still-open verified vacancy is never rejected only because
-# of age. This value must not become a publication hard gate.
+# Publish only opportunities whose official publication time proves they are fresh.
+# Unknown publication time is not treated as fresh. The configured value is
+# deliberately capped at 24h; production uses the stricter agreed 12h window.
 JOBS_MAX_PUBLISH_AGE_HOURS = max(
     1,
     min(24, _env_int("JOBS_MAX_PUBLISH_AGE_HOURS", 12)),
