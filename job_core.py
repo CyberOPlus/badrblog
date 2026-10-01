@@ -848,6 +848,12 @@ def score_job(article, now=None):
         reasons.append("invalid source URL")
     if not valid_apply:
         reasons.append("missing verified application resource")
+    if published is None:
+        reasons.append("publication time is not verified")
+    elif publication_age_hours is not None and publication_age_hours < 0:
+        reasons.append("publication time is in the future")
+    elif publication_age_hours is not None and publication_age_hours > JOBS_MAX_PUBLISH_AGE_HOURS:
+        reasons.append(f"job is older than {JOBS_MAX_PUBLISH_AGE_HOURS} hours")
 
     normalized_title = normalize_text(article.get("job_title") or article.get("title"))
     if normalized_title in {
@@ -862,13 +868,16 @@ def score_job(article, now=None):
     if expired:
         reasons.append("deadline passed")
 
-    # Ranking score is intentionally NOT a publication gate. A legitimate,
-    # verified vacancy can score low simply because salary, diploma, location,
-    # recency or large-hiring signals are absent. Those signals only decide
-    # priority between otherwise publishable jobs.
+    # Ranking score is intentionally NOT a publication gate. Completeness
+    # signals rank otherwise valid jobs, but freshness is a hard factual gate:
+    # old/undated opportunities must never be published as newly discovered jobs.
     hard_gate_passed = not reasons
     permanent_hard_failure = bool(
         expired
+        or published is None
+        or publication_age_hours is None
+        or publication_age_hours < 0
+        or publication_age_hours > JOBS_MAX_PUBLISH_AGE_HOURS
         or not _public_http(source_url)
         or normalized_title in {
             "jobs", "job", "careers", "career", "recruitment", "recrutement",
@@ -1533,9 +1542,9 @@ def select_best_job_from_queue(queue, now=None):
         article["job_publish_immediately"] = bool(urgency.get("publish_immediately"))
         priority = 2 if urgency.get("level") in {"critical", "high"} else 1 if urgency.get("level") == "elevated" else 0
 
-        # Closing-soon notices stay first. Then prefer the newest verified
-        # publication/discovery time. Cyber/IT/developer/internship focus is an
-        # editorial tie-breaker, never a reason to bury a newer valid job.
+        # Closing-soon notices stay first. Inside the strict fresh window,
+        # prioritize cyber/IT/developer/data/cloud/network/AI and internship
+        # opportunities. If none are available, general fresh jobs still drain.
         published = _parse_date(
             article.get("job_published_at")
             or article.get("source_published_at")
@@ -1547,9 +1556,9 @@ def select_best_job_from_queue(queue, now=None):
         ranked.append(
             (
                 priority,
+                focus_priority,
                 published_epoch,
                 discovered_epoch,
-                focus_priority,
                 quality["score"],
                 article,
             )
