@@ -1,9 +1,12 @@
 name: Jobs Watchdog
 
+# Schedule is intentionally paused only while production verification runs.
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "4,10,16,22,28,34,40,46,52,58 * * * *"
+
+concurrency:
+  group: jobs-watchdog-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   actions: write
