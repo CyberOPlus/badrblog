@@ -1,10 +1,8 @@
 name: Jobs Auto Cycle
-# Continuous Jobs discovery/publishing. Cron is the normal scheduler and the
-# watchdog is recovery-only; a completed cycle must not recursively dispatch
-# another cycle because that creates idle 2-minute loops and wasted runs.
+# Continuous single-worker Jobs discovery/publishing.
+# Each run finishes its current job and queues exactly one successor run.
+# The concurrency lock below prevents two production cycles from overlapping.
 
-# One-time final live verification trigger. This push path fires exactly once
-# with all repaired AI/Blogger/Facebook logic; restore permanent cron on success.
 on:
   push:
     branches: [main]
@@ -571,3 +569,18 @@ jobs:
             data/source_health.json
             data/automation_heartbeat.json
             logs/auto_cycle_runs.jsonl
+
+      - name: Continue Jobs auto-cycle
+        if: always() && github.ref == 'refs/heads/main'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            await github.rest.actions.createWorkflowDispatch({
+              owner,
+              repo,
+              workflow_id: "auto-cycle.yml",
+              ref: "main",
+              inputs: { verify: "false" },
+            });
+            core.info("Queued exactly one successor Jobs Auto Cycle run.");
