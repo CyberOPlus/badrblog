@@ -413,6 +413,56 @@ class JobsRuntimeTests(unittest.TestCase):
             article_enricher._jobs_enrichment_priority(older_high_score, 0, now=now),
         )
 
+    def test_jobs_enrichment_priority_prefers_technical_stage_within_same_freshness_band(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        general = {
+            "status": "ready",
+            "score": 100,
+            "source_priority": "S+",
+            "job_title": "Chargé de clientèle",
+            "source_published_at": "2026-09-30T10:30:00+00:00",
+        }
+        technical_stage = {
+            "status": "ready",
+            "score": 10,
+            "source_priority": "B",
+            "job_title": "Stage PFE Développeur Cloud DevOps",
+            "job_contract_type": "stage",
+            "source_published_at": "2026-09-30T10:00:00+00:00",
+        }
+        self.assertLess(
+            article_enricher._jobs_enrichment_priority(technical_stage, 1, now=now),
+            article_enricher._jobs_enrichment_priority(general, 0, now=now),
+        )
+
+    def test_jobs_enrichment_skips_known_thirteen_hour_job_without_fetch(self):
+        now = datetime.now(timezone.utc)
+        stale = {
+            "id": "stale-13h",
+            "url": "https://example.com/jobs/stale-13h",
+            "status": "ready",
+            "category_label": "jobs-morocco",
+            "job_title": "Développeur Python",
+            "source_published_at": (now - timedelta(hours=13)).isoformat(),
+        }
+        queue = {"articles": [stale]}
+
+        with (
+            patch.object(article_enricher, "JOBS_MODE", True),
+            patch.object(article_enricher, "load_article_queue", return_value=queue),
+            patch.object(article_enricher, "save_article_queue") as save,
+            patch.object(article_enricher, "_can_run_async_fetch", return_value=False),
+            patch.object(article_enricher, "enrich_article") as enrich,
+        ):
+            result = article_enricher.enrich_ready_articles(force=False)
+
+        enrich.assert_not_called()
+        self.assertEqual(stale["status"], "skipped")
+        self.assertFalse(stale["job_freshness_eligible"])
+        self.assertIn("older than 12 hours", stale["skip_reason"])
+        self.assertEqual(result["enriched"], 0)
+        save.assert_called_once()
+
     def test_jobs_enrichment_priority_uses_explicit_emploi_public_listing_deadline_hint(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         expired_emploi = {
