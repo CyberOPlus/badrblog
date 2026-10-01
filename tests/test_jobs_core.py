@@ -1678,38 +1678,102 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(result["status"], "publish")
         self.assertEqual(result["threshold_applies_to"], "ranking_only")
 
-    def test_job_older_than_twelve_hours_remains_publishable_if_still_valid(self):
+    def test_job_between_twelve_and_twenty_four_hours_remains_publishable(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         result = job_core.score_job(
-            sample_job(job_published_at="2026-09-29T22:59:00+00:00"),
+            sample_job(
+                job_published_at="2026-09-29T22:59:00+00:00",
+                source_published_at="2026-09-29T22:59:00+00:00",
+            ),
             now=now,
         )
         self.assertTrue(result["passed"])
         self.assertEqual(result["status"], "publish")
         self.assertGreater(result["publication_age_hours"], 12)
-        self.assertEqual(result["points"]["fresh_under_12h"], 0)
-        self.assertNotIn("job is older than 12 hours", result["reasons"])
+        self.assertLess(result["publication_age_hours"], 24)
+        self.assertEqual(result["freshness"]["preferred_rank"], 2)
+        self.assertEqual(result["max_publish_age_hours"], 24)
 
-    def test_job_without_verified_publication_time_can_publish_when_other_hard_facts_are_valid(self):
+    def test_job_older_than_twenty_four_hours_is_rejected(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         result = job_core.score_job(
-            sample_job(job_published_at="", source_published_at=""),
+            sample_job(
+                job_published_at="2026-09-29T10:00:00+00:00",
+                source_published_at="2026-09-29T10:00:00+00:00",
+            ),
             now=now,
         )
-        self.assertTrue(result["passed"])
-        self.assertEqual(result["status"], "publish")
+        self.assertFalse(result["passed"])
+        self.assertEqual(result["status"], "reject")
+        self.assertEqual(result["freshness"]["bucket"], "too_old")
+        self.assertTrue(any("older than 24h" in reason for reason in result["reasons"]))
+
+    def test_job_without_verified_publication_time_cannot_publish(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        result = job_core.score_job(
+            sample_job(
+                job_published_at="",
+                source_published_at="",
+                discovered_at="2026-09-30T11:00:00+00:00",
+            ),
+            now=now,
+        )
+        self.assertFalse(result["passed"])
+        self.assertEqual(result["status"], "queue")
         self.assertIsNone(result["publication_age_hours"])
-        self.assertNotIn("publication time is not verified", result["reasons"])
+        self.assertEqual(result["freshness"]["bucket"], "unknown")
+        self.assertIn("publication time is not verified", result["reasons"])
 
-    def test_job_at_exact_twelve_hour_boundary_is_allowed(self):
+    def test_job_at_exact_twelve_hour_boundary_is_preferred(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         result = job_core.score_job(
-            sample_job(job_published_at="2026-09-30T00:00:00+00:00"),
+            sample_job(
+                job_published_at="2026-09-30T00:00:00+00:00",
+                source_published_at="2026-09-30T00:00:00+00:00",
+            ),
             now=now,
         )
         self.assertTrue(result["passed"])
-        self.assertEqual(result["max_publish_age_hours"], 12)
+        self.assertEqual(result["preferred_fresh_hours"], 12)
+        self.assertEqual(result["max_publish_age_hours"], 24)
         self.assertEqual(result["publication_age_hours"], 12.0)
+        self.assertEqual(result["freshness"]["preferred_rank"], 3)
+
+    def test_workday_relative_publication_age_respects_twelve_and_twenty_four_hours(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        recent = job_core.score_job(
+            sample_job(
+                job_published_at="",
+                source_published_at="",
+                source_published_label="Posted 4 Hours Ago",
+            ),
+            now=now,
+        )
+        self.assertTrue(recent["passed"])
+        self.assertEqual(recent["freshness"]["preferred_rank"], 3)
+        self.assertEqual(recent["publication_age_hours"], 4.0)
+
+        boundary = job_core.score_job(
+            sample_job(
+                job_published_at="",
+                source_published_at="",
+                source_published_label="Posted 20 Hours Ago",
+            ),
+            now=now,
+        )
+        self.assertTrue(boundary["passed"])
+        self.assertEqual(boundary["freshness"]["preferred_rank"], 2)
+
+        stale = job_core.score_job(
+            sample_job(
+                job_published_at="",
+                source_published_at="",
+                source_published_label="Posted 2 Days Ago",
+            ),
+            now=now,
+        )
+        self.assertFalse(stale["passed"])
+        self.assertEqual(stale["status"], "reject")
 
     def test_focus_priority_prefers_technical_student_and_arabic_roles(self):
         cyber = sample_job(job_title="Cybersecurity SOC Analyst")
