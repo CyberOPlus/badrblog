@@ -2389,11 +2389,30 @@ def run_ai_only(force=False):
     if force:
         print("Force mode: selected AI-completed article will be regenerated.\n")
 
-    # Rebuild evidence/package immediately before a standalone AI run too.
-    # The normal safe-cycle already does prepare-ai first, but this Phase 6
-    # command can otherwise reuse stale OCR-derived fields/manifest from an
-    # earlier code version.
-    prepare_stats = prepare_selected_articles_for_ai()
+    # Rebuild evidence/package immediately before a standalone AI run too,
+    # but refresh only the same single article this command is about to process.
+    # Preparing every selected row here can trigger unnecessary PDF/OCR work.
+    queue = load_article_queue()
+    target = next(
+        (
+            row for row in queue.get("articles", [])
+            if row.get("status") in {"selected", "draft_created"}
+            and row.get("processing_status") == "ready_for_ai"
+            and isinstance(row.get("ai_input_package"), dict)
+            and (force or row.get("ai_status") != "completed")
+        ),
+        None,
+    )
+    target_article_id = (
+        (target or {}).get("id")
+        or (target or {}).get("url")
+        or ""
+    )
+    prepare_stats = (
+        prepare_selected_articles_for_ai(target_article_id=target_article_id)
+        if target_article_id
+        else {"checked": 0, "ready_for_ai": 0, "failed": 0}
+    )
     if prepare_stats.get("checked"):
         print(
             "Pre-AI refresh:       "
@@ -2401,7 +2420,10 @@ def run_ai_only(force=False):
             f"{prepare_stats.get('failed', 0)} failed"
         )
 
-    stats = process_one_selected_article_with_ai(force=force)
+    stats = process_one_selected_article_with_ai(
+        force=force,
+        target_article_id=target_article_id or None,
+    )
     article = stats.get("article")
 
     print("\n" + "=" * 60)
