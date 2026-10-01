@@ -29,7 +29,12 @@ from config import (
 from production_logging import elapsed_ms, log_event
 from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
 from job_extractor import _deadline_from_text, extract_job_fields
-from job_core import invalidate_identity_evidence, job_deadline_time
+from job_core import (
+    invalidate_identity_evidence,
+    job_deadline_time,
+    job_focus_profile,
+    job_freshness,
+)
 from company_logo_resolver import resolve_company_logo
 
 try:
@@ -1839,6 +1844,8 @@ def _jobs_enrichment_priority(article, queue_index=0, now=None):
         queue_score = 0
     score = max(job_score, queue_score)
 
+    freshness = job_freshness(article, now=now)
+    focus = job_focus_profile(article)
     published_raw = str(
         article.get("job_published_at")
         or article.get("source_published_at")
@@ -1855,11 +1862,14 @@ def _jobs_enrichment_priority(article, queue_index=0, now=None):
         except ValueError:
             published_epoch = 0.0
 
-    # Deadline urgency stays first. For normal Jobs, newer verified listings are
-    # enriched before older backlog rows; score/source remain tie-breakers only.
-    # Lower queue index wins the last tie so identical/undated work still drains.
+    # Deadline urgency stays first. Then move 0-3h, 3-6h and 6-12h publication
+    # bands in order; inside each band prefer Cyber/IT/Dev/Internship work.
+    # Undated listings may still be enriched once so the detail page can supply
+    # a verified publication timestamp, but they never outrank dated fresh work.
     return (
         -deadline_rank,
+        -int(freshness.get("band") or 0),
+        -int(focus.get("priority") or 0),
         -published_epoch,
         -status_rank,
         -score,
@@ -1895,6 +1905,27 @@ def enrich_ready_articles(force=False):
             article.get("category_label") or article.get("category_hint") or ""
         ).strip().casefold().startswith(("jobs-", "remote-jobs")):
             continue
+
+        if JOBS_MODE:
+            freshness = job_freshness(article, now=datetime.now(timezone.utc))
+            if freshness.get("known") and not freshness.get("eligible"):
+                article["status"] = "skipped"
+                article["skip_reason"] = str(
+                    freshness.get("reason") or "job posting is outside the freshness window"
+                )
+                article["job_freshness_known"] = True
+                article["job_freshness_eligible"] = False
+                article["job_freshness_age_hours"] = freshness.get("age_hours")
+                article["job_freshness_band"] = 0
+                checked += 1
+                log_event(
+                    "job_skipped_before_enrichment_stale",
+                    article_id=article.get("id"),
+                    source=article.get("source_name"),
+                    age_hours=freshness.get("age_hours"),
+                    reason=article["skip_reason"],
+                )
+                continue
 
         checked += 1
         if article.get("content_fetch_status") == "success" and not force:
