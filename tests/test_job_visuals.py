@@ -104,6 +104,12 @@ class JobVisualTests(unittest.TestCase):
             "Administrative Associate G-6 Temporary Appointment 364 days",
             "النتائج النهائية لمباراة توظيف مهندسين وتقنيين من عدة تخصصات",
             "لوائح المدعوين لاجتياز الاختبار الكتابي لمباراة توظيف تقنيين متخصصين",
+            "مباراة توظيف أستاذ محاضر – تخصص Physiologie Humaine – معهد علوم الرياضة بسطات",
+            (
+                "مباراة لتوظيف توظيف أستاذ محاضر تخصص : Physiologie Humaine. "
+                "معهد علوم الرياضة بسطات جامعة الحسن الأول - سطات الإعلان 1 منصب "
+                "آخر أجل لإيداع ملفات الترشيح : 17 أكتوبر 2026 - 23:00"
+            ),
         )
         with tempfile.TemporaryDirectory() as temp:
             temp = Path(temp)
@@ -142,6 +148,30 @@ class JobVisualTests(unittest.TestCase):
                         self.assertEqual(result.get("logo_kind"), "logo")
                         with Image.open(result["path"]) as image:
                             self.assertEqual(image.size, (1080, 1350))
+
+    def test_facebook_renderer_truncates_extreme_official_title_instead_of_blocking(self):
+        title = (
+            "مباراة لتوظيف توظيف أستاذ محاضر تخصص : Physiologie Humaine. "
+            "معهد علوم الرياضة بسطات جامعة الحسن الأول - سطات الإعلان 1 منصب "
+            "آخر أجل لإيداع ملفات الترشيح : 17 أكتوبر 2026 - 23:00"
+        )
+        with tempfile.TemporaryDirectory() as temp:
+            logo_image = Image.new("RGBA", (480, 160), (20, 80, 170, 255))
+            with patch.object(visuals, "_load_job_logo", return_value=logo_image):
+                result = visuals._generate_job_facebook_image(
+                    title,
+                    "https://example.com/verified-logo.png",
+                    Path(temp) / "long-live-title.jpg",
+                    employer_name="جامعة الحسن الأول - سطات",
+                    template_key="alert",
+                )
+        self.assertTrue(result["ok"], result.get("error"))
+        self.assertTrue(result.get("title_truncated"))
+        left, top, right, bottom = result["title_bbox"]
+        self.assertGreaterEqual(left, visuals.JOB_CONTENT_LEFT)
+        self.assertLessEqual(right, visuals.JOB_CONTENT_RIGHT)
+        self.assertGreaterEqual(top, visuals.JOB_TITLE_TOP)
+        self.assertLessEqual(bottom, visuals.JOB_TITLE_BOTTOM)
 
     def test_job_visual_title_removes_duplicate_company_and_location(self):
         article = {
