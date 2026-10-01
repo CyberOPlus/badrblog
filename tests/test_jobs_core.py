@@ -575,6 +575,71 @@ class JobsCoreTests(unittest.TestCase):
             )
         )
 
+    def test_cih_parser_keeps_only_job_details_and_captures_official_date(self):
+        html = """
+        <html><body>
+          <div class="offer">
+            <h3>
+              <a href="/1092_offre-emploi-chef-de-projet-digital.html">
+                Chef de Projet Digital
+              </a>
+            </h3>
+            <span>30-09-2026 - CDI</span>
+          </div>
+          <a href="/front-offres.html?page=1">2</a>
+          <a href="/front-candidature-spontanee.html">Candidature spontanée</a>
+          <a href="/front-login.html">Connexion</a>
+        </body></html>
+        """
+        links = scraper._parse_cih_job_links(
+            html,
+            "https://recrutement.cihbank.ma/front-offres.html",
+            per_source_limit=20,
+        )
+        self.assertEqual(len(links), 1)
+        self.assertEqual(links[0]["ats_provider"], "cih_bank")
+        self.assertEqual(links[0]["ats_reference"], "1092")
+        self.assertEqual(links[0]["job_external_reference"], "1092")
+        self.assertEqual(
+            links[0]["source_published_at"],
+            "2026-09-30T00:00:00Z",
+        )
+        self.assertEqual(
+            links[0]["url"],
+            "https://recrutement.cihbank.ma/1092_offre-emploi-chef-de-projet-digital.html",
+        )
+
+
+    def test_numeric_page_pagination_follows_exact_next_page(self):
+        first = """
+        <html><body>
+          <a href="/front-offres.html?page=1">2</a>
+          <a href="/front-offres.html?page=2">3</a>
+        </body></html>
+        """
+        second = """
+        <html><body>
+          <a href="/front-offres.html?page=1">2</a>
+          <a href="/front-offres.html?page=2">3</a>
+          <a href="/front-offres.html?page=3">4</a>
+        </body></html>
+        """
+        self.assertEqual(
+            scraper._pagination_next_url(
+                first,
+                "https://recrutement.cihbank.ma/front-offres.html",
+            ),
+            "https://recrutement.cihbank.ma/front-offres.html?page=1",
+        )
+        self.assertEqual(
+            scraper._pagination_next_url(
+                second,
+                "https://recrutement.cihbank.ma/front-offres.html?page=1",
+            ),
+            "https://recrutement.cihbank.ma/front-offres.html?page=2",
+        )
+
+
     def test_html_pagination_follows_only_real_next_link(self):
         first = """
         <html><body>
