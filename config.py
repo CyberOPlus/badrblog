@@ -217,9 +217,10 @@ JOBS_ENRICH_MAX_TARGETS_PER_CYCLE = max(
     min(50, _env_int("JOBS_ENRICH_MAX_TARGETS_PER_CYCLE", 12)),
 )
 
-# Ranking-only freshness window. Jobs inside this window receive a recency
-# bonus, but an older still-open verified vacancy is never rejected only because
-# of age. This value must not become a publication hard gate.
+# Hard publication freshness window for Jobs. A vacancy must expose a verified
+# publication timestamp and be no older than this limit before it can publish.
+# Discovery may still scan older rows to reach cursors/seen IDs, but stale rows
+# must never consume a Blogger publish slot.
 JOBS_MAX_PUBLISH_AGE_HOURS = max(
     1,
     min(24, _env_int("JOBS_MAX_PUBLISH_AGE_HOURS", 12)),
