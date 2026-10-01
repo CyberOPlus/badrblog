@@ -648,6 +648,20 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             word_count,
         )
 
+    for reference_value in (
+        article.get("job_external_reference"),
+        article.get("ats_reference"),
+        (article.get("ai_input_package") or {}).get("job_external_reference"),
+        (article.get("ai_input_package") or {}).get("ats_reference"),
+    ):
+        reference_value = str(reference_value or "").strip()
+        if len(reference_value) >= 3 and reference_value.casefold() in internal_metadata_text.casefold():
+            return QualityGateResult(
+                False,
+                "internal job reference value leaked into reader-facing content",
+                word_count,
+            )
+
     promotional_job_phrases = (
         "الشركة الرائدة",
         "شركة رائدة",
