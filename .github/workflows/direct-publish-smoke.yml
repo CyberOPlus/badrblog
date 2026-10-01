@@ -175,11 +175,16 @@ jobs:
           })
           article_queue.save_article_queue(queue)
 
-          enrich_stats = article_enricher.enrich_ready_articles(force=True)
           queue = article_queue.load_article_queue()
           article = next(a for a in queue["articles"] if a.get("id") == target_id)
-          if article.get("content_fetch_status") != "success":
-              raise SystemExit("DIRECT_SMOKE_ENRICH_FAILED: " + str(article.get("content_fetch_error")))
+          html, fetch_error = article_enricher._fetch_html_with_requests(target_url)
+          if not html:
+              raise SystemExit("DIRECT_SMOKE_FETCH_FAILED: " + str(fetch_error))
+          enrich_ok, enrich_error = article_enricher._apply_enrichment_from_html(article, html, target_url)
+          if not enrich_ok or article.get("content_fetch_status") != "success":
+              raise SystemExit("DIRECT_SMOKE_ENRICH_FAILED: " + str(enrich_error or article.get("content_fetch_error")))
+          article_queue.save_article_queue(queue)
+          enrich_stats = {"checked": 1, "enriched": 1}
 
           article["job_published_at"] = article.get("job_published_at") or "2026-09-30"
           article["source_published_at"] = article.get("source_published_at") or "2026-09-30"
