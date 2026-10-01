@@ -1267,6 +1267,8 @@ def _material_change(article, record):
         "contract_type": article.get("job_contract_type"),
         "location": article.get("job_location"),
         "application_url": canonicalize_job_url(article.get("job_application_url")),
+        "application_link_kind": str(article.get("job_application_link_kind") or ""),
+        "application_is_specific": bool(article.get("job_application_is_specific")),
         "notice_type": article.get("job_notice_type") or "vacancy",
         "notice_status": article.get("job_notice_status") or "",
         "document_urls": "|".join(sorted(x for x in document_urls if x)),
@@ -1739,6 +1741,21 @@ def record_job_social_state(article, now=None):
         return {}
 
     now = now or datetime.now(timezone.utc)
+    # Preserve the verified application semantics needed by the Facebook
+    # template policy across queue loss/recovery. Never replace good campaign
+    # facts with blank volatile values.
+    semantic_updates = {
+        "application_url": canonicalize_job_url(article.get("job_application_url")),
+        "application_link_kind": str(article.get("job_application_link_kind") or "").strip(),
+        "notice_type": str(article.get("job_notice_type") or "").strip(),
+        "notice_status": str(article.get("job_notice_status") or "").strip(),
+    }
+    for key, value in semantic_updates.items():
+        if value not in (None, "", [], {}):
+            record[key] = value
+    if article.get("job_application_is_specific") is not None:
+        record["application_is_specific"] = bool(article.get("job_application_is_specific"))
+
     record.update({
         "facebook_status": str(article.get("facebook_status") or ""),
         "facebook_post_id": str(article.get("facebook_post_id") or ""),
