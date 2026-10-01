@@ -15,6 +15,8 @@ from config import (
     JOBS_ACTIVE_START_HOUR,
     JOBS_ADAPTIVE_PUBLISHING,
     JOBS_MIN_PUBLISH_INTERVAL_MINUTES,
+    JOBS_PREFERRED_FRESH_HOURS,
+    JOBS_MAX_JOB_AGE_HOURS,
 )
 from jobs_adaptive_controller import current_policy
 
@@ -658,6 +660,103 @@ def _parse_date(value):
     return None
 
 
+TECH_JOB_PATTERNS = (
+    r"\bcyber(?:security|securite|sécurité)?\b",
+    r"\bsoc\b",
+    r"\bpentest(?:er|ing)?\b",
+    r"\bsecurity\s+(?:engineer|analyst|consultant|architect)\b",
+    r"sécurité\s+(?:informatique|des\s+syst[eè]mes?)",
+    r"\binformation\s+security\b",
+    r"\bdevops\b",
+    r"\bcloud\b",
+    r"\bdeveloper\b",
+    r"\bdeveloppeur\b",
+    r"\bdéveloppeur\b",
+    r"\bsoftware\s+(?:engineer|developer)\b",
+    r"\bprogrammeur\b",
+    r"\bprogrammer\b",
+    r"\bfull[ -]?stack\b",
+    r"\bfront[ -]?end\b",
+    r"\bback[ -]?end\b",
+    r"\bnetwork\s+(?:engineer|administrator|technician)\b",
+    r"\br[eé]seaux?\b",
+    r"\bsystems?\s+(?:engineer|administrator)\b",
+    r"\bdata\s+(?:engineer|analyst|scientist)\b",
+    r"\bmachine\s+learning\b",
+    r"\bintelligence\s+artificielle\b",
+    r"\bqa\s+(?:engineer|automation)\b",
+    r"\bservice\s*now\b",
+    r"\berp\b",
+    r"\bsap\b",
+)
+INTERNSHIP_PATTERNS = (
+    r"\binternship\b",
+    r"\bintern\b",
+    r"\bstage\b",
+    r"\bstagiaire\b",
+    r"\bpfe\b",
+    r"\balternance\b",
+    r"\bapprentissage\b",
+    r"\btrainee\b",
+    r"تدريب",
+    r"متدرب",
+)
+
+
+def job_publication_age_hours(article, now=None):
+    published = _parse_date(
+        article.get("job_published_at")
+        or article.get("source_published_at")
+    )
+    if not published:
+        return None
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    else:
+        now = now.astimezone(timezone.utc)
+    return (now - published).total_seconds() / 3600.0
+
+
+def job_focus_flags(article):
+    title_text = " ".join(
+        str(article.get(key) or "")
+        for key in (
+            "job_title",
+            "title",
+            "fetched_title",
+            "job_contract_type",
+        )
+    ).casefold()
+    internship_text = " ".join(
+        (
+            title_text,
+            str(article.get("job_description") or "")[:1200].casefold(),
+        )
+    )
+    tech = any(re.search(pattern, title_text, flags=re.I) for pattern in TECH_JOB_PATTERNS)
+    internship = any(
+        re.search(pattern, internship_text, flags=re.I)
+        for pattern in INTERNSHIP_PATTERNS
+    )
+    return {
+        "tech": bool(tech),
+        "internship": bool(internship),
+        "tech_internship": bool(tech and internship),
+    }
+
+
+def job_focus_rank(article):
+    flags = job_focus_flags(article)
+    if flags["tech_internship"]:
+        return 3
+    if flags["tech"]:
+        return 2
+    if flags["internship"]:
+        return 1
+    return 0
+
+
 def _public_http(url):
     try:
         parsed = urlparse(str(url or "").strip())
@@ -705,9 +804,22 @@ def score_job(article, now=None):
     official = bool(article.get("official_source") or article.get("job_official_source"))
     points["official_source"] = 25 if official else 0
 
-    published = _parse_date(article.get("job_published_at") or article.get("source_published_at"))
-    fresh = bool(published and 0 <= (now - published).total_seconds() / 3600 <= 24)
-    points["fresh_under_24h"] = 15 if fresh else 0
+    published_age_hours = job_publication_age_hours(article, now=now)
+    points["fresh_under_12h"] = (
+        20
+        if published_age_hours is not None
+        and 0 <= published_age_hours <= JOBS_PREFERRED_FRESH_HOURS
+        else 0
+    )
+    points["fresh_12_to_24h"] = (
+        8
+        if published_age_hours is not None
+        and JOBS_PREFERRED_FRESH_HOURS < published_age_hours <= JOBS_MAX_JOB_AGE_HOURS
+        else 0
+    )
+    focus = job_focus_flags(article)
+    points["tech_role"] = 8 if focus["tech"] else 0
+    points["internship_or_stage"] = 8 if focus["internship"] else 0
 
     priority = str(article.get("source_priority") or "").strip().lower()
     points["trusted_priority_source"] = 10 if priority in TOP_SOURCE_PRIORITIES else 0
@@ -734,6 +846,14 @@ def score_job(article, now=None):
     eligibility = str(article.get("job_eligibility") or "").strip().lower()
     source_url = article.get("canonical_url") or article.get("url") or article.get("source_url")
     reasons = []
+    if published_age_hours is None:
+        reasons.append("job publication time is not verified")
+    elif published_age_hours < -2:
+        reasons.append("job publication time is in the future")
+    elif published_age_hours > JOBS_MAX_JOB_AGE_HOURS:
+        reasons.append(
+            f"job posting older than {JOBS_MAX_JOB_AGE_HOURS} hours"
+        )
     if eligibility not in GOOD_ELIGIBILITY:
         reasons.append("eligibility must be verified")
     if not _public_http(source_url):
@@ -759,8 +879,14 @@ def score_job(article, now=None):
     # recency or large-hiring signals are absent. Those signals only decide
     # priority between otherwise publishable jobs.
     hard_gate_passed = not reasons
+    freshness_hard_failure = bool(
+        published_age_hours is None
+        or published_age_hours < -2
+        or published_age_hours > JOBS_MAX_JOB_AGE_HOURS
+    )
     permanent_hard_failure = bool(
-        expired
+        freshness_hard_failure
+        or expired
         or not _public_http(source_url)
         or normalized_title in {
             "jobs", "job", "careers", "career", "recruitment", "recrutement",
@@ -1437,6 +1563,7 @@ def select_best_job_from_queue(queue, now=None):
             (
                 priority,
                 published_epoch,
+                job_focus_rank(article),
                 discovered_epoch,
                 quality["score"],
                 article,
@@ -1444,10 +1571,10 @@ def select_best_job_from_queue(queue, now=None):
         )
 
     ranked.sort(
-        key=lambda row: (row[0], row[1], row[2], row[3]),
+        key=lambda row: (row[0], row[1], row[2], row[3], row[4]),
         reverse=True,
     )
-    return ranked[0][4] if ranked else None
+    return ranked[0][5] if ranked else None
 
 
 def record_job_publish(article, now=None):
