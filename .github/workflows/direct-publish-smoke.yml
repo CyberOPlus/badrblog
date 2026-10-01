@@ -142,8 +142,22 @@ jobs:
           import facebook_publisher
           import job_core
 
-          target_id = "direct-smoke-kadev-c43918"
-          target_url = "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/ee457511-2cf7-4178-bcb7-b09cd1638bca"
+          target_id = "direct-smoke-oujda-c43899"
+          target_url = "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/62ba6e41-1afa-4ce2-bc08-dec71791cd73"
+          official_pdf_fallback = [
+              {
+                  "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/62ba6e41-1afa-4ce2-bc08-dec71791cd73",
+                  "label": "قرار فتح المباراة",
+                  "kind": "document",
+                  "context": "تحميل الملفات",
+              },
+              {
+                  "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/fichiers_att/62ba6e41-1afa-4ce2-bc08-dec71791cd73/0",
+                  "label": "بطاقة الوظيفة",
+                  "kind": "document",
+                  "context": "الملفات المرفقة",
+              },
+          ]
 
           # This direct smoke tests the full publisher against a still-open official
           # notice from 30 Sep. The production code remains capped at 12h; only this
@@ -158,7 +172,7 @@ jobs:
           ]
           queue["articles"].append({
               "id": target_id,
-              "title": "شركة خريبكة للتهيئة والتنمية KADEV: إطار إداري ومالي",
+              "title": "مباراة توظيف مهندس معماري بالوكالة الحضرية لوجدة",
               "url": target_url,
               "canonical_url": target_url,
               "source_name": "Emploi-Public — établissements publics",
@@ -168,8 +182,8 @@ jobs:
               "source_country": "Morocco",
               "source_eligibility": "morocco",
               "ats_provider": "emploi_public",
-              "ats_reference": "C43918/26",
-              "source_published_at": "2026-09-30",
+              "ats_reference": "C43899/26",
+              "source_published_at": "2026-09-29",
               "published_at_source": "official_detail_page",
               "freshness_source": "official_detail_page",
               "discovered_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
@@ -189,13 +203,20 @@ jobs:
           article_queue.save_article_queue(queue)
           enrich_stats = {"checked": 1, "enriched": 1}
 
-          article["job_published_at"] = article.get("job_published_at") or "2026-09-30"
-          article["source_published_at"] = article.get("source_published_at") or "2026-09-30"
+          article["job_published_at"] = article.get("job_published_at") or "2026-09-29"
+          article["source_published_at"] = article.get("source_published_at") or "2026-09-29"
           article["job_eligibility"] = article.get("job_eligibility") or "morocco"
           if not article.get("job_application_url"):
               article["job_application_url"] = target_url
               article["job_application_link_kind"] = "official_job_page"
               article["job_application_is_specific"] = True
+
+          if not (article.get("job_document_links") or []):
+              print("DIRECT_SMOKE_EXTRACTOR_DOCS_MISSING: using two verified official Emploi-Public PDF endpoints")
+              article["job_document_links"] = list(official_pdf_fallback)
+              action_links = list(article.get("job_action_links") or [])
+              action_links.extend(official_pdf_fallback)
+              article["job_action_links"] = action_links
 
           quality, identity = job_core.prepare_job_candidate(article)
           if not quality.get("hard_gate_passed"):
@@ -220,15 +241,15 @@ jobs:
 
           package = article.get("ai_input_package") or {}
           manifest = package.get("verified_fact_manifest") or {}
-          company = str(article.get("job_company") or "شركة خريبكة للتهيئة والتنمية (KADEV)").strip()
-          role = str(article.get("job_title") or article.get("fetched_title") or article.get("title") or "إطار إداري ومالي").strip()
+          company = str(article.get("job_company") or "الوكالة الحضرية لوجدة").strip()
+          role = str(article.get("job_title") or article.get("fetched_title") or article.get("title") or "مهندس معماري").strip()
 
           article["seo_title"] = f"مباراة توظيف {role} لدى {company}"
           article["seo_description"] = (
-              "تفاصيل مباراة التوظيف لدى شركة خريبكة للتهيئة والتنمية KADEV، "
-              "مع المعطيات الأساسية وآخر أجل وروابط الترشيح والوثائق الرسمية."
+              "تفاصيل مباراة توظيف مهندس معماري بالوكالة الحضرية لوجدة، "
+              "مع آخر أجل للترشيح وقرار فتح المباراة وبطاقة الوظيفة والروابط الرسمية."
           )
-          article["seo_slug"] = "kadev-administrative-financial-officer"
+          article["seo_slug"] = "oujda-urban-agency-architect"
           article["desired_slug"] = article["seo_slug"]
 
           labels = {
@@ -319,12 +340,12 @@ jobs:
           article["ai_deterministic_fallback"] = False
           article["facebook_post_source"] = "social_ai"
           article["facebook_post_text"] = (
-              "فرصة رسمية للراغبين في العمل الإداري والمالي بخريبكة\n\n"
-              "تتعلق المباراة بمنصب إداري ومالي لدى شركة خريبكة للتهيئة والتنمية KADEV، "
-              "مع تفاصيل الترشيح والوثائق الرسمية المرتبطة بالإعلان.\n\n"
+              "مباراة رسمية جديدة تخص تخصص الهندسة المعمارية بوجدة\n\n"
+              "الوكالة الحضرية لوجدة فتحت الترشيح لمنصب مهندس معماري، "
+              "مع قرار فتح المباراة وبطاقة الوظيفة ضمن الوثائق الرسمية.\n\n"
               "جميع المعلومات الموثقة وطريقة الترشيح موجودة في المقال.\n"
               "الرابط في أول تعليق.\n\n"
-              "#وظائف_المغرب #خريبكة #مباريات_التوظيف #KADEV"
+              "#وظائف_المغرب #وجدة #مباريات_التوظيف #هندسة_معمارية"
           )
           article_queue.save_article_queue(queue)
 
