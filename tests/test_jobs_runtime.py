@@ -2211,7 +2211,7 @@ class JobsRuntimeTests(unittest.TestCase):
              patch.object(ai, "OPENAI_API_KEY", ""):
             self.assertEqual(
                 ai._resolve_providers(),
-                ["gemini", "groq", "openrouter", "cloudflare", "mistral"],
+                ["gemini", "groq", "cloudflare", "openrouter", "mistral"],
             )
 
     def test_jobs_pre_ai_evidence_preflight_avoids_unrepairable_calls(self):
