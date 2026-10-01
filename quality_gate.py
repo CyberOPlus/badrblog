@@ -284,6 +284,25 @@ def _job_duplicate_structured_rows_reason(html_content):
     return ""
 
 
+def _verified_document_text_urls(package):
+    """Return only literal public URLs present in extracted official PDF text/OCR."""
+    if not bool((package or {}).get("official_source") or (package or {}).get("job_official_source")):
+        return set()
+    urls = set()
+    for page in (package or {}).get("job_document_texts") or []:
+        if not isinstance(page, dict):
+            continue
+        text = str(page.get("text") or "")
+        for raw in re.findall(r"(?i)(?:https?://|www\.)[^\s<>\"']+", text):
+            url = raw.rstrip(".,;:!?،؛)]}»”")
+            if url.casefold().startswith("www."):
+                url = "https://" + url
+            key = canonicalize_url(url) or url
+            if re.match(r"^https?://", key, flags=re.I):
+                urls.add(key)
+    return urls
+
+
 def _job_unverified_external_link_reason(html_content, verification_context):
     package = verification_context or {}
     allowed = set()
@@ -303,6 +322,10 @@ def _job_unverified_external_link_reason(html_content, verification_context):
     for item in package.get("job_action_links") or []:
         if isinstance(item, dict):
             add_url(item.get("url"))
+
+    # A URL printed literally in a verified official PDF/OCR is evidence, not
+    # an AI invention. Keep exact-match validation so hallucinated links remain blocked.
+    allowed.update(_verified_document_text_urls(package))
 
     for href in re.findall(r"<a\b[^>]*\bhref=['\"]([^'\"]+)['\"]", html_content, flags=re.I):
         if not re.match(r"^https?://", href, flags=re.I):
