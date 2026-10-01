@@ -193,6 +193,51 @@ class JobsRuntimeTests(unittest.TestCase):
         with patch.object(ai, "JOBS_MODE", False), patch.object(ai, "JOBS_AI_MAX_OUTPUT_TOKENS", 2048):
             self.assertEqual(ai._effective_output_token_limit(8192), 8192)
 
+    def test_jobs_retry_prompts_reuse_compact_evidence_contract(self):
+        package = {
+            "title": "مباراة توظيف",
+            "url": "https://example.gov.ma/jobs/42",
+            "source_name": "Official",
+            "official_source": True,
+            "full_article_text": (
+                "آخر أجل للترشيح 16 أكتوبر 2026. "
+                "تاريخ النشر: 1 أكتوبر 2026. تفاصيل المباراة."
+            ),
+            "content_preview": "duplicate preview that must not be repeated",
+            "job_title": "متصرف",
+            "job_company": "مؤسسة عمومية",
+            "job_document_texts": [
+                {"page_number": 1, "page_count": 1, "text": "شروط الترشيح الرسمية"}
+            ],
+            "verified_fact_manifest": {"version": 2, "facts": {}},
+        }
+        previous = {
+            "title": "عنوان سابق",
+            "description": "وصف سابق",
+            "slug": "previous-job",
+            "html_content": "<p>محتوى سابق</p>",
+            "notice_type": "competition",
+        }
+
+        quality_retry = ai._build_expansion_retry_prompt(
+            package,
+            previous,
+            "missing verified application URL",
+        )
+        english_retry = ai._build_excess_english_retry_prompt(
+            package,
+            previous,
+            "too much English inside article paragraphs",
+        )
+
+        for prompt in (quality_retry, english_retry):
+            self.assertIn("VERIFIED JOB PACKAGE:", prompt)
+            self.assertNotIn("SOURCE TEXT:", prompt)
+            self.assertNotIn("duplicate preview that must not be repeated", prompt)
+            self.assertNotIn("تاريخ النشر", prompt)
+        self.assertIn("Meta description 80-180 characters.", quality_retry)
+        self.assertNotIn("Meta description 100-160 characters.", quality_retry)
+
     def test_publication_value_does_not_erase_same_day_deadline(self):
         article = {
             "final_html": (
