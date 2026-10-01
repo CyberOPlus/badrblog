@@ -1885,7 +1885,7 @@ def format_phase3_article_html(html_content, package=None):
     package = package or {}
     formatted = _plus_ui_format_html(html_content, package)
     formatted = _remove_empty_job_fact_rows(formatted)
-    formatted = _remove_internal_job_metadata(formatted)
+    formatted = _remove_internal_job_metadata(formatted, package)
     # PDF pages are rendered/persisted by the Blogger publisher after AI.
     # Attach those verified page images here, in document/page order, so the
     # final Blogger body always contains the visual copy of the official PDF.
@@ -1904,10 +1904,11 @@ _INTERNAL_JOB_ROW_LABEL_RE = re.compile(
 )
 
 
-def _remove_internal_job_metadata(html_content):
+def _remove_internal_job_metadata(html_content, package=None):
     """Keep freshness/identity metadata internal while preserving useful job facts."""
     soup = BeautifulSoup(html_content or "", "html.parser")
     changed = False
+    package = dict(package or {})
 
     for row in list(soup.find_all("tr")):
         cells = row.find_all(["th", "td"])
@@ -1929,6 +1930,23 @@ def _remove_internal_job_metadata(html_content):
         if text and _INTERNAL_JOB_ROW_LABEL_RE.fullmatch(text.rstrip(":：- ")):
             heading.decompose()
             changed = True
+
+    hidden_values = [
+        str(value or "").strip()
+        for value in (package.get("_internal_hidden_job_values") or [])
+        if str(value or "").strip()
+    ]
+    if hidden_values:
+        for node in list(soup.find_all(string=True)):
+            text = str(node)
+            cleaned = text
+            for value in hidden_values:
+                cleaned = cleaned.replace(value, "")
+            cleaned = re.sub(r"\s{2,}", " ", cleaned)
+            cleaned = re.sub(r"\s+([،,.;؛:])", r"\1", cleaned)
+            if cleaned != text:
+                node.replace_with(cleaned)
+                changed = True
 
     return str(soup) if changed else html_content
 
@@ -2170,7 +2188,7 @@ def _finalize_html_content(data, package):
     html_content = _sanitize_source_links(html_content, package)
     html_content = _plus_ui_format_html(html_content, package)
     html_content = _remove_empty_job_fact_rows(html_content)
-    html_content = _remove_internal_job_metadata(html_content)
+    html_content = _remove_internal_job_metadata(html_content, package)
     html_content = _append_job_action_links_if_missing(html_content, package)
     html_content = _sanitize_source_links(html_content, package)
     html_content = _clean_general_english_in_paragraphs(html_content)
