@@ -1429,6 +1429,11 @@ def _refresh_job_logo_before_facebook(article):
         return current
 
     refreshed = refresh_company_logo(article)
+    if isinstance(refreshed, dict):
+        article.update(refreshed)
+        package = article.get("ai_input_package")
+        if isinstance(package, dict):
+            package.update(refreshed)
     if refreshed.get("company_logo_verified") and refreshed.get("company_logo_url"):
         article["facebook_logo_refresh_status"] = "verified"
         article.pop("facebook_logo_refresh_error", None)
