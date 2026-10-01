@@ -551,7 +551,26 @@ def _extract_job_action_links(soup, page_url, full_text=""):
 
 
 def _notice_type(title, body):
+    title_text = str(title or "").casefold()
     haystack = f"{title} {body}".casefold()
+
+    # The current page title/stage outranks future boilerplate in the body.
+    # Active competition notices commonly say that final results "will be
+    # published" later; that must not turn today's open competition into a
+    # final-results article.
+    if re.search(r"(النتائج\s+النهائية|نتائج\s+نهائية|résultats?\s+définitifs?|final\s+results?)", title_text):
+        return "final_results"
+    if re.search(r"(لوائح?\s+المدعوين|لائحة\s+المدعوين|convoqu[eé]s?|shortlist|admis.*(?:écrit|oral)|مدعوين.*(?:كتابي|شفوي))", title_text):
+        return "candidate_list"
+    if re.search(r"(النتائج|النتيجة|résultats?|results?)", title_text):
+        return "results"
+    if re.search(
+        r"(مباراة(?:\s+توظيف)?|مباريات(?:\s+توظيف)?|"
+        r"concours(?:\s+de\s+recrutement)?|recrutement\s+par\s+concours)",
+        title_text,
+    ):
+        return "competition"
+
     if re.search(r"(النتائج\s+النهائية|نتائج\s+نهائية|résultats?\s+définitifs?|final\s+results?)", haystack):
         return "final_results"
     if re.search(r"(لوائح?\s+المدعوين|لائحة\s+المدعوين|convoqu[eé]s?|shortlist|admis.*(?:écrit|oral)|مدعوين.*(?:كتابي|شفوي))", haystack):
