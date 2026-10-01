@@ -44,12 +44,7 @@ from job_core import (
     record_job_social_state,
 )
 from social_ai_processor import generate_jobs_facebook_post
-CAPTION_STYLES = (
-    "ai_tools",
-    "cybersecurity",
-    "tech_news",
-    "apps_programs",
-)
+JOBS_CAPTION_STYLE = "jobs"
 
 FORBIDDEN_CAPTION_PHRASES = (
     "مقال",
@@ -595,7 +590,7 @@ def _caption_fingerprint(caption):
 
 
 def _remember_caption_pattern(article, pattern, posted, structure_id="", hook="", cta="", hashtags=None, fingerprint=""):
-    if pattern not in CAPTION_STYLES and pattern != "jobs":
+    if pattern != JOBS_CAPTION_STYLE:
         return
     memory = _load_style_memory()
     category = _caption_memory_category(article)
