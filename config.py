@@ -217,6 +217,14 @@ JOBS_ENRICH_MAX_TARGETS_PER_CYCLE = max(
     min(50, _env_int("JOBS_ENRICH_MAX_TARGETS_PER_CYCLE", 12)),
 )
 
+# Jobs freshness is a publication gate, not only a ranking hint. The user wants
+# newly posted vacancies only, with a strict twelve-hour maximum when a verified
+# publication timestamp is available.
+JOBS_FRESHNESS_MAX_HOURS = max(
+    1,
+    min(24, _env_int("JOBS_FRESHNESS_MAX_HOURS", 12)),
+)
+
 # Jobs discovery pagination. fetch_limit_per_run remains a compatibility/page-size
 # hint; it is no longer the total number of vacancies a source may expose.
 JOBS_DISCOVERY_PAGE_SIZE = max(5, min(50, _env_int("JOBS_DISCOVERY_PAGE_SIZE", 20)))
