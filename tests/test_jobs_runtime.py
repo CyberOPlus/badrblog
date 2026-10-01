@@ -4340,15 +4340,33 @@ class JobsRuntimeTests(unittest.TestCase):
             with self.assertRaises(ai.AIIncompleteResponseError):
                 ai._validate_ai_output(data, package)
 
-    def test_run_ai_only_refreshes_jobs_package_before_provider_call(self):
+    def test_run_ai_only_refreshes_only_the_single_provider_target(self):
         events = []
+        queue = {
+            "articles": [
+                {
+                    "id": "first-job",
+                    "status": "selected",
+                    "processing_status": "ready_for_ai",
+                    "ai_status": "failed",
+                    "ai_input_package": {"title": "First"},
+                },
+                {
+                    "id": "second-job",
+                    "status": "selected",
+                    "processing_status": "ready_for_ai",
+                    "ai_status": "failed",
+                    "ai_input_package": {"title": "Second"},
+                },
+            ]
+        }
 
-        def fake_prepare():
-            events.append("prepare")
+        def fake_prepare(*, target_article_id=None):
+            events.append(("prepare", target_article_id))
             return {"checked": 1, "ready_for_ai": 1, "failed": 0}
 
-        def fake_ai(*, force=False):
-            events.append(("ai", force))
+        def fake_ai(*, force=False, target_article_id=None):
+            events.append(("ai", force, target_article_id))
             return {
                 "processed": 0,
                 "success": 0,
@@ -4357,13 +4375,17 @@ class JobsRuntimeTests(unittest.TestCase):
                 "message": "test",
             }
 
-        with patch.object(main, "prepare_selected_articles_for_ai", side_effect=fake_prepare) as prepare, \
+        with patch.object(main, "load_article_queue", return_value=queue), \
+             patch.object(main, "prepare_selected_articles_for_ai", side_effect=fake_prepare) as prepare, \
              patch.object(main, "process_one_selected_article_with_ai", side_effect=fake_ai) as process:
             result = main.run_ai_only(force=True)
 
-        self.assertEqual(events, ["prepare", ("ai", True)])
-        prepare.assert_called_once_with()
-        process.assert_called_once_with(force=True)
+        self.assertEqual(
+            events,
+            [("prepare", "first-job"), ("ai", True, "first-job")],
+        )
+        prepare.assert_called_once_with(target_article_id="first-job")
+        process.assert_called_once_with(force=True, target_article_id="first-job")
         self.assertEqual(result["processed"], 0)
 
     def test_jobs_promotion_has_no_overnight_or_calendar_slot_restriction(self):
