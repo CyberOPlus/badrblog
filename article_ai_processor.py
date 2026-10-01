@@ -1074,7 +1074,8 @@ OUTPUT
 SOURCE OF TRUTH
 - verified_fact_manifest is the primary contract. Every high-confidence fact marked required_in_output=true must appear accurately.
 - full_article_text, source_tables and job_document_texts are supporting official evidence.
-- job_document_texts contains page-numbered text/OCR from official PDFs. Use every material candidate-facing fact that is explicit there: grades/roles, position breakdowns, specialties, eligibility, diplomas, age limits, tests, required application documents, locations, deadlines, application instructions and current status.
+- job_document_texts contains page-numbered text/OCR from official PDFs. Use every material candidate-facing fact that is explicit there and belongs to THIS notice/job scope: grades/roles, position breakdowns, specialties, eligibility, diplomas, age limits, tests, required application documents, locations, deadlines, application instructions and current status.
+- An official PDF may cover several grades, roles or linked competitions. Use job_title/detail-page evidence to keep facts bound to the current role/grade; do not import another grade/role's count, diploma, specialty or conditions unless this notice is explicitly an aggregate multi-role campaign.
 - Do not copy legal boilerplate or the PDF verbatim. Do not guess from broken OCR. If evidence is unclear, omit the uncertain claim.
 - Never invent salary, count, date, degree, experience, age, location, contract, eligibility, remote status, visa sponsorship, URL, email, phone, requirement or status.
 - A missing field is absent, not "غير محدد". A zero/false extractor default is intentionally omitted from this prompt unless it was positively verified.
