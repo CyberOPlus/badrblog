@@ -413,6 +413,33 @@ class JobsRuntimeTests(unittest.TestCase):
             article_enricher._jobs_enrichment_priority(older_high_score, 0, now=now),
         )
 
+    def test_jobs_enrichment_priority_uses_explicit_emploi_public_listing_deadline_hint(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        expired_emploi = {
+            "status": "ready",
+            "score": 100,
+            "source_priority": "S+",
+            "ats_provider": "emploi_public",
+            "title": (
+                "مباراة لتوظيف مهندس دولة آخر أجل لإيداع ملفات الترشيح : "
+                "27 شتنبر 2026"
+            ),
+            "discovered_at": "2026-09-30T11:00:00+00:00",
+        }
+        open_job = {
+            "status": "ready",
+            "score": 10,
+            "source_priority": "A",
+            "ats_provider": "workday",
+            "job_deadline": "2026-10-15",
+            "source_published_at": "2026-09-30T10:00:00+00:00",
+        }
+        self.assertLess(
+            article_enricher._jobs_enrichment_priority(open_job, 1, now=now),
+            article_enricher._jobs_enrichment_priority(expired_emploi, 0, now=now),
+        )
+        self.assertNotIn("job_deadline", expired_emploi)
+
     def test_jobs_enrichment_priority_advances_near_deadline_before_score(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         urgent = {
