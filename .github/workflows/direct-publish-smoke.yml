@@ -81,7 +81,7 @@ jobs:
               "JOBS_MIN_SELECTION_SCORE":"65","JOBS_QUEUE_SCORE":"50",
               "JOBS_ADAPTIVE_PUBLISHING":"true","JOBS_ADAPTIVE_MIN_DAILY_CAP":"240",
               "JOBS_ADAPTIVE_MAX_DAILY_CAP":"240","JOBS_ACTIVE_START_HOUR":"0","JOBS_ACTIVE_END_HOUR":"24",
-              "JOBS_MIN_PUBLISH_INTERVAL_MINUTES":"0","JOBS_MAX_PUBLISH_AGE_HOURS":"12",
+              "JOBS_MIN_PUBLISH_INTERVAL_MINUTES":"0","JOBS_MAX_PUBLISH_AGE_HOURS":"48",
               "GEMINI_API_KEY":os.environ.get("GEMINI_API_KEY",""),"GEMINI_MODEL":"gemini-2.5-flash",
               "OPENROUTER_API_KEY":os.environ.get("OPENROUTER_API_KEY",""),"OPENROUTER_MODEL":"openrouter/free",
               "OPENROUTER_MODELS":"openrouter/free","OPENROUTER_APP_NAME":"Jobs Direct One-Shot",
@@ -110,144 +110,202 @@ jobs:
           print("Direct target mode ready. auto-cycle is not invoked.")
           PY
 
-      - name: Verify one official fresh target and publish it
+      - name: Verify one official PDF target and publish it
         timeout-minutes: 10
         run: |
           python - <<'PY'
-          import json
+          import json, re
           from datetime import datetime, timezone
 
           from article_enricher import enrich_article
           from article_processor import _prepare_identity_evidence
           from article_queue import load_article_queue, save_article_queue, make_article_id
           from duplicate_utils import canonicalize_url
-          from job_core import prepare_job_candidate, _parse_date
+          from job_core import prepare_job_candidate, _parse_date, job_deadline_time
           from main import _process_job_target
 
-          targets = [
-              ("8479198", "Responsable Expérience Client",
-               "https://jobs.inwi.ma/jobs/8479198-responsable-experience-client"),
-              ("8463145", "Technical Lead ServiceNow",
-               "https://jobs.inwi.ma/jobs/8463145-technical-lead-servicenow"),
-              ("8448475", "Manager Sécurité IA",
-               "https://jobs.inwi.ma/jobs/8448475-manager-securite-ia"),
-              ("8448462", "Responsable exploitation",
-               "https://jobs.inwi.ma/jobs/8448462-responsable-exploitation"),
-          ]
+          url = "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/2835f644-995b-4a06-a386-c41338bde62b"
+          listing = "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=0&region=0&stat=etab_publics"
+          key = canonicalize_url(url)
           queue = load_article_queue()
-          selected = None
-          probes = []
+          existing = next((
+              row for row in queue.get("articles", [])
+              if canonicalize_url(row.get("url") or row.get("canonical_url")) == key
+          ), None)
 
-          for ats_ref, title, url in targets:
-              key = canonicalize_url(url)
-              existing = next((
-                  row for row in queue.get("articles", [])
-                  if canonicalize_url(row.get("url") or row.get("canonical_url")) == key
-              ), None)
-              if existing and (
-                  existing.get("blogger_post_id")
-                  or str(existing.get("publish_status") or "").lower() == "published"
-                  or str(existing.get("status") or "").lower() == "published"
-              ):
-                  probes.append({"url":url,"status":"already_published","blogger_url":existing.get("blogger_post_url","")})
-                  continue
-
-              article = existing if existing is not None else {
-                  "id": make_article_id(f"direct-one-shot|{url}"),
-                  "url": url,
-                  "canonical_url": key,
+          if existing and (
+              existing.get("blogger_post_id")
+              or str(existing.get("publish_status") or "").lower() == "published"
+          ):
+              summary = {
+                  "completed": True,
+                  "already_published": True,
+                  "title": existing.get("seo_title") or existing.get("title") or "",
+                  "blogger_url": existing.get("blogger_post_url") or "",
+                  "blogger_post_id": existing.get("blogger_post_id") or "",
               }
-              article.update({
-                  "title": title,
-                  "url": url,
-                  "canonical_url": key,
-                  "source_name": "inwi",
-                  "source_url": "https://jobs.inwi.ma/jobs",
-                  "source_priority": "S",
-                  "official_source": True,
-                  "source_country": "MA",
-                  "source_eligibility": "morocco",
-                  "category_key": "jobs-morocco",
-                  "category_name": "Jobs Morocco",
-                  "category_label": "jobs-morocco",
-                  "category_hint": "jobs-morocco",
-                  "ats_provider": "teamtailor",
-                  "ats_reference": ats_ref,
-                  "source_published_at": "",
-                  "job_published_at": "",
-                  "published_at_source": "",
-                  "status": "ready",
-              })
-              article.pop("archived", None)
-              article.pop("archive_reason", None)
-              article.pop("skip_reason", None)
-              article.pop("candidate_retry_after", None)
+              print("DIRECT_PUBLISH_RESULT="+json.dumps(summary,ensure_ascii=False))
+              with open("direct_publish_result.json","w",encoding="utf-8") as out:
+                  json.dump(summary,out,ensure_ascii=False,indent=2); out.write("\n")
+              if not summary["blogger_url"]:
+                  raise SystemExit("Target is marked published but no Blogger URL is stored.")
+              raise SystemExit(0)
 
-              ok, error = enrich_article(article)
-              published_raw = article.get("job_published_at") or article.get("source_published_at") or ""
-              published = _parse_date(published_raw)
-              age = None
-              if published:
-                  if published.tzinfo is None:
-                      published = published.replace(tzinfo=timezone.utc)
-                  age = (datetime.now(timezone.utc)-published.astimezone(timezone.utc)).total_seconds()/3600
+          article = existing if existing is not None else {
+              "id": make_article_id(f"direct-pdf-one-shot|{url}"),
+              "url": url,
+              "canonical_url": key,
+          }
+          article.update({
+              "title": "مباراة لتوظيف متصرف من الدرجة الثانية - سلم 11",
+              "url": url,
+              "canonical_url": key,
+              "source_name": "Emploi-Public — établissements publics",
+              "source_url": listing,
+              "source_priority": "S+",
+              "official_source": True,
+              "source_country": "MA",
+              "source_eligibility": "morocco",
+              "category_key": "jobs-morocco",
+              "category_name": "Jobs Morocco",
+              "category_label": "jobs-morocco",
+              "category_hint": "jobs-morocco",
+              "ats_provider": "emploi_public",
+              "ats_reference": "2835f644-995b-4a06-a386-c41338bde62b",
+              "status": "ready",
+          })
+          for field in (
+              "archived","archive_reason","skip_reason","candidate_retry_after",
+              "candidate_failure_stage","candidate_failure_reason",
+          ):
+              article.pop(field, None)
 
-              probe = {
-                  "url":url,"enriched":ok,"error":error,
-                  "official_published_at":published_raw,
-                  "age_hours":round(age,2) if age is not None else None,
-                  "job_title":article.get("job_title",""),
-                  "application_url":article.get("job_application_url",""),
-              }
-              probes.append(probe)
-              print("OFFICIAL_TARGET_PROBE="+json.dumps(probe,ensure_ascii=False,default=str))
-              if not ok or published is None or age is None or age < 0 or age > 12:
-                  continue
+          ok, error = enrich_article(article)
+          if not ok:
+              raise SystemExit(f"Official target enrichment failed: {error}")
 
-              _prepare_identity_evidence(article)
-              quality, decision = prepare_job_candidate(article)
-              probe["quality_status"] = quality.get("status")
-              probe["quality_reasons"] = quality.get("reasons")
-              probe["identity_action"] = decision.get("action")
-              if not quality.get("passed") or decision.get("action") in {"duplicate","hold","update"}:
-                  continue
+          published_raw = str(article.get("job_published_at") or article.get("source_published_at") or "").strip()
+          published = _parse_date(published_raw)
+          age = None
+          if published:
+              if published.tzinfo is None:
+                  published = published.replace(tzinfo=timezone.utc)
+              age = (datetime.now(timezone.utc)-published.astimezone(timezone.utc)).total_seconds()/3600
 
-              if existing is None:
-                  queue.setdefault("articles", []).append(article)
-              article["status"] = "selected"
-              article["selected_at"] = datetime.now().isoformat(timespec="seconds")
-              article["selection_reason"] = "direct one-shot from current official inwi detail page"
-              selected = article
-              save_article_queue(queue)
-              break
+          probe = {
+              "url": url,
+              "official_published_at": published_raw,
+              "age_hours": round(age,2) if age is not None else None,
+              "deadline": article.get("job_deadline",""),
+              "job_title": article.get("job_title",""),
+              "company": article.get("job_company",""),
+              "positions": article.get("job_number_of_positions",""),
+              "application_url": article.get("job_application_url",""),
+              "application_kind": article.get("job_application_link_kind",""),
+              "document_links": article.get("job_document_links") or [],
+          }
+          print("OFFICIAL_PDF_TARGET_PROBE="+json.dumps(probe,ensure_ascii=False,default=str))
 
-          if not selected:
-              print("DIRECT_TARGETS="+json.dumps(probes,ensure_ascii=False,indent=2,default=str))
-              raise SystemExit("No probed official inwi target has a verified publication timestamp inside 12 hours.")
+          if published is None or age is None or age < 0 or age > 48:
+              raise SystemExit("The official PDF target is outside the manual one-shot 48-hour evidence window.")
+          deadline = job_deadline_time(article)
+          if deadline is not None and deadline <= datetime.now(timezone.utc):
+              raise SystemExit("The official PDF target is already expired.")
+          if not article.get("job_application_url"):
+              raise SystemExit("The official target has no verified application channel.")
+          if not article.get("job_document_links"):
+              raise SystemExit("The official target exposes no document/PDF link; refusing this PDF validation run.")
 
-          result = _process_job_target(selected, "live")
-          article = result.get("article") or selected
+          # Read every official document before AI. Scanned pages use Arabic/French OCR.
+          snapshot = _prepare_identity_evidence(article)
+          pdf_probe = {
+              "read_complete": article.get("job_document_text_read_complete") is True,
+              "download_failures": int(article.get("job_document_text_download_failures") or 0),
+              "text_pages": int(article.get("job_document_text_pages") or 0),
+              "text_chars": int(article.get("job_document_text_chars") or 0),
+              "identity_stage": article.get("identity_evidence_stage_status",""),
+              "identity_strength": (snapshot or {}).get("strength",0),
+          }
+          print("OFFICIAL_PDF_READ="+json.dumps(pdf_probe,ensure_ascii=False,default=str))
+          if not pdf_probe["read_complete"] or pdf_probe["download_failures"]:
+              raise SystemExit("Official PDF evidence was not completely read; refusing AI/Blogger publication.")
+          if pdf_probe["text_pages"] <= 0 or pdf_probe["text_chars"] <= 0:
+              raise SystemExit("Official PDF produced no readable evidence after text extraction/OCR.")
+
+          quality, decision = prepare_job_candidate(article)
+          print("DIRECT_QUALITY="+json.dumps({
+              "status": quality.get("status"),
+              "passed": quality.get("passed"),
+              "reasons": quality.get("reasons"),
+              "identity_action": decision.get("action"),
+              "identity_reason": decision.get("reason"),
+          },ensure_ascii=False,default=str))
+          if not quality.get("passed"):
+              raise SystemExit("The verified target failed the job-quality gate: "+str(quality.get("reasons") or ""))
+          if decision.get("action") in {"duplicate","hold","update"}:
+              raise SystemExit("The verified target is not a new publishable campaign: "+str(decision.get("reason") or ""))
+
+          if existing is None:
+              queue.setdefault("articles", []).append(article)
+          article["status"] = "selected"
+          article["selected_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+          article["selection_reason"] = "user-authorized direct PDF one-shot; no auto-cycle"
+          save_article_queue(queue)
+
+          result = _process_job_target(article, "live")
+          article = result.get("article") or article
+          package = article.get("ai_input_package") if isinstance(article.get("ai_input_package"),dict) else {}
+          pages = article.get("job_document_page_images") or package.get("job_document_page_images") or []
+          page_urls = [str(x.get("url") or "") for x in pages if isinstance(x,dict) and str(x.get("url") or "")]
+          final_html = str(article.get("final_html") or article.get("blogger_article_html") or "")
+          hidden_values = [
+              str(article.get("job_external_reference") or "").strip(),
+              str(article.get("ats_reference") or "").strip(),
+          ]
+          hidden_values = [x for x in hidden_values if x]
+          leak_patterns = [
+              r"تاريخ\s*النشر", r"تاريخ\s*الإعلان", r"Date\s+de\s+publication",
+              r"publication\s+date", r"رقم\s*المرجع", r"رمز\s*المباراة",
+              r"Reference\s*:", r"Référence\s*:",
+          ]
+          metadata_leak = any(re.search(p, final_html, flags=re.I) for p in leak_patterns)
+          raw_reference_leak = any(value in final_html for value in hidden_values)
+          missing_page_urls = [u for u in page_urls if u not in final_html]
+
           summary = {
-              "completed":bool(result.get("completed")),
-              "reason":result.get("reason",""),
-              "article_id":article.get("id",""),
-              "title":article.get("seo_title") or article.get("title") or "",
-              "source_url":article.get("url",""),
-              "official_publication_time":article.get("job_published_at") or article.get("source_published_at") or "",
-              "blogger_url":article.get("blogger_post_url",""),
-              "blogger_post_id":article.get("blogger_post_id",""),
-              "document_links":len(article.get("job_document_links") or []),
-              "document_text_pages":int(article.get("job_document_text_pages") or 0),
-              "ocr_pages":int(article.get("job_document_ocr_pages") or 0),
-              "rendered_pdf_pages":int(article.get("job_document_rendered_pages") or 0),
-              "word_count":int(article.get("final_word_count") or 0),
-              "facebook":"disabled_for_direct_article_test",
+              "completed": bool(result.get("completed")),
+              "reason": result.get("reason",""),
+              "article_id": article.get("id",""),
+              "title": article.get("seo_title") or article.get("title") or "",
+              "source_url": article.get("url",""),
+              "official_publication_time": published_raw,
+              "deadline": article.get("job_deadline",""),
+              "blogger_url": article.get("blogger_post_url",""),
+              "blogger_post_id": article.get("blogger_post_id",""),
+              "document_links": len(article.get("job_document_links") or []),
+              "document_text_pages": int(article.get("job_document_text_pages") or 0),
+              "document_text_chars": int(article.get("job_document_text_chars") or 0),
+              "ocr_pages": int(article.get("job_document_ocr_pages") or 0),
+              "rendered_pdf_pages": len(page_urls),
+              "pdf_pages_present_in_html": bool(page_urls) and not missing_page_urls,
+              "missing_pdf_page_urls": missing_page_urls,
+              "metadata_leak": metadata_leak,
+              "raw_reference_leak": raw_reference_leak,
+              "word_count": int(article.get("final_word_count") or 0),
+              "facebook": "disabled_for_direct_article_test",
           }
           print("DIRECT_PUBLISH_RESULT="+json.dumps(summary,ensure_ascii=False,default=str))
-          with open("direct_publish_result.json","w",encoding="utf-8") as f:
-              json.dump(summary,f,ensure_ascii=False,indent=2,default=str); f.write("\n")
+          with open("direct_publish_result.json","w",encoding="utf-8") as out:
+              json.dump(summary,out,ensure_ascii=False,indent=2,default=str); out.write("\n")
+
           if not result.get("completed") or not article.get("blogger_post_url"):
-              raise SystemExit("Direct target reached the pipeline but Blogger publication did not complete.")
+              raise SystemExit("Direct PDF target reached the pipeline but Blogger publication did not complete.")
+          if not page_urls:
+              raise SystemExit("Blogger published without rendered official PDF pages; treating run as failed.")
+          if missing_page_urls:
+              raise SystemExit("Some rendered official PDF pages are missing from final article HTML.")
+          if metadata_leak or raw_reference_leak:
+              raise SystemExit("Internal publication/reference metadata leaked into the final article.")
           PY
 
       - name: Persist direct one-shot state
