@@ -21,6 +21,7 @@ import job_document_renderer
 import main
 import quality_gate
 import runtime_state
+import social_ai_processor as social_ai
 import verified_fact_manifest as fact_manifest
 import jobs_adaptive_controller as adaptive
 
@@ -4744,6 +4745,86 @@ class JobsRuntimeTests(unittest.TestCase):
             main._next_auto_cycle_tick(exact_tick),
             datetime(2026, 9, 30, 22, 1),
         )
+
+    def test_social_ai_malformed_json_falls_back_to_verified_published_facts(self):
+        article = {
+            "id": "social-fallback-job",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/2026/10/job.html",
+            "seo_title": "مباراة لتوظيف مكون في النسيج التقليدي بالرشيدية",
+            "seo_description": (
+                "مباراة توظيف رسمية لشغل منصب مكون في النسيج التقليدي "
+                "مع توضيح الشروط والوثائق المطلوبة للترشيح."
+            ),
+            "job_notice_type": "competition",
+            "job_company": "مكتب التكوين المهني وإنعاش الشغل",
+            "job_location": "الرشيدية",
+            "job_number_of_positions": 1,
+            "job_deadline_display": "18 أكتوبر 2026",
+            "ai_input_package": {},
+        }
+        with patch.object(
+            social_ai,
+            "_generate_ai_article",
+            side_effect=[
+                ("{}", "gemini:test"),
+                ("{}", "gemini:test"),
+            ],
+        ):
+            result = social_ai.generate_jobs_facebook_post(article)
+
+        self.assertTrue(result["fallback"])
+        self.assertEqual(
+            result["provider"],
+            "deterministic:verified-published-article",
+        )
+        caption = result["facebook_post_text"]
+        self.assertIn("مكتب التكوين المهني وإنعاش الشغل", caption)
+        self.assertIn("18 أكتوبر 2026", caption)
+        self.assertIn("أول تعليق", caption)
+        self.assertNotIn("http", caption)
+        self.assertGreaterEqual(len(re.findall(r"#[\w\u0600-\u06FF_]+", caption)), 3)
+        social_ai.validate_jobs_facebook_post(caption, article=article)
+
+    def test_deterministic_social_fallback_is_cached_without_second_ai_call(self):
+        article = {
+            "id": "cached-social-fallback",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/2026/10/job.html",
+            "seo_title": "شركة مثال تعلن عن فرصة توظيف جديدة",
+            "job_notice_type": "vacancy",
+            "job_company": "شركة مثال",
+        }
+        fallback_caption = (
+            "فرصة توظيف لدى شركة مثال: إليك أبرز التفاصيل الموثقة التي تهم المترشحين.\n"
+            "للاطلاع على التفاصيل الكاملة والوثائق المرتبطة بالإعلان، "
+            "تجد الرابط في أول تعليق 👇.\n"
+            "#وظائف #فرص_عمل #توظيف"
+        )
+        with patch.object(
+            facebook,
+            "generate_jobs_facebook_post",
+            return_value={
+                "facebook_post_text": fallback_caption,
+                "provider": "deterministic:verified-published-article",
+                "attempts": 2,
+                "fallback": True,
+            },
+        ) as generate:
+            first = facebook._jobs_facebook_blueprint(
+                article,
+                article["blogger_post_url"],
+            )
+            second = facebook._jobs_facebook_blueprint(
+                article,
+                article["blogger_post_url"],
+            )
+
+        self.assertEqual(generate.call_count, 1)
+        self.assertEqual(article["facebook_post_source"], "deterministic")
+        self.assertEqual(first["caption"], second["caption"])
 
     def test_pending_facebook_runs_even_when_article_ai_fails(self):
         calls = []
