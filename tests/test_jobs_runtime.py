@@ -95,6 +95,83 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual([image["src"] for image in soup.select("img.jobDocPageImage")], [row["url"] for row in rows])
         self.assertEqual([h.get_text() for h in soup.find_all("h2")].count("صفحات الوثيقة الرسمية"), 1)
 
+    def test_scanned_pdf_ocr_covers_every_processed_page_by_default(self):
+        pdf = job_document_renderer.fitz.open()
+        for _ in range(10):
+            pdf.new_page(width=100, height=100)
+        payload = pdf.tobytes()
+        pdf.close()
+
+        article = {
+            "id": "ocr-all-pages",
+            "source_country": "Morocco",
+            "job_document_links": [
+                {"url": "https://official.example/scanned.pdf", "label": "شروط المباراة"}
+            ],
+        }
+
+        def fake_ocr(page, **_kwargs):
+            return f"شروط ومعلومات موثقة من الصفحة {page.number + 1}", ""
+
+        with patch.object(job_document_renderer, "_download_pdf", return_value=payload), \
+             patch.object(job_document_renderer, "_ocr_pdf_page_text", side_effect=fake_ocr) as ocr:
+            rows = job_document_renderer.extract_job_document_texts(
+                article,
+                max_documents=1,
+                max_total_pages=10,
+            )
+
+        self.assertEqual(len(rows), 10)
+        self.assertEqual(article["job_document_ocr_pages"], 10)
+        self.assertEqual(ocr.call_count, 10)
+        self.assertIn("الصفحة 10", rows[-1]["text"])
+
+    def test_jobs_quality_gate_requires_pdf_pages_even_without_cover(self):
+        article = {
+            "url": "https://official.example/jobs/42",
+            "seo_title": "تحديث رسمي حول مباراة توظيف التقنيين بالمغرب",
+            "seo_description": (
+                "تفاصيل رسمية موجزة حول مباراة توظيف التقنيين وشروطها الأساسية "
+                "مع توجيه المترشحين إلى الوثيقة الرسمية."
+            ),
+            "final_html": "<p>تفاصيل موثقة ومباشرة حول المباراة وشروط الترشيح الأساسية.</p>",
+            "job_notice_type": "update",
+            "job_document_page_images": [
+                {"url": "https://assets.example/doc-page-1.jpg"}
+            ],
+            "ai_input_package": {
+                "job_notice_type": "update",
+                "verified_fact_manifest": {"facts": []},
+                "job_document_page_images": [
+                    {"url": "https://assets.example/doc-page-1.jpg"}
+                ],
+            },
+        }
+        with patch.object(
+            quality_gate,
+            "validate_output_against_manifest",
+            return_value=([], []),
+        ):
+            result = quality_gate.validate_before_publish(article, check_duplicate=False)
+
+        self.assertFalse(result.passed)
+        self.assertIn("rendered official PDF pages", result.reason)
+
+    def test_jobs_quality_gate_blocks_internal_reference_in_reader_metadata(self):
+        article = {
+            "url": "https://official.example/jobs/42",
+            "seo_title": "تحديث مباراة توظيف التقنيين - المرجع C43918/26",
+            "seo_description": (
+                "تفاصيل رسمية موجزة حول مباراة توظيف التقنيين وشروطها الأساسية "
+                "مع توجيه المترشحين إلى الوثيقة الرسمية."
+            ),
+            "final_html": "<p>تفاصيل موثقة ومباشرة حول المباراة وشروط الترشيح الأساسية.</p>",
+            "job_notice_type": "update",
+        }
+        result = quality_gate.validate_before_publish(article, check_duplicate=False)
+        self.assertFalse(result.passed)
+        self.assertIn("internal job publication/reference metadata", result.reason)
+
     def test_queue_maintenance_accepts_mixed_timezone_timestamps(self):
         now = datetime.now(timezone.utc)
         rows = [
