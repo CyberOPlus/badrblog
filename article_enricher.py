@@ -25,11 +25,12 @@ from config import (
     SOURCE_RETRY_DELAY_SECONDS,
     MAX_SOURCE_RETRIES,
     JOBS_ENRICH_MAX_TARGETS_PER_CYCLE,
+    JOBS_MAX_PUBLISH_AGE_HOURS,
 )
 from production_logging import elapsed_ms, log_event
 from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
 from job_extractor import _deadline_from_text, extract_job_fields
-from job_core import invalidate_identity_evidence, job_deadline_time
+from job_core import invalidate_identity_evidence, job_deadline_time, job_focus_priority
 from company_logo_resolver import resolve_company_logo
 
 try:
@@ -1838,6 +1839,7 @@ def _jobs_enrichment_priority(article, queue_index=0, now=None):
     except (TypeError, ValueError):
         queue_score = 0
     score = max(job_score, queue_score)
+    focus_rank = job_focus_priority(article)
 
     published_raw = str(
         article.get("job_published_at")
@@ -1855,11 +1857,11 @@ def _jobs_enrichment_priority(article, queue_index=0, now=None):
         except ValueError:
             published_epoch = 0.0
 
-    # Deadline urgency stays first. For normal Jobs, newer verified listings are
-    # enriched before older backlog rows; score/source remain tie-breakers only.
-    # Lower queue index wins the last tie so identical/undated work still drains.
+    # Deadline urgency stays first. Then prioritize cyber/IT/developer/student
+    # roles, then verified publication freshness. Score/source only break ties.
     return (
         -deadline_rank,
+        -focus_rank,
         -published_epoch,
         -status_rank,
         -score,
@@ -1925,6 +1927,36 @@ def enrich_ready_articles(force=False):
                 retry_after=article.get("candidate_retry_after"),
             )
             continue
+
+        # Known stale rows never spend an enrichment slot. Unknown publication
+        # times still get one detail-page enrichment attempt so the source can
+        # prove they are within the strict freshness window.
+        if JOBS_MODE and not force:
+            published_raw = str(
+                article.get("job_published_at")
+                or article.get("source_published_at")
+                or ""
+            ).strip()
+            if published_raw:
+                try:
+                    published = datetime.fromisoformat(published_raw.replace("Z", "+00:00"))
+                    if published.tzinfo is None:
+                        published = published.replace(tzinfo=timezone.utc)
+                    age_hours = (
+                        datetime.now(timezone.utc) - published.astimezone(timezone.utc)
+                    ).total_seconds() / 3600
+                except ValueError:
+                    age_hours = None
+                if age_hours is not None and (
+                    age_hours < 0 or age_hours > JOBS_MAX_PUBLISH_AGE_HOURS
+                ):
+                    article["status"] = "skipped"
+                    article["skip_reason"] = (
+                        "job publication age outside fresh window: "
+                        f"{age_hours:.2f}h (max {JOBS_MAX_PUBLISH_AGE_HOURS}h)"
+                    )
+                    article["freshness_rejected_at"] = datetime.now(timezone.utc).isoformat()
+                    continue
 
         targets.append((queue_index, article))
 
