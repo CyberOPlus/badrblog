@@ -5190,6 +5190,45 @@ class JobsRuntimeTests(unittest.TestCase):
 
 
 
+    def test_uncertain_facebook_comment_reconciles_exact_existing_comment(self):
+        article = {
+            "id": "comment-uncertain-found",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/2026/10/comment-found.html",
+            "facebook_status": "posted_comment_uncertain",
+            "facebook_post_id": "page-1_123",
+            "facebook_posted_at": "2026-10-01T16:00:00+00:00",
+            "facebook_comment_uncertain_at": "2026-10-01T16:01:00+00:00",
+        }
+        comment = facebook._first_comment_text(article["blogger_post_url"])
+        with (
+            patch.object(facebook, "FACEBOOK_PAGE_ACCESS_TOKEN", "token"),
+            patch.object(
+                facebook,
+                "_get_from_graph",
+                return_value={
+                    "data": [{
+                        "id": "comment-456",
+                        "message": comment,
+                        "created_time": "2026-10-01T16:01:10+00:00",
+                    }]
+                },
+            ),
+            patch.object(facebook, "_persist_jobs_social_state"),
+        ):
+            result = facebook.reconcile_uncertain_facebook_comment(
+                article,
+                now=datetime(2026, 10, 1, 16, 5, tzinfo=timezone.utc),
+            )
+
+        self.assertTrue(result["resolved"])
+        self.assertEqual(article["facebook_comment_id"], "comment-456")
+        self.assertEqual(article["facebook_status"], "posted")
+        self.assertNotIn("facebook_comment_uncertain_at", article)
+
+
+
 
 if __name__ == "__main__":
     unittest.main()
