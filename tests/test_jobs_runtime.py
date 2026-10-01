@@ -34,10 +34,15 @@ class JobsRuntimeTests(unittest.TestCase):
           <tr><th>عدد المناصب</th><td>1 منصب</td></tr>
         </tbody></table>
         <p>رمز المباراة: C43918/26</p>
+        <p>تم نشر الإعلان بتاريخ 30 شتنبر 2026</p>
+        <p>رقم المباراة: 2026/42</p>
         """
         cleaned = ai.format_phase3_article_html(html, {})
         self.assertNotIn("C43918/26", cleaned)
         self.assertNotIn("تاريخ النشر", cleaned)
+        self.assertNotIn("تم نشر الإعلان", cleaned)
+        self.assertNotIn("رقم المباراة", cleaned)
+        self.assertNotIn("2026/42", cleaned)
         self.assertIn("عدد المناصب", cleaned)
         self.assertIn("1 منصب", cleaned)
 
@@ -64,6 +69,71 @@ class JobsRuntimeTests(unittest.TestCase):
             "job_external_reference", "ats_reference",
         ):
             self.assertNotIn(key, package)
+
+    def test_pdf_evidence_retries_when_cached_fingerprint_has_no_read_text(self):
+        article = {
+            "id": "scanned-pdf-retry",
+            "job_document_links": [{"url": "https://official.example/notice.pdf"}],
+            "job_document_texts": [],
+            "job_document_text_pages": 0,
+            "job_document_text_chars": 0,
+            "job_document_text_download_failures": 0,
+            "job_document_ocr_failures": 0,
+            "job_document_ocr_unavailable": True,
+            "job_document_unread_pages": 1,
+        }
+        fingerprint = article_processor._identity_document_fingerprint(article)
+        article["identity_evidence_document_fingerprint"] = fingerprint
+
+        def fill_pdf_text(row):
+            row["job_document_texts"] = [{
+                "document_url": "https://official.example/notice.pdf",
+                "document_label": "الإعلان الرسمي",
+                "page_number": 1,
+                "page_count": 1,
+                "text": "الشروط الرسمية للوظيفة",
+            }]
+            row["job_document_text_pages"] = 1
+            row["job_document_text_chars"] = 23
+            row["job_document_text_attempted_documents"] = 1
+            row["job_document_text_download_failures"] = 0
+            row["job_document_ocr_failures"] = 0
+            row["job_document_ocr_unavailable"] = False
+            row["job_document_unread_pages"] = 0
+            return row["job_document_texts"]
+
+        with patch.object(article_processor, "extract_job_document_texts", side_effect=fill_pdf_text) as extract, \
+             patch.object(article_processor, "finalize_identity_evidence_stage", return_value={}):
+            article_processor._prepare_identity_evidence(article)
+
+        extract.assert_called_once()
+        self.assertEqual(article["identity_evidence_document_fingerprint"], fingerprint)
+        self.assertEqual(article["job_document_text_pages"], 1)
+
+    def test_scanned_pdf_ocr_can_cover_more_than_eight_pages_before_ai(self):
+        pdf = job_document_renderer.fitz.open()
+        for _ in range(9):
+            pdf.new_page(width=100, height=100)
+        payload = pdf.tobytes()
+        pdf.close()
+        article = {
+            "id": "ocr-nine-pages",
+            "job_document_links": [{"url": "https://official.example/conditions.pdf"}],
+        }
+
+        with patch.object(job_document_renderer, "_download_pdf", return_value=payload), \
+             patch.object(
+                 job_document_renderer,
+                 "_ocr_pdf_page_text",
+                 side_effect=lambda *args, **kwargs: ("شرط رسمي مستخرج عبر OCR", ""),
+             ) as ocr:
+            texts = job_document_renderer.extract_job_document_texts(article)
+
+        self.assertEqual(len(texts), 9)
+        self.assertEqual(ocr.call_count, 9)
+        self.assertEqual(article["job_document_ocr_attempts"], 9)
+        self.assertEqual(article["job_document_ocr_pages"], 9)
+        self.assertEqual(article["job_document_unread_pages"], 0)
 
     def test_pdf_outages_keep_retrying_with_bounded_backoff(self):
         article = {"job_document_render_retry_count": 20, "ai_input_package": {}}
