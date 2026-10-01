@@ -30,7 +30,12 @@ from config import (
 from production_logging import elapsed_ms, log_event
 from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
 from job_extractor import _deadline_from_text, extract_job_fields
-from job_core import invalidate_identity_evidence, job_deadline_time, job_focus_priority
+from job_core import (
+    invalidate_identity_evidence,
+    job_deadline_time,
+    job_focus_priority,
+    job_publication_freshness,
+)
 from company_logo_resolver import resolve_company_logo
 
 try:
@@ -1840,11 +1845,11 @@ def _jobs_enrichment_priority(article, queue_index=0, now=None):
         queue_score = 0
     score = max(job_score, queue_score)
     focus_rank = job_focus_priority(article)
+    freshness = job_publication_freshness(article, now=now)
 
     published_raw = str(
         article.get("job_published_at")
         or article.get("source_published_at")
-        or article.get("discovered_at")
         or ""
     ).strip()
     published_epoch = 0.0
@@ -1857,12 +1862,27 @@ def _jobs_enrichment_priority(article, queue_index=0, now=None):
         except ValueError:
             published_epoch = 0.0
 
-    # Deadline urgency stays first, then freshness. Technical/student focus
-    # remains an editorial preference only after newer valid opportunities.
+    discovered_epoch = 0.0
+    discovered_raw = str(article.get("discovered_at") or "").strip()
+    if discovered_raw:
+        try:
+            discovered = datetime.fromisoformat(discovered_raw.replace("Z", "+00:00"))
+            if discovered.tzinfo is None:
+                discovered = discovered.replace(tzinfo=timezone.utc)
+            discovered_epoch = discovered.astimezone(timezone.utc).timestamp()
+        except ValueError:
+            discovered_epoch = 0.0
+
+    # Deadline urgency stays first. Verified <=12h Jobs are enriched before
+    # verified 12-24h/today-only Jobs. Technical/student focus is an editorial
+    # preference inside the same freshness tier. Unknown-date rows remain behind
+    # verified fresh work but still drain so detail/PDF evidence can recover date.
     return (
         -deadline_rank,
+        -int(freshness.get("preferred_rank") or 0),
         -published_epoch,
         -focus_rank,
+        -discovered_epoch,
         -status_rank,
         -score,
         -source_rank,
