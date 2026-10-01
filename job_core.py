@@ -1033,9 +1033,12 @@ def publishable_backlog_count(now=None):
 
 
 def adaptive_publish_interval_minutes(publishable_backlog=None):
-    backlog = publishable_backlog_count() if publishable_backlog is None else max(0, int(publishable_backlog or 0))
-    target = 5 if backlog >= 16 else 7 if backlog >= 6 else 10
-    return max(JOBS_MIN_PUBLISH_INTERVAL_MINUTES, target)
+    # JOBS_MIN_PUBLISH_INTERVAL_MINUTES is the anti-spam spacing contract.
+    # Do not silently stretch a configured 5-minute minimum to 7/10 minutes
+    # when backlog is small: that made fresh Jobs wait for no safety benefit.
+    # Backlog still affects ranking/capacity elsewhere, not this minimum.
+    _ = publishable_backlog
+    return max(1, int(JOBS_MIN_PUBLISH_INTERVAL_MINUTES or 1))
 
 
 def job_publish_window_status(now=None, publishable_backlog=None):
