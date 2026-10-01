@@ -1654,6 +1654,13 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn("added_snapshot_only", text)
         self.assertNotIn("prefer_jobs_queue_snapshot", text)
 
+        watchdog = Path(".github/workflows/jobs-watchdog.yml").read_text(encoding="utf-8")
+        self.assertIn('cron: "4,10,16,22,28,34,40,46,52,58 * * * *"', watchdog)
+        self.assertIn("if (ageMinutes < 4)", watchdog)
+        self.assertIn("} else if (ageMinutes <= 8) {", watchdog)
+        self.assertIn("github.rest.actions.createWorkflowDispatch", watchdog)
+        self.assertIn("run.status === \"queued\" || run.status === \"in_progress\"", watchdog)
+
     def test_live_post_allowed_after_one_minute(self):
         now = datetime(2026, 4, 27, 12, 10, 0)
         with TemporaryDirectory() as temp_dir:
