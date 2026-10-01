@@ -3195,7 +3195,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                             if candidate != provider_key
                             and candidate not in failed_provider_names
                             and int(quality_retry_counts.get(candidate) or 0)
-                            <= JOBS_AI_QUALITY_REPAIRS
+                            < JOBS_AI_QUALITY_REPAIRS
                         ),
                         "",
                     )
