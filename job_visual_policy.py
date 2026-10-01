@@ -12,7 +12,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-from job_core import job_deadline_time
+from job_core import classify_urgency, job_deadline_time
 
 JOB_TEMPLATE_FILES_BY_KEY = {
     "new": "job-new-orange.png",
@@ -74,6 +74,10 @@ def semantic_template_candidates(article, now=None):
         hours_left = (deadline - now).total_seconds() / 3600
         if 0 <= hours_left <= DEADLINE_TEMPLATE_WINDOW_HOURS:
             return ("deadline",), "verified-deadline-within-72h"
+
+    urgency = classify_urgency(article, now=now).get("level")
+    if urgency in {"high", "elevated"}:
+        return ("alert",), f"verified-urgency:{urgency}"
 
     if _has_application_path(article):
         # Both are truthful because a direct apply action is verified. Rotation
