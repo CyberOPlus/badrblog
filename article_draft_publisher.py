@@ -112,16 +112,44 @@ def _article_word_count(article):
 
 def _publish_quality_error(article, articles):
     words = _article_word_count(article)
+    package = article.get("ai_input_package")
+    if not isinstance(package, dict):
+        package = {}
+        article["ai_input_package"] = package
+
+    # Official PDF pages are required visual evidence. If rendering is pending
+    # or failed, keep the article blocked until the verified pages are ready.
+    document_status = str(
+        article.get("job_document_render_status")
+        or package.get("job_document_render_status")
+        or ""
+    ).strip()
+    if document_status == "document_render_retry":
+        return "official PDF pages are not fully rendered yet"
 
     result = validate_before_publish(article, existing_articles=articles)
     article["pre_publish_quality"] = result.to_dict()
     article["final_word_count"] = result.word_count or _article_word_count(article)
     if not result.passed:
         if not _jobs_quality_error_is_ai_repairable(result.reason):
-            package = article.get("ai_input_package")
-            if not isinstance(package, dict):
-                package = {}
-                article["ai_input_package"] = package
+            reason_folded = str(result.reason or "").casefold()
+            has_official_documents = bool(
+                article.get("job_document_links")
+                or package.get("job_document_links")
+            )
+            if has_official_documents and (
+                "pdf" in reason_folded or "document" in reason_folded
+            ):
+                article["job_document_page_images"] = []
+                package["job_document_page_images"] = []
+                package["job_document_rendered_pages"] = 0
+                _mark_document_render_retry(
+                    article,
+                    package,
+                    result.reason,
+                    reason="pre_publish_visual_mismatch",
+                )
+                return result.reason
 
             visual_warning = f"optional visual removed before publish: {result.reason}"
             warnings = list(article.get("pre_publish_warnings") or [])
@@ -129,7 +157,6 @@ def _publish_quality_error(article, articles):
                 warnings.append(visual_warning)
             article["pre_publish_warnings"] = warnings
 
-            reason_folded = str(result.reason or "").casefold()
             if "cover" in reason_folded or "logo" in reason_folded or "image" in reason_folded:
                 had_verified_logo = bool(
                     article.get("company_logo_verified")
@@ -141,18 +168,6 @@ def _publish_quality_error(article, articles):
                     article["logo_visual_retry_after"] = _document_render_retry_at(hours=12)
                     article["job_article_cover_status"] = "render_retry_optional"
                     article["visual_readiness_status"] = "content_ready_visual_retry"
-
-            if "pdf" in reason_folded or "document" in reason_folded or "image" in reason_folded:
-                article["job_document_page_images"] = []
-                package["job_document_page_images"] = []
-                package["job_document_rendered_pages"] = 0
-                if article.get("job_document_links") or package.get("job_document_links"):
-                    _mark_document_render_retry(
-                        article,
-                        package,
-                        result.reason,
-                        reason="pre_publish_visual_mismatch",
-                    )
 
             article["final_html"] = format_phase3_article_html(
                 article.get("final_html") or article.get("blogger_article_html") or "",
