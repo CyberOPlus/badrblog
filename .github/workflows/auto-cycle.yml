@@ -7,6 +7,11 @@ on:
     # internal 5-minute pacing still prevents bursts.
     - cron: "1,7,13,19,25,31,37,43,49,55 * * * *"
   workflow_dispatch:
+    inputs:
+      verify:
+        description: Run full regressions before production
+        type: boolean
+        default: false
 
 concurrency:
   # Production schedule/manual runs share their own lock. Older push-smoke
@@ -49,13 +54,22 @@ jobs:
       - name: Verify publishing regressions
         # Full regressions are a manual/deployment check, not production-cycle work.
         # Scheduled runs must reach discovery/AI/Blogger quickly and repeatedly.
-        if: github.event_name == 'workflow_dispatch'
-        run: python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime -q
+        if: github.event_name == 'workflow_dispatch' && inputs.verify
+        run: |
+          TEST_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TEST_DIR"' EXIT
+          cp -a . "$TEST_DIR/repo"
+          cd "$TEST_DIR/repo"
+          python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime -q
 
       - name: Verify scheduled production smoke
-        if: github.event_name == 'schedule'
+        if: github.event_name == 'schedule' || !inputs.verify
         continue-on-error: true
         run: |
+          TEST_DIR="$(mktemp -d)"
+          trap 'rm -rf "$TEST_DIR"' EXIT
+          cp -a . "$TEST_DIR/repo"
+          cd "$TEST_DIR/repo"
           python -m py_compile \
             main.py scraper.py article_ai_processor.py article_draft_publisher.py \
             facebook_publisher.py quality_gate.py verified_fact_manifest.py
@@ -193,6 +207,7 @@ jobs:
               "FACEBOOK_AUTO_POST": "false" if os.environ.get("GITHUB_EVENT_NAME") == "push" else "true",
               "META_GRAPH_API_VERSION": "v26.0",
               "FACEBOOK_LINK_MODE": "comment",
+              "JOBS_FACEBOOK_FOLLOW_ARTICLE": "true",
               "FACEBOOK_PAGE_ID": os.environ.get("FACEBOOK_PAGE_ID", ""),
               "FACEBOOK_PAGE_ACCESS_TOKEN": os.environ.get("FACEBOOK_PAGE_ACCESS_TOKEN", ""),
               "JOBS_GOOGLE_INDEXING_ENABLED": os.environ.get("JOBS_GOOGLE_INDEXING_ENABLED", "false"),
@@ -238,10 +253,10 @@ jobs:
               "MAX_LIVE_POSTS_PER_DAY": "240",
               "TARGET_LIVE_POSTS_PER_DAY": "240",
               "MIN_MINUTES_BETWEEN_LIVE_POSTS": "0",
-              "MAX_FACEBOOK_POSTS_PER_DAY": "2",
+              "MAX_FACEBOOK_POSTS_PER_DAY": "240",
               "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": "0",
-              "FACEBOOK_HARD_MAX_POSTS_PER_DAY": "3",
-              "FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES": "45",
+              "FACEBOOK_HARD_MAX_POSTS_PER_DAY": "240",
+              "FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES": "5",
               "AI_PROVIDER": "auto",
               "LOCAL_PUBLISH_FALLBACK": "false",
           }

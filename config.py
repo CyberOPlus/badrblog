@@ -219,10 +219,10 @@ JOBS_ENRICH_MAX_TARGETS_PER_CYCLE = max(
 
 # Publish only opportunities whose official publication time proves they are fresh.
 # Unknown publication time is not treated as fresh. The configured value is
-# deliberately capped at 24h; production uses the stricter agreed 12h window.
+# capped at the agreed 12h window, including manual runs.
 JOBS_MAX_PUBLISH_AGE_HOURS = max(
     1,
-    min(24, _env_int("JOBS_MAX_PUBLISH_AGE_HOURS", 12)),
+    min(12, _env_int("JOBS_MAX_PUBLISH_AGE_HOURS", 12)),
 )
 
 # Jobs discovery pagination. fetch_limit_per_run remains a compatibility/page-size
@@ -262,7 +262,7 @@ MIN_MINUTES_BETWEEN_FACEBOOK_POSTS = _env_int("MIN_MINUTES_BETWEEN_FACEBOOK_POST
 # Independent safety rails: a bad env value or urgent override must not flood a Page.
 FACEBOOK_HARD_MAX_POSTS_PER_DAY = max(1, _env_int("FACEBOOK_HARD_MAX_POSTS_PER_DAY", 3))
 FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES = max(
-    15,
+    5,
     _env_int("FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES", 45),
 )
 WHATSAPP_CHANNEL_URL = os.getenv(
@@ -274,6 +274,7 @@ JOBS_TIMEZONE = os.getenv("JOBS_TIMEZONE", "Africa/Casablanca").strip() or "Afri
 JOBS_MIN_SELECTION_SCORE = _env_int("JOBS_MIN_SELECTION_SCORE", 65)
 JOBS_QUEUE_SCORE = _env_int("JOBS_QUEUE_SCORE", 50)
 JOBS_URGENT_EXTRA_DAILY_LIMIT = _env_int("JOBS_URGENT_EXTRA_DAILY_LIMIT", 1)
+JOBS_FACEBOOK_FOLLOW_ARTICLE = _env_bool_any(["JOBS_FACEBOOK_FOLLOW_ARTICLE"], False)
 # Legacy compatibility only: Facebook no longer filters Jobs by score; score is queue priority only.
 JOBS_FACEBOOK_MIN_SCORE = _env_int("JOBS_FACEBOOK_MIN_SCORE", 65)
 JOBS_ADAPTIVE_PUBLISHING = _env_bool_any(["JOBS_ADAPTIVE_PUBLISHING"], False)

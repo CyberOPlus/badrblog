@@ -3362,6 +3362,13 @@ async def _discover_latest_article_links_async(enabled_sources):
                 }
                 print(f"  Source failed without stopping the fetch run: {error}")
 
+        if JOBS_MODE:
+            # Generic HTML/feed adapters may return known rows even though ATS
+            # adapters already filter them. Apply the same durable identity
+            # filter to every adapter without imposing a seen-streak on
+            # potentially unordered lists.
+            links = [link for link in _merge_discovery_link_groups(links)
+                     if _discovery_identity(link) not in known_ids]
         return {
             "source": source,
             "source_name": source_name,
@@ -3667,6 +3674,9 @@ def discover_latest_article_links(sources):
             }
             print(f"  Source failed without stopping the fetch run: {error}")
 
+        if JOBS_MODE:
+            links = [link for link in _merge_discovery_link_groups(links)
+                     if _discovery_identity(link) not in known_ids]
         result_links = links if JOBS_MODE else links[:fetch_limit]
         for link in result_links:
             discovered.append(
