@@ -324,10 +324,17 @@ def _job_facebook_expired(article, now=None):
         return False
     if classify_urgency(article, now=now).get("level") == "expired":
         return True
-    # Social promotion follows the same freshness promise as Blogger. A job that
-    # waited in the Facebook queue until its source posting became >24h old is
-    # dropped from social only; the already-published Blogger article remains.
+    # New Blogger publications always carry verified source-age evidence because
+    # the publication gate requires it. Legacy campaign-memory rows created before
+    # that policy may not; do not retroactively erase their pending Facebook work.
     freshness = job_publication_freshness(article, now=now)
+    has_source_age_evidence = bool(
+        str(article.get("job_published_at") or article.get("source_published_at") or "").strip()
+        or str(article.get("source_published_label") or "").strip()
+    )
+    if not has_source_age_evidence:
+        return False
+    # Once verified source age exceeds 24h, expire only the social queue item.
     return not bool(freshness.get("publishable"))
 
 
@@ -635,13 +642,21 @@ def _facebook_job_priority(article, now=None):
     focus = job_focus_priority(article)
     source_age = freshness.get("age_hours")
     source_newness = -float(source_age) if source_age is not None else -24.0
+    has_source_age_evidence = bool(
+        str(article.get("job_published_at") or article.get("source_published_at") or "").strip()
+        or str(article.get("source_published_label") or "").strip()
+    )
+    # Preserve starvation protection only for pre-policy legacy rows that have no
+    # source-age evidence. New jobs are ordered by verified source freshness.
+    legacy_age_boost = min(age_hours / 24.0, 14.0) if not has_source_age_evidence else 0.0
     fifo_priority = -queued_time.timestamp() if queued_time else 0.0
 
-    # Deadline urgency stays first; otherwise promote the newest verified
-    # technical/internship jobs before general jobs. Score only breaks ties.
+    # Deadline urgency stays first; otherwise promote <=12h source posts and then
+    # cyber/IT/development/internships. Score only breaks later ties.
     return (
         deadline_boost,
         int(freshness.get("preferred_rank") or 0),
+        legacy_age_boost,
         int(focus.get("rank") or 0),
         source_newness,
         urgency_boost,
