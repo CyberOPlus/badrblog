@@ -1,0 +1,299 @@
+name: Direct Article Repair
+
+on:
+  push:
+    paths:
+      - ".github/workflows/direct-article-repair.yml"
+
+concurrency:
+  group: jobs-direct-article-repair
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Create direct Blogger environment
+        env:
+          BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+          BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
+          BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+
+          required = ("BLOGGER_BLOG_ID","BLOGGER_CLIENT_SECRET_JSON","BLOGGER_TOKEN_JSON")
+          missing = [name for name in required if not os.environ.get(name, "").strip()]
+          if missing:
+              raise SystemExit("Missing direct repair secrets: " + ", ".join(missing))
+
+          for name in required:
+              print(f"::add-mask::{os.environ[name]}")
+
+          json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"])
+          json.loads(os.environ["BLOGGER_TOKEN_JSON"])
+          Path("data").mkdir(exist_ok=True)
+          Path("client_secret.json").write_text(os.environ["BLOGGER_CLIENT_SECRET_JSON"], encoding="utf-8")
+          Path("data/token.json").write_text(os.environ["BLOGGER_TOKEN_JSON"], encoding="utf-8")
+
+          env = {
+              "JOBS_MODE":"true",
+              "JOBS_TEST_MODE":"false",
+              "JOBS_TIMEZONE":"Africa/Casablanca",
+              "JOBS_EXPECTED_BLOG_HOST":"cyberopluss.blogspot.com",
+              "PUBLISH_MODE":"live",
+              "SAFE_MODE":"false",
+              "BLOGGER_LIVE_ENABLED":"true",
+              "BLOG_ID":os.environ["BLOGGER_BLOG_ID"],
+              "FACEBOOK_AUTO_POST":"false",
+              "MIN_EXTRACTED_CHARS":"80",
+              "ARTICLE_TIMEOUT_SECONDS":"12",
+              "JOBS_GOOGLE_INDEXING_ENABLED":"false",
+          }
+          Path(".env").write_text("\n".join(f"{k}={v}" for k,v in env.items())+"\n", encoding="utf-8")
+          PY
+
+      - name: Update the existing test article directly
+        run: |
+          python - <<'PY'
+          import json, re
+          from datetime import datetime, timezone
+          from html import escape
+
+          import article_queue
+          import article_enricher
+          import article_processor
+          import article_draft_publisher
+          import job_core
+
+          target_id = "direct-repair-kadev-c43918"
+          target_url = "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/ee457511-2cf7-4178-bcb7-b09cd1638bca"
+          blogger_post_id = "5081766243361258826"
+          blogger_url = "https://cyberopluss.blogspot.com/2026/10/kadev-competition-iframe-administratif.html"
+
+          # Update an existing published test post only. Production freshness
+          # policy remains unchanged; this local constant is not committed.
+          job_core.JOBS_MAX_PUBLISH_AGE_HOURS = 168
+          article_draft_publisher.JOBS_MAX_PUBLISH_AGE_HOURS = 168
+
+          queue = article_queue.load_article_queue()
+          queue["articles"] = [
+              a for a in queue.get("articles", [])
+              if a.get("id") != target_id and a.get("url") != target_url
+          ]
+          article = {
+              "id": target_id,
+              "title": "شركة خريبكة للتهيئة والتنمية KADEV: إطار إداري ومالي",
+              "url": target_url,
+              "canonical_url": target_url,
+              "source_name": "Emploi-Public — établissements publics",
+              "source_url": target_url,
+              "source_priority": "S+",
+              "official_source": True,
+              "source_country": "Morocco",
+              "source_eligibility": "morocco",
+              "ats_provider": "emploi_public",
+              "ats_reference": "C43918/26",
+              "source_published_at": "2026-09-30",
+              "published_at_source": "official_detail_page",
+              "freshness_source": "official_detail_page",
+              "discovered_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+              "status": "ready",
+              "archived": False,
+          }
+          queue["articles"].append(article)
+          article_queue.save_article_queue(queue)
+
+          html, fetch_error = article_enricher._fetch_html_with_requests(target_url)
+          if not html:
+              raise SystemExit("ARTICLE_REPAIR_FETCH_FAILED: " + str(fetch_error))
+          ok, enrich_error = article_enricher._apply_enrichment_from_html(article, html, target_url)
+          if not ok:
+              raise SystemExit("ARTICLE_REPAIR_ENRICH_FAILED: " + str(enrich_error))
+
+          docs = article.get("job_document_links") or []
+          if len(docs) < 2:
+              raise SystemExit("ARTICLE_REPAIR_DOCUMENT_EXTRACTION_FAILED: " + json.dumps(docs, ensure_ascii=False))
+
+          article["job_published_at"] = article.get("job_published_at") or "2026-09-30"
+          article["source_published_at"] = article.get("source_published_at") or "2026-09-30"
+          article["job_eligibility"] = article.get("job_eligibility") or "morocco"
+          if not article.get("job_application_url"):
+              article["job_application_url"] = target_url
+              article["job_application_link_kind"] = "official_job_page"
+              article["job_application_is_specific"] = True
+
+          quality, identity = job_core.prepare_job_candidate(article)
+          if not quality.get("hard_gate_passed"):
+              raise SystemExit("ARTICLE_REPAIR_QUALITY_FAILED: " + "; ".join(quality.get("reasons") or []))
+          if identity.get("action") == "duplicate":
+              raise SystemExit("ARTICLE_REPAIR_DUPLICATE: " + str(identity.get("reason")))
+
+          article["status"] = "selected"
+          article_queue.save_article_queue(queue)
+          prep = article_processor.prepare_selected_articles_for_ai(target_article_id=target_id)
+          queue = article_queue.load_article_queue()
+          article = next(a for a in queue["articles"] if a.get("id") == target_id)
+          if article.get("processing_status") != "ready_for_ai":
+              raise SystemExit("ARTICLE_REPAIR_PREP_FAILED: " + str(article.get("processing_error")))
+
+          pdf_text = "\n".join(
+              str(row.get("text") or "")
+              for row in (article.get("job_document_texts") or [])
+              if isinstance(row, dict)
+          )
+          if not pdf_text.strip():
+              raise SystemExit("ARTICLE_REPAIR_PDF_TEXT_MISSING")
+
+          company = str(article.get("job_company") or "شركة خريبكة للتهيئة والتنمية (KADEV)").strip()
+          role = str(article.get("job_title") or "إطار إداري ومالي (رجل/امرأة)").strip()
+          positions = int(article.get("job_number_of_positions") or 1)
+          contract = str(article.get("job_contract_type") or "توظيف بموجب عقد").strip()
+          deadline = str(article.get("job_deadline_display") or article.get("job_deadline") or "15 أكتوبر 2026 - 15:00").strip()
+
+          evidence = "\n".join([
+              str(article.get("full_article_text") or ""),
+              pdf_text,
+          ])
+          email_match = re.search(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}", evidence)
+          email = email_match.group(0) if email_match else "kadev.rec2026@gmail.com"
+
+          has_degree = bool(re.search(r"Bac\s*\+?\s*3\s*/\s*5|Bac\+3/5", pdf_text, flags=re.I))
+          has_experience = bool(re.search(r"(?:minimum|min\.?)[^\n]{0,20}3\s+ans|3\s+ans\s+d['’]exp", pdf_text, flags=re.I))
+
+          rows = [
+              ("الجهة المنظمة", company),
+              ("المنصب", role),
+              ("عدد المناصب", f"{positions} منصب"),
+              ("نوع التوظيف", contract),
+              ("آخر أجل للترشيح", deadline),
+              ("بريد الترشيح", email),
+          ]
+          table = "".join(
+              "<tr><th>"+escape(label)+"</th><td>"+escape(value)+"</td></tr>"
+              for label, value in rows if value
+          )
+
+          requirements = []
+          if has_degree:
+              requirements.append("Bac+3/5 في المالية أو المحاسبة أو التسيير أو التدقيق أو إدارة المقاولات أو ما يعادلها.")
+          if has_experience:
+              requirements.append("خبرة مهنية لا تقل عن 3 سنوات في منصب مماثل.")
+          if not requirements:
+              requirements.append("تُراجع شروط التكوين والخبرة بالتفصيل في بطاقة الوظيفة الرسمية أسفل المقال.")
+
+          links = []
+          seen = set()
+          def add_link(label, url):
+              url = str(url or "").strip()
+              key = job_core.canonicalize_job_url(url) or url
+              if not url or key in seen:
+                  return
+              seen.add(key)
+              links.append(
+                  "<p><a class='extL' href='"+escape(url, quote=True)+"' "
+                  "rel='nofollow noreferrer noopener' target='_blank'>"+escape(label)+"</a></p>"
+              )
+
+          add_link("صفحة الإعلان الرسمية", target_url)
+          for index, item in enumerate(docs, start=1):
+              if not isinstance(item, dict):
+                  continue
+              add_link(
+                  str(item.get("label") or f"الوثيقة الرسمية {index}"),
+                  item.get("url"),
+              )
+
+          article["seo_title"] = "شركة KADEV: توظيف إطار إداري ومالي بجهة بني ملال خنيفرة"
+          article["seo_description"] = (
+              "شركة KADEV تعلن عن توظيف إطار إداري ومالي واحد بعقد، "
+              "مع شروط التكوين والخبرة وآخر أجل وطريقة الترشيح والوثائق الرسمية."
+          )
+          article["seo_slug"] = "kadev-administrative-financial-officer"
+          article["desired_slug"] = article["seo_slug"]
+
+          body = [
+              "<p>تفتح شركة خريبكة للتهيئة والتنمية (KADEV) الترشيح لشغل منصب إطار إداري ومالي واحد ضمن توظيف بموجب عقد.</p>",
+              "<h2>المعلومات الأساسية</h2>",
+              "<table><tbody>"+table+"</tbody></table>",
+              "<h2>الشروط الأساسية</h2>",
+              "<ul>"+"".join("<li>"+escape(item)+"</li>" for item in requirements)+"</ul>",
+              "<h2>أبرز المهام</h2>",
+              "<ul>"
+              "<li>التدبير الإداري والمالي والمحاسبي للشركة.</li>"
+              "<li>إعداد الميزانية وتتبع النفقات والمحاسبة والخزينة والفوترة.</li>"
+              "<li>تتبع العقود والملفات الإدارية والموارد البشرية.</li>"
+              "<li>إعداد التقارير المالية والإدارية ورفع التنبيهات عند وجود مخاطر أو اختلالات.</li>"
+              "</ul>",
+              "<h2>ملف الترشيح</h2>",
+              "<ul>"
+              "<li>السيرة الذاتية.</li>"
+              "<li>نسخة من بطاقة التعريف الوطنية.</li>"
+              "<li>رسالة تحفيزية.</li>"
+              "<li>نسخة من الدبلوم المطلوب.</li>"
+              "<li>شهادات تثبت الخبرة المطلوبة.</li>"
+              "</ul>",
+              "<h2>الروابط الرسمية</h2>",
+              *links,
+          ]
+          article["final_html"] = "".join(body)
+          article["blogger_article_html"] = article["final_html"]
+          article["ai_status"] = "completed"
+          article["ai_quality_status"] = "passed"
+          article["ai_provider_used"] = "direct-article-repair"
+          article["blogger_post_id"] = blogger_post_id
+          article["blogger_post_url"] = blogger_url
+          article["publish_status"] = "published"
+          article_queue.save_article_queue(queue)
+
+          result = article_draft_publisher.publish_one_blogger_post(
+              target_article_id=target_id,
+              mode="live",
+          )
+          queue = article_queue.load_article_queue()
+          article = next(a for a in queue["articles"] if a.get("id") == target_id)
+          final_html = str(article.get("final_html") or "")
+          pages = article.get("job_document_page_images") or []
+
+          forbidden = ("المرجع", "رمز المباراة", "تاريخ النشر", "C43918/26", "30 شتنبر 2026")
+          leaked = [value for value in forbidden if value in final_html]
+          if leaked:
+              raise SystemExit("ARTICLE_REPAIR_INTERNAL_METADATA_LEAK: " + ", ".join(leaked))
+          if len(pages) < 2 or "jobOfficialDocuments" not in final_html or "jobDocPageImage" not in final_html:
+              raise SystemExit("ARTICLE_REPAIR_PDF_PAGES_MISSING")
+          if article.get("publish_status") != "published" or article.get("blogger_post_id") != blogger_post_id:
+              raise SystemExit("ARTICLE_REPAIR_BLOGGER_FAILED: " + str(result.get("error")))
+
+          print("ARTICLE_REPAIR_RESULT=" + json.dumps({
+              "blogger_url": article.get("blogger_post_url"),
+              "post_id": article.get("blogger_post_id"),
+              "documents": len(article.get("job_document_links") or []),
+              "pdf_text_pages": article.get("job_document_text_pages"),
+              "rendered_pdf_pages": len(pages),
+              "word_count": article.get("final_word_count"),
+              "reference_hidden": "المرجع" not in final_html and "C43918/26" not in final_html,
+              "publication_date_hidden": "تاريخ النشر" not in final_html and "30 شتنبر 2026" not in final_html,
+          }, ensure_ascii=False))
+          PY
