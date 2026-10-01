@@ -8,6 +8,7 @@ from io import StringIO
 from unittest.mock import MagicMock, patch
 from zoneinfo import ZoneInfo
 from googleapiclient.errors import HttpError
+from bs4 import BeautifulSoup
 
 import article_ai_processor as ai
 import article_draft_publisher as draft
@@ -807,6 +808,20 @@ class JobsRuntimeTests(unittest.TestCase):
             "added_by_category": {},
         }
 
+        order = []
+
+        def discover_side_effect(*args, **kwargs):
+            order.append("discover")
+            return discovery
+
+        def queue_side_effect(*args, **kwargs):
+            order.append("queue")
+            return queue_stats
+
+        def state_side_effect(*args, **kwargs):
+            order.append("state")
+            return 2
+
         with (
             patch.object(main, "JOBS_MODE", True),
             patch.object(main, "load_sources", return_value=sources),
@@ -818,14 +833,17 @@ class JobsRuntimeTests(unittest.TestCase):
             patch.object(
                 main,
                 "discover_latest_article_links",
-                return_value=discovery,
+                side_effect=discover_side_effect,
             ) as latest,
-            patch.object(main, "add_articles_to_queue", return_value=queue_stats),
+            patch.object(main, "add_articles_to_queue", side_effect=queue_side_effect),
+            patch.object(main, "persist_discovery_state", side_effect=state_side_effect) as persist_state,
             redirect_stdout(StringIO()),
         ):
             result = main.run_fetch_only()
 
-        latest.assert_called_once_with(sources)
+        latest.assert_called_once_with(sources, persist_state=False)
+        persist_state.assert_called_once_with(discovery)
+        self.assertEqual(order, ["discover", "queue", "state"])
         self.assertEqual(result["sources_checked"], 2)
 
     def test_adaptive_policy_starts_conservative_and_ramps_after_healthy_days(self):
@@ -5022,6 +5040,154 @@ class JobsRuntimeTests(unittest.TestCase):
         generate.assert_not_called()
         self.assertEqual(first["fingerprint"], second["fingerprint"])
         self.assertEqual(first["caption"], second["caption"])
+
+
+    def test_blogger_remote_identity_survives_schema_failure(self):
+        article = {
+            "id": "checkpoint-live",
+            "url": "https://example.com/jobs/checkpoint-live",
+            "status": "selected",
+            "processing_status": "ready_for_ai",
+            "ai_status": "completed",
+            "ai_quality_status": "passed",
+            "ai_provider_used": "gemini",
+            "final_html": "<p>محتوى وظيفة موثق.</p>",
+            "seo_title": "وظيفة موثقة",
+            "job_campaign_id": "campaign-checkpoint",
+        }
+        queue = {"articles": [article]}
+        service = MagicMock()
+        posts = MagicMock()
+        service.posts.return_value = posts
+        posts.insert.return_value = MagicMock()
+        remote_post = {
+            "id": "blogger-checkpoint-1",
+            "status": "LIVE",
+            "url": "https://example.blogspot.com/2026/10/checkpoint-live.html",
+        }
+        snapshots = []
+
+        with (
+            patch.object(draft, "load_article_queue", return_value=queue),
+            patch.object(draft, "save_article_queue", side_effect=lambda q: snapshots.append(copy.deepcopy(q))),
+            patch.object(draft, "_effective_publish_mode", return_value="live"),
+            patch.object(draft, "_sanitize_article_final_html"),
+            patch.object(draft, "_publish_quality_error", return_value=""),
+            patch.object(draft, "get_credentials", return_value=object()),
+            patch.object(draft, "create_blogger_service", return_value=service),
+            patch.object(draft, "is_local_publisher", return_value=False),
+            patch.object(draft, "_ensure_jobs_target_blog"),
+            patch.object(draft, "_get_saved_post_by_id", return_value=None),
+            patch.object(draft, "_find_matching_blogger_posts", return_value=[]),
+            patch.object(draft, "_assert_fresh_job_for_new_live_publish"),
+            patch.object(draft, "_execute_blogger_request", return_value=remote_post),
+            patch.object(draft, "_ensure_returned_post_url", side_effect=lambda _s, post: post),
+            patch.object(draft, "_ensure_post_url_for_mode"),
+            patch.object(draft, "_reject_numeric_new_job_permalink"),
+            patch.object(draft, "_apply_jobposting_schema", side_effect=RuntimeError("schema outage")),
+            patch.object(draft, "record_published_article", return_value={"saved": True}),
+            patch.object(draft, "notify_job_url", return_value={"status": "disabled"}),
+        ):
+            result = draft.publish_one_blogger_post(
+                target_article_id="checkpoint-live",
+                mode="live",
+            )
+
+        self.assertTrue(result["created_new"])
+        self.assertEqual(article["blogger_post_id"], "blogger-checkpoint-1")
+        self.assertEqual(article["publish_status"], "published")
+        self.assertEqual(article["jobposting_schema_status"], "retry_pending")
+        self.assertTrue(
+            any(
+                row["articles"][0].get("blogger_post_id") == "blogger-checkpoint-1"
+                for row in snapshots
+            )
+        )
+
+    def test_blogger_success_is_not_reversed_by_cache_or_indexing_failure(self):
+        article = {
+            "id": "optional-followup-failure",
+            "status": "selected",
+            "facebook_status": "",
+            "final_html": "<p>وظيفة منشورة.</p>",
+        }
+        post = {
+            "id": "blogger-optional-1",
+            "url": "https://example.blogspot.com/2026/10/optional-followup.html",
+        }
+        with (
+            patch.object(draft, "_effective_publish_mode", return_value="live"),
+            patch.object(draft, "record_published_article", side_effect=RuntimeError("memory unavailable")),
+            patch.object(draft, "notify_job_url", side_effect=RuntimeError("indexing unavailable")),
+        ):
+            draft._apply_success(article, post, "live")
+
+        self.assertEqual(article["publish_status"], "published")
+        self.assertEqual(article["blogger_post_id"], "blogger-optional-1")
+        self.assertFalse(article["internal_cache_saved"])
+        self.assertEqual(article["google_indexing_status"], "retry_pending")
+
+    def test_uncertain_facebook_delivery_reconciles_exact_page_post(self):
+        caption = "\u200fفرصة مهندس شبكات\n\u200f#وظائف #المغرب #تقنية"
+        article = {
+            "id": "uncertain-found",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/2026/10/uncertain-found.html",
+            "facebook_status": "delivery_uncertain",
+            "facebook_attempt_caption": caption,
+            "facebook_delivery_uncertain_at": "2026-10-01T16:00:00+00:00",
+        }
+        now = datetime(2026, 10, 1, 16, 5, tzinfo=timezone.utc)
+        with (
+            patch.object(facebook, "FACEBOOK_PAGE_ID", "page-1"),
+            patch.object(facebook, "FACEBOOK_PAGE_ACCESS_TOKEN", "token"),
+            patch.object(
+                facebook,
+                "_get_from_graph",
+                return_value={
+                    "data": [{
+                        "id": "page-1_123",
+                        "message": caption,
+                        "created_time": "2026-10-01T16:00:10+00:00",
+                    }]
+                },
+            ),
+            patch.object(facebook, "_persist_jobs_social_state"),
+        ):
+            result = facebook.reconcile_uncertain_facebook_delivery(article, now=now)
+
+        self.assertTrue(result["resolved"])
+        self.assertEqual(article["facebook_post_id"], "page-1_123")
+        self.assertEqual(article["facebook_status"], "posted_comment_failed")
+        self.assertNotIn("facebook_delivery_uncertain_at", article)
+
+    def test_uncertain_facebook_delivery_reopens_only_after_three_absence_checks(self):
+        article = {
+            "id": "uncertain-absent",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/2026/10/uncertain-absent.html",
+            "facebook_status": "delivery_uncertain",
+            "facebook_attempt_caption": "\u200fفرصة مختلفة\n\u200f#وظائف #المغرب #تقنية",
+            "facebook_delivery_uncertain_at": "2026-10-01T15:30:00+00:00",
+            "facebook_delivery_reconcile_checks": 2,
+        }
+        now = datetime(2026, 10, 1, 16, 0, tzinfo=timezone.utc)
+        with (
+            patch.object(facebook, "FACEBOOK_PAGE_ID", "page-1"),
+            patch.object(facebook, "FACEBOOK_PAGE_ACCESS_TOKEN", "token"),
+            patch.object(facebook, "_get_from_graph", return_value={"data": []}),
+            patch.object(facebook, "_persist_jobs_social_state"),
+            patch.object(facebook.time, "time", return_value=1000),
+        ):
+            result = facebook.reconcile_uncertain_facebook_delivery(article, now=now)
+
+        self.assertTrue(result["reopened_for_retry"])
+        self.assertEqual(article["facebook_status"], "failed")
+        self.assertEqual(article["facebook_failure_count"], 1)
+        self.assertGreater(article["facebook_retry_after_epoch"], 1000)
+
 
 
 
