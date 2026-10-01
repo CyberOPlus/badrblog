@@ -948,28 +948,28 @@ Manual Related Posts:
 
 def _clean_prompt_source_text(value):
     """Remove freshness/identity metadata before it ever reaches the writer."""
-    text = re.sub(r"\\s+", " ", str(value or "")).strip()
+    text = re.sub(r"\s+", " ", str(value or "")).strip()
     if not text:
         return ""
     date_value = (
-        r"(?:\\d{4}-\\d{2}-\\d{2}|\\d{1,2}[/-]\\d{1,2}[/-]\\d{4}|"
-        r"\\d{1,2}\\s+[A-Za-zÀ-ÿ\\u0600-\\u06FF]+\\s+\\d{4})"
+        r"(?:\d{4}-\d{2}-\d{2}|\d{1,2}[/-]\d{1,2}[/-]\d{4}|"
+        r"\d{1,2}\s+[A-Za-zÀ-ÿ\u0600-\u06FF]+\s+\d{4})"
     )
     text = re.sub(
-        rf"(?i)(?:تاريخ\\s+النشر|تاريخ\\s+نشر\\s+(?:الإعلان|الوظيفة)|"
-        rf"تاريخ\\s+الإعلان|date\\s+de\\s+publication|publication\\s+date|"
-        rf"published\\s+on)\\s*[:：-]?\\s*{date_value}",
+        rf"(?i)(?:تاريخ\s+النشر|تاريخ\s+نشر\s+(?:الإعلان|الوظيفة)|"
+        rf"تاريخ\s+الإعلان|date\s+de\s+publication|publication\s+date|"
+        rf"published\s+on)\s*[:：-]?\s*{date_value}",
         " ",
         text,
     )
     text = re.sub(
-        r"(?i)(?:المرجع|الرقم\\s+المرجعي|رمز\\s+المباراة|"
-        r"r[eé]f(?:[ée]rence)?\\.?|reference(?:\\s+(?:no\\.?|number))?)"
-        r"\\s*[:：#-]?\\s*[A-Za-z0-9._/-]{2,60}",
+        r"(?i)(?:المرجع|الرقم\s+المرجعي|رمز\s+المباراة|"
+        r"r[eé]f(?:[ée]rence)?\.?|reference(?:\s+(?:no\.?|number))?)"
+        r"\s*[:：#-]?\s*[A-Za-z0-9._/-]{2,60}",
         " ",
         text,
     )
-    return re.sub(r"\\s{2,}", " ", text).strip()
+    return re.sub(r"\s{2,}", " ", text).strip()
 
 
 def _compact_prompt_document_texts(rows):
@@ -980,10 +980,9 @@ def _compact_prompt_document_texts(rows):
         text = str(row.get("text") or "").strip()
         if not text:
             continue
-        # Preserve the OCR evidence itself, only normalize whitespace and remove
-        # duplicate empty space. Do not summarize or drop later pages here.
-        text = "\\n".join(
-            re.sub(r"[ \\t]+", " ", line).strip()
+        # Preserve every readable OCR page; only normalize horizontal spacing.
+        text = "\n".join(
+            re.sub(r"[ \t]+", " ", line).strip()
             for line in text.splitlines()
             if line.strip()
         )
@@ -994,7 +993,6 @@ def _compact_prompt_document_texts(rows):
             "text": text,
         })
     return compact
-
 
 def _compact_prompt_package(package):
     """Keep the full evidence contract while removing transport-only/default noise."""
