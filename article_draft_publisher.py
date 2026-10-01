@@ -506,8 +506,15 @@ def _persist_generated_job_cover(path):
     )
 
 
-def _document_render_retry_at(hours=6):
-    return (datetime.now(timezone.utc) + timedelta(hours=hours)).isoformat()
+def _document_render_retry_at(hours=None, minutes=None):
+    if hours is not None:
+        delay = timedelta(hours=max(0, float(hours)))
+    else:
+        # Official PDFs are part of the useful job evidence. A temporary renderer
+        # or git-persist failure should be retried in the next few production
+        # cycles, not six hours later, while still never blocking the Blogger post.
+        delay = timedelta(minutes=max(1, int(minutes or 15)))
+    return (datetime.now(timezone.utc) + delay).isoformat()
 
 
 def _mark_document_render_retry(article, package, error, *, reason="render_failed"):
