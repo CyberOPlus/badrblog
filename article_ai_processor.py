@@ -434,9 +434,19 @@ def _iso_retry_until(value):
 
 def _article_ai_retry_until(article):
     article = article or {}
+    scope = str(
+        article.get("ai_failure_scope")
+        or article.get("ai_previous_failure_scope")
+        or ""
+    ).strip().lower()
+    fingerprint_retry = (
+        _failure_fingerprint_retry_until(article.get("ai_failure_fingerprint"))
+        if scope in {"quality", "article_input", "retry_backoff"}
+        else 0.0
+    )
     return max(
         _iso_retry_until(article.get("ai_retry_after")),
-        _failure_fingerprint_retry_until(article.get("ai_failure_fingerprint")),
+        fingerprint_retry,
     )
 
 
@@ -3658,30 +3668,6 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     failed_provider_names.add(provider)
                     provider_failure_categories[provider] = _provider_error_category(error)
 
-                infrastructure_failures = {
-                    name
-                    for name, category in provider_failure_categories.items()
-                    if category in {"outage", "timeout"}
-                }
-                if len(infrastructure_failures) >= 2:
-                    try:
-                        configured_providers = _resolve_providers()
-                    except Exception:
-                        configured_providers = sorted(failed_provider_names)
-                    circuit = _open_global_circuit(
-                        error,
-                        providers=configured_providers,
-                    )
-                    log_event(
-                        "ai_global_outage_detected_early",
-                        article_id=article.get("id"),
-                        failed_providers=",".join(sorted(infrastructure_failures)),
-                        category=circuit.get("category", ""),
-                        failure_fingerprint=circuit.get("fingerprint", ""),
-                        retry_after=_epoch_to_iso(circuit.get("until", 0)),
-                    )
-                    break
-
                 if attempt < total_attempts:
                     next_provider = ""
                     if provider_sequence:
@@ -3765,7 +3751,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     article["ai_failure_scope"] = failure_scope
     article["ai_failure_fingerprint"] = fingerprint
     article["ai_failure_category"] = failure_category
-    if failure_scope == "global_outage":
+    if failure_scope in {"global_outage", "cycle_budget"}:
         article.pop("ai_retry_after", None)
     else:
         article["ai_retry_after"] = _epoch_to_iso(failure_retry_until)
