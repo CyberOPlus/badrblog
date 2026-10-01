@@ -3019,6 +3019,10 @@ class JobsRuntimeTests(unittest.TestCase):
             "document_render_retry",
         )
         self.assertTrue(article["job_document_render_retry_after"])
+        retry_at = datetime.fromisoformat(article["job_document_render_retry_after"])
+        now = datetime.now(timezone.utc)
+        self.assertGreater(retry_at, now)
+        self.assertLessEqual(retry_at - now, timedelta(minutes=16))
         self.assertEqual(article["ai_status"], "completed")
         self.assertEqual(article["final_html"], "<p>مقال صحيح.</p>")
 
