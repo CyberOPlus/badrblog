@@ -38,109 +38,15 @@ jobs:
       - name: Recover invalid Jobs queue from git history
         shell: bash
         run: |
-          set +e
-          python - <<'PY'
-          import json
-          from pathlib import Path
-
-          path = Path("jobs_article_queue.json")
-
-          def load_valid_queue(candidate):
-              try:
-                  data = json.loads(candidate.read_text(encoding="utf-8-sig"))
-              except Exception:
-                  return None
-              if not isinstance(data, dict) or not isinstance(data.get("articles"), list):
-                  return None
-              return data
-
-          current = load_valid_queue(path) if path.exists() else None
-          if current is not None:
-              print(
-                  f"Jobs queue is valid before cycle: "
-                  f"{len(current.get('articles') or [])} article(s)."
-              )
-              raise SystemExit(0)
-
-          print("Jobs queue is missing/corrupt/zero-byte; history recovery required.")
-          raise SystemExit(42)
-          PY
-          recovery_status=$?
-          set -e
-
-          if [ "$recovery_status" -eq 0 ]; then
+          if python jobs_queue_recovery.py --check; then
             exit 0
-          fi
-          if [ "$recovery_status" -ne 42 ]; then
-            exit "$recovery_status"
           fi
 
           # Normal runs keep checkout shallow. Pay the history cost only after
           # actual queue corruption/loss, then recover the newest valid non-empty
-          # queue rather than forcing an expensive rediscovery of the whole backlog.
+          # queue instead of rediscovering the whole backlog.
           git fetch --no-tags --deepen=500 origin main || true
-
-          python - <<'PY'
-          import json
-          import os
-          import subprocess
-          from pathlib import Path
-
-          path = Path("jobs_article_queue.json")
-
-          def parse_queue_text(text):
-              try:
-                  data = json.loads(text)
-              except Exception:
-                  return None
-              if not isinstance(data, dict) or not isinstance(data.get("articles"), list):
-                  return None
-              return data
-
-          try:
-              commits = subprocess.check_output(
-                  ["git", "log", "--format=%H", "--", str(path)],
-                  text=True,
-              ).splitlines()
-          except Exception as error:
-              print(f"::warning::Could not inspect Jobs queue history: {error}")
-              raise SystemExit(0)
-
-          recovered = None
-          recovered_sha = ""
-          for commit_sha in commits:
-              try:
-                  payload = subprocess.check_output(
-                      ["git", "show", f"{commit_sha}:{path.as_posix()}"],
-                      text=True,
-                      stderr=subprocess.DEVNULL,
-                  )
-              except Exception:
-                  continue
-              data = parse_queue_text(payload)
-              if data is None or not (data.get("articles") or []):
-                  continue
-              recovered = payload
-              recovered_sha = commit_sha
-              break
-
-          if recovered is None:
-              print(
-                  "::warning::No valid non-empty Jobs queue exists in fetched history; "
-                  "normal discovery-state recovery will rebuild it."
-              )
-              raise SystemExit(0)
-
-          temp = path.with_suffix(path.suffix + ".history-recovery.tmp")
-          temp.write_text(recovered, encoding="utf-8")
-          os.replace(temp, path)
-
-          restored = parse_queue_text(path.read_text(encoding="utf-8-sig")) or {}
-          print(
-              f"Recovered Jobs queue from git history commit {recovered_sha}: "
-              f"{len(restored.get('articles') or [])} article(s)."
-          )
-          PY
+          python jobs_queue_recovery.py --recover
 
       - name: Set up Python
         uses: actions/setup-python@v7
