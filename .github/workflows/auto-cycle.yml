@@ -53,6 +53,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Install scanned-PDF OCR support
+        run: |
+          if ! command -v tesseract >/dev/null 2>&1 || ! tesseract --list-langs 2>/dev/null | grep -qx 'fra'; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-fra
+          fi
+
       - name: Verify publishing regressions
         # Full regressions are a manual/deployment check, not production-cycle work.
         # Scheduled runs must reach discovery/AI/Blogger quickly and repeatedly.
