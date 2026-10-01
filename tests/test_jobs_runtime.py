@@ -34,10 +34,15 @@ class JobsRuntimeTests(unittest.TestCase):
           <tr><th>عدد المناصب</th><td>1 منصب</td></tr>
         </tbody></table>
         <p>رمز المباراة: C43918/26</p>
+        <p>تم نشر الإعلان بتاريخ 30 شتنبر 2026</p>
+        <p>رقم المباراة: 2026/42</p>
         """
         cleaned = ai.format_phase3_article_html(html, {})
         self.assertNotIn("C43918/26", cleaned)
         self.assertNotIn("تاريخ النشر", cleaned)
+        self.assertNotIn("تم نشر الإعلان", cleaned)
+        self.assertNotIn("رقم المباراة", cleaned)
+        self.assertNotIn("2026/42", cleaned)
         self.assertIn("عدد المناصب", cleaned)
         self.assertIn("1 منصب", cleaned)
 
@@ -123,6 +128,9 @@ class JobsRuntimeTests(unittest.TestCase):
 
         self.assertEqual(len(rows), 10)
         self.assertEqual(article["job_document_ocr_pages"], 10)
+        self.assertEqual(article["job_document_ocr_attempts"], 10)
+        self.assertEqual(article["job_document_unread_pages"], 0)
+        self.assertTrue(article["job_document_text_read_complete"])
         self.assertEqual(ocr.call_count, 10)
         self.assertIn("الصفحة 10", rows[-1]["text"])
 
@@ -160,7 +168,7 @@ class JobsRuntimeTests(unittest.TestCase):
     def test_jobs_quality_gate_blocks_internal_reference_in_reader_metadata(self):
         article = {
             "url": "https://official.example/jobs/42",
-            "seo_title": "تحديث مباراة توظيف التقنيين - المرجع C43918/26",
+            "seo_title": "تحديث مباراة توظيف التقنيين - رقم المباراة C43918/26",
             "seo_description": (
                 "تفاصيل رسمية موجزة حول مباراة توظيف التقنيين وشروطها الأساسية "
                 "مع توجيه المترشحين إلى الوثيقة الرسمية."
@@ -168,6 +176,12 @@ class JobsRuntimeTests(unittest.TestCase):
             "final_html": "<p>تفاصيل موثقة ومباشرة حول المباراة وشروط الترشيح الأساسية.</p>",
             "job_notice_type": "update",
         }
+        result = quality_gate.validate_before_publish(article, check_duplicate=False)
+        self.assertFalse(result.passed)
+        self.assertIn("internal job publication/reference metadata", result.reason)
+
+        article["seo_title"] = "تحديث رسمي حول مباراة توظيف التقنيين"
+        article["seo_description"] = "تم نشر الإعلان بتاريخ 1 أكتوبر 2026"
         result = quality_gate.validate_before_publish(article, check_duplicate=False)
         self.assertFalse(result.passed)
         self.assertIn("internal job publication/reference metadata", result.reason)
@@ -4069,6 +4083,66 @@ class JobsRuntimeTests(unittest.TestCase):
         extract.assert_called_once_with(row)
         save.assert_called_once()
 
+    def test_identity_pending_resolver_retries_legacy_fingerprint_without_completed_pdf_read(self):
+        row = {
+            "id": "pending-scanned-job",
+            "url": "https://example.com/jobs/scanned",
+            "status": "identity_pending",
+            "content_fetch_status": "success",
+            "job_document_links": [
+                {"url": "https://example.com/scanned.pdf", "label": "الإعلان"}
+            ],
+            "identity_evidence_document_fingerprint": "https://example.com/scanned.pdf",
+            "job_document_text_download_failures": 0,
+            "job_document_texts": [],
+            "source_tables": [],
+            "source_tables_count": 0,
+            "job_detail_url": "https://example.com/jobs/scanned",
+        }
+        queue = {"articles": [row]}
+
+        def complete_pdf_evidence(article):
+            article["job_document_texts"] = [{
+                "document_url": "https://example.com/scanned.pdf",
+                "document_label": "الإعلان",
+                "page_number": 1,
+                "page_count": 1,
+                "text": "شروط الترشيح الرسمية المستخرجة عبر OCR",
+            }]
+            article["job_document_text_pages"] = 1
+            article["job_document_text_chars"] = 39
+            article["job_document_text_download_failures"] = 0
+            article["job_document_text_read_complete"] = True
+            return article["job_document_texts"]
+
+        with (
+            patch.object(article_processor, "load_article_queue", return_value=queue),
+            patch.object(article_processor, "save_article_queue"),
+            patch.object(
+                article_processor,
+                "extract_job_document_texts",
+                side_effect=complete_pdf_evidence,
+            ) as extract,
+            patch.object(
+                article_processor,
+                "classify_identity",
+                return_value={
+                    "action": "hold",
+                    "reason": "ambiguous same role without strong identifier",
+                    "existing": {},
+                },
+            ),
+        ):
+            stats = article_processor.resolve_identity_pending_articles()
+
+        self.assertEqual(stats["still_pending"], 1)
+        extract.assert_called_once_with(row)
+        self.assertTrue(row["job_document_text_read_complete"])
+        self.assertEqual(
+            row["identity_evidence_document_fingerprint"],
+            "https://example.com/scanned.pdf",
+        )
+
     def test_identity_pending_resolver_does_not_redownload_unchanged_documents(self):
         row = {
             "id": "pending-job",
@@ -4082,6 +4156,7 @@ class JobsRuntimeTests(unittest.TestCase):
             "identity_evidence_stage_checked_at": "2026-09-30T10:00:00",
             "identity_evidence_document_fingerprint": "https://example.com/notice.pdf",
             "job_document_text_download_failures": 0,
+            "job_document_text_read_complete": True,
             "source_tables": [],
             "source_tables_count": 0,
             "job_detail_url": "https://example.com/jobs/pending",
