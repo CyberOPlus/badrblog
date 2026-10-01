@@ -1,6 +1,31 @@
 {
   "avg_time": 2.9511,
-  "cooldowns": {},
+  "cooldowns": {
+    "gemini:gemini-2.5-flash:64f603a8c0": {
+      "failed_at": "2026-10-01T14:44:37",
+      "key_id": "64f603a8c0",
+      "model": "gemini-2.5-flash",
+      "provider": "gemini",
+      "reason": "504 The request timed out. Please try again.",
+      "until": 1790866479.6013124
+    },
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-01T14:44:38",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq API error 413: {\"error\":{\"message\":\"Request too large for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dema",
+      "until": 1790867682.7639651
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-01T14:46:11",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1790866273.3857782
+    }
+  },
   "failure_fingerprints": {
     "4b929cc3ad78785ed806": {
       "category": "quota",
@@ -24,6 +49,17 @@
       "retry_until": 1790809137.42574,
       "scope": "quality"
     },
+    "6a52ff2ce198a0896fe8": {
+      "category": "empty",
+      "count": 1,
+      "first_seen_at": "2026-10-01T14:46:11",
+      "last_seen_at": "2026-10-01T14:46:11",
+      "last_seen_epoch": 1790865971.5539124,
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "retry_until": 1790866271.5539124,
+      "scope": "provider"
+    },
     "9b8ec695d1ca9e549f46": {
       "category": "quota",
       "count": 1,
@@ -46,6 +82,28 @@
       "retry_until": 1790856018.9255085,
       "scope": "quality"
     },
+    "b38ee7cddd8444eac0c8": {
+      "category": "provider_error",
+      "count": 1,
+      "first_seen_at": "2026-10-01T14:46:11",
+      "last_seen_at": "2026-10-01T14:46:11",
+      "last_seen_epoch": 1790865971.5561392,
+      "provider": "openrouter",
+      "reason": "ai_time_budget_exceeded",
+      "retry_until": 1790866871.5561392,
+      "scope": "cycle_budget"
+    },
+    "b91c0c010afcf8915975": {
+      "category": "provider_error",
+      "count": 1,
+      "first_seen_at": "2026-10-01T14:44:38",
+      "last_seen_at": "2026-10-01T14:44:38",
+      "last_seen_epoch": 1790865878.318885,
+      "provider": "groq",
+      "reason": "groq API error 413: {\"error\":{\"message\":\"Request too large for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dema",
+      "retry_until": 1790867678.3187847,
+      "scope": "provider"
+    },
     "c10c0e8ef2bd27adc53f": {
       "category": "article_input",
       "count": 3,
@@ -59,25 +117,50 @@
     },
     "d15c8a5d2460c1216a2b": {
       "category": "outage",
-      "count": 1,
+      "count": 2,
       "first_seen_at": "2026-10-01T11:18:41",
-      "last_seen_at": "2026-10-01T11:18:41",
-      "last_seen_epoch": 1790853521.1752837,
+      "last_seen_at": "2026-10-01T14:44:37",
+      "last_seen_epoch": 1790865877.6820464,
       "provider": "gemini",
       "reason": "504 The request timed out. Please try again.",
-      "retry_until": 1790854121.1752837,
+      "retry_until": 1790867077.6820464,
       "scope": "provider"
     }
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {},
-  "provider_circuits": {},
+  "provider_circuits": {
+    "gemini": {
+      "category": "outage",
+      "fingerprint": "d15c8a5d2460c1216a2b",
+      "opened_at": "2026-10-01T14:44:37",
+      "provider": "gemini",
+      "reason": "504 The request timed out. Please try again.",
+      "until": 1790867077.6820464
+    },
+    "groq": {
+      "category": "provider_error",
+      "fingerprint": "b91c0c010afcf8915975",
+      "opened_at": "2026-10-01T14:44:38",
+      "provider": "groq",
+      "reason": "groq API error 413: {\"error\":{\"message\":\"Request too large for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dema",
+      "until": 1790867678.3187847
+    },
+    "openrouter": {
+      "category": "empty",
+      "fingerprint": "6a52ff2ce198a0896fe8",
+      "opened_at": "2026-10-01T14:46:11",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1790866271.5539124
+    }
+  },
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 14.6138,
-      "failures": 2,
+      "failures": 3,
       "key_id": "64f603a8c0",
-      "last_failure_at": "2026-10-01T11:18:41",
+      "last_failure_at": "2026-10-01T14:44:37",
       "last_success_at": "2026-10-01T11:30:18",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
@@ -86,9 +169,9 @@
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "avg_time": 2.9511,
-      "failures": 1,
+      "failures": 2,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-09-30T23:22:02",
+      "last_failure_at": "2026-10-01T14:44:38",
       "last_success_at": "2026-10-01T11:18:54",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
@@ -97,7 +180,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 21.1355,
+      "failures": 1,
       "key_id": "1af698c9b3",
+      "last_failure_at": "2026-10-01T14:46:11",
       "last_success_at": "2026-09-30T23:22:23",
       "model": "openrouter/free",
       "provider": "openrouter",
