@@ -848,6 +848,12 @@ def score_job(article, now=None):
         reasons.append("invalid source URL")
     if not valid_apply:
         reasons.append("missing verified application resource")
+    if publication_age_hours is None:
+        reasons.append("publication time is not verified")
+    elif publication_age_hours < 0:
+        reasons.append("publication time is in the future")
+    elif publication_age_hours > JOBS_MAX_PUBLISH_AGE_HOURS:
+        reasons.append(f"job is older than {JOBS_MAX_PUBLISH_AGE_HOURS} hours")
 
     normalized_title = normalize_text(article.get("job_title") or article.get("title"))
     if normalized_title in {
@@ -869,6 +875,10 @@ def score_job(article, now=None):
     hard_gate_passed = not reasons
     permanent_hard_failure = bool(
         expired
+        or (
+            publication_age_hours is not None
+            and publication_age_hours > JOBS_MAX_PUBLISH_AGE_HOURS
+        )
         or not _public_http(source_url)
         or normalized_title in {
             "jobs", "job", "careers", "career", "recruitment", "recrutement",
@@ -897,6 +907,7 @@ def score_job(article, now=None):
         "threshold": MIN_SELECTION_SCORE,
         "queue_threshold": QUEUE_SCORE,
         "threshold_applies_to": "ranking_only",
+        "freshness_gate": "hard",
     }
 
 
