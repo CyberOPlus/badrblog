@@ -1197,6 +1197,9 @@ def _apply_jobposting_schema_safely(service, post, article, mode):
     except Exception as error:
         article["jobposting_schema_status"] = "retry_pending"
         article["jobposting_schema_error"] = str(error)[:1000]
+        # Reuse the existing same-post sync worker: it updates only the saved
+        # Blogger post ID, never inserts another article, and retries the schema.
+        _mark_visual_sync_retry(article, f"JobPosting schema sync failed: {error}")
         log_event(
             "jobposting_schema_deferred",
             article_id=article.get("id"),
