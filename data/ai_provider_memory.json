@@ -8,6 +8,14 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1790897711.6480794
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-01T23:02:32",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1790896356.581052
     }
   },
   "failure_fingerprints": {
@@ -101,13 +109,13 @@
     },
     "5536f2970a79bc5a87a5": {
       "category": "timeout",
-      "count": 2,
+      "count": 3,
       "first_seen_at": "2026-10-01T20:10:12",
-      "last_seen_at": "2026-10-01T20:22:56",
-      "last_seen_epoch": 1790886176.6480942,
+      "last_seen_at": "2026-10-01T23:02:32",
+      "last_seen_epoch": 1790895752.707792,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "retry_until": 1790887376.6480942,
+      "retry_until": 1790898152.707792,
       "scope": "global"
     },
     "554cda85fb88ccc5d23e": {
@@ -167,13 +175,13 @@
     },
     "9cd5bdcb42034dceea88": {
       "category": "timeout",
-      "count": 2,
+      "count": 3,
       "first_seen_at": "2026-10-01T20:10:12",
-      "last_seen_at": "2026-10-01T20:22:56",
-      "last_seen_epoch": 1790886176.6452982,
+      "last_seen_at": "2026-10-01T23:02:32",
+      "last_seen_epoch": 1790895752.7050607,
       "provider": "openrouter",
       "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "retry_until": 1790887376.6452982,
+      "retry_until": 1790898152.7050607,
       "scope": "provider"
     },
     "b2683a2f011d9f5c4939": {
@@ -333,9 +341,9 @@
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {
-    "category": "quota",
-    "fingerprint": "c265fd8cf1cd8b0b0d01",
-    "opened_at": "2026-10-01T22:50:06",
+    "category": "timeout",
+    "fingerprint": "5536f2970a79bc5a87a5",
+    "opened_at": "2026-10-01T23:02:32",
     "providers": [
       "cloudflare",
       "gemini",
@@ -343,8 +351,8 @@
       "mistral",
       "openrouter"
     ],
-    "reason": "mistral provider failed: mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_c",
-    "until": 1790895614.1237478
+    "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+    "until": 1790896955.835324
   },
   "provider_circuits": {
     "cloudflare": {
@@ -381,12 +389,12 @@
       "until": 1790916606.9616742
     },
     "openrouter": {
-      "category": "empty",
-      "fingerprint": "6a52ff2ce198a0896fe8",
-      "opened_at": "2026-10-01T22:00:14",
+      "category": "timeout",
+      "fingerprint": "9cd5bdcb42034dceea88",
+      "opened_at": "2026-10-01T23:02:32",
       "provider": "openrouter",
-      "reason": "OpenRouter returned an empty response.",
-      "until": 1790895614.1237478
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1790898152.7050607
     }
   },
   "stats": {
@@ -448,9 +456,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 78.2854,
-      "failures": 10,
+      "failures": 11,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-01T22:00:14",
+      "last_failure_at": "2026-10-01T23:02:32",
       "last_success_at": "2026-10-01T20:47:15",
       "model": "openrouter/free",
       "provider": "openrouter",
