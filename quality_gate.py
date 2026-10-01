@@ -633,6 +633,21 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
             word_count,
         )
 
+    internal_metadata_text = f"{seo_title} {seo_description} {body_text}"
+    if re.search(
+        r"(?:تاريخ\s+النشر|تاريخ\s+نشر\s+(?:الإعلان|الوظيفة)|"
+        r"date\s+de\s+publication|publication\s+date|published\s+on|"
+        r"المرجع|الرقم\s+المرجعي|رمز\s+المباراة|"
+        r"r[eé]f(?:[ée]rence)?\.?\s*[:：#-])",
+        internal_metadata_text,
+        flags=re.I,
+    ):
+        return QualityGateResult(
+            False,
+            "internal job publication/reference metadata leaked into reader-facing content",
+            word_count,
+        )
+
     promotional_job_phrases = (
         "الشركة الرائدة",
         "شركة رائدة",
@@ -771,21 +786,21 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         or package.get("job_article_cover_url")
         or ""
     ).strip()
-    if cover_url:
-        image_sources = re.findall(
-            r"<img\b[^>]*\bsrc=['\"]([^'\"]+)['\"]",
-            html_content,
-            flags=re.I,
+    image_sources = re.findall(
+        r"<img\b[^>]*\bsrc=['\"]([^'\"]+)['\"]",
+        html_content,
+        flags=re.I,
+    )
+    expected_document_images = [
+        str(item.get("url") or "").strip()
+        for item in (
+            article.get("job_document_page_images")
+            or package.get("job_document_page_images")
+            or []
         )
-        expected_document_images = [
-            str(item.get("url") or "").strip()
-            for item in (
-                article.get("job_document_page_images")
-                or package.get("job_document_page_images")
-                or []
-            )
-            if isinstance(item, dict) and str(item.get("url") or "").strip()
-        ]
+        if isinstance(item, dict) and str(item.get("url") or "").strip()
+    ]
+    if cover_url:
         expected_images = [cover_url] + expected_document_images
         if not image_sources or image_sources[0] != cover_url:
             return QualityGateResult(False, "job article must start with the generated cover image", word_count)
@@ -795,6 +810,12 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
                 "job article contains missing, reordered, duplicated, or unverified images",
                 word_count,
             )
+    elif expected_document_images and image_sources != expected_document_images:
+        return QualityGateResult(
+            False,
+            "rendered official PDF pages are missing, reordered, duplicated, or unverified",
+            word_count,
+        )
 
     # Jobs pass/fail is based on verified completeness and accuracy,
     # not word count or a mandatory heading shape.
