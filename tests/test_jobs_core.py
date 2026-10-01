@@ -74,6 +74,61 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(fields["job_published_at"], "2026-09-07")
         self.assertEqual(fields["job_published_at_display"], "7 شتنبر 2026")
 
+    def test_emploi_public_arabic_defined_deposit_label_becomes_official_application_channel(self):
+        notice_id = "2835f644-995b-4a06-a386-c41338bde62b"
+        detail = f"https://www.emploi-public.ma/ar/تفاصيل/المباريات/{notice_id}"
+        html = """
+        <html><body>
+          <h1>مباريات التوظيف : متصرف من الدرجة الثانية - سلم 11</h1>
+          <p>موقع الإيداع : https://www.odco.gov.ma/e-recrutement</p>
+          <p>آخر أجل لإيداع الترشيحات 16 أكتوبر 2026</p>
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        article = sample_job(
+            title="مباريات التوظيف : متصرف من الدرجة الثانية - سلم 11",
+            url=detail,
+            canonical_url=detail,
+            official_source=True,
+            source_country="MA",
+            ats_provider="emploi_public",
+        )
+        fields = job_extractor.extract_job_fields(
+            soup,
+            article,
+            detail,
+            full_text=soup.get_text(" ", strip=True),
+        )
+        self.assertEqual(fields["job_notice_type"], "competition")
+        self.assertEqual(
+            fields["job_application_url"],
+            "https://www.odco.gov.ma/e-recrutement",
+        )
+        self.assertEqual(
+            fields["job_application_link_kind"],
+            "official_application_channel",
+        )
+        self.assertTrue(fields["job_application_is_official_channel"])
+
+    def test_quality_gate_accepts_only_literal_urls_from_verified_pdf_ocr(self):
+        application_url = "https://www.odco.gov.ma/e-recrutement"
+        package = {
+            "official_source": True,
+            "job_document_texts": [
+                {"page_number": 2, "text": f"موقع الإيداع: {application_url}"}
+            ],
+        }
+        valid_html = f'<p><a href="{application_url}">منصة الترشيح الرسمية</a></p>'
+        self.assertEqual(
+            quality_gate._job_unverified_external_link_reason(valid_html, package),
+            "",
+        )
+        invalid_html = '<p><a href="https://example.invalid/apply">التقديم</a></p>'
+        self.assertIn(
+            "not present in verified application/document evidence",
+            quality_gate._job_unverified_external_link_reason(invalid_html, package),
+        )
+
     def test_emploi_public_recovers_official_pdf_routes_from_visible_labels(self):
         notice_id = "ee457511-2cf7-4178-bcb7-b09cd1638bca"
         detail = f"https://www.emploi-public.ma/ar/تفاصيل/المباريات/{notice_id}"
