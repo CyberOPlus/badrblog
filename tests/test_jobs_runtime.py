@@ -25,6 +25,28 @@ import jobs_adaptive_controller as adaptive
 
 
 class JobsRuntimeTests(unittest.TestCase):
+    def test_blogger_write_boundary_accepts_official_date_only_today(self):
+        now = datetime(2026, 10, 1, 14, 36, tzinfo=timezone.utc)
+        article = {
+            "official_source": True,
+            "job_published_at": "2026-10-01",
+            "source_published_at": "2026-10-01",
+            "job_notice_type": "competition",
+            "job_deadline": "2026-10-16",
+        }
+        draft._assert_fresh_job_for_new_live_publish(article, now=now)
+
+    def test_blogger_write_boundary_rejects_real_timestamp_older_than_twelve_hours(self):
+        now = datetime(2026, 10, 1, 14, 36, tzinfo=timezone.utc)
+        article = {
+            "official_source": True,
+            "job_published_at": "2026-10-01T00:00:00+00:00",
+            "job_notice_type": "competition",
+            "job_deadline": "2026-10-16",
+        }
+        with self.assertRaisesRegex(RuntimeError, "outside the 12-hour window"):
+            draft._assert_fresh_job_for_new_live_publish(article, now=now)
+
     def test_jobs_article_hides_publication_date_and_internal_reference(self):
         html = """
         <p>مقدمة مفيدة عن الوظيفة.</p>
