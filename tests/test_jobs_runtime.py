@@ -445,20 +445,41 @@ class JobsRuntimeTests(unittest.TestCase):
         technical = {
             "status": "ready",
             "job_title": "Développeur Full Stack",
-            "source_published_at": "2026-09-30T08:00:00+00:00",
+            "source_published_at": "2026-09-30T10:00:00+00:00",
             "score": 10,
             "source_priority": "B",
         }
         general = {
             "status": "ready",
             "job_title": "Chargé de clientèle",
-            "source_published_at": "2026-09-30T11:00:00+00:00",
+            "source_published_at": "2026-09-30T10:30:00+00:00",
             "score": 100,
             "source_priority": "S+",
         }
         self.assertLess(
             article_enricher._jobs_enrichment_priority(technical, 1, now=now),
             article_enricher._jobs_enrichment_priority(general, 0, now=now),
+        )
+
+    def test_jobs_enrichment_newest_band_beats_older_technical_role(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        newest_general = {
+            "status": "ready",
+            "job_title": "Chargé de clientèle",
+            "source_published_at": "2026-09-30T11:30:00+00:00",
+            "score": 10,
+            "source_priority": "B",
+        }
+        older_technical = {
+            "status": "ready",
+            "job_title": "Développeur Full Stack",
+            "source_published_at": "2026-09-30T08:00:00+00:00",
+            "score": 100,
+            "source_priority": "S+",
+        }
+        self.assertLess(
+            article_enricher._jobs_enrichment_priority(newest_general, 0, now=now),
+            article_enricher._jobs_enrichment_priority(older_technical, 1, now=now),
         )
 
     def test_jobs_enrichment_skips_known_stale_job_before_fetch(self):
@@ -1309,6 +1330,25 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertGreater(
             facebook._facebook_job_priority(near, now=now),
             facebook._facebook_job_priority(far, now=now),
+        )
+
+    def test_facebook_queue_prefers_technical_job_when_other_factors_match(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        base = {
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/job.html",
+            "facebook_status": "facebook_pending",
+            "job_notice_type": "vacancy",
+            "job_number_of_positions": 1,
+            "job_score": 70,
+            "facebook_queued_at": now.isoformat(),
+        }
+        cyber = dict(base, id="cyber", job_title="Analyste Cybersécurité SOC")
+        general = dict(base, id="general", job_title="Chargé de clientèle")
+        self.assertGreater(
+            facebook._facebook_job_priority(cyber, now=now),
+            facebook._facebook_job_priority(general, now=now),
         )
 
     def test_facebook_queue_aging_prevents_low_score_starvation(self):
