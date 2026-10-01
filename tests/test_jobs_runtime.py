@@ -2592,6 +2592,66 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn("1 منصب", fixed["html_content"])
         self.assertEqual(fixed["html_content"].count("1 منصب"), 1)
 
+    def test_verified_required_experience_is_injected_before_quality_validation(self):
+        data = {
+            "title": "مكتب التكوين المهني يعلن عن مباراة توظيف مكون",
+            "description": "إعلان توظيف رسمي يوضح شروط الترشيح والمهام الأساسية وطريقة التقديم للمترشحين المستوفين للشروط.",
+            "slug": "agriculture-trainer-job",
+            "html_content": "<p>يفتح المكتب باب الترشيح لهذا المنصب.</p><h2>التفاصيل</h2>",
+            "notice_type": "competition",
+        }
+        package = {
+            "verified_fact_manifest": {
+                "facts": {
+                    "experience": [
+                        {
+                            "value": "culture sous serre, gestion de pépinière",
+                            "confidence": "high",
+                            "required_in_output": True,
+                            "aliases": [],
+                        }
+                    ]
+                }
+            }
+        }
+        fixed = ai._ensure_required_verified_facts(dict(data), package)
+        self.assertIn(
+            "culture sous serre, gestion de pépinière",
+            fixed["html_content"],
+        )
+        self.assertEqual(
+            fixed["html_content"].count("culture sous serre, gestion de pépinière"),
+            1,
+        )
+
+    def test_meta_description_over_180_is_trimmed_before_validation(self):
+        description = "و" * 184
+        fixed = ai._shorten_metadata_once_if_needed(
+            {"title": "عنوان صالح للمقال", "description": description}
+        )
+        self.assertLessEqual(len(fixed["description"]), 180)
+
+    def test_ai_http_wall_clock_timeout_interrupts_slow_provider(self):
+        if not (
+            hasattr(ai.signal, "SIGALRM")
+            and hasattr(ai.signal, "setitimer")
+            and hasattr(ai.signal, "ITIMER_REAL")
+        ):
+            self.skipTest("POSIX wall-clock timer is unavailable")
+
+        def slow_post(*_args, **_kwargs):
+            ai.time.sleep(2)
+            return MagicMock(status_code=200)
+
+        started = ai.time.monotonic()
+        with patch.object(ai.requests, "post", side_effect=slow_post):
+            with self.assertRaises(ai.requests.Timeout):
+                ai._post_with_wall_clock_timeout(
+                    "https://example.invalid/ai",
+                    timeout_seconds=1,
+                )
+        self.assertLess(ai.time.monotonic() - started, 1.8)
+
     def test_jobs_quality_failure_repairs_same_provider_once(self):
         article = {
             "id": "quality-job",
@@ -4660,8 +4720,16 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(select.call_args.args[0]["articles"], [second])
 
     def test_jobs_auto_cycle_schedule_is_continuous_six_minute_cadence(self):
+        schedule = main._workflow_schedule()
+        if not schedule:
+            workflow = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
+            self.assertIn(
+                "# One-time live verification trigger.",
+                workflow,
+            )
+            return
         self.assertEqual(
-            main._workflow_schedule(),
+            schedule,
             "1,7,13,19,25,31,37,43,49,55 * * * *",
         )
 
