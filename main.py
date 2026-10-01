@@ -86,20 +86,60 @@ def _jobs_one_shot_force_run():
     )
 
 
-def _ai_retry_backoff_active(article, now=None):
-    value = str((article or {}).get("ai_retry_after") or "").strip()
-    if not value:
-        return False
+def _retry_datetime(value):
+    text = str(value or "").strip()
+    if not text:
+        return None
     try:
-        retry_at = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        retry_at = datetime.fromisoformat(text.replace("Z", "+00:00"))
     except ValueError:
-        return False
+        return None
     if retry_at.tzinfo is None:
         retry_at = retry_at.replace(tzinfo=timezone.utc)
+    return retry_at.astimezone(timezone.utc)
+
+
+def _candidate_retry_deadline(article):
+    deadlines = [
+        _retry_datetime((article or {}).get(field))
+        for field in (
+            "ai_retry_after",
+            "candidate_retry_after",
+            "enrichment_retry_after",
+        )
+    ]
+    deadlines = [value for value in deadlines if value is not None]
+    return max(deadlines) if deadlines else None
+
+
+def _ai_retry_backoff_active(article, now=None):
+    retry_at = _retry_datetime((article or {}).get("ai_retry_after"))
+    if retry_at is None:
+        return False
     current = now or datetime.now(timezone.utc)
     if current.tzinfo is None:
         current = current.replace(tzinfo=timezone.utc)
-    return retry_at.astimezone(timezone.utc) > current.astimezone(timezone.utc)
+    return retry_at > current.astimezone(timezone.utc)
+
+
+def _candidate_retry_backoff_active(article, now=None):
+    retry_at = _candidate_retry_deadline(article)
+    if retry_at is None:
+        return False
+    current = now or datetime.now(timezone.utc)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=timezone.utc)
+    return retry_at > current.astimezone(timezone.utc)
+
+
+def _selection_candidate_articles(articles, attempted_ids=None):
+    attempted_ids = {item for item in (attempted_ids or set()) if item}
+    return [
+        article
+        for article in (articles or [])
+        if (article.get("id") or article.get("url")) not in attempted_ids
+        and not _candidate_retry_backoff_active(article)
+    ]
 
 
 def _jobs_one_shot_candidate_articles(articles, attempted_ids=None):
@@ -110,7 +150,7 @@ def _jobs_one_shot_candidate_articles(articles, attempted_ids=None):
         if (article.get("id") or article.get("url")) not in attempted_ids
         and not article.get("blogger_post_id")
         and str(article.get("publish_status") or "").strip().lower() != "published"
-        and not _ai_retry_backoff_active(article)
+        and not _candidate_retry_backoff_active(article)
     ]
     with_documents = [
         article
@@ -1285,7 +1325,8 @@ def _mark_candidate_failure_for_retry(article, stage, reason):
     article = article or {}
     if (
         stage == "run-ai"
-        and str(article.get("ai_failure_scope") or "").strip().lower() == "retry_backoff"
+        and str(article.get("ai_failure_scope") or "").strip().lower()
+        in {"retry_backoff", "global_outage"}
     ):
         log_event(
             "ai_retry_backoff_preserved",
@@ -1373,19 +1414,8 @@ def _selection_blocker_reason(queue):
     retry_blocked = 0
     earliest_retry = None
     for article in ready:
-        value = (
-            article.get("candidate_retry_after")
-            or article.get("enrichment_retry_after")
-            or article.get("ai_retry_after")
-        )
-        if not value:
-            continue
-        try:
-            retry_at = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
-            if retry_at.tzinfo is None:
-                retry_at = retry_at.replace(tzinfo=timezone.utc)
-            retry_at = retry_at.astimezone(timezone.utc)
-        except ValueError:
+        retry_at = _candidate_retry_deadline(article)
+        if retry_at is None:
             continue
         if retry_at > now:
             retry_blocked += 1
@@ -1430,11 +1460,10 @@ def _select_retry_candidate(fetch_stats, attempted_ids):
     selected = None
     resolve_identity_pending_articles()
     queue = load_article_queue()
-    candidate_articles = [
-        article for article in queue.get("articles", [])
-        if (article.get("id") or article.get("url")) not in attempted_ids
-        and not _ai_retry_backoff_active(article)
-    ]
+    candidate_articles = _selection_candidate_articles(
+        queue.get("articles", []),
+        attempted_ids=attempted_ids,
+    )
     if _jobs_one_shot_force_run():
         candidate_articles = _jobs_one_shot_candidate_articles(
             queue.get("articles", []),
@@ -1447,10 +1476,10 @@ def _select_retry_candidate(fetch_stats, attempted_ids):
         pending_stats = resolve_identity_pending_articles()
         if pending_stats.get("resolved_ready"):
             queue = load_article_queue()
-            candidate_articles = [
-                article for article in queue.get("articles", [])
-                if (article.get("id") or article.get("url")) not in attempted_ids
-            ]
+            candidate_articles = _selection_candidate_articles(
+                queue.get("articles", []),
+                attempted_ids=attempted_ids,
+            )
             if _jobs_one_shot_force_run():
                 candidate_articles = _jobs_one_shot_candidate_articles(
                     queue.get("articles", []),
@@ -1546,7 +1575,10 @@ def _retry_after_single_candidate_failure(
             reason=reason,
         )
 
-    marked_failed = _mark_candidate_failure_for_retry(failed_article, stage, reason)
+    if stage == "run-ai" and initial_failure_scope == "retry_backoff":
+        marked_failed = failed_article or {}
+    else:
+        marked_failed = _mark_candidate_failure_for_retry(failed_article, stage, reason)
     retry_results = []
     last_failed = marked_failed or failed_article or {}
 
@@ -1980,11 +2012,13 @@ def run_safe_cycle_only():
     selected = None
     plan_result = {}
     queue = load_article_queue()
-    selection_queue = queue
+    selection_queue = {
+        "articles": _selection_candidate_articles(queue.get("articles", []))
+    }
     if _jobs_one_shot_force_run():
         selection_queue = {
             "articles": _jobs_one_shot_candidate_articles(
-                queue.get("articles", [])
+                selection_queue.get("articles", [])
             )
         }
     selected = select_best_job_from_queue(selection_queue)
@@ -2000,11 +2034,13 @@ def run_safe_cycle_only():
                 identity_stats[key] = int(identity_stats.get(key) or 0) + value
         if second_identity_stats.get("resolved_ready"):
             queue = load_article_queue()
-            selection_queue = queue
+            selection_queue = {
+                "articles": _selection_candidate_articles(queue.get("articles", []))
+            }
             if _jobs_one_shot_force_run():
                 selection_queue = {
                     "articles": _jobs_one_shot_candidate_articles(
-                        queue.get("articles", [])
+                        selection_queue.get("articles", [])
                     )
                 }
             selected = select_best_job_from_queue(selection_queue)

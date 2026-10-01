@@ -70,11 +70,8 @@ class JobsWorkflowTests(unittest.TestCase):
 
         watchdog = Path(".github/workflows/jobs-watchdog.yml").read_text(encoding="utf-8")
         watchdog_cron = 'cron: "4,10,16,22,28,34,40,46,52,58 * * * *"'
-        if watchdog_cron not in watchdog:
-            self.assertIn(
-                "# Schedule is intentionally paused only while production verification runs.",
-                watchdog,
-            )
+        self.assertIn(watchdog_cron, watchdog)
+        self.assertIn("Backup only: continuous auto-cycle is primary.", watchdog)
         self.assertIn("if (ageMinutes < 4)", watchdog)
         self.assertIn("} else if (ageMinutes <= 8) {", watchdog)
         self.assertIn("github.rest.actions.createWorkflowDispatch", watchdog)

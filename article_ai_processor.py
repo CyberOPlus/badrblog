@@ -3097,7 +3097,12 @@ def _is_nonrepairable_jobs_evidence_quality_error(error, package=None):
 
 
 def _is_quality_error(error):
-    return isinstance(error, ValueError)
+    # Malformed/incomplete structured output is a provider-format failure, not
+    # evidence that the verified Job itself is bad.
+    return isinstance(error, ValueError) and not isinstance(
+        error,
+        AIIncompleteResponseError,
+    )
 
 
 def _is_provider_error(error):
@@ -3760,7 +3765,10 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     article["ai_failure_scope"] = failure_scope
     article["ai_failure_fingerprint"] = fingerprint
     article["ai_failure_category"] = failure_category
-    article["ai_retry_after"] = _epoch_to_iso(failure_retry_until)
+    if failure_scope == "global_outage":
+        article.pop("ai_retry_after", None)
+    else:
+        article["ai_retry_after"] = _epoch_to_iso(failure_retry_until)
     article["ai_quality_status"] = (
         "article_input_backoff"
         if isinstance(last_error, AIArticleInputError)

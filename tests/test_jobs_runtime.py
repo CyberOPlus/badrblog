@@ -1873,9 +1873,8 @@ class JobsRuntimeTests(unittest.TestCase):
                 )
                 saved = article_queue.load_article_queue()
 
-        self.assertEqual(stats["stale_jobs_archived"], 1)
-        self.assertTrue(saved["articles"][0]["archived"])
-        self.assertEqual(saved["articles"][0]["archive_reason"], "job_publication_window_passed")
+        self.assertEqual(stats["purged_over_24h"], 1)
+        self.assertEqual(saved["articles"], [])
 
     def test_stale_cached_results_are_archived_but_live_social_and_pdf_work_survives(self):
         now = datetime(2026, 10, 1, 12, 0, tzinfo=timezone.utc)
@@ -3128,7 +3127,7 @@ class JobsRuntimeTests(unittest.TestCase):
         post_fb.assert_not_called()
 
 
-    def test_retry_backoff_does_not_increment_failure_or_rotate_candidate(self):
+    def test_retry_backoff_rotates_without_incrementing_candidate_failure(self):
         failed = {
             "id": "backoff-job",
             "url": "https://example.com/jobs/backoff",
@@ -3138,7 +3137,7 @@ class JobsRuntimeTests(unittest.TestCase):
         }
         with (
             patch.object(main, "_mark_candidate_failure_for_retry") as mark,
-            patch.object(main, "_select_retry_candidate") as select,
+            patch.object(main, "_select_retry_candidate", return_value=None) as select,
         ):
             success, retries = main._retry_after_single_candidate_failure(
                 failed,
@@ -3152,7 +3151,7 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIsNone(success)
         self.assertEqual(retries, [])
         mark.assert_not_called()
-        select.assert_not_called()
+        select.assert_called_once()
 
 
     def test_global_ai_outage_stops_cross_candidate_retry(self):
@@ -4931,19 +4930,30 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIs(result, second)
         self.assertEqual(select.call_args.args[0]["articles"], [second])
 
-    def test_jobs_auto_cycle_schedule_is_continuous_six_minute_cadence(self):
-        schedule = main._workflow_schedule()
-        if not schedule:
-            workflow = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
-            self.assertIn(
-                "# One-time live verification trigger.",
-                workflow,
-            )
-            return
+    def test_selection_candidates_exclude_any_active_retry_clock(self):
+        now = datetime(2026, 10, 1, 19, 30, tzinfo=timezone.utc)
+        rows = [
+            {"id": "ai", "ai_retry_after": "2026-10-01T19:40:00+00:00"},
+            {"id": "candidate", "candidate_retry_after": "2026-10-01T19:40:00+00:00"},
+            {"id": "enrich", "enrichment_retry_after": "2026-10-01T19:40:00+00:00"},
+            {"id": "expired", "ai_retry_after": "2026-10-01T19:20:00+00:00"},
+            {"id": "fresh"},
+        ]
         self.assertEqual(
-            schedule,
-            "1,7,13,19,25,31,37,43,49,55 * * * *",
+            [
+                row["id"]
+                for row in rows
+                if not main._candidate_retry_backoff_active(row, now=now)
+            ],
+            ["expired", "fresh"],
         )
+
+    def test_jobs_auto_cycle_uses_continuous_successor_chain(self):
+        workflow = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
+        self.assertIn("# Continuous single-worker Jobs discovery/publishing.", workflow)
+        self.assertIn("Continue Jobs auto-cycle", workflow)
+        self.assertIn("createWorkflowDispatch", workflow)
+        self.assertIn("cancel-in-progress: false", workflow)
 
     def test_next_auto_cycle_tick_matches_workflow_minutes(self):
         now = datetime(2026, 9, 30, 21, 51, 8)

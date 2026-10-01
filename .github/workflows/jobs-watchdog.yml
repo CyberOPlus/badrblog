@@ -1,7 +1,11 @@
 name: Jobs Watchdog
 
-# Schedule is intentionally paused only while production verification runs.
+# Backup only: continuous auto-cycle is primary. The watchdog wakes every six
+# minutes, exits immediately when a worker is alive, and restarts production
+# only if the chain died or a publishable backlog is genuinely stalled.
 on:
+  schedule:
+    - cron: "4,10,16,22,28,34,40,46,52,58 * * * *"
   workflow_dispatch:
 
 concurrency:
