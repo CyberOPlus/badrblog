@@ -1298,7 +1298,8 @@ def _build_expansion_retry_prompt(package, previous_data, previous_error):
     previous_html = ""
     if isinstance(previous_data, dict):
         previous_html = str(previous_data.get("html_content") or "")
-    source_text = _source_text_for_package(package)
+    prompt_package = _compact_prompt_package(package)
+    package_json = json.dumps(prompt_package, ensure_ascii=False, separators=(",", ":"))
     return f"""
 Return JSON only with title, description, slug, html_content, notice_type.
 
@@ -1352,14 +1353,11 @@ MANDATORY JOB RETRY RULES:
   corporate history, generic career advice, filler, conclusion, or repeated facts.
 - Do not invent any fact or URL.
 - Return a natural English slug using lowercase a-z and hyphens only; no digits, IDs, years, or Arabic transliteration.
-- Meta description 100-160 characters.
+- Meta description 80-180 characters.
 - Clean semantic Blogger HTML only.
 
-SOURCE PACKAGE:
-{json.dumps(package, ensure_ascii=False, indent=2)}
-
-SOURCE TEXT:
-{source_text}
+VERIFIED JOB PACKAGE:
+{package_json}
 
 PREVIOUS HTML FOR DIAGNOSIS ONLY:
 {previous_html[:3500]}
@@ -1370,7 +1368,8 @@ def _build_excess_english_retry_prompt(package, previous_data, previous_error):
     previous_html = ""
     if isinstance(previous_data, dict):
         previous_html = str(previous_data.get("html_content") or "")
-    source_text = _source_text_for_package(package)
+    prompt_package = _compact_prompt_package(package)
+    package_json = json.dumps(prompt_package, ensure_ascii=False, separators=(",", ":"))
     return f"""
 Return JSON only with title, description, slug, html_content, notice_type.
 
@@ -1385,11 +1384,8 @@ Rewrite the SAME verified notice in natural Modern Standard Arabic.
 - Do not invent, omit, or turn a list/result/update into a fresh opening.
 - Return complete semantic HTML with no truncated tags.
 
-SOURCE PACKAGE:
-{json.dumps(package, ensure_ascii=False, indent=2)}
-
-SOURCE TEXT:
-{source_text}
+VERIFIED JOB PACKAGE:
+{package_json}
 
 PREVIOUS HTML, for diagnosis only:
 {previous_html[:4000]}
