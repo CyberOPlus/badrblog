@@ -149,7 +149,7 @@ class JobVisualTests(unittest.TestCase):
                         with Image.open(result["path"]) as image:
                             self.assertEqual(image.size, (1080, 1350))
 
-    def test_facebook_renderer_truncates_extreme_official_title_instead_of_blocking(self):
+    def test_facebook_renderer_keeps_extreme_official_title_complete(self):
         title = (
             "مباراة لتوظيف توظيف أستاذ محاضر تخصص : Physiologie Humaine. "
             "معهد علوم الرياضة بسطات جامعة الحسن الأول - سطات الإعلان 1 منصب "
@@ -166,7 +166,15 @@ class JobVisualTests(unittest.TestCase):
                     template_key="alert",
                 )
         self.assertTrue(result["ok"], result.get("error"))
-        self.assertTrue(result.get("title_truncated"))
+        self.assertFalse(result.get("title_truncated"))
+        self.assertGreaterEqual(
+            int(result.get("title_font_size") or 0),
+            visuals.JOB_TITLE_MIN_SIZE,
+        )
+        self.assertLessEqual(
+            int(result.get("title_lines") or 0),
+            visuals.JOB_TITLE_MAX_LINES,
+        )
         left, top, right, bottom = result["title_bbox"]
         self.assertGreaterEqual(left, visuals.JOB_CONTENT_LEFT)
         self.assertLessEqual(right, visuals.JOB_CONTENT_RIGHT)

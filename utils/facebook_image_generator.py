@@ -186,9 +186,9 @@ JOB_LOGO_BOTTOM = 545
 JOB_TITLE_TOP = 610
 JOB_TITLE_BOTTOM = 1105
 JOB_LOGO_TITLE_GAP = 58
-JOB_TITLE_MIN_SIZE = 48
+JOB_TITLE_MIN_SIZE = 42
 JOB_TITLE_MAX_SIZE = 88
-JOB_TITLE_MAX_LINES = 4
+JOB_TITLE_MAX_LINES = 8
 JOB_TITLE_WIDTH_AXES = (100, 96, 92, 90)
 
 
@@ -555,40 +555,10 @@ def _fit_job_text_layout(
                 "truncated": False,
             }
 
-    # Do not let one unusually long official vacancy title block Facebook
-    # promotion. Keep the configured readable minimum and shorten only the
-    # visual headline; the Blogger article/caption retain the complete title.
-    fallback_size = int(min_size)
-    fallback_width = min(width_axes)
-    font = _font(fallback_size, width=fallback_width, weight=800)
-    lines = _wrap_job_title(
-        clean_text,
-        draw,
-        font,
-        max_width,
-        max_lines=max_lines,
-        truncate=True,
-    )
-    widths = [_job_text_width(draw, line, font) for line in lines if line]
-    line_height = max(fallback_size + 7, int(round(fallback_size * line_ratio)))
-    total_height = len(lines) * line_height
-    if (
-        lines
-        and widths
-        and len(lines) <= max_lines
-        and max(widths) <= max_width
-        and total_height <= max_height
-    ):
-        return {
-            "font": font,
-            "font_size": fallback_size,
-            "font_width": fallback_width,
-            "lines": lines,
-            "line_height": line_height,
-            "total_height": total_height,
-            "max_line_width": max(widths),
-            "truncated": True,
-        }
+    # Never shorten a Jobs visual title with an ellipsis. Very long titles get
+    # more lines and a slightly smaller but still mobile-readable font; if the
+    # complete title still cannot fit safely, fail the render instead of hiding
+    # part of the title.
     return None
 
 
