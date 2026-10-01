@@ -11,12 +11,19 @@ import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
-from urllib.parse import parse_qs, parse_qsl, unquote, urlencode, urljoin, urlparse, urlunparse
+from urllib.parse import (
+    parse_qs,
+    parse_qsl,
+    unquote,
+    urlencode,
+    urljoin,
+    urlparse,
+    urlunparse,
+)
 
 import requests
 from bs4 import BeautifulSoup
-from content_filter import is_promotional_article
-from duplicate_utils import canonicalize_url, title_hash, topic_signature
+from duplicate_utils import canonicalize_url
 from production_logging import elapsed_ms, log_event
 
 try:
@@ -30,32 +37,20 @@ except ImportError:
     Fetcher = None
 
 from config import (
-    ALLOW_UNKNOWN_DATE_IN_FAST_MODE,
     CRAWL_OVERLAP_MINUTES,
     ENABLE_SCRAPLING_FALLBACK,
     FALLBACK_FIRST_RUN_LOOKBACK_HOURS,
-    FAST_NEWS_MODE,
     FRESHNESS_SAFETY_MARGIN_MINUTES,
-    FIRST_VALID_ARTICLE_MODE,
     HEADERS,
-    MAX_AI_ARTICLE_AGE_HOURS,
-    MAX_RETRIES,
-    MAX_SOURCES_PER_RUN,
-    MAX_SOURCE_RETRIES,
     JOBS_MODE,
     JOBS_DISCOVERY_PAGE_SIZE,
     JOBS_DISCOVERY_MAX_PAGES,
     JOBS_DISCOVERY_SEEN_STREAK,
     JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
     JOBS_DISCOVERY_SEEN_MEMORY,
-    RECENT_NEWS_MAX_AGE_HOURS,
-    RECENT_NEWS_ONLY,
     RETRY_DELAY,
     SCRAPE_DELAY_SECONDS,
-    SOURCE_RETRY_DELAY_SECONDS,
     SOURCE_TIMEOUT_SECONDS,
-    SOURCE_URLS,
-    SKIP_ADS_AFFILIATE_SPONSORED,
 )
 from runtime_state import (
     is_source_cooled_down,
@@ -432,15 +427,11 @@ SOURCE_PRIORITY_HINTS = (
 
 
 def _source_retries():
-    if JOBS_MODE:
-        return 0
-    return MAX_SOURCE_RETRIES if FAST_NEWS_MODE else MAX_RETRIES
+    return 0
 
 
 def _source_retry_delay(attempt):
-    if JOBS_MODE:
-        return 0
-    return min(SOURCE_RETRY_DELAY_SECONDS, RETRY_DELAY * (attempt + 1)) if FAST_NEWS_MODE else RETRY_DELAY * (attempt + 1)
+    return 0
 
 
 def _log(message):
@@ -510,7 +501,7 @@ def _record_source_result(base_url, source_name, error, links_found, empty_ok=Fa
         record_source_cooldown(base_url, source_name=source_name, error=error_text, minutes=180)
     elif "timeout" in lowered or "timed out" in lowered:
         record_source_cooldown(base_url, source_name=source_name, error=error_text, minutes=30)
-    elif (empty_ok or JOBS_MODE) and not error and links_found <= 0:
+    elif (empty_ok or True) and (not error) and (links_found <= 0):
         # A healthy Jobs source is allowed to have no NEW vacancies in a cycle.
         # Treating that as a failure would eventually cool down quiet sources and
         # make the bot miss a vacancy that appears during the cooldown window.
@@ -519,7 +510,6 @@ def _record_source_result(base_url, source_name, error, links_found, empty_ok=Fa
         record_source_failure(base_url, source_name=source_name, error=error_text or "zero links")
     else:
         record_source_success(base_url, source_name=source_name)
-
 
 
 def _is_scrapling_document(document):
@@ -533,7 +523,7 @@ def _make_request_with_scrapling(url):
             url,
             timeout=SOURCE_TIMEOUT_SECONDS,
             retries=_source_retries(),
-            retry_delay=SOURCE_RETRY_DELAY_SECONDS if FAST_NEWS_MODE else RETRY_DELAY,
+            retry_delay=(RETRY_DELAY),
             stealthy_headers=True,
             impersonate="chrome",
             headers=HEADERS,
@@ -578,7 +568,7 @@ def _make_request_with_requests(url, retries=None):
 def make_request(url, retries=None):
     """
     Make a fast HTTP GET request first. Scrapling is an optional fallback only,
-    because browser-like fetchers are too slow for live fast news mode.
+    because browser-like fetchers are too slow for the bounded Jobs production cycle.
     """
     document = _make_request_with_requests(url, retries)
     if document:
@@ -782,12 +772,6 @@ def _extract_feed_urls(document, source_url):
     parsed_source = urlparse(source_url)
     source_root = f"{parsed_source.scheme}://{parsed_source.netloc}"
 
-    if not JOBS_MODE:
-        for suffix in COMMON_FEED_SUFFIXES:
-            candidate = urljoin(source_root, suffix)
-            if candidate not in seen:
-                seen.add(candidate)
-                feed_urls.append(candidate)
 
     if "blogspot.com" in parsed_source.netloc.lower():
         for candidate in (
@@ -836,50 +820,6 @@ def _article_age_hours(published_at, now=None):
         return None
     now = now or datetime.now(timezone.utc)
     return max(0.0, (now - parsed).total_seconds() / 3600)
-
-
-def _smart_initial_freshness_hours():
-    return min(FRESHNESS_HARD_MAX_HOURS, max(SMART_FRESHNESS_INITIAL_HOURS, RECENT_NEWS_MAX_AGE_HOURS))
-
-
-def _smart_expanded_freshness_hours(initial_hours=None):
-    initial_hours = _smart_initial_freshness_hours() if initial_hours is None else initial_hours
-    return min(FRESHNESS_HARD_MAX_HOURS, max(SMART_FRESHNESS_EXPANDED_HOURS, initial_hours))
-
-
-def _ai_cutoff_for_window(max_age_hours=None):
-    max_age_hours = _smart_initial_freshness_hours() if max_age_hours is None else max_age_hours
-    return max(0, min(FRESHNESS_HARD_MAX_HOURS, max_age_hours) - (max(0, FRESHNESS_SAFETY_MARGIN_MINUTES) / 60))
-
-
-def _is_recent_published_at(published_at, now=None, max_age_hours=None):
-    age = _article_age_hours(published_at, now=now)
-    if age is None:
-        return False, None
-    max_age_hours = _smart_initial_freshness_hours() if max_age_hours is None else max_age_hours
-    return age <= max(0, min(FRESHNESS_HARD_MAX_HOURS, max_age_hours)), age
-
-
-def _is_safe_for_ai_published_at(published_at, now=None, max_age_hours=None):
-    age = _article_age_hours(published_at, now=now)
-    if age is None:
-        return False, None
-    return age <= _ai_cutoff_for_window(max_age_hours=max_age_hours), age
-
-
-def _freshness_bucket_for_date(published_at, initial_hours=None, expanded_hours=None, now=None):
-    age = _article_age_hours(published_at, now=now)
-    if age is None:
-        return "missing", None
-    initial_hours = _smart_initial_freshness_hours() if initial_hours is None else initial_hours
-    expanded_hours = _smart_expanded_freshness_hours(initial_hours) if expanded_hours is None else expanded_hours
-    if age > FRESHNESS_HARD_MAX_HOURS:
-        return "too_old", age
-    if age <= initial_hours:
-        return "fresh", age
-    if age <= expanded_hours:
-        return "expanded", age
-    return "within_hard_max", age
 
 
 def _source_crawl_window_start(source_key, now=None):
@@ -945,21 +885,6 @@ def _extract_published_time_from_html(html_text):
             return published_at, "time"
 
     return "", ""
-
-
-def _resolve_article_published_at(article_url, feed_published_at=""):
-    if feed_published_at:
-        normalized = _datetime_iso_utc(feed_published_at)
-        if normalized:
-            return normalized, "feed"
-
-    html_text = _make_request_with_requests(article_url, retries=0)
-    if not html_text and ENABLE_SCRAPLING_FALLBACK and SCRAPLING_AVAILABLE:
-        page = _make_request_with_scrapling(article_url)
-        html_text = str(page) if page else ""
-    if not html_text:
-        return "", ""
-    return _extract_published_time_from_html(html_text)
 
 
 def _parse_feed_article_links(feed_text, source_url, feed_url=None):
@@ -1502,7 +1427,6 @@ async def _collect_workday_links_async(
     }
 
 
-
 EMPLOI_PUBLIC_AR_MONTHS = {
     "يناير": 1,
     "فبراير": 2,
@@ -1547,6 +1471,15 @@ def _emploi_public_deadline_from_listing_text(value):
         ).date().isoformat()
     except ValueError:
         return ""
+
+
+def _get_soup_from_document(document, article_url):
+    html = _document_to_html(document)
+    if not html:
+        html = _make_request_with_requests(article_url)
+    if not html:
+        return None
+    return BeautifulSoup(html, "html.parser")
 
 
 def _parse_emploi_public_links(document, source_url, per_source_limit=None):
@@ -2829,148 +2762,46 @@ async def _collect_article_links_for_source_async(
             "tried_feed_urls": [],
         }
 
-    if JOBS_MODE:
-        generic_parser = lambda html_text, current_url, per_source_limit=None: get_article_links(
-            html_text,
-            current_url,
-            strict_source_path=strict_source_path,
-        )
-        html_links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
-            session,
-            source_url,
-            generic_parser,
-            known_ids=known_ids,
-            page_size=per_source_limit,
-            max_pages=max_pages,
-            seen_streak_stop=seen_streak_stop,
-            max_items=max_items,
-            start_url=(
-                resume_state.get("url")
-                if resume_state.get("kind") == "html"
-                else None
-            ),
-        )
-        combined_links = _filter_article_links(
-            html_links,
-            source_url,
-            strict_source_path=strict_source_path,
-        )
-        print(f"  Collected {len(combined_links)} paginated Jobs link(s) from this source.")
-        return [
-            _link_to_article_dict(link, source_url)
-            for link in combined_links
-        ], error, status_code, {
-            "normal_links_found": len(html_links),
-            "feed_links_found": 0,
-            "method_used": "html-pagination",
-            "tried_feed_urls": [],
-            "discovery_meta": discovery_meta,
-            "discovery_resume": (
-                {"kind": "html", "url": discovery_meta.get("resume_url")}
-                if discovery_meta.get("resume_url")
-                else {}
-            ),
-        }
-
-    listing_html, error, status_code = await _fetch_text_async(session, source_url)
-    html_links = []
-    feed_links = []
-    tried_feed_urls = []
-
-    if listing_html:
-        html_links = get_article_links(
-            listing_html,
-            source_url,
-            strict_source_path=strict_source_path,
-        )
-        feed_candidates = []
-        if feed_url:
-            feed_candidates.append(feed_url)
-        feed_candidates.extend(_extract_feed_urls(listing_html, source_url))
-    else:
-        feed_candidates = _fallback_feed_urls(source_url, feed_url=feed_url)
-
-    seen_feed_urls = set()
-    feed_candidates = [
-        candidate
-        for candidate in feed_candidates
-        if candidate and not (candidate in seen_feed_urls or seen_feed_urls.add(candidate))
-    ]
-
-    if extractor_mode == "feed_fallback":
-        direct_feed_links = _parse_feed_article_links(
-            listing_html,
-            source_url,
-            feed_url=source_url,
-        ) if listing_html else []
-        if direct_feed_links:
-            feed_links.extend(direct_feed_links)
-
-    should_try_feed = (
-        bool(feed_url)
-        or extractor_mode in {"rss", "feed", "xml", "feed_fallback"}
-        or (not JOBS_MODE and (bool(error) or len(html_links) < (per_source_limit or 3)))
+    generic_parser = lambda html_text, current_url, per_source_limit=None: get_article_links(
+        html_text,
+        current_url,
+        strict_source_path=strict_source_path,
     )
-    if should_try_feed:
-        for current_feed_url in feed_candidates[:5]:
-            tried_feed_urls.append(current_feed_url)
-            current_links, feed_error = await _collect_links_from_feed_async(
-                session,
-                current_feed_url,
-                source_url,
-            )
-            if feed_error:
-                print(f"  Feed failed: {current_feed_url} ({feed_error})")
-            print(
-                f"  Feed yielded {len(current_links)} candidate link(s): "
-                f"{current_feed_url}"
-            )
-            if current_links:
-                feed_links.extend(current_links)
-                if not JOBS_MODE and len(feed_links) >= (per_source_limit or 3):
-                    break
-
-    method_used = "html"
-    if feed_links and not html_links:
-        method_used = "feed"
-    elif feed_links and (error or len(html_links) < (per_source_limit or 3)):
-        method_used = "fallback"
-    elif feed_links:
-        method_used = "html+feed"
-    elif error:
-        method_used = "failed"
-
-    if extractor_type and extractor_type != "auto":
-        method_used = f"{method_used}:{extractor_type}"
-
-    combined_links = _filter_article_links(
-        feed_links + html_links,
+    html_links, error, status_code, discovery_meta = await _collect_paginated_html_links_async(
+        session,
         source_url,
-        strict_source_path=False if feed_links else strict_source_path,
+        generic_parser,
+        known_ids=known_ids,
+        page_size=per_source_limit,
+        max_pages=max_pages,
+        seen_streak_stop=seen_streak_stop,
+        max_items=max_items,
+        start_url=(
+            resume_state.get("url")
+            if resume_state.get("kind") == "html"
+            else None
+        ),
     )
-    if per_source_limit and not JOBS_MODE:
-        combined_links = combined_links[:per_source_limit]
-
-    if not combined_links and not JOBS_MODE:
-        sync_links, sync_error, sync_status, sync_details = await asyncio.to_thread(
-            _collect_article_links_for_source,
-            source_url,
-            per_source_limit=per_source_limit,
-            feed_url=feed_url,
-            extractor_type=extractor_type,
-        )
-        if sync_links:
-            return sync_links, sync_error, sync_status, sync_details
-
-    print(f"  Collected {len(combined_links)} article link(s) from this source.")
+    combined_links = _filter_article_links(
+        html_links,
+        source_url,
+        strict_source_path=strict_source_path,
+    )
+    print(f"  Collected {len(combined_links)} paginated Jobs link(s) from this source.")
     return [
         _link_to_article_dict(link, source_url)
         for link in combined_links
     ], error, status_code, {
         "normal_links_found": len(html_links),
-        "feed_links_found": len(feed_links),
-        "method_used": method_used,
-        "tried_feed_urls": tried_feed_urls,
+        "feed_links_found": 0,
+        "method_used": "html-pagination",
+        "tried_feed_urls": [],
+        "discovery_meta": discovery_meta,
+        "discovery_resume": (
+            {"kind": "html", "url": discovery_meta.get("resume_url")}
+            if discovery_meta.get("resume_url")
+            else {}
+        ),
     }
 
 
@@ -2999,17 +2830,13 @@ def _collect_article_links_for_source(
             if not JOBS_MODE or feed_url or str(extractor_type or "").lower() in {"rss", "feed", "xml"}
             else []
         )
-        for fallback_feed_url in fallback_candidates[:2 if JOBS_MODE else 5]:
+        for fallback_feed_url in fallback_candidates[:(2)]:
             tried_feed_urls.append(fallback_feed_url)
             current_links = _collect_links_from_feed(fallback_feed_url, source_url)
             print(f"  Feed yielded {len(current_links)} candidate link(s): {fallback_feed_url}")
             if current_links:
                 feed_links.extend(current_links)
-                if not JOBS_MODE and len(feed_links) >= (per_source_limit or 3):
-                    break
 
-        if per_source_limit and not JOBS_MODE:
-            feed_links = feed_links[:per_source_limit]
 
         return [
             _link_to_article_dict(link, source_url)
@@ -3023,15 +2850,7 @@ def _collect_article_links_for_source(
 
     extractor_mode = str(extractor_type or "").lower()
     resume_state = resume_state if isinstance(resume_state, dict) else {}
-    if JOBS_MODE and extractor_mode in {
-        "emploi_public",
-        "capgemini_jobs",
-        "etalent",
-        "ats_listing",
-        "inwi_jobs",
-        "credit_du_maroc_jobs",
-        "cih_jobs",
-    }:
+    if extractor_mode in {'emploi_public', 'capgemini_jobs', 'etalent', 'ats_listing', 'inwi_jobs', 'credit_du_maroc_jobs', 'cih_jobs'}:
         parser = {
             "emploi_public": _parse_emploi_public_links,
             "capgemini_jobs": _parse_capgemini_job_links,
@@ -3079,7 +2898,7 @@ def _collect_article_links_for_source(
             } and not links and not error,
         }
 
-    if JOBS_MODE and extractor_mode == "auto":
+    if extractor_mode == 'auto':
         parser = lambda html_text, current_url, per_source_limit=None: get_article_links(
             html_text,
             current_url,
@@ -3174,8 +2993,6 @@ def _collect_article_links_for_source(
             )
             if current_links:
                 feed_links.extend(current_links)
-                if not JOBS_MODE and len(feed_links) >= (per_source_limit or 3):
-                    break
 
     method_used = "html"
     if feed_links and not html_links:
@@ -3193,8 +3010,6 @@ def _collect_article_links_for_source(
         source_url,
         strict_source_path=False if feed_links else strict_source_path,
     )
-    if per_source_limit and not JOBS_MODE:
-        combined_links = combined_links[:per_source_limit]
 
     print(f"  Collected {len(combined_links)} article link(s) from this source.")
     return [
@@ -3236,40 +3051,33 @@ async def _discover_latest_article_links_async(enabled_sources):
             fetch_limit = int(source.get("fetch_limit_per_run", 3))
         except (TypeError, ValueError):
             fetch_limit = 3
-        fetch_limit = max(1, min(fetch_limit, 30 if JOBS_MODE else 3))
+        fetch_limit = max(1, min(fetch_limit, (30)))
 
-        if JOBS_MODE:
-            try:
-                discovery_max_pages = int(
-                    source.get("discovery_max_pages", JOBS_DISCOVERY_MAX_PAGES)
-                )
-            except (TypeError, ValueError):
-                discovery_max_pages = JOBS_DISCOVERY_MAX_PAGES
-            try:
-                discovery_seen_streak = int(
-                    source.get("discovery_seen_streak", JOBS_DISCOVERY_SEEN_STREAK)
-                )
-            except (TypeError, ValueError):
-                discovery_seen_streak = JOBS_DISCOVERY_SEEN_STREAK
-            try:
-                discovery_max_items = int(
-                    source.get(
-                        "discovery_max_items",
-                        JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
-                    )
-                )
-            except (TypeError, ValueError):
-                discovery_max_items = JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE
-            source_crawl = source_crawl_record(base_url)
-            known_ids = _source_known_discovery_ids(base_url)
-            resume_state = source_crawl.get("job_discovery_resume") or {}
-            if not isinstance(resume_state, dict):
-                resume_state = {}
-        else:
-            discovery_max_pages = 1
+        try:
+            discovery_max_pages = int(
+                source.get("discovery_max_pages", JOBS_DISCOVERY_MAX_PAGES)
+            )
+        except (TypeError, ValueError):
+            discovery_max_pages = JOBS_DISCOVERY_MAX_PAGES
+        try:
+            discovery_seen_streak = int(
+                source.get("discovery_seen_streak", JOBS_DISCOVERY_SEEN_STREAK)
+            )
+        except (TypeError, ValueError):
             discovery_seen_streak = JOBS_DISCOVERY_SEEN_STREAK
-            discovery_max_items = fetch_limit
-            known_ids = set()
+        try:
+            discovery_max_items = int(
+                source.get(
+                    "discovery_max_items",
+                    JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
+                )
+            )
+        except (TypeError, ValueError):
+            discovery_max_items = JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE
+        source_crawl = source_crawl_record(base_url)
+        known_ids = _source_known_discovery_ids(base_url)
+        resume_state = source_crawl.get("job_discovery_resume") or {}
+        if not isinstance(resume_state, dict):
             resume_state = {}
 
         print(f"\n[{index}] Checking {source_name}")
@@ -3285,7 +3093,7 @@ async def _discover_latest_article_links_async(enabled_sources):
                     "max_items": discovery_max_items,
                 }
 
-                if JOBS_MODE and resume_state:
+                if resume_state:
                     # Refresh the newest listing head on every cycle even while
                     # a deep initial backlog is still being drained.
                     head_links, head_error, head_status, head_details = await _collect_article_links_for_source_async(
@@ -3362,13 +3170,8 @@ async def _discover_latest_article_links_async(enabled_sources):
                 }
                 print(f"  Source failed without stopping the fetch run: {error}")
 
-        if JOBS_MODE:
-            # Generic HTML/feed adapters may return known rows even though ATS
-            # adapters already filter them. Apply the same durable identity
-            # filter to every adapter without imposing a seen-streak on
-            # potentially unordered lists.
-            links = [link for link in _merge_discovery_link_groups(links)
-                     if _discovery_identity(link) not in known_ids]
+        links = [link for link in _merge_discovery_link_groups(links)
+                 if _discovery_identity(link) not in known_ids]
         return {
             "source": source,
             "source_name": source_name,
@@ -3417,34 +3220,33 @@ async def _discover_latest_article_links_async(enabled_sources):
             "last_crawled_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
             "overlap_minutes": CRAWL_OVERLAP_MINUTES,
         }
-        if JOBS_MODE:
-            crawl_fields.update({
-                "job_seen_ids": _merge_source_seen_ids(
-                    result["base_url"],
-                    result["links"],
-                ),
-                "job_seen_ids_count": min(
-                    JOBS_DISCOVERY_SEEN_MEMORY,
-                    result.get("known_ids_before", 0) + len(result["links"]),
-                ),
-                "discovery_last_new_count": len(result["links"]),
-                "discovery_page_size_hint": fetch_limit,
-                "discovery_max_pages": result.get("discovery_max_pages"),
-                "discovery_seen_streak": result.get("discovery_seen_streak"),
-                "discovery_max_items": result.get("discovery_max_items"),
-                "job_discovery_resume": (
-                    result.get("details", {}).get("discovery_resume") or {}
-                ),
-                "discovery_stop_reason": (
-                    result.get("details", {}).get("discovery_meta", {}).get("stop_reason", "")
-                ),
-                "discovery_pages_scanned": (
-                    result.get("details", {}).get("discovery_meta", {}).get("pages_scanned", 0)
-                ),
-            })
+        crawl_fields.update({
+            "job_seen_ids": _merge_source_seen_ids(
+                result["base_url"],
+                result["links"],
+            ),
+            "job_seen_ids_count": min(
+                JOBS_DISCOVERY_SEEN_MEMORY,
+                result.get("known_ids_before", 0) + len(result["links"]),
+            ),
+            "discovery_last_new_count": len(result["links"]),
+            "discovery_page_size_hint": fetch_limit,
+            "discovery_max_pages": result.get("discovery_max_pages"),
+            "discovery_seen_streak": result.get("discovery_seen_streak"),
+            "discovery_max_items": result.get("discovery_max_items"),
+            "job_discovery_resume": (
+                result.get("details", {}).get("discovery_resume") or {}
+            ),
+            "discovery_stop_reason": (
+                result.get("details", {}).get("discovery_meta", {}).get("stop_reason", "")
+            ),
+            "discovery_pages_scanned": (
+                result.get("details", {}).get("discovery_meta", {}).get("pages_scanned", 0)
+            ),
+        })
         update_source_crawl(result["base_url"], **crawl_fields)
 
-        result_links = result["links"] if JOBS_MODE else result["links"][:fetch_limit]
+        result_links = (result["links"])
         for link in result_links:
             discovered.append(
                 {
@@ -3475,7 +3277,7 @@ async def _discover_latest_article_links_async(enabled_sources):
                 "category_name": result["category_name"],
                 "category_label": result["category_label"],
                 "fetch_limit_per_run": fetch_limit,
-                "discovery_mode": "paginated_seen_ids" if JOBS_MODE else "fixed_limit",
+                "discovery_mode": ("paginated_seen_ids"),
                 "discovery_max_pages": result.get("discovery_max_pages"),
                 "discovery_seen_streak": result.get("discovery_seen_streak"),
                 "discovery_max_items": result.get("discovery_max_items"),
@@ -3506,18 +3308,9 @@ def discover_latest_article_links(sources):
     """
     enabled_sources = [source for source in sources if source.get("enabled", True)]
     cooldown_results = []
-    if JOBS_MODE:
-        enabled_sources, cooldown_results = _filter_healthy_sources(
-            _order_sources_for_fast_run(enabled_sources)
-        )
-    if (
-        not JOBS_MODE
-        and FAST_NEWS_MODE
-        and FIRST_VALID_ARTICLE_MODE
-        and MAX_SOURCES_PER_RUN > 0
-    ):
-        enabled_sources = _prioritize_sources(enabled_sources)
-        enabled_sources = enabled_sources[:MAX_SOURCES_PER_RUN]
+    enabled_sources, cooldown_results = _filter_healthy_sources(
+        _order_sources_for_fast_run(enabled_sources)
+    )
     if _can_run_async_discovery():
         log_event("source_discovery_start", sources=len(enabled_sources), mode="aiohttp")
         result = asyncio.run(_discover_latest_article_links_async(enabled_sources))
@@ -3552,40 +3345,33 @@ def discover_latest_article_links(sources):
             fetch_limit = int(source.get("fetch_limit_per_run", 3))
         except (TypeError, ValueError):
             fetch_limit = 3
-        fetch_limit = max(1, min(fetch_limit, 30 if JOBS_MODE else 3))
+        fetch_limit = max(1, min(fetch_limit, (30)))
 
-        if JOBS_MODE:
-            try:
-                discovery_max_pages = int(
-                    source.get("discovery_max_pages", JOBS_DISCOVERY_MAX_PAGES)
-                )
-            except (TypeError, ValueError):
-                discovery_max_pages = JOBS_DISCOVERY_MAX_PAGES
-            try:
-                discovery_seen_streak = int(
-                    source.get("discovery_seen_streak", JOBS_DISCOVERY_SEEN_STREAK)
-                )
-            except (TypeError, ValueError):
-                discovery_seen_streak = JOBS_DISCOVERY_SEEN_STREAK
-            try:
-                discovery_max_items = int(
-                    source.get(
-                        "discovery_max_items",
-                        JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
-                    )
-                )
-            except (TypeError, ValueError):
-                discovery_max_items = JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE
-            source_crawl = source_crawl_record(base_url)
-            known_ids = _source_known_discovery_ids(base_url)
-            resume_state = source_crawl.get("job_discovery_resume") or {}
-            if not isinstance(resume_state, dict):
-                resume_state = {}
-        else:
-            discovery_max_pages = 1
+        try:
+            discovery_max_pages = int(
+                source.get("discovery_max_pages", JOBS_DISCOVERY_MAX_PAGES)
+            )
+        except (TypeError, ValueError):
+            discovery_max_pages = JOBS_DISCOVERY_MAX_PAGES
+        try:
+            discovery_seen_streak = int(
+                source.get("discovery_seen_streak", JOBS_DISCOVERY_SEEN_STREAK)
+            )
+        except (TypeError, ValueError):
             discovery_seen_streak = JOBS_DISCOVERY_SEEN_STREAK
-            discovery_max_items = fetch_limit
-            known_ids = set()
+        try:
+            discovery_max_items = int(
+                source.get(
+                    "discovery_max_items",
+                    JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE,
+                )
+            )
+        except (TypeError, ValueError):
+            discovery_max_items = JOBS_DISCOVERY_MAX_ITEMS_PER_SOURCE
+        source_crawl = source_crawl_record(base_url)
+        known_ids = _source_known_discovery_ids(base_url)
+        resume_state = source_crawl.get("job_discovery_resume") or {}
+        if not isinstance(resume_state, dict):
             resume_state = {}
 
         print(f"\n[{checked_sources}] Checking {source_name}")
@@ -3604,7 +3390,7 @@ def discover_latest_article_links(sources):
                 "max_items": discovery_max_items,
             }
 
-            if JOBS_MODE and resume_state:
+            if resume_state:
                 head_links, head_error, head_status, head_details = _collect_article_links_for_source(
                     base_url,
                     known_ids=known_ids,
@@ -3674,10 +3460,9 @@ def discover_latest_article_links(sources):
             }
             print(f"  Source failed without stopping the fetch run: {error}")
 
-        if JOBS_MODE:
-            links = [link for link in _merge_discovery_link_groups(links)
-                     if _discovery_identity(link) not in known_ids]
-        result_links = links if JOBS_MODE else links[:fetch_limit]
+        links = [link for link in _merge_discovery_link_groups(links)
+                 if _discovery_identity(link) not in known_ids]
+        result_links = (links)
         for link in result_links:
             discovered.append(
                 {
@@ -3699,26 +3484,25 @@ def discover_latest_article_links(sources):
                 }
             )
 
-        if JOBS_MODE:
-            update_source_crawl(
-                base_url,
-                source_name=source_name,
-                last_crawled_at=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-                overlap_minutes=CRAWL_OVERLAP_MINUTES,
-                job_seen_ids=_merge_source_seen_ids(base_url, links),
-                job_seen_ids_count=min(
-                    JOBS_DISCOVERY_SEEN_MEMORY,
-                    len(known_ids) + len(links),
-                ),
-                discovery_last_new_count=len(links),
-                discovery_page_size_hint=fetch_limit,
-                discovery_max_pages=discovery_max_pages,
-                discovery_seen_streak=discovery_seen_streak,
-                discovery_max_items=discovery_max_items,
-                job_discovery_resume=details.get("discovery_resume") or {},
-                discovery_stop_reason=details.get("discovery_meta", {}).get("stop_reason", ""),
-                discovery_pages_scanned=details.get("discovery_meta", {}).get("pages_scanned", 0),
-            )
+        update_source_crawl(
+            base_url,
+            source_name=source_name,
+            last_crawled_at=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            overlap_minutes=CRAWL_OVERLAP_MINUTES,
+            job_seen_ids=_merge_source_seen_ids(base_url, links),
+            job_seen_ids_count=min(
+                JOBS_DISCOVERY_SEEN_MEMORY,
+                len(known_ids) + len(links),
+            ),
+            discovery_last_new_count=len(links),
+            discovery_page_size_hint=fetch_limit,
+            discovery_max_pages=discovery_max_pages,
+            discovery_seen_streak=discovery_seen_streak,
+            discovery_max_items=discovery_max_items,
+            job_discovery_resume=details.get("discovery_resume") or {},
+            discovery_stop_reason=details.get("discovery_meta", {}).get("stop_reason", ""),
+            discovery_pages_scanned=details.get("discovery_meta", {}).get("pages_scanned", 0),
+        )
 
         source_results.append(
             {
@@ -3729,7 +3513,7 @@ def discover_latest_article_links(sources):
                 "category_name": category_name,
                 "category_label": category_label,
                 "fetch_limit_per_run": fetch_limit,
-                "discovery_mode": "paginated_seen_ids" if JOBS_MODE else "fixed_limit",
+                "discovery_mode": ("paginated_seen_ids"),
                 "discovery_max_pages": discovery_max_pages,
                 "discovery_seen_streak": discovery_seen_streak,
                 "discovery_max_items": discovery_max_items,
@@ -3759,554 +3543,6 @@ def discover_latest_article_links(sources):
         "checked_sources": checked_sources,
         "articles": discovered,
         "source_results": source_results,
-    }
-
-
-def discover_first_valid_article_link(sources, existing_articles=None, published_topic_hashes=None):
-    """
-    Fast path: check sources in order and return as soon as one non-duplicate
-    article link is found. This avoids scanning every source before publishing.
-    """
-    enabled_sources, cooldown_results = _filter_healthy_sources(
-        _order_sources_for_fast_run([source for source in sources if source.get("enabled", True)])
-    )
-    if MAX_SOURCES_PER_RUN > 0:
-        enabled_sources = enabled_sources[:MAX_SOURCES_PER_RUN]
-
-    existing_articles = existing_articles or []
-    published_topic_hashes = published_topic_hashes or set()
-    known_urls = {
-        item.get("canonical_url") or canonicalize_url(item.get("url"))
-        for item in existing_articles
-        if item.get("url") and not item.get("archived")
-    }
-    known_title_hashes = {
-        item.get("title_hash") or title_hash(item.get("title", ""))
-        for item in existing_articles
-        if item.get("title") and not item.get("archived")
-    }
-
-    source_results = list(cooldown_results)
-    fallback_expanded_candidates = []
-    for index, source in enumerate(enabled_sources, 1):
-        source_name = source.get("name", source.get("base_url", "Unknown source"))
-        base_url = source.get("base_url", "").strip()
-        if not base_url:
-            continue
-        started = time.perf_counter()
-        _log(f"\nChecking source {index}/{len(enabled_sources)}: {source_name}")
-        try:
-            links, error, status_code, details = _collect_article_links_for_source(
-                base_url,
-                per_source_limit=source.get("fetch_limit_per_run", 3),
-                feed_url=source.get("feed_url"),
-                extractor_type=source.get("extractor_type", "auto"),
-            )
-        except Exception as exc:
-            links = []
-            error = f"{type(exc).__name__}: {exc}"
-            status_code = None
-            details = {
-                "normal_links_found": 0,
-                "feed_links_found": 0,
-                "method_used": "failed",
-                "tried_feed_urls": [],
-            }
-
-        selected = None
-        duplicate_count = 0
-        old_count = 0
-        too_close_count = 0
-        promo_count = 0
-        missing_date_count = 0
-        recent_count = 0
-        initial_freshness_hours = _smart_initial_freshness_hours()
-        expanded_freshness_hours = _smart_expanded_freshness_hours(initial_freshness_hours)
-        expanded_candidates = []
-        for link in links:
-            if isinstance(link, dict):
-                url = link.get("url", "")
-                link_title = link.get("title", "")
-                feed_published_at = link.get("published_at", "")
-                rss_summary = link.get("rss_summary", "")
-            else:
-                link_title, url = link
-                feed_published_at = ""
-                rss_summary = ""
-                link = {"title": link_title, "url": url}
-            canonical = canonicalize_url(url)
-            current_title_hash = title_hash(link_title)
-            current_topic_signature = topic_signature(link_title)
-            promotional, promo_reason = is_promotional_article({"title": link_title, "url": url, "rss_summary": rss_summary})
-            if promotional and SKIP_ADS_AFFILIATE_SPONSORED:
-                promo_count += 1
-                _log(f"  Skipping promotional/affiliate article: {promo_reason}: {link_title[:80]}")
-                continue
-            if (
-                canonical in known_urls
-                or current_title_hash in known_title_hashes
-                or current_title_hash in published_topic_hashes
-                or current_topic_signature in published_topic_hashes
-            ):
-                duplicate_count += 1
-                _log(f"  Skipping duplicate: {link_title[:80]}")
-                continue
-            published_at = ""
-            published_at_source = ""
-            freshness_source = ""
-            age_hours = None
-            if RECENT_NEWS_ONLY:
-                published_at, published_at_source = _resolve_article_published_at(url, feed_published_at)
-                if not published_at:
-                    missing_date_count += 1
-                    freshness_source = "fallback_no_date"
-                    log_event(
-                        "freshness_not_strict",
-                        freshness_source=freshness_source,
-                        article_url=url,
-                        source_name=source_name,
-                        decision="accepted_new_url_without_publish_date",
-                    )
-                    _log(f"  Article date missing; new URL accepted by freshness fallback: {link_title[:80]}")
-                if published_at:
-                    freshness_source = "date"
-                    bucket, age_hours = _freshness_bucket_for_date(
-                        published_at,
-                        initial_hours=initial_freshness_hours,
-                        expanded_hours=expanded_freshness_hours,
-                    )
-                    _log(
-                        f"  Article date found ({published_at_source or 'unknown'}): "
-                        f"{published_at}; age {age_hours:.2f}h"
-                    )
-                    if bucket == "too_old":
-                        old_count += 1
-                        log_event(
-                            "article_skipped_old",
-                            article_url=url,
-                            age_hours=round(age_hours, 2),
-                            max_age_hours=FRESHNESS_HARD_MAX_HOURS,
-                        )
-                        _log(
-                            f"  Skipping article older than {FRESHNESS_HARD_MAX_HOURS / 24:.0f} days: "
-                            f"{link_title[:80]}"
-                        )
-                        continue
-                    log_event(
-                        "freshness_not_strict",
-                        freshness_source=freshness_source,
-                        article_url=url,
-                        source_name=source_name,
-                        age_hours=round(age_hours, 2),
-                        strict_window_hours=initial_freshness_hours,
-                        hard_max_hours=FRESHNESS_HARD_MAX_HOURS,
-                        decision="accepted_new_url_publish_date_for_sorting_only",
-                    )
-                    recent_count += 1
-            selected = {
-                "title": link_title,
-                "url": url,
-                "source_name": source_name,
-                "source_url": base_url,
-                "category_hint": source.get("category_hint", ""),
-                "category_key": source.get("category_key", ""),
-                "category_name": source.get("category_name", ""),
-                "category_label": source.get("category_label", source.get("category_hint", "")),
-                "source_priority": source.get("source_priority", ""),
-                "official_source": bool(source.get("official_source", False)),
-                "source_country": source.get("source_country", ""),
-                "source_eligibility": source.get("source_eligibility", ""),
-                "source_remote": bool(source.get("source_remote", False)),
-                "source_visa_sponsorship": bool(source.get("source_visa_sponsorship", False)),
-                "published_at_source": published_at_source,
-                "source_published_at": published_at,
-                "article_age_hours": round(age_hours, 2) if age_hours is not None else None,
-                "rss_summary": rss_summary,
-                "freshness_source": freshness_source or ("date" if published_at else ""),
-                "freshness_window_hours": FRESHNESS_HARD_MAX_HOURS if published_at else "",
-                "ats_provider": link.get("ats_provider", ""),
-                "ats_reference": link.get("ats_reference", ""),
-                "ats_description": link.get("ats_description", ""),
-                "job_application_url": link.get("job_application_url", ""),
-                "job_application_link_kind": link.get("job_application_link_kind", ""),
-                "job_location": link.get("job_location", ""),
-                "job_country": link.get("job_country", ""),
-                "job_contract_type": link.get("job_contract_type", ""),
-                "job_salary": link.get("job_salary", ""),
-                "job_company": link.get("job_company", ""),
-                "phenom_payload": link.get("phenom_payload", {}),
-            }
-            break
-
-        if not selected and expanded_candidates:
-            fallback_expanded_candidates.extend(expanded_candidates)
-
-        elapsed = elapsed_ms(started)
-        if elapsed > 20000:
-            _log(f"  Heartbeat: source {source_name} took {elapsed / 1000:.1f}s")
-        status_text = "failed" if error else "success"
-        _log(
-            f"  Source result: {status_text}; links={len(links)}; "
-            f"duplicates={duplicate_count}; recent={recent_count}; old={old_count}; "
-            f"too_close={too_close_count}; "
-            f"promo={promo_count}; missing_date={missing_date_count}; elapsed={elapsed / 1000:.1f}s"
-        )
-        _record_source_result(
-            base_url, source_name, error, len(links),
-            empty_ok=bool(details.get("empty_ok")),
-        )
-        update_source_crawl(
-            base_url,
-            source_name=source_name,
-            last_crawled_at=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-            overlap_minutes=CRAWL_OVERLAP_MINUTES,
-        )
-        source_results.append(
-            {
-                "source_name": source_name,
-                "base_url": base_url,
-                "category_hint": source.get("category_hint", ""),
-                "category_key": source.get("category_key", ""),
-                "category_name": source.get("category_name", ""),
-                "category_label": source.get("category_label", source.get("category_hint", "")),
-                "source_priority": source.get("source_priority", ""),
-                "official_source": bool(source.get("official_source", False)),
-                "source_country": source.get("source_country", ""),
-                "source_eligibility": source.get("source_eligibility", ""),
-                "source_remote": bool(source.get("source_remote", False)),
-                "source_visa_sponsorship": bool(source.get("source_visa_sponsorship", False)),
-                "links_found": len(links),
-                "duplicates_skipped": duplicate_count,
-                "recent_links": recent_count,
-                "old_links_skipped": old_count,
-                "too_close_links_skipped": too_close_count,
-                "promotional_links_skipped": promo_count,
-                "missing_date_skipped": missing_date_count,
-                "status": "failed" if error else "success",
-                "listing_status_code": status_code,
-                "error": error,
-                "elapsed_ms": elapsed,
-                **details,
-            }
-        )
-        if selected:
-            _log(f"Selected article: {selected['title'][:80]}")
-            return {
-                "checked_sources": len(source_results),
-                "articles": [selected],
-                "source_results": source_results,
-                "first_valid": True,
-            }
-
-    if fallback_expanded_candidates:
-        selected = fallback_expanded_candidates[0]
-        log_event(
-            "freshness_expanded_range",
-            from_hours=_smart_initial_freshness_hours(),
-            to_hours=_smart_expanded_freshness_hours(),
-            source_name=selected.get("source_name", ""),
-        )
-        _log(
-            "Freshness expanded range: "
-            f"{_smart_initial_freshness_hours()}h -> {_smart_expanded_freshness_hours()}h"
-        )
-        _log(f"Selected expanded-range article: {selected['title'][:80]}")
-        return {
-            "checked_sources": len(source_results),
-            "articles": [selected],
-            "source_results": source_results,
-            "first_valid": True,
-        }
-
-    reason = (
-        f"no new publishable article under {FRESHNESS_HARD_MAX_HOURS // 24} days"
-        if RECENT_NEWS_ONLY
-        else "no valid non-duplicate article"
-    )
-    _log(f"Finished source scan: {reason}")
-    return {
-        "checked_sources": len(source_results),
-        "articles": [],
-        "source_results": source_results,
-        "first_valid": False,
-        "reason": reason,
-    }
-
-
-def discover_fresh_article_links(
-    sources,
-    existing_articles=None,
-    published_urls=None,
-    published_topic_hashes=None,
-    process_all_sources=False,
-):
-    """
-    Scan all enabled sources and collect every fresh, non-duplicate article
-    within the recent-news window.
-    """
-    if process_all_sources:
-        enabled_sources = [source for source in sources if source.get("enabled", True)]
-        cooldown_results = []
-    else:
-        enabled_sources, cooldown_results = _filter_healthy_sources(
-            _order_sources_for_fast_run([source for source in sources if source.get("enabled", True)])
-        )
-    if MAX_SOURCES_PER_RUN > 0 and not process_all_sources:
-        enabled_sources = enabled_sources[:MAX_SOURCES_PER_RUN]
-    existing_articles = existing_articles or []
-    published_urls = published_urls or set()
-    published_topic_hashes = published_topic_hashes or set()
-    known_urls = {
-        item.get("canonical_url") or canonicalize_url(item.get("url"))
-        for item in existing_articles
-        if item.get("url") and not item.get("archived")
-    }
-    known_urls.update(canonicalize_url(url) for url in published_urls if url)
-    known_title_hashes = {
-        item.get("title_hash") or title_hash(item.get("title", ""))
-        for item in existing_articles
-        if item.get("title") and not item.get("archived")
-    }
-
-    discovered = []
-    source_results = list(cooldown_results)
-
-    for index, source in enumerate(enabled_sources, 1):
-        source_name = source.get("name", source.get("base_url", "Unknown source"))
-        base_url = source.get("base_url", "").strip()
-        if not base_url:
-            continue
-        source_key = base_url
-        crawl_now = datetime.now(timezone.utc)
-        crawl_window_start = _source_crawl_window_start(source_key, now=crawl_now)
-
-        started = time.perf_counter()
-        _log(f"\nChecking source {index}/{len(enabled_sources)}: {source_name}")
-        try:
-            links, error, status_code, details = _collect_article_links_for_source(
-                base_url,
-                per_source_limit=source.get("fetch_limit_per_run", 3),
-                feed_url=source.get("feed_url"),
-                extractor_type=source.get("extractor_type", "auto"),
-            )
-        except Exception as exc:
-            links = []
-            error = f"{type(exc).__name__}: {exc}"
-            status_code = None
-            details = {
-                "normal_links_found": 0,
-                "feed_links_found": 0,
-                "method_used": "failed",
-                "tried_feed_urls": [],
-            }
-
-        duplicate_count = 0
-        old_count = 0
-        too_close_count = 0
-        promo_count = 0
-        missing_date_count = 0
-        recent_count = 0
-        selected_links = []
-        initial_freshness_hours = _smart_initial_freshness_hours()
-        expanded_freshness_hours = _smart_expanded_freshness_hours(initial_freshness_hours)
-        expanded_candidates = []
-
-        for link in links:
-            if isinstance(link, dict):
-                url = link.get("url", "")
-                link_title = link.get("title", "")
-                feed_published_at = link.get("published_at", "")
-                rss_summary = link.get("rss_summary", "")
-            else:
-                link_title, url = link
-                feed_published_at = ""
-                rss_summary = ""
-
-            canonical = canonicalize_url(url)
-            current_title_hash = title_hash(link_title)
-            current_topic_signature = topic_signature(link_title)
-            promotional, promo_reason = is_promotional_article({"title": link_title, "url": url, "rss_summary": rss_summary})
-            if promotional and SKIP_ADS_AFFILIATE_SPONSORED:
-                promo_count += 1
-                _log(f"  Skipping promotional/affiliate article: {promo_reason}: {link_title[:80]}")
-                continue
-            if (
-                canonical in known_urls
-                or current_title_hash in known_title_hashes
-                or current_title_hash in published_topic_hashes
-                or current_topic_signature in published_topic_hashes
-            ):
-                duplicate_count += 1
-                _log(f"  Skipping duplicate: {link_title[:80]}")
-                continue
-
-            published_at = ""
-            published_at_source = ""
-            freshness_source = ""
-            age_hours = None
-            if RECENT_NEWS_ONLY:
-                published_at, published_at_source = _resolve_article_published_at(url, feed_published_at)
-                if not published_at:
-                    missing_date_count += 1
-                    freshness_source = "fallback_no_date"
-                    log_event(
-                        "freshness_not_strict",
-                        freshness_source=freshness_source,
-                        article_url=url,
-                        source_name=source_name,
-                        decision="accepted_new_url_without_publish_date",
-                    )
-                    _log(f"  Article date missing; new URL accepted by freshness fallback: {link_title[:80]}")
-                if published_at:
-                    freshness_source = "date"
-                    bucket, age_hours = _freshness_bucket_for_date(
-                        published_at,
-                        initial_hours=initial_freshness_hours,
-                        expanded_hours=expanded_freshness_hours,
-                    )
-                    _log(
-                        f"  Article date found ({published_at_source or 'unknown'}): "
-                        f"{published_at}; age {age_hours:.2f}h"
-                    )
-                    if bucket == "too_old":
-                        old_count += 1
-                        log_event(
-                            "article_skipped_old",
-                            article_url=url,
-                            age_hours=round(age_hours, 2),
-                            max_age_hours=FRESHNESS_HARD_MAX_HOURS,
-                        )
-                        _log(
-                            f"  Skipping article older than {FRESHNESS_HARD_MAX_HOURS / 24:.0f} days: "
-                            f"{link_title[:80]}"
-                        )
-                        continue
-                    log_event(
-                        "freshness_not_strict",
-                        freshness_source=freshness_source,
-                        article_url=url,
-                        source_name=source_name,
-                        age_hours=round(age_hours, 2),
-                        strict_window_hours=initial_freshness_hours,
-                        hard_max_hours=FRESHNESS_HARD_MAX_HOURS,
-                        decision="accepted_new_url_publish_date_for_sorting_only",
-                    )
-                    recent_count += 1
-
-            selected = {
-                "title": link_title,
-                "url": url,
-                "source_name": source_name,
-                "source_url": base_url,
-                "category_hint": source.get("category_hint", ""),
-                "category_key": source.get("category_key", ""),
-                "category_name": source.get("category_name", ""),
-                "category_label": source.get("category_label", source.get("category_hint", "")),
-                "source_priority": source.get("source_priority", ""),
-                "official_source": bool(source.get("official_source", False)),
-                "source_country": source.get("source_country", ""),
-                "source_eligibility": source.get("source_eligibility", ""),
-                "source_remote": bool(source.get("source_remote", False)),
-                "source_visa_sponsorship": bool(source.get("source_visa_sponsorship", False)),
-                "published_at_source": published_at_source,
-                "source_published_at": published_at,
-                "article_age_hours": round(age_hours, 2) if age_hours is not None else None,
-                "rss_summary": rss_summary,
-                "freshness_source": freshness_source or ("date" if published_at else ""),
-                "freshness_window_hours": FRESHNESS_HARD_MAX_HOURS if published_at else "",
-            }
-            selected_links.append(selected)
-            known_urls.add(canonical)
-            if current_title_hash:
-                known_title_hashes.add(current_title_hash)
-            if current_topic_signature:
-                published_topic_hashes.add(current_topic_signature)
-
-        if not selected_links and not discovered and expanded_candidates:
-            log_event(
-                "freshness_expanded_range",
-                from_hours=initial_freshness_hours,
-                to_hours=expanded_freshness_hours,
-                source_name=source_name,
-            )
-            _log(f"  Freshness expanded range: {initial_freshness_hours}h -> {expanded_freshness_hours}h")
-            selected_links.extend(expanded_candidates)
-            for selected in expanded_candidates:
-                known_urls.add(canonicalize_url(selected.get("url", "")))
-                selected_title_hash = title_hash(selected.get("title", ""))
-                selected_topic_signature = topic_signature(selected.get("title", ""))
-                if selected_title_hash:
-                    known_title_hashes.add(selected_title_hash)
-                if selected_topic_signature:
-                    published_topic_hashes.add(selected_topic_signature)
-
-        elapsed = elapsed_ms(started)
-        status_text = "failed" if error else "success"
-        _log(
-            f"  Source result: {status_text}; links={len(links)}; "
-            f"duplicates={duplicate_count}; recent={recent_count}; old={old_count}; "
-            f"too_close={too_close_count}; "
-            f"promo={promo_count}; missing_date={missing_date_count}; queued={len(selected_links)}; "
-            f"elapsed={elapsed / 1000:.1f}s"
-        )
-        _record_source_result(base_url, source_name, error, len(links))
-        source_results.append(
-            {
-                "source_name": source_name,
-                "base_url": base_url,
-                "category_hint": source.get("category_hint", ""),
-                "category_key": source.get("category_key", ""),
-                "category_name": source.get("category_name", ""),
-                "category_label": source.get("category_label", source.get("category_hint", "")),
-                "source_priority": source.get("source_priority", ""),
-                "official_source": bool(source.get("official_source", False)),
-                "source_country": source.get("source_country", ""),
-                "source_eligibility": source.get("source_eligibility", ""),
-                "source_remote": bool(source.get("source_remote", False)),
-                "source_visa_sponsorship": bool(source.get("source_visa_sponsorship", False)),
-                "crawl_window_start": crawl_window_start.isoformat().replace("+00:00", "Z"),
-                "links_found": len(links),
-                "duplicates_skipped": duplicate_count,
-                "recent_links": recent_count,
-                "old_links_skipped": old_count,
-                "too_close_links_skipped": too_close_count,
-                "promotional_links_skipped": promo_count,
-                "missing_date_skipped": missing_date_count,
-                "queued_links": len(selected_links),
-                "status": "failed" if error else "success",
-                "listing_status_code": status_code,
-                "error": error,
-                "elapsed_ms": elapsed,
-                **details,
-            }
-        )
-        discovered.extend(selected_links)
-        update_source_crawl(
-            source_key,
-            source_name=source_name,
-            last_crawled_at=crawl_now.isoformat().replace("+00:00", "Z"),
-            overlap_minutes=CRAWL_OVERLAP_MINUTES,
-        )
-
-    reason = (
-        f"no new publishable article under {FRESHNESS_HARD_MAX_HOURS // 24} days"
-        if RECENT_NEWS_ONLY and not discovered
-        else ""
-    )
-    if reason:
-        _log(f"Finished source scan: {reason}")
-
-    discovered.sort(
-        key=lambda article: _parse_datetime_to_utc(article.get("source_published_at"))
-        or datetime.min.replace(tzinfo=timezone.utc),
-        reverse=True,
-    )
-
-    return {
-        "checked_sources": len(source_results),
-        "articles": discovered,
-        "source_results": source_results,
-        "reason": reason,
     }
 
 
@@ -4427,101 +3663,6 @@ def _join_paragraphs(paragraphs):
     return "\n\n".join(text_parts)
 
 
-def _extract_article_body_with_scrapling(page):
-    best_text = ""
-    candidate_selectors = (
-        "div.articleBody",
-        "div.article_section",
-        "[itemprop='articleBody']",
-        "div.entry-content",
-        "div.post-content",
-        "div.article-content",
-        "section.article-body",
-        "div.c-article-content",
-        "div.post__content",
-        "div.content-body",
-        "div.post-body",
-        "article",
-        "main",
-        "div.article-body",
-        "div.content",
-    )
-
-    for selector in candidate_selectors:
-        content_tag = page.css(selector).first
-        if not content_tag:
-            continue
-
-        text = _join_paragraphs(content_tag.css("p"))
-        if len(text) >= 600:
-            return text
-        if len(text) > len(best_text):
-            best_text = text
-
-    if len(best_text) > 100:
-        return best_text
-
-    text = _join_paragraphs(page.css("p"))
-    if len(text) > 100:
-        return text
-
-    return ""
-
-
-def _extract_article_body_with_bs4(html):
-    soup = BeautifulSoup(html, "html.parser")
-
-    for tag in soup.find_all(["script", "style", "nav", "footer", "header", "aside"]):
-        tag.decompose()
-
-    best_text = ""
-    candidate_tags = (
-        soup.find("div", class_="articleBody"),
-        soup.find("div", class_="article_section"),
-        soup.find(attrs={"itemprop": "articleBody"}),
-        soup.find("div", class_="entry-content"),
-        soup.find("div", class_="post-content"),
-        soup.find("div", class_="article-content"),
-        soup.find("section", class_="article-body"),
-        soup.find("div", class_="c-article-content"),
-        soup.find("div", class_="post__content"),
-        soup.find("div", class_="content-body"),
-        soup.find("div", class_="post-body"),
-        soup.find("article"),
-        soup.find("main"),
-        soup.find("div", class_="article-body"),
-        soup.find("div", class_="content"),
-    )
-
-    for content_tag in candidate_tags:
-        if not content_tag:
-            continue
-
-        text = _join_paragraphs(content_tag.find_all("p"))
-        if len(text) >= 600:
-            return text
-        if len(text) > len(best_text):
-            best_text = text
-
-    if len(best_text) > 100:
-        return best_text
-
-    text = _join_paragraphs(soup.find_all("p"))
-    if len(text) > 100:
-        return text
-
-    return ""
-
-
-def extract_article_body(document):
-    """
-    Extract the main article text from a full article page.
-    """
-    if _is_scrapling_document(document):
-        return _extract_article_body_with_scrapling(document)
-    return _extract_article_body_with_bs4(document)
-
-
 def _document_to_html(document):
     if isinstance(document, str):
         return document
@@ -4554,83 +3695,6 @@ def _safe_positive_int(value):
 
 def _normalize_text(value):
     return re.sub(r"\s+", " ", (value or "").strip())
-
-
-def _get_soup_from_document(document, article_url):
-    html = _document_to_html(document)
-    if not html:
-        html = _make_request_with_requests(article_url)
-    if not html:
-        return None
-    return BeautifulSoup(html, "html.parser")
-
-
-def _find_article_container(soup):
-    return soup.select_one("article.c-post") or soup.find("article") or soup.find("main") or soup
-
-
-def _looks_like_article_image(src, classes, alt_text):
-    combined = " ".join(classes + [src.lower(), alt_text.lower()])
-    if any(hint in combined for hint in BLOCKED_IMAGE_HINTS):
-        return False
-    if any(class_name in classes for class_name in ("c-logo__img", "avatar", "author-image")):
-        return False
-    return True
-
-
-def _extract_feature_image(document, article_url, article_title):
-    soup = _get_soup_from_document(document, article_url)
-    if not soup:
-        return None
-
-    og_width = _safe_positive_int(
-        (soup.select_one("meta[property='og:image:width']") or {}).get("content")
-        if soup.select_one("meta[property='og:image:width']")
-        else None
-    )
-    og_height = _safe_positive_int(
-        (soup.select_one("meta[property='og:image:height']") or {}).get("content")
-        if soup.select_one("meta[property='og:image:height']")
-        else None
-    )
-
-    selectors = (
-        "article.c-post img.c-feature-image",
-        "article.c-post figure.c-feature-image-figure img",
-        "main img.c-feature-image",
-        "article img",
-    )
-
-    for selector in selectors:
-        for img in soup.select(selector):
-            src = img.get("src") or img.get("data-src") or img.get("data-lazy-src")
-            if not src:
-                continue
-
-            classes = [class_name.lower() for class_name in (img.get("class") or [])]
-            alt_text = _normalize_text(img.get("alt") or article_title)
-            full_src = urljoin(article_url, src)
-
-            if not _looks_like_article_image(full_src, classes, alt_text):
-                continue
-
-            return {
-                "url": full_src,
-                "alt": alt_text or article_title,
-                "width": _safe_positive_int(img.get("width")) or og_width,
-                "height": _safe_positive_int(img.get("height")) or og_height,
-            }
-
-    og_image = soup.select_one("meta[property='og:image']")
-    if og_image and og_image.get("content"):
-        return {
-            "url": urljoin(article_url, og_image.get("content")),
-            "alt": article_title,
-            "width": og_width,
-            "height": og_height,
-        }
-
-    return None
 
 
 def _classify_authoritative_link(link_text, href):
@@ -4668,157 +3732,3 @@ def _classify_authoritative_link(link_text, href):
         return 60, "site"
 
     return 0, ""
-
-
-def _extract_trusted_sources(document, article_url):
-    soup = _get_soup_from_document(document, article_url)
-    if not soup:
-        return []
-
-    container = _find_article_container(soup)
-    trusted_sources = []
-    seen_urls = set()
-
-    for link_tag in container.select("a[href]"):
-        href = urljoin(article_url, link_tag.get("href", "").strip())
-        if not href.startswith("http") or href in seen_urls:
-            continue
-
-        link_text = _normalize_text(link_tag.get_text(" ", strip=True))
-        score, kind = _classify_authoritative_link(link_text, href)
-        if score < 60:
-            continue
-
-        seen_urls.add(href)
-        trusted_sources.append(
-            {
-                "title": link_text or urlparse(href).netloc,
-                "url": href,
-                "kind": kind,
-                "score": score,
-            }
-        )
-
-    trusted_sources.sort(key=lambda item: (-item["score"], item["title"].lower(), item["url"]))
-
-    return [
-        {
-            "title": item["title"],
-            "url": item["url"],
-            "kind": item["kind"],
-        }
-        for item in trusted_sources[:4]
-    ]
-
-
-def _extract_original_article_links(document, article_url):
-    soup = _get_soup_from_document(document, article_url)
-    if not soup:
-        return []
-
-    container = _find_article_container(soup)
-    links = []
-    seen_urls = set()
-
-    for link_tag in container.select("a[href]"):
-        raw_href = (link_tag.get("href") or "").strip()
-        if not raw_href or raw_href.startswith(("#", "mailto:", "tel:", "javascript:")):
-            continue
-
-        href = urljoin(article_url, raw_href)
-        if not href.startswith(("http://", "https://")) or href in seen_urls:
-            continue
-
-        seen_urls.add(href)
-        links.append(
-            {
-                "text": _normalize_text(link_tag.get_text(" ", strip=True)),
-                "url": href,
-            }
-        )
-
-    return links
-
-
-def get_latest_articles(limit=None):
-    """
-    Fetch and return the latest articles from configured source websites.
-    """
-    print("\n" + "=" * 60)
-    print("STEP 1: Scraping articles from source websites")
-    print("=" * 60)
-
-    if SCRAPLING_AVAILABLE:
-        print("  Using Scrapling for adaptive fetching and parsing.")
-
-    print(f"  Configured sources: {len(SOURCE_URLS)}")
-
-    if limit and limit > 0:
-        per_source_limit = max(3, ((limit + len(SOURCE_URLS) - 1) // len(SOURCE_URLS)) * 2)
-    else:
-        per_source_limit = 6
-
-    source_link_groups = []
-    for source_url in SOURCE_URLS:
-        source_links, _error, _status_code, _details = _collect_article_links_for_source(
-            source_url,
-            per_source_limit=per_source_limit,
-        )
-        if source_links:
-            source_link_groups.append(source_links)
-
-    article_links = _round_robin_link_groups(source_link_groups, limit=limit)
-    if not article_links:
-        print("No articles found across the configured sources. The site structures may have changed.")
-        return []
-
-    print(f"Found {len(article_links)} article(s) across all configured sources.")
-
-    articles = []
-
-    for i, article_link in enumerate(article_links, 1):
-        title = article_link["title"]
-        url = article_link["url"]
-        source_url = article_link["source_url"]
-
-        print(f"\n--- Article {i}/{len(article_links)} ---")
-        print(f"  Title: {title}")
-        print(f"  Source: {source_url}")
-
-        article_document = make_request(url)
-        if not article_document:
-            print("  Skipping article (could not fetch page)")
-            continue
-
-        body = extract_article_body(article_document)
-        if not body:
-            print("  Skipping article (could not extract body text)")
-            continue
-
-        image = _extract_feature_image(article_document, url, title)
-        original_links = _extract_original_article_links(article_document, url)
-        trusted_sources = _extract_trusted_sources(article_document, url)
-
-        print(f"  Extracted {len(body)} characters of content")
-        print(
-            f"  Feature image: {'yes' if image else 'no'} | "
-            f"article links: {len(original_links)} | trusted links: {len(trusted_sources)}"
-        )
-
-        articles.append(
-            {
-                "title": title,
-                "url": url,
-                "source_url": source_url,
-                "body": body,
-                "image": image,
-                "original_links": original_links,
-                "trusted_sources": trusted_sources,
-            }
-        )
-
-        if i < len(article_links) and SCRAPE_DELAY_SECONDS > 0:
-            time.sleep(SCRAPE_DELAY_SECONDS)
-
-    print(f"\nSuccessfully scraped {len(articles)} article(s) in total!")
-    return articles

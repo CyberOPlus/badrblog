@@ -6,7 +6,6 @@ import json
 import re
 from datetime import datetime, timedelta, timezone
 from io import BytesIO
-from pathlib import Path
 from urllib.parse import urljoin, urlparse
 
 import requests

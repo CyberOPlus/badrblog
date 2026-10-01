@@ -8,11 +8,7 @@ from config import (
     SOURCE_FAILURE_THRESHOLD,
     SOURCE_HEALTH_ENABLED,
     SOURCE_HEALTH_PATH,
-    TOPIC_FINGERPRINTS_PATH,
 )
-
-TOPIC_COOLDOWN_HOURS = 24
-CATEGORY_ROTATION_ORDER = ["Cyber-Security", "AI-Tools", "Tech-News", "Apps-Programs"]
 
 
 def _read_json(path, default):
@@ -58,7 +54,6 @@ def save_crawl_state(state):
         "updated_at": datetime.now().isoformat(timespec="seconds"),
     }
     _write_json(CRAWL_STATE_PATH, data)
-
 
 
 def reset_job_discovery_state(reason="queue_state_mismatch"):
@@ -111,154 +106,6 @@ def update_source_crawl(source_key, **fields):
     record = sources.setdefault(source_key, {})
     record.update({key: value for key, value in fields.items() if value not in (None, "")})
     save_crawl_state(state)
-
-
-def category_rotation_record():
-    state = load_crawl_state()
-    record = state.get("category_rotation", {})
-    return record if isinstance(record, dict) else {}
-
-
-def _rotation_order(available_categories=None):
-    available = [str(category) for category in (available_categories or []) if category]
-    if not available:
-        return list(CATEGORY_ROTATION_ORDER)
-    ordered = [category for category in CATEGORY_ROTATION_ORDER if category in available]
-    ordered.extend(category for category in available if category not in ordered)
-    return ordered
-
-
-def select_category_for_rotation(available_categories=None):
-    order = _rotation_order(available_categories)
-    if not order:
-        return {"category": "", "index": 0, "order": []}
-    record = category_rotation_record()
-    try:
-        index = int(record.get("next_index") or 0)
-    except (TypeError, ValueError):
-        index = 0
-    index = index % len(order)
-    return {"category": order[index], "index": index, "order": order}
-
-
-def advance_category_rotation(selected_category, available_categories=None):
-    order = _rotation_order(available_categories)
-    if not order:
-        return {}
-    try:
-        index = order.index(selected_category)
-    except ValueError:
-        index = -1
-    next_index = (index + 1) % len(order)
-    state = load_crawl_state()
-    state["category_rotation"] = {
-        "order": order,
-        "last_category": selected_category,
-        "next_category": order[next_index],
-        "next_index": next_index,
-        "updated_at": _utc_iso(),
-    }
-    save_crawl_state(state)
-    return dict(state["category_rotation"])
-
-
-def source_rotation_record(category_label):
-    state = load_crawl_state()
-    rotations = state.get("source_rotation", {})
-    if not isinstance(rotations, dict):
-        return {}
-    record = rotations.get(str(category_label or ""), {})
-    return record if isinstance(record, dict) else {}
-
-
-def _source_key(source):
-    if isinstance(source, dict):
-        return str(source.get("base_url") or source.get("url") or source.get("name") or "").strip()
-    return str(source or "").strip()
-
-
-def order_sources_for_rotation(category_label, sources):
-    sources = [source for source in (sources or []) if source]
-    if len(sources) < 2:
-        return sources
-    keys = [_source_key(source) for source in sources]
-    record = source_rotation_record(category_label)
-    start_key = str(record.get("next_source_key") or "").strip()
-    if not start_key:
-        last_key = str(record.get("last_source_key") or "").strip()
-        if last_key in keys:
-            start_key = keys[(keys.index(last_key) + 1) % len(keys)]
-    if start_key in keys:
-        index = keys.index(start_key)
-        return sources[index:] + sources[:index]
-    return sources
-
-
-def advance_source_rotation(category_label, selected_source_key, selected_source_name="", available_source_keys=None):
-    selected_source_key = str(selected_source_key or "").strip()
-    category_label = str(category_label or "").strip()
-    if not category_label or not selected_source_key:
-        return {}
-    keys = [str(key or "").strip() for key in (available_source_keys or []) if str(key or "").strip()]
-    if selected_source_key in keys and keys:
-        next_key = keys[(keys.index(selected_source_key) + 1) % len(keys)]
-    elif keys:
-        next_key = keys[0]
-    else:
-        next_key = ""
-    state = load_crawl_state()
-    rotations = state.setdefault("source_rotation", {})
-    rotations[category_label] = {
-        "last_source_key": selected_source_key,
-        "last_source_name": selected_source_name,
-        "next_source_key": next_key,
-        "updated_at": _utc_iso(),
-    }
-    save_crawl_state(state)
-    return dict(rotations[category_label])
-
-
-def load_topic_fingerprints():
-    data = _read_json(TOPIC_FINGERPRINTS_PATH, {})
-    raw = data.get("fingerprints", [])
-    now = _utc_now()
-    if isinstance(raw, dict):
-        fingerprints = set()
-        for fingerprint, stored_at in raw.items():
-            parsed = _parse_utc(stored_at)
-            if not parsed or (now - parsed).total_seconds() <= TOPIC_COOLDOWN_HOURS * 3600:
-                fingerprints.add(str(fingerprint))
-        return fingerprints
-    if not isinstance(raw, list):
-        raw = []
-    return {str(item) for item in raw if item}
-
-
-def save_topic_fingerprints(fingerprints):
-    existing = _read_json(TOPIC_FINGERPRINTS_PATH, {}).get("fingerprints", {})
-    if not isinstance(existing, dict):
-        existing = {}
-    now = _utc_iso()
-    active = {str(item) for item in fingerprints if item}
-    data = {
-        "fingerprints": {
-            fingerprint: existing.get(fingerprint) or now
-            for fingerprint in sorted(active)
-        },
-        "cooldown_hours": TOPIC_COOLDOWN_HOURS,
-        "updated_at": now,
-    }
-    _write_json(TOPIC_FINGERPRINTS_PATH, data)
-
-
-def add_topic_fingerprint(fingerprint):
-    if not fingerprint:
-        return False
-    fingerprints = load_topic_fingerprints()
-    before = len(fingerprints)
-    fingerprints.add(str(fingerprint))
-    save_topic_fingerprints(fingerprints)
-    return len(fingerprints) != before
 
 
 def _utc_now():

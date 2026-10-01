@@ -33,9 +33,7 @@ from config import (
     AI_PROVIDER_MEMORY_PATH,
     AI_MODEL_TIMEOUT_SECONDS,
     AI_TOTAL_TIME_BUDGET_SECONDS,
-    ALLOW_SHORT_ARTICLES,
     FAST_OPENROUTER_MODELS,
-    FAST_NEWS_MODE,
     GEMINI_API_KEY,
     GEMINI_MODEL,
     GEMINI_TIMEOUT_SECONDS,
@@ -57,7 +55,6 @@ from config import (
     MAX_AI_RETRIES,
     JOBS_AI_QUALITY_REPAIRS,
     JOBS_AI_TIMEOUT_RETRIES,
-    MIN_ARTICLE_WORDS,
     OPENAI_API_KEY,
     OPENAI_API_URL,
     OPENAI_MAX_TOKENS,
@@ -75,11 +72,7 @@ from config import (
 )
 from production_logging import elapsed_ms, html_word_count, log_event
 from job_core import is_application_url_bound_to_job, is_job_specific_url
-from quality_gate import (
-    REQUIRED_READER_SECTION,
-    REQUIRED_READER_SECTION_WITH_QUESTION,
-    validate_ai_article_output,
-)
+from quality_gate import validate_ai_article_output
 
 MAX_AI_ATTEMPTS = max(1, MAX_AI_RETRIES)
 MIN_PUBLISHABLE_WORDS = 120
@@ -87,7 +80,7 @@ AI_MODEL_COOLDOWN_SECONDS = 30 * 60
 _AI_COOLDOWNS = {}
 _AI_MEMORY_CACHE = None
 FAST_OPENROUTER_MODEL_SET = set(FAST_OPENROUTER_MODELS)
-AI_TIMEOUT_RETRIES = JOBS_AI_TIMEOUT_RETRIES if JOBS_MODE else 2
+AI_TIMEOUT_RETRIES = (JOBS_AI_TIMEOUT_RETRIES)
 MIN_PROVIDER_TIMEOUT_SECONDS = 30
 LONG_FORM_ARTICLE_MIN_WORDS = 700
 LONG_FORM_ARTICLE_TARGET_RANGE = "700-1000"
@@ -771,8 +764,7 @@ def _put_candidate_on_cooldown(candidate, error):
     stats["failures"] = int(stats.get("failures", 0)) + 1
     stats["last_failure_at"] = _now_iso()
     _save_ai_memory(memory)
-    if JOBS_MODE:
-        _open_provider_circuit(candidate.get("provider"), error)
+    _open_provider_circuit(candidate.get("provider"), error)
     log_event(
         "ai_candidate_cooldown",
         provider=candidate.get("provider"),
@@ -849,10 +841,7 @@ def _is_rich_input_package(package):
 
 
 def _minimum_article_words_for_package(package):
-    if JOBS_MODE:
-        # Jobs quality is evidence-completeness driven, not word-count driven.
-        return 0
-    return LONG_FORM_ARTICLE_MIN_WORDS if _is_rich_input_package(package) else MIN_PUBLISHABLE_WORDS
+    return 0
 
 
 def _next_provider_in_sequence(provider_sequence, current_provider):
@@ -941,8 +930,7 @@ def _build_prompt(package):
     package["blogger_source_text"] = source_text
     package_json = json.dumps(package, ensure_ascii=False, indent=2)
     source_is_rich = _is_rich_input_package(package)
-    if JOBS_MODE:
-        return f"""
+    return f"""
 You are the dedicated Arabic job-post editor for a Moroccan jobs publication.
 
 Create a complete, factual, professionally structured Arabic employment article for Moroccan readers
@@ -1073,7 +1061,7 @@ ADAPTIVE ARTICLE STRUCTURE
   the actual content and may vary from one article to another.
 - Use prose, <ul>/<ol>, or <table> according to the data:
   * use a table when rows/columns genuinely help compare specialties, position counts, tests, durations,
-    coefficients, institutions, categories, or other structured evidence;
+coefficients, institutions, categories, or other structured evidence;
   * use a short list for requirements, application-file documents, duties, steps, or grouped conditions;
   * use concise prose for context or explanations that do not benefit from a table/list.
 - Do NOT force all generic fields into one summary table. A fact should appear where it is most useful and only once.
@@ -1229,123 +1217,6 @@ OUTPUT JSON SHAPE:
 VERIFIED JOB PACKAGE:
 {package_json}
 """.strip()
-    if FAST_NEWS_MODE:
-        return f"""
-You are a fast Arabic technology news editor for a Blogger automation pipeline.
-
-Create blogger_article_html: a useful, publish-ready Arabic news article. This is a Blogger article, not a social report or short social caption.
-
-STRICT FAST NEWS RULES:
-- Return JSON only. No markdown fences, notes, or explanations.
-- Write natural human Arabic. Do not translate literally.
-- The article must be mostly Arabic. Keep English only for essential technical terms:
-  AI, API, CVE, Malware, Android, iOS, Windows, Linux, VPN, GitHub, OpenAI, Microsoft, Google.
-- Translate ordinary English words, entertainment terms, and generic verbs/nouns into Arabic.
-- Preserve facts exactly. Do not invent numbers, dates, quotes, incidents, claims, or links.
-- Keep technical names normally written in English.
-- The source package richness is {"rich" if source_is_rich else "thin"}.
-- If the source package is rich, html_content must be a complete Arabic Blogger article of {LONG_FORM_ARTICLE_TARGET_RANGE} words.
-- If the source package is thin, still write the fullest accurate article possible and never return a thin brief, teaser, or social caption.
-- Never accept a short article when the source package already contains enough detail.
-- Structure:
-  1) Short strong introduction.
-  2) Main explanation with clear <h2> headings.
-  3) Add <h2>{REQUIRED_READER_SECTION_WITH_QUESTION}</h2> when it helps the reader understand impact.
-  4) Short conclusion or takeaway.
-- If cybersecurity-related, include brief practical protection/advice when supported.
-- Keep SEO title 40-70 characters and meta description 100-170 characters.
-- Use clean clean semantic Blogger HTML only.
-- Start with a strong ordinary <p> introduction.
-- Use short <p> paragraphs and clear <h2>/<h3> headings.
-- Use <strong>/<b>/<em> for emphasis only when useful.
-- Use <ul>/<ol> lists for requirements, steps, benefits, or grouped facts.
-- Use a semantic <table> with <thead>/<tbody>/<tr>/<th>/<td> whenever structured facts are clearer in rows and columns.
-- Use <blockquote> only for real quotations from the source.
-- Use <details><summary>...</summary>...</details> only when an expandable explanation genuinely helps.
-- Use ordinary <a href='exact_url' target='_blank' rel='nofollow noreferrer noopener'>...</a> links and preserve URLs exactly.
-- Never add CSS, inline styles, scripts, iframes, tracking code, or invented links.
-- Do not add CSS, scripts, unsupported widgets, fake images, or source/reference blocks unless trusted_references are provided.
-- Before returning, silently self-check: no source-domain links, no visible JSON inside html_content,
-  no markdown fences, no repeated paragraphs, and no social-media caption tone.
-
-OUTPUT JSON SHAPE:
-{{
-  "title": "Arabic SEO title, 40-70 characters",
-  "description": "Arabic meta description, 100-170 characters",
-  "slug": "latin-url-slug",
-  "html_content": "clean semantic HTML article body"
-}}
-
-INPUT PACKAGE:
-{package_json}
-
-PLUS UI FORMAT SNIPPETS:
-{PLUS_UI_FORMAT_SNIPPETS}
-""".strip()
-
-    return f"""
-You are a professional Arabic technology and cybersecurity editor.
-
-Create a fully ready Arabic Blogger article from the input package. The output is
-blogger_article_html: a complete long-form Blogger article. It is never a Facebook
-post, social report, excerpt, or summary.
-
-STRICT RULES:
-- Return JSON only. No markdown fences, no notes, no explanations.
-- Do not invent facts, numbers, links, dates, quotes, or claims.
-- Preserve the meaning of the source content.
-- Write fluent Modern Standard Arabic with a natural human style.
-- The article must be mostly Arabic. Keep English only for essential technical terms:
-  AI, API, CVE, Malware, Android, iOS, Windows, Linux, VPN, GitHub, OpenAI, Microsoft, Google.
-- Translate ordinary English words, entertainment terms, and generic verbs/nouns into Arabic.
-- Do not translate technical names that are normally kept in English.
-- Never mention the scraped source website as the article source.
-- Do not say the article was translated, rewritten, copied, or sourced from another article.
-- If credibility is needed, mention only official/security references available in trusted_references.
-- Keep product names, company names, malware names, commands, CVE IDs, URLs, and short technical terms in English.
-- Blogger is the main output. Write a complete long-form article, not a social caption or summary.
-- The html_content body should be a complete Arabic article in the {LONG_FORM_ARTICLE_TARGET_RANGE} word range whenever the source package is rich.
-- If the source package is thin, expand responsibly and still avoid returning a short article.
-- Required structure:
-  1) A strong introduction with 2-3 substantial paragraphs.
-  2) Detailed explanatory sections with clear <h2> and useful <h3> headings.
-  3) A required section titled exactly: <h2>{REQUIRED_READER_SECTION_WITH_QUESTION}</h2>.
-  4) Practical reader takeaways inside that section.
-  5) If the topic is cybersecurity, add a practical protection/advice section.
-  6) A strong closing section with a clear conclusion.
-- If the fetched source text is thin, expand responsibly by explaining context, implications,
-  background concepts, and practical meaning using only supported facts and safe general
-  technical knowledge. Do not invent numbers, quotes, dates, incidents, claims, or links.
-- Do not pad with generic filler. Every paragraph must add useful meaning.
-- Format html_content using clean semantic HTML only.
-- Do not add CSS, <style>, <script>, or unsupported components.
-- Start with a strong ordinary <p> introduction.
-- Use clean semantic HTML: <p>, <h2>, <h3>, <strong>, <b>, <em>, <ul>, <ol>, <li>, <table>, <thead>, <tbody>, <tr>, <th>, <td>, <blockquote>, <details>, <summary>, <a>, <pre>, and <code> when useful.
-- Use tables only for genuinely structured information and never invent missing values.
-- Preserve real URLs exactly and use ordinary external anchors with target='_blank' and rel='nofollow noreferrer noopener'.
-- Do not insert images yourself. The application owns image selection, resizing, fallback generation, and insertion.
-- If trusted_references exist, the application appends them automatically.
-- If related_posts exist, the application appends them automatically.
-- SEO title must be 40-70 characters.
-- Meta description must be 100-170 characters.
-- Slug must be Latin lowercase words separated by hyphens.
-- Before returning, silently self-check: no source-domain links, no visible JSON inside html_content,
-  no markdown fences, no repeated paragraphs, no source attribution, and no unsupported claims.
-
-OUTPUT JSON SHAPE:
-{{
-  "title": "Arabic SEO title, 40-70 characters",
-  "description": "Arabic meta description, 100-170 characters",
-  "slug": "latin-url-slug",
-  "html_content": "clean semantic HTML article body"
-}}
-
-INPUT PACKAGE:
-{package_json}
-
-PLUS UI FORMAT SNIPPETS:
-{PLUS_UI_FORMAT_SNIPPETS}
-""".strip()
 
 
 def _strip_json_fences(raw_text):
@@ -1368,7 +1239,7 @@ def _parse_ai_json(raw_text):
 
 
 def _validate_ai_output(data, package=None):
-    required_fields = JOBS_REQUIRED_ARTICLE_FIELDS if JOBS_MODE else REQUIRED_ARTICLE_FIELDS
+    required_fields = (JOBS_REQUIRED_ARTICLE_FIELDS)
     missing = [field for field in required_fields if not str(data.get(field, "")).strip()]
     if missing:
         raise AIIncompleteResponseError("Missing AI output field(s): " + ", ".join(missing))
@@ -1377,30 +1248,21 @@ def _validate_ai_output(data, package=None):
     description = str(data["description"]).strip()
     html_content = str(data["html_content"]).strip()
 
-    if JOBS_MODE:
-        notice_type = str(data.get("notice_type") or "").strip().lower()
-        if notice_type not in ALLOWED_JOB_NOTICE_TYPES:
-            raise AIIncompleteResponseError(
-                "Jobs notice_type must be one of: " + ", ".join(sorted(ALLOWED_JOB_NOTICE_TYPES))
-            )
-        data["notice_type"] = notice_type
-        slug = _normalize_job_english_slug(data.get("slug", ""))
-        if not re.fullmatch(r"[a-z]+(?:-[a-z]+){1,6}", slug or ""):
-            raise AIIncompleteResponseError(
-                "Jobs slug must be 2-7 English words using lowercase letters and hyphens only; digits are forbidden"
-            )
-        data["slug"] = slug
-        title_ok = 28 <= len(title) <= 150
-        description_ok = 70 <= len(description) <= 190
-        title_range, description_range = "28-150", "70-190"
-    elif FAST_NEWS_MODE and ALLOW_SHORT_ARTICLES:
-        title_ok = 10 <= len(title) <= 90
-        description_ok = 40 <= len(description) <= 190
-        title_range, description_range = "10-90", "40-190"
-    else:
-        title_ok = 40 <= len(title) <= 70
-        description_ok = 100 <= len(description) <= 170
-        title_range, description_range = "40-70", "100-170"
+    notice_type = str(data.get("notice_type") or "").strip().lower()
+    if notice_type not in ALLOWED_JOB_NOTICE_TYPES:
+        raise AIIncompleteResponseError(
+            "Jobs notice_type must be one of: " + ", ".join(sorted(ALLOWED_JOB_NOTICE_TYPES))
+        )
+    data["notice_type"] = notice_type
+    slug = _normalize_job_english_slug(data.get("slug", ""))
+    if not re.fullmatch(r"[a-z]+(?:-[a-z]+){1,6}", slug or ""):
+        raise AIIncompleteResponseError(
+            "Jobs slug must be 2-7 English words using lowercase letters and hyphens only; digits are forbidden"
+        )
+    data["slug"] = slug
+    title_ok = 28 <= len(title) <= 150
+    description_ok = 70 <= len(description) <= 190
+    title_range, description_range = "28-150", "70-190"
 
     if not title_ok:
         raise AIIncompleteResponseError(f"SEO title length must be {title_range} characters; got {len(title)}")
@@ -1433,8 +1295,7 @@ def _build_expansion_retry_prompt(package, previous_data, previous_error):
     if isinstance(previous_data, dict):
         previous_html = str(previous_data.get("html_content") or "")
     source_text = _source_text_for_package(package)
-    if JOBS_MODE:
-        return f"""
+    return f"""
 Return JSON only with title, description, slug, html_content, notice_type.
 
 The previous compact job listing failed this quality rule:
@@ -1500,73 +1361,13 @@ PREVIOUS HTML FOR DIAGNOSIS ONLY:
 {previous_html[:3500]}
 """.strip()
 
-    if FAST_NEWS_MODE:
-        return f"""
-Return JSON only using the same shape as before.
-
-The previous fast-news Blogger article failed the production quality gate:
-{previous_error}
-
-Rewrite it as a complete fast Arabic news article, not a Facebook caption.
-
-Mandatory fixes:
-- The response is rejected unless title, description, slug, and html_content are all present.
-- html_content must be structurally complete Blogger HTML with no truncated tags.
-- If the source package is rich, html_content must be a complete Arabic article of {LONG_FORM_ARTICLE_TARGET_RANGE} words.
-- If the source package is thin, still expand responsibly and never return a short brief or social caption.
-- Include title, description, slug, and clean Blogger HTML.
-- Add a short introduction, main explanation, and conclusion.
-- Add <h2>{REQUIRED_READER_SECTION_WITH_QUESTION}</h2> only if useful.
-- Keep facts accurate and do not invent details.
-
-SOURCE PACKAGE:
-{json.dumps(package, ensure_ascii=False, indent=2)}
-
-SOURCE TEXT:
-{source_text}
-
-PREVIOUS HTML, for diagnosis only:
-{previous_html[:4000]}
-""".strip()
-
-    return f"""
-Return JSON only using the same shape as before.
-
-The previous Blogger article failed the production quality gate:
-{previous_error}
-
-Rewrite the article from the source material into a complete long-form Arabic Blogger article, not a social report.
-
-Mandatory fixes:
-- The response is rejected unless title, description, slug, and html_content are all present.
-- html_content must be structurally complete Blogger HTML with no truncated tags.
-- html_content should stay in the {LONG_FORM_ARTICLE_TARGET_RANGE} word range for a complete article.
-- Include a strong introduction before the first heading.
-- Include detailed main explanation sections.
-- Include this exact heading: <h2>{REQUIRED_READER_SECTION_WITH_QUESTION}</h2>
-- If the topic involves cybersecurity, include a protection/advice section.
-- Include a conclusion section with a clear final takeaway.
-- Keep facts accurate. Do not invent numbers, quotes, incidents, dates, or links.
-- Keep SEO title 40-70 characters and description 100-170 characters.
-
-SOURCE PACKAGE:
-{json.dumps(package, ensure_ascii=False, indent=2)}
-
-SOURCE TEXT:
-{source_text}
-
-PREVIOUS SHORT/INVALID HTML, for diagnosis only:
-{previous_html[:6000]}
-""".strip()
-
 
 def _build_excess_english_retry_prompt(package, previous_data, previous_error):
     previous_html = ""
     if isinstance(previous_data, dict):
         previous_html = str(previous_data.get("html_content") or "")
     source_text = _source_text_for_package(package)
-    if JOBS_MODE:
-        return f"""
+    return f"""
 Return JSON only with title, description, slug, html_content, notice_type.
 
 The previous Jobs response failed because the article body contained too much English:
@@ -1579,36 +1380,6 @@ Rewrite the SAME verified notice in natural Modern Standard Arabic.
 - Preserve every verified fact, number, date, official link, role breakdown, and current notice stage.
 - Do not invent, omit, or turn a list/result/update into a fresh opening.
 - Return complete semantic HTML with no truncated tags.
-
-SOURCE PACKAGE:
-{json.dumps(package, ensure_ascii=False, indent=2)}
-
-SOURCE TEXT:
-{source_text}
-
-PREVIOUS HTML, for diagnosis only:
-{previous_html[:4000]}
-""".strip()
-    return f"""
-Return JSON only using the same shape as before.
-
-The previous Blogger article failed because it contained too much English:
-{previous_error}
-
-Rewrite the article in natural Modern Standard Arabic.
-
-Strict language rules:
-- Arabic must dominate every paragraph.
-- Keep English only for essential technical terms and names:
-  AI, API, CVE, Malware, Android, iOS, Windows, Linux, VPN, GitHub, OpenAI, Microsoft, Google.
-- Translate generic English words such as movies, streaming, feature, update, workflow, security, privacy,
-  account, protection, tool, software, and similar non-brand terms into Arabic.
-- Do not leave long English phrases or sentences inside paragraph text.
-- The response is rejected unless title, description, slug, and html_content are all present.
-- html_content must be structurally complete Blogger HTML with no truncated tags.
-- If the source package is rich, aim for a complete article in the {LONG_FORM_ARTICLE_TARGET_RANGE} word range.
-- Preserve facts from the source; do not invent claims, numbers, dates, quotes, or links.
-- Keep clean clean semantic HTML and a concise fast-news structure.
 
 SOURCE PACKAGE:
 {json.dumps(package, ensure_ascii=False, indent=2)}
@@ -1767,22 +1538,8 @@ def _shorten_metadata_once_if_needed(data):
     title = str(data.get("title", "")).strip()
     description = str(data.get("description", "")).strip()
 
-    if JOBS_MODE:
-        # Do not cut the employer, translated role or result stage to hit a
-        # generic SEO character target. Meaning is checked by the Jobs gate.
-        if len(description) > 190:
-            data["description"] = _trim_to_length(description, 180)
-        return data
-
-    if len(title) <= 70 and len(description) <= 170:
-        return data
-
-    if len(title) > 70:
-        data["title"] = _trim_to_length(title, 65)
-
-    if len(description) > 170:
-        data["description"] = _trim_to_length(description, 160)
-
+    if len(description) > 190:
+        data["description"] = _trim_to_length(description, 180)
     return data
 
 
@@ -1790,62 +1547,9 @@ def _normalize_ai_output(data):
     data["title"] = str(data.get("title", "")).strip()
     data["description"] = str(data.get("description", "")).strip()
     data["slug"] = (
-        _normalize_job_english_slug(data.get("slug", ""), max_words=7)
-        if JOBS_MODE
-        else _normalize_slug(data.get("slug", ""), max_words=7)
+        (_normalize_job_english_slug(data.get("slug", ""), max_words=7))
     )
     data["html_content"] = str(data.get("html_content", "")).strip()
-    return data
-
-
-def _basic_fallback_article(package, error=""):
-    title = str(package.get("title") or "").strip()
-    summary = str(
-        package.get("full_article_text")
-        or package.get("content_preview")
-        or package.get("meta_description")
-        or package.get("rss_summary")
-        or ""
-    ).strip()
-    if not title or len(summary) < 20:
-        raise ValueError("basic fallback needs at least title and short summary")
-
-    safe_title = title[:90]
-    description_source = summary[:180] if summary else title
-    description = _trim_to_length(
-        f"ملخص سريع لخبر {safe_title}: {description_source}",
-        170,
-    )
-    if len(description) < 40:
-        description = f"متابعة سريعة لخبر {safe_title} مع شرح مختصر لأهم ما يعنيه للقارئ."
-
-    html = "\n".join(
-        [
-            f"<p>يتناول هذا الخبر تطورا جديدا بعنوان: {escape(title)}. نعرضه هنا بصياغة عربية مختصرة وسريعة اعتمادا على المعلومات المتاحة فقط، من دون إضافة تفاصيل غير مؤكدة.</p>",
-            "<h2>ملخص الخبر</h2>",
-            "<p>يعرض الخبر تحديثا تقنيا مهما يحتاج القارئ إلى فهم أثره بسرعة: ما الذي تغيّر، ولماذا يستحق الانتباه، وما الخطوة العملية التي ينبغي التفكير فيها الآن.</p>",
-            "<h2>لماذا يهم هذا الخبر؟</h2>",
-            "<p>أهمية الخبر أنه يساعد القارئ على متابعة المستجدات التقنية بسرعة، خصوصا عندما يتعلق الأمر بتحديثات أمنية أو أدوات ذكاء اصطناعي أو تغييرات في التطبيقات والخدمات الرقمية.</p>",
-            "<h2>الخلاصة</h2>",
-            "<p>الخلاصة أن الخبر يستحق المتابعة لأنه يقدم معلومة حديثة ومباشرة. سنبقي التفاصيل في نطاق ما توفر من بيانات واضحة وموثوقة من دون إضافة تفاصيل غير مؤكدة.</p>",
-        ]
-    )
-    data = {
-        "title": safe_title if len(safe_title) >= 10 else f"تحديث تقني سريع: {safe_title}",
-        "description": description,
-        "slug": _normalize_slug(title or "fast-news-brief"),
-        "html_content": html,
-    }
-    data = _finalize_html_content(_normalize_ai_output(data), package)
-    if html_word_count(data["html_content"]) < MIN_PUBLISHABLE_WORDS:
-        extra = (
-            "<p>هذا النوع من الأخبار القصيرة مناسب للمتابعة السريعة على الهاتف، "
-            "لأنه يقدم الفكرة الأساسية أولا ثم يترك مساحة للتحديثات اللاحقة عند ظهور معلومات إضافية موثوقة.</p>"
-        )
-        data["html_content"] += "\n" + extra
-    if html_word_count(data["html_content"]) < MIN_PUBLISHABLE_WORDS:
-        data["html_content"] += "\n<p>هذه متابعة قصيرة تضيف سياقا عمليا للقارئ، وتؤكد ضرورة انتظار التفاصيل الرسمية قبل اتخاذ أي قرار تقني.</p>"
-    _validate_ai_output(data, package=package)
     return data
 
 
@@ -1859,36 +1563,12 @@ def _normal_paragraphs(soup):
     ]
 
 
-def _ensure_first_drop_cap(paragraph):
-    if not paragraph or paragraph.find("span", class_="dropCap"):
-        return
-    for node in paragraph.descendants:
-        if not isinstance(node, NavigableString):
-            continue
-        text = str(node)
-        match = re.search(r"[\u0600-\u06FF]", text)
-        if not match:
-            continue
-        before = text[: match.start()]
-        letter = text[match.start()]
-        after = text[match.start() + 1 :]
-        fragment = BeautifulSoup(
-            f"{escape(before)}<span class='dropCap'>{escape(letter)}</span>{escape(after)}",
-            "html.parser",
-        )
-        node.replace_with(*fragment.contents)
-        return
-
-
 def _plus_ui_format_html(html_content, package):
     """Format HTML for Blogger publication with image insertion."""
     soup = BeautifulSoup(html_content or "", "html.parser")
 
-    if JOBS_MODE:
-        # This generated section is rebuilt from the current verified page
-        # manifest after formatting. Remove it before stripping class markers.
-        for section in soup.select("section.jobOfficialDocuments"):
-            section.decompose()
+    for section in soup.select("section.jobOfficialDocuments"):
+        section.decompose()
 
     # Remove unwanted tags
     for tag in soup.find_all(["script", "style"]):
@@ -1918,25 +1598,16 @@ def _plus_ui_format_html(html_content, package):
             if width and height
             else ""
         )
-        if JOBS_MODE:
-            image_html = (
-                "<figure>\n"
-                f"  <img alt='{escape(title, quote=True)}'{size_attrs} "
-                f"src='{escape(main_image, quote=True)}'/>\n"
-                "</figure>"
-            )
-        else:
-            image_html = (
-                "<figure>\n"
-                f"  <img alt='{escape(title, quote=True)}'{size_attrs} "
-                f"src='{escape(main_image, quote=True)}'/>\n"
-                f"  <figcaption>{escape(title)}</figcaption>\n"
-                "</figure>"
-            )
+        image_html = (
+            "<figure>\n"
+            f"  <img alt='{escape(title, quote=True)}'{size_attrs} "
+            f"src='{escape(main_image, quote=True)}'/>\n"
+            "</figure>"
+        )
         paragraphs[0].insert_after(BeautifulSoup(image_html, "html.parser"))
 
     # Jobs must contain one cover only; source-page extra images are forbidden.
-    extra_images = [] if JOBS_MODE else (package.get("extra_article_images") or [])
+    extra_images = ([])
     if extra_images and len(extra_images) > 0:
         # Find h2 tags to insert images after them
         h2_tags = soup.find_all("h2")
@@ -1976,95 +1647,6 @@ def _plus_ui_format_html(html_content, package):
     return str(soup).strip()
 
 
-def _insert_main_image_if_missing(html_content, package):
-    """
-    Ensure main image is present in HTML.
-    Always keep it directly after the first paragraph.
-    If no first paragraph, prepend it to the content.
-    """
-    main_image = package.get("main_image")
-    if not main_image:
-        return html_content
-
-    title = package.get("cover_alt") or package.get("title") or "صورة المقال"
-    width = str(package.get("cover_width") or "").strip()
-    height = str(package.get("cover_height") or "").strip()
-    size_attrs = (
-        f" width='{escape(width, quote=True)}' height='{escape(height, quote=True)}'"
-        if width and height
-        else ""
-    )
-    image_html = (
-        "<figure>\n"
-        f"  <img alt='{escape(title, quote=True)}'{size_attrs} "
-        f"src='{escape(main_image, quote=True)}'/>\n"
-        + ("" if JOBS_MODE else f"  <figcaption>{escape(title)}</figcaption>\n")
-        + "</figure>\n"
-    )
-    
-    soup = BeautifulSoup(html_content, "html.parser")
-    for image in soup.find_all("img"):
-        parent = image.find_parent("figure")
-        if parent:
-            parent.decompose()
-        else:
-            image.decompose()
-
-    first_paragraph = soup.find("p")
-    if first_paragraph:
-        first_paragraph.insert_after(BeautifulSoup(image_html, "html.parser"))
-        log_event("image_inserted_after_paragraph", location="after_first_p")
-        return str(soup)
-    
-    # No paragraph found, prepend image to content
-    log_event("image_inserted_at_beginning", reason="no_paragraph_found")
-    return image_html + html_content
-
-
-def _append_trusted_references_if_missing(html_content, package):
-    references = package.get("trusted_references") or []
-    if not references or "class=\"pRef\"" in html_content or "class='pRef'" in html_content:
-        return html_content
-
-    links = []
-    for reference in references[:5]:
-        title = reference.get("title") or reference.get("url")
-        url = reference.get("url")
-        if not title or not url:
-            continue
-        links.append(
-            f"<a class='extL' href='{escape(url, quote=True)}' target='_blank'>"
-            f"{escape(title)}</a>"
-        )
-
-    if not links:
-        return html_content
-    return html_content.rstrip() + "\n<p class='pRef'>المراجع:<br>" + "<br>".join(links) + "</p>"
-
-
-def _append_related_posts_if_missing(html_content, package):
-    related_posts = package.get("related_posts") or []
-    if not related_posts or "class=\"pRelate\"" in html_content or "class='pRelate'" in html_content:
-        return html_content
-
-    items = []
-    for post in related_posts[:3]:
-        title = post.get("title")
-        url = post.get("url")
-        if not title or not url:
-            continue
-        items.append(f"<li><a href='{escape(url, quote=True)}'>{escape(title)}</a></li>")
-
-    if len(items) < 2:
-        return html_content
-    return (
-        html_content.rstrip()
-        + "\n<div class='pRelate'><b>قد يهمك أيضًا:</b><ul>"
-        + "".join(items)
-        + "</ul></div>"
-    )
-
-
 def _same_host(url_a, url_b):
     host_a = urlparse(str(url_a or "")).netloc.lower().removeprefix("www.")
     host_b = urlparse(str(url_b or "")).netloc.lower().removeprefix("www.")
@@ -2089,20 +1671,7 @@ def _official_reference_host(url):
 
 
 def _sanitize_source_links(html_content, package):
-    if JOBS_MODE:
-        return html_content
-    source_url = package.get("url") or package.get("source_url") or ""
-    if not source_url:
-        return html_content
-
-    soup = BeautifulSoup(html_content, "html.parser")
-    changed = False
-    for link in soup.find_all("a", href=True):
-        href = str(link.get("href") or "")
-        if _same_host(href, source_url) and not _official_reference_host(href):
-            link.unwrap()
-            changed = True
-    return str(soup) if changed else html_content
+    return html_content
 
 
 def _body_text_without_code(html_content):
@@ -2191,8 +1760,6 @@ def _looks_poorly_formatted(html_content, package=None):
     normal_paragraphs = _normal_paragraphs(soup)
     if not normal_paragraphs:
         return "missing paragraphs"
-    if (not JOBS_MODE) and len(soup.find_all("h2")) < (1 if FAST_NEWS_MODE else 2):
-        return "missing clear h2 sections"
     
     # Check image placement if main_image is provided
     if package and package.get("main_image"):
@@ -2222,8 +1789,6 @@ def _phase3_quality_failure_reason(data, package=None):
         return "too much English inside article paragraphs"
     if _has_repeated_paragraphs(html_content):
         return "repeated paragraphs found in article output"
-    if (not JOBS_MODE) and source_name and source_name.casefold() in body_text.casefold():
-        return "original source name appears in article text"
     poor_format = _looks_poorly_formatted(html_content, package=package)
     if poor_format:
         return poor_format
@@ -2244,18 +1809,15 @@ def validate_phase3_article_quality(article):
 def format_phase3_article_html(html_content, package=None):
     package = package or {}
     formatted = _plus_ui_format_html(html_content, package)
-    if JOBS_MODE:
-        formatted = _remove_empty_job_fact_rows(formatted)
-        # PDF pages are rendered/persisted by the Blogger publisher after AI.
-        # Attach those verified page images here, in document/page order, so the
-        # final Blogger body always contains the visual copy of the official PDF.
-        formatted = _append_job_document_page_images(formatted, package)
+    formatted = _remove_empty_job_fact_rows(formatted)
+    # PDF pages are rendered/persisted by the Blogger publisher after AI.
+    # Attach those verified page images here, in document/page order, so the
+    # final Blogger body always contains the visual copy of the official PDF.
+    formatted = _append_job_document_page_images(formatted, package)
     return formatted
 
 
 def _remove_empty_job_fact_rows(html_content):
-    if not JOBS_MODE:
-        return html_content
     soup = BeautifulSoup(html_content or "", "html.parser")
     empty_values = {"", "0", "0.0", "unknown", "none", "null", "غير محدد", "غير متوفر"}
     changed = False
@@ -2324,8 +1886,6 @@ def _job_action_box(label, url, *, kind="apply"):
 
 def _append_job_action_links_if_missing(html_content, package):
     """Style verified Jobs links in place without changing AI-chosen article structure."""
-    if not JOBS_MODE:
-        return html_content
 
     application_url = str(package.get("job_application_url") or "").strip()
     application_kind = str(package.get("job_application_link_kind") or "").strip()
@@ -2433,8 +1993,6 @@ def _append_job_action_links_if_missing(html_content, package):
 
 def _append_job_document_page_images(html_content, package):
     """Append sequential images rendered from verified official PDF pages."""
-    if not JOBS_MODE:
-        return html_content
     pages = [
         row
         for row in (package.get("job_document_page_images") or [])
@@ -2496,15 +2054,8 @@ def _finalize_html_content(data, package):
     html_content = data["html_content"]
     html_content = _sanitize_source_links(html_content, package)
     html_content = _plus_ui_format_html(html_content, package)
-    if JOBS_MODE:
-        # The single branded job cover is generated later by the Blogger publisher.
-        # AI output never imports or inserts images from the source job page.
-        html_content = _remove_empty_job_fact_rows(html_content)
-        html_content = _append_job_action_links_if_missing(html_content, package)
-    else:
-        html_content = _insert_main_image_if_missing(html_content, package)
-        html_content = _append_trusted_references_if_missing(html_content, package)
-        html_content = _append_related_posts_if_missing(html_content, package)
+    html_content = _remove_empty_job_fact_rows(html_content)
+    html_content = _append_job_action_links_if_missing(html_content, package)
     html_content = _sanitize_source_links(html_content, package)
     html_content = _clean_general_english_in_paragraphs(html_content)
     data["html_content"] = html_content
@@ -2787,9 +2338,7 @@ def _resolve_providers():
             providers.append("openai")
         if providers:
             return providers
-        if JOBS_MODE:
-            return []
-        raise RuntimeError("No AI provider key configured.")
+        return []
     if provider in {"gemini", "groq", "openrouter", "cloudflare", "mistral", "openai"}:
         return [provider]
     raise RuntimeError(
@@ -2861,7 +2410,7 @@ def _openrouter_candidates(context=None):
 
 def _generate_ai_article(prompt, skip_providers=None, context=None):
     skip_providers = set(skip_providers or [])
-    if JOBS_MODE and _global_circuit_remaining() > 0:
+    if _global_circuit_remaining() > 0:
         status = ai_circuit_status()
         raise AIProviderRotationExhausted(
             f"Global AI circuit open until {status.get('global_retry_after') or 'later'}"
@@ -2872,26 +2421,23 @@ def _generate_ai_article(prompt, skip_providers=None, context=None):
         and (not JOBS_MODE or _provider_circuit_remaining(candidate["provider"]) <= 0)
     ]
     if not candidates:
-        if JOBS_MODE:
-            providers = _resolve_providers()
-            _open_global_circuit(
-                AIProviderRotationExhausted("all configured AI providers are unavailable or cooling down"),
-                providers=providers,
-            )
-            raise AIProviderRotationExhausted(
-                "All configured AI providers are unavailable or cooling down."
-            )
-        candidates = _provider_candidates(context=context)
-    if JOBS_MODE:
-        unique_candidates = []
-        seen_providers = set()
-        for candidate in candidates:
-            provider_name = str(candidate.get("provider") or "")
-            if provider_name in seen_providers:
-                continue
-            seen_providers.add(provider_name)
-            unique_candidates.append(candidate)
-        candidates = unique_candidates
+        providers = _resolve_providers()
+        _open_global_circuit(
+            AIProviderRotationExhausted("all configured AI providers are unavailable or cooling down"),
+            providers=providers,
+        )
+        raise AIProviderRotationExhausted(
+            "All configured AI providers are unavailable or cooling down."
+        )
+    unique_candidates = []
+    seen_providers = set()
+    for candidate in candidates:
+        provider_name = str(candidate.get("provider") or "")
+        if provider_name in seen_providers:
+            continue
+        seen_providers.add(provider_name)
+        unique_candidates.append(candidate)
+    candidates = unique_candidates
 
     last_error = None
     active_candidates = []
@@ -3015,7 +2561,7 @@ def _generate_with_candidate(candidate, prompt, context=None):
 
 def _attempt_provider_sequence():
     providers = _resolve_providers()
-    if JOBS_MODE and _global_circuit_remaining() > 0:
+    if _global_circuit_remaining() > 0:
         return []
 
     if (AI_PROVIDER or "").strip().lower() == "auto":
@@ -3027,25 +2573,23 @@ def _attempt_provider_sequence():
             if provider in providers
             and (not JOBS_MODE or _provider_circuit_remaining(provider) <= 0)
         ]
-        if JOBS_MODE and providers and not sequence:
+        if providers and (not sequence):
             _open_global_circuit(
                 AIProviderRotationExhausted("all configured AI providers are cooling down"),
                 providers=providers,
             )
-        return sequence or ([] if JOBS_MODE else providers)
+        return sequence or (([]))
 
-    if JOBS_MODE:
-        sequence = [
-            provider for provider in providers
-            if _provider_circuit_remaining(provider) <= 0
-        ]
-        if providers and not sequence:
-            _open_global_circuit(
-                AIProviderRotationExhausted("configured AI provider is cooling down"),
-                providers=providers,
-            )
-        return sequence
-    return (providers * MAX_AI_ATTEMPTS)[:MAX_AI_ATTEMPTS]
+    sequence = [
+        provider for provider in providers
+        if _provider_circuit_remaining(provider) <= 0
+    ]
+    if providers and not sequence:
+        _open_global_circuit(
+            AIProviderRotationExhausted("configured AI provider is cooling down"),
+            providers=providers,
+        )
+    return sequence
 
 
 def _attempt_provider_candidates():
@@ -3053,10 +2597,7 @@ def _attempt_provider_candidates():
 
 
 def _openrouter_fallback_available():
-    if JOBS_MODE and (
-        _global_circuit_remaining() > 0
-        or _provider_circuit_remaining("openrouter") > 0
-    ):
+    if _global_circuit_remaining() > 0 or _provider_circuit_remaining('openrouter') > 0:
         return False
     return bool(_openrouter_candidates())
 
@@ -3066,9 +2607,9 @@ def _should_switch_gemini_to_openrouter(provider, error):
 
 
 def _generate_with_provider_name(provider, prompt, context=None):
-    if JOBS_MODE and _global_circuit_remaining() > 0:
+    if _global_circuit_remaining() > 0:
         raise AIProviderRotationExhausted("global AI circuit is open")
-    if JOBS_MODE and _provider_circuit_remaining(provider) > 0:
+    if _provider_circuit_remaining(provider) > 0:
         raise AIProviderFallbackNeeded(f"{provider} provider circuit is open")
     allowed = (
         _openrouter_candidates(context=context)
@@ -3118,7 +2659,7 @@ def _generate_with_provider_name(provider, prompt, context=None):
                 return result
             except Exception as error:
                 last_error = error
-                if JOBS_MODE and _is_provider_model_capacity_error(error):
+                if _is_provider_model_capacity_error(error):
                     _put_candidate_on_cooldown(candidate, error)
                     log_event(
                         "ai_provider_model_capacity_rejected",
@@ -3130,7 +2671,7 @@ def _generate_with_provider_name(provider, prompt, context=None):
                     raise AIProviderFallbackNeeded(
                         f"{provider} model capacity failed: {_safe_error_reason(error)}"
                     ) from error
-                if JOBS_MODE and _is_article_input_error(error):
+                if _is_article_input_error(error):
                     raise AIArticleInputError(_safe_error_reason(error)) from error
                 if _is_timeout_error(error) and timeout_retry_count < AI_TIMEOUT_RETRIES:
                     timeout_retry_count += 1
@@ -3154,43 +2695,9 @@ def _generate_with_provider_name(provider, prompt, context=None):
                         article_id=getattr(context, "article_id", ""),
                     )
                 _put_candidate_on_cooldown(candidate, error)
-                if JOBS_MODE:
-                    raise AIProviderFallbackNeeded(
-                        f"{provider} provider failed: {_safe_error_reason(error)}"
-                    ) from error
-                if provider == "gemini" and context:
-                    context.gemini_failures += 1
-                if provider == "openrouter" and context and context.gemini_failures:
-                    context.openrouter_failures_after_gemini += 1
-                reason = (
-                    "quota/rate limit/temporary provider error"
-                    if _is_quota_or_rate_limit_error(error)
-                    else "provider error"
-                )
-                log_event(
-                    "ai_model_failed",
-                    provider=provider,
-                    model=candidate.get("model"),
-                    key_id=_key_id(candidate.get("api_key")),
-                    reason=reason,
-                    error=error.__class__.__name__,
-                )
-                if provider == "openrouter" and context and context.gemini_failures and context.openrouter_failures_after_gemini >= 2:
-                    raise AIProviderRotationExhausted(
-                        "AI rotation exhausted: Gemini failed and 2 fast OpenRouter models failed"
-                    ) from error
-                if index < len(active_allowed) - 1:
-                    log_event(
-                        "ai_provider_switch",
-                        article_id=getattr(context, "article_id", ""),
-                        from_provider=provider,
-                        to_provider=active_allowed[index + 1].get("provider"),
-                        reason=_safe_error_reason(error),
-                    )
-                    break
-                if provider == "gemini" and _is_quota_or_rate_limit_error(error):
-                    raise AIProviderFallbackNeeded(_safe_error_reason(error)) from error
-                raise AIProviderRotationExhausted(_safe_error_reason(error)) from error
+                raise AIProviderFallbackNeeded(
+                    f"{provider} provider failed: {_safe_error_reason(error)}"
+                ) from error
     raise last_error or RuntimeError(f"No {provider} AI candidate returned a response.")
 
 
@@ -3290,21 +2797,18 @@ def _apply_success(article, data, provider_used):
     article["seo_description"] = str(data["description"]).strip()
     package = article.get("ai_input_package") or {}
     article["seo_slug"] = (
-        _normalize_job_english_slug(data["slug"])
-        or _fallback_job_english_slug(package)
-        if JOBS_MODE
-        else _normalize_slug(data["slug"])
+        (_normalize_job_english_slug(data["slug"])
+        or _fallback_job_english_slug(package))
     )
     article["final_html"] = final_html
     article["blogger_article_html"] = final_html
-    if JOBS_MODE:
-        ai_notice_type = str(data.get("notice_type") or "").strip().lower()
-        article["job_notice_type"] = ai_notice_type
-        article["job_notice_type_source"] = "ai"
-        package["job_notice_type"] = ai_notice_type
-        package["job_notice_type_ai"] = ai_notice_type
-        package["job_notice_type_source"] = "ai"
-        article["ai_input_package"] = package
+    ai_notice_type = str(data.get("notice_type") or "").strip().lower()
+    article["job_notice_type"] = ai_notice_type
+    article["job_notice_type_source"] = "ai"
+    package["job_notice_type"] = ai_notice_type
+    package["job_notice_type_ai"] = ai_notice_type
+    package["job_notice_type_source"] = "ai"
+    article["ai_input_package"] = package
     article["final_word_count"] = word_count
     article["final_html_chars"] = len(final_html)
     article["final_content_hash"] = content_hash_from_html(final_html)
@@ -3335,7 +2839,6 @@ def _apply_success(article, data, provider_used):
     article.pop("ai_failure_fingerprint", None)
     article.pop("ai_failure_category", None)
     article.pop("ai_retry_after", None)
-
 
 
 def _apply_failure(article, error):
@@ -3369,7 +2872,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
 
     article = eligible[0]
 
-    if JOBS_MODE and not force:
+    if not force:
         retry_until = _article_ai_retry_until(article)
         if retry_until > time.time():
             retry_after = _epoch_to_iso(retry_until)
@@ -3403,24 +2906,19 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     previous_data = None
     last_error = None
 
-    if JOBS_MODE:
-        pre_ai_evidence_error = _jobs_pre_ai_evidence_error(package)
-        if pre_ai_evidence_error:
-            last_error = AIArticleInputError(pre_ai_evidence_error)
-            log_event(
-                "ai_source_evidence_failure_deferred",
-                article_id=article.get("id"),
-                reason=pre_ai_evidence_error,
-            )
-        else:
-            prompt = _build_prompt(package)
+    pre_ai_evidence_error = _jobs_pre_ai_evidence_error(package)
+    if pre_ai_evidence_error:
+        last_error = AIArticleInputError(pre_ai_evidence_error)
+        log_event(
+            "ai_source_evidence_failure_deferred",
+            article_id=article.get("id"),
+            reason=pre_ai_evidence_error,
+        )
     else:
         prompt = _build_prompt(package)
 
     if (
-        JOBS_MODE
-        and article.get("ai_retry_origin") == "pre_publish_quality"
-        and str(article.get("ai_retry_reason") or "").strip()
+        article.get('ai_retry_origin') == 'pre_publish_quality' and str(article.get('ai_retry_reason') or '').strip()
     ):
         previous_data = {
             "title": article.get("seo_title") or "",
@@ -3440,8 +2938,6 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
         try:
             provider_sequence = _attempt_provider_sequence()
         except Exception as error:
-            if not JOBS_MODE:
-                raise
             last_error = error
             try:
                 configured_providers = _resolve_providers()
@@ -3461,7 +2957,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     quality_repairs_used = 0
     forced_next_provider = ""
     preferred_repair_provider = str(article.get("ai_retry_provider") or "").strip().lower()
-    if JOBS_MODE and preferred_repair_provider:
+    if preferred_repair_provider:
         forced_next_provider = preferred_repair_provider
     excess_english_retry_used = False
     context = AIExecutionContext(article_id=article.get("id") or article.get("url") or "")
@@ -3477,7 +2973,6 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
         source_words=source_words,
         rich_input_source=_is_rich_input_package(package),
         enrichment_status=package.get("enrichment_status"),
-        fast_news_mode=FAST_NEWS_MODE,
         ai_fast_mode_enabled=context.fast_mode_enabled,
         skipped_slow_models_count=context.skipped_slow_models_count,
         ai_total_time_budget_seconds=context.total_budget_seconds,
@@ -3486,11 +2981,9 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     total_attempts = (
         0
         if JOBS_MODE and not provider_sequence
-        else max(1, len(provider_sequence) + JOBS_AI_QUALITY_REPAIRS)
-        if JOBS_MODE
-        else max(1, MAX_AI_ATTEMPTS)
+        else (max(1, len(provider_sequence) + JOBS_AI_QUALITY_REPAIRS))
     )
-    if JOBS_MODE and not provider_sequence:
+    if not provider_sequence:
         if last_error is None:
             if _global_circuit_remaining() > 0:
                 last_error = AIProviderRotationExhausted("global AI circuit is open")
@@ -3536,23 +3029,22 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             )
             data = _parse_complete_ai_json(
                 raw_text,
-                JOBS_REQUIRED_ARTICLE_FIELDS if JOBS_MODE else REQUIRED_ARTICLE_FIELDS,
+                (JOBS_REQUIRED_ARTICLE_FIELDS),
                 "AI article response",
             )
             previous_data = data
             data = _shorten_metadata_once_if_needed(data)
             data = _normalize_ai_output(data)
             finalize_package = package
-            if JOBS_MODE:
-                ai_notice_type = str(data.get("notice_type") or "").strip().lower()
-                if ai_notice_type not in ALLOWED_JOB_NOTICE_TYPES:
-                    raise AIIncompleteResponseError(
-                        "Jobs notice_type must be one of: " + ", ".join(sorted(ALLOWED_JOB_NOTICE_TYPES))
-                    )
-                finalize_package = dict(package)
-                finalize_package["job_notice_type"] = ai_notice_type
-                finalize_package["job_notice_type_ai"] = ai_notice_type
-                finalize_package["job_notice_type_source"] = "ai"
+            ai_notice_type = str(data.get("notice_type") or "").strip().lower()
+            if ai_notice_type not in ALLOWED_JOB_NOTICE_TYPES:
+                raise AIIncompleteResponseError(
+                    "Jobs notice_type must be one of: " + ", ".join(sorted(ALLOWED_JOB_NOTICE_TYPES))
+                )
+            finalize_package = dict(package)
+            finalize_package["job_notice_type"] = ai_notice_type
+            finalize_package["job_notice_type_ai"] = ai_notice_type
+            finalize_package["job_notice_type_source"] = "ai"
             data = _finalize_html_content(data, finalize_package)
             validation_result = _validate_ai_output(data, package=finalize_package)
             manifest_warnings = list(getattr(validation_result, "warnings", ()) or ())
@@ -3654,7 +3146,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     reason=_safe_error_reason(error),
                 )
             if is_quality_failure:
-                if JOBS_MODE and _is_nonrepairable_jobs_evidence_quality_error(error, package):
+                if _is_nonrepairable_jobs_evidence_quality_error(error, package):
                     last_error = AIArticleInputError(
                         f"source/evidence problem: {_safe_error_reason(error)}"
                     )
@@ -3666,74 +3158,43 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     )
                     break
 
-                if JOBS_MODE:
-                    if quality_repairs_used >= JOBS_AI_QUALITY_REPAIRS or attempt >= total_attempts:
-                        log_event(
-                            "ai_quality_repair_limit_reached",
-                            article_id=article.get("id"),
-                            provider=provider or provider_used,
-                            repairs_used=quality_repairs_used,
-                            max_repairs=JOBS_AI_QUALITY_REPAIRS,
-                            reason=str(error),
-                        )
-                        break
-
-                    quality_repairs_used += 1
-                    article["ai_quality_repairs_used"] = quality_repairs_used
-                    if "too much english inside article paragraphs" in str(error).casefold():
-                        article["ai_excess_english_retry_used"] = True
-                        prompt = _build_excess_english_retry_prompt(
-                            package,
-                            previous_data,
-                            str(error),
-                        )
-                    else:
-                        prompt = _build_expansion_retry_prompt(
-                            package,
-                            previous_data,
-                            str(error),
-                        )
-                    forced_next_provider = provider or provider_used.split(":", 1)[0]
+                if quality_repairs_used >= JOBS_AI_QUALITY_REPAIRS or attempt >= total_attempts:
                     log_event(
-                        "ai_quality_repair_retry",
+                        "ai_quality_repair_limit_reached",
                         article_id=article.get("id"),
-                        provider=forced_next_provider,
-                        repair=quality_repairs_used,
+                        provider=provider or provider_used,
+                        repairs_used=quality_repairs_used,
                         max_repairs=JOBS_AI_QUALITY_REPAIRS,
                         reason=str(error),
                     )
-                    continue
-
-                if "too much english inside article paragraphs" in str(error).casefold():
-                    if not excess_english_retry_used and attempt < total_attempts:
-                        excess_english_retry_used = True
-                        article["ai_excess_english_retry_used"] = True
-                        log_event(
-                            "article_regenerated_due_to_excess_english",
-                            article_id=article.get("id"),
-                            attempt=attempt,
-                            reason=error,
-                        )
-                        prompt = _build_excess_english_retry_prompt(package, previous_data, str(error))
-                        if provider:
-                            forced_next_provider = provider
-                        continue
-                    log_event(
-                        "article_skipped_excess_english_after_retry",
-                        article_id=article.get("id"),
-                        attempt=attempt,
-                        reason=error,
-                    )
                     break
-                prompt = _build_expansion_retry_prompt(package, previous_data, str(error))
-                if provider:
-                    quality_retry_counts[provider] = quality_retry_counts.get(provider, 0) + 1
-                if attempt < total_attempts and provider:
-                    if quality_retry_counts.get(provider, 0) < 2:
-                        forced_next_provider = provider
-                    else:
-                        forced_next_provider = _next_provider_in_sequence(provider_sequence, provider)
+
+                quality_repairs_used += 1
+                article["ai_quality_repairs_used"] = quality_repairs_used
+                if "too much english inside article paragraphs" in str(error).casefold():
+                    article["ai_excess_english_retry_used"] = True
+                    prompt = _build_excess_english_retry_prompt(
+                        package,
+                        previous_data,
+                        str(error),
+                    )
+                else:
+                    prompt = _build_expansion_retry_prompt(
+                        package,
+                        previous_data,
+                        str(error),
+                    )
+                forced_next_provider = provider or provider_used.split(":", 1)[0]
+                log_event(
+                    "ai_quality_repair_retry",
+                    article_id=article.get("id"),
+                    provider=forced_next_provider,
+                    repair=quality_repairs_used,
+                    max_repairs=JOBS_AI_QUALITY_REPAIRS,
+                    reason=str(error),
+                )
                 continue
+
             if is_article_input_failure:
                 log_event(
                     "ai_article_input_backoff",
@@ -3766,7 +3227,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     for name, category in provider_failure_categories.items()
                     if category in {"outage", "timeout"}
                 }
-                if JOBS_MODE and len(infrastructure_failures) >= 2:
+                if len(infrastructure_failures) >= 2:
                     try:
                         configured_providers = _resolve_providers()
                     except Exception:
@@ -3795,11 +3256,10 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                                 next_provider = candidate_provider
                                 break
                     if not next_provider:
-                        if JOBS_MODE:
-                            _open_global_circuit(
-                                error,
-                                providers=_resolve_providers(),
-                            )
+                        _open_global_circuit(
+                            error,
+                            providers=_resolve_providers(),
+                        )
                         break
                     forced_next_provider = next_provider
                     log_event(
@@ -3815,9 +3275,8 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 break
 
     _apply_failure(article, last_error)
-    if JOBS_MODE:
-        article["ai_retry_pending"] = True
-        article["ai_retry_reason"] = _safe_error_reason(last_error) if last_error else "AI generation failed"
+    article["ai_retry_pending"] = True
+    article["ai_retry_reason"] = _safe_error_reason(last_error) if last_error else "AI generation failed"
     provider_exhausted = bool(
         last_error
         and not isinstance(last_error, AITimeBudgetExceeded)

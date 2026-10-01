@@ -32,23 +32,8 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - run: python -m unittest tests.test_jobs_core tests.test_job_visuals tests.test_jobs_runtime tests.test_state_io -v
-      - name: Verify workflow publishing guardrails
-        run: |
-          python -m unittest \
-            tests.test_production_hardening.ProductionHardeningTests.test_first_valid_article_mode_stops_after_first_valid_source \
-            tests.test_production_hardening.ProductionHardeningTests.test_403_source_is_skipped_fast_to_next_source \
-            tests.test_production_hardening.ProductionHardeningTests.test_workflow_cron_and_facebook_safety_are_current -v
-
-      - name: Verify Facebook follows successful Blogger publish safely
-        run: |
-          python -m unittest \
-            tests.test_production_hardening.ProductionHardeningTests.test_facebook_after_blogger_success_still_respects_limits -v
-
-      - name: Verify Facebook safety interval is immutable
-        run: |
-          python -m unittest \
-            tests.test_production_hardening.ProductionHardeningTests.test_facebook_safety_interval_cannot_be_disabled_by_zero_env_value -v
+      - name: Verify the complete Jobs suite
+        run: python -m unittest discover -s tests -v
       - name: Compile all tracked Python modules
         run: |
           git ls-files -z '*.py' | xargs -0 python -m py_compile

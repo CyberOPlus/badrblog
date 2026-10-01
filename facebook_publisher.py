@@ -3,7 +3,6 @@
 # ============================================================
 
 import hashlib
-import random
 import re
 import json
 import time
@@ -20,12 +19,7 @@ from config import (
     FACEBOOK_AUTO_POST,
     FACEBOOK_GRAPH_API_URL,
     FACEBOOK_IMAGE_OUTPUT_DIR,
-    FACEBOOK_LINK_MODE,
     FACEBOOK_STYLE_MEMORY_PATH,
-    MAX_FACEBOOK_POSTS_PER_DAY,
-    MIN_MINUTES_BETWEEN_FACEBOOK_POSTS,
-    FACEBOOK_HARD_MAX_POSTS_PER_DAY,
-    FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES,
     JOB_VISUAL_STATE_PATH,
     FACEBOOK_PAGE_ACCESS_TOKEN,
     FACEBOOK_PAGE_ID,
@@ -72,211 +66,8 @@ class FacebookDeliveryUncertain(RuntimeError):
     """Remote Facebook outcome is unknown; never auto-retry the same post."""
 
 
-ALLOWED_ENGLISH_TERMS = {
-    "AI",
-    "Android",
-    "CVE",
-    "Malware",
-    "VPN",
-    "API",
-    "OpenAI",
-    "Microsoft",
-    "Google",
-    "GitHub",
-    "Windows",
-    "Linux",
-    "iOS",
-}
-CTA_VARIANTS = (
-    "التفاصيل كاملة في أول تعليق 👇",
-    "وضعت رابط التفاصيل في أول تعليق 👇",
-    "لمن يريد القراءة الكاملة، الرابط في أول تعليق 👇",
-    "الرابط الكامل ستجده في أول تعليق 👇",
-    "تابع التفاصيل من الرابط الموجود في أول تعليق 👇",
-    "المزيد من التفاصيل في أول تعليق 👇",
-)
-STYLE_BY_CATEGORY = {
-    "AI-Tools": "ai_tools",
-    "Cyber-Security": "cybersecurity",
-    "Tech-News": "tech_news",
-    "Apps-Programs": "apps_programs",
-}
-STYLE_FALLBACKS = {
-    "ai_tools": ("tech_news", "apps_programs"),
-    "cybersecurity": ("tech_news", "apps_programs"),
-    "tech_news": ("ai_tools", "apps_programs"),
-    "apps_programs": ("ai_tools", "tech_news"),
-}
-STYLE_HEADERS = {
-    "ai_tools": ("💡 ما الذي يميّزه؟", "⚙️ الأهم", "📌 بمعنى آخر"),
-    "cybersecurity": ("ماذا حدث؟", "لماذا هذا مهم؟", "ماذا يعني للمستخدم؟"),
-    "tech_news": ("💡 ما الجديد؟", "لماذا هذا مهم؟", "الخلاصة"),
-    "apps_programs": ("ماذا تقدم؟", "لمن تصلح؟", "لماذا تجربها؟"),
-}
-STYLE_STRUCTURES = {
-    "ai_tools": {
-        "value_focus": {
-            "lead": "",
-            "prefixes": (
-                "الفكرة الملفتة هنا أن ",
-                "الأهم في الاستخدام العملي هو أن ",
-                "بمعنى أبسط، ",
-            ),
-        },
-        "workflow_focus": {
-            "lead": "",
-            "prefixes": (
-                "ما يجعله مختلفًا أنه ",
-                "على مستوى التنفيذ، ",
-                "ولو أردنا تلخيص الصورة: ",
-            ),
-        },
-        "maker_focus": {
-            "lead": "",
-            "prefixes": (
-                "التميّز الحقيقي يظهر عندما ",
-                "النقطة التي تستحق الانتباه هي أن ",
-                "الخلاصة للمستخدم أو المطوّر: ",
-            ),
-        },
-    },
-    "cybersecurity": {
-        "risk_focus": {
-            "lead": "",
-            "prefixes": (
-                "المشهد باختصار: ",
-                "الخطورة هنا أن ",
-                "للمستخدم أو الفريق، هذا يعني أن ",
-            ),
-        },
-        "response_focus": {
-            "lead": "",
-            "prefixes": (
-                "الحدث في سطرين: ",
-                "سبب الأهمية المباشرة هو أن ",
-                "عمليًا، المطلوب الآن هو أن ",
-            ),
-        },
-        "impact_focus": {
-            "lead": "",
-            "prefixes": (
-                "ما حدث يمكن تلخيصه في أن ",
-                "هذه ليست نقطة تقنية هامشية لأن ",
-                "على مستوى الأثر اليومي، هذا يعني أن ",
-            ),
-        },
-    },
-    "tech_news": {
-        "announce_focus": {
-            "lead": "أعلنت الجهة المعنية خطوة جديدة تستحق التوقف عندها.",
-            "prefixes": (
-                "الجديد هذه المرة أن ",
-                "قيمة هذا التطور تظهر لأن ",
-                "وفي الخلاصة، ",
-            ),
-        },
-        "shift_focus": {
-            "lead": "كشفت التطورات الأخيرة عن اتجاه تقني يتشكل بسرعة.",
-            "prefixes": (
-                "المهم في الخبر أن ",
-                "هذا مهم لأن ",
-                "الخلاصة العملية أن ",
-            ),
-        },
-        "momentum_focus": {
-            "lead": "بدأت ملامح تغير واضح تظهر في هذا الملف التقني.",
-            "prefixes": (
-                "ما الجديد فعلًا؟ ",
-                "السبب وراء أهمية الخبر هو أن ",
-                "باختصار، ",
-            ),
-        },
-    },
-    "apps_programs": {
-        "utility_focus": {
-            "lead": "أداة جديدة تدخل المشهد بفكرة عملية وواضحة.",
-            "prefixes": (
-                "هي تقدم باختصار ",
-                "تبدو مناسبة أكثر لمن ",
-                "وقد تستحق التجربة لأنها ",
-            ),
-        },
-        "audience_focus": {
-            "lead": "أداة جديدة قد تختصر خطوات كانت تتطلب وقتًا أطول.",
-            "prefixes": (
-                "أبرز ما تقدمه أنها ",
-                "وهي مناسبة خصوصًا لمن ",
-                "سبب التجربة هنا هو أنها ",
-            ),
-        },
-        "productivity_focus": {
-            "lead": "أداة جديدة تراهن على البساطة بدل التعقيد.",
-            "prefixes": (
-                "ما تضيفه فعليًا هو ",
-                "وقد تفيد المستخدم الذي ",
-                "وتستحق التجربة عندما تكون الحاجة إلى ",
-            ),
-        },
-    },
-}
-HOOK_TEMPLATES = {
-    "ai_tools": (
-        "ما يلفت النظر هنا ليس الضجة، بل الفائدة العملية الواضحة.",
-        "أداة جديدة تقترب من الاستخدام الحقيقي أكثر من الشعارات.",
-        "فكرة ذكية تتحول هذه المرة إلى شيء يمكن الاستفادة منه فورًا.",
-    ),
-    "cybersecurity": (
-        "🚨 التحذير هذه المرة ليس نظريًا، بل قريب من الاستخدام اليومي.",
-        "🚨 خبر أمني جديد يذكّر بأن دقائق التأخير قد تصنع فرقًا كبيرًا.",
-        "🚨 ليست كل التنبيهات الأمنية متشابهة، وهذا واحد من الأخبار التي تستحق الانتباه السريع.",
-    ),
-    "tech_news": (
-        "ما يحدث الآن لا يبدو تحديثًا عابرًا، بل إشارة إلى اتجاه أكبر.",
-        "خطوة جديدة قد تغيّر شكل المنافسة أسرع مما يبدو.",
-        "إعلان تقني جديد، لكن قيمته الحقيقية فيما قد يفتحه لاحقًا.",
-    ),
-    "apps_programs": (
-        "أداة جديدة تعد بفائدة واضحة بدل الوعود العامة.",
-        "ليس كل تطبيق جديد يستحق التجربة، لكن هذا يلفت النظر عمليًا.",
-        "إذا كنت تبحث عن حل أبسط، فهذا النوع من الأدوات يستحق المتابعة.",
-    ),
-}
-DEFAULT_HASHTAGS = {
-    "ai_tools": ["#AI", "#AITools", "#OpenSource", "#ذكاء_اصطناعي", "#أدوات_تقنية", "#تقنية"],
-    "cybersecurity": ["#CyberSecurity", "#Security", "#DataProtection", "#الأمن_السيبراني", "#أمن_رقمي", "#تقنية"],
-    "tech_news": ["#TechNews", "#Innovation", "#Digital", "#أخبار_التقنية", "#مستجدات", "#تقنية"],
-    "apps_programs": ["#Apps", "#Productivity", "#Software", "#تطبيقات", "#برامج", "#تقنية"],
-}
-
-ARABIC_HASHTAG_MAP = (
-    (("ذكاء", "اصطناعي", "ai", "openai", "gemini"), "#ذكاء_اصطناعي"),
-    (("أمن", "سيبراني", "ثغرة", "cve", "malware", "vulnerability"), "#أمن_سيبراني"),
-    (("تطبيق", "android", "ios"), "#تطبيقات"),
-    (("برامج", "software", "windows", "linux"), "#برامج"),
-    (("خصوصية", "بيانات", "privacy", "data"), "#خصوصية"),
-    (("google",), "#Google"),
-    (("microsoft",), "#Microsoft"),
-    (("openai",), "#OpenAI"),
-    (("android",), "#Android"),
-    (("api",), "#API"),
-    (("vpn",), "#VPN"),
-    (("cve",), "#CVE"),
-    (("malware",), "#Malware"),
-)
-
-
 def _now_iso():
     return datetime.now().isoformat(timespec="seconds")
-
-
-
-def _parse_local_datetime(value):
-    if not value:
-        return None
-    try:
-        return datetime.fromisoformat(str(value))
-    except ValueError:
-        return None
 
 
 def _is_configured():
@@ -322,13 +113,11 @@ def _facebook_comment_retry_ready(article, now_epoch=None):
 
 
 def _job_facebook_expired(article, now=None):
-    if not JOBS_MODE:
-        return False
     return classify_urgency(article, now=now).get("level") == "expired"
 
 
 def _mark_facebook_pending(article, now=None, reason="published_to_blogger"):
-    if not JOBS_MODE or not _has_blogger_live_publish(article) or article.get("facebook_post_id"):
+    if not _has_blogger_live_publish(article) or article.get('facebook_post_id'):
         return False
     if _job_facebook_expired(article, now=now):
         return _mark_facebook_expired(article, now=now)
@@ -367,7 +156,7 @@ def _mark_facebook_pending(article, now=None, reason="published_to_blogger"):
 
 
 def _mark_facebook_expired(article, now=None):
-    if not JOBS_MODE or article.get("facebook_post_id"):
+    if article.get('facebook_post_id'):
         return False
     current = str(article.get("facebook_status") or "").strip()
     changed = current != "facebook_expired"
@@ -385,7 +174,7 @@ def _mark_facebook_expired(article, now=None):
 
 
 def _persist_jobs_social_state(article):
-    if not JOBS_MODE or not isinstance(article, dict):
+    if not isinstance(article, dict):
         return {}
     try:
         return record_job_social_state(article)
@@ -428,8 +217,6 @@ def _recovered_application_link_kind(record):
 
 def _recover_jobs_facebook_queue_from_memory(queue, now=None, max_age_days=30):
     """Recover Blogger-published Jobs that vanished from the volatile queue."""
-    if not JOBS_MODE:
-        return {"recovered": 0, "skipped_terminal": 0}
 
     now = now or datetime.now(timezone.utc)
     articles = queue.setdefault("articles", [])
@@ -556,8 +343,6 @@ def _recover_jobs_facebook_queue_from_memory(queue, now=None, max_age_days=30):
 
 def _sync_jobs_facebook_queue(queue, now=None):
     """Migrate every live unpublished Jobs article into the real Facebook queue."""
-    if not JOBS_MODE:
-        return {"queued": 0, "expired": 0, "revived": 0}
 
     now = now or datetime.now(timezone.utc)
     recovery = _recover_jobs_facebook_queue_from_memory(queue, now=now)
@@ -650,7 +435,7 @@ def _facebook_job_priority(article, now=None):
     # jump ahead of jobs that are about to close.
     age_days_boost = min(age_hours / 24.0, 14.0)
 
-    urgency = classify_urgency(article, now=now).get("level") if JOBS_MODE else "normal"
+    urgency = (classify_urgency(article, now=now).get("level"))
     urgency_boost = {
         "critical": 4.0,
         "high": 3.0,
@@ -683,7 +468,7 @@ def _facebook_job_priority(article, now=None):
 def _eligible_for_facebook(article):
     if not _has_blogger_live_publish(article) or article.get("facebook_post_id"):
         return False
-    if JOBS_MODE and _job_facebook_expired(article):
+    if _job_facebook_expired(article):
         return False
     status = str(article.get("facebook_status") or "").strip()
     return (
@@ -696,16 +481,7 @@ def _find_latest_eligible_article(articles):
     eligible = [article for article in articles if _eligible_for_facebook(article)]
     if not eligible:
         return None
-    if JOBS_MODE:
-        return max(eligible, key=_facebook_job_priority)
-    return max(
-        eligible,
-        key=lambda article: (
-            article.get("published_at", ""),
-            article.get("selected_at", ""),
-            article.get("discovered_at", ""),
-        ),
-    )
+    return max(eligible, key=_facebook_job_priority)
 
 
 def _target_article(articles, target_article_id=None):
@@ -744,14 +520,13 @@ def _find_latest_preview_article(articles, include_drafts=False):
     ]
     if not eligible:
         return None
-    if JOBS_MODE:
-        live_pending = [
-            article
-            for article in eligible
-            if _has_blogger_live_publish(article) and _eligible_for_facebook(article)
-        ]
-        if live_pending:
-            return max(live_pending, key=_facebook_job_priority)
+    live_pending = [
+        article
+        for article in eligible
+        if _has_blogger_live_publish(article) and _eligible_for_facebook(article)
+    ]
+    if live_pending:
+        return max(live_pending, key=_facebook_job_priority)
     return max(
         eligible,
         key=lambda article: (
@@ -761,29 +536,6 @@ def _find_latest_preview_article(articles, include_drafts=False):
             article.get("discovered_at", ""),
         ),
     )
-
-
-def _short_summary(article):
-    description = str(article.get("seo_description") or article.get("meta_description") or "").strip()
-    if description:
-        return description
-
-    preview = " ".join(str(article.get("content_preview") or "").split())
-    if len(preview) > 260:
-        return preview[:257].rstrip() + "..."
-    return preview
-
-
-def _last_caption_style(articles):
-    posted = [
-        article
-        for article in articles
-        if article.get("facebook_posted_at") and article.get("facebook_caption_pattern")
-    ]
-    if not posted:
-        return ""
-    latest = max(posted, key=lambda article: article.get("facebook_posted_at", ""))
-    return latest.get("facebook_caption_pattern", "")
 
 
 def _empty_style_memory():
@@ -830,23 +582,6 @@ def _caption_memory_category(article):
     return str(article.get("suggested_category") or "general").strip() or "general"
 
 
-def _caption_style_score(memory, category, style):
-    stats = memory.get("stats", {}).get(category, {}).get(style, {})
-    used = int(stats.get("used", 0))
-    failed = int(stats.get("failed", 0))
-    posted = int(stats.get("posted", 0))
-    return (used + failed * 2 - min(posted, 5) * 0.25, random.random())
-
-
-def _structure_score(memory, category, style, structure_id):
-    style_stats = memory.get("stats", {}).get(category, {}).get(style, {})
-    structures = style_stats.get("structures", {})
-    stats = structures.get(structure_id, {})
-    used = int(stats.get("used", 0))
-    posted = int(stats.get("posted", 0))
-    return (used - min(posted, 3) * 0.2, random.random())
-
-
 def _normalize_memory_text(value):
     return re.sub(r"[^\w\u0600-\u06FF]+", "", str(value or "").casefold(), flags=re.UNICODE)
 
@@ -857,74 +592,6 @@ def _caption_fingerprint(caption):
     normalized = re.sub(r"https?://\S+", "", normalized)
     normalized = re.sub(r"#[\w\u0600-\u06FF_]+", "", normalized, flags=re.UNICODE)
     return hashlib.sha256(_normalize_memory_text(normalized).encode("utf-8")).hexdigest()[:20]
-
-
-def _plain_text_from_html(html):
-    text = re.sub(r"<[^>]+>", " ", str(html or ""))
-    text = unescape(text)
-    return re.sub(r"\s+", " ", text).strip()
-
-
-def _dedupe_preserve(items):
-    result = []
-    seen = set()
-    for item in items:
-        normalized = _normalize_memory_text(item)
-        if not normalized or normalized in seen:
-            continue
-        seen.add(normalized)
-        result.append(item)
-    return result
-
-
-def _limit_text(text, limit=180):
-    text = _clean_caption_line(text)
-    if len(text) <= limit:
-        return text
-    cut_at = max(text.rfind(" ", 0, limit), text.rfind("،", 0, limit), text.rfind(".", 0, limit))
-    if cut_at < 50:
-        cut_at = limit
-    return text[:cut_at].rstrip(" ،.") + "..."
-
-
-def _article_sentences(article):
-    sources = [
-        article.get("seo_description", ""),
-        article.get("meta_description", ""),
-        _plain_text_from_html(article.get("final_html") or article.get("blogger_article_html")),
-        article.get("content_preview", ""),
-        (article.get("ai_input_package") or {}).get("content_preview", ""),
-    ]
-    candidates = []
-    for source in sources:
-        text = _clean_caption_line(source)
-        if not text:
-            continue
-        for sentence in re.split(r"[\n.!؟]+", text):
-            sentence = _clean_caption_line(sentence)
-            if len(sentence) >= 28:
-                candidates.append(sentence)
-    return _dedupe_preserve(candidates)
-
-
-def _choose_caption_pattern(article, articles):
-    memory = _load_style_memory()
-    category = _caption_memory_category(article)
-    primary_style = STYLE_BY_CATEGORY.get(category, "tech_news")
-    choices = [primary_style, *STYLE_FALLBACKS.get(primary_style, ())]
-    recent = list(memory.get("recent", {}).get(category, []))[-3:]
-    global_styles = list(memory.get("global_styles", []))[-3:]
-    if len(global_styles) >= 2 and global_styles[-1] == global_styles[-2] == primary_style:
-        choices = [style for style in choices if style != primary_style] or choices
-    choices = [style for style in choices if style not in recent[-2:]] or choices
-    selected = min(choices, key=lambda style: _caption_style_score(memory, category, style))
-    log_event(
-        "facebook_caption_pattern_selected",
-        category=category,
-        pattern=selected,
-        recent_count=len(global_styles),
-    )
-    return selected
 
 
 def _remember_caption_pattern(article, pattern, posted, structure_id="", hook="", cta="", hashtags=None, fingerprint=""):
@@ -1178,285 +845,9 @@ def _job_visual_title(article):
     return _clean_caption_line(visual)
 
 
-def _human_summary(article):
-    summary = _short_summary(article) or _plain_text_from_html(article.get("final_html") or article.get("blogger_article_html"))
-    return _limit_text(summary, limit=190)
-
-
-def _subject_fragment(article):
-    title = _short_title(article)
-    if not title:
-        return ""
-    words = title.split()
-    return " ".join(words[: min(len(words), 6)])
-
-
-def _article_context(article):
-    sentences = _article_sentences(article)
-    title = _short_title(article)
-    summary = _human_summary(article) or title
-    primary = sentences[0] if sentences else summary
-    secondary = sentences[1] if len(sentences) > 1 else summary
-    tertiary = sentences[2] if len(sentences) > 2 else secondary
-    style = STYLE_BY_CATEGORY.get(_caption_memory_category(article), "tech_news")
-    reader_takeaway = {
-        "ai_tools": "القيمة الحقيقية هنا تظهر عندما تتحول الفكرة إلى وقت أقل وجهد أقل في العمل اليومي.",
-        "cybersecurity": "المستخدم أو الفريق يحتاج إلى متابعة سريعة للتحديثات ومراجعة النقاط الحساسة قبل اتساع الأثر.",
-        "tech_news": "أهمية الخبر لا تقف عند الإعلان نفسه، بل تمتد إلى ما قد يغيّره لاحقًا في السوق أو الاستخدام.",
-        "apps_programs": "أفضلية هذه الأداة تظهر عند الحاجة إلى إنجاز أسرع وتجربة أبسط من الحلول المعقدة.",
-    }[style]
-    audience = {
-        "ai_tools": "يبحث عن أداة عملية يمكن إدخالها مباشرة في سير العمل.",
-        "cybersecurity": "يعتمد على حساباته أو بياناته أو أنظمته في العمل اليومي.",
-        "tech_news": "يراقب أين تتجه المنصات والشركات والتجارب الرقمية المقبلة.",
-        "apps_programs": "يريد حلًا واضحًا وسريعًا من دون إعدادات مرهقة.",
-    }[style]
-    experiment_reason = {
-        "ai_tools": "تقدم زاوية عملية بدل إعادة نفس الوعود المعتادة.",
-        "cybersecurity": "توضح أثر الحدث الأمني بعبارات أقرب إلى الواقع اليومي.",
-        "tech_news": "تختصر ما يستحق المتابعة بعيدًا عن الضجيج المعتاد حول الأخبار السريعة.",
-        "apps_programs": "تلمح إلى فائدة مباشرة يمكن ملاحظتها من الاستخدام الأول.",
-    }[style]
-    return {
-        "title": title,
-        "summary": summary,
-        "subject": _subject_fragment(article),
-        "primary": _limit_text(primary),
-        "secondary": _limit_text(secondary),
-        "tertiary": _limit_text(tertiary),
-        "reader_takeaway": reader_takeaway,
-        "audience": audience,
-        "experiment_reason": experiment_reason,
-    }
-
-
-def _choose_cta(memory):
-    recent = set(memory.get("recent_ctas", [])[-4:])
-    for cta in random.sample(list(CTA_VARIANTS), k=len(CTA_VARIANTS)):
-        if _normalize_memory_text(cta) not in recent:
-            return cta
-    return random.choice(CTA_VARIANTS)
-
-
-def _choose_structure_variant(article, style, memory):
-    category = _caption_memory_category(article)
-    options = list(STYLE_STRUCTURES.get(style, {}).keys())
-    recent_structures = list(memory.get("recent_structures", []))[-2:]
-    choices = [structure_id for structure_id in options if structure_id not in recent_structures] or options
-    return min(choices, key=lambda structure_id: _structure_score(memory, category, style, structure_id))
-
-
-def _fallback_hook(article):
-    title = _short_title(article)
-    for sentence in _article_sentences(article):
-        if _normalize_memory_text(sentence) != _normalize_memory_text(title):
-            return _limit_text(f"الخلاصة السريعة: {sentence}", limit=120)
-    return "تفصيل صغير اليوم قد يصنع فرقًا واضحًا غدًا."
-
-
-def _generate_hook(article, style, memory):
-    title_key = _normalize_memory_text(_short_title(article))
-    subject = _subject_fragment(article)
-    candidates = []
-    if subject:
-        subject_templates = {
-            "ai_tools": f"{subject} يبدو مختلفًا هذه المرة، لأن الفائدة فيه أقرب إلى الواقع.",
-            "cybersecurity": f"🚨 {subject} يضع عامل السرعة في الواجهة من جديد.",
-            "tech_news": f"{subject} قد يكون بداية لتحول أوسع مما يبدو.",
-            "apps_programs": f"{subject} يقترب من الأداة العملية أكثر من الضجة المؤقتة.",
-        }
-        candidates.append(subject_templates[style])
-    candidates.extend(HOOK_TEMPLATES.get(style, ()))
-    recent_hooks = set(memory.get("recent_hooks", []))
-    for candidate in candidates:
-        normalized = _normalize_memory_text(candidate)
-        if normalized and normalized != title_key and normalized not in recent_hooks:
-            return _limit_text(candidate, limit=120)
-    return _fallback_hook(article)
-
-
-def _build_style_sections(style, structure_id, context):
-    structure = STYLE_STRUCTURES[style][structure_id]
-    prefixes = structure["prefixes"]
-    headers = STYLE_HEADERS[style]
-    if style == "ai_tools":
-        bodies = (
-            prefixes[0] + context["primary"],
-            prefixes[1] + context["secondary"],
-            prefixes[2] + context["reader_takeaway"],
-        )
-    elif style == "cybersecurity":
-        bodies = (
-            prefixes[0] + context["primary"],
-            prefixes[1] + context["secondary"],
-            prefixes[2] + context["reader_takeaway"],
-        )
-    elif style == "tech_news":
-        bodies = (
-            prefixes[0] + context["primary"],
-            prefixes[1] + context["secondary"],
-            prefixes[2] + context["reader_takeaway"],
-        )
-    else:
-        bodies = (
-            prefixes[0] + context["primary"],
-            prefixes[1] + context["audience"],
-            prefixes[2] + context["experiment_reason"],
-        )
-    return structure["lead"], list(zip(headers, [_limit_text(body, limit=220) for body in bodies]))
-
-
-def _keyword_hashtag(token):
-    token = re.sub(r"[^\w\u0600-\u06FF]+", "", str(token or ""), flags=re.UNICODE).strip("_")
-    if not token or len(token) < 3:
-        return ""
-    if re.fullmatch(r"[A-Za-z][A-Za-z0-9_+-]{1,24}", token):
-        for allowed in ALLOWED_ENGLISH_TERMS:
-            if token.casefold() == allowed.casefold():
-                return f"#{allowed}"
-        return ""
-    if re.search(r"[\u0600-\u06FF]", token):
-        return "#" + token[:28]
-    return ""
-
-
-def _strip_unneeded_latin(text):
-    allowed = {item.casefold() for item in ALLOWED_ENGLISH_TERMS}
-
-    def repl(match):
-        token = match.group(0)
-        if token.casefold() in allowed:
-            return token
-        return ""
-
-    cleaned = re.sub(r"\b[A-Za-z][A-Za-z0-9+._-]*\b", repl, str(text or ""))
-    return re.sub(r"\s+", " ", cleaned).strip()
-
-
-def _hashtags(article, style=None, text="", memory=None):
-    style = style or STYLE_BY_CATEGORY.get(_caption_memory_category(article), "tech_news")
-    text = " ".join(
-        [
-            text,
-            _short_title(article),
-            _human_summary(article),
-            _plain_text_from_html(article.get("final_html") or article.get("blogger_article_html")),
-            str(article.get("suggested_category", "")),
-            str(article.get("content_preview", "")),
-        ]
-    )
-    lowered = text.casefold()
-    tags = []
-    seen = set()
-    recent_sets = set((memory or {}).get("recent_hashtag_sets", [])[-6:])
-
-    def add(tag):
-        normalized = tag.casefold()
-        if normalized not in seen and len(tags) < 6:
-            seen.add(normalized)
-            tags.append(tag)
-
-    for keywords, tag in ARABIC_HASHTAG_MAP:
-        if any(keyword in lowered for keyword in keywords):
-            add(tag)
-
-    tokens = re.findall(r"[A-Za-z][A-Za-z0-9_+-]{2,}|\b[\u0600-\u06FF]{3,}\b", text, flags=re.UNICODE)
-    stopwords = {
-        "هذا", "هذه", "ذلك", "التي", "الذي", "على", "إلى", "الى", "في", "من", "عن",
-        "مع", "كما", "لكن", "كان", "كانت", "يكون", "يمكن", "أكثر", "بعد", "قبل",
-        "article", "news", "this", "that", "with", "from", "using", "will",
-    }
-    counts = {}
-    for token in tokens:
-        key = token.casefold()
-        if key in stopwords or len(key) < 3:
-            continue
-        counts[key] = counts.get(key, 0) + 1
-    ranked = sorted(counts, key=lambda key: (-counts[key], len(key)))
-    for key in ranked:
-        if len(tags) >= 6:
-            break
-        add(_keyword_hashtag(key))
-
-    fallback_by_style = {
-        "ai_tools": ["#ذكاء_اصطناعي", "#تقنية"],
-        "cybersecurity": ["#أمن_سيبراني", "#تقنية"],
-        "tech_news": ["#أخبار_تقنية", "#تقنية"],
-        "apps_programs": ["#تطبيقات", "#برامج"],
-    }
-    for tag in fallback_by_style.get(style, ["#تقنية"]):
-        if len(tags) >= 3:
-            break
-        add(tag)
-
-    if "|".join(sorted(tag.casefold() for tag in tags)) in recent_sets:
-        for tag in DEFAULT_HASHTAGS.get(style, DEFAULT_HASHTAGS["tech_news"]):
-            if len(tags) >= 6:
-                break
-            clean = tag.lstrip("#")
-            if re.search(r"[\u0600-\u06FF]", clean) or any(clean.casefold() == allowed.casefold() for allowed in ALLOWED_ENGLISH_TERMS):
-                add(tag)
-
-    return tags[:6]
-
-
-def _render_facebook_post(article, style, structure_id, hook, blogger_url=None, memory=None, cta=None):
-    context = _article_context(article)
-    lead, sections = _build_style_sections(style, structure_id, context)
-    blocks = [_limit_text(hook, limit=120)]
-    if lead:
-        blocks.append(_limit_text(lead, limit=140))
-    for header, body in sections:
-        blocks.append(f"{header}\n{_clean_caption_line(body)}")
-    hashtags = _hashtags(
-        article,
-        style=style,
-        text=" ".join([context["primary"], context["secondary"], hook]),
-        memory=memory,
-    )
-    cta = cta or _choose_cta(memory or {})
-    blocks.append(cta)
-    blocks.append(" ".join(hashtags))
-    caption = "\n\n".join(block for block in blocks if block)
-    if len(caption) > 1200:
-        caption = caption[:1197].rstrip() + "..."
-    fingerprint = _caption_fingerprint(caption)
-    return {
-        "caption": caption,
-        "hashtags": hashtags,
-        "hook": hook,
-        "cta": cta,
-        "fingerprint": fingerprint,
-        "lead": lead,
-        "sections": sections,
-        "style": style,
-        "structure": structure_id,
-        "blogger_url": blogger_url or _blogger_post_url(article),
-    }
-
-
-def _build_post_blueprint(article, style=None, memory=None, retry_index=0, force_structure=None, force_hook=None, articles=None):
-    memory = memory or _load_style_memory()
-    style = style or _choose_caption_pattern(article, articles or [])
-    structure_id = force_structure or _choose_structure_variant(article, style, memory)
-    if retry_index and not force_structure:
-        alternatives = [item for item in STYLE_STRUCTURES[style] if item != structure_id]
-        if alternatives:
-            structure_id = alternatives[0]
-    hook = force_hook or _generate_hook(article, style, memory)
-    if retry_index and not force_hook:
-        hook = _fallback_hook(article)
-    return _render_facebook_post(article, style, structure_id, hook, memory=memory)
-
-
-def _build_caption(article, pattern, blogger_url=None):
-    blueprint = _build_post_blueprint(article, style=pattern)
-    return blueprint["caption"]
-
-
 def _repair_job_facebook_application_semantics(article):
     """Restore only strong legacy application semantics before template selection."""
-    if not JOBS_MODE or not isinstance(article, dict):
+    if not isinstance(article, dict):
         return False
 
     current = str(article.get("job_application_link_kind") or "").strip().lower()
@@ -1487,8 +878,6 @@ def _repair_job_facebook_application_semantics(article):
 
 def _refresh_job_logo_before_facebook(article):
     """Late verified-logo recovery immediately before the Facebook visual step."""
-    if not JOBS_MODE:
-        return {}
 
     current = verified_company_logo(article)
     article["facebook_logo_refresh_attempted_at"] = _now_iso()
@@ -1527,23 +916,11 @@ def _refresh_job_logo_before_facebook(article):
 
 
 def _main_image_url(article):
-    if JOBS_MODE:
-        logo = verified_company_logo(article)
-        if logo.get("company_logo_verified") and logo.get("company_logo_url"):
-            return str(logo["company_logo_url"]).strip()
-        # Jobs visuals never substitute the generated article cover, a source
-        # hero image, or plain employer text for a missing verified logo.
-        return ""
-    if article.get("main_image"):
-        return article["main_image"]
-    package = article.get("ai_input_package") or {}
-    if package.get("main_image"):
-        return package["main_image"]
-    for image in article.get("article_images") or package.get("article_images") or []:
-        if isinstance(image, dict) and image.get("url"):
-            return image["url"]
-        if isinstance(image, str) and image:
-            return image
+    logo = verified_company_logo(article)
+    if logo.get("company_logo_verified") and logo.get("company_logo_url"):
+        return str(logo["company_logo_url"]).strip()
+    # Jobs visuals never substitute the generated article cover, a source
+    # hero image, or plain employer text for a missing verified logo.
     return ""
 
 
@@ -1668,52 +1045,6 @@ def _facebook_image_output_path(article):
     return FACEBOOK_IMAGE_OUTPUT_DIR / f"{article_id[:80]}.jpg"
 
 
-def _facebook_article_image_output_path(article, content_type="", image_url=""):
-    article_id = re.sub(r"[^a-zA-Z0-9_-]+", "-", str(article.get("id") or article.get("url") or "post")).strip("-") or "post"
-    parsed_ext = Path(urlparse(str(image_url or "")).path).suffix.lower()
-    if parsed_ext not in {".jpg", ".jpeg", ".png", ".webp"}:
-        parsed_ext = ".jpg" if "jpeg" in content_type or "jpg" in content_type else ".png"
-    return FACEBOOK_IMAGE_OUTPUT_DIR / f"{article_id[:80]}-article-image{parsed_ext}"
-
-
-def _download_article_image_for_facebook(article):
-    image_url = _main_image_url(article)
-    if not image_url:
-        return {"ok": False, "path": "", "url": "", "error": "No main article image found."}
-    if not str(image_url).startswith(("http://", "https://")):
-        return {"ok": False, "path": "", "url": image_url, "error": "Main image URL is not public HTTP(S)."}
-
-    try:
-        response = requests.get(
-            image_url,
-            headers={"User-Agent": "Mozilla/5.0"},
-            timeout=30,
-        )
-        response.raise_for_status()
-        content_type = response.headers.get("Content-Type", "")
-        if "image/" not in content_type.casefold():
-            return {"ok": False, "path": "", "url": image_url, "error": f"Main image returned non-image content type: {content_type or 'unknown'}."}
-        if len(response.content or b"") < 4096:
-            return {"ok": False, "path": "", "url": image_url, "error": "Main image download was too small."}
-
-        output_path = _facebook_article_image_output_path(article, content_type=content_type, image_url=image_url)
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-        output_path.write_bytes(response.content)
-
-        try:
-            from PIL import Image
-
-            with Image.open(output_path) as image:
-                image.verify()
-        except Exception as verify_error:
-            output_path.unlink(missing_ok=True)
-            return {"ok": False, "path": "", "url": image_url, "error": f"Downloaded main image is invalid: {verify_error}."}
-
-        return {"ok": True, "path": str(output_path), "url": image_url, "error": ""}
-    except Exception as error:
-        return {"ok": False, "path": "", "url": image_url, "error": str(error)}
-
-
 def _split_caption_parts(caption):
     lines = [line for line in str(caption or "").splitlines() if line.strip()]
     hashtags = lines[-1] if lines and lines[-1].startswith("#") else ""
@@ -1783,101 +1114,19 @@ def _jobs_facebook_blueprint(article, blogger_url):
     }
 
 def _prepare_facebook_post(article, articles, blogger_url):
-    if JOBS_MODE:
-        memory = _load_style_memory()
-        blueprint = _jobs_facebook_blueprint(article, blogger_url)
-        _validate_facebook_caption(
-            blueprint["caption"],
-            blogger_url=blogger_url,
-            style="",
-            hook=blueprint["hook"],
-            structure_id="",
-            title=_short_title(article),
-            memory=memory,
-            allow_simple=True,
-        )
-        return blueprint
-
-    last_error = None
     memory = _load_style_memory()
-    preferred_style = _choose_caption_pattern(article, articles)
-    for retry_index in range(2):
-        blueprint = _build_post_blueprint(
-            article,
-            style=preferred_style,
-            memory=memory,
-            retry_index=retry_index,
-            articles=articles,
-        )
-        try:
-            _validate_facebook_caption(
-                blueprint["caption"],
-                blogger_url=blogger_url,
-                style=blueprint["style"],
-                hook=blueprint["hook"],
-                structure_id=blueprint["structure"],
-                title=_short_title(article),
-                memory=memory,
-            )
-            return blueprint
-        except Exception as error:
-            last_error = error
-    fallback = _build_fallback_blueprint(article, preferred_style, memory)
-    try:
-        _validate_facebook_caption(
-            fallback["caption"],
-            blogger_url=blogger_url,
-            style="",
-            hook=fallback["hook"],
-            structure_id="",
-            title=_short_title(article),
-            memory=memory,
-            allow_simple=True,
-        )
-    except Exception as fallback_error:
-        log_event(
-            "facebook_caption_emergency_fallback_used",
-            article_id=article.get("id"),
-            reason=str(fallback_error)[:180],
-        )
-        fallback = _build_emergency_fallback_blueprint(article, preferred_style, memory)
-    log_event(
-        "facebook_caption_fallback_used",
-        article_id=article.get("id"),
-        reason=str(last_error or "quality gate failed")[:180],
+    blueprint = _jobs_facebook_blueprint(article, blogger_url)
+    _validate_facebook_caption(
+        blueprint["caption"],
+        blogger_url=blogger_url,
+        style="",
+        hook=blueprint["hook"],
+        structure_id="",
+        title=_short_title(article),
+        memory=memory,
+        allow_simple=True,
     )
-    return fallback
-
-
-def _build_fallback_blueprint(article, style, memory):
-    title = _short_title(article)
-    summary = _human_summary(article) or _limit_text((_article_sentences(article) or [title])[0], limit=180)
-    title = _strip_unneeded_latin(title) or "خبر تقني جديد يستحق الانتباه"
-    summary = _strip_unneeded_latin(summary) or "هذا الخبر يسلط الضوء على نقطة مهمة للمستخدمين، مع تفاصيل أوضح في المقال الكامل."
-    hook = _fallback_hook(article)
-    hook = _strip_unneeded_latin(hook) or "تفصيل تقني صغير قد يكون أهم مما يبدو."
-    cta = _choose_cta(memory)
-    hashtags = _hashtags(article, style=style, text=f"{title} {summary}", memory=memory)
-    blocks = [
-        _limit_text(hook, limit=120),
-        _clean_caption_line(title),
-        _limit_text(summary, limit=220),
-        cta,
-        " ".join(hashtags),
-    ]
-    caption = "\n\n".join(block for block in blocks if block)
-    return {
-        "caption": caption,
-        "hashtags": hashtags,
-        "hook": hook,
-        "cta": cta,
-        "fingerprint": _caption_fingerprint(caption),
-        "lead": "",
-        "sections": [],
-        "style": style,
-        "structure": "fallback",
-        "blogger_url": _blogger_post_url(article),
-    }
+    return blueprint
 
 
 def _publish_facebook_post(article, blueprint):
@@ -1886,9 +1135,8 @@ def _publish_facebook_post(article, blueprint):
         raise RuntimeError("Missing live Blogger URL for Facebook post.")
 
     caption = blueprint["caption"]
-    visual_title = _job_visual_title(article) if JOBS_MODE else _short_title(article)
-    if JOBS_MODE:
-        article["facebook_visual_title"] = visual_title
+    visual_title = (_job_visual_title(article))
+    article["facebook_visual_title"] = visual_title
 
     image_result = generate_facebook_image(
         visual_title,
@@ -1897,28 +1145,25 @@ def _publish_facebook_post(article, blueprint):
         hook_text=blueprint.get("hook", ""),
         template_key=article.get("facebook_template_key", ""),
         employer_name=(
-            str(article.get("job_company") or article.get("source_name") or "").strip()
-            if JOBS_MODE
-            else ""
+            (str(article.get("job_company") or article.get("source_name") or "").strip())
         ),
     )
     if image_result.get("ok"):
         image_result["url"] = _main_image_url(article)
-        if JOBS_MODE:
-            article["facebook_logo_used"] = image_result["url"]
-            verified = verified_company_logo(article)
-            article["facebook_logo_checksum"] = str(
-                verified.get("company_logo_checksum") or ""
-            )
-            article["facebook_visual_layout"] = {
-                "title": visual_title,
-                "font_size": image_result.get("title_font_size"),
-                "font_width": image_result.get("title_font_width"),
-                "lines": image_result.get("title_lines"),
-                "title_bbox": image_result.get("title_bbox"),
-                "logo_kind": image_result.get("logo_kind"),
-                "logo_bbox": image_result.get("logo_bbox"),
-            }
+        article["facebook_logo_used"] = image_result["url"]
+        verified = verified_company_logo(article)
+        article["facebook_logo_checksum"] = str(
+            verified.get("company_logo_checksum") or ""
+        )
+        article["facebook_visual_layout"] = {
+            "title": visual_title,
+            "font_size": image_result.get("title_font_size"),
+            "font_width": image_result.get("title_font_width"),
+            "lines": image_result.get("title_lines"),
+            "title_bbox": image_result.get("title_bbox"),
+            "logo_kind": image_result.get("logo_kind"),
+            "logo_bbox": image_result.get("logo_bbox"),
+        }
     base_payload = {
         "access_token": FACEBOOK_PAGE_ACCESS_TOKEN,
     }
@@ -1932,57 +1177,15 @@ def _publish_facebook_post(article, blueprint):
         data = _post_photo_file(f"{FACEBOOK_PAGE_ID}/photos", payload, image_result["path"])
         return data.get("post_id") or data.get("id") or "", "photo", image_result
 
-    if JOBS_MODE:
-        # Jobs posts depend on the owner-supplied visual system. Publishing a
-        # text-only fallback would permanently consume the Facebook slot and
-        # leave the article with no way to receive the intended job card later.
-        # Fail locally instead; the normal bounded retry/backoff path will try
-        # again after the render/template problem is fixed.
-        log_event(
-            "facebook_job_image_required",
-            article_id=article.get("id"),
-            template_key=article.get("facebook_template_key", ""),
-            error=image_result.get("error", ""),
-        )
-        raise RuntimeError(
-            "Jobs Facebook image generation failed; refusing text-only publish."
-        )
-
     log_event(
-        "facebook_generated_image_failed_safe_text_only",
+        "facebook_job_image_required",
         article_id=article.get("id"),
+        template_key=article.get("facebook_template_key", ""),
         error=image_result.get("error", ""),
-        image_url=image_result.get("url", ""),
     )
-
-    payload = {
-        **base_payload,
-        "message": caption,
-    }
-    data = _post_to_graph(f"{FACEBOOK_PAGE_ID}/feed", payload)
-    return data.get("id") or "", "feed", image_result
-
-
-def _build_emergency_fallback_blueprint(article, style, memory):
-    hook = "تفصيل تقني صغير قد يكون أهم مما يبدو."
-    summary = "نلخص في المقال أبرز ما يحتاج القارئ معرفته، مع شرح مبسط للسياق وما يعنيه ذلك عمليًا."
-    cta = _choose_cta(memory)
-    hashtags = _hashtags(article, style=style, text=f"{hook} {summary}", memory=memory)
-    if len(hashtags) < 3:
-        hashtags = ["#تقنية", "#أخبار_تقنية", "#تطبيقات"]
-    caption = "\n\n".join([hook, summary, cta, " ".join(hashtags[:6])])
-    return {
-        "caption": caption,
-        "hashtags": hashtags[:6],
-        "hook": hook,
-        "cta": cta,
-        "fingerprint": _caption_fingerprint(caption),
-        "lead": "",
-        "sections": [],
-        "style": style,
-        "structure": "emergency_fallback",
-        "blogger_url": _blogger_post_url(article),
-    }
+    raise RuntimeError(
+        "Jobs Facebook image generation failed; refusing text-only publish."
+    )
 
 
 def _post_first_comment(facebook_post_id, blogger_post_url):
@@ -2002,7 +1205,7 @@ def _first_comment_text(blogger_post_url):
         "🔗 رابط التفاصيل:",
         blogger_post_url,
     ]
-    if JOBS_MODE and WHATSAPP_CHANNEL_URL:
+    if WHATSAPP_CHANNEL_URL:
         lines.extend([
             "",
             "📲 تابع قناة واتساب للعروض الجديدة:",
@@ -2022,10 +1225,9 @@ def _validate_facebook_caption(caption, blogger_url="", style="", hook="", struc
         raw_caption,
     )
 
-    if JOBS_MODE:
-        visible_lines = [line for line in raw_caption.splitlines() if line.strip()]
-        if any(not line.startswith("\u200f") for line in visible_lines):
-            raise RuntimeError("Jobs Facebook caption is not forced to RTL on every visible line.")
+    visible_lines = [line for line in raw_caption.splitlines() if line.strip()]
+    if any(not line.startswith("\u200f") for line in visible_lines):
+        raise RuntimeError("Jobs Facebook caption is not forced to RTL on every visible line.")
 
     if "```" in plain_caption or re.search(r'"\s*(title|description|html_content|facebook_post_text)\s*"\s*:', plain_caption):
         raise RuntimeError("Facebook caption contains visible JSON/markdown.")
@@ -2037,11 +1239,8 @@ def _validate_facebook_caption(caption, blogger_url="", style="", hook="", struc
     hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", plain_caption, flags=re.UNICODE)
     if len(set(hashtags)) != len(hashtags):
         raise RuntimeError("Facebook caption contains duplicate hashtags.")
-    if JOBS_MODE:
-        if not (3 <= len(hashtags) <= 5):
-            raise RuntimeError("Jobs Facebook caption must contain 3 to 5 hashtags.")
-    elif not (3 <= len(hashtags) <= 6):
-        raise RuntimeError("Facebook caption must contain 3 to 6 hashtags.")
+    if not (3 <= len(hashtags) <= 5):
+        raise RuntimeError("Jobs Facebook caption must contain 3 to 5 hashtags.")
 
     if blogger_url and "أول تعليق" not in plain_caption:
         raise RuntimeError("Facebook caption must say the link is in the first comment.")
@@ -2053,31 +1252,18 @@ def _validate_facebook_caption(caption, blogger_url="", style="", hook="", struc
         raise RuntimeError("Facebook caption hook is too weak.")
 
     arabic_chars = len(re.findall(r"[\u0600-\u06FF]", plain_caption))
-    latin_words = re.findall(r"\b[A-Za-z][A-Za-z0-9+._-]*\b", plain_caption)
-    allowed_latin = [
-        word for word in latin_words
-        if any(word.casefold() == allowed.casefold() for allowed in ALLOWED_ENGLISH_TERMS)
-        or word.startswith("#")
-    ]
     if arabic_chars < 40:
         raise RuntimeError("Facebook caption is not Arabic enough.")
 
-    if JOBS_MODE:
-        latin_chars = len(re.findall(r"[A-Za-zÀ-ÖØ-öø-ÿ]", plain_caption))
-        if latin_chars > max(80, int(arabic_chars * 0.60)):
-            raise RuntimeError("Jobs Facebook caption must remain Arabic-first even with foreign terms.")
-    elif latin_words and len(allowed_latin) / max(1, len(latin_words)) < 0.75:
-        raise RuntimeError("Facebook caption contains unnecessary mixed-language terms.")
+    latin_chars = len(re.findall(r"[A-Za-zÀ-ÖØ-öø-ÿ]", plain_caption))
+    if latin_chars > max(80, int(arabic_chars * 0.60)):
+        raise RuntimeError("Jobs Facebook caption must remain Arabic-first even with foreign terms.")
 
     if len(plain_caption) > 1200 or len(plain_caption) < 120:
         raise RuntimeError("Facebook caption length is outside the expected range.")
     fingerprint = _caption_fingerprint(plain_caption)
     if fingerprint in set((memory or {}).get("recent_fingerprints", [])):
         raise RuntimeError("Facebook caption is too similar to a recent post.")
-    if style and structure_id:
-        for header in STYLE_HEADERS.get(style, ()):
-            if header not in plain_caption:
-                raise RuntimeError("Facebook caption is missing its required structure.")
     if not allow_simple and len([line for line in plain_caption.splitlines() if line.strip()]) < 5:
         raise RuntimeError("Facebook caption is too thin.")
 
@@ -2203,119 +1389,62 @@ def get_facebook_limits_status(now=None, urgent=False):
         if value:
             posted_times.append(value)
 
-    if JOBS_MODE:
-        local_now = jobs_local_time(now)
-        local_posts = []
-        for value in posted_times:
-            parsed = parse_job_date(value)
-            if parsed:
-                local_posts.append(jobs_local_time(parsed))
-        today_posts = [value for value in local_posts if value.date() == local_now.date()]
-        last_post_time = max(local_posts) if local_posts else None
-
-        hard_daily_limit = JOBS_FACEBOOK_MAX_POSTS_PER_DAY if JOBS_FACEBOOK_FOLLOW_ARTICLE else FACEBOOK_HARD_MAX_POSTS_PER_DAY
-        normal_daily_limit = (
-            hard_daily_limit if JOBS_FACEBOOK_FOLLOW_ARTICLE
-            else min(max(1, MAX_FACEBOOK_POSTS_PER_DAY), hard_daily_limit)
-        )
-        effective_daily_limit = min(hard_daily_limit, normal_daily_limit + (1 if urgent else 0))
-        daily_blocked = len(today_posts) >= effective_daily_limit
-
-        safe_interval = (
-            JOBS_FACEBOOK_MIN_INTERVAL_MINUTES if JOBS_FACEBOOK_FOLLOW_ARTICLE
-            else max(MIN_MINUTES_BETWEEN_FACEBOOK_POSTS, FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES)
-        )
-        minutes_since_last = (
-            max(0, int((local_now - last_post_time).total_seconds() // 60))
-            if last_post_time
-            else None
-        )
-        interval_blocked = bool(
-            last_post_time
-            and (local_now - last_post_time).total_seconds() < safe_interval * 60
-        )
-
-        slot = facebook_slot_status(posted_times=posted_times, now=now, urgent=urgent)
-        allowed_now = bool(slot.get("allowed_now")) and not daily_blocked and not interval_blocked
-        reasons = []
-        if daily_blocked:
-            reasons.append("Facebook hard daily safety limit reached")
-        if interval_blocked:
-            reasons.append("Facebook safety interval has not elapsed")
-        if not slot.get("allowed_now") and not urgent:
-            reasons.append("waiting for Morocco Facebook publishing slot")
-
-        next_allowed = slot.get("next_slot", "")
-        if interval_blocked and last_post_time:
-            next_allowed = (last_post_time + timedelta(minutes=safe_interval)).isoformat()
-
-        return {
-            "facebook_posts_today": len(today_posts),
-            "max_facebook_posts_per_day": normal_daily_limit,
-            "effective_facebook_posts_per_day": effective_daily_limit,
-            "hard_max_facebook_posts_per_day": hard_daily_limit,
-            "last_facebook_post_time": last_post_time.isoformat() if last_post_time else None,
-            "minutes_since_last_facebook_post": minutes_since_last,
-            "min_minutes_between_facebook_posts": safe_interval,
-            "allowed_now": allowed_now,
-            "next_allowed_time": next_allowed,
-            "reasons": reasons,
-            "jobs_slot_mode": slot.get("mode", "scheduled"),
-            "jobs_slot": slot.get("slot", ""),
-        }
-
-    now = now or datetime.now()
-    parsed_times = []
+    local_now = jobs_local_time(now)
+    local_posts = []
     for value in posted_times:
-        parsed = _parse_local_datetime(value)
+        parsed = parse_job_date(value)
         if parsed:
-            parsed_times.append(parsed)
+            local_posts.append(jobs_local_time(parsed))
+    today_posts = [value for value in local_posts if value.date() == local_now.date()]
+    last_post_time = max(local_posts) if local_posts else None
 
-    today_posts = [posted_at for posted_at in parsed_times if posted_at.date() == now.date()]
-    last_post_time = max(parsed_times) if parsed_times else None
+    hard_daily_limit = (JOBS_FACEBOOK_MAX_POSTS_PER_DAY)
+    normal_daily_limit = (
+        (hard_daily_limit)
+    )
+    effective_daily_limit = min(hard_daily_limit, normal_daily_limit + (1 if urgent else 0))
+    daily_blocked = len(today_posts) >= effective_daily_limit
+
+    safe_interval = (
+        (JOBS_FACEBOOK_MIN_INTERVAL_MINUTES)
+    )
     minutes_since_last = (
-        max(0, int((now - last_post_time).total_seconds() // 60))
+        max(0, int((local_now - last_post_time).total_seconds() // 60))
         if last_post_time
         else None
     )
+    interval_blocked = bool(
+        last_post_time
+        and (local_now - last_post_time).total_seconds() < safe_interval * 60
+    )
 
-    daily_limit = min(
-        max(1, MAX_FACEBOOK_POSTS_PER_DAY),
-        FACEBOOK_HARD_MAX_POSTS_PER_DAY,
-    )
-    safe_interval = max(
-        MIN_MINUTES_BETWEEN_FACEBOOK_POSTS,
-        FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES,
-    )
-    daily_blocked = len(today_posts) >= daily_limit
-    interval_next_allowed = now
-    if last_post_time:
-        interval_next_allowed = last_post_time + timedelta(minutes=safe_interval)
-    interval_blocked = bool(last_post_time and interval_next_allowed > now)
-    daily_next_allowed = (
-        datetime.combine(now.date() + timedelta(days=1), datetime.min.time())
-        if daily_blocked
-        else now
-    )
-    allowed_now = not daily_blocked and not interval_blocked
-    next_allowed_time = now if allowed_now else max(daily_next_allowed, interval_next_allowed)
-
+    slot = facebook_slot_status(posted_times=posted_times, now=now, urgent=urgent)
+    allowed_now = bool(slot.get("allowed_now")) and not daily_blocked and not interval_blocked
     reasons = []
     if daily_blocked:
         reasons.append("Facebook hard daily safety limit reached")
     if interval_blocked:
         reasons.append("Facebook safety interval has not elapsed")
+    if not slot.get("allowed_now") and not urgent:
+        reasons.append("waiting for Morocco Facebook publishing slot")
+
+    next_allowed = slot.get("next_slot", "")
+    if interval_blocked and last_post_time:
+        next_allowed = (last_post_time + timedelta(minutes=safe_interval)).isoformat()
 
     return {
         "facebook_posts_today": len(today_posts),
-        "max_facebook_posts_per_day": daily_limit,
-        "hard_max_facebook_posts_per_day": FACEBOOK_HARD_MAX_POSTS_PER_DAY,
-        "last_facebook_post_time": last_post_time,
+        "max_facebook_posts_per_day": normal_daily_limit,
+        "effective_facebook_posts_per_day": effective_daily_limit,
+        "hard_max_facebook_posts_per_day": hard_daily_limit,
+        "last_facebook_post_time": last_post_time.isoformat() if last_post_time else None,
         "minutes_since_last_facebook_post": minutes_since_last,
         "min_minutes_between_facebook_posts": safe_interval,
         "allowed_now": allowed_now,
-        "next_allowed_time": next_allowed_time,
+        "next_allowed_time": next_allowed,
         "reasons": reasons,
+        "jobs_slot_mode": slot.get("mode", "scheduled"),
+        "jobs_slot": slot.get("slot", ""),
     }
 
 
@@ -2325,8 +1454,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
     This is a no-op unless Facebook auto-posting is explicitly enabled.
     """
     queue = load_article_queue()
-    if JOBS_MODE:
-        _sync_jobs_facebook_queue(queue)
+    _sync_jobs_facebook_queue(queue)
     articles = queue.get("articles", [])
     article = _target_article(articles, target_article_id=target_article_id)
 
@@ -2347,7 +1475,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             "error": "No eligible published article without Facebook post found.",
         }
 
-    if JOBS_MODE and _job_facebook_expired(article):
+    if _job_facebook_expired(article):
         _mark_facebook_expired(article)
         save_article_queue(queue)
         return {
@@ -2360,9 +1488,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         }
 
     if (
-        JOBS_MODE
-        and not article.get("facebook_post_id")
-        and str(article.get("facebook_status") or "").strip() not in {"facebook_pending", "failed"}
+        not article.get('facebook_post_id') and str(article.get('facebook_status') or '').strip() not in {'facebook_pending', 'failed'}
     ):
         return _deferred_result(
             article,
@@ -2407,33 +1533,32 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
                 extra={"limits": limits},
             )
 
-    if JOBS_MODE:
-        _repair_job_facebook_application_semantics(article)
-        logo = _refresh_job_logo_before_facebook(article)
-        if not (
-            logo.get("company_logo_verified")
-            and str(logo.get("company_logo_url") or "").strip()
-        ):
-            # Do not consume a Facebook slot with a text-only or employer-name
-            # fallback. Keep the real Blogger job in the retryable social queue.
-            return _failure_result(
-                queue,
-                article,
-                article.get("facebook_logo_refresh_error")
-                or "Verified employer logo unavailable for Jobs Facebook visual.",
-                extra={"facebook_logo_refresh_status": article.get("facebook_logo_refresh_status", "")},
-            )
-
-        selection = choose_job_template(article, JOB_VISUAL_STATE_PATH)
-        if not selection.get("pinned"):
-            save_article_queue(queue)
-        log_event(
-            "facebook_job_template_selected",
-            article_id=article.get("id"),
-            template_key=selection.get("key", ""),
-            reason=selection.get("reason", ""),
-            pinned=selection.get("pinned", False),
+    _repair_job_facebook_application_semantics(article)
+    logo = _refresh_job_logo_before_facebook(article)
+    if not (
+        logo.get("company_logo_verified")
+        and str(logo.get("company_logo_url") or "").strip()
+    ):
+        # Do not consume a Facebook slot with a text-only or employer-name
+        # fallback. Keep the real Blogger job in the retryable social queue.
+        return _failure_result(
+            queue,
+            article,
+            article.get("facebook_logo_refresh_error")
+            or "Verified employer logo unavailable for Jobs Facebook visual.",
+            extra={"facebook_logo_refresh_status": article.get("facebook_logo_refresh_status", "")},
         )
+
+    selection = choose_job_template(article, JOB_VISUAL_STATE_PATH)
+    if not selection.get("pinned"):
+        save_article_queue(queue)
+    log_event(
+        "facebook_job_template_selected",
+        article_id=article.get("id"),
+        template_key=selection.get("key", ""),
+        reason=selection.get("reason", ""),
+        pinned=selection.get("pinned", False),
+    )
 
     try:
         blueprint = _prepare_facebook_post(article, articles, blogger_url)
@@ -2540,10 +1665,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         _persist_jobs_social_state(article)
         save_article_queue(queue)
         if (
-            JOBS_MODE
-            and article.get("facebook_status") == "posted"
-            and article.get("facebook_post_id")
-            and article.get("facebook_comment_id")
+            article.get('facebook_status') == 'posted' and article.get('facebook_post_id') and article.get('facebook_comment_id')
         ):
             archive_published_queue_article(
                 article_id=article.get("id", ""),
@@ -2649,13 +1771,7 @@ def _facebook_backfill_candidates(articles):
         and _facebook_comment_retry_ready(article)
     ]
     def new_post_sort_key(article):
-        if JOBS_MODE:
-            return _facebook_job_priority(article)
-        return (
-            article.get("published_at", ""),
-            article.get("selected_at", ""),
-            article.get("discovered_at", ""),
-        )
+        return _facebook_job_priority(article)
 
     comment_sort_key = lambda article: (
         article.get("published_at", ""),
@@ -2693,12 +1809,11 @@ def retry_facebook_first_comment(target_article_id):
         _clear_comment_failure_state(article)
         _persist_jobs_social_state(article)
         save_article_queue(queue)
-        if JOBS_MODE:
-            archive_published_queue_article(
-                article_id=article.get("id", ""),
-                article_url=article.get("url", ""),
-                reason="facebook_comment_retry_completed",
-            )
+        archive_published_queue_article(
+            article_id=article.get("id", ""),
+            article_url=article.get("url", ""),
+            reason="facebook_comment_retry_completed",
+        )
         result = {
             "checked": 1,
             "posted": True,
@@ -2747,9 +1862,7 @@ def drain_scheduled_facebook():
     stats = {"created": 0, "comments_created": 0, "failed": 0, "skipped": 0}
     queue = load_article_queue()
     sync_stats = (
-        _sync_jobs_facebook_queue(queue)
-        if JOBS_MODE
-        else {"queued": 0, "recovered": 0, "expired": 0, "revived": 0}
+        (_sync_jobs_facebook_queue(queue))
     )
     stats["queued"] = sync_stats.get("queued", 0)
     stats["recovered"] = sync_stats.get("recovered", 0)
@@ -2771,7 +1884,7 @@ def drain_scheduled_facebook():
             and not result.get("delivery_uncertain")
         )
     for article in pending:
-        if JOBS_MODE and _job_facebook_expired(article):
+        if _job_facebook_expired(article):
             if _mark_facebook_expired(article):
                 save_article_queue(queue)
                 stats["expired"] += 1
@@ -2801,7 +1914,7 @@ def backfill_facebook_posts():
     most one known-failed first comment.
     """
     queue = load_article_queue()
-    sync_stats = _sync_jobs_facebook_queue(queue) if JOBS_MODE else {"queued": 0, "expired": 0, "revived": 0}
+    sync_stats = (_sync_jobs_facebook_queue(queue))
     new_post_candidates, comment_retry_candidates = _facebook_backfill_candidates(
         queue.get("articles", [])
     )
@@ -2832,7 +1945,7 @@ def backfill_facebook_posts():
             stats["failed"] += 1
 
     for article in new_post_candidates:
-        if JOBS_MODE and _job_facebook_expired(article):
+        if _job_facebook_expired(article):
             if _mark_facebook_expired(article):
                 save_article_queue(queue)
                 stats["expired"] += 1
@@ -2894,15 +2007,12 @@ def preview_next_facebook_post(target_article_id=None, include_drafts=False):
     try:
         blueprint = _prepare_facebook_post(article, articles, blogger_url=blogger_url)
     except Exception as error:
-        memory = _load_style_memory()
-        style = _choose_caption_pattern(article, articles)
-        blueprint = _build_emergency_fallback_blueprint(article, style, memory)
-        preview_status = "fallback_used"
-        log_event(
-            "facebook_preview_fallback_used",
-            article_id=article.get("id"),
-            reason=str(error)[:180],
-        )
+        return {
+            "available": False,
+            "article": article,
+            "error": _redact_facebook_error(str(error)),
+            "preview_status": "unavailable",
+        }
     caption_pattern = blueprint["style"]
     post_text, hashtags = _split_caption_parts(blueprint["caption"])
 
@@ -2918,18 +2028,17 @@ def preview_next_facebook_post(target_article_id=None, include_drafts=False):
         "first_comment_text": _first_comment_text(blogger_url),
         "link_mode": FACEBOOK_LINK_MODE_ENFORCED,
         "image_url": _main_image_url(article),
-        "visual_title": _job_visual_title(article) if JOBS_MODE else _short_title(article),
-        "template_key": article.get("facebook_template_key", "") if JOBS_MODE else "",
-        "template_file": article.get("facebook_template_file", "") if JOBS_MODE else "",
-        "template_reason": article.get("facebook_template_reason", "") if JOBS_MODE else "",
+        "visual_title": (_job_visual_title(article)),
+        "template_key": (article.get("facebook_template_key", "")),
+        "template_file": (article.get("facebook_template_file", "")),
+        "template_reason": (article.get("facebook_template_reason", "")),
         "error": "",
     }
 
 
 def get_facebook_status():
     queue = load_article_queue()
-    if JOBS_MODE:
-        _sync_jobs_facebook_queue(queue)
+    _sync_jobs_facebook_queue(queue)
     articles = queue.get("articles", [])
     published = [article for article in articles if _has_blogger_live_publish(article)]
     without_post = [
