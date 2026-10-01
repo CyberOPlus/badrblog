@@ -1,0 +1,271 @@
+name: Direct Publish Smoke
+
+on:
+  push:
+    paths:
+      - ".github/workflows/direct-publish-smoke.yml"
+
+concurrency:
+  group: jobs-direct-smoke
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  direct-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Create direct-test environment
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+          BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
+          BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
+          FACEBOOK_PAGE_ID: ${{ secrets.FACEBOOK_PAGE_ID }}
+          FACEBOOK_PAGE_ACCESS_TOKEN: ${{ secrets.FACEBOOK_PAGE_ACCESS_TOKEN }}
+        run: |
+          python - <<'PY'
+          import json, os, sys
+          from pathlib import Path
+
+          required = ("BLOGGER_BLOG_ID","BLOGGER_CLIENT_SECRET_JSON","BLOGGER_TOKEN_JSON",
+                      "FACEBOOK_PAGE_ID","FACEBOOK_PAGE_ACCESS_TOKEN")
+          missing = [name for name in required if not os.environ.get(name, "").strip()]
+          if missing:
+              raise SystemExit("Missing direct-smoke secrets: " + ", ".join(missing))
+
+          for name in (
+              "GEMINI_API_KEY","OPENROUTER_API_KEY","GROQ_API_KEY","MISTRAL_API_KEY",
+              "CLOUDFLARE_API_TOKEN","CLOUDFLARE_ACCOUNT_ID","BLOGGER_BLOG_ID",
+              "BLOGGER_CLIENT_SECRET_JSON","BLOGGER_TOKEN_JSON","FACEBOOK_PAGE_ID",
+              "FACEBOOK_PAGE_ACCESS_TOKEN",
+          ):
+              value = os.environ.get(name, "")
+              if value:
+                  print(f"::add-mask::{value}")
+
+          json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"])
+          json.loads(os.environ["BLOGGER_TOKEN_JSON"])
+          Path("data").mkdir(exist_ok=True)
+          Path("client_secret.json").write_text(os.environ["BLOGGER_CLIENT_SECRET_JSON"], encoding="utf-8")
+          Path("data/token.json").write_text(os.environ["BLOGGER_TOKEN_JSON"], encoding="utf-8")
+
+          env = {
+              "JOBS_MODE":"true",
+              "JOBS_TEST_MODE":"false",
+              "JOBS_TIMEZONE":"Africa/Casablanca",
+              "JOBS_EXPECTED_BLOG_HOST":"cyberopluss.blogspot.com",
+              "PUBLISH_MODE":"live",
+              "SAFE_MODE":"false",
+              "BLOGGER_LIVE_ENABLED":"true",
+              "BLOG_ID":os.environ["BLOGGER_BLOG_ID"],
+              "FACEBOOK_AUTO_POST":"true",
+              "FACEBOOK_PAGE_ID":os.environ["FACEBOOK_PAGE_ID"],
+              "FACEBOOK_PAGE_ACCESS_TOKEN":os.environ["FACEBOOK_PAGE_ACCESS_TOKEN"],
+              "META_GRAPH_API_VERSION":"v26.0",
+              "JOBS_FACEBOOK_FOLLOW_ARTICLE":"true",
+              "JOBS_FACEBOOK_MAX_POSTS_PER_DAY":"240",
+              "JOBS_FACEBOOK_MIN_INTERVAL_MINUTES":"5",
+              "GEMINI_API_KEY":os.environ.get("GEMINI_API_KEY",""),
+              "GEMINI_MODEL":"gemini-2.5-flash",
+              "OPENROUTER_API_KEY":os.environ.get("OPENROUTER_API_KEY",""),
+              "OPENROUTER_MODEL":"openrouter/free",
+              "OPENROUTER_MODELS":"openrouter/free",
+              "GROQ_API_KEY":os.environ.get("GROQ_API_KEY",""),
+              "GROQ_MODEL":"openai/gpt-oss-20b",
+              "MISTRAL_API_KEY":os.environ.get("MISTRAL_API_KEY",""),
+              "MISTRAL_MODEL":"mistral-small-latest",
+              "CLOUDFLARE_API_TOKEN":os.environ.get("CLOUDFLARE_API_TOKEN",""),
+              "CLOUDFLARE_ACCOUNT_ID":os.environ.get("CLOUDFLARE_ACCOUNT_ID",""),
+              "CLOUDFLARE_MODEL":"@cf/meta/llama-3.1-8b-instruct",
+              "AI_PROVIDER":"auto",
+              "AI_TOTAL_TIME_BUDGET_SECONDS":"90",
+              "GEMINI_TIMEOUT_SECONDS":"25",
+              "AI_MODEL_TIMEOUT_SECONDS":"25",
+              "OPENROUTER_TIMEOUT_SECONDS":"25",
+              "GROQ_TIMEOUT_SECONDS":"25",
+              "MISTRAL_TIMEOUT_SECONDS":"25",
+              "CLOUDFLARE_TIMEOUT_SECONDS":"25",
+              "MAX_AI_RETRIES":"2",
+              "JOBS_AI_QUALITY_REPAIRS":"1",
+              "JOBS_AI_CROSS_CANDIDATE_RETRIES":"1",
+              "MIN_ARTICLE_WORDS":"120",
+              "MIN_EXTRACTED_CHARS":"80",
+              "ARTICLE_TIMEOUT_SECONDS":"12",
+              "SOURCE_TIMEOUT_SECONDS":"10",
+              "MAX_SOURCE_RETRIES":"0",
+              "SOURCE_RETRY_DELAY_SECONDS":"0",
+              "JOBS_GOOGLE_INDEXING_ENABLED":"false",
+          }
+          Path(".env").write_text("\n".join(f"{k}={v}" for k,v in env.items())+"\n", encoding="utf-8")
+          print("Direct smoke environment ready; auto-cycle is not used.")
+          PY
+
+      - name: Run direct extractor AI PDF Blogger Facebook path
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime, timezone
+
+          import article_queue
+          import article_enricher
+          import article_processor
+          import article_ai_processor
+          import article_draft_publisher
+          import facebook_publisher
+          import job_core
+
+          target_id = "direct-smoke-kadev-c43918"
+          target_url = "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/ee457511-2cf7-4178-bcb7-b09cd1638bca"
+
+          # This direct smoke tests the full publisher against a still-open official
+          # notice from 30 Sep. The production code remains capped at 12h; only this
+          # runner widens the write-boundary constant so the test can exercise live I/O.
+          job_core.JOBS_MAX_PUBLISH_AGE_HOURS = 168
+          article_draft_publisher.JOBS_MAX_PUBLISH_AGE_HOURS = 168
+
+          queue = article_queue.load_article_queue()
+          queue["articles"] = [
+              a for a in queue.get("articles", [])
+              if a.get("id") != target_id and a.get("url") != target_url
+          ]
+          queue["articles"].append({
+              "id": target_id,
+              "title": "شركة خريبكة للتهيئة والتنمية KADEV: إطار إداري ومالي",
+              "url": target_url,
+              "canonical_url": target_url,
+              "source_name": "Emploi-Public — établissements publics",
+              "source_url": target_url,
+              "source_priority": "S+",
+              "official_source": True,
+              "source_country": "Morocco",
+              "source_eligibility": "morocco",
+              "ats_provider": "emploi_public",
+              "ats_reference": "C43918/26",
+              "source_published_at": "2026-09-30",
+              "published_at_source": "official_detail_page",
+              "freshness_source": "official_detail_page",
+              "discovered_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+              "status": "ready",
+              "archived": False,
+          })
+          article_queue.save_article_queue(queue)
+
+          enrich_stats = article_enricher.enrich_ready_articles(force=True)
+          queue = article_queue.load_article_queue()
+          article = next(a for a in queue["articles"] if a.get("id") == target_id)
+          if article.get("content_fetch_status") != "success":
+              raise SystemExit("DIRECT_SMOKE_ENRICH_FAILED: " + str(article.get("content_fetch_error")))
+
+          article["job_published_at"] = article.get("job_published_at") or "2026-09-30"
+          article["source_published_at"] = article.get("source_published_at") or "2026-09-30"
+          article["job_eligibility"] = article.get("job_eligibility") or "morocco"
+          if not article.get("job_application_url"):
+              article["job_application_url"] = target_url
+              article["job_application_link_kind"] = "official_job_page"
+              article["job_application_is_specific"] = True
+
+          quality, identity = job_core.prepare_job_candidate(article)
+          if not quality.get("hard_gate_passed"):
+              raise SystemExit("DIRECT_SMOKE_QUALITY_FAILED: " + "; ".join(quality.get("reasons") or []))
+          if identity.get("action") == "duplicate":
+              raise SystemExit("DIRECT_SMOKE_DUPLICATE: " + str(identity.get("reason")))
+
+          article["status"] = "selected"
+          article["selected_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+          article_queue.save_article_queue(queue)
+
+          prep = article_processor.prepare_selected_articles_for_ai(target_article_id=target_id)
+          queue = article_queue.load_article_queue()
+          article = next(a for a in queue["articles"] if a.get("id") == target_id)
+          if article.get("processing_status") != "ready_for_ai":
+              raise SystemExit("DIRECT_SMOKE_PREP_FAILED: " + str(article.get("processing_error")))
+
+          ai_result = article_ai_processor.process_one_selected_article_with_ai(target_article_id=target_id)
+          queue = article_queue.load_article_queue()
+          article = next(a for a in queue["articles"] if a.get("id") == target_id)
+          if article.get("ai_status") != "completed" or not article.get("final_html"):
+              raise SystemExit("DIRECT_SMOKE_AI_FAILED: " + str(ai_result.get("message") or article.get("ai_error")))
+
+          publish = article_draft_publisher.publish_one_blogger_post(target_article_id=target_id, mode="live")
+          queue = article_queue.load_article_queue()
+          article = next(a for a in queue["articles"] if a.get("id") == target_id)
+          if article.get("publish_status") != "published" or not article.get("blogger_post_url"):
+              raise SystemExit("DIRECT_SMOKE_BLOGGER_FAILED: " + str(publish.get("error")))
+
+          pages = article.get("job_document_page_images") or []
+          docs = article.get("job_document_links") or []
+          final_html = article.get("final_html") or ""
+          if not docs:
+              raise SystemExit("DIRECT_SMOKE_NO_OFFICIAL_DOCUMENTS")
+          if not pages:
+              raise SystemExit("DIRECT_SMOKE_NO_PDF_PAGE_IMAGES")
+          if "jobOfficialDocuments" not in final_html or "jobDocPageImage" not in final_html:
+              raise SystemExit("DIRECT_SMOKE_PDF_HTML_MISSING")
+
+          facebook_publisher.FACEBOOK_AUTO_POST = True
+          fb = facebook_publisher.post_one_article_to_facebook(
+              target_article_id=target_id,
+              respect_limits=False,
+          )
+          queue = article_queue.load_article_queue()
+          article = next(a for a in queue["articles"] if a.get("id") == target_id)
+          if not fb.get("posted") or not article.get("facebook_post_id"):
+              raise SystemExit("DIRECT_SMOKE_FACEBOOK_FAILED: " + str(fb.get("error") or fb))
+
+          summary = {
+              "target_id": target_id,
+              "source_url": target_url,
+              "enrich": {
+                  "checked": enrich_stats.get("checked"),
+                  "enriched": enrich_stats.get("enriched"),
+                  "documents": len(docs),
+              },
+              "ai": {
+                  "provider": article.get("ai_provider_used"),
+                  "quality": article.get("ai_quality_status"),
+                  "word_count": article.get("final_word_count"),
+              },
+              "pdf": {
+                  "status": article.get("job_document_render_status"),
+                  "pages": len(pages),
+                  "html_section": "jobOfficialDocuments" in final_html,
+              },
+              "blogger": {
+                  "status": article.get("publish_status"),
+                  "post_id": article.get("blogger_post_id"),
+                  "url": article.get("blogger_post_url"),
+              },
+              "facebook": {
+                  "status": article.get("facebook_status"),
+                  "post_id": article.get("facebook_post_id"),
+                  "comment_id": article.get("facebook_comment_id"),
+                  "image_status": article.get("facebook_image_status"),
+              },
+          }
+          print("DIRECT_SMOKE_RESULT=" + json.dumps(summary, ensure_ascii=False))
+          PY
