@@ -103,8 +103,20 @@ def _discovery_identity(link):
     return f"url:{canonical}" if canonical else ""
 
 
-def _source_known_discovery_ids(source_url):
+def _discovery_memory_year(now=None):
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    return str(now.astimezone(timezone.utc).year)
+
+
+def _source_known_discovery_ids(source_url, now=None):
     record = source_crawl_record(source_url)
+    current_year = _discovery_memory_year(now)
+    stored_year = str(record.get("job_seen_ids_year") or current_year)
+    if stored_year != current_year:
+        return set()
+
     raw = record.get("job_seen_ids") or []
     if not isinstance(raw, list):
         return set()
@@ -115,8 +127,11 @@ def _source_known_discovery_ids(source_url):
     }
 
 
-def _merge_source_seen_ids(source_url, links):
-    existing = list(source_crawl_record(source_url).get("job_seen_ids") or [])
+def _merge_source_seen_ids(source_url, links, now=None):
+    record = source_crawl_record(source_url)
+    current_year = _discovery_memory_year(now)
+    stored_year = str(record.get("job_seen_ids_year") or current_year)
+    existing = list(record.get("job_seen_ids") or []) if stored_year == current_year else []
     ordered = []
     seen = set()
     for value in [
@@ -3033,9 +3048,10 @@ def _can_run_async_discovery():
     return False
 
 
-async def _discover_latest_article_links_async(enabled_sources):
+async def _discover_latest_article_links_async(enabled_sources, persist_state=True):
     discovered = []
     source_results = []
+    crawl_updates = []
     timeout = aiohttp.ClientTimeout(total=ASYNC_FETCH_TIMEOUT_SECONDS + 10)
     connector = aiohttp.TCPConnector(limit=ASYNC_SOURCE_FETCH_CONCURRENCY, ttl_dns_cache=300)
     semaphore = asyncio.Semaphore(ASYNC_SOURCE_FETCH_CONCURRENCY)
@@ -3244,7 +3260,14 @@ async def _discover_latest_article_links_async(enabled_sources):
                 result.get("details", {}).get("discovery_meta", {}).get("pages_scanned", 0)
             ),
         })
-        update_source_crawl(result["base_url"], **crawl_fields)
+        crawl_fields["job_seen_ids_year"] = _discovery_memory_year()
+        if persist_state:
+            update_source_crawl(result["base_url"], **crawl_fields)
+        else:
+            crawl_updates.append({
+                "base_url": result["base_url"],
+                "fields": crawl_fields,
+            })
 
         result_links = (result["links"])
         for link in result_links:
@@ -3298,10 +3321,27 @@ async def _discover_latest_article_links_async(enabled_sources):
         "checked_sources": len(results),
         "articles": discovered,
         "source_results": source_results,
+        "crawl_updates": crawl_updates,
     }
 
 
-def discover_latest_article_links(sources):
+def persist_discovery_state(discovery):
+    """Persist source seen IDs/cursors only after the discovered queue is durable."""
+    updates = list((discovery or {}).get("crawl_updates") or [])
+    persisted = 0
+    for row in updates:
+        if not isinstance(row, dict):
+            continue
+        base_url = str(row.get("base_url") or "").strip()
+        fields = row.get("fields")
+        if not base_url or not isinstance(fields, dict):
+            continue
+        update_source_crawl(base_url, **fields)
+        persisted += 1
+    return persisted
+
+
+def discover_latest_article_links(sources, persist_state=True):
     """
     Phase 1 safe discovery: collect latest article links only.
     This does not fetch article bodies, call AI, or publish anything.
@@ -3313,7 +3353,12 @@ def discover_latest_article_links(sources):
     )
     if _can_run_async_discovery():
         log_event("source_discovery_start", sources=len(enabled_sources), mode="aiohttp")
-        result = asyncio.run(_discover_latest_article_links_async(enabled_sources))
+        result = asyncio.run(
+            _discover_latest_article_links_async(
+                enabled_sources,
+                persist_state=persist_state,
+            )
+        )
         if cooldown_results:
             result["source_results"] = cooldown_results + list(result.get("source_results") or [])
             result["checked_sources"] = len(result["source_results"])
@@ -3332,6 +3377,7 @@ def discover_latest_article_links(sources):
     discovered = []
     checked_sources = 0
     source_results = list(cooldown_results)
+    crawl_updates = []
 
     log_event("source_discovery_start", sources=len(enabled_sources), mode="requests")
     for source in enabled_sources:
@@ -3484,25 +3530,32 @@ def discover_latest_article_links(sources):
                 }
             )
 
-        update_source_crawl(
-            base_url,
-            source_name=source_name,
-            last_crawled_at=datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-            overlap_minutes=CRAWL_OVERLAP_MINUTES,
-            job_seen_ids=_merge_source_seen_ids(base_url, links),
-            job_seen_ids_count=min(
+        crawl_fields = {
+            "source_name": source_name,
+            "last_crawled_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "overlap_minutes": CRAWL_OVERLAP_MINUTES,
+            "job_seen_ids": _merge_source_seen_ids(base_url, links),
+            "job_seen_ids_count": min(
                 JOBS_DISCOVERY_SEEN_MEMORY,
                 len(known_ids) + len(links),
             ),
-            discovery_last_new_count=len(links),
-            discovery_page_size_hint=fetch_limit,
-            discovery_max_pages=discovery_max_pages,
-            discovery_seen_streak=discovery_seen_streak,
-            discovery_max_items=discovery_max_items,
-            job_discovery_resume=details.get("discovery_resume") or {},
-            discovery_stop_reason=details.get("discovery_meta", {}).get("stop_reason", ""),
-            discovery_pages_scanned=details.get("discovery_meta", {}).get("pages_scanned", 0),
-        )
+            "job_seen_ids_year": _discovery_memory_year(),
+            "discovery_last_new_count": len(links),
+            "discovery_page_size_hint": fetch_limit,
+            "discovery_max_pages": discovery_max_pages,
+            "discovery_seen_streak": discovery_seen_streak,
+            "discovery_max_items": discovery_max_items,
+            "job_discovery_resume": details.get("discovery_resume") or {},
+            "discovery_stop_reason": details.get("discovery_meta", {}).get("stop_reason", ""),
+            "discovery_pages_scanned": details.get("discovery_meta", {}).get("pages_scanned", 0),
+        }
+        if persist_state:
+            update_source_crawl(base_url, **crawl_fields)
+        else:
+            crawl_updates.append({
+                "base_url": base_url,
+                "fields": crawl_fields,
+            })
 
         source_results.append(
             {
@@ -3543,6 +3596,7 @@ def discover_latest_article_links(sources):
         "checked_sources": checked_sources,
         "articles": discovered,
         "source_results": source_results,
+        "crawl_updates": crawl_updates,
     }
 
 

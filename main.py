@@ -70,7 +70,7 @@ from facebook_publisher import (
     preview_next_facebook_post,
     post_one_article_to_facebook,
 )
-from scraper import discover_latest_article_links
+from scraper import discover_latest_article_links, persist_discovery_state
 from runtime_state import record_source_cooldown, reset_job_discovery_state
 from source_validator import check_sources_config
 from production_logging import html_word_count, log_event
@@ -219,9 +219,16 @@ def run_fetch_only():
     # Jobs discovery is exhaustive and stateful. Do not route it through
     # recent-news/category first-valid shortcuts that can hide lower listing
     # pages or defer whole sources indefinitely.
-    discovery = discover_latest_article_links(enabled_sources)
+    discovery = discover_latest_article_links(
+        enabled_sources,
+        persist_state=False,
+    )
     articles = (discovery["articles"])
+    # Queue durability comes first. If the process dies after this write but
+    # before crawl-state persistence, the next run may rediscover a URL, but the
+    # queue dedup layer will reject it instead of losing the vacancy forever.
     queue_stats = add_articles_to_queue(articles)
+    persist_discovery_state(discovery)
     source_results = discovery.get("source_results", [])
     found_by_category = Counter(
         article.get("category_hint", "Uncategorized") or "Uncategorized"
@@ -1582,7 +1589,9 @@ def _process_job_target(selected, publish_mode):
     }
 
     try:
-        prepare_stats = prepare_selected_articles_for_ai(target_article_id=selected_id)
+        prepare_stats = prepare_selected_articles_for_ai(
+            target_article_id=selected_id
+        )
         article = _find_article_by_id(selected_id)
     except Exception as error:
         log_event(
@@ -1714,11 +1723,28 @@ def _process_job_target(selected, publish_mode):
     return result
 
 
+def _run_timed_jobs_stage(stage_name, stage_timings, callback, *args, **kwargs):
+    started = time.perf_counter()
+    try:
+        return callback(*args, **kwargs)
+    finally:
+        elapsed = round(time.perf_counter() - started, 3)
+        stage_timings[stage_name] = elapsed
+        log_event(
+            "jobs_stage_timing",
+            stage=stage_name,
+            elapsed_seconds=elapsed,
+        )
+        print(f"Stage timing: {stage_name}={elapsed:.3f}s", flush=True)
+
+
 def run_safe_cycle_only():
     """
     Phase 9 command: run one full one-article workflow.
     SAFE_MODE controls whether the effective publish mode is draft or live.
     """
+    cycle_started = time.perf_counter()
+    stage_timings = {}
     publish_mode = _effective_publish_mode()
     action_label = _effective_action()
     cycle_label = "JOBS LIVE CYCLE" if publish_mode == "live" else "JOBS DRAFT CYCLE"
@@ -1746,7 +1772,11 @@ def run_safe_cycle_only():
         return {"completed": False, "reason": reason, "step_reached": "safety-check"}
 
 
-    repair_stats = repair_job_link_bindings()
+    repair_stats = _run_timed_jobs_stage(
+        "repair",
+        stage_timings,
+        repair_job_link_bindings,
+    )
     if repair_stats.get("repaired"):
         print(
             "Jobs link repair: "
@@ -1778,12 +1808,38 @@ def run_safe_cycle_only():
         )
         ingest_stats = None
         print(f"Publishing is paced ({reason}); continuing Jobs ingestion.")
-        fetch_stats = run_fetch_only()
-        cleanup_stats = archive_expired_queue_articles()
-        visual_retry_stats = retry_pending_job_document_renders(max_articles=1)
-        score_stats = run_score_only()
-        enrich_stats = run_enrich_only(force=False)
-        identity_stats = resolve_identity_pending_articles()
+        fetch_stats = _run_timed_jobs_stage(
+            "fetch",
+            stage_timings,
+            run_fetch_only,
+        )
+        cleanup_stats = _run_timed_jobs_stage(
+            "cleanup",
+            stage_timings,
+            archive_expired_queue_articles,
+        )
+        visual_retry_stats = _run_timed_jobs_stage(
+            "visual_retry",
+            stage_timings,
+            retry_pending_job_document_renders,
+            max_articles=1,
+        )
+        score_stats = _run_timed_jobs_stage(
+            "score",
+            stage_timings,
+            run_score_only,
+        )
+        enrich_stats = _run_timed_jobs_stage(
+            "enrich",
+            stage_timings,
+            run_enrich_only,
+            force=False,
+        )
+        identity_stats = _run_timed_jobs_stage(
+            "identity",
+            stage_timings,
+            resolve_identity_pending_articles,
+        )
         ingest_stats = {
             "fetch": fetch_stats,
             "cleanup": cleanup_stats,
@@ -1806,7 +1862,7 @@ def run_safe_cycle_only():
         return result
 
     print("\n[1/7] fetch")
-    fetch_stats = run_fetch_only()
+    fetch_stats = _run_timed_jobs_stage("fetch", stage_timings, run_fetch_only)
     source_warnings_count = len(fetch_stats.get("failed_sources") or [])
     zero_link_warnings_count = len(fetch_stats.get("zero_link_sources") or [])
     source_warnings_count += zero_link_warnings_count
@@ -1814,9 +1870,16 @@ def run_safe_cycle_only():
         print(f"Source warnings recorded: {source_warnings_count}")
     if zero_link_warnings_count:
         print(f"Zero-link source warnings recorded: {zero_link_warnings_count}")
-    cleanup_stats = archive_expired_queue_articles()
-    visual_retry_stats = (
-        (retry_pending_job_document_renders(max_articles=1))
+    cleanup_stats = _run_timed_jobs_stage(
+        "cleanup",
+        stage_timings,
+        archive_expired_queue_articles,
+    )
+    visual_retry_stats = _run_timed_jobs_stage(
+        "visual_retry",
+        stage_timings,
+        retry_pending_job_document_renders,
+        max_articles=1,
     )
     if cleanup_stats["expired_archived"] or cleanup_stats["missing_date_archived"]:
         print(
@@ -1826,10 +1889,19 @@ def run_safe_cycle_only():
         )
 
     print("\n[2/7] score")
-    score_stats = run_score_only()
+    score_stats = _run_timed_jobs_stage(
+        "score",
+        stage_timings,
+        run_score_only,
+    )
 
     print("\n[3/7] enrich")
-    enrich_stats = run_enrich_only(force=False)
+    enrich_stats = _run_timed_jobs_stage(
+        "enrich",
+        stage_timings,
+        run_enrich_only,
+        force=False,
+    )
     enrichment_failed_count = int(enrich_stats.get("failed") or 0)
     enrichment_weak_count = int(enrich_stats.get("weak") or 0)
     enrichment_failed_count += enrichment_weak_count
@@ -1843,7 +1915,11 @@ def run_safe_cycle_only():
     )
 
     identity_stats = {}
-    identity_stats = resolve_identity_pending_articles()
+    identity_stats = _run_timed_jobs_stage(
+        "identity",
+        stage_timings,
+        resolve_identity_pending_articles,
+    )
     circuit = ai_circuit_status()
     if circuit.get("global_open"):
         reason = (
@@ -2060,6 +2136,8 @@ def run_safe_cycle_only():
             reason=error.__class__.__name__,
         )
     ai_elapsed = time.perf_counter() - ai_started
+    stage_timings["ai"] = round(ai_elapsed, 3)
+    log_event("jobs_stage_timing", stage="ai", elapsed_seconds=stage_timings["ai"])
     print(f"AI finished in {ai_elapsed:.1f}s", flush=True)
     if ai_elapsed > 20:
         print(f"Heartbeat: AI rewrite took {ai_elapsed:.1f}s", flush=True)
@@ -2142,6 +2220,8 @@ def run_safe_cycle_only():
     publish_started = time.perf_counter()
     draft_result = publish_one_blogger_post(target_article_id=selected_id, mode=publish_mode)
     publish_elapsed = time.perf_counter() - publish_started
+    stage_timings["blogger"] = round(publish_elapsed, 3)
+    log_event("jobs_stage_timing", stage="blogger", elapsed_seconds=stage_timings["blogger"])
     print(f"Blogger publish finished in {publish_elapsed:.1f}s", flush=True)
     if publish_elapsed > 20:
         print(f"Heartbeat: Blogger publish took {publish_elapsed:.1f}s", flush=True)
@@ -2175,6 +2255,7 @@ def run_safe_cycle_only():
     ):
         print("\n[8/8] post-facebook", flush=True)
         print("Promoting the newly published Jobs article", flush=True)
+        facebook_started = time.perf_counter()
         try:
             facebook_result = post_one_article_to_facebook(
                 target_article_id=selected_id,
@@ -2184,6 +2265,11 @@ def run_safe_cycle_only():
             facebook_result = {"posted": False, "deferred": True, "error_type": social_error.__class__.__name__}
             log_event("jobs_social_after_publish_warning", article_id=selected_id,
                       error_type=social_error.__class__.__name__)
+        finally:
+            facebook_elapsed = round(time.perf_counter() - facebook_started, 3)
+            stage_timings["facebook"] = facebook_elapsed
+            log_event("jobs_stage_timing", stage="facebook", elapsed_seconds=facebook_elapsed)
+            print(f"Facebook stage finished in {facebook_elapsed:.1f}s", flush=True)
         print_facebook_post_summary(facebook_result)
         article = _find_article_by_id(selected_id)
     elif publish_mode == "draft":
@@ -2271,6 +2357,8 @@ def run_safe_cycle_only():
         "enrichment_failed_count": enrichment_failed_count,
         "target_article_id": selected_id,
         "step_reached": "publish",
+        "stage_timings": stage_timings,
+        "cycle_seconds": round(time.perf_counter() - cycle_started, 3),
         "reason": stopped_reason,
     }
 

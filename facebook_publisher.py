@@ -340,6 +340,14 @@ def _recover_jobs_facebook_queue_from_memory(queue, now=None, max_age_days=30):
             "facebook_retry_after_epoch": record.get("facebook_retry_after_epoch") or 0,
             "facebook_comment_retry_after_epoch": record.get("facebook_comment_retry_after_epoch") or 0,
             "facebook_delivery_uncertain_at": record.get("facebook_delivery_uncertain_at", ""),
+            "facebook_attempt_caption": record.get("facebook_attempt_caption", ""),
+            "facebook_attempt_fingerprint": record.get("facebook_attempt_fingerprint", ""),
+            "facebook_attempt_started_at": record.get("facebook_attempt_started_at", ""),
+            "facebook_delivery_reconcile_checks": int(record.get("facebook_delivery_reconcile_checks") or 0),
+            "facebook_delivery_reconcile_last_checked_at": record.get("facebook_delivery_reconcile_last_checked_at", ""),
+            "facebook_comment_uncertain_at": record.get("facebook_comment_uncertain_at", ""),
+            "facebook_comment_reconcile_checks": int(record.get("facebook_comment_reconcile_checks") or 0),
+            "facebook_comment_reconcile_last_checked_at": record.get("facebook_comment_reconcile_last_checked_at", ""),
             "facebook_image_status": record.get("facebook_image_status", ""),
             "facebook_error": record.get("facebook_error", ""),
             "facebook_queue_reason": "campaign_memory_recovery",
@@ -1004,6 +1012,48 @@ def _post_to_graph(path, payload):
     )
     return data
 
+
+def _get_from_graph(path, params):
+    url = f"{FACEBOOK_GRAPH_API_URL.rstrip('/')}/{path.lstrip('/')}"
+    started = time.perf_counter()
+    log_event("facebook_graph_read_start", path=path)
+    try:
+        response = requests.get(url, params=params, timeout=30)
+    except (requests.Timeout, requests.ConnectionError) as error:
+        log_event(
+            "facebook_graph_read_end",
+            path=path,
+            status="network-error",
+            error=error.__class__.__name__,
+            elapsed_ms=elapsed_ms(started),
+        )
+        raise RuntimeError(
+            f"Facebook Graph read failed after {error.__class__.__name__}."
+        ) from error
+    if response.status_code >= 400:
+        error_text = _redact_facebook_error(response.text[:300])
+        log_event(
+            "facebook_graph_read_end",
+            path=path,
+            status=response.status_code,
+            error=error_text,
+            elapsed_ms=elapsed_ms(started),
+        )
+        raise RuntimeError(
+            f"Facebook Graph read error {response.status_code}: {error_text}"
+        )
+    data = response.json()
+    if not isinstance(data, dict):
+        raise RuntimeError("Facebook Graph read returned an unexpected response.")
+    log_event(
+        "facebook_graph_read_end",
+        path=path,
+        status=response.status_code,
+        elapsed_ms=elapsed_ms(started),
+    )
+    return data
+
+
 def _post_photo_file(path, payload, image_path):
     url = f"{FACEBOOK_GRAPH_API_URL.rstrip('/')}/{path.lstrip('/')}"
     started = time.perf_counter()
@@ -1613,6 +1663,15 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             article_id=article.get("id"),
             count=len(blueprint["hashtags"]),
         )
+        # Persist the exact remote intent before the POST. If the connection
+        # drops after Facebook accepts the upload, a later run can reconcile the
+        # Page feed instead of blindly creating a duplicate.
+        article["facebook_attempt_caption"] = blueprint["caption"]
+        article["facebook_attempt_fingerprint"] = blueprint.get("fingerprint", "")
+        article["facebook_attempt_started_at"] = _now_iso()
+        _persist_jobs_social_state(article)
+        save_article_queue(queue)
+
         facebook_post_id, post_type, image_result = _publish_facebook_post(article, blueprint)
         if not facebook_post_id:
             raise RuntimeError("Facebook Graph API did not return a post id.")
@@ -1620,6 +1679,9 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         article["facebook_status"] = "posted"
         article["facebook_post_id"] = facebook_post_id
         article["facebook_posted_at"] = _now_iso()
+        article.pop("facebook_delivery_uncertain_at", None)
+        article.pop("facebook_delivery_reconcile_checks", None)
+        article.pop("facebook_delivery_reconcile_last_checked_at", None)
         _clear_facebook_failure_state(article)
         article["facebook_post_type"] = post_type
         article["facebook_image_status"] = "posted" if image_result.get("ok") else "failed_text_only"
@@ -1661,6 +1723,7 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             )
         except FacebookDeliveryUncertain as comment_error:
             article["facebook_status"] = "posted_comment_uncertain"
+            article["facebook_comment_uncertain_at"] = _now_iso()
             article["facebook_error"] = f"First comment delivery uncertain: {comment_error}"
             log_event(
                 "facebook_comment_success",
@@ -1783,6 +1846,255 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
         return result
 
 
+def _facebook_caption_key(value):
+    text = re.sub(
+        r"[\u200e\u200f\u202a-\u202e\u2066-\u2069]",
+        "",
+        unescape(str(value or "")),
+    )
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _facebook_uncertain_age_seconds(article, now=None):
+    now = now or datetime.now(timezone.utc)
+    started = (
+        article.get("facebook_delivery_uncertain_at")
+        or article.get("facebook_attempt_started_at")
+    )
+    parsed = parse_job_date(started)
+    if not parsed:
+        return 0
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return max(0, int((now.astimezone(timezone.utc) - parsed.astimezone(timezone.utc)).total_seconds()))
+
+
+def reconcile_uncertain_facebook_delivery(article, now=None):
+    """Resolve an uncertain photo POST without ever blindly repeating it."""
+    if not isinstance(article, dict) or article.get("facebook_status") != "delivery_uncertain":
+        return {"checked": False, "resolved": False}
+    if article.get("facebook_post_id"):
+        article["facebook_status"] = "posted_comment_failed"
+        return {"checked": False, "resolved": True, "post_id": article.get("facebook_post_id")}
+
+    target_caption = _facebook_caption_key(
+        article.get("facebook_attempt_caption")
+        or article.get("facebook_post_text")
+    )
+    if not target_caption:
+        return {
+            "checked": False,
+            "resolved": False,
+            "error": "Missing persisted Facebook attempt caption; refusing blind retry.",
+        }
+    if not FACEBOOK_PAGE_ID or not FACEBOOK_PAGE_ACCESS_TOKEN:
+        return {
+            "checked": False,
+            "resolved": False,
+            "error": "Facebook credentials unavailable for delivery reconciliation.",
+        }
+
+    now = now or datetime.now(timezone.utc)
+    data = _get_from_graph(
+        f"{FACEBOOK_PAGE_ID}/posts",
+        {
+            "access_token": FACEBOOK_PAGE_ACCESS_TOKEN,
+            "fields": "id,message,created_time",
+            "limit": "50",
+        },
+    )
+    matches = []
+    for row in data.get("data") or []:
+        if not isinstance(row, dict):
+            continue
+        if _facebook_caption_key(row.get("message")) != target_caption:
+            continue
+        created = parse_job_date(row.get("created_time"))
+        if created and created.tzinfo is None:
+            created = created.replace(tzinfo=timezone.utc)
+        uncertain_at = parse_job_date(
+            article.get("facebook_delivery_uncertain_at")
+            or article.get("facebook_attempt_started_at")
+        )
+        if uncertain_at and uncertain_at.tzinfo is None:
+            uncertain_at = uncertain_at.replace(tzinfo=timezone.utc)
+        if created and uncertain_at:
+            delta = abs(
+                (created.astimezone(timezone.utc) - uncertain_at.astimezone(timezone.utc)).total_seconds()
+            )
+            if delta > 30 * 60:
+                continue
+        matches.append(row)
+
+    article["facebook_delivery_reconcile_last_checked_at"] = now.isoformat()
+    if len(matches) == 1 and str(matches[0].get("id") or "").strip():
+        row = matches[0]
+        article["facebook_post_id"] = str(row["id"]).strip()
+        article["facebook_posted_at"] = (
+            str(row.get("created_time") or "").strip()
+            or article.get("facebook_delivery_uncertain_at")
+            or now.isoformat()
+        )
+        article["facebook_status"] = "posted_comment_failed"
+        article["facebook_post_type"] = article.get("facebook_post_type") or "photo_reconciled"
+        article["facebook_image_status"] = "posted"
+        article["facebook_error"] = "Recovered Facebook post after uncertain delivery; first comment pending."
+        article.pop("facebook_delivery_uncertain_at", None)
+        article.pop("facebook_delivery_reconcile_checks", None)
+        _clear_facebook_failure_state(article)
+        _clear_comment_failure_state(article)
+        _persist_jobs_social_state(article)
+        log_event(
+            "facebook_delivery_reconciled",
+            article_id=article.get("id"),
+            facebook_post_id=article.get("facebook_post_id"),
+        )
+        return {
+            "checked": True,
+            "resolved": True,
+            "post_id": article.get("facebook_post_id"),
+        }
+
+    checks = int(article.get("facebook_delivery_reconcile_checks") or 0) + 1
+    article["facebook_delivery_reconcile_checks"] = checks
+    age_seconds = _facebook_uncertain_age_seconds(article, now=now)
+    if not matches and checks >= 3 and age_seconds >= 20 * 60:
+        _apply_failure(
+            article,
+            RuntimeError(
+                "Facebook Page reconciliation confirmed no matching post after "
+                f"{checks} successful checks over {age_seconds // 60} minutes."
+            ),
+        )
+        article.pop("facebook_delivery_uncertain_at", None)
+        _persist_jobs_social_state(article)
+        return {
+            "checked": True,
+            "resolved": False,
+            "reopened_for_retry": True,
+            "checks": checks,
+        }
+
+    _persist_jobs_social_state(article)
+    return {
+        "checked": True,
+        "resolved": False,
+        "checks": checks,
+        "ambiguous_matches": len(matches),
+    }
+
+
+def _facebook_comment_uncertain_age_seconds(article, now=None):
+    now = now or datetime.now(timezone.utc)
+    started = (
+        article.get("facebook_comment_uncertain_at")
+        or article.get("facebook_posted_at")
+    )
+    parsed = parse_job_date(started)
+    if not parsed:
+        return 0
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    return max(
+        0,
+        int(
+            (
+                now.astimezone(timezone.utc)
+                - parsed.astimezone(timezone.utc)
+            ).total_seconds()
+        ),
+    )
+
+
+def reconcile_uncertain_facebook_comment(article, now=None):
+    """Resolve a missing/uncertain first comment before any retry is allowed."""
+    if not isinstance(article, dict):
+        return {"checked": False, "resolved": False}
+    if article.get("facebook_comment_id"):
+        return {"checked": False, "resolved": True}
+    if article.get("facebook_status") not in {"posted", "posted_comment_uncertain"}:
+        return {"checked": False, "resolved": False}
+
+    post_id = str(article.get("facebook_post_id") or "").strip()
+    blogger_url = _blogger_post_url(article)
+    if not post_id or not blogger_url:
+        return {"checked": False, "resolved": False}
+    if not FACEBOOK_PAGE_ACCESS_TOKEN:
+        return {
+            "checked": False,
+            "resolved": False,
+            "error": "Facebook credentials unavailable for comment reconciliation.",
+        }
+
+    now = now or datetime.now(timezone.utc)
+    target = _facebook_caption_key(_first_comment_text(blogger_url))
+    data = _get_from_graph(
+        f"{post_id}/comments",
+        {
+            "access_token": FACEBOOK_PAGE_ACCESS_TOKEN,
+            "fields": "id,message,created_time",
+            "limit": "50",
+        },
+    )
+    matches = [
+        row
+        for row in (data.get("data") or [])
+        if isinstance(row, dict)
+        and _facebook_caption_key(row.get("message")) == target
+        and str(row.get("id") or "").strip()
+    ]
+
+    article["facebook_comment_reconcile_last_checked_at"] = now.isoformat()
+    if len(matches) == 1:
+        row = matches[0]
+        article["facebook_comment_id"] = str(row["id"]).strip()
+        article["facebook_status"] = "posted"
+        article.pop("facebook_comment_uncertain_at", None)
+        article.pop("facebook_comment_reconcile_checks", None)
+        article.pop("facebook_error", None)
+        _clear_comment_failure_state(article)
+        _persist_jobs_social_state(article)
+        log_event(
+            "facebook_comment_reconciled",
+            article_id=article.get("id"),
+            facebook_post_id=post_id,
+            comment_id=article.get("facebook_comment_id"),
+        )
+        return {
+            "checked": True,
+            "resolved": True,
+            "comment_id": article.get("facebook_comment_id"),
+        }
+
+    checks = int(article.get("facebook_comment_reconcile_checks") or 0) + 1
+    article["facebook_comment_reconcile_checks"] = checks
+    age_seconds = _facebook_comment_uncertain_age_seconds(article, now=now)
+    if not matches and checks >= 3 and age_seconds >= 20 * 60:
+        error = RuntimeError(
+            "Facebook comment reconciliation confirmed no matching first comment "
+            f"after {checks} successful checks over {age_seconds // 60} minutes."
+        )
+        article["facebook_status"] = "posted_comment_failed"
+        article["facebook_error"] = str(error)
+        _schedule_comment_retry(article, error)
+        article.pop("facebook_comment_uncertain_at", None)
+        _persist_jobs_social_state(article)
+        return {
+            "checked": True,
+            "resolved": False,
+            "reopened_for_retry": True,
+            "checks": checks,
+        }
+
+    _persist_jobs_social_state(article)
+    return {
+        "checked": True,
+        "resolved": False,
+        "checks": checks,
+        "ambiguous_matches": len(matches),
+    }
+
+
 def _facebook_backfill_candidates(articles):
     new_post_candidates = [
         article
@@ -1896,6 +2208,64 @@ def drain_scheduled_facebook():
     stats["recovered"] = sync_stats.get("recovered", 0)
     stats["expired"] = sync_stats.get("expired", 0)
     stats["revived"] = sync_stats.get("revived", 0)
+
+    uncertain = [
+        article
+        for article in queue.get("articles", [])
+        if article.get("facebook_status") == "delivery_uncertain"
+        and not article.get("facebook_post_id")
+    ]
+    if uncertain and _is_configured():
+        try:
+            reconciliation = reconcile_uncertain_facebook_delivery(uncertain[0])
+            stats["uncertain_checked"] = int(bool(reconciliation.get("checked")))
+            stats["uncertain_resolved"] = int(bool(reconciliation.get("resolved")))
+            stats["uncertain_reopened"] = int(bool(reconciliation.get("reopened_for_retry")))
+            save_article_queue(queue)
+        except Exception as error:
+            stats["uncertain_reconcile_error"] = error.__class__.__name__
+            log_event(
+                "facebook_delivery_reconcile_warning",
+                article_id=uncertain[0].get("id"),
+                error=error.__class__.__name__,
+            )
+
+    uncertain_comments = [
+        article
+        for article in queue.get("articles", [])
+        if article.get("facebook_post_id")
+        and not article.get("facebook_comment_id")
+        and article.get("facebook_status") in {"posted", "posted_comment_uncertain"}
+    ]
+    if uncertain_comments and _is_configured():
+        try:
+            comment_reconciliation = reconcile_uncertain_facebook_comment(
+                uncertain_comments[0]
+            )
+            stats["comment_uncertain_checked"] = int(
+                bool(comment_reconciliation.get("checked"))
+            )
+            stats["comment_uncertain_resolved"] = int(
+                bool(comment_reconciliation.get("resolved"))
+            )
+            stats["comment_uncertain_reopened"] = int(
+                bool(comment_reconciliation.get("reopened_for_retry"))
+            )
+            save_article_queue(queue)
+            if comment_reconciliation.get("resolved"):
+                archive_published_queue_article(
+                    article_id=uncertain_comments[0].get("id", ""),
+                    article_url=uncertain_comments[0].get("url", ""),
+                    reason="facebook_post_and_comment_reconciled",
+                )
+        except Exception as error:
+            stats["comment_uncertain_reconcile_error"] = error.__class__.__name__
+            log_event(
+                "facebook_comment_reconcile_warning",
+                article_id=uncertain_comments[0].get("id"),
+                error=error.__class__.__name__,
+            )
+
     pending, comments = _facebook_backfill_candidates(queue.get("articles", []))
     stats["pending"] = len(pending)
 

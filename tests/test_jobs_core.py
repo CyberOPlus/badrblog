@@ -2890,5 +2890,42 @@ class JobsCoreTests(unittest.TestCase):
         self.assertGreaterEqual(resolved["company_logo_confidence"], 99)
 
 
+    def test_discovery_seen_memory_rolls_over_for_a_new_calendar_year(self):
+        record = {
+            "job_seen_ids": ["url:https://example.com/jobs/reused"],
+            "job_seen_ids_year": "2025",
+        }
+        now = datetime(2026, 1, 1, 0, 1, tzinfo=timezone.utc)
+        with patch.object(scraper, "source_crawl_record", return_value=record):
+            known = scraper._source_known_discovery_ids(
+                "https://example.com/jobs",
+                now=now,
+            )
+            merged = scraper._merge_source_seen_ids(
+                "https://example.com/jobs",
+                [{"url": "https://example.com/jobs/new"}],
+                now=now,
+            )
+
+        self.assertEqual(known, set())
+        self.assertIn("url:https://example.com/jobs/new", merged)
+        self.assertNotIn("url:https://example.com/jobs/reused", merged)
+
+    def test_discovery_seen_memory_is_retained_inside_same_calendar_year(self):
+        record = {
+            "job_seen_ids": ["url:https://example.com/jobs/reused"],
+            "job_seen_ids_year": "2026",
+        }
+        now = datetime(2026, 10, 1, 0, 1, tzinfo=timezone.utc)
+        with patch.object(scraper, "source_crawl_record", return_value=record):
+            known = scraper._source_known_discovery_ids(
+                "https://example.com/jobs",
+                now=now,
+            )
+
+        self.assertEqual(known, {"url:https://example.com/jobs/reused"})
+
+
+
 if __name__ == "__main__":
     unittest.main()

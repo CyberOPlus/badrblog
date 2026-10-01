@@ -351,8 +351,14 @@ def _reject_numeric_new_job_permalink(service, post, article):
         _execute_blogger_request(request, "delete numeric-permalink Jobs post", safe_to_retry=True)
     except Exception as error:
         delete_error = str(error)
-    for key in ("blogger_post_id", "blogger_post_url", "blogger_draft_id", "blogger_draft_url"):
-        article.pop(key, None)
+    if delete_error:
+        # The remote post still exists. Keep its authoritative identity so a
+        # later retry can only update/reconcile this same Blogger post.
+        article["blogger_post_id"] = str(post.get("id") or "")
+        article["blogger_post_url"] = url
+    else:
+        for key in ("blogger_post_id", "blogger_post_url", "blogger_draft_id", "blogger_draft_url"):
+            article.pop(key, None)
     log_event(
         "job_numeric_permalink_rejected",
         article_id=article.get("id"),
@@ -362,7 +368,8 @@ def _reject_numeric_new_job_permalink(service, post, article):
     )
     if delete_error:
         raise RuntimeError(
-            "Blogger generated a numeric Jobs permalink and cleanup failed: "
+            "Blogger generated a numeric Jobs permalink and cleanup failed; "
+            "the remote post identity was preserved for reconciliation: "
             + delete_error
         )
     raise RuntimeError(
@@ -1151,7 +1158,8 @@ def _apply_jobposting_schema(service, post, article, mode):
     return updated
 
 
-def _apply_success(article, post, mode):
+def _apply_remote_post_identity(article, post, mode):
+    """Persist the authoritative Blogger identity before optional follow-up work."""
     publish_mode = _effective_publish_mode(mode)
     now = _now_iso()
     article["blogger_post_id"] = post.get("id", "")
@@ -1160,9 +1168,9 @@ def _apply_success(article, post, mode):
 
     if publish_mode == "live":
         article["status"] = "published"
-        article["published_at"] = now
+        article["published_at"] = article.get("published_at") or now
         article["publish_status"] = "published"
-        if not article.get('facebook_post_id'):
+        if not article.get("facebook_post_id"):
             current_facebook_status = str(article.get("facebook_status") or "").strip()
             if current_facebook_status in {"", "not_selected", "facebook_expired"}:
                 article["facebook_status"] = "facebook_pending"
@@ -1171,22 +1179,76 @@ def _apply_success(article, post, mode):
                 article.pop("facebook_selection_reason", None)
                 article.pop("facebook_expired_at", None)
                 article.pop("facebook_expired_reason", None)
-        cache_stats = record_published_article(article, article.get("blogger_post_url", ""))
-        article["internal_cache_saved"] = bool(cache_stats.get("saved"))
-        indexing = notify_job_url(article.get("blogger_post_url", ""), article=article)
-        article["google_indexing_status"] = indexing.get("status", "disabled")
-        if indexing.get("error"):
-            article["google_indexing_error"] = indexing["error"]
-        else:
-            article.pop("google_indexing_error", None)
     else:
         article["status"] = "draft_created"
-        article["draft_created_at"] = now
+        article["draft_created_at"] = article.get("draft_created_at") or now
         article["blogger_draft_id"] = post.get("id", "")
         article["blogger_draft_url"] = post.get("url", "")
         article["publish_status"] = "draft_created"
 
     article.pop("publish_error", None)
+
+
+def _apply_jobposting_schema_safely(service, post, article, mode):
+    try:
+        updated = _apply_jobposting_schema(service, post, article, mode)
+        article.pop("jobposting_schema_error", None)
+        return updated
+    except Exception as error:
+        article["jobposting_schema_status"] = "retry_pending"
+        article["jobposting_schema_error"] = str(error)[:1000]
+        # Reuse the existing same-post sync worker: it updates only the saved
+        # Blogger post ID, never inserts another article, and retries the schema.
+        _mark_visual_sync_retry(article, f"JobPosting schema sync failed: {error}")
+        log_event(
+            "jobposting_schema_deferred",
+            article_id=article.get("id"),
+            post_id=article.get("blogger_post_id") or post.get("id"),
+            error=error.__class__.__name__,
+        )
+        return post
+
+
+def _apply_success(article, post, mode):
+    publish_mode = _effective_publish_mode(mode)
+    _apply_remote_post_identity(article, post, mode)
+
+    if publish_mode == "live":
+        try:
+            cache_stats = record_published_article(
+                article,
+                article.get("blogger_post_url", ""),
+            )
+            article["internal_cache_saved"] = bool(cache_stats.get("saved"))
+            article.pop("internal_cache_error", None)
+        except Exception as error:
+            article["internal_cache_saved"] = False
+            article["internal_cache_error"] = str(error)[:1000]
+            log_event(
+                "job_memory_publish_record_deferred",
+                article_id=article.get("id"),
+                error=error.__class__.__name__,
+            )
+
+        try:
+            indexing = notify_job_url(
+                article.get("blogger_post_url", ""),
+                article=article,
+            )
+            article["google_indexing_status"] = indexing.get("status", "disabled")
+            if indexing.get("error"):
+                article["google_indexing_error"] = indexing["error"]
+            else:
+                article.pop("google_indexing_error", None)
+        except Exception as error:
+            article["google_indexing_status"] = "retry_pending"
+            article["google_indexing_error"] = str(error)[:1000]
+            log_event(
+                "google_indexing_deferred",
+                article_id=article.get("id"),
+                error=error.__class__.__name__,
+            )
+
     log_event(
         "blogger_publish_result",
         status="success",
@@ -1542,7 +1604,9 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
                     post_id=saved_id,
                     url=post.get("url", ""),
                 )
-            post = _apply_jobposting_schema(service, post, article, publish_mode)
+            _apply_remote_post_identity(article, post, publish_mode)
+            save_article_queue(queue)
+            post = _apply_jobposting_schema_safely(service, post, article, publish_mode)
             _apply_success(article, post, publish_mode)
             article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "updated_existing"
             save_article_queue(queue)
@@ -1588,7 +1652,9 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
                     post_id=post_to_update.get("id"),
                     url=post.get("url", ""),
                 )
-            post = _apply_jobposting_schema(service, post, article, publish_mode)
+            _apply_remote_post_identity(article, post, publish_mode)
+            save_article_queue(queue)
+            post = _apply_jobposting_schema_safely(service, post, article, publish_mode)
             _apply_success(article, post, publish_mode)
             article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "updated_existing"
             save_article_queue(queue)
@@ -1644,7 +1710,11 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
                     raise
             break
 
-        post = _apply_jobposting_schema(service, post, article, publish_mode)
+        # Blogger has already accepted this post. Checkpoint its remote identity
+        # before any optional schema/cache/indexing work can fail.
+        _apply_remote_post_identity(article, post, publish_mode)
+        save_article_queue(queue)
+        post = _apply_jobposting_schema_safely(service, post, article, publish_mode)
         _apply_success(article, post, publish_mode)
         article["draft_update_status" if publish_mode == "draft" else "live_update_status"] = "created_new"
         save_article_queue(queue)
