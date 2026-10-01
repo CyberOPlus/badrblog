@@ -113,6 +113,115 @@ def validate_jobs_facebook_post(text, article=None):
     return text
 
 
+_NOTICE_STAGE_LABELS = {
+    "vacancy": "فرصة توظيف",
+    "competition": "مباراة توظيف",
+    "candidate_list": "لائحة مترشحين",
+    "results": "نتائج مباراة",
+    "final_results": "النتائج النهائية لمباراة",
+    "update": "مستجد بخصوص إعلان توظيف",
+}
+
+_NOTICE_HASHTAGS = {
+    "vacancy": ("#وظائف", "#فرص_عمل", "#توظيف"),
+    "competition": ("#وظائف", "#مباريات_التوظيف", "#فرص_عمل"),
+    "candidate_list": ("#وظائف", "#مباريات_التوظيف", "#لوائح_المترشحين"),
+    "results": ("#وظائف", "#مباريات_التوظيف", "#نتائج"),
+    "final_results": ("#وظائف", "#مباريات_التوظيف", "#النتائج_النهائية"),
+    "update": ("#وظائف", "#توظيف", "#مستجدات"),
+}
+
+
+def _clean_published_social_fact(value, max_chars=260):
+    text = _strip_bidi(value)
+    text = re.sub(r"<[^>]+>", " ", text)
+    text = re.sub(r"https?://\S+", "", text)
+    text = re.sub(r"\s+", " ", text).strip(" ،؛;.-")
+    return text[:max(1, int(max_chars))].strip()
+
+
+def _deterministic_jobs_facebook_post(article):
+    """Build safe social copy only from already-published verified fields.
+
+    This is a last-resort formatting fallback when social AI returns malformed
+    JSON or otherwise fails locally. It never runs after a Graph delivery
+    attempt, so it cannot create a duplicate remote post.
+    """
+    article = dict(article or {})
+    package = article.get("ai_input_package") or {}
+    notice_type = str(
+        article.get("job_notice_type")
+        or package.get("job_notice_type")
+        or "vacancy"
+    ).strip().lower()
+    stage = _NOTICE_STAGE_LABELS.get(notice_type, "إعلان توظيف")
+
+    company = _clean_published_social_fact(
+        article.get("job_company") or package.get("job_company") or "",
+        120,
+    )
+    title = _clean_published_social_fact(
+        article.get("seo_title") or article.get("title") or "",
+        180,
+    )
+    description = _clean_published_social_fact(
+        article.get("seo_description") or "",
+        220,
+    )
+    location = _clean_published_social_fact(
+        article.get("job_location") or package.get("job_location") or "",
+        100,
+    )
+    positions = _clean_published_social_fact(
+        article.get("job_number_of_positions")
+        or package.get("job_number_of_positions")
+        or "",
+        20,
+    )
+    deadline = _clean_published_social_fact(
+        article.get("job_deadline_display")
+        or article.get("job_deadline")
+        or package.get("job_deadline_display")
+        or package.get("job_deadline")
+        or "",
+        80,
+    )
+
+    if company:
+        hook = f"{stage} لدى {company}: إليك أبرز التفاصيل الموثقة التي تهم المترشحين."
+    else:
+        hook = f"إليك أبرز التفاصيل الموثقة حول {stage} المتاح ضمن هذا الإعلان."
+
+    lines = [hook]
+    if description:
+        lines.append(description.rstrip("。.!؟") + ".")
+    elif title:
+        lines.append(f"يتعلق الإعلان بـ {title}.")
+
+    facts = []
+    if location:
+        facts.append(f"المكان {location}")
+    if positions and positions not in {"0", "0.0"}:
+        facts.append(f"عدد المناصب {positions}")
+    if deadline and notice_type in {"vacancy", "competition"}:
+        facts.append(f"آخر أجل للترشيح {deadline}")
+    if facts:
+        lines.append("، ".join(facts) + ".")
+
+    lines.append(
+        "للاطلاع على التفاصيل الكاملة والوثائق المرتبطة بالإعلان، "
+        "تجد الرابط في أول تعليق 👇."
+    )
+    hashtags = _NOTICE_HASHTAGS.get(
+        notice_type,
+        ("#وظائف", "#فرص_عمل", "#توظيف"),
+    )
+    lines.append(" ".join(hashtags))
+
+    text = "\n".join(line for line in lines if line.strip())
+    return validate_jobs_facebook_post(text, article=article)
+
+
 def generate_jobs_facebook_post(article):
     """Generate Facebook copy only after a successful live Blogger publish."""
     if not article or article.get("publish_status") != "published" or not article.get("blogger_post_url"):
@@ -150,4 +259,23 @@ def generate_jobs_facebook_post(article):
             if attempt < SOCIAL_MAX_ATTEMPTS:
                 prompt = _social_prompt(article, previous_error=str(error))
 
-    raise RuntimeError(f"Facebook social AI failed: {last_error}")
+    try:
+        facebook_post_text = _deterministic_jobs_facebook_post(article)
+    except Exception as fallback_error:
+        raise RuntimeError(
+            f"Facebook social AI failed: {last_error}; "
+            f"deterministic fallback failed: {fallback_error}"
+        ) from fallback_error
+
+    log_event(
+        "facebook_social_ai_fallback_used",
+        article_id=article.get("id"),
+        attempts=SOCIAL_MAX_ATTEMPTS,
+        reason=last_error.__class__.__name__ if last_error else "",
+    )
+    return {
+        "facebook_post_text": facebook_post_text,
+        "provider": "deterministic:verified-published-article",
+        "attempts": SOCIAL_MAX_ATTEMPTS,
+        "fallback": True,
+    }
