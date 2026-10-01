@@ -1639,6 +1639,8 @@ class JobsCoreTests(unittest.TestCase):
     def test_low_ranking_score_does_not_block_verified_job(self):
         now = datetime(2026, 9, 30, 9, 0, tzinfo=timezone.utc)
         sparse = sample_job(
+            job_title="Chargé administratif",
+            official_source=False,
             job_location="",
             job_number_of_positions=1,
             job_published_at="2026-09-30T08:00:00+00:00",
