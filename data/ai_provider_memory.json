@@ -1,14 +1,6 @@
 {
   "avg_time": 2.9511,
   "cooldowns": {
-    "cloudflare:@cf/meta/llama-3.1-8b-instruct-fp8:be6dab2cd8": {
-      "failed_at": "2026-10-01T14:58:20",
-      "key_id": "be6dab2cd8",
-      "model": "@cf/meta/llama-3.1-8b-instruct-fp8",
-      "provider": "cloudflare",
-      "reason": "HTTPSConnectionPool(host='api.cloudflare.com', port=443): Read timed out. (read timeout=90)",
-      "until": 1790867304.9052088
-    },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "failed_at": "2026-10-01T14:44:38",
       "key_id": "fb4fab4ba1",
@@ -172,25 +164,8 @@
     }
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
-  "global_circuit": {
-    "category": "quota",
-    "fingerprint": "fde6cf46cadeff71bc26",
-    "opened_at": "2026-10-01T14:53:22",
-    "providers": [
-      "mistral"
-    ],
-    "reason": "mistral provider failed: mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_c",
-    "until": 1790869102.6121318
-  },
+  "global_circuit": {},
   "provider_circuits": {
-    "cloudflare": {
-      "category": "timeout",
-      "fingerprint": "336d24826c73e91571ce",
-      "opened_at": "2026-10-01T14:58:20",
-      "provider": "cloudflare",
-      "reason": "HTTPSConnectionPool(host='api.cloudflare.com', port=443): Read timed out. (read timeout=90)",
-      "until": 1790867300.3835144
-    },
     "gemini": {
       "category": "outage",
       "fingerprint": "d15c8a5d2460c1216a2b",
