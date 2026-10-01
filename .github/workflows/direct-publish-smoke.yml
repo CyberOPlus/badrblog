@@ -1,6 +1,7 @@
 name: Direct Publish Smoke
 # One-shot verification: direct code path only; never calls auto-cycle.
 # Revision: deterministic required facts + advisory intro overlap.
+# Revision: encoded PDF documents + same-post Blogger repair.
 
 on:
   push:
@@ -325,6 +326,14 @@ jobs:
               "الرابط في أول تعليق.\n\n"
               "#وظائف_المغرب #خريبكة #مباريات_التوظيف #KADEV"
           )
+          article_queue.save_article_queue(queue)
+
+          # A previous smoke attempt already created this test article before
+          # document extraction was fixed. Reuse that exact Blogger identity so
+          # this run updates the same post instead of creating a duplicate.
+          article["blogger_post_id"] = "5081766243361258826"
+          article["blogger_post_url"] = "https://cyberopluss.blogspot.com/2026/10/kadev-competition-iframe-administratif.html"
+          article["publish_status"] = "published"
           article_queue.save_article_queue(queue)
 
           publish = article_draft_publisher.publish_one_blogger_post(target_article_id=target_id, mode="live")
