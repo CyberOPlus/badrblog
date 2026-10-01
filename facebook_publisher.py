@@ -167,7 +167,10 @@ def _mark_facebook_pending(article, now=None, reason="published_to_blogger"):
     article.pop("facebook_error", None)
     article.pop("facebook_expired_at", None)
     article.pop("facebook_expired_reason", None)
-    if current in {"not_selected", "facebook_expired"}:
+    if current in {"failed", "not_selected", "facebook_expired"}:
+        # Once a failed item is explicitly re-opened, its old cooldown no longer
+        # belongs to the pending state. Keeping retry_after here can make the
+        # item immediately ineligible again (especially after a renderer fix).
         _clear_facebook_failure_state(article)
     if changed:
         _persist_jobs_social_state(article)
