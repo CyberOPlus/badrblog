@@ -440,6 +440,52 @@ class JobsRuntimeTests(unittest.TestCase):
         )
         self.assertNotIn("job_deadline", expired_emploi)
 
+    def test_jobs_enrichment_priority_prefers_technical_role_before_general_job(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        technical = {
+            "status": "ready",
+            "job_title": "Développeur Full Stack",
+            "source_published_at": "2026-09-30T08:00:00+00:00",
+            "score": 10,
+            "source_priority": "B",
+        }
+        general = {
+            "status": "ready",
+            "job_title": "Chargé de clientèle",
+            "source_published_at": "2026-09-30T11:00:00+00:00",
+            "score": 100,
+            "source_priority": "S+",
+        }
+        self.assertLess(
+            article_enricher._jobs_enrichment_priority(technical, 1, now=now),
+            article_enricher._jobs_enrichment_priority(general, 0, now=now),
+        )
+
+    def test_jobs_enrichment_skips_known_stale_job_before_fetch(self):
+        article = {
+            "id": "stale-known",
+            "url": "https://example.com/jobs/stale-known",
+            "status": "ready",
+            "category_label": "jobs-morocco",
+            "source_published_at": "2026-09-28T08:00:00+00:00",
+            "job_title": "Développeur Backend",
+        }
+        queue = {"articles": [article]}
+        with (
+            patch.object(article_enricher, "JOBS_MODE", True),
+            patch.object(article_enricher, "JOBS_MAX_PUBLISH_AGE_HOURS", 12),
+            patch.object(article_enricher, "load_article_queue", return_value=queue),
+            patch.object(article_enricher, "save_article_queue") as save,
+            patch.object(article_enricher, "enrich_article") as enrich,
+        ):
+            result = article_enricher.enrich_ready_articles(force=False)
+
+        self.assertEqual(article["status"], "skipped")
+        self.assertIn("outside fresh window", article["skip_reason"])
+        enrich.assert_not_called()
+        save.assert_called_once()
+        self.assertEqual(result["enriched"], 0)
+
     def test_jobs_enrichment_priority_advances_near_deadline_before_score(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         urgent = {
