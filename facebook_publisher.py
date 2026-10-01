@@ -394,6 +394,34 @@ def _persist_jobs_social_state(article):
         return {}
 
 
+def _recovered_application_link_kind(record):
+    """Recover only explicit/strong application semantics from durable memory."""
+    stored = str((record or {}).get("application_link_kind") or "").strip().lower()
+    if stored:
+        return stored
+
+    url = str((record or {}).get("application_url") or "").strip()
+    if not url:
+        return ""
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        return ""
+
+    path = str(parsed.path or "").casefold().rstrip("/")
+    # Legacy records predate application_link_kind persistence. Only classify
+    # unmistakable job-bound application endpoints as direct apply; ordinary
+    # detail pages must not receive the red Apply visual.
+    if (
+        path.endswith("/job/login")
+        or path.endswith("/job/apply")
+        or path.endswith("/apply")
+        or "/apply/" in path
+    ):
+        return "direct_apply"
+    return "official_job_page"
+
+
 def _recover_jobs_facebook_queue_from_memory(queue, now=None, max_age_days=30):
     """Recover Blogger-published Jobs that vanished from the volatile queue."""
     if not JOBS_MODE:
@@ -480,6 +508,8 @@ def _recover_jobs_facebook_queue_from_memory(queue, now=None, max_age_days=30):
             "job_salary": record.get("salary", ""),
             "job_contract_type": record.get("contract_type", ""),
             "job_application_url": record.get("application_url", ""),
+            "job_application_link_kind": _recovered_application_link_kind(record),
+            "job_application_is_specific": bool(record.get("application_is_specific")),
             "job_notice_type": record.get("notice_type") or "vacancy",
             "job_notice_status": record.get("notice_status", ""),
             "job_external_reference": record.get("external_reference", ""),
