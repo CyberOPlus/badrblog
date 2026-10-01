@@ -2415,7 +2415,15 @@ def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_sec
         raise RuntimeError(f"Cloudflare API returned failure: {str(data.get('errors') or '')[:300]}")
     result = data.get("result")
     if isinstance(result, dict):
-        text = str(result.get("response") or result.get("text") or "").strip()
+        payload = result.get("response")
+        if payload in (None, ""):
+            payload = result.get("text")
+        if isinstance(payload, (dict, list)):
+            text = json.dumps(payload, ensure_ascii=False)
+        else:
+            text = str(payload or "").strip()
+    elif isinstance(result, (list, tuple)):
+        text = json.dumps(result, ensure_ascii=False)
     else:
         text = str(result or "").strip()
     if not text:
