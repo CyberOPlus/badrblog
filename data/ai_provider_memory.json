@@ -1,15 +1,6 @@
 {
   "avg_time": 2.9511,
-  "cooldowns": {
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-10-01T11:18:41",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "504 The request timed out. Please try again.",
-      "until": 1790854122.6337192
-    }
-  },
+  "cooldowns": {},
   "failure_fingerprints": {
     "4b929cc3ad78785ed806": {
       "category": "quota",
@@ -44,6 +35,17 @@
       "retry_until": 1790813219.005733,
       "scope": "provider"
     },
+    "b2683a2f011d9f5c4939": {
+      "category": "quality",
+      "count": 1,
+      "first_seen_at": "2026-10-01T11:30:18",
+      "last_seen_at": "2026-10-01T11:30:18",
+      "last_seen_epoch": 1790854218.9255085,
+      "provider": "gemini",
+      "reason": "Jobs article contains an external URL not present in verified application/document evidence",
+      "retry_until": 1790856018.9255085,
+      "scope": "quality"
+    },
     "c10c0e8ef2bd27adc53f": {
       "category": "article_input",
       "count": 3,
@@ -69,27 +71,18 @@
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {},
-  "provider_circuits": {
-    "gemini": {
-      "category": "outage",
-      "fingerprint": "d15c8a5d2460c1216a2b",
-      "opened_at": "2026-10-01T11:18:41",
-      "provider": "gemini",
-      "reason": "504 The request timed out. Please try again.",
-      "until": 1790854121.1752837
-    }
-  },
+  "provider_circuits": {},
   "stats": {
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 13.8186,
+      "avg_time": 14.6138,
       "failures": 2,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-01T11:18:41",
-      "last_success_at": "2026-10-01T11:18:14",
+      "last_success_at": "2026-10-01T11:30:18",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 6,
-      "total_success_time": 82.9117
+      "successes": 8,
+      "total_success_time": 116.9105
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "avg_time": 2.9511,
