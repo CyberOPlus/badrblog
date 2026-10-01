@@ -49,6 +49,17 @@
       "retry_until": 1790809137.42574,
       "scope": "quality"
     },
+    "601f42aeb7164c70a244": {
+      "category": "quality",
+      "count": 1,
+      "first_seen_at": "2026-10-01T14:51:02",
+      "last_seen_at": "2026-10-01T14:51:02",
+      "last_seen_epoch": 1790866262.0266805,
+      "provider": "cloudflare",
+      "reason": "AI article response returned incomplete JSON.",
+      "retry_until": 1790866562.0266805,
+      "scope": "quality"
+    },
     "6a52ff2ce198a0896fe8": {
       "category": "empty",
       "count": 1,
@@ -156,6 +167,15 @@
     }
   },
   "stats": {
+    "cloudflare:@cf/meta/llama-3.1-8b-instruct:be6dab2cd8": {
+      "avg_time": 28.1702,
+      "key_id": "be6dab2cd8",
+      "last_success_at": "2026-10-01T14:51:02",
+      "model": "@cf/meta/llama-3.1-8b-instruct",
+      "provider": "cloudflare",
+      "successes": 2,
+      "total_success_time": 56.3404
+    },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 14.6138,
       "failures": 3,
