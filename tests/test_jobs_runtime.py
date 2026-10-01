@@ -477,6 +477,16 @@ class JobsRuntimeTests(unittest.TestCase):
         )
         self.assertTrue(draft._jobs_quality_error_is_ai_repairable(result.reason))
 
+    def test_official_pdf_page_failures_are_backend_only_not_ai_repairable(self):
+        reasons = (
+            "official PDF pages are not fully rendered yet",
+            "rendered official PDF pages are missing, reordered, duplicated, or unverified",
+            "rendered official PDF pages are duplicated or out of order",
+        )
+        for reason in reasons:
+            with self.subTest(reason=reason):
+                self.assertFalse(draft._jobs_quality_error_is_ai_repairable(reason))
+
     def test_jobs_quality_gate_blocks_internal_reference_in_reader_metadata(self):
         article = {
             "url": "https://official.example/jobs/42",
