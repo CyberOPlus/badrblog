@@ -214,18 +214,6 @@
           "source_note": "Disabled after live GitHub-runner audit: official UN Careers server HTML/API path exposed no usable Job IDs. Re-enable only when a stable public machine-readable endpoint is verified."
         },
         {
-          "name": "UN Careers",
-          "base_url": "https://careers.un.org/jobopening?language=en",
-          "enabled": false,
-          "fetch_limit_per_run": 8,
-          "extractor_type": "auto",
-          "source_priority": "S",
-          "official_source": true,
-          "source_country": "GLOBAL",
-          "source_eligibility": "unknown",
-          "source_note": "Duplicate dynamic listing disabled; official UN Careers RSS remains enabled."
-        },
-        {
           "name": "UNICEF Vacancies",
           "base_url": "https://jobs.unicef.org/cw/en-us/",
           "enabled": true,
