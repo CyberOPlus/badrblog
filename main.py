@@ -1343,9 +1343,9 @@ def run_auto_cycle_logged():
         error = str(exc)
         raise
     finally:
-        # New Blogger articles get their own social attempt first. Backlog and
-        # comment retries still run when discovery/AI fails, and social errors
-        # cannot turn a successful Blogger cycle into a failed cycle.
+        # The independent Facebook queue still drains when discovery/AI fails.
+        # Queue priority (deadline/urgency/score/FIFO) decides which pending
+        # Blogger article is promoted; social errors never fail Blogger work.
         if JOBS_MODE and FACEBOOK_AUTO_POST and _effective_publish_mode() == "live":
             try:
                 social = drain_scheduled_facebook()
@@ -3260,7 +3260,6 @@ def run_safe_cycle_only():
         print("Draining Facebook pending queue", flush=True)
         try:
             facebook_result = post_one_article_to_facebook(
-                target_article_id=selected_id,
                 respect_limits=not _jobs_one_shot_force_run(),
             )
         except Exception as social_error:
