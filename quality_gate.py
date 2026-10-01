@@ -635,10 +635,12 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
 
     internal_metadata_text = f"{seo_title} {seo_description} {body_text}"
     if re.search(
-        r"(?:تاريخ\s+النشر|تاريخ\s+نشر\s+(?:الإعلان|الوظيفة)|"
+        r"(?:تاريخ\s+النشر|تاريخ\s+نشر\s+(?:الإعلان|الوظيفة)|تاريخ\s+الإعلان|"
+        r"(?:تم\s+)?نشر(?:ت)?\s+(?:الإعلان|الوظيفة)\s*(?:بتاريخ)?|"
         r"date\s+de\s+publication|publication\s+date|published\s+on|"
-        r"المرجع|الرقم\s+المرجعي|رمز\s+المباراة|"
-        r"r[eé]f(?:[ée]rence)?\.?\s*[:：#-])",
+        r"المرجع|مرجع\s+(?:الإعلان|الوظيفة|المباراة)|"
+        r"(?:ال)?رقم\s+(?:المرجعي|المرجع|الإعلان|المباراة)|رمز\s+المباراة|"
+        r"r[eé]f(?:[ée]rence)?\.?\s*[:：#-]|reference(?:\s+(?:no\.?|number))?\s*[:：#-])",
         internal_metadata_text,
         flags=re.I,
     ):
