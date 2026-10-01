@@ -933,311 +933,227 @@ Manual Related Posts:
 """.strip()
 
 
-def _build_prompt(package):
-    package = dict(package or {})
-    source_text = _source_text_for_package(package)
-    package["blogger_source_text"] = source_text
-    package_json = json.dumps(package, ensure_ascii=False, indent=2)
-    source_is_rich = _is_rich_input_package(package)
-    return f"""
-You are the dedicated Arabic job-post editor for a Moroccan jobs publication.
+def _clean_prompt_source_text(value):
+    """Remove freshness/identity metadata before it ever reaches the writer."""
+    text = re.sub(r"\\s+", " ", str(value or "")).strip()
+    if not text:
+        return ""
+    date_value = (
+        r"(?:\\d{4}-\\d{2}-\\d{2}|\\d{1,2}[/-]\\d{1,2}[/-]\\d{4}|"
+        r"\\d{1,2}\\s+[A-Za-zÀ-ÿ\\u0600-\\u06FF]+\\s+\\d{4})"
+    )
+    text = re.sub(
+        rf"(?i)(?:تاريخ\\s+النشر|تاريخ\\s+نشر\\s+(?:الإعلان|الوظيفة)|"
+        rf"تاريخ\\s+الإعلان|date\\s+de\\s+publication|publication\\s+date|"
+        rf"published\\s+on)\\s*[:：-]?\\s*{date_value}",
+        " ",
+        text,
+    )
+    text = re.sub(
+        r"(?i)(?:المرجع|الرقم\\s+المرجعي|رمز\\s+المباراة|"
+        r"r[eé]f(?:[ée]rence)?\\.?|reference(?:\\s+(?:no\\.?|number))?)"
+        r"\\s*[:：#-]?\\s*[A-Za-z0-9._/-]{2,60}",
+        " ",
+        text,
+    )
+    return re.sub(r"\\s{2,}", " ", text).strip()
 
-Create a complete, factual, professionally structured Arabic employment article for Moroccan readers
-from the VERIFIED JOB PACKAGE below. The source may be a new vacancy/competition,
-a candidate list, a provisional list, a result, or a final result. The reader must
-understand WHAT changed, WHO it concerns, the verified requirements and duties when available,
-the deadline/status, and the strongest official action or document without having to search elsewhere.
+
+def _compact_prompt_document_texts(rows):
+    compact = []
+    for row in rows or []:
+        if not isinstance(row, dict):
+            continue
+        text = str(row.get("text") or "").strip()
+        if not text:
+            continue
+        # Preserve the OCR evidence itself, only normalize whitespace and remove
+        # duplicate empty space. Do not summarize or drop later pages here.
+        text = "\\n".join(
+            re.sub(r"[ \\t]+", " ", line).strip()
+            for line in text.splitlines()
+            if line.strip()
+        )
+        compact.append({
+            "document_label": str(row.get("document_label") or "").strip(),
+            "page_number": row.get("page_number"),
+            "page_count": row.get("page_count"),
+            "text": text,
+        })
+    return compact
+
+
+def _compact_prompt_package(package):
+    """Keep the full evidence contract while removing transport-only/default noise."""
+    package = dict(package or {})
+    prompt_package = {}
+
+    scalar_keys = (
+        "title", "url", "source_name",
+        "job_title", "job_company", "job_location", "job_country",
+        "job_contract_type", "job_salary",
+        "job_deadline", "job_deadline_display",
+        "job_exam_date", "job_exam_date_display",
+        "job_notice_type", "job_notice_type_hint", "job_notice_type_source",
+        "job_notice_status",
+        "job_application_url", "job_application_link_kind",
+        "job_detail_url", "job_diploma", "job_experience", "job_eligibility",
+    )
+    for key in scalar_keys:
+        value = package.get(key)
+        if value not in (None, "", [], {}):
+            prompt_package[key] = value
+
+    if package.get("official_source") or package.get("job_official_source"):
+        prompt_package["official_source"] = True
+
+    # Zero/False are extractor defaults, not verified negative facts. Only send
+    # positive values so OCR/PDF evidence cannot be contradicted by a placeholder.
+    try:
+        positions = int(package.get("job_number_of_positions") or 0)
+    except (TypeError, ValueError):
+        positions = 0
+    if positions > 0:
+        prompt_package["job_number_of_positions"] = positions
+    for key in ("job_entry_level", "job_remote", "job_visa_sponsorship"):
+        if package.get(key) is True:
+            prompt_package[key] = True
+
+    source_text = _clean_prompt_source_text(
+        package.get("full_article_text")
+        or package.get("content_preview")
+        or package.get("rss_summary")
+        or ""
+    )
+    if source_text:
+        prompt_package["full_article_text"] = source_text
+
+    if package.get("source_tables"):
+        prompt_package["source_tables"] = package.get("source_tables")
+    if package.get("source_tables_truncated"):
+        prompt_package["source_tables_truncated"] = True
+
+    if package.get("job_document_links"):
+        prompt_package["job_document_links"] = package.get("job_document_links")
+    document_texts = _compact_prompt_document_texts(package.get("job_document_texts"))
+    if document_texts:
+        prompt_package["job_document_texts"] = document_texts
+    if package.get("job_document_text_truncated"):
+        prompt_package["job_document_text_truncated"] = True
+
+    manifest = package.get("verified_fact_manifest")
+    if isinstance(manifest, dict) and manifest:
+        prompt_package["verified_fact_manifest"] = manifest
+
+    return prompt_package
+
+
+def _build_prompt(package):
+    prompt_package = _compact_prompt_package(package)
+    package_json = json.dumps(
+        prompt_package,
+        ensure_ascii=False,
+        separators=(",", ":"),
+    )
+    return f"""
+You are the Arabic jobs editor for a Moroccan employment publication.
+Write ONE concise, complete and factual Arabic article from the VERIFIED JOB PACKAGE.
 
 OUTPUT
 - Return JSON only with exactly: title, description, slug, html_content, notice_type.
-- No markdown fences, notes, commentary, or extra keys.
+- No markdown fences, commentary, extra keys, CSS, scripts, schema or widgets.
 
-STRICT ACCURACY
-- Use ONLY facts explicitly present in the verified package or official source text.
-- Never invent or guess salary, deadline, diploma, degree, experience, age, city,
-  country, contract type, number of positions, eligibility, remote status,
-  visa sponsorship, company information, application links, PDF links, email,
-  phone number, requirement, date, or urgency.
-- If a fact is missing, OMIT it. Do not fill missing fields with "غير محدد".
-- job_title from the verified package is the factual source title, but the
-  READER-FACING position name MUST be translated into clear natural Arabic so
-  a Moroccan reader immediately understands which job they are applying for.
-- When the original French/English title is useful for recognition or contains
-  a product/technical term, keep it once in parentheses after the Arabic meaning.
-  Example: مدير تقني ServiceNow (Technical Lead ServiceNow).
-- Never mistranslate a specialized title. Keep product names, certifications,
-  company names and necessary technical terms such as ServiceNow unchanged.
-- Never mention scraping, rewriting, AI, automation, or the source-processing pipeline.
-- Publication dates/source timestamps are INTERNAL freshness metadata. Never show "تاريخ النشر",
-  "تاريخ نشر الإعلان", Date de publication, Published on, or equivalent in the article body.
-- ATS IDs, competition codes, source references and internal/external reference numbers are INTERNAL identity metadata.
-  Never show "المرجع", "رمز المباراة", Référence/Reference/Ref, ats_reference, or job_external_reference in the article body.
-- Use official PDF text to extract only useful job facts for the reader; do not copy the PDF verbatim.
+SOURCE OF TRUTH
+- verified_fact_manifest is the primary contract. Every high-confidence fact marked required_in_output=true must appear accurately.
+- full_article_text, source_tables and job_document_texts are supporting official evidence.
+- job_document_texts contains page-numbered text/OCR from official PDFs. Use every material candidate-facing fact that is explicit there: grades/roles, position breakdowns, specialties, eligibility, diplomas, age limits, tests, required application documents, locations, deadlines, application instructions and current status.
+- Do not copy legal boilerplate or the PDF verbatim. Do not guess from broken OCR. If evidence is unclear, omit the uncertain claim.
+- Never invent salary, count, date, degree, experience, age, location, contract, eligibility, remote status, visa sponsorship, URL, email, phone, requirement or status.
+- A missing field is absent, not "غير محدد". A zero/false extractor default is intentionally omitted from this prompt unless it was positively verified.
 
-LENGTH AND STYLE
-- This is a concise complete JOB ARTICLE, not a social caption, teaser, database row, or keyword-stuffed landing page.
-- Prefer the shortest article that fully answers the reader's practical questions. If the verified evidence is small,
-  keep the article small; do not add generic context just to create more sections.
-- DO NOT target a word count. There is no preferred minimum, maximum, or SEO word-count range for Jobs articles.
-- Let the verified evidence determine the length. A notice with only a few useful facts may be short.
-  A university/public competition with many specialties, positions, tests, conditions, required documents,
-  dates, tables, and official PDF evidence may be much longer.
-- Completeness is defined primarily by verified_fact_manifest. Every high-confidence required fact must be present
-  accurately; medium/heuristic facts are optional supporting context and may be omitted when ambiguous.
-- Use source_tables and job_document_texts to explain explicit relationships, but do not treat every raw row,
-  number, keyword match, or OCR-like fragment as a mandatory fact. Preserve distinctions only when the evidence
-  clearly supports them and they do not conflict with the manifest.
-- Each fact should normally appear once in the clearest place. Prefer a table for structured comparisons,
-  a short list for requirements/documents, and concise prose only when prose adds clarity.
-- Do not inflate a short notice with generic explanations. Do not compress a rich notice merely to keep
-  the article short. Never invent, speculate, repeat, pad, or keyword-stuff.
-- Preserve materially important legal/eligibility conditions when they affect who may apply or how the
-  competition works; omit only genuinely irrelevant navigation, promotional, or repeated boilerplate.
-- Prefer verified facts over promotional language. Never add generic praise such as
-  "الشركة الرائدة", "الشركة المرموقة", "فرصة مميزة", "فرصة رائعة",
-  "أحدث معايير", "حماية قصوى", "مهام حيوية", "تحديات مثيرة", or similar
-  marketing claims. Prefer plain factual wording even when the source itself uses marketing copy.
+INTERNAL METADATA — NEVER READER-FACING
+- Publication/source dates are freshness metadata. Never write "تاريخ النشر", "تاريخ الإعلان", Date de publication, Published on, or equivalent.
+- ATS IDs, competition/source references and internal/external reference numbers are identity metadata. Never write "المرجع", "رمز المباراة", Référence/Reference/Ref, ats_reference, or job_external_reference.
+- Never mention scraping, AI, automation, rewriting or the processing pipeline.
+
+NOTICE TYPE
+Return exactly one: vacancy, competition, candidate_list, results, final_results, update.
+- vacancy: private/company opening accepting applications.
+- competition: public recruitment competition accepting applications.
+- candidate_list: invited/accepted list or written/oral-stage summons.
+- results: non-final/intermediate results.
+- final_results: explicitly final results.
+- update: material update that is not a fresh opening/list/result.
+Treat job_notice_type as a hint unless verified_fact_manifest makes it high-confidence.
+Future boilerplate about eventual results does NOT turn an active competition into results/final_results.
+
+TITLE
+- Make one natural Arabic editorial headline, not a copied database title.
+- Preserve the current page intent. Never turn a list/result/update into a fresh vacancy.
+- Prefer institution/company + event + useful verified role/count when that improves clarity.
+- Never invent or repeat counts, dates, locations or status.
+- Keep it concise but specific; backend accepts 28-150 characters.
+- Never include domains, raw IDs, source references, or long source-chain text.
+
+ARTICLE STYLE
+- This is a concise complete JOB ARTICLE, not a social caption or SEO filler.
+- Prefer the shortest article that answers the practical questions. Do NOT target a word count.
+- No generic career advice, employer history, motivational text, clickbait, emojis, marketing praise or generic conclusion.
+- No copied boilerplate solely to increase word count.
 - Use clear Modern Standard Arabic and short mobile-friendly paragraphs.
-- No filler, generic career advice, profession explanations, corporate history,
-  motivational language, clickbait, emojis, or generic conclusion.
-- Do not write phrases such as "في هذا المقال سنتعرف" or "تابع القراءة".
-TITLE — AI EDITORIAL DECISION
-- YOU are the headline editor. Do not build the headline from a fixed template and do not merely copy or mechanically shorten the raw source title.
-- First understand exactly what this page is: a new vacancy, public recruitment competition, candidate/invited list, written/oral stage, provisional list, results, final results, admission competition, registration notice, or an update to an older campaign.
-- Then write ONE natural Arabic headline in the editorial style of strong Moroccan employment/competition portals: factual, immediately understandable, search-friendly, and human.
-- Preserve the real intent of THIS page. Never turn a list, result, invitation, admission notice, registration notice, or update into a fresh vacancy.
-- Do not force a generic 45-75 character target. Keep the title as concise as possible while preserving useful verified meaning; the accepted backend range is 28-150 characters.
-- New public recruitment competitions: naturally combine the institution with "مباراة توظيف" or "مباريات توظيف" and the clearest verified role/count information.
-  Good style examples:
-  "جامعة سيدي محمد بن عبد الله بفاس – مباريات توظيف تقنيين من الدرجة الثالثة (30 منصبا)"
-  "جامعة عبد المالك السعدي: مباراة توظيف 41 أستاذ محاضر – دورة 14 أكتوبر 2026"
-  "المديرية العامة للوقاية المدنية: مباراة توظيف 04 مهندسي دولة من الدرجة الأولى و12 تقنياً من الدرجة الثالثة"
-- Multi-role campaigns: prefer the verified role breakdown when it is more useful than a vague total. If the total is the clearest distinguishing fact, include it once as "N منصب/منصبا" or "(N منصبا)".
-- Private-sector vacancies: use natural Arabic such as "X توظف ..." or "شركة X تعلن عن توظيف ..." for a specific role. For a verified aggregate campaign, a natural "وظائف X في المغرب: ..." headline may be better.
-- Candidate/invited lists: foreground "لوائح المدعوين" and the verified written/oral stage. Keep the campaign identity and verified position count when useful.
-- Results: foreground "النتائج" or "النتائج النهائية" only when that exact status is verified. Never reuse the old vacancy headline as if applications reopened.
-- Education/admission notices: distinguish clearly between "مباراة ولوج", "التسجيل في", "لوائح المدعوين", and "نتائج" according to the current page.
-- Put the institution/company first when it is the strongest search entity; put the event/status first when the update itself is more important.
-- Preserve a well-known verified acronym such as ONCF, CNSS, ANCFCC, OFPPT or SRM once when useful.
-- Include a verified year/session/date only when it genuinely distinguishes the campaign. Do not force deadlines into titles.
-- Never append domains, slugs, source-site fragments, raw IDs, "الإعلان 1", tracking-like text, or long source chains such as "آخر أجل... تاريخ إجراء المباراة...".
-- Avoid duplicated employer names, duplicated counts, repeated "توظيف", keyword stuffing, database-row syntax, broken Arabic/French concatenation, and clickbait.
-- Never invent a number, role, institution, stage, year, location, date, or status. If verified fields conflict, use only the unambiguous facts.
-EVIDENCE AND NOTICE TYPE
-- verified_fact_manifest is the PRIMARY factual contract for this article.
-- Facts marked confidence="high" and required_in_output=true MUST be preserved accurately.
-- Facts marked confidence="medium" or "heuristic" are supporting context, not mandatory output requirements.
-  Use them only when the underlying evidence is clear; never invent relationships merely to include them.
-- Treat job_notice_type/job_notice_type_hint as a heuristic hint unless the manifest marks notice_type high-confidence.
-- Read the remaining source title, full_article_text, source_tables and job_document_texts as supporting evidence.
-  Raw table rows and regex-like patterns are NOT automatically mandatory facts. Use row/cell relationships only
-  when their meaning is explicit and consistent with the manifest.
-- source_tables may help explain role breakdowns, specialties, tests and counts, but do not flatten unrelated cells
-  into invented relationships and do not force every arbitrary row into the article.
-- job_document_texts are page-numbered text extracted from official PDFs, including OCR for scanned pages.
-  Treat them as official article evidence, not attachment metadata. Bring every material job-specific fact that is
-  explicit there and useful to the candidate into the article once in the clearest place: requirements, duties,
-  specialties, tests, required documents, application instructions, locations, counts, deadlines and current status.
-  Keep the article concise and never copy the PDF verbatim, but do not leave important PDF-only facts stranded only
-  in the file link or rendered page images. If a page still has no extracted/OCR text, do not guess what it says.
-- Decide the final notice_type yourself and return exactly ONE of:
-  "vacancy", "competition", "candidate_list", "results", "final_results", "update".
-- vacancy = a private/company employment opening or ordinary job vacancy accepting applications.
-- competition = a new public recruitment competition/match accepting applications, including multi-position campaigns.
-- candidate_list = invited/accepted candidate lists or written/oral-stage summons; it is not a fresh opening.
-- results = published non-final/intermediate results.
-- final_results = explicitly final results.
-- update = a material update to an existing campaign that is not itself a fresh opening, candidate list, or results page.
-- job_notice_status may help with provisional/final wording, but never call something final unless the evidence says so.
-- For vacancy/competition, explain how to apply only when the verified evidence supports an active application.
-- For candidate_list/results/final_results/update, make the current update the focus and never tell readers to submit
-  a new application unless the current evidence explicitly reopens applications.
-
-INTRODUCTION AND SEMANTIC DEDUPLICATION
-- Blogger already renders the page title as H1. NEVER output <h1> and NEVER restate, paraphrase,
-  or expand the SEO title as a heading or opening sentence inside html_content.
-- The introduction must be ONE short paragraph of ONE or TWO sentences only.
-- The introduction must add useful context that is not already obvious from the title and must not
-  preview a list of facts that will immediately appear in the structured table.
-- Treat facts semantically, not lexically: changing wording does NOT make a repeated fact new.
-  Example: "آخر أجل هو 16 أكتوبر" and a table row "آخر أجل للترشيح: 16 أكتوبر" are the SAME fact.
-- Give each verified fact ONE primary home in the article:
-  structured facts -> table; duties -> responsibilities section; eligibility/qualifications -> requirements;
-  application documents -> application-file section; tests -> tests table/list; official links -> action/document area.
-- If a fact is already clear in a table, do not repeat it in the introduction or a later paragraph merely
-  with different wording. Repeat a fact only when a short reference is strictly necessary to explain a
-  new consequence or instruction, and do not restate its full value.
-- Before returning, compare the introduction, tables, lists, and prose sections and remove semantic duplicates,
-  including repeated dates, deadlines, position counts, locations, diploma/experience requirements, test details,
-  application-document requirements, and status/result facts.
-- Do not describe the employer as leading, prestigious, exceptional, innovative, or similar
-  unless that wording is itself a necessary verified fact. Avoid recruitment-marketing filler.
+- Blogger already renders H1. NEVER add <h1> or repeat the title as a heading/opening sentence.
+- The introduction is one short paragraph of one or two sentences and must add context, not duplicate the first table/list.
 
 ADAPTIVE ARTICLE STRUCTURE
-- YOU decide the article structure AFTER understanding notice_type and the available verified evidence.
-- There is NO mandatory universal sequence such as "تفاصيل الوظيفة / المهام / الشروط". Do not create a section
-  just because a template normally contains it.
-- Choose only the sections that help this exact reader understand this exact notice. Section names must describe
-  the actual content and may vary from one article to another.
-- Use prose, <ul>/<ol>, or <table> according to the data:
-  * use a table when rows/columns genuinely help compare specialties, position counts, tests, durations,
-coefficients, institutions, categories, or other structured evidence;
-  * use a short list for requirements, application-file documents, duties, steps, or grouped conditions;
-  * use concise prose for context or explanations that do not benefit from a table/list.
-- Do NOT force all generic fields into one summary table. A fact should appear where it is most useful and only once.
-- Keep ONE short introduction paragraph of one or two sentences. The backend inserts the branded article cover
-  after the introduction; do not add an image yourself.
+- There is NO mandatory universal sequence.
+- Do NOT force all generic fields into one summary table.
+- Choose only sections supported by this notice.
+- Put each fact in one primary place: structured comparisons in a table; requirements/documents/duties/steps in short lists; prose only when it improves clarity.
+- Use <h2>/<h3> only for real sections. Do not create empty/template sections.
+- Public competitions may need specialties/counts, tests, conditions, application file, application method and deadline.
+- Private vacancies may need duties, qualifications, location/contract and application method.
+- Candidate lists/results/updates must focus on the current stage, not rewrite the original vacancy.
+- Remove semantic duplicates across intro, tables, lists and prose.
 
-STRUCTURE EXAMPLES — GUIDANCE, NOT TEMPLATES
-- Public recruitment competition / multi-position university or administration notice:
-  a natural structure may be:
-  short introduction -> specialties/grades and position counts -> tests/exams when verified ->
-  eligibility/conditions -> application file/documents -> how to apply -> deadline/important notices ->
-  official files/links -> rendered official PDF pages.
-  Use the actual section names supported by the evidence; skip any missing part.
-- Private-company vacancy:
-  a natural structure may focus on:
-  short introduction -> role and useful context -> verified duties -> qualifications/skills ->
-  location/contract/working conditions when useful -> how to apply.
-  Do not add public-competition sections that do not exist.
-- Candidate/invited list:
-  focus on the current list/stage, who is concerned, written/oral stage details when verified,
-  official list/document links, and the verified next step. Do not rewrite the old vacancy.
-- Results/final results:
-  focus on the result status, the competition/campaign concerned, useful result details,
-  official result files/links, and any verified next step. Do not add application instructions unless applications
-  are explicitly reopened.
-- Update:
-  make the changed fact itself the center of the article; include old campaign details only when needed to understand
-  the update.
-
-FACT PLACEMENT
-- Preserve every useful verified fact, but let its meaning determine its place.
-- A verified deadline must be clearly visible once, but it does NOT have to be inside a generic "تفاصيل الوظيفة" table.
-- Position/specialty breakdowns from source_tables should remain structured when structure helps comprehension.
-- Tests, durations and coefficients should stay together when they belong together.
-- Application-file requirements should stay together and must not be scattered across unrelated sections.
-- Duties belong in a duties/role section only when duties actually exist.
-- Requirements belong together only when verified requirements actually exist.
-- For candidate lists/results/updates, use wording and sections matching that status rather than employment-opening headings.
-
-APPLICATION, RESULTS AND OFFICIAL FILES
-- For an active vacancy/competition, the strongest verified application resource is essential.
-- Private/company vacancies remain strict: use a job-specific direct Apply/Postuler/Candidature URL,
-  an official application form tied to this exact vacancy, or the specific official job-detail page.
-  NEVER substitute a generic careers/jobs/search/listing page.
-- Public recruitment competitions may use a central official application platform that is not job-specific.
-  This is allowed ONLY when the verified package explicitly classifies job_application_link_kind as
-  "official_application_channel". In that case the specific notice/detail page identifies the campaign,
-  while job_application_url is the verified official channel used to submit the application.
-- If job_application_url exists, include it exactly once at the point in the article where application makes sense.
-  The backend only upgrades that exact link visually in place; it must not decide the article section/order for you.
-- If job_application_link_kind is "direct_apply", make its visible label clearly mean direct application.
-- If job_application_link_kind is "official_application_channel", label it as "منصة الترشيح الرسمية"
-  or equivalent wording. NEVER call it "التقديم المباشر" or imply that the generic portal URL identifies
-  this exact vacancy by itself.
-- For candidate_list/results/final_results, do NOT call a list/result link "التقديم" unless applications are truly open.
-- If job_detail_url is a specific useful official detail page and differs from the application resource, include it once.
+APPLICATION AND OFFICIAL LINKS
+- For an active vacancy/competition, include the strongest verified application resource exactly once where application makes sense.
+- If job_application_link_kind="official_application_channel", label it as "منصة الترشيح الرسمية" or equivalent, never "التقديم المباشر".
+- If job_application_link_kind="direct_apply", make the label clearly mean direct application.
+- If job_detail_url differs from the application URL and is useful, preserve it once.
 - EVERY useful URL in job_document_links must remain in the final article exactly once.
-- When multiple official files are naturally comparable, a compact table may be useful; otherwise use concise descriptive links.
-- Use verified link label/context to distinguish files, but never invent a diploma/specialty/category from a URL or vague context.
-- Preserve URLs EXACTLY. Never shorten, rewrite, fabricate, or duplicate a URL.
-- External links must use target="_blank" rel="nofollow noreferrer noopener".
+- Preserve URLs exactly. Never shorten, rewrite, fabricate or duplicate them.
+- External links: target="_blank" rel="nofollow noreferrer noopener".
+- No internal promotional/category/related links and no pRelate blocks.
 
 IMAGES
-- DO NOT add <img>, <picture>, <figure>, image URLs, logos, captions, or source images.
-- The application generates ONE branded article cover separately.
-- When a verified official PDF contains vacancy conditions/notice details, the backend
-  may render its pages as sequential article images after validation. Do not generate
-  or imitate those images yourself.
-- Never use og:image or any source-page hero/content image.
+- Do NOT output img/picture/figure/image URLs/logos/captions.
+- The backend owns the branded cover and rendered official PDF-page images.
+- Important PDF-only facts must still be explained in text; do not leave them only in the rendered page images.
+
+HTML
+- html_content is Blogger BODY only.
+- Allowed content tags when useful: <p>, <h2>, <h3>, <strong>, <ul>, <ol>, <li>, <table>, <tbody>, <tr>, <th>, <td>, <a>.
+- No inline style, decorative divs, forms, iframes, scripts, hidden text or Markdown.
+- Paragraphs normally 1-3 sentences.
 
 SEO
-- Meta description: neutral third-person Arabic, approximately 110-160 characters.
-- Mention the employer, translated role, location when verified, and one useful verified
-  fact such as contract/deadline/direct application. Do not write as if this site were the
-  employer: never use phrases such as "نبحث عن", "عملائنا", "فريقنا", "انضم إلينا/لفريقنا".
-- The JSON slug MUST be a concise ENGLISH SEO slug, not Arabic transliteration.
-- Translate generic role/category/location wording into natural English; keep brand/proper names in Latin when useful.
-- Use lowercase a-z letters and hyphens ONLY. NEVER use digits, underscores, dates, years, seat counts, salaries, deadlines, references, IDs, or random numeric suffixes.
-- Use 3-7 descriptive words. Example: orange-business-cybersecurity-consultant-casablanca.
-- Do NOT copy desired_slug when it is transliterated Arabic; desired_slug is only an identity hint.
-
-PROFESSIONAL HTML ARTICLE BODY
-- html_content is the BODY of the Blogger post only. The Blogger theme already renders the H1/title.
-  NEVER add <h1>, the SEO title, meta description, JSON-LD, schema, scripts, CSS, style blocks,
-  widgets, iframes, forms, tracking code, buttons made with JavaScript, or hidden text.
-- Output clean semantic HTML only. No Markdown and no plain-text section labels outside HTML tags.
-- Use ONLY ordinary content tags when needed:
-  <p>, <h2>, <h3>, <strong>, <ul>, <ol>, <li>,
-  <table>, <tbody>, <tr>, <th>, <td>, <a>.
-- Do not use inline style= attributes. Do not use decorative <div> wrappers.
-- Paragraphs must be short and readable on mobile: normally 1-3 sentences each.
-- Never create a section merely to make the article longer. Omit sections whose facts are unavailable.
-
-AI STRUCTURE AUTHORITY
-- The AI editorial decision controls headings, section order, tables, lists, and prose based on the evidence.
-- Do not force a "تفاصيل الوظيفة" section or any fixed sequence.
-- Do not manufacture "المهام والمسؤوليات" or "الشروط والمؤهلات" when those facts do not exist.
-- Do not reuse private-vacancy headings for a public competition, candidate list, results page, or update.
-- Prefer descriptive headings specific to the evidence, for example:
-  "التخصصات وعدد المناصب", "الاختبارات", "شروط الترشيح", "ملف الترشيح",
-  "طريقة التقديم", "آخر أجل للترشيح", "لوائح المدعوين", "النتائج النهائية".
-  These are examples only; choose them only when supported and useful.
-- If the notice is so small that one or two short sections are clearer, keep it small. Do not create headings only to satisfy a template.
-- The application/document link position chosen in html_content is intentional. The backend may style that link,
-  but must preserve its editorial location.
-
-LINK RULES
-- Every verified official application/document/detail URL supplied in the package must remain present exactly once.
-- External links must use target="_blank" rel="nofollow noreferrer noopener".
-- Jobs articles must NOT contain automatic/internal promotional links to other site articles, category hubs, or label pages.
-- Do NOT create "قد يهمك", "مقالات ذات صلة", "مواضيع ذات صلة", pRelate, related-posts, recommended-posts, or similar blocks.
-- Do NOT turn ordinary words such as "وظائف", "التوظيف", "الوظيفة", "الترشيح", or "العمل" into internal links.
-- related_posts is intentionally empty in Jobs mode. Do not invent internal recommendations.
-- Never fabricate, shorten, redirect, or duplicate a URL.
-
-SEO / ADSENSE-FRIENDLY EDITORIAL QUALITY
-- Write for the user first: clear facts, useful structure, no keyword stuffing and no repeated employer/role phrases.
-- The first paragraph must add useful context without mechanically repeating employer/role/location already obvious from the title.
-- Headings must describe real sections, not repeat the title.
-- Do not add generic conclusions, motivational text, career advice, corporate history, promotional filler,
-  "فرصة لا تعوض", "انضم لفريقنا", or calls to click ads.
-- No copied boilerplate solely to increase word count. A shorter complete factual article is better than filler.
-- Avoid repeated paragraphs, repeated headings, repeated facts, and repeated URLs.
+- description: neutral Arabic, 80-180 characters; aim roughly 110-160. Never write as if this site is the employer.
+- slug: 2-7 natural ENGLISH words, lowercase a-z and hyphens only. No digits, dates, counts, salaries, references, IDs or Arabic transliteration.
 
 FINAL SILENT CHECK
-Before returning JSON, verify:
-- The article is complete against verified_fact_manifest: every high-confidence required fact is present once and accurate.
-- Medium/heuristic manifest facts may be omitted when their meaning is uncertain; never invent text to satisfy them.
-- Every factual claim must remain grounded in the manifest or clearly supported source evidence.
-- Dates, position counts, salary and experience must never contradict high-confidence manifest values.
-- Do not duplicate or silently merge explicit specialty/position/test relationships.
-- No unsupported external URL is present.
-- No duplicated paragraph, structured row, fact, or URL.
-- If a verified deadline exists, its value is clearly present once; do not force a particular heading/label.
-- Active vacancy/competition: strongest verified application link included and it belongs to this exact campaign.
-- Candidate list/result: status is clear and it is NOT falsely presented as a new vacancy.
-- Every useful verified official PDF/list link is preserved exactly once.
-- Official document links are organized in the clearest structure for this notice; do not force a table when it is not useful.
-- No image tag or image URL inside html_content; the backend owns the cover/PDF-page images.
-- No fake salary, deadline, vacancies, diploma, requirement, list status, or result.
-- No generic boilerplate, promotional filler, or template sentences that could fit any job notice.
-- slug is natural English, lowercase letters/hyphens only, with no digits or Arabic transliteration.
-
-OUTPUT JSON SHAPE:
-{{
-  "title": "Arabic SEO title",
-  "description": "Arabic meta description",
-  "slug": "english-company-role-location",
-  "html_content": "clean semantic HTML",
-  "notice_type": "vacancy | competition | candidate_list | results | final_results | update"
-}}
+- High-confidence required manifest facts are accurate and present once.
+- Material explicit PDF facts useful to a candidate are not stranded in the attachment.
+- No publication date or internal reference leaks.
+- No invented/contradictory fact and no unsupported external URL.
+- Active vacancy/competition has the correct verified application resource.
+- Every useful official document URL appears exactly once.
+- No repeated fact/paragraph/heading/URL.
+- No image tags; backend inserts cover/PDF pages.
+- Keep the result concise; evidence determines length.
 
 VERIFIED JOB PACKAGE:
 {package_json}
 """.strip()
-
 
 def _strip_json_fences(raw_text):
     text = (raw_text or "").strip()
