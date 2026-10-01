@@ -180,6 +180,18 @@ def _prepare_identity_evidence(article):
     # and AI package are built so the article uses the correct submission link.
     promote_job_document_application_channel(article)
 
+    # Reconcile legacy queued Emploi-Public records with the current extractor
+    # semantics before rebuilding the manifest. Older queue rows may still carry
+    # a heuristic competition type and a false "final" status inferred from legal
+    # boilerplate about results that will be published later.
+    if (
+        bool(article.get("official_source") or article.get("job_official_source"))
+        and str(article.get("ats_provider") or "").strip().lower() == "emploi_public"
+        and str(article.get("job_notice_type") or "").strip().lower() == "competition"
+    ):
+        article["job_notice_type_source"] = "source"
+        article["job_notice_status"] = ""
+
     return finalize_identity_evidence_stage(article)
 
 
