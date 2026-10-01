@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-01T04:06:58",
+  "updated_at": "2026-10-01T04:09:52",
   "articles": [
     {
       "id": "a6432a68f27e4c35",
@@ -81709,7 +81709,7 @@
       "job_remote": false,
       "job_number_of_positions": 10,
       "discovered_at": "2026-10-01T00:45:43",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
@@ -81786,7 +81786,9 @@
       "content_preview_chars": 682,
       "content_fetched_at": "2026-10-01T04:06:30",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 9988.16h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T04:09:39.835506+00:00"
     },
     {
       "id": "c060071289c61b69",
@@ -82423,13 +82425,13 @@
       "ats_reference": "e341ead9-0305-487f-9f51-e395a399d121",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الصحة والحماية الاجتماعية",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2025-08-28",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2025-08-07",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/e341ead9-0305-487f-9f51-e395a399d121",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -82440,7 +82442,79 @@
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 99,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 99,
+      "fetched_title": "مباريات التوظيف : ممرض من الدرجة الأولى - سُلمْ 10",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T04:09:47+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : ممرض من الدرجة الأولى - سُلمْ 10",
+      "job_deadline_display": "28 غشت 2025",
+      "job_exam_date": "2025-10-05",
+      "job_exam_date_display": "5 أكتوبر 2025",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "7 غشت 2025",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/e341ead9-0305-487f-9f51-e395a399d121",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/e341ead9-0305-487f-9f51-e395a399d121",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/e341ead9-0305-487f-9f51-e395a399d121",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/e341ead9-0305-487f-9f51-e395a399d121",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/e341ead9-0305-487f-9f51-e395a399d121",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي ممرض من الدرجة الأولى - سُلمْ 10 الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 28 غشت 2025 - 16:30 تاريخ إجراء المباراة 5 أكتوبر 2025 تاريخ النشر 7 غشت 2025 معلومات عن المباراة تخصص : - ممرضة وتقني صحي الصف الأول الدرجة : ممرض من الدرجة الأولى - سُلمْ 10 نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-016.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "d120d0daffe8df9d4a98b96815eb8b4622a938a741e000ff34ea4b0de308df63",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي ممرض من الدرجة الأولى - سُلمْ 10 الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 28 غشت 2025 - 16:30 تاريخ إجراء المباراة 5 أكتوبر 2025 تاريخ النشر 7 غشت 2025 معلومات عن المباراة تخصص : - ممرضة وتقني صحي الصف الأول الدرجة : ممرض من الدرجة الأولى - سُلمْ 10 نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 1113,
+      "content_preview": "خيارات الوصول المرئي ممرض من الدرجة الأولى - سُلمْ 10 الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 28 غشت 2025 - 16:30 تاريخ إجراء المباراة 5 أكتوبر 2025 تاريخ النشر 7 غشت 2025 معلومات عن المباراة تخصص : - ممرضة وتقني صحي الصف الأول الدرجة : ممرض من الدرجة الأولى - سُلمْ 10 نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 1113,
+      "content_fetched_at": "2026-10-01T04:09:47",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "40a7fc849b7ce971",
@@ -82472,13 +82546,13 @@
       "ats_reference": "6f0dc525-e2d2-4ddd-9891-279f86d73777",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الصحة والحماية الاجتماعية",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2025-08-19",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2025-07-29",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/6f0dc525-e2d2-4ddd-9891-279f86d73777",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -82489,7 +82563,91 @@
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 100,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 100,
+      "fetched_title": "مباريات التوظيف : مساعد تقني من الدرجة الثانية",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T04:09:49+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : مساعد تقني من الدرجة الثانية",
+      "job_deadline_display": "19 غشت 2025",
+      "job_exam_date": "2025-09-07",
+      "job_exam_date_display": "7 شتنبر 2025",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "29 يوليوز 2025",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/6f0dc525-e2d2-4ddd-9891-279f86d73777",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/6f0dc525-e2d2-4ddd-9891-279f86d73777",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/6f0dc525-e2d2-4ddd-9891-279f86d73777",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/6f0dc525-e2d2-4ddd-9891-279f86d73777",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/6f0dc525-e2d2-4ddd-9891-279f86d73777",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/6f0dc525-e2d2-4ddd-9891-279f86d73777",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/6f0dc525-e2d2-4ddd-9891-279f86d73777",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 19 غشت 2025 - 16:30 تاريخ إجراء المباراة 7 شتنبر 2025 تاريخ النشر 29 يوليوز 2025 معلومات عن المباراة الدرجة : مساعد تقني من الدرجة الثانية نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-016.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "d120d0daffe8df9d4a98b96815eb8b4622a938a741e000ff34ea4b0de308df63",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 19 غشت 2025 - 16:30 تاريخ إجراء المباراة 7 شتنبر 2025 تاريخ النشر 29 يوليوز 2025 معلومات عن المباراة الدرجة : مساعد تقني من الدرجة الثانية نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 1043,
+      "content_preview": "خيارات الوصول المرئي الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 19 غشت 2025 - 16:30 تاريخ إجراء المباراة 7 شتنبر 2025 تاريخ النشر 29 يوليوز 2025 معلومات عن المباراة الدرجة : مساعد تقني من الدرجة الثانية نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 1043,
+      "content_fetched_at": "2026-10-01T04:09:49",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "555be6182d933c14",
@@ -82521,13 +82679,13 @@
       "ats_reference": "2d07d5c9-78a7-4a51-95dd-e59eee833cd8",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الصحة والحماية الاجتماعية",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2025-08-19",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2025-07-29",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/2d07d5c9-78a7-4a51-95dd-e59eee833cd8",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -82538,7 +82696,91 @@
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 72,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 72,
+      "fetched_title": "مباريات التوظيف : تقني من الدرجة الرابعة - سُلمْ 8",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T04:09:41+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : تقني من الدرجة الرابعة - سُلمْ 8",
+      "job_deadline_display": "19 غشت 2025",
+      "job_exam_date": "2025-09-07",
+      "job_exam_date_display": "7 شتنبر 2025",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "29 يوليوز 2025",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/2d07d5c9-78a7-4a51-95dd-e59eee833cd8",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/2d07d5c9-78a7-4a51-95dd-e59eee833cd8",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/2d07d5c9-78a7-4a51-95dd-e59eee833cd8",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/2d07d5c9-78a7-4a51-95dd-e59eee833cd8",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/2d07d5c9-78a7-4a51-95dd-e59eee833cd8",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/2d07d5c9-78a7-4a51-95dd-e59eee833cd8",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/2d07d5c9-78a7-4a51-95dd-e59eee833cd8",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي تقني من الدرجة الرابعة - سُلمْ 8 الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 19 غشت 2025 - 16:30 تاريخ إجراء المباراة 7 شتنبر 2025 تاريخ النشر 29 يوليوز 2025 معلومات عن المباراة تخصص : - النقل و الاسعاف الصحي الدرجة : تقني من الدرجة الرابعة - سُلمْ 8 نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-016.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "d120d0daffe8df9d4a98b96815eb8b4622a938a741e000ff34ea4b0de308df63",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي تقني من الدرجة الرابعة - سُلمْ 8 الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 19 غشت 2025 - 16:30 تاريخ إجراء المباراة 7 شتنبر 2025 تاريخ النشر 29 يوليوز 2025 معلومات عن المباراة تخصص : - النقل و الاسعاف الصحي الدرجة : تقني من الدرجة الرابعة - سُلمْ 8 نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 588,
+      "content_preview": "خيارات الوصول المرئي تقني من الدرجة الرابعة - سُلمْ 8 الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 19 غشت 2025 - 16:30 تاريخ إجراء المباراة 7 شتنبر 2025 تاريخ النشر 29 يوليوز 2025 معلومات عن المباراة تخصص : - النقل و الاسعاف الصحي الدرجة : تقني من الدرجة الرابعة - سُلمْ 8 نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 588,
+      "content_fetched_at": "2026-10-01T04:09:41",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "93164b939cad8204",
@@ -82570,13 +82812,13 @@
       "ats_reference": "c4278dcc-c7d4-47ab-b60d-b7d2402277aa",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الداخلية -عمالة وجدة أنكاد",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2025-08-15",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2025-07-27",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/c4278dcc-c7d4-47ab-b60d-b7d2402277aa",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -82587,7 +82829,115 @@
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 77,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 77,
+      "fetched_title": "مباريات التوظيف : تقني من الدرجة الثالثة - سُلمْ 9",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T04:09:45+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : تقني من الدرجة الثالثة - سُلمْ 9",
+      "job_deadline_display": "15 غشت 2025",
+      "job_exam_date": "2025-09-28",
+      "job_exam_date_display": "28 شتنبر 2025",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "27 يوليوز 2025",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/c4278dcc-c7d4-47ab-b60d-b7d2402277aa",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/c4278dcc-c7d4-47ab-b60d-b7d2402277aa",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/c4278dcc-c7d4-47ab-b60d-b7d2402277aa",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/c4278dcc-c7d4-47ab-b60d-b7d2402277aa",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/c4278dcc-c7d4-47ab-b60d-b7d2402277aa",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/c4278dcc-c7d4-47ab-b60d-b7d2402277aa",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/c4278dcc-c7d4-47ab-b60d-b7d2402277aa",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/c4278dcc-c7d4-47ab-b60d-b7d2402277aa",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/c4278dcc-c7d4-47ab-b60d-b7d2402277aa",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/c4278dcc-c7d4-47ab-b60d-b7d2402277aa",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/c4278dcc-c7d4-47ab-b60d-b7d2402277aa",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الداخلية -عمالة وجدة أنكاد- آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 27 يوليوز 2025 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الرابعة - سُلمْ 8 مهندس دولة من الدرجة الأولى - سُلمْ 11 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/starterkit/build/assets/media/images/Ministre-md-default-image.jpg",
+      "company_logo_verified": true,
+      "company_logo_confidence": 99,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "30ab535c7beed2b8b1eb2d9432f2eea9572b0d0748c66c962d96424bd9a31ee8",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الداخلية -عمالة وجدة أنكاد- آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 27 يوليوز 2025 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الرابعة - سُلمْ 8 مهندس دولة من الدرجة الأولى - سُلمْ 11 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 591,
+      "content_preview": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الداخلية -عمالة وجدة أنكاد- آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 27 يوليوز 2025 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الرابعة - سُلمْ 8 مهندس دولة من الدرجة الأولى - سُلمْ 11 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 591,
+      "content_fetched_at": "2026-10-01T04:09:45",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "ef09667640a80cbd",
@@ -82619,13 +82969,13 @@
       "ats_reference": "d205e15a-c34a-49c9-9f0f-02d7a1033eb2",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الداخلية -عمالة وجدة أنكاد",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2025-08-15",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2025-07-27",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/d205e15a-c34a-49c9-9f0f-02d7a1033eb2",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -82636,7 +82986,103 @@
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 76,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 76,
+      "fetched_title": "مباريات التوظيف : تقني من الدرجة الثالثة - سُلمْ 9",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T04:09:43+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : تقني من الدرجة الثالثة - سُلمْ 9",
+      "job_deadline_display": "15 غشت 2025",
+      "job_exam_date": "2025-09-28",
+      "job_exam_date_display": "28 شتنبر 2025",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "27 يوليوز 2025",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/d205e15a-c34a-49c9-9f0f-02d7a1033eb2",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/d205e15a-c34a-49c9-9f0f-02d7a1033eb2",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/d205e15a-c34a-49c9-9f0f-02d7a1033eb2",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/d205e15a-c34a-49c9-9f0f-02d7a1033eb2",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/d205e15a-c34a-49c9-9f0f-02d7a1033eb2",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/d205e15a-c34a-49c9-9f0f-02d7a1033eb2",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/d205e15a-c34a-49c9-9f0f-02d7a1033eb2",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/d205e15a-c34a-49c9-9f0f-02d7a1033eb2",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/d205e15a-c34a-49c9-9f0f-02d7a1033eb2",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الداخلية -عمالة وجدة أنكاد- آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 27 يوليوز 2025 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/starterkit/build/assets/media/images/Ministre-md-default-image.jpg",
+      "company_logo_verified": true,
+      "company_logo_confidence": 99,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "30ab535c7beed2b8b1eb2d9432f2eea9572b0d0748c66c962d96424bd9a31ee8",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الداخلية -عمالة وجدة أنكاد- آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 27 يوليوز 2025 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 552,
+      "content_preview": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الداخلية -عمالة وجدة أنكاد- آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 27 يوليوز 2025 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 552,
+      "content_fetched_at": "2026-10-01T04:09:43",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "c7f298c7afd93d81",
@@ -82668,13 +83114,13 @@
       "ats_reference": "d0cc17f2-f3dd-4cb2-a7ca-0942fb7031c3",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الداخلية -عمالة وجدة أنكاد",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2025-08-15",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2025-07-27",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/d0cc17f2-f3dd-4cb2-a7ca-0942fb7031c3",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -82685,7 +83131,103 @@
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 73,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 73,
+      "fetched_title": "مباريات التوظيف : متصرف من الدرجة الثانية - سُلمْ 11",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T04:09:42+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : متصرف من الدرجة الثانية - سُلمْ 11",
+      "job_deadline_display": "15 غشت 2025",
+      "job_exam_date": "2025-09-28",
+      "job_exam_date_display": "28 شتنبر 2025",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "27 يوليوز 2025",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/d0cc17f2-f3dd-4cb2-a7ca-0942fb7031c3",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/d0cc17f2-f3dd-4cb2-a7ca-0942fb7031c3",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/d0cc17f2-f3dd-4cb2-a7ca-0942fb7031c3",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/d0cc17f2-f3dd-4cb2-a7ca-0942fb7031c3",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/d0cc17f2-f3dd-4cb2-a7ca-0942fb7031c3",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/d0cc17f2-f3dd-4cb2-a7ca-0942fb7031c3",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/d0cc17f2-f3dd-4cb2-a7ca-0942fb7031c3",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/d0cc17f2-f3dd-4cb2-a7ca-0942fb7031c3",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/d0cc17f2-f3dd-4cb2-a7ca-0942fb7031c3",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي متصرف من الدرجة الثانية - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة وجدة أنكاد- آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 27 يوليوز 2025 معلومات عن المباراة الدرجة : متصرف من الدرجة الثانية - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/starterkit/build/assets/media/images/Ministre-md-default-image.jpg",
+      "company_logo_verified": true,
+      "company_logo_confidence": 99,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "30ab535c7beed2b8b1eb2d9432f2eea9572b0d0748c66c962d96424bd9a31ee8",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي متصرف من الدرجة الثانية - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة وجدة أنكاد- آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 27 يوليوز 2025 معلومات عن المباراة الدرجة : متصرف من الدرجة الثانية - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 523,
+      "content_preview": "خيارات الوصول المرئي متصرف من الدرجة الثانية - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة وجدة أنكاد- آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 27 يوليوز 2025 معلومات عن المباراة الدرجة : متصرف من الدرجة الثانية - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 523,
+      "content_fetched_at": "2026-10-01T04:09:42",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "37ca5574d75e8dcf",
@@ -82717,13 +83259,13 @@
       "ats_reference": "e6b2e022-4fde-4e18-b75a-f08a180deb1a",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الداخلية -عمالة وجدة أنكاد",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2025-08-15",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2025-07-27",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/e6b2e022-4fde-4e18-b75a-f08a180deb1a",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -82734,7 +83276,103 @@
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 73,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 73,
+      "fetched_title": "مباريات التوظيف : متصرف من الدرجة الثانية - سُلمْ 11",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T04:09:45+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : متصرف من الدرجة الثانية - سُلمْ 11",
+      "job_deadline_display": "15 غشت 2025",
+      "job_exam_date": "2025-09-28",
+      "job_exam_date_display": "28 شتنبر 2025",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "27 يوليوز 2025",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/e6b2e022-4fde-4e18-b75a-f08a180deb1a",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/e6b2e022-4fde-4e18-b75a-f08a180deb1a",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/e6b2e022-4fde-4e18-b75a-f08a180deb1a",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/e6b2e022-4fde-4e18-b75a-f08a180deb1a",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/e6b2e022-4fde-4e18-b75a-f08a180deb1a",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/e6b2e022-4fde-4e18-b75a-f08a180deb1a",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/e6b2e022-4fde-4e18-b75a-f08a180deb1a",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/e6b2e022-4fde-4e18-b75a-f08a180deb1a",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/e6b2e022-4fde-4e18-b75a-f08a180deb1a",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي متصرف من الدرجة الثانية - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة وجدة أنكاد- آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 27 يوليوز 2025 معلومات عن المباراة الدرجة : متصرف من الدرجة الثانية - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/starterkit/build/assets/media/images/Ministre-md-default-image.jpg",
+      "company_logo_verified": true,
+      "company_logo_confidence": 99,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "30ab535c7beed2b8b1eb2d9432f2eea9572b0d0748c66c962d96424bd9a31ee8",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي متصرف من الدرجة الثانية - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة وجدة أنكاد- آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 27 يوليوز 2025 معلومات عن المباراة الدرجة : متصرف من الدرجة الثانية - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 523,
+      "content_preview": "خيارات الوصول المرئي متصرف من الدرجة الثانية - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة وجدة أنكاد- آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 27 يوليوز 2025 معلومات عن المباراة الدرجة : متصرف من الدرجة الثانية - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 523,
+      "content_fetched_at": "2026-10-01T04:09:45",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "5b597556eaa48497",
@@ -82766,13 +83404,13 @@
       "ats_reference": "6236616d-25aa-4505-b8dd-3ed62bdfca4f",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة العدل",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2025-08-11",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2025-07-26",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/6236616d-25aa-4505-b8dd-3ed62bdfca4f",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -82783,7 +83421,103 @@
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 73,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 73,
+      "fetched_title": "مباريات التوظيف : منتذب قضائي من الدرجة الثالثة - سُلمْ 10",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T04:09:44+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : منتذب قضائي من الدرجة الثالثة - سُلمْ 10",
+      "job_deadline_display": "11 غشت 2025",
+      "job_exam_date": "2025-10-26",
+      "job_exam_date_display": "26 أكتوبر 2025",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "26 يوليوز 2025",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/6236616d-25aa-4505-b8dd-3ed62bdfca4f",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/6236616d-25aa-4505-b8dd-3ed62bdfca4f",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/6236616d-25aa-4505-b8dd-3ed62bdfca4f",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/6236616d-25aa-4505-b8dd-3ed62bdfca4f",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/6236616d-25aa-4505-b8dd-3ed62bdfca4f",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/6236616d-25aa-4505-b8dd-3ed62bdfca4f",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/6236616d-25aa-4505-b8dd-3ed62bdfca4f",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/6236616d-25aa-4505-b8dd-3ed62bdfca4f",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/6236616d-25aa-4505-b8dd-3ed62bdfca4f",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي منتذب قضائي من الدرجة الثالثة - سُلمْ 10 الإدارة المنظمة وزارة العدل آخر أجل لإيداع الترشيحات 11 غشت 2025 - 16:30 تاريخ إجراء المباراة 26 أكتوبر 2025 تاريخ النشر 26 يوليوز 2025 معلومات عن المباراة تخصص : - مجال المساعدة الاجتماعية - الدراسات الإنجليزية أو الترجمة (الإنجليزية) الدرجة : منتذب قضائي من الدرجة الثالثة - سُلمْ 10 نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.justice.gov.ma/concour2025_v2/ هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-005.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "97ae2cdf730e1810ac4a3e380a3c7f72a804a2dba569fd87d14b99f65a7439d0",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي منتذب قضائي من الدرجة الثالثة - سُلمْ 10 الإدارة المنظمة وزارة العدل آخر أجل لإيداع الترشيحات 11 غشت 2025 - 16:30 تاريخ إجراء المباراة 26 أكتوبر 2025 تاريخ النشر 26 يوليوز 2025 معلومات عن المباراة تخصص : - مجال المساعدة الاجتماعية - الدراسات الإنجليزية أو الترجمة (الإنجليزية) الدرجة : منتذب قضائي من الدرجة الثالثة - سُلمْ 10 نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.justice.gov.ma/concour2025_v2/ هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 653,
+      "content_preview": "خيارات الوصول المرئي منتذب قضائي من الدرجة الثالثة - سُلمْ 10 الإدارة المنظمة وزارة العدل آخر أجل لإيداع الترشيحات 11 غشت 2025 - 16:30 تاريخ إجراء المباراة 26 أكتوبر 2025 تاريخ النشر 26 يوليوز 2025 معلومات عن المباراة تخصص : - مجال المساعدة الاجتماعية - الدراسات الإنجليزية أو الترجمة (الإنجليزية) الدرجة : منتذب قضائي من الدرجة الثالثة - سُلمْ 10 نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.justice.gov.ma/concour2025_v2/ هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 653,
+      "content_fetched_at": "2026-10-01T04:09:44",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "7530923e6f5265d9",
@@ -82815,13 +83549,13 @@
       "ats_reference": "71d5e1e5-a81d-4899-bd62-2aca3eb16a2c",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "المندوبية السامية للتخطيط",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2025-09-10",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2025-07-25",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/71d5e1e5-a81d-4899-bd62-2aca3eb16a2c",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -82832,7 +83566,103 @@
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 75,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 75,
+      "fetched_title": "مباريات التوظيف : تقني من الدرجة الثالثة - سُلمْ 9",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T04:09:49+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : تقني من الدرجة الثالثة - سُلمْ 9",
+      "job_deadline_display": "10 شتنبر 2025",
+      "job_exam_date": "2025-11-02",
+      "job_exam_date_display": "2 نونبر 2025",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "25 يوليوز 2025",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/71d5e1e5-a81d-4899-bd62-2aca3eb16a2c",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/71d5e1e5-a81d-4899-bd62-2aca3eb16a2c",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/71d5e1e5-a81d-4899-bd62-2aca3eb16a2c",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/71d5e1e5-a81d-4899-bd62-2aca3eb16a2c",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/71d5e1e5-a81d-4899-bd62-2aca3eb16a2c",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/71d5e1e5-a81d-4899-bd62-2aca3eb16a2c",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/71d5e1e5-a81d-4899-bd62-2aca3eb16a2c",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/71d5e1e5-a81d-4899-bd62-2aca3eb16a2c",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/71d5e1e5-a81d-4899-bd62-2aca3eb16a2c",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة المندوبية السامية للتخطيط آخر أجل لإيداع الترشيحات 10 شتنبر 2025 تاريخ إجراء المباراة 2 نونبر 2025 تاريخ النشر 25 يوليوز 2025 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-031.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "eef8b22d1cf0b11e6fea110a66d4072c3472bd8115ee41fa1b7ec09926fb6a95",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة المندوبية السامية للتخطيط آخر أجل لإيداع الترشيحات 10 شتنبر 2025 تاريخ إجراء المباراة 2 نونبر 2025 تاريخ النشر 25 يوليوز 2025 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 504,
+      "content_preview": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة المندوبية السامية للتخطيط آخر أجل لإيداع الترشيحات 10 شتنبر 2025 تاريخ إجراء المباراة 2 نونبر 2025 تاريخ النشر 25 يوليوز 2025 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 504,
+      "content_fetched_at": "2026-10-01T04:09:49",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "1c61c326c272a25b",
@@ -82864,13 +83694,13 @@
       "ats_reference": "3860f470-4a79-44f6-bbc6-90089a969fac",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "المندوبية السامية للتخطيط",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2025-09-03",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2025-07-25",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/3860f470-4a79-44f6-bbc6-90089a969fac",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -82881,7 +83711,115 @@
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 75,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 75,
+      "fetched_title": "مباريات التوظيف : مهندس دولة من الدرجة الأولى - سُلمْ 11",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T04:09:51+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : مهندس دولة من الدرجة الأولى - سُلمْ 11",
+      "job_deadline_display": "3 شتنبر 2025",
+      "job_exam_date": "2025-09-28",
+      "job_exam_date_display": "28 شتنبر 2025",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "25 يوليوز 2025",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/3860f470-4a79-44f6-bbc6-90089a969fac",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/3860f470-4a79-44f6-bbc6-90089a969fac",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/3860f470-4a79-44f6-bbc6-90089a969fac",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/3860f470-4a79-44f6-bbc6-90089a969fac",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/3860f470-4a79-44f6-bbc6-90089a969fac",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/3860f470-4a79-44f6-bbc6-90089a969fac",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/3860f470-4a79-44f6-bbc6-90089a969fac",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/3860f470-4a79-44f6-bbc6-90089a969fac",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/3860f470-4a79-44f6-bbc6-90089a969fac",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/3860f470-4a79-44f6-bbc6-90089a969fac",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/3860f470-4a79-44f6-bbc6-90089a969fac",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي مهندس دولة من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة المندوبية السامية للتخطيط آخر أجل لإيداع الترشيحات 3 شتنبر 2025 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 25 يوليوز 2025 معلومات عن المباراة تخصص : - الإحصاء والاقتصاد التطبيقي، الديمغرافية. الدرجة : مهندس دولة من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-031.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "eef8b22d1cf0b11e6fea110a66d4072c3472bd8115ee41fa1b7ec09926fb6a95",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي مهندس دولة من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة المندوبية السامية للتخطيط آخر أجل لإيداع الترشيحات 3 شتنبر 2025 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 25 يوليوز 2025 معلومات عن المباراة تخصص : - الإحصاء والاقتصاد التطبيقي، الديمغرافية. الدرجة : مهندس دولة من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 566,
+      "content_preview": "خيارات الوصول المرئي مهندس دولة من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة المندوبية السامية للتخطيط آخر أجل لإيداع الترشيحات 3 شتنبر 2025 تاريخ إجراء المباراة 28 شتنبر 2025 تاريخ النشر 25 يوليوز 2025 معلومات عن المباراة تخصص : - الإحصاء والاقتصاد التطبيقي، الديمغرافية. الدرجة : مهندس دولة من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 566,
+      "content_fetched_at": "2026-10-01T04:09:51",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "6e9cd53d8bf99e69",
@@ -82913,13 +83851,13 @@
       "ats_reference": "9bb7cd82-55c9-4554-94c8-6328fdcc1a91",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الفلاحة والصيد البحري والتنمية القروية والمياه والغابات - قطاع الفلاحة",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2025-08-12",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2025-07-25",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/9bb7cd82-55c9-4554-94c8-6328fdcc1a91",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -82930,7 +83868,91 @@
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 75,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 75,
+      "fetched_title": "مباريات التوظيف : متصرف من الدرجة الثانية - سُلمْ 11",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T04:09:50+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : متصرف من الدرجة الثانية - سُلمْ 11",
+      "job_deadline_display": "12 غشت 2025",
+      "job_exam_date": "2025-09-14",
+      "job_exam_date_display": "14 شتنبر 2025",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "25 يوليوز 2025",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/9bb7cd82-55c9-4554-94c8-6328fdcc1a91",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/9bb7cd82-55c9-4554-94c8-6328fdcc1a91",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/9bb7cd82-55c9-4554-94c8-6328fdcc1a91",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/9bb7cd82-55c9-4554-94c8-6328fdcc1a91",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/9bb7cd82-55c9-4554-94c8-6328fdcc1a91",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/9bb7cd82-55c9-4554-94c8-6328fdcc1a91",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/9bb7cd82-55c9-4554-94c8-6328fdcc1a91",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي متصرف من الدرجة الثانية - سُلمْ 11 الإدارة المنظمة وزارة الفلاحة والصيد البحري والتنمية القروية والمياه والغابات - قطاع الفلاحة آخر أجل لإيداع الترشيحات 12 غشت 2025 - 16:30 تاريخ إجراء المباراة 14 شتنبر 2025 تاريخ النشر 25 يوليوز 2025 معلومات عن المباراة تخصص : - التدبير المالي والمحاسباتي - التجارة الدولية - الموارد البشرية - قانون المنازعات - أمن نظم المعلومات / الأمن السيبراني - إدارة النظم والشبكات / معالجة النظم / النظم والشبكات - هندسة البيانات / البيانات الضخمة / علوم البيانات والنظم التقريرية الدرجة : متصرف من الدرجة الثانية - سُلمْ 11 نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://concours.agriculture.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-011.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "503021dd069813021e132c67a7254f3ab08b48b416fc1bd4bfe77b98723d5af6",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي متصرف من الدرجة الثانية - سُلمْ 11 الإدارة المنظمة وزارة الفلاحة والصيد البحري والتنمية القروية والمياه والغابات - قطاع الفلاحة آخر أجل لإيداع الترشيحات 12 غشت 2025 - 16:30 تاريخ إجراء المباراة 14 شتنبر 2025 تاريخ النشر 25 يوليوز 2025 معلومات عن المباراة تخصص : - التدبير المالي والمحاسباتي - التجارة الدولية - الموارد البشرية - قانون المنازعات - أمن نظم المعلومات / الأمن السيبراني - إدارة النظم والشبكات / معالجة النظم / النظم والشبكات - هندسة البيانات / البيانات الضخمة / علوم البيانات والنظم التقريرية الدرجة : متصرف من الدرجة الثانية - سُلمْ 11 نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://concours.agriculture.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 941,
+      "content_preview": "خيارات الوصول المرئي متصرف من الدرجة الثانية - سُلمْ 11 الإدارة المنظمة وزارة الفلاحة والصيد البحري والتنمية القروية والمياه والغابات - قطاع الفلاحة آخر أجل لإيداع الترشيحات 12 غشت 2025 - 16:30 تاريخ إجراء المباراة 14 شتنبر 2025 تاريخ النشر 25 يوليوز 2025 معلومات عن المباراة تخصص : - التدبير المالي والمحاسباتي - التجارة الدولية - الموارد البشرية - قانون المنازعات - أمن نظم المعلومات / الأمن السيبراني - إدارة النظم والشبكات / معالجة النظم / النظم والشبكات - هندسة البيانات / البيانات الضخمة / علوم البيانات والنظم التقريرية الدرجة : متصرف من الدرجة الثانية - سُلمْ 11 نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://concours.agriculture.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 941,
+      "content_fetched_at": "2026-10-01T04:09:50",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "070214f7f52d04e9",
@@ -82962,13 +83984,13 @@
       "ats_reference": "f31883f4-c280-4cb3-a3fa-a8585791a0c4",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "المندوبية العامة لإدارة السجون وإعادة الإدماج",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2025-08-15",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2025-07-25",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/f31883f4-c280-4cb3-a3fa-a8585791a0c4",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -82979,7 +84001,103 @@
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 77,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 77,
+      "fetched_title": "مباريات التوظيف : قائد السجون مساعد من الدرجة الأولى",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T04:09:52+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : قائد السجون مساعد من الدرجة الأولى",
+      "job_deadline_display": "15 غشت 2025",
+      "job_exam_date": "2025-09-21",
+      "job_exam_date_display": "21 شتنبر 2025",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "25 يوليوز 2025",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/f31883f4-c280-4cb3-a3fa-a8585791a0c4",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/f31883f4-c280-4cb3-a3fa-a8585791a0c4",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/f31883f4-c280-4cb3-a3fa-a8585791a0c4",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/f31883f4-c280-4cb3-a3fa-a8585791a0c4",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/f31883f4-c280-4cb3-a3fa-a8585791a0c4",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/f31883f4-c280-4cb3-a3fa-a8585791a0c4",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/f31883f4-c280-4cb3-a3fa-a8585791a0c4",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/f31883f4-c280-4cb3-a3fa-a8585791a0c4",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/f31883f4-c280-4cb3-a3fa-a8585791a0c4",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي قائد السجون مساعد من الدرجة الأولى الإدارة المنظمة المندوبية العامة لإدارة السجون وإعادة الإدماج آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 21 شتنبر 2025 تاريخ النشر 25 يوليوز 2025 معلومات عن المباراة تخصص : - الطب العام - الهندسة المدنية - الهندسة الكهربائية - هندسة الفلويد - التنمية المعلوماتية - الأنظمة وشبكات المعلوميات - الامن المعلوماتي الدرجة : قائد السجون مساعد من الدرجة الأولى نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://www.dgapr.gov.ma/ هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. طبيب من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة - سُلمْ 9 تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/bc19566e1dd5c7fbf245d3d25cc4534b.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "373ccaf0ff91bafad50bd0997b0e225c8419bfbb8678cb7b4b310308f766bf3a",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي قائد السجون مساعد من الدرجة الأولى الإدارة المنظمة المندوبية العامة لإدارة السجون وإعادة الإدماج آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 21 شتنبر 2025 تاريخ النشر 25 يوليوز 2025 معلومات عن المباراة تخصص : - الطب العام - الهندسة المدنية - الهندسة الكهربائية - هندسة الفلويد - التنمية المعلوماتية - الأنظمة وشبكات المعلوميات - الامن المعلوماتي الدرجة : قائد السجون مساعد من الدرجة الأولى نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://www.dgapr.gov.ma/ هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. طبيب من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة - سُلمْ 9 تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 820,
+      "content_preview": "خيارات الوصول المرئي قائد السجون مساعد من الدرجة الأولى الإدارة المنظمة المندوبية العامة لإدارة السجون وإعادة الإدماج آخر أجل لإيداع الترشيحات 15 غشت 2025 - 16:30 تاريخ إجراء المباراة 21 شتنبر 2025 تاريخ النشر 25 يوليوز 2025 معلومات عن المباراة تخصص : - الطب العام - الهندسة المدنية - الهندسة الكهربائية - هندسة الفلويد - التنمية المعلوماتية - الأنظمة وشبكات المعلوميات - الامن المعلوماتي الدرجة : قائد السجون مساعد من الدرجة الأولى نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://www.dgapr.gov.ma/ هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. طبيب من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة - سُلمْ 9 تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 820,
+      "content_fetched_at": "2026-10-01T04:09:52",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "a49d1bd08c402d10",
