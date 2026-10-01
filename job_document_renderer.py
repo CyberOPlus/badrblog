@@ -424,8 +424,11 @@ DOCUMENT_APPLICATION_HINTS = (
 )
 DOCUMENT_ASCII_URL_RE = re.compile(
     r"(?i)(?:https?://|www\\.)[A-Za-z0-9.-]+(?::\\d+)?"
+    r"(?:/[A-Za-z0-9._~:/?#\\[\\]@!DOCUMENT_ASCII_URL_RE = re.compile(
+    r"(?i)(?:https?://|www\\.)[A-Za-z0-9.-]+(?::\\d+)?"
     r"(?:/[A-Za-z0-9._~:/?#\\[\\]@!def _safe_segment(value):
 '()*+,;=%-]*)?"
+)'()*+,;=%-]*)?"
 )
 
 
