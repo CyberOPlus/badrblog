@@ -440,7 +440,7 @@ class JobsRuntimeTests(unittest.TestCase):
         )
         self.assertNotIn("job_deadline", expired_emploi)
 
-    def test_jobs_enrichment_priority_prefers_newer_general_job_before_older_technical_job(self):
+    def test_jobs_enrichment_priority_prefers_technical_job_inside_fresh_window(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         technical = {
             "status": "ready",
@@ -457,11 +457,11 @@ class JobsRuntimeTests(unittest.TestCase):
             "source_priority": "S+",
         }
         self.assertLess(
-            article_enricher._jobs_enrichment_priority(general, 0, now=now),
             article_enricher._jobs_enrichment_priority(technical, 1, now=now),
+            article_enricher._jobs_enrichment_priority(general, 0, now=now),
         )
 
-    def test_jobs_enrichment_keeps_old_still_valid_job_eligible_for_fetch(self):
+    def test_jobs_enrichment_skips_known_stale_job_before_fetch(self):
         article = {
             "id": "older-still-valid",
             "url": "https://example.com/jobs/older-still-valid",
@@ -473,6 +473,7 @@ class JobsRuntimeTests(unittest.TestCase):
         queue = {"articles": [article]}
         with (
             patch.object(article_enricher, "JOBS_MODE", True),
+            patch.object(article_enricher, "JOBS_MAX_PUBLISH_AGE_HOURS", 12),
             patch.object(article_enricher, "load_article_queue", return_value=queue),
             patch.object(article_enricher, "save_article_queue") as save,
             patch.object(article_enricher, "_can_run_async_fetch", return_value=False),
@@ -480,12 +481,12 @@ class JobsRuntimeTests(unittest.TestCase):
         ):
             result = article_enricher.enrich_ready_articles(force=False)
 
-        self.assertEqual(article["status"], "ready")
-        self.assertNotIn("freshness_rejected_at", article)
-        self.assertNotIn("skip_reason", article)
-        enrich.assert_called_once_with(article)
+        self.assertEqual(article["status"], "skipped")
+        self.assertIn("outside fresh window", article["skip_reason"])
+        self.assertIn("freshness_rejected_at", article)
+        enrich.assert_not_called()
         save.assert_called_once()
-        self.assertEqual(result["enriched"], 1)
+        self.assertEqual(result["enriched"], 0)
 
     def test_jobs_enrichment_priority_advances_near_deadline_before_score(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
