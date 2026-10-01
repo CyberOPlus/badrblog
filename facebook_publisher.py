@@ -42,6 +42,7 @@ from job_core import (
     _parse_date as parse_job_date,
     classify_urgency,
     job_deadline_time,
+    job_focus_priority,
     list_active_job_campaign_records,
     record_job_social_state,
 )
@@ -627,12 +628,14 @@ def _facebook_job_priority(article, now=None):
     except (TypeError, ValueError):
         positions = 0
 
+    focus_boost = float(job_focus_priority(article)) * 2.0
     fifo_priority = -queued_time.timestamp() if queued_time else 0.0
-    priority_points = deadline_boost + age_days_boost + urgency_boost
+    priority_points = deadline_boost + age_days_boost + urgency_boost + focus_boost
 
     return (
         priority_points,
         deadline_boost,
+        focus_boost,
         age_days_boost,
         score,
         positions,
