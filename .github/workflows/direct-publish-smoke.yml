@@ -1,5 +1,5 @@
 name: Direct One-Shot Job Publish
-# Direct run armed: official same-day PDF job
+# Direct run armed: official same-day PDF job; Cloudflare-first one-shot
 
 on:
   push:
@@ -97,15 +97,15 @@ jobs:
               "GOOGLE_SERVICE_ACCOUNT_JSON":os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON",""),
               "MAX_POSTS_PER_RUN":"1","MAX_ARTICLES_PER_RUN":"1","MIN_ARTICLE_WORDS":"0",
               "MIN_EXTRACTED_CHARS":"80","SOURCE_TIMEOUT_SECONDS":"10","ARTICLE_TIMEOUT_SECONDS":"12",
-              "AI_TOTAL_TIME_BUDGET_SECONDS":"100","GEMINI_TIMEOUT_SECONDS":"30",
+              "AI_TOTAL_TIME_BUDGET_SECONDS":"180","GEMINI_TIMEOUT_SECONDS":"30",
               "AI_MODEL_TIMEOUT_SECONDS":"30","OPENROUTER_TIMEOUT_SECONDS":"30",
-              "GROQ_TIMEOUT_SECONDS":"30","MISTRAL_TIMEOUT_SECONDS":"30","CLOUDFLARE_TIMEOUT_SECONDS":"30",
+              "GROQ_TIMEOUT_SECONDS":"30","MISTRAL_TIMEOUT_SECONDS":"30","CLOUDFLARE_TIMEOUT_SECONDS":"90",
               "MAX_AI_RETRIES":"2","JOBS_AI_QUALITY_REPAIRS":"1","JOBS_AI_TIMEOUT_RETRIES":"0",
               "JOBS_AI_CROSS_CANDIDATE_RETRIES":"0","JOBS_ONE_SHOT_FORCE_RUN":"true",
               "SOURCE_HEALTH_ENABLED":"true","ENABLE_SCRAPLING_FALLBACK":"false",
               "MAX_DRAFTS_PER_DAY":"240","MIN_MINUTES_BETWEEN_DRAFTS":"0",
               "MAX_LIVE_POSTS_PER_DAY":"240","TARGET_LIVE_POSTS_PER_DAY":"240",
-              "MIN_MINUTES_BETWEEN_LIVE_POSTS":"0","AI_PROVIDER":"auto",
+              "MIN_MINUTES_BETWEEN_LIVE_POSTS":"0","AI_PROVIDER":"cloudflare",
           }
           Path(".env").write_text("\n".join(f"{k}={v}" for k,v in env.items())+"\n",encoding="utf-8")
           print("Direct target mode ready. auto-cycle is not invoked.")
