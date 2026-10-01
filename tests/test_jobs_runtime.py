@@ -2455,7 +2455,8 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(result["fingerprint"], "existing-fp")
         record.assert_not_called()
 
-    def test_two_provider_outages_open_global_circuit_before_third_provider(self):
+
+    def test_provider_outages_try_third_provider_before_global_circuit(self):
         article = {
             "id": "outage-job",
             "url": "https://example.com/jobs/outage",
@@ -2471,44 +2472,48 @@ class JobsRuntimeTests(unittest.TestCase):
             },
         }
         queue = {"articles": [article]}
-        generate = [
-            ai.AIProviderFallbackNeeded("gemini provider failed: HTTP 503 unavailable"),
-            ai.AIProviderFallbackNeeded("groq provider failed: HTTP 503 unavailable"),
-        ]
-        circuit = {
-            "until": 2000000000,
-            "fingerprint": "global-outage-fp",
-            "category": "outage",
+        response = {
+            "title": "شركة Example تعلن عن توظيف مهندس شبكات",
+            "description": "تفاصيل موثقة حول فرصة توظيف مهندس شبكات ومتطلبات المنصب وطريقة التقديم الرسمية.",
+            "slug": "example-network-engineer",
+            "html_content": "<p>تفاصيل موثقة حول المنصب وطريقة التقديم.</p>",
+            "notice_type": "candidate_list",
         }
-        with patch.object(ai, "JOBS_MODE", True), \
-             patch.object(ai, "load_article_queue", return_value=queue), \
-             patch.object(ai, "save_article_queue"), \
-             patch.object(ai, "_attempt_provider_sequence", return_value=["gemini", "groq", "openrouter"]), \
-             patch.object(ai, "_resolve_providers", return_value=["gemini", "groq", "openrouter"]), \
-             patch.object(ai, "_build_prompt", return_value="prompt"), \
-             patch.object(ai, "_source_stats", return_value=("text", 100, 20)), \
-             patch.object(ai, "_skipped_slow_models_count", return_value=0), \
-             patch.object(ai, "_generate_with_provider_name", side_effect=generate) as call_provider, \
-             patch.object(ai, "_open_global_circuit", return_value=circuit) as open_global, \
-             patch.object(
-                 ai,
-                 "ai_circuit_status",
-                 return_value={
-                     "global_open": True,
-                     "global_fingerprint": "global-outage-fp",
-                     "global_category": "outage",
-                 },
-             ), \
-             patch.object(ai, "_global_circuit_until", return_value=2000000000):
-            result = ai.process_one_selected_article_with_ai(
-                target_article_id="outage-job"
-            )
+        validation = MagicMock(passed=True, warnings=())
+        with (
+            patch.object(ai, "JOBS_MODE", True),
+            patch.object(ai, "load_article_queue", return_value=queue),
+            patch.object(ai, "save_article_queue"),
+            patch.object(ai, "_attempt_provider_sequence", return_value=["gemini", "groq", "openrouter"]),
+            patch.object(ai, "_resolve_providers", return_value=["gemini", "groq", "openrouter"]),
+            patch.object(ai, "_build_prompt", return_value="prompt"),
+            patch.object(ai, "_source_stats", return_value=("text", 100, 20)),
+            patch.object(ai, "_skipped_slow_models_count", return_value=0),
+            patch.object(
+                ai,
+                "_generate_with_provider_name",
+                side_effect=[
+                    ai.AIProviderFallbackNeeded("gemini provider failed: HTTP 503 unavailable"),
+                    ai.AIProviderFallbackNeeded("groq provider failed: HTTP 503 unavailable"),
+                    ("raw", "openrouter:model"),
+                ],
+            ) as call_provider,
+            patch.object(ai, "_parse_complete_ai_json", return_value=dict(response)),
+            patch.object(ai, "_shorten_metadata_once_if_needed", side_effect=lambda data: data),
+            patch.object(ai, "_normalize_ai_output", side_effect=lambda data: data),
+            patch.object(ai, "_finalize_html_content", side_effect=lambda data, package: data),
+            patch.object(ai, "_ensure_verified_position_count", side_effect=lambda data, package: data),
+            patch.object(ai, "_ensure_required_verified_facts", side_effect=lambda data, package: data),
+            patch.object(ai, "_validate_ai_output", return_value=validation),
+            patch.object(ai, "_minimum_article_words_for_package", return_value=1),
+            patch.object(ai, "_open_global_circuit") as open_global,
+        ):
+            result = ai.process_one_selected_article_with_ai(target_article_id="outage-job")
 
-        self.assertEqual(call_provider.call_count, 2)
-        open_global.assert_called_once()
-        self.assertEqual(result["failure_scope"], "global_outage")
-        self.assertEqual(result["failure_category"], "outage")
-
+        self.assertEqual(call_provider.call_count, 3)
+        open_global.assert_not_called()
+        self.assertEqual(result["success"], 1)
+        self.assertEqual(article["ai_provider_used"], "openrouter:model")
     def test_provider_preflight_failure_becomes_global_backoff_without_ai_call(self):
         article = {
             "id": "no-provider-job",
@@ -2842,6 +2847,15 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(result["failure_scope"], "quality")
         self.assertEqual(article["ai_quality_repairs_used"], 2)
 
+    def test_global_provider_fingerprint_does_not_backoff_one_article(self):
+        article = {
+            "ai_failure_scope": "global_outage",
+            "ai_failure_fingerprint": "global-fp",
+        }
+        with patch.object(ai, "_failure_fingerprint_retry_until", return_value=2000000000):
+            self.assertEqual(ai._article_ai_retry_until(article), 0.0)
+
+
     def test_provider_sequence_skips_open_provider_circuits(self):
         with patch.object(ai, "JOBS_MODE", True), \
              patch.object(ai, "_resolve_providers", return_value=["gemini", "groq"]), \
@@ -2907,7 +2921,6 @@ class JobsRuntimeTests(unittest.TestCase):
 
         with (
             patch.object(main, "JOBS_MODE", True),
-            patch.object(main, "JOBS_AI_CROSS_CANDIDATE_RETRIES", 1),
             patch.object(main, "_mark_candidate_failure_for_retry", return_value=failed),
             patch.object(main, "_select_retry_candidate", return_value=fresh) as select,
             patch.object(
@@ -2966,7 +2979,8 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(captured["ids"], ["fresh-job"])
         self.assertEqual(selected["id"], "fresh-job")
 
-    def test_run_ai_cross_candidate_retry_is_capped_to_one(self):
+
+    def test_run_ai_cross_candidate_retry_scans_until_success(self):
         failed = {
             "id": "failed-job",
             "url": "https://example.com/jobs/failed",
@@ -2979,22 +2993,26 @@ class JobsRuntimeTests(unittest.TestCase):
 
         with (
             patch.object(main, "JOBS_MODE", True),
-            patch.object(main, "JOBS_AI_CROSS_CANDIDATE_RETRIES", 1),
             patch.object(main, "_mark_candidate_failure_for_retry", return_value=failed),
-            patch.object(
-                main,
-                "_select_retry_candidate",
-                side_effect=[next_one, next_two],
-            ) as select,
+            patch.object(main, "load_article_queue", return_value={"articles": [failed, next_one, next_two]}),
+            patch.object(main, "_select_retry_candidate", side_effect=[next_one, next_two]) as select,
             patch.object(
                 main,
                 "_process_job_target",
-                return_value={
-                    "completed": False,
-                    "article": next_one,
-                    "reason": "AI quality failed",
-                    "step_reached": "run-ai",
-                },
+                side_effect=[
+                    {
+                        "completed": False,
+                        "article": next_one,
+                        "reason": "AI quality failed",
+                        "step_reached": "run-ai",
+                    },
+                    {
+                        "completed": True,
+                        "article": next_two,
+                        "reason": "",
+                        "step_reached": "publish",
+                    },
+                ],
             ) as process,
             patch.object(main, "ai_circuit_status", return_value={"global_open": False}),
         ):
@@ -3007,11 +3025,10 @@ class JobsRuntimeTests(unittest.TestCase):
                 {"failed-job"},
             )
 
-        self.assertIsNone(success)
-        self.assertEqual(len(retries), 1)
-        self.assertEqual(select.call_count, 1)
-        self.assertEqual(process.call_count, 1)
-
+        self.assertEqual(success["article"]["id"], "next-two")
+        self.assertEqual(len(retries), 2)
+        self.assertEqual(select.call_count, 2)
+        self.assertEqual(process.call_count, 2)
     def test_mark_candidate_failure_preserves_ai_retry_backoff(self):
         article = {
             "id": "backoff-job",
@@ -4910,13 +4927,50 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertTrue(row["job_identity_final"])
         self.assertIn("duplicate confirmed", row["skip_reason"])
 
-    def test_jobs_selector_respects_failed_candidate_cooldown(self):
+
+    def test_jobs_selector_respects_all_candidate_retry_clocks(self):
         now = datetime(2026, 9, 28, tzinfo=timezone.utc)
-        row = {"status": "ready", "content_fetch_status": "success",
-               "candidate_retry_after": (now + timedelta(minutes=45)).isoformat()}
-        with patch.object(job_core, "prepare_job_candidate") as prepare:
-            self.assertIsNone(job_core.select_best_job_from_queue({"articles": [row]}, now))
-            prepare.assert_not_called()
+        for field in ("ai_retry_after", "candidate_retry_after", "enrichment_retry_after"):
+            row = {
+                "status": "ready",
+                "content_fetch_status": "success",
+                field: (now + timedelta(minutes=45)).isoformat(),
+            }
+            with self.subTest(field=field), patch.object(job_core, "prepare_job_candidate") as prepare:
+                self.assertIsNone(job_core.select_best_job_from_queue({"articles": [row]}, now))
+                prepare.assert_not_called()
+    def test_runtime_repair_releases_stale_selected_and_clears_expired_retries(self):
+        now = datetime(2026, 10, 1, 20, 0, tzinfo=timezone.utc)
+        row = {
+            "id": "stale-selected",
+            "status": "selected",
+            "selected_at": "2026-10-01T18:00:00+00:00",
+            "ai_retry_after": "2026-10-01T19:00:00+00:00",
+            "candidate_retry_after": "2026-10-01T19:10:00+00:00",
+            "enrichment_retry_after": "2026-10-01T19:20:00+00:00",
+            "ai_retry_pending": True,
+            "ai_failure_scope": "retry_backoff",
+            "ai_previous_failure_scope": "quality",
+        }
+        queue = {"articles": [row]}
+        with patch.object(article_queue, "load_article_queue", return_value=queue), \
+             patch.object(article_queue, "save_article_queue") as save:
+            result = article_queue.repair_runtime_queue_state(
+                now=now,
+                selected_stale_minutes=30,
+            )
+
+        self.assertTrue(result["changed"])
+        self.assertEqual(result["expired_retry_fields_cleared"], 3)
+        self.assertEqual(result["selected_released"], 1)
+        self.assertEqual(row["status"], "ready")
+        self.assertEqual(row["ai_failure_scope"], "quality")
+        self.assertNotIn("selected_at", row)
+        self.assertNotIn("ai_retry_after", row)
+        self.assertNotIn("candidate_retry_after", row)
+        self.assertNotIn("enrichment_retry_after", row)
+        save.assert_called_once()
+
 
     def test_retry_uses_job_validation_and_excludes_attempted_ids(self):
         first, second = {"id": "failed"}, {"id": "verified", "status": "ready"}
