@@ -34,7 +34,7 @@ from config import (
 from production_logging import elapsed_ms, log_event
 from internal_link_cache import load_internal_link_cache
 from job_visual_policy import choose_job_template
-from company_logo_resolver import verified_company_logo
+from company_logo_resolver import refresh_company_logo, verified_company_logo
 from utils.facebook_image_generator import generate_facebook_image
 from job_core import (
     facebook_slot_status,
@@ -1419,10 +1419,16 @@ def _build_caption(article, pattern, blogger_url=None):
 def _main_image_url(article):
     if JOBS_MODE:
         logo = verified_company_logo(article)
+        if not (logo.get("company_logo_verified") and logo.get("company_logo_url")):
+            # Queue recovery can restore an old Blogger post without the visual
+            # metadata that existed during enrichment. Before sacrificing a
+            # Facebook slot, re-check the official job page once through the
+            # same strict resolver used by the article pipeline.
+            logo = refresh_company_logo(article)
         if logo.get("company_logo_verified") and logo.get("company_logo_url"):
             return str(logo["company_logo_url"]).strip()
         # Jobs visuals never substitute the generated article cover, a source
-        # hero image, or plain employer text for a missing verified logo.
+        # hero image, or an unverified mark for a missing verified employer logo.
         return ""
     if article.get("main_image"):
         return article["main_image"]
