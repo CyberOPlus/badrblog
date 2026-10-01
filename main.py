@@ -2389,6 +2389,18 @@ def run_ai_only(force=False):
     if force:
         print("Force mode: selected AI-completed article will be regenerated.\n")
 
+    # Rebuild evidence/package immediately before a standalone AI run too.
+    # The normal safe-cycle already does prepare-ai first, but this Phase 6
+    # command can otherwise reuse stale OCR-derived fields/manifest from an
+    # earlier code version.
+    prepare_stats = prepare_selected_articles_for_ai()
+    if prepare_stats.get("checked"):
+        print(
+            "Pre-AI refresh:       "
+            f"{prepare_stats.get('ready_for_ai', 0)} ready / "
+            f"{prepare_stats.get('failed', 0)} failed"
+        )
+
     stats = process_one_selected_article_with_ai(force=force)
     article = stats.get("article")
 
