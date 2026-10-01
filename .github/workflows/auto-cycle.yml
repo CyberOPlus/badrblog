@@ -3,11 +3,13 @@ name: Jobs Auto Cycle
 # watchdog is recovery-only; a completed cycle must not recursively dispatch
 # another cycle because that creates idle 2-minute loops and wasted runs.
 
-# Permanent production cadence. The first scheduled run after restoration is
-# the single post-repair live verification; watchdog remains paused until it passes.
+# One-time live verification trigger. This push path fires exactly once for
+# this workflow-file commit; the permanent cron is restored after verification.
 on:
-  schedule:
-    - cron: "1,7,13,19,25,31,37,43,49,55 * * * *"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/auto-cycle.yml"
   workflow_dispatch:
     inputs:
       verify:
@@ -217,7 +219,7 @@ jobs:
               "PUBLISH_MODE": "live",
               "SAFE_MODE": "false",
               "BLOGGER_LIVE_ENABLED": "true",
-              "FACEBOOK_AUTO_POST": "false" if os.environ.get("GITHUB_EVENT_NAME") == "push" else "true",
+              "FACEBOOK_AUTO_POST": "true",
               "META_GRAPH_API_VERSION": "v26.0",
               "JOBS_FACEBOOK_FOLLOW_ARTICLE": "true",
               "JOBS_FACEBOOK_MAX_POSTS_PER_DAY": "240",
