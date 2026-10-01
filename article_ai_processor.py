@@ -940,30 +940,42 @@ Manual Related Posts:
 """.strip()
 
 
-def _clean_prompt_source_text(value):
-    """Remove freshness/identity metadata before it ever reaches the writer."""
-    text = re.sub(r"\s+", " ", str(value or "")).strip()
+_INTERNAL_JOB_DATE_VALUE_RE = (
+    r"(?:\\d{4}-\\d{2}-\\d{2}|\\d{1,2}[/-]\\d{1,2}[/-]\\d{4}|"
+    r"\\d{1,2}\\s+[A-Za-zÀ-ÿ\\u0600-\\u06FF]+\\s+\\d{4})"
+)
+_INTERNAL_JOB_PUBLICATION_METADATA_RE = re.compile(
+    rf"(?:تاريخ\\s+النشر|تاريخ\\s+نشر\\s+(?:الإعلان|الوظيفة)|"
+    rf"تاريخ\\s+الإعلان|date\\s+de\\s+publication|publication\\s+date|"
+    rf"published\\s+on)\\s*[:：-]?\\s*{_INTERNAL_JOB_DATE_VALUE_RE}",
+    flags=re.I,
+)
+_INTERNAL_JOB_REFERENCE_METADATA_RE = re.compile(
+    r"(?:المرجع|الرقم\\s+المرجعي|رمز\\s+المباراة|"
+    r"r[eé]f(?:[ée]rence)?\\.?|reference(?:\\s+(?:no\\.?|number))?)"
+    r"\\s*[:：#-]?\\s*[A-Za-z0-9._/-]{2,60}",
+    flags=re.I,
+)
+
+
+def _strip_internal_job_metadata_text(value, *, collapse_whitespace=False):
+    """Strip labeled freshness/reference metadata without deleting legitimate dates."""
+    text = str(value or "")
     if not text:
         return ""
-    date_value = (
-        r"(?:\d{4}-\d{2}-\d{2}|\d{1,2}[/-]\d{1,2}[/-]\d{4}|"
-        r"\d{1,2}\s+[A-Za-zÀ-ÿ\u0600-\u06FF]+\s+\d{4})"
-    )
-    text = re.sub(
-        rf"(?i)(?:تاريخ\s+النشر|تاريخ\s+نشر\s+(?:الإعلان|الوظيفة)|"
-        rf"تاريخ\s+الإعلان|date\s+de\s+publication|publication\s+date|"
-        rf"published\s+on)\s*[:：-]?\s*{date_value}",
-        " ",
-        text,
-    )
-    text = re.sub(
-        r"(?i)(?:المرجع|الرقم\s+المرجعي|رمز\s+المباراة|"
-        r"r[eé]f(?:[ée]rence)?\.?|reference(?:\s+(?:no\.?|number))?)"
-        r"\s*[:：#-]?\s*[A-Za-z0-9._/-]{2,60}",
-        " ",
-        text,
-    )
-    return re.sub(r"\s{2,}", " ", text).strip()
+    text = _INTERNAL_JOB_PUBLICATION_METADATA_RE.sub(" ", text)
+    text = _INTERNAL_JOB_REFERENCE_METADATA_RE.sub(" ", text)
+    if collapse_whitespace:
+        text = re.sub(r"\\s+", " ", text).strip()
+    else:
+        text = re.sub(r"[ \\t]{2,}", " ", text)
+        text = re.sub(r"\\s+([،,.;؛:])", r"\\1", text)
+    return text
+
+
+def _clean_prompt_source_text(value):
+    """Remove freshness/identity metadata before it ever reaches the writer."""
+    return _strip_internal_job_metadata_text(value, collapse_whitespace=True)
 
 
 def _compact_prompt_document_texts(rows):
@@ -1545,8 +1557,16 @@ def _shorten_metadata_once_if_needed(data):
 
 
 def _normalize_ai_output(data):
-    data["title"] = str(data.get("title", "")).strip()
-    data["description"] = str(data.get("description", "")).strip()
+    # Metadata labels occasionally reappear even when the writer prompt forbids
+    # them. Remove those deterministic leaks before spending an AI repair.
+    data["title"] = _strip_internal_job_metadata_text(
+        data.get("title", ""),
+        collapse_whitespace=True,
+    )
+    data["description"] = _strip_internal_job_metadata_text(
+        data.get("description", ""),
+        collapse_whitespace=True,
+    )
     data["slug"] = (
         (_normalize_job_english_slug(data.get("slug", ""), max_words=7))
     )
@@ -1868,17 +1888,21 @@ def _remove_internal_job_metadata(html_content, package=None):
         for value in (package.get("_internal_hidden_job_values") or [])
         if str(value or "").strip()
     ]
-    if hidden_values:
-        for node in list(soup.find_all(string=True)):
-            text = str(node)
-            cleaned = text
-            for value in hidden_values:
-                cleaned = cleaned.replace(value, "")
-            cleaned = re.sub(r"\s{2,}", " ", cleaned)
-            cleaned = re.sub(r"\s+([،,.;؛:])", r"\1", cleaned)
-            if cleaned != text:
-                node.replace_with(cleaned)
-                changed = True
+    # Also scrub labeled publication/reference clauses when the AI embeds them
+    # inside an otherwise useful sentence. This is deterministic metadata, not
+    # an editorial fact, so it should not consume a provider quality-repair call.
+    for node in list(soup.find_all(string=True)):
+        if node.parent and node.parent.name in {"script", "style"}:
+            continue
+        text = str(node)
+        cleaned = _strip_internal_job_metadata_text(text)
+        for value in hidden_values:
+            cleaned = cleaned.replace(value, "")
+        cleaned = re.sub(r"[ \t]{2,}", " ", cleaned)
+        cleaned = re.sub(r"\s+([،,.;؛:])", r"\1", cleaned)
+        if cleaned != text:
+            node.replace_with(cleaned)
+            changed = True
 
     return str(soup) if changed else html_content
 
