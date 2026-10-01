@@ -1580,8 +1580,11 @@ def select_best_job_from_queue(queue, now=None):
             continue
         if article.get("content_fetch_status") != "success":
             continue
-        retry_after = _parse_date(article.get("candidate_retry_after") or article.get("enrichment_retry_after"))
-        if retry_after and retry_after > now:
+        retry_deadlines = [
+            _parse_date(article.get(field))
+            for field in ("ai_retry_after", "candidate_retry_after", "enrichment_retry_after")
+        ]
+        if any(retry_after and retry_after > now for retry_after in retry_deadlines):
             continue
         quality, decision = prepare_job_candidate(article, now=now)
         if decision["action"] == "duplicate":
