@@ -80,11 +80,12 @@ def _as_utc(parsed):
 
 
 def _candidate_retry_after(article):
-    for field in ("candidate_retry_after", "enrichment_retry_after"):
-        parsed = _as_utc(_parse_iso(article.get(field)))
-        if parsed:
-            return parsed
-    return None
+    deadlines = [
+        _as_utc(_parse_iso(article.get(field)))
+        for field in ("ai_retry_after", "candidate_retry_after", "enrichment_retry_after")
+    ]
+    deadlines = [value for value in deadlines if value is not None]
+    return max(deadlines) if deadlines else None
 
 
 def is_candidate_in_recent_failure(article, now=None):
@@ -95,6 +96,80 @@ def is_candidate_in_recent_failure(article, now=None):
     if now.tzinfo is None:
         now = now.replace(tzinfo=timezone.utc)
     return retry_after > now.astimezone(timezone.utc)
+
+
+
+def repair_runtime_queue_state(now=None, selected_stale_minutes=30):
+    """Repair expired retry clocks and abandoned selected rows."""
+    current = now or datetime.now(timezone.utc)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=timezone.utc)
+    else:
+        current = current.astimezone(timezone.utc)
+
+    queue = load_article_queue()
+    stats = {
+        "changed": False,
+        "expired_retry_fields_cleared": 0,
+        "selected_released": 0,
+        "articles_touched": 0,
+    }
+
+    for article in queue.get("articles", []):
+        if article.get("archived"):
+            continue
+        touched = False
+        cleared_ai_retry = False
+
+        for field in ("ai_retry_after", "candidate_retry_after", "enrichment_retry_after"):
+            retry_at = _as_utc(_parse_iso(article.get(field)))
+            if retry_at is not None and retry_at <= current:
+                article.pop(field, None)
+                stats["expired_retry_fields_cleared"] += 1
+                touched = True
+                if field == "ai_retry_after":
+                    cleared_ai_retry = True
+
+        if cleared_ai_retry:
+            article.pop("ai_retry_pending", None)
+            if str(article.get("ai_failure_scope") or "") == "retry_backoff":
+                previous_scope = str(article.pop("ai_previous_failure_scope", "") or "").strip()
+                if previous_scope:
+                    article["ai_failure_scope"] = previous_scope
+                else:
+                    article.pop("ai_failure_scope", None)
+
+        published = bool(
+            article.get("status") in {"published", "draft_created"}
+            or article.get("publish_status") in {"published", "draft_created"}
+            or article.get("blogger_post_id")
+            or article.get("blogger_draft_id")
+        )
+        if article.get("status") == "selected" and not published:
+            selected_at = _as_utc(_parse_iso(article.get("selected_at")))
+            stale = (
+                selected_at is None
+                or current - selected_at >= timedelta(
+                    minutes=max(1, int(selected_stale_minutes or 30))
+                )
+            )
+            if stale:
+                article["status"] = "ready"
+                article["selection_recovered_at"] = current.isoformat(timespec="seconds")
+                article["selection_recovery_reason"] = "stale_selected_without_active_worker"
+                article.pop("selected_at", None)
+                article.pop("selection_reason", None)
+                stats["selected_released"] += 1
+                touched = True
+
+        if touched:
+            stats["articles_touched"] += 1
+            stats["changed"] = True
+
+    if stats["changed"]:
+        save_article_queue(queue)
+        log_event("jobs_runtime_queue_repaired", **stats)
+    return stats
 
 
 def _retry_after_iso(minutes=None, now=None):
