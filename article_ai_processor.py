@@ -54,6 +54,7 @@ from config import (
     CLOUDFLARE_TIMEOUT_SECONDS,
     MAX_AI_RETRIES,
     JOBS_AI_QUALITY_REPAIRS,
+    JOBS_AI_MAX_OUTPUT_TOKENS,
     JOBS_AI_TIMEOUT_RETRIES,
     OPENAI_API_KEY,
     OPENAI_API_URL,
@@ -87,6 +88,18 @@ LONG_FORM_ARTICLE_TARGET_RANGE = "700-1000"
 RICH_INPUT_MIN_SOURCE_WORDS = 180
 RICH_INPUT_MIN_SOURCE_CHARS = 1200
 REQUIRED_ARTICLE_FIELDS = ("title", "description", "slug", "html_content")
+
+def _effective_output_token_limit(configured):
+    """Keep Jobs completions proportional to concise article output."""
+    try:
+        configured = max(1, int(configured or 1))
+    except (TypeError, ValueError):
+        configured = JOBS_AI_MAX_OUTPUT_TOKENS
+    if JOBS_MODE:
+        return min(configured, JOBS_AI_MAX_OUTPUT_TOKENS)
+    return configured
+
+
 ALLOWED_JOB_NOTICE_TYPES = {
     "vacancy",
     "competition",
@@ -2173,7 +2186,7 @@ def _generate_with_openrouter(prompt, api_key=None, model_name=None, timeout_sec
         json={
             "model": model_name,
             "messages": [{"role": "user", "content": prompt}],
-            "max_tokens": OPENROUTER_MAX_TOKENS,
+            "max_tokens": _effective_output_token_limit(OPENROUTER_MAX_TOKENS),
             "temperature": 0.35,
             "response_format": {"type": "json_object"},
         },
@@ -2209,7 +2222,7 @@ def _generate_with_openai(prompt, api_key=None, model_name=None, timeout_seconds
         json={
             "model": model_name,
             "messages": [{"role": "user", "content": prompt}],
-            "max_tokens": OPENAI_MAX_TOKENS,
+            "max_tokens": _effective_output_token_limit(OPENAI_MAX_TOKENS),
             "temperature": 0.35,
             "response_format": {"type": "json_object"},
         },
@@ -2250,7 +2263,7 @@ def _generate_openai_compatible(
         json={
             "model": model_name,
             "messages": [{"role": "user", "content": prompt}],
-            "max_tokens": max_tokens,
+            "max_tokens": _effective_output_token_limit(max_tokens),
             "temperature": 0.30,
         },
         timeout=timeout_seconds,
@@ -2313,7 +2326,7 @@ def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_sec
         },
         json={
             "prompt": prompt,
-            "max_tokens": CLOUDFLARE_MAX_TOKENS,
+            "max_tokens": _effective_output_token_limit(CLOUDFLARE_MAX_TOKENS),
             "temperature": 0.20,
             # Jobs article generation is a JSON contract. Workers AI supports
             # JSON mode directly, which avoids prose/fence prefixes and malformed
