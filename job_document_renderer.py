@@ -254,7 +254,8 @@ def extract_job_document_texts(
     """
     existing = article.get("job_document_texts")
     previous_failures = int(article.get("job_document_text_download_failures") or 0)
-    if isinstance(existing, list) and existing and previous_failures == 0:
+    previous_read_complete = article.get("job_document_text_read_complete") is True
+    if isinstance(existing, list) and previous_failures == 0 and previous_read_complete:
         return existing
 
     eligible = _eligible_documents(article, max_documents=max_documents)
@@ -264,6 +265,12 @@ def extract_job_document_texts(
         article["job_document_text_chars"] = 0
         article["job_document_text_attempted_documents"] = 0
         article["job_document_text_download_failures"] = 0
+        article["job_document_ocr_attempts"] = 0
+        article["job_document_ocr_pages"] = 0
+        article["job_document_ocr_failures"] = 0
+        article["job_document_ocr_unavailable"] = False
+        article["job_document_unread_pages"] = 0
+        article["job_document_text_read_complete"] = True
         return []
 
     extracted = []
@@ -272,9 +279,11 @@ def extract_job_document_texts(
     truncated = False
     attempted_documents = 0
     download_failures = 0
+    ocr_attempts = 0
     ocr_pages = 0
     ocr_failures = 0
     ocr_unavailable = False
+    unread_pages = 0
     ocr_page_budget = (
         max(0, int(max_total_pages or 0))
         if max_ocr_pages is None
@@ -325,8 +334,16 @@ def extract_job_document_texts(
             # Some scanned notices expose only a page number/header as selectable
             # text. Treat very sparse text as scanned evidence and prefer OCR when
             # it recovers a materially fuller page.
-            if len(page_text) < 80 and ocr_pages < ocr_page_budget:
+            ocr_attempted = False
+            ocr_error = ""
+            if (
+                len(page_text) < 80
+                and not ocr_unavailable
+                and ocr_attempts < ocr_page_budget
+            ):
                 original_page_text = page_text
+                ocr_attempted = True
+                ocr_attempts += 1
                 ocr_text, ocr_error = _ocr_pdf_page_text(
                     page,
                     article_id=article.get("id"),
@@ -349,6 +366,10 @@ def extract_job_document_texts(
                     ocr_failures += 1
 
             if not page_text:
+                # A successful OCR pass can legitimately find a blank/decorative
+                # page. Only pages that could not actually be read stay retryable.
+                if not ocr_attempted or ocr_error:
+                    unread_pages += 1
                 continue
 
             remaining = max_total_chars - total_chars
@@ -379,9 +400,18 @@ def extract_job_document_texts(
     article["job_document_text_truncated"] = bool(truncated)
     article["job_document_text_attempted_documents"] = attempted_documents
     article["job_document_text_download_failures"] = download_failures
+    article["job_document_ocr_attempts"] = ocr_attempts
     article["job_document_ocr_pages"] = ocr_pages
     article["job_document_ocr_failures"] = ocr_failures
     article["job_document_ocr_unavailable"] = bool(ocr_unavailable)
+    article["job_document_unread_pages"] = unread_pages
+    # This marks a clean pass through the configured pre-AI PDF evidence budget.
+    article["job_document_text_read_complete"] = bool(
+        download_failures == 0
+        and ocr_failures == 0
+        and not ocr_unavailable
+        and unread_pages == 0
+    )
     return extracted
 
 
