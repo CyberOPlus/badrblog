@@ -461,13 +461,36 @@ class JobsRuntimeTests(unittest.TestCase):
             article_enricher._jobs_enrichment_priority(technical, 1, now=now),
         )
 
-    def test_jobs_enrichment_keeps_old_still_valid_job_eligible_for_fetch(self):
+    def test_jobs_enrichment_prefers_technical_role_inside_same_freshness_band(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        technical = {
+            "status": "ready",
+            "job_title": "Stage PFE Développeur Cloud DevOps",
+            "source_published_at": "2026-09-30T10:00:00+00:00",
+            "score": 10,
+            "source_priority": "B",
+        }
+        general = {
+            "status": "ready",
+            "job_title": "Chargé de clientèle",
+            "source_published_at": "2026-09-30T10:30:00+00:00",
+            "score": 100,
+            "source_priority": "S+",
+        }
+        self.assertLess(
+            article_enricher._jobs_enrichment_priority(technical, 1, now=now),
+            article_enricher._jobs_enrichment_priority(general, 0, now=now),
+        )
+
+    def test_jobs_enrichment_skips_known_stale_job_before_fetch(self):
         article = {
-            "id": "older-still-valid",
-            "url": "https://example.com/jobs/older-still-valid",
+            "id": "stale-known",
+            "url": "https://example.com/jobs/stale-known",
             "status": "ready",
             "category_label": "jobs-morocco",
-            "source_published_at": "2026-09-28T08:00:00+00:00",
+            "source_published_at": (
+                datetime.now(timezone.utc) - timedelta(hours=13)
+            ).isoformat(),
             "job_title": "Développeur Backend",
         }
         queue = {"articles": [article]}
@@ -476,16 +499,16 @@ class JobsRuntimeTests(unittest.TestCase):
             patch.object(article_enricher, "load_article_queue", return_value=queue),
             patch.object(article_enricher, "save_article_queue") as save,
             patch.object(article_enricher, "_can_run_async_fetch", return_value=False),
-            patch.object(article_enricher, "enrich_article", return_value=(True, "")) as enrich,
+            patch.object(article_enricher, "enrich_article") as enrich,
         ):
             result = article_enricher.enrich_ready_articles(force=False)
 
-        self.assertEqual(article["status"], "ready")
-        self.assertNotIn("freshness_rejected_at", article)
-        self.assertNotIn("skip_reason", article)
-        enrich.assert_called_once_with(article)
+        self.assertEqual(article["status"], "skipped")
+        self.assertIn("outside fresh window", article["skip_reason"])
+        self.assertIn("freshness_rejected_at", article)
+        enrich.assert_not_called()
         save.assert_called_once()
-        self.assertEqual(result["enriched"], 1)
+        self.assertEqual(result["enriched"], 0)
 
     def test_jobs_enrichment_priority_advances_near_deadline_before_score(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
@@ -1310,6 +1333,25 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertGreater(
             facebook._facebook_job_priority(near, now=now),
             facebook._facebook_job_priority(far, now=now),
+        )
+
+    def test_facebook_queue_prefers_technical_job_when_other_factors_match(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        base = {
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/job.html",
+            "facebook_status": "facebook_pending",
+            "job_notice_type": "vacancy",
+            "job_number_of_positions": 1,
+            "job_score": 70,
+            "facebook_queued_at": now.isoformat(),
+        }
+        cyber = dict(base, id="cyber", job_title="Analyste Cybersécurité SOC")
+        general = dict(base, id="general", job_title="Chargé de clientèle")
+        self.assertGreater(
+            facebook._facebook_job_priority(cyber, now=now),
+            facebook._facebook_job_priority(general, now=now),
         )
 
     def test_facebook_queue_aging_prevents_low_score_starvation(self):
