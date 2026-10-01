@@ -2134,9 +2134,9 @@ class JobsRuntimeTests(unittest.TestCase):
              patch.object(ai, "_record_failure_fingerprint", return_value=("quality-fp", "quality", 2000000000)):
             result = ai.process_one_selected_article_with_ai(target_article_id="quality-job")
 
-        self.assertEqual(generated, ["gemini", "gemini"])
+        self.assertEqual(generated, ["gemini", "gemini", "groq", "groq"])
         self.assertEqual(result["failure_scope"], "quality")
-        self.assertEqual(article["ai_quality_repairs_used"], 1)
+        self.assertEqual(article["ai_quality_repairs_used"], 2)
 
     def test_provider_sequence_skips_open_provider_circuits(self):
         with patch.object(ai, "JOBS_MODE", True), \
