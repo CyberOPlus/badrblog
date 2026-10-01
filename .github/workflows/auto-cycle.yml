@@ -38,6 +38,7 @@ jobs:
       - name: Recover invalid Jobs queue from git history
         shell: bash
         run: |
+          set +e
           python - <<'PY'
           import json
           from pathlib import Path
@@ -65,6 +66,7 @@ jobs:
           raise SystemExit(42)
           PY
           recovery_status=$?
+          set -e
 
           if [ "$recovery_status" -eq 0 ]; then
             exit 0
