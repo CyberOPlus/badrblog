@@ -139,12 +139,26 @@ def _prepare_identity_evidence(article):
         article.get("identity_evidence_document_fingerprint") or ""
     )
     previous_failures = int(article.get("job_document_text_download_failures") or 0)
+    previous_ocr_failures = int(article.get("job_document_ocr_failures") or 0)
+    previous_ocr_unavailable = bool(article.get("job_document_ocr_unavailable"))
+    previous_unread_pages = int(article.get("job_document_unread_pages") or 0)
+    existing_texts = article.get("job_document_texts") or []
+    existing_text_chars = int(article.get("job_document_text_chars") or 0)
 
+    # A matching URL fingerprint does not prove that the PDF evidence was actually
+    # read. Older/partial runs could cache the fingerprint after a scanned PDF
+    # produced no text (for example when OCR was unavailable). Retry until every
+    # eligible PDF has either yielded text/OCR evidence or is explicitly retried.
     should_extract_documents = bool(
         document_fingerprint
         and (
             document_fingerprint != previous_fingerprint
             or previous_failures > 0
+            or previous_ocr_failures > 0
+            or previous_ocr_unavailable
+            or previous_unread_pages > 0
+            or not existing_texts
+            or existing_text_chars <= 0
         )
     )
 
@@ -154,11 +168,34 @@ def _prepare_identity_evidence(article):
             article["job_document_text_pages"] = 0
             article["job_document_text_chars"] = 0
             article["job_document_text_download_failures"] = 0
+            article["job_document_ocr_failures"] = 0
+            article["job_document_ocr_unavailable"] = False
+            article["job_document_unread_pages"] = 0
         extract_job_document_texts(article)
         failures = int(article.get("job_document_text_download_failures") or 0)
-        if failures == 0:
+        ocr_failures = int(article.get("job_document_ocr_failures") or 0)
+        ocr_unavailable = bool(article.get("job_document_ocr_unavailable"))
+        unread_pages = int(article.get("job_document_unread_pages") or 0)
+        attempted_documents = int(article.get("job_document_text_attempted_documents") or 0)
+        has_text_evidence = bool(
+            (article.get("job_document_texts") or [])
+            and int(article.get("job_document_text_chars") or 0) > 0
+        )
+        documents_read = bool(
+            attempted_documents == 0
+            or (
+                has_text_evidence
+                and failures == 0
+                and ocr_failures == 0
+                and not ocr_unavailable
+                and unread_pages == 0
+            )
+        )
+        if documents_read:
             article["identity_evidence_document_fingerprint"] = document_fingerprint
         else:
+            # Do not permanently cache an unread/partially read scanned PDF.
+            # A later cycle can retry OCR/download without changing the URL.
             article.pop("identity_evidence_document_fingerprint", None)
     elif not document_fingerprint:
         article["identity_evidence_document_fingerprint"] = ""
