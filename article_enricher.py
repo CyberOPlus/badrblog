@@ -30,7 +30,12 @@ from config import (
 from production_logging import elapsed_ms, log_event
 from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
 from job_extractor import _deadline_from_text, extract_job_fields
-from job_core import invalidate_identity_evidence, job_deadline_time, job_focus_priority
+from job_core import (
+    invalidate_identity_evidence,
+    job_deadline_time,
+    job_focus_priority,
+    job_freshness_band,
+)
 from company_logo_resolver import resolve_company_logo
 
 try:
@@ -1839,6 +1844,7 @@ def _jobs_enrichment_priority(article, queue_index=0, now=None):
     except (TypeError, ValueError):
         queue_score = 0
     score = max(job_score, queue_score)
+    freshness_band = job_freshness_band(article, now=now)
     focus_rank = job_focus_priority(article)
 
     published_raw = str(
@@ -1857,10 +1863,12 @@ def _jobs_enrichment_priority(article, queue_index=0, now=None):
         except ValueError:
             published_epoch = 0.0
 
-    # Deadline urgency stays first. Then prioritize cyber/IT/developer/student
-    # roles, then verified publication freshness. Score/source only break ties.
+    # Deadline urgency stays first. Then move the newest verified publication
+    # band first; inside that band prefer cyber/IT/developer/student roles.
+    # Score/source only break the remaining ties.
     return (
         -deadline_rank,
+        -freshness_band,
         -focus_rank,
         -published_epoch,
         -status_rank,
