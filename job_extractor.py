@@ -551,6 +551,18 @@ def extract_job_fields(soup, article, page_url, full_text=""):
     employment = node.get("employmentType")
     if isinstance(employment, list):
         employment = ", ".join(_text(x) for x in employment if _text(x))
+    employment_text = _text(employment)
+
+    opportunity_text = f"{job_title} {employment_text} {body[:1600]}".casefold()
+    internship_detected = bool(
+        re.search(
+            r"(?i)(?:\binternship\b|\bintern\b|\bstage\b|\bstagiaire\b|"
+            r"\bpfe\b|\balternance\b|\btrainee\b|تدريب|متدرب)",
+            opportunity_text,
+        )
+    )
+    if internship_detected and not employment_text:
+        employment_text = "Internship"
 
     notice_type = _notice_type(job_title, body)
     if (
@@ -616,9 +628,9 @@ def extract_job_fields(soup, article, page_url, full_text=""):
     visa = bool(re.search(r"(?i)visa\s+sponsor|sponsorship|parrainage\s+visa", body or ""))
 
     lower = (body or "").casefold()
-    entry_level = any(x in lower for x in (
+    entry_level = internship_detected or any(x in lower for x in (
         "débutant", "debutant", "sans expérience", "sans experience", "entry level",
-        "junior", "stage", "stagiaire", "fresh graduate",
+        "junior", "stage", "stagiaire", "internship", "intern", "fresh graduate",
     ))
 
     fields = {
@@ -626,7 +638,8 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         "job_company": company,
         "job_location": location,
         "job_country": country_code,
-        "job_contract_type": _text(employment),
+        "job_contract_type": employment_text,
+        "job_internship": internship_detected,
         "job_salary": _salary(node),
         "job_deadline": deadline,
         "job_deadline_display": deadline_display,
