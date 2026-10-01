@@ -745,6 +745,98 @@ def _parse_date(value):
     return None
 
 
+def job_publication_freshness(article, now=None, max_age_hours=None):
+    """
+    Validate publication freshness without inventing a posting time.
+
+    Official sources sometimes expose only a calendar date (YYYY-MM-DD).
+    For those records, the exact hour is unknowable: the official date is fresh
+    only while that same date is still current in the Jobs timezone. Real
+    timestamps keep the strict hour-based window.
+    """
+    raw = str(
+        (article or {}).get("job_published_at")
+        or (article or {}).get("source_published_at")
+        or ""
+    ).strip()
+    current = now or datetime.now(timezone.utc)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=timezone.utc)
+    else:
+        current = current.astimezone(timezone.utc)
+
+    try:
+        max_hours = float(
+            JOBS_MAX_PUBLISH_AGE_HOURS
+            if max_age_hours is None
+            else max_age_hours
+        )
+    except (TypeError, ValueError):
+        max_hours = float(JOBS_MAX_PUBLISH_AGE_HOURS)
+
+    if not raw:
+        return {
+            "verified": False,
+            "fresh": False,
+            "future": False,
+            "date_only": False,
+            "age_hours": None,
+            "raw": raw,
+        }
+
+    date_only = bool(re.fullmatch(r"\d{4}-\d{2}-\d{2}", raw))
+    official = bool(
+        (article or {}).get("official_source")
+        or (article or {}).get("job_official_source")
+    )
+    if date_only and official:
+        try:
+            publication_day = datetime.fromisoformat(raw).date()
+        except ValueError:
+            publication_day = None
+        if publication_day is not None:
+            current_day = current.astimezone(
+                ZoneInfo(MOROCCO_TIMEZONE)
+            ).date()
+            if publication_day > current_day:
+                return {
+                    "verified": True,
+                    "fresh": False,
+                    "future": True,
+                    "date_only": True,
+                    "age_hours": None,
+                    "raw": raw,
+                }
+            return {
+                "verified": True,
+                "fresh": publication_day == current_day,
+                "future": False,
+                "date_only": True,
+                "age_hours": None,
+                "raw": raw,
+            }
+
+    published = _parse_date(raw)
+    if published is None:
+        return {
+            "verified": False,
+            "fresh": False,
+            "future": False,
+            "date_only": date_only,
+            "age_hours": None,
+            "raw": raw,
+        }
+    age_hours = (current - published).total_seconds() / 3600
+    return {
+        "verified": True,
+        "fresh": 0 <= age_hours <= max_hours,
+        "future": age_hours < 0,
+        "date_only": date_only,
+        "age_hours": age_hours,
+        "raw": raw,
+    }
+
+
 def _public_http(url):
     try:
         parsed = urlparse(str(url or "").strip())
@@ -792,16 +884,9 @@ def score_job(article, now=None):
     official = bool(article.get("official_source") or article.get("job_official_source"))
     points["official_source"] = 25 if official else 0
 
-    published = _parse_date(article.get("job_published_at") or article.get("source_published_at"))
-    publication_age_hours = (
-        (now - published).total_seconds() / 3600
-        if published
-        else None
-    )
-    fresh = bool(
-        publication_age_hours is not None
-        and 0 <= publication_age_hours <= JOBS_MAX_PUBLISH_AGE_HOURS
-    )
+    freshness = job_publication_freshness(article, now=now)
+    publication_age_hours = freshness["age_hours"]
+    fresh = bool(freshness["fresh"])
     points[f"fresh_under_{JOBS_MAX_PUBLISH_AGE_HOURS}h"] = 15 if fresh else 0
     points["preferred_tech_or_student"] = 10 if job_focus_priority(article) > 0 else 0
 
@@ -837,11 +922,11 @@ def score_job(article, now=None):
     if not valid_apply:
         reasons.append("missing verified application resource")
 
-    if published is None:
+    if not freshness["verified"]:
         reasons.append("publication time is not verified")
-    elif publication_age_hours is not None and publication_age_hours < 0:
+    elif freshness["future"]:
         reasons.append("publication time is in the future")
-    elif publication_age_hours is not None and publication_age_hours > JOBS_MAX_PUBLISH_AGE_HOURS:
+    elif not freshness["fresh"]:
         reasons.append(f"job is older than {JOBS_MAX_PUBLISH_AGE_HOURS} hours")
 
     normalized_title = normalize_text(article.get("job_title") or article.get("title"))
@@ -864,10 +949,9 @@ def score_job(article, now=None):
     hard_gate_passed = not reasons
     permanent_hard_failure = bool(
         expired
-        or published is None
-        or publication_age_hours is None
-        or publication_age_hours < 0
-        or publication_age_hours > JOBS_MAX_PUBLISH_AGE_HOURS
+        or not freshness["verified"]
+        or freshness["future"]
+        or not freshness["fresh"]
         or not _public_http(source_url)
         or normalized_title in {
             "jobs", "job", "careers", "career", "recruitment", "recrutement",
@@ -887,6 +971,7 @@ def score_job(article, now=None):
         "passed": passed,
         "hard_gate_passed": hard_gate_passed,
         "publication_age_hours": round(publication_age_hours, 2) if publication_age_hours is not None else None,
+        "publication_date_only": bool(freshness["date_only"]),
         "max_publish_age_hours": JOBS_MAX_PUBLISH_AGE_HOURS,
         "focus_priority": job_focus_priority(article),
         "points": points,
