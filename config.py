@@ -217,6 +217,14 @@ JOBS_ENRICH_MAX_TARGETS_PER_CYCLE = max(
     min(50, _env_int("JOBS_ENRICH_MAX_TARGETS_PER_CYCLE", 12)),
 )
 
+# Publish only opportunities whose official publication time proves they are fresh.
+# Unknown publication time is not treated as fresh. The configured value is
+# deliberately capped at 24h; production uses the stricter agreed 12h window.
+JOBS_MAX_PUBLISH_AGE_HOURS = max(
+    1,
+    min(24, _env_int("JOBS_MAX_PUBLISH_AGE_HOURS", 12)),
+)
+
 # Jobs discovery pagination. fetch_limit_per_run remains a compatibility/page-size
 # hint; it is no longer the total number of vacancies a source may expose.
 JOBS_DISCOVERY_PAGE_SIZE = max(5, min(50, _env_int("JOBS_DISCOVERY_PAGE_SIZE", 20)))
