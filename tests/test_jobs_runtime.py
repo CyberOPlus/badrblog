@@ -174,6 +174,8 @@ class JobsRuntimeTests(unittest.TestCase):
 
         compact = ai._compact_prompt_package(package)
 
+        self.assertNotIn("source_name", compact)
+        self.assertNotIn("url", compact)
         self.assertNotIn("job_number_of_positions", compact)
         self.assertNotIn("job_remote", compact)
         self.assertNotIn("job_visa_sponsorship", compact)
