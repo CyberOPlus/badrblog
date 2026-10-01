@@ -3804,11 +3804,38 @@ class JobsRuntimeTests(unittest.TestCase):
              patch.object(main, "drain_scheduled_facebook", side_effect=social), \
              patch.object(main, "run_safe_cycle_only", side_effect=cycle), \
              patch.object(main, "save_runtime_state_to_git", return_value={}), \
+             patch.object(main, "record_jobs_cycle_result", return_value={}), \
              patch.object(main, "_append_auto_cycle_run_log"), \
              patch.object(main, "log_event"), redirect_stdout(StringIO()):
             result = main.run_auto_cycle_logged()
-        self.assertEqual(calls, ["facebook", "blogger"])
+        self.assertEqual(calls, ["blogger", "facebook"])
         self.assertEqual(result["scheduled_facebook"]["created"], 1)
+
+    def test_social_drain_exception_does_not_fail_blogger_cycle(self):
+        with patch.object(main, "JOBS_MODE", True), patch.object(main, "FACEBOOK_AUTO_POST", True), \
+             patch.object(main, "_effective_publish_mode", return_value="live"), \
+             patch.object(main, "drain_scheduled_facebook", side_effect=RuntimeError("social failed")), \
+             patch.object(main, "run_safe_cycle_only", return_value={"completed": True}), \
+             patch.object(main, "save_runtime_state_to_git", return_value={}), \
+             patch.object(main, "record_jobs_cycle_result", return_value={}), \
+             patch.object(main, "_append_auto_cycle_run_log"), \
+             patch.object(main, "log_event"), redirect_stdout(StringIO()):
+            result = main.run_auto_cycle_logged()
+        self.assertTrue(result["completed"])
+        self.assertEqual(result["scheduled_facebook"]["failed"], 1)
+
+    def test_follow_article_mode_removes_slot_wait_but_keeps_spacing(self):
+        now = datetime(2026, 10, 1, 0, 0, tzinfo=timezone.utc)
+        with patch.object(job_core, "JOBS_FACEBOOK_FOLLOW_ARTICLE", True):
+            self.assertTrue(job_core.facebook_slot_status(now=now)["allowed_now"])
+            rows = [{"facebook_status": "posted", "facebook_posted_at": now.isoformat()}]
+            with patch.object(facebook, "JOBS_MODE", True), \
+                 patch.object(facebook, "load_article_queue", return_value={"articles": rows}), \
+                 patch.object(facebook, "MAX_FACEBOOK_POSTS_PER_DAY", 240), \
+                 patch.object(facebook, "FACEBOOK_HARD_MAX_POSTS_PER_DAY", 240), \
+                 patch.object(facebook, "FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES", 5):
+                self.assertFalse(facebook.get_facebook_limits_status(now=now)["allowed_now"])
+                self.assertTrue(facebook.get_facebook_limits_status(now=now + timedelta(minutes=5))["allowed_now"])
 
     def test_backlog_never_bypasses_schedule(self):
         pending = [{"id": "one"}, {"id": "two"}]

@@ -1337,17 +1337,24 @@ def run_auto_cycle_logged():
     error = None
     try:
         log_event("auto_cycle_start", run_id=run_id, mode=_effective_publish_mode())
-        if JOBS_MODE and FACEBOOK_AUTO_POST and _effective_publish_mode() == "live":
-            social = drain_scheduled_facebook()
-            print("Scheduled Facebook: " + json.dumps(social, ensure_ascii=False), flush=True)
         result = run_safe_cycle_only()
-        if JOBS_MODE and FACEBOOK_AUTO_POST and _effective_publish_mode() == "live":
-            result["scheduled_facebook"] = social
         return result
     except Exception as exc:
         error = str(exc)
         raise
     finally:
+        # New Blogger articles get their own social attempt first. Backlog and
+        # comment retries still run when discovery/AI fails, and social errors
+        # cannot turn a successful Blogger cycle into a failed cycle.
+        if JOBS_MODE and FACEBOOK_AUTO_POST and _effective_publish_mode() == "live":
+            try:
+                social = drain_scheduled_facebook()
+            except Exception as social_error:
+                social = {"created": 0, "failed": 1, "error_type": social_error.__class__.__name__}
+                log_event("jobs_social_drain_warning", error_type=social_error.__class__.__name__)
+            print("Scheduled Facebook: " + json.dumps(social, ensure_ascii=False), flush=True)
+            if isinstance(result, dict):
+                result["scheduled_facebook"] = social
         execution_seconds = round(time.perf_counter() - started_timer, 2)
         if isinstance(result, dict):
             result["execution_seconds"] = execution_seconds
@@ -3251,9 +3258,15 @@ def run_safe_cycle_only():
     ):
         print("\n[8/8] post-facebook", flush=True)
         print("Draining Facebook pending queue", flush=True)
-        facebook_result = post_one_article_to_facebook(
-            respect_limits=not _jobs_one_shot_force_run(),
-        )
+        try:
+            facebook_result = post_one_article_to_facebook(
+                target_article_id=selected_id,
+                respect_limits=not _jobs_one_shot_force_run(),
+            )
+        except Exception as social_error:
+            facebook_result = {"posted": False, "deferred": True, "error_type": social_error.__class__.__name__}
+            log_event("jobs_social_after_publish_warning", article_id=selected_id,
+                      error_type=social_error.__class__.__name__)
         print_facebook_post_summary(facebook_result)
         article = _find_article_by_id(selected_id)
     elif publish_mode == "draft":

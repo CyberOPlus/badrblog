@@ -425,6 +425,36 @@ class JobsCoreTests(unittest.TestCase):
             scraper._discovery_identity(first).startswith("url:")
         )
 
+    def test_generic_discovery_filters_known_urls_on_every_adapter(self):
+        source = {"name": "Generic", "base_url": "https://jobs.example/jobs", "enabled": True}
+        known = {"title": "Known", "url": "https://jobs.example/jobs/old"}
+        new = {"title": "New", "url": "https://jobs.example/jobs/new"}
+        crawl = {"job_seen_ids": [scraper._discovery_identity(known)]}
+        with patch.object(scraper, "JOBS_MODE", True), \
+             patch.object(scraper, "_can_run_async_discovery", return_value=False), \
+             patch.object(scraper, "source_crawl_record", return_value=crawl), \
+             patch.object(scraper, "_filter_healthy_sources", side_effect=lambda sources: (sources, [])), \
+             patch.object(scraper, "_collect_article_links_for_source", return_value=([known, new, new], "", 200, {})), \
+             patch.object(scraper, "_record_source_result"), \
+             patch.object(scraper, "update_source_crawl"):
+            result = scraper.discover_latest_article_links([source])
+        self.assertEqual([x["url"] for x in result["articles"]], [new["url"]])
+
+    def test_async_generic_discovery_filters_known_urls(self):
+        source = {"name": "Generic", "base_url": "https://jobs.example/jobs", "enabled": True}
+        known = {"title": "Known", "url": "https://jobs.example/jobs/old"}
+        new = {"title": "New", "url": "https://jobs.example/jobs/new"}
+        crawl = {"job_seen_ids": [scraper._discovery_identity(known)]}
+        async def collect(*args, **kwargs):
+            return [known, new, new], "", 200, {}
+        with patch.object(scraper, "JOBS_MODE", True), \
+             patch.object(scraper, "source_crawl_record", return_value=crawl), \
+             patch.object(scraper, "_collect_article_links_for_source_async", side_effect=collect), \
+             patch.object(scraper, "_record_source_result"), \
+             patch.object(scraper, "update_source_crawl"):
+            result = asyncio.run(scraper._discover_latest_article_links_async([source]))
+        self.assertEqual([x["url"] for x in result["articles"]], [new["url"]])
+
     def test_generic_tuple_discovery_identity_is_supported(self):
         identity = scraper._discovery_identity(
             ("Network Engineer", "https://jobs.example.com/jobs/123")

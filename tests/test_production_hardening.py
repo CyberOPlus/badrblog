@@ -1639,9 +1639,9 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn('"TARGET_LIVE_POSTS_PER_DAY": "240"', text)
         self.assertIn('"MIN_MINUTES_BETWEEN_LIVE_POSTS": "0"', text)
         self.assertIn('"META_GRAPH_API_VERSION": "v26.0"', text)
-        self.assertIn('"MAX_FACEBOOK_POSTS_PER_DAY": "2"', text)
-        self.assertIn('"FACEBOOK_HARD_MAX_POSTS_PER_DAY": "3"', text)
-        self.assertIn('"FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES": "45"', text)
+        self.assertIn('"MAX_FACEBOOK_POSTS_PER_DAY": "240"', text)
+        self.assertIn('"FACEBOOK_HARD_MAX_POSTS_PER_DAY": "240"', text)
+        self.assertIn('"FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES": "5"', text)
         self.assertIn('"JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "5"', text)
         self.assertIn("continue-on-error: true", text)
         self.assertIn("for attempt in 1 2 3 4 5 6; do", text)
@@ -1652,6 +1652,12 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn("merge_jobs_queue_snapshot", text)
         self.assertIn("Jobs queue changed upstream; merging remote and runner snapshot.", text)
         self.assertIn("added_snapshot_only", text)
+        self.assertIn('"JOBS_FACEBOOK_FOLLOW_ARTICLE": "true"', text)
+        self.assertIn('"JOBS_MAX_PUBLISH_AGE_HOURS": "12"', text)
+        watchdog = Path(".github/workflows/jobs-watchdog.yml").read_text(encoding="utf-8")
+        self.assertIn('workflows: ["Jobs Auto Cycle"]', watchdog)
+        self.assertIn("types: [completed]", watchdog)
+        self.assertIn('context.eventName === "workflow_run"', watchdog)
         self.assertNotIn("prefer_jobs_queue_snapshot", text)
 
     def test_live_post_allowed_after_one_minute(self):
@@ -1874,10 +1880,9 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertTrue(result["completed"])
         post_fb.assert_called_once()
         self.assertTrue(post_fb.call_args.kwargs.get("respect_limits"))
-        # Facebook is a real pending queue now. Blogger success triggers a queue
-        # drain, not a forced post for the article that just published; deadline
-        # and queue priority decide which pending job is promoted next.
-        self.assertNotIn("target_article_id", post_fb.call_args.kwargs)
+        # The article that just published gets the first social attempt;
+        # pacing still applies and failed delivery remains in the queue.
+        self.assertEqual(post_fb.call_args.kwargs["target_article_id"], selected["id"])
 
     def test_facebook_safety_interval_cannot_be_disabled_by_zero_env_value(self):
         now = datetime(2026, 4, 27, 12, 10, 0)
