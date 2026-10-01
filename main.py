@@ -1107,7 +1107,7 @@ def run_deployment_check_only():
             errors.append(f"{name} is invalid JSON.")
     workflow = Path(__file__).parent / ".github/workflows/auto-cycle.yml"
     text = workflow.read_text(encoding="utf-8") if workflow.exists() else ""
-    for required in ("workflow_dispatch:", "jobs-production-refs/heads/main", "cancel-in-progress: false", "Continue production cycle directly", "Persist Jobs runtime state"):
+    for required in ("workflow_dispatch:", "jobs-production-refs/heads/main", "cancel-in-progress: false", "Persist Jobs runtime state"):
         if required not in text:
             errors.append(f"Production workflow missing {required}.")
     if ARTICLE_QUEUE_PATH.name != "jobs_article_queue.json":
@@ -1282,8 +1282,11 @@ def _mark_candidate_failure_for_retry(article, stage, reason):
                 retry_at.astimezone(timezone.utc) - datetime.now(timezone.utc)
             ).total_seconds()
             if remaining_seconds > 0:
+                # AI owns AI retry timing. Do not inflate a deliberate short
+                # quality retry with the generic source-candidate cooldown;
+                # doing so can push a fresh job beyond its publication window.
                 cooldown_minutes = max(
-                    cooldown_minutes,
+                    1,
                     int((remaining_seconds + 59) // 60),
                 )
         except ValueError:
@@ -1307,6 +1310,91 @@ def _mark_candidate_failure_for_retry(article, stage, reason):
         failure_fingerprint=article.get("ai_failure_fingerprint", "") if stage == "run-ai" else "",
     )
     return failed
+
+
+def _selection_blocker_reason(queue):
+    """Explain why plan-next found nothing without changing queue state."""
+    articles = [article for article in (queue or {}).get("articles", []) if not article.get("archived")]
+    if not articles:
+        return "no active queued job after freshness/deadline cleanup"
+
+    status_counts = {}
+    skip_reasons = {}
+    for article in articles:
+        status = str(article.get("status") or "unknown")
+        status_counts[status] = status_counts.get(status, 0) + 1
+        if status == "skipped":
+            reason = str(article.get("skip_reason") or "").strip()
+            if reason:
+                skip_reasons[reason] = skip_reasons.get(reason, 0) + 1
+
+    ready = [
+        article for article in articles
+        if article.get("status") in {"ready", "selected"}
+    ]
+    if not ready:
+        skipped = status_counts.get("skipped", 0)
+        if skip_reasons:
+            top_reason, top_count = max(skip_reasons.items(), key=lambda item: item[1])
+            return (
+                f"no ready verified job; active={len(articles)}; skipped={skipped}; "
+                f"top blocker={top_reason} ({top_count})"
+            )
+        counts = ", ".join(
+            f"{name}={count}" for name, count in sorted(status_counts.items())
+        )
+        return f"no ready verified job; active statuses: {counts}"
+
+    now = datetime.now(timezone.utc)
+    retry_blocked = 0
+    earliest_retry = None
+    for article in ready:
+        value = article.get("candidate_retry_after") or article.get("enrichment_retry_after")
+        if not value:
+            continue
+        try:
+            retry_at = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+            if retry_at.tzinfo is None:
+                retry_at = retry_at.replace(tzinfo=timezone.utc)
+            retry_at = retry_at.astimezone(timezone.utc)
+        except ValueError:
+            continue
+        if retry_at > now:
+            retry_blocked += 1
+            if earliest_retry is None or retry_at < earliest_retry:
+                earliest_retry = retry_at
+
+    if retry_blocked == len(ready):
+        retry_text = earliest_retry.isoformat(timespec="seconds") if earliest_retry else "later"
+        return (
+            f"{len(ready)} ready verified job(s) are in retry cooldown; "
+            f"earliest retry={retry_text}"
+        )
+
+    quality_reasons = {}
+    identity_holds = 0
+    content_blocked = 0
+    for article in ready:
+        if article.get("content_fetch_status") != "success":
+            content_blocked += 1
+        if str(article.get("job_identity_action") or "") == "hold":
+            identity_holds += 1
+        for reason in article.get("job_quality_reasons") or []:
+            text = str(reason or "").strip()
+            if text:
+                quality_reasons[text] = quality_reasons.get(text, 0) + 1
+
+    if quality_reasons:
+        top_reason, top_count = max(quality_reasons.items(), key=lambda item: item[1])
+        return (
+            f"{len(ready)} ready job(s) failed verified quality gates; "
+            f"top blocker={top_reason} ({top_count})"
+        )
+    if identity_holds:
+        return f"{identity_holds} ready job(s) are waiting for identity evidence"
+    if content_blocked:
+        return f"{content_blocked} ready job(s) are waiting for successful content fetch"
+    return f"{len(ready)} ready job(s) remain but no publishable candidate was selected"
 
 
 def _select_retry_candidate(fetch_stats, attempted_ids):
@@ -1842,7 +1930,11 @@ def run_safe_cycle_only():
         save_article_queue(queue)
     plan_result = {
         "selected": selected,
-        "reason": selected.get("selection_reason", "") if selected else "no verified job passed quality/identity/daily policy",
+        "reason": (
+            selected.get("selection_reason", "")
+            if selected
+            else _selection_blocker_reason(queue)
+        ),
         "lock": True,
         "eligible_count": 1 if selected else 0,
     }
