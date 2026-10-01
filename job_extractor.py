@@ -476,6 +476,67 @@ def _extract_job_action_links(soup, page_url, full_text=""):
             context=match.group(0)[:320],
         )
 
+    # Emploi-Public occasionally exposes its official download controls through
+    # client-rendered markup that is not present as ordinary <a href> nodes in the
+    # raw response consumed by the bot. Recover only deterministic official
+    # document routes tied to the exact notice UUID; never guess a foreign notice.
+    parsed_page = urlparse(page_url)
+    host = parsed_page.netloc.casefold().removeprefix("www.")
+    notice_uuid_match = re.search(
+        r"(?i)([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})",
+        parsed_page.path,
+    )
+    if host == "emploi-public.ma" and notice_uuid_match:
+        notice_uuid = notice_uuid_match.group(1)
+        page_text = _text(soup.get_text(" ", strip=True))
+        raw_markup = str(soup)
+        evidence = f"{page_text} {raw_markup}".casefold()
+
+        # First keep any exact paths that are already embedded anywhere in the
+        # markup, even when they are not represented by a normal anchor node.
+        path_patterns = (
+            rf"(/(?:ar|fr)/[^\"'<>\s]*/arrete/{re.escape(notice_uuid)})",
+            rf"(/(?:ar|fr)/[^\"'<>\s]*/fichiers_att/{re.escape(notice_uuid)}/\d+)",
+        )
+        for pattern in path_patterns:
+            for match in re.finditer(pattern, raw_markup, flags=re.I):
+                path = match.group(1).replace("&amp;", "&")
+                label = (
+                    "قرار فتح المباراة"
+                    if "/arrete/" in path.casefold()
+                    else "بطاقة الوظيفة"
+                )
+                add(path, label, "document", context=label)
+
+        # Arabic detail pages have stable official download routes. Synthesize
+        # them only when the exact visible label proves that the document exists.
+        if "قرار فتح المباراة" in page_text or "قرار فتح" in page_text:
+            add(
+                f"/ar/تحميل/المباريات/arrete/{notice_uuid}",
+                "قرار فتح المباراة",
+                "document",
+                context="تحميل الملفات",
+            )
+
+        if "بطاقة الوظيفة" in page_text:
+            attachment_indexes = sorted({
+                int(value)
+                for value in re.findall(
+                    rf"fichiers_att/{re.escape(notice_uuid)}/(\d+)",
+                    raw_markup,
+                    flags=re.I,
+                )
+            })
+            if not attachment_indexes:
+                attachment_indexes = [0]
+            for index in attachment_indexes[:12]:
+                add(
+                    f"/ar/تحميل/المباريات/fichiers_att/{notice_uuid}/{index}",
+                    "بطاقة الوظيفة" if index == 0 else f"ملف مرفق {index + 1}",
+                    "document",
+                    context="الملفات المرفقة",
+                )
+
     # Public recruitment campaigns can expose many specialization/result PDFs.
     # Keep enough exact official links to build a complete table instead of silently
     # dropping rows after the eighth document.
