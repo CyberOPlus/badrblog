@@ -179,6 +179,19 @@
           "source_eligibility": "morocco",
           "strict_source_path": false,
           "source_note": "Official ADM eTalent adapter; accepts only real /offre/<id> vacancies."
+        },
+        {
+          "name": "CIH Bank",
+          "base_url": "https://recrutement.cihbank.ma/front-offres.html",
+          "enabled": true,
+          "fetch_limit_per_run": 20,
+          "extractor_type": "cih_jobs",
+          "source_priority": "S",
+          "official_source": true,
+          "source_country": "MA",
+          "source_eligibility": "morocco",
+          "strict_source_path": false,
+          "source_note": "Official CIH Bank careers listing; adapter accepts only /<id>_offre-emploi-<slug>.html vacancies, captures official listing dates, and follows numeric page pagination."
         }
       ]
     },
