@@ -151,6 +151,17 @@
       "retry_until": 1790867077.6820464,
       "scope": "provider"
     },
+    "e54adca08768c8b77065": {
+      "category": "quality",
+      "count": 1,
+      "first_seen_at": "2026-10-01T15:02:59",
+      "last_seen_at": "2026-10-01T15:02:59",
+      "last_seen_epoch": 1790866979.2836852,
+      "provider": "cloudflare",
+      "reason": "AI article response is missing required field(s): title, description, slug, html_content, notice_type",
+      "retry_until": 1790867279.2836852,
+      "scope": "quality"
+    },
     "fde6cf46cadeff71bc26": {
       "category": "quota",
       "count": 1,
@@ -207,6 +218,15 @@
       "provider": "cloudflare",
       "successes": 2,
       "total_success_time": 56.3404
+    },
+    "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
+      "avg_time": 10.5091,
+      "key_id": "be6dab2cd8",
+      "last_success_at": "2026-10-01T15:02:59",
+      "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
+      "provider": "cloudflare",
+      "successes": 2,
+      "total_success_time": 21.0182
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 14.6138,
