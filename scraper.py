@@ -18,6 +18,7 @@ from bs4 import BeautifulSoup
 from content_filter import is_promotional_article
 from duplicate_utils import canonicalize_url, title_hash, topic_signature
 from production_logging import elapsed_ms, log_event
+from job_core import job_publication_freshness
 
 try:
     import aiohttp
@@ -79,6 +80,24 @@ if SCRAPLING_AVAILABLE:
 SMART_FRESHNESS_INITIAL_HOURS = 6
 SMART_FRESHNESS_EXPANDED_HOURS = 12
 FRESHNESS_HARD_MAX_HOURS = 24 * 7
+
+
+def _jobs_discovery_row(link, source_meta, now=None):
+    """Build one Jobs row; skip only listings already proven outside 24h."""
+    row = {
+        **{key: value for key, value in (link or {}).items() if key not in {"source_name", "source_url"}},
+        "title": (link or {}).get("title", ""),
+        "url": (link or {}).get("url", ""),
+        **source_meta,
+    }
+    freshness = job_publication_freshness(row, now=now)
+    row["job_discovery_freshness_bucket"] = freshness.get("bucket", "")
+    row["job_discovery_freshness_rank"] = int(freshness.get("preferred_rank") or 0)
+    if freshness.get("age_hours") is not None:
+        row["article_age_hours"] = round(float(freshness["age_hours"]), 2)
+    if freshness.get("bucket") in {"too_old", "future"}:
+        return None, freshness
+    return row, freshness
 
 
 def _discovery_identity(link):
@@ -3329,26 +3348,42 @@ async def _discover_latest_article_links_async(enabled_sources):
         update_source_crawl(result["base_url"], **crawl_fields)
 
         result_links = result["links"] if JOBS_MODE else result["links"][:fetch_limit]
+        stale_listing_skipped = 0
+        source_meta = {
+            "source_name": result["source_name"],
+            "source_url": result["base_url"],
+            "category_hint": result["category_hint"],
+            "category_key": result["category_key"],
+            "category_name": result["category_name"],
+            "category_label": result["category_label"],
+            "source_priority": result.get("source_priority", ""),
+            "official_source": bool(result.get("official_source", False)),
+            "source_country": result.get("source_country", ""),
+            "source_eligibility": result.get("source_eligibility", ""),
+            "source_remote": bool(result.get("source_remote", False)),
+            "source_visa_sponsorship": bool(result.get("source_visa_sponsorship", False)),
+        }
         for link in result_links:
-            discovered.append(
-                {
+            if JOBS_MODE:
+                row, freshness = _jobs_discovery_row(link, source_meta)
+                if row is None:
+                    stale_listing_skipped += 1
+                    log_event(
+                        "job_listing_skipped_stale_at_discovery",
+                        source=result["source_name"],
+                        article_url=(link or {}).get("url", ""),
+                        bucket=freshness.get("bucket", ""),
+                        age_hours=freshness.get("age_hours"),
+                    )
+                    continue
+                discovered.append(row)
+            else:
+                discovered.append({
                     **{key: value for key, value in link.items() if key not in {"source_name", "source_url"}},
                     "title": link.get("title", ""),
                     "url": link.get("url", ""),
-                    "source_name": result["source_name"],
-                    "source_url": result["base_url"],
-                    "category_hint": result["category_hint"],
-                    "category_key": result["category_key"],
-                    "category_name": result["category_name"],
-                    "category_label": result["category_label"],
-                    "source_priority": result.get("source_priority", ""),
-                    "official_source": bool(result.get("official_source", False)),
-                    "source_country": result.get("source_country", ""),
-                    "source_eligibility": result.get("source_eligibility", ""),
-                    "source_remote": bool(result.get("source_remote", False)),
-                    "source_visa_sponsorship": bool(result.get("source_visa_sponsorship", False)),
-                }
-            )
+                    **source_meta,
+                })
 
         source_results.append(
             {
@@ -3369,6 +3404,7 @@ async def _discover_latest_article_links_async(enabled_sources):
                 "stop_reason": result.get("details", {}).get("discovery_meta", {}).get("stop_reason", ""),
                 "pages_scanned": result.get("details", {}).get("discovery_meta", {}).get("pages_scanned", 0),
                 "links_found": len(result["links"]),
+                "freshness_old_skipped": stale_listing_skipped,
                 "status": "failed" if result["error"] else "success",
                 "listing_status_code": result["status_code"],
                 "error": result["error"],
@@ -3559,26 +3595,42 @@ def discover_latest_article_links(sources):
             print(f"  Source failed without stopping the fetch run: {error}")
 
         result_links = links if JOBS_MODE else links[:fetch_limit]
+        stale_listing_skipped = 0
+        source_meta = {
+            "source_name": source_name,
+            "source_url": base_url,
+            "category_hint": category_hint,
+            "category_key": category_key,
+            "category_name": category_name,
+            "category_label": category_label,
+            "source_priority": source.get("source_priority", ""),
+            "official_source": bool(source.get("official_source", False)),
+            "source_country": source.get("source_country", ""),
+            "source_eligibility": source.get("source_eligibility", ""),
+            "source_remote": bool(source.get("source_remote", False)),
+            "source_visa_sponsorship": bool(source.get("source_visa_sponsorship", False)),
+        }
         for link in result_links:
-            discovered.append(
-                {
+            if JOBS_MODE:
+                row, freshness = _jobs_discovery_row(link, source_meta)
+                if row is None:
+                    stale_listing_skipped += 1
+                    log_event(
+                        "job_listing_skipped_stale_at_discovery",
+                        source=source_name,
+                        article_url=(link or {}).get("url", ""),
+                        bucket=freshness.get("bucket", ""),
+                        age_hours=freshness.get("age_hours"),
+                    )
+                    continue
+                discovered.append(row)
+            else:
+                discovered.append({
                     **{key: value for key, value in link.items() if key not in {"source_name", "source_url"}},
                     "title": link.get("title", ""),
                     "url": link.get("url", ""),
-                    "source_name": source_name,
-                    "source_url": base_url,
-                    "category_hint": category_hint,
-                    "category_key": category_key,
-                    "category_name": category_name,
-                    "category_label": category_label,
-                    "source_priority": source.get("source_priority", ""),
-                    "official_source": bool(source.get("official_source", False)),
-                    "source_country": source.get("source_country", ""),
-                    "source_eligibility": source.get("source_eligibility", ""),
-                    "source_remote": bool(source.get("source_remote", False)),
-                    "source_visa_sponsorship": bool(source.get("source_visa_sponsorship", False)),
-                }
-            )
+                    **source_meta,
+                })
 
         if JOBS_MODE:
             update_source_crawl(
@@ -3620,6 +3672,7 @@ def discover_latest_article_links(sources):
                 "stop_reason": details.get("discovery_meta", {}).get("stop_reason", ""),
                 "pages_scanned": details.get("discovery_meta", {}).get("pages_scanned", 0),
                 "links_found": len(links),
+                "freshness_old_skipped": stale_listing_skipped,
                 "status": "failed" if error else "success",
                 "listing_status_code": status_code,
                 "error": error,
