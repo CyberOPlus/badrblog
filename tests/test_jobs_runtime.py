@@ -3567,6 +3567,71 @@ class JobsRuntimeTests(unittest.TestCase):
             self.assertFalse(scripted.passed)
             self.assertIn("script", scripted.reason)
 
+    def test_ai_quality_failure_is_deferred_without_failing_cycle(self):
+        schedule = {
+            "configured_publish_mode": "live",
+            "publish_mode": "live",
+            "allowed_now": True,
+            "reasons": [],
+        }
+        article = {
+            "id": "quality-retry-job",
+            "url": "https://example.com/jobs/quality-retry-job",
+            "status": "ready",
+            "processing_status": "ready_for_ai",
+            "ai_status": "failed",
+            "ai_failure_scope": "quality",
+            "ai_retry_after": "2099-01-01T00:00:00Z",
+            "job_company": "Verified Employer",
+            "job_title": "Cybersecurity Analyst",
+            "job_score": 90,
+        }
+        queue = {"articles": [article]}
+        with patch.object(main, "_effective_publish_mode", return_value="live"), \
+             patch.object(main, "_effective_action", return_value="LIVE"), \
+             patch.object(main, "_jobs_one_shot_force_run", return_value=False), \
+             patch.object(main, "SAFE_MODE", False), \
+             patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1), \
+             patch.object(main, "SAFE_CYCLE_DRAFT_ONLY", False), \
+             patch.object(main, "repair_job_link_bindings", return_value={}), \
+             patch.object(main, "get_publish_schedule_status", return_value=schedule), \
+             patch.object(main, "print_safe_cycle_status"), \
+             patch.object(main, "run_fetch_only", return_value={
+                 "failed_sources": [], "zero_link_sources": [], "selected_category": ""
+             }), \
+             patch.object(main, "archive_expired_queue_articles", return_value={
+                 "expired_archived": 0, "missing_date_archived": 0
+             }), \
+             patch.object(main, "retry_pending_job_document_renders", return_value={}), \
+             patch.object(main, "run_score_only", return_value={}), \
+             patch.object(main, "run_enrich_only", return_value={"failed": 0, "weak": 0}), \
+             patch.object(main, "_cooldown_sources_after_candidate_failures"), \
+             patch.object(main, "resolve_identity_pending_articles", return_value={}), \
+             patch.object(main, "ai_circuit_status", return_value={"global_open": False}), \
+             patch.object(main, "load_article_queue", return_value=queue), \
+             patch.object(main, "save_article_queue"), \
+             patch.object(main, "select_best_job_from_queue", return_value=article), \
+             patch.object(main, "prepare_selected_articles_for_ai", return_value={
+                 "checked": 1, "ready_for_ai": 1, "failed": 0
+             }), \
+             patch.object(main, "_find_article_by_id", return_value=article), \
+             patch.object(main, "process_one_selected_article_with_ai", return_value={
+                 "processed": 1,
+                 "success": 0,
+                 "failed": 1,
+                 "message": "Jobs article contains an unverified external URL",
+             }), \
+             patch.object(main, "_retry_after_single_candidate_failure", return_value=(None, [])), \
+             patch.object(main, "_print_safe_cycle_final_report"), \
+             redirect_stdout(StringIO()):
+            result = main.run_safe_cycle_only()
+
+        self.assertFalse(result["completed"])
+        self.assertTrue(result["skipped"])
+        self.assertTrue(result["waiting_for_ai_retry"])
+        self.assertEqual(result["step_reached"], "run-ai")
+        self.assertEqual(result["target_article_id"], "quality-retry-job")
+
     def test_publishing_window_block_still_runs_jobs_ingestion(self):
         schedule = {
             "configured_publish_mode": "live",
