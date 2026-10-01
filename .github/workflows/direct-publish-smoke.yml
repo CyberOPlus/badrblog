@@ -183,6 +183,11 @@ jobs:
           for field in (
               "archived","archive_reason","skip_reason","candidate_retry_after",
               "candidate_failure_stage","candidate_failure_reason",
+              "candidate_failure_fingerprint","candidate_failure_repeat_count",
+              "candidate_failure_backoff_minutes","candidate_failed_at",
+              "ai_retry_pending","ai_retry_reason","ai_retry_origin","ai_retry_provider",
+              "ai_failure_scope","ai_previous_failure_scope","ai_failure_fingerprint",
+              "ai_failure_category","ai_retry_after","ai_error",
           ):
               article.pop(field, None)
 
