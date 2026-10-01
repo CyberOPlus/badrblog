@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+import shutil
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
@@ -163,6 +164,71 @@ def _clean_pdf_page_text(value):
     return "\n".join(lines).strip()
 
 
+def _ocr_pdf_page_text(page, *, article_id="", language_hint=""):
+    """OCR scanned official PDF pages when Tesseract is available on the runner."""
+    if not shutil.which("tesseract"):
+        return "", "tesseract_unavailable"
+
+    languages = []
+    try:
+        import subprocess
+        probe = subprocess.run(
+            ["tesseract", "--list-langs"],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        languages = [
+            line.strip()
+            for line in (probe.stdout or "").splitlines()
+            if line.strip() and "List of available languages" not in line
+        ]
+    except Exception:
+        languages = []
+
+    preferred = []
+    hint = str(language_hint or "").casefold()
+    if "arab" in hint or "ar" == hint:
+        preferred.extend(["ara", "fra", "eng"])
+    else:
+        preferred.extend(["fra", "eng", "ara"])
+    selected = [lang for lang in preferred if lang in languages]
+    if not selected and "eng" in languages:
+        selected = ["eng"]
+    if not selected:
+        return "", "ocr_language_unavailable"
+
+    language = "+".join(selected[:2])
+    try:
+        textpage = page.get_textpage_ocr(
+            language=language,
+            dpi=150,
+            full=True,
+        )
+        try:
+            text = page.get_text("text", textpage=textpage, sort=True)
+        except TypeError:
+            text = page.get_text("text", textpage=textpage)
+        text = _clean_pdf_page_text(text)
+        if text:
+            log_event(
+                "job_document_page_ocr_used",
+                article_id=article_id,
+                language=language,
+                chars=len(text),
+            )
+        return text, ""
+    except Exception as error:
+        log_event(
+            "job_document_page_ocr_failed",
+            article_id=article_id,
+            language=language,
+            error=str(error),
+        )
+        return "", str(error)
+
+
 def extract_job_document_texts(
     article,
     *,
@@ -170,6 +236,7 @@ def extract_job_document_texts(
     max_total_pages=48,
     max_chars_per_page=8000,
     max_total_chars=80000,
+    max_ocr_pages=8,
 ):
     """Extract selectable PDF text as pre-AI evidence; scanned pages remain image-only evidence."""
     existing = article.get("job_document_texts")
@@ -192,6 +259,9 @@ def extract_job_document_texts(
     truncated = False
     attempted_documents = 0
     download_failures = 0
+    ocr_pages = 0
+    ocr_failures = 0
+    ocr_unavailable = False
 
     for document_index, item in enumerate(eligible, start=1):
         if total_pages >= max_total_pages or total_chars >= max_total_chars:
@@ -233,6 +303,21 @@ def extract_job_document_texts(
                 page_text = page.get_text("text")
             page_text = _clean_pdf_page_text(page_text)
             total_pages += 1
+
+            if not page_text and ocr_pages < max(0, int(max_ocr_pages or 0)):
+                ocr_text, ocr_error = _ocr_pdf_page_text(
+                    page,
+                    article_id=article.get("id"),
+                    language_hint=article.get("source_country") or article.get("job_country"),
+                )
+                if ocr_text:
+                    page_text = ocr_text
+                    ocr_pages += 1
+                elif ocr_error in {"tesseract_unavailable", "ocr_language_unavailable"}:
+                    ocr_unavailable = True
+                elif ocr_error:
+                    ocr_failures += 1
+
             if not page_text:
                 continue
 
@@ -264,6 +349,9 @@ def extract_job_document_texts(
     article["job_document_text_truncated"] = bool(truncated)
     article["job_document_text_attempted_documents"] = attempted_documents
     article["job_document_text_download_failures"] = download_failures
+    article["job_document_ocr_pages"] = ocr_pages
+    article["job_document_ocr_failures"] = ocr_failures
+    article["job_document_ocr_unavailable"] = bool(ocr_unavailable)
     return extracted
 
 
