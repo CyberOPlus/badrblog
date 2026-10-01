@@ -1589,12 +1589,9 @@ def _process_job_target(selected, publish_mode):
     }
 
     try:
-        prepare_stats = _run_timed_jobs_stage(
-        "prepare_ai",
-        stage_timings,
-        prepare_selected_articles_for_ai,
-        target_article_id=selected_id,
-    )
+        prepare_stats = prepare_selected_articles_for_ai(
+            target_article_id=selected_id
+        )
         article = _find_article_by_id(selected_id)
     except Exception as error:
         log_event(
