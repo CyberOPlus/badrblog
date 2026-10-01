@@ -14,6 +14,7 @@ from config import (
     JOBS_ACTIVE_END_HOUR,
     JOBS_ACTIVE_START_HOUR,
     JOBS_ADAPTIVE_PUBLISHING,
+    JOBS_FRESHNESS_MAX_HOURS,
     JOBS_MIN_PUBLISH_INTERVAL_MINUTES,
 )
 from jobs_adaptive_controller import current_policy
@@ -99,6 +100,142 @@ def normalize_text(value):
     text = re.sub(r"[\u064b-\u065f\u0670]", "", text)
     text = re.sub(r"[^\w\u0600-\u06ff]+", " ", text)
     return re.sub(r"\s+", " ", text).strip()
+
+
+_CYBER_FOCUS_TERMS = (
+    "cybersecurity", "cyber security", "cybersecurite", "cybersécurité",
+    "securite informatique", "sécurité informatique",
+    "securite des systemes d information", "sécurité des systèmes d information",
+    "soc analyst", "soc", "siem", "pentest", "pentester", "ethical hacking",
+    "iam", "grc", "rssi", "incident response", "threat intelligence",
+    "امن سيبراني", "الأمن السيبراني", "امن المعلومات", "أمن المعلومات",
+    "امن نظم المعلومات", "أمن نظم المعلومات",
+)
+_TECH_FOCUS_TERMS = (
+    "developpeur", "développeur", "developer", "software engineer",
+    "software developer", "full stack", "fullstack", "frontend", "front end",
+    "backend", "back end", "devops", "cloud", "data engineer", "data analyst",
+    "data scientist", "machine learning", "artificial intelligence",
+    "intelligence artificielle", "informatique", "information technology",
+    "it", "network", "reseau", "réseau", "system administrator", "sysadmin",
+    "linux", "windows server", "database", "dba", "sap", "erp", "qa",
+    "automation", "api", "python", "java", "javascript", "react", "angular",
+    "mobile developer", "android", "ios", "ai",
+    "مطور", "مطور برمجيات", "برمجة", "معلوماتية", "تقنية المعلومات",
+    "تكنولوجيا المعلومات", "شبكات", "نظم المعلومات", "حوسبة سحابية",
+    "بيانات", "ذكاء اصطناعي",
+)
+_INTERNSHIP_FOCUS_TERMS = (
+    "internship", "intern", "stage", "stagiaire", "pfe", "alternance",
+    "graduate program", "graduate programme", "trainee",
+    "تدريب", "متدرب", "متدربة", "تدريب نهاية الدراسة", "مشروع نهاية الدراسة",
+)
+
+
+def _focus_term_present(haystack, tokens, term):
+    normalized = normalize_text(term)
+    if not normalized:
+        return False
+    if " " not in normalized and len(normalized) <= 3:
+        return normalized in tokens
+    return normalized in haystack
+
+
+def job_focus_profile(article):
+    """Rank preferred technical/internship opportunities without excluding normal jobs."""
+    fields = (
+        article.get("job_title"),
+        article.get("title"),
+        article.get("job_contract_type"),
+        article.get("job_description"),
+        article.get("content_preview"),
+        article.get("full_article_text"),
+    )
+    haystack = normalize_text(" ".join(str(value or "")[:6000] for value in fields))
+    tokens = set(haystack.split())
+    cyber = any(_focus_term_present(haystack, tokens, term) for term in _CYBER_FOCUS_TERMS)
+    technical = cyber or any(
+        _focus_term_present(haystack, tokens, term) for term in _TECH_FOCUS_TERMS
+    )
+    internship = any(
+        _focus_term_present(haystack, tokens, term) for term in _INTERNSHIP_FOCUS_TERMS
+    )
+
+    if cyber and internship:
+        category, priority = "cybersecurity_internship", 6
+    elif technical and internship:
+        category, priority = "technical_internship", 5
+    elif cyber:
+        category, priority = "cybersecurity", 4
+    elif technical:
+        category, priority = "technology", 3
+    elif internship:
+        category, priority = "internship", 2
+    else:
+        category, priority = "general", 0
+
+    return {
+        "category": category,
+        "priority": priority,
+        "cybersecurity": cyber,
+        "technical": technical,
+        "internship": internship,
+    }
+
+
+def job_freshness(article, now=None):
+    """Return strict verified publication freshness for Jobs selection."""
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    else:
+        now = now.astimezone(timezone.utc)
+
+    raw = str(
+        article.get("job_published_at")
+        or article.get("source_published_at")
+        or ""
+    ).strip()
+    published = _parse_date(raw)
+    if not published:
+        return {
+            "known": False,
+            "eligible": False,
+            "age_hours": None,
+            "band": 0,
+            "published_at": "",
+            "reason": "missing verified publication date",
+        }
+
+    age_hours = (now - published).total_seconds() / 3600.0
+    if age_hours < -2.0:
+        return {
+            "known": True,
+            "eligible": False,
+            "age_hours": age_hours,
+            "band": 0,
+            "published_at": published.isoformat(),
+            "reason": "publication timestamp is implausibly in the future",
+        }
+
+    age_hours = max(0.0, age_hours)
+    eligible = age_hours <= JOBS_FRESHNESS_MAX_HOURS
+    if age_hours <= 3:
+        band = 3
+    elif age_hours <= 6:
+        band = 2
+    elif eligible:
+        band = 1
+    else:
+        band = 0
+    return {
+        "known": True,
+        "eligible": eligible,
+        "age_hours": age_hours,
+        "band": band,
+        "published_at": published.isoformat(),
+        "reason": "" if eligible else f"job posting older than {JOBS_FRESHNESS_MAX_HOURS} hours",
+    }
 
 
 def canonicalize_job_url(url):
@@ -705,9 +842,10 @@ def score_job(article, now=None):
     official = bool(article.get("official_source") or article.get("job_official_source"))
     points["official_source"] = 25 if official else 0
 
+    freshness = job_freshness(article, now=now)
     published = _parse_date(article.get("job_published_at") or article.get("source_published_at"))
-    fresh = bool(published and 0 <= (now - published).total_seconds() / 3600 <= 24)
-    points["fresh_under_24h"] = 15 if fresh else 0
+    fresh = bool(freshness.get("eligible"))
+    points[f"fresh_under_{JOBS_FRESHNESS_MAX_HOURS}h"] = 15 if fresh else 0
 
     priority = str(article.get("source_priority") or "").strip().lower()
     points["trusted_priority_source"] = 10 if priority in TOP_SOURCE_PRIORITIES else 0
@@ -740,6 +878,10 @@ def score_job(article, now=None):
         reasons.append("invalid source URL")
     if not valid_apply:
         reasons.append("missing verified application resource")
+    if not freshness.get("known"):
+        reasons.append("missing verified publication date")
+    elif not freshness.get("eligible"):
+        reasons.append(str(freshness.get("reason") or "job posting is outside the freshness window"))
 
     normalized_title = normalize_text(article.get("job_title") or article.get("title"))
     if normalized_title in {
@@ -761,6 +903,11 @@ def score_job(article, now=None):
     hard_gate_passed = not reasons
     permanent_hard_failure = bool(
         expired
+        or (freshness.get("known") and not freshness.get("eligible"))
+        or (
+            not freshness.get("known")
+            and str(article.get("content_fetch_status") or "").strip() == "success"
+        )
         or not _public_http(source_url)
         or normalized_title in {
             "jobs", "job", "careers", "career", "recruitment", "recrutement",
@@ -786,6 +933,8 @@ def score_job(article, now=None):
         "threshold": MIN_SELECTION_SCORE,
         "queue_threshold": QUEUE_SCORE,
         "threshold_applies_to": "ranking_only",
+        "freshness": freshness,
+        "freshness_max_hours": JOBS_FRESHNESS_MAX_HOURS,
     }
 
 
@@ -1353,6 +1502,17 @@ def prepare_job_candidate(article, now=None):
     article["job_quality_reasons"] = quality["reasons"]
     article["job_hard_gate_passed"] = bool(quality.get("hard_gate_passed", quality["passed"]))
     article["job_hard_gate_reasons"] = list(quality["reasons"])
+    freshness = quality.get("freshness") or job_freshness(article, now=now)
+    article["job_freshness_known"] = bool(freshness.get("known"))
+    article["job_freshness_eligible"] = bool(freshness.get("eligible"))
+    article["job_freshness_age_hours"] = freshness.get("age_hours")
+    article["job_freshness_band"] = int(freshness.get("band") or 0)
+    focus = job_focus_profile(article)
+    article["job_focus_category"] = focus["category"]
+    article["job_focus_priority"] = int(focus["priority"])
+    article["job_focus_technical"] = bool(focus["technical"])
+    article["job_focus_cybersecurity"] = bool(focus["cybersecurity"])
+    article["job_focus_internship"] = bool(focus["internship"])
     article["labels"] = job_labels(article)
     urgency = classify_urgency(article, now=now)
     article["job_urgency"] = urgency
@@ -1422,10 +1582,11 @@ def select_best_job_from_queue(queue, now=None):
         article["job_publish_immediately"] = bool(urgency.get("publish_immediately"))
         priority = 2 if urgency.get("level") in {"critical", "high"} else 1 if urgency.get("level") == "elevated" else 0
 
-        # For otherwise publishable Jobs, freshness is the main queue order.
-        # Quality score is a tie-breaker, never a reason to let a week-old job
-        # sit in front of a newly published verified vacancy. Closing-soon/high
-        # urgency notices still stay ahead so we do not miss a real deadline.
+        # Keep the newest verified opportunities moving first. Within the
+        # same freshness band, prefer cybersecurity/IT/development/internships;
+        # ordinary jobs remain eligible and drain after the preferred focus.
+        freshness = quality.get("freshness") or job_freshness(article, now=now)
+        focus = job_focus_profile(article)
         published = _parse_date(
             article.get("job_published_at")
             or article.get("source_published_at")
@@ -1436,6 +1597,8 @@ def select_best_job_from_queue(queue, now=None):
         ranked.append(
             (
                 priority,
+                int(freshness.get("band") or 0),
+                int(focus.get("priority") or 0),
                 published_epoch,
                 discovered_epoch,
                 quality["score"],
@@ -1444,10 +1607,10 @@ def select_best_job_from_queue(queue, now=None):
         )
 
     ranked.sort(
-        key=lambda row: (row[0], row[1], row[2], row[3]),
+        key=lambda row: (row[0], row[1], row[2], row[3], row[4], row[5]),
         reverse=True,
     )
-    return ranked[0][4] if ranked else None
+    return ranked[0][6] if ranked else None
 
 
 def record_job_publish(article, now=None):
