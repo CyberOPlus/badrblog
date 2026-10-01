@@ -941,19 +941,19 @@ Manual Related Posts:
 
 
 _INTERNAL_JOB_DATE_VALUE_RE = (
-    r"(?:\\d{4}-\\d{2}-\\d{2}|\\d{1,2}[/-]\\d{1,2}[/-]\\d{4}|"
-    r"\\d{1,2}\\s+[A-Za-zÀ-ÿ\\u0600-\\u06FF]+\\s+\\d{4})"
+    r"(?:\d{4}-\d{2}-\d{2}|\d{1,2}[/-]\d{1,2}[/-]\d{4}|"
+    r"\d{1,2}\s+[A-Za-zÀ-ÿ\u0600-\u06FF]+\s+\d{4})"
 )
 _INTERNAL_JOB_PUBLICATION_METADATA_RE = re.compile(
-    rf"(?:تاريخ\\s+النشر|تاريخ\\s+نشر\\s+(?:الإعلان|الوظيفة)|"
-    rf"تاريخ\\s+الإعلان|date\\s+de\\s+publication|publication\\s+date|"
-    rf"published\\s+on)\\s*[:：-]?\\s*{_INTERNAL_JOB_DATE_VALUE_RE}",
+    rf"(?:تاريخ\s+النشر|تاريخ\s+نشر\s+(?:الإعلان|الوظيفة)|"
+    rf"تاريخ\s+الإعلان|date\s+de\s+publication|publication\s+date|"
+    rf"published\s+on)\s*[:：-]?\s*{_INTERNAL_JOB_DATE_VALUE_RE}",
     flags=re.I,
 )
 _INTERNAL_JOB_REFERENCE_METADATA_RE = re.compile(
-    r"(?:المرجع|الرقم\\s+المرجعي|رمز\\s+المباراة|"
-    r"r[eé]f(?:[ée]rence)?\\.?|reference(?:\\s+(?:no\\.?|number))?)"
-    r"\\s*[:：#-]?\\s*[A-Za-z0-9._/-]{2,60}",
+    r"(?:المرجع|الرقم\s+المرجعي|رمز\s+المباراة|"
+    r"r[eé]f(?:[ée]rence)?\.?|reference(?:\s+(?:no\.?|number))?)"
+    r"\s*[:：#-]?\s*[A-Za-z0-9._/-]{2,60}",
     flags=re.I,
 )
 
@@ -966,10 +966,10 @@ def _strip_internal_job_metadata_text(value, *, collapse_whitespace=False):
     text = _INTERNAL_JOB_PUBLICATION_METADATA_RE.sub(" ", text)
     text = _INTERNAL_JOB_REFERENCE_METADATA_RE.sub(" ", text)
     if collapse_whitespace:
-        text = re.sub(r"\\s+", " ", text).strip()
+        text = re.sub(r"\s+", " ", text).strip()
     else:
-        text = re.sub(r"[ \\t]{2,}", " ", text)
-        text = re.sub(r"\\s+([،,.;؛:])", r"\\1", text)
+        text = re.sub(r"[ \t]{2,}", " ", text)
+        text = re.sub(r"\s+([،,.;؛:])", r"\1", text)
     return text
 
 
