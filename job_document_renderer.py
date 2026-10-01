@@ -14,6 +14,7 @@ import requests
 from PIL import Image
 
 from production_logging import log_event
+from job_core import is_application_url_bound_to_job
 
 
 PDF_HINTS = (
@@ -413,6 +414,144 @@ def extract_job_document_texts(
         and unread_pages == 0
     )
     return extracted
+
+
+
+DOCUMENT_APPLICATION_HINTS = (
+    "e-recrutement", "recrutement", "candidature", "candidater",
+    "postuler", "inscription", "registration", "register", "apply", "application",
+    "ترشيح", "الترشيح", "إيداع", "ايداع", "التسجيل",
+)
+DOCUMENT_ASCII_URL_RE = re.compile(
+    r"(?i)(?:https?://|www\\.)[A-Za-z0-9.-]+(?::\\d+)?"
+    r"(?:/[A-Za-z0-9._~:/?#\\[\\]@!def _safe_segment(value):
+'()*+,;=%-]*)?"
+)
+
+
+def _document_application_url_candidates(article):
+    """Find application channels explicitly printed inside verified PDF text."""
+    document_keys = {
+        _canonical_key(item.get("url"))
+        for item in (article.get("job_document_links") or [])
+        if isinstance(item, dict) and _canonical_key(item.get("url"))
+    }
+    detail_key = _canonical_key(
+        article.get("job_detail_url")
+        or article.get("canonical_url")
+        or article.get("url")
+    )
+    candidates = {}
+
+    for page in (article.get("job_document_texts") or []):
+        if not isinstance(page, dict):
+            continue
+        text = str(page.get("text") or "")
+        for match in DOCUMENT_ASCII_URL_RE.finditer(text):
+            raw = str(match.group(0) or "").rstrip(".,;:)")
+            if raw.casefold().startswith("www."):
+                raw = "https://" + raw
+            key = _canonical_key(raw)
+            if not key or key == detail_key or key in document_keys:
+                continue
+
+            start = max(0, match.start() - 180)
+            end = min(len(text), match.end() + 180)
+            context = re.sub(r"\\s+", " ", text[start:end]).strip()
+            signature = f"{raw} {context}".casefold()
+            if not any(hint.casefold() in signature for hint in DOCUMENT_APPLICATION_HINTS):
+                continue
+
+            score = 0
+            url_folded = raw.casefold()
+            if any(hint in url_folded for hint in (
+                "e-recrutement", "recrutement", "candidature",
+                "postuler", "inscription", "apply", "application",
+            )):
+                score += 8
+            if any(hint.casefold() in context.casefold() for hint in DOCUMENT_APPLICATION_HINTS):
+                score += 5
+            host = urlparse(raw).netloc.casefold()
+            if host.endswith(".gov.ma") or host.endswith(".ac.ma"):
+                score += 4
+            if "emploi-public.ma" in host:
+                score += 2
+
+            previous = candidates.get(key)
+            row = {
+                "url": raw,
+                "context": context[:360],
+                "score": score,
+                "page_number": page.get("page_number"),
+            }
+            if previous is None or score > previous["score"]:
+                candidates[key] = row
+
+    return sorted(candidates.values(), key=lambda row: row["score"], reverse=True)
+
+
+def promote_job_document_application_channel(article):
+    """Promote an official application channel printed in the verified PDF.
+
+    This runs only for official public competitions and never replaces an
+    already-verified direct/application-channel URL. The PDF itself supplies the
+    binding evidence by exposing the exact URL for this specific competition.
+    """
+    if str(article.get("job_notice_type") or "").strip().lower() != "competition":
+        return ""
+    if not bool(article.get("official_source") or article.get("job_official_source")):
+        return ""
+
+    current_url = str(article.get("job_application_url") or "").strip()
+    current_kind = str(article.get("job_application_link_kind") or "").strip().lower()
+    if current_url and current_kind in {"direct_apply", "official_application_channel"}:
+        if is_application_url_bound_to_job(article, current_url):
+            return current_url
+
+    for candidate in _document_application_url_candidates(article):
+        url = str(candidate.get("url") or "").strip()
+        if not url:
+            continue
+
+        action_links = [
+            dict(row)
+            for row in (article.get("job_action_links") or [])
+            if isinstance(row, dict)
+        ]
+        key = _canonical_key(url)
+        if not any(
+            str(row.get("kind") or "").strip().lower() == "apply"
+            and _canonical_key(row.get("url")) == key
+            for row in action_links
+        ):
+            action_links.append({
+                "url": url,
+                "label": "منصة الترشيح الرسمية",
+                "kind": "apply",
+                "context": "official_pdf",
+            })
+
+        probe = dict(article)
+        probe["job_action_links"] = action_links
+        probe["job_application_link_kind"] = "official_application_channel"
+        if not is_application_url_bound_to_job(probe, url):
+            continue
+
+        article["job_action_links"] = action_links
+        article["job_application_url"] = url
+        article["job_application_link_kind"] = "official_application_channel"
+        article["job_application_is_specific"] = False
+        article["job_application_is_official_channel"] = True
+        article["job_application_source"] = "official_pdf"
+        log_event(
+            "job_pdf_application_channel_promoted",
+            article_id=article.get("id"),
+            url=url,
+            page=candidate.get("page_number"),
+        )
+        return url
+
+    return ""
 
 
 def _safe_segment(value):
