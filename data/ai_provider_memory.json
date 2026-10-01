@@ -16,6 +16,14 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1790886900.54621
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-01T20:10:12",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1790886016.6275203
     }
   },
   "failure_fingerprints": {
@@ -85,6 +93,17 @@
       "retry_until": 1790809137.42574,
       "scope": "quality"
     },
+    "5536f2970a79bc5a87a5": {
+      "category": "timeout",
+      "count": 1,
+      "first_seen_at": "2026-10-01T20:10:12",
+      "last_seen_at": "2026-10-01T20:10:12",
+      "last_seen_epoch": 1790885412.984712,
+      "provider": "cloudflare,gemini,groq,mistral,openrouter",
+      "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "retry_until": 1790886012.984712,
+      "scope": "global"
+    },
     "554cda85fb88ccc5d23e": {
       "category": "quota",
       "count": 1,
@@ -127,6 +146,17 @@
       "provider": "gemini",
       "reason": "429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/d",
       "retry_until": 1790888293.4111133,
+      "scope": "provider"
+    },
+    "9cd5bdcb42034dceea88": {
+      "category": "timeout",
+      "count": 1,
+      "first_seen_at": "2026-10-01T20:10:12",
+      "last_seen_at": "2026-10-01T20:10:12",
+      "last_seen_epoch": 1790885412.9821656,
+      "provider": "openrouter",
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "retry_until": 1790886012.9821656,
       "scope": "provider"
     },
     "b2683a2f011d9f5c4939": {
@@ -275,9 +305,9 @@
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {
-    "category": "quota",
-    "fingerprint": "c265fd8cf1cd8b0b0d01",
-    "opened_at": "2026-10-01T19:49:57",
+    "category": "timeout",
+    "fingerprint": "5536f2970a79bc5a87a5",
+    "opened_at": "2026-10-01T20:10:12",
     "providers": [
       "cloudflare",
       "gemini",
@@ -285,8 +315,8 @@
       "mistral",
       "openrouter"
     ],
-    "reason": "mistral provider failed: mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_c",
-    "until": 1790885293.2604504
+    "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+    "until": 1790885996.9768977
   },
   "provider_circuits": {
     "cloudflare": {
@@ -323,12 +353,12 @@
       "until": 1790894997.1872928
     },
     "openrouter": {
-      "category": "empty",
-      "fingerprint": "6a52ff2ce198a0896fe8",
-      "opened_at": "2026-10-01T19:28:13",
+      "category": "timeout",
+      "fingerprint": "9cd5bdcb42034dceea88",
+      "opened_at": "2026-10-01T20:10:12",
       "provider": "openrouter",
-      "reason": "OpenRouter returned an empty response.",
-      "until": 1790885293.2604504
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1790886012.9821656
     }
   },
   "stats": {
@@ -390,9 +420,9 @@
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 116.5646,
-      "failures": 6,
+      "failures": 7,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-01T19:28:13",
+      "last_failure_at": "2026-10-01T20:10:12",
       "last_success_at": "2026-10-01T17:26:48",
       "model": "openrouter/free",
       "provider": "openrouter",
