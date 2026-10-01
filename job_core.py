@@ -14,7 +14,7 @@ from config import (
     JOBS_ACTIVE_END_HOUR,
     JOBS_ACTIVE_START_HOUR,
     JOBS_ADAPTIVE_PUBLISHING,
-    JOBS_MAX_PUBLISH_AGE_HOURS,
+    JOBS_FRESH_PRIORITY_HOURS,
     JOBS_MIN_PUBLISH_INTERVAL_MINUTES,
 )
 from jobs_adaptive_controller import current_policy
@@ -812,9 +812,9 @@ def score_job(article, now=None):
     )
     fresh = bool(
         publication_age_hours is not None
-        and 0 <= publication_age_hours <= JOBS_MAX_PUBLISH_AGE_HOURS
+        and 0 <= publication_age_hours <= JOBS_FRESH_PRIORITY_HOURS
     )
-    points[f"fresh_under_{JOBS_MAX_PUBLISH_AGE_HOURS}h"] = 15 if fresh else 0
+    points[f"fresh_under_{JOBS_FRESH_PRIORITY_HOURS}h"] = 15 if fresh else 0
     points["preferred_tech_or_student"] = 10 if job_focus_priority(article) > 0 else 0
 
     priority = str(article.get("source_priority") or "").strip().lower()
@@ -849,12 +849,11 @@ def score_job(article, now=None):
     if not valid_apply:
         reasons.append("missing verified application resource")
 
-    if published is None:
-        reasons.append("publication time is not verified")
-    elif publication_age_hours is not None and publication_age_hours < 0:
+    # Publication time improves ranking when known, but is not required for a
+    # legitimate vacancy. Some official ATS portals omit it. A clearly future
+    # publication timestamp is still invalid evidence and remains a hard error.
+    if publication_age_hours is not None and publication_age_hours < 0:
         reasons.append("publication time is in the future")
-    elif publication_age_hours is not None and publication_age_hours > JOBS_MAX_PUBLISH_AGE_HOURS:
-        reasons.append(f"job is older than {JOBS_MAX_PUBLISH_AGE_HOURS} hours")
 
     normalized_title = normalize_text(article.get("job_title") or article.get("title"))
     if normalized_title in {
@@ -876,10 +875,7 @@ def score_job(article, now=None):
     hard_gate_passed = not reasons
     permanent_hard_failure = bool(
         expired
-        or published is None
-        or publication_age_hours is None
-        or publication_age_hours < 0
-        or publication_age_hours > JOBS_MAX_PUBLISH_AGE_HOURS
+        or (publication_age_hours is not None and publication_age_hours < 0)
         or not _public_http(source_url)
         or normalized_title in {
             "jobs", "job", "careers", "career", "recruitment", "recrutement",
@@ -899,7 +895,10 @@ def score_job(article, now=None):
         "passed": passed,
         "hard_gate_passed": hard_gate_passed,
         "publication_age_hours": round(publication_age_hours, 2) if publication_age_hours is not None else None,
-        "max_publish_age_hours": JOBS_MAX_PUBLISH_AGE_HOURS,
+        "fresh_priority_hours": JOBS_FRESH_PRIORITY_HOURS,
+        # Compatibility field retained for downstream diagnostics. It no longer
+        # means "maximum publishable age"; it is the fresh-priority window.
+        "max_publish_age_hours": JOBS_FRESH_PRIORITY_HOURS,
         "focus_priority": job_focus_priority(article),
         "points": points,
         "reasons": reasons,
@@ -1544,9 +1543,9 @@ def select_best_job_from_queue(queue, now=None):
         article["job_publish_immediately"] = bool(urgency.get("publish_immediately"))
         priority = 2 if urgency.get("level") in {"critical", "high"} else 1 if urgency.get("level") == "elevated" else 0
 
-        # Closing-soon notices stay first. Inside the verified <= freshness
-        # window, preferred cyber/IT/developer/internship roles come before
-        # general jobs; freshness and quality then break remaining ties.
+        # Closing-soon notices stay first. Preferred cyber/IT/developer/
+        # internship roles then move ahead editorially; publication freshness
+        # breaks remaining ties without making older active jobs ineligible.
         published = _parse_date(
             article.get("job_published_at")
             or article.get("source_published_at")
