@@ -1264,8 +1264,8 @@ def _validate_ai_output(data, package=None):
         )
     data["slug"] = slug
     title_ok = 28 <= len(title) <= 150
-    description_ok = 70 <= len(description) <= 190
-    title_range, description_range = "28-150", "70-190"
+    description_ok = 80 <= len(description) <= 180
+    title_range, description_range = "28-150", "80-180"
 
     if not title_ok:
         raise AIIncompleteResponseError(f"SEO title length must be {title_range} characters; got {len(title)}")
