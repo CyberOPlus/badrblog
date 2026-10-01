@@ -62,6 +62,19 @@ class JobVisualTests(unittest.TestCase):
         )
         self.assertEqual(keys, ("new", "apply"))
 
+        keys, reason = visual_policy.semantic_template_candidates(
+            {
+                "job_notice_type": "vacancy",
+                "official_source": True,
+                "job_number_of_positions": 25,
+                "job_application_url": "https://example.com/apply/alert",
+                "job_application_link_kind": "direct_apply",
+            },
+            now=now,
+        )
+        self.assertEqual(keys, ("alert",))
+        self.assertIn("verified-urgency:elevated", reason)
+
     def test_visual_template_is_pinned_for_retries(self):
         with tempfile.TemporaryDirectory() as temp:
             state = Path(temp) / "visual.json"
