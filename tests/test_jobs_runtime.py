@@ -4328,6 +4328,32 @@ class JobsRuntimeTests(unittest.TestCase):
             with self.assertRaises(ai.AIIncompleteResponseError):
                 ai._validate_ai_output(data, package)
 
+    def test_run_ai_only_refreshes_jobs_package_before_provider_call(self):
+        events = []
+
+        def fake_prepare():
+            events.append("prepare")
+            return {"checked": 1, "ready_for_ai": 1, "failed": 0}
+
+        def fake_ai(*, force=False):
+            events.append(("ai", force))
+            return {
+                "processed": 0,
+                "success": 0,
+                "failed": 0,
+                "article": None,
+                "message": "test",
+            }
+
+        with patch.object(main, "prepare_selected_articles_for_ai", side_effect=fake_prepare) as prepare, \
+             patch.object(main, "process_one_selected_article_with_ai", side_effect=fake_ai) as process:
+            result = main.run_ai_only(force=True)
+
+        self.assertEqual(events, ["prepare", ("ai", True)])
+        prepare.assert_called_once_with()
+        process.assert_called_once_with(force=True)
+        self.assertEqual(result["processed"], 0)
+
     def test_jobs_promotion_has_no_overnight_or_calendar_slot_restriction(self):
         tz = ZoneInfo("Africa/Casablanca")
         start = datetime(2027, 1, 1, tzinfo=tz)
