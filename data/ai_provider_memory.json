@@ -24,13 +24,13 @@
     },
     "1a9c344d00234801e923": {
       "category": "format",
-      "count": 1,
+      "count": 2,
       "first_seen_at": "2026-10-01T20:47:15",
-      "last_seen_at": "2026-10-01T20:47:15",
-      "last_seen_epoch": 1790887635.7867348,
+      "last_seen_at": "2026-10-01T21:22:13",
+      "last_seen_epoch": 1790889733.649903,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1790888535.7867348,
+      "retry_until": 1790891990.0813766,
       "scope": "global"
     },
     "21d4f95aef0b3e555bda": {
@@ -277,13 +277,13 @@
     },
     "dfcd58b89b9a06a1d960": {
       "category": "format",
-      "count": 3,
+      "count": 4,
       "first_seen_at": "2026-10-01T19:27:58",
-      "last_seen_at": "2026-10-01T20:21:26",
-      "last_seen_epoch": 1790886086.640105,
+      "last_seen_at": "2026-10-01T21:22:13",
+      "last_seen_epoch": 1790889733.646935,
       "provider": "cloudflare",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1790889686.640105,
+      "retry_until": 1790893333.646935,
       "scope": "provider"
     },
     "e54adca08768c8b77065": {
@@ -322,9 +322,9 @@
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {
-    "category": "quota",
-    "fingerprint": "554cda85fb88ccc5d23e",
-    "opened_at": "2026-10-01T20:59:50",
+    "category": "format",
+    "fingerprint": "1a9c344d00234801e923",
+    "opened_at": "2026-10-01T21:22:13",
     "providers": [
       "cloudflare",
       "gemini",
@@ -332,18 +332,18 @@
       "mistral",
       "openrouter"
     ],
-    "reason": "gemini provider failed: 429 You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai",
-    "until": 1790889686.640105
+    "reason": "AI article response returned incomplete JSON.",
+    "until": 1790891990.0813766
   },
   "provider_circuits": {
     "cloudflare": {
       "category": "format",
       "fingerprint": "dfcd58b89b9a06a1d960",
       "model": "@cf/meta/llama-3.1-8b-instruct",
-      "opened_at": "2026-10-01T20:21:26",
+      "opened_at": "2026-10-01T21:22:13",
       "provider": "cloudflare",
       "reason": "AI article response returned incomplete JSON.",
-      "until": 1790889686.640105
+      "until": 1790893333.646935
     },
     "gemini": {
       "category": "quota",
@@ -387,15 +387,15 @@
       "provider": "cloudflare"
     },
     "cloudflare:@cf/meta/llama-3.1-8b-instruct:be6dab2cd8": {
-      "avg_time": 13.3866,
+      "avg_time": 13.3424,
       "failures": 1,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-01T18:12:20",
-      "last_success_at": "2026-10-01T20:21:26",
+      "last_success_at": "2026-10-01T21:22:13",
       "model": "@cf/meta/llama-3.1-8b-instruct",
       "provider": "cloudflare",
-      "successes": 39,
-      "total_success_time": 522.0777
+      "successes": 40,
+      "total_success_time": 533.6976
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
       "avg_time": 11.5777,
