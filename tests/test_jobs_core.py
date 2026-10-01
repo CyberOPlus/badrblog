@@ -74,6 +74,42 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(fields["job_published_at"], "2026-09-07")
         self.assertEqual(fields["job_published_at_display"], "7 شتنبر 2026")
 
+    def test_emploi_public_recovers_official_pdf_routes_from_visible_labels(self):
+        notice_id = "ee457511-2cf7-4178-bcb7-b09cd1638bca"
+        detail = f"https://www.emploi-public.ma/ar/تفاصيل/المباريات/{notice_id}"
+        html = """
+        <html><body>
+          <h2>تحميل الملفات</h2><p>قرار فتح المباراة</p>
+          <h2>الملفات المرفقة</h2><p>بطاقة الوظيفة</p>
+          <h2>معلومات عن المباراة</h2>
+          <p>اسم المنصب : إطار إداري ومالي (رجل/امرأة)</p>
+          <p>عدد المناصب : 1</p>
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        article = sample_job(
+            title="إطار إداري ومالي",
+            url=detail,
+            canonical_url=detail,
+            official_source=True,
+            ats_provider="emploi_public",
+        )
+        fields = job_extractor.extract_job_fields(
+            soup,
+            article,
+            detail,
+            full_text=soup.get_text(" ", strip=True),
+        )
+        urls = [row["url"] for row in fields["job_document_links"]]
+        self.assertIn(
+            f"https://www.emploi-public.ma/ar/تحميل/المباريات/arrete/{notice_id}",
+            urls,
+        )
+        self.assertIn(
+            f"https://www.emploi-public.ma/ar/تحميل/المباريات/fichiers_att/{notice_id}/0",
+            urls,
+        )
+
     def test_job_specific_application_url_rejects_generic_search_and_careers(self):
         self.assertFalse(job_core.is_job_specific_url("https://company.example/jobs"))
         self.assertFalse(job_core.is_job_specific_url("https://company.example/jobs?search=security"))
