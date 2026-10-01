@@ -922,9 +922,6 @@ Use these Plus UI snippets exactly when the component is needed. Do not add CSS.
 <!--[ Text Indent paragraph ]-->
 <p class='pIndent'>This is a paragraph with text indent.</p>
 
-<!--[ Post Reference paragraph ]-->
-<p class='pRef'>Source:<br> www.example.com</p>
-
 <!--[ Standard image ]-->
 <img class='full' alt='alt_here' width='1280' height='720' src='image_link'/>
 
