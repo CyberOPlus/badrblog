@@ -2398,7 +2398,11 @@ def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_sec
         json={
             "prompt": prompt,
             "max_tokens": CLOUDFLARE_MAX_TOKENS,
-            "temperature": 0.30,
+            "temperature": 0.20,
+            # Jobs article generation is a JSON contract. Workers AI supports
+            # JSON mode directly, which avoids prose/fence prefixes and malformed
+            # partial objects from small fallback models.
+            "response_format": {"type": "json_object"},
         },
         timeout=timeout_seconds or CLOUDFLARE_TIMEOUT_SECONDS,
     )
