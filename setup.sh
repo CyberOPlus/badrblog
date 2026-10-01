@@ -120,8 +120,12 @@ echo "📌 Step 6: Setting up configuration file..."
 if [ -f ".env" ]; then
     echo "  ℹ️  .env file already exists. Skipping."
 else
-    cp .env.example .env
-    echo "  ✅ Created .env file from template!"
+    if [ -f "env.example" ]; then
+        cp env.example .env
+        echo "  ✅ Created .env file from env.example!"
+    else
+        echo "  ⚠️  env.example is missing; leaving .env creation to the operator."
+    fi
 fi
 
 echo ""
