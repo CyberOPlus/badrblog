@@ -1636,13 +1636,15 @@ class JobsCoreTests(unittest.TestCase):
         bad = job_core.score_job(sample_job(job_eligibility="unknown"), now=now)
         self.assertFalse(bad["passed"])
 
-    def test_low_ranking_score_does_not_block_verified_job(self):
+    def test_low_ranking_score_does_not_block_verified_fresh_job(self):
         now = datetime(2026, 9, 30, 9, 0, tzinfo=timezone.utc)
         sparse = sample_job(
             job_location="",
             job_number_of_positions=1,
-            job_published_at="2026-09-20T08:00:00+00:00",
+            job_published_at="2026-09-30T08:00:00+00:00",
+            source_published_at="2026-09-30T08:00:00+00:00",
             source_priority="",
+            official_source=False,
             job_diploma="",
             job_salary="",
             job_entry_level=False,
@@ -1654,6 +1656,199 @@ class JobsCoreTests(unittest.TestCase):
         self.assertTrue(result["passed"])
         self.assertEqual(result["status"], "publish")
         self.assertEqual(result["threshold_applies_to"], "ranking_only")
+
+    def test_job_freshness_prefers_under_12h_and_rejects_over_24h(self):
+        now = datetime(2026, 9, 30, 20, 0, tzinfo=timezone.utc)
+
+        very_fresh = job_core.job_publication_freshness(
+            sample_job(
+                job_published_at="2026-09-30T12:00:00+00:00",
+                source_published_at="2026-09-30T12:00:00+00:00",
+            ),
+            now=now,
+        )
+        self.assertTrue(very_fresh["publishable"])
+        self.assertEqual(very_fresh["preferred_rank"], 3)
+        self.assertEqual(very_fresh["bucket"], "exact_under_preferred")
+
+        within_day = job_core.job_publication_freshness(
+            sample_job(
+                job_published_at="2026-09-30T03:00:00+00:00",
+                source_published_at="2026-09-30T03:00:00+00:00",
+            ),
+            now=now,
+        )
+        self.assertTrue(within_day["publishable"])
+        self.assertEqual(within_day["preferred_rank"], 2)
+
+        stale = job_core.score_job(
+            sample_job(
+                job_published_at="2026-09-29T18:00:00+00:00",
+                source_published_at="2026-09-29T18:00:00+00:00",
+            ),
+            now=now,
+        )
+        self.assertFalse(stale["passed"])
+        self.assertEqual(stale["status"], "reject")
+        self.assertEqual(stale["freshness"]["bucket"], "too_old")
+        self.assertTrue(any("older than 24h" in reason for reason in stale["reasons"]))
+
+    def test_job_unknown_publication_time_can_enrich_but_cannot_publish(self):
+        now = datetime(2026, 9, 30, 20, 0, tzinfo=timezone.utc)
+        article = sample_job(
+            job_published_at="",
+            source_published_at="",
+            discovered_at="2026-09-30T19:00:00+00:00",
+        )
+        result = job_core.score_job(article, now=now)
+        self.assertFalse(result["passed"])
+        self.assertEqual(result["status"], "queue")
+        self.assertEqual(result["freshness"]["bucket"], "unknown")
+        self.assertFalse(result["freshness"]["publishable"])
+
+    def test_date_only_today_is_allowed_but_yesterday_is_not_guaranteed_fresh(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        today = job_core.job_publication_freshness(
+            sample_job(job_published_at="2026-09-30", source_published_at=""),
+            now=now,
+        )
+        self.assertTrue(today["publishable"])
+        self.assertEqual(today["preferred_rank"], 1)
+
+        yesterday = job_core.job_publication_freshness(
+            sample_job(job_published_at="2026-09-29", source_published_at=""),
+            now=now,
+        )
+        self.assertFalse(yesterday["publishable"])
+        self.assertEqual(yesterday["bucket"], "too_old")
+
+    def test_workday_relative_age_is_used_without_inventing_timestamp(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        recent = job_core.job_publication_freshness(
+            sample_job(
+                job_published_at="",
+                source_published_at="",
+                source_published_label="Posted 4 Hours Ago",
+            ),
+            now=now,
+        )
+        self.assertTrue(recent["publishable"])
+        self.assertEqual(recent["preferred_rank"], 3)
+        self.assertEqual(recent["age_hours"], 4.0)
+
+        old = job_core.job_publication_freshness(
+            sample_job(
+                job_published_at="",
+                source_published_at="",
+                source_published_label="Posted 2 Days Ago",
+            ),
+            now=now,
+        )
+        self.assertFalse(old["publishable"])
+        self.assertEqual(old["bucket"], "too_old")
+
+    def test_job_focus_priority_prefers_cyber_it_and_internships(self):
+        cyber_stage = job_core.job_focus_priority(
+            sample_job(job_title="Stagiaire PFE Cybersécurité SOC / SIEM")
+        )
+        developer = job_core.job_focus_priority(
+            sample_job(job_title="Développeur Backend Python Cloud")
+        )
+        internship = job_core.job_focus_priority(
+            sample_job(job_title="Stage PFE en finance")
+        )
+        general = job_core.job_focus_priority(
+            sample_job(job_title="Assistant administratif")
+        )
+        self.assertEqual(cyber_stage["rank"], 5)
+        self.assertGreater(developer["rank"], general["rank"])
+        self.assertGreater(internship["rank"], general["rank"])
+        self.assertTrue(cyber_stage["cybersecurity"])
+        self.assertTrue(cyber_stage["internship"])
+
+    def test_same_freshness_tech_job_beats_general_but_general_remains_fallback(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        general = sample_job(
+            id="fresh-general",
+            job_title="Assistant administratif",
+            title="Assistant administratif",
+            status="ready",
+            content_fetch_status="success",
+            job_published_at="2026-09-30T10:00:00+00:00",
+            source_published_at="2026-09-30T10:00:00+00:00",
+            job_urgency={"level": "normal"},
+        )
+        tech = sample_job(
+            id="fresh-cyber",
+            job_title="Cybersecurity SOC Analyst",
+            title="Cybersecurity SOC Analyst",
+            status="ready",
+            content_fetch_status="success",
+            job_published_at="2026-09-30T10:00:00+00:00",
+            source_published_at="2026-09-30T10:00:00+00:00",
+            job_urgency={"level": "normal"},
+        )
+
+        def fake_prepare(article, now=None):
+            return (
+                {
+                    "score": 50,
+                    "status": "publish",
+                    "passed": True,
+                    "reasons": [],
+                    "freshness": job_core.job_publication_freshness(article, now=now),
+                    "focus": job_core.job_focus_priority(article),
+                },
+                {"action": "new", "reason": "new verified job", "existing": {}},
+            )
+
+        with (
+            patch.object(job_core, "prepare_job_candidate", side_effect=fake_prepare),
+            patch.object(job_core, "can_publish_new_job", return_value=True),
+        ):
+            selected = job_core.select_best_job_from_queue(
+                {"articles": [general, tech]},
+                now=now,
+            )
+            fallback = job_core.select_best_job_from_queue(
+                {"articles": [general]},
+                now=now,
+            )
+
+        self.assertEqual(selected["id"], "fresh-cyber")
+        self.assertEqual(fallback["id"], "fresh-general")
+
+    def test_discovery_drops_provably_stale_listing_but_keeps_unknown_for_detail_check(self):
+        meta = {
+            "source_name": "Official Careers",
+            "source_url": "https://example.com/jobs",
+            "category_label": "jobs-morocco",
+            "official_source": True,
+            "source_country": "MA",
+            "source_eligibility": "morocco",
+        }
+        stale, freshness = scraper._jobs_discovery_row(
+            {
+                "title": "Old Developer",
+                "url": "https://example.com/jobs/old",
+                "source_published_at": "2026-09-20T08:00:00+00:00",
+            },
+            meta,
+            now=datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc),
+        )
+        self.assertIsNone(stale)
+        self.assertEqual(freshness["bucket"], "too_old")
+
+        unknown, unknown_freshness = scraper._jobs_discovery_row(
+            {
+                "title": "New role with date on detail page",
+                "url": "https://example.com/jobs/new",
+            },
+            meta,
+            now=datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc),
+        )
+        self.assertIsNotNone(unknown)
+        self.assertEqual(unknown_freshness["bucket"], "unknown")
 
     def test_large_official_near_deadline_is_urgent(self):
         now = datetime(2026, 9, 28, 9, 0, tzinfo=timezone.utc)
