@@ -1593,6 +1593,38 @@ def record_job_publish(article, now=None):
         "external_reference": external_reference(article),
         "company": article.get("job_company", ""),
         "title": article.get("job_title") or article.get("title", ""),
+        "company_logo_url": (
+            article.get("company_logo_url")
+            if article.get("company_logo_verified") and article.get("company_logo_url")
+            else previous.get("company_logo_url", "")
+        ),
+        "company_logo_verified": bool(
+            (
+                article.get("company_logo_verified")
+                and article.get("company_logo_url")
+            )
+            or previous.get("company_logo_verified")
+        ),
+        "company_logo_confidence": int(
+            article.get("company_logo_confidence")
+            if article.get("company_logo_verified") and article.get("company_logo_url")
+            else previous.get("company_logo_confidence") or 0
+        ),
+        "company_logo_source": (
+            article.get("company_logo_source")
+            if article.get("company_logo_verified") and article.get("company_logo_url")
+            else previous.get("company_logo_source", "")
+        ),
+        "company_official_domain": (
+            article.get("company_official_domain")
+            if article.get("company_logo_verified") and article.get("company_logo_url")
+            else previous.get("company_official_domain", "")
+        ),
+        "company_logo_checksum": (
+            article.get("company_logo_checksum")
+            if article.get("company_logo_verified") and article.get("company_logo_url")
+            else previous.get("company_logo_checksum", "")
+        ),
         "location": article.get("job_location", ""),
         "published_at": article.get("job_published_at") or article.get("source_published_at", ""),
         "deadline": article.get("job_deadline", ""),
@@ -1756,6 +1788,16 @@ def record_job_social_state(article, now=None):
             record[key] = value
     if article.get("job_application_is_specific") is not None:
         record["application_is_specific"] = bool(article.get("job_application_is_specific"))
+
+    if article.get("company_logo_verified") and str(article.get("company_logo_url") or "").strip():
+        record.update({
+            "company_logo_url": str(article.get("company_logo_url") or "").strip(),
+            "company_logo_verified": True,
+            "company_logo_confidence": int(article.get("company_logo_confidence") or 0),
+            "company_logo_source": str(article.get("company_logo_source") or ""),
+            "company_official_domain": str(article.get("company_official_domain") or ""),
+            "company_logo_checksum": str(article.get("company_logo_checksum") or ""),
+        })
 
     record.update({
         "facebook_status": str(article.get("facebook_status") or ""),
