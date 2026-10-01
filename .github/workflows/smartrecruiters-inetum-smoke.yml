@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
-      - name: Probe public Inetum postings API
+      - name: Probe public Inetum Morocco postings and details
         shell: bash
         run: |
           python - <<'PY'
@@ -22,44 +22,55 @@ jobs:
           import urllib.request
           from datetime import datetime, timedelta, timezone
 
+          base = "https://api.smartrecruiters.com/v1/companies/Inetum2/postings"
+          headers = {
+              "Accept": "application/json; charset=utf-8",
+              "User-Agent": "CyberoPlus-Jobs-Source-Smoke/1.0",
+          }
+
+          def get_json(url):
+              req = urllib.request.Request(url, headers=headers)
+              with urllib.request.urlopen(req, timeout=20) as response:
+                  return response.status, json.loads(response.read().decode("utf-8"))
+
+          country_url = base + "?" + urllib.parse.urlencode({
+              "limit": 10,
+              "offset": 0,
+              "destination": "PUBLIC",
+              "country": "ma",
+          })
+          status, payload = get_json(country_url)
+          rows = payload.get("content") or []
+          assert status == 200
+          assert rows, "Inetum2 country=ma returned no public Morocco postings"
+
+          first = rows[0]
+          posting_id = first.get("id")
+          assert posting_id
+          detail_status, detail = get_json(base + "/" + urllib.parse.quote(str(posting_id)))
+          assert detail_status == 200
+          assert detail.get("releasedDate"), "Morocco detail missing releasedDate"
+
           released_after = (
               datetime.now(timezone.utc) - timedelta(hours=12)
           ).isoformat(timespec="milliseconds").replace("+00:00", "Z")
-          params = urllib.parse.urlencode({
+          fresh_url = base + "?" + urllib.parse.urlencode({
               "limit": 100,
               "offset": 0,
               "destination": "PUBLIC",
+              "country": "ma",
               "releasedAfter": released_after,
           })
-          url = "https://api.smartrecruiters.com/v1/companies/Inetum2/postings?" + params
-          request = urllib.request.Request(
-              url,
-              headers={
-                  "Accept": "application/json; charset=utf-8",
-                  "User-Agent": "CyberoPlus-Jobs-Source-Smoke/1.0",
-              },
-          )
-          with urllib.request.urlopen(request, timeout=20) as response:
-              body = response.read().decode("utf-8")
-              status = response.status
-          payload = json.loads(body)
-          rows = payload.get("content") or []
-          morocco = []
-          for row in rows:
-              location = row.get("location") or {}
-              country = str(location.get("country") or "").strip().lower()
-              city = str(location.get("city") or "").strip()
-              if country in {"ma", "maroc", "morocco"} or city.casefold() in {
-                  "casablanca", "rabat", "tanger", "tangier", "marrakech", "fes", "fès"
-              }:
-                  morocco.append(row)
+          fresh_status, fresh = get_json(fresh_url)
+          assert fresh_status == 200
+          for row in fresh.get("content") or []:
+              assert row.get("releasedDate"), "Fresh Morocco posting missing releasedDate"
+
           print(json.dumps({
-              "http_status": status,
-              "released_after": released_after,
-              "total_found": payload.get("totalFound"),
-              "returned": len(rows),
-              "morocco_count": len(morocco),
-              "sample": [
+              "country_http_status": status,
+              "country_total_found": payload.get("totalFound"),
+              "country_returned": len(rows),
+              "morocco_sample": [
                   {
                       "id": row.get("id"),
                       "name": row.get("name"),
@@ -68,10 +79,22 @@ jobs:
                       "location": row.get("location"),
                       "ref": row.get("ref"),
                   }
-                  for row in morocco[:5]
+                  for row in rows[:5]
               ],
+              "detail": {
+                  "id": detail.get("id"),
+                  "name": detail.get("name"),
+                  "releasedDate": detail.get("releasedDate"),
+                  "refNumber": detail.get("refNumber"),
+                  "location": detail.get("location"),
+                  "typeOfEmployment": detail.get("typeOfEmployment"),
+                  "experienceLevel": detail.get("experienceLevel"),
+                  "applyUrl": detail.get("applyUrl"),
+                  "ref": detail.get("ref"),
+                  "jobAd_keys": sorted((detail.get("jobAd") or {}).keys()),
+              },
+              "fresh_released_after": released_after,
+              "fresh_total_found": fresh.get("totalFound"),
+              "fresh_returned": len(fresh.get("content") or []),
           }, ensure_ascii=False, indent=2))
-          assert status == 200
-          for row in rows:
-              assert row.get("releasedDate"), "Posting missing releasedDate"
           PY
