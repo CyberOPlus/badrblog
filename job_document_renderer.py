@@ -554,7 +554,7 @@ def promote_job_document_application_channel(article):
 
 
 POSITION_COUNT_RE = re.compile(
-    r"(?:\\(\\s*0*(\\d{1,3})\\s*\\)|\\)\\s*0*(\\d{1,3})\\s*\\()"
+    r"(?:\(\s*0*(\d{1,3})\s*\)|\)\s*0*(\d{1,3})\s*\()"
 )
 POSITION_RECRUITMENT_HINTS = (
     "توظيف", "مباراة", "المباراة", "منصب", "مناصب",
@@ -575,7 +575,7 @@ POSITION_GRADE_MARKERS = (
 
 def _normalize_position_text(value):
     text = str(value or "").casefold()
-    text = re.sub(r"[\\u0610-\\u061a\\u064b-\\u065f\\u0670\\u06d6-\\u06ed]", "", text)
+    text = re.sub(r"[\u0610-\u061a\u064b-\u065f\u0670\u06d6-\u06ed]", "", text)
     text = text.translate(str.maketrans({
         "أ": "ا", "إ": "ا", "آ": "ا", "ى": "ي", "ؤ": "و", "ئ": "ي",
         "é": "e", "è": "e", "ê": "e", "ë": "e",
@@ -583,7 +583,7 @@ def _normalize_position_text(value):
         "î": "i", "ï": "i", "ô": "o", "ö": "o",
         "ù": "u", "û": "u", "ü": "u", "ç": "c",
     }))
-    return re.sub(r"\\s+", " ", text).strip()
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def _position_scope_from_title(article):
@@ -592,7 +592,7 @@ def _position_scope_from_title(article):
         return (), ()
 
     grades = tuple(marker for marker in POSITION_GRADE_MARKERS if marker in title)
-    words = re.findall(r"[a-z\\u0600-\\u06ff]{4,}", title)
+    words = re.findall(r"[a-z\u0600-\u06ff]{4,}", title)
     role_tokens = []
     for word in words:
         if word in POSITION_TITLE_STOPWORDS or word in grades:
@@ -600,7 +600,6 @@ def _position_scope_from_title(article):
         if word not in role_tokens:
             role_tokens.append(word)
     return grades, tuple(role_tokens[:4])
-
 
 def promote_job_document_position_count(article):
     """Promote a role-specific position count from official PDF/OCR evidence.
@@ -647,7 +646,7 @@ def promote_job_document_position_count(article):
                     matches.append({
                         "count": count,
                         "page_number": page.get("page_number"),
-                        "line": re.sub(r"\\s+", " ", str(raw_line or "")).strip()[:360],
+                        "line": re.sub(r"\s+", " ", str(raw_line or "")).strip()[:360],
                     })
 
     counts = sorted({row["count"] for row in matches})
