@@ -212,6 +212,9 @@ jobs:
               "MAX_SOURCES_PER_RUN": "20",
               "JOBS_ENRICH_MAX_TARGETS_PER_CYCLE": "12",
               "JOBS_MAX_PUBLISH_AGE_HOURS": "12",
+              "JOBS_PREFERRED_FRESH_HOURS": "12",
+              "JOBS_MAX_SOURCE_AGE_HOURS": "24",
+              "JOBS_REQUIRE_VERIFIED_PUBLISHED_AT": "true",
               "PUBLISH_WEAK_ARTICLES": "false",
               "ALLOW_SHORT_ARTICLES": "true",
               "MIN_ARTICLE_WORDS": "120",
@@ -254,6 +257,7 @@ jobs:
           print("Facebook publishing: enabled after successful Blogger publish")
           print("Morocco timezone: Africa/Casablanca")
           print("Job quality: hard gate decides publishability; score ranks valid jobs only")
+          print("Jobs freshness: <=12h preferred; 12-24h allowed; >24h or unverified publish time blocked")
           print("AI order: Gemini -> Groq -> OpenRouter -> Cloudflare -> Mistral; provider failures rotate, global outages defer")
           print("Jobs quality repair: one same-provider repair; source/evidence failures back off without another AI call")
           PY
