@@ -6,6 +6,8 @@ import json
 import random
 import re
 import hashlib
+import signal
+import threading
 import time
 import unicodedata
 import warnings
@@ -1258,6 +1260,79 @@ def _ensure_verified_position_count(data, package=None):
     return data
 
 
+_VERIFIED_FACT_LABELS = {
+    "experience": "الخبرة المطلوبة:",
+    "diploma": "المؤهل المطلوب:",
+    "salary": "الأجر:",
+    "specialties": "التخصص:",
+    "tests": "الاختبار:",
+}
+
+
+def _ensure_required_verified_facts(data, package=None):
+    """Insert missing high-confidence reader facts from the verified manifest."""
+    package = dict(package or {})
+    manifest = package.get("verified_fact_manifest") or {}
+    facts_by_category = manifest.get("facts") or {}
+    html_content = str((data or {}).get("html_content") or "")
+    title = str((data or {}).get("title") or "")
+    output_text = BeautifulSoup(f"{title}\n{html_content}", "html.parser").get_text(
+        " ", strip=True
+    )
+    normalized_output = re.sub(r"\s+", " ", output_text).casefold()
+
+    missing = []
+    for category, label in _VERIFIED_FACT_LABELS.items():
+        for fact in facts_by_category.get(category) or []:
+            if not isinstance(fact, dict):
+                continue
+            if not fact.get("required_in_output"):
+                continue
+            if str(fact.get("confidence") or "").strip().lower() != "high":
+                continue
+            value = str(fact.get("value") or "").strip()
+            if not value:
+                continue
+            aliases = [value] + [
+                str(alias or "").strip() for alias in (fact.get("aliases") or [])
+            ]
+            if any(
+                re.sub(r"\s+", " ", alias).casefold() in normalized_output
+                for alias in aliases
+                if alias
+            ):
+                continue
+            missing.append((category, label, value))
+
+    if not missing:
+        return data
+
+    soup = BeautifulSoup(html_content, "html.parser")
+    block = soup.new_tag("ul")
+    block["class"] = ["jobVerifiedFacts"]
+    for _category, label, value in missing:
+        item = soup.new_tag("li")
+        strong = soup.new_tag("strong")
+        strong.string = label
+        item.append(strong)
+        item.append(" " + value)
+        block.append(item)
+
+    first_heading = soup.find(["h2", "h3"])
+    if first_heading is not None:
+        first_heading.insert_before(block)
+    else:
+        soup.append(block)
+
+    data["html_content"] = str(soup)
+    log_event(
+        "ai_verified_manifest_facts_injected",
+        categories=",".join(category for category, _label, _value in missing),
+        count=len(missing),
+    )
+    return data
+
+
 def _validate_ai_output(data, package=None):
     required_fields = (JOBS_REQUIRED_ARTICLE_FIELDS)
     missing = [field for field in required_fields if not str(data.get(field, "")).strip()]
@@ -1554,7 +1629,11 @@ def _shorten_metadata_once_if_needed(data):
     title = str(data.get("title", "")).strip()
     description = str(data.get("description", "")).strip()
 
-    if len(description) > 190:
+    # These are deterministic formatting limits, not editorial judgments.
+    # Repair harmless overflow locally instead of wasting another provider call.
+    if len(title) > 150:
+        data["title"] = _trim_to_length(title, 150)
+    if len(description) > 180:
         data["description"] = _trim_to_length(description, 180)
     return data
 
@@ -2171,6 +2250,57 @@ def _normalize_openai_content(content):
     return str(content or "")
 
 
+def _post_with_wall_clock_timeout(url, *, timeout_seconds, **kwargs):
+    """POST with a real elapsed-time cap on the Linux production runner.
+
+    Requests read timeouts are socket inactivity limits, not guaranteed total
+    wall-clock limits. Some providers can keep a connection active far beyond
+    the Jobs cycle budget, so use SIGALRM on the main POSIX thread and retain
+    the normal requests timeout as a portable fallback.
+    """
+    try:
+        timeout_seconds = max(1.0, float(timeout_seconds or AI_MODEL_TIMEOUT_SECONDS))
+    except (TypeError, ValueError):
+        timeout_seconds = max(1.0, float(AI_MODEL_TIMEOUT_SECONDS or 30))
+
+    kwargs["timeout"] = timeout_seconds
+    can_alarm = (
+        hasattr(signal, "SIGALRM")
+        and hasattr(signal, "setitimer")
+        and hasattr(signal, "ITIMER_REAL")
+        and threading.current_thread() is threading.main_thread()
+    )
+    if not can_alarm:
+        return requests.post(url, **kwargs)
+
+    previous_handler = signal.getsignal(signal.SIGALRM)
+    previous_timer = signal.getitimer(signal.ITIMER_REAL)
+    started = time.monotonic()
+
+    def _raise_wall_clock_timeout(_signum, _frame):
+        raise requests.Timeout(
+            f"AI provider wall-clock timeout after {timeout_seconds:g}s"
+        )
+
+    try:
+        signal.signal(signal.SIGALRM, _raise_wall_clock_timeout)
+        signal.setitimer(signal.ITIMER_REAL, timeout_seconds)
+        return requests.post(url, **kwargs)
+    finally:
+        signal.setitimer(signal.ITIMER_REAL, 0)
+        signal.signal(signal.SIGALRM, previous_handler)
+        if previous_timer[0] > 0:
+            remaining = max(
+                0.001,
+                previous_timer[0] - max(0.0, time.monotonic() - started),
+            )
+            signal.setitimer(
+                signal.ITIMER_REAL,
+                remaining,
+                previous_timer[1],
+            )
+
+
 def _generate_with_gemini(prompt, api_key=None, model_name=None, timeout_seconds=None):
     if genai is None:
         raise RuntimeError("google-generativeai is not installed.")
@@ -2204,8 +2334,9 @@ def _generate_with_openrouter(prompt, api_key=None, model_name=None, timeout_sec
     if OPENROUTER_REFERER:
         headers["HTTP-Referer"] = OPENROUTER_REFERER
 
-    response = requests.post(
+    response = _post_with_wall_clock_timeout(
         OPENROUTER_API_URL,
+        timeout_seconds=timeout_seconds,
         headers=headers,
         json={
             "model": model_name,
@@ -2214,7 +2345,6 @@ def _generate_with_openrouter(prompt, api_key=None, model_name=None, timeout_sec
             "temperature": 0.35,
             "response_format": {"type": "json_object"},
         },
-        timeout=timeout_seconds,
     )
     if response.status_code >= 400:
         raise RuntimeError(f"OpenRouter API error {response.status_code}: {response.text[:500]}")
@@ -2237,8 +2367,9 @@ def _generate_with_openai(prompt, api_key=None, model_name=None, timeout_seconds
     if not _has_real_key(api_key, "your_openai_api_key_here"):
         raise RuntimeError("OPENAI_API_KEY is missing.")
 
-    response = requests.post(
+    response = _post_with_wall_clock_timeout(
         OPENAI_API_URL,
+        timeout_seconds=timeout_seconds,
         headers={
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
@@ -2250,7 +2381,6 @@ def _generate_with_openai(prompt, api_key=None, model_name=None, timeout_seconds
             "temperature": 0.35,
             "response_format": {"type": "json_object"},
         },
-        timeout=timeout_seconds,
     )
     if response.status_code >= 400:
         raise RuntimeError(f"OpenAI API error {response.status_code}: {response.text[:500]}")
@@ -2278,8 +2408,9 @@ def _generate_openai_compatible(
 ):
     if not str(api_key or "").strip():
         raise RuntimeError(f"{provider_name.upper()} API key is missing.")
-    response = requests.post(
+    response = _post_with_wall_clock_timeout(
         api_url,
+        timeout_seconds=timeout_seconds,
         headers={
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
@@ -2290,7 +2421,6 @@ def _generate_openai_compatible(
             "max_tokens": _effective_output_token_limit(max_tokens),
             "temperature": 0.30,
         },
-        timeout=timeout_seconds,
     )
     if response.status_code >= 400:
         raise RuntimeError(
@@ -2342,8 +2472,9 @@ def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_sec
         + "/ai/run/"
         + model_name
     )
-    response = requests.post(
+    response = _post_with_wall_clock_timeout(
         api_url,
+        timeout_seconds=timeout_seconds or CLOUDFLARE_TIMEOUT_SECONDS,
         headers={
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json",
@@ -2357,7 +2488,6 @@ def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_sec
             # partial objects from small fallback models.
             "response_format": {"type": "json_object"},
         },
-        timeout=timeout_seconds or CLOUDFLARE_TIMEOUT_SECONDS,
     )
     if response.status_code >= 400:
         raise RuntimeError(
@@ -3157,6 +3287,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             finalize_package["job_notice_type_source"] = "ai"
             data = _finalize_html_content(data, finalize_package)
             data = _ensure_verified_position_count(data, finalize_package)
+            data = _ensure_required_verified_facts(data, finalize_package)
             validation_result = _validate_ai_output(data, package=finalize_package)
             manifest_warnings = list(getattr(validation_result, "warnings", ()) or ())
             article["ai_quality_warnings"] = manifest_warnings
