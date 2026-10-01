@@ -82,6 +82,7 @@ class JobsCoreTests(unittest.TestCase):
           <h1>مباريات التوظيف : متصرف من الدرجة الثانية - سلم 11</h1>
           <p>موقع الإيداع : https://www.odco.gov.ma/e-recrutement</p>
           <p>آخر أجل لإيداع الترشيحات 16 أكتوبر 2026</p>
+          <p>سيتم نشر النتائج النهائية لاحقا على الموقع الرسمي.</p>
         </body></html>
         """
         soup = BeautifulSoup(html, "html.parser")
@@ -100,6 +101,8 @@ class JobsCoreTests(unittest.TestCase):
             full_text=soup.get_text(" ", strip=True),
         )
         self.assertEqual(fields["job_notice_type"], "competition")
+        self.assertEqual(fields["job_notice_type_source"], "source")
+        self.assertEqual(fields.get("job_notice_status", ""), "")
         self.assertEqual(
             fields["job_application_url"],
             "https://www.odco.gov.ma/e-recrutement",
