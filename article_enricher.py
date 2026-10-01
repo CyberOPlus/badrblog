@@ -29,7 +29,12 @@ from config import (
 from production_logging import elapsed_ms, log_event
 from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
 from job_extractor import extract_job_fields
-from job_core import invalidate_identity_evidence, job_deadline_time
+from job_core import (
+    invalidate_identity_evidence,
+    job_deadline_time,
+    job_focus_priority,
+    job_publication_freshness,
+)
 from company_logo_resolver import resolve_company_logo
 
 try:
@@ -1842,11 +1847,18 @@ def _jobs_enrichment_priority(article, queue_index=0, now=None):
         except ValueError:
             published_epoch = 0.0
 
-    # Deadline urgency stays first. For normal Jobs, newer verified listings are
-    # enriched before older backlog rows; score/source remain tie-breakers only.
-    # Lower queue index wins the last tie so identical/undated work still drains.
+    freshness = job_publication_freshness(article, now=now)
+    focus = job_focus_priority(article)
+
+    # Deadline urgency is the only exception above freshness. Within normal work,
+    # <=12h Jobs are enriched first, then 12-24h/today-only Jobs. Cybersecurity,
+    # IT/development and internships win ties inside the same freshness tier.
+    # Unknown-date jobs still remain eligible for enrichment because this stage
+    # may recover the official publication date from the detail page or PDF.
     return (
         -deadline_rank,
+        -int(freshness.get("preferred_rank") or 0),
+        -int(focus.get("rank") or 0),
         -published_epoch,
         -status_rank,
         -score,
