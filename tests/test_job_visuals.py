@@ -262,6 +262,84 @@ class JobVisualTests(unittest.TestCase):
                 self.assertTrue((temp / "servicenow-inwi.jpg").exists())
 
 
+    def test_jobs_facebook_late_logo_refresh_recovers_missing_metadata(self):
+        article = {
+            "id": "job-late-logo",
+            "job_title": "Analyste Cybersécurité Junior",
+            "job_company": "Orange Business",
+            "job_detail_url": "https://example.com/jobs/cyber",
+            "ai_input_package": {},
+        }
+        refreshed = {
+            "company_logo_url": "https://example.com/orange-business-logo.png",
+            "company_logo_verified": True,
+            "company_logo_confidence": 98,
+            "company_logo_source": "official_page",
+            "company_logo_checksum": "abc123",
+        }
+        with (
+            patch.object(facebook_publisher, "JOBS_MODE", True),
+            patch.object(
+                facebook_publisher,
+                "verified_company_logo",
+                return_value={
+                    "company_logo_url": "",
+                    "company_logo_verified": False,
+                },
+            ),
+            patch.object(
+                facebook_publisher,
+                "refresh_company_logo",
+                return_value=refreshed,
+            ) as refresh,
+        ):
+            result = facebook_publisher._refresh_job_logo_before_facebook(article)
+
+        refresh.assert_called_once_with(article)
+        self.assertTrue(result["company_logo_verified"])
+        self.assertEqual(
+            article["company_logo_url"],
+            "https://example.com/orange-business-logo.png",
+        )
+        self.assertEqual(
+            article["ai_input_package"]["company_logo_url"],
+            "https://example.com/orange-business-logo.png",
+        )
+        self.assertEqual(article["facebook_logo_refresh_status"], "verified")
+
+    def test_jobs_facebook_late_logo_refresh_skips_network_when_already_verified(self):
+        article = {
+            "id": "job-logo-ready",
+            "job_company": "inwi",
+            "company_logo_url": "https://example.com/inwi.png",
+            "company_logo_verified": True,
+        }
+        verified = {
+            "company_logo_url": "https://example.com/inwi.png",
+            "company_logo_verified": True,
+            "company_logo_confidence": 99,
+        }
+        with (
+            patch.object(facebook_publisher, "JOBS_MODE", True),
+            patch.object(
+                facebook_publisher,
+                "verified_company_logo",
+                return_value=verified,
+            ),
+            patch.object(
+                facebook_publisher,
+                "refresh_company_logo",
+            ) as refresh,
+        ):
+            result = facebook_publisher._refresh_job_logo_before_facebook(article)
+
+        refresh.assert_not_called()
+        self.assertEqual(result["company_logo_url"], "https://example.com/inwi.png")
+        self.assertEqual(
+            article["facebook_logo_refresh_status"],
+            "already_verified",
+        )
+
     def test_jobs_facebook_never_uses_article_cover_as_employer_logo(self):
         article = {
             "company_logo_url": "",
