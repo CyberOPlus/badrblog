@@ -402,6 +402,22 @@ def _sync_jobs_facebook_queue(queue, now=None):
             if _mark_facebook_pending(article, now=now, reason="retry_ready"):
                 queued += 1
                 changed = True
+        elif current == "facebook_pending":
+            # Repair any legacy/corrupt hybrid state left by an older failed
+            # delivery transition. Pending means ready now, so it must not carry
+            # a failure cooldown into eligibility or durable campaign memory.
+            stale_failure_state = bool(
+                article.get("facebook_retry_after_epoch")
+                or article.get("facebook_retry_delay_seconds")
+                or article.get("facebook_failure_count")
+                or article.get("facebook_last_failure_at")
+                or article.get("facebook_error")
+            )
+            if stale_failure_state:
+                _clear_facebook_failure_state(article)
+                article.pop("facebook_error", None)
+                _persist_jobs_social_state(article)
+                changed = True
 
     if changed:
         save_article_queue(queue)
@@ -493,10 +509,14 @@ def _eligible_for_facebook(article):
     if _job_facebook_expired(article):
         return False
     status = str(article.get("facebook_status") or "").strip()
-    return (
-        status in {"facebook_pending", "failed"}
-        and _facebook_retry_ready(article)
-    )
+    # Pending is the ready-to-send state. Cooldown applies only while the item
+    # is explicitly failed; stale retry metadata must never suppress a pending
+    # Blogger article.
+    if status == "facebook_pending":
+        return True
+    if status == "failed":
+        return _facebook_retry_ready(article)
+    return False
 
 
 def _find_latest_eligible_article(articles):
