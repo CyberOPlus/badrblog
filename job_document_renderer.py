@@ -245,9 +245,13 @@ def extract_job_document_texts(
     max_total_pages=48,
     max_chars_per_page=8000,
     max_total_chars=80000,
-    max_ocr_pages=8,
+    max_ocr_pages=None,
 ):
-    """Extract selectable PDF text as pre-AI evidence; scanned pages remain image-only evidence."""
+    """Extract official PDF text as pre-AI evidence, using OCR for scanned pages.
+
+    OCR follows the same bounded page budget as text extraction by default so a
+    scanned condition on a later processed page is not invisible to the article AI.
+    """
     existing = article.get("job_document_texts")
     previous_failures = int(article.get("job_document_text_download_failures") or 0)
     if isinstance(existing, list) and existing and previous_failures == 0:
@@ -271,6 +275,11 @@ def extract_job_document_texts(
     ocr_pages = 0
     ocr_failures = 0
     ocr_unavailable = False
+    ocr_page_budget = (
+        max(0, int(max_total_pages or 0))
+        if max_ocr_pages is None
+        else max(0, int(max_ocr_pages or 0))
+    )
 
     for document_index, item in enumerate(eligible, start=1):
         if total_pages >= max_total_pages or total_chars >= max_total_chars:
@@ -313,7 +322,11 @@ def extract_job_document_texts(
             page_text = _clean_pdf_page_text(page_text)
             total_pages += 1
 
-            if not page_text and ocr_pages < max(0, int(max_ocr_pages or 0)):
+            # Some scanned notices expose only a page number/header as selectable
+            # text. Treat very sparse text as scanned evidence and prefer OCR when
+            # it recovers a materially fuller page.
+            if len(page_text) < 80 and ocr_pages < ocr_page_budget:
+                original_page_text = page_text
                 ocr_text, ocr_error = _ocr_pdf_page_text(
                     page,
                     article_id=article.get("id"),
@@ -327,7 +340,7 @@ def extract_job_document_texts(
                         )
                     ),
                 )
-                if ocr_text:
+                if ocr_text and len(ocr_text) > len(original_page_text):
                     page_text = ocr_text
                     ocr_pages += 1
                 elif ocr_error in {"tesseract_unavailable", "ocr_language_unavailable"}:
