@@ -398,7 +398,14 @@ def _extract_job_action_links(soup, page_url, full_text=""):
             return
         if is_foreign_job_detail_url({"canonical_url": page_url, "url": page_url}, absolute):
             return
-        key = absolute.split("#", 1)[0].rstrip("/")
+        parsed = urlparse(absolute.split("#", 1)[0])
+        normalized_path = unquote(parsed.path or "").rstrip("/")
+        key = (
+            parsed.scheme.casefold(),
+            parsed.netloc.casefold(),
+            normalized_path,
+            parsed.query,
+        )
         if key in seen:
             return
         seen.add(key)
