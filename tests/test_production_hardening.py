@@ -1655,7 +1655,7 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn("Continue production cycle directly", text)
         self.assertIn("run.id !== context.runId", text)
         self.assertIn("Next production cycle dispatched directly.", text)
-        self.assertNotIn('"JOBS_FACEBOOK_FOLLOW_ARTICLE": "true"', text)
+        self.assertIn('"JOBS_FACEBOOK_FOLLOW_ARTICLE": "true"', text)
         self.assertIn('"JOBS_MAX_PUBLISH_AGE_HOURS": "12"', text)
         watchdog = Path(".github/workflows/jobs-watchdog.yml").read_text(encoding="utf-8")
         self.assertIn('workflows: ["Jobs Auto Cycle", "Jobs Core Tests"]', watchdog)
