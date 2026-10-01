@@ -475,7 +475,7 @@ class JobsRuntimeTests(unittest.TestCase):
             result.reason,
             "rendered official PDF pages are missing, reordered, duplicated, or unverified",
         )
-        self.assertTrue(draft._jobs_quality_error_is_ai_repairable(result.reason))
+        self.assertFalse(draft._jobs_quality_error_is_ai_repairable(result.reason))
 
     def test_official_pdf_page_failures_are_backend_only_not_ai_repairable(self):
         reasons = (
@@ -4297,7 +4297,7 @@ class JobsRuntimeTests(unittest.TestCase):
             archive_files = list((Path(temp) / "data" / "job_queue_archive").glob("*.json"))
             self.assertEqual(len(archive_files), 1)
 
-    def test_compact_job_passes_both_word_gates(self):
+    def test_compact_job_passes_without_artificial_word_minimum(self):
         package = {
             "url": "https://employer.example/jobs/42",
             "job_notice_type": "vacancy",
@@ -4305,21 +4305,23 @@ class JobsRuntimeTests(unittest.TestCase):
         }
         data = {
             "title": "شركة أورنج تعلن عن توظيف خبير في الأمن السيبراني",
-            "description": "فرصة توظيف لدى شركة أورنج في مجال الأمن السيبراني، تعرف على المعلومات الواردة في الإعلان الرسمي وطريقة تقديم طلب الترشيح.",
+            "description": "فرصة توظيف لدى شركة أورنج في مجال الأمن السيبراني، مع عرض المعلومات المؤكدة في الإعلان الرسمي وطريقة تقديم طلب الترشيح.",
             "slug": "orange-cybersecurity",
             "notice_type": "vacancy",
             "html_content": (
-                "<p>" + " ".join("معلومة" + str(i) for i in range(125)) + "</p>"
+                "<p>تعلن الشركة عن المنصب وفق المعلومات الرسمية المتاحة، "
+                "مع توضيح أهم شروط الترشيح العملية دون حشو أو تكرار.</p>"
                 "<p><a href='https://employer.example/jobs/42/apply'>التقديم الرسمي</a></p>"
             ),
         }
         article = {"ai_input_package": package}
         with patch.object(ai, "JOBS_MODE", True), patch.object(quality_gate, "JOBS_MODE", True), \
              patch.object(ai, "_phase3_quality_failure_reason", return_value=""):
+            self.assertEqual(ai._minimum_article_words_for_package(package), 0)
             ai._validate_ai_output(data, package)
             ai._apply_success(article, data, "gemini:test")
         self.assertEqual(article["ai_status"], "completed")
-        self.assertGreaterEqual(article["final_word_count"], 125)
+        self.assertLess(article["final_word_count"], 125)
 
     def test_jobs_do_not_truncate_long_institution_result_titles(self):
         title = "الوكالة الوطنية للمحافظة العقارية والمسح العقاري والخرائطية: لوائح المدعوين للاختبار الكتابي"
