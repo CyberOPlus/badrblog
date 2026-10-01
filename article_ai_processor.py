@@ -2406,10 +2406,10 @@ def _resolve_providers():
             providers.append("gemini")
         if _has_real_key(GROQ_API_KEY, ""):
             providers.append("groq")
-        if _has_real_key(OPENROUTER_API_KEY, "your_new_key_here"):
-            providers.append("openrouter")
         if _has_real_key(CLOUDFLARE_API_TOKEN, "") and str(CLOUDFLARE_ACCOUNT_ID or "").strip():
             providers.append("cloudflare")
+        if _has_real_key(OPENROUTER_API_KEY, "your_new_key_here"):
+            providers.append("openrouter")
         if _has_real_key(MISTRAL_API_KEY, ""):
             providers.append("mistral")
         if _has_real_key(OPENAI_API_KEY, "your_openai_api_key_here"):
@@ -2465,7 +2465,9 @@ def _provider_candidates(context=None):
                 candidates.append({"provider": "openai", "api_key": OPENAI_API_KEY, "model": OPENAI_MODEL})
     if not candidates:
         raise RuntimeError("No AI provider key configured.")
-    # In auto mode keep provider priority deterministic (Gemini -> OpenRouter).
+    # In auto mode keep provider priority deterministic. Prefer the fixed
+    # Cloudflare model before OpenRouter's random free-model router; the latter
+    # remains an emergency fallback when the fixed providers fail.
     # Speed memory may still be used when the user explicitly locks one provider.
     return candidates if auto_mode else _reorder_candidates_by_speed_memory(candidates)
 
@@ -2647,7 +2649,7 @@ def _attempt_provider_sequence():
         # quota/outage failures before any new request is attempted.
         sequence = [
             provider
-            for provider in ("gemini", "groq", "openrouter", "cloudflare", "mistral", "openai")
+            for provider in ("gemini", "groq", "cloudflare", "openrouter", "mistral", "openai")
             if provider in providers
             and (not JOBS_MODE or _provider_circuit_remaining(provider) <= 0)
         ]
