@@ -65,6 +65,38 @@ class JobsRuntimeTests(unittest.TestCase):
         ):
             self.assertNotIn(key, package)
 
+    def test_publication_value_does_not_erase_same_day_deadline(self):
+        article = {
+            "final_html": (
+                "<p>آخر أجل للترشيح هو 2026-10-10.</p>"
+                "<p>تاريخ النشر: 2026-10-10</p>"
+            ),
+            "job_published_at": "2026-10-10",
+            "job_published_at_display": "10 أكتوبر 2026",
+            "source_published_at": "2026-10-10",
+            "ai_input_package": {},
+        }
+        draft._sanitize_article_final_html(article, prepare_visuals=False)
+        self.assertIn("آخر أجل للترشيح هو 2026-10-10", article["final_html"])
+        self.assertNotIn("تاريخ النشر", article["final_html"])
+
+    def test_jobs_quality_gate_blocks_unlabeled_raw_reference_value(self):
+        reference = "C43918/26"
+        article = {
+            "url": "https://official.example/jobs/42",
+            "seo_title": "تحديث رسمي حول مباراة توظيف التقنيين بالمغرب",
+            "seo_description": (
+                "تفاصيل رسمية موجزة حول مباراة توظيف التقنيين وشروطها الأساسية "
+                f"وفق الملف {reference} مع رابط الوثيقة الرسمية."
+            ),
+            "final_html": "<p>تفاصيل موثقة ومباشرة حول المباراة وشروط الترشيح الأساسية.</p>",
+            "job_notice_type": "update",
+            "job_external_reference": reference,
+        }
+        result = quality_gate.validate_before_publish(article, check_duplicate=False)
+        self.assertFalse(result.passed)
+        self.assertIn("internal job reference value", result.reason)
+
     def test_pdf_outages_keep_retrying_with_bounded_backoff(self):
         article = {"job_document_render_retry_count": 20, "ai_input_package": {}}
         draft._mark_document_render_retry(article, article["ai_input_package"], "offline")
