@@ -965,6 +965,9 @@ def _strip_internal_job_metadata_text(value, *, collapse_whitespace=False):
         return ""
     text = _INTERNAL_JOB_PUBLICATION_METADATA_RE.sub(" ", text)
     text = _INTERNAL_JOB_REFERENCE_METADATA_RE.sub(" ", text)
+    # Removing inline metadata can leave adjacent separators such as "، ،".
+    # Collapse only separator runs; legitimate deadline/exam dates remain intact.
+    text = re.sub(r"(?:\s*[،,;؛:]\s*){2,}", "، ", text)
     if collapse_whitespace:
         text = re.sub(r"\s+", " ", text).strip()
     else:
