@@ -3713,15 +3713,15 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_ai_quality_backoff_retries_before_long_input_backoff(self):
         self.assertEqual(
-            article_ai_processor._fingerprint_backoff_seconds("quality", "quality", 1),
+            ai._fingerprint_backoff_seconds("quality", "quality", 1),
             5 * 60,
         )
         self.assertEqual(
-            article_ai_processor._fingerprint_backoff_seconds("quality", "quality", 2),
+            ai._fingerprint_backoff_seconds("quality", "quality", 2),
             10 * 60,
         )
         self.assertEqual(
-            article_ai_processor._fingerprint_backoff_seconds("article_input", "input", 1),
+            ai._fingerprint_backoff_seconds("article_input", "input", 1),
             30 * 60,
         )
 
