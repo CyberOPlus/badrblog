@@ -4075,10 +4075,22 @@ class JobsRuntimeTests(unittest.TestCase):
             "identity_evidence_stage_checked_at": "2026-09-30T10:00:00",
             "identity_evidence_document_fingerprint": "https://example.com/notice.pdf",
             "job_document_text_download_failures": 0,
+            "job_document_ocr_failures": 0,
+            "job_document_ocr_unavailable": False,
+            "job_document_unread_pages": 0,
+            "job_document_text_pages": 1,
+            "job_document_text_chars": 28,
+            "job_document_text_attempted_documents": 1,
             "source_tables": [],
             "source_tables_count": 0,
             "job_detail_url": "https://example.com/jobs/pending",
-            "job_document_texts": [],
+            "job_document_texts": [{
+                "document_url": "https://example.com/notice.pdf",
+                "document_label": "الإعلان",
+                "page_number": 1,
+                "page_count": 1,
+                "text": "شروط رسمية سبق التحقق منها",
+            }],
         }
         queue = {"articles": [row]}
         with (
