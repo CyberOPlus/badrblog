@@ -14,6 +14,7 @@ from config import (
     SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
     SOURCES_CONFIG_PATH,
     JOBS_MODE,
+    JOBS_MAX_SOURCE_AGE_HOURS,
 )
 from duplicate_utils import canonicalize_url, title_hash, topic_signature
 from production_logging import log_event
@@ -23,6 +24,7 @@ from job_core import (
     is_application_url_bound_to_job,
     is_foreign_job_detail_url,
     job_deadline_time,
+    job_publication_freshness,
 )
 
 ALLOWED_STATUSES = {"new", "identity_pending", "skipped", "ready", "selected", "draft_created", "published", "failed"}
@@ -484,13 +486,15 @@ def _fresh_queue_sort_key(article):
 
 def is_article_within_fresh_window(article, now=None, max_age_hours=None):
     if JOBS_MODE:
+        current = now or datetime.now(timezone.utc)
+        if current.tzinfo is None:
+            current = current.replace(tzinfo=timezone.utc)
+        else:
+            current = current.astimezone(timezone.utc)
         deadline = _parse_job_date(article.get("job_deadline"))
-        if deadline:
-            current = now or datetime.now(timezone.utc)
-            if current.tzinfo is None:
-                current = current.replace(tzinfo=timezone.utc)
-            return deadline >= current.astimezone(timezone.utc)
-        return True
+        if deadline and deadline < current:
+            return False
+        return bool(job_publication_freshness(article, now=current).get("publishable"))
     published_at = _source_published_datetime(article)
     if not published_at:
         return True
@@ -498,6 +502,8 @@ def is_article_within_fresh_window(article, now=None, max_age_hours=None):
 
 
 def article_age_hours(article, now=None):
+    if JOBS_MODE:
+        return job_publication_freshness(article, now=now).get("age_hours")
     published_at = _source_published_datetime(article)
     if not published_at:
         return None
@@ -579,25 +585,43 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
             continue
 
         if JOBS_MODE:
-            # Jobs are not news. A listing can be older than seven days and still
-            # be valid. Only active vacancy/competition notices expire when their
-            # verified application deadline passes. Candidate lists, results and
-            # updates may legitimately be published after the original deadline.
+            current = now or datetime.now(timezone.utc)
+            if current.tzinfo is None:
+                current = current.replace(tzinfo=timezone.utc)
+            else:
+                current = current.astimezone(timezone.utc)
+
             notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
             if notice_type in {"vacancy", "competition"}:
                 deadline = job_deadline_time(article)
-                if deadline:
-                    current = now or datetime.now(timezone.utc)
-                    if current.tzinfo is None:
-                        current = current.replace(tzinfo=timezone.utc)
-                    else:
-                        current = current.astimezone(timezone.utc)
-                    if deadline < current:
-                        if _archive_article(article, "job_deadline_passed", archived_at):
-                            expired += 1
-                            changed = True
-            # No-deadline Jobs are handled by the separate 60-day stale safeguard
-            # in maintain_article_queue(); post-deadline result/update notices stay hot.
+                if deadline and deadline < current:
+                    if _archive_article(article, "job_deadline_passed", archived_at):
+                        expired += 1
+                        changed = True
+                    continue
+
+            freshness = job_publication_freshness(article, now=current)
+            if freshness.get("bucket") in {"too_old", "future"}:
+                if _archive_article(
+                    article,
+                    f"job_source_older_than_{JOBS_MAX_SOURCE_AGE_HOURS}h",
+                    archived_at,
+                ):
+                    expired += 1
+                    changed = True
+                continue
+            if (
+                not freshness.get("verified")
+                and float(freshness.get("discovered_age_hours") or 0) > JOBS_MAX_SOURCE_AGE_HOURS
+            ):
+                if _archive_article(
+                    article,
+                    f"job_publish_date_unverified_after_{JOBS_MAX_SOURCE_AGE_HOURS}h",
+                    archived_at,
+                ):
+                    missing_date += 1
+                    changed = True
+                continue
             continue
 
         published_at = _source_published_datetime(article)
@@ -1111,7 +1135,7 @@ def maintain_article_queue(days=7):
             if stale_anchor and stale_anchor < now_utc - timedelta(days=60):
                 if _archive_article(
                     article,
-                    "no_deadline_unpublished_older_than_60_days",
+                    "legacy_no_deadline_unpublished_older_than_60_days",
                     archived_at,
                 ):
                     stats["archived_stale_no_deadline"] += 1
