@@ -552,6 +552,121 @@ def promote_job_document_application_channel(article):
     return ""
 
 
+
+POSITION_COUNT_RE = re.compile(
+    r"(?:\\(\\s*0*(\\d{1,3})\\s*\\)|\\)\\s*0*(\\d{1,3})\\s*\\()"
+)
+POSITION_RECRUITMENT_HINTS = (
+    "توظيف", "مباراة", "المباراة", "منصب", "مناصب",
+    "recrut", "concours", "poste", "postes",
+)
+POSITION_TITLE_STOPWORDS = {
+    "مباراة", "مباريات", "التوظيف", "توظيف", "من", "الدرجة", "سلم",
+    "وظيفة", "وظائف", "منصب", "مناصب",
+    "concours", "recrutement", "emploi", "offre", "poste", "postes",
+    "grade", "pour", "avec", "dans",
+}
+POSITION_GRADE_MARKERS = (
+    "الاولى", "الثانية", "الثالثة", "الرابعة",
+    "premier", "premiere", "deuxieme", "troisieme", "quatrieme",
+    "1er", "1ere", "2eme", "3eme", "4eme",
+)
+
+
+def _normalize_position_text(value):
+    text = str(value or "").casefold()
+    text = re.sub(r"[\\u0610-\\u061a\\u064b-\\u065f\\u0670\\u06d6-\\u06ed]", "", text)
+    text = text.translate(str.maketrans({
+        "أ": "ا", "إ": "ا", "آ": "ا", "ى": "ي", "ؤ": "و", "ئ": "ي",
+        "é": "e", "è": "e", "ê": "e", "ë": "e",
+        "à": "a", "â": "a", "ä": "a",
+        "î": "i", "ï": "i", "ô": "o", "ö": "o",
+        "ù": "u", "û": "u", "ü": "u", "ç": "c",
+    }))
+    return re.sub(r"\\s+", " ", text).strip()
+
+
+def _position_scope_from_title(article):
+    title = _normalize_position_text(article.get("job_title") or article.get("title"))
+    if not title:
+        return (), ()
+
+    grades = tuple(marker for marker in POSITION_GRADE_MARKERS if marker in title)
+    words = re.findall(r"[a-z\\u0600-\\u06ff]{4,}", title)
+    role_tokens = []
+    for word in words:
+        if word in POSITION_TITLE_STOPWORDS or word in grades:
+            continue
+        if word not in role_tokens:
+            role_tokens.append(word)
+    return grades, tuple(role_tokens[:4])
+
+
+def promote_job_document_position_count(article):
+    """Promote a role-specific position count from official PDF/OCR evidence.
+
+    Shared public decisions often contain several grades. A count is promoted only
+    when one PDF line contains a parenthesized count, a recruitment hint, the
+    current role token, and (when the title has one) the current grade marker.
+    Conflicting matches are left unset rather than guessed.
+    """
+    try:
+        current = int(article.get("job_number_of_positions") or 0)
+    except (TypeError, ValueError):
+        current = 0
+    if current > 0:
+        return current
+    if not bool(article.get("official_source") or article.get("job_official_source")):
+        return 0
+
+    grades, role_tokens = _position_scope_from_title(article)
+    if not role_tokens:
+        return 0
+
+    matches = []
+    for page in (article.get("job_document_texts") or []):
+        if not isinstance(page, dict):
+            continue
+        for raw_line in str(page.get("text") or "").splitlines():
+            line = _normalize_position_text(raw_line)
+            if not line:
+                continue
+            if grades and not any(grade in line for grade in grades):
+                continue
+            if not any(token in line for token in role_tokens):
+                continue
+            if not any(hint in line for hint in POSITION_RECRUITMENT_HINTS):
+                continue
+            for match in POSITION_COUNT_RE.finditer(line):
+                raw_count = match.group(1) or match.group(2)
+                try:
+                    count = int(raw_count)
+                except (TypeError, ValueError):
+                    continue
+                if 0 < count <= 500:
+                    matches.append({
+                        "count": count,
+                        "page_number": page.get("page_number"),
+                        "line": re.sub(r"\\s+", " ", str(raw_line or "")).strip()[:360],
+                    })
+
+    counts = sorted({row["count"] for row in matches})
+    if len(counts) != 1:
+        return 0
+
+    count = counts[0]
+    article["job_number_of_positions"] = count
+    article["job_number_of_positions_source"] = "official_pdf"
+    article["job_position_count_evidence"] = matches[:6]
+    log_event(
+        "job_pdf_position_count_promoted",
+        article_id=article.get("id"),
+        count=count,
+        evidence_rows=len(matches),
+    )
+    return count
+
+
 def _safe_segment(value):
     cleaned = re.sub(r"[^a-z0-9-]+", "-", str(value or "").casefold())
     cleaned = re.sub(r"-{2,}", "-", cleaned).strip("-")
