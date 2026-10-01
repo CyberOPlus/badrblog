@@ -1731,8 +1731,8 @@ class JobsCoreTests(unittest.TestCase):
             job_title="Chargé de clientèle",
             status="ready",
             content_fetch_status="success",
-            job_published_at="2026-09-30T11:30:00+00:00",
-            source_published_at="2026-09-30T11:30:00+00:00",
+            job_published_at="2026-09-30T10:30:00+00:00",
+            source_published_at="2026-09-30T10:30:00+00:00",
             job_urgency={"level": "normal"},
         )
         technical = sample_job(
@@ -1740,8 +1740,8 @@ class JobsCoreTests(unittest.TestCase):
             job_title="Analyste Cybersécurité SOC",
             status="ready",
             content_fetch_status="success",
-            job_published_at="2026-09-30T08:00:00+00:00",
-            source_published_at="2026-09-30T08:00:00+00:00",
+            job_published_at="2026-09-30T10:00:00+00:00",
+            source_published_at="2026-09-30T10:00:00+00:00",
             job_urgency={"level": "normal"},
         )
 
@@ -1761,6 +1761,46 @@ class JobsCoreTests(unittest.TestCase):
             )
 
         self.assertEqual(selected["id"], "technical-older")
+
+    def test_jobs_queue_newer_freshness_band_beats_older_technical_role(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        newest_general = sample_job(
+            id="newest-general",
+            job_title="Chargé de clientèle",
+            status="ready",
+            content_fetch_status="success",
+            job_published_at="2026-09-30T11:30:00+00:00",
+            source_published_at="2026-09-30T11:30:00+00:00",
+        )
+        older_technical = sample_job(
+            id="older-technical",
+            job_title="Analyste Cybersécurité SOC",
+            status="ready",
+            content_fetch_status="success",
+            job_published_at="2026-09-30T08:00:00+00:00",
+            source_published_at="2026-09-30T08:00:00+00:00",
+        )
+
+        def fake_prepare(article, now=None):
+            return (
+                {"score": 70, "status": "publish", "passed": True, "reasons": []},
+                {"action": "new", "reason": "new verified job", "existing": {}},
+            )
+
+        with (
+            patch.object(job_core, "prepare_job_candidate", side_effect=fake_prepare),
+            patch.object(job_core, "can_publish_new_job", return_value=True),
+        ):
+            selected = job_core.select_best_job_from_queue(
+                {"articles": [newest_general, older_technical]},
+                now=now,
+            )
+
+        self.assertEqual(selected["id"], "newest-general")
+        self.assertGreater(
+            job_core.job_freshness_band(newest_general, now=now),
+            job_core.job_freshness_band(older_technical, now=now),
+        )
 
     def test_large_official_near_deadline_is_urgent(self):
         now = datetime(2026, 9, 28, 9, 0, tzinfo=timezone.utc)
