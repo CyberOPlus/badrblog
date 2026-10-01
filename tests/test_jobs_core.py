@@ -31,7 +31,7 @@ def sample_job(**overrides):
         "job_application_url": "https://example.com/apply/12345",
         "job_number_of_positions": 100,
         "job_deadline": "2026-10-10",
-        "job_published_at": "2026-09-28T08:00:00+00:00",
+        "job_published_at": "2026-09-30T08:00:00+00:00",
         "job_eligibility": "morocco",
         "official_source": True,
         "source_priority": "S",
@@ -1650,7 +1650,7 @@ class JobsCoreTests(unittest.TestCase):
         self.assertIn("jobs-morocco", labels)
 
     def test_quality_requires_verified_eligibility_and_application(self):
-        now = datetime(2026, 9, 28, 9, 0, tzinfo=timezone.utc)
+        now = datetime(2026, 9, 30, 9, 0, tzinfo=timezone.utc)
         good = job_core.score_job(sample_job(), now=now)
         self.assertTrue(good["passed"])
 
@@ -1662,7 +1662,7 @@ class JobsCoreTests(unittest.TestCase):
         sparse = sample_job(
             job_location="",
             job_number_of_positions=1,
-            job_published_at="2026-09-20T08:00:00+00:00",
+            job_published_at="2026-09-30T04:00:00+00:00",
             source_priority="",
             job_diploma="",
             job_salary="",
@@ -1675,6 +1675,113 @@ class JobsCoreTests(unittest.TestCase):
         self.assertTrue(result["passed"])
         self.assertEqual(result["status"], "publish")
         self.assertEqual(result["threshold_applies_to"], "ranking_only")
+
+    def test_jobs_freshness_accepts_eleven_hours_and_rejects_thirteen(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+
+        fresh = job_core.score_job(
+            sample_job(job_published_at="2026-09-30T01:00:00+00:00"),
+            now=now,
+        )
+        self.assertTrue(fresh["passed"], fresh)
+        self.assertTrue(fresh["freshness"]["eligible"])
+        self.assertAlmostEqual(fresh["freshness"]["age_hours"], 11.0, places=2)
+
+        stale = job_core.score_job(
+            sample_job(job_published_at="2026-09-29T23:00:00+00:00"),
+            now=now,
+        )
+        self.assertFalse(stale["passed"])
+        self.assertEqual(stale["status"], "reject")
+        self.assertFalse(stale["freshness"]["eligible"])
+        self.assertIn("older than 12 hours", " ".join(stale["reasons"]))
+
+    def test_jobs_missing_verified_publication_date_never_publishes_after_enrichment(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        result = job_core.score_job(
+            sample_job(
+                job_published_at="",
+                source_published_at="",
+                content_fetch_status="success",
+            ),
+            now=now,
+        )
+        self.assertFalse(result["passed"])
+        self.assertEqual(result["status"], "reject")
+        self.assertIn("missing verified publication date", result["reasons"])
+
+    def test_job_focus_prioritizes_cyber_it_and_internships_without_excluding_general(self):
+        cyber_stage = job_core.job_focus_profile(
+            sample_job(job_title="Stage PFE Cybersecurity SOC Analyst")
+        )
+        tech = job_core.job_focus_profile(
+            sample_job(job_title="Développeur Full Stack Python React")
+        )
+        internship = job_core.job_focus_profile(
+            sample_job(job_title="Stage Ressources Humaines", job_contract_type="stage")
+        )
+        general = job_core.job_focus_profile(
+            sample_job(job_title="Chargé de clientèle")
+        )
+
+        self.assertGreater(cyber_stage["priority"], tech["priority"])
+        self.assertGreater(tech["priority"], internship["priority"])
+        self.assertGreater(internship["priority"], general["priority"])
+        self.assertEqual(general["category"], "general")
+        self.assertEqual(general["priority"], 0)
+
+        general_quality = job_core.score_job(
+            sample_job(
+                job_title="Chargé de clientèle",
+                job_published_at="2026-09-30T08:00:00+00:00",
+            ),
+            now=datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc),
+        )
+        self.assertTrue(general_quality["passed"], general_quality)
+
+    def test_jobs_queue_prefers_cyber_job_within_same_freshness_band(self):
+        now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
+        general = sample_job(
+            id="general-newer",
+            status="ready",
+            content_fetch_status="success",
+            job_title="Chargé de clientèle",
+            job_published_at="2026-09-30T10:30:00+00:00",
+            source_published_at="2026-09-30T10:30:00+00:00",
+            job_number_of_positions=1,
+        )
+        cyber = sample_job(
+            id="cyber-slightly-older",
+            status="ready",
+            content_fetch_status="success",
+            job_title="Analyste Cybersécurité SOC",
+            job_published_at="2026-09-30T10:00:00+00:00",
+            source_published_at="2026-09-30T10:00:00+00:00",
+            job_number_of_positions=1,
+        )
+
+        def fake_prepare(article, now=None):
+            return (
+                {
+                    "score": 95 if article["id"] == "general-newer" else 60,
+                    "status": "publish",
+                    "passed": True,
+                    "reasons": [],
+                    "freshness": job_core.job_freshness(article, now=now),
+                },
+                {"action": "new", "reason": "new verified job", "existing": {}},
+            )
+
+        with (
+            patch.object(job_core, "prepare_job_candidate", side_effect=fake_prepare),
+            patch.object(job_core, "can_publish_new_job", return_value=True),
+        ):
+            selected = job_core.select_best_job_from_queue(
+                {"articles": [general, cyber]},
+                now=now,
+            )
+
+        self.assertEqual(selected["id"], "cyber-slightly-older")
 
     def test_large_official_near_deadline_is_urgent(self):
         now = datetime(2026, 9, 28, 9, 0, tzinfo=timezone.utc)
@@ -1872,8 +1979,8 @@ class JobsCoreTests(unittest.TestCase):
             id="older-high-score",
             status="ready",
             content_fetch_status="success",
-            job_published_at="2026-09-23T08:00:00+00:00",
-            source_published_at="2026-09-23T08:00:00+00:00",
+            job_published_at="2026-09-30T09:30:00+00:00",
+            source_published_at="2026-09-30T09:30:00+00:00",
             job_number_of_positions=1,
             job_urgency={"level": "normal"},
         )
