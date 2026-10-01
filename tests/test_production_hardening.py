@@ -1655,8 +1655,10 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn('"JOBS_FACEBOOK_FOLLOW_ARTICLE": "true"', text)
         self.assertIn('"JOBS_MAX_PUBLISH_AGE_HOURS": "12"', text)
         watchdog = Path(".github/workflows/jobs-watchdog.yml").read_text(encoding="utf-8")
-        self.assertIn('workflows: ["Jobs Auto Cycle"]', watchdog)
+        self.assertIn('workflows: ["Jobs Auto Cycle", "Jobs Core Tests"]', watchdog)
         self.assertIn("types: [completed]", watchdog)
+        self.assertIn("github.rest.git.getBlob", watchdog)
+        self.assertIn("conclusion !== \"success\"", watchdog)
         self.assertIn('context.eventName === "workflow_run"', watchdog)
         self.assertNotIn("prefer_jobs_queue_snapshot", text)
 

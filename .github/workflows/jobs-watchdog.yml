@@ -5,7 +5,7 @@ on:
   schedule:
     - cron: "4,10,16,22,28,34,40,46,52,58 * * * *"
   workflow_run:
-    workflows: ["Jobs Auto Cycle"]
+    workflows: ["Jobs Auto Cycle", "Jobs Core Tests"]
     types: [completed]
     branches: [main]
 
@@ -26,6 +26,12 @@ jobs:
         with:
           script: |
             const { owner, repo } = context.repo;
+            if (context.eventName === "workflow_run"
+                && context.payload.workflow_run.name === "Jobs Core Tests"
+                && context.payload.workflow_run.conclusion !== "success") {
+              core.info("Deployment tests did not pass; cron/watchdog recovery remains active.");
+              return;
+            }
             const workflow_id = "auto-cycle.yml";
             const response = await github.rest.actions.listWorkflowRuns({
               owner,
@@ -82,8 +88,17 @@ jobs:
                 const stateResponse = await github.rest.repos.getContent({
                   owner, repo, path: "data/job_state.json", ref: "main",
                 });
-                const queue = JSON.parse(Buffer.from(queueResponse.data.content, "base64").toString("utf8"));
-                const state = JSON.parse(Buffer.from(stateResponse.data.content, "base64").toString("utf8"));
+                async function readJson(response) {
+                  let encoded = response.data.content;
+                  if (!encoded && response.data.sha) {
+                    // Contents API omits content for files larger than 1 MB.
+                    const blob = await github.rest.git.getBlob({owner, repo, file_sha: response.data.sha});
+                    encoded = blob.data.content;
+                  }
+                  return JSON.parse(Buffer.from(encoded || "", "base64").toString("utf8"));
+                }
+                const queue = await readJson(queueResponse);
+                const state = await readJson(stateResponse);
                 const publishable = (queue.articles || []).filter(article =>
                   !article.archived
                   && (article.status === "ready" || article.status === "selected")
@@ -106,8 +121,7 @@ jobs:
                   `Publishable backlog stalled for ${publishAgeMinutes.toFixed(1)} minutes; dispatching recovery run.`
                 );
               } catch (error) {
-                core.warning(`Could not inspect durable Jobs state: ${error.message}`);
-                return;
+                core.warning(`Could not inspect durable Jobs state: ${error.message}; dispatching recovery.`);
               }
             } else {
               core.warning(
