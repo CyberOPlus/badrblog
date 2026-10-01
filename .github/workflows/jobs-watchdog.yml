@@ -4,12 +4,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "4,10,16,22,28,34,40,46,52,58 * * * *"
-  workflow_run:
-    # A successful code-validation run may wake production immediately.
-    # Auto Cycle completion is intentionally excluded: cron owns normal cadence.
-    workflows: ["Jobs Core Tests"]
-    types: [completed]
-    branches: [main]
 
 permissions:
   actions: write
@@ -25,12 +19,6 @@ jobs:
         with:
           script: |
             const { owner, repo } = context.repo;
-            if (context.eventName === "workflow_run"
-                && context.payload.workflow_run.name === "Jobs Core Tests"
-                && context.payload.workflow_run.conclusion !== "success") {
-              core.info("Deployment tests did not pass; cron/watchdog recovery remains active.");
-              return;
-            }
             const workflow_id = "auto-cycle.yml";
             const response = await github.rest.actions.listWorkflowRuns({
               owner,
@@ -48,11 +36,6 @@ jobs:
               return;
             }
 
-            if (context.eventName === "workflow_run") {
-              core.info("Validated code wake: dispatching one Jobs Auto Cycle.");
-              await github.rest.actions.createWorkflowDispatch({owner, repo, workflow_id, ref: "main"});
-              return;
-            }
 
             const latest = runs[0];
             const latestTime = latest
