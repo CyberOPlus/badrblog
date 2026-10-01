@@ -32,7 +32,7 @@ from config import (
     JOBS_EXPECTED_BLOG_HOST,
     JOBS_MAX_PUBLISH_AGE_HOURS,
 )
-from job_core import _parse_date as parse_job_date, job_deadline_time
+from job_core import job_deadline_time, job_publication_freshness
 from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
 from internal_link_cache import record_published_article
@@ -999,13 +999,14 @@ def _assert_fresh_job_for_new_live_publish(article, now=None):
     current = now or datetime.now(timezone.utc)
     if current.tzinfo is None:
         current = current.replace(tzinfo=timezone.utc)
-    published = parse_job_date(
-        article.get("job_published_at") or article.get("source_published_at")
+    freshness = job_publication_freshness(
+        article,
+        now=current,
+        max_age_hours=JOBS_MAX_PUBLISH_AGE_HOURS,
     )
-    if published is None:
+    if not freshness["verified"]:
         raise RuntimeError("Job publication time is not verified; refusing new live publication.")
-    age_hours = (current - published).total_seconds() / 3600
-    if age_hours < 0 or age_hours > JOBS_MAX_PUBLISH_AGE_HOURS:
+    if freshness["future"] or not freshness["fresh"]:
         raise RuntimeError(
             f"Job publication age is outside the {JOBS_MAX_PUBLISH_AGE_HOURS}-hour window; "
             "refusing new live publication."
