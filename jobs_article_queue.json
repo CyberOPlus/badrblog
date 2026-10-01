@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-01T05:41:49",
+  "updated_at": "2026-10-01T05:44:53",
   "articles": [
     {
       "id": "a6432a68f27e4c35",
@@ -52218,7 +52218,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:36:01",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:36:01",
       "archive_reason": "job_deadline_passed",
@@ -52319,7 +52319,9 @@
       "content_preview_chars": 608,
       "content_fetched_at": "2026-10-01T05:41:47",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 5693.74h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T05:44:27.483499+00:00"
     },
     {
       "id": "1175e5b3f8277106",
@@ -52351,13 +52353,13 @@
       "ats_reference": "4c9ad947-030c-4991-88fd-fec2a1630785",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الداخلية -عمالة إقليم مديونة",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2026-02-23",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2026-02-06",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/4c9ad947-030c-4991-88fd-fec2a1630785",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -52368,7 +52370,103 @@
       "archived_at": "2026-10-01T00:36:01",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 73,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 73,
+      "fetched_title": "مباريات التوظيف : مهندس معماري من الدرجة الأولى - سُلمْ 11",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T05:44:36+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : مهندس معماري من الدرجة الأولى - سُلمْ 11",
+      "job_deadline_display": "23 فبراير 2026",
+      "job_exam_date": "2026-03-29",
+      "job_exam_date_display": "29 مارس 2026",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "6 فبراير 2026",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/4c9ad947-030c-4991-88fd-fec2a1630785",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/4c9ad947-030c-4991-88fd-fec2a1630785",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/4c9ad947-030c-4991-88fd-fec2a1630785",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/4c9ad947-030c-4991-88fd-fec2a1630785",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/4c9ad947-030c-4991-88fd-fec2a1630785",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/4c9ad947-030c-4991-88fd-fec2a1630785",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/4c9ad947-030c-4991-88fd-fec2a1630785",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/4c9ad947-030c-4991-88fd-fec2a1630785",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/4c9ad947-030c-4991-88fd-fec2a1630785",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي مهندس معماري من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة إقليم مديونة- آخر أجل لإيداع الترشيحات 23 فبراير 2026 تاريخ إجراء المباراة 29 مارس 2026 تاريخ النشر 6 فبراير 2026 معلومات عن المباراة الدرجة : مهندس معماري من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public معلومات إضافية : مباراة لتوظيف مهندسين معماريين اثنين (02) من الدرجة الأولى، تخصص: الهندسة المعمارية هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/starterkit/build/assets/media/images/Ministre-md-default-image.jpg",
+      "company_logo_verified": true,
+      "company_logo_confidence": 99,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "30ab535c7beed2b8b1eb2d9432f2eea9572b0d0748c66c962d96424bd9a31ee8",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي مهندس معماري من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة إقليم مديونة- آخر أجل لإيداع الترشيحات 23 فبراير 2026 تاريخ إجراء المباراة 29 مارس 2026 تاريخ النشر 6 فبراير 2026 معلومات عن المباراة الدرجة : مهندس معماري من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public معلومات إضافية : مباراة لتوظيف مهندسين معماريين اثنين (02) من الدرجة الأولى، تخصص: الهندسة المعمارية هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 631,
+      "content_preview": "خيارات الوصول المرئي مهندس معماري من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة إقليم مديونة- آخر أجل لإيداع الترشيحات 23 فبراير 2026 تاريخ إجراء المباراة 29 مارس 2026 تاريخ النشر 6 فبراير 2026 معلومات عن المباراة الدرجة : مهندس معماري من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public معلومات إضافية : مباراة لتوظيف مهندسين معماريين اثنين (02) من الدرجة الأولى، تخصص: الهندسة المعمارية هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 631,
+      "content_fetched_at": "2026-10-01T05:44:36",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "842c5962d99329a6",
@@ -52400,13 +52498,13 @@
       "ats_reference": "1b965219-6523-4f03-ba9c-1f15fc37ee46",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الداخلية -عمالة إقليم مديونة",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2026-02-23",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2026-02-06",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/1b965219-6523-4f03-ba9c-1f15fc37ee46",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -52417,7 +52515,103 @@
       "archived_at": "2026-10-01T00:36:01",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 76,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 76,
+      "fetched_title": "مباريات التوظيف : مهندس دولة من الدرجة الأولى - سُلمْ 11",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T05:44:33+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : مهندس دولة من الدرجة الأولى - سُلمْ 11",
+      "job_deadline_display": "23 فبراير 2026",
+      "job_exam_date": "2026-03-29",
+      "job_exam_date_display": "29 مارس 2026",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "6 فبراير 2026",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/1b965219-6523-4f03-ba9c-1f15fc37ee46",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/1b965219-6523-4f03-ba9c-1f15fc37ee46",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/1b965219-6523-4f03-ba9c-1f15fc37ee46",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/1b965219-6523-4f03-ba9c-1f15fc37ee46",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/1b965219-6523-4f03-ba9c-1f15fc37ee46",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/1b965219-6523-4f03-ba9c-1f15fc37ee46",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/1b965219-6523-4f03-ba9c-1f15fc37ee46",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/1b965219-6523-4f03-ba9c-1f15fc37ee46",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/1b965219-6523-4f03-ba9c-1f15fc37ee46",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي مهندس دولة من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة إقليم مديونة- آخر أجل لإيداع الترشيحات 23 فبراير 2026 تاريخ إجراء المباراة 29 مارس 2026 تاريخ النشر 6 فبراير 2026 معلومات عن المباراة الدرجة : مهندس دولة من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public معلومات إضافية : مباراة لتوظيف مهندسي دولة اثنين (02) من الدرجة الأولى، تخصص: الهندسة المدنية هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الثالثة - سُلمْ 9 تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/starterkit/build/assets/media/images/Ministre-md-default-image.jpg",
+      "company_logo_verified": true,
+      "company_logo_confidence": 99,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "30ab535c7beed2b8b1eb2d9432f2eea9572b0d0748c66c962d96424bd9a31ee8",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي مهندس دولة من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة إقليم مديونة- آخر أجل لإيداع الترشيحات 23 فبراير 2026 تاريخ إجراء المباراة 29 مارس 2026 تاريخ النشر 6 فبراير 2026 معلومات عن المباراة الدرجة : مهندس دولة من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public معلومات إضافية : مباراة لتوظيف مهندسي دولة اثنين (02) من الدرجة الأولى، تخصص: الهندسة المدنية هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الثالثة - سُلمْ 9 تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 686,
+      "content_preview": "خيارات الوصول المرئي مهندس دولة من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة إقليم مديونة- آخر أجل لإيداع الترشيحات 23 فبراير 2026 تاريخ إجراء المباراة 29 مارس 2026 تاريخ النشر 6 فبراير 2026 معلومات عن المباراة الدرجة : مهندس دولة من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public معلومات إضافية : مباراة لتوظيف مهندسي دولة اثنين (02) من الدرجة الأولى، تخصص: الهندسة المدنية هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الثالثة - سُلمْ 9 تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 686,
+      "content_fetched_at": "2026-10-01T05:44:33",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "ebf37197122c05da",
@@ -52449,13 +52643,13 @@
       "ats_reference": "695cca3d-46fc-4aac-bfe5-ef220605faae",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الأوقاف والشؤون الإسلامية",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2026-02-19",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2026-02-05",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/695cca3d-46fc-4aac-bfe5-ef220605faae",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -52466,7 +52660,115 @@
       "archived_at": "2026-10-01T00:36:01",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 102,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 102,
+      "fetched_title": "مباريات التوظيف : مساعد تقني من الدرجة الثانية",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T05:44:35+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : مساعد تقني من الدرجة الثانية",
+      "job_deadline_display": "19 فبراير 2026",
+      "job_exam_date": "2026-03-28",
+      "job_exam_date_display": "28 مارس 2026",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "5 فبراير 2026",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/695cca3d-46fc-4aac-bfe5-ef220605faae",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/695cca3d-46fc-4aac-bfe5-ef220605faae",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/695cca3d-46fc-4aac-bfe5-ef220605faae",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/695cca3d-46fc-4aac-bfe5-ef220605faae",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/695cca3d-46fc-4aac-bfe5-ef220605faae",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/695cca3d-46fc-4aac-bfe5-ef220605faae",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/695cca3d-46fc-4aac-bfe5-ef220605faae",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/695cca3d-46fc-4aac-bfe5-ef220605faae",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/695cca3d-46fc-4aac-bfe5-ef220605faae",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/695cca3d-46fc-4aac-bfe5-ef220605faae",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/695cca3d-46fc-4aac-bfe5-ef220605faae",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي الإدارة المنظمة وزارة الأوقاف والشؤون الإسلامية آخر أجل لإيداع الترشيحات 19 فبراير 2026 - 16:30 تاريخ إجراء المباراة 28 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : مساعد تقني من الدرجة الثانية نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-006.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "c145daa694665d52c655af5fefba6f9336cd4046b630069acc09be74e81fb3cf",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي الإدارة المنظمة وزارة الأوقاف والشؤون الإسلامية آخر أجل لإيداع الترشيحات 19 فبراير 2026 - 16:30 تاريخ إجراء المباراة 28 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : مساعد تقني من الدرجة الثانية نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 1004,
+      "content_preview": "خيارات الوصول المرئي الإدارة المنظمة وزارة الأوقاف والشؤون الإسلامية آخر أجل لإيداع الترشيحات 19 فبراير 2026 - 16:30 تاريخ إجراء المباراة 28 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : مساعد تقني من الدرجة الثانية نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 1004,
+      "content_fetched_at": "2026-10-01T05:44:35",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "717bb44d9c77b618",
@@ -52498,13 +52800,13 @@
       "ats_reference": "5f4c008b-84d2-41da-94c4-a0a3cf0bc29c",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الأوقاف والشؤون الإسلامية",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2026-02-19",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2026-02-05",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/5f4c008b-84d2-41da-94c4-a0a3cf0bc29c",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -52515,7 +52817,115 @@
       "archived_at": "2026-10-01T00:36:01",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 102,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 102,
+      "fetched_title": "مباريات التوظيف : تقني من الدرجة الثالثة - سُلمْ 9",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T05:44:44+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : تقني من الدرجة الثالثة - سُلمْ 9",
+      "job_deadline_display": "19 فبراير 2026",
+      "job_exam_date": "2026-03-28",
+      "job_exam_date_display": "28 مارس 2026",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "5 فبراير 2026",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/5f4c008b-84d2-41da-94c4-a0a3cf0bc29c",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/5f4c008b-84d2-41da-94c4-a0a3cf0bc29c",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/5f4c008b-84d2-41da-94c4-a0a3cf0bc29c",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/5f4c008b-84d2-41da-94c4-a0a3cf0bc29c",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/5f4c008b-84d2-41da-94c4-a0a3cf0bc29c",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/5f4c008b-84d2-41da-94c4-a0a3cf0bc29c",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/5f4c008b-84d2-41da-94c4-a0a3cf0bc29c",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/5f4c008b-84d2-41da-94c4-a0a3cf0bc29c",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/5f4c008b-84d2-41da-94c4-a0a3cf0bc29c",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/5f4c008b-84d2-41da-94c4-a0a3cf0bc29c",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/5f4c008b-84d2-41da-94c4-a0a3cf0bc29c",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الأوقاف والشؤون الإسلامية آخر أجل لإيداع الترشيحات 19 فبراير 2026 - 16:30 تاريخ إجراء المباراة 28 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة تخصص : - البناء - مسير الأعمال: الأشغال العمومية - الطبع المعلوماتي - السمعيات البصريات - تقنيات التدبير - المحاسبة والتسيير الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-006.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "c145daa694665d52c655af5fefba6f9336cd4046b630069acc09be74e81fb3cf",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الأوقاف والشؤون الإسلامية آخر أجل لإيداع الترشيحات 19 فبراير 2026 - 16:30 تاريخ إجراء المباراة 28 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة تخصص : - البناء - مسير الأعمال: الأشغال العمومية - الطبع المعلوماتي - السمعيات البصريات - تقنيات التدبير - المحاسبة والتسيير الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 1133,
+      "content_preview": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الأوقاف والشؤون الإسلامية آخر أجل لإيداع الترشيحات 19 فبراير 2026 - 16:30 تاريخ إجراء المباراة 28 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة تخصص : - البناء - مسير الأعمال: الأشغال العمومية - الطبع المعلوماتي - السمعيات البصريات - تقنيات التدبير - المحاسبة والتسيير الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 1133,
+      "content_fetched_at": "2026-10-01T05:44:44",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "8cf24eee4febb901",
@@ -52547,13 +52957,13 @@
       "ats_reference": "35ca1f7b-a1ba-4e0e-a65c-2282a9f70ded",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الأوقاف والشؤون الإسلامية",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2026-02-19",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2026-02-05",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/35ca1f7b-a1ba-4e0e-a65c-2282a9f70ded",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -52564,7 +52974,115 @@
       "archived_at": "2026-10-01T00:36:01",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 102,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 102,
+      "fetched_title": "مباريات التوظيف : متصرف من الدرجة الثانية - سُلمْ 11",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T05:44:39+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : متصرف من الدرجة الثانية - سُلمْ 11",
+      "job_deadline_display": "19 فبراير 2026",
+      "job_exam_date": "2026-03-28",
+      "job_exam_date_display": "28 مارس 2026",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "5 فبراير 2026",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/35ca1f7b-a1ba-4e0e-a65c-2282a9f70ded",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/35ca1f7b-a1ba-4e0e-a65c-2282a9f70ded",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/35ca1f7b-a1ba-4e0e-a65c-2282a9f70ded",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/35ca1f7b-a1ba-4e0e-a65c-2282a9f70ded",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/35ca1f7b-a1ba-4e0e-a65c-2282a9f70ded",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/35ca1f7b-a1ba-4e0e-a65c-2282a9f70ded",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/35ca1f7b-a1ba-4e0e-a65c-2282a9f70ded",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/35ca1f7b-a1ba-4e0e-a65c-2282a9f70ded",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/35ca1f7b-a1ba-4e0e-a65c-2282a9f70ded",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/35ca1f7b-a1ba-4e0e-a65c-2282a9f70ded",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/35ca1f7b-a1ba-4e0e-a65c-2282a9f70ded",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي متصرف من الدرجة الثانية - سُلمْ 11 الإدارة المنظمة وزارة الأوقاف والشؤون الإسلامية آخر أجل لإيداع الترشيحات 19 فبراير 2026 - 16:30 تاريخ إجراء المباراة 28 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة تخصص : - المحاسبة والمراقبة والتدقيق - المالية والمراقبة والتدقيق/المالية والرقابة والتدقيق الدرجة : متصرف من الدرجة الثانية - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-006.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "c145daa694665d52c655af5fefba6f9336cd4046b630069acc09be74e81fb3cf",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي متصرف من الدرجة الثانية - سُلمْ 11 الإدارة المنظمة وزارة الأوقاف والشؤون الإسلامية آخر أجل لإيداع الترشيحات 19 فبراير 2026 - 16:30 تاريخ إجراء المباراة 28 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة تخصص : - المحاسبة والمراقبة والتدقيق - المالية والمراقبة والتدقيق/المالية والرقابة والتدقيق الدرجة : متصرف من الدرجة الثانية - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 1102,
+      "content_preview": "خيارات الوصول المرئي متصرف من الدرجة الثانية - سُلمْ 11 الإدارة المنظمة وزارة الأوقاف والشؤون الإسلامية آخر أجل لإيداع الترشيحات 19 فبراير 2026 - 16:30 تاريخ إجراء المباراة 28 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة تخصص : - المحاسبة والمراقبة والتدقيق - المالية والمراقبة والتدقيق/المالية والرقابة والتدقيق الدرجة : متصرف من الدرجة الثانية - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 1102,
+      "content_fetched_at": "2026-10-01T05:44:39",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "23a48a2bb582eb02",
@@ -52596,13 +53114,13 @@
       "ats_reference": "0e277fac-3086-4f40-a3ed-a7ebd7c7a30a",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الأوقاف والشؤون الإسلامية",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2026-02-19",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2026-02-05",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/0e277fac-3086-4f40-a3ed-a7ebd7c7a30a",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -52613,7 +53131,115 @@
       "archived_at": "2026-10-01T00:36:01",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 102,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 102,
+      "fetched_title": "مباريات التوظيف : مهندس دولة من الدرجة الأولى - سُلمْ 11",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T05:44:41+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : مهندس دولة من الدرجة الأولى - سُلمْ 11",
+      "job_deadline_display": "19 فبراير 2026",
+      "job_exam_date": "2026-03-28",
+      "job_exam_date_display": "28 مارس 2026",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "5 فبراير 2026",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/0e277fac-3086-4f40-a3ed-a7ebd7c7a30a",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/0e277fac-3086-4f40-a3ed-a7ebd7c7a30a",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/0e277fac-3086-4f40-a3ed-a7ebd7c7a30a",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/0e277fac-3086-4f40-a3ed-a7ebd7c7a30a",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/0e277fac-3086-4f40-a3ed-a7ebd7c7a30a",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/0e277fac-3086-4f40-a3ed-a7ebd7c7a30a",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/0e277fac-3086-4f40-a3ed-a7ebd7c7a30a",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/0e277fac-3086-4f40-a3ed-a7ebd7c7a30a",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/0e277fac-3086-4f40-a3ed-a7ebd7c7a30a",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/0e277fac-3086-4f40-a3ed-a7ebd7c7a30a",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_desistement/0e277fac-3086-4f40-a3ed-a7ebd7c7a30a",
+          "label": "لائحة المدعوين المتخلفين عن الالتحاق بالعمل",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي مهندس دولة من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الأوقاف والشؤون الإسلامية آخر أجل لإيداع الترشيحات 19 فبراير 2026 - 16:30 تاريخ إجراء المباراة 28 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة تخصص : - البناء والأشغال العامة/البناء والأشغال العمومية - هندسة المعلومات - Cyber sécurité et confiance numérique - Cybersecurity and cyberintelligence - Cybersecurity cloud and mobile computing الدرجة : مهندس دولة من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-006.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "c145daa694665d52c655af5fefba6f9336cd4046b630069acc09be74e81fb3cf",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي مهندس دولة من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الأوقاف والشؤون الإسلامية آخر أجل لإيداع الترشيحات 19 فبراير 2026 - 16:30 تاريخ إجراء المباراة 28 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة تخصص : - البناء والأشغال العامة/البناء والأشغال العمومية - هندسة المعلومات - Cyber sécurité et confiance numérique - Cybersecurity and cyberintelligence - Cybersecurity cloud and mobile computing الدرجة : مهندس دولة من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 1210,
+      "content_preview": "خيارات الوصول المرئي مهندس دولة من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الأوقاف والشؤون الإسلامية آخر أجل لإيداع الترشيحات 19 فبراير 2026 - 16:30 تاريخ إجراء المباراة 28 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة تخصص : - البناء والأشغال العامة/البناء والأشغال العمومية - هندسة المعلومات - Cyber sécurité et confiance numérique - Cybersecurity and cyberintelligence - Cybersecurity cloud and mobile computing الدرجة : مهندس دولة من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 1210,
+      "content_fetched_at": "2026-10-01T05:44:41",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "17375c58951d65b6",
@@ -52645,13 +53271,13 @@
       "ats_reference": "745bc0ab-db84-4063-bea1-4e88e456d13f",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الداخلية -عمالة إقليم طانطان",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2026-02-20",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2026-02-05",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/745bc0ab-db84-4063-bea1-4e88e456d13f",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -52662,7 +53288,103 @@
       "archived_at": "2026-10-01T00:36:01",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 73,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 73,
+      "fetched_title": "مباريات التوظيف : تقني من الدرجة الثالثة - سُلمْ 9",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T05:44:29+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : تقني من الدرجة الثالثة - سُلمْ 9",
+      "job_deadline_display": "20 فبراير 2026",
+      "job_exam_date": "2026-03-01",
+      "job_exam_date_display": "1 مارس 2026",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "5 فبراير 2026",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/745bc0ab-db84-4063-bea1-4e88e456d13f",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/745bc0ab-db84-4063-bea1-4e88e456d13f",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/745bc0ab-db84-4063-bea1-4e88e456d13f",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/745bc0ab-db84-4063-bea1-4e88e456d13f",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/745bc0ab-db84-4063-bea1-4e88e456d13f",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/745bc0ab-db84-4063-bea1-4e88e456d13f",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/745bc0ab-db84-4063-bea1-4e88e456d13f",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/745bc0ab-db84-4063-bea1-4e88e456d13f",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/745bc0ab-db84-4063-bea1-4e88e456d13f",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الداخلية -عمالة إقليم طانطان- آخر أجل لإيداع الترشيحات 20 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/starterkit/build/assets/media/images/Ministre-md-default-image.jpg",
+      "company_logo_verified": true,
+      "company_logo_confidence": 99,
+      "company_logo_source": "emploi_public_named_image",
+      "company_official_domain": "",
+      "company_logo_checksum": "30ab535c7beed2b8b1eb2d9432f2eea9572b0d0748c66c962d96424bd9a31ee8",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الداخلية -عمالة إقليم طانطان- آخر أجل لإيداع الترشيحات 20 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 521,
+      "content_preview": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الداخلية -عمالة إقليم طانطان- آخر أجل لإيداع الترشيحات 20 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 521,
+      "content_fetched_at": "2026-10-01T05:44:30",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "561a6e7b959bf50d",
@@ -52694,13 +53416,13 @@
       "ats_reference": "de840d13-1be1-40e6-9e11-3f8bc0cce01a",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الداخلية -عمالة إقليم طانطان",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2026-02-20",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2026-02-05",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/de840d13-1be1-40e6-9e11-3f8bc0cce01a",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -52711,7 +53433,103 @@
       "archived_at": "2026-10-01T00:36:01",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 76,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 76,
+      "fetched_title": "مباريات التوظيف : تقني من الدرجة الثالثة - سُلمْ 9",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T05:44:31+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : تقني من الدرجة الثالثة - سُلمْ 9",
+      "job_deadline_display": "20 فبراير 2026",
+      "job_exam_date": "2026-03-01",
+      "job_exam_date_display": "1 مارس 2026",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "5 فبراير 2026",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/de840d13-1be1-40e6-9e11-3f8bc0cce01a",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/de840d13-1be1-40e6-9e11-3f8bc0cce01a",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/de840d13-1be1-40e6-9e11-3f8bc0cce01a",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/de840d13-1be1-40e6-9e11-3f8bc0cce01a",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/de840d13-1be1-40e6-9e11-3f8bc0cce01a",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/de840d13-1be1-40e6-9e11-3f8bc0cce01a",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/de840d13-1be1-40e6-9e11-3f8bc0cce01a",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/de840d13-1be1-40e6-9e11-3f8bc0cce01a",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/de840d13-1be1-40e6-9e11-3f8bc0cce01a",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الداخلية -عمالة إقليم طانطان- آخر أجل لإيداع الترشيحات 20 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الرابعة - سُلمْ 8 مهندس دولة من الدرجة الأولى - سُلمْ 11 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/starterkit/build/assets/media/images/Ministre-md-default-image.jpg",
+      "company_logo_verified": true,
+      "company_logo_confidence": 99,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "30ab535c7beed2b8b1eb2d9432f2eea9572b0d0748c66c962d96424bd9a31ee8",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الداخلية -عمالة إقليم طانطان- آخر أجل لإيداع الترشيحات 20 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الرابعة - سُلمْ 8 مهندس دولة من الدرجة الأولى - سُلمْ 11 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 593,
+      "content_preview": "خيارات الوصول المرئي تقني من الدرجة الثالثة - سُلمْ 9 الإدارة المنظمة وزارة الداخلية -عمالة إقليم طانطان- آخر أجل لإيداع الترشيحات 20 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : تقني من الدرجة الثالثة - سُلمْ 9 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الرابعة - سُلمْ 8 مهندس دولة من الدرجة الأولى - سُلمْ 11 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 593,
+      "content_fetched_at": "2026-10-01T05:44:31",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "6b63ead212b5fdad",
@@ -52743,13 +53561,13 @@
       "ats_reference": "61e3fb87-35e7-4bc3-bdd4-f0703bb492dd",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الداخلية -عمالة إقليم طانطان",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2026-02-20",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2026-02-05",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/61e3fb87-35e7-4bc3-bdd4-f0703bb492dd",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -52760,7 +53578,103 @@
       "archived_at": "2026-10-01T00:36:01",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 76,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 76,
+      "fetched_title": "مباريات التوظيف : مهندس دولة من الدرجة الأولى - سُلمْ 11",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T05:44:52+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : مهندس دولة من الدرجة الأولى - سُلمْ 11",
+      "job_deadline_display": "20 فبراير 2026",
+      "job_exam_date": "2026-03-01",
+      "job_exam_date_display": "1 مارس 2026",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "5 فبراير 2026",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/61e3fb87-35e7-4bc3-bdd4-f0703bb492dd",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/61e3fb87-35e7-4bc3-bdd4-f0703bb492dd",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/61e3fb87-35e7-4bc3-bdd4-f0703bb492dd",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/61e3fb87-35e7-4bc3-bdd4-f0703bb492dd",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/61e3fb87-35e7-4bc3-bdd4-f0703bb492dd",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/61e3fb87-35e7-4bc3-bdd4-f0703bb492dd",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/61e3fb87-35e7-4bc3-bdd4-f0703bb492dd",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/61e3fb87-35e7-4bc3-bdd4-f0703bb492dd",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/61e3fb87-35e7-4bc3-bdd4-f0703bb492dd",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي مهندس دولة من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة إقليم طانطان- آخر أجل لإيداع الترشيحات 20 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : مهندس دولة من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الثالثة - سُلمْ 9 تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/starterkit/build/assets/media/images/Ministre-md-default-image.jpg",
+      "company_logo_verified": true,
+      "company_logo_confidence": 99,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "30ab535c7beed2b8b1eb2d9432f2eea9572b0d0748c66c962d96424bd9a31ee8",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي مهندس دولة من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة إقليم طانطان- آخر أجل لإيداع الترشيحات 20 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : مهندس دولة من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الثالثة - سُلمْ 9 تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 599,
+      "content_preview": "خيارات الوصول المرئي مهندس دولة من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة إقليم طانطان- آخر أجل لإيداع الترشيحات 20 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : مهندس دولة من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تقني من الدرجة الثالثة - سُلمْ 9 تقني من الدرجة الرابعة - سُلمْ 8 تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 599,
+      "content_fetched_at": "2026-10-01T05:44:52",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "14c5b2d23d5c815f",
@@ -52792,13 +53706,13 @@
       "ats_reference": "2d1f831f-ee6f-436d-8483-e75c0bc090af",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الداخلية -عمالة إقليم طانطان",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2026-02-20",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2026-02-05",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/2d1f831f-ee6f-436d-8483-e75c0bc090af",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
@@ -52809,7 +53723,103 @@
       "archived_at": "2026-10-01T00:36:01",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 73,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 73,
+      "fetched_title": "مباريات التوظيف : مهندس معماري من الدرجة الأولى - سُلمْ 11",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T05:44:45+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : مهندس معماري من الدرجة الأولى - سُلمْ 11",
+      "job_deadline_display": "20 فبراير 2026",
+      "job_exam_date": "2026-03-01",
+      "job_exam_date_display": "1 مارس 2026",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "5 فبراير 2026",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/2d1f831f-ee6f-436d-8483-e75c0bc090af",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/2d1f831f-ee6f-436d-8483-e75c0bc090af",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/2d1f831f-ee6f-436d-8483-e75c0bc090af",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/2d1f831f-ee6f-436d-8483-e75c0bc090af",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/2d1f831f-ee6f-436d-8483-e75c0bc090af",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/2d1f831f-ee6f-436d-8483-e75c0bc090af",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques_oral/2d1f831f-ee6f-436d-8483-e75c0bc090af",
+          "label": "لائحة المدعوين لإجراء الاختبار الشفوي",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/2d1f831f-ee6f-436d-8483-e75c0bc090af",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_attente/2d1f831f-ee6f-436d-8483-e75c0bc090af",
+          "label": "لائحة الانتظار",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي مهندس معماري من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة إقليم طانطان- آخر أجل لإيداع الترشيحات 20 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : مهندس معماري من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/starterkit/build/assets/media/images/Ministre-md-default-image.jpg",
+      "company_logo_verified": true,
+      "company_logo_confidence": 99,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "30ab535c7beed2b8b1eb2d9432f2eea9572b0d0748c66c962d96424bd9a31ee8",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي مهندس معماري من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة إقليم طانطان- آخر أجل لإيداع الترشيحات 20 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : مهندس معماري من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 537,
+      "content_preview": "خيارات الوصول المرئي مهندس معماري من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الداخلية -عمالة إقليم طانطان- آخر أجل لإيداع الترشيحات 20 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 5 فبراير 2026 معلومات عن المباراة الدرجة : مهندس معماري من الدرجة الأولى - سُلمْ 11 نوع الإيداع : الإيداع عبر الإنترنت على موقع emploi-public هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 537,
+      "content_fetched_at": "2026-10-01T05:44:45",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "5c65f734ccf834a2",
@@ -52841,24 +53851,96 @@
       "ats_reference": "89074ce8-b740-4679-8fe8-62d209431666",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الصحة والحماية الاجتماعية",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2026-02-23",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2026-02-04",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/89074ce8-b740-4679-8fe8-62d209431666",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
-      "job_number_of_positions": 0,
+      "job_number_of_positions": 3,
       "discovered_at": "2026-10-01T00:36:01",
       "status": "ready",
       "archived": true,
       "archived_at": "2026-10-01T00:36:01",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 99,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 99,
+      "fetched_title": "مباريات التوظيف : جراح أسنان من الدرجة الأولى - سُلمْ 11",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T05:44:50+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : جراح أسنان من الدرجة الأولى - سُلمْ 11",
+      "job_deadline_display": "23 فبراير 2026",
+      "job_exam_date": "2026-03-01",
+      "job_exam_date_display": "1 مارس 2026",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "4 فبراير 2026",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/89074ce8-b740-4679-8fe8-62d209431666",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/89074ce8-b740-4679-8fe8-62d209431666",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/89074ce8-b740-4679-8fe8-62d209431666",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/89074ce8-b740-4679-8fe8-62d209431666",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/89074ce8-b740-4679-8fe8-62d209431666",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي جراح أسنان من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 23 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 4 فبراير 2026 معلومات عن المباراة الدرجة : جراح أسنان من الدرجة الأولى - سُلمْ 11 الإقليم : جهة درعة - تافيلالت (3 مناصب) نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-016.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "d120d0daffe8df9d4a98b96815eb8b4622a938a741e000ff34ea4b0de308df63",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي جراح أسنان من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 23 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 4 فبراير 2026 معلومات عن المباراة الدرجة : جراح أسنان من الدرجة الأولى - سُلمْ 11 الإقليم : جهة درعة - تافيلالت (3 مناصب) نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 1133,
+      "content_preview": "خيارات الوصول المرئي جراح أسنان من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 23 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 4 فبراير 2026 معلومات عن المباراة الدرجة : جراح أسنان من الدرجة الأولى - سُلمْ 11 الإقليم : جهة درعة - تافيلالت (3 مناصب) نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 1133,
+      "content_fetched_at": "2026-10-01T05:44:50",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "b6b41f8cd8bfeb37",
@@ -52890,24 +53972,96 @@
       "ats_reference": "de5c16e8-4bc8-42e2-9dea-437d393db1c2",
       "ats_description": "",
       "phenom_payload": {},
-      "job_company": "",
+      "job_company": "وزارة الصحة والحماية الاجتماعية",
       "job_location": "",
-      "job_country": "",
+      "job_country": "MA",
       "job_deadline": "2026-02-23",
-      "job_published_at": "",
-      "job_application_url": "",
-      "job_application_link_kind": "",
+      "job_published_at": "2026-02-04",
+      "job_application_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/de5c16e8-4bc8-42e2-9dea-437d393db1c2",
+      "job_application_link_kind": "official_job_page",
       "job_contract_type": "",
       "job_salary": "",
       "job_remote": false,
-      "job_number_of_positions": 0,
+      "job_number_of_positions": 2,
       "discovered_at": "2026-10-01T00:36:01",
       "status": "ready",
       "archived": true,
       "archived_at": "2026-10-01T00:36:01",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "source_links_removed_count": 99,
+      "affiliate_links_removed_count": 0,
+      "removed_source_links_count": 99,
+      "fetched_title": "مباريات التوظيف : صيدلي من الدرجة الأولى - سُلمْ 11",
+      "meta_description": "",
+      "identity_evidence_invalidated_at": "2026-10-01T05:44:48+00:00",
+      "identity_evidence_invalidation_reason": "source detail enrichment refreshed identity facts",
+      "source_tables": [],
+      "source_tables_count": 0,
+      "source_tables_truncated": false,
+      "job_title": "مباريات التوظيف : صيدلي من الدرجة الأولى - سُلمْ 11",
+      "job_deadline_display": "23 فبراير 2026",
+      "job_exam_date": "2026-03-01",
+      "job_exam_date_display": "1 مارس 2026",
+      "job_notice_type": "competition",
+      "job_notice_type_source": "heuristic",
+      "job_published_at_display": "4 فبراير 2026",
+      "job_application_is_specific": true,
+      "job_application_is_official_channel": false,
+      "job_detail_url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/de5c16e8-4bc8-42e2-9dea-437d393db1c2",
+      "job_action_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/de5c16e8-4bc8-42e2-9dea-437d393db1c2",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/de5c16e8-4bc8-42e2-9dea-437d393db1c2",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_document_links": [
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_convoques/de5c16e8-4bc8-42e2-9dea-437d393db1c2",
+          "label": "لائحة المترشحين المدعوين لاجتياز المباراة",
+          "kind": "document",
+          "context": ""
+        },
+        {
+          "url": "https://www.emploi-public.ma/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/list_resultats/de5c16e8-4bc8-42e2-9dea-437d393db1c2",
+          "label": "نتيجة المباراة",
+          "kind": "document",
+          "context": ""
+        }
+      ],
+      "job_entry_level": false,
+      "job_visa_sponsorship": false,
+      "job_eligibility": "morocco",
+      "job_official_source": true,
+      "job_description": "خيارات الوصول المرئي صيدلي من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 23 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 4 فبراير 2026 معلومات عن المباراة الدرجة : صيدلي من الدرجة الأولى - سُلمْ 11 الإقليم : جهة درعة - تافيلالت (2 مناصب) نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "company_logo_url": "https://www.emploi-public.ma/backoffice/files/images/administrations/logo-016.png",
+      "company_logo_verified": true,
+      "company_logo_confidence": 100,
+      "company_logo_source": "verified_registry",
+      "company_official_domain": "",
+      "company_logo_checksum": "d120d0daffe8df9d4a98b96815eb8b4622a938a741e000ff34ea4b0de308df63",
+      "article_images": [],
+      "main_image": "",
+      "main_image_source_type": "job_template",
+      "main_image_extraction_method": "disabled_for_jobs",
+      "extra_article_images": [],
+      "trusted_references": [],
+      "full_article_text": "خيارات الوصول المرئي صيدلي من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 23 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 4 فبراير 2026 معلومات عن المباراة الدرجة : صيدلي من الدرجة الأولى - سُلمْ 11 الإقليم : جهة درعة - تافيلالت (2 مناصب) نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "full_article_text_chars": 1123,
+      "content_preview": "خيارات الوصول المرئي صيدلي من الدرجة الأولى - سُلمْ 11 الإدارة المنظمة وزارة الصحة والحماية الاجتماعية آخر أجل لإيداع الترشيحات 23 فبراير 2026 - 16:30 تاريخ إجراء المباراة 1 مارس 2026 تاريخ النشر 4 فبراير 2026 معلومات عن المباراة الدرجة : صيدلي من الدرجة الأولى - سُلمْ 11 الإقليم : جهة درعة - تافيلالت (2 مناصب) نوع الإيداع : الإيداع الإلكتروني على الموقع المخصص للإدارة موقع الإيداع : https://drh.sante.gov.ma هذا الفضاء مخصص لطرح الأسئلة والاستفسارات فقط، وليس لإيداع ملفات الترشيح. أستاذ محاضر من الدرجة أ - سُلمْ 11 أستاذ محاضر لفائدة كلية العلوم القانونية و السياسية بالجديدة أستاذ محاضر لفائدة كلية الاقتصاد و التدبير بالجديدة متصرف من الدرجة الثانية - سُلمْ 11 متصرف من الدرجة الثالثة - سُلمْ 10 تقني من الدرجة الثالثة - سُلمْ 9 مهندس دولة من الدرجة الأولى - سُلمْ 11 تقني من الدرجة الثالثة بكلية العلوم التطبيقية بتارودانت تخصص développement informatique متصرف من الدرجة الثانية لفائدة كلية العلوم القانونية و السياسية بالجديدة تقني من الدرجة الثالثة لفائدة كلية العلوم القانونية و السياسية بالجديدة تأكيد بواسطة البريد الالكتروني تم إرسال رسالة لتأكيد تسجيل حسابك. يرجى التحقق من رسائل البريد الإلكتروني الخاصة بك",
+      "content_preview_chars": 1123,
+      "content_fetched_at": "2026-10-01T05:44:48",
+      "enrichment_status": "weak",
+      "content_fetch_status": "success"
     },
     {
       "id": "c67390f2ed1c5a25",
@@ -90245,7 +91399,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:42:45",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:42:45",
       "archive_reason": "job_deadline_passed",
@@ -90296,7 +91450,9 @@
       "content_preview_chars": 587,
       "content_fetched_at": "2026-10-01T05:41:34",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1253.74h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T05:44:27.487318+00:00"
     },
     {
       "id": "8350f80b659ba9cf",
@@ -90435,7 +91591,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:42:45",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:42:45",
       "archive_reason": "job_deadline_passed",
@@ -90486,7 +91642,9 @@
       "content_preview_chars": 649,
       "content_fetched_at": "2026-10-01T05:41:40",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1253.74h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T05:44:27.487431+00:00"
     },
     {
       "id": "c98dec418f63b896",
@@ -90530,7 +91688,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:42:45",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:42:45",
       "archive_reason": "job_deadline_passed",
@@ -90581,7 +91739,9 @@
       "content_preview_chars": 680,
       "content_fetched_at": "2026-10-01T05:41:36",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1253.74h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T05:44:27.487508+00:00"
     },
     {
       "id": "d31f741f56947b22",
@@ -90625,7 +91785,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:42:45",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:42:45",
       "archive_reason": "job_deadline_passed",
@@ -90676,7 +91836,9 @@
       "content_preview_chars": 649,
       "content_fetched_at": "2026-10-01T05:41:38",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1253.74h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T05:44:27.487582+00:00"
     },
     {
       "id": "73c8dce75f768a46",
@@ -90720,7 +91882,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:42:45",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:42:45",
       "archive_reason": "job_deadline_passed",
@@ -90771,7 +91933,9 @@
       "content_preview_chars": 649,
       "content_fetched_at": "2026-10-01T05:41:35",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1253.74h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T05:44:27.487673+00:00"
     },
     {
       "id": "8cae94124c9460da",
@@ -90815,7 +91979,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:42:45",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:42:45",
       "archive_reason": "job_deadline_passed",
@@ -90866,7 +92030,9 @@
       "content_preview_chars": 649,
       "content_fetched_at": "2026-10-01T05:41:39",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1253.74h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T05:44:27.487749+00:00"
     },
     {
       "id": "6f27a3fbe3b77ff9",
@@ -90910,7 +92076,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:42:45",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:42:45",
       "archive_reason": "job_deadline_passed",
@@ -90961,7 +92127,9 @@
       "content_preview_chars": 649,
       "content_fetched_at": "2026-10-01T05:41:41",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1253.74h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T05:44:27.487822+00:00"
     },
     {
       "id": "8a70fc9d10a79121",
@@ -91005,7 +92173,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:42:45",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:42:45",
       "archive_reason": "job_deadline_passed",
@@ -91056,7 +92224,9 @@
       "content_preview_chars": 701,
       "content_fetched_at": "2026-10-01T05:41:49",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1253.74h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T05:44:27.487896+00:00"
     },
     {
       "id": "1d058aaa2cab19a5",
@@ -91100,7 +92270,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:42:45",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:42:45",
       "archive_reason": "job_deadline_passed",
@@ -91151,7 +92321,9 @@
       "content_preview_chars": 693,
       "content_fetched_at": "2026-10-01T05:41:44",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1253.74h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T05:44:27.487967+00:00"
     },
     {
       "id": "50b77c082c10215b",
@@ -91195,7 +92367,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:42:45",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:42:45",
       "archive_reason": "job_deadline_passed",
@@ -91246,7 +92418,9 @@
       "content_preview_chars": 649,
       "content_fetched_at": "2026-10-01T05:41:46",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1253.74h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T05:44:27.488062+00:00"
     },
     {
       "id": "9103bfe5a7c95f9e",
