@@ -801,13 +801,12 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         if isinstance(item, dict) and str(item.get("url") or "").strip()
     ]
     if cover_url:
-        expected_images = [cover_url] + expected_document_images
         if not image_sources or image_sources[0] != cover_url:
             return QualityGateResult(False, "job article must start with the generated cover image", word_count)
-        if image_sources != expected_images:
+        if image_sources[1:] != expected_document_images:
             return QualityGateResult(
                 False,
-                "job article contains missing, reordered, duplicated, or unverified images",
+                "rendered official PDF pages are missing, reordered, duplicated, or unverified",
                 word_count,
             )
     elif expected_document_images and image_sources != expected_document_images:
