@@ -22,9 +22,67 @@ import quality_gate
 import runtime_state
 import verified_fact_manifest as fact_manifest
 import jobs_adaptive_controller as adaptive
+import jobs_queue_recovery
 
 
 class JobsRuntimeTests(unittest.TestCase):
+    def test_jobs_queue_git_history_recovery_restores_latest_valid_backlog(self):
+        import subprocess
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        with TemporaryDirectory() as temp:
+            root = Path(temp)
+            queue_path = root / "jobs_article_queue.json"
+
+            subprocess.run(["git", "init", "-b", "main"], cwd=root, check=True, capture_output=True)
+            subprocess.run(
+                ["git", "config", "user.email", "jobs-test@example.invalid"],
+                cwd=root,
+                check=True,
+            )
+            subprocess.run(
+                ["git", "config", "user.name", "Jobs Test"],
+                cwd=root,
+                check=True,
+            )
+
+            valid = {
+                "updated_at": "2026-09-30T23:52:37",
+                "articles": [{"id": "keep-me", "url": "https://example.com/jobs/1"}],
+                "notifications": {},
+            }
+            queue_path.write_text(
+                json.dumps(valid, ensure_ascii=False, indent=2),
+                encoding="utf-8",
+            )
+            subprocess.run(["git", "add", "jobs_article_queue.json"], cwd=root, check=True)
+            subprocess.run(
+                ["git", "commit", "-m", "valid queue"],
+                cwd=root,
+                check=True,
+                capture_output=True,
+            )
+
+            queue_path.write_text("", encoding="utf-8")
+            subprocess.run(["git", "add", "jobs_article_queue.json"], cwd=root, check=True)
+            subprocess.run(
+                ["git", "commit", "-m", "corrupt queue"],
+                cwd=root,
+                check=True,
+                capture_output=True,
+            )
+
+            self.assertFalse(jobs_queue_recovery.queue_is_valid(queue_path))
+            result = jobs_queue_recovery.recover_queue_from_git_history(
+                queue_path,
+                repo_root=root,
+            )
+            self.assertTrue(result["recovered"])
+            self.assertEqual(result["article_count"], 1)
+            restored = jobs_queue_recovery.load_valid_queue(queue_path)
+            self.assertEqual(restored["articles"][0]["id"], "keep-me")
+
     def test_jobs_queue_storage_health_distinguishes_corrupt_from_valid_empty(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory
