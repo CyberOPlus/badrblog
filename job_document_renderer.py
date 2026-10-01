@@ -330,11 +330,14 @@ def extract_job_document_texts(
             page_text = _clean_pdf_page_text(page_text)
             total_pages += 1
 
+            ocr_attempted = False
+            ocr_error = ""
             if (
                 not page_text
                 and not ocr_unavailable
                 and ocr_attempts < max(0, int(max_ocr_pages or 0))
             ):
+                ocr_attempted = True
                 ocr_attempts += 1
                 ocr_text, ocr_error = _ocr_pdf_page_text(
                     page,
@@ -358,7 +361,12 @@ def extract_job_document_texts(
                     ocr_failures += 1
 
             if not page_text:
-                unread_pages += 1
+                # An OCR pass that completed without an error can legitimately
+                # describe a blank/decorative page. Retry only pages that were
+                # never readable because OCR was unavailable, failed, or was
+                # not attempted within the evidence budget.
+                if not ocr_attempted or ocr_error:
+                    unread_pages += 1
                 continue
 
             remaining = max_total_chars - total_chars
