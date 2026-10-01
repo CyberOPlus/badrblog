@@ -1,0 +1,77 @@
+name: SmartRecruiters Inetum Smoke
+
+on:
+  push:
+    branches:
+      - jobs-smartrecruiters-inetum-smoke-20261001
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Probe public Inetum postings API
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          import urllib.parse
+          import urllib.request
+          from datetime import datetime, timedelta, timezone
+
+          released_after = (
+              datetime.now(timezone.utc) - timedelta(hours=12)
+          ).isoformat(timespec="milliseconds").replace("+00:00", "Z")
+          params = urllib.parse.urlencode({
+              "limit": 100,
+              "offset": 0,
+              "destination": "PUBLIC",
+              "releasedAfter": released_after,
+          })
+          url = "https://api.smartrecruiters.com/v1/companies/Inetum2/postings?" + params
+          request = urllib.request.Request(
+              url,
+              headers={
+                  "Accept": "application/json; charset=utf-8",
+                  "User-Agent": "CyberoPlus-Jobs-Source-Smoke/1.0",
+              },
+          )
+          with urllib.request.urlopen(request, timeout=20) as response:
+              body = response.read().decode("utf-8")
+              status = response.status
+          payload = json.loads(body)
+          rows = payload.get("content") or []
+          morocco = []
+          for row in rows:
+              location = row.get("location") or {}
+              country = str(location.get("country") or "").strip().lower()
+              city = str(location.get("city") or "").strip()
+              if country in {"ma", "maroc", "morocco"} or city.casefold() in {
+                  "casablanca", "rabat", "tanger", "tangier", "marrakech", "fes", "fès"
+              }:
+                  morocco.append(row)
+          print(json.dumps({
+              "http_status": status,
+              "released_after": released_after,
+              "total_found": payload.get("totalFound"),
+              "returned": len(rows),
+              "morocco_count": len(morocco),
+              "sample": [
+                  {
+                      "id": row.get("id"),
+                      "name": row.get("name"),
+                      "releasedDate": row.get("releasedDate"),
+                      "refNumber": row.get("refNumber"),
+                      "location": row.get("location"),
+                      "ref": row.get("ref"),
+                  }
+                  for row in morocco[:5]
+              ],
+          }, ensure_ascii=False, indent=2))
+          assert status == 200
+          for row in rows:
+              assert row.get("releasedDate"), "Posting missing releasedDate"
+          PY
