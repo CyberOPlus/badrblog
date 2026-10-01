@@ -7,12 +7,7 @@ from collections import Counter, defaultdict
 from article_queue import load_sources
 
 
-ALLOWED_CATEGORY_HINTS = [
-    "AI-Tools",
-    "Cyber-Security",
-    "Tech-News",
-    "Apps-Programs",
-]
+ALLOWED_CATEGORY_HINTS = ["jobs-morocco", "jobs-abroad", "remote-jobs", "visa-sponsorship"]
 
 REQUIRED_SOURCE_FIELDS = {
     "name",

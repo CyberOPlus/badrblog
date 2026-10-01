@@ -8,7 +8,13 @@ import json
 import re
 import time
 from datetime import datetime, timedelta, timezone
-from urllib.parse import parse_qsl, urlencode, urljoin, urlparse, urlunparse
+from urllib.parse import (
+    parse_qsl,
+    urlencode,
+    urljoin,
+    urlparse,
+    urlunparse,
+)
 
 import requests
 from bs4 import BeautifulSoup
@@ -16,11 +22,9 @@ from bs4 import BeautifulSoup
 from article_queue import is_candidate_in_recent_failure, load_article_queue, save_article_queue
 from config import (
     ARTICLE_TIMEOUT_SECONDS,
-    FAST_NEWS_MODE,
     JOBS_MODE,
     HEADERS,
     MIN_EXTRACTED_CHARS,
-    PUBLISH_WEAK_ARTICLES,
     SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
     SOURCE_RETRY_DELAY_SECONDS,
     MAX_SOURCE_RETRIES,
@@ -28,7 +32,6 @@ from config import (
     JOBS_MAX_PUBLISH_AGE_HOURS,
 )
 from production_logging import elapsed_ms, log_event
-from image_extractor import download_image_with_retry, extract_main_image, extract_extra_images
 from job_extractor import _deadline_from_text, extract_job_fields
 from job_core import invalidate_identity_evidence, job_deadline_time, job_focus_priority
 from company_logo_resolver import resolve_company_logo
@@ -308,30 +311,6 @@ def _meta_content(soup, *selectors):
     return ""
 
 
-def _best_src_from_srcset(value):
-    best_url = ""
-    best_width = -1
-    for item in str(value or "").split(","):
-        parts = item.strip().split()
-        if not parts:
-            continue
-        url = parts[0].strip()
-        width = 0
-        if len(parts) > 1 and parts[1].endswith("w"):
-            width = _safe_int(parts[1][:-1]) or 0
-        if width >= best_width:
-            best_url = url
-            best_width = width
-    return best_url
-
-
-def _image_src(img):
-    for attr in ("src", "data-src", "data-lazy-src", "data-original", "data-hi-res-src"):
-        if img.get(attr):
-            return img.get(attr)
-    return _best_src_from_srcset(img.get("srcset") or img.get("data-srcset"))
-
-
 def _extract_title(soup):
     title = _meta_content(
         soup,
@@ -358,81 +337,6 @@ def _extract_meta_description(soup):
         "meta[property='og:description']",
         "meta[name='twitter:description']",
     )
-
-
-def _safe_int(value):
-    try:
-        return int(str(value).strip())
-    except (TypeError, ValueError):
-        return None
-
-
-def _looks_useful_image(url, alt, img=None):
-    lower = f"{url} {alt}".lower()
-    if not url or url.startswith("data:"):
-        return False
-    if ".svg" in lower:
-        return False
-    if any(hint in lower for hint in BLOCKED_IMAGE_HINTS):
-        return False
-
-    if img:
-        width = _safe_int(img.get("width"))
-        height = _safe_int(img.get("height"))
-        if width and height and (width < 200 or height < 120):
-            return False
-
-    return True
-
-
-def _append_image(images, seen, url, alt="", source="article/img", img=None):
-    if not _looks_useful_image(url, alt, img=img):
-        return False
-    if url in seen:
-        return False
-    seen.add(url)
-    images.append(
-        {
-            "url": url,
-            "alt": _normalize_text(alt),
-            "source": source,
-        }
-    )
-    return True
-
-
-def _jsonld_image_values(value):
-    if not value:
-        return []
-    if isinstance(value, str):
-        return [value]
-    if isinstance(value, list):
-        values = []
-        for item in value:
-            values.extend(_jsonld_image_values(item))
-        return values
-    if isinstance(value, dict):
-        return _jsonld_image_values(value.get("url") or value.get("@id"))
-    return []
-
-
-def _extract_jsonld_images(soup):
-    images = []
-    for script in soup.select("script[type='application/ld+json']"):
-        raw = script.string or script.get_text("", strip=True)
-        if not raw:
-            continue
-        try:
-            data = json.loads(raw)
-        except json.JSONDecodeError:
-            continue
-        nodes = data if isinstance(data, list) else [data]
-        for node in nodes:
-            if isinstance(node, dict) and "@graph" in node and isinstance(node["@graph"], list):
-                nodes.extend(node["@graph"])
-            if isinstance(node, dict):
-                images.extend(_jsonld_image_values(node.get("image")))
-    return images
 
 
 def _iter_jsonld_nodes(soup):
@@ -506,144 +410,6 @@ def _extract_jsonld_description(soup):
         if len(text) > len(best):
             best = text
     return best
-
-
-def _meta_image_candidates(soup):
-    return (
-        ("og", _meta_content(soup, "meta[property='og:image']", "meta[property='og:image:url']", "meta[property='og:image:secure_url']")),
-        ("twitter", _meta_content(soup, "meta[name='twitter:image']", "meta[property='twitter:image']", "meta[name='twitter:image:src']")),
-        ("meta", _meta_content(soup, "meta[name='image']", "meta[itemprop='image']")),
-    )
-
-
-def _extract_article_images(soup, article_url):
-    from image_extractor import extract_images
-    return extract_images(soup, article_url)
-
-
-def _existing_image_candidates(article):
-    candidates = []
-    image = article.get("image")
-    if isinstance(image, dict) and image.get("url"):
-        candidates.append(
-            {
-                "url": image.get("url"),
-                "alt": image.get("alt") or article.get("title", ""),
-                "source": "scraper",
-            }
-        )
-    elif isinstance(image, str) and image.strip():
-        candidates.append(
-            {
-                "url": image.strip(),
-                "alt": article.get("title", ""),
-                "source": "scraper",
-            }
-        )
-    return candidates
-
-
-def _select_downloadable_main_image(article, main_image_url, image_extraction_method, extra_images):
-    candidates = []
-    if main_image_url:
-        candidates.append(
-            {
-                "url": main_image_url,
-                "alt": article.get("fetched_title") or article.get("title", ""),
-                "source": image_extraction_method or "unknown",
-            }
-        )
-    candidates.extend(_existing_image_candidates(article))
-    for extra_image in extra_images or []:
-        if extra_image.get("url"):
-            candidates.append(
-                {
-                    "url": extra_image["url"],
-                    "alt": extra_image.get("alt") or article.get("title", ""),
-                    "source": "article_content",
-                }
-            )
-
-    seen = set()
-    for candidate in candidates:
-        image_url = str(candidate.get("url") or "").strip()
-        if not image_url or image_url in seen:
-            continue
-        seen.add(image_url)
-        if download_image_with_retry(image_url, timeout=5, retries=3):
-            return image_url, candidate.get("source") or "unknown", candidate.get("alt") or ""
-
-    log_event(
-        "article_image_missing",
-        article_id=article.get("id"),
-        url=article.get("url"),
-        title=article.get("title"),
-    )
-    return "", "", ""
-
-
-def _extract_and_prepare_images(html_content, article_url, article_title=""):
-    """
-    Extract main image and extra images using the new image_extractor module.
-    Returns (main_image_url, extraction_method, extra_images_list)
-    """
-    soup = BeautifulSoup(html_content or "", "html.parser")
-    raw_article_image_count = 0
-    if soup:
-        raw_article_image_count = len(soup.find_all("img"))
-
-    # Extract main image
-    main_image_url, extraction_method = extract_main_image(
-        html_content,
-        article_url,
-        article_title or "Article image"
-    )
-    
-    # Extract extra images (up to 3, excluding main image)
-    extra_images = extract_extra_images(
-        html_content,
-        article_url,
-        main_image_url=main_image_url,
-        limit=3
-    )
-    
-    # Format as article_images list for backward compatibility
-    article_images = []
-    seen_article_images = set()
-    if main_image_url:
-        seen_article_images.add(main_image_url)
-        article_images.append({
-            "url": main_image_url,
-            "alt": article_title or "Article image",
-            "source": extraction_method or "unknown",
-        })
-    
-    for extra_image in extra_images:
-        image_url = extra_image.get("url")
-        if not image_url or image_url in seen_article_images:
-            continue
-        seen_article_images.add(image_url)
-        article_images.append({
-            "url": image_url,
-            "alt": extra_image.get("alt") or "Article image",
-            "source": "article_content",
-        })
-
-    log_event(
-        "article_images_found",
-        article_url=article_url,
-        raw_images=str(raw_article_image_count),
-        selected_images=str(len(article_images)),
-        main_image_found="yes" if main_image_url else "no",
-    )
-    log_event(
-        "article_images_filtered",
-        article_url=article_url,
-        filtered_count=str(max(0, raw_article_image_count - len(article_images))),
-        selected_images=str(len(article_images)),
-    )
-    
-    return main_image_url, extraction_method or "unknown", extra_images
 
 
 def _host_without_www(value):
@@ -1065,7 +831,7 @@ def _fetch_html_with_requests(url):
 
 def _apply_enrichment_from_html(article, html, url):
     soup = BeautifulSoup(html, "html.parser")
-    job_source_soup = BeautifulSoup(html, "html.parser") if JOBS_MODE else soup
+    job_source_soup = (BeautifulSoup(html, "html.parser"))
     source_links_removed, affiliate_links_removed = _remove_unwanted_links(
         soup,
         url,
@@ -1089,9 +855,7 @@ def _apply_enrichment_from_html(article, html, url):
     article["affiliate_links_removed_count"] = affiliate_links_removed
     article["removed_source_links_count"] = source_links_removed
     min_success_chars = (
-        max(MIN_EXTRACTED_CHARS, 250)
-        if JOBS_MODE
-        else (FAST_ENRICH_MIN_CHARS if FAST_NEWS_MODE else WEAK_ARTICLE_MIN_CHARS)
+        (max(MIN_EXTRACTED_CHARS, 250))
     )
     full_text, text_method, meta_description, tried_text_sources = _choose_enrichment_text(
         article,
@@ -1100,7 +864,7 @@ def _apply_enrichment_from_html(article, html, url):
     )
     preview = _trim_preview(full_text) if full_text else ""
     extracted_words = _word_count(full_text)
-    required_words = 40 if JOBS_MODE else MIN_EXTRACTED_WORDS
+    required_words = (40)
     log_event(
         "final_extracted_words",
         title=article.get("title"),
@@ -1132,119 +896,56 @@ def _apply_enrichment_from_html(article, html, url):
     article["fetched_title"] = _extract_title(soup) or article.get("title", "")
     article["meta_description"] = meta_description
 
-    if JOBS_MODE:
-        invalidate_identity_evidence(
-            article,
-            reason="source detail enrichment refreshed identity facts",
-        )
-        source_tables, source_tables_truncated = _extract_source_tables(job_source_soup)
-        article["source_tables"] = source_tables
-        article["source_tables_count"] = len(source_tables)
-        article["source_tables_truncated"] = bool(source_tables_truncated)
-        article.update(extract_job_fields(job_source_soup, article, url, full_text=full_text))
-        try:
-            article.update(resolve_company_logo(job_source_soup, article, url))
-        except Exception as error:
-            # Logo resolution must never stop a valid vacancy from publishing.
-            # Fail closed: a missing logo is safer than a wrong employer logo.
-            article["company_logo_url"] = ""
-            article["company_logo_verified"] = False
-            article["company_logo_confidence"] = 0
-            article["company_logo_source"] = "resolver_error"
-            log_event(
-                "company_logo_resolver_failed",
-                article_id=article.get("id"),
-                company=article.get("job_company", ""),
-                error=error.__class__.__name__,
-            )
+    invalidate_identity_evidence(
+        article,
+        reason="source detail enrichment refreshed identity facts",
+    )
+    source_tables, source_tables_truncated = _extract_source_tables(job_source_soup)
+    article["source_tables"] = source_tables
+    article["source_tables_count"] = len(source_tables)
+    article["source_tables_truncated"] = bool(source_tables_truncated)
+    article.update(extract_job_fields(job_source_soup, article, url, full_text=full_text))
+    try:
+        article.update(resolve_company_logo(job_source_soup, article, url))
+    except Exception as error:
+        # Logo resolution must never stop a valid vacancy from publishing.
+        # Fail closed: a missing logo is safer than a wrong employer logo.
+        article["company_logo_url"] = ""
+        article["company_logo_verified"] = False
+        article["company_logo_confidence"] = 0
+        article["company_logo_source"] = "resolver_error"
         log_event(
-            "job_fields_extracted",
+            "company_logo_resolver_failed",
             article_id=article.get("id"),
             company=article.get("job_company", ""),
-            location=article.get("job_location", ""),
-            deadline=article.get("job_deadline", ""),
-            positions=article.get("job_number_of_positions", 0),
-            eligibility=article.get("job_eligibility", ""),
-            logo_verified=bool(article.get("company_logo_verified")),
-            logo_confidence=int(article.get("company_logo_confidence") or 0),
-            logo_source=article.get("company_logo_source", ""),
+            error=error.__class__.__name__,
         )
+    log_event(
+        "job_fields_extracted",
+        article_id=article.get("id"),
+        company=article.get("job_company", ""),
+        location=article.get("job_location", ""),
+        deadline=article.get("job_deadline", ""),
+        positions=article.get("job_number_of_positions", 0),
+        eligibility=article.get("job_eligibility", ""),
+        logo_verified=bool(article.get("company_logo_verified")),
+        logo_confidence=int(article.get("company_logo_confidence") or 0),
+        logo_source=article.get("company_logo_source", ""),
+    )
     
-    if JOBS_MODE:
-        # Jobs never reuse hero/content images from the source page.
-        # The Blogger publisher creates exactly one branded cover later from
-        # the owner-supplied article template + employer logo + job title.
-        article["article_images"] = []
-        article["main_image"] = ""
-        article["main_image_source_type"] = "job_template"
-        article["main_image_extraction_method"] = "disabled_for_jobs"
-        article["extra_article_images"] = []
-        article.pop("image_warning", None)
-        article_images = []
-        log_event(
-            "job_source_image_extraction_disabled",
-            article_id=article.get("id"),
-            source=article.get("source_name"),
-            source_url=url,
-        )
-    else:
-        # Non-job content keeps the existing article-image extraction path.
-        main_image_url, image_extraction_method, extra_images = _extract_and_prepare_images(
-            str(soup),
-            url,
-            article.get("title", "") or article.get("fetched_title", "")
-        )
-        main_image_url, image_extraction_method, _downloaded_alt = _select_downloadable_main_image(
-            article,
-            main_image_url,
-            image_extraction_method,
-            extra_images,
-        )
-        if not main_image_url:
-            article["image_warning"] = "missing downloadable article image"
-            log_event(
-                "enrichment_fallback_used",
-                method="no_image_continue",
-                title=article.get("title"),
-                source=article.get("source_name"),
-                source_url=url,
-                reason="missing downloadable article image",
-            )
-
-        article_images = []
-        seen_article_images = set()
-        if main_image_url:
-            seen_article_images.add(main_image_url)
-            article_images.append({
-                "url": main_image_url,
-                "alt": article.get("fetched_title") or article.get("title", ""),
-                "source": image_extraction_method,
-            })
-
-        for extra_image in extra_images:
-            image_url = extra_image.get("url")
-            if not image_url or image_url in seen_article_images:
-                continue
-            seen_article_images.add(image_url)
-            article_images.append({
-                "url": image_url,
-                "alt": extra_image.get("alt") or "Article image",
-                "source": "article_content",
-            })
-
-        article["article_images"] = article_images
-        article["main_image"] = main_image_url or ""
-        article["main_image_source_type"] = image_extraction_method or "fallback"
-        article["main_image_extraction_method"] = image_extraction_method
-        article["extra_article_images"] = extra_images
-
-        log_event(
-            "image_extraction_complete",
-            url=url,
-            main_image_found="yes" if main_image_url else "no",
-            image_extraction_method=image_extraction_method,
-            extra_images_count=len(extra_images),
-        )
+    article["article_images"] = []
+    article["main_image"] = ""
+    article["main_image_source_type"] = "job_template"
+    article["main_image_extraction_method"] = "disabled_for_jobs"
+    article["extra_article_images"] = []
+    article.pop("image_warning", None)
+    article_images = []
+    log_event(
+        "job_source_image_extraction_disabled",
+        article_id=article.get("id"),
+        source=article.get("source_name"),
+        source_url=url,
+    )
     article["trusted_references"] = _extract_trusted_references(
         soup,
         url,
@@ -1260,9 +961,7 @@ def _apply_enrichment_from_html(article, html, url):
     is_weak = len(article["full_article_text"]) >= min_success_chars
     article["enrichment_status"] = "strong" if is_strong else "weak"
     article["content_fetch_status"] = "success" if (
-        (JOBS_MODE and is_weak)
-        or is_strong
-        or (FAST_NEWS_MODE and (is_weak or PUBLISH_WEAK_ARTICLES))
+        is_weak or is_strong
     ) else "weak"
     article.pop("content_fetch_error", None)
     log_event(
@@ -1279,25 +978,12 @@ def _apply_enrichment_from_html(article, html, url):
         references=len(article.get("trusted_references") or []),
         enrichment_status=article["enrichment_status"],
     )
-    if not is_weak and not (FAST_NEWS_MODE and PUBLISH_WEAK_ARTICLES and article["full_article_text"]):
-        return False, f"weak article body ({len(article['full_article_text'])} chars)"
-    if not is_strong and not FAST_NEWS_MODE and not JOBS_MODE:
+    if not is_weak:
         return False, f"weak article body ({len(article['full_article_text'])} chars)"
     return True, ""
 
 
 def _apply_rss_summary_fallback(article):
-    fallback_image_url = ""
-    fallback_image_source = ""
-    if not JOBS_MODE:
-        fallback_image_url, fallback_image_source, _fallback_image_alt = _select_downloadable_main_image(
-            article,
-            "",
-            "",
-            [],
-        )
-        if not fallback_image_url:
-            article["image_warning"] = "missing downloadable article image"
 
     summary = _html_to_text(article.get("rss_summary", ""))
     if len(summary) < MIN_EXTRACTED_CHARS:
@@ -1313,7 +999,7 @@ def _apply_rss_summary_fallback(article):
             )
         )
     summary_words = _word_count(summary)
-    required_words = 40 if JOBS_MODE else MIN_EXTRACTED_WORDS
+    required_words = (40)
     if len(summary) < MIN_EXTRACTED_CHARS or summary_words < required_words:
         return False, (
             "missing article body after rss fallback "
@@ -1321,23 +1007,13 @@ def _apply_rss_summary_fallback(article):
         )
     article["fetched_title"] = article.get("title", "")
     article["meta_description"] = summary[:240]
-    article["article_images"] = [
-        {
-            "url": fallback_image_url,
-            "alt": article.get("fetched_title") or article.get("title", ""),
-            "source": fallback_image_source or "fallback",
-        }
-    ] if (fallback_image_url and not JOBS_MODE) else []
-    article["main_image"] = fallback_image_url if not JOBS_MODE else ""
+    article["article_images"] = ([])
+    article["main_image"] = ("")
     article["main_image_source_type"] = (
-        fallback_image_source or "fallback"
-        if not JOBS_MODE
-        else "job_template"
+        ("job_template")
     )
     article["main_image_extraction_method"] = (
-        fallback_image_source or "fallback"
-        if not JOBS_MODE
-        else "disabled_for_jobs"
+        ("disabled_for_jobs")
     )
     article["extra_article_images"] = []
     article.pop("image_warning", None)
@@ -1366,7 +1042,6 @@ def _apply_rss_summary_fallback(article):
         words=summary_words,
     )
     return True, ""
-
 
 
 def _csod_article_config(article):
@@ -1733,7 +1408,7 @@ def _candidate_failure_backoff_minutes(failure_count):
 
 
 def _job_cached_enrichment_is_sufficient(article, existing_words):
-    if not JOBS_MODE or article.get("content_fetch_status") != "success":
+    if article.get('content_fetch_status') != 'success':
         return False
     if existing_words >= MIN_EXTRACTED_WORDS:
         return True
@@ -1895,16 +1570,14 @@ def enrich_ready_articles(force=False):
         allowed_statuses = {"ready", "identity_pending"} if not force else {"ready", "identity_pending", "selected", "draft_created"}
         if article.get("status") not in allowed_statuses:
             continue
-        if JOBS_MODE and not str(
-            article.get("category_label") or article.get("category_hint") or ""
-        ).strip().casefold().startswith(("jobs-", "remote-jobs")):
+        if not str(article.get('category_label') or article.get('category_hint') or '').strip().casefold().startswith(('jobs-', 'remote-jobs')):
             continue
 
         checked += 1
         # Known stale rows never spend an enrichment slot. Unknown publication
         # times still get one detail-page enrichment attempt so the source can
         # prove they are within the strict freshness window.
-        if JOBS_MODE and not force:
+        if not force:
             published_raw = str(
                 article.get("job_published_at")
                 or article.get("source_published_at")
@@ -1962,7 +1635,7 @@ def enrich_ready_articles(force=False):
 
         targets.append((queue_index, article))
 
-    if JOBS_MODE and not force and len(targets) > JOBS_ENRICH_MAX_TARGETS_PER_CYCLE:
+    if not force and len(targets) > JOBS_ENRICH_MAX_TARGETS_PER_CYCLE:
         targets.sort(key=lambda row: _jobs_enrichment_priority(row[1], row[0]))
         deferred_targets = len(targets) - JOBS_ENRICH_MAX_TARGETS_PER_CYCLE
         targets = targets[:JOBS_ENRICH_MAX_TARGETS_PER_CYCLE]

@@ -6,19 +6,18 @@ import re
 from dataclasses import dataclass
 
 from bs4 import BeautifulSoup
-from datetime import datetime, timezone
 
-from duplicate_utils import canonicalize_url, content_hash_from_html, similar_topic_signature, title_hash, topic_signature
+from duplicate_utils import (
+    canonicalize_url,
+    content_hash_from_html,
+    similar_topic_signature,
+    title_hash,
+    topic_signature,
+)
 from production_logging import html_to_text, html_word_count
 from job_core import is_application_url_bound_to_job, is_job_specific_url
 from verified_fact_manifest import build_verified_fact_manifest, validate_output_against_manifest
 from config import (
-    ALLOW_UNKNOWN_DATE_IN_FAST_MODE,
-    ALLOW_SHORT_ARTICLES,
-    FAST_NEWS_MODE,
-    MIN_ARTICLE_WORDS,
-    RECENT_NEWS_ONLY,
-    TARGET_ARTICLE_WORDS,
     JOBS_MODE,
 )
 
@@ -147,7 +146,6 @@ def _has_repeated_text_blocks(body_text):
     return False
 
 
-
 _JOB_FACT_STOPWORDS = {
     "في", "من", "الى", "إلى", "على", "عن", "مع", "لدى", "عند", "حسب",
     "هذا", "هذه", "ذلك", "تلك", "الذي", "التي", "الذين", "كما", "تم", "يتم",
@@ -265,7 +263,6 @@ def _job_fact_atoms(text):
     return atoms
 
 
-
 def _job_duplicate_structured_rows_reason(html_content):
     soup = BeautifulSoup(html_content or "", "html.parser")
     seen = set()
@@ -285,7 +282,6 @@ def _job_duplicate_structured_rows_reason(html_content):
                 return "duplicate structured row found in Jobs article"
             seen.add(fingerprint)
     return ""
-
 
 
 def _job_unverified_external_link_reason(html_content, verification_context):
@@ -570,8 +566,7 @@ def validate_ai_article_output(data, package=None):
     return validate_before_publish(article, check_duplicate=False)
 
 
-def validate_before_publish(article, existing_articles=None, check_duplicate=True, fast_news_mode=None):
-    fast_mode = FAST_NEWS_MODE if fast_news_mode is None else bool(fast_news_mode)
+def validate_before_publish(article, existing_articles=None, check_duplicate=True):
     html_content = str(article.get("final_html") or article.get("blogger_article_html") or "").strip()
     seo_title = str(article.get("seo_title") or "").strip()
     seo_description = str(article.get("seo_description") or "").strip()
@@ -584,16 +579,6 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         return QualityGateResult(False, "missing seo_description")
 
     word_count = html_word_count(html_content)
-    if not JOBS_MODE:
-        minimum_words = MIN_ARTICLE_WORDS if fast_mode else MIN_BLOGGER_ARTICLE_WORDS
-        if word_count < minimum_words and not (
-            fast_mode and ALLOW_SHORT_ARTICLES and word_count >= 80
-        ):
-            return QualityGateResult(
-                False,
-                f"article too short ({word_count} words; minimum {minimum_words})",
-                word_count,
-            )
 
     body_text = html_to_text(html_content)
     if _has_visible_json_or_markdown(html_content) or _has_visible_json_or_markdown(body_text):
@@ -604,281 +589,212 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
         return QualityGateResult(False, "random language mixing found in article output", word_count)
     if _expected_image_missing(article, html_content):
         return QualityGateResult(False, "expected article image is missing from final HTML", word_count)
-    if JOBS_MODE:
-        semantic_repeat_reason = _job_semantic_repetition_reason(html_content, seo_title)
-        if semantic_repeat_reason:
-            return QualityGateResult(False, semantic_repeat_reason, word_count)
-        semantic_warnings = _job_semantic_repetition_warnings(html_content)
+    semantic_repeat_reason = _job_semantic_repetition_reason(html_content, seo_title)
+    if semantic_repeat_reason:
+        return QualityGateResult(False, semantic_repeat_reason, word_count)
+    semantic_warnings = _job_semantic_repetition_warnings(html_content)
 
-        if re.search(r"class\s*=\s*['\"][^'\"]*\bpRelate\b", html_content, flags=re.I):
-            return QualityGateResult(False, "related-post pRelate block is forbidden in Jobs articles", word_count)
+    if re.search(r"class\s*=\s*['\"][^'\"]*\bpRelate\b", html_content, flags=re.I):
+        return QualityGateResult(False, "related-post pRelate block is forbidden in Jobs articles", word_count)
+    if any(
+        phrase in body_text
+        for phrase in (
+            "قد يهمك أيضًا",
+            "قد يهمك أيضا",
+            "مقالات ذات صلة",
+            "مواضيع ذات صلة",
+        )
+    ):
+        return QualityGateResult(False, "related-post text is forbidden in Jobs articles", word_count)
+    if re.search(
+        r"<a\b[^>]*\bhref=['\"][^'\"]*/search/label/[^'\"]*['\"]",
+        html_content,
+        flags=re.I,
+    ):
+        return QualityGateResult(False, "automatic label/category internal link is forbidden in Jobs articles", word_count)
+
+    if re.search(r"<script\b", html_content, flags=re.I):
+        return QualityGateResult(False, "script tag found in Jobs article body", word_count)
+
+    if len(seo_description) < 80 or len(seo_description) > 180:
+        return QualityGateResult(
+            False,
+            "job meta description should stay between 80 and 180 characters",
+            word_count,
+        )
+    if re.search(r"(?:\bنبحث\s+عن\b|\bعملائنا\b|\bفريقنا\b|انضم\s+(?:إلينا|لفريقنا))", seo_description):
+        return QualityGateResult(
+            False,
+            "job meta description uses employer first-person/promotional voice",
+            word_count,
+        )
+
+    promotional_job_phrases = (
+        "الشركة الرائدة",
+        "شركة رائدة",
+        "الشركة المرموقة",
+        "فرصة مميزة",
+        "فرصة رائعة",
+        "أحدث معايير",
+        "حماية قصوى",
+        "مهام حيوية",
+        "تحديات مثيرة",
+        "يهم هذا الإعلان فرصة",
+        "يتم الاعتماد في هذا الإعلان على البيانات",
+        "تعد هذه الفرصة مناسبة",
+        "تُعد هذه الفرصة مناسبة",
+        "فرصة تستحق الاطلاع",
+        "فرصة توظيف جديدة",
+        "لمزيد من التفاصيل يرجى",
+        "للمزيد من التفاصيل يرجى",
+    )
+    if any(phrase in body_text or phrase in seo_description for phrase in promotional_job_phrases):
+        return QualityGateResult(
+            False,
+            "generic promotional wording found in Jobs content",
+            word_count,
+        )
+
+    if not str(article.get("url") or article.get("source_url") or "").strip():
+        return QualityGateResult(False, "missing job source URL", word_count)
+
+    package = article.get("ai_input_package") or {}
+    verification_context = dict(package)
+    verification_context.update({
+        key: value
+        for key, value in article.items()
+        if key != "ai_input_package" and value not in (None, "", [], {})
+    })
+
+    duplicate_row_reason = _job_duplicate_structured_rows_reason(html_content)
+    if duplicate_row_reason:
+        return QualityGateResult(False, duplicate_row_reason, word_count)
+
+    manifest = (
+        package.get("verified_fact_manifest")
+        if isinstance(package.get("verified_fact_manifest"), dict)
+        else {}
+    )
+    if not manifest:
+        manifest = build_verified_fact_manifest(verification_context)
+
+    manifest_blocking, manifest_warnings = validate_output_against_manifest(
+        manifest,
+        seo_title,
+        html_content,
+    )
+    job_warnings = list(semantic_warnings) + list(manifest_warnings)
+    if manifest_blocking:
+        return QualityGateResult(
+            False,
+            manifest_blocking[0],
+            word_count,
+            tuple(job_warnings),
+        )
+
+    unverified_link_reason = _job_unverified_external_link_reason(html_content, verification_context)
+    if unverified_link_reason:
+        return QualityGateResult(False, unverified_link_reason, word_count, tuple(job_warnings))
+
+    notice_type = str(
+        article.get("job_notice_type")
+        or package.get("job_notice_type")
+        or "vacancy"
+    ).strip().lower()
+    application_url = str(
+        article.get("job_application_url")
+        or package.get("job_application_url")
+        or ""
+    ).strip()
+    application_kind = str(
+        article.get("job_application_link_kind")
+        or package.get("job_application_link_kind")
+        or ""
+    ).strip().lower()
+    application_context = dict(verification_context)
+    application_context["job_notice_type"] = notice_type
+    application_context["job_application_link_kind"] = application_kind
+
+    if application_url and not is_application_url_bound_to_job(application_context, application_url):
+        if not is_job_specific_url(application_url):
+            return QualityGateResult(
+                False,
+                "generic application portal is not a verified official channel for this competition",
+                word_count,
+            )
+        return QualityGateResult(False, "job application URL belongs to a different vacancy", word_count)
+    if (
+        application_url
+        and not is_job_specific_url(application_url)
+        and application_kind != "official_application_channel"
+    ):
+        return QualityGateResult(
+            False,
+            "generic application portal must be classified as official_application_channel",
+            word_count,
+        )
+    if application_kind == "official_application_channel":
+        visible_application_text = html_to_text(html_content)
         if any(
-            phrase in body_text
+            phrase in visible_application_text
             for phrase in (
-                "قد يهمك أيضًا",
-                "قد يهمك أيضا",
-                "مقالات ذات صلة",
-                "مواضيع ذات صلة",
+                "التقديم المباشر",
+                "رابط التقديم المباشر",
+                "رابط الوظيفة المباشر",
             )
         ):
-            return QualityGateResult(False, "related-post text is forbidden in Jobs articles", word_count)
-        if re.search(
-            r"<a\b[^>]*\bhref=['\"][^'\"]*/search/label/[^'\"]*['\"]",
-            html_content,
-            flags=re.I,
-        ):
-            return QualityGateResult(False, "automatic label/category internal link is forbidden in Jobs articles", word_count)
-
-        if re.search(r"<script\b", html_content, flags=re.I):
-            return QualityGateResult(False, "script tag found in Jobs article body", word_count)
-
-        if len(seo_description) < 80 or len(seo_description) > 180:
             return QualityGateResult(
                 False,
-                "job meta description should stay between 80 and 180 characters",
-                word_count,
-            )
-        if re.search(r"(?:\bنبحث\s+عن\b|\bعملائنا\b|\bفريقنا\b|انضم\s+(?:إلينا|لفريقنا))", seo_description):
-            return QualityGateResult(
-                False,
-                "job meta description uses employer first-person/promotional voice",
+                "official application channel is mislabeled as a direct vacancy link",
                 word_count,
             )
 
-        promotional_job_phrases = (
-            "الشركة الرائدة",
-            "شركة رائدة",
-            "الشركة المرموقة",
-            "فرصة مميزة",
-            "فرصة رائعة",
-            "أحدث معايير",
-            "حماية قصوى",
-            "مهام حيوية",
-            "تحديات مثيرة",
-            "يهم هذا الإعلان فرصة",
-            "يتم الاعتماد في هذا الإعلان على البيانات",
-            "تعد هذه الفرصة مناسبة",
-            "تُعد هذه الفرصة مناسبة",
-            "فرصة تستحق الاطلاع",
-            "فرصة توظيف جديدة",
-            "لمزيد من التفاصيل يرجى",
-            "للمزيد من التفاصيل يرجى",
-        )
-        if any(phrase in body_text or phrase in seo_description for phrase in promotional_job_phrases):
-            return QualityGateResult(
-                False,
-                "generic promotional wording found in Jobs content",
-                word_count,
-            )
+    title_style_reason = _job_title_style_reason(seo_title, notice_type=notice_type)
+    if title_style_reason:
+        return QualityGateResult(False, title_style_reason, word_count, tuple(job_warnings))
 
-        if not str(article.get("url") or article.get("source_url") or "").strip():
-            return QualityGateResult(False, "missing job source URL", word_count)
+    job_links = re.findall(
+        r"<a\b[^>]*\bhref=['\"]([^'\"]+)['\"]",
+        html_content,
+        flags=re.I,
+    )
+    job_link_keys = [canonicalize_url(url) or url for url in job_links]
+    if len(job_link_keys) != len(set(job_link_keys)):
+        return QualityGateResult(False, "duplicate job link found in final HTML", word_count)
 
-        package = article.get("ai_input_package") or {}
-        verification_context = dict(package)
-        verification_context.update({
-            key: value
-            for key, value in article.items()
-            if key != "ai_input_package" and value not in (None, "", [], {})
-        })
-
-        duplicate_row_reason = _job_duplicate_structured_rows_reason(html_content)
-        if duplicate_row_reason:
-            return QualityGateResult(False, duplicate_row_reason, word_count)
-
-        manifest = (
-            package.get("verified_fact_manifest")
-            if isinstance(package.get("verified_fact_manifest"), dict)
-            else {}
-        )
-        if not manifest:
-            manifest = build_verified_fact_manifest(verification_context)
-
-        manifest_blocking, manifest_warnings = validate_output_against_manifest(
-            manifest,
-            seo_title,
-            html_content,
-        )
-        job_warnings = list(semantic_warnings) + list(manifest_warnings)
-        if manifest_blocking:
-            return QualityGateResult(
-                False,
-                manifest_blocking[0],
-                word_count,
-                tuple(job_warnings),
-            )
-
-        unverified_link_reason = _job_unverified_external_link_reason(html_content, verification_context)
-        if unverified_link_reason:
-            return QualityGateResult(False, unverified_link_reason, word_count, tuple(job_warnings))
-
-        notice_type = str(
-            article.get("job_notice_type")
-            or package.get("job_notice_type")
-            or "vacancy"
-        ).strip().lower()
-        application_url = str(
-            article.get("job_application_url")
-            or package.get("job_application_url")
-            or ""
-        ).strip()
-        application_kind = str(
-            article.get("job_application_link_kind")
-            or package.get("job_application_link_kind")
-            or ""
-        ).strip().lower()
-        application_context = dict(verification_context)
-        application_context["job_notice_type"] = notice_type
-        application_context["job_application_link_kind"] = application_kind
-
-        if application_url and not is_application_url_bound_to_job(application_context, application_url):
-            if not is_job_specific_url(application_url):
-                return QualityGateResult(
-                    False,
-                    "generic application portal is not a verified official channel for this competition",
-                    word_count,
-                )
-            return QualityGateResult(False, "job application URL belongs to a different vacancy", word_count)
-        if (
-            application_url
-            and not is_job_specific_url(application_url)
-            and application_kind != "official_application_channel"
-        ):
-            return QualityGateResult(
-                False,
-                "generic application portal must be classified as official_application_channel",
-                word_count,
-            )
-        if application_kind == "official_application_channel":
-            visible_application_text = html_to_text(html_content)
-            if any(
-                phrase in visible_application_text
-                for phrase in (
-                    "التقديم المباشر",
-                    "رابط التقديم المباشر",
-                    "رابط الوظيفة المباشر",
-                )
-            ):
-                return QualityGateResult(
-                    False,
-                    "official application channel is mislabeled as a direct vacancy link",
-                    word_count,
-                )
-
-        title_style_reason = _job_title_style_reason(seo_title, notice_type=notice_type)
-        if title_style_reason:
-            return QualityGateResult(False, title_style_reason, word_count, tuple(job_warnings))
-
-        job_links = re.findall(
-            r"<a\b[^>]*\bhref=['\"]([^'\"]+)['\"]",
+    cover_url = str(
+        article.get("job_article_cover_url")
+        or package.get("job_article_cover_url")
+        or ""
+    ).strip()
+    if cover_url:
+        image_sources = re.findall(
+            r"<img\b[^>]*\bsrc=['\"]([^'\"]+)['\"]",
             html_content,
             flags=re.I,
         )
-        job_link_keys = [canonicalize_url(url) or url for url in job_links]
-        if len(job_link_keys) != len(set(job_link_keys)):
-            return QualityGateResult(False, "duplicate job link found in final HTML", word_count)
-
-        cover_url = str(
-            article.get("job_article_cover_url")
-            or package.get("job_article_cover_url")
-            or ""
-        ).strip()
-        if cover_url:
-            image_sources = re.findall(
-                r"<img\b[^>]*\bsrc=['\"]([^'\"]+)['\"]",
-                html_content,
-                flags=re.I,
+        expected_document_images = [
+            str(item.get("url") or "").strip()
+            for item in (
+                article.get("job_document_page_images")
+                or package.get("job_document_page_images")
+                or []
             )
-            expected_document_images = [
-                str(item.get("url") or "").strip()
-                for item in (
-                    article.get("job_document_page_images")
-                    or package.get("job_document_page_images")
-                    or []
-                )
-                if isinstance(item, dict) and str(item.get("url") or "").strip()
-            ]
-            expected_images = [cover_url] + expected_document_images
-            if not image_sources or image_sources[0] != cover_url:
-                return QualityGateResult(False, "job article must start with the generated cover image", word_count)
-            if image_sources != expected_images:
-                return QualityGateResult(
-                    False,
-                    "job article contains missing, reordered, duplicated, or unverified images",
-                    word_count,
-                )
+            if isinstance(item, dict) and str(item.get("url") or "").strip()
+        ]
+        expected_images = [cover_url] + expected_document_images
+        if not image_sources or image_sources[0] != cover_url:
+            return QualityGateResult(False, "job article must start with the generated cover image", word_count)
+        if image_sources != expected_images:
+            return QualityGateResult(
+                False,
+                "job article contains missing, reordered, duplicated, or unverified images",
+                word_count,
+            )
 
-        # Jobs pass/fail is based on verified completeness and accuracy,
-        # not word count or a mandatory heading shape.
-        return QualityGateResult(True, "", word_count, tuple(job_warnings))
-
-    if fast_mode:
-        promotional, promo_reason = is_promotional_article(article)
-        if promotional:
-            return QualityGateResult(False, promo_reason, word_count)
-        non_technical, non_technical_reason = is_non_technical_entertainment_article(article)
-        if non_technical:
-            return QualityGateResult(False, non_technical_reason, word_count)
-        if not str(article.get("url") or article.get("source_url") or "").strip():
-            return QualityGateResult(False, "missing source URL", word_count)
-        if RECENT_NEWS_ONLY:
-            published_at = article.get("source_published_at") or article.get("original_published_at")
-            freshness_source = str(article.get("freshness_source") or "").strip()
-            if not published_at and freshness_source == "fallback_no_date":
-                published_at = ""
-            elif not published_at and not ALLOW_UNKNOWN_DATE_IN_FAST_MODE:
-                return QualityGateResult(False, "publish date missing in strict recent mode", word_count)
-            if published_at:
-                try:
-                    text = str(published_at).replace("Z", "+00:00")
-                    parsed = datetime.fromisoformat(text)
-                    if parsed.tzinfo is None:
-                        parsed = parsed.replace(tzinfo=timezone.utc)
-                    age_hours = (datetime.now(timezone.utc) - parsed.astimezone(timezone.utc)).total_seconds() / 3600
-                except ValueError:
-                    return QualityGateResult(False, "invalid publish date in strict recent mode", word_count)
-                if age_hours > FRESHNESS_HARD_MAX_HOURS:
-                    return QualityGateResult(
-                        False,
-                        f"article older than {FRESHNESS_HARD_MAX_HOURS} hours",
-                        word_count,
-                    )
-        if check_duplicate:
-            duplicate_reason = duplicate_publish_reason(article, existing_articles or [])
-            if duplicate_reason:
-                return QualityGateResult(False, duplicate_reason, word_count)
-        warnings = []
-        bypass_message = article.get("content_filter_bypass_message")
-        if bypass_message:
-            warnings.append(str(bypass_message))
-        if word_count < 120:
-            warnings.append(f"fast news article below target range {TARGET_ARTICLE_WORDS}")
-        if not _has_reader_section(html_content, body_text):
-            warnings.append("reader-impact section omitted in fast mode")
-        if not (article.get("main_image") or article.get("image") or (article.get("ai_input_package") or {}).get("main_image")):
-            warnings.append("missing article image")
-        return QualityGateResult(True, "", word_count, tuple(warnings))
-
-    if not _has_reader_section(html_content, body_text):
-        return QualityGateResult(False, f"missing required section: {REQUIRED_READER_SECTION_WITH_QUESTION}", word_count)
-    if not _has_intro_before_first_heading(html_content):
-        return QualityGateResult(False, "missing strong introduction before first heading", word_count)
-    if len(re.findall(r"<h2\b", html_content, flags=re.I)) < 2:
-        return QualityGateResult(False, "missing main explanatory sections", word_count)
-    if is_cybersecurity_article(article) and not _has_heading_like_section(html_content, body_text, PROTECTION_SECTION_HINTS):
-        return QualityGateResult(False, "missing cybersecurity protection/advice section", word_count)
-    if not _has_heading_like_section(html_content, body_text, CONCLUSION_HINTS):
-        return QualityGateResult(False, "missing strong conclusion section", word_count)
-
-    if check_duplicate:
-        duplicate_reason = duplicate_publish_reason(article, existing_articles or [])
-        if duplicate_reason:
-            return QualityGateResult(False, duplicate_reason, word_count)
-
-    warnings = []
-    if not (article.get("main_image") or article.get("image") or (article.get("ai_input_package") or {}).get("main_image")):
-        warnings.append("missing article image")
-    return QualityGateResult(True, "", word_count, tuple(warnings))
+    # Jobs pass/fail is based on verified completeness and accuracy,
+    # not word count or a mandatory heading shape.
+    return QualityGateResult(True, "", word_count, tuple(job_warnings))
 
 
 def duplicate_publish_reason(article, existing_articles):
@@ -913,4 +829,3 @@ def duplicate_publish_reason(article, existing_articles):
         if current_content_hash and other.get("final_content_hash") == current_content_hash:
             return "another queue record with the same content hash is already published/drafted"
     return ""
-from content_filter import is_non_technical_entertainment_article, is_promotional_article

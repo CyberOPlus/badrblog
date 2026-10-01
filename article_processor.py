@@ -5,7 +5,6 @@
 from datetime import datetime
 
 from article_queue import load_article_queue, save_article_queue
-from article_selector import normalize_category_label
 from config import MIN_EXTRACTED_CHARS, JOBS_MODE
 from internal_link_cache import load_internal_link_cache, select_internal_link_candidates
 from job_document_renderer import extract_job_document_texts
@@ -33,8 +32,6 @@ def _validate_selected_article(article):
         missing.append("main content")
     elif len(str(full_text).strip()) < MIN_EXTRACTED_CHARS:
         missing.append(f"main content below {MIN_EXTRACTED_CHARS} characters")
-    if not JOBS_MODE and not _has_value(article.get("suggested_category")):
-        missing.append("suggested_category")
     if article.get("content_fetch_status") != "success":
         missing.append("successful content extraction")
     return missing
@@ -43,23 +40,19 @@ def _validate_selected_article(article):
 def _build_ai_input_package(article):
     full_text = article.get("full_article_text") or article.get("content_full") or article.get("content_preview", "")
     verified_fact_manifest = (
-        build_verified_fact_manifest(article) if JOBS_MODE else {}
+        (build_verified_fact_manifest(article))
     )
-    if JOBS_MODE:
-        article["verified_fact_manifest"] = verified_fact_manifest
+    article["verified_fact_manifest"] = verified_fact_manifest
     return {
         "title": article.get("fetched_title") or article.get("title", ""),
         "url": article.get("url", ""),
         "source_name": article.get("source_name", ""),
         "official_source": bool(article.get("official_source") or article.get("job_official_source")),
         "job_official_source": bool(article.get("job_official_source") or article.get("official_source")),
-        "suggested_category": normalize_category_label(
-            article.get("suggested_category")
-            or (article.get("category_label") if JOBS_MODE else "")
-        ),
-        "main_image": "" if JOBS_MODE else article.get("main_image", ""),
-        "article_images": [] if JOBS_MODE else article.get("article_images", []),
-        "extra_article_images": [] if JOBS_MODE else article.get("extra_article_images", []),
+        "suggested_category": str(article.get("category_label") or article.get("suggested_category") or "jobs").strip(),
+        "main_image": (""),
+        "article_images": ([]),
+        "extra_article_images": ([]),
         "meta_description": article.get("meta_description", ""),
         "content_preview": article.get("content_preview", ""),
         "content_preview_chars": len(article.get("content_preview", "")),
@@ -75,7 +68,7 @@ def _build_ai_input_package(article):
         "published_at_source": article.get("published_at_source", ""),
         "article_age_hours": article.get("article_age_hours"),
         "trusted_references": article.get("trusted_references", []),
-        "related_posts": [] if JOBS_MODE else _related_posts_for(article),
+        "related_posts": ([]),
         "labels": article.get("labels", []),
         "job_title": article.get("job_title", ""),
         "job_company": article.get("job_company", ""),
@@ -293,15 +286,14 @@ def prepare_selected_articles_for_ai(target_article_id=None):
             article["processing_error"] = "Missing required field(s): " + ", ".join(missing_fields)
             failed += 1
         else:
-            if JOBS_MODE:
-                try:
-                    _prepare_identity_evidence(article)
-                    article.pop("job_document_text_error", None)
-                except Exception as error:
-                    # PDF evidence is enrichment. A temporary PDF failure must not
-                    # erase the already verified source-page evidence.
-                    article["job_document_text_error"] = str(error)
-                    article["identity_evidence_stage_status"] = "incomplete"
+            try:
+                _prepare_identity_evidence(article)
+                article.pop("job_document_text_error", None)
+            except Exception as error:
+                # PDF evidence is enrichment. A temporary PDF failure must not
+                # erase the already verified source-page evidence.
+                article["job_document_text_error"] = str(error)
+                article["identity_evidence_stage_status"] = "incomplete"
             package = _build_ai_input_package(article)
             article["processing_status"] = "ready_for_ai"
             article["processing_prepared_at"] = _now_iso()

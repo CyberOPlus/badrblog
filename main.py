@@ -2,8 +2,8 @@
 # main.py - The Main Orchestrator
 # ============================================================
 
+import argparse
 import json
-import importlib.util
 import os
 import re
 import subprocess
@@ -13,17 +13,6 @@ from collections import Counter, defaultdict
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from blogger_client import (
-    create_blogger_service,
-    get_credentials,
-    get_publish_target_name,
-    publish_all_articles,
-)
-from article_backlog import (
-    get_pending_articles,
-    mark_backlog_published,
-    remember_articles,
-)
 from article_ai_processor import ai_circuit_status, process_one_selected_article_with_ai
 from article_draft_publisher import (
     fix_or_update_current_blogger_draft,
@@ -37,7 +26,6 @@ from article_queue import (
     archive_expired_queue_articles,
     archive_published_queue_article,
     repair_job_link_bindings,
-    get_fresh_queue_candidates,
     load_article_queue,
     load_sources,
     maintain_article_queue,
@@ -47,63 +35,32 @@ from article_queue import (
 from article_enricher import enrich_ready_articles
 from article_processor import prepare_selected_articles_for_ai, resolve_identity_pending_articles
 from article_scorer import score_new_articles
-from article_selector import normalize_category_label, select_next_article, suggest_category
-from duplicate_utils import title_hash, topic_signature
-from article_quality import (
-    get_candidate_fetch_limit,
-    print_quality_report,
-    select_best_articles,
-)
 from config import (
-    ARTICLE_SELECTION_MULTIPLIER,
-    ARTICLE_SELECTION_POOL_MIN,
-    ALLOW_UNKNOWN_DATE_IN_FAST_MODE,
-    ARTICLE_BACKLOG_PATH,
     ARTICLE_QUEUE_PATH,
     AI_PROVIDER_MEMORY_PATH,
     CHECK_INTERVAL,
-    CATEGORY_POSTS_PER_HOUR,
-    CATEGORY_ROTATION_MODE,
-    CRAWL_INTERVAL_MINUTES,
     CRAWL_STATE_PATH,
-    FALLBACK_FIRST_RUN_LOOKBACK_HOURS,
     FACEBOOK_AUTO_POST,
     JOBS_FACEBOOK_FOLLOW_ARTICLE,
-    FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH,
-    FACEBOOK_IMAGE_TEMPLATE_PATH,
     FACEBOOK_STYLE_MEMORY_PATH,
-    FAST_NEWS_MODE,
-    FRESHNESS_SAFETY_MARGIN_MINUTES,
-    FRESH_QUEUE_MODE,
-    FIRST_VALID_ARTICLE_MODE,
     INTERNAL_LINK_CACHE_PATH,
     LOGS_DIR,
     MAX_ARTICLES_PER_RUN,
-    MAX_AI_ARTICLE_AGE_HOURS,
     MAX_DRAFTS_PER_DAY,
-    HOURLY_POST_LIMIT,
     MAX_LIVE_POSTS_PER_DAY,
-    MAX_POSTS_PER_RUN,
     MAX_SOURCES_PER_RUN,
     MIN_MINUTES_BETWEEN_DRAFTS,
     MIN_MINUTES_BETWEEN_LIVE_POSTS,
     SAFE_MODE,
     PUBLISH_MODE,
-    PUBLISHED_DB_PATH,
-    PROCESS_FULL_CATEGORY_PER_RUN,
-    CRAWL_OVERLAP_MINUTES,
-    RECENT_NEWS_MAX_AGE_HOURS,
-    RECENT_NEWS_ONLY,
     SAFE_CYCLE_DRAFT_ONLY,
     SAFE_CYCLE_MAX_ARTICLES,
-    SOURCE_TIMEOUT_SECONDS,
     SOURCE_HEALTH_PATH,
     SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
     TARGET_LIVE_POSTS_PER_DAY,
     JOBS_MODE,
+    JOBS_MAX_PUBLISH_AGE_HOURS,
     JOBS_AI_CROSS_CANDIDATE_RETRIES,
-    TOPIC_FINGERPRINTS_PATH,
-    validate_config,
 )
 from facebook_publisher import (
     backfill_facebook_posts,
@@ -113,32 +70,11 @@ from facebook_publisher import (
     preview_next_facebook_post,
     post_one_article_to_facebook,
 )
-from processor import initialize_gemini, process_articles
-from publishing_planner import plan_next_article
-from published_db import filter_new_articles, load_published_ids, mark_many_as_published
-from scraper import discover_first_valid_article_link, discover_fresh_article_links, discover_latest_article_links, get_latest_articles
-from runtime_state import (
-    add_topic_fingerprint,
-    advance_category_rotation,
-    advance_source_rotation,
-    load_topic_fingerprints,
-    order_sources_for_rotation,
-    record_source_cooldown,
-    reset_job_discovery_state,
-    save_crawl_state,
-    save_topic_fingerprints,
-    select_category_for_rotation,
-    source_rotation_record,
-)
+from scraper import discover_latest_article_links
+from runtime_state import record_source_cooldown, reset_job_discovery_state
 from source_validator import check_sources_config
 from production_logging import html_word_count, log_event
-from job_core import (
-    prepare_job_candidate,
-    record_job_publish,
-    select_best_job_from_queue,
-    job_status_snapshot,
-    maintain_job_memory,
-)
+from job_core import record_job_publish, select_best_job_from_queue, job_status_snapshot, maintain_job_memory
 from jobs_adaptive_controller import record_cycle_result as record_jobs_cycle_result
 
 
@@ -170,20 +106,6 @@ def _jobs_one_shot_candidate_articles(articles, attempted_ids=None):
     return with_documents or candidates
 
 
-PROBLEM_SOURCE_NAMES = {
-    "SANS ISC",
-    "AI Trends",
-    "AlternativeTo News",
-    "Softpedia News",
-    "APKMirror",
-    "Mandiant Blog",
-    "VentureBeat AI",
-    "Analytics India Magazine",
-    "Perplexity Blog",
-    "Google DeepMind Blog",
-    "BBC Technology",
-}
-
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 if hasattr(sys.stderr, "reconfigure"):
@@ -201,63 +123,6 @@ def print_banner():
 ╚══════════════════════════════════════════════════════════╝
     """
     print(banner)
-
-
-def print_summary(stats):
-    print("\n" + "=" * 60)
-    print("📊 RUN SUMMARY")
-    print("=" * 60)
-    print(f"  📰 Articles scraped:     {stats['scraped']}")
-    print(f"  ⏭️  Already handled:      {stats['skipped']}")
-    print(f"  🧺 Added to backlog:     {stats['backlog_added']}")
-    print(f"  🧭 Selected this run:    {stats['selected']}")
-    print(f"  🕒 Deferred for later:   {stats['deferred']}")
-    print(f"  🌐 Translated:           {stats['translated']}")
-    print(f"  📤 Published/Saved:      {stats['published']}")
-    print(f"  🎯 Publish target:       {stats['publish_target']}")
-    print("=" * 60)
-
-
-def _source_category_label(source):
-    return normalize_category_label(source.get("category_label") or source.get("category_hint") or "")
-
-
-def _available_category_labels(sources):
-    labels = []
-    seen = set()
-    for source in sources:
-        if not source.get("enabled", True):
-            continue
-        label = _source_category_label(source)
-        if label and label not in seen:
-            seen.add(label)
-            labels.append(label)
-    return labels
-
-
-def _sources_for_category(sources, category_label):
-    return [
-        source
-        for source in sources
-        if source.get("enabled", True) and _source_category_label(source) == category_label
-    ]
-
-
-def _rotated_sources_for_category(sources, category_label):
-    return order_sources_for_rotation(category_label, _sources_for_category(sources, category_label))
-
-
-def _remember_selected_source(category_label, article, available_sources=None):
-    if not category_label or not article:
-        return {}
-    source_key = str(article.get("source_url") or "").strip()
-    source_name = str(article.get("source_name") or "").strip()
-    available_keys = [
-        str(source.get("base_url") or "").strip()
-        for source in (available_sources or [])
-        if str(source.get("base_url") or "").strip()
-    ]
-    return advance_source_rotation(category_label, source_key, source_name, available_keys)
 
 
 def _cooldown_sources_after_candidate_failures(category_label, enrich_stats):
@@ -279,12 +144,6 @@ def _cooldown_sources_after_candidate_failures(category_label, enrich_stats):
         source_names[source_key] = str(article.get("source_name") or source_key)
 
     rotated = []
-    available_sources = _sources_for_category(load_sources(), category_label) if category_label else []
-    available_keys = [
-        str(source.get("base_url") or "").strip()
-        for source in available_sources
-        if str(source.get("base_url") or "").strip()
-    ]
     for source_key, failures in failures_by_source.items():
         if source_key in successful_sources:
             continue
@@ -295,15 +154,8 @@ def _cooldown_sources_after_candidate_failures(category_label, enrich_stats):
             error=f"all candidate enrichments failed ({len(failures)})",
             minutes=SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
         )
-        if category_label:
-            advance_source_rotation(
-                category_label,
-                source_key,
-                source_name,
-                available_source_keys=available_keys,
-            )
         log_event(
-            "source_rotated_after_all_candidates_failed",
+            "source_cooled_down_after_all_candidates_failed",
             category=category_label,
             source=source_name,
             source_url=source_key,
@@ -312,43 +164,6 @@ def _cooldown_sources_after_candidate_failures(category_label, enrich_stats):
         )
         rotated.append({"source_url": source_key, "source_name": source_name, "failed_candidates": len(failures)})
     return rotated
-
-
-def _category_queue_candidates(category_label):
-    return [
-        article
-        for article in get_fresh_queue_candidates(statuses={"ready", "selected"})
-        if normalize_category_label(
-            article.get("suggested_category")
-            or article.get("category_label")
-            or article.get("category_hint")
-        )
-        == category_label
-    ]
-
-
-def _article_published_sort_value(article):
-    value = str(article.get("source_published_at") or "").strip()
-    if not value:
-        return datetime.min.replace(tzinfo=timezone.utc)
-    if value.endswith("Z"):
-        value = value[:-1] + "+00:00"
-    try:
-        parsed = datetime.fromisoformat(value)
-    except ValueError:
-        return datetime.min.replace(tzinfo=timezone.utc)
-    if parsed.tzinfo is None:
-        parsed = parsed.replace(tzinfo=timezone.utc)
-    return parsed.astimezone(timezone.utc)
-
-
-def _select_category_for_this_run(sources):
-    available = _available_category_labels(sources)
-    selection = select_category_for_rotation(available)
-    category_label = selection.get("category", "")
-    if category_label:
-        advance_category_rotation(category_label, available)
-    return category_label, selection.get("order") or available
 
 
 def run_fetch_only():
@@ -365,196 +180,47 @@ def run_fetch_only():
     enabled_sources = [source for source in sources if source.get("enabled", True)]
     print(f"Configured sources: {len(sources)}")
     print(f"Enabled sources:    {len(enabled_sources)}")
-    if JOBS_MODE:
-        print("Discovery:          paginated/cursor; fetch_limit_per_run is a page-size hint")
-    else:
-        print("Fetch limit:        per-source fetch_limit_per_run")
-    if RECENT_NEWS_ONLY and not JOBS_MODE:
-        smart_recent_hours = min(24, max(6, RECENT_NEWS_MAX_AGE_HOURS))
-        smart_expanded_hours = min(24, max(12, smart_recent_hours))
-        print(
-            "Recent filter:      "
-            f"smart {smart_recent_hours}h, expands to {smart_expanded_hours}h "
-            f"(config baseline {RECENT_NEWS_MAX_AGE_HOURS}h)",
-            flush=True,
-        )
-        print(
-            "AI freshness cutoff:"
-            f" {MAX_AI_ARTICLE_AGE_HOURS:.2f} hour(s)"
-            f" (margin {FRESHNESS_SAFETY_MARGIN_MINUTES} min)",
-            flush=True,
-        )
+    print("Discovery:          paginated/cursor; fetch_limit_per_run is a page-size hint")
 
-    published_set = set() if JOBS_MODE else load_published_ids()
-    topic_fingerprints = set() if JOBS_MODE else load_topic_fingerprints()
     category_context = {}
-    if JOBS_MODE:
-        # If durable queue storage is missing/corrupt while discovery cursors
-        # still remember IDs, those IDs would be skipped forever. Reset only
-        # discovery seen/resume state; a valid intentionally-empty queue is left
-        # untouched.
-        queue_storage = article_queue_storage_status()
-        recovery_required = bool(
-            not queue_storage.get("valid")
-            or queue_storage.get("recovery_required")
+    queue_storage = article_queue_storage_status()
+    recovery_required = bool(
+        not queue_storage.get("valid")
+        or queue_storage.get("recovery_required")
+    )
+    if recovery_required:
+        recovery_reason = (
+            queue_storage.get("reason")
+            or "recovery_reset_after_queue_storage_loss"
         )
-        if recovery_required:
-            recovery_reason = (
-                queue_storage.get("reason")
-                or "recovery_reset_after_queue_storage_loss"
-            )
-            recovery = reset_job_discovery_state(
-                reason="recovery_reset_after_queue_storage_loss"
-            )
-            log_event(
-                "job_discovery_state_recovered",
-                queue_reason=recovery_reason,
-                changed_sources=recovery.get("changed_sources", 0),
-                forgotten_ids=recovery.get("forgotten_ids", 0),
-            )
-            print(
-                "Jobs discovery recovery: reset seen IDs/cursors after "
-                f"{recovery_reason}."
-            )
-
-            # A repaired-but-valid empty queue can carry a one-shot recovery
-            # marker. Clear it only after discovery state has been reopened.
-            if queue_storage.get("recovery_required"):
-                recovery_queue = load_article_queue()
-                notifications = recovery_queue.setdefault("notifications", {})
-                notifications.pop("queue_recovery_required", None)
-                notifications.pop("queue_recovery_reason", None)
-                save_article_queue(recovery_queue)
-
-        # Jobs discovery is exhaustive and stateful. Do not route it through
-        # recent-news/category first-valid shortcuts that can hide lower listing
-        # pages or defer whole sources indefinitely.
-        discovery = discover_latest_article_links(enabled_sources)
-    elif CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
-        existing_queue = load_article_queue()
-        category_order = _available_category_labels(enabled_sources)
-        hourly_batch = SAFE_CYCLE_MAX_ARTICLES > 1
-        if hourly_batch:
-            selected_category = "ALL"
-            categories_to_try = list(category_order)
-        else:
-            selected_category, category_order = _select_category_for_this_run(enabled_sources)
-            categories_to_try = [selected_category] if selected_category else []
-
-        discovery = {
-            "checked_sources": 0,
-            "articles": [],
-            "source_results": [],
-            "reason": "no category configured",
-        }
-        all_discovered_articles = []
-        all_source_results = []
-        category_attempts = []
-        for attempt_index, category_label in enumerate(categories_to_try):
-            category_sources = (
-                _sources_for_category(enabled_sources, category_label)
-                if hourly_batch
-                else _rotated_sources_for_category(enabled_sources, category_label)
-            )
-            selected_source = category_sources[0] if category_sources else {}
-            queued_candidates = _category_queue_candidates(category_label)
-            category_discovery = discover_fresh_article_links(
-                category_sources,
-                existing_articles=existing_queue.get("articles", []),
-                published_urls=published_set,
-                published_topic_hashes=topic_fingerprints,
-                process_all_sources=hourly_batch,
-            )
-            category_discovery["articles"] = sorted(
-                category_discovery.get("articles", []),
-                key=_article_published_sort_value,
-                reverse=True,
-            )
-            category_attempts.append(
-                {
-                    "category": category_label,
-                    "sources_checked": category_discovery.get("checked_sources", 0),
-                    "candidates_found": len(category_discovery.get("articles", [])),
-                    "queued_candidates": len(queued_candidates),
-                    "fallback": attempt_index > 0,
-                    "reason": category_discovery.get("reason", ""),
-                }
-            )
-            discovery = category_discovery
-            category_context = {
-                "selected_category": category_label,
-                "primary_category": selected_category,
-                "category_order": category_order,
-                "selected_source_name": str(selected_source.get("name") or ""),
-                "selected_source_url": str(selected_source.get("base_url") or ""),
-                "source_rotation": source_rotation_record(category_label),
-                "category_attempts": category_attempts,
-                "category_fallback_used": attempt_index > 0,
-                "queued_candidates": len(queued_candidates),
-                "queued_candidate_ids": [
-                    article.get("id") for article in queued_candidates if article.get("id")
-                ],
-            }
-            all_discovered_articles.extend(category_discovery.get("articles", []))
-            all_source_results.extend(category_discovery.get("source_results", []))
-            if not hourly_batch and category_discovery.get("articles"):
-                _remember_selected_source(
-                    category_label,
-                    category_discovery.get("articles", [])[0],
-                    available_sources=category_sources,
-                )
-                category_context["source_rotation"] = source_rotation_record(category_label)
-            if hourly_batch:
-                continue
-            if category_discovery.get("articles") or queued_candidates:
-                break
-        if hourly_batch:
-            discovery = {
-                "checked_sources": len(all_source_results),
-                "articles": sorted(
-                    all_discovered_articles,
-                    key=_article_published_sort_value,
-                    reverse=True,
-                ),
-                "source_results": all_source_results,
-                "reason": "" if all_discovered_articles else "no new publishable article under 7 days in configured categories",
-            }
-            category_context.update(
-                {
-                    "selected_category": "ALL",
-                    "primary_category": "ALL",
-                    "category_order": category_order,
-                    "category_attempts": category_attempts,
-                    "category_fallback_used": False,
-                    "queued_candidates": sum(
-                        int(attempt.get("queued_candidates", 0)) for attempt in category_attempts
-                    ),
-                    "queued_candidate_ids": [
-                        article.get("id")
-                        for category_label in category_order
-                        for article in _category_queue_candidates(category_label)
-                        if article.get("id")
-                    ],
-                }
-            )
-    elif FAST_NEWS_MODE and FRESH_QUEUE_MODE:
-        existing_queue = load_article_queue()
-        discovery = discover_fresh_article_links(
-            enabled_sources,
-            existing_articles=existing_queue.get("articles", []),
-            published_urls=published_set,
-            published_topic_hashes=topic_fingerprints,
+        recovery = reset_job_discovery_state(
+            reason="recovery_reset_after_queue_storage_loss"
         )
-    elif FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE:
-        existing_queue = load_article_queue()
-        discovery = discover_first_valid_article_link(
-            enabled_sources,
-            existing_articles=existing_queue.get("articles", []),
-            published_topic_hashes=topic_fingerprints,
+        log_event(
+            "job_discovery_state_recovered",
+            queue_reason=recovery_reason,
+            changed_sources=recovery.get("changed_sources", 0),
+            forgotten_ids=recovery.get("forgotten_ids", 0),
         )
-    else:
-        discovery = discover_latest_article_links(enabled_sources)
-    articles = discovery["articles"] if JOBS_MODE else filter_new_articles(discovery["articles"], published_set)
+        print(
+            "Jobs discovery recovery: reset seen IDs/cursors after "
+            f"{recovery_reason}."
+        )
+
+        # A repaired-but-valid empty queue can carry a one-shot recovery
+        # marker. Clear it only after discovery state has been reopened.
+        if queue_storage.get("recovery_required"):
+            recovery_queue = load_article_queue()
+            notifications = recovery_queue.setdefault("notifications", {})
+            notifications.pop("queue_recovery_required", None)
+            notifications.pop("queue_recovery_reason", None)
+            save_article_queue(recovery_queue)
+
+    # Jobs discovery is exhaustive and stateful. Do not route it through
+    # recent-news/category first-valid shortcuts that can hide lower listing
+    # pages or defer whole sources indefinitely.
+    discovery = discover_latest_article_links(enabled_sources)
+    articles = (discovery["articles"])
     queue_stats = add_articles_to_queue(articles)
     source_results = discovery.get("source_results", [])
     found_by_category = Counter(
@@ -592,8 +258,7 @@ def run_fetch_only():
     print(f"Articles found:           {len(articles)}")
     print(f"New articles added:       {queue_stats['added']}")
     print(f"Duplicates skipped:       {queue_stats['duplicates']}")
-    if JOBS_MODE:
-        print(f"Known stale Jobs rejected:{queue_stats.get('stale_jobs_rejected', 0)}")
+    print(f"Known stale Jobs rejected:{queue_stats.get('stale_jobs_rejected', 0)}")
     print(f"  - Same URL:             {queue_stats['duplicate_url']}")
     print(f"  - Same normalized title:{queue_stats['duplicate_title']}")
     print(f"Total queued articles:    {queue_stats['total_queued']}")
@@ -632,54 +297,6 @@ def run_fetch_only():
     }
 
 
-def reset_runtime_state():
-    reset_targets = [
-        ARTICLE_QUEUE_PATH,
-        ARTICLE_BACKLOG_PATH,
-        PUBLISHED_DB_PATH,
-        CRAWL_STATE_PATH,
-        TOPIC_FINGERPRINTS_PATH,
-        SOURCE_HEALTH_PATH,
-        AUTO_CYCLE_RUN_LOG,
-    ]
-    removed = []
-    for path in reset_targets:
-        try:
-            if path.exists():
-                path.unlink()
-                removed.append(str(path))
-        except OSError:
-            pass
-
-    for pattern in ("latest-*.txt", "latest-*.err.txt", "*.out.log", "*.err.log"):
-        for path in LOGS_DIR.glob(pattern):
-            try:
-                path.unlink()
-                removed.append(str(path))
-            except OSError:
-                pass
-
-    save_crawl_state({"sources": {}})
-    save_topic_fingerprints(set())
-    save_article_queue({"articles": [], "notifications": {}})
-    return {"ok": True, "removed": removed}
-
-
-def run_reset_state_only():
-    result = reset_runtime_state()
-    print("\n" + "=" * 60)
-    print("RESET STATE")
-    print("=" * 60)
-    print(f"Queue reset: {'yes' if ARTICLE_QUEUE_PATH.exists() else 'no'}")
-    print(f"Crawl state reset: {'yes' if CRAWL_STATE_PATH.exists() else 'no'}")
-    print(f"Topic fingerprints reset: {'yes' if TOPIC_FINGERPRINTS_PATH.exists() else 'no'}")
-    print(f"Published IDs reset: {'yes' if not PUBLISHED_DB_PATH.exists() else 'no'}")
-    print(f"Backlog reset: {'yes' if not ARTICLE_BACKLOG_PATH.exists() else 'no'}")
-    print("GitHub Actions cache reset: yes (namespace invalidated in workflow)")
-    print("=" * 60)
-    return result
-
-
 def _find_article_by_id(article_id):
     if not article_id:
         return None
@@ -687,29 +304,6 @@ def _find_article_by_id(article_id):
     for article in queue.get("articles", []):
         if article_id in {article.get("id"), article.get("url")}:
             return article
-    return None
-
-
-def _lock_specific_ready_article(article_url):
-    if not article_url:
-        return None
-    queue = load_article_queue()
-    for article in queue.get("articles", []):
-        if article.get("url") != article_url:
-            continue
-        if article.get("status") != "ready" or article.get("content_fetch_status") != "success":
-            return None
-        article["status"] = "selected"
-        article["selected_at"] = datetime.now().isoformat(timespec="seconds")
-        article["suggested_category"] = normalize_category_label(
-            article.get("suggested_category")
-            or article.get("category_label")
-            or article.get("category_hint")
-            or suggest_category(article)
-        )
-        article["selection_reason"] = "first valid article fast mode"
-        save_article_queue(queue)
-        return article
     return None
 
 
@@ -775,234 +369,27 @@ def _effective_publish_mode():
 
 
 def _effective_action():
-    if (
-        not SAFE_MODE
-        and PUBLISH_MODE == "live"
-        and FAST_NEWS_MODE
-        and CATEGORY_ROTATION_MODE
-        and PROCESS_FULL_CATEGORY_PER_RUN
-        and RECENT_NEWS_ONLY
-    ):
-        if SAFE_CYCLE_MAX_ARTICLES > 1:
-            return "LIVE_HOURLY_CATEGORY_BATCH"
-        return "LIVE_CATEGORY_ROTATION"
-    if (
-        not SAFE_MODE
-        and PUBLISH_MODE == "live"
-        and FAST_NEWS_MODE
-        and FRESH_QUEUE_MODE
-        and not FIRST_VALID_ARTICLE_MODE
-        and RECENT_NEWS_ONLY
-    ):
-        return "LIVE_FRESH_QUEUE"
-    if (
-        not SAFE_MODE
-        and PUBLISH_MODE == "live"
-        and FAST_NEWS_MODE
-        and FIRST_VALID_ARTICLE_MODE
-        and RECENT_NEWS_ONLY
-    ):
-        return "LIVE_FAST_RECENT_NEWS"
     if SAFE_MODE:
         return "DRAFT"
-    if PUBLISH_MODE == "live":
-        return "LIVE"
-    return "FETCH_ONLY" if PUBLISH_MODE == "fetch-only" else "DRAFT"
+    return "LIVE" if PUBLISH_MODE == "live" else "FETCH_ONLY" if PUBLISH_MODE == "fetch-only" else "DRAFT"
 
 
 def print_startup_config():
-    print("\n" + "=" * 60, flush=True)
-    print("STARTUP CONFIG", flush=True)
-    print("=" * 60, flush=True)
-    print(f"SAFE_MODE:                      {str(SAFE_MODE).lower()}", flush=True)
-    print(f"PUBLISH_MODE:                   {PUBLISH_MODE}", flush=True)
-    print(f"FAST_NEWS_MODE:                 {str(FAST_NEWS_MODE).lower()}", flush=True)
-    print(f"CATEGORY_ROTATION_MODE:         {str(CATEGORY_ROTATION_MODE).lower()}", flush=True)
-    print(f"PROCESS_FULL_CATEGORY_PER_RUN:  {str(PROCESS_FULL_CATEGORY_PER_RUN).lower()}", flush=True)
-    print(f"FRESH_QUEUE_MODE:               {str(FRESH_QUEUE_MODE).lower()}", flush=True)
-    print(f"FIRST_VALID_ARTICLE_MODE:       {str(FIRST_VALID_ARTICLE_MODE).lower()}", flush=True)
-    print(f"RECENT_NEWS_ONLY:               {str(RECENT_NEWS_ONLY).lower()}", flush=True)
-    print(f"RECENT_NEWS_MAX_AGE_HOURS:      {RECENT_NEWS_MAX_AGE_HOURS}", flush=True)
-    print(f"FRESHNESS_SAFETY_MARGIN_MINUTES:{FRESHNESS_SAFETY_MARGIN_MINUTES}", flush=True)
-    print(f"MAX_AI_ARTICLE_AGE_HOURS:       {MAX_AI_ARTICLE_AGE_HOURS:.2f}", flush=True)
-    print(f"ALLOW_UNKNOWN_DATE_IN_FAST_MODE:{str(ALLOW_UNKNOWN_DATE_IN_FAST_MODE).lower()}", flush=True)
-    print(f"MAX_SOURCES_PER_RUN:            {MAX_SOURCES_PER_RUN}", flush=True)
-    print(f"SOURCE_TIMEOUT_SECONDS:         {SOURCE_TIMEOUT_SECONDS}", flush=True)
-    print(f"Effective action:               {_effective_action()}", flush=True)
-    print("=" * 60, flush=True)
-
-
-def _select_oldest_fresh_ready_article():
-    candidates = get_fresh_queue_candidates(statuses={"ready", "selected"})
-    if not candidates:
-        return None
-
-    candidate = candidates[0]
-    if candidate.get("status") != "selected":
-        queue = load_article_queue()
-        for article in queue.get("articles", []):
-            if article.get("id") != candidate.get("id"):
-                continue
-            article["status"] = "selected"
-            article["selected_at"] = datetime.now().isoformat(timespec="seconds")
-            article["suggested_category"] = normalize_category_label(
-                article.get("suggested_category")
-                or article.get("category_label")
-                or article.get("category_hint")
-                or suggest_category(article)
-            )
-            article["selection_reason"] = "oldest fresh queued article"
-            candidate = article
-            break
-        save_article_queue(queue)
-    return candidate
-
-
-def _select_newest_fresh_ready_article(category_label="", preferred_ids=None):
-    candidates = get_fresh_queue_candidates(statuses={"ready", "selected"})
-    if category_label:
-        candidates = [
-            article
-            for article in candidates
-        if normalize_category_label(
-            article.get("suggested_category")
-            or article.get("category_label")
-            or article.get("category_hint")
-        )
-        == category_label
-        ]
-    if not candidates:
-        return None
-
-    preferred_ids = {item for item in (preferred_ids or []) if item}
-    if preferred_ids:
-        preferred_candidates = [
-            article for article in candidates if article.get("id") in preferred_ids
-        ]
-        if preferred_candidates:
-            candidates = preferred_candidates
-
-    source_record = source_rotation_record(category_label) if category_label else {}
-    last_source = str(source_record.get("last_source_key") or "").strip()
-    candidates = sorted(candidates, key=_article_published_sort_value, reverse=True)
-    if last_source and len(candidates) > 1:
-        candidates = sorted(
-            candidates,
-            key=lambda article: 1 if str(article.get("source_url") or "").strip() == last_source else 0,
-        )
-    candidate = candidates[0]
-    queue = load_article_queue()
-    for article in queue.get("articles", []):
-        if article.get("id") != candidate.get("id"):
-            continue
-        if article.get("status") != "selected":
-            article["status"] = "selected"
-            article["selected_at"] = datetime.now().isoformat(timespec="seconds")
-        article["suggested_category"] = (
-            normalize_category_label(article.get("suggested_category"))
-            or article.get("category_label")
-            or article.get("category_hint")
-            or suggest_category(article)
-        )
-        article["suggested_category"] = normalize_category_label(article["suggested_category"])
-        article["selection_reason"] = (
-            f"category rotation newest fresh article: {category_label}"
-            if category_label
-            else "category rotation newest fresh article"
-        )
-        candidate = article
-        break
-    save_article_queue(queue)
-    if category_label and candidate:
-        _remember_selected_source(
-            category_label,
-            candidate,
-            available_sources=_sources_for_category(load_sources(), category_label),
-        )
-    return candidate
+    print("Jobs-only publishing pipeline", flush=True)
+    print(f"Publishing mode: {_effective_action()}", flush=True)
+    print(f"Verified publication age: at most {JOBS_MAX_PUBLISH_AGE_HOURS} hours", flush=True)
+    print(f"Sources per pass: {MAX_SOURCES_PER_RUN or 'all'}", flush=True)
+    print("Discovery → verified job → Blogger → Facebook queue", flush=True)
 
 
 def _category_label_for_article(article):
-    return normalize_category_label(
-        article.get("suggested_category")
-        or article.get("category_label")
-        or article.get("category_hint")
-        or suggest_category(article)
-    )
-
-
-def _hour_start(now=None):
-    now = now or datetime.now()
-    return now.replace(minute=0, second=0, microsecond=0)
-
-
-def _published_hourly_counts(now=None):
-    hour_start = _hour_start(now)
-    total = 0
-    by_category = Counter()
-    by_category_source = defaultdict(Counter)
-    queue = load_article_queue()
-    for article in queue.get("articles", []):
-        if article.get("publish_status") != "published" and article.get("status") != "published":
-            continue
-        published_at = _parse_local_datetime(article.get("published_at"))
-        if published_at and published_at.tzinfo is not None:
-            published_at = published_at.astimezone().replace(tzinfo=None)
-        if not published_at or published_at < hour_start:
-            continue
-        category = _category_label_for_article(article)
-        source_name = str(article.get("source_name") or "").strip()
-        total += 1
-        by_category[category] += 1
-        if source_name:
-            by_category_source[category][source_name] += 1
-    return {
-        "hour_start": hour_start,
-        "total": total,
-        "by_category": dict(by_category),
-        "by_category_source": {
-            category: dict(source_counts)
-            for category, source_counts in by_category_source.items()
-        },
-    }
-
-
-def _lock_hourly_candidate(category_label, used_article_ids=None, used_sources=None):
-    used_article_ids = set(used_article_ids or [])
-    used_sources = set(used_sources or [])
-    candidates = [
-        article
-        for article in get_fresh_queue_candidates(statuses={"ready", "selected"})
-        if article.get("id") not in used_article_ids
-        and _category_label_for_article(article) == category_label
-    ]
-    if not candidates:
-        return None
-
-    candidates = sorted(candidates, key=_article_published_sort_value, reverse=True)
-    candidates = sorted(
-        candidates,
-        key=lambda article: 1 if str(article.get("source_name") or "") in used_sources else 0,
-    )
-    candidate = candidates[0]
-    queue = load_article_queue()
-    for article in queue.get("articles", []):
-        if article.get("id") != candidate.get("id"):
-            continue
-        article["status"] = "selected"
-        article["selected_at"] = datetime.now().isoformat(timespec="seconds")
-        article["suggested_category"] = category_label
-        article["selection_reason"] = f"hourly category batch: {category_label}"
-        candidate = article
-        break
-    save_article_queue(queue)
-    return candidate
+    return str(article.get("category_label") or article.get("category_hint") or "jobs").strip()
 
 
 def get_publish_schedule_status(mode=None, now=None):
     publish_mode = "live" if (mode or _effective_publish_mode()) == "live" else "draft"
     now = now or datetime.now()
-    if JOBS_MODE and publish_mode == "live":
+    if publish_mode == 'live':
         snapshot = job_status_snapshot(now)
         return {
             "configured_publish_mode": PUBLISH_MODE,
@@ -1254,12 +641,6 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
     }
 
 
-
-
-
-
-
-
 RUNTIME_STATE_PATHS = (
     ARTICLE_QUEUE_PATH,
     CRAWL_STATE_PATH,
@@ -1349,7 +730,7 @@ def run_auto_cycle_logged():
         # The independent Facebook queue still drains when discovery/AI fails.
         # Queue priority (deadline/urgency/score/FIFO) decides which pending
         # Blogger article is promoted; social errors never fail Blogger work.
-        if JOBS_MODE and FACEBOOK_AUTO_POST and _effective_publish_mode() == "live":
+        if FACEBOOK_AUTO_POST and _effective_publish_mode() == 'live':
             try:
                 social = drain_scheduled_facebook()
             except Exception as social_error:
@@ -1371,13 +752,12 @@ def run_auto_cycle_logged():
             error=error,
         )
         print(f"Finished in {execution_seconds:.2f} seconds", flush=True)
-        if JOBS_MODE:
-            try:
-                adaptive_policy = record_jobs_cycle_result(result or {}, error=error or "")
-                if isinstance(result, dict):
-                    result["adaptive_policy"] = adaptive_policy
-            except Exception as adaptive_error:
-                log_event("jobs_adaptive_state_warning", reason=adaptive_error.__class__.__name__)
+        try:
+            adaptive_policy = record_jobs_cycle_result(result or {}, error=error or "")
+            if isinstance(result, dict):
+                result["adaptive_policy"] = adaptive_policy
+        except Exception as adaptive_error:
+            log_event("jobs_adaptive_state_warning", reason=adaptive_error.__class__.__name__)
         runtime_state_result = save_runtime_state_to_git()
         if isinstance(result, dict):
             result["runtime_state"] = runtime_state_result
@@ -1466,7 +846,7 @@ def run_24h_status_only():
         if article.get("status") in {"ready", "selected"}
         and article.get("content_fetch_status") == "success"
     ]
-    plan = plan_next_article(lock=False)
+    plan = run_plan_next_only(lock=False)
     next_article = plan.get("selected")
     publish_next = publish_status.get("next_allowed_time")
     facebook_next = facebook_limits.get("next_allowed_time")
@@ -1516,7 +896,7 @@ def run_queue_maintenance_only():
     Records are not permanently deleted.
     """
     stats = maintain_article_queue(days=7)
-    memory_stats = maintain_job_memory() if JOBS_MODE else {}
+    memory_stats = (maintain_job_memory())
 
     print("\n" + "=" * 60)
     print("QUEUE MAINTENANCE SUMMARY")
@@ -1642,11 +1022,6 @@ def run_facebook_limits_status_only():
     return status
 
 
-
-
-
-
-
 def print_facebook_preview(preview):
     print("\n" + "=" * 60)
     print("PHASE 13 FACEBOOK PREVIEW")
@@ -1722,265 +1097,29 @@ def _json_file_valid(path):
 
 
 def run_deployment_check_only():
-    """
-    Read-only deployment validation for GitHub Actions setup.
-    Never prints secret values.
-    """
-    print("\n" + "=" * 60)
-    print("DEPLOYMENT CHECK")
-    print("=" * 60)
-
-    ai_provider = str(os.getenv("AI_PROVIDER", "auto")).strip().lower()
-    publish_mode = str(os.getenv("PUBLISH_MODE", PUBLISH_MODE)).strip().lower()
-    facebook_auto_post = _effective_bool_env("FACEBOOK_AUTO_POST", FACEBOOK_AUTO_POST)
-    fast_news_mode = _effective_bool_env("FAST_NEWS_MODE", FAST_NEWS_MODE)
-    category_rotation_mode = _effective_bool_env("CATEGORY_ROTATION_MODE", CATEGORY_ROTATION_MODE)
-    process_full_category = _effective_bool_env("PROCESS_FULL_CATEGORY_PER_RUN", PROCESS_FULL_CATEGORY_PER_RUN)
-    fresh_queue_mode = _effective_bool_env("FRESH_QUEUE_MODE", FRESH_QUEUE_MODE)
-    first_valid_mode = _effective_bool_env("FIRST_VALID_ARTICLE_MODE", FIRST_VALID_ARTICLE_MODE)
-    recent_news_only = _effective_bool_env("RECENT_NEWS_ONLY", RECENT_NEWS_ONLY)
-    allow_unknown_date = _effective_bool_env("ALLOW_UNKNOWN_DATE_IN_FAST_MODE", ALLOW_UNKNOWN_DATE_IN_FAST_MODE)
-    first_run_lookback_raw = _effective_raw_env("FALLBACK_FIRST_RUN_LOOKBACK_HOURS", FALLBACK_FIRST_RUN_LOOKBACK_HOURS)
-    crawl_interval_raw = _effective_raw_env("CRAWL_INTERVAL_MINUTES", CRAWL_INTERVAL_MINUTES)
-    crawl_overlap_raw = _effective_raw_env("CRAWL_OVERLAP_MINUTES", CRAWL_OVERLAP_MINUTES)
-    recent_hours_raw = _effective_raw_env("RECENT_NEWS_MAX_AGE_HOURS", RECENT_NEWS_MAX_AGE_HOURS)
-    freshness_margin_raw = _effective_raw_env("FRESHNESS_SAFETY_MARGIN_MINUTES", FRESHNESS_SAFETY_MARGIN_MINUTES)
-    max_posts_raw = _effective_raw_env("MAX_POSTS_PER_RUN", MAX_POSTS_PER_RUN)
-    max_articles_raw = _effective_raw_env("MAX_ARTICLES_PER_RUN", MAX_ARTICLES_PER_RUN)
-    max_sources_raw = _effective_raw_env("MAX_SOURCES_PER_RUN", MAX_SOURCES_PER_RUN)
-    safe_cycle_max_raw = _effective_raw_env("SAFE_CYCLE_MAX_ARTICLES", SAFE_CYCLE_MAX_ARTICLES)
-    category_posts_raw = _effective_raw_env("CATEGORY_POSTS_PER_HOUR", CATEGORY_POSTS_PER_HOUR)
-    hourly_limit_raw = _effective_raw_env("HOURLY_POST_LIMIT", HOURLY_POST_LIMIT)
-    target_live_posts_raw = _effective_raw_env("TARGET_LIVE_POSTS_PER_DAY", TARGET_LIVE_POSTS_PER_DAY)
-    try:
-        workflow_text = AUTO_CYCLE_WORKFLOW_PATH.read_text(encoding="utf-8-sig")
-    except OSError:
-        workflow_text = ""
-    try:
-        requirements_text = Path("requirements.txt").read_text(encoding="utf-8")
-    except OSError:
-        requirements_text = ""
-    required_env = [
-        "BLOG_ID",
-    ]
-    if publish_mode == "live" and facebook_auto_post:
-        required_env.extend(["FACEBOOK_PAGE_ID", "FACEBOOK_PAGE_ACCESS_TOKEN"])
-    if ai_provider == "gemini":
-        required_env.append("GEMINI_API_KEY")
-    elif ai_provider == "openrouter":
-        required_env.append("OPENROUTER_API_KEY")
-    elif ai_provider == "openai":
-        required_env.append("OPENAI_API_KEY")
-    else:
-        required_env.extend(["GEMINI_API_KEY", "OPENROUTER_API_KEY"])
-    missing = [name for name in required_env if not _env_present(name)]
-    if ai_provider == "auto":
-        has_any_ai_key = any(
-            _env_present(name)
-            for name in ("GEMINI_API_KEY", "OPENROUTER_API_KEY")
-        )
-        missing = [
-            name
-            for name in missing
-            if name not in {"GEMINI_API_KEY", "OPENROUTER_API_KEY"}
-        ]
-        if not has_any_ai_key:
-            missing.append("GEMINI_API_KEY or OPENROUTER_API_KEY")
-
-    print("Required environment variables:")
-    for name in required_env:
-        if ai_provider == "auto" and name in {"GEMINI_API_KEY", "OPENROUTER_API_KEY"}:
-            status = "present" if _env_present(name) else "optional-missing"
-        else:
-            status = "present" if name not in missing else "MISSING"
-        print(f"  - {name}: {status}")
-    print(f"AI_PROVIDER: {ai_provider}")
-
-    print(f".env required in GitHub Actions: no")
-    print(f".env file currently present: {'yes' if Path('.env').exists() else 'no'}")
-
-    client_env_ok, client_env_status = _json_env_valid("BLOGGER_CLIENT_SECRET_JSON")
-    token_env_ok, token_env_status = _json_env_valid("BLOGGER_TOKEN_JSON")
-    client_file_ok, client_file_status = _json_file_valid("client_secret.json")
-    token_file_ok, token_file_status = _json_file_valid(Path("data") / "token.json")
-
-    print("Blogger OAuth material:")
-    print(f"  - BLOGGER_CLIENT_SECRET_JSON: {client_env_status}")
-    print(f"  - BLOGGER_TOKEN_JSON: {token_env_status}")
-    print(f"  - client_secret.json fallback: {client_file_status}")
-    print(f"  - data/token.json fallback: {token_file_status}")
-
-    publish_mode_safe = publish_mode in {"draft", "live"}
-    print(f"PUBLISH_MODE: {publish_mode if publish_mode else 'MISSING'}")
-    print(f"PUBLISH_MODE value safe: {'yes' if publish_mode_safe else 'no'}")
-    safe_mode_env = _effective_bool_env("SAFE_MODE", SAFE_MODE)
-    print(f"SAFE_MODE: {'true' if safe_mode_env else 'false'}")
-    print(f"FAST_NEWS_MODE: {'true' if fast_news_mode else 'false'}")
-    print(f"CATEGORY_ROTATION_MODE: {'true' if category_rotation_mode else 'false'}")
-    print(f"PROCESS_FULL_CATEGORY_PER_RUN: {'true' if process_full_category else 'false'}")
-    print(f"FRESH_QUEUE_MODE: {'true' if fresh_queue_mode else 'false'}")
-    print(f"FIRST_VALID_ARTICLE_MODE: {'true' if first_valid_mode else 'false'}")
-    print(f"RECENT_NEWS_ONLY: {'true' if recent_news_only else 'false'}")
-    print(f"RECENT_NEWS_MAX_AGE_HOURS: {recent_hours_raw or 'MISSING'}")
-    print(f"FRESHNESS_SAFETY_MARGIN_MINUTES: {freshness_margin_raw or 'MISSING'}")
-    print(f"MAX_AI_ARTICLE_AGE_HOURS: {MAX_AI_ARTICLE_AGE_HOURS:.2f}")
-    print(f"FALLBACK_FIRST_RUN_LOOKBACK_HOURS: {first_run_lookback_raw or 'MISSING'}")
-    print(f"CRAWL_INTERVAL_MINUTES: {crawl_interval_raw or 'MISSING'}")
-    print(f"CRAWL_OVERLAP_MINUTES: {crawl_overlap_raw or 'MISSING'}")
-    print(f"ALLOW_UNKNOWN_DATE_IN_FAST_MODE: {'true' if allow_unknown_date else 'false'}")
-    print(f"MAX_POSTS_PER_RUN: {max_posts_raw or 'MISSING'}")
-    print(f"MAX_ARTICLES_PER_RUN: {max_articles_raw or 'MISSING'}")
-    print(f"MAX_SOURCES_PER_RUN: {max_sources_raw or 'MISSING'}")
-    print(f"SAFE_CYCLE_MAX_ARTICLES: {safe_cycle_max_raw or 'MISSING'}")
-    print(f"CATEGORY_POSTS_PER_HOUR: {category_posts_raw or 'MISSING'}")
-    print(f"HOURLY_POST_LIMIT: {hourly_limit_raw or 'MISSING'}")
-    print(f"TARGET_LIVE_POSTS_PER_DAY: {target_live_posts_raw or 'MISSING'}")
-    workflow_schedule = _workflow_schedule()
-    print(f"GitHub Actions workflow: {'present' if AUTO_CYCLE_WORKFLOW_PATH.exists() else 'missing'}")
-    print(f"GitHub Actions schedule: {workflow_schedule or 'MISSING'}")
-    print(f"GitHub Actions concurrency: {'safe' if 'group: auto-cycle-${{ github.ref }}' in workflow_text and 'cancel-in-progress: false' in workflow_text else 'needs attention'}")
-    print(f"GitHub Actions permissions: {'actions+contents write' if 'actions: write' in workflow_text and 'contents: write' in workflow_text else 'needs attention'}")
-    print(f"GitHub Actions job timeout: {'15 minutes' if 'timeout-minutes: 15' in workflow_text else 'needs attention'}")
-    print(f"GitHub Actions auto-cycle timeout: {'10 minutes' if 'Run auto cycle' in workflow_text and 'timeout-minutes: 10' in workflow_text else 'needs attention'}")
-    print(f"GitHub Actions self-trigger: {'present' if 'Self trigger next run' in workflow_text and 'self_trigger' in workflow_text and '/dispatches' in workflow_text else 'missing'}")
-    print(f"FACEBOOK_AUTO_POST: {'true' if facebook_auto_post else 'false'}")
-    print("FACEBOOK_AUTO_POST value safe: yes")
-    workflow_installs_requirements = "pip install -r requirements.txt" in workflow_text
-    pillow_declared = bool(re.search(r"(?im)^\s*Pillow\b", requirements_text))
-    pillow_import_available = importlib.util.find_spec("PIL") is not None
-    print("Facebook image generation:")
-    print(f"  - workflow installs requirements.txt: {'yes' if workflow_installs_requirements else 'no'}")
-    print(f"  - Pillow declared in requirements.txt: {'yes' if pillow_declared else 'no'}")
-    print(f"  - Pillow import available now: {'yes' if pillow_import_available else 'no'}")
-    print(f"  - template asset present: {'yes' if FACEBOOK_IMAGE_TEMPLATE_PATH.exists() else 'optional-missing'}")
-    print(f"  - fallback image asset present: {'yes' if FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH.exists() else 'generated fallback will be used'}")
-
-    limit_names = [
-        "SAFE_CYCLE_MAX_ARTICLES",
-        "CATEGORY_POSTS_PER_HOUR",
-        "HOURLY_POST_LIMIT",
-        "MAX_DRAFTS_PER_DAY",
-        "MIN_MINUTES_BETWEEN_DRAFTS",
-        "MAX_LIVE_POSTS_PER_DAY",
-        "TARGET_LIVE_POSTS_PER_DAY",
-        "MIN_MINUTES_BETWEEN_LIVE_POSTS",
-        "MAX_FACEBOOK_POSTS_PER_DAY",
-        "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS",
-    ]
-    effective_limit_values = {
-        "SAFE_CYCLE_MAX_ARTICLES": safe_cycle_max_raw,
-        "CATEGORY_POSTS_PER_HOUR": category_posts_raw,
-        "HOURLY_POST_LIMIT": hourly_limit_raw,
-        "MAX_DRAFTS_PER_DAY": _effective_raw_env("MAX_DRAFTS_PER_DAY", MAX_DRAFTS_PER_DAY),
-        "MIN_MINUTES_BETWEEN_DRAFTS": _effective_raw_env("MIN_MINUTES_BETWEEN_DRAFTS", MIN_MINUTES_BETWEEN_DRAFTS),
-        "MAX_LIVE_POSTS_PER_DAY": _effective_raw_env("MAX_LIVE_POSTS_PER_DAY", MAX_LIVE_POSTS_PER_DAY),
-        "TARGET_LIVE_POSTS_PER_DAY": target_live_posts_raw,
-        "MIN_MINUTES_BETWEEN_LIVE_POSTS": _effective_raw_env("MIN_MINUTES_BETWEEN_LIVE_POSTS", MIN_MINUTES_BETWEEN_LIVE_POSTS),
-        "MAX_FACEBOOK_POSTS_PER_DAY": _effective_raw_env("MAX_FACEBOOK_POSTS_PER_DAY", get_facebook_limits_status().get("max_facebook_posts_per_day", "")),
-        "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS": _effective_raw_env("MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", get_facebook_limits_status().get("min_minutes_between_facebook_posts", "")),
-    }
-    missing_limits = [name for name in limit_names if not str(effective_limit_values.get(name, "")).strip()]
-    print("Safety limits:")
-    for name in limit_names:
-        print(f"  - {name}: {'present' if name not in missing_limits else 'MISSING'}")
-
-    warnings = []
-    errors = []
-    if missing:
-        errors.append("Missing required env var(s): " + ", ".join(missing))
-    if not (client_env_ok or client_file_ok):
-        errors.append("Missing or invalid Blogger client secret JSON source.")
-    if not (token_env_ok or token_file_ok):
-        errors.append("Missing or invalid Blogger token JSON source.")
-    if not publish_mode_safe:
-        errors.append("PUBLISH_MODE must be draft or live.")
-    if publish_mode == "live" and facebook_auto_post and missing_limits:
-        errors.append("Live Blogger plus Facebook requires all rate-limit variables.")
-    if facebook_auto_post:
-        if not workflow_installs_requirements:
-            errors.append("GitHub Actions must install dependencies with pip install -r requirements.txt before running the bot.")
-        if not pillow_declared:
-            errors.append("Facebook image generation requires Pillow in requirements.txt.")
-    if publish_mode == "live":
-        warnings.append("PUBLISH_MODE is live. Confirm this is intentional before scheduling.")
-        if safe_mode_env:
-            errors.append("PUBLISH_MODE=live requires SAFE_MODE=false.")
-        if not fast_news_mode:
-            errors.append("Live automation requires FAST_NEWS_MODE=true.")
-        if not category_rotation_mode:
-            errors.append("Live automation requires CATEGORY_ROTATION_MODE=true.")
-        if not process_full_category:
-            errors.append("Live automation requires PROCESS_FULL_CATEGORY_PER_RUN=true.")
-        if fresh_queue_mode:
-            warnings.append("FRESH_QUEUE_MODE=true scans a queue; fastest live mode uses FIRST_VALID_ARTICLE_MODE=true.")
-        if not recent_news_only:
-            errors.append("Live automation requires RECENT_NEWS_ONLY=true.")
-        if allow_unknown_date:
-            errors.append("Live automation requires ALLOW_UNKNOWN_DATE_IN_FAST_MODE=false.")
-        if recent_hours_raw != "2":
-            errors.append("Live automation requires RECENT_NEWS_MAX_AGE_HOURS=2.")
-        if freshness_margin_raw != "10":
-            errors.append("Live automation requires FRESHNESS_SAFETY_MARGIN_MINUTES=10.")
-        if max_sources_raw != "4":
-            errors.append("Quota-optimized live automation requires MAX_SOURCES_PER_RUN=4.")
-        if first_run_lookback_raw != "6":
-            errors.append("Live automation requires FALLBACK_FIRST_RUN_LOOKBACK_HOURS=6.")
-        if crawl_interval_raw != "5":
-            errors.append("Live automation requires CRAWL_INTERVAL_MINUTES=5.")
-        if crawl_overlap_raw != "10":
-            errors.append("Live automation requires CRAWL_OVERLAP_MINUTES=10.")
-        if effective_limit_values["MAX_LIVE_POSTS_PER_DAY"] != "20":
-            errors.append("Quota-optimized live automation requires MAX_LIVE_POSTS_PER_DAY=20.")
-        if effective_limit_values["TARGET_LIVE_POSTS_PER_DAY"] != "12":
-            errors.append("Quota-optimized live automation requires TARGET_LIVE_POSTS_PER_DAY=12.")
-        if effective_limit_values["MIN_MINUTES_BETWEEN_LIVE_POSTS"] != "0":
-            errors.append("Quota-optimized live automation requires MIN_MINUTES_BETWEEN_LIVE_POSTS=0.")
-        if effective_limit_values["MAX_FACEBOOK_POSTS_PER_DAY"] != "20":
-            errors.append("Quota-optimized live automation requires MAX_FACEBOOK_POSTS_PER_DAY=20.")
-        if effective_limit_values["MIN_MINUTES_BETWEEN_FACEBOOK_POSTS"] != "0":
-            errors.append("Live automation requires MIN_MINUTES_BETWEEN_FACEBOOK_POSTS=0.")
-        if max_posts_raw != "1" or max_articles_raw != "1" or safe_cycle_max_raw != "1":
-            errors.append("Quota-optimized automation requires MAX_POSTS_PER_RUN=1, MAX_ARTICLES_PER_RUN=1, and SAFE_CYCLE_MAX_ARTICLES=1.")
-        if not AUTO_CYCLE_WORKFLOW_PATH.exists():
-            errors.append("Missing .github/workflows/auto-cycle.yml.")
-        elif workflow_schedule != "*/15 * * * *":
-            errors.append("GitHub Actions schedule must be */15 * * * *.")
-        if "workflow_dispatch:" not in workflow_text:
-            errors.append("GitHub Actions workflow_dispatch must remain enabled.")
-        if "group: auto-cycle-${{ github.ref }}" not in workflow_text:
-            errors.append("GitHub Actions concurrency group must be auto-cycle-${{ github.ref }}.")
-        if "cancel-in-progress: false" not in workflow_text:
-            errors.append("GitHub Actions cancel-in-progress must be false.")
-        if "actions: write" not in workflow_text or "contents: write" not in workflow_text:
-            errors.append("GitHub Actions permissions must include actions: write and contents: write.")
-        if "timeout-minutes: 15" not in workflow_text:
-            errors.append("GitHub Actions job timeout must be 15 minutes.")
-        if "Run auto cycle" not in workflow_text or "timeout-minutes: 10" not in workflow_text:
-            errors.append("GitHub Actions auto-cycle step timeout must be 10 minutes.")
-        if "Self trigger next run" not in workflow_text or "self_trigger" not in workflow_text or "/dispatches" not in workflow_text:
-            errors.append("GitHub Actions workflow must include the self-trigger dispatch step.")
-        if "branches:" in workflow_text:
-            errors.append("GitHub Actions workflow must not restrict scheduled runs away from main.")
-    if facebook_auto_post:
-        warnings.append("FACEBOOK_AUTO_POST is true. Confirm Facebook limits before scheduling.")
-    if Path(".env").exists():
-        warnings.append(".env exists locally; ensure it is never committed.")
-
-    if warnings:
-        print("Warnings:")
-        for warning in warnings:
-            print(f"  - {warning}")
-
-    if errors:
-        print("Result: FAILED")
-        for error in errors:
-            print(f"  - {error}")
-        print("=" * 60)
-        return {"ok": False, "errors": errors, "warnings": warnings}
-
-    print("Result: OK")
-    print("=" * 60)
-    return {"ok": True, "errors": [], "warnings": warnings}
+    """Check the actual Jobs deployment without network requests or secret output."""
+    errors, warnings = [], []
+    provider_names = ("GEMINI_API_KEY", "GROQ_API_KEY", "OPENROUTER_API_KEY", "MISTRAL_API_KEY", "CLOUDFLARE_API_TOKEN")
+    if not any(_env_present(name) for name in provider_names):
+        warnings.append("No AI key found locally; GitHub Actions injects its configured secrets at runtime.")
+    for name in ("BLOGGER_CLIENT_SECRET_JSON", "BLOGGER_TOKEN_JSON"):
+        if _env_present(name) and not _json_env_valid(name)[0]:
+            errors.append(f"{name} is invalid JSON.")
+    workflow = Path(__file__).parent / ".github/workflows/auto-cycle.yml"
+    text = workflow.read_text(encoding="utf-8") if workflow.exists() else ""
+    for required in ("workflow_dispatch:", "jobs-production-refs/heads/main", "cancel-in-progress: false", "Continue production cycle directly", "Persist Jobs runtime state"):
+        if required not in text:
+            errors.append(f"Production workflow missing {required}.")
+    if ARTICLE_QUEUE_PATH.name != "jobs_article_queue.json":
+        errors.append("Only the durable Jobs queue may be used.")
+    if not load_sources():
+        errors.append("No Jobs sources configured.")
+    print("Deployment: Jobs only; runtime credentials supplied by GitHub Actions.")
+    for message in warnings:
+        print("Warning: " + message)
+    for message in errors:
+        print("Error: " + message)
+    return {"ok": not errors, "errors": errors, "warnings": warnings}
 
 
 def print_facebook_post_summary(result):
@@ -2110,19 +1249,7 @@ def _record_successful_publish(article):
     if not article or article.get("publish_status") != "published":
         return
 
-    if JOBS_MODE:
-        record_job_publish(article)
-    else:
-        published_set = load_published_ids()
-        mark_many_as_published([article.get("url") or article.get("canonical_url")], published_set)
-        add_topic_fingerprint(
-            topic_signature(
-                article.get("seo_title")
-                or article.get("fetched_title")
-                or article.get("title")
-                or ""
-            )
-        )
+    record_job_publish(article)
 
     archive_published_queue_article(
         article_id=article.get("id", ""),
@@ -2185,57 +1312,46 @@ def _mark_candidate_failure_for_retry(article, stage, reason):
 def _select_retry_candidate(fetch_stats, attempted_ids):
     attempted_ids = {item for item in (attempted_ids or set()) if item}
     selected = None
-    if JOBS_MODE:
-        resolve_identity_pending_articles()
-        queue = load_article_queue()
-        candidate_articles = [
-            article for article in queue.get("articles", [])
-            if (article.get("id") or article.get("url")) not in attempted_ids
-        ]
-        if _jobs_one_shot_force_run():
-            candidate_articles = _jobs_one_shot_candidate_articles(
-                queue.get("articles", []),
-                attempted_ids=attempted_ids,
-            )
-        candidates = {"articles": candidate_articles}
-        selected = select_best_job_from_queue(candidates)
-        save_article_queue(queue)
-        if not selected:
-            pending_stats = resolve_identity_pending_articles()
-            if pending_stats.get("resolved_ready"):
-                queue = load_article_queue()
-                candidate_articles = [
-                    article for article in queue.get("articles", [])
-                    if (article.get("id") or article.get("url")) not in attempted_ids
-                ]
-                if _jobs_one_shot_force_run():
-                    candidate_articles = _jobs_one_shot_candidate_articles(
-                        queue.get("articles", []),
-                        attempted_ids=attempted_ids,
-                    )
-                candidates = {"articles": candidate_articles}
-                selected = select_best_job_from_queue(candidates)
-                save_article_queue(queue)
-        if selected:
-            queue = load_article_queue()
-            for article in queue.get("articles", []):
-                if (article.get("id") or article.get("url")) != (selected.get("id") or selected.get("url")):
-                    continue
-                article["status"] = "selected"
-                article["selected_at"] = datetime.now().isoformat(timespec="seconds")
-                selected = article
-                break
-            save_article_queue(queue)
-    elif CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
-        selected = _select_newest_fresh_ready_article(
-            fetch_stats.get("selected_category", ""),
-            preferred_ids=fetch_stats.get("queued_candidate_ids", []),
+    resolve_identity_pending_articles()
+    queue = load_article_queue()
+    candidate_articles = [
+        article for article in queue.get("articles", [])
+        if (article.get("id") or article.get("url")) not in attempted_ids
+    ]
+    if _jobs_one_shot_force_run():
+        candidate_articles = _jobs_one_shot_candidate_articles(
+            queue.get("articles", []),
+            attempted_ids=attempted_ids,
         )
-    elif FAST_NEWS_MODE and FRESH_QUEUE_MODE:
-        selected = _select_oldest_fresh_ready_article()
-    elif not (FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE):
-        plan_result = run_plan_next_only(lock=True)
-        selected = plan_result.get("selected")
+    candidates = {"articles": candidate_articles}
+    selected = select_best_job_from_queue(candidates)
+    save_article_queue(queue)
+    if not selected:
+        pending_stats = resolve_identity_pending_articles()
+        if pending_stats.get("resolved_ready"):
+            queue = load_article_queue()
+            candidate_articles = [
+                article for article in queue.get("articles", [])
+                if (article.get("id") or article.get("url")) not in attempted_ids
+            ]
+            if _jobs_one_shot_force_run():
+                candidate_articles = _jobs_one_shot_candidate_articles(
+                    queue.get("articles", []),
+                    attempted_ids=attempted_ids,
+                )
+            candidates = {"articles": candidate_articles}
+            selected = select_best_job_from_queue(candidates)
+            save_article_queue(queue)
+    if selected:
+        queue = load_article_queue()
+        for article in queue.get("articles", []):
+            if (article.get("id") or article.get("url")) != (selected.get("id") or selected.get("url")):
+                continue
+            article["status"] = "selected"
+            article["selected_at"] = datetime.now().isoformat(timespec="seconds")
+            selected = article
+            break
+        save_article_queue(queue)
 
     if selected and (selected.get("id") or selected.get("url")) in attempted_ids:
         return None
@@ -2324,7 +1440,7 @@ def _retry_after_single_candidate_failure(
             or (failed_article or {}).get("ai_failure_scope")
             or ""
         ).strip().lower()
-        circuit = ai_circuit_status() if JOBS_MODE else {}
+        circuit = (ai_circuit_status())
         if failure_scope in {"global_outage", "cycle_budget"} or circuit.get("global_open"):
             log_event(
                 "ai_candidate_rotation_stopped",
@@ -2357,7 +1473,7 @@ def _retry_after_single_candidate_failure(
         next_id = next_selected.get("id") or next_selected.get("url")
         attempted_ids.add(next_id)
         _log_retry_next_candidate(last_failed, next_selected, stage, reason)
-        item_result = _process_hourly_target(next_selected, publish_mode)
+        item_result = _process_job_target(next_selected, publish_mode)
         retry_results.append(item_result)
         if item_result.get("completed"):
             return item_result, retry_results
@@ -2367,7 +1483,7 @@ def _retry_after_single_candidate_failure(
     return None, retry_results
 
 
-def _process_hourly_target(selected, publish_mode):
+def _process_job_target(selected, publish_mode):
     selected_id = selected.get("id") or selected.get("url")
     result = {
         "target_article_id": selected_id,
@@ -2481,10 +1597,9 @@ def _process_hourly_target(selected, publish_mode):
         and article.get("blogger_post_url")
     ):
         try:
-            social_target = {"target_article_id": selected_id} if JOBS_MODE and JOBS_FACEBOOK_FOLLOW_ARTICLE else {}
             facebook_result = post_one_article_to_facebook(
-                **social_target,
-                respect_limits=not _jobs_one_shot_force_run(),
+                target_article_id=selected_id,
+                respect_limits=True,
             )
             article = _find_article_by_id(selected_id)
         except Exception as error:
@@ -2511,188 +1626,6 @@ def _process_hourly_target(selected, publish_mode):
     return result
 
 
-def run_hourly_category_cycle():
-    publish_mode = _effective_publish_mode()
-    category_labels = _available_category_labels(load_sources())
-    hourly_counts = _published_hourly_counts()
-    hourly_limit = min(max(0, SAFE_CYCLE_MAX_ARTICLES), max(0, HOURLY_POST_LIMIT))
-    remaining_total = max(0, hourly_limit - int(hourly_counts["total"]))
-
-    print("\n" + "=" * 60)
-    print("PHASE 9: HOURLY CATEGORY BATCH")
-    print("=" * 60)
-    print(f"Publishing mode: {publish_mode.upper()}")
-    print(f"Hourly limit:    {hourly_limit}")
-    print(f"Per category:    {CATEGORY_POSTS_PER_HOUR}")
-    print(f"Already this hour: {hourly_counts['total']}")
-    print("=" * 60)
-
-    visual_retry_stats = (
-        retry_pending_job_document_renders(max_articles=1)
-        if JOBS_MODE
-        else {}
-    )
-
-    if publish_mode != "live":
-        reason = "Hourly category batch requires live publishing"
-        _print_safe_cycle_final_report(None, stopped_reason=reason)
-        return {"completed": False, "reason": reason, "step_reached": "safety-check"}
-    if remaining_total <= 0:
-        reason = "hourly publish limit reached"
-        _print_safe_cycle_final_report(None, stopped_reason=reason)
-        return {
-            "completed": False,
-            "skipped": True,
-            "reason": reason,
-            "hourly": hourly_counts,
-            "step_reached": "hourly-limit-check",
-        }
-
-    print("\n[1/6] fetch all categories")
-    fetch_stats = run_fetch_only()
-    cleanup_stats = archive_expired_queue_articles()
-    if cleanup_stats["expired_archived"] or cleanup_stats["missing_date_archived"]:
-        print(
-            "Fresh queue cleanup: "
-            f"expired={cleanup_stats['expired_archived']} | "
-            f"missing_date={cleanup_stats['missing_date_archived']}"
-        )
-
-    print("\n[2/6] score")
-    score_stats = run_score_only()
-
-    print("\n[3/6] enrich")
-    enrich_stats = run_enrich_only(force=False)
-
-    if JOBS_MODE:
-        identity_stats = resolve_identity_pending_articles()
-        circuit = ai_circuit_status()
-        if circuit.get("global_open"):
-            reason = (
-                "AI circuit open; ingestion/enrichment continued without AI calls "
-                f"until {circuit.get('global_retry_after') or 'later'}"
-            )
-            log_event(
-                "ai_cycle_deferred_by_global_circuit",
-                failure_fingerprint=circuit.get("global_fingerprint", ""),
-                category=circuit.get("global_category", ""),
-                retry_after=circuit.get("global_retry_after", ""),
-                mode="hourly",
-            )
-            _print_safe_cycle_final_report(None, stopped_reason=reason)
-            return {
-                "completed": False,
-                "skipped": True,
-                "reason": reason,
-                "fetch": fetch_stats,
-                "score": score_stats,
-                "enrich": enrich_stats,
-                "identity_pending": identity_stats,
-                "hourly": hourly_counts,
-                "waiting_for_ai_circuit": True,
-                "ai_circuit": circuit,
-                "step_reached": "ai-circuit-check",
-            }
-
-    results = []
-    successes = 0
-    failures = 0
-    ai_failed_candidates = 0
-    used_article_ids = set()
-    used_sources_by_category = {
-        category: set((hourly_counts.get("by_category_source") or {}).get(category, {}).keys())
-        for category in category_labels
-    }
-
-    print("\n[4/6] publish category batch")
-    for category_label in category_labels:
-        already_category = int(hourly_counts["by_category"].get(category_label, 0))
-        remaining_category = max(0, CATEGORY_POSTS_PER_HOUR - already_category)
-        while remaining_total > 0 and remaining_category > 0:
-            selected = _lock_hourly_candidate(
-                category_label,
-                used_article_ids=used_article_ids,
-                used_sources=used_sources_by_category.get(category_label, set()),
-            )
-            if not selected:
-                break
-            selected_id = selected.get("id") or selected.get("url")
-            used_article_ids.add(selected_id)
-            used_sources_by_category.setdefault(category_label, set()).add(str(selected.get("source_name") or ""))
-            print(f"Publishing candidate: {category_label} | {selected.get('source_name', '')} | {selected_id}")
-            item_result = _process_hourly_target(selected, publish_mode)
-            results.append(item_result)
-            if item_result.get("completed"):
-                successes += 1
-                remaining_total -= 1
-                remaining_category -= 1
-            else:
-                failures += 1
-                print(f"Skipped failed article: {item_result.get('reason', '')}")
-                circuit = ai_circuit_status() if JOBS_MODE else {}
-                failure_scope = str(
-                    item_result.get("failure_scope") or ""
-                ).strip().lower()
-                if (
-                    failure_scope in {"global_outage", "cycle_budget", "retry_backoff"}
-                    or circuit.get("global_open")
-                ):
-                    log_event(
-                        "ai_hourly_batch_stopped_by_circuit",
-                        failure_scope=failure_scope or "global_outage",
-                        failure_fingerprint=(
-                            item_result.get("failure_fingerprint", "")
-                            or circuit.get("global_fingerprint", "")
-                        ),
-                        retry_after=(
-                            item_result.get("retry_after", "")
-                            or circuit.get("global_retry_after", "")
-                        ),
-                    )
-                    remaining_total = 0
-                    break
-
-                if item_result.get("step_reached") == "run-ai":
-                    ai_failed_candidates += 1
-                    if ai_failed_candidates > JOBS_AI_CROSS_CANDIDATE_RETRIES:
-                        log_event(
-                            "ai_hourly_candidate_fanout_limit_reached",
-                            failed_candidates=ai_failed_candidates,
-                            allowed_extra_candidates=JOBS_AI_CROSS_CANDIDATE_RETRIES,
-                            failure_scope=failure_scope or "article_specific",
-                            failure_fingerprint=item_result.get("failure_fingerprint", ""),
-                        )
-                        remaining_total = 0
-                        break
-        if remaining_total <= 0:
-            break
-
-    print("\n[5/6] batch summary")
-    print(f"Published successfully: {successes}")
-    print(f"Failed/skipped:         {failures}")
-    print(f"Remaining hourly slots: {remaining_total}")
-
-    completed = successes > 0
-    reason = "" if completed else "no article published in hourly batch"
-    return {
-        "completed": completed,
-        "skipped": not completed,
-        "reason": reason,
-        "fetch": fetch_stats,
-        "score": score_stats,
-        "enrich": enrich_stats,
-        "hourly": hourly_counts,
-        "published_count": successes,
-        "failed_count": failures,
-        "category_order": category_labels,
-        "results": results,
-        "article": (results[-1].get("article") if results else None),
-        "draft_action": "created" if completed else "none",
-        "facebook": (results[-1].get("facebook") if results else None),
-        "step_reached": "hourly-batch",
-    }
-
-
 def run_safe_cycle_only():
     """
     Phase 9 command: run one full one-article workflow.
@@ -2700,16 +1633,7 @@ def run_safe_cycle_only():
     """
     publish_mode = _effective_publish_mode()
     action_label = _effective_action()
-    if action_label == "LIVE_FRESH_QUEUE":
-        cycle_label = "LIVE FRESH QUEUE"
-    elif action_label == "LIVE_HOURLY_CATEGORY_BATCH":
-        cycle_label = "LIVE HOURLY CATEGORY BATCH"
-    elif action_label == "LIVE_CATEGORY_ROTATION":
-        cycle_label = "LIVE CATEGORY ROTATION"
-    elif action_label == "LIVE_FAST_RECENT_NEWS":
-        cycle_label = "LIVE FAST RECENT NEWS"
-    else:
-        cycle_label = "DRAFT/SAFE CYCLE"
+    cycle_label = "JOBS LIVE CYCLE" if publish_mode == "live" else "JOBS DRAFT CYCLE"
     print("\n" + "=" * 60)
     print(f"PHASE 9: {cycle_label}")
     print("=" * 60)
@@ -2733,19 +1657,16 @@ def run_safe_cycle_only():
         _print_safe_cycle_final_report(None, stopped_reason=reason)
         return {"completed": False, "reason": reason, "step_reached": "safety-check"}
 
-    if SAFE_CYCLE_MAX_ARTICLES != 1:
-        return run_hourly_category_cycle()
 
-    if JOBS_MODE:
-        repair_stats = repair_job_link_bindings()
-        if repair_stats.get("repaired"):
-            print(
-                "Jobs link repair: "
-                f"repaired={repair_stats['repaired']} | "
-                f"reopened_published={repair_stats['reopened_published']} | "
-                f"removed_actions={repair_stats['removed_action_links']} | "
-                f"removed_documents={repair_stats['removed_document_links']}"
-            )
+    repair_stats = repair_job_link_bindings()
+    if repair_stats.get("repaired"):
+        print(
+            "Jobs link repair: "
+            f"repaired={repair_stats['repaired']} | "
+            f"reopened_published={repair_stats['reopened_published']} | "
+            f"removed_actions={repair_stats['removed_action_links']} | "
+            f"removed_documents={repair_stats['removed_document_links']}"
+        )
 
     schedule_status = get_publish_schedule_status(mode=publish_mode)
     if _jobs_one_shot_force_run() and publish_mode == "live":
@@ -2768,26 +1689,21 @@ def run_safe_cycle_only():
             for item in schedule_status.get("reasons", [])
         )
         ingest_stats = None
-        if JOBS_MODE:
-            # Collection is independent from publication. Keep discovering,
-            # scoring and enriching jobs even while Blogger pacing blocks writes.
-            print(f"Publishing is paced ({reason}); continuing Jobs ingestion.")
-            fetch_stats = run_fetch_only()
-            cleanup_stats = archive_expired_queue_articles()
-            visual_retry_stats = retry_pending_job_document_renders(max_articles=1)
-            score_stats = run_score_only()
-            enrich_stats = run_enrich_only(force=False)
-            identity_stats = resolve_identity_pending_articles()
-            ingest_stats = {
-                "fetch": fetch_stats,
-                "cleanup": cleanup_stats,
-                "visual_retry": visual_retry_stats,
-                "score": score_stats,
-                "enrich": enrich_stats,
-                "identity_pending": identity_stats,
-            }
-        else:
-            print(f"Cycle stopping cleanly before article selection: {reason}.")
+        print(f"Publishing is paced ({reason}); continuing Jobs ingestion.")
+        fetch_stats = run_fetch_only()
+        cleanup_stats = archive_expired_queue_articles()
+        visual_retry_stats = retry_pending_job_document_renders(max_articles=1)
+        score_stats = run_score_only()
+        enrich_stats = run_enrich_only(force=False)
+        identity_stats = resolve_identity_pending_articles()
+        ingest_stats = {
+            "fetch": fetch_stats,
+            "cleanup": cleanup_stats,
+            "visual_retry": visual_retry_stats,
+            "score": score_stats,
+            "enrich": enrich_stats,
+            "identity_pending": identity_stats,
+        }
         _print_safe_cycle_final_report(None, draft_result={"error": reason}, stopped_reason=reason)
         result = {
             "completed": False,
@@ -2812,9 +1728,7 @@ def run_safe_cycle_only():
         print(f"Zero-link source warnings recorded: {zero_link_warnings_count}")
     cleanup_stats = archive_expired_queue_articles()
     visual_retry_stats = (
-        retry_pending_job_document_renders(max_articles=1)
-        if JOBS_MODE
-        else {}
+        (retry_pending_job_document_renders(max_articles=1))
     )
     if cleanup_stats["expired_archived"] or cleanup_stats["missing_date_archived"]:
         print(
@@ -2822,31 +1736,6 @@ def run_safe_cycle_only():
             f"expired={cleanup_stats['expired_archived']} | "
             f"missing_date={cleanup_stats['missing_date_archived']}"
         )
-    if (
-        not CATEGORY_ROTATION_MODE
-        and FAST_NEWS_MODE
-        and FIRST_VALID_ARTICLE_MODE
-        and RECENT_NEWS_ONLY
-        and not fetch_stats.get("first_valid_url")
-    ):
-        reason = fetch_stats.get("reason") or f"no article in last {RECENT_NEWS_MAX_AGE_HOURS} hours"
-        print(f"Live fast recent mode stopping before old queue fallback: {reason}.")
-        _print_safe_cycle_final_report(
-            None,
-            stopped_reason=reason,
-            source_warnings_count=source_warnings_count,
-            enrichment_failed_count=0,
-        )
-        return {
-            "completed": False,
-            "skipped": True,
-            "reason": reason,
-            "fetch": fetch_stats,
-            "schedule": schedule_status,
-            "source_warnings_count": source_warnings_count,
-            "enrichment_failed_count": 0,
-            "step_reached": "fetch",
-        }
 
     print("\n[2/7] score")
     score_stats = run_score_only()
@@ -2860,190 +1749,117 @@ def run_safe_cycle_only():
         print(f"Enrichment warnings recorded: {enrichment_failed_count}")
     if enrichment_weak_count:
         print(f"Weak enrichment warnings recorded: {enrichment_weak_count}")
-    source_candidate_cooldowns = _cooldown_sources_after_candidate_failures(
+    _cooldown_sources_after_candidate_failures(
         fetch_stats.get("selected_category", ""),
         enrich_stats,
     )
 
     identity_stats = {}
-    if JOBS_MODE:
-        identity_stats = resolve_identity_pending_articles()
-        circuit = ai_circuit_status()
-        if circuit.get("global_open"):
-            reason = (
-                "AI circuit open; ingestion/enrichment continued without AI calls "
-                f"until {circuit.get('global_retry_after') or 'later'}"
-            )
-            log_event(
-                "ai_cycle_deferred_by_global_circuit",
-                failure_fingerprint=circuit.get("global_fingerprint", ""),
-                category=circuit.get("global_category", ""),
-                retry_after=circuit.get("global_retry_after", ""),
-                mode="safe-cycle",
-            )
-            _print_safe_cycle_final_report(
-                None,
-                stopped_reason=reason,
-                source_warnings_count=source_warnings_count,
-                enrichment_failed_count=enrichment_failed_count,
-            )
-            return {
-                "completed": False,
-                "skipped": True,
-                "reason": reason,
-                "fetch": fetch_stats,
-                "score": score_stats,
-                "enrich": enrich_stats,
-                "identity_pending": identity_stats,
-                "schedule": schedule_status,
-                "waiting_for_ai_circuit": True,
-                "ai_circuit": circuit,
-                "source_warnings_count": source_warnings_count,
-                "enrichment_failed_count": enrichment_failed_count,
-                "step_reached": "ai-circuit-check",
-            }
+    identity_stats = resolve_identity_pending_articles()
+    circuit = ai_circuit_status()
+    if circuit.get("global_open"):
+        reason = (
+            "AI circuit open; ingestion/enrichment continued without AI calls "
+            f"until {circuit.get('global_retry_after') or 'later'}"
+        )
+        log_event(
+            "ai_cycle_deferred_by_global_circuit",
+            failure_fingerprint=circuit.get("global_fingerprint", ""),
+            category=circuit.get("global_category", ""),
+            retry_after=circuit.get("global_retry_after", ""),
+            mode="safe-cycle",
+        )
+        _print_safe_cycle_final_report(
+            None,
+            stopped_reason=reason,
+            source_warnings_count=source_warnings_count,
+            enrichment_failed_count=enrichment_failed_count,
+        )
+        return {
+            "completed": False,
+            "skipped": True,
+            "reason": reason,
+            "fetch": fetch_stats,
+            "score": score_stats,
+            "enrich": enrich_stats,
+            "identity_pending": identity_stats,
+            "schedule": schedule_status,
+            "waiting_for_ai_circuit": True,
+            "ai_circuit": circuit,
+            "source_warnings_count": source_warnings_count,
+            "enrichment_failed_count": enrichment_failed_count,
+            "step_reached": "ai-circuit-check",
+        }
 
     print("\n[4/7] plan-next --lock")
     selected = None
     plan_result = {}
-    if JOBS_MODE:
-        queue = load_article_queue()
-        selection_queue = queue
-        if _jobs_one_shot_force_run():
-            selection_queue = {
-                "articles": _jobs_one_shot_candidate_articles(
-                    queue.get("articles", [])
-                )
-            }
-        selected = select_best_job_from_queue(selection_queue)
-        save_article_queue(queue)
+    queue = load_article_queue()
+    selection_queue = queue
+    if _jobs_one_shot_force_run():
+        selection_queue = {
+            "articles": _jobs_one_shot_candidate_articles(
+                queue.get("articles", [])
+            )
+        }
+    selected = select_best_job_from_queue(selection_queue)
+    save_article_queue(queue)
 
-        # A first identity pass can discover a brand-new ambiguous candidate.
-        # If no other publishable job exists, gather its official PDF evidence
-        # immediately and retry identity once in the same cycle.
-        if not selected:
-            second_identity_stats = resolve_identity_pending_articles()
-            for key, value in second_identity_stats.items():
-                if isinstance(value, int):
-                    identity_stats[key] = int(identity_stats.get(key) or 0) + value
-            if second_identity_stats.get("resolved_ready"):
-                queue = load_article_queue()
-                selection_queue = queue
-                if _jobs_one_shot_force_run():
-                    selection_queue = {
-                        "articles": _jobs_one_shot_candidate_articles(
-                            queue.get("articles", [])
-                        )
-                    }
-                selected = select_best_job_from_queue(selection_queue)
-                save_article_queue(queue)
-
-        if selected:
+    # A first identity pass can discover a brand-new ambiguous candidate.
+    # If no other publishable job exists, gather its official PDF evidence
+    # immediately and retry identity once in the same cycle.
+    if not selected:
+        second_identity_stats = resolve_identity_pending_articles()
+        for key, value in second_identity_stats.items():
+            if isinstance(value, int):
+                identity_stats[key] = int(identity_stats.get(key) or 0) + value
+        if second_identity_stats.get("resolved_ready"):
             queue = load_article_queue()
-            for article in queue.get("articles", []):
-                if (article.get("id") or article.get("url")) != (selected.get("id") or selected.get("url")):
-                    continue
-                article["status"] = "selected"
-                article["selected_at"] = datetime.now().isoformat(timespec="seconds")
-                article["selection_reason"] = (
-                    f"jobs quality {article.get('job_score', 0)}/100; "
-                    f"identity={article.get('job_identity_action', '')}; "
-                    f"urgency={(article.get('job_urgency') or {}).get('level', 'normal')}"
-                )
-                selected = article
-                break
+            selection_queue = queue
+            if _jobs_one_shot_force_run():
+                selection_queue = {
+                    "articles": _jobs_one_shot_candidate_articles(
+                        queue.get("articles", [])
+                    )
+                }
+            selected = select_best_job_from_queue(selection_queue)
             save_article_queue(queue)
-        plan_result = {
-            "selected": selected,
-            "reason": selected.get("selection_reason", "") if selected else "no verified job passed quality/identity/daily policy",
-            "lock": True,
-            "eligible_count": 1 if selected else 0,
-        }
-        if selected:
-            print(
-                "Best verified job locked: "
-                f"{selected.get('job_company', '')} | {selected.get('job_title') or selected.get('title', '')} | "
-                f"score={selected.get('job_score', 0)}"
+
+    if selected:
+        queue = load_article_queue()
+        for article in queue.get("articles", []):
+            if (article.get("id") or article.get("url")) != (selected.get("id") or selected.get("url")):
+                continue
+            article["status"] = "selected"
+            article["selected_at"] = datetime.now().isoformat(timespec="seconds")
+            article["selection_reason"] = (
+                f"jobs quality {article.get('job_score', 0)}/100; "
+                f"identity={article.get('job_identity_action', '')}; "
+                f"urgency={(article.get('job_urgency') or {}).get('level', 'normal')}"
             )
-    elif CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN:
-        category_label = fetch_stats.get("selected_category", "")
-        selected = _select_newest_fresh_ready_article(
-            category_label,
-            preferred_ids=fetch_stats.get("queued_candidate_ids", []),
+            selected = article
+            break
+        save_article_queue(queue)
+    plan_result = {
+        "selected": selected,
+        "reason": selected.get("selection_reason", "") if selected else "no verified job passed quality/identity/daily policy",
+        "lock": True,
+        "eligible_count": 1 if selected else 0,
+    }
+    if selected:
+        print(
+            "Best verified job locked: "
+            f"{selected.get('job_company', '')} | {selected.get('job_title') or selected.get('title', '')} | "
+            f"score={selected.get('job_score', 0)}"
         )
-        plan_result = {
-            "selected": selected,
-            "reason": (
-                f"newest fresh queued article in {category_label}"
-                if selected
-                else f"no fresh queued article ready for {category_label}"
-            ),
-            "lock": True,
-            "eligible_count": 1 if selected else 0,
-            "selected_category": category_label,
-        }
-        if selected:
-            print(f"Newest fresh article locked for category: {category_label}.")
-    elif FAST_NEWS_MODE and FRESH_QUEUE_MODE:
-        selected = _select_oldest_fresh_ready_article()
-        plan_result = {
-            "selected": selected,
-            "reason": "oldest fresh queued article" if selected else "no fresh queued article ready for publishing",
-            "lock": True,
-            "eligible_count": 1 if selected else 0,
-        }
-        if selected:
-            print("Oldest fresh queued article locked for publishing.")
-    elif FAST_NEWS_MODE and FIRST_VALID_ARTICLE_MODE:
-        selected = _lock_specific_ready_article(fetch_stats.get("first_valid_url", ""))
-        plan_result = {
-            "selected": selected,
-            "reason": "first valid article fast mode" if selected else "first valid article was not ready after enrichment",
-            "lock": True,
-            "eligible_count": 1 if selected else 0,
-        }
-        if selected:
-            print("First valid article locked for publishing.")
-        else:
-            reason = "fresh article from this run was not ready after enrichment"
-            print(f"Cycle stopping cleanly: {reason}.")
-            _print_safe_cycle_final_report(
-                None,
-                stopped_reason=reason,
-                source_warnings_count=source_warnings_count,
-                enrichment_failed_count=enrichment_failed_count,
-            )
-            return {
-                "completed": False,
-                "reason": reason,
-                "fetch": fetch_stats,
-                "schedule": schedule_status,
-                "score": score_stats,
-                "enrich": enrich_stats,
-                "plan": plan_result,
-                "source_warnings_count": source_warnings_count,
-                "enrichment_failed_count": enrichment_failed_count,
-                "step_reached": "plan-next",
-            }
     if not selected:
-        if not JOBS_MODE and not (
-            (FAST_NEWS_MODE and FRESH_QUEUE_MODE)
-            or (CATEGORY_ROTATION_MODE and PROCESS_FULL_CATEGORY_PER_RUN)
-        ):
-            plan_result = run_plan_next_only(lock=True)
-            selected = plan_result.get("selected")
+        pass
     if not selected:
-        if JOBS_MODE:
-            no_article_reason = (
-                plan_result.get("reason")
-                or fetch_stats.get("reason")
-                or "no verified job ready after discovery, enrichment and identity checks"
-            )
-        else:
-            no_article_reason = (
-                fetch_stats.get("reason")
-                or f"no fresh article in the last {RECENT_NEWS_MAX_AGE_HOURS} hours"
-            )
+        no_article_reason = (
+            plan_result.get("reason")
+            or fetch_stats.get("reason")
+            or "no verified job ready after discovery, enrichment and identity checks"
+        )
         print(f"Cycle stopping cleanly: {no_article_reason}.")
         _print_safe_cycle_final_report(
             None,
@@ -3262,10 +2078,11 @@ def run_safe_cycle_only():
         and article.get("blogger_post_url")
     ):
         print("\n[8/8] post-facebook", flush=True)
-        print("Draining Facebook pending queue", flush=True)
+        print("Promoting the newly published Jobs article", flush=True)
         try:
             facebook_result = post_one_article_to_facebook(
-                respect_limits=not _jobs_one_shot_force_run(),
+                target_article_id=selected_id,
+                respect_limits=True,
             )
         except Exception as social_error:
             facebook_result = {"posted": False, "deferred": True, "error_type": social_error.__class__.__name__}
@@ -3421,34 +2238,7 @@ def run_enrich_only(force=False):
 
 
 def run_select_next_only():
-    """
-    Phase 4 command: select one enriched ready article for the next slot.
-    No AI translation, no Blogger API, and no publishing happens here.
-    """
-    print("\n" + "=" * 60)
-    print("PHASE 4: Select next article")
-    print("=" * 60)
-    print("Mode: select only. AI translation and Blogger publishing are disabled.\n")
-
-    selected = select_next_article()
-    if not selected:
-        print("No eligible ready enriched articles found.")
-        return None
-
-    print("\n" + "=" * 60)
-    print("PHASE 4 SELECT SUMMARY")
-    print("=" * 60)
-    print(f"Selected article title: {selected.get('title', '')}")
-    print(f"URL:                    {selected.get('url', '')}")
-    print(f"Source:                 {selected.get('source_name', '')}")
-    print(f"Score:                  {selected.get('score', '')}")
-    print(f"Priority:               {selected.get('priority', '')}")
-    print(f"Suggested category:     {selected.get('suggested_category', '')}")
-    print(f"Selection reason:       {selected.get('selection_reason', '')}")
-    print("Publishing:             disabled in Phase 4")
-    print("=" * 60)
-
-    return selected
+    return run_plan_next_only(lock=True)
 
 
 def run_prepare_ai_only():
@@ -3608,44 +2398,18 @@ def run_fix_draft_url_only():
 
 
 def run_plan_next_only(lock=False):
-    """
-    Phase 8 command: plan the next article with category balancing.
-    Read-only unless --lock is provided.
-    """
-    print("\n" + "=" * 60)
-    print("PHASE 8: Publishing schedule planner")
-    print("=" * 60)
-    print("Mode: planning only. No AI, no Blogger, no drafts, no publishing.")
+    """Preview or lock a job through the same identity/freshness gate as production."""
+    queue = load_article_queue()
+    selected = select_best_job_from_queue(queue)
+    if selected and lock:
+        selected["status"] = "selected"
+        selected["selected_at"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        selected["selection_reason"] = "verified Jobs priority, freshness and identity"
     if lock:
-        print("Lock mode: selected candidate will be marked as selected.")
-    print()
-
-    result = plan_next_article(lock=lock)
-    selected = result.get("selected")
-
-    print("\n" + "=" * 60)
-    print("PHASE 8 PLAN-NEXT SUMMARY")
-    print("=" * 60)
-    print(f"Today total drafts/published: {result['today_total']}")
-    print("Count per category:")
-    for category, count in result["counts"].items():
-        print(f"  - {category}: {count}")
-    print(f"Target category for next slot: {result['target_category']}")
-    print(f"Eligible candidates:          {result['eligible_count']}")
-
-    if selected:
-        print("-" * 60)
-        print(f"Selected candidate title: {selected.get('title', '')}")
-        print(f"Candidate URL:            {selected.get('url', '')}")
-        print(f"Score:                    {selected.get('score', '')}")
-        print(f"Priority:                 {selected.get('priority', '')}")
-        print(f"Suggested category:       {selected.get('suggested_category', '')}")
-        print(f"Reason:                   {result['reason']}")
-    else:
-        print("No eligible ready enriched articles found.")
-        print(f"Reason: {result['reason']}")
-
-    print("=" * 60)
+        save_article_queue(queue)
+    result = {"selected": selected, "lock": lock, "eligible_count": int(bool(selected)),
+              "reason": "verified job selected" if selected else "no verified fresh job eligible"}
+    print(result["reason"])
     return result
 
 
@@ -3690,350 +2454,53 @@ def run_sources_check_only():
     return result
 
 
-def run_fetch_test_problem_sources_only(save=False):
-    """
-    Phase 8.3 command: test only known problematic sources.
-    Read-only by default; saves to article_queue.json only with --save.
-    """
-    print("\n" + "=" * 60)
-    print("PHASE 8.3: Problem source fetch test")
-    print("=" * 60)
-    print("Mode: fetch coverage test only. No AI, no Blogger, no publishing.")
-    if save:
-        print("Save mode: discovered links will be added to article_queue.json.")
-    else:
-        print("Read-only mode: article_queue.json will not be modified.")
-    print()
-
-    sources = load_sources()
-    problem_sources = [
-        source
-        for source in sources
-        if source.get("name") in PROBLEM_SOURCE_NAMES and source.get("enabled", True)
-    ]
-
-    discovery = discover_latest_article_links(problem_sources)
-    articles = discovery["articles"]
-    source_results = discovery.get("source_results", [])
-    queue_stats = None
-    if save:
-        queue_stats = add_articles_to_queue(articles)
-
-    print("\n" + "=" * 60)
-    print("PHASE 8.3 PROBLEM SOURCES SUMMARY")
-    print("=" * 60)
-    print(f"Problem sources checked: {discovery['checked_sources']}")
-    print(f"Articles found:          {len(articles)}")
-    if queue_stats:
-        print(f"New articles added:      {queue_stats['added']}")
-        print(f"Duplicates skipped:      {queue_stats['duplicates']}")
-        print(f"Total queued articles:   {queue_stats['total_queued']}")
-    else:
-        print("Queue modified:          no")
-
-    print("Links found per problem source:")
-    for source in source_results:
-        tried_feeds = source.get("tried_feed_urls", [])
-        print(
-            f"  - {source.get('source_name', '')}: "
-            f"{source.get('links_found', 0)} link(s), "
-            f"method={source.get('method_used', '')}, "
-            f"html={source.get('normal_links_found', 0)}, "
-            f"feed={source.get('feed_links_found', 0)}"
-        )
-        if source.get("error"):
-            print(f"    error: {source.get('error')}")
-        if tried_feeds:
-            print(f"    feeds tried: {', '.join(tried_feeds)}")
-
-    remaining_zero = [
-        source for source in source_results if source.get("links_found", 0) == 0
-    ]
-    print(f"Remaining 0-link sources: {len(remaining_zero)}")
-    for source in remaining_zero:
-        print(f"  - {source.get('source_name', '')} ({source.get('base_url', '')})")
-
-    should_disable = [
-        source
-        for source in remaining_zero
-        if source.get("error")
-    ]
-    needs_custom_extractor = [
-        source
-        for source in remaining_zero
-        if not source.get("error")
-    ]
-    print(f"Sources that may need disabling: {len(should_disable)}")
-    for source in should_disable:
-        print(f"  - {source.get('source_name', '')}: {source.get('error')}")
-
-    print(f"Sources that still need a custom extractor: {len(needs_custom_extractor)}")
-    for source in needs_custom_extractor:
-        print(f"  - {source.get('source_name', '')}: no usable feed/articles found")
-
-    print("=" * 60)
-    return {
-        "articles_found": len(articles),
-        "source_results": source_results,
-        "remaining_zero": remaining_zero,
-        "queue_stats": queue_stats,
-    }
-
-
-def run_once():
-    stats = {
-        "scraped": 0,
-        "skipped": 0,
-        "backlog_added": 0,
-        "selected": 0,
-        "deferred": 0,
-        "translated": 0,
-        "published": 0,
-        "publish_target": "unknown",
-    }
-
-    if not validate_config():
-        print("❌ Cannot continue due to configuration errors.")
-        return stats
-
-    print("\n" + "-" * 60)
-    print("🔧 INITIALIZING SERVICES")
-    print("-" * 60)
-
-    gemini_model = initialize_gemini()
-    if not gemini_model:
-        print("❌ Could not initialize Gemini AI.")
-        return stats
-
-    creds = get_credentials()
-    publishing_service = create_blogger_service(creds)
-    if not publishing_service:
-        print("❌ Could not initialize the publishing service.")
-        return stats
-
-    stats["publish_target"] = get_publish_target_name(publishing_service)
-
-    published_set = load_published_ids()
-    print(f"📋 Loaded {len(published_set)} previously published article(s) from database.")
-
-    publish_limit = MAX_ARTICLES_PER_RUN or 5
-    candidate_limit = get_candidate_fetch_limit(
-        publish_limit,
-        multiplier=ARTICLE_SELECTION_MULTIPLIER,
-        minimum=ARTICLE_SELECTION_POOL_MIN,
-    )
-    print(
-        f"🧺 Collecting up to {candidate_limit or 'all'} candidate article(s) "
-        f"to fill the publishing backlog and choose {publish_limit} for this hour."
-    )
-
-    articles = get_latest_articles(limit=candidate_limit)
-    stats["scraped"] = len(articles)
-
-    if not articles:
-        print("\n⚠️  No articles found. Nothing to do this run.")
-        return stats
-
-    print("\n" + "=" * 60)
-    print("🔍 Checking for duplicates...")
-    print("=" * 60)
-
-    new_articles = filter_new_articles(articles, published_set)
-    stats["skipped"] = stats["scraped"] - len(new_articles)
-
-    if not new_articles:
-        print("\n✅ All fetched articles have already been handled.")
-        return stats
-
-    print(f"\n📌 Found {len(new_articles)} new candidate article(s).")
-
-    added, updated = remember_articles(new_articles, published_set)
-    stats["backlog_added"] = added
-    print(f"🧺 Backlog updated: {added} new, {updated} refreshed.")
-
-    pending_articles = get_pending_articles(published_set)
-    if not pending_articles:
-        print("\n⚠️  No pending backlog articles are available.")
-        return stats
-
-    selected_articles, deferred_articles, ranked_articles = select_best_articles(
-        pending_articles,
-        limit=publish_limit,
-    )
-    print_quality_report(selected_articles, deferred_articles, ranked_articles)
-    stats["selected"] = len(selected_articles)
-    stats["deferred"] = len(deferred_articles)
-
-    if not selected_articles:
-        print("\n⚠️  No articles were selected from the backlog.")
-        return stats
-
-    translated = process_articles(gemini_model, selected_articles)
-    stats["translated"] = len(translated)
-
-    if not translated:
-        print("\n⚠️  No articles were successfully translated.")
-        return stats
-
-    published = publish_all_articles(publishing_service, translated)
-    stats["published"] = len(published)
-
-    if published:
-        published_urls = {
-            trans["original_url"]
-            for trans in translated
-            if any(result["title"] == trans["title"] for result in published)
-        }
-        if published_urls:
-            mark_many_as_published(published_urls, published_set)
-            marked = mark_backlog_published(published_urls)
-            print(f"💾 Saved {len(published_urls)} article reference(s) to the database.")
-            print(f"🧺 Marked {marked} backlog article(s) as published.")
-
-    return stats
-
-
 def main():
+    """Run only Jobs commands; the default entrypoint is the production cycle."""
+    parser = argparse.ArgumentParser(description="Verified Jobs → Blogger → Facebook")
+    commands = {
+        "fetch": run_fetch_only, "auto-cycle": run_auto_cycle_logged,
+        "safe-cycle": run_auto_cycle_logged, "health": run_health_only,
+        "24h-status": run_24h_status_only, "queue-maintenance": run_queue_maintenance_only,
+        "safe-cycle-status": run_safe_cycle_status_only, "publish-status": run_publish_status_only,
+        "facebook-status": run_facebook_status_only, "facebook-limits-status": run_facebook_limits_status_only,
+        "facebook-preview": run_facebook_preview_only, "post-facebook": run_post_facebook_only,
+        "facebook-backfill": run_facebook_backfill_only, "score": run_score_only,
+        "select-next": run_select_next_only, "prepare-ai": run_prepare_ai_only,
+        "publish-draft": run_publish_draft_only, "fix-draft-url": run_fix_draft_url_only,
+        "sources-check": run_sources_check_only, "deployment-check": run_deployment_check_only,
+    }
+    parser.add_argument("command", nargs="?", default="auto-cycle", choices=sorted([*commands, "enrich", "run-ai", "plan-next"]))
+    parser.add_argument("--force", action="store_true", help="Refresh extraction or AI for the selected job")
+    parser.add_argument("--lock", action="store_true", help="Lock the verified Jobs candidate")
+    parser.add_argument("--loop", action="store_true", help="Repeat Jobs cycles locally")
+    args = parser.parse_args()
+    if args.loop and args.command not in {"auto-cycle", "safe-cycle"}:
+        parser.error("--loop is supported only for Jobs cycles")
     print_banner()
     print_startup_config()
-
-    if len(sys.argv) > 1 and sys.argv[1] == "fetch":
-        run_fetch_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "auto-cycle":
-        result = run_auto_cycle_logged()
-        if JOBS_MODE and not result.get("completed") and not result.get("skipped"):
-            if result.get("step_reached") in {"run-ai", "prepare-ai", "publish", "safety-check"}:
-                raise SystemExit(1)
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "deployment-check":
-        raise SystemExit(0 if run_deployment_check_only().get("ok") else 1)
-
-    if len(sys.argv) > 1 and sys.argv[1] == "health":
-        run_health_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "24h-status":
-        run_24h_status_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "queue-maintenance":
-        run_queue_maintenance_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "reset-state":
-        run_reset_state_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "safe-cycle":
-        run_safe_cycle_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "safe-cycle-status":
-        run_safe_cycle_status_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "publish-status":
-        run_publish_status_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "facebook-status":
-        run_facebook_status_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "facebook-limits-status":
-        run_facebook_limits_status_only()
-        return
-    if len(sys.argv) > 1 and sys.argv[1] == "facebook-preview":
-        run_facebook_preview_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "post-facebook":
-        run_post_facebook_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "facebook-backfill":
-        run_facebook_backfill_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "score":
-        run_score_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "enrich":
-        run_enrich_only(force="--force" in sys.argv[2:])
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "select-next":
-        run_select_next_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "prepare-ai":
-        run_prepare_ai_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "run-ai":
-        run_ai_only(force="--force" in sys.argv[2:])
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "publish-draft":
-        run_publish_draft_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "fix-draft-url":
-        run_fix_draft_url_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "plan-next":
-        run_plan_next_only(lock="--lock" in sys.argv[2:])
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "sources-check":
-        run_sources_check_only()
-        return
-
-    if len(sys.argv) > 1 and sys.argv[1] == "fetch-test-problem-sources":
-        run_fetch_test_problem_sources_only(save="--save" in sys.argv[2:])
-        return
-
-    run_loop = "--loop" in sys.argv
-    if run_loop:
-        print("🔁 CONTINUOUS MODE ENABLED")
-        print(f"   The bot will check for new articles every {CHECK_INTERVAL} seconds.")
-        print("   Press Ctrl+C to stop.\n")
-
-    total_runs = 0
-
+    if args.command == "enrich":
+        return run_enrich_only(force=args.force)
+    if args.command == "run-ai":
+        return run_ai_only(force=args.force)
+    if args.command == "plan-next":
+        return run_plan_next_only(lock=args.lock)
     while True:
-        total_runs += 1
-        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        print(f"\n{'🔥' * 20}")
-        print(f"📅 Run #{total_runs} started at: {now}")
-        print(f"{'🔥' * 20}\n")
-
         try:
-            stats = run_once()
-            print_summary(stats)
-
-            if not run_loop:
-                print("\n✅ Done! Bot completed one cycle and is now exiting.")
-                break
-
-            print(f"\n⏰ Next check in {CHECK_INTERVAL} seconds...")
-            print("   (Press Ctrl+C to stop)\n")
-            time.sleep(CHECK_INTERVAL)
-
+            result = commands[args.command]()
+            if args.command == "deployment-check":
+                raise SystemExit(0 if result.get("ok") else 1)
+            if not args.loop:
+                if args.command in {"auto-cycle", "safe-cycle"} and not result.get("completed") and not result.get("skipped"):
+                    if result.get("step_reached") in {"run-ai", "prepare-ai", "publish", "safety-check"}:
+                        raise SystemExit(1)
+                return result
         except KeyboardInterrupt:
-            print("\n\n🛑 Bot stopped by user.")
-            break
-
-        except Exception as e:
-            print(f"\n❌ UNEXPECTED ERROR: {e}")
-            if not run_loop:
-                break
-            time.sleep(CHECK_INTERVAL)
+            return
+        except Exception as error:
+            if not args.loop:
+                raise
+            log_event("jobs_loop_retry", error=error.__class__.__name__)
+        time.sleep(max(60, CHECK_INTERVAL))
 
 
 if __name__ == "__main__":

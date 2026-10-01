@@ -19,8 +19,7 @@ from article_queue import (
     load_article_queue,
     save_article_queue,
 )
-from article_ai_processor import MIN_PUBLISHABLE_WORDS, format_phase3_article_html, validate_phase3_article_quality
-from article_selector import normalize_category_label
+from article_ai_processor import format_phase3_article_html, validate_phase3_article_quality
 from blogger_client import create_blogger_service, get_credentials, is_local_publisher
 from config import (
     BLOG_ID,
@@ -36,14 +35,10 @@ from config import (
 from job_core import _parse_date as parse_job_date, job_deadline_time
 from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
-from internal_link_cache import (
-    apply_link_enrichment,
-    record_published_article,
-)
+from internal_link_cache import record_published_article
 from jobposting import append_jobposting, jobposting_validation_errors
 from google_indexing import notify_job_url
 from job_document_renderer import render_job_document_pages
-from source_sanitizer import sanitize_source_links
 from company_logo_resolver import refresh_company_logo, verified_company_logo
 from utils.facebook_image_generator import generate_job_article_cover
 
@@ -58,7 +53,6 @@ MAX_JOB_LOGO_RENDER_RETRIES = 4
 
 def _now_iso():
     return datetime.now().isoformat(timespec="seconds")
-
 
 
 def _effective_publish_mode(mode=None):
@@ -118,21 +112,12 @@ def _article_word_count(article):
 
 def _publish_quality_error(article, articles):
     words = _article_word_count(article)
-    if (not JOBS_MODE) and words < MIN_PUBLISHABLE_WORDS:
-        log_event(
-            "article_skipped_too_short",
-            article_id=article.get("id"),
-            words=words,
-            reason=f"minimum {MIN_PUBLISHABLE_WORDS}",
-        )
-        article["final_word_count"] = words
-        return f"article too short ({words} words; minimum {MIN_PUBLISHABLE_WORDS})"
 
     result = validate_before_publish(article, existing_articles=articles)
     article["pre_publish_quality"] = result.to_dict()
     article["final_word_count"] = result.word_count or _article_word_count(article)
     if not result.passed:
-        if JOBS_MODE and not _jobs_quality_error_is_ai_repairable(result.reason):
+        if not _jobs_quality_error_is_ai_repairable(result.reason):
             package = article.get("ai_input_package")
             if not isinstance(package, dict):
                 package = {}
@@ -227,7 +212,7 @@ def _block_publish(queue, article, error, result_shape):
     article["publish_error"] = f"Publish blocked: {error}"
     article["publish_blocked_reason"] = error
 
-    if JOBS_MODE and _jobs_quality_error_is_ai_repairable(error):
+    if _jobs_quality_error_is_ai_repairable(error):
         provider_used = str(article.get("ai_provider_used") or "").strip()
         provider_family = provider_used.split(":", 1)[0].strip().lower()
         article["ai_status"] = "failed"
@@ -264,7 +249,7 @@ def _ensure_post_url_for_mode(post, mode):
     parsed = urlparse(post_url)
     if not post_url or not parsed.netloc or parsed.path.strip("/") == "":
         raise RuntimeError("Blogger did not return a live post URL; refusing downstream promotion.")
-    if JOBS_MODE and JOBS_TEST_MODE:
+    if JOBS_TEST_MODE:
         host = parsed.netloc.casefold().removeprefix("www.")
         expected = str(JOBS_EXPECTED_BLOG_HOST or "").casefold().removeprefix("www.")
         if expected and host != expected:
@@ -275,7 +260,7 @@ def _ensure_post_url_for_mode(post, mode):
 
 def _ensure_jobs_target_blog(service):
     """Block any Jobs test write before posts.insert/update if BLOG_ID points elsewhere."""
-    if not (JOBS_MODE and JOBS_TEST_MODE):
+    if not JOBS_TEST_MODE:
         return
     request = service.blogs().get(blogId=BLOG_ID)
     blog = _execute_blogger_request(request, "verify jobs target blog", safe_to_retry=True)
@@ -335,8 +320,6 @@ def _job_permalink_stem(url):
 
 
 def _reject_numeric_new_job_permalink(service, post, article):
-    if not JOBS_MODE:
-        return
     url = str((post or {}).get("url") or "").strip()
     stem = _job_permalink_stem(url)
     if not stem or not re.search(r"\d", stem):
@@ -373,11 +356,9 @@ def _reject_numeric_new_job_permalink(service, post, article):
 def _build_post_body(article, permalink_seed=False):
     content = article.get("final_html", "")
     labels = (
-        [str(label).strip() for label in (article.get("labels") or []) if str(label).strip()]
-        if JOBS_MODE
-        else [normalize_category_label(article.get("suggested_category", ""))]
+        ([str(label).strip() for label in (article.get("labels") or []) if str(label).strip()])
     )
-    if JOBS_MODE and "jobs" not in labels:
+    if 'jobs' not in labels:
         labels.insert(0, "jobs")
     body = {
         "kind": "blogger#post",
@@ -545,8 +526,6 @@ def _mark_document_render_retry(article, package, error, *, reason="render_faile
 
 
 def _prepare_job_document_page_images(article, force_retry=False):
-    if not JOBS_MODE:
-        return []
 
     package = article.get("ai_input_package")
     if not isinstance(package, dict):
@@ -695,8 +674,6 @@ def _clear_optional_job_cover(article, package):
 
 
 def _prepare_job_article_cover(article):
-    if not JOBS_MODE:
-        return ""
 
     package = article.get("ai_input_package")
     if not isinstance(package, dict):
@@ -910,7 +887,7 @@ def _prepare_job_article_cover(article):
 
 def _sanitize_article_final_html(article, prepare_visuals=True):
     source_domain = _source_domain_for_article(article)
-    if JOBS_MODE and prepare_visuals:
+    if prepare_visuals:
         _prepare_job_article_cover(article)
         _prepare_job_document_page_images(article)
     cleaned = format_phase3_article_html(
@@ -918,23 +895,15 @@ def _sanitize_article_final_html(article, prepare_visuals=True):
         article.get("ai_input_package") or article,
     )
 
-    if JOBS_MODE:
-        # Jobs articles keep the AI/editorial body intact. Do not inject random
-        # keyword links, a Jobs-hub anchor, or pRelate/"قد يهمك" blocks.
-        cleaned = re.sub(r"<script\b[^>]*>.*?</script>", "", cleaned, flags=re.I | re.S).strip()
-        removed_count = 0
-        link_stats = {
-            "internal_cache_loaded": 0,
-            "expired_internal_links_removed": 0,
-            "internal_links_inserted_count": 0,
-            "external_trusted_links_inserted_count": 0,
-            "internal_cache_saved": False,
-        }
-    else:
-        cleaned, removed_count = sanitize_source_links(cleaned, source_domain)
-        cleaned, link_stats = apply_link_enrichment(cleaned, article, source_domain=source_domain)
-        cleaned, post_link_removed_count = sanitize_source_links(cleaned, source_domain)
-        removed_count += post_link_removed_count
+    cleaned = re.sub(r"<script\b[^>]*>.*?</script>", "", cleaned, flags=re.I | re.S).strip()
+    removed_count = 0
+    link_stats = {
+        "internal_cache_loaded": 0,
+        "expired_internal_links_removed": 0,
+        "internal_links_inserted_count": 0,
+        "external_trusted_links_inserted_count": 0,
+        "internal_cache_saved": False,
+    }
 
     article["final_html"] = cleaned
     article["blogger_article_html"] = cleaned
@@ -1014,8 +983,6 @@ def _assert_insert_allowed(article):
 
 def _assert_fresh_job_for_new_live_publish(article, now=None):
     """Recheck official time at the write boundary, after AI/visual preparation."""
-    if not JOBS_MODE:
-        return
     current = now or datetime.now(timezone.utc)
     if current.tzinfo is None:
         current = current.replace(tzinfo=timezone.utc)
@@ -1115,7 +1082,7 @@ def _publish_if_live(service, post, mode):
 
 def _apply_jobposting_schema(service, post, article, mode):
     """Restore the SEO title and append one backend-generated JobPosting block."""
-    if not JOBS_MODE or _effective_publish_mode(mode) != "live":
+    if _effective_publish_mode(mode) != 'live':
         return post
 
     post_url = str((post or {}).get("url") or "").strip()
@@ -1163,7 +1130,7 @@ def _apply_success(article, post, mode):
         article["status"] = "published"
         article["published_at"] = now
         article["publish_status"] = "published"
-        if JOBS_MODE and not article.get("facebook_post_id"):
+        if not article.get('facebook_post_id'):
             current_facebook_status = str(article.get("facebook_status") or "").strip()
             if current_facebook_status in {"", "not_selected", "facebook_expired"}:
                 article["facebook_status"] = "facebook_pending"
@@ -1627,7 +1594,7 @@ def publish_one_blogger_post(target_article_id=None, mode=None):
             post = _ensure_returned_post_url(service, post)
             _ensure_post_url_for_mode(post, publish_mode)
 
-            if JOBS_MODE and publish_mode == "live":
+            if publish_mode == 'live':
                 try:
                     _reject_numeric_new_job_permalink(service, post, article)
                 except RuntimeError as error:
@@ -1752,15 +1719,6 @@ def retry_pending_job_visuals(max_articles=1):
     unverified logos are not retries; they remain optional until a future design
     decision introduces a text-only employer template.
     """
-    if not JOBS_MODE:
-        return {
-            "checked": 0,
-            "document_rendered": 0,
-            "logo_rendered": 0,
-            "synced": 0,
-            "still_pending": 0,
-            "archived_after_retry": 0,
-        }
 
     queue = load_article_queue()
     articles = queue.get("articles", [])

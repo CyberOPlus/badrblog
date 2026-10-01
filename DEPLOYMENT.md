@@ -1,117 +1,41 @@
-# GitHub Actions Deployment
+# GitHub Actions deployment
 
-This repository is designed for unattended GitHub Actions operation. The Jobs
-workflow checks at minutes 07, 22, 37 and 52 of every hour. A scheduled check
-does not mean a post is created: Blogger caps, Facebook slots, duplicate
-protection, job freshness and delivery safety decide what is allowed.
+This repository is exclusively the Jobs publisher. `.github/workflows/auto-cycle.yml` runs only on `main`, uses one shared production lock and persists state even if a stage fails. Keep `sources.json` as the single source configuration.
 
-## Required GitHub Secrets
+## Credentials and target
 
-Configure these in repository Actions secrets:
+Use repository Actions secrets for `BLOGGER_BLOG_ID`, `BLOGGER_CLIENT_SECRET_JSON`, `BLOGGER_TOKEN_JSON`, `FACEBOOK_PAGE_ID`, `FACEBOOK_PAGE_ACCESS_TOKEN`, and at least one configured AI provider. Auto mode rotates among Gemini, Groq, OpenRouter, Cloudflare and Mistral when configured. See the workflow for provider secret names.
 
-- `GEMINI_API_KEY` or `OPENROUTER_API_KEY`
-- `BLOGGER_BLOG_ID`
-- `BLOGGER_CLIENT_SECRET_JSON`
-- `BLOGGER_TOKEN_JSON`
-- `FACEBOOK_PAGE_ID`
-- `FACEBOOK_PAGE_ACCESS_TOKEN`
+The workflow maps `BLOGGER_BLOG_ID` to runtime `BLOG_ID`. `JOBS_EXPECTED_BLOG_HOST` must match the intended blog; the publisher checks the target before writing. This migration does not change the selected blog or Page. OAuth must be initialized separately; a GitHub runner with unusable credentials returns a retryable failure instead of opening an interactive browser. Local files never count as published posts.
 
-Never commit OAuth files, access tokens, `.env`, or copied secret JSON.
+Never commit `.env`, `client_secret.json`, `data/token.json` or access tokens. The workflow removes temporary credentials before saving state. Status commands and logs redact secrets.
 
-## Jobs runtime
+## Publishing behavior
 
-The workflow creates its runtime environment only inside the GitHub runner. The
-important publishing controls are:
+Production checks ten times per hour, chains completed cycles, and has a separate watchdog. GitHub scheduling and external services may delay execution; this is recovery automation, not a guarantee of uninterrupted service. No PC or chat session needs to stay open.
 
-```env
-JOBS_MODE=true
-JOBS_TIMEZONE=Africa/Casablanca
-PUBLISH_MODE=live
-SAFE_MODE=false
-MAX_POSTS_PER_RUN=1
-MAX_ARTICLES_PER_RUN=1
-SAFE_CYCLE_MAX_ARTICLES=1
+Each cycle handles at most one new article. Verified official publication age is capped at 12 hours, including the final Blogger write. Discovery time cannot substitute for publication time. Old or unknown dates are never made fresh by rediscovery. Job and campaign memory prevent duplicate articles while preserving the specific application URL.
 
-FACEBOOK_AUTO_POST=true
-META_GRAPH_API_VERSION=v26.0
-FACEBOOK_LINK_MODE=comment
-MAX_FACEBOOK_POSTS_PER_DAY=2
-FACEBOOK_HARD_MAX_POSTS_PER_DAY=3
-FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES=45
-```
+Every successful Blogger article enters the Facebook queue. New articles receive an immediate attempt when limits permit, with a minimum interval of five minutes and a configurable daily ceiling capped at 240. Pending Page posts/comments retry even when a later discovery or AI stage fails. These caps are capacity limits, not posting targets.
 
-The normal Facebook target is at most two Page posts per local day. The hard
-ceiling is three, including urgent overrides. Even urgent posts must respect the
-independent safety interval, so a bad environment value cannot turn the bot
-into a rapid-fire publisher.
+A Facebook photo ID is saved before the first comment. Definite comment failures retry only the comment. Timeouts and ambiguous server failures are recorded as uncertain delivery and are not blindly reposted. `facebook-backfill` uses the same limits and creates at most one new feed post per invocation.
 
-The Page schedule and Morocco timezone policy live in
-`docs/publishing-schedule.md`.
+## Visuals and PDFs
 
-## Facebook delivery safety
+The four backgrounds in `assets/facebook/` follow verified job facts and visual rotation state. A selected template is pinned before upload so retries preserve it. Verified employer logos are retained in job memory.
 
-A Facebook post is attempted only for a successfully published Blogger item
-with a real permalink. Jobs publishing always calls Facebook with posting
-limits enabled.
+Official PDFs render to images inside the same Blogger article, keeping original download links. Six documents and 48 **new** pages are a per-pass work budget, not a final truncation limit. Later passes resume remaining work and retry failures against the existing post. A failed optional image does not discard a verified job or create a second article.
 
-The bot stores the Facebook post ID before attempting the first comment. If the
-comment fails with a definite API rejection, only the comment may be retried;
-the photo is not reposted.
-
-Network timeouts, connection failures, HTTP 408, and server-side 5xx responses
-are different: the remote outcome may be unknown. Those attempts are marked
-`delivery_uncertain` (or `posted_comment_uncertain`) and are not blindly
-retried. This prevents a timeout after a successful remote publish from
-creating a duplicate on the next run.
-
-Manual `facebook-backfill` uses the same schedule, daily cap and interval
-guardrails and can create at most one new Page post per invocation. It is not a
-bulk-publish bypass.
-
-## Facebook visuals
-
-The four runtime templates are under `assets/facebook/`. Their meaning and
-selection rules are defined in `job_visual_policy.py`.
-
-Template selection is semantic first:
-
-- new vacancy -> new template
-- verified deadline within 72 hours -> deadline template
-- candidate/results notices -> alert template
-- verified direct-apply vacancy -> new/apply rotation
-
-Once selected, the template key is pinned to the article before upload. Any
-retry therefore keeps the same visual instead of changing it randomly.
-
-## Checks
-
-Useful read-only/status commands:
+## Checks and recovery
 
 ```bash
 python main.py deployment-check
+python main.py sources-check
 python main.py publish-status
-python main.py facebook-status
 python main.py facebook-limits-status
-python main.py facebook-preview
+python -m unittest discover -s tests -v
 ```
 
-Core regressions run in `.github/workflows/jobs-tests.yml`, including visual
-selection, Facebook pacing and duplicate-delivery protections.
+The full Jobs suite runs in `.github/workflows/jobs-tests.yml`. Runtime smoke checks use an isolated copy. Durable state is saved with atomic writes and persisted to `main`; Git race recovery merges queue snapshots instead of overwriting unseen remote changes. The workflow retains a short-lived recovery artifact on persistence failure.
 
-## Runtime state
-
-Git-tracked runtime state is persisted after scheduled jobs, with a temporary
-workflow artifact kept as a recovery checkpoint. The runner removes temporary
-credential files before state persistence.
-
-Concurrent code edits can make a runtime-state push lose a Git race. The
-workflow retries/rebases state persistence; such a Git race is separate from a
-Facebook delivery failure.
-
-## Security
-
-- Keep credentials only in GitHub Actions secrets.
-- Do not commit `.env`, OAuth client files, token files, or copied API output.
-- Do not print access tokens in logs.
-- Keep Graph API versions configurable through `META_GRAPH_API_VERSION`.
-- Review Page status and Insights before increasing publishing volume.
+Do not delete `jobs_article_queue.json`, `data/job_memory/`, discovery cursors or delivery IDs to force a rerun: they prevent duplicates. A cycle with no verified fresh job is a healthy skip. Provider outages defer work with backoff and allow later cycles to recover. See [cycle policy](docs/publishing-schedule.md).

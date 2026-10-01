@@ -143,7 +143,6 @@ def job_focus_priority(article):
     return 0
 
 
-
 # A generic application portal is never enough on its own. For public recruitment
 # competitions it can be accepted only when the specific official notice itself
 # exposes that exact channel as an application action.
@@ -175,19 +174,6 @@ MONTHLY_VOLUME_RANGE = {
     11: (2, 2),
     12: (1, 2),
 }
-FACEBOOK_SLOTS = {
-    0: (time(12, 30), time(19, 30)),
-    1: (time(12, 30), time(19, 0)),
-    2: (time(12, 30), time(19, 0)),
-    3: (time(12, 30), time(20, 0)),
-    4: (time(10, 30), time(19, 30)),
-    5: (time(11, 0),),
-    6: (time(19, 0),),
-}
-# Research-informed starting slots, not measured peaks for this Page.
-# See docs/publishing-schedule.md. Local timezone rules apply all year.
-
-
 def _local(now=None):
     now = now or datetime.now(timezone.utc)
     if now.tzinfo is None:
@@ -1817,43 +1803,7 @@ def record_job_social_state(article, now=None):
 
 def facebook_slot_status(posted_times=None, now=None, urgent=False, window_minutes=50):
     local_now = _local(now)
-    if urgent or JOBS_FACEBOOK_FOLLOW_ARTICLE:
-        return {"allowed_now": True, "mode": "immediate", "slot": "", "next_slot": local_now.isoformat()}
-
-    posted_times = posted_times or []
-    local_posts = []
-    for value in posted_times:
-        if isinstance(value, datetime):
-            dt = value
-        else:
-            dt = _parse_date(value)
-        if not dt:
-            continue
-        local_posts.append(dt.astimezone(ZoneInfo(MOROCCO_TIMEZONE)))
-
-    slots = FACEBOOK_SLOTS.get(local_now.weekday(), ())
-    for slot in slots:
-        target = datetime.combine(local_now.date(), slot, tzinfo=local_now.tzinfo)
-        delta = (local_now - target).total_seconds() / 60
-        if 0 <= delta <= window_minutes:
-            already_used = any(
-                p.date() == local_now.date()
-                and -45 * 60 <= (p - target).total_seconds() <= window_minutes * 60
-                for p in local_posts
-            )
-            if not already_used:
-                return {"allowed_now": True, "mode": "scheduled", "slot": target.isoformat(), "next_slot": target.isoformat()}
-
-    future = []
-    for add_days in range(0, 8):
-        day = local_now.date().fromordinal(local_now.date().toordinal() + add_days)
-        weekday = (local_now.weekday() + add_days) % 7
-        for slot in FACEBOOK_SLOTS.get(weekday, ()):
-            target = datetime.combine(day, slot, tzinfo=local_now.tzinfo)
-            if target > local_now:
-                future.append(target)
-    next_slot = min(future).isoformat() if future else ""
-    return {"allowed_now": False, "mode": "scheduled", "slot": "", "next_slot": next_slot}
+    return {"allowed_now": True, "mode": "immediate", "slot": "", "next_slot": local_now.isoformat()}
 
 
 def job_status_snapshot(now=None):
@@ -1867,7 +1817,7 @@ def job_status_snapshot(now=None):
         "published_today": int(state.get("daily_publish_count", {}).get(day, 0)),
         "urgent_overrides_today": int(state.get("daily_urgent_override_count", {}).get(day, 0)),
         "monthly_range": MONTHLY_VOLUME_RANGE.get(local.month, (1, 2)),
-        "facebook_slots": [x.strftime("%H:%M") for x in FACEBOOK_SLOTS.get(local.weekday(), ())],
+        "facebook_policy": "follow_article",
         "allowed_now": window["allowed_now"],
         "reasons": window["reasons"],
         "next_allowed_time": window["next_allowed_time"],

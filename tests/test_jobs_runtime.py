@@ -348,10 +348,6 @@ class JobsRuntimeTests(unittest.TestCase):
 
         with (
             patch.object(main, "JOBS_MODE", True),
-            patch.object(main, "CATEGORY_ROTATION_MODE", True),
-            patch.object(main, "PROCESS_FULL_CATEGORY_PER_RUN", True),
-            patch.object(main, "FAST_NEWS_MODE", True),
-            patch.object(main, "FIRST_VALID_ARTICLE_MODE", True),
             patch.object(main, "load_sources", return_value=sources),
             patch.object(
                 main,
@@ -363,16 +359,12 @@ class JobsRuntimeTests(unittest.TestCase):
                 "discover_latest_article_links",
                 return_value=discovery,
             ) as latest,
-            patch.object(main, "discover_fresh_article_links") as fresh,
-            patch.object(main, "discover_first_valid_article_link") as first,
             patch.object(main, "add_articles_to_queue", return_value=queue_stats),
             redirect_stdout(StringIO()),
         ):
             result = main.run_fetch_only()
 
         latest.assert_called_once_with(sources)
-        fresh.assert_not_called()
-        first.assert_not_called()
         self.assertEqual(result["sources_checked"], 2)
 
     def test_adaptive_policy_starts_conservative_and_ramps_after_healthy_days(self):
@@ -1766,12 +1758,10 @@ class JobsRuntimeTests(unittest.TestCase):
         article = {"publish_status": "published", "id": "x", "url": "https://example.com/job"}
         with patch.object(main, "JOBS_MODE", True), \
              patch.object(main, "record_job_publish") as record, \
-             patch.object(main, "archive_published_queue_article") as archive, \
-             patch.object(main, "mark_many_as_published") as generic:
+             patch.object(main, "archive_published_queue_article") as archive:
             main._record_successful_publish(article)
         record.assert_called_once_with(article)
         archive.assert_called_once()
-        generic.assert_not_called()
 
     def test_auto_ai_provider_chain_uses_all_configured_backups(self):
         with patch.object(ai, "AI_PROVIDER", "auto"), \
@@ -2223,7 +2213,7 @@ class JobsRuntimeTests(unittest.TestCase):
             ) as select,
             patch.object(
                 main,
-                "_process_hourly_target",
+                "_process_job_target",
                 return_value={
                     "completed": False,
                     "article": next_one,
@@ -2281,7 +2271,7 @@ class JobsRuntimeTests(unittest.TestCase):
         with (
             patch.object(main, "_mark_candidate_failure_for_retry") as mark,
             patch.object(main, "_select_retry_candidate") as select,
-            patch.object(main, "_process_hourly_target") as process,
+            patch.object(main, "_process_job_target") as process,
         ):
             success, retries = main._retry_after_single_candidate_failure(
                 failed,
@@ -2299,7 +2289,7 @@ class JobsRuntimeTests(unittest.TestCase):
         process.assert_not_called()
 
 
-    def test_hourly_target_defers_clean_numeric_permalink_retry_without_ai_fanout(self):
+    def test_job_target_defers_clean_numeric_permalink_retry_without_ai_fanout(self):
         selected = {
             "id": "numeric-permalink-job",
             "url": "https://example.com/jobs/numeric",
@@ -2352,7 +2342,7 @@ class JobsRuntimeTests(unittest.TestCase):
             patch.object(main, "_mark_candidate_failure_for_retry") as mark,
             patch.object(main, "post_one_article_to_facebook") as post_fb,
         ):
-            result = main._process_hourly_target(selected, "live")
+            result = main._process_job_target(selected, "live")
 
         self.assertFalse(result["completed"])
         self.assertTrue(result["skipped"])
@@ -2388,71 +2378,6 @@ class JobsRuntimeTests(unittest.TestCase):
         mark.assert_not_called()
         select.assert_not_called()
 
-    def test_hourly_jobs_batch_stops_after_one_extra_ai_candidate(self):
-        candidates = [
-            {"id": "job-1", "url": "https://example.com/jobs/1", "source_name": "S1"},
-            {"id": "job-2", "url": "https://example.com/jobs/2", "source_name": "S2"},
-            {"id": "job-3", "url": "https://example.com/jobs/3", "source_name": "S3"},
-        ]
-        failed_results = [
-            {
-                "completed": False,
-                "article": candidates[0],
-                "reason": "quality mismatch",
-                "step_reached": "run-ai",
-                "failure_scope": "quality",
-                "failure_fingerprint": "fp-1",
-            },
-            {
-                "completed": False,
-                "article": candidates[1],
-                "reason": "quality mismatch",
-                "step_reached": "run-ai",
-                "failure_scope": "quality",
-                "failure_fingerprint": "fp-2",
-            },
-        ]
-        hourly = {
-            "total": 0,
-            "by_category": {},
-            "by_category_source": {},
-        }
-        cleanup = {"expired_archived": 0, "missing_date_archived": 0}
-
-        with (
-            patch.object(main, "JOBS_MODE", True),
-            patch.object(main, "SAFE_CYCLE_MAX_ARTICLES", 1),
-            patch.object(main, "HOURLY_POST_LIMIT", 10),
-            patch.object(main, "CATEGORY_POSTS_PER_HOUR", 5),
-            patch.object(main, "JOBS_AI_CROSS_CANDIDATE_RETRIES", 1),
-            patch.object(main, "_effective_publish_mode", return_value="live"),
-            patch.object(main, "load_sources", return_value=[]),
-            patch.object(main, "_available_category_labels", return_value=["jobs"]),
-            patch.object(main, "_published_hourly_counts", return_value=hourly),
-            patch.object(main, "run_fetch_only", return_value={}),
-            patch.object(main, "archive_expired_queue_articles", return_value=cleanup),
-            patch.object(main, "retry_pending_job_document_renders", return_value={}),
-            patch.object(main, "run_score_only", return_value={}),
-            patch.object(main, "run_enrich_only", return_value={}),
-            patch.object(main, "resolve_identity_pending_articles", return_value={}),
-            patch.object(main, "ai_circuit_status", return_value={"global_open": False}),
-            patch.object(
-                main,
-                "_lock_hourly_candidate",
-                side_effect=candidates,
-            ) as lock,
-            patch.object(
-                main,
-                "_process_hourly_target",
-                side_effect=failed_results,
-            ) as process,
-        ):
-            result = main.run_hourly_category_cycle()
-
-        self.assertFalse(result["completed"])
-        self.assertEqual(process.call_count, 2)
-        self.assertEqual(lock.call_count, 2)
-        self.assertEqual(result["failed_count"], 2)
 
     def test_global_ai_outage_stops_cross_candidate_retry(self):
         failed = {
@@ -3853,31 +3778,16 @@ class JobsRuntimeTests(unittest.TestCase):
             with self.assertRaises(ai.AIIncompleteResponseError):
                 ai._validate_ai_output(data, package)
 
-    def test_all_year_slots_cover_regular_and_delayed_checks(self):
+    def test_jobs_promotion_has_no_overnight_or_calendar_slot_restriction(self):
         tz = ZoneInfo("Africa/Casablanca")
         start = datetime(2027, 1, 1, tzinfo=tz)
         for offset in range(365):
             day = start + timedelta(days=offset)
-            for slot in job_core.FACEBOOK_SLOTS[day.weekday()]:
-                target = day.replace(hour=slot.hour, minute=slot.minute)
-                for delay in (7, 22, 37, 49):
-                    now = target + timedelta(minutes=delay)
-                    result = job_core.facebook_slot_status(now=now.astimezone(timezone.utc))
-                    self.assertTrue(result["allowed_now"], (now, result))
-
-    def test_delayed_post_consumes_slot_without_duplicate(self):
-        target = datetime(2026, 9, 29, 12, 30, tzinfo=ZoneInfo("Africa/Casablanca"))
-        posted = target + timedelta(minutes=47)
-        result = job_core.facebook_slot_status(
-            posted_times=[posted.isoformat()], now=target + timedelta(minutes=49)
-        )
-        self.assertFalse(result["allowed_now"])
-
-    def test_no_publishing_before_slot_or_overnight(self):
-        tz = ZoneInfo("Africa/Casablanca")
-        for hour, minute in ((2, 0), (12, 29), (23, 30)):
-            result = job_core.facebook_slot_status(now=datetime(2026, 9, 29, hour, minute, tzinfo=tz))
-            self.assertFalse(result["allowed_now"])
+            for hour in (0, 2, 12, 23):
+                now = day.replace(hour=hour)
+                result = job_core.facebook_slot_status(now=now.astimezone(timezone.utc))
+                self.assertTrue(result["allowed_now"], (now, result))
+                self.assertEqual(result["mode"], "immediate")
 
     def test_date_only_deadline_includes_whole_local_day(self):
         deadline = job_core.job_deadline_time({"job_deadline": "2026-09-29"})
@@ -4045,7 +3955,6 @@ class JobsRuntimeTests(unittest.TestCase):
             result = main._select_retry_candidate({}, {"failed"})
         self.assertIs(result, second)
         self.assertEqual(select.call_args.args[0]["articles"], [second])
-        generic.assert_not_called()
 
     def test_jobs_auto_cycle_schedule_is_continuous_six_minute_cadence(self):
         self.assertEqual(
@@ -4098,22 +4007,14 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertTrue(result["completed"])
         self.assertEqual(result["scheduled_facebook"]["failed"], 1)
 
-    def test_jobs_facebook_uses_slots_and_immutable_45_minute_spacing(self):
-        tz = ZoneInfo("Africa/Casablanca")
-        outside_slot = datetime(2026, 10, 1, 0, 0, tzinfo=tz)
-        self.assertFalse(job_core.facebook_slot_status(now=outside_slot)["allowed_now"])
-
-        in_slot = datetime(2026, 10, 1, 12, 30, tzinfo=tz)
-        self.assertTrue(job_core.facebook_slot_status(now=in_slot)["allowed_now"])
-        rows = [{"facebook_status": "posted", "facebook_posted_at": in_slot.isoformat()}]
-        with patch.object(facebook, "JOBS_MODE", True), \
-             patch.object(facebook, "load_article_queue", return_value={"articles": rows}), \
-             patch.object(facebook, "MAX_FACEBOOK_POSTS_PER_DAY", 2), \
-             patch.object(facebook, "FACEBOOK_HARD_MAX_POSTS_PER_DAY", 3), \
-             patch.object(facebook, "FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES", 45):
-            self.assertFalse(
-                facebook.get_facebook_limits_status(now=in_slot + timedelta(minutes=44))["allowed_now"]
-            )
+    def test_facebook_follows_jobs_at_night_with_five_minute_spacing(self):
+        now = datetime(2026, 10, 1, 0, 0, tzinfo=ZoneInfo("Africa/Casablanca"))
+        self.assertTrue(job_core.facebook_slot_status(now=now)["allowed_now"])
+        rows = [{"facebook_status": "posted", "facebook_posted_at": now.isoformat()}]
+        with patch.object(facebook, "load_article_queue", return_value={"articles": rows}), \
+             patch.object(facebook, "JOBS_FACEBOOK_MIN_INTERVAL_MINUTES", 5):
+            self.assertFalse(facebook.get_facebook_limits_status(now=now + timedelta(minutes=4))["allowed_now"])
+            self.assertTrue(facebook.get_facebook_limits_status(now=now + timedelta(minutes=5))["allowed_now"])
 
     def test_jobs_follow_article_policy_keeps_spacing_and_allows_all_articles(self):
         now = datetime(2026, 10, 1, 9, 0, tzinfo=timezone.utc)
@@ -4174,8 +4075,7 @@ class JobsRuntimeTests(unittest.TestCase):
             for offset in range(3)
         ]
         with patch.object(facebook, "JOBS_MODE", True), \
-             patch.object(facebook, "MAX_FACEBOOK_POSTS_PER_DAY", 2), \
-             patch.object(facebook, "FACEBOOK_HARD_MAX_POSTS_PER_DAY", 3), \
+             patch.object(facebook, "JOBS_FACEBOOK_MAX_POSTS_PER_DAY", 3), \
              patch.object(facebook, "load_article_queue", return_value={"articles": rows}):
             result = facebook.get_facebook_limits_status(now=now, urgent=True)
         self.assertFalse(result["allowed_now"])
@@ -4187,17 +4087,15 @@ class JobsRuntimeTests(unittest.TestCase):
         now = datetime(2026, 9, 29, 18, 0, tzinfo=tz)
         rows = [{
             "facebook_status": "posted",
-            "facebook_posted_at": (now - timedelta(minutes=20)).isoformat(),
+            "facebook_posted_at": (now - timedelta(minutes=4)).isoformat(),
         }]
         with patch.object(facebook, "JOBS_MODE", True), \
-             patch.object(facebook, "MAX_FACEBOOK_POSTS_PER_DAY", 2), \
-             patch.object(facebook, "FACEBOOK_HARD_MAX_POSTS_PER_DAY", 3), \
-             patch.object(facebook, "FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES", 45), \
-             patch.object(facebook, "MIN_MINUTES_BETWEEN_FACEBOOK_POSTS", 0), \
+             patch.object(facebook, "JOBS_FACEBOOK_MAX_POSTS_PER_DAY", 3), \
+             patch.object(facebook, "JOBS_FACEBOOK_MIN_INTERVAL_MINUTES", 5), \
              patch.object(facebook, "load_article_queue", return_value={"articles": rows}):
             result = facebook.get_facebook_limits_status(now=now, urgent=True)
         self.assertFalse(result["allowed_now"])
-        self.assertEqual(result["min_minutes_between_facebook_posts"], 45)
+        self.assertEqual(result["min_minutes_between_facebook_posts"], 5)
         self.assertIn("safety interval", " ".join(result["reasons"]))
 
     def test_manual_backfill_cannot_bypass_schedule(self):

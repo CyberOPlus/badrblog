@@ -108,8 +108,7 @@ class JobVisualTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             temp = Path(temp)
             logo_image = Image.new("RGBA", (480, 160), (20, 80, 170, 255))
-            with patch.object(visuals, "JOB_VISUAL_STATE_PATH", temp / "visual_state.json"), \
-                 patch.object(visuals, "_load_job_logo", return_value=logo_image):
+            with patch.object(visuals, "_load_job_logo", return_value=logo_image):
                 render_index = 0
                 for template_key in visual_policy.JOB_TEMPLATE_KEYS:
                     for title in titles:
