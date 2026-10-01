@@ -1160,6 +1160,7 @@ def _publish_facebook_post(article, blueprint):
             "font_size": image_result.get("title_font_size"),
             "font_width": image_result.get("title_font_width"),
             "lines": image_result.get("title_lines"),
+            "truncated": bool(image_result.get("title_truncated")),
             "title_bbox": image_result.get("title_bbox"),
             "logo_kind": image_result.get("logo_kind"),
             "logo_bbox": image_result.get("logo_bbox"),
