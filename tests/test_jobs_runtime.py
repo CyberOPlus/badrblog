@@ -919,7 +919,9 @@ class JobsRuntimeTests(unittest.TestCase):
 
     def test_single_ai_candidate_on_cooldown_is_not_called(self):
         candidate = {"provider": "groq", "api_key": "secret", "model": "test"}
-        with patch.object(ai, "_provider_candidates", return_value=[candidate]), \
+        with patch.object(ai, "_global_circuit_remaining", return_value=0), \
+             patch.object(ai, "_provider_circuit_remaining", return_value=0), \
+             patch.object(ai, "_provider_candidates", return_value=[candidate]), \
              patch.object(ai, "_cooldown_remaining", return_value=120), \
              patch.object(ai, "_generate_with_candidate") as generate:
             with self.assertRaises(ai.AIProviderFallbackNeeded):
@@ -3155,6 +3157,7 @@ class JobsRuntimeTests(unittest.TestCase):
         with (
             patch.object(main, "_mark_candidate_failure_for_retry") as mark,
             patch.object(main, "_select_retry_candidate", return_value=None) as select,
+            patch.object(main, "ai_circuit_status", return_value={"global_open": False}),
         ):
             success, retries = main._retry_after_single_candidate_failure(
                 failed,
