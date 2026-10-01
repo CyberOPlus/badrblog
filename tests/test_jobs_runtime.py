@@ -1054,6 +1054,40 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(stats["archived_stale_no_deadline"], 1)
         self.assertTrue(saved["articles"][0]["archived"])
 
+    def test_no_deadline_job_uses_official_publish_date_before_discovery_date(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        old_published = (datetime.now(timezone.utc) - timedelta(days=90)).isoformat()
+        discovered_now = datetime.now(timezone.utc).isoformat()
+        queue = {
+            "articles": [{
+                "id": "old-official-listing",
+                "url": "https://example.com/jobs/old-official-listing",
+                "title": "Old Official Listing",
+                "status": "ready",
+                "content_fetch_status": "",
+                "job_deadline": "",
+                "job_published_at": old_published,
+                "source_published_at": old_published,
+                "discovered_at": discovered_now,
+            }]
+        }
+        with TemporaryDirectory() as temp:
+            path = Path(temp) / "jobs_article_queue.json"
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", path), \
+                 patch.object(article_queue, "JOBS_MODE", True):
+                article_queue.save_article_queue(queue)
+                stats = article_queue.maintain_article_queue(days=7)
+                saved = article_queue.load_article_queue()
+
+        self.assertEqual(stats["archived_stale_no_deadline"], 1)
+        self.assertTrue(saved["articles"][0]["archived"])
+        self.assertEqual(
+            saved["articles"][0]["archive_reason"],
+            "no_deadline_unpublished_older_than_60_days",
+        )
+
     def test_jobs_deadline_cleanup_archives_expired_before_enrichment(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory
