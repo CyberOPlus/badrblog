@@ -3,9 +3,11 @@ name: Jobs Auto Cycle
 # watchdog is recovery-only; a completed cycle must not recursively dispatch
 # another cycle because that creates idle 2-minute loops and wasted runs.
 
-# Schedule is intentionally paused only while the one-time production
-# verification is prepared. The final commit restores the permanent cron.
+# Permanent production cadence. The first scheduled run after restoration is
+# the single post-repair live verification; watchdog remains paused until it passes.
 on:
+  schedule:
+    - cron: "1,7,13,19,25,31,37,43,49,55 * * * *"
   workflow_dispatch:
     inputs:
       verify:
