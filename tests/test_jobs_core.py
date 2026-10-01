@@ -418,6 +418,23 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(docs[0]["label"], "قرار فتح المباراة")
         self.assertEqual(docs[1]["label"], "بطاقة الوظيفة")
 
+    def test_emploi_public_document_dedup_decodes_percent_encoded_path(self):
+        notice_id = "ee457511-2cf7-4178-bcb7-b09cd1638bca"
+        page_url = f"https://www.emploi-public.ma/ar/تفاصيل/المباريات/{notice_id}"
+        html = f"""
+        <html><body>
+          <a href="/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/arrete/{notice_id}">قرار فتح المباراة</a>
+          <a href="/ar/تحميل/المباريات/arrete/{notice_id}">قرار فتح المباراة</a>
+          <a href="/ar/%D8%AA%D8%AD%D9%85%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/fichiers_att/{notice_id}/0">بطاقة الوظيفة</a>
+          <a href="/ar/تحميل/المباريات/fichiers_att/{notice_id}/0">بطاقة الوظيفة</a>
+        </body></html>
+        """
+        soup = BeautifulSoup(html, "html.parser")
+        rows = job_extractor._extract_job_action_links(soup, page_url)
+        docs = [row for row in rows if row.get("kind") == "document"]
+        self.assertEqual(len(docs), 2)
+        self.assertEqual({row["label"] for row in docs}, {"قرار فتح المباراة", "بطاقة الوظيفة"})
+
     def test_extractor_accepts_text_only_official_application_channel(self):
         html = """
         <html><body>
