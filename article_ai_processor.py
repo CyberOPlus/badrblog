@@ -994,7 +994,10 @@ def _compact_prompt_package(package):
     prompt_package = {}
 
     scalar_keys = (
-        "title", "url", "source_name",
+        # source_name and the transport URL are intentionally excluded from the
+        # writer copy. Verified reader-facing links come from job_detail_url,
+        # job_application_url and job_document_links instead.
+        "title",
         "job_title", "job_company", "job_location", "job_country",
         "job_contract_type", "job_salary",
         "job_deadline", "job_deadline_display",
