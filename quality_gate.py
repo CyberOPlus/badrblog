@@ -390,28 +390,32 @@ def _job_semantic_repetition_reason(html_content, seo_title):
             if containment >= 0.90:
                 return "Jobs article body semantically repeats the Blogger/SEO title as a heading"
 
-    intro_blocks = [block for block in blocks if block["region"] == "intro" and block["kind"] == "p"]
-    if intro_blocks:
-        intro = intro_blocks[0]["text"]
-        sentences = [
-            part.strip()
-            for part in re.split(r"[.!؟]+", intro)
-            if part.strip()
-        ]
-        intro_first_tokens = _job_fact_tokens(sentences[0] if sentences else intro)
-        if len(title_tokens) >= 4 and len(intro_first_tokens) >= 4:
-            shared = title_tokens & intro_first_tokens
-            containment = len(shared) / max(1, min(len(title_tokens), len(intro_first_tokens)))
-            if containment >= 0.90:
-                return "Jobs introduction semantically repeats the Blogger/SEO title"
-
+    # Intro/title overlap is an editorial warning, not a publication blocker.
+    # A factual first sentence can naturally share employer/role/location tokens
+    # with the SEO title; rejecting the whole verified job for that overlap
+    # wastes fresh vacancies. Duplicate H1/heading blocks above remain blockers.
     return ""
 
 
-def _job_semantic_repetition_warnings(html_content):
+def _job_semantic_repetition_warnings(html_content, seo_title=""):
     """Heuristic repetition signals are advisory and must never reject a real job."""
     _soup, blocks = _job_content_blocks(html_content)
     warnings = []
+
+    title_tokens = _job_fact_tokens(seo_title)
+    intro_blocks_for_title = [
+        block for block in blocks
+        if block["region"] == "intro" and block["kind"] == "p"
+    ]
+    if intro_blocks_for_title and len(title_tokens) >= 4:
+        intro = intro_blocks_for_title[0]["text"]
+        sentences = [part.strip() for part in re.split(r"[.!؟]+", intro) if part.strip()]
+        intro_tokens = _job_fact_tokens(sentences[0] if sentences else intro)
+        if len(intro_tokens) >= 4:
+            shared = title_tokens & intro_tokens
+            containment = len(shared) / max(1, min(len(title_tokens), len(intro_tokens)))
+            if containment >= 0.90:
+                warnings.append("Jobs introduction substantially overlaps the Blogger/SEO title")
 
     intro_blocks = [block for block in blocks if block["region"] == "intro" and block["kind"] == "p"]
     if intro_blocks:
@@ -592,7 +596,7 @@ def validate_before_publish(article, existing_articles=None, check_duplicate=Tru
     semantic_repeat_reason = _job_semantic_repetition_reason(html_content, seo_title)
     if semantic_repeat_reason:
         return QualityGateResult(False, semantic_repeat_reason, word_count)
-    semantic_warnings = _job_semantic_repetition_warnings(html_content)
+    semantic_warnings = _job_semantic_repetition_warnings(html_content, seo_title)
 
     if re.search(r"class\s*=\s*['\"][^'\"]*\bpRelate\b", html_content, flags=re.I):
         return QualityGateResult(False, "related-post pRelate block is forbidden in Jobs articles", word_count)
