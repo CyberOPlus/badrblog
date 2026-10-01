@@ -891,14 +891,15 @@ def _sanitize_article_final_html(article, prepare_visuals=True):
         _prepare_job_article_cover(article)
         _prepare_job_document_page_images(article)
     format_package = dict(article.get("ai_input_package") or article)
+    # Identity references must never leak even as an unlabeled raw code.
+    # Publication timestamps are intentionally NOT scrubbed by raw value: the
+    # same calendar date may also be a legitimate deadline/exam date. Labeled
+    # publication metadata is removed by _remove_internal_job_metadata instead.
     format_package["_internal_hidden_job_values"] = [
         value
         for value in (
             article.get("job_external_reference"),
             article.get("ats_reference"),
-            article.get("job_published_at"),
-            article.get("job_published_at_display"),
-            article.get("source_published_at"),
         )
         if str(value or "").strip()
     ]
