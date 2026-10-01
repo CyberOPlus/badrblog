@@ -36,6 +36,12 @@ on:
       - ".github/workflows/auto-cycle.yml"
       - ".github/workflows/jobs-watchdog.yml"
 
+concurrency:
+  # Keep only the newest CI for a branch. This prevents rapid iterative pushes
+  # from filling the runner queue and delaying production schedule/watchdog jobs.
+  group: jobs-core-tests-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
