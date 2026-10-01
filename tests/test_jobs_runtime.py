@@ -2706,6 +2706,93 @@ class JobsRuntimeTests(unittest.TestCase):
                 )
         self.assertLess(ai.time.monotonic() - started, 1.8)
 
+    def test_incomplete_json_switches_provider_without_same_provider_repair(self):
+        article = {
+            "id": "format-job",
+            "url": "https://example.com/jobs/format",
+            "status": "selected",
+            "processing_status": "ready_for_ai",
+            "ai_input_package": {
+                "title": "Network Engineer",
+                "url": "https://example.com/jobs/format",
+                "full_article_text": "verified source evidence",
+                "job_notice_type": "vacancy",
+                "job_notice_type_source": "heuristic",
+            },
+        }
+        queue = {"articles": [article]}
+        response = {
+            "title": "عنوان صالح",
+            "description": "وصف صالح للمقال",
+            "slug": "network-engineer",
+            "html_content": "<p>نص صالح للمقال</p>",
+            "notice_type": "vacancy",
+        }
+        generated = []
+
+        def fake_generate(provider, prompt, context=None):
+            generated.append(provider)
+            return "raw", f"{provider}:model"
+
+        validation = MagicMock(passed=True, warnings=())
+        with (
+            patch.object(ai, "JOBS_MODE", True),
+            patch.object(ai, "JOBS_AI_QUALITY_REPAIRS", 1),
+            patch.object(ai, "load_article_queue", return_value=queue),
+            patch.object(ai, "save_article_queue"),
+            patch.object(ai, "_attempt_provider_sequence", return_value=["cloudflare", "gemini"]),
+            patch.object(ai, "_skipped_slow_models_count", return_value=0),
+            patch.object(ai, "_source_stats", return_value=("text", 100, 20)),
+            patch.object(ai, "_build_prompt", return_value="prompt"),
+            patch.object(ai, "_generate_with_provider_name", side_effect=fake_generate),
+            patch.object(
+                ai,
+                "_parse_complete_ai_json",
+                side_effect=[
+                    ai.AIIncompleteResponseError("AI article response returned incomplete JSON."),
+                    dict(response),
+                ],
+            ),
+            patch.object(ai, "_record_provider_format_failure", return_value={"count": 1, "opened": False}),
+            patch.object(ai, "_shorten_metadata_once_if_needed", side_effect=lambda data: data),
+            patch.object(ai, "_normalize_ai_output", side_effect=lambda data: data),
+            patch.object(ai, "_finalize_html_content", side_effect=lambda data, package: data),
+            patch.object(ai, "_ensure_verified_position_count", side_effect=lambda data, package: data),
+            patch.object(ai, "_ensure_required_verified_facts", side_effect=lambda data, package: data),
+            patch.object(ai, "_validate_ai_output", return_value=validation),
+            patch.object(ai, "_minimum_article_words_for_package", return_value=1),
+        ):
+            result = ai.process_one_selected_article_with_ai(target_article_id="format-job")
+
+        self.assertEqual(generated, ["cloudflare", "gemini"])
+        self.assertEqual(result["success"], 1)
+        self.assertEqual(article["ai_provider_used"], "gemini:model")
+
+    def test_repeated_provider_format_failures_open_provider_circuit(self):
+        memory = ai._empty_ai_memory()
+        error = ai.AIIncompleteResponseError("AI article response returned incomplete JSON.")
+        with (
+            patch.object(ai, "_AI_MEMORY_CACHE", memory),
+            patch.object(ai.time, "time", return_value=1000),
+            patch.object(ai, "_save_ai_memory"),
+        ):
+            first = ai._record_provider_format_failure(
+                "cloudflare",
+                error,
+                raw_text='{"title":"x"',
+                model="model-a",
+            )
+            second = ai._record_provider_format_failure(
+                "cloudflare",
+                error,
+                raw_text='{"title":"x"',
+                model="model-a",
+            )
+
+        self.assertFalse(first["opened"])
+        self.assertTrue(second["opened"])
+        self.assertGreater(memory["provider_circuits"]["cloudflare"]["until"], 1000)
+
     def test_jobs_quality_failure_repairs_same_provider_once(self):
         article = {
             "id": "quality-job",
@@ -2808,6 +2895,77 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(result["failure_scope"], "retry_backoff")
         self.assertEqual(result["processed"], 0)
         self.assertEqual(article["ai_quality_status"], "retry_backoff")
+
+    def test_run_ai_retry_backoff_skips_to_one_fresh_candidate(self):
+        failed = {
+            "id": "backoff-job",
+            "url": "https://example.com/jobs/backoff",
+            "ai_failure_scope": "retry_backoff",
+            "ai_failure_fingerprint": "quality-fp",
+            "ai_retry_after": "2099-01-01T00:00:00+00:00",
+        }
+        fresh = {"id": "fresh-job", "url": "https://example.com/jobs/fresh"}
+
+        with (
+            patch.object(main, "JOBS_MODE", True),
+            patch.object(main, "JOBS_AI_CROSS_CANDIDATE_RETRIES", 1),
+            patch.object(main, "_mark_candidate_failure_for_retry", return_value=failed),
+            patch.object(main, "_select_retry_candidate", return_value=fresh) as select,
+            patch.object(
+                main,
+                "_process_job_target",
+                return_value={
+                    "completed": True,
+                    "article": fresh,
+                    "reason": "",
+                    "step_reached": "publish",
+                },
+            ) as process,
+            patch.object(main, "ai_circuit_status", return_value={"global_open": False}),
+        ):
+            success, retries = main._retry_after_single_candidate_failure(
+                failed,
+                "run-ai",
+                "AI retry backoff active",
+                "live",
+                {},
+                {"backoff-job"},
+            )
+
+        self.assertEqual(success["article"]["id"], "fresh-job")
+        self.assertEqual(len(retries), 1)
+        select.assert_called_once()
+        process.assert_called_once()
+
+    def test_retry_candidate_selection_excludes_active_ai_backoff(self):
+        blocked = {
+            "id": "blocked-job",
+            "url": "https://example.com/jobs/blocked",
+            "status": "ready",
+            "ai_retry_after": "2099-01-01T00:00:00+00:00",
+        }
+        fresh = {
+            "id": "fresh-job",
+            "url": "https://example.com/jobs/fresh",
+            "status": "ready",
+        }
+        queue = {"articles": [blocked, fresh]}
+        captured = {}
+
+        def fake_select(payload):
+            captured["ids"] = [row["id"] for row in payload["articles"]]
+            return fresh
+
+        with (
+            patch.object(main, "load_article_queue", return_value=queue),
+            patch.object(main, "save_article_queue"),
+            patch.object(main, "resolve_identity_pending_articles", return_value={"resolved_ready": 0}),
+            patch.object(main, "select_best_job_from_queue", side_effect=fake_select),
+        ):
+            selected = main._select_retry_candidate({}, set())
+
+        self.assertEqual(captured["ids"], ["fresh-job"])
+        self.assertEqual(selected["id"], "fresh-job")
 
     def test_run_ai_cross_candidate_retry_is_capped_to_one(self):
         failed = {

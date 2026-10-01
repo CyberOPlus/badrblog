@@ -86,6 +86,22 @@ def _jobs_one_shot_force_run():
     )
 
 
+def _ai_retry_backoff_active(article, now=None):
+    value = str((article or {}).get("ai_retry_after") or "").strip()
+    if not value:
+        return False
+    try:
+        retry_at = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return False
+    if retry_at.tzinfo is None:
+        retry_at = retry_at.replace(tzinfo=timezone.utc)
+    current = now or datetime.now(timezone.utc)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=timezone.utc)
+    return retry_at.astimezone(timezone.utc) > current.astimezone(timezone.utc)
+
+
 def _jobs_one_shot_candidate_articles(articles, attempted_ids=None):
     attempted_ids = {item for item in (attempted_ids or set()) if item}
     candidates = [
@@ -94,6 +110,7 @@ def _jobs_one_shot_candidate_articles(articles, attempted_ids=None):
         if (article.get("id") or article.get("url")) not in attempted_ids
         and not article.get("blogger_post_id")
         and str(article.get("publish_status") or "").strip().lower() != "published"
+        and not _ai_retry_backoff_active(article)
     ]
     with_documents = [
         article
@@ -1356,7 +1373,11 @@ def _selection_blocker_reason(queue):
     retry_blocked = 0
     earliest_retry = None
     for article in ready:
-        value = article.get("candidate_retry_after") or article.get("enrichment_retry_after")
+        value = (
+            article.get("candidate_retry_after")
+            or article.get("enrichment_retry_after")
+            or article.get("ai_retry_after")
+        )
         if not value:
             continue
         try:
@@ -1412,6 +1433,7 @@ def _select_retry_candidate(fetch_stats, attempted_ids):
     candidate_articles = [
         article for article in queue.get("articles", [])
         if (article.get("id") or article.get("url")) not in attempted_ids
+        and not _ai_retry_backoff_active(article)
     ]
     if _jobs_one_shot_force_run():
         candidate_articles = _jobs_one_shot_candidate_articles(
@@ -1511,19 +1533,18 @@ def _retry_after_single_candidate_failure(
         )
         return None, []
 
-    # A retry-backoff result means the article was intentionally not sent to
-    # any provider. Do not count it as another failure and do not rotate to more
-    # candidates in the same cycle.
+    # A retry-backoff article made no provider call. Preserve its retry time,
+    # skip it for now, and use this cycle's one fresh-candidate allowance instead
+    # of letting one cooling article stall all other verified Jobs.
     if stage == "run-ai" and initial_failure_scope == "retry_backoff":
         log_event(
-            "ai_candidate_rotation_stopped",
+            "ai_retry_backoff_candidate_skipped",
             failed_article_id=(failed_article or {}).get("id"),
             failure_scope="retry_backoff",
             failure_fingerprint=(failed_article or {}).get("ai_failure_fingerprint", ""),
             retry_after=(failed_article or {}).get("ai_retry_after", ""),
             reason=reason,
         )
-        return None, []
 
     marked_failed = _mark_candidate_failure_for_retry(failed_article, stage, reason)
     retry_results = []

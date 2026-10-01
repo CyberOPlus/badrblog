@@ -314,6 +314,8 @@ def _normalized_failure_text(error):
 
 
 def _provider_error_category(error):
+    if isinstance(error, AIIncompleteResponseError):
+        return "format"
     message = str(error or "").casefold()
     if any(token in message for token in ("401", "403", "unauthorized", "forbidden", "invalid api key", "invalid key")):
         return "auth"
@@ -370,6 +372,9 @@ def _fingerprint_backoff_seconds(scope, category, count):
         cap = 2 * 3600
     elif category == "empty":
         base = 5 * 60
+        cap = 60 * 60
+    elif category == "format":
+        base = 15 * 60
         cap = 60 * 60
     else:
         base = 15 * 60
@@ -492,6 +497,66 @@ def _open_provider_circuit(provider, error):
         retry_after=_epoch_to_iso(until),
     )
     return {"until": until, "fingerprint": fingerprint, "category": category}
+
+
+def _record_provider_format_failure(provider, error, raw_text="", model=""):
+    """Track malformed structured output and cool a repeatedly bad provider."""
+    provider = str(provider or "").strip().lower()
+    if not provider:
+        return {"count": 0, "opened": False, "until": 0, "fingerprint": ""}
+
+    fingerprint, category, retry_until = _record_failure_fingerprint(
+        error,
+        scope="provider",
+        provider=provider,
+    )
+    memory = _load_ai_memory()
+    entry = (memory.get("failure_fingerprints") or {}).get(fingerprint) or {}
+    count = int(entry.get("count") or 0)
+    opened = False
+    until = 0.0
+
+    # One malformed response can be stochastic. Two identical provider-format
+    # failures are enough to stop feeding fresh Jobs into the same provider.
+    if count >= 2:
+        until = max(float(retry_until or 0), time.time() + 30 * 60)
+        memory.setdefault("provider_circuits", {})[provider] = {
+            "until": until,
+            "provider": provider,
+            "category": "format",
+            "fingerprint": fingerprint,
+            "reason": _safe_error_reason(error),
+            "opened_at": _now_iso(),
+            "model": str(model or "").strip(),
+        }
+        _save_ai_memory(memory)
+        opened = True
+        log_event(
+            "ai_provider_format_circuit_opened",
+            provider=provider,
+            model=model,
+            count=count,
+            fingerprint=fingerprint,
+            retry_after=_epoch_to_iso(until),
+        )
+
+    log_event(
+        "ai_provider_format_failure",
+        provider=provider,
+        model=model,
+        count=count,
+        fingerprint=fingerprint,
+        output_chars=len(str(raw_text or "")),
+        output_ends_with_brace=str(raw_text or "").rstrip().endswith("}"),
+        circuit_opened=opened,
+    )
+    return {
+        "count": count,
+        "opened": opened,
+        "until": until,
+        "fingerprint": fingerprint,
+        "category": category,
+    }
 
 
 def _open_global_circuit(error, providers=None):
@@ -2508,6 +2573,30 @@ def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_sec
         text = str(result or "").strip()
     if not text:
         raise AIProviderEmptyResponse("Cloudflare returned an empty response.")
+
+    usage = result.get("usage") if isinstance(result, dict) else {}
+    if not isinstance(usage, dict):
+        usage = {}
+    finish_reason = ""
+    if isinstance(result, dict):
+        finish_reason = str(
+            result.get("finish_reason")
+            or result.get("stop_reason")
+            or result.get("reason")
+            or ""
+        ).strip()
+    log_event(
+        "ai_cloudflare_response_meta",
+        model=model_name,
+        output_chars=len(text),
+        finish_reason=finish_reason,
+        output_tokens=(
+            usage.get("output_tokens")
+            or usage.get("completion_tokens")
+            or usage.get("generated_tokens")
+            or ""
+        ),
+    )
     return text, f"cloudflare:{model_name}"
 
 
@@ -3014,7 +3103,15 @@ def _is_quality_error(error):
 def _is_provider_error(error):
     if isinstance(error, AIArticleInputError):
         return False
-    return isinstance(error, (RuntimeError, AIProviderFallbackNeeded, AIProviderRotationExhausted))
+    return isinstance(
+        error,
+        (
+            RuntimeError,
+            AIProviderFallbackNeeded,
+            AIProviderRotationExhausted,
+            AIIncompleteResponseError,
+        ),
+    )
 
 
 def _apply_success(article, data, provider_used):
@@ -3257,6 +3354,7 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             provider=provider,
             ai_total_time=round(context.elapsed_seconds(), 2),
         )
+        raw_text = ""
         try:
             context.current_stage = "article_generation"
             raw_text, provider_used = (
@@ -3337,9 +3435,9 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             }
         except Exception as error:
             last_error = error
-            is_quality_failure = _is_quality_error(error)
-            is_article_input_failure = isinstance(error, AIArticleInputError)
             is_incomplete_response = isinstance(error, AIIncompleteResponseError)
+            is_quality_failure = _is_quality_error(error) and not is_incomplete_response
+            is_article_input_failure = isinstance(error, AIArticleInputError)
             is_short_output = isinstance(error, AIOutputRejectedShortError)
             if is_quality_failure:
                 article["ai_quality_last_error"] = str(error)
@@ -3354,6 +3452,62 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                 elapsed_ms=elapsed_ms(started),
                 ai_total_time=round(context.elapsed_seconds(), 2),
             )
+            if is_incomplete_response:
+                provider_key = str(
+                    provider or provider_used.split(":", 1)[0] or "default"
+                ).strip().lower()
+                provider_model = (
+                    provider_used.split(":", 1)[1]
+                    if ":" in str(provider_used or "")
+                    else ""
+                )
+                failed_provider_names.add(provider_key)
+                provider_failure_categories[provider_key] = "format"
+                format_state = _record_provider_format_failure(
+                    provider_key,
+                    error,
+                    raw_text=raw_text,
+                    model=provider_model,
+                )
+                log_event(
+                    "ai_response_incomplete_provider_failure",
+                    article_id=article.get("id"),
+                    attempt=attempt,
+                    provider=provider_key,
+                    model=provider_model,
+                    output_chars=len(str(raw_text or "")),
+                    malformed_count=format_state.get("count", 0),
+                    provider_circuit_opened=format_state.get("opened", False),
+                    reason=str(error),
+                )
+
+                if attempt < total_attempts:
+                    next_provider = ""
+                    if provider_sequence:
+                        start_index = (
+                            provider_sequence.index(provider_key)
+                            if provider_key in provider_sequence
+                            else -1
+                        )
+                        for offset in range(1, len(provider_sequence) + 1):
+                            candidate_provider = provider_sequence[
+                                (start_index + offset) % len(provider_sequence)
+                            ]
+                            if candidate_provider not in failed_provider_names:
+                                next_provider = candidate_provider
+                                break
+                    if next_provider:
+                        forced_next_provider = next_provider
+                        log_event(
+                            "ai_provider_switch",
+                            article_id=article.get("id"),
+                            from_provider=provider_key,
+                            to_provider=next_provider,
+                            reason="incomplete structured response",
+                        )
+                        continue
+                break
+
             if is_quality_failure:
                 log_event(
                     "quality_failed_reason",
@@ -3361,14 +3515,6 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     attempt=attempt,
                     reason=error,
                 )
-                if is_incomplete_response:
-                    log_event(
-                        "ai_response_incomplete_retry",
-                        article_id=article.get("id"),
-                        attempt=attempt,
-                        provider=provider or provider_used,
-                        reason=str(error),
-                    )
                 if is_short_output:
                     log_event(
                         "ai_output_rejected_short",
