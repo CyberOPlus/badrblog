@@ -1267,8 +1267,6 @@ def _material_change(article, record):
         "contract_type": article.get("job_contract_type"),
         "location": article.get("job_location"),
         "application_url": canonicalize_job_url(article.get("job_application_url")),
-        "application_link_kind": str(article.get("job_application_link_kind") or ""),
-        "application_is_specific": bool(article.get("job_application_is_specific")),
         "notice_type": article.get("job_notice_type") or "vacancy",
         "notice_status": article.get("job_notice_status") or "",
         "document_urls": "|".join(sorted(x for x in document_urls if x)),
@@ -1601,6 +1599,8 @@ def record_job_publish(article, now=None):
         "salary": article.get("job_salary", ""),
         "contract_type": article.get("job_contract_type", ""),
         "application_url": canonicalize_job_url(article.get("job_application_url")),
+        "application_link_kind": str(article.get("job_application_link_kind") or ""),
+        "application_is_specific": bool(article.get("job_application_is_specific")),
         "notice_type": article.get("job_notice_type") or "vacancy",
         "notice_status": article.get("job_notice_status") or "",
         "document_urls": "|".join(sorted(
