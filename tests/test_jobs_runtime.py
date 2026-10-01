@@ -3846,18 +3846,22 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertTrue(result["completed"])
         self.assertEqual(result["scheduled_facebook"]["failed"], 1)
 
-    def test_follow_article_mode_removes_slot_wait_but_keeps_spacing(self):
-        now = datetime(2026, 10, 1, 0, 0, tzinfo=timezone.utc)
-        with patch.object(job_core, "JOBS_FACEBOOK_FOLLOW_ARTICLE", True):
-            self.assertTrue(job_core.facebook_slot_status(now=now)["allowed_now"])
-            rows = [{"facebook_status": "posted", "facebook_posted_at": now.isoformat()}]
-            with patch.object(facebook, "JOBS_MODE", True), \
-                 patch.object(facebook, "load_article_queue", return_value={"articles": rows}), \
-                 patch.object(facebook, "MAX_FACEBOOK_POSTS_PER_DAY", 240), \
-                 patch.object(facebook, "FACEBOOK_HARD_MAX_POSTS_PER_DAY", 240), \
-                 patch.object(facebook, "FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES", 5):
-                self.assertFalse(facebook.get_facebook_limits_status(now=now)["allowed_now"])
-                self.assertTrue(facebook.get_facebook_limits_status(now=now + timedelta(minutes=5))["allowed_now"])
+    def test_jobs_facebook_uses_slots_and_immutable_45_minute_spacing(self):
+        tz = ZoneInfo("Africa/Casablanca")
+        outside_slot = datetime(2026, 10, 1, 0, 0, tzinfo=tz)
+        self.assertFalse(job_core.facebook_slot_status(now=outside_slot)["allowed_now"])
+
+        in_slot = datetime(2026, 10, 1, 12, 30, tzinfo=tz)
+        self.assertTrue(job_core.facebook_slot_status(now=in_slot)["allowed_now"])
+        rows = [{"facebook_status": "posted", "facebook_posted_at": in_slot.isoformat()}]
+        with patch.object(facebook, "JOBS_MODE", True), \
+             patch.object(facebook, "load_article_queue", return_value={"articles": rows}), \
+             patch.object(facebook, "MAX_FACEBOOK_POSTS_PER_DAY", 2), \
+             patch.object(facebook, "FACEBOOK_HARD_MAX_POSTS_PER_DAY", 3), \
+             patch.object(facebook, "FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES", 45):
+            self.assertFalse(
+                facebook.get_facebook_limits_status(now=in_slot + timedelta(minutes=44))["allowed_now"]
+            )
 
     def test_backlog_never_bypasses_schedule(self):
         pending = [{"id": "one"}, {"id": "two"}]
