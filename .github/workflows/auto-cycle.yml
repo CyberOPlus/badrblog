@@ -572,3 +572,28 @@ jobs:
             data/source_health.json
             data/automation_heartbeat.json
             logs/auto_cycle_runs.jsonl
+
+      - name: Pace next production cycle
+        if: always() && github.ref == 'refs/heads/main'
+        run: sleep 120
+
+      - name: Continue production cycle directly
+        if: always() && github.ref == 'refs/heads/main'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const {owner, repo} = context.repo;
+            const workflow_id = "auto-cycle.yml";
+            const {data} = await github.rest.actions.listWorkflowRuns({
+              owner, repo, workflow_id, branch: "main", per_page: 10,
+            });
+            const otherActive = (data.workflow_runs || []).find(run =>
+              run.id !== context.runId
+              && (run.status === "queued" || run.status === "in_progress")
+            );
+            if (otherActive) {
+              core.info(`Next production cycle already active: ${otherActive.id}`);
+              return;
+            }
+            await github.rest.actions.createWorkflowDispatch({owner, repo, workflow_id, ref: "main"});
+            core.info("Next production cycle dispatched directly.");

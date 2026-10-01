@@ -2,7 +2,7 @@
 
 Updated 2026-10-01. Times and daily counters use Africa/Casablanca.
 
-Production checks at minutes 01, 07, 13, 19, 25, 31, 37, 43, 49 and 55. The watchdog checks every six minutes and chains completed production runs after a two-minute pause. A successful Jobs Core Tests run on main also wakes production; failed deployment tests do not wake it. The shared production lock prevents overlapping publishers. Full regression checks are optional on manual dispatch and run in a temporary copy, as do production smoke checks.
+Production checks at minutes 01, 07, 13, 19, 25, 31, 37, 43, 49 and 55. Each production run requests its successor after a two-minute pause, unless another cycle is already active. The watchdog checks every six minutes and also wakes on completed production runs. A successful Jobs Core Tests run on main also wakes production; failed deployment tests do not wake it. The shared production lock prevents overlapping publishers. Full regression checks are optional on manual dispatch and run in a temporary copy, as do production smoke checks.
 
 Only a verified official publication time within the last 12 hours qualifies a new job. Discovery time is not publication time. Known stale rows do not consume enrichment slots. Unknown dates require detail-page evidence before publication. Fresh cyber, IT, developer and student/internship opportunities take priority while valid general jobs remain eligible.
 
