@@ -354,6 +354,29 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual([image["src"] for image in soup.select("img.jobDocPageImage")], [row["url"] for row in rows])
         self.assertEqual([h.get_text() for h in soup.find_all("h2")].count("صفحات الوثيقة الرسمية"), 1)
 
+    def test_jobs_formatter_does_not_accumulate_empty_cover_figures(self):
+        package = {
+            "title": "مباراة توظيف متصرف من الدرجة الثانية",
+            "main_image": "https://assets.example/cover.jpg",
+        }
+        html = (
+            "<p>مقدمة موجزة عن المباراة.</p>"
+            "<figure><img src='https://source.example/old.jpg'/>"
+            "<figcaption>صورة مصدر قديمة</figcaption></figure>"
+        )
+
+        first = ai.format_phase3_article_html(html, package)
+        second = ai.format_phase3_article_html(first, package)
+        soup = BeautifulSoup(second, "html.parser")
+
+        self.assertEqual(first, second)
+        self.assertEqual(
+            [image.get("src") for image in soup.find_all("img")],
+            [package["main_image"]],
+        )
+        self.assertEqual(len(soup.find_all("figure")), 1)
+        self.assertNotIn("source.example", second)
+
     def test_scanned_pdf_ocr_covers_every_processed_page_by_default(self):
         pdf = job_document_renderer.fitz.open()
         for _ in range(10):
