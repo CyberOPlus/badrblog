@@ -555,6 +555,12 @@ class JobsRuntimeTests(unittest.TestCase):
             "application_link_kind": "direct_apply",
             "application_is_specific": True,
             "notice_type": "vacancy",
+            "company_logo_url": "https://cdn.example.com/orange.png",
+            "company_logo_verified": True,
+            "company_logo_confidence": 98,
+            "company_logo_source": "verified_registry",
+            "company_official_domain": "orange.jobs",
+            "company_logo_checksum": "orange-checksum",
             "source_url": "https://careers.example.com/jobs/28406",
             "source_name": "Orange Maroc",
             "source_priority": "A+",
@@ -592,6 +598,10 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(recovered["seo_title"], cache["links"][0]["title"])
         self.assertEqual(recovered["job_application_link_kind"], "direct_apply")
         self.assertTrue(recovered["job_application_is_specific"])
+        self.assertTrue(recovered["company_logo_verified"])
+        self.assertEqual(recovered["company_logo_url"], campaign["company_logo_url"])
+        self.assertEqual(recovered["company_logo_confidence"], 98)
+        self.assertEqual(recovered["company_official_domain"], "orange.jobs")
         self.assertTrue(recovered["facebook_queue_recovered"])
         persist_social.assert_called_once_with(recovered)
         save.assert_called_once()
@@ -630,6 +640,12 @@ class JobsRuntimeTests(unittest.TestCase):
             "job_application_link_kind": "direct_apply",
             "job_application_is_specific": True,
             "job_notice_type": "vacancy",
+            "company_logo_url": "https://cdn.example.com/orange.png",
+            "company_logo_verified": True,
+            "company_logo_confidence": 98,
+            "company_logo_source": "verified_registry",
+            "company_official_domain": "orange.jobs",
+            "company_logo_checksum": "orange-checksum",
             "url": "https://careersfr-orange.icims.com/jobs/28406/job/login",
             "blogger_post_id": "post-1",
             "blogger_post_url": "https://example.blogspot.com/2026/10/orange.html",
@@ -649,6 +665,12 @@ class JobsRuntimeTests(unittest.TestCase):
             record["application_url"],
             "https://careersfr-orange.icims.com/jobs/28406/analyste-cybersecurite-junior/job/login",
         )
+        self.assertTrue(record["company_logo_verified"])
+        self.assertEqual(record["company_logo_url"], "https://cdn.example.com/orange.png")
+        self.assertEqual(record["company_logo_confidence"], 98)
+        self.assertEqual(record["company_logo_source"], "verified_registry")
+        self.assertEqual(record["company_official_domain"], "orange.jobs")
+        self.assertEqual(record["company_logo_checksum"], "orange-checksum")
 
     def test_legacy_not_selected_job_is_requeued_for_facebook(self):
         article = {
