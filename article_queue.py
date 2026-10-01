@@ -14,6 +14,7 @@ from config import (
     SOURCE_CANDIDATE_FAILURE_COOLDOWN_MINUTES,
     SOURCES_CONFIG_PATH,
     JOBS_MODE,
+    JOBS_MAX_PUBLISH_AGE_HOURS,
 )
 from duplicate_utils import canonicalize_url, title_hash, topic_signature
 from production_logging import log_event
@@ -566,6 +567,7 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
     changed = False
     expired = 0
     missing_date = 0
+    stale_jobs = 0
 
     released_logo_waits = 0
 
@@ -575,14 +577,26 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
         if _release_legacy_logo_wait(article):
             released_logo_waits += 1
             changed = True
-        if article.get("status") in {"published", "draft_created"}:
+        if (
+            article.get("status") in {"published", "draft_created"}
+            or article.get("publish_status") in {"published", "draft_created"}
+            or article.get("blogger_post_id")
+            or article.get("blogger_draft_id")
+        ):
             continue
 
         if JOBS_MODE:
-            # Jobs are not news. A listing can be older than seven days and still
-            # be valid. Only active vacancy/competition notices expire when their
-            # verified application deadline passes. Candidate lists, results and
-            # updates may legitimately be published after the original deadline.
+            # The 12-hour publication policy applies to every unpublished notice,
+            # including cached results/updates whose application deadline is past.
+            # Missing dates still get detail enrichment; discovery time is never
+            # substituted for an official publication date.
+            if _known_stale_job(article, now=now):
+                if _archive_article(article, "job_publication_window_passed", archived_at):
+                    expired += 1
+                    stale_jobs += 1
+                    changed = True
+                continue
+
             notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
             if notice_type in {"vacancy", "competition"}:
                 deadline = job_deadline_time(article)
@@ -596,8 +610,6 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
                         if _archive_article(article, "job_deadline_passed", archived_at):
                             expired += 1
                             changed = True
-            # No-deadline Jobs are handled by the separate 60-day stale safeguard
-            # in maintain_article_queue(); post-deadline result/update notices stay hot.
             continue
 
         published_at = _source_published_datetime(article)
@@ -614,6 +626,7 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
 
     return {
         "expired_archived": expired,
+        "stale_jobs_archived": stale_jobs,
         "missing_date_archived": missing_date,
         "changed": changed,
         "released_logo_waits": released_logo_waits,
@@ -815,6 +828,18 @@ def _merge_job_discovery_metadata(existing, discovered):
     return changed
 
 
+def _known_stale_job(article, now=None):
+    published = _parse_job_date(
+        article.get("job_published_at") or article.get("source_published_at")
+    )
+    if not published:
+        return False
+    current = now or datetime.now(timezone.utc)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=timezone.utc)
+    return (current - published).total_seconds() > JOBS_MAX_PUBLISH_AGE_HOURS * 3600
+
+
 def add_articles_to_queue(discovered_articles):
     """
     Add newly discovered articles while preventing URL and title duplicates.
@@ -846,6 +871,7 @@ def add_articles_to_queue(discovered_articles):
     added = 0
     duplicate_url = 0
     duplicate_title = 0
+    stale_jobs_rejected = 0
     added_by_category = Counter()
     duplicate_by_category = Counter()
 
@@ -869,6 +895,13 @@ def add_articles_to_queue(discovered_articles):
                 _merge_job_discovery_metadata(existing, article)
             duplicate_url += 1
             duplicate_by_category[category_hint] += 1
+            continue
+
+        # Discovery has already durably remembered these source IDs. Do not add
+        # old listing rows to the hot queue or spend enrichment/AI work on them.
+        # An undated row is retained so its detail page can supply the evidence.
+        if JOBS_MODE and _known_stale_job(article):
+            stale_jobs_rejected += 1
             continue
 
         if (not JOBS_MODE) and normalized_title_hash and (
@@ -937,6 +970,7 @@ def add_articles_to_queue(discovered_articles):
         "duplicate_url": duplicate_url,
         "duplicate_title": duplicate_title,
         "duplicates": duplicate_url + duplicate_title,
+        "stale_jobs_rejected": stale_jobs_rejected,
         "added_by_category": dict(added_by_category),
         "duplicate_by_category": dict(duplicate_by_category),
         "total_queued": len(articles),

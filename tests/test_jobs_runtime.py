@@ -1200,7 +1200,7 @@ class JobsRuntimeTests(unittest.TestCase):
             "job_deadline_passed",
         )
 
-    def test_old_jobs_listing_with_future_deadline_is_not_news_expired(self):
+    def test_old_jobs_listing_with_future_deadline_is_archived_by_publication_age(self):
         from pathlib import Path
         from tempfile import TemporaryDirectory
 
@@ -1225,8 +1225,137 @@ class JobsRuntimeTests(unittest.TestCase):
                 )
                 saved = article_queue.load_article_queue()
 
-        self.assertEqual(stats["expired_archived"], 0)
-        self.assertFalse(saved["articles"][0].get("archived", False))
+        self.assertEqual(stats["stale_jobs_archived"], 1)
+        self.assertTrue(saved["articles"][0]["archived"])
+        self.assertEqual(saved["articles"][0]["archive_reason"], "job_publication_window_passed")
+
+    def test_stale_cached_results_are_archived_but_live_social_and_pdf_work_survives(self):
+        now = datetime(2026, 10, 1, 12, 0, tzinfo=timezone.utc)
+        old = "2024-10-02T08:00:00+00:00"
+        rows = [
+            {"id": "old-result", "status": "ready", "content_fetch_status": "success",
+             "job_notice_type": "final_results", "job_published_at": old},
+            {"id": "old-no-deadline", "status": "ready", "job_published_at": old},
+            {"id": "boundary", "status": "ready", "job_published_at": "2026-10-01T00:00:00Z"},
+            {"id": "unknown", "status": "ready"},
+            {"id": "live-pending", "status": "published", "job_published_at": old,
+             "facebook_status": "facebook_pending", "job_document_render_status": "document_render_retry"},
+            {"id": "live-repair", "status": "selected", "publish_status": "published",
+             "blogger_post_id": "saved-id", "job_published_at": old},
+        ]
+        queue = {"articles": rows}
+        with patch.object(article_queue, "JOBS_MODE", True), \
+             patch.object(article_queue, "load_article_queue", return_value=queue), \
+             patch.object(article_queue, "save_article_queue"):
+            stats = article_queue.archive_expired_queue_articles(now=now)
+        self.assertEqual(stats["stale_jobs_archived"], 2)
+        self.assertEqual([r["id"] for r in rows if r.get("archived")],
+                         ["old-result", "old-no-deadline"])
+        self.assertEqual(rows[4]["facebook_status"], "facebook_pending")
+        self.assertEqual(rows[4]["job_document_render_status"], "document_render_retry")
+
+    def test_old_discovery_rows_never_enter_hot_queue_but_unknown_dates_can_enrich(self):
+        now = datetime.now(timezone.utc)
+        rows = [
+            {"title": "Old Job", "url": "https://example.com/job/old",
+             "job_published_at": (now - timedelta(hours=13)).isoformat()},
+            {"title": "Fresh Job", "url": "https://example.com/job/fresh",
+             "source_published_at": (now - timedelta(hours=1)).isoformat()},
+            {"title": "Undated Job", "url": "https://example.com/job/undated"},
+        ]
+        queue = {"articles": []}
+        with patch.object(article_queue, "JOBS_MODE", True), \
+             patch.object(article_queue, "load_article_queue", return_value=queue), \
+             patch.object(article_queue, "save_article_queue"):
+            stats = article_queue.add_articles_to_queue(rows)
+            repeated = article_queue.add_articles_to_queue(rows)
+        self.assertEqual(stats["stale_jobs_rejected"], 1)
+        self.assertEqual(stats["added"], 2)
+        self.assertEqual(repeated["added"], 0)
+        self.assertEqual(repeated["duplicates"], 2)
+        self.assertEqual([r["title"] for r in queue["articles"]], ["Fresh Job", "Undated Job"])
+
+    def test_cached_stale_enrichment_cannot_keep_ready_status(self):
+        article = {
+            "id": "cached-old", "status": "ready", "category_label": "jobs-morocco",
+            "content_fetch_status": "success", "full_article_text": "verified " * 500,
+            "job_published_at": "2024-10-02T08:00:00Z",
+        }
+        with patch.object(article_enricher, "JOBS_MODE", True), \
+             patch.object(article_enricher, "load_article_queue", return_value={"articles": [article]}), \
+             patch.object(article_enricher, "save_article_queue"), \
+             patch.object(article_enricher, "enrich_article") as fetch:
+            stats = article_enricher.enrich_ready_articles()
+        self.assertEqual(article["status"], "skipped")
+        self.assertEqual(stats["already_enriched"], 0)
+        fetch.assert_not_called()
+
+    def test_new_live_write_rechecks_publication_age_after_preparation(self):
+        for date in ("", "2024-10-02T08:00:00Z", "2099-01-01T00:00:00Z"):
+            with self.subTest(publication=date):
+                article = {
+                    "id": "stale-before-write", "status": "selected",
+                    "processing_status": "ready_for_ai", "ai_status": "completed",
+                    "ai_quality_status": "passed", "ai_provider_used": "gemini",
+                    "final_html": "<p>مقال موثق.</p>", "job_published_at": date,
+                }
+                service = MagicMock()
+                with patch.object(draft, "JOBS_MODE", True), \
+                     patch.object(draft, "SAFE_MODE", False), \
+                     patch.object(draft, "load_article_queue", return_value={"articles": [article]}), \
+                     patch.object(draft, "save_article_queue"), \
+                     patch.object(draft, "_sanitize_article_final_html"), \
+                     patch.object(draft, "_publish_quality_error", return_value=""), \
+                     patch.object(draft, "get_credentials", return_value=object()), \
+                     patch.object(draft, "create_blogger_service", return_value=service), \
+                     patch.object(draft, "is_local_publisher", return_value=False), \
+                     patch.object(draft, "_ensure_jobs_target_blog"), \
+                     patch.object(draft, "_find_matching_blogger_posts", return_value=[]):
+                    result = draft.publish_one_blogger_post(article["id"], mode="live")
+                self.assertFalse(result["created_new"])
+                self.assertIn("refusing new live publication", result["error"])
+                self.assertEqual(article["ai_status"], "completed")
+                service.posts.return_value.insert.assert_not_called()
+
+    def test_write_boundary_allows_exactly_twelve_hours_but_checks_deadline(self):
+        now = datetime(2026, 10, 1, 12, 0, tzinfo=timezone.utc)
+        article = {"job_published_at": "2026-10-01T00:00:00Z"}
+        with patch.object(draft, "JOBS_MODE", True):
+            draft._assert_fresh_job_for_new_live_publish(article, now=now)
+            article["job_deadline"] = "2026-09-30"
+            with self.assertRaisesRegex(RuntimeError, "deadline passed"):
+                draft._assert_fresh_job_for_new_live_publish(article, now=now)
+
+    def test_pdf_links_recovered_from_package_are_rendered_and_inserted(self):
+        import tempfile
+        from pathlib import Path
+
+        document = job_document_renderer.fitz.open()
+        for label in ("Official conditions", "Application requirements"):
+            page = document.new_page()
+            page.insert_text((50, 50), label)
+        payload = document.tobytes()
+        document.close()
+        link = {"url": "https://example.com/notice.pdf", "label": "شروط الترشح"}
+        article = {"id": "package-pdf", "seo_slug": "package-pdf",
+                   "ai_input_package": {"job_document_links": [link]}}
+        render = job_document_renderer.render_job_document_pages
+        with tempfile.TemporaryDirectory() as tmp, \
+             patch.object(draft, "JOBS_MODE", True), \
+             patch.object(ai, "JOBS_MODE", True), \
+             patch.object(job_document_renderer, "_download_pdf", return_value=payload), \
+             patch.object(draft, "_persist_generated_job_assets", return_value=True) as persist, \
+             patch.object(draft, "render_job_document_pages", side_effect=lambda target, **kw:
+                          render(target, output_root=Path(tmp), **kw)):
+            pages = draft._prepare_job_document_page_images(article)
+            html = ai._append_job_document_page_images("<p>مقدمة</p>", article["ai_input_package"])
+            self.assertTrue(all(Path(row["path"]).is_file() for row in pages))
+        self.assertEqual([p["page_number"] for p in pages], [1, 2])
+        self.assertEqual(article["job_document_render_status"], "rendered")
+        self.assertEqual(article["job_document_links"], [link])
+        self.assertEqual(html.count("class='jobDocPageImage'"), 2)
+        self.assertIn("الصفحة 2", html)
+        persist.assert_called_once()
 
     def test_post_deadline_results_notice_stays_publishable(self):
         from pathlib import Path
