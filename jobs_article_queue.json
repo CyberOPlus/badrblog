@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-01T01:00:47",
+  "updated_at": "2026-10-01T01:03:39",
   "articles": [
     {
       "id": "a6432a68f27e4c35",
@@ -82089,7 +82089,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:45:43",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:45:43",
       "archive_reason": "job_deadline_passed",
@@ -82154,7 +82154,9 @@
       "content_preview_chars": 735,
       "content_fetched_at": "2026-10-01T01:00:37",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1321.06h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T01:03:29.889182+00:00"
     },
     {
       "id": "7e7dafba9a978a5a",
@@ -102729,7 +102731,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:51:47",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:51:47",
       "archive_reason": "job_deadline_passed",
@@ -102778,7 +102780,9 @@
       "content_preview_chars": 610,
       "content_fetched_at": "2026-10-01T01:00:39",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1849.06h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T01:03:29.889729+00:00"
     },
     {
       "id": "4d06a193def4d01e",
@@ -103072,7 +103076,16 @@
       "archived_at": "2026-10-01T00:51:47",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "content_fetch_status": "failed",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-10-01T01:03:36",
+      "candidate_retry_after": "2026-10-01T01:18:36Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-10-01T01:03:36",
+      "candidate_failure_count": 1,
+      "candidate_retry_backoff_minutes": 15
     },
     {
       "id": "108da30bc7ea7b40",
@@ -103121,7 +103134,16 @@
       "archived_at": "2026-10-01T00:51:47",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "content_fetch_status": "failed",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-10-01T01:03:37",
+      "candidate_retry_after": "2026-10-01T01:18:37Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-10-01T01:03:37",
+      "candidate_failure_count": 1,
+      "candidate_retry_backoff_minutes": 15
     },
     {
       "id": "878ce3e46aa42f94",
@@ -103170,7 +103192,16 @@
       "archived_at": "2026-10-01T00:51:47",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "content_fetch_status": "failed",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-10-01T01:03:37",
+      "candidate_retry_after": "2026-10-01T01:18:37Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-10-01T01:03:37",
+      "candidate_failure_count": 1,
+      "candidate_retry_backoff_minutes": 15
     },
     {
       "id": "e52f73046aefd2a6",
@@ -103214,7 +103245,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:51:47",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:51:47",
       "archive_reason": "job_deadline_passed",
@@ -103263,7 +103294,9 @@
       "content_preview_chars": 682,
       "content_fetched_at": "2026-10-01T01:00:36",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1849.06h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T01:03:29.889822+00:00"
     },
     {
       "id": "28534e0dc1db3dff",
@@ -103655,7 +103688,16 @@
       "archived_at": "2026-10-01T00:51:47",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "content_fetch_status": "failed",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-10-01T01:03:38",
+      "candidate_retry_after": "2026-10-01T01:18:38Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-10-01T01:03:38",
+      "candidate_failure_count": 1,
+      "candidate_retry_backoff_minutes": 15
     },
     {
       "id": "ae315a4d744d5c70",
@@ -103998,7 +104040,16 @@
       "archived_at": "2026-10-01T00:51:47",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "content_fetch_status": "failed",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-10-01T01:03:39",
+      "candidate_retry_after": "2026-10-01T01:18:39Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-10-01T01:03:39",
+      "candidate_failure_count": 1,
+      "candidate_retry_backoff_minutes": 15
     },
     {
       "id": "1ea484ab961363f2",
@@ -105267,7 +105318,7 @@
       "job_remote": false,
       "job_number_of_positions": 1,
       "discovered_at": "2026-10-01T00:51:47",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:51:47",
       "archive_reason": "job_deadline_passed",
@@ -105342,7 +105393,9 @@
       "content_preview_chars": 545,
       "content_fetched_at": "2026-10-01T01:00:41",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 1993.06h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T01:03:29.889944+00:00"
     },
     {
       "id": "3a6997133be77866",
@@ -113422,7 +113475,7 @@
       "job_remote": false,
       "job_number_of_positions": 1,
       "discovered_at": "2026-10-01T00:54:56",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:54:56",
       "archive_reason": "job_deadline_passed",
@@ -113497,7 +113550,9 @@
       "content_preview_chars": 524,
       "content_fetched_at": "2026-10-01T01:00:40",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 2185.06h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T01:03:29.890212+00:00"
     },
     {
       "id": "451bc33bdfbf3ee2",
@@ -114717,7 +114772,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:54:56",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:54:56",
       "archive_reason": "job_deadline_passed",
@@ -114794,7 +114849,9 @@
       "content_preview_chars": 604,
       "content_fetched_at": "2026-10-01T01:00:47",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 2329.06h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T01:03:29.890316+00:00"
     },
     {
       "id": "d7431524243ffc8b",
@@ -116406,7 +116463,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:54:56",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:54:56",
       "archive_reason": "job_deadline_passed",
@@ -116481,7 +116538,9 @@
       "content_preview_chars": 470,
       "content_fetched_at": "2026-10-01T01:00:44",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 2497.06h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T01:03:29.890414+00:00"
     },
     {
       "id": "98a58e645806306f",
@@ -117951,7 +118010,16 @@
       "archived_at": "2026-10-01T00:54:56",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "content_fetch_status": "failed",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-10-01T01:03:31",
+      "candidate_retry_after": "2026-10-01T01:18:31Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-10-01T01:03:31",
+      "candidate_failure_count": 1,
+      "candidate_retry_backoff_minutes": 15
     },
     {
       "id": "a3c9a782dda73934",
@@ -117995,7 +118063,7 @@
       "job_remote": false,
       "job_number_of_positions": 0,
       "discovered_at": "2026-10-01T00:54:56",
-      "status": "ready",
+      "status": "skipped",
       "archived": true,
       "archived_at": "2026-10-01T00:54:56",
       "archive_reason": "job_deadline_passed",
@@ -118070,7 +118138,9 @@
       "content_preview_chars": 632,
       "content_fetched_at": "2026-10-01T01:00:38",
       "enrichment_status": "weak",
-      "content_fetch_status": "success"
+      "content_fetch_status": "success",
+      "skip_reason": "job publication age outside fresh window: 2569.06h (max 12h)",
+      "freshness_rejected_at": "2026-10-01T01:03:29.890521+00:00"
     },
     {
       "id": "fb963d42228dc268",
@@ -118119,7 +118189,16 @@
       "archived_at": "2026-10-01T00:54:56",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "content_fetch_status": "failed",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-10-01T01:03:32",
+      "candidate_retry_after": "2026-10-01T01:18:32Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-10-01T01:03:32",
+      "candidate_failure_count": 1,
+      "candidate_retry_backoff_minutes": 15
     },
     {
       "id": "849a9ec63e88733b",
@@ -118168,7 +118247,16 @@
       "archived_at": "2026-10-01T00:54:56",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "content_fetch_status": "failed",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-10-01T01:03:33",
+      "candidate_retry_after": "2026-10-01T01:18:33Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-10-01T01:03:33",
+      "candidate_failure_count": 1,
+      "candidate_retry_backoff_minutes": 15
     },
     {
       "id": "faf62b89289e27d7",
@@ -118217,7 +118305,16 @@
       "archived_at": "2026-10-01T00:54:56",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "content_fetch_status": "failed",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-10-01T01:03:33",
+      "candidate_retry_after": "2026-10-01T01:18:33Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-10-01T01:03:33",
+      "candidate_failure_count": 1,
+      "candidate_retry_backoff_minutes": 15
     },
     {
       "id": "6ad882ff7af46806",
@@ -118266,7 +118363,16 @@
       "archived_at": "2026-10-01T00:54:56",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "content_fetch_status": "failed",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-10-01T01:03:34",
+      "candidate_retry_after": "2026-10-01T01:18:34Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-10-01T01:03:34",
+      "candidate_failure_count": 1,
+      "candidate_retry_backoff_minutes": 15
     },
     {
       "id": "a5f082c86ef2d733",
@@ -118364,7 +118470,16 @@
       "archived_at": "2026-10-01T00:54:56",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "content_fetch_status": "failed",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-10-01T01:03:35",
+      "candidate_retry_after": "2026-10-01T01:18:35Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-10-01T01:03:35",
+      "candidate_failure_count": 1,
+      "candidate_retry_backoff_minutes": 15
     },
     {
       "id": "025719d904859720",
@@ -118609,7 +118724,16 @@
       "archived_at": "2026-10-01T00:54:56",
       "archive_reason": "job_deadline_passed",
       "score": 10,
-      "priority": "high"
+      "priority": "high",
+      "content_fetch_status": "failed",
+      "content_fetch_error": "http 502",
+      "content_fetched_at": "2026-10-01T01:03:36",
+      "candidate_retry_after": "2026-10-01T01:18:36Z",
+      "candidate_failure_stage": "enrichment",
+      "candidate_failure_reason": "http 502",
+      "candidate_failed_at": "2026-10-01T01:03:36",
+      "candidate_failure_count": 1,
+      "candidate_retry_backoff_minutes": 15
     },
     {
       "id": "596bba3a9ae5edaa",
