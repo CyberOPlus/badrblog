@@ -461,30 +461,31 @@ class JobsRuntimeTests(unittest.TestCase):
             article_enricher._jobs_enrichment_priority(general, 0, now=now),
         )
 
-    def test_jobs_enrichment_skips_known_stale_job_before_fetch(self):
+    def test_jobs_enrichment_does_not_discard_active_job_only_for_age(self):
         article = {
-            "id": "stale-known",
-            "url": "https://example.com/jobs/stale-known",
+            "id": "older-active",
+            "url": "https://example.com/jobs/older-active",
             "status": "ready",
             "category_label": "jobs-morocco",
             "source_published_at": "2026-09-28T08:00:00+00:00",
+            "job_deadline": "2099-10-08",
             "job_title": "Développeur Backend",
         }
         queue = {"articles": [article]}
         with (
             patch.object(article_enricher, "JOBS_MODE", True),
-            patch.object(article_enricher, "JOBS_MAX_PUBLISH_AGE_HOURS", 12),
             patch.object(article_enricher, "load_article_queue", return_value=queue),
             patch.object(article_enricher, "save_article_queue") as save,
-            patch.object(article_enricher, "enrich_article") as enrich,
+            patch.object(article_enricher, "_can_run_async_fetch", return_value=False),
+            patch.object(article_enricher, "enrich_article", return_value=(True, "")) as enrich,
         ):
             result = article_enricher.enrich_ready_articles(force=False)
 
-        self.assertEqual(article["status"], "skipped")
-        self.assertIn("outside fresh window", article["skip_reason"])
-        enrich.assert_not_called()
+        self.assertNotEqual(article.get("status"), "skipped")
+        self.assertNotIn("freshness_rejected_at", article)
+        enrich.assert_called_once_with(article)
         save.assert_called_once()
-        self.assertEqual(result["enriched"], 0)
+        self.assertEqual(result["enriched"], 1)
 
     def test_jobs_enrichment_priority_advances_near_deadline_before_score(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
