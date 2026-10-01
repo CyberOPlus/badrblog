@@ -5,7 +5,9 @@ on:
   schedule:
     - cron: "4,10,16,22,28,34,40,46,52,58 * * * *"
   workflow_run:
-    workflows: ["Jobs Auto Cycle", "Jobs Core Tests"]
+    # A successful code-validation run may wake production immediately.
+    # Auto Cycle completion is intentionally excluded: cron owns normal cadence.
+    workflows: ["Jobs Core Tests"]
     types: [completed]
     branches: [main]
 
@@ -18,9 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
-      - name: Pace completion chain
-        if: github.event_name == 'workflow_run'
-        run: sleep 120
       - name: Ensure auto-cycle is alive
         uses: actions/github-script@v8
         with:
@@ -50,7 +49,7 @@ jobs:
             }
 
             if (context.eventName === "workflow_run") {
-              core.info("Completion-chain wake: dispatching the next Jobs Auto Cycle.");
+              core.info("Validated code wake: dispatching one Jobs Auto Cycle.");
               await github.rest.actions.createWorkflowDispatch({owner, repo, workflow_id, ref: "main"});
               return;
             }
