@@ -1653,6 +1653,10 @@ class ProductionHardeningTests(unittest.TestCase):
         self.assertIn("Jobs queue changed upstream; merging remote and runner snapshot.", text)
         self.assertIn("added_snapshot_only", text)
         self.assertNotIn("prefer_jobs_queue_snapshot", text)
+        self.assertIn("Recover invalid Jobs queue from git history", text)
+        self.assertIn("python jobs_queue_recovery.py --check", text)
+        self.assertIn("git fetch --no-tags --deepen=500 origin main", text)
+        self.assertIn("python jobs_queue_recovery.py --recover", text)
 
     def test_live_post_allowed_after_one_minute(self):
         now = datetime(2026, 4, 27, 12, 10, 0)
