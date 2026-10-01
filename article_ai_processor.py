@@ -1124,8 +1124,9 @@ APPLICATION AND OFFICIAL LINKS
 - For an active vacancy/competition, include the strongest verified application resource exactly once where application makes sense.
 - If job_application_link_kind="official_application_channel", label it as "منصة الترشيح الرسمية" or equivalent, never "التقديم المباشر".
 - If job_application_link_kind="direct_apply", make the label clearly mean direct application.
-- If job_detail_url differs from the application URL and is useful, preserve it once.
+- If job_detail_url differs from the application URL, preserve it once as the official notice/detail link when present.
 - EVERY useful URL in job_document_links must remain in the final article exactly once.
+- In this pipeline listed official job_document_links are verified evidence; keep every listed document URL exactly once unless it is an exact duplicate.
 - Preserve URLs exactly. Never shorten, rewrite, fabricate or duplicate them.
 - External links: target="_blank" rel="nofollow noreferrer noopener".
 - No internal promotional/category/related links and no pRelate blocks.
