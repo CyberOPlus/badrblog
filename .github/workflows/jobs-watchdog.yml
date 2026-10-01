@@ -77,6 +77,9 @@ jobs:
                 const stateResponse = await github.rest.repos.getContent({
                   owner, repo, path: "data/job_state.json", ref: "main",
                 });
+                const aiMemoryResponse = await github.rest.repos.getContent({
+                  owner, repo, path: "data/ai_provider_memory.json", ref: "main",
+                });
                 async function readJson(response) {
                   let encoded = response.data.content;
                   if (!encoded && response.data.sha) {
@@ -88,18 +91,39 @@ jobs:
                 }
                 const queue = await readJson(queueResponse);
                 const state = await readJson(stateResponse);
-                const publishable = (queue.articles || []).filter(article =>
+                const aiMemory = await readJson(aiMemoryResponse);
+                const now = Date.now();
+                const retryActive = article => ["ai_retry_after", "candidate_retry_after", "enrichment_retry_after"]
+                  .map(field => Date.parse(article[field] || ""))
+                  .some(value => Number.isFinite(value) && value > now);
+                const basePublishable = (queue.articles || []).filter(article =>
                   !article.archived
                   && (article.status === "ready" || article.status === "selected")
                   && article.content_fetch_status === "success"
                   && article.job_quality_status === "publish"
                   && (!Array.isArray(article.job_quality_reasons) || article.job_quality_reasons.length === 0)
                 );
+                const publishable = basePublishable.filter(article => !retryActive(article));
+                const staleSelected = basePublishable.filter(article => {
+                  if (article.status !== "selected") return false;
+                  if (article.publish_status === "published" || article.blogger_post_id) return false;
+                  const selectedAt = Date.parse(article.selected_at || "");
+                  return !Number.isFinite(selectedAt) || (now - selectedAt) > 30 * 60000;
+                });
+                const globalCircuitUntil = Number((aiMemory.global_circuit || {}).until || 0) * 1000;
+                if (globalCircuitUntil > now && publishable.length > 0) {
+                  core.info("Jobs health=waiting_provider; AI circuit open until " + new Date(globalCircuitUntil).toISOString() + ".");
+                  return;
+                }
+                if (publishable.length === 0 && basePublishable.length > 0) {
+                  core.info("Jobs health=waiting_candidate; " + basePublishable.length + " candidate(s) are cooling down.");
+                  return;
+                }
                 const lastPublish = state.last_publish_at ? new Date(state.last_publish_at).getTime() : 0;
                 const publishAgeMinutes = lastPublish
                   ? (Date.now() - lastPublish) / 60000
                   : Number.POSITIVE_INFINITY;
-                if (!(publishable.length > 0 && publishAgeMinutes > 15)) {
+                if (!(staleSelected.length > 0 || (publishable.length > 0 && publishAgeMinutes > 15))) {
                   core.info(
                     `Auto-cycle healthy; last run age ${ageMinutes.toFixed(1)} minutes; `
                     + `publishable backlog=${publishable.length}.`
@@ -107,7 +131,10 @@ jobs:
                   return;
                 }
                 core.warning(
-                  `Publishable backlog stalled for ${publishAgeMinutes.toFixed(1)} minutes; dispatching recovery run.`
+                  "Jobs health=stuck; publishable=" + publishable.length
+                  + "; stale_selected=" + staleSelected.length
+                  + "; last publish age=" + publishAgeMinutes.toFixed(1)
+                  + " minutes; dispatching recovery run."
                 );
               } catch (error) {
                 core.warning(`Could not inspect durable Jobs state: ${error.message}; dispatching recovery.`);
