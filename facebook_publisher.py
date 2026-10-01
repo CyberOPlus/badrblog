@@ -34,7 +34,7 @@ from config import (
 from production_logging import elapsed_ms, log_event
 from internal_link_cache import load_internal_link_cache
 from job_visual_policy import choose_job_template
-from company_logo_resolver import verified_company_logo
+from company_logo_resolver import refresh_company_logo, verified_company_logo
 from utils.facebook_image_generator import generate_facebook_image
 from job_core import (
     facebook_slot_status,
@@ -1416,6 +1416,42 @@ def _build_caption(article, pattern, blogger_url=None):
     return blueprint["caption"]
 
 
+def _refresh_job_logo_before_facebook(article):
+    """Late verified-logo recovery immediately before the Facebook visual step."""
+    if not JOBS_MODE:
+        return {}
+
+    current = verified_company_logo(article)
+    article["facebook_logo_refresh_attempted_at"] = _now_iso()
+    if current.get("company_logo_verified") and current.get("company_logo_url"):
+        article["facebook_logo_refresh_status"] = "already_verified"
+        article.pop("facebook_logo_refresh_error", None)
+        return current
+
+    refreshed = refresh_company_logo(article)
+    if refreshed.get("company_logo_verified") and refreshed.get("company_logo_url"):
+        article["facebook_logo_refresh_status"] = "verified"
+        article.pop("facebook_logo_refresh_error", None)
+        log_event(
+            "facebook_job_logo_late_refresh_ready",
+            article_id=article.get("id"),
+            company=article.get("job_company"),
+            confidence=refreshed.get("company_logo_confidence", 0),
+        )
+        return refreshed
+
+    article["facebook_logo_refresh_status"] = "unavailable"
+    article["facebook_logo_refresh_error"] = (
+        "Verified employer logo is still unavailable after late refresh."
+    )
+    log_event(
+        "facebook_job_logo_late_refresh_unavailable",
+        article_id=article.get("id"),
+        company=article.get("job_company"),
+    )
+    return refreshed or current
+
+
 def _main_image_url(article):
     if JOBS_MODE:
         logo = verified_company_logo(article)
@@ -1795,6 +1831,11 @@ def _publish_facebook_post(article, blueprint):
     if image_result.get("ok"):
         image_result["url"] = _main_image_url(article)
         if JOBS_MODE:
+            article["facebook_logo_used"] = image_result["url"]
+            verified = verified_company_logo(article)
+            article["facebook_logo_checksum"] = str(
+                verified.get("company_logo_checksum") or ""
+            )
             article["facebook_visual_layout"] = {
                 "title": visual_title,
                 "font_size": image_result.get("title_font_size"),
@@ -2295,6 +2336,21 @@ def post_one_article_to_facebook(target_article_id=None, respect_limits=True):
             )
 
     if JOBS_MODE:
+        logo = _refresh_job_logo_before_facebook(article)
+        if not (
+            logo.get("company_logo_verified")
+            and str(logo.get("company_logo_url") or "").strip()
+        ):
+            # Do not consume a Facebook slot with a text-only or employer-name
+            # fallback. Keep the real Blogger job in the retryable social queue.
+            return _failure_result(
+                queue,
+                article,
+                article.get("facebook_logo_refresh_error")
+                or "Verified employer logo unavailable for Jobs Facebook visual.",
+                extra={"facebook_logo_refresh_status": article.get("facebook_logo_refresh_status", "")},
+            )
+
         selection = choose_job_template(article, JOB_VISUAL_STATE_PATH)
         if not selection.get("pinned"):
             save_article_queue(queue)
