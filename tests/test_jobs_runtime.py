@@ -4285,6 +4285,42 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertNotIn("facebook_error", article)
         self.assertEqual([row["id"] for row in pending], ["renderer-retry"])
 
+    def test_pending_job_repairs_stale_retry_metadata_and_stays_eligible(self):
+        article = {
+            "id": "legacy-pending-retry",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/legacy-pending-retry.html",
+            "facebook_status": "facebook_pending",
+            "facebook_retry_after_epoch": 9999999999,
+            "facebook_retry_delay_seconds": 3600,
+            "facebook_failure_count": 2,
+            "facebook_last_failure_at": "2026-10-01T11:48:58",
+            "facebook_error": "",
+            "job_notice_type": "vacancy",
+        }
+        queue = {"articles": [article]}
+        with patch.object(
+            facebook,
+            "_recover_jobs_facebook_queue_from_memory",
+            return_value={"recovered": 0, "skipped_terminal": 0},
+        ), patch.object(facebook, "_persist_jobs_social_state") as persist, \
+             patch.object(facebook, "save_article_queue"):
+            stats = facebook._sync_jobs_facebook_queue(queue)
+            pending, _comments = facebook._facebook_backfill_candidates(
+                queue["articles"]
+            )
+
+        self.assertEqual(stats["queued"], 0)
+        self.assertEqual(article["facebook_status"], "facebook_pending")
+        self.assertNotIn("facebook_retry_after_epoch", article)
+        self.assertNotIn("facebook_retry_delay_seconds", article)
+        self.assertNotIn("facebook_failure_count", article)
+        self.assertNotIn("facebook_last_failure_at", article)
+        self.assertTrue(facebook._eligible_for_facebook(article))
+        self.assertEqual([row["id"] for row in pending], ["legacy-pending-retry"])
+        persist.assert_called_once_with(article)
+
     def test_facebook_failed_backfill_respects_retry_cooldown(self):
         article = {
             "id": "cooldown",
