@@ -423,14 +423,9 @@ DOCUMENT_APPLICATION_HINTS = (
     "ترشيح", "الترشيح", "إيداع", "ايداع", "التسجيل",
 )
 DOCUMENT_ASCII_URL_RE = re.compile(
-    r"(?i)(?:https?://|www\\.)[A-Za-z0-9.-]+(?::\\d+)?"
-    r"(?:/[A-Za-z0-9._~:/?#\\[\\]@!DOCUMENT_ASCII_URL_RE = re.compile(
-    r"(?i)(?:https?://|www\\.)[A-Za-z0-9.-]+(?::\\d+)?"
-    r"(?:/[A-Za-z0-9._~:/?#\\[\\]@!def _safe_segment(value):
-'()*+,;=%-]*)?"
-)'()*+,;=%-]*)?"
+    r"(?i)(?:https?://|www\.)[A-Za-z0-9.-]+(?::\d+)?"
+    r"(?:/[A-Za-z0-9._~:/?#\[\]@!$&'()*+,;=%-]*)?"
 )
-
 
 def _document_application_url_candidates(article):
     """Find application channels explicitly printed inside verified PDF text."""
@@ -460,7 +455,7 @@ def _document_application_url_candidates(article):
 
             start = max(0, match.start() - 180)
             end = min(len(text), match.end() + 180)
-            context = re.sub(r"\\s+", " ", text[start:end]).strip()
+            context = re.sub(r"\s+", " ", text[start:end]).strip()
             signature = f"{raw} {context}".casefold()
             if not any(hint.casefold() in signature for hint in DOCUMENT_APPLICATION_HINTS):
                 continue
