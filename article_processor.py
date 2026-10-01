@@ -139,12 +139,17 @@ def _prepare_identity_evidence(article):
         article.get("identity_evidence_document_fingerprint") or ""
     )
     previous_failures = int(article.get("job_document_text_download_failures") or 0)
+    previous_read_complete = article.get("job_document_text_read_complete") is True
 
+    # A matching URL fingerprint alone is not proof that the PDF was actually
+    # read. Legacy/partial runs could cache a scanned PDF after yielding no text
+    # while OCR was unavailable. Retry those records before Article AI.
     should_extract_documents = bool(
         document_fingerprint
         and (
             document_fingerprint != previous_fingerprint
             or previous_failures > 0
+            or not previous_read_complete
         )
     )
 
@@ -154,11 +159,14 @@ def _prepare_identity_evidence(article):
             article["job_document_text_pages"] = 0
             article["job_document_text_chars"] = 0
             article["job_document_text_download_failures"] = 0
+            article["job_document_text_read_complete"] = False
         extract_job_document_texts(article)
         failures = int(article.get("job_document_text_download_failures") or 0)
-        if failures == 0:
+        read_complete = article.get("job_document_text_read_complete") is True
+        if failures == 0 and read_complete:
             article["identity_evidence_document_fingerprint"] = document_fingerprint
         else:
+            # Do not lock an unread/partially read PDF behind an unchanged URL.
             article.pop("identity_evidence_document_fingerprint", None)
     elif not document_fingerprint:
         article["identity_evidence_document_fingerprint"] = ""
