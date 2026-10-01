@@ -275,6 +275,11 @@ def _append_fact(manifest, category, fact):
 def _position_source(article, positions):
     if not positions:
         return "missing", HEURISTIC
+    if (
+        str(article.get("job_number_of_positions_source") or "").strip().lower() == "official_pdf"
+        and bool(article.get("official_source") or article.get("job_official_source"))
+    ):
+        return "official_pdf", HIGH
     value = str(positions)
     for source_name, text in (
         ("source_table", _table_text(article)),
