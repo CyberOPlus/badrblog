@@ -335,7 +335,16 @@ def _failure_fingerprint(error, *, scope="", provider=""):
 
 def _fingerprint_backoff_seconds(scope, category, count):
     count = max(1, int(count or 1))
-    if scope in {"quality", "article_input"}:
+    if scope == "quality":
+        # Output-quality failures are stochastic/editorial, not source outages.
+        # Retry promptly so a verified fresh job is not cooled past its
+        # publication-age window. Repeated identical failures still back off
+        # exponentially (5m, 10m, 20m...) with a bounded cap.
+        base = 5 * 60
+        cap = 60 * 60
+    elif scope == "article_input":
+        # Deterministic evidence/input failures need a slower retry because the
+        # underlying verified package must change before another AI call helps.
         base = 30 * 60
         cap = 6 * 3600
     elif category in {"auth", "config"}:
