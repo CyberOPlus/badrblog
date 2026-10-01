@@ -147,6 +147,9 @@ JOBS_AI_TIMEOUT_RETRIES = max(0, min(1, _env_int("JOBS_AI_TIMEOUT_RETRIES", 0)))
 JOBS_AI_CROSS_CANDIDATE_RETRIES = max(0, min(1, _env_int("JOBS_AI_CROSS_CANDIDATE_RETRIES", 1)))
 AI_TIMEOUT_SECONDS = _env_int("AI_TIMEOUT_SECONDS", 180)
 AI_TOTAL_TIME_BUDGET_SECONDS = _env_int("AI_TOTAL_TIME_BUDGET_SECONDS", AI_TIMEOUT_SECONDS)
+# Jobs articles are intentionally concise. Reserving 4K-8K completion tokens can
+# make small/free providers reject an otherwise modest evidence request (413).
+JOBS_AI_MAX_OUTPUT_TOKENS = max(768, min(3072, _env_int("JOBS_AI_MAX_OUTPUT_TOKENS", 2048)))
 GEMINI_TIMEOUT_SECONDS = _env_int("GEMINI_TIMEOUT_SECONDS", 45)
 AI_MODEL_TIMEOUT_SECONDS = _env_int("AI_MODEL_TIMEOUT_SECONDS", 40)
 SOURCE_HEALTH_ENABLED = _env_bool_any(["SOURCE_HEALTH_ENABLED"], True)
