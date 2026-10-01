@@ -1,5 +1,5 @@
 name: Direct One-Shot Job Publish
-# Direct run armed: official same-day PDF job; Cloudflare-first one-shot
+# Direct run armed: Cloudflare FP8 JSON one-shot for verified PDF job
 
 on:
   push:
@@ -90,7 +90,7 @@ jobs:
               "MISTRAL_API_KEY":os.environ.get("MISTRAL_API_KEY",""),"MISTRAL_MODEL":"mistral-small-latest",
               "CLOUDFLARE_API_TOKEN":os.environ.get("CLOUDFLARE_API_TOKEN",""),
               "CLOUDFLARE_ACCOUNT_ID":os.environ.get("CLOUDFLARE_ACCOUNT_ID",""),
-              "CLOUDFLARE_MODEL":"@cf/meta/llama-3.1-8b-instruct",
+              "CLOUDFLARE_MODEL":"@cf/meta/llama-3.1-8b-instruct-fp8",
               "BLOG_ID":os.environ["BLOGGER_BLOG_ID"],"PUBLISH_MODE":"live","SAFE_MODE":"false",
               "BLOGGER_LIVE_ENABLED":"true","FACEBOOK_AUTO_POST":"false",
               "JOBS_GOOGLE_INDEXING_ENABLED":os.environ.get("JOBS_GOOGLE_INDEXING_ENABLED","false"),
@@ -105,7 +105,7 @@ jobs:
               "SOURCE_HEALTH_ENABLED":"true","ENABLE_SCRAPLING_FALLBACK":"false",
               "MAX_DRAFTS_PER_DAY":"240","MIN_MINUTES_BETWEEN_DRAFTS":"0",
               "MAX_LIVE_POSTS_PER_DAY":"240","TARGET_LIVE_POSTS_PER_DAY":"240",
-              "MIN_MINUTES_BETWEEN_LIVE_POSTS":"0","AI_PROVIDER":"mistral",
+              "MIN_MINUTES_BETWEEN_LIVE_POSTS":"0","AI_PROVIDER":"cloudflare",
           }
           Path(".env").write_text("\n".join(f"{k}={v}" for k,v in env.items())+"\n",encoding="utf-8")
           print("Direct target mode ready. auto-cycle is not invoked.")
@@ -118,6 +118,7 @@ jobs:
           import json, re
           from datetime import datetime, timezone
 
+          import article_ai_processor as ai_processor
           from article_enricher import enrich_article
           from article_processor import _prepare_identity_evidence
           from article_queue import load_article_queue, save_article_queue, make_article_id
@@ -265,6 +266,11 @@ jobs:
           article["selection_reason"] = "user-authorized direct PDF one-shot; no auto-cycle"
           save_article_queue(queue)
 
+          # Mistral's rate-limit failure opened a persisted global circuit.
+          # This explicit one-shot is locked to Cloudflare, so ignore only that
+          # unrelated global circuit in this process; normal production memory
+          # and provider-specific cooldowns remain untouched.
+          ai_processor._global_circuit_remaining = lambda: 0.0
           result = _process_job_target(article, "live")
           article = result.get("article") or article
           package = article.get("ai_input_package") if isinstance(article.get("ai_input_package"),dict) else {}
