@@ -10,6 +10,7 @@ from internal_link_cache import load_internal_link_cache, select_internal_link_c
 from job_document_renderer import (
     extract_job_document_texts,
     promote_job_document_application_channel,
+    promote_job_document_position_count,
 )
 from job_core import canonicalize_job_url, classify_identity, finalize_identity_evidence_stage
 from verified_fact_manifest import build_verified_fact_manifest
@@ -179,6 +180,7 @@ def _prepare_identity_evidence(article):
     # exposes the real public application channel, promote it before the manifest
     # and AI package are built so the article uses the correct submission link.
     promote_job_document_application_channel(article)
+    promote_job_document_position_count(article)
 
     # Reconcile legacy queued Emploi-Public records with the current extractor
     # semantics before rebuilding the manifest. Older queue rows may still carry
