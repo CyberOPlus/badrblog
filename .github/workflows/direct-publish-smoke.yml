@@ -1,16 +1,13 @@
 name: Direct One-Shot Job Publish
 
-# Manual one-shot publisher triggered only by changing this file. One-shot run marker: 2026-10-01T14:21Z.
-# It does NOT invoke main.py auto-cycle/safe-cycle and does not enable any loop.
 on:
   push:
     paths:
       - ".github/workflows/direct-publish-smoke.yml"
 
 concurrency:
-  # Share the production lock so a scheduled cycle cannot overlap this direct write.
   group: jobs-production-refs/heads/main
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 permissions:
   contents: write
@@ -19,16 +16,12 @@ jobs:
   direct-one-shot:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
     steps:
       - name: Checkout current main
         uses: actions/checkout@v7
         with:
           ref: main
           fetch-depth: 0
-
-      - name: Capture run base
-        run: echo "DIRECT_RUN_BASE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
 
       - name: Set up Python
         uses: actions/setup-python@v7
@@ -66,205 +59,196 @@ jobs:
           JOBS_GOOGLE_INDEXING_ENABLED: ${{ secrets.JOBS_GOOGLE_INDEXING_ENABLED }}
         run: |
           python - <<'PY'
-          import json
-          import os
-          import sys
+          import json, os
           from pathlib import Path
 
-          for name in ("BLOGGER_CLIENT_SECRET_JSON", "BLOGGER_TOKEN_JSON"):
-              raw = os.environ.get(name, "").strip()
-              if not raw:
-                  print(f"::error::Missing required secret {name}")
-                  raise SystemExit(1)
-              json.loads(raw)
-
-          if not os.environ.get("BLOGGER_BLOG_ID", "").strip():
-              print("::error::Missing BLOGGER_BLOG_ID")
-              raise SystemExit(1)
-
-          if not any(
-              os.environ.get(name, "").strip()
-              for name in (
-                  "GEMINI_API_KEY", "GROQ_API_KEY", "OPENROUTER_API_KEY",
-                  "MISTRAL_API_KEY", "CLOUDFLARE_API_TOKEN",
-              )
-          ):
-              print("::error::No AI provider secret is available")
-              raise SystemExit(1)
+          for name in ("BLOGGER_BLOG_ID", "BLOGGER_CLIENT_SECRET_JSON", "BLOGGER_TOKEN_JSON"):
+              if not os.environ.get(name, "").strip():
+                  raise SystemExit(f"Missing required secret: {name}")
+          json.loads(os.environ["BLOGGER_CLIENT_SECRET_JSON"])
+          json.loads(os.environ["BLOGGER_TOKEN_JSON"])
+          if not any(os.environ.get(x, "").strip() for x in (
+              "GEMINI_API_KEY", "GROQ_API_KEY", "OPENROUTER_API_KEY",
+              "MISTRAL_API_KEY", "CLOUDFLARE_API_TOKEN",
+          )):
+              raise SystemExit("No AI provider secret is available")
 
           Path("data").mkdir(exist_ok=True)
-          Path("client_secret.json").write_text(
-              os.environ["BLOGGER_CLIENT_SECRET_JSON"], encoding="utf-8"
-          )
-          Path("data/token.json").write_text(
-              os.environ["BLOGGER_TOKEN_JSON"], encoding="utf-8"
-          )
-
+          Path("client_secret.json").write_text(os.environ["BLOGGER_CLIENT_SECRET_JSON"], encoding="utf-8")
+          Path("data/token.json").write_text(os.environ["BLOGGER_TOKEN_JSON"], encoding="utf-8")
           env = {
-              "JOBS_MODE": "true",
-              "JOBS_TEST_MODE": "false",
-              "JOBS_TIMEZONE": "Africa/Casablanca",
-              "JOBS_MIN_SELECTION_SCORE": "65",
-              "JOBS_QUEUE_SCORE": "50",
-              "JOBS_ADAPTIVE_PUBLISHING": "true",
-              "JOBS_ADAPTIVE_MIN_DAILY_CAP": "240",
-              "JOBS_ADAPTIVE_MAX_DAILY_CAP": "240",
-              "JOBS_ACTIVE_START_HOUR": "0",
-              "JOBS_ACTIVE_END_HOUR": "24",
-              "JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "0",
-              "GEMINI_API_KEY": os.environ.get("GEMINI_API_KEY", ""),
-              "GEMINI_MODEL": "gemini-2.5-flash",
-              "OPENROUTER_API_KEY": os.environ.get("OPENROUTER_API_KEY", ""),
-              "OPENROUTER_MODEL": "openrouter/free",
-              "OPENROUTER_MODELS": "openrouter/free",
-              "OPENROUTER_APP_NAME": "Jobs Direct One-Shot",
-              "GROQ_API_KEY": os.environ.get("GROQ_API_KEY", ""),
-              "GROQ_MODEL": "openai/gpt-oss-20b",
-              "GROQ_TIMEOUT_SECONDS": "25",
-              "MISTRAL_API_KEY": os.environ.get("MISTRAL_API_KEY", ""),
-              "MISTRAL_MODEL": "mistral-small-latest",
-              "MISTRAL_TIMEOUT_SECONDS": "25",
-              "CLOUDFLARE_API_TOKEN": os.environ.get("CLOUDFLARE_API_TOKEN", ""),
-              "CLOUDFLARE_ACCOUNT_ID": os.environ.get("CLOUDFLARE_ACCOUNT_ID", ""),
-              "CLOUDFLARE_MODEL": "@cf/meta/llama-3.1-8b-instruct",
-              "CLOUDFLARE_TIMEOUT_SECONDS": "25",
-              "BLOG_ID": os.environ["BLOGGER_BLOG_ID"],
-              "PUBLISH_MODE": "live",
-              "SAFE_MODE": "false",
-              "BLOGGER_LIVE_ENABLED": "true",
-              "FACEBOOK_AUTO_POST": "false",
-              "JOBS_GOOGLE_INDEXING_ENABLED": os.environ.get("JOBS_GOOGLE_INDEXING_ENABLED", "false"),
-              "GOOGLE_SERVICE_ACCOUNT_JSON": os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON", ""),
-              "MAX_POSTS_PER_RUN": "1",
-              "MAX_ARTICLES_PER_RUN": "1",
-              "MAX_SOURCES_PER_RUN": "20",
-              "JOBS_ENRICH_MAX_TARGETS_PER_CYCLE": "12",
-              "JOBS_MAX_PUBLISH_AGE_HOURS": "12",
-              "MIN_ARTICLE_WORDS": "0",
-              "MIN_EXTRACTED_CHARS": "80",
-              "SOURCE_TIMEOUT_SECONDS": "8",
-              "ARTICLE_TIMEOUT_SECONDS": "10",
-              "AI_TOTAL_TIME_BUDGET_SECONDS": "90",
-              "GEMINI_TIMEOUT_SECONDS": "25",
-              "AI_MODEL_TIMEOUT_SECONDS": "25",
-              "OPENROUTER_TIMEOUT_SECONDS": "25",
-              "MAX_AI_RETRIES": "2",
-              "JOBS_AI_QUALITY_REPAIRS": "1",
-              "JOBS_AI_TIMEOUT_RETRIES": "0",
-              "JOBS_AI_CROSS_CANDIDATE_RETRIES": "0",
-              "JOBS_ONE_SHOT_FORCE_RUN": "true",
-              "SOURCE_HEALTH_ENABLED": "true",
-              "ENABLE_SCRAPLING_FALLBACK": "false",
-              "MAX_DRAFTS_PER_DAY": "240",
-              "MIN_MINUTES_BETWEEN_DRAFTS": "0",
-              "MAX_LIVE_POSTS_PER_DAY": "240",
-              "TARGET_LIVE_POSTS_PER_DAY": "240",
-              "MIN_MINUTES_BETWEEN_LIVE_POSTS": "0",
-              "AI_PROVIDER": "auto",
+              "JOBS_MODE":"true","JOBS_TEST_MODE":"false","JOBS_TIMEZONE":"Africa/Casablanca",
+              "JOBS_MIN_SELECTION_SCORE":"65","JOBS_QUEUE_SCORE":"50",
+              "JOBS_ADAPTIVE_PUBLISHING":"true","JOBS_ADAPTIVE_MIN_DAILY_CAP":"240",
+              "JOBS_ADAPTIVE_MAX_DAILY_CAP":"240","JOBS_ACTIVE_START_HOUR":"0","JOBS_ACTIVE_END_HOUR":"24",
+              "JOBS_MIN_PUBLISH_INTERVAL_MINUTES":"0","JOBS_MAX_PUBLISH_AGE_HOURS":"12",
+              "GEMINI_API_KEY":os.environ.get("GEMINI_API_KEY",""),"GEMINI_MODEL":"gemini-2.5-flash",
+              "OPENROUTER_API_KEY":os.environ.get("OPENROUTER_API_KEY",""),"OPENROUTER_MODEL":"openrouter/free",
+              "OPENROUTER_MODELS":"openrouter/free","OPENROUTER_APP_NAME":"Jobs Direct One-Shot",
+              "GROQ_API_KEY":os.environ.get("GROQ_API_KEY",""),"GROQ_MODEL":"openai/gpt-oss-20b",
+              "MISTRAL_API_KEY":os.environ.get("MISTRAL_API_KEY",""),"MISTRAL_MODEL":"mistral-small-latest",
+              "CLOUDFLARE_API_TOKEN":os.environ.get("CLOUDFLARE_API_TOKEN",""),
+              "CLOUDFLARE_ACCOUNT_ID":os.environ.get("CLOUDFLARE_ACCOUNT_ID",""),
+              "CLOUDFLARE_MODEL":"@cf/meta/llama-3.1-8b-instruct",
+              "BLOG_ID":os.environ["BLOGGER_BLOG_ID"],"PUBLISH_MODE":"live","SAFE_MODE":"false",
+              "BLOGGER_LIVE_ENABLED":"true","FACEBOOK_AUTO_POST":"false",
+              "JOBS_GOOGLE_INDEXING_ENABLED":os.environ.get("JOBS_GOOGLE_INDEXING_ENABLED","false"),
+              "GOOGLE_SERVICE_ACCOUNT_JSON":os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON",""),
+              "MAX_POSTS_PER_RUN":"1","MAX_ARTICLES_PER_RUN":"1","MIN_ARTICLE_WORDS":"0",
+              "MIN_EXTRACTED_CHARS":"80","SOURCE_TIMEOUT_SECONDS":"10","ARTICLE_TIMEOUT_SECONDS":"12",
+              "AI_TOTAL_TIME_BUDGET_SECONDS":"100","GEMINI_TIMEOUT_SECONDS":"30",
+              "AI_MODEL_TIMEOUT_SECONDS":"30","OPENROUTER_TIMEOUT_SECONDS":"30",
+              "GROQ_TIMEOUT_SECONDS":"30","MISTRAL_TIMEOUT_SECONDS":"30","CLOUDFLARE_TIMEOUT_SECONDS":"30",
+              "MAX_AI_RETRIES":"2","JOBS_AI_QUALITY_REPAIRS":"1","JOBS_AI_TIMEOUT_RETRIES":"0",
+              "JOBS_AI_CROSS_CANDIDATE_RETRIES":"0","JOBS_ONE_SHOT_FORCE_RUN":"true",
+              "SOURCE_HEALTH_ENABLED":"true","ENABLE_SCRAPLING_FALLBACK":"false",
+              "MAX_DRAFTS_PER_DAY":"240","MIN_MINUTES_BETWEEN_DRAFTS":"0",
+              "MAX_LIVE_POSTS_PER_DAY":"240","TARGET_LIVE_POSTS_PER_DAY":"240",
+              "MIN_MINUTES_BETWEEN_LIVE_POSTS":"0","AI_PROVIDER":"auto",
           }
-          Path(".env").write_text(
-              "\n".join(f"{key}={value}" for key, value in env.items()) + "\n",
-              encoding="utf-8",
-          )
-          print("Direct one-shot mode ready; auto-cycle is not used.")
+          Path(".env").write_text("\n".join(f"{k}={v}" for k,v in env.items())+"\n",encoding="utf-8")
+          print("Direct target mode ready. auto-cycle is not invoked.")
           PY
 
-      - name: Find one verified fresh job and publish it
-        id: publish
+      - name: Verify one official fresh target and publish it
         timeout-minutes: 10
         run: |
           python - <<'PY'
           import json
-          from datetime import datetime
+          from datetime import datetime, timezone
 
-          from article_queue import (
-              archive_expired_queue_articles,
-              load_article_queue,
-              save_article_queue,
-          )
-          from article_processor import resolve_identity_pending_articles
-          from job_core import select_best_job_from_queue
-          from main import (
-              _jobs_one_shot_candidate_articles,
-              _process_job_target,
-              run_enrich_only,
-              run_fetch_only,
-              run_score_only,
-          )
+          from article_enricher import enrich_article
+          from article_processor import _prepare_identity_evidence
+          from article_queue import load_article_queue, save_article_queue
+          from duplicate_utils import canonicalize_url
+          from job_core import prepare_job_candidate, _parse_date
+          from main import _process_job_target
+          from utils import make_article_id
 
-          fetch = run_fetch_only()
-          archive_expired_queue_articles()
-          run_score_only()
-          enrich = run_enrich_only(force=False)
-          resolve_identity_pending_articles()
-          run_score_only()
-
-          queue = load_article_queue()
-          base_candidates = _jobs_one_shot_candidate_articles(queue.get("articles", []))
-          document_candidates = [
-              article for article in base_candidates
-              if any(
-                  isinstance(item, dict) and str(item.get("url") or "").strip()
-                  for item in (article.get("job_document_links") or [])
-              )
+          targets = [
+              ("8479198", "Responsable Expérience Client",
+               "https://jobs.inwi.ma/jobs/8479198-responsable-experience-client"),
+              ("8463145", "Technical Lead ServiceNow",
+               "https://jobs.inwi.ma/jobs/8463145-technical-lead-servicenow"),
+              ("8448475", "Manager Sécurité IA",
+               "https://jobs.inwi.ma/jobs/8448475-manager-securite-ia"),
+              ("8448462", "Responsable exploitation",
+               "https://jobs.inwi.ma/jobs/8448462-responsable-exploitation"),
           ]
-
+          queue = load_article_queue()
           selected = None
-          preferred_pdf = False
-          if document_candidates:
-              selected = select_best_job_from_queue({"articles": document_candidates})
-              preferred_pdf = bool(selected)
-          if not selected:
-              selected = select_best_job_from_queue({"articles": base_candidates})
-          if not selected:
-              print(json.dumps({
-                  "completed": False,
-                  "reason": "No fresh verified one-shot candidate is publishable right now.",
-                  "fetch": fetch,
-                  "enrich": enrich,
-              }, ensure_ascii=False, indent=2, default=str))
-              raise SystemExit(2)
+          probes = []
 
-          selected_key = selected.get("id") or selected.get("url")
-          for row in queue.get("articles", []):
-              if (row.get("id") or row.get("url")) != selected_key:
+          for ats_ref, title, url in targets:
+              key = canonicalize_url(url)
+              existing = next((
+                  row for row in queue.get("articles", [])
+                  if canonicalize_url(row.get("url") or row.get("canonical_url")) == key
+              ), None)
+              if existing and (
+                  existing.get("blogger_post_id")
+                  or str(existing.get("publish_status") or "").lower() == "published"
+                  or str(existing.get("status") or "").lower() == "published"
+              ):
+                  probes.append({"url":url,"status":"already_published","blogger_url":existing.get("blogger_post_url","")})
                   continue
-              row["status"] = "selected"
-              row["selected_at"] = datetime.now().isoformat(timespec="seconds")
-              row["selection_reason"] = (
-                  "direct one-shot publish; "
-                  + ("preferred verified PDF evidence" if preferred_pdf else "best verified fresh job")
-              )
-              selected = row
+
+              article = existing if existing is not None else {
+                  "id": make_article_id(f"direct-one-shot|{url}"),
+                  "url": url,
+                  "canonical_url": key,
+              }
+              article.update({
+                  "title": title,
+                  "url": url,
+                  "canonical_url": key,
+                  "source_name": "inwi",
+                  "source_url": "https://jobs.inwi.ma/jobs",
+                  "source_priority": "S",
+                  "official_source": True,
+                  "source_country": "MA",
+                  "source_eligibility": "morocco",
+                  "category_key": "jobs-morocco",
+                  "category_name": "Jobs Morocco",
+                  "category_label": "jobs-morocco",
+                  "category_hint": "jobs-morocco",
+                  "ats_provider": "teamtailor",
+                  "ats_reference": ats_ref,
+                  "source_published_at": "",
+                  "job_published_at": "",
+                  "published_at_source": "",
+                  "status": "ready",
+              })
+              article.pop("archived", None)
+              article.pop("archive_reason", None)
+              article.pop("skip_reason", None)
+              article.pop("candidate_retry_after", None)
+
+              ok, error = enrich_article(article)
+              published_raw = article.get("job_published_at") or article.get("source_published_at") or ""
+              published = _parse_date(published_raw)
+              age = None
+              if published:
+                  if published.tzinfo is None:
+                      published = published.replace(tzinfo=timezone.utc)
+                  age = (datetime.now(timezone.utc)-published.astimezone(timezone.utc)).total_seconds()/3600
+
+              probe = {
+                  "url":url,"enriched":ok,"error":error,
+                  "official_published_at":published_raw,
+                  "age_hours":round(age,2) if age is not None else None,
+                  "job_title":article.get("job_title",""),
+                  "application_url":article.get("job_application_url",""),
+              }
+              probes.append(probe)
+              print("OFFICIAL_TARGET_PROBE="+json.dumps(probe,ensure_ascii=False,default=str))
+              if not ok or published is None or age is None or age < 0 or age > 12:
+                  continue
+
+              _prepare_identity_evidence(article)
+              quality, decision = prepare_job_candidate(article)
+              probe["quality_status"] = quality.get("status")
+              probe["quality_reasons"] = quality.get("reasons")
+              probe["identity_action"] = decision.get("action")
+              if not quality.get("passed") or decision.get("action") in {"duplicate","hold","update"}:
+                  continue
+
+              if existing is None:
+                  queue.setdefault("articles", []).append(article)
+              article["status"] = "selected"
+              article["selected_at"] = datetime.now().isoformat(timespec="seconds")
+              article["selection_reason"] = "direct one-shot from current official inwi detail page"
+              selected = article
+              save_article_queue(queue)
               break
-          save_article_queue(queue)
+
+          if not selected:
+              print("DIRECT_TARGETS="+json.dumps(probes,ensure_ascii=False,indent=2,default=str))
+              raise SystemExit("No probed official inwi target has a verified publication timestamp inside 12 hours.")
 
           result = _process_job_target(selected, "live")
-          article = result.get("article") or {}
+          article = result.get("article") or selected
           summary = {
-              "completed": bool(result.get("completed")),
-              "reason": result.get("reason", ""),
-              "article_id": article.get("id", ""),
-              "title": article.get("seo_title") or article.get("title") or "",
-              "source_name": article.get("source_name", ""),
-              "source_url": article.get("url") or article.get("source_url") or "",
-              "blogger_url": article.get("blogger_post_url", ""),
-              "blogger_post_id": article.get("blogger_post_id", ""),
-              "publication_time": article.get("job_published_at") or article.get("source_published_at") or "",
-              "document_links": len(article.get("job_document_links") or []),
-              "document_text_pages": int(article.get("job_document_text_pages") or 0),
-              "ocr_pages": int(article.get("job_document_ocr_pages") or 0),
-              "rendered_pdf_pages": int(article.get("job_document_rendered_pages") or 0),
-              "document_render_status": article.get("job_document_render_status", ""),
-              "word_count": int(article.get("final_word_count") or 0),
-              "facebook": "disabled_for_direct_article_test",
+              "completed":bool(result.get("completed")),
+              "reason":result.get("reason",""),
+              "article_id":article.get("id",""),
+              "title":article.get("seo_title") or article.get("title") or "",
+              "source_url":article.get("url",""),
+              "official_publication_time":article.get("job_published_at") or article.get("source_published_at") or "",
+              "blogger_url":article.get("blogger_post_url",""),
+              "blogger_post_id":article.get("blogger_post_id",""),
+              "document_links":len(article.get("job_document_links") or []),
+              "document_text_pages":int(article.get("job_document_text_pages") or 0),
+              "ocr_pages":int(article.get("job_document_ocr_pages") or 0),
+              "rendered_pdf_pages":int(article.get("job_document_rendered_pages") or 0),
+              "word_count":int(article.get("final_word_count") or 0),
+              "facebook":"disabled_for_direct_article_test",
           }
-          print("DIRECT_PUBLISH_RESULT=" + json.dumps(summary, ensure_ascii=False, default=str))
-          with open("direct_publish_result.json", "w", encoding="utf-8") as handle:
-              json.dump(summary, handle, ensure_ascii=False, indent=2, default=str)
-              handle.write("\n")
+          print("DIRECT_PUBLISH_RESULT="+json.dumps(summary,ensure_ascii=False,default=str))
+          with open("direct_publish_result.json","w",encoding="utf-8") as f:
+              json.dump(summary,f,ensure_ascii=False,indent=2,default=str); f.write("\n")
           if not result.get("completed") or not article.get("blogger_post_url"):
-              raise SystemExit(3)
+              raise SystemExit("Direct target reached the pipeline but Blogger publication did not complete.")
           PY
 
       - name: Persist direct one-shot state
@@ -274,32 +258,18 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git pull --rebase origin main
-
           STATE_PATHS=(
-            "jobs_article_queue.json"
-            "data/job_state.json"
-            "data/job_memory"
-            "data/job_visual_state.json"
-            "data/jobs_adaptive_state.json"
-            "data/job_queue_archive"
-            "data/crawl_state.json"
-            "data/ai_provider_memory.json"
-            "data/internal_link_cache.json"
-            "data/source_health.json"
+            "jobs_article_queue.json" "data/job_state.json" "data/job_memory"
+            "data/job_visual_state.json" "data/jobs_adaptive_state.json"
+            "data/job_queue_archive" "data/crawl_state.json"
+            "data/ai_provider_memory.json" "data/internal_link_cache.json"
+            "data/source_health.json" "direct_publish_result.json"
           )
           for path in "${STATE_PATHS[@]}"; do
-            if [ -e "$path" ]; then
-              git add -f "$path"
-            fi
+            [ -e "$path" ] && git add -f "$path"
           done
-          if [ -e "direct_publish_result.json" ]; then
-            git add -f direct_publish_result.json
-          fi
-
-          if git diff --cached --quiet; then
-            echo "No direct one-shot runtime changes to persist."
-          else
+          if ! git diff --cached --quiet; then
             git commit -m "Persist direct one-shot job publish state [skip ci]"
-            git push origin HEAD:main
           fi
+          git pull --rebase origin main
+          git push origin HEAD:main
