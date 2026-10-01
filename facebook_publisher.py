@@ -30,6 +30,9 @@ from config import (
     FACEBOOK_PAGE_ID,
     WHATSAPP_CHANNEL_URL,
     JOBS_MODE,
+    JOBS_FACEBOOK_FOLLOW_ARTICLE,
+    JOBS_FACEBOOK_MAX_POSTS_PER_DAY,
+    JOBS_FACEBOOK_MIN_INTERVAL_MINUTES,
 )
 from production_logging import elapsed_ms, log_event
 from internal_link_cache import load_internal_link_cache
@@ -2211,19 +2214,17 @@ def get_facebook_limits_status(now=None, urgent=False):
         today_posts = [value for value in local_posts if value.date() == local_now.date()]
         last_post_time = max(local_posts) if local_posts else None
 
-        normal_daily_limit = min(
-            max(1, MAX_FACEBOOK_POSTS_PER_DAY),
-            FACEBOOK_HARD_MAX_POSTS_PER_DAY,
+        hard_daily_limit = JOBS_FACEBOOK_MAX_POSTS_PER_DAY if JOBS_FACEBOOK_FOLLOW_ARTICLE else FACEBOOK_HARD_MAX_POSTS_PER_DAY
+        normal_daily_limit = (
+            hard_daily_limit if JOBS_FACEBOOK_FOLLOW_ARTICLE
+            else min(max(1, MAX_FACEBOOK_POSTS_PER_DAY), hard_daily_limit)
         )
-        effective_daily_limit = min(
-            FACEBOOK_HARD_MAX_POSTS_PER_DAY,
-            normal_daily_limit + (1 if urgent else 0),
-        )
+        effective_daily_limit = min(hard_daily_limit, normal_daily_limit + (1 if urgent else 0))
         daily_blocked = len(today_posts) >= effective_daily_limit
 
-        safe_interval = max(
-            MIN_MINUTES_BETWEEN_FACEBOOK_POSTS,
-            FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES,
+        safe_interval = (
+            JOBS_FACEBOOK_MIN_INTERVAL_MINUTES if JOBS_FACEBOOK_FOLLOW_ARTICLE
+            else max(MIN_MINUTES_BETWEEN_FACEBOOK_POSTS, FACEBOOK_SAFETY_MIN_INTERVAL_MINUTES)
         )
         minutes_since_last = (
             max(0, int((local_now - last_post_time).total_seconds() // 60))
@@ -2253,7 +2254,7 @@ def get_facebook_limits_status(now=None, urgent=False):
             "facebook_posts_today": len(today_posts),
             "max_facebook_posts_per_day": normal_daily_limit,
             "effective_facebook_posts_per_day": effective_daily_limit,
-            "hard_max_facebook_posts_per_day": FACEBOOK_HARD_MAX_POSTS_PER_DAY,
+            "hard_max_facebook_posts_per_day": hard_daily_limit,
             "last_facebook_post_time": last_post_time.isoformat() if last_post_time else None,
             "minutes_since_last_facebook_post": minutes_since_last,
             "min_minutes_between_facebook_posts": safe_interval,

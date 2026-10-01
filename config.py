@@ -276,6 +276,10 @@ JOBS_QUEUE_SCORE = _env_int("JOBS_QUEUE_SCORE", 50)
 JOBS_URGENT_EXTRA_DAILY_LIMIT = _env_int("JOBS_URGENT_EXTRA_DAILY_LIMIT", 1)
 # Legacy compatibility only: Facebook no longer filters Jobs by score; score is queue priority only.
 JOBS_FACEBOOK_MIN_SCORE = _env_int("JOBS_FACEBOOK_MIN_SCORE", 65)
+# Jobs-only promotion policy; generic/non-Jobs Page safety settings remain intact.
+JOBS_FACEBOOK_FOLLOW_ARTICLE = _env_bool_any(["JOBS_FACEBOOK_FOLLOW_ARTICLE"], False)
+JOBS_FACEBOOK_MAX_POSTS_PER_DAY = max(1, min(240, _env_int("JOBS_FACEBOOK_MAX_POSTS_PER_DAY", 240)))
+JOBS_FACEBOOK_MIN_INTERVAL_MINUTES = max(5, _env_int("JOBS_FACEBOOK_MIN_INTERVAL_MINUTES", 5))
 JOBS_ADAPTIVE_PUBLISHING = _env_bool_any(["JOBS_ADAPTIVE_PUBLISHING"], False)
 JOBS_ADAPTIVE_MIN_DAILY_CAP = max(1, _env_int("JOBS_ADAPTIVE_MIN_DAILY_CAP", 240))
 JOBS_ADAPTIVE_MAX_DAILY_CAP = max(

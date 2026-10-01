@@ -68,6 +68,7 @@ from config import (
     CRAWL_STATE_PATH,
     FALLBACK_FIRST_RUN_LOOKBACK_HOURS,
     FACEBOOK_AUTO_POST,
+    JOBS_FACEBOOK_FOLLOW_ARTICLE,
     FACEBOOK_FALLBACK_ARTICLE_IMAGE_PATH,
     FACEBOOK_IMAGE_TEMPLATE_PATH,
     FACEBOOK_STYLE_MEMORY_PATH,
@@ -2478,7 +2479,9 @@ def _process_hourly_target(selected, publish_mode):
         and article.get("blogger_post_url")
     ):
         try:
+            social_target = {"target_article_id": selected_id} if JOBS_MODE and JOBS_FACEBOOK_FOLLOW_ARTICLE else {}
             facebook_result = post_one_article_to_facebook(
+                **social_target,
                 respect_limits=not _jobs_one_shot_force_run(),
             )
             article = _find_article_by_id(selected_id)

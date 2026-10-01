@@ -3863,6 +3863,22 @@ class JobsRuntimeTests(unittest.TestCase):
                 facebook.get_facebook_limits_status(now=in_slot + timedelta(minutes=44))["allowed_now"]
             )
 
+    def test_jobs_follow_article_policy_keeps_spacing_and_allows_all_articles(self):
+        now = datetime(2026, 10, 1, 9, 0, tzinfo=timezone.utc)
+        rows = [{"facebook_status": "posted", "facebook_posted_at": (now - timedelta(minutes=10+i)).isoformat()} for i in range(4)]
+        with patch.object(facebook, "JOBS_MODE", True), \
+             patch.object(facebook, "JOBS_FACEBOOK_FOLLOW_ARTICLE", True), \
+             patch.object(job_core, "JOBS_FACEBOOK_FOLLOW_ARTICLE", True), \
+             patch.object(facebook, "JOBS_FACEBOOK_MAX_POSTS_PER_DAY", 240), \
+             patch.object(facebook, "JOBS_FACEBOOK_MIN_INTERVAL_MINUTES", 5), \
+             patch.object(facebook, "load_article_queue", return_value={"articles": rows}):
+            status = facebook.get_facebook_limits_status(now=now)
+            self.assertTrue(status["allowed_now"])
+            self.assertEqual(status["hard_max_facebook_posts_per_day"], 240)
+            rows.append({"facebook_status": "delivery_uncertain", "facebook_delivery_uncertain_at": now.isoformat()})
+            self.assertFalse(facebook.get_facebook_limits_status(now=now)["allowed_now"])
+            self.assertTrue(facebook.get_facebook_limits_status(now=now + timedelta(minutes=5))["allowed_now"])
+
     def test_backlog_never_bypasses_schedule(self):
         pending = [{"id": "one"}, {"id": "two"}]
         with patch.object(facebook, "_is_configured", return_value=True), \
