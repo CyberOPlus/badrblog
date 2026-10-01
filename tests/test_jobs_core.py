@@ -1862,6 +1862,41 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(result["max_publish_age_hours"], 12)
         self.assertEqual(result["publication_age_hours"], 12.0)
 
+    def test_official_date_only_today_is_fresh_without_inventing_midnight(self):
+        now = datetime(2026, 10, 1, 14, 36, tzinfo=timezone.utc)
+        result = job_core.score_job(
+            sample_job(job_published_at="2026-10-01", source_published_at="2026-10-01"),
+            now=now,
+        )
+        self.assertTrue(result["passed"])
+        self.assertTrue(result["publication_date_only"])
+        self.assertIsNone(result["publication_age_hours"])
+
+    def test_official_date_only_previous_day_is_rejected_conservatively(self):
+        now = datetime(2026, 10, 1, 14, 36, tzinfo=timezone.utc)
+        result = job_core.score_job(
+            sample_job(job_published_at="2026-09-30", source_published_at="2026-09-30"),
+            now=now,
+        )
+        self.assertFalse(result["passed"])
+        self.assertEqual(result["status"], "reject")
+        self.assertIn("job is older than 12 hours", result["reasons"])
+
+    def test_real_timestamp_still_obeys_strict_twelve_hour_window(self):
+        now = datetime(2026, 10, 1, 14, 36, tzinfo=timezone.utc)
+        stale = job_core.score_job(
+            sample_job(job_published_at="2026-10-01T00:00:00+00:00"),
+            now=now,
+        )
+        fresh = job_core.score_job(
+            sample_job(job_published_at="2026-10-01T03:36:00+00:00"),
+            now=now,
+        )
+        self.assertFalse(stale["passed"])
+        self.assertTrue(fresh["passed"])
+        self.assertFalse(stale["publication_date_only"])
+        self.assertEqual(fresh["publication_age_hours"], 11.0)
+
     def test_focus_priority_prefers_technical_student_and_arabic_roles(self):
         cyber = sample_job(job_title="Cybersecurity SOC Analyst")
         developer = sample_job(job_title="Développeur Backend Python")
