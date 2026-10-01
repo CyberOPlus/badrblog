@@ -3,8 +3,8 @@ name: Jobs Auto Cycle
 # watchdog is recovery-only; a completed cycle must not recursively dispatch
 # another cycle because that creates idle 2-minute loops and wasted runs.
 
-# One-time live verification trigger. This push path fires exactly once for
-# this workflow-file commit; the permanent cron is restored after verification.
+# One-time final live verification trigger. This push path fires exactly once
+# with all repaired AI/Blogger/Facebook logic; restore permanent cron on success.
 on:
   push:
     branches: [main]
