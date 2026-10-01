@@ -1678,26 +1678,28 @@ class JobsCoreTests(unittest.TestCase):
         self.assertEqual(result["status"], "publish")
         self.assertEqual(result["threshold_applies_to"], "ranking_only")
 
-    def test_job_older_than_twelve_hours_is_rejected(self):
+    def test_job_older_than_twelve_hours_remains_publishable_if_still_valid(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         result = job_core.score_job(
             sample_job(job_published_at="2026-09-29T22:59:00+00:00"),
             now=now,
         )
-        self.assertFalse(result["passed"])
-        self.assertEqual(result["status"], "reject")
+        self.assertTrue(result["passed"])
+        self.assertEqual(result["status"], "publish")
         self.assertGreater(result["publication_age_hours"], 12)
-        self.assertIn("job is older than 12 hours", result["reasons"])
+        self.assertEqual(result["points"]["fresh_under_12h"], 0)
+        self.assertNotIn("job is older than 12 hours", result["reasons"])
 
-    def test_job_without_verified_publication_time_is_rejected(self):
+    def test_job_without_verified_publication_time_can_publish_when_other_hard_facts_are_valid(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         result = job_core.score_job(
             sample_job(job_published_at="", source_published_at=""),
             now=now,
         )
-        self.assertFalse(result["passed"])
-        self.assertEqual(result["status"], "reject")
-        self.assertIn("publication time is not verified", result["reasons"])
+        self.assertTrue(result["passed"])
+        self.assertEqual(result["status"], "publish")
+        self.assertIsNone(result["publication_age_hours"])
+        self.assertNotIn("publication time is not verified", result["reasons"])
 
     def test_job_at_exact_twelve_hour_boundary_is_allowed(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
@@ -1724,7 +1726,7 @@ class JobsCoreTests(unittest.TestCase):
                 job_core.job_focus_priority(general),
             )
 
-    def test_jobs_queue_prefers_technical_role_within_same_fresh_window(self):
+    def test_jobs_queue_prefers_newer_job_before_older_technical_role(self):
         now = datetime(2026, 9, 30, 12, 0, tzinfo=timezone.utc)
         general = sample_job(
             id="general-newer",
@@ -1760,7 +1762,7 @@ class JobsCoreTests(unittest.TestCase):
                 now=now,
             )
 
-        self.assertEqual(selected["id"], "technical-older")
+        self.assertEqual(selected["id"], "general-newer")
 
     def test_large_official_near_deadline_is_urgent(self):
         now = datetime(2026, 9, 28, 9, 0, tzinfo=timezone.utc)
