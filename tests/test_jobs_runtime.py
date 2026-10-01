@@ -4247,6 +4247,44 @@ class JobsRuntimeTests(unittest.TestCase):
                 facebook._facebook_retry_ready(article, now_epoch=1000 + 5 * 60)
             )
 
+    def test_retry_ready_failed_job_becomes_immediately_eligible_pending(self):
+        article = {
+            "id": "renderer-retry",
+            "status": "published",
+            "publish_status": "published",
+            "blogger_post_url": "https://example.blogspot.com/p/renderer-retry.html",
+            "facebook_status": "failed",
+            "facebook_error": (
+                "Jobs Facebook image generation failed; refusing text-only publish."
+            ),
+            "facebook_retry_after_epoch": 1000 + 3600,
+            "facebook_retry_delay_seconds": 3600,
+            "facebook_failure_count": 2,
+            "job_notice_type": "vacancy",
+        }
+        queue = {"articles": [article]}
+        with patch.object(facebook, "JOBS_FACEBOOK_MIN_INTERVAL_MINUTES", 5), \
+             patch.object(facebook.time, "time", return_value=1000 + 5 * 60), \
+             patch.object(
+                 facebook,
+                 "_recover_jobs_facebook_queue_from_memory",
+                 return_value={"recovered": 0, "skipped_terminal": 0},
+             ), \
+             patch.object(facebook, "_persist_jobs_social_state"), \
+             patch.object(facebook, "save_article_queue"):
+            stats = facebook._sync_jobs_facebook_queue(queue)
+            pending, _comments = facebook._facebook_backfill_candidates(
+                queue["articles"]
+            )
+
+        self.assertEqual(stats["queued"], 1)
+        self.assertEqual(article["facebook_status"], "facebook_pending")
+        self.assertNotIn("facebook_retry_after_epoch", article)
+        self.assertNotIn("facebook_retry_delay_seconds", article)
+        self.assertNotIn("facebook_failure_count", article)
+        self.assertNotIn("facebook_error", article)
+        self.assertEqual([row["id"] for row in pending], ["renderer-retry"])
+
     def test_facebook_failed_backfill_respects_retry_cooldown(self):
         article = {
             "id": "cooldown",
