@@ -1,22 +1,305 @@
-name: Direct Publish Smoke
-# Verification completed successfully on run #7. This workflow remains only as
-# a disabled/no-op marker and never runs the production auto-cycle.
+name: Direct One-Shot Job Publish
 
+# Manual one-shot publisher triggered only by changing this file.
+# It does NOT invoke main.py auto-cycle/safe-cycle and does not enable any loop.
 on:
   push:
     paths:
       - ".github/workflows/direct-publish-smoke.yml"
 
 concurrency:
-  group: jobs-direct-smoke
-  cancel-in-progress: true
+  # Share the production lock so a scheduled cycle cannot overlap this direct write.
+  group: jobs-production-refs/heads/main
+  cancel-in-progress: false
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  direct-smoke:
+  direct-one-shot:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+
     steps:
-      - name: Verification already completed
-        run: echo "Direct publish smoke already passed; no further publish will be attempted."
+      - name: Checkout current main
+        uses: actions/checkout@v7
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Capture run base
+        run: echo "DIRECT_RUN_BASE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Install Arabic/French scanned-PDF OCR
+        run: |
+          if ! command -v tesseract >/dev/null 2>&1 \
+             || ! tesseract --list-langs 2>/dev/null | grep -qx 'fra' \
+             || ! tesseract --list-langs 2>/dev/null | grep -qx 'ara'; then
+            sudo apt-get update -qq
+            sudo apt-get install -y --no-install-recommends \
+              tesseract-ocr tesseract-ocr-fra tesseract-ocr-ara
+          fi
+
+      - name: Create direct Jobs runtime
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          MISTRAL_API_KEY: ${{ secrets.MISTRAL_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+          BLOGGER_CLIENT_SECRET_JSON: ${{ secrets.BLOGGER_CLIENT_SECRET_JSON }}
+          BLOGGER_TOKEN_JSON: ${{ secrets.BLOGGER_TOKEN_JSON }}
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
+          JOBS_GOOGLE_INDEXING_ENABLED: ${{ secrets.JOBS_GOOGLE_INDEXING_ENABLED }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          for name in ("BLOGGER_CLIENT_SECRET_JSON", "BLOGGER_TOKEN_JSON"):
+              raw = os.environ.get(name, "").strip()
+              if not raw:
+                  print(f"::error::Missing required secret {name}")
+                  raise SystemExit(1)
+              json.loads(raw)
+
+          if not os.environ.get("BLOGGER_BLOG_ID", "").strip():
+              print("::error::Missing BLOGGER_BLOG_ID")
+              raise SystemExit(1)
+
+          if not any(
+              os.environ.get(name, "").strip()
+              for name in (
+                  "GEMINI_API_KEY", "GROQ_API_KEY", "OPENROUTER_API_KEY",
+                  "MISTRAL_API_KEY", "CLOUDFLARE_API_TOKEN",
+              )
+          ):
+              print("::error::No AI provider secret is available")
+              raise SystemExit(1)
+
+          Path("data").mkdir(exist_ok=True)
+          Path("client_secret.json").write_text(
+              os.environ["BLOGGER_CLIENT_SECRET_JSON"], encoding="utf-8"
+          )
+          Path("data/token.json").write_text(
+              os.environ["BLOGGER_TOKEN_JSON"], encoding="utf-8"
+          )
+
+          env = {
+              "JOBS_MODE": "true",
+              "JOBS_TEST_MODE": "false",
+              "JOBS_TIMEZONE": "Africa/Casablanca",
+              "JOBS_MIN_SELECTION_SCORE": "65",
+              "JOBS_QUEUE_SCORE": "50",
+              "JOBS_ADAPTIVE_PUBLISHING": "true",
+              "JOBS_ADAPTIVE_MIN_DAILY_CAP": "240",
+              "JOBS_ADAPTIVE_MAX_DAILY_CAP": "240",
+              "JOBS_ACTIVE_START_HOUR": "0",
+              "JOBS_ACTIVE_END_HOUR": "24",
+              "JOBS_MIN_PUBLISH_INTERVAL_MINUTES": "0",
+              "GEMINI_API_KEY": os.environ.get("GEMINI_API_KEY", ""),
+              "GEMINI_MODEL": "gemini-2.5-flash",
+              "OPENROUTER_API_KEY": os.environ.get("OPENROUTER_API_KEY", ""),
+              "OPENROUTER_MODEL": "openrouter/free",
+              "OPENROUTER_MODELS": "openrouter/free",
+              "OPENROUTER_APP_NAME": "Jobs Direct One-Shot",
+              "GROQ_API_KEY": os.environ.get("GROQ_API_KEY", ""),
+              "GROQ_MODEL": "openai/gpt-oss-20b",
+              "GROQ_TIMEOUT_SECONDS": "25",
+              "MISTRAL_API_KEY": os.environ.get("MISTRAL_API_KEY", ""),
+              "MISTRAL_MODEL": "mistral-small-latest",
+              "MISTRAL_TIMEOUT_SECONDS": "25",
+              "CLOUDFLARE_API_TOKEN": os.environ.get("CLOUDFLARE_API_TOKEN", ""),
+              "CLOUDFLARE_ACCOUNT_ID": os.environ.get("CLOUDFLARE_ACCOUNT_ID", ""),
+              "CLOUDFLARE_MODEL": "@cf/meta/llama-3.1-8b-instruct",
+              "CLOUDFLARE_TIMEOUT_SECONDS": "25",
+              "BLOG_ID": os.environ["BLOGGER_BLOG_ID"],
+              "PUBLISH_MODE": "live",
+              "SAFE_MODE": "false",
+              "BLOGGER_LIVE_ENABLED": "true",
+              "FACEBOOK_AUTO_POST": "false",
+              "JOBS_GOOGLE_INDEXING_ENABLED": os.environ.get("JOBS_GOOGLE_INDEXING_ENABLED", "false"),
+              "GOOGLE_SERVICE_ACCOUNT_JSON": os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON", ""),
+              "MAX_POSTS_PER_RUN": "1",
+              "MAX_ARTICLES_PER_RUN": "1",
+              "MAX_SOURCES_PER_RUN": "20",
+              "JOBS_ENRICH_MAX_TARGETS_PER_CYCLE": "12",
+              "JOBS_MAX_PUBLISH_AGE_HOURS": "12",
+              "MIN_ARTICLE_WORDS": "0",
+              "MIN_EXTRACTED_CHARS": "80",
+              "SOURCE_TIMEOUT_SECONDS": "8",
+              "ARTICLE_TIMEOUT_SECONDS": "10",
+              "AI_TOTAL_TIME_BUDGET_SECONDS": "90",
+              "GEMINI_TIMEOUT_SECONDS": "25",
+              "AI_MODEL_TIMEOUT_SECONDS": "25",
+              "OPENROUTER_TIMEOUT_SECONDS": "25",
+              "MAX_AI_RETRIES": "2",
+              "JOBS_AI_QUALITY_REPAIRS": "1",
+              "JOBS_AI_TIMEOUT_RETRIES": "0",
+              "JOBS_AI_CROSS_CANDIDATE_RETRIES": "0",
+              "JOBS_ONE_SHOT_FORCE_RUN": "true",
+              "SOURCE_HEALTH_ENABLED": "true",
+              "ENABLE_SCRAPLING_FALLBACK": "false",
+              "MAX_DRAFTS_PER_DAY": "240",
+              "MIN_MINUTES_BETWEEN_DRAFTS": "0",
+              "MAX_LIVE_POSTS_PER_DAY": "240",
+              "TARGET_LIVE_POSTS_PER_DAY": "240",
+              "MIN_MINUTES_BETWEEN_LIVE_POSTS": "0",
+              "AI_PROVIDER": "auto",
+          }
+          Path(".env").write_text(
+              "\n".join(f"{key}={value}" for key, value in env.items()) + "\n",
+              encoding="utf-8",
+          )
+          print("Direct one-shot mode ready; auto-cycle is not used.")
+          PY
+
+      - name: Find one verified fresh job and publish it
+        id: publish
+        timeout-minutes: 10
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime
+
+          from article_queue import (
+              archive_expired_queue_articles,
+              load_article_queue,
+              save_article_queue,
+          )
+          from article_processor import resolve_identity_pending_articles
+          from job_core import select_best_job_from_queue
+          from main import (
+              _jobs_one_shot_candidate_articles,
+              _process_job_target,
+              run_enrich_only,
+              run_fetch_only,
+              run_score_only,
+          )
+
+          fetch = run_fetch_only()
+          archive_expired_queue_articles()
+          run_score_only()
+          enrich = run_enrich_only(force=False)
+          resolve_identity_pending_articles()
+          run_score_only()
+
+          queue = load_article_queue()
+          base_candidates = _jobs_one_shot_candidate_articles(queue.get("articles", []))
+          document_candidates = [
+              article for article in base_candidates
+              if any(
+                  isinstance(item, dict) and str(item.get("url") or "").strip()
+                  for item in (article.get("job_document_links") or [])
+              )
+          ]
+
+          selected = None
+          preferred_pdf = False
+          if document_candidates:
+              selected = select_best_job_from_queue({"articles": document_candidates})
+              preferred_pdf = bool(selected)
+          if not selected:
+              selected = select_best_job_from_queue({"articles": base_candidates})
+          if not selected:
+              print(json.dumps({
+                  "completed": False,
+                  "reason": "No fresh verified one-shot candidate is publishable right now.",
+                  "fetch": fetch,
+                  "enrich": enrich,
+              }, ensure_ascii=False, indent=2, default=str))
+              raise SystemExit(2)
+
+          selected_key = selected.get("id") or selected.get("url")
+          for row in queue.get("articles", []):
+              if (row.get("id") or row.get("url")) != selected_key:
+                  continue
+              row["status"] = "selected"
+              row["selected_at"] = datetime.now().isoformat(timespec="seconds")
+              row["selection_reason"] = (
+                  "direct one-shot publish; "
+                  + ("preferred verified PDF evidence" if preferred_pdf else "best verified fresh job")
+              )
+              selected = row
+              break
+          save_article_queue(queue)
+
+          result = _process_job_target(selected, "live")
+          article = result.get("article") or {}
+          summary = {
+              "completed": bool(result.get("completed")),
+              "reason": result.get("reason", ""),
+              "article_id": article.get("id", ""),
+              "title": article.get("seo_title") or article.get("title") or "",
+              "source_name": article.get("source_name", ""),
+              "source_url": article.get("url") or article.get("source_url") or "",
+              "blogger_url": article.get("blogger_post_url", ""),
+              "blogger_post_id": article.get("blogger_post_id", ""),
+              "publication_time": article.get("job_published_at") or article.get("source_published_at") or "",
+              "document_links": len(article.get("job_document_links") or []),
+              "document_text_pages": int(article.get("job_document_text_pages") or 0),
+              "ocr_pages": int(article.get("job_document_ocr_pages") or 0),
+              "rendered_pdf_pages": int(article.get("job_document_rendered_pages") or 0),
+              "document_render_status": article.get("job_document_render_status", ""),
+              "word_count": int(article.get("final_word_count") or 0),
+              "facebook": "disabled_for_direct_article_test",
+          }
+          print("DIRECT_PUBLISH_RESULT=" + json.dumps(summary, ensure_ascii=False, default=str))
+          with open("direct_publish_result.json", "w", encoding="utf-8") as handle:
+              json.dump(summary, handle, ensure_ascii=False, indent=2, default=str)
+              handle.write("\n")
+          if not result.get("completed") or not article.get("blogger_post_url"):
+              raise SystemExit(3)
+          PY
+
+      - name: Persist direct one-shot state
+        if: always()
+        run: |
+          rm -f .env client_secret.json data/token.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git pull --rebase origin main
+
+          STATE_PATHS=(
+            "jobs_article_queue.json"
+            "data/job_state.json"
+            "data/job_memory"
+            "data/job_visual_state.json"
+            "data/jobs_adaptive_state.json"
+            "data/job_queue_archive"
+            "data/crawl_state.json"
+            "data/ai_provider_memory.json"
+            "data/internal_link_cache.json"
+            "data/source_health.json"
+          )
+          for path in "${STATE_PATHS[@]}"; do
+            if [ -e "$path" ]; then
+              git add -f "$path"
+            fi
+          done
+          if [ -e "direct_publish_result.json" ]; then
+            git add -f direct_publish_result.json
+          fi
+
+          if git diff --cached --quiet; then
+            echo "No direct one-shot runtime changes to persist."
+          else
+            git commit -m "Persist direct one-shot job publish state [skip ci]"
+            git push origin HEAD:main
+          fi
