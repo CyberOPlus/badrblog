@@ -30,6 +30,7 @@ from article_queue import (
     load_sources,
     maintain_article_queue,
     mark_article_recent_failure,
+    repair_runtime_queue_state,
     save_article_queue,
 )
 from article_enricher import enrich_ready_articles
@@ -60,7 +61,6 @@ from config import (
     TARGET_LIVE_POSTS_PER_DAY,
     JOBS_MODE,
     JOBS_MAX_PUBLISH_AGE_HOURS,
-    JOBS_AI_CROSS_CANDIDATE_RETRIES,
 )
 from facebook_publisher import (
     backfill_facebook_posts,
@@ -74,7 +74,7 @@ from scraper import discover_latest_article_links, persist_discovery_state
 from runtime_state import record_source_cooldown, reset_job_discovery_state
 from source_validator import check_sources_config
 from production_logging import html_word_count, log_event
-from job_core import record_job_publish, select_best_job_from_queue, job_status_snapshot, maintain_job_memory
+from job_core import load_job_state, record_job_publish, select_best_job_from_queue, job_status_snapshot, maintain_job_memory
 from jobs_adaptive_controller import record_cycle_result as record_jobs_cycle_result
 
 
@@ -698,6 +698,9 @@ def _auto_cycle_record_from_result(run_id, started_at, result, error=None):
         "blogger_post_url": published_url,
         "facebook_status": article.get("facebook_status") or (facebook.get("article") or {}).get("facebook_status", ""),
         "warning": facebook_error if blogger_succeeded and facebook_error else "",
+        "failure_scope": (result or {}).get("failure_scope") or ((result or {}).get("ai") or {}).get("failure_scope", ""),
+        "failure_fingerprint": (result or {}).get("failure_fingerprint") or ((result or {}).get("ai") or {}).get("failure_fingerprint", ""),
+        "retry_after": (result or {}).get("retry_after") or ((result or {}).get("ai") or {}).get("retry_after", ""),
         "skip_reason": stopped_reason,
         "stopped_reason": stopped_reason,
         "execution_seconds": (result or {}).get("execution_seconds", 0),
@@ -846,16 +849,103 @@ def run_health_only():
     queue = load_article_queue()
     articles = queue.get("articles", [])
     archived_count = sum(1 for article in articles if article.get("archived"))
-    active_count = len(articles) - archived_count
+    active_articles = [article for article in articles if not article.get("archived")]
+    active_count = len(active_articles)
     status_counts = Counter(
         article.get("status", "unknown") or "unknown"
-        for article in articles
-        if not article.get("archived")
+        for article in active_articles
     )
+
+    now = datetime.now(timezone.utc)
+    ready_articles = [
+        article
+        for article in active_articles
+        if article.get("status") in {"ready", "selected"}
+        and article.get("content_fetch_status") == "success"
+    ]
+    ready_now = [
+        article for article in ready_articles
+        if not _candidate_retry_backoff_active(article, now=now)
+    ]
+    waiting_candidate_count = len(ready_articles) - len(ready_now)
+
+    stale_selected = []
+    stale_after = timedelta(minutes=30)
+    for article in active_articles:
+        if article.get("status") != "selected":
+            continue
+        if article.get("publish_status") == "published" or article.get("blogger_post_id"):
+            continue
+        selected_at = _retry_datetime(article.get("selected_at"))
+        if selected_at is None or now - selected_at >= stale_after:
+            stale_selected.append(article)
+
+    circuit = ai_circuit_status()
+    job_state = load_job_state()
+    last_publish_at = _retry_datetime(job_state.get("last_publish_at"))
+    publish_age_minutes = (
+        max(0.0, (now - last_publish_at).total_seconds() / 60.0)
+        if last_publish_at
+        else None
+    )
+
+    recent_window = now - timedelta(minutes=30)
+    recent_records = []
+    for record in records:
+        finished = _retry_datetime(record.get("finished_at") or record.get("timestamp"))
+        if finished and finished >= recent_window:
+            recent_records.append(record)
+
+    auth_tokens = (
+        "401", "403", "unauthorized", "forbidden", "oauth",
+        "invalid token", "token expired", "invalid api key", "missing key",
+        "credential",
+    )
+    recent_failure_text = " ".join(
+        str(record.get(field) or "")
+        for record in recent_records[-10:]
+        for field in ("failure_scope", "stopped_reason", "warning")
+    ).casefold()
+    provider_categories = {
+        str((entry or {}).get("category") or "").strip().lower()
+        for entry in (circuit.get("provider_circuits") or {}).values()
+    }
+    external_auth_problem = (
+        str(circuit.get("global_category") or "").strip().lower() in {"auth", "config"}
+        or bool(provider_categories.intersection({"auth", "config"}))
+        or any(token in recent_failure_text for token in auth_tokens)
+        or any(
+            str(record.get("failure_scope") or "") == "external_auth_problem"
+            for record in recent_records[-10:]
+        )
+    )
+    recent_provider_wait = any(
+        str(record.get("failure_scope") or "") in {
+            "waiting_provider", "global_outage", "cycle_budget"
+        }
+        for record in recent_records[-10:]
+    )
+    stalled_publish = bool(
+        ready_now
+        and len(recent_records) >= 2
+        and (publish_age_minutes is None or publish_age_minutes >= 30)
+    )
+
+    if external_auth_problem:
+        health_state = "external_auth_problem"
+    elif circuit.get("global_open") or recent_provider_wait:
+        health_state = "waiting_provider"
+    elif stale_selected or stalled_publish:
+        health_state = "stuck"
+    elif active_articles and not ready_now:
+        health_state = "waiting_candidate"
+    else:
+        health_state = "healthy"
 
     print("\n" + "=" * 60)
     print("AUTO-CYCLE HEALTH")
     print("=" * 60)
+    print(f"Health state:        {health_state}")
     print("Last 10 runs:")
     if not last_10:
         print("  No auto-cycle runs logged yet.")
@@ -868,13 +958,18 @@ def run_health_only():
             f"step={record.get('step_reached', '')} | "
             f"blogger={record.get('blogger_status', '')} | "
             f"facebook={record.get('facebook_status', '')} | "
+            f"scope={record.get('failure_scope', '')} | "
             f"reason={record.get('stopped_reason', '')}"
         )
     print(f"Success count:       {success_count}")
     print(f"Failure count:       {failure_count}")
     print(f"Last success time:   {last_success.get('finished_at', '') if last_success else ''}")
     print(f"Last failure reason: {last_failure.get('stopped_reason', '') if last_failure else ''}")
+    print(f"Last Blogger publish:{job_state.get('last_publish_at', '')}")
     print(f"Active queue count:  {active_count}")
+    print(f"Ready now count:     {len(ready_now)}")
+    print(f"Waiting candidate:   {waiting_candidate_count}")
+    print(f"Stale selected:      {len(stale_selected)}")
     print(f"Archived count:      {archived_count}")
     print("Queue counts by status:")
     for status, count in sorted(status_counts.items()):
@@ -882,16 +977,21 @@ def run_health_only():
     print("=" * 60)
 
     return {
+        "health_state": health_state,
         "last_10": last_10,
         "success_count": success_count,
         "failure_count": failure_count,
         "last_success_time": last_success.get("finished_at", "") if last_success else "",
         "last_failure_reason": last_failure.get("stopped_reason", "") if last_failure else "",
+        "last_publish_at": job_state.get("last_publish_at", ""),
         "active_queue_count": active_count,
+        "ready_now_count": len(ready_now),
+        "waiting_candidate_count": waiting_candidate_count,
+        "stale_selected_count": len(stale_selected),
         "archived_count": archived_count,
         "queue_counts": dict(status_counts),
+        "ai_circuit": circuit,
     }
-
 
 def run_24h_status_only():
     publish_status = get_publish_schedule_status(mode="live")
@@ -1326,7 +1426,7 @@ def _mark_candidate_failure_for_retry(article, stage, reason):
     if (
         stage == "run-ai"
         and str(article.get("ai_failure_scope") or "").strip().lower()
-        in {"retry_backoff", "global_outage"}
+        in {"retry_backoff", "global_outage", "cycle_budget"}
     ):
         log_event(
             "ai_retry_backoff_preserved",
@@ -1535,6 +1635,32 @@ def _is_retryable_publish_deferral(reason, article=None):
     return True
 
 
+def _blogger_external_failure_scope(reason):
+    text = str(reason or "").strip().casefold()
+    if not text:
+        return ""
+    if any(
+        token in text
+        for token in (
+            "401", "403", "unauthorized", "forbidden", "oauth",
+            "invalid token", "token expired", "invalid credential",
+            "credentials", "refresh token",
+        )
+    ):
+        return "external_auth_problem"
+    if any(
+        token in text
+        for token in (
+            "429", "rate limit", "quota", "too many requests",
+            "timeout", "timed out", "500", "502", "503", "504",
+            "service unavailable", "temporarily unavailable",
+            "connection error", "connection reset",
+        )
+    ):
+        return "waiting_provider"
+    return ""
+
+
 def _retry_after_single_candidate_failure(
     failed_article,
     stage,
@@ -1547,6 +1673,17 @@ def _retry_after_single_candidate_failure(
     initial_failure_scope = str(
         (failed_article or {}).get("ai_failure_scope") or ""
     ).strip().lower()
+
+    if stage == "publish":
+        external_scope = _blogger_external_failure_scope(reason)
+        if external_scope:
+            log_event(
+                "blogger_external_failure_deferred",
+                article_id=(failed_article or {}).get("id"),
+                failure_scope=external_scope,
+                reason=str(reason or "")[:300],
+            )
+            return None, []
 
     if stage == "publish" and _is_retryable_publish_deferral(reason, failed_article):
         # Blogger occasionally appends digits to a requested Jobs permalink.
@@ -1606,12 +1743,13 @@ def _retry_after_single_candidate_failure(
             )
             return None, retry_results
 
-        # Provider rotation already happens inside one article. After an
-        # article-specific AI failure, allow at most one fresh candidate in this
-        # cycle so a quality/input problem cannot fan out into four AI jobs.
-        max_extra_attempts = min(
+        # Keep walking the verified ready queue after an article-specific
+        # failure. attempted_ids makes the scan finite, while publication still
+        # stops after the first successful Blogger write in this cycle.
+        queue_size = len((load_article_queue() or {}).get("articles", []))
+        max_extra_attempts = max(
             max(0, int(max_extra_attempts or 0)),
-            JOBS_AI_CROSS_CANDIDATE_RETRIES,
+            queue_size,
         )
 
     for _ in range(max(0, max_extra_attempts)):
@@ -1626,6 +1764,10 @@ def _retry_after_single_candidate_failure(
         if item_result.get("completed"):
             return item_result, retry_results
         if item_result.get("waiting_for_publish_retry"):
+            return None, retry_results
+        if str(item_result.get("failure_scope") or "") in {
+            "external_auth_problem", "waiting_provider", "global_outage", "cycle_budget"
+        }:
             return None, retry_results
         last_failed = item_result.get("article") or next_selected
     return None, retry_results
@@ -1700,8 +1842,15 @@ def _process_job_target(selected, publish_mode):
             article_id=selected_id,
             reason=error.__class__.__name__,
         )
-        _mark_candidate_failure_for_retry(article or selected, "publish", str(error))
-        result.update({"article": article, "reason": str(error), "step_reached": "publish"})
+        failure_scope = _blogger_external_failure_scope(str(error))
+        if not failure_scope:
+            _mark_candidate_failure_for_retry(article or selected, "publish", str(error))
+        result.update({
+            "article": article,
+            "reason": str(error),
+            "step_reached": "publish",
+            "failure_scope": failure_scope,
+        })
         return result
     draft_action = "none"
     if draft_result.get("updated_existing"):
@@ -1728,12 +1877,15 @@ def _process_job_target(selected, publish_mode):
                 reason=publish_error,
             )
             return result
-        _mark_candidate_failure_for_retry(article or selected, "publish", publish_error)
+        failure_scope = _blogger_external_failure_scope(publish_error)
+        if not failure_scope:
+            _mark_candidate_failure_for_retry(article or selected, "publish", publish_error)
         result.update(
             {
                 "article": article,
                 "reason": publish_error,
                 "step_reached": "publish",
+                "failure_scope": failure_scope,
             }
         )
         return result
@@ -1824,6 +1976,18 @@ def run_safe_cycle_only():
         _print_safe_cycle_final_report(None, stopped_reason=reason)
         return {"completed": False, "reason": reason, "step_reached": "safety-check"}
 
+
+    runtime_repair_stats = _run_timed_jobs_stage(
+        "runtime_repair",
+        stage_timings,
+        repair_runtime_queue_state,
+    )
+    if runtime_repair_stats.get("changed"):
+        print(
+            "Runtime queue repair: "
+            f"released_selected={runtime_repair_stats.get('selected_released', 0)} | "
+            f"expired_retries={runtime_repair_stats.get('expired_retry_fields_cleared', 0)}"
+        )
 
     repair_stats = _run_timed_jobs_stage(
         "repair",
@@ -2002,6 +2166,9 @@ def run_safe_cycle_only():
             "identity_pending": identity_stats,
             "schedule": schedule_status,
             "waiting_for_ai_circuit": True,
+            "failure_scope": "global_outage",
+            "failure_fingerprint": circuit.get("global_fingerprint", ""),
+            "retry_after": circuit.get("global_retry_after", ""),
             "ai_circuit": circuit,
             "source_warnings_count": source_warnings_count,
             "enrichment_failed_count": enrichment_failed_count,
@@ -2260,6 +2427,9 @@ def run_safe_cycle_only():
             "skipped": True,
             "waiting_for_ai_retry": True,
             "reason": "AI failed",
+            "failure_scope": ai_stats.get("failure_scope") or (article or {}).get("ai_failure_scope", ""),
+            "failure_fingerprint": ai_stats.get("failure_fingerprint") or (article or {}).get("ai_failure_fingerprint", ""),
+            "retry_after": ai_stats.get("retry_after") or (article or {}).get("ai_retry_after", ""),
             "article": article,
             "ai": ai_stats,
             "fetch": fetch_stats,
@@ -2416,6 +2586,7 @@ def run_safe_cycle_only():
         "step_reached": "publish",
         "stage_timings": stage_timings,
         "cycle_seconds": round(time.perf_counter() - cycle_started, 3),
+        "failure_scope": _blogger_external_failure_scope(stopped_reason),
         "reason": stopped_reason,
     }
 
@@ -2674,6 +2845,7 @@ def run_fix_draft_url_only():
 
 def run_plan_next_only(lock=False):
     """Preview or lock a job through the same identity/freshness gate as production."""
+    repair_runtime_queue_state()
     queue = load_article_queue()
     selected = select_best_job_from_queue(queue)
     if selected and lock:
