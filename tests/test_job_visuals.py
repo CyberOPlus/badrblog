@@ -262,6 +262,45 @@ class JobVisualTests(unittest.TestCase):
                 self.assertTrue((temp / "servicenow-inwi.jpg").exists())
 
 
+    def test_jobs_facebook_repairs_legacy_icims_direct_apply_before_template(self):
+        article = {
+            "id": "legacy-orange",
+            "job_application_url": (
+                "https://careersfr-orange.icims.com/jobs/28406/"
+                "analyste-cybersecurite-junior/job/login"
+            ),
+            "ai_input_package": {},
+        }
+        with (
+            patch.object(facebook_publisher, "JOBS_MODE", True),
+            patch.object(facebook_publisher, "_persist_jobs_social_state") as persist,
+        ):
+            changed = facebook_publisher._repair_job_facebook_application_semantics(article)
+
+        self.assertTrue(changed)
+        self.assertEqual(article["job_application_link_kind"], "direct_apply")
+        self.assertTrue(article["job_application_is_specific"])
+        self.assertEqual(
+            article["ai_input_package"]["job_application_link_kind"],
+            "direct_apply",
+        )
+        persist.assert_called_once_with(article)
+
+    def test_jobs_facebook_does_not_invent_direct_apply_for_plain_detail_url(self):
+        article = {
+            "id": "legacy-detail",
+            "job_application_url": "https://example.com/jobs/28406",
+        }
+        with (
+            patch.object(facebook_publisher, "JOBS_MODE", True),
+            patch.object(facebook_publisher, "_persist_jobs_social_state") as persist,
+        ):
+            changed = facebook_publisher._repair_job_facebook_application_semantics(article)
+
+        self.assertFalse(changed)
+        self.assertNotIn("job_application_link_kind", article)
+        persist.assert_not_called()
+
     def test_jobs_facebook_late_logo_refresh_recovers_missing_metadata(self):
         article = {
             "id": "job-late-logo",
