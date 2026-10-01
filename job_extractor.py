@@ -642,12 +642,32 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         employment = ", ".join(_text(x) for x in employment if _text(x))
 
     notice_type = _notice_type(job_title, body)
+    ats_provider = str(article.get("ats_provider") or "").strip().lower()
     if (
         notice_type == "vacancy"
-        and str(article.get("ats_provider") or "").strip().lower() == "emploi_public"
+        and ats_provider == "emploi_public"
     ):
         notice_type = "competition"
-    notice_status = _notice_status(job_title, body)
+
+    # Emploi-Public is itself the official competition portal. Once that source
+    # identifies the page as a competition, treat the notice type as source-backed
+    # rather than a weak heuristic so deadline/application facts become mandatory
+    # in the verified manifest.
+    notice_type_source = (
+        "source"
+        if bool(article.get("official_source")) and ats_provider == "emploi_public"
+        else "heuristic"
+    )
+
+    # Active vacancy/competition notices routinely mention the future publication
+    # of provisional/final results in legal boilerplate. Those words describe a
+    # later stage, not the current page status. Only result/list/update notices use
+    # provisional/final status inference.
+    notice_status = (
+        ""
+        if notice_type in {"vacancy", "competition"}
+        else _notice_status(job_title, body)
+    )
 
     action_links = _extract_job_action_links(soup, page_url, full_text=body)
     binding_article = dict(article)
@@ -722,7 +742,7 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         "job_exam_date": text_exam_date,
         "job_exam_date_display": text_exam_date_display,
         "job_notice_type": notice_type,
-        "job_notice_type_source": "heuristic",
+        "job_notice_type_source": notice_type_source,
         "job_notice_status": notice_status,
         "job_published_at": published_at,
         "job_published_at_display": text_published_display,
