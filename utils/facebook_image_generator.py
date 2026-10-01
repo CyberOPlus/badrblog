@@ -174,6 +174,13 @@ JOB_SQUARE_SPLIT_Y = 350
 JOB_CONTENT_CENTER_X = 505
 JOB_CONTENT_LEFT = 92
 JOB_CONTENT_RIGHT = 910
+# The text is centered at 505 while the safe column itself is slightly
+# asymmetric. Fit against the smaller half instead of RIGHT-LEFT, otherwise a
+# line can pass width fitting and still escape the right edge by a few pixels.
+JOB_CONTENT_SAFE_WIDTH = 2 * min(
+    JOB_CONTENT_CENTER_X - JOB_CONTENT_LEFT,
+    JOB_CONTENT_RIGHT - JOB_CONTENT_CENTER_X,
+)
 JOB_LOGO_TOP = 175
 JOB_LOGO_BOTTOM = 545
 JOB_TITLE_TOP = 610
@@ -453,6 +460,21 @@ def _job_text_width(draw, text, font):
     return max(0, bbox[2] - bbox[0])
 
 
+def _ellipsize_job_line(text, draw, font, max_width, *, force=False):
+    """Keep one visual line inside the safe width without shrinking below the mobile floor."""
+    clean = str(text or "").strip()
+    if not clean:
+        return ""
+    if not force and _job_text_width(draw, clean, font) <= max_width:
+        return clean
+
+    ellipsis = "…"
+    base = clean.rstrip(" .…")
+    while base and _job_text_width(draw, base + ellipsis, font) > max_width:
+        base = base[:-1].rstrip()
+    return (base + ellipsis) if base else ellipsis
+
+
 def _wrap_job_title(title, draw, font, max_width, max_lines=3, truncate=False):
     words = [word for word in _clean_title_text(title).split() if word]
     if not words:
@@ -470,9 +492,19 @@ def _wrap_job_title(title, draw, font, max_width, max_lines=3, truncate=False):
     if current:
         lines.append(current)
 
-    if truncate and len(lines) > max_lines:
+    if truncate:
+        omitted = len(lines) > max_lines
         lines = lines[:max_lines]
-        lines[-1] = lines[-1].rstrip(" .") + "…"
+        lines = [
+            _ellipsize_job_line(
+                line,
+                draw,
+                font,
+                max_width,
+                force=omitted and index == len(lines) - 1,
+            )
+            for index, line in enumerate(lines)
+        ]
     return lines
 
 
@@ -520,7 +552,43 @@ def _fit_job_text_layout(
                 "line_height": line_height,
                 "total_height": total_height,
                 "max_line_width": max(widths),
+                "truncated": False,
             }
+
+    # Do not let one unusually long official vacancy title block Facebook
+    # promotion. Keep the configured readable minimum and shorten only the
+    # visual headline; the Blogger article/caption retain the complete title.
+    fallback_size = int(min_size)
+    fallback_width = min(width_axes)
+    font = _font(fallback_size, width=fallback_width, weight=800)
+    lines = _wrap_job_title(
+        clean_text,
+        draw,
+        font,
+        max_width,
+        max_lines=max_lines,
+        truncate=True,
+    )
+    widths = [_job_text_width(draw, line, font) for line in lines if line]
+    line_height = max(fallback_size + 7, int(round(fallback_size * line_ratio)))
+    total_height = len(lines) * line_height
+    if (
+        lines
+        and widths
+        and len(lines) <= max_lines
+        and max(widths) <= max_width
+        and total_height <= max_height
+    ):
+        return {
+            "font": font,
+            "font_size": fallback_size,
+            "font_width": fallback_width,
+            "lines": lines,
+            "line_height": line_height,
+            "total_height": total_height,
+            "max_line_width": max(widths),
+            "truncated": True,
+        }
     return None
 
 
@@ -530,7 +598,7 @@ def _draw_job_title(base, title, min_top=JOB_TITLE_TOP):
     draw = ImageDraw.Draw(base)
     title_top = max(JOB_TITLE_TOP, int(min_top))
     title_bottom = JOB_TITLE_BOTTOM
-    max_width = JOB_CONTENT_RIGHT - JOB_CONTENT_LEFT
+    max_width = JOB_CONTENT_SAFE_WIDTH
     max_height = max(0, title_bottom - title_top)
 
     layout = _fit_job_text_layout(
@@ -744,6 +812,7 @@ def _generate_job_facebook_image(
             title_font_size=title_layout.get("font_size"),
             title_font_width=title_layout.get("font_width"),
             title_lines=len(title_layout.get("lines") or []),
+            title_truncated=bool(title_layout.get("truncated")),
             width=base.width,
             height=base.height,
         )
@@ -756,6 +825,7 @@ def _generate_job_facebook_image(
             "title_font_size": title_layout.get("font_size"),
             "title_font_width": title_layout.get("font_width"),
             "title_lines": len(title_layout.get("lines") or []),
+            "title_truncated": bool(title_layout.get("truncated")),
             "title_bbox": list(title_layout.get("bbox") or ()),
             "logo_kind": logo_layout.get("kind"),
             "logo_bbox": list(logo_layout.get("bbox") or ()),
