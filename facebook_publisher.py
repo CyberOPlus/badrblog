@@ -42,6 +42,8 @@ from job_core import (
     _parse_date as parse_job_date,
     classify_urgency,
     job_deadline_time,
+    job_focus_priority,
+    job_publication_freshness,
     list_active_job_campaign_records,
     record_job_social_state,
 )
@@ -320,7 +322,18 @@ def _facebook_comment_retry_ready(article, now_epoch=None):
 def _job_facebook_expired(article, now=None):
     if not JOBS_MODE:
         return False
-    return classify_urgency(article, now=now).get("level") == "expired"
+    if classify_urgency(article, now=now).get("level") == "expired":
+        return True
+    # New Blogger Jobs carry source-age evidence because publishing requires it.
+    # Legacy rows created before that policy may not; do not retroactively erase
+    # their pending Facebook work just because the old schema lacked this field.
+    has_source_age_evidence = bool(
+        str(article.get("job_published_at") or article.get("source_published_at") or "").strip()
+        or str(article.get("source_published_label") or "").strip()
+    )
+    if not has_source_age_evidence:
+        return False
+    return not bool(job_publication_freshness(article, now=now).get("publishable"))
 
 
 def _mark_facebook_pending(article, now=None, reason="published_to_blogger"):
@@ -575,7 +588,7 @@ def _sync_jobs_facebook_queue(queue, now=None):
 
 
 def _facebook_job_priority(article, now=None):
-    """Deadline-aware, aging-safe queue priority; score ranks but never filters."""
+    """Prefer fresh technical Jobs while keeping legacy queue anti-starvation."""
     now = now or datetime.now(timezone.utc)
     deadline = job_deadline_time(article)
 
@@ -601,14 +614,11 @@ def _facebook_job_priority(article, now=None):
         or article.get("published_at")
         or article.get("selected_at")
     )
-    if queued_time:
-        age_hours = max(0.0, (now - queued_time).total_seconds() / 3600.0)
-    else:
-        age_hours = 0.0
-
-    # Aging prevents starvation without allowing very old/no-deadline work to
-    # jump ahead of jobs that are about to close.
-    age_days_boost = min(age_hours / 24.0, 14.0)
+    age_hours = (
+        max(0.0, (now - queued_time).total_seconds() / 3600.0)
+        if queued_time
+        else 0.0
+    )
 
     urgency = classify_urgency(article, now=now).get("level") if JOBS_MODE else "normal"
     urgency_boost = {
@@ -627,13 +637,50 @@ def _facebook_job_priority(article, now=None):
     except (TypeError, ValueError):
         positions = 0
 
+    has_source_age_evidence = bool(
+        str(article.get("job_published_at") or article.get("source_published_at") or "").strip()
+        or str(article.get("source_published_label") or "").strip()
+    )
     fifo_priority = -queued_time.timestamp() if queued_time else 0.0
-    priority_points = deadline_boost + age_days_boost + urgency_boost
 
+    if not has_source_age_evidence:
+        # Compatibility path only for old published rows. Preserve the previous
+        # deadline + aging behavior so historical pending work cannot starve.
+        age_days_boost = min(age_hours / 24.0, 14.0)
+        priority_points = deadline_boost + age_days_boost + urgency_boost
+        return (
+            priority_points,
+            0,
+            0,
+            -24.0,
+            deadline_boost,
+            age_days_boost,
+            urgency_boost,
+            score,
+            positions,
+            fifo_priority,
+        )
+
+    freshness = job_publication_freshness(article, now=now)
+    focus_rank = job_focus_priority(article)
+    source_age = freshness.get("age_hours")
+    source_newness = -float(source_age) if source_age is not None else -24.0
+    # Closing within 72h can outrank normal social scheduling; farther deadlines
+    # must not bury a newly posted technical role.
+    deadline_tier = (
+        3 if hours_remaining is not None and hours_remaining <= 24
+        else 2 if hours_remaining is not None and hours_remaining <= 48
+        else 1 if hours_remaining is not None and hours_remaining <= 72
+        else 0
+    )
     return (
-        priority_points,
+        deadline_tier,
+        int(freshness.get("preferred_rank") or 0),
+        int(focus_rank or 0),
+        source_newness,
         deadline_boost,
-        age_days_boost,
+        0.0,
+        urgency_boost,
         score,
         positions,
         fifo_priority,
