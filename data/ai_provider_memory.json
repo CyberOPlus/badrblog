@@ -1,13 +1,13 @@
 {
   "avg_time": 2.9511,
   "cooldowns": {
-    "gemini:gemini-2.5-flash:64f603a8c0": {
-      "failed_at": "2026-10-01T14:44:37",
-      "key_id": "64f603a8c0",
-      "model": "gemini-2.5-flash",
-      "provider": "gemini",
-      "reason": "504 The request timed out. Please try again.",
-      "until": 1790866479.6013124
+    "cloudflare:@cf/meta/llama-3.1-8b-instruct-fp8:be6dab2cd8": {
+      "failed_at": "2026-10-01T14:58:20",
+      "key_id": "be6dab2cd8",
+      "model": "@cf/meta/llama-3.1-8b-instruct-fp8",
+      "provider": "cloudflare",
+      "reason": "HTTPSConnectionPool(host='api.cloudflare.com', port=443): Read timed out. (read timeout=90)",
+      "until": 1790867304.9052088
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "failed_at": "2026-10-01T14:44:38",
@@ -36,6 +36,17 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "retry_until": 1790869102.6121318,
+      "scope": "provider"
+    },
+    "336d24826c73e91571ce": {
+      "category": "timeout",
+      "count": 1,
+      "first_seen_at": "2026-10-01T14:58:20",
+      "last_seen_at": "2026-10-01T14:58:20",
+      "last_seen_epoch": 1790866700.3835144,
+      "provider": "cloudflare",
+      "reason": "HTTPSConnectionPool(host='api.cloudflare.com', port=443): Read timed out. (read timeout=90)",
+      "retry_until": 1790867300.3835144,
       "scope": "provider"
     },
     "4b929cc3ad78785ed806": {
@@ -172,6 +183,14 @@
     "until": 1790869102.6121318
   },
   "provider_circuits": {
+    "cloudflare": {
+      "category": "timeout",
+      "fingerprint": "336d24826c73e91571ce",
+      "opened_at": "2026-10-01T14:58:20",
+      "provider": "cloudflare",
+      "reason": "HTTPSConnectionPool(host='api.cloudflare.com', port=443): Read timed out. (read timeout=90)",
+      "until": 1790867300.3835144
+    },
     "gemini": {
       "category": "outage",
       "fingerprint": "d15c8a5d2460c1216a2b",
@@ -198,6 +217,13 @@
     }
   },
   "stats": {
+    "cloudflare:@cf/meta/llama-3.1-8b-instruct-fp8:be6dab2cd8": {
+      "failures": 1,
+      "key_id": "be6dab2cd8",
+      "last_failure_at": "2026-10-01T14:58:20",
+      "model": "@cf/meta/llama-3.1-8b-instruct-fp8",
+      "provider": "cloudflare"
+    },
     "cloudflare:@cf/meta/llama-3.1-8b-instruct:be6dab2cd8": {
       "avg_time": 28.1702,
       "key_id": "be6dab2cd8",
