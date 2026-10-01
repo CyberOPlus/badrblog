@@ -551,6 +551,9 @@ class JobsRuntimeTests(unittest.TestCase):
             "title": "Analyste Cybersécurité Junior",
             "location": "Casablanca",
             "contract_type": "CDI",
+            "application_url": "https://careersfr-orange.icims.com/jobs/28406/analyste-cybersecurite-junior/job/login",
+            "application_link_kind": "direct_apply",
+            "application_is_specific": True,
             "notice_type": "vacancy",
             "source_url": "https://careers.example.com/jobs/28406",
             "source_name": "Orange Maroc",
@@ -587,9 +590,65 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(recovered["blogger_post_id"], campaign["blogger_post_id"])
         self.assertEqual(recovered["blogger_post_url"], campaign["blogger_url"])
         self.assertEqual(recovered["seo_title"], cache["links"][0]["title"])
+        self.assertEqual(recovered["job_application_link_kind"], "direct_apply")
+        self.assertTrue(recovered["job_application_is_specific"])
         self.assertTrue(recovered["facebook_queue_recovered"])
         persist_social.assert_called_once_with(recovered)
         save.assert_called_once()
+
+    def test_legacy_campaign_recovery_only_infers_unmistakable_direct_apply(self):
+        self.assertEqual(
+            facebook._recovered_application_link_kind({
+                "application_url": (
+                    "https://careersfr-orange.icims.com/jobs/28406/"
+                    "analyste-cybersecurite-junior/job/login"
+                ),
+            }),
+            "direct_apply",
+        )
+        self.assertEqual(
+            facebook._recovered_application_link_kind({
+                "application_url": "https://example.com/jobs/28406",
+            }),
+            "official_job_page",
+        )
+
+    def test_record_job_publish_preserves_application_semantics(self):
+        now = datetime(2026, 10, 1, 0, 20, tzinfo=timezone.utc)
+        article = {
+            "id": "orange-cyber",
+            "job_identity_action": "new",
+            "job_campaign_id": "campaign-orange-cyber",
+            "job_company": "Orange Business",
+            "job_title": "Analyste Cybersécurité Junior",
+            "job_location": "Casablanca",
+            "job_published_at": "2026-09-30T23:00:00+00:00",
+            "job_application_url": (
+                "https://careersfr-orange.icims.com/jobs/28406/"
+                "analyste-cybersecurite-junior/job/login"
+            ),
+            "job_application_link_kind": "direct_apply",
+            "job_application_is_specific": True,
+            "job_notice_type": "vacancy",
+            "url": "https://careersfr-orange.icims.com/jobs/28406/job/login",
+            "blogger_post_id": "post-1",
+            "blogger_post_url": "https://example.blogspot.com/2026/10/orange.html",
+        }
+        with (
+            patch.object(job_core, "get_by_identity", return_value={}),
+            patch.object(job_core, "_save_json"),
+            patch.object(job_core, "_load_json", return_value={}),
+            patch.object(job_core, "load_job_state", return_value={}),
+            patch.object(job_core, "save_job_state"),
+        ):
+            record = job_core.record_job_publish(article, now=now)
+
+        self.assertEqual(record["application_link_kind"], "direct_apply")
+        self.assertTrue(record["application_is_specific"])
+        self.assertEqual(
+            record["application_url"],
+            "https://careersfr-orange.icims.com/jobs/28406/analyste-cybersecurite-junior/job/login",
+        )
 
     def test_legacy_not_selected_job_is_requeued_for_facebook(self):
         article = {
