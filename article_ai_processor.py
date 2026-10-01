@@ -2990,7 +2990,10 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
     total_attempts = (
         0
         if JOBS_MODE and not provider_sequence
-        else (max(1, len(provider_sequence) + JOBS_AI_QUALITY_REPAIRS))
+        else max(
+            1,
+            len(provider_sequence) * (1 + max(0, JOBS_AI_QUALITY_REPAIRS)),
+        )
     )
     if not provider_sequence:
         if last_error is None:
@@ -3167,17 +3170,62 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                     )
                     break
 
-                if quality_repairs_used >= JOBS_AI_QUALITY_REPAIRS or attempt >= total_attempts:
+                provider_key = str(
+                    provider or provider_used.split(":", 1)[0] or "default"
+                ).strip().lower()
+                provider_repairs_used = int(quality_retry_counts.get(provider_key) or 0)
+
+                if attempt >= total_attempts:
                     log_event(
                         "ai_quality_repair_limit_reached",
                         article_id=article.get("id"),
-                        provider=provider or provider_used,
-                        repairs_used=quality_repairs_used,
+                        provider=provider_key,
+                        repairs_used=provider_repairs_used,
+                        total_repairs_used=quality_repairs_used,
                         max_repairs=JOBS_AI_QUALITY_REPAIRS,
                         reason=str(error),
                     )
                     break
 
+                if provider_repairs_used >= JOBS_AI_QUALITY_REPAIRS:
+                    next_provider = next(
+                        (
+                            candidate
+                            for candidate in provider_sequence
+                            if candidate != provider_key
+                            and candidate not in failed_provider_names
+                            and int(quality_retry_counts.get(candidate) or 0)
+                            <= JOBS_AI_QUALITY_REPAIRS
+                        ),
+                        "",
+                    )
+                    if not next_provider:
+                        log_event(
+                            "ai_quality_repair_limit_reached",
+                            article_id=article.get("id"),
+                            provider=provider_key,
+                            repairs_used=provider_repairs_used,
+                            total_repairs_used=quality_repairs_used,
+                            max_repairs=JOBS_AI_QUALITY_REPAIRS,
+                            reason=str(error),
+                        )
+                        break
+                    prompt = _build_expansion_retry_prompt(
+                        package,
+                        previous_data,
+                        str(error),
+                    )
+                    forced_next_provider = next_provider
+                    log_event(
+                        "ai_quality_provider_switch",
+                        article_id=article.get("id"),
+                        from_provider=provider_key,
+                        to_provider=next_provider,
+                        reason=str(error),
+                    )
+                    continue
+
+                quality_retry_counts[provider_key] = provider_repairs_used + 1
                 quality_repairs_used += 1
                 article["ai_quality_repairs_used"] = quality_repairs_used
                 if "too much english inside article paragraphs" in str(error).casefold():
@@ -3193,12 +3241,13 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
                         previous_data,
                         str(error),
                     )
-                forced_next_provider = provider or provider_used.split(":", 1)[0]
+                forced_next_provider = provider_key
                 log_event(
                     "ai_quality_repair_retry",
                     article_id=article.get("id"),
                     provider=forced_next_provider,
-                    repair=quality_repairs_used,
+                    repair=quality_retry_counts[provider_key],
+                    total_repairs=quality_repairs_used,
                     max_repairs=JOBS_AI_QUALITY_REPAIRS,
                     reason=str(error),
                 )
