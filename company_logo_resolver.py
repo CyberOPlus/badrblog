@@ -64,6 +64,10 @@ BLOCKED_IMAGE_HINTS = (
     "sprite",
     "social",
     "share",
+    "default-image",
+    "default_image",
+    "defaultimage",
+    "placeholder",
 )
 
 OFFICIAL_SITE_LABELS = (
@@ -273,7 +277,7 @@ def _candidate(candidates, url, score, source, official_domain="", evidence=""):
     if not url:
         return
     signature = url.casefold()
-    if any(hint in signature for hint in BLOCKED_IMAGE_HINTS) and "logo" not in signature:
+    if any(hint in signature for hint in BLOCKED_IMAGE_HINTS):
         return
     row = {
         "url": url,
@@ -664,6 +668,9 @@ def _registry_lookup(registry, company, official_domain):
     for record in registry.get("records", {}).values():
         if int(record.get("confidence") or 0) < MIN_LOGO_CONFIDENCE:
             continue
+        logo_url = str(record.get("logo_url") or "")
+        if any(hint in logo_url.casefold() for hint in BLOCKED_IMAGE_HINTS):
+            continue
         aliases = {_normalize_name(x) for x in (record.get("aliases") or [])}
         domain = str(record.get("official_domain") or "").casefold().lstrip("www.")
         if official_domain and domain and official_domain == domain:
@@ -695,7 +702,9 @@ def verified_company_logo(article):
         or ""
     ).strip()
 
-    if direct_verified and direct_url:
+    if direct_verified and direct_url and not any(
+        hint in direct_url.casefold() for hint in BLOCKED_IMAGE_HINTS
+    ):
         result = {
             "company_logo_url": direct_url,
             "company_logo_verified": True,
