@@ -238,6 +238,35 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn("Meta description 80-180 characters.", quality_retry)
         self.assertNotIn("Meta description 100-160 characters.", quality_retry)
 
+    def test_prepare_reconciles_legacy_official_competition_stage(self):
+        article = {
+            "official_source": True,
+            "job_official_source": True,
+            "ats_provider": "emploi_public",
+            "job_notice_type": "competition",
+            "job_notice_type_source": "heuristic",
+            "job_notice_status": "final",
+            "job_document_links": [],
+        }
+
+        article_processor._prepare_identity_evidence(article)
+
+        self.assertEqual(article["job_notice_type_source"], "source")
+        self.assertEqual(article["job_notice_status"], "")
+
+    def test_publish_blocks_while_official_pdf_pages_are_pending(self):
+        article = {
+            "job_document_render_status": "document_render_retry",
+            "job_document_links": [
+                {"url": "https://example.gov.ma/notice.pdf", "kind": "document"}
+            ],
+            "ai_input_package": {},
+        }
+
+        reason = draft._publish_quality_error(article, [])
+
+        self.assertEqual(reason, "official PDF pages are not fully rendered yet")
+
     def test_publication_value_does_not_erase_same_day_deadline(self):
         article = {
             "final_html": (
