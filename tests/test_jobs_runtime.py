@@ -1297,7 +1297,7 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertNotIn("facebook_selection_reason", article)
         save.assert_called_once()
 
-    def test_archived_published_job_can_be_reopened_for_link_repair(self):
+    def test_archived_published_job_uses_same_post_sync_without_reopening_ai(self):
         with self.subTest("published archive repair"):
             original = article_queue.ARTICLE_QUEUE_PATH
             from tempfile import TemporaryDirectory
@@ -1334,22 +1334,25 @@ class JobsRuntimeTests(unittest.TestCase):
                     })
                     stats = article_queue.repair_job_link_bindings()
                     repaired = article_queue.load_article_queue()["articles"][0]
-                    self.assertEqual(stats["reopened_published"], 1)
-                    self.assertEqual(repaired["status"], "ready")
-                    self.assertEqual(repaired["publish_status"], "repair_pending")
+                    self.assertEqual(stats["reopened_published"], 0)
+                    self.assertEqual(stats["published_sync_queued"], 1)
+                    self.assertEqual(repaired["status"], "published")
+                    self.assertEqual(repaired["publish_status"], "published")
                     self.assertFalse(repaired["archived"])
                     self.assertEqual(repaired["job_application_url"], repaired["job_detail_url"])
-                    self.assertNotIn("final_html", repaired)
-                    self.assertNotIn("blogger_article_html", repaired)
-                    self.assertNotIn("ai_status", repaired)
-                    self.assertNotIn("ai_input_package", repaired)
-                    self.assertNotIn("processing_status", repaired)
+                    self.assertEqual(
+                        repaired["ai_input_package"]["job_application_url"],
+                        repaired["job_detail_url"],
+                    )
+                    self.assertIn("final_html", repaired)
+                    self.assertEqual(repaired["ai_status"], "completed")
+                    self.assertTrue(repaired["visual_sync_retry_pending"])
                     self.assertEqual(repaired["blogger_post_id"], "post-repair-1")
                     self.assertEqual(repaired["job_campaign_id"], "campaign-repair-1")
                 finally:
                     article_queue.ARTICLE_QUEUE_PATH = original
 
-    def test_pending_link_repair_regenerates_even_after_previous_publish_block(self):
+    def test_legacy_repair_pending_with_live_post_id_is_restored_to_published(self):
         article = {
             "status": "selected",
             "publish_status": "failed",
@@ -1378,15 +1381,63 @@ class JobsRuntimeTests(unittest.TestCase):
                 stats = article_queue.repair_job_link_bindings()
                 repaired = article_queue.load_article_queue()["articles"][0]
                 self.assertEqual(stats["repaired"], 1)
-                self.assertEqual(repaired["status"], "ready")
-                self.assertEqual(repaired["publish_status"], "repair_pending")
+                self.assertEqual(stats["published_sync_queued"], 1)
+                self.assertEqual(repaired["status"], "published")
+                self.assertEqual(repaired["publish_status"], "published")
                 self.assertEqual(repaired["blogger_post_id"], "post-1")
-                self.assertNotIn("final_html", repaired)
-                self.assertNotIn("ai_status", repaired)
-                self.assertNotIn("processing_status", repaired)
-                self.assertNotIn("ai_input_package", repaired)
+                self.assertIn("final_html", repaired)
+                self.assertEqual(repaired["ai_status"], "completed")
+                self.assertNotIn("job_link_repair_pending", repaired)
+                self.assertTrue(repaired["visual_sync_retry_pending"])
             finally:
                 article_queue.ARTICLE_QUEUE_PATH = original
+
+    def test_unpublished_jobs_over_24h_are_removed_but_published_posts_are_kept(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
+        now = datetime(2026, 10, 1, 18, 0, tzinfo=timezone.utc)
+        with TemporaryDirectory() as temp:
+            queue_path = Path(temp) / "jobs_article_queue.json"
+            rows = [
+                {
+                    "id": "stale-official",
+                    "status": "ready",
+                    "source_published_at": "2026-09-30T16:59:00+00:00",
+                    "discovered_at": "2026-09-30T17:00:00+00:00",
+                },
+                {
+                    "id": "stale-discovered",
+                    "status": "ready",
+                    "source_published_at": "",
+                    "discovered_at": "2026-09-30T17:00:00+00:00",
+                },
+                {
+                    "id": "under-24h",
+                    "status": "ready",
+                    "source_published_at": "2026-09-30T19:00:00+00:00",
+                    "discovered_at": "2026-09-30T19:00:00+00:00",
+                },
+                {
+                    "id": "published-old",
+                    "status": "published",
+                    "publish_status": "published",
+                    "source_published_at": "2026-09-28T10:00:00+00:00",
+                    "blogger_post_id": "post-old",
+                    "blogger_post_url": "https://example.blogspot.com/old.html",
+                },
+            ]
+            with patch.object(article_queue, "ARTICLE_QUEUE_PATH", queue_path):
+                article_queue.save_article_queue({"articles": rows, "notifications": {}})
+                stats = article_queue.archive_expired_queue_articles(now=now)
+                saved = article_queue.load_article_queue()["articles"]
+
+        ids = {row["id"] for row in saved}
+        self.assertEqual(stats["purged_over_24h"], 2)
+        self.assertNotIn("stale-official", ids)
+        self.assertNotIn("stale-discovered", ids)
+        self.assertIn("under-24h", ids)
+        self.assertIn("published-old", ids)
 
     def test_queue_save_is_noop_when_payload_is_unchanged(self):
         from pathlib import Path

@@ -28,6 +28,7 @@ from job_core import (
 
 ALLOWED_STATUSES = {"new", "identity_pending", "skipped", "ready", "selected", "draft_created", "published", "failed"}
 FRESHNESS_HARD_MAX_HOURS = 24 * 7
+UNPUBLISHED_QUEUE_RETENTION_HOURS = 24
 
 
 def _smart_freshness_hours(max_age_hours=None):
@@ -364,11 +365,29 @@ def _reset_generated_job_content_for_repair(article):
     article.pop("archive_reason", None)
 
 
+def _sync_repaired_link_facts_to_package(article):
+    package = article.get("ai_input_package")
+    if not isinstance(package, dict):
+        return
+    for field in (
+        "job_detail_url",
+        "job_application_url",
+        "job_application_link_kind",
+        "job_application_is_specific",
+        "job_action_links",
+        "job_document_links",
+    ):
+        if field in article:
+            package[field] = article.get(field)
+
+
 def repair_job_link_bindings():
     stats = {
         "checked": 0,
         "repaired": 0,
         "reopened_published": 0,
+        "published_sync_queued": 0,
+        "published_sync_skipped_missing_local_content": 0,
         "removed_action_links": 0,
         "removed_document_links": 0,
     }
@@ -379,6 +398,7 @@ def repair_job_link_bindings():
             article.get("status") == "published"
             or article.get("publish_status") == "published"
             or article.get("archive_reason") == "published_to_blogger"
+            or bool(article.get("blogger_post_id") and article.get("blogger_post_url"))
         )
         if article.get("archived") and not published_record:
             continue
@@ -436,12 +456,37 @@ def repair_job_link_bindings():
         changed_any=True
         stats["repaired"] += 1
         article["job_link_binding_repaired_at"]=_now_iso()
+        _sync_repaired_link_facts_to_package(article)
+
+        if published_record:
+            # A live Blogger post is terminal for article generation. Repair the
+            # saved post in the independent same-post sync worker; never send it
+            # back through article AI or let it compete with new vacancies.
+            article["status"] = "published"
+            article["publish_status"] = "published"
+            article.pop("job_link_repair_pending", None)
+            article.pop("candidate_retry_after", None)
+            article.pop("candidate_failure_stage", None)
+            article.pop("candidate_failure_reason", None)
+            article.pop("candidate_failed_at", None)
+            if article.get("final_html") and article.get("blogger_post_id"):
+                article["visual_sync_retry_pending"] = True
+                article["visual_sync_retry_after"] = _now_iso()
+                article["visual_sync_error"] = "job link binding repaired; same-post sync pending"
+                article["archived"] = False
+                article.pop("archived_at", None)
+                article.pop("archive_reason", None)
+                stats["published_sync_queued"] += 1
+            else:
+                stats["published_sync_skipped_missing_local_content"] += 1
+            continue
+
         article["job_quality_status"]=""
         article["job_quality_reasons"]=[]
-        if published_record or repair_pending:
+        if repair_pending:
             _reset_generated_job_content_for_repair(article)
             article["job_identity_action"]="update"
-            stats["reopened_published"] += 1
+
     if changed_any:
         save_article_queue(queue)
         log_event("job_link_bindings_repaired", **stats)
@@ -461,6 +506,26 @@ def _source_published_datetime(article):
     if published_at.tzinfo is None:
         published_at = published_at.replace(tzinfo=timezone.utc)
     return published_at.astimezone(timezone.utc)
+
+
+def _unpublished_queue_retention_anchor(article):
+    """Use official publication time first; fall back to first discovery only."""
+    return (
+        _source_published_datetime(article)
+        or _as_utc(_parse_iso(article.get("discovered_at")))
+    )
+
+
+def _unpublished_queue_expired(article, now=None):
+    anchor = _unpublished_queue_retention_anchor(article)
+    if not anchor:
+        return False
+    current = now or datetime.now(timezone.utc)
+    if current.tzinfo is None:
+        current = current.replace(tzinfo=timezone.utc)
+    else:
+        current = current.astimezone(timezone.utc)
+    return (current - anchor).total_seconds() > UNPUBLISHED_QUEUE_RETENTION_HOURS * 3600
 
 
 def _fresh_queue_sort_key(article):
@@ -550,21 +615,39 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
     expired = 0
     missing_date = 0
     stale_jobs = 0
+    purged_over_24h = 0
+    retained_articles = []
 
     released_logo_waits = 0
 
     for article in articles:
+        published_record = bool(
+            article.get("status") in {"published", "draft_created"}
+            or article.get("publish_status") in {"published", "draft_created"}
+            or article.get("blogger_post_id")
+            or article.get("blogger_draft_id")
+        )
+
+        if not published_record and _unpublished_queue_expired(article, now=now):
+            purged_over_24h += 1
+            changed = True
+            log_event(
+                "job_queue_purged_over_24h",
+                article_id=article.get("id"),
+                source=article.get("source_name"),
+                source_published_at=article.get("source_published_at"),
+                discovered_at=article.get("discovered_at"),
+            )
+            continue
+
+        retained_articles.append(article)
+
         if article.get("archived"):
             continue
         if _release_legacy_logo_wait(article):
             released_logo_waits += 1
             changed = True
-        if (
-            article.get("status") in {"published", "draft_created"}
-            or article.get("publish_status") in {"published", "draft_created"}
-            or article.get("blogger_post_id")
-            or article.get("blogger_draft_id")
-        ):
+        if published_record:
             continue
 
         if _known_stale_job(article, now=now):
@@ -589,6 +672,8 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
                         changed = True
         continue
 
+    if purged_over_24h:
+        queue["articles"] = retained_articles
 
     if changed:
         save_article_queue(queue)
@@ -596,10 +681,11 @@ def archive_expired_queue_articles(now=None, max_age_hours=None):
     return {
         "expired_archived": expired,
         "stale_jobs_archived": stale_jobs,
+        "purged_over_24h": purged_over_24h,
         "missing_date_archived": missing_date,
         "changed": changed,
         "released_logo_waits": released_logo_waits,
-        "total_queued": len(articles),
+        "total_queued": len(queue.get("articles", [])),
     }
 
 

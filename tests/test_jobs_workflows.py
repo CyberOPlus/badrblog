@@ -19,18 +19,16 @@ from production_logging import _clean_value
 class JobsWorkflowTests(unittest.TestCase):
     def test_workflow_cron_and_facebook_safety_are_current(self):
         text = Path(".github/workflows/auto-cycle.yml").read_text(encoding="utf-8")
-        auto_cron = 'cron: "1,7,13,19,25,31,37,43,49,55 * * * *"'
-        if auto_cron not in text:
-            self.assertIn("# One-time live verification trigger.", text)
-            self.assertIn("  push:\n", text)
-        else:
-            self.assertIn("workflow_dispatch:", text)
-            self.assertNotIn("  push:\n", text)
+        self.assertIn("# Continuous single-worker Jobs discovery/publishing.", text)
+        self.assertIn("workflow_dispatch:", text)
+        self.assertIn("  push:\n", text)
+        self.assertIn("Continue Jobs auto-cycle", text)
+        self.assertIn("createWorkflowDispatch", text)
         self.assertIn("group: jobs-production-refs/heads/main", text)
         self.assertIn("auto-cycle:\n    if: github.ref == 'refs/heads/main'", text)
         self.assertIn("cancel-in-progress: false", text)
-        self.assertIn("timeout-minutes: 15", text)
-        self.assertIn("timeout-minutes: 10", text)
+        self.assertIn("timeout-minutes: 30", text)
+        self.assertIn("timeout-minutes: 20", text)
         self.assertIn('"MAX_SOURCES_PER_RUN": "20"', text)
         self.assertIn('"MAX_POSTS_PER_RUN": "1"', text)
         self.assertIn('"MAX_ARTICLES_PER_RUN": "1"', text)
@@ -54,6 +52,12 @@ class JobsWorkflowTests(unittest.TestCase):
         self.assertNotIn("run: sleep 120", text)
         self.assertIn('"JOBS_FACEBOOK_FOLLOW_ARTICLE": "true"', text)
         self.assertIn('"JOBS_MAX_PUBLISH_AGE_HOURS": "12"', text)
+        self.assertIn('"AI_TOTAL_TIME_BUDGET_SECONDS": "300"', text)
+        self.assertIn('"GEMINI_TIMEOUT_SECONDS": "90"', text)
+        self.assertIn('"OPENROUTER_TIMEOUT_SECONDS": "90"', text)
+        self.assertIn('"GROQ_TIMEOUT_SECONDS": "60"', text)
+        self.assertIn('"MISTRAL_TIMEOUT_SECONDS": "60"', text)
+        self.assertIn('"CLOUDFLARE_TIMEOUT_SECONDS": "60"', text)
         watchdog = Path(".github/workflows/jobs-watchdog.yml").read_text(encoding="utf-8")
         self.assertNotIn("workflow_run:", watchdog)
         self.assertNotIn('workflows: ["Jobs Core Tests"]', watchdog)
