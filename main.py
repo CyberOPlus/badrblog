@@ -1811,25 +1811,38 @@ def run_safe_cycle_only():
         )
         ingest_stats = None
         print(f"Publishing is paced ({reason}); continuing Jobs ingestion.")
-        fetch_stats = _run_timed_jobs_stage("fetch", stage_timings, run_fetch_only)
+        fetch_stats = _run_timed_jobs_stage(
+            "fetch",
+            stage_timings,
+            run_fetch_only,
+        )
         cleanup_stats = _run_timed_jobs_stage(
-        "cleanup",
-        stage_timings,
-        archive_expired_queue_articles,
-    )
-        visual_retry_stats = retry_pending_job_document_renders(max_articles=1)
-        score_stats = _run_timed_jobs_stage("score", stage_timings, run_score_only)
+            "cleanup",
+            stage_timings,
+            archive_expired_queue_articles,
+        )
+        visual_retry_stats = _run_timed_jobs_stage(
+            "visual_retry",
+            stage_timings,
+            retry_pending_job_document_renders,
+            max_articles=1,
+        )
+        score_stats = _run_timed_jobs_stage(
+            "score",
+            stage_timings,
+            run_score_only,
+        )
         enrich_stats = _run_timed_jobs_stage(
-        "enrich",
-        stage_timings,
-        run_enrich_only,
-        force=False,
-    )
+            "enrich",
+            stage_timings,
+            run_enrich_only,
+            force=False,
+        )
         identity_stats = _run_timed_jobs_stage(
-        "identity",
-        stage_timings,
-        resolve_identity_pending_articles,
-    )
+            "identity",
+            stage_timings,
+            resolve_identity_pending_articles,
+        )
         ingest_stats = {
             "fetch": fetch_stats,
             "cleanup": cleanup_stats,
@@ -1860,7 +1873,11 @@ def run_safe_cycle_only():
         print(f"Source warnings recorded: {source_warnings_count}")
     if zero_link_warnings_count:
         print(f"Zero-link source warnings recorded: {zero_link_warnings_count}")
-    cleanup_stats = archive_expired_queue_articles()
+    cleanup_stats = _run_timed_jobs_stage(
+        "cleanup",
+        stage_timings,
+        archive_expired_queue_articles,
+    )
     visual_retry_stats = _run_timed_jobs_stage(
         "visual_retry",
         stage_timings,
@@ -1875,10 +1892,19 @@ def run_safe_cycle_only():
         )
 
     print("\n[2/7] score")
-    score_stats = run_score_only()
+    score_stats = _run_timed_jobs_stage(
+        "score",
+        stage_timings,
+        run_score_only,
+    )
 
     print("\n[3/7] enrich")
-    enrich_stats = run_enrich_only(force=False)
+    enrich_stats = _run_timed_jobs_stage(
+        "enrich",
+        stage_timings,
+        run_enrich_only,
+        force=False,
+    )
     enrichment_failed_count = int(enrich_stats.get("failed") or 0)
     enrichment_weak_count = int(enrich_stats.get("weak") or 0)
     enrichment_failed_count += enrichment_weak_count
@@ -1892,7 +1918,11 @@ def run_safe_cycle_only():
     )
 
     identity_stats = {}
-    identity_stats = resolve_identity_pending_articles()
+    identity_stats = _run_timed_jobs_stage(
+        "identity",
+        stage_timings,
+        resolve_identity_pending_articles,
+    )
     circuit = ai_circuit_status()
     if circuit.get("global_open"):
         reason = (
