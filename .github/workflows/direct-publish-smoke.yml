@@ -121,8 +121,29 @@ jobs:
           from article_processor import _prepare_identity_evidence
           from article_queue import load_article_queue, save_article_queue, make_article_id
           from duplicate_utils import canonicalize_url
+          import article_draft_publisher
+          import article_enricher
+          import article_queue
+          import job_core
+          import main as main_module
           from job_core import prepare_job_candidate, _parse_date, job_deadline_time
-          from main import _process_job_target
+
+          # Manual one-shot exception only: production remains capped at 12h in config.py.
+          # This target is verified as published today but Emploi-Public exposes only a
+          # date (no time), so midnight parsing can make a same-day notice look >12h old.
+          # Keep auto-cycle untouched while allowing this explicit end-to-end validation.
+          MANUAL_ONE_SHOT_MAX_AGE_HOURS = 48
+          for module in (
+              job_core,
+              article_queue,
+              article_enricher,
+              article_draft_publisher,
+              main_module,
+          ):
+              if hasattr(module, "JOBS_MAX_PUBLISH_AGE_HOURS"):
+                  setattr(module, "JOBS_MAX_PUBLISH_AGE_HOURS", MANUAL_ONE_SHOT_MAX_AGE_HOURS)
+
+          _process_job_target = main_module._process_job_target
 
           url = "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/2835f644-995b-4a06-a386-c41338bde62b"
           listing = "https://www.emploi-public.ma/ar/%D9%82%D8%A7%D8%A6%D9%85%D8%A9-%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA?corps=0&procedure=0&region=0&stat=etab_publics"
