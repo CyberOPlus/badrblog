@@ -1009,6 +1009,9 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertTrue(saved["articles"][0]["archived"])
 
     def test_no_deadline_job_uses_official_publish_date_before_discovery_date(self):
+        from pathlib import Path
+        from tempfile import TemporaryDirectory
+
         old_published = (datetime.now(timezone.utc) - timedelta(days=90)).isoformat()
         discovered_now = datetime.now(timezone.utc).isoformat()
         queue = {
