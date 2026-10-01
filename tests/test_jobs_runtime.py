@@ -2088,6 +2088,31 @@ class JobsRuntimeTests(unittest.TestCase):
         )
         self.assertEqual(first, second)
 
+    def test_verified_position_count_is_injected_before_quality_validation(self):
+        data = {
+            "title": "شركة مثال تعلن عن توظيف إطار إداري",
+            "description": "وصف مهني صالح يوضح تفاصيل إعلان التوظيف وشروط الترشيح والمعلومات الرسمية المتاحة.",
+            "slug": "administrative-manager-job",
+            "html_content": "<p>تعلن الشركة عن فتح باب الترشيح.</p><h2>التفاصيل</h2><p>معلومات إضافية.</p>",
+            "notice_type": "vacancy",
+        }
+        package = {
+            "verified_fact_manifest": {
+                "facts": {
+                    "positions": [
+                        {
+                            "value": 1,
+                            "confidence": "high",
+                            "required_in_output": True,
+                        }
+                    ]
+                }
+            }
+        }
+        fixed = ai._ensure_verified_position_count(dict(data), package)
+        self.assertIn("1 منصب", fixed["html_content"])
+        self.assertEqual(fixed["html_content"].count("1 منصب"), 1)
+
     def test_jobs_quality_failure_repairs_same_provider_once(self):
         article = {
             "id": "quality-job",
