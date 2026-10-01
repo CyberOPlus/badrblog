@@ -92,6 +92,105 @@ class JobsRuntimeTests(unittest.TestCase):
         ):
             self.assertNotIn(key, package)
 
+    def test_official_pdf_promotes_real_application_channel(self):
+        detail = (
+            "https://www.emploi-public.ma/ar/تفاصيل/المباريات/"
+            "2835f644-995b-4a06-a386-c41338bde62b"
+        )
+        article = {
+            "id": "pdf-apply",
+            "official_source": True,
+            "job_official_source": True,
+            "job_notice_type": "competition",
+            "url": detail,
+            "canonical_url": detail,
+            "job_detail_url": detail,
+            "job_application_url": detail,
+            "job_application_link_kind": "official_job_page",
+            "job_action_links": [],
+            "job_document_links": [
+                {
+                    "url": "https://www.emploi-public.ma/ar/تحميل/المباريات/arrete/example",
+                    "label": "قرار فتح المباراة",
+                    "kind": "document",
+                }
+            ],
+            "job_document_texts": [
+                {
+                    "page_number": 3,
+                    "page_count": 4,
+                    "text": (
+                        "يتعين على المترشحين تعبئة المعلومات وتحميل الوثائق "
+                        "على بوابة الترشيح الإلكتروني:"
+                        "https://odco.gov.ma/e-recrutement"
+                        "الإلكتروني الترشيح بوابة"
+                    ),
+                }
+            ],
+        }
+
+        promoted = job_document_renderer.promote_job_document_application_channel(article)
+
+        self.assertEqual(promoted, "https://odco.gov.ma/e-recrutement")
+        self.assertEqual(article["job_application_url"], promoted)
+        self.assertEqual(article["job_application_link_kind"], "official_application_channel")
+        self.assertTrue(article["job_application_is_official_channel"])
+        self.assertTrue(any(
+            row.get("kind") == "apply" and row.get("url") == promoted
+            for row in article["job_action_links"]
+        ))
+
+    def test_compact_jobs_prompt_keeps_pdf_evidence_without_false_defaults(self):
+        manifest = {
+            "version": 2,
+            "facts": {
+                "documents": [{"value": "https://example.gov.ma/notice.pdf", "confidence": "high"}],
+            },
+        }
+        package = {
+            "title": "مباراة توظيف",
+            "url": "https://example.gov.ma/jobs/42",
+            "source_name": "Official",
+            "official_source": True,
+            "full_article_text": (
+                "آخر أجل للترشيح 16 أكتوبر 2026. "
+                "تاريخ النشر: 1 أكتوبر 2026. تفاصيل المباراة."
+            ),
+            "job_title": "متصرف",
+            "job_company": "مؤسسة عمومية",
+            "job_number_of_positions": 0,
+            "job_remote": False,
+            "job_visa_sponsorship": False,
+            "job_entry_level": False,
+            "job_document_links": [
+                {"url": "https://example.gov.ma/notice.pdf", "label": "قرار المباراة"},
+            ],
+            "job_document_texts": [
+                {"page_number": 1, "page_count": 2, "text": "شروط الترشيح الرسمية"},
+                {"page_number": 2, "page_count": 2, "text": "الاختبار الكتابي والشفوي"},
+            ],
+            "verified_fact_manifest": manifest,
+        }
+
+        compact = ai._compact_prompt_package(package)
+
+        self.assertNotIn("job_number_of_positions", compact)
+        self.assertNotIn("job_remote", compact)
+        self.assertNotIn("job_visa_sponsorship", compact)
+        self.assertNotIn("job_entry_level", compact)
+        self.assertNotIn("تاريخ النشر", compact["full_article_text"])
+        self.assertEqual(len(compact["job_document_texts"]), 2)
+        self.assertEqual(compact["verified_fact_manifest"], manifest)
+
+    def test_jobs_output_token_limit_caps_large_provider_reservations(self):
+        with patch.object(ai, "JOBS_MODE", True), patch.object(ai, "JOBS_AI_MAX_OUTPUT_TOKENS", 2048):
+            self.assertEqual(ai._effective_output_token_limit(8192), 2048)
+            self.assertEqual(ai._effective_output_token_limit(4096), 2048)
+            self.assertEqual(ai._effective_output_token_limit(1024), 1024)
+
+        with patch.object(ai, "JOBS_MODE", False), patch.object(ai, "JOBS_AI_MAX_OUTPUT_TOKENS", 2048):
+            self.assertEqual(ai._effective_output_token_limit(8192), 8192)
+
     def test_publication_value_does_not_erase_same_day_deadline(self):
         article = {
             "final_html": (
