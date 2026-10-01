@@ -277,6 +277,37 @@ class JobVisualTests(unittest.TestCase):
             "https://example.com/verified-logo.png",
         )
 
+    def test_jobs_facebook_late_refreshes_verified_logo_before_render(self):
+        article = {
+            "id": "restored-facebook-pending",
+            "url": "https://jobs.example.com/42",
+            "job_company": "Example Employer",
+            "company_logo_url": "",
+            "company_logo_verified": False,
+        }
+        with (
+            patch.object(
+                facebook_publisher,
+                "verified_company_logo",
+                return_value={
+                    "company_logo_url": "",
+                    "company_logo_verified": False,
+                },
+            ),
+            patch.object(
+                facebook_publisher,
+                "refresh_company_logo",
+                return_value={
+                    "company_logo_url": "https://example.com/verified-logo.png",
+                    "company_logo_verified": True,
+                },
+            ) as refresh,
+        ):
+            url = facebook_publisher._main_image_url(article)
+
+        self.assertEqual(url, "https://example.com/verified-logo.png")
+        refresh.assert_called_once_with(article)
+
     def test_jobs_facebook_uses_translated_reader_facing_title(self):
         article = {
             "job_title": "Technical Lead ServiceNow",
