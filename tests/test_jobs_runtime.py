@@ -3705,11 +3705,25 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn("spacing", " ".join(status["reasons"]))
 
 
-    def test_adaptive_blogger_interval_tracks_publishable_backlog(self):
+    def test_blogger_interval_honors_configured_minimum_without_hidden_delay(self):
         with patch.object(job_core, "JOBS_MIN_PUBLISH_INTERVAL_MINUTES", 5):
-            self.assertEqual(job_core.adaptive_publish_interval_minutes(2), 10)
-            self.assertEqual(job_core.adaptive_publish_interval_minutes(8), 7)
+            self.assertEqual(job_core.adaptive_publish_interval_minutes(2), 5)
+            self.assertEqual(job_core.adaptive_publish_interval_minutes(8), 5)
             self.assertEqual(job_core.adaptive_publish_interval_minutes(20), 5)
+
+    def test_ai_quality_backoff_retries_before_long_input_backoff(self):
+        self.assertEqual(
+            article_ai_processor._fingerprint_backoff_seconds("quality", "quality", 1),
+            5 * 60,
+        )
+        self.assertEqual(
+            article_ai_processor._fingerprint_backoff_seconds("quality", "quality", 2),
+            10 * 60,
+        )
+        self.assertEqual(
+            article_ai_processor._fingerprint_backoff_seconds("article_input", "input", 1),
+            30 * 60,
+        )
 
 
     def test_job_score_accepts_naive_scheduler_datetime(self):
