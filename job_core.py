@@ -141,6 +141,30 @@ def job_focus_priority(article):
     return 0
 
 
+def job_freshness_band(article, now=None):
+    """Group verified fresh Jobs into 0-3h, 3-6h and 6-12h priority bands."""
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    else:
+        now = now.astimezone(timezone.utc)
+
+    published = _parse_date(
+        article.get("job_published_at")
+        or article.get("source_published_at")
+    )
+    if not published:
+        return 0
+    age_hours = (now - published).total_seconds() / 3600.0
+    if age_hours < 0 or age_hours > JOBS_MAX_PUBLISH_AGE_HOURS:
+        return 0
+    if age_hours <= 3:
+        return 3
+    if age_hours <= 6:
+        return 2
+    return 1
+
+
 
 # A generic application portal is never enough on its own. For public recruitment
 # competitions it can be accepted only when the specific official notice itself
@@ -1533,9 +1557,9 @@ def select_best_job_from_queue(queue, now=None):
         article["job_publish_immediately"] = bool(urgency.get("publish_immediately"))
         priority = 2 if urgency.get("level") in {"critical", "high"} else 1 if urgency.get("level") == "elevated" else 0
 
-        # Closing-soon notices stay first. Then prefer the newest verified
-        # publication/discovery time. Cyber/IT/developer/internship focus is an
-        # editorial tie-breaker, never a reason to bury a newer valid job.
+        # Closing-soon notices stay first. Then 0-3h beats 3-6h, which beats
+        # 6-12h. Inside the same band, prefer cyber/IT/developer/internship
+        # opportunities; general fresh jobs remain fully eligible.
         published = _parse_date(
             article.get("job_published_at")
             or article.get("source_published_at")
@@ -1543,23 +1567,25 @@ def select_best_job_from_queue(queue, now=None):
         discovered = _parse_date(article.get("discovered_at"))
         published_epoch = published.timestamp() if published else 0.0
         discovered_epoch = discovered.timestamp() if discovered else 0.0
+        freshness_band = job_freshness_band(article, now=now)
         focus_priority = job_focus_priority(article)
         ranked.append(
             (
                 priority,
+                freshness_band,
+                focus_priority,
                 published_epoch,
                 discovered_epoch,
-                focus_priority,
                 quality["score"],
                 article,
             )
         )
 
     ranked.sort(
-        key=lambda row: (row[0], row[1], row[2], row[3], row[4]),
+        key=lambda row: (row[0], row[1], row[2], row[3], row[4], row[5]),
         reverse=True,
     )
-    return ranked[0][5] if ranked else None
+    return ranked[0][6] if ranked else None
 
 
 def record_job_publish(article, now=None):
