@@ -1584,8 +1584,12 @@ def _plus_ui_format_html(html_content, package):
 
     paragraphs = _normal_paragraphs(soup)
 
-    # Remove old images
-    for img in soup.find_all("img"):
+    # Remove old/source images together with their wrappers. Decomposing only
+    # the <img> leaves empty <figure> shells on repeated formatting/retries.
+    for figure in list(soup.find_all("figure")):
+        if figure.find("img"):
+            figure.decompose()
+    for img in list(soup.find_all("img")):
         img.decompose()
 
     # Insert the one approved main image after the first paragraph.
