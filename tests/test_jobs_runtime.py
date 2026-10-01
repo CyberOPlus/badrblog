@@ -25,6 +25,46 @@ import jobs_adaptive_controller as adaptive
 
 
 class JobsRuntimeTests(unittest.TestCase):
+    def test_jobs_article_hides_publication_date_and_internal_reference(self):
+        html = """
+        <p>مقدمة مفيدة عن الوظيفة.</p>
+        <table><tbody>
+          <tr><th>المرجع</th><td>C43918/26</td></tr>
+          <tr><th>تاريخ النشر</th><td>30 شتنبر 2026</td></tr>
+          <tr><th>عدد المناصب</th><td>1 منصب</td></tr>
+        </tbody></table>
+        <p>رمز المباراة: C43918/26</p>
+        """
+        cleaned = ai.format_phase3_article_html(html, {})
+        self.assertNotIn("C43918/26", cleaned)
+        self.assertNotIn("تاريخ النشر", cleaned)
+        self.assertIn("عدد المناصب", cleaned)
+        self.assertIn("1 منصب", cleaned)
+
+    def test_jobs_ai_package_keeps_freshness_and_reference_internal(self):
+        article = {
+            "title": "وظيفة اختبار",
+            "url": "https://example.com/jobs/one",
+            "source_name": "Official",
+            "full_article_text": "نص رسمي كاف للوظيفة",
+            "job_title": "إطار إداري",
+            "job_company": "شركة مثال",
+            "job_published_at": "2026-09-30",
+            "job_published_at_display": "30 شتنبر 2026",
+            "source_published_at": "2026-09-30",
+            "published_at_source": "official_detail_page",
+            "article_age_hours": 5,
+            "job_external_reference": "REF-123",
+            "ats_reference": "REF-123",
+        }
+        package = article_processor._build_ai_input_package(article)
+        for key in (
+            "job_published_at", "job_published_at_display",
+            "source_published_at", "published_at_source", "article_age_hours",
+            "job_external_reference", "ats_reference",
+        ):
+            self.assertNotIn(key, package)
+
     def test_pdf_outages_keep_retrying_with_bounded_backoff(self):
         article = {"job_document_render_retry_count": 20, "ai_input_package": {}}
         draft._mark_document_render_retry(article, article["ai_input_package"], "offline")
