@@ -16,6 +16,9 @@ from config import (
     JOBS_ADAPTIVE_PUBLISHING,
     JOBS_MAX_PUBLISH_AGE_HOURS,
     JOBS_MIN_PUBLISH_INTERVAL_MINUTES,
+    JOBS_PREFERRED_FRESH_HOURS,
+    JOBS_MAX_SOURCE_AGE_HOURS,
+    JOBS_REQUIRE_VERIFIED_PUBLISHED_AT,
 )
 from jobs_adaptive_controller import current_policy
 
@@ -794,6 +797,215 @@ def job_labels(article):
     return list(dict.fromkeys(labels))
 
 
+def _job_publication_text(article):
+    for field in ("job_published_at", "source_published_at"):
+        value = str((article or {}).get(field) or "").strip()
+        if value:
+            return value, field
+    return "", ""
+
+
+def job_publication_freshness(article, now=None):
+    """Return verified source freshness without inventing an exact publish time."""
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    else:
+        now = now.astimezone(timezone.utc)
+
+    discovered = _parse_date((article or {}).get("discovered_at"))
+    discovered_age_hours = (
+        max(0.0, (now - discovered).total_seconds() / 3600.0)
+        if discovered
+        else None
+    )
+    raw, field = _job_publication_text(article)
+    result = {
+        "raw": raw,
+        "field": field,
+        "verified": False,
+        "publishable": not JOBS_REQUIRE_VERIFIED_PUBLISHED_AT,
+        "bucket": "unknown",
+        "age_hours": None,
+        "preferred_rank": 0,
+        "discovered_age_hours": discovered_age_hours,
+        "reason": "publication time is not verified",
+    }
+
+    if raw and re.fullmatch(r"\d{4}-\d{2}-\d{2}", raw):
+        try:
+            published_day = datetime.fromisoformat(raw).date()
+        except ValueError:
+            published_day = None
+        if published_day:
+            local_today = _local(now).date()
+            result["verified"] = True
+            if published_day == local_today:
+                result.update({
+                    "publishable": True,
+                    "bucket": "today_date_only",
+                    "preferred_rank": 1,
+                    "reason": "official source date is today; exact hour is unavailable",
+                })
+                return result
+            if published_day < local_today:
+                result.update({
+                    "publishable": False,
+                    "bucket": "too_old",
+                    "reason": "official source date is before today and cannot prove a <=24h posting",
+                })
+                return result
+            result.update({
+                "publishable": False,
+                "bucket": "future",
+                "reason": "official publication date is in the future",
+            })
+            return result
+
+    if raw:
+        try:
+            published = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        except ValueError:
+            published = None
+        if published:
+            if published.tzinfo is None:
+                country = str(
+                    (article or {}).get("job_country")
+                    or (article or {}).get("source_country")
+                    or ""
+                ).strip().upper()
+                eligibility = str(
+                    (article or {}).get("job_eligibility")
+                    or (article or {}).get("source_eligibility")
+                    or ""
+                ).strip().lower()
+                local_tz = (
+                    ZoneInfo(MOROCCO_TIMEZONE)
+                    if country == "MA" or eligibility == "morocco"
+                    else timezone.utc
+                )
+                published = published.replace(tzinfo=local_tz)
+            published = published.astimezone(timezone.utc)
+            age_hours = (now - published).total_seconds() / 3600.0
+            result["verified"] = True
+            if age_hours < -2:
+                result.update({
+                    "publishable": False,
+                    "bucket": "future",
+                    "reason": "official publication timestamp is unexpectedly in the future",
+                })
+                return result
+            age_hours = max(0.0, age_hours)
+            result["age_hours"] = round(age_hours, 4)
+            if age_hours <= JOBS_PREFERRED_FRESH_HOURS:
+                result.update({
+                    "publishable": True,
+                    "bucket": "exact_under_preferred",
+                    "preferred_rank": 3,
+                    "reason": f"verified posting is <= {JOBS_PREFERRED_FRESH_HOURS}h old",
+                })
+                return result
+            if age_hours <= JOBS_MAX_SOURCE_AGE_HOURS:
+                result.update({
+                    "publishable": True,
+                    "bucket": "exact_within_max",
+                    "preferred_rank": 2,
+                    "reason": f"verified posting is <= {JOBS_MAX_SOURCE_AGE_HOURS}h old",
+                })
+                return result
+            result.update({
+                "publishable": False,
+                "bucket": "too_old",
+                "reason": f"verified posting is older than {JOBS_MAX_SOURCE_AGE_HOURS}h",
+            })
+            return result
+
+    label = str(
+        (article or {}).get("source_published_label")
+        or (article or {}).get("job_published_label")
+        or ""
+    ).strip()
+    if label:
+        folded = unicodedata.normalize("NFKD", label.casefold())
+        folded = "".join(ch for ch in folded if not unicodedata.combining(ch))
+        folded = re.sub(r"\s+", " ", folded).strip()
+        minute_match = re.search(r"(\d+)\s*(?:minute|minutes|min)\b", folded)
+        hour_match = re.search(r"(\d+)\s*(?:hour|hours|heure|heures|hr|hrs|h)\b", folded)
+        day_match = re.search(r"(\d+)\+?\s*(?:day|days|jour|jours)\b", folded)
+        if minute_match:
+            age_hours = int(minute_match.group(1)) / 60.0
+            result.update({
+                "verified": True,
+                "publishable": True,
+                "bucket": "relative_under_preferred",
+                "age_hours": round(age_hours, 4),
+                "preferred_rank": 3,
+                "reason": "official ATS relative publication age is under one hour",
+            })
+            return result
+        if hour_match:
+            age_hours = float(int(hour_match.group(1)))
+            publishable = age_hours <= JOBS_MAX_SOURCE_AGE_HOURS
+            result.update({
+                "verified": True,
+                "publishable": publishable,
+                "bucket": (
+                    "relative_under_preferred"
+                    if publishable and age_hours <= JOBS_PREFERRED_FRESH_HOURS
+                    else "relative_within_max"
+                    if publishable
+                    else "too_old"
+                ),
+                "age_hours": age_hours,
+                "preferred_rank": (
+                    3 if publishable and age_hours <= JOBS_PREFERRED_FRESH_HOURS
+                    else 2 if publishable
+                    else 0
+                ),
+                "reason": (
+                    "official ATS relative publication age is within freshness policy"
+                    if publishable
+                    else f"official ATS relative age exceeds {JOBS_MAX_SOURCE_AGE_HOURS}h"
+                ),
+            })
+            return result
+        if any(token in folded for token in ("posted today", "today", "aujourd hui", "aujourdhui")):
+            result.update({
+                "verified": True,
+                "publishable": True,
+                "bucket": "today_relative",
+                "preferred_rank": 1,
+                "reason": "official ATS says the job was posted today",
+            })
+            return result
+        if day_match and int(day_match.group(1)) >= 2:
+            days = int(day_match.group(1))
+            result.update({
+                "verified": True,
+                "publishable": False,
+                "bucket": "too_old",
+                "age_hours": float(days * 24),
+                "reason": "official ATS relative age is at least two days",
+            })
+            return result
+        if day_match or any(token in folded for token in ("yesterday", "hier")):
+            result.update({
+                "verified": False,
+                "publishable": False,
+                "bucket": "boundary_unverified",
+                "reason": "one-day relative age cannot guarantee the <=24h ceiling",
+            })
+            return result
+
+    if discovered_age_hours is not None and discovered_age_hours > JOBS_MAX_SOURCE_AGE_HOURS:
+        result["bucket"] = "unknown_stale"
+        result["reason"] = (
+            f"publication time remained unverified for more than "
+            f"{JOBS_MAX_SOURCE_AGE_HOURS}h after discovery"
+        )
+    return result
+
+
 def score_job(article, now=None):
     now = now or datetime.now(timezone.utc)
     if now.tzinfo is None:
@@ -804,17 +1016,14 @@ def score_job(article, now=None):
     official = bool(article.get("official_source") or article.get("job_official_source"))
     points["official_source"] = 25 if official else 0
 
-    published = _parse_date(article.get("job_published_at") or article.get("source_published_at"))
-    publication_age_hours = (
-        (now - published).total_seconds() / 3600
-        if published
-        else None
+    freshness = job_publication_freshness(article, now=now)
+    publication_age_hours = freshness.get("age_hours")
+    points[f"fresh_under_{JOBS_PREFERRED_FRESH_HOURS}h"] = (
+        15 if int(freshness.get("preferred_rank") or 0) >= 3 else 0
     )
-    fresh = bool(
-        publication_age_hours is not None
-        and 0 <= publication_age_hours <= JOBS_MAX_PUBLISH_AGE_HOURS
+    points[f"fresh_within_{JOBS_MAX_SOURCE_AGE_HOURS}h"] = (
+        5 if int(freshness.get("preferred_rank") or 0) in {1, 2} else 0
     )
-    points[f"fresh_under_{JOBS_MAX_PUBLISH_AGE_HOURS}h"] = 15 if fresh else 0
     points["preferred_tech_or_student"] = 10 if job_focus_priority(article) > 0 else 0
 
     priority = str(article.get("source_priority") or "").strip().lower()
@@ -861,14 +1070,18 @@ def score_job(article, now=None):
     expired = bool(notice_type in {"vacancy", "competition"} and deadline and deadline < now)
     if expired:
         reasons.append("deadline passed")
+    if JOBS_REQUIRE_VERIFIED_PUBLISHED_AT and not freshness.get("publishable"):
+        reasons.append(str(freshness.get("reason") or "publication time is not verified"))
 
-    # Ranking score is intentionally NOT a publication gate. A legitimate,
+    # Ranking score remains a ranking signal only; verified freshness is a
+    # separate factual publication gate.
     # verified vacancy can score low simply because salary, diploma, location,
     # recency or large-hiring signals are absent. Those signals only decide
     # priority between otherwise publishable jobs.
     hard_gate_passed = not reasons
     permanent_hard_failure = bool(
         expired
+        or freshness.get("bucket") in {"too_old", "unknown_stale", "future"}
         or not _public_http(source_url)
         or normalized_title in {
             "jobs", "job", "careers", "career", "recruitment", "recrutement",
@@ -888,7 +1101,9 @@ def score_job(article, now=None):
         "passed": passed,
         "hard_gate_passed": hard_gate_passed,
         "publication_age_hours": round(publication_age_hours, 2) if publication_age_hours is not None else None,
-        "max_publish_age_hours": JOBS_MAX_PUBLISH_AGE_HOURS,
+        "preferred_fresh_hours": JOBS_PREFERRED_FRESH_HOURS,
+        "max_publish_age_hours": JOBS_MAX_SOURCE_AGE_HOURS,
+        "freshness": freshness,
         "focus_priority": job_focus_priority(article),
         "points": points,
         "reasons": reasons,
@@ -1536,6 +1751,7 @@ def select_best_job_from_queue(queue, now=None):
         # Closing-soon notices stay first. Then prefer the newest verified
         # publication/discovery time. Cyber/IT/developer/internship focus is an
         # editorial tie-breaker, never a reason to bury a newer valid job.
+        freshness = quality.get("freshness") or job_publication_freshness(article, now=now)
         published = _parse_date(
             article.get("job_published_at")
             or article.get("source_published_at")
@@ -1547,6 +1763,7 @@ def select_best_job_from_queue(queue, now=None):
         ranked.append(
             (
                 priority,
+                int(freshness.get("preferred_rank") or 0),
                 published_epoch,
                 discovered_epoch,
                 focus_priority,
@@ -1556,10 +1773,10 @@ def select_best_job_from_queue(queue, now=None):
         )
 
     ranked.sort(
-        key=lambda row: (row[0], row[1], row[2], row[3], row[4]),
+        key=lambda row: (row[0], row[1], row[2], row[3], row[4], row[5]),
         reverse=True,
     )
-    return ranked[0][5] if ranked else None
+    return ranked[0][6] if ranked else None
 
 
 def record_job_publish(article, now=None):
