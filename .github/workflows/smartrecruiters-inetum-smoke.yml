@@ -92,6 +92,7 @@ jobs:
                   "applyUrl": detail.get("applyUrl"),
                   "ref": detail.get("ref"),
                   "jobAd_keys": sorted((detail.get("jobAd") or {}).keys()),
+                  "jobAd_sections": detail.get("jobAd", {}).get("sections"),
               },
               "fresh_released_after": released_after,
               "fresh_total_found": fresh.get("totalFound"),
