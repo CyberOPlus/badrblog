@@ -4212,6 +4212,41 @@ class JobsRuntimeTests(unittest.TestCase):
             )
         )
 
+    def test_facebook_local_image_failure_uses_jobs_social_retry_interval(self):
+        article = {}
+        with patch.object(facebook, "JOBS_FACEBOOK_MIN_INTERVAL_MINUTES", 5), \
+             patch.object(facebook.time, "time", return_value=1000):
+            facebook._apply_failure(
+                article,
+                RuntimeError(
+                    "Jobs Facebook image generation failed; refusing text-only publish."
+                ),
+            )
+
+        self.assertEqual(article["facebook_status"], "failed")
+        self.assertEqual(article["facebook_failure_count"], 1)
+        self.assertEqual(article["facebook_retry_delay_seconds"], 5 * 60)
+        self.assertEqual(article["facebook_retry_after_epoch"], 1000 + 5 * 60)
+        self.assertFalse(facebook._facebook_retry_ready(article, now_epoch=1299))
+        self.assertTrue(facebook._facebook_retry_ready(article, now_epoch=1300))
+
+    def test_legacy_long_image_backoff_is_shortened_after_renderer_fix(self):
+        article = {
+            "facebook_status": "failed",
+            "facebook_error": (
+                "Jobs Facebook image generation failed; refusing text-only publish."
+            ),
+            "facebook_retry_after_epoch": 1000 + 3600,
+            "facebook_retry_delay_seconds": 3600,
+        }
+        with patch.object(facebook, "JOBS_FACEBOOK_MIN_INTERVAL_MINUTES", 5):
+            self.assertFalse(
+                facebook._facebook_retry_ready(article, now_epoch=1000 + 5 * 60 - 1)
+            )
+            self.assertTrue(
+                facebook._facebook_retry_ready(article, now_epoch=1000 + 5 * 60)
+            )
+
     def test_facebook_failed_backfill_respects_retry_cooldown(self):
         article = {
             "id": "cooldown",
