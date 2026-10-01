@@ -157,6 +157,41 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertFalse(result.passed)
         self.assertIn("rendered official PDF pages", result.reason)
 
+    def test_jobs_quality_gate_keeps_pdf_pages_required_when_cover_exists(self):
+        cover = "https://assets.example/cover.jpg"
+        pdf_page = "https://assets.example/doc-page-1.jpg"
+        article = {
+            "url": "https://official.example/jobs/42",
+            "seo_title": "تحديث رسمي حول مباراة توظيف التقنيين بالمغرب",
+            "seo_description": (
+                "تفاصيل رسمية موجزة حول مباراة توظيف التقنيين وشروطها الأساسية "
+                "مع توجيه المترشحين إلى الوثيقة الرسمية."
+            ),
+            "final_html": f"<p>تفاصيل موثقة حول المباراة.</p><img src='{cover}'/>",
+            "job_notice_type": "update",
+            "job_article_cover_url": cover,
+            "job_document_page_images": [{"url": pdf_page}],
+            "ai_input_package": {
+                "job_notice_type": "update",
+                "verified_fact_manifest": {"facts": []},
+                "job_article_cover_url": cover,
+                "job_document_page_images": [{"url": pdf_page}],
+            },
+        }
+        with patch.object(
+            quality_gate,
+            "validate_output_against_manifest",
+            return_value=([], []),
+        ):
+            result = quality_gate.validate_before_publish(article, check_duplicate=False)
+
+        self.assertFalse(result.passed)
+        self.assertEqual(
+            result.reason,
+            "rendered official PDF pages are missing, reordered, duplicated, or unverified",
+        )
+        self.assertTrue(draft._jobs_quality_error_is_ai_repairable(result.reason))
+
     def test_jobs_quality_gate_blocks_internal_reference_in_reader_metadata(self):
         article = {
             "url": "https://official.example/jobs/42",
