@@ -2475,6 +2475,37 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertEqual(result["until"], 1100)
         self.assertEqual(memory["global_circuit"]["until"], 1100)
 
+    def test_global_circuit_releases_when_one_provider_is_ready(self):
+        memory = {
+            "avg_time": 0.0,
+            "cooldowns": {},
+            "provider_circuits": {
+                "gemini": {
+                    "until": 2000,
+                    "fingerprint": "gemini-fp",
+                    "category": "quota",
+                },
+            },
+            "global_circuit": {
+                "until": 2000,
+                "providers": ["gemini", "cloudflare"],
+                "fingerprint": "global-fp",
+                "category": "outage",
+            },
+            "failure_fingerprints": {},
+            "fastest_success_model": "",
+            "stats": {},
+        }
+        with (
+            patch.object(ai, "_AI_MEMORY_CACHE", memory),
+            patch.object(ai.time, "time", return_value=1000),
+            patch.object(ai, "_save_ai_memory"),
+        ):
+            remaining = ai._global_circuit_remaining()
+
+        self.assertEqual(remaining, 0.0)
+        self.assertEqual(memory["global_circuit"], {})
+
     def test_open_global_circuit_does_not_extend_existing_open_circuit(self):
         memory = {
             "avg_time": 0.0,
@@ -2840,7 +2871,7 @@ class JobsRuntimeTests(unittest.TestCase):
 
         self.assertFalse(first["opened"])
         self.assertTrue(second["opened"])
-        self.assertGreater(memory["provider_circuits"]["cloudflare"]["until"], 1000)
+        self.assertEqual(memory["provider_circuits"]["cloudflare"]["until"], 1600)
 
     def test_jobs_quality_failure_repairs_same_provider_once(self):
         article = {
@@ -3868,7 +3899,7 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertFalse(result.passed)
         self.assertIn("promotional", result.reason)
 
-    def test_jobs_finalizer_does_not_relocate_missing_verified_links(self):
+    def test_jobs_finalizer_restores_missing_verified_links_once(self):
         package = {
             "job_application_url": "https://example.com/apply/42",
             "job_application_link_kind": "direct_apply",
@@ -3883,12 +3914,13 @@ class JobsRuntimeTests(unittest.TestCase):
                 "<p>" + " ".join(["تفصيل"] * 100) + "</p>",
                 package,
             )
-        # Missing verified links are not silently injected into a different
-        # editorial location; the quality gate must send the article back to AI.
-        self.assertNotIn(package["job_application_url"], html)
-        self.assertNotIn(package["job_detail_url"], html)
+        self.assertEqual(html.count(package["job_application_url"]), 1)
+        self.assertEqual(html.count(package["job_detail_url"]), 1)
         for row in package["job_document_links"]:
-            self.assertNotIn(row["url"], html)
+            self.assertEqual(html.count(row["url"]), 1)
+        self.assertIn("jobApplyButton", html)
+        self.assertIn("jobDocumentButton", html)
+        self.assertIn("jobOfficialDetailLink", html)
 
     def test_jobs_action_links_are_standardized_and_not_duplicated(self):
         package = {
