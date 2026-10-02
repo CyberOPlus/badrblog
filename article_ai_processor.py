@@ -1188,13 +1188,23 @@ Return exactly one: vacancy, competition, candidate_list, results, final_results
 Treat job_notice_type as a hint unless verified_fact_manifest makes it high-confidence.
 Future boilerplate about eventual results does NOT turn an active competition into results/final_results.
 
-TITLE
-- Make one natural Arabic editorial headline, not a copied database title.
-- Preserve the current page intent. Never turn a list/result/update into a fresh vacancy.
-- Prefer institution/company + event + useful verified role/count when that improves clarity.
-- Never invent or repeat counts, dates, locations or status.
+TITLE — MOROCCAN EDITORIAL HOUSE STYLE
+- Write one natural Arabic headline like a human Moroccan employment-news editor, not a copied source/database title and not a rigid SEO formula.
+- First identify the VERIFIED notice stage, then headline THAT stage. Never turn a candidate list, result, final result or update into a fresh vacancy.
+- Build the headline from the fewest useful verified blocks: institution/company + current event/stage + role(s) or position count + at most one useful differentiator when it materially improves clarity.
+- Put the institution/company near the beginning when known, but allow "مباراة توظيف..." / "مباريات توظيف..." to lead when that reads more naturally. Do not force one universal word order.
+- Public recruitment competition: explicitly use "مباراة توظيف" or "مباريات توظيف" when supported; choose singular/plural from the evidence.
+- Candidate list: foreground "لائحة/لوائح المدعوين" or the equivalent verified invitation/acceptance stage; include written/oral stage only when verified and useful.
+- Results: foreground "النتائج" or equivalent. final_results MUST explicitly signal finality with wording such as "النتائج النهائية" / "الناجحين بصفة نهائية" when that final status is verified.
+- Private/company vacancy: prefer company + "تعلن عن توظيف" / "توظف" / "وظائف" + the real role; add location only when verified and useful.
+- Keep a verified total count or short role breakdown in the title when it is a major reader-facing fact; do not stuff every specialty, condition, diploma or deadline into the headline.
+- Preserve a useful official acronym after the institution name when it helps recognition. Never append domains, page slugs, raw IDs, ATS/source references or source-chain fragments.
+- Avoid source boilerplate such as ceremonial openings, legal phrasing or duplicated "إعلان/تعلن/تنظم" chains. Rewrite to a clean editorial headline.
+- Use ":" or "–" sparingly to separate institution from the event/details. Do not create keyword piles separated by commas, pipes or repeated dashes.
+- A campaign year may appear only when it is genuinely part of the verified campaign identity and helps distinguish the notice. Publication/source dates are never title material.
+- For a foreign-language private job title, use a natural established Arabic equivalent only when confident; otherwise preserve the official role once instead of inventing a literal or awkward translation.
+- Never invent or repeat counts, dates, locations, roles or status.
 - Keep it concise but specific; backend accepts 28-150 characters.
-- Never include domains, raw IDs, source references, or long source-chain text.
 
 ARTICLE STYLE
 - This is a concise complete JOB ARTICLE, not a social caption or SEO filler.
@@ -1489,11 +1499,15 @@ MANDATORY JOB RETRY RULES:
   Do not preserve arbitrary rows merely because they contain numbers or keywords.
 - Re-evaluate ALL evidence, including source_tables and job_document_texts, and return the correct notice_type:
   vacancy, competition, candidate_list, results, final_results, or update. The incoming job_notice_type is only a hint.
-- Re-edit the title as a human Moroccan employment/competition editor: understand the current page type and stage first, then choose the clearest natural headline.
+- Re-edit the title as a human Moroccan employment/competition editor: understand the verified current page type and stage first, then choose the clearest natural headline.
+- Follow the same house style as the primary prompt: use only the fewest useful blocks among institution/company, current stage/event, role(s)/count, and one material differentiator. Do not force one universal word order.
 - Do not force a fixed formula or a 45-75-character target; preserve useful verified meaning within the accepted 28-150 range.
-- A new public recruitment notice should read naturally as "مباراة توظيف/مباريات توظيف" when appropriate; a private role may use "توظف/تعلن عن توظيف"; candidate lists and results MUST foreground their verified stage and must never be rewritten as a fresh vacancy.
-- Keep useful verified institution + role/count/stage information once, and remove raw source fragments, duplicated employer/role/count wording, IDs, domains, and deadline/date chains.
-- Before returning, silently verify that the title accurately describes THIS page, is not mechanically copied from the source, and contains no invented fact.
+- A public recruitment competition should explicitly read as "مباراة توظيف" / "مباريات توظيف" when supported; a private role may use "توظف" / "تعلن عن توظيف" / "وظائف".
+- candidate_list MUST foreground its invitation/accepted-list stage. results MUST foreground results. final_results MUST explicitly say that the result is final when verified.
+- Prefer the institution/company near the beginning when natural, keep one useful verified role/count, and remove raw source fragments, boilerplate, duplicated employer/role/count wording, IDs, domains and publication-date chains.
+- Keep official acronyms only when useful for recognition. Do not append website domains or source slugs.
+- Do not literally mistranslate a foreign role into awkward Arabic; use an established Arabic equivalent when clear, otherwise preserve the official role once.
+- Before returning, silently verify that the title accurately describes THIS page, reads like a clean Moroccan employment-news headline, is not mechanically copied from the source, and contains no invented fact.
 - Blogger already displays the H1 title: do not output <h1> and do not repeat/paraphrase the title in the body.
 - Keep one short introduction paragraph of one or two sentences that adds information instead of previewing the table.
 - Perform a semantic deduplication pass before returning: the same fact must not appear in intro/table/sections
