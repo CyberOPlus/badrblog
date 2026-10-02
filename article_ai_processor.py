@@ -464,7 +464,37 @@ def _global_circuit_until():
 
 
 def _global_circuit_remaining():
-    return max(0.0, _global_circuit_until() - time.time())
+    """Return a global pause only while every provider in it is still blocked."""
+    memory = _load_ai_memory()
+    global_entry = memory.get("global_circuit") if isinstance(memory.get("global_circuit"), dict) else {}
+    now = time.time()
+    remaining = max(0.0, _cooldown_entry_until(global_entry) - now)
+    if remaining <= 0:
+        return 0.0
+
+    providers = [
+        str(provider or "").strip().lower()
+        for provider in (global_entry.get("providers") or [])
+        if str(provider or "").strip()
+    ]
+    provider_circuits = memory.get("provider_circuits") or {}
+    ready_provider = next(
+        (
+            provider
+            for provider in providers
+            if _cooldown_entry_until(provider_circuits.get(provider)) <= now
+        ),
+        "",
+    )
+    if ready_provider:
+        memory["global_circuit"] = {}
+        _save_ai_memory(memory)
+        log_event(
+            "ai_global_circuit_released_provider_ready",
+            provider=ready_provider,
+        )
+        return 0.0
+    return remaining
 
 
 def _epoch_to_iso(value):
@@ -529,7 +559,10 @@ def _record_provider_format_failure(provider, error, raw_text="", model=""):
     # One malformed response can be stochastic. Two identical provider-format
     # failures are enough to stop feeding fresh Jobs into the same provider.
     if count >= 2:
-        until = max(float(retry_until or 0), time.time() + 30 * 60)
+        # Malformed structured output is usually model/output-size specific, not
+        # a provider-wide outage. Rotate briefly, then probe it again instead of
+        # freezing a productive provider for the fingerprint's long backoff.
+        until = time.time() + 10 * 60
         memory.setdefault("provider_circuits", {})[provider] = {
             "until": until,
             "provider": provider,
@@ -796,7 +829,14 @@ def _prune_ai_memory(now=None):
 
     circuits = memory.setdefault("provider_circuits", {})
     for provider, entry in list(circuits.items()):
-        if _cooldown_entry_until(entry) <= now:
+        opened_at = _iso_retry_until((entry or {}).get("opened_at")) if isinstance(entry, dict) else 0.0
+        legacy_format_expired = (
+            isinstance(entry, dict)
+            and str(entry.get("category") or "").strip().lower() == "format"
+            and opened_at > 0
+            and opened_at + (10 * 60) <= now
+        )
+        if _cooldown_entry_until(entry) <= now or legacy_format_expired:
             circuits.pop(provider, None)
             changed = True
 
@@ -2143,7 +2183,7 @@ def _job_action_box(label, url, *, kind="apply"):
 
 
 def _append_job_action_links_if_missing(html_content, package):
-    """Style verified Jobs links in place without changing AI-chosen article structure."""
+    """Style verified Jobs links and deterministically restore verified omissions."""
 
     application_url = str(package.get("job_application_url") or "").strip()
     application_kind = str(package.get("job_application_link_kind") or "").strip()
@@ -2157,17 +2197,19 @@ def _append_job_action_links_if_missing(html_content, package):
                 specs[key] = {
                     "kind": "application_channel",
                     "label": "منصة الترشيح الرسمية",
+                    "url": application_url,
                 }
             else:
                 specs[key] = {
                     "kind": "apply",
                     "label": "التقديم المباشر" if application_kind == "direct_apply" else "التقديم الرسمي",
+                    "url": application_url,
                 }
 
     if detail_url and detail_url != application_url:
         key = _job_link_key(detail_url)
         if key:
-            specs[key] = {"kind": "detail", "label": "صفحة الإعلان الرسمية"}
+            specs[key] = {"kind": "detail", "label": "صفحة الإعلان الرسمية", "url": detail_url}
 
     for index, item in enumerate(package.get("job_document_links") or [], start=1):
         if not isinstance(item, dict):
@@ -2181,7 +2223,7 @@ def _append_job_action_links_if_missing(html_content, package):
             " ",
             str(item.get("label") or item.get("context") or f"الملف الرسمي {index}"),
         ).strip()
-        specs[key] = {"kind": "document", "label": label[:180]}
+        specs[key] = {"kind": "document", "label": label[:180], "url": url}
 
     if not specs:
         return html_content
@@ -2244,8 +2286,36 @@ def _append_job_action_links_if_missing(html_content, package):
                 parent.replace_with(box)
         styled.add(key)
 
-    # Missing verified links are intentionally NOT appended elsewhere. The quality
-    # gate rejects missing URLs so AI must place them in the correct editorial section.
+    # Verified URLs are evidence, not generated prose. If the model omitted one,
+    # restore it once as a small action box instead of spending another AI call
+    # (or rejecting an otherwise correct article) for a fact the pipeline already
+    # verified. Existing AI-placed links keep their original editorial position.
+    for key, spec in specs.items():
+        if key in styled:
+            continue
+        url = str(spec.get("url") or "").strip()
+        if not url:
+            continue
+        kind = str(spec.get("kind") or "document")
+        if kind == "detail":
+            fragment = BeautifulSoup(
+                "<p><a class='extL jobOfficialDetailLink' "
+                f"href='{escape(url, quote=True)}' target='_blank' "
+                "rel='nofollow noreferrer noopener'>"
+                f"{escape(spec.get('label') or 'صفحة الإعلان الرسمية')}</a></p>",
+                "html.parser",
+            )
+            node = fragment.find("p")
+        else:
+            fragment = BeautifulSoup(
+                _job_action_box(spec.get("label") or "", url, kind=kind),
+                "html.parser",
+            )
+            node = fragment.find("div")
+        if node is not None:
+            soup.append(node)
+            styled.add(key)
+
     return str(soup)
 
 
