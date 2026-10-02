@@ -2659,10 +2659,18 @@ def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_sec
                 "json_schema": {
                     "type": "object",
                     "properties": {
-                        "title": {"type": "string"},
-                        "description": {"type": "string"},
-                        "slug": {"type": "string"},
-                        "html_content": {"type": "string"},
+                        "title": {
+                            "type": "string",
+                            "minLength": 28,
+                            "maxLength": 150,
+                        },
+                        "description": {
+                            "type": "string",
+                            "minLength": 80,
+                            "maxLength": 180,
+                        },
+                        "slug": {"type": "string", "minLength": 3},
+                        "html_content": {"type": "string", "minLength": 120},
                         "notice_type": {
                             "type": "string",
                             "enum": [
@@ -3232,25 +3240,44 @@ def _is_nonrepairable_jobs_evidence_quality_error(error, package=None):
     return False
 
 
-def _is_quality_error(error):
-    # Malformed/incomplete structured output is a provider-format failure, not
-    # evidence that the verified Job itself is bad.
-    return isinstance(error, ValueError) and not isinstance(
-        error,
-        AIIncompleteResponseError,
+def _is_structural_ai_response_error(error):
+    """Return True only when the provider response itself is malformed/incomplete."""
+    if not isinstance(error, AIIncompleteResponseError):
+        return False
+    message = str(error or "").casefold()
+    return any(
+        marker in message
+        for marker in (
+            "returned incomplete json",
+            "returned a non-object json payload",
+            "is missing required field(s)",
+            "ended before a tag was closed",
+            "ended before an html entity was completed",
+            "has unbalanced <",
+        )
     )
+
+
+def _is_quality_error(error):
+    # A structurally valid JSON article can still need editorial repair (for
+    # example title/meta lengths). Keep those failures article-local so one bad
+    # draft never opens a provider/global outage circuit.
+    if isinstance(error, AIIncompleteResponseError):
+        return not _is_structural_ai_response_error(error)
+    return isinstance(error, ValueError)
 
 
 def _is_provider_error(error):
     if isinstance(error, AIArticleInputError):
         return False
+    if isinstance(error, AIIncompleteResponseError):
+        return _is_structural_ai_response_error(error)
     return isinstance(
         error,
         (
             RuntimeError,
             AIProviderFallbackNeeded,
             AIProviderRotationExhausted,
-            AIIncompleteResponseError,
         ),
     )
 
@@ -3576,8 +3603,8 @@ def process_one_selected_article_with_ai(force=False, target_article_id=None):
             }
         except Exception as error:
             last_error = error
-            is_incomplete_response = isinstance(error, AIIncompleteResponseError)
-            is_quality_failure = _is_quality_error(error) and not is_incomplete_response
+            is_incomplete_response = _is_structural_ai_response_error(error)
+            is_quality_failure = _is_quality_error(error)
             is_article_input_failure = isinstance(error, AIArticleInputError)
             is_short_output = isinstance(error, AIOutputRejectedShortError)
             if is_quality_failure:
