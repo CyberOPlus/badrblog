@@ -73,6 +73,16 @@ def _social_prompt(article, previous_error=""):
     ]
     final_html = str(article.get("final_html") or article.get("blogger_article_html") or "")
     article_text = re.sub(r"<[^>]+>", " ", final_html)
+    # Facebook must never receive a URL in the generated body. Do not even expose
+    # official links to the social model; the Blogger URL is posted separately
+    # in the first comment by the publisher.
+    article_text = re.sub(r"https?://\S+", " ", article_text, flags=re.IGNORECASE)
+    article_text = re.sub(
+        r"\b(?:www\.)?[A-Za-z0-9.-]+\.(?:ma|com|org|net|gov|edu)(?:/\S*)?",
+        " ",
+        article_text,
+        flags=re.IGNORECASE,
+    )
     article_text = re.sub(r"\s+", " ", article_text).strip()[:5000]
 
     repair = ""
