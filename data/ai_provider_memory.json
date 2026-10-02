@@ -1,6 +1,15 @@
 {
   "avg_time": 2.7186,
-  "cooldowns": {},
+  "cooldowns": {
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-02T18:46:20",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1790967381.7185972
+    }
+  },
   "failure_fingerprints": {
     "0bfbbde687f6e2ee0b50": {
       "category": "cooldown",
@@ -103,13 +112,13 @@
     },
     "5536f2970a79bc5a87a5": {
       "category": "timeout",
-      "count": 3,
+      "count": 4,
       "first_seen_at": "2026-10-01T20:10:12",
-      "last_seen_at": "2026-10-01T23:02:32",
-      "last_seen_epoch": 1790895752.707792,
+      "last_seen_at": "2026-10-02T18:46:20",
+      "last_seen_epoch": 1790966780.6482503,
       "provider": "cloudflare,gemini,groq,mistral,openrouter",
       "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "retry_until": 1790898152.707792,
+      "retry_until": 1790971580.6482503,
       "scope": "global"
     },
     "554cda85fb88ccc5d23e": {
@@ -191,13 +200,13 @@
     },
     "9cd5bdcb42034dceea88": {
       "category": "timeout",
-      "count": 3,
+      "count": 4,
       "first_seen_at": "2026-10-01T20:10:12",
-      "last_seen_at": "2026-10-01T23:02:32",
-      "last_seen_epoch": 1790895752.7050607,
+      "last_seen_at": "2026-10-02T18:46:20",
+      "last_seen_epoch": 1790966780.6448574,
       "provider": "openrouter",
       "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "retry_until": 1790898152.7050607,
+      "retry_until": 1790971580.6448574,
       "scope": "provider"
     },
     "a337cb8c4c90a13d6d08": {
@@ -368,9 +377,9 @@
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {
-    "category": "format",
-    "fingerprint": "1a9c344d00234801e923",
-    "opened_at": "2026-10-02T18:41:49",
+    "category": "timeout",
+    "fingerprint": "5536f2970a79bc5a87a5",
+    "opened_at": "2026-10-02T18:46:20",
     "providers": [
       "cloudflare",
       "gemini",
@@ -378,8 +387,8 @@
       "mistral",
       "openrouter"
     ],
-    "reason": "AI article response returned incomplete JSON.",
-    "until": 1790966657.01091
+    "reason": "openrouter provider failed: (\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+    "until": 1790970109.0118754
   },
   "provider_circuits": {
     "cloudflare": {
@@ -416,13 +425,12 @@
       "until": 1790973584.2657008
     },
     "openrouter": {
-      "category": "format",
-      "fingerprint": "2eb46af253b68063fbef",
-      "model": "cohere/north-mini-code:free",
-      "opened_at": "2026-10-02T17:44:17",
+      "category": "timeout",
+      "fingerprint": "9cd5bdcb42034dceea88",
+      "opened_at": "2026-10-02T18:46:20",
       "provider": "openrouter",
-      "reason": "AI article response returned incomplete JSON.",
-      "until": 1790966657.01091
+      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
+      "until": 1790971580.6448574
     }
   },
   "stats": {
@@ -483,15 +491,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 52.8746,
-      "failures": 14,
+      "avg_time": 49.5766,
+      "failures": 15,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-02T16:43:13",
-      "last_success_at": "2026-10-02T17:44:17",
+      "last_failure_at": "2026-10-02T18:46:20",
+      "last_success_at": "2026-10-02T18:44:50",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 7,
-      "total_success_time": 370.1221
+      "successes": 8,
+      "total_success_time": 396.6124
     }
   }
 }
