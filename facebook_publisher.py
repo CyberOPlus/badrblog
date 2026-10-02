@@ -96,6 +96,16 @@ def _is_jobs_image_generation_failure(error):
     return "jobsfacebookimagegenerationfailed" in text
 
 
+def _is_jobs_social_generation_failure(error):
+    """Return True for local social-copy failures that happen before Graph API."""
+    text = re.sub(r"\s+", "", str(error or "").casefold())
+    return (
+        "facebooksocialaifailed" in text
+        or "facebooksocialcopy" in text
+        or "facebookhookrepeatsarecentopening" in text
+    )
+
+
 def _facebook_retry_ready(article, now_epoch=None):
     try:
         retry_after = float(article.get("facebook_retry_after_epoch") or 0)
@@ -111,7 +121,10 @@ def _facebook_retry_ready(article, now_epoch=None):
     # legacy local-render retries from their recorded failure time and use the
     # normal Jobs social pacing instead. Graph/API failures keep their original
     # longer backoff below.
-    if _is_jobs_image_generation_failure(article.get("facebook_error")):
+    if (
+        _is_jobs_image_generation_failure(article.get("facebook_error"))
+        or _is_jobs_social_generation_failure(article.get("facebook_error"))
+    ):
         try:
             previous_delay = float(article.get("facebook_retry_delay_seconds") or 0)
         except (TypeError, ValueError):
@@ -1429,7 +1442,10 @@ def _facebook_failure_delay_seconds(error, failure_count):
     # A Jobs image render failure occurs before any Graph request. Retrying at
     # the normal social interval recovers quickly after a renderer/code fix
     # without increasing Facebook API traffic.
-    if _is_jobs_image_generation_failure(error):
+    if (
+        _is_jobs_image_generation_failure(error)
+        or _is_jobs_social_generation_failure(error)
+    ):
         return max(5 * 60, int(JOBS_FACEBOOK_MIN_INTERVAL_MINUTES) * 60)
     # Authentication/permission failures need configuration changes; hammering
     # Graph every scheduled run cannot fix them.
