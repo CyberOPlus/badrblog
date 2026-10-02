@@ -156,6 +156,17 @@
       "retry_until": 1790962993.1182873,
       "scope": "provider"
     },
+    "7cd7c210360ee67a0f9e": {
+      "category": "quality",
+      "count": 1,
+      "first_seen_at": "2026-10-02T20:00:31",
+      "last_seen_at": "2026-10-02T20:00:31",
+      "last_seen_epoch": 1790971231.334861,
+      "provider": "cloudflare",
+      "reason": "manifest fact missing from Jobs output: deadline=2026-10-17",
+      "retry_until": 1790971531.334861,
+      "scope": "quality"
+    },
     "7fc25b239b1f7d4ff3a5": {
       "category": "empty",
       "count": 2,
@@ -422,13 +433,13 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 16.4947,
+      "avg_time": 14.9441,
       "key_id": "be6dab2cd8",
-      "last_success_at": "2026-10-02T19:58:42",
+      "last_success_at": "2026-10-02T20:01:28",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 17,
-      "total_success_time": 280.4106
+      "successes": 25,
+      "total_success_time": 373.6025
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 20.1587,
