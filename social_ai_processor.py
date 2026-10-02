@@ -87,12 +87,50 @@ def _social_prompt(article, previous_error="", rejected_copy=""):
 
     repair = ""
     if previous_error:
-        arabic_only_repair = ""
         previous_error_key = str(previous_error or "").casefold()
+        rejected_excerpt = _strip_bidi(rejected_copy)
+        rejected_had_url = bool(
+            re.search(r"https?://\\S+", rejected_excerpt, flags=re.IGNORECASE)
+            or re.search(
+                r"\\b(?:www\\.)?[A-Za-z0-9.-]+\\.(?:ma|com|org|net|gov|edu)(?:/\\S*)?",
+                rejected_excerpt,
+                flags=re.IGNORECASE,
+            )
+        )
+        if rejected_excerpt:
+            rejected_excerpt = re.sub(
+                r"https?://\\S+",
+                " [رابط محذوف] ",
+                rejected_excerpt,
+                flags=re.IGNORECASE,
+            )
+            rejected_excerpt = re.sub(
+                r"\\b(?:www\\.)?[A-Za-z0-9.-]+\\.(?:ma|com|org|net|gov|edu)(?:/\\S*)?",
+                " [رابط محذوف] ",
+                rejected_excerpt,
+                flags=re.IGNORECASE,
+            )
+            rejected_excerpt = re.sub(r"\\s+", " ", rejected_excerpt).strip()[:1400]
+
+        # Validation stops at the first failure. Inspect the sanitized rejected
+        # draft too so one repair prompt can fix all visible defects (for example
+        # a URL plus a Latin employer name) instead of wasting another attempt.
+        rejected_without_brand = re.sub(
+            r"#CyberoPlus\\b",
+            "",
+            rejected_excerpt,
+            flags=re.IGNORECASE,
+        )
+        rejected_has_latin = bool(
+            re.search(r"[A-Za-zÀ-ÖØ-öø-ÿ]", rejected_without_brand)
+        )
+
+        arabic_only_repair = ""
         if (
             "entirely in arabic" in previous_error_key
             or "arabic-first" in previous_error_key
             or "latin" in previous_error_key
+            or rejected_has_latin
         ):
             arabic_only_repair = """
 ARABIC-ONLY REPAIR:
@@ -110,6 +148,7 @@ ARABIC-ONLY REPAIR:
             "must not contain a url" in previous_error_key
             or "url" in previous_error_key
             or "http" in previous_error_key
+            or rejected_had_url
         ):
             url_repair = """
 NO-URL REPAIR:
@@ -120,21 +159,7 @@ NO-URL REPAIR:
   or another visible web address and remove/rewrite that part.
 """
         rejected_section = ""
-        rejected_excerpt = _strip_bidi(rejected_copy)
         if rejected_excerpt:
-            rejected_excerpt = re.sub(
-                r"https?://\\S+",
-                " [رابط محذوف] ",
-                rejected_excerpt,
-                flags=re.IGNORECASE,
-            )
-            rejected_excerpt = re.sub(
-                r"\\b(?:www\\.)?[A-Za-z0-9.-]+\\.(?:ma|com|org|net|gov|edu)(?:/\\S*)?",
-                " [رابط محذوف] ",
-                rejected_excerpt,
-                flags=re.IGNORECASE,
-            )
-            rejected_excerpt = re.sub(r"\\s+", " ", rejected_excerpt).strip()[:1400]
             rejected_section = f"""
 REJECTED COPY TO REPAIR
 {rejected_excerpt}
