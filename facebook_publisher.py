@@ -1353,7 +1353,10 @@ def _validate_facebook_caption(caption, blogger_url="", style="", hook="", struc
     if latin_chars > max(80, int(arabic_chars * 0.60)):
         raise RuntimeError("Jobs Facebook caption must remain Arabic-first even with foreign terms.")
 
-    if len(plain_caption) > 1200 or len(plain_caption) < 120:
+    # New social copy already passes the generator's 120-character minimum.
+    # Removing legacy hashtags can shorten a valid cached caption on a retry.
+    minimum_length = 80 if allow_simple else 120
+    if len(plain_caption) > 1200 or len(plain_caption) < minimum_length:
         raise RuntimeError("Facebook caption length is outside the expected range.")
     fingerprint = _caption_fingerprint(plain_caption)
     if fingerprint in set((memory or {}).get("recent_fingerprints", [])):

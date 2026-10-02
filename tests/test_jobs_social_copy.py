@@ -76,6 +76,23 @@ class JobsSocialCopyTests(unittest.TestCase):
         self.assertEqual(result["facebook_post_text"], self.caption)
         self.assertIn("must not contain hashtags", generate.call_args.args[0])
 
+    def test_short_cached_caption_remains_publishable_after_legacy_hashtags_removed(self):
+        article = dict(self.article, facebook_post_source="social_ai",
+                       facebook_post_text=(
+                           "فرصة جديدة لمهندس نظم في الدار البيضاء.\n\n"
+                           "التفاصيل الكاملة والشروط في المقال.\n\n"
+                           "رابط المقال في أول تعليق 👇\n"
+                           "#وظائف #المغرب #تقنية"
+                       ))
+        with patch.object(facebook, "generate_jobs_facebook_post") as generate, \
+                patch.object(facebook, "_load_style_memory", return_value={}):
+            first = facebook._prepare_facebook_post(article, [], article["blogger_post_url"])
+            second = facebook._prepare_facebook_post(article, [], article["blogger_post_url"])
+        generate.assert_not_called()
+        self.assertEqual(first["caption"], second["caption"])
+        self.assertNotIn("#", first["caption"])
+        self.assertLess(len(first["caption"]), 120)
+
     def test_foreign_words_and_unreadable_block_are_rejected(self):
         for invalid in (
             self.caption.replace("غرفة التجارة", "Chamber of Commerce"),
