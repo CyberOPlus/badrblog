@@ -560,14 +560,13 @@ def _record_provider_format_failure(provider, error, raw_text="", model=""):
     opened = False
     until = 0.0
 
-    # One malformed response can be stochastic and prompt-specific. Two repeated
-    # malformed responses from the same provider+model are enough to rotate it
-    # briefly so the verified Jobs queue keeps moving.
-    if count >= 2:
+    # A couple of malformed responses can still be stochastic and prompt-specific.
+    # After three repeated failures from the same provider+model, rotate it long
+    # enough for another provider to carry the queue without freezing the article.
+    if count >= 3:
         # Malformed structured output is usually model/output-size specific, not
-        # a provider-wide outage. Rotate briefly, then probe it again instead of
-        # freezing a productive provider for the fingerprint's long backoff.
-        until = time.time() + 10 * 60
+        # a provider-wide outage. Cool this provider, then probe it again later.
+        until = time.time() + 30 * 60
         memory.setdefault("provider_circuits", {})[provider] = {
             "until": until,
             "provider": provider,
