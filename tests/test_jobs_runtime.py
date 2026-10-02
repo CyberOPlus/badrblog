@@ -3944,7 +3944,7 @@ class JobsRuntimeTests(unittest.TestCase):
         self.assertIn("jobDocumentButton", html)
         self.assertIn("فتح رابط التقديم الرسمي", html)
         self.assertIn("فتح أو تحميل الوثيقة الرسمية", html)
-        self.assertEqual(html.count(package["job_detail_url"]), 1)
+        self.assertEqual(html.count(f'href="{package["job_detail_url"]}"'), 1)
         self.assertIn("jobOfficialDetailLink", html)
 
     def test_jobs_quality_gate_accepts_verified_public_application_channel(self):
