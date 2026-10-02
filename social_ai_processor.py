@@ -457,7 +457,12 @@ def generate_jobs_facebook_post(article):
         except Exception as error:
             last_error = error
             failed_provider = str(provider_used or "").split(":", 1)[0].strip().lower()
-            if failed_provider:
+            # Editorial validation failures are prompt/output quality issues, not
+            # provider outages. Retry the SAME healthy provider with the precise
+            # repair instruction so a single available provider (for example
+            # Cloudflare while other free tiers are rate-limited) can recover.
+            quality_repair = isinstance(error, SocialAIQualityError)
+            if failed_provider and not quality_repair:
                 skipped_providers.add(failed_provider)
             log_event(
                 "facebook_social_ai_attempt_failed",
@@ -465,13 +470,21 @@ def generate_jobs_facebook_post(article):
                 attempt=attempt,
                 provider=failed_provider,
                 reason=error.__class__.__name__,
+                quality_repair=quality_repair,
             )
             if attempt < SOCIAL_MAX_ATTEMPTS:
-                if failed_provider:
+                if failed_provider and not quality_repair:
                     log_event(
                         "facebook_social_ai_provider_rotated",
                         article_id=article.get("id"),
                         from_provider=failed_provider,
+                        next_attempt=attempt + 1,
+                    )
+                elif failed_provider:
+                    log_event(
+                        "facebook_social_ai_same_provider_repair",
+                        article_id=article.get("id"),
+                        provider=failed_provider,
                         next_attempt=attempt + 1,
                     )
                 prompt = _social_prompt(article, previous_error=str(error))
