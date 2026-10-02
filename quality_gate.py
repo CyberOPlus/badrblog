@@ -512,15 +512,22 @@ def _has_random_language_mixing(body_text):
     )
 
 
-JOB_TITLE_ACTION_HINTS = (
+JOB_TITLE_VACANCY_HINTS = (
     "توظيف", "توظف", "يوظف", "وظيفة", "وظائف", "فرص عمل", "فرصة عمل",
-    "مباراة", "مباريات", "عقود العمل", "تشغيل",
+    "عقود العمل", "تشغيل",
+)
+JOB_TITLE_COMPETITION_HINTS = (
+    "مباراة", "مباريات",
 )
 JOB_TITLE_LIST_HINTS = (
     "لوائح المدعوين", "لائحة المدعوين", "المقبولين", "المدعوين",
 )
 JOB_TITLE_RESULT_HINTS = (
     "النتائج", "نتائج", "الناجحين", "النتيجة",
+)
+JOB_TITLE_FINAL_RESULT_HINTS = (
+    "النتائج النهائية", "النتيجة النهائية",
+    "الناجحين بصفة نهائية", "الناجحون بصفة نهائية",
 )
 
 
@@ -541,14 +548,25 @@ def _job_title_style_reason(seo_title, notice_type="vacancy"):
     if notice_type == "candidate_list":
         if not any(hint in title for hint in JOB_TITLE_LIST_HINTS):
             return "candidate-list title does not clearly say it is a list/invitation update"
-    elif notice_type in {"results", "final_results"}:
+    elif notice_type == "final_results":
+        if not any(hint in title for hint in JOB_TITLE_FINAL_RESULT_HINTS):
+            return "final-results title does not clearly say the results are final"
+    elif notice_type == "results":
         if not any(hint in title for hint in JOB_TITLE_RESULT_HINTS):
             return "results title does not clearly say it contains results"
-    elif notice_type in {"vacancy", "competition"}:
-        if not any(hint.casefold() in folded for hint in JOB_TITLE_ACTION_HINTS):
-            return "active job title lacks a clear employment/competition action"
+    elif notice_type == "competition":
+        if not any(hint in title for hint in JOB_TITLE_COMPETITION_HINTS):
+            return "public competition title does not clearly say it is a competition"
+    elif notice_type == "vacancy":
+        if not any(hint.casefold() in folded for hint in JOB_TITLE_VACANCY_HINTS):
+            return "vacancy title lacks a clear employment action"
     elif notice_type == "update":
         pass
+
+    if re.search(r"(?:https?://|www\.)", title, flags=re.I):
+        return "job SEO title contains a URL instead of a clean editorial headline"
+    if re.search(r"(?<!@)\b[a-z0-9][a-z0-9.-]*\.(?:ma|com|org|net|fr)\b", title, flags=re.I):
+        return "job SEO title contains a website domain instead of an institution acronym/name"
 
     if re.search(r"\bSi[eè]ge\b", title, flags=re.I):
         return "job SEO title contains raw source-page layout text"
