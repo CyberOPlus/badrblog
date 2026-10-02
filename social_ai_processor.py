@@ -405,11 +405,17 @@ def generate_jobs_facebook_post(article):
     context = AIExecutionContext(article_id=str(article.get("id") or article.get("url") or ""))
     last_error = None
     prompt = _social_prompt(article)
+    skipped_providers = set()
 
     for attempt in range(1, SOCIAL_MAX_ATTEMPTS + 1):
+        provider_used = ""
         try:
             context.current_stage = "facebook_generation"
-            raw_text, provider_used = _generate_ai_article(prompt, context=context)
+            raw_text, provider_used = _generate_ai_article(
+                prompt,
+                skip_providers=skipped_providers,
+                context=context,
+            )
             data = _parse_complete_ai_json(raw_text, SOCIAL_REQUIRED_FIELDS, "Facebook social AI response")
             facebook_post_text = validate_jobs_facebook_post(data.get("facebook_post_text"), article=article)
             log_event(
@@ -425,13 +431,24 @@ def generate_jobs_facebook_post(article):
             }
         except Exception as error:
             last_error = error
+            failed_provider = str(provider_used or "").split(":", 1)[0].strip().lower()
+            if failed_provider:
+                skipped_providers.add(failed_provider)
             log_event(
                 "facebook_social_ai_attempt_failed",
                 article_id=article.get("id"),
                 attempt=attempt,
+                provider=failed_provider,
                 reason=error.__class__.__name__,
             )
             if attempt < SOCIAL_MAX_ATTEMPTS:
+                if failed_provider:
+                    log_event(
+                        "facebook_social_ai_provider_rotated",
+                        article_id=article.get("id"),
+                        from_provider=failed_provider,
+                        next_attempt=attempt + 1,
+                    )
                 prompt = _social_prompt(article, previous_error=str(error))
 
     raise RuntimeError(
