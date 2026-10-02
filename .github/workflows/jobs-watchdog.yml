@@ -7,6 +7,10 @@ on:
   schedule:
     - cron: "4,10,16,22,28,34,40,46,52,58 * * * *"
   workflow_dispatch:
+  workflow_run:
+    workflows: ["Jobs Auto Cycle"]
+    types: [completed]
+    branches: [main]
 
 concurrency:
   group: jobs-watchdog-${{ github.ref }}
@@ -24,6 +28,7 @@ jobs:
       - name: Ensure auto-cycle is alive
         uses: actions/github-script@v8
         with:
+          retries: 3
           script: |
             const { owner, repo } = context.repo;
             const workflow_id = "auto-cycle.yml";
@@ -59,7 +64,11 @@ jobs:
               "action_required",
               "startup_failure",
             ]);
-            if (latest && failedConclusions.has(latest.conclusion)) {
+            if (context.eventName === "workflow_run") {
+              // Normal runs already queued their successor. If none is active,
+              // recover the chain immediately instead of depending on cron.
+              core.warning("Completed auto-cycle has no active successor; dispatching recovery run.");
+            } else if (latest && failedConclusions.has(latest.conclusion)) {
               if (ageMinutes < 4) {
                 core.info(
                   `Latest auto-cycle failed recently; allowing a short recovery window before retry.`
