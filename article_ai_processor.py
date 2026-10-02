@@ -2745,9 +2745,12 @@ def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_sec
         # Unwrap only known container keys and only when the expected Jobs
         # fields are not already present.
         if isinstance(payload, dict):
-            expected_fields = {
-                "title", "description", "slug", "html_content", "notice_type"
-            }
+            stage = str(getattr(context, "current_stage", "") or "").strip().lower()
+            expected_fields = (
+                {"facebook_post_text"}
+                if stage == "facebook_generation"
+                else {"title", "description", "slug", "html_content", "notice_type"}
+            )
             if not expected_fields.intersection(payload):
                 for wrapper_key in ("response", "result", "data"):
                     nested = payload.get(wrapper_key)
