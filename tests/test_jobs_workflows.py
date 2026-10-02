@@ -59,13 +59,20 @@ class JobsWorkflowTests(unittest.TestCase):
         self.assertIn('"MISTRAL_TIMEOUT_SECONDS": "60"', text)
         self.assertIn('"CLOUDFLARE_TIMEOUT_SECONDS": "60"', text)
         watchdog = Path(".github/workflows/jobs-watchdog.yml").read_text(encoding="utf-8")
-        self.assertNotIn("workflow_run:", watchdog)
+        self.assertIn("workflow_run:", watchdog)
+        self.assertIn('workflows: ["Jobs Auto Cycle"]', watchdog)
+        self.assertIn("types: [completed]", watchdog)
+        self.assertIn("branches: [main]", watchdog)
         self.assertNotIn('workflows: ["Jobs Core Tests"]', watchdog)
         self.assertNotIn('workflows: ["Jobs Auto Cycle", "Jobs Core Tests"]', watchdog)
         self.assertNotIn("Pace completion chain", watchdog)
         self.assertNotIn("run: sleep 120", watchdog)
         self.assertIn("github.rest.git.getBlob", watchdog)
-        self.assertNotIn('context.eventName === "workflow_run"', watchdog)
+        self.assertIn('context.eventName === "workflow_run"', watchdog)
+        self.assertLess(
+            watchdog.index("if (active)"),
+            watchdog.index('context.eventName === "workflow_run"'),
+        )
         self.assertNotIn("prefer_jobs_queue_snapshot", text)
 
         watchdog = Path(".github/workflows/jobs-watchdog.yml").read_text(encoding="utf-8")
