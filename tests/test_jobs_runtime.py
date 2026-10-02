@@ -5133,12 +5133,13 @@ class JobsRuntimeTests(unittest.TestCase):
             side_effect=[
                 ("{}", "gemini:test"),
                 ("{}", "gemini:test"),
+                ("{}", "gemini:test"),
             ],
         ) as generate:
-            with self.assertRaisesRegex(RuntimeError, "Facebook social AI failed after 2 attempts"):
+            with self.assertRaisesRegex(RuntimeError, "Facebook social AI failed after 3 attempts"):
                 social_ai.generate_jobs_facebook_post(article)
 
-        self.assertEqual(generate.call_count, 2)
+        self.assertEqual(generate.call_count, 3)
 
     def test_jobs_facebook_formatter_keeps_facts_and_adds_readable_paragraphs(self):
         raw = (
