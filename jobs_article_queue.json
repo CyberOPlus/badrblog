@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-02T14:49:00",
+  "updated_at": "2026-10-02T14:59:41",
   "articles": [
     {
       "id": "a6432a68f27e4c35",
@@ -13652,13 +13652,13 @@
       },
       "job_identity_action": "new",
       "job_identity_reason": "no existing campaign",
-      "job_campaign_id": "22e15a89a90d79bb0cd8",
+      "job_campaign_id": "feb5deea250012f1a467",
       "seo_slug": "jamaa-alhsn-althany-aldaralbydaa-mbaryat-altwzyf-almqymwn-klya-uapqorvy",
       "desired_slug": "jamaa-alhsn-althany-aldaralbydaa-mbaryat-altwzyf-almqymwn-klya-uapqorvy",
       "job_identity_final": false,
       "job_urgent_override": false,
       "job_publish_immediately": false,
-      "selected_at": "2026-10-02T14:46:38",
+      "selected_at": "2026-10-02T14:59:39",
       "selection_reason": "jobs quality 70/100; identity=new; urgency=normal",
       "job_document_texts": [
         {
@@ -13686,7 +13686,7 @@
       "identity_evidence_tables_checked": true,
       "identity_evidence_documents_checked": true,
       "identity_evidence_stage_status": "complete",
-      "identity_evidence_stage_checked_at": "2026-10-02T14:48:57+00:00",
+      "identity_evidence_stage_checked_at": "2026-10-02T14:59:39+00:00",
       "identity_evidence_signature": "804226d0a82ca5e64b091b94",
       "identity_evidence_strength": 9,
       "identity_evidence_comparison_strength": 4,
@@ -13845,7 +13845,7 @@
         }
       },
       "processing_status": "ready_for_ai",
-      "processing_prepared_at": "2026-10-02T14:48:57",
+      "processing_prepared_at": "2026-10-02T14:59:39",
       "ai_input_package": {
         "title": "مباريات التوظيف : المقيمون- كلية الطب والصيدلة بالدار البيضاء",
         "url": "https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8%AA/b9083888-d29b-4586-bedc-254dc97adedf",
@@ -14088,19 +14088,21 @@
         "company_logo_source": "verified_registry",
         "company_official_domain": ""
       },
-      "ai_provider_last_error": "groq provider failed: groq returned an empty response.",
+      "ai_provider_last_error": "groq provider failed: groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y",
       "ai_status": "failed",
-      "ai_error": "groq provider failed: groq returned an empty response.",
+      "ai_error": "groq provider failed: groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "ai_retry_pending": true,
-      "ai_retry_reason": "groq provider failed: groq returned an empty response.",
+      "ai_retry_reason": "groq provider failed: groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y",
       "ai_rotation_exhausted": true,
       "ai_time_budget_exceeded": false,
-      "ai_total_time_seconds": 2.85,
+      "ai_total_time_seconds": 2.41,
       "ai_failure_scope": "global_outage",
-      "ai_failure_fingerprint": "86f72c111e032e2b604a",
-      "ai_failure_category": "empty",
+      "ai_failure_fingerprint": "9c566984111dbf1278c7",
+      "ai_failure_category": "quota",
       "ai_quality_status": "provider_rotation_exhausted",
-      "ai_quality_attempts": 2
+      "ai_quality_attempts": 2,
+      "ai_quality_last_error": "manifest fact missing from Jobs output: detail=https://www.emploi-public.ma/ar/%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84/%D8%A7%D9%84%D9%85%D8%A8%D8%A7%D8%B1%D9%8A%D8%A7%D8",
+      "ai_quality_repairs_used": 1
     },
     {
       "id": "1c758ceccd0e11ca",
