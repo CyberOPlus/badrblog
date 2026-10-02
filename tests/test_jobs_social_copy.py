@@ -86,6 +86,43 @@ class JobsSocialCopyTests(unittest.TestCase):
         self.assertEqual(result["facebook_post_text"], self.caption)
         self.assertIn("exactly #CyberoPlus", generate.call_args.args[0])
 
+    def test_arabic_only_retry_repairs_the_rejected_copy_without_reexposing_url(self):
+        rejected_caption = self.caption.replace(
+            "غرفة التجارة والصناعة والخدمات",
+            "Chamber of Commerce",
+        )
+        rejected_caption = rejected_caption.replace(
+            "راجع الشروط والوثائق وخطوات التسجيل وإرسال الملف في أول تعليق.",
+            "راجع https://example.com/apply في أول تعليق.",
+        )
+        first = json.dumps(
+            {"facebook_post_text": rejected_caption},
+            ensure_ascii=False,
+        )
+        second = json.dumps(
+            {"facebook_post_text": self.caption},
+            ensure_ascii=False,
+        )
+        prompts = []
+
+        def fake_generate(prompt, **kwargs):
+            prompts.append(prompt)
+            return (
+                (first, "cloudflare:test")
+                if len(prompts) == 1
+                else (second, "cloudflare:test")
+            )
+
+        with patch.object(social_ai, "_generate_ai_article", side_effect=fake_generate):
+            result = social_ai.generate_jobs_facebook_post(self.article)
+
+        self.assertEqual(result["attempts"], 2)
+        self.assertIn("ARABIC-ONLY REPAIR", prompts[1])
+        self.assertIn("Chamber of Commerce", prompts[1])
+        self.assertNotIn("https://example.com/apply", prompts[1])
+        self.assertIn("[رابط محذوف]", prompts[1])
+        self.assertEqual(result["facebook_post_text"], self.caption)
+
     def test_cached_legacy_hashtags_are_normalized_not_regenerated(self):
         article = dict(
             self.article,
