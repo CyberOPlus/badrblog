@@ -35,6 +35,17 @@
       "retry_until": 1790877438.8220756,
       "scope": "global"
     },
+    "2e0f27c140f44c4d899d": {
+      "category": "format",
+      "count": 1,
+      "first_seen_at": "2026-10-02T19:45:36",
+      "last_seen_at": "2026-10-02T19:45:36",
+      "last_seen_epoch": 1790970336.987878,
+      "provider": "cloudflare,gemini,groq,mistral,openrouter",
+      "reason": "AI article response is missing required field(s): title, description, slug, html_content, notice_type",
+      "retry_until": 1790971580.6448574,
+      "scope": "global"
+    },
     "2eb46af253b68063fbef": {
       "category": "format",
       "count": 3,
@@ -266,6 +277,17 @@
       "retry_until": 1790877438.819446,
       "scope": "provider"
     },
+    "cf0230a1268583706f41": {
+      "category": "format",
+      "count": 1,
+      "first_seen_at": "2026-10-02T19:45:36",
+      "last_seen_at": "2026-10-02T19:45:36",
+      "last_seen_epoch": 1790970336.9863136,
+      "provider": "cloudflare",
+      "reason": "AI article response is missing required field(s): title, description, slug, html_content, notice_type",
+      "retry_until": 1790971236.9863136,
+      "scope": "provider"
+    },
     "d15c8a5d2460c1216a2b": {
       "category": "outage",
       "count": 4,
@@ -400,13 +422,13 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 11.5777,
+      "avg_time": 12.566,
       "key_id": "be6dab2cd8",
-      "last_success_at": "2026-10-01T15:11:52",
+      "last_success_at": "2026-10-02T19:45:36",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 4,
-      "total_success_time": 46.3108
+      "successes": 6,
+      "total_success_time": 75.3959
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 20.1587,
