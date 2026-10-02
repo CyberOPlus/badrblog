@@ -36,7 +36,6 @@ from job_core import job_deadline_time, job_publication_freshness
 from production_logging import html_word_count, log_event
 from quality_gate import validate_before_publish
 from internal_link_cache import record_published_article
-from jobposting import append_jobposting, jobposting_validation_errors
 from google_indexing import notify_job_url
 from job_document_renderer import render_job_document_pages
 from company_logo_resolver import refresh_company_logo, verified_company_logo
@@ -127,6 +126,21 @@ def _publish_quality_error(article, articles):
     if document_status == "document_render_retry":
         return "official PDF pages are not fully rendered yet"
 
+    cover_status = str(
+        article.get("job_article_cover_status")
+        or package.get("job_article_cover_status")
+        or ""
+    ).strip()
+    cover_url = str(
+        article.get("job_article_cover_url")
+        or package.get("job_article_cover_url")
+        or article.get("main_image")
+        or package.get("main_image")
+        or ""
+    ).strip()
+    if cover_status != "ready" or not cover_url:
+        return "job article cover is not ready"
+
     result = validate_before_publish(article, existing_articles=articles)
     article["pre_publish_quality"] = result.to_dict()
     article["final_word_count"] = result.word_count or _article_word_count(article)
@@ -158,16 +172,11 @@ def _publish_quality_error(article, articles):
             article["pre_publish_warnings"] = warnings
 
             if "cover" in reason_folded or "logo" in reason_folded or "image" in reason_folded:
-                had_verified_logo = bool(
-                    article.get("company_logo_verified")
-                    or article.get("logo_resolution_status") == "verified"
-                )
-                _clear_optional_job_cover(article, package)
-                if had_verified_logo:
-                    article["logo_visual_retry_pending"] = True
-                    article["logo_visual_retry_after"] = _document_render_retry_at(hours=12)
-                    article["job_article_cover_status"] = "render_retry_optional"
-                    article["visual_readiness_status"] = "content_ready_visual_retry"
+                article["logo_visual_retry_pending"] = True
+                article["logo_visual_retry_after"] = _document_render_retry_at(minutes=5)
+                article["job_article_cover_status"] = "render_retry_required"
+                article["visual_readiness_status"] = "required_cover_retry"
+                return result.reason
 
             article["final_html"] = format_phase3_article_html(
                 article.get("final_html") or article.get("blogger_article_html") or "",
@@ -698,8 +707,8 @@ def _clear_optional_job_cover(article, package):
         package.pop("cover_height", None)
 
 
-def _prepare_job_article_cover(article):
 
+def _prepare_job_article_cover(article):
     package = article.get("ai_input_package")
     if not isinstance(package, dict):
         package = {}
@@ -710,8 +719,7 @@ def _prepare_job_article_cover(article):
         or package.get("job_article_cover_url")
         or ""
     ).strip()
-    if existing_cover and article.get("article_logo_used"):
-        article["job_article_cover_status"] = "ready"
+    if existing_cover and str(article.get("job_article_cover_status") or "") == "ready":
         return existing_cover
 
     job_title = str(
@@ -742,37 +750,14 @@ def _prepare_job_article_cover(article):
         article["logo_resolution_error"] = str(error)[:1000]
 
     logo_verified = bool(logo_info.get("company_logo_verified"))
-    logo_url = str(logo_info.get("company_logo_url") or "").strip()
-
-    if not (logo_verified and logo_url):
-        _clear_optional_job_cover(article, package)
-        article["logo_resolution_status"] = "unavailable_optional"
-        article["job_article_cover_status"] = "optional_missing_verified_logo"
-        article["article_logo_used"] = False
-        article["visual_readiness_status"] = "content_ready_visual_optional"
-        article.pop("logo_visual_retry_pending", None)
-        article.pop("logo_visual_retry_after", None)
-        article.pop("logo_visual_error", None)
-        article.pop("logo_retry_after", None)
-        article.pop("logo_first_wait_at", None)
-        article.pop("visual_content_reuse_required", None)
-        if article.get("candidate_failure_stage") == "company-logo":
-            article.pop("candidate_failure_stage", None)
-            article.pop("candidate_retry_after", None)
-        package["logo_resolution_status"] = "unavailable_optional"
-        package["job_article_cover_status"] = "optional_missing_verified_logo"
-        package["article_logo_used"] = False
-        article.pop("publish_block_reason", None)
-        package.pop("publish_block_reason", None)
-        log_event(
-            "job_article_cover_skipped_missing_logo",
-            article_id=article.get("id"),
-            company=employer,
-        )
-        return ""
-
-    article["logo_resolution_status"] = "verified"
-    package["logo_resolution_status"] = "verified"
+    logo_url = (
+        str(logo_info.get("company_logo_url") or "").strip()
+        if logo_verified
+        else ""
+    )
+    resolution_status = "verified" if logo_url else "fallback_employer_text"
+    article["logo_resolution_status"] = resolution_status
+    package["logo_resolution_status"] = resolution_status
 
     cover_key = _job_cover_key(article)
     output_path = JOB_ARTICLE_COVER_DIR / f"{cover_key}.jpg"
@@ -784,33 +769,31 @@ def _prepare_job_article_cover(article):
             employer_name=employer,
         )
     except Exception as error:
-        result = {"ok": False, "logo_loaded": False, "error": str(error)}
+        result = {
+            "ok": False,
+            "logo_loaded": False,
+            "used_fallback": False,
+            "error": str(error),
+        }
 
-    if not result.get("ok") or not result.get("logo_loaded"):
+    if not result.get("ok"):
         _clear_optional_job_cover(article, package)
         article["article_logo_used"] = False
-        article["job_article_cover_status"] = "render_retry_optional"
-        article["logo_resolution_status"] = "verified_render_failed_optional"
-        logo_retry_count = int(article.get("logo_visual_retry_count") or 0) + 1
-        article["logo_visual_retry_count"] = logo_retry_count
-        article["logo_visual_retry_pending"] = logo_retry_count < MAX_JOB_LOGO_RENDER_RETRIES
-        if article["logo_visual_retry_pending"]:
-            article["logo_visual_retry_after"] = _document_render_retry_at(hours=12)
-            article["visual_readiness_status"] = "content_ready_visual_retry"
-        else:
-            article.pop("logo_visual_retry_after", None)
-            article["job_article_cover_status"] = "render_unavailable_optional"
-            article["visual_readiness_status"] = "content_ready_visual_optional"
+        article["article_cover_fallback_used"] = False
+        article["job_article_cover_status"] = "render_retry_required"
+        article["visual_readiness_status"] = "required_cover_retry"
+        article["logo_visual_retry_count"] = int(article.get("logo_visual_retry_count") or 0) + 1
+        article["logo_visual_retry_pending"] = True
+        article["logo_visual_retry_after"] = _document_render_retry_at(minutes=5)
         article["logo_visual_error"] = str(
-            result.get("error") or "verified logo was not rendered"
+            result.get("error") or "job article cover could not be rendered"
         )[:1000]
         package["article_logo_used"] = False
-        package["job_article_cover_status"] = article["job_article_cover_status"]
-        package["logo_resolution_status"] = "verified_render_failed_optional"
-        article.pop("publish_block_reason", None)
-        package.pop("publish_block_reason", None)
+        package["article_cover_fallback_used"] = False
+        package["job_article_cover_status"] = "render_retry_required"
+        package["logo_resolution_status"] = resolution_status
         log_event(
-            "job_article_cover_render_deferred_optional",
+            "job_article_cover_render_required_retry",
             article_id=article.get("id"),
             company=employer,
             retry_after=article.get("logo_visual_retry_after", ""),
@@ -818,34 +801,30 @@ def _prepare_job_article_cover(article):
         )
         return ""
 
-    article["article_logo_used"] = True
-    package["article_logo_used"] = True
+    article["article_logo_used"] = bool(result.get("logo_loaded"))
+    article["article_cover_fallback_used"] = bool(result.get("used_fallback"))
+    package["article_logo_used"] = article["article_logo_used"]
+    package["article_cover_fallback_used"] = article["article_cover_fallback_used"]
+
     try:
         _persist_generated_job_cover(output_path)
     except Exception as error:
         _clear_optional_job_cover(article, package)
-        article["article_logo_used"] = False
-        article["job_article_cover_status"] = "asset_persist_retry_optional"
-        logo_retry_count = int(article.get("logo_visual_retry_count") or 0) + 1
-        article["logo_visual_retry_count"] = logo_retry_count
-        article["logo_visual_retry_pending"] = logo_retry_count < MAX_JOB_LOGO_RENDER_RETRIES
-        if article["logo_visual_retry_pending"]:
-            article["logo_visual_retry_after"] = _document_render_retry_at(hours=12)
-            article["visual_readiness_status"] = "content_ready_visual_retry"
-        else:
-            article.pop("logo_visual_retry_after", None)
-            article["job_article_cover_status"] = "asset_persist_unavailable_optional"
-            article["visual_readiness_status"] = "content_ready_visual_optional"
+        article["job_article_cover_status"] = "asset_persist_retry_required"
+        article["visual_readiness_status"] = "required_cover_retry"
+        article["logo_visual_retry_count"] = int(article.get("logo_visual_retry_count") or 0) + 1
+        article["logo_visual_retry_pending"] = True
+        article["logo_visual_retry_after"] = _document_render_retry_at(minutes=5)
         article["logo_visual_error"] = str(error)[:1000]
-        package["article_logo_used"] = False
-        package["job_article_cover_status"] = article["job_article_cover_status"]
+        package["job_article_cover_status"] = "asset_persist_retry_required"
         log_event(
-            "job_article_cover_asset_persist_deferred_optional",
+            "job_article_cover_asset_persist_required_retry",
             article_id=article.get("id"),
             retry_after=article.get("logo_visual_retry_after", ""),
             error=article["logo_visual_error"],
         )
         return ""
+
     public_url = f"{JOB_ARTICLE_RAW_BASE}/{quote(output_path.as_posix(), safe='/')}"
     location = str(
         article.get("job_location")
@@ -905,10 +884,10 @@ def _prepare_job_article_cover(article):
         article_id=article.get("id"),
         path=output_path.as_posix(),
         url=public_url,
-        logo_loaded="yes",
+        logo_loaded="yes" if article["article_logo_used"] else "no",
+        fallback="yes" if article["article_cover_fallback_used"] else "no",
     )
     return public_url
-
 
 def _sanitize_article_final_html(article, prepare_visuals=True):
     source_domain = _source_domain_for_article(article)
@@ -1119,44 +1098,37 @@ def _publish_if_live(service, post, mode):
     return _ensure_returned_post_url(service, published)
 
 
+
 def _apply_jobposting_schema(service, post, article, mode):
-    """Restore the SEO title and append one backend-generated JobPosting block."""
-    if _effective_publish_mode(mode) != 'live':
+    """Keep Blogger article bodies free of embedded JSON/JSON-LD scripts."""
+    if _effective_publish_mode(mode) != "live":
         return post
 
-    post_url = str((post or {}).get("url") or "").strip()
-    errors = jobposting_validation_errors(article)
     body = _build_post_body(article)
-    if post_url and not errors:
-        body["content"] = append_jobposting(body.get("content", ""), article, post_url)
-        operation = "restore SEO title and append JobPosting structured data"
-    else:
-        operation = "restore SEO title without JobPosting structured data"
+    body["content"] = re.sub(
+        r"<script\\b[^>]*>.*?</script>",
+        "",
+        str(body.get("content") or ""),
+        flags=re.I | re.S,
+    ).strip()
 
     request = service.posts().update(blogId=BLOG_ID, postId=post["id"], body=body)
-    updated = _execute_blogger_request(request, operation, safe_to_retry=True)
+    updated = _execute_blogger_request(
+        request,
+        "restore SEO title without embedded scripts",
+        safe_to_retry=True,
+    )
     updated = _ensure_returned_post_url(service, updated)
 
-    if not post_url or errors:
-        article["jobposting_schema_status"] = "skipped"
-        article["jobposting_schema_errors"] = list(errors or ["missing live post URL"])
-        log_event(
-            "jobposting_schema_skipped",
-            article_id=article.get("id"),
-            errors="; ".join(article["jobposting_schema_errors"]),
-        )
-        return updated
-
-    article["jobposting_schema_status"] = "applied"
+    article["jobposting_schema_status"] = "disabled_embedded_jsonld"
     article.pop("jobposting_schema_errors", None)
+    article.pop("jobposting_schema_error", None)
     log_event(
-        "jobposting_schema_applied",
+        "jobposting_schema_disabled_in_article_body",
         article_id=article.get("id"),
         post_id=post.get("id"),
-        url=post_url,
     )
     return updated
-
 
 def _apply_remote_post_identity(article, post, mode):
     """Persist the authoritative Blogger identity before optional follow-up work."""
