@@ -1134,7 +1134,8 @@ def _format_jobs_facebook_caption(raw_caption):
     if not text:
         return ""
 
-    hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", text, flags=re.UNICODE)
+    # Cached copy remains reusable on delivery retries. Remove its legacy
+    # hashtags without regenerating the caption or altering verified facts.
     text = re.sub(r"#[\w\u0600-\u06FF_]+", " ", text, flags=re.UNICODE)
 
     paragraphs = []
@@ -1143,36 +1144,9 @@ def _format_jobs_facebook_caption(raw_caption):
         if not raw_line:
             continue
 
-        # Split only at sentence boundaries; words and verified facts stay intact.
-        sentences = [
-            part.strip()
-            for part in re.split(r"(?<=[.!؟])\s+", raw_line)
-            if part.strip()
-        ]
-        for sentence in sentences:
-            normalized = sentence.strip()
-            lowered = normalized.casefold()
-            independent_cta = (
-                "أول تعليق" in normalized
-                and lowered.startswith(
-                    (
-                        "للمزيد",
-                        "للاطلاع",
-                        "لمعرفة",
-                        "للتفاصيل",
-                        "التفاصيل",
-                        "رابط",
-                        "تجد الرابط",
-                    )
-                )
-            )
-            if independent_cta:
-                normalized = "التفاصيل وشروط التقديم في أول تعليق 👇"
-            if normalized:
-                paragraphs.append(normalized)
-
-    if hashtags:
-        paragraphs.append(" ".join(dict.fromkeys(hashtags)))
+        # Preserve coherent paragraphs and the notice-specific CTA. Rewriting
+        # every CTA as application instructions is wrong for lists/results.
+        paragraphs.append(raw_line)
 
     return "\n\n".join(paragraphs).strip()
 
@@ -1359,11 +1333,8 @@ def _validate_facebook_caption(caption, blogger_url="", style="", hook="", struc
     if re.search(r"^\s*[-*]\s+", plain_caption, flags=re.MULTILINE):
         raise RuntimeError("Facebook caption contains markdown bullets.")
 
-    hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", plain_caption, flags=re.UNICODE)
-    if len(set(hashtags)) != len(hashtags):
-        raise RuntimeError("Facebook caption contains duplicate hashtags.")
-    if not (3 <= len(hashtags) <= 5):
-        raise RuntimeError("Jobs Facebook caption must contain 3 to 5 hashtags.")
+    if "#" in plain_caption:
+        raise RuntimeError("Jobs Facebook caption must not contain hashtags.")
 
     if blogger_url and "أول تعليق" not in plain_caption:
         raise RuntimeError("Facebook caption must say the link is in the first comment.")

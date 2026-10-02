@@ -56,19 +56,43 @@ or reject the Blogger article.
 Return JSON only with exactly one key:
 {{"facebook_post_text":"..."}}
 
+EDITORIAL GOAL
+Help the right reader quickly judge whether this notice concerns them, then
+open the article for useful details. Be engaging through specific verified
+information, never by hiding the job, exaggerating, or promising employment.
+
+POST STRUCTURE
+- Write 3 to 5 short paragraphs, separated by a blank line.
+- First paragraph: one concise hook (18 to 140 characters). Lead with the
+  strongest verified match: the role, qualification, location, or notice stage.
+  A question about a verified qualification is optional, not a fixed template.
+  Avoid generic openings such as "هل تبحث عن عمل؟" or "فرصة لا تعوض".
+- Middle paragraphs: identify the role and employer, then include only 1 or 2
+  useful screening facts, such as qualification, location, or available posts.
+  State enough for readers to know what they are opening; do not copy the article.
+- For an active vacancy/competition, put the verified application deadline on
+  its own line, once. Omit missing deadlines. A positions value of 0 is unknown,
+  not a verified count.
+- Last paragraph: one natural CTA containing "أول تعليق". Say what the reader
+  can check in the article, such as eligibility, required documents or application
+  steps, ONLY when those details actually appear in the context. For lists or
+  results, invite readers to check that notice, not to apply for a new vacancy.
+- Aim for 250 to 650 visible characters. Use plain text and at most one 👇 at
+  the end. No decorative emojis, hashtags, or repeated information.
+
 STRICT RULES
 - Use only facts in the published article context below.
-- Write clear Modern Standard Arabic. Arabic must dominate.
-- Preserve verified company names, acronyms, official role names and useful French/English terms when necessary.
+- Write entirely in clear Modern Standard Arabic, including roles and locations.
+  Use established Arabic names for employers. Omit a foreign name if no reliable
+  Arabic spelling is available; never invent a name or leave Latin acronyms.
 - Reflect the exact notice stage: vacancy, competition, candidate list, results, final results, or update.
 - Never turn lists/results/updates into a fresh vacancy.
 - Do not copy the Blogger title as the first line.
 - Do not use repetitive database labels such as "الجهة:", "المكان:", "عدد المناصب:" line after line.
-- Mention a verified deadline once when useful for an active notice.
 - Never invent salary, deadline, count, requirement, location, urgency, application method, or status.
+- No manufactured urgency, guaranteed acceptance, curiosity bait, or requests
+  for likes/shares/comments such as "اكتب مهتم" or "شارك ليصلك العرض".
 - Do not include any URL. The Blogger URL is posted separately in the first comment.
-- End with a natural CTA that explicitly contains "أول تعليق" followed by 👇.
-- Finish with 3 to 5 relevant, unique hashtags.
 - No HTML, markdown, JSON inside the value, or bidi control characters.
 - Keep the complete post between 120 and 1200 visible characters.
 {repair}
@@ -92,22 +116,26 @@ def validate_jobs_facebook_post(text, article=None):
         raise SocialAIQualityError("Facebook social copy must not contain a URL")
     if re.search(r"<[^>]+>", text) or (chr(96) * 3) in text:
         raise SocialAIQualityError("Facebook social copy must be plain text")
-    if "أول تعليق" not in text:
-        raise SocialAIQualityError('Facebook social copy must contain "أول تعليق"')
-    hashtags = re.findall(r"#[\w\u0600-\u06FF_]+", text, flags=re.UNICODE)
-    if not (3 <= len(hashtags) <= 5):
-        raise SocialAIQualityError("Facebook social copy must contain 3 to 5 hashtags")
-    if len(set(hashtags)) != len(hashtags):
-        raise SocialAIQualityError("Facebook social copy contains duplicate hashtags")
+    if text.count("أول تعليق") != 1:
+        raise SocialAIQualityError('Facebook social copy must contain "أول تعليق" once')
+    if "#" in text:
+        raise SocialAIQualityError("Facebook social copy must not contain hashtags")
+    if re.search(r"[A-Za-zÀ-ÖØ-öø-ÿ]", text):
+        raise SocialAIQualityError("Facebook social copy must be written entirely in Arabic")
     if len(re.findall(r"[\u0600-\u06FF]", text)) < 40:
         raise SocialAIQualityError("Facebook social copy must be Arabic-first")
     if not (120 <= len(text) <= 1200):
         raise SocialAIQualityError("Facebook social copy length must be 120 to 1200 characters")
 
     title = str((article or {}).get("seo_title") or (article or {}).get("title") or "").strip()
-    first_line = next((line.strip() for line in text.splitlines() if line.strip()), "")
-    if len(first_line) < 18:
-        raise SocialAIQualityError("Facebook social copy hook is too weak")
+    lines = [line.strip() for line in text.splitlines() if line.strip()]
+    if not (3 <= len(lines) <= 6):
+        raise SocialAIQualityError("Facebook social copy needs 3 to 6 short paragraphs")
+    first_line = lines[0]
+    if not (18 <= len(first_line) <= 140):
+        raise SocialAIQualityError("Facebook social copy hook must be 18 to 140 characters")
+    if "أول تعليق" not in lines[-1]:
+        raise SocialAIQualityError("Facebook social copy CTA must be the final paragraph")
     if title and re.sub(r"\s+", " ", first_line).casefold() == re.sub(r"\s+", " ", title).casefold():
         raise SocialAIQualityError("Facebook social copy hook must not equal the Blogger title")
     return text
@@ -122,15 +150,6 @@ _NOTICE_STAGE_LABELS = {
     "update": "مستجد بخصوص إعلان توظيف",
 }
 
-_NOTICE_HASHTAGS = {
-    "vacancy": ("#وظائف", "#فرص_عمل", "#توظيف"),
-    "competition": ("#وظائف", "#مباريات_التوظيف", "#فرص_عمل"),
-    "candidate_list": ("#وظائف", "#مباريات_التوظيف", "#لوائح_المترشحين"),
-    "results": ("#وظائف", "#مباريات_التوظيف", "#نتائج"),
-    "final_results": ("#وظائف", "#مباريات_التوظيف", "#النتائج_النهائية"),
-    "update": ("#وظائف", "#توظيف", "#مستجدات"),
-}
-
 
 def _clean_published_social_fact(value, max_chars=260):
     text = _strip_bidi(value)
@@ -138,6 +157,20 @@ def _clean_published_social_fact(value, max_chars=260):
     text = re.sub(r"https?://\S+", "", text)
     text = re.sub(r"\s+", " ", text).strip(" ،؛;.-")
     return text[:max(1, int(max_chars))].strip()
+
+
+def _arabic_published_social_fact(value, max_chars=260):
+    """Use supplied Arabic facts; do not guess translations in the fallback."""
+    text = _clean_published_social_fact(value, max_chars)
+    # An Arabic full name is sufficient without its parenthesized Latin acronym.
+    text = re.sub(
+        r"\((?=[^)]*[A-Za-zÀ-ÖØ-öø-ÿ])[A-Za-zÀ-ÖØ-öø-ÿ0-9\s._/-]+\)",
+        "",
+        text,
+    )
+    if re.search(r"[A-Za-zÀ-ÖØ-öø-ÿ]", text):
+        return ""
+    return re.sub(r"\s+", " ", text).strip()
 
 
 def _deterministic_jobs_facebook_post(article):
@@ -156,29 +189,25 @@ def _deterministic_jobs_facebook_post(article):
     ).strip().lower()
     stage = _NOTICE_STAGE_LABELS.get(notice_type, "إعلان توظيف")
 
-    company = _clean_published_social_fact(
+    company = _arabic_published_social_fact(
         article.get("job_company") or package.get("job_company") or "",
         120,
     )
-    title = _clean_published_social_fact(
+    title = _arabic_published_social_fact(
         article.get("seo_title") or article.get("title") or "",
         180,
     )
-    description = _clean_published_social_fact(
-        article.get("seo_description") or "",
-        220,
-    )
-    location = _clean_published_social_fact(
+    location = _arabic_published_social_fact(
         article.get("job_location") or package.get("job_location") or "",
-        100,
+        45,
     )
-    positions = _clean_published_social_fact(
+    positions = _arabic_published_social_fact(
         article.get("job_number_of_positions")
         or package.get("job_number_of_positions")
         or "",
         20,
     )
-    deadline = _clean_published_social_fact(
+    deadline = _arabic_published_social_fact(
         article.get("job_deadline_display")
         or article.get("job_deadline")
         or package.get("job_deadline_display")
@@ -187,38 +216,34 @@ def _deterministic_jobs_facebook_post(article):
         80,
     )
 
-    if company:
-        hook = f"{stage} لدى {company}: إليك أبرز التفاصيل الموثقة التي تهم المترشحين."
-    else:
-        hook = f"إليك أبرز التفاصيل الموثقة حول {stage} المتاح ضمن هذا الإعلان."
+    active = notice_type in {"vacancy", "competition"}
+    place = f" في {location}" if location else ""
+    hook = f"{stage}{place}: راجع التفاصيل قبل الترشيح." if active else (
+        f"{stage}{place}: اطّلع على تفاصيل هذا الإعلان."
+    )
 
-    lines = [hook]
-    if description:
-        lines.append(description.rstrip("。.!؟") + ".")
-    elif title:
-        lines.append(f"يتعلق الإعلان بـ {title}.")
+    summary = title
+    if company and company not in summary:
+        summary = f"{summary}. الجهة المعلنة: {company}" if summary else f"الجهة المعلنة: {company}"
+    if not summary:
+        summary = "تعرّف على تفاصيل هذا الإعلان كما وردت في المقال المنشور."
+    lines = [hook, summary.rstrip("。.!؟") + "."]
 
     facts = []
-    if location:
-        facts.append(f"المكان {location}")
-    if positions and positions not in {"0", "0.0"}:
+    if active and positions and positions not in {"0", "0.0"}:
         facts.append(f"عدد المناصب {positions}")
-    if deadline and notice_type in {"vacancy", "competition"}:
-        facts.append(f"آخر أجل للترشيح {deadline}")
     if facts:
         lines.append("، ".join(facts) + ".")
+    if deadline and active and deadline not in summary:
+        lines.append(f"آخر أجل للترشيح: {deadline}.")
 
     lines.append(
-        "للاطلاع على التفاصيل الكاملة والوثائق المرتبطة بالإعلان، "
-        "تجد الرابط في أول تعليق 👇."
+        "راجع تفاصيل الإعلان قبل تقديم ترشيحك؛ رابط المقال في أول تعليق 👇."
+        if active else
+        "للاطلاع على تفاصيل هذا الإعلان، تجد رابط المقال في أول تعليق 👇."
     )
-    hashtags = _NOTICE_HASHTAGS.get(
-        notice_type,
-        ("#وظائف", "#فرص_عمل", "#توظيف"),
-    )
-    lines.append(" ".join(hashtags))
 
-    text = "\n".join(line for line in lines if line.strip())
+    text = "\n\n".join(line for line in lines if line.strip())
     return validate_jobs_facebook_post(text, article=article)
 
 
