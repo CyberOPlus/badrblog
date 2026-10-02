@@ -77,10 +77,29 @@ def _social_prompt(article, previous_error=""):
 
     repair = ""
     if previous_error:
+        arabic_only_repair = ""
+        previous_error_key = str(previous_error or "").casefold()
+        if (
+            "entirely in arabic" in previous_error_key
+            or "arabic-first" in previous_error_key
+            or "latin" in previous_error_key
+        ):
+            arabic_only_repair = """
+ARABIC-ONLY REPAIR:
+- The facebook_post_text value must contain ZERO Latin/French letters anywhere
+  except the literal final brand hashtag #CyberoPlus.
+- Translate foreign-language job titles and descriptive role terms into natural
+  Modern Standard Arabic from their verified meaning. Do not copy the Latin form.
+- For a foreign proper name with no Arabic form in the verified context, render
+  the same proper name with Arabic letters only; do not invent a different entity.
+- Before returning, scan the whole value and rewrite every remaining A-Z/a-z or
+  accented Latin character into Arabic wording, while preserving numbers and facts.
+"""
         repair = f"""
 The previous social copy failed this rule:
 {previous_error}
 Repair that exact issue without changing verified facts.
+{arabic_only_repair}
 """
 
     return f"""
@@ -128,8 +147,12 @@ POST STRUCTURE
 
 STRICT RULES
 - Use only facts in the published article context below.
-- Write in clear Modern Standard Arabic. #CyberoPlus is the only required Latin
-  brand text. Use established Arabic names for employers; never invent translations.
+- Write in clear Modern Standard Arabic. #CyberoPlus is the ONLY Latin text allowed.
+  The facebook_post_text value must contain no A-Z/a-z or accented Latin letters
+  outside that final brand hashtag. Translate foreign-language role titles and
+  descriptive terms into natural Arabic instead of copying their French/English form.
+  Use established Arabic names for employers when available; otherwise render the
+  same proper name in Arabic letters only without inventing a different entity.
 - Reflect the exact notice stage: vacancy, competition, candidate list, results,
   final results, or update. Never turn lists/results/updates into a fresh vacancy.
 - Do not copy the Blogger title as the first line.
