@@ -5102,9 +5102,9 @@ class JobsRuntimeTests(unittest.TestCase):
             datetime(2026, 9, 30, 22, 1),
         )
 
-    def test_social_ai_malformed_json_falls_back_to_verified_published_facts(self):
+    def test_social_ai_malformed_json_stays_retryable_without_deterministic_publish(self):
         article = {
-            "id": "social-fallback-job",
+            "id": "social-retry-job",
             "status": "published",
             "publish_status": "published",
             "blogger_post_url": "https://example.blogspot.com/2026/10/job.html",
@@ -5127,24 +5127,11 @@ class JobsRuntimeTests(unittest.TestCase):
                 ("{}", "gemini:test"),
                 ("{}", "gemini:test"),
             ],
-        ):
-            result = social_ai.generate_jobs_facebook_post(article)
+        ) as generate:
+            with self.assertRaisesRegex(RuntimeError, "Facebook social AI failed after 2 attempts"):
+                social_ai.generate_jobs_facebook_post(article)
 
-        self.assertTrue(result["fallback"])
-        self.assertEqual(
-            result["provider"],
-            "deterministic:verified-published-article",
-        )
-        caption = result["facebook_post_text"]
-        self.assertIn("مكتب التكوين المهني وإنعاش الشغل", caption)
-        self.assertIn("18 أكتوبر 2026", caption)
-        self.assertIn("أول تعليق", caption)
-        self.assertNotIn("http", caption)
-        self.assertTrue(
-            caption.endswith("#CyberoPlus #مباريات_التوظيف")
-        )
-        self.assertEqual(caption.count("18 أكتوبر 2026"), 1)
-        social_ai.validate_jobs_facebook_post(caption, article=article)
+        self.assertEqual(generate.call_count, 2)
 
     def test_jobs_facebook_formatter_keeps_facts_and_adds_readable_paragraphs(self):
         raw = (
