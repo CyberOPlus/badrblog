@@ -1,16 +1,41 @@
 {
   "avg_time": 2.802,
-  "cooldowns": {},
+  "cooldowns": {
+    "groq:openai/gpt-oss-20b:fb4fab4ba1": {
+      "failed_at": "2026-10-02T14:39:19",
+      "key_id": "fb4fab4ba1",
+      "model": "openai/gpt-oss-20b",
+      "provider": "groq",
+      "reason": "groq returned an empty response.",
+      "until": 1790952264.058119
+    },
+    "mistral:mistral-small-latest:8feed32495": {
+      "failed_at": "2026-10-02T14:39:44",
+      "key_id": "8feed32495",
+      "model": "mistral-small-latest",
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "until": 1790954689.1497638
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-02T14:39:44",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1790952285.920789
+    }
+  },
   "failure_fingerprints": {
     "16f0cdcebb62d34cab0f": {
       "category": "quota",
-      "count": 4,
+      "count": 5,
       "first_seen_at": "2026-10-01T14:53:22",
-      "last_seen_at": "2026-10-01T22:50:06",
-      "last_seen_epoch": 1790895006.9616742,
+      "last_seen_at": "2026-10-02T14:39:44",
+      "last_seen_epoch": 1790951984.2657008,
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
-      "retry_until": 1790916606.9616742,
+      "retry_until": 1790973584.2657008,
       "scope": "provider"
     },
     "1a9c344d00234801e923": {
@@ -125,13 +150,24 @@
     },
     "6a52ff2ce198a0896fe8": {
       "category": "empty",
-      "count": 6,
+      "count": 7,
       "first_seen_at": "2026-10-01T14:46:11",
-      "last_seen_at": "2026-10-01T22:00:14",
-      "last_seen_epoch": 1790892014.1237478,
+      "last_seen_at": "2026-10-02T14:39:44",
+      "last_seen_epoch": 1790951984.0482593,
       "provider": "openrouter",
       "reason": "OpenRouter returned an empty response.",
-      "retry_until": 1790895614.1237478,
+      "retry_until": 1790955584.0482593,
+      "scope": "provider"
+    },
+    "7fc25b239b1f7d4ff3a5": {
+      "category": "empty",
+      "count": 1,
+      "first_seen_at": "2026-10-02T14:39:19",
+      "last_seen_at": "2026-10-02T14:39:19",
+      "last_seen_epoch": 1790951959.5920732,
+      "provider": "groq",
+      "reason": "groq returned an empty response.",
+      "retry_until": 1790952259.5920732,
       "scope": "provider"
     },
     "9b8ec695d1ca9e549f46": {
@@ -279,13 +315,13 @@
     },
     "dfcd58b89b9a06a1d960": {
       "category": "format",
-      "count": 6,
+      "count": 7,
       "first_seen_at": "2026-10-01T19:27:58",
-      "last_seen_at": "2026-10-01T23:23:52",
-      "last_seen_epoch": 1790897032.4192436,
+      "last_seen_at": "2026-10-02T14:39:34",
+      "last_seen_epoch": 1790951974.0709918,
       "provider": "cloudflare",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1790900632.4192436,
+      "retry_until": 1790955574.0709918,
       "scope": "provider"
     },
     "e54adca08768c8b77065": {
@@ -335,7 +371,41 @@
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {},
-  "provider_circuits": {},
+  "provider_circuits": {
+    "cloudflare": {
+      "category": "format",
+      "fingerprint": "dfcd58b89b9a06a1d960",
+      "model": "@cf/meta/llama-3.1-8b-instruct",
+      "opened_at": "2026-10-02T14:39:34",
+      "provider": "cloudflare",
+      "reason": "AI article response returned incomplete JSON.",
+      "until": 1790955574.0709918
+    },
+    "groq": {
+      "category": "empty",
+      "fingerprint": "7fc25b239b1f7d4ff3a5",
+      "opened_at": "2026-10-02T14:39:19",
+      "provider": "groq",
+      "reason": "groq returned an empty response.",
+      "until": 1790952259.5920732
+    },
+    "mistral": {
+      "category": "quota",
+      "fingerprint": "16f0cdcebb62d34cab0f",
+      "opened_at": "2026-10-02T14:39:44",
+      "provider": "mistral",
+      "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
+      "until": 1790973584.2657008
+    },
+    "openrouter": {
+      "category": "empty",
+      "fingerprint": "6a52ff2ce198a0896fe8",
+      "opened_at": "2026-10-02T14:39:44",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1790955584.0482593
+    }
+  },
   "stats": {
     "cloudflare:@cf/meta/llama-3.1-8b-instruct-fp8:be6dab2cd8": {
       "failures": 1,
@@ -345,15 +415,15 @@
       "provider": "cloudflare"
     },
     "cloudflare:@cf/meta/llama-3.1-8b-instruct:be6dab2cd8": {
-      "avg_time": 12.7504,
+      "avg_time": 12.7887,
       "failures": 1,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-01T18:12:20",
-      "last_success_at": "2026-10-02T00:46:01",
+      "last_success_at": "2026-10-02T14:39:34",
       "model": "@cf/meta/llama-3.1-8b-instruct",
       "provider": "cloudflare",
-      "successes": 44,
-      "total_success_time": 561.0175
+      "successes": 45,
+      "total_success_time": 575.4913
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
       "avg_time": 11.5777,
@@ -365,21 +435,21 @@
       "total_success_time": 46.3108
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
-      "avg_time": 19.8568,
+      "avg_time": 20.1587,
       "failures": 8,
       "key_id": "64f603a8c0",
       "last_failure_at": "2026-10-02T00:45:59",
-      "last_success_at": "2026-10-02T13:19:12",
+      "last_success_at": "2026-10-02T14:40:45",
       "model": "gemini-2.5-flash",
       "provider": "gemini",
-      "successes": 37,
-      "total_success_time": 734.7003
+      "successes": 41,
+      "total_success_time": 826.5059
     },
     "groq:openai/gpt-oss-20b:fb4fab4ba1": {
       "avg_time": 2.802,
-      "failures": 5,
+      "failures": 6,
       "key_id": "fb4fab4ba1",
-      "last_failure_at": "2026-10-01T20:24:13",
+      "last_failure_at": "2026-10-02T14:39:19",
       "last_success_at": "2026-10-01T20:24:13",
       "model": "openai/gpt-oss-20b",
       "provider": "groq",
@@ -387,17 +457,17 @@
       "total_success_time": 16.8117
     },
     "mistral:mistral-small-latest:8feed32495": {
-      "failures": 4,
+      "failures": 5,
       "key_id": "8feed32495",
-      "last_failure_at": "2026-10-01T22:50:06",
+      "last_failure_at": "2026-10-02T14:39:44",
       "model": "mistral-small-latest",
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
       "avg_time": 64.7173,
-      "failures": 11,
+      "failures": 12,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-01T23:02:32",
+      "last_failure_at": "2026-10-02T14:39:44",
       "last_success_at": "2026-10-01T23:43:31",
       "model": "openrouter/free",
       "provider": "openrouter",
