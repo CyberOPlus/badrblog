@@ -1471,7 +1471,9 @@ def _validate_ai_output(data, package=None):
     required_fields = (JOBS_REQUIRED_ARTICLE_FIELDS)
     missing = [field for field in required_fields if not str(data.get(field, "")).strip()]
     if missing:
-        raise AIIncompleteResponseError("Missing AI output field(s): " + ", ".join(missing))
+        # The provider already returned parseable JSON. A field removed during
+        # normalization is a repairable contract/quality issue, not a provider outage.
+        raise ValueError("Missing AI output field(s): " + ", ".join(missing))
 
     title = str(data["title"]).strip()
     description = str(data["description"]).strip()
@@ -1479,13 +1481,13 @@ def _validate_ai_output(data, package=None):
 
     notice_type = str(data.get("notice_type") or "").strip().lower()
     if notice_type not in ALLOWED_JOB_NOTICE_TYPES:
-        raise AIIncompleteResponseError(
+        raise ValueError(
             "Jobs notice_type must be one of: " + ", ".join(sorted(ALLOWED_JOB_NOTICE_TYPES))
         )
     data["notice_type"] = notice_type
     slug = _normalize_job_english_slug(data.get("slug", ""))
     if not re.fullmatch(r"[a-z]+(?:-[a-z]+){1,6}", slug or ""):
-        raise AIIncompleteResponseError(
+        raise ValueError(
             "Jobs slug must be 2-7 English words using lowercase letters and hyphens only; digits are forbidden"
         )
     data["slug"] = slug
@@ -1494,13 +1496,13 @@ def _validate_ai_output(data, package=None):
     title_range, description_range = "28-150", "80-180"
 
     if not title_ok:
-        raise AIIncompleteResponseError(f"SEO title length must be {title_range} characters; got {len(title)}")
+        raise ValueError(f"SEO title length must be {title_range} characters; got {len(title)}")
     if not description_ok:
-        raise AIIncompleteResponseError(
+        raise ValueError(
             f"Meta description length must be {description_range} characters; got {len(description)}"
         )
     if not html_content:
-        raise AIIncompleteResponseError("html_content is empty")
+        raise ValueError("html_content is empty")
     word_count = html_word_count(html_content)
     minimum_words = _minimum_article_words_for_package(package)
     if word_count < minimum_words:
