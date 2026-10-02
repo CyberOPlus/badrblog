@@ -2741,6 +2741,29 @@ def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_sec
         payload = result.get("response")
         if payload in (None, ""):
             payload = result.get("text")
+        # Structured JSON responses can arrive with one extra provider wrapper.
+        # Unwrap only known container keys and only when the expected Jobs
+        # fields are not already present.
+        if isinstance(payload, dict):
+            expected_fields = {
+                "title", "description", "slug", "html_content", "notice_type"
+            }
+            if not expected_fields.intersection(payload):
+                for wrapper_key in ("response", "result", "data"):
+                    nested = payload.get(wrapper_key)
+                    if isinstance(nested, dict) and expected_fields.intersection(nested):
+                        payload = nested
+                        break
+        log_event(
+            "ai_cloudflare_payload_shape",
+            result_keys=",".join(sorted(str(key) for key in result.keys())),
+            payload_type=type(payload).__name__,
+            payload_keys=(
+                ",".join(sorted(str(key) for key in payload.keys()))
+                if isinstance(payload, dict)
+                else ""
+            ),
+        )
         if isinstance(payload, (dict, list)):
             text = json.dumps(payload, ensure_ascii=False)
         else:
