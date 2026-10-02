@@ -56,13 +56,20 @@ def _has_application_path(article):
 
 
 def semantic_template_candidates(article, now=None):
-    """Return truthful template candidates, strongest semantic signal first."""
+    """Map verified notice semantics to one truthful visual color.
+
+    Orange: fresh active vacancy/competition.
+    Yellow: active vacancy/competition with a verified deadline within 72h.
+    Red: active vacancy/competition with a verified specific direct-apply path.
+    Blue: candidate lists, results, final results, updates, and other notices.
+    """
     now = now or datetime.now(timezone.utc)
     if now.tzinfo is None:
         now = now.replace(tzinfo=timezone.utc)
 
     notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
-    if notice_type != "vacancy":
+    active = notice_type in {"vacancy", "competition"}
+    if not active:
         return ("alert",), f"employment-notice:{notice_type}"
 
     deadline = job_deadline_time(article)
@@ -72,11 +79,9 @@ def semantic_template_candidates(article, now=None):
             return ("deadline",), "verified-deadline-within-72h"
 
     if _has_application_path(article):
-        # Both are truthful because a direct apply action is verified. Rotation
-        # decides which one is used so the feed does not become repetitive.
-        return ("new", "apply"), "active-vacancy-with-direct-apply"
+        return ("apply",), f"active-{notice_type}-with-direct-apply"
 
-    return ("new",), "active-vacancy"
+    return ("new",), f"active-{notice_type}"
 
 
 def _stable_tiebreak(article, key):

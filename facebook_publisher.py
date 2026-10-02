@@ -785,94 +785,36 @@ def _compact_visual_role(value):
 
 
 def _job_visual_title(article):
+    """Use the complete reader-facing article title on the Facebook visual.
+
+    The renderer owns fitting. Never remove the employer, location, qualifiers,
+    or a long suffix just to make the card shorter.
+    """
     notice_type = str(article.get("job_notice_type") or "vacancy").strip().lower()
-    company = _clean_caption_line(
-        article.get("job_company") or article.get("source_name") or ""
+    seo_title = _clean_caption_line(article.get("seo_title") or "")
+    if seo_title:
+        return seo_title
+
+    fallback_title = _clean_caption_line(
+        article.get("title")
+        or article.get("fetched_title")
+        or article.get("job_title")
+        or ""
     )
-    seo_title = _short_title(article)
-    raw_role = _clean_caption_line(article.get("job_title") or "")
+    if fallback_title:
+        return fallback_title
 
-    if notice_type == "candidate_list" and not seo_title:
+    if notice_type == "candidate_list":
         return "لوائح المدعوين لاجتياز مباراة التوظيف"
-    if notice_type == "final_results" and not seo_title:
+    if notice_type == "final_results":
         return "النتائج النهائية لمباراة التوظيف"
-    if notice_type == "results" and not seo_title:
+    if notice_type == "results":
         return "نتائج مباراة التوظيف"
-
-    visual = seo_title or raw_role
-    if not visual:
-        return "فرصة عمل جديدة"
-
-    if company:
-        escaped = re.escape(company)
-        # Remove the employer together with grammatical glue first so we do not
-        # leave fragments such as "لدى في" after a plain name replacement.
-        patterns = (
-            rf"^\s*{escaped}\s+(?:توظف|تعلن\s+عن\s+توظيف|تعلن\s+توظيف|recrute|recrutement|is\s+hiring|hiring)\s*[:\-–—]*\s*",
-            rf"\s+(?:لدى|عند|مع|chez|at)\s+{escaped}\b",
-            rf"\s*[-–—:]?\s*{escaped}\s*$",
-            rf"^\s*{escaped}\s*[-–—:]\s*",
-        )
-        for pattern in patterns:
-            visual = re.sub(pattern, " ", visual, flags=re.I)
-        visual = re.sub(escaped, " ", visual, flags=re.I)
-
-    if notice_type == "vacancy":
-        visual = re.sub(
-            r"^\s*(?:وظيفة|فرصة\s+عمل|فرصة\s+توظيف|إعلان\s+توظيف|"
-            r"offre\s+d['’]?emploi|job\s+opening)\s*[:\-–—]*\s*",
-            "",
-            visual,
-            flags=re.I,
-        )
-        visual = re.sub(
-            r"^\s*(?:توظف|recrute|recrutement|hiring)\s*[:\-–—]*\s*",
-            "",
-            visual,
-            flags=re.I,
-        )
-
-    for alias in _visual_location_aliases(article):
-        escaped = re.escape(alias)
-        visual = re.sub(
-            rf"(?:\s+(?:في|بمدينة|à|a|in|at)\s+|\s+ب){escaped}\s*$",
-            "",
-            visual,
-            flags=re.I,
-        )
-        visual = re.sub(
-            rf"\s*[-–—,:،]\s*{escaped}\s*$",
-            "",
-            visual,
-            flags=re.I,
-        )
-
-    visual = re.sub(r"\s+", " ", visual).strip(" -–—:،,")
-    visual = _compact_visual_role(visual)
-
-    # If cleanup still leaves a very long marketing/SEO sentence, prefer the
-    # official role when it is specific and materially shorter.
-    if (
-        len(visual) > 112
-        and raw_role
-        and not _is_generic_job_title(raw_role)
-        and len(raw_role) <= 105
-    ):
-        visual = _compact_visual_role(raw_role)
-
-    if not visual or _is_generic_job_title(visual):
-        if raw_role and not _is_generic_job_title(raw_role):
-            visual = _compact_visual_role(raw_role)
-        elif notice_type == "candidate_list":
-            visual = "لوائح المدعوين لاجتياز مباراة التوظيف"
-        elif notice_type == "final_results":
-            visual = "النتائج النهائية لمباراة التوظيف"
-        elif notice_type == "results":
-            visual = "نتائج مباراة التوظيف"
-        else:
-            visual = "فرصة عمل جديدة"
-
-    return _clean_caption_line(visual)
+    if notice_type == "update":
+        return "مستجد بخصوص إعلان التوظيف"
+    if notice_type == "competition":
+        return "مباراة توظيف جديدة"
+    return "فرصة عمل جديدة"
 
 
 def _repair_job_facebook_application_semantics(article):

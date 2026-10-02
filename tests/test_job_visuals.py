@@ -36,31 +36,40 @@ class JobVisualTests(unittest.TestCase):
     def test_visual_policy_uses_job_facts_not_random_icons(self):
         now = __import__("datetime").datetime(2026, 9, 29, 12, tzinfo=__import__("datetime").timezone.utc)
 
-        keys, _ = visual_policy.semantic_template_candidates(
-            {"job_notice_type": "candidate_list"},
-            now=now,
-        )
-        self.assertEqual(keys, ("alert",))
+        for notice_type in ("candidate_list", "results", "final_results", "update"):
+            keys, _ = visual_policy.semantic_template_candidates(
+                {"job_notice_type": notice_type},
+                now=now,
+            )
+            self.assertEqual(keys, ("alert",))
 
-        keys, _ = visual_policy.semantic_template_candidates(
-            {
-                "job_notice_type": "vacancy",
-                "job_deadline": "2026-09-30",
-                "job_application_url": "https://example.com/apply/42",
-            },
-            now=now,
-        )
-        self.assertEqual(keys, ("deadline",))
+        for notice_type in ("vacancy", "competition"):
+            keys, _ = visual_policy.semantic_template_candidates(
+                {"job_notice_type": notice_type},
+                now=now,
+            )
+            self.assertEqual(keys, ("new",))
 
-        keys, _ = visual_policy.semantic_template_candidates(
-            {
-                "job_notice_type": "vacancy",
-                "job_application_url": "https://example.com/apply/42",
-                "job_application_link_kind": "direct_apply",
-            },
-            now=now,
-        )
-        self.assertEqual(keys, ("new", "apply"))
+            keys, _ = visual_policy.semantic_template_candidates(
+                {
+                    "job_notice_type": notice_type,
+                    "job_deadline": "2026-09-30",
+                    "job_application_url": "https://example.com/apply/42",
+                    "job_application_link_kind": "direct_apply",
+                },
+                now=now,
+            )
+            self.assertEqual(keys, ("deadline",))
+
+            keys, _ = visual_policy.semantic_template_candidates(
+                {
+                    "job_notice_type": notice_type,
+                    "job_application_url": "https://example.com/apply/42",
+                    "job_application_link_kind": "direct_apply",
+                },
+                now=now,
+            )
+            self.assertEqual(keys, ("apply",))
 
     def test_visual_template_is_pinned_for_retries(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -181,7 +190,7 @@ class JobVisualTests(unittest.TestCase):
         self.assertGreaterEqual(top, visuals.JOB_TITLE_TOP)
         self.assertLessEqual(bottom, visuals.JOB_TITLE_BOTTOM)
 
-    def test_job_visual_title_removes_duplicate_company_and_location(self):
+    def test_job_visual_title_preserves_complete_article_title(self):
         article = {
             "job_notice_type": "vacancy",
             "seo_title": "Orange Business توظف مديرًا لاستشارات الأمن السيبراني بالدار البيضاء",
@@ -189,10 +198,10 @@ class JobVisualTests(unittest.TestCase):
             "job_company": "Orange Business",
             "job_location": "Casablanca",
         }
-        visual_title = facebook_publisher._job_visual_title(article)
-        self.assertEqual(visual_title, "مديرًا لاستشارات الأمن السيبراني")
-        self.assertNotIn("Orange Business", visual_title)
-        self.assertNotIn("الدار البيضاء", visual_title)
+        self.assertEqual(
+            facebook_publisher._job_visual_title(article),
+            article["seo_title"],
+        )
 
         article = {
             "job_notice_type": "vacancy",
@@ -203,10 +212,10 @@ class JobVisualTests(unittest.TestCase):
         }
         self.assertEqual(
             facebook_publisher._job_visual_title(article),
-            "مدير تقني ServiceNow",
+            article["seo_title"],
         )
 
-    def test_job_visual_title_compacts_long_administrative_suffix(self):
+    def test_job_visual_title_keeps_long_administrative_suffix(self):
         article = {
             "job_notice_type": "vacancy",
             "seo_title": (
@@ -219,7 +228,7 @@ class JobVisualTests(unittest.TestCase):
         }
         self.assertEqual(
             facebook_publisher._job_visual_title(article),
-            "Administrative Associate",
+            article["seo_title"],
         )
 
     def test_facebook_logo_scaling_uses_visible_mark_not_source_padding(self):
@@ -455,7 +464,7 @@ class JobVisualTests(unittest.TestCase):
         self.assertNotIn("💼 الوظيفة: Technical Lead ServiceNow", blueprint["caption"])
         self.assertEqual(
             facebook_publisher._job_visual_title(article),
-            "مدير تقني ServiceNow",
+            article["seo_title"],
         )
 
     def test_article_logo_trims_transparent_padding_and_scales_up(self):
