@@ -1016,6 +1016,37 @@ def _raw_html_incomplete_reason(html_content):
     return ""
 
 
+def _unwrap_required_ai_contract(data, required_fields, max_depth=2):
+    """Accept harmless provider envelopes while keeping the contract strict."""
+    if not isinstance(data, dict):
+        return data
+    required_fields = tuple(required_fields or ())
+    queue = [(data, 0)]
+    seen = set()
+    while queue:
+        candidate, depth = queue.pop(0)
+        marker = id(candidate)
+        if marker in seen:
+            continue
+        seen.add(marker)
+        if all(str(candidate.get(field, "")).strip() for field in required_fields):
+            return candidate
+        if depth >= max_depth:
+            continue
+        for value in candidate.values():
+            if isinstance(value, dict):
+                queue.append((value, depth + 1))
+                continue
+            if isinstance(value, str) and value.lstrip().startswith("{"):
+                try:
+                    nested = _parse_ai_json(value)
+                except (json.JSONDecodeError, TypeError, ValueError):
+                    continue
+                if isinstance(nested, dict):
+                    queue.append((nested, depth + 1))
+    return data
+
+
 def _parse_complete_ai_json(raw_text, required_fields, stage_label):
     try:
         data = _parse_ai_json(raw_text)
@@ -1025,6 +1056,7 @@ def _parse_complete_ai_json(raw_text, required_fields, stage_label):
     if not isinstance(data, dict):
         raise AIIncompleteResponseError(f"{stage_label} returned a non-object JSON payload.")
 
+    data = _unwrap_required_ai_contract(data, required_fields)
     missing_fields = [field for field in required_fields if not str(data.get(field, "")).strip()]
     if missing_fields:
         raise AIIncompleteResponseError(
@@ -1471,9 +1503,7 @@ def _validate_ai_output(data, package=None):
     required_fields = (JOBS_REQUIRED_ARTICLE_FIELDS)
     missing = [field for field in required_fields if not str(data.get(field, "")).strip()]
     if missing:
-        # The provider already returned parseable JSON. A field removed during
-        # normalization is a repairable contract/quality issue, not a provider outage.
-        raise ValueError("Missing AI output field(s): " + ", ".join(missing))
+        raise AIIncompleteResponseError("Missing AI output field(s): " + ", ".join(missing))
 
     title = str(data["title"]).strip()
     description = str(data["description"]).strip()
