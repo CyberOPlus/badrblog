@@ -8,7 +8,7 @@ from article_ai_processor import AIExecutionContext, _generate_ai_article, _pars
 from production_logging import log_event
 
 SOCIAL_REQUIRED_FIELDS = ("facebook_post_text",)
-SOCIAL_MAX_ATTEMPTS = 2
+SOCIAL_MAX_ATTEMPTS = 3
 
 _NOTICE_STAGE_HASHTAGS = {
     "vacancy": "#وظائف_المغرب",
@@ -105,11 +105,26 @@ ARABIC-ONLY REPAIR:
 - Before returning, scan the whole value and rewrite every remaining A-Z/a-z or
   accented Latin character into Arabic wording, while preserving numbers and facts.
 """
+        url_repair = ""
+        if (
+            "must not contain a url" in previous_error_key
+            or "url" in previous_error_key
+            or "http" in previous_error_key
+        ):
+            url_repair = """
+NO-URL REPAIR:
+- Remove every URL, domain, protocol, www address, application link, and Blogger link.
+- Do not replace a URL with another URL or domain name.
+- Keep only a natural Arabic CTA saying that details are in "أول تعليق".
+- Before returning, scan facebook_post_text for http, https, www, .com, .ma,
+  or another visible web address and remove/rewrite that part.
+"""
         repair = f"""
 The previous social copy failed this rule:
 {previous_error}
 Repair that exact issue without changing verified facts.
 {arabic_only_repair}
+{url_repair}
 """
 
     return f"""
