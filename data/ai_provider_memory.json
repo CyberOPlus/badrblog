@@ -403,14 +403,6 @@
       "provider": "mistral",
       "reason": "mistral API error 429: {\"object\":\"error\",\"message\":\"Rate limit exceeded\",\"type\":\"rate_limited\",\"param\":null,\"code\":\"1300\",\"raw_status_code\":429}",
       "until": 1790973584.2657008
-    },
-    "openrouter": {
-      "category": "timeout",
-      "fingerprint": "9cd5bdcb42034dceea88",
-      "opened_at": "2026-10-02T18:46:20",
-      "provider": "openrouter",
-      "reason": "(\"Connection broken: Timeout('AI provider wall-clock timeout after 90s')\", Timeout('AI provider wall-clock timeout after 90s'))",
-      "until": 1790971580.6448574
     }
   },
   "stats": {
@@ -433,13 +425,13 @@
       "total_success_time": 647.7677
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
-      "avg_time": 14.2136,
+      "avg_time": 14.0422,
       "key_id": "be6dab2cd8",
-      "last_success_at": "2026-10-02T20:06:06",
+      "last_success_at": "2026-10-02T20:08:33",
       "model": "@cf/meta/llama-3.3-70b-instruct-fp8-fast",
       "provider": "cloudflare",
-      "successes": 28,
-      "total_success_time": 397.9803
+      "successes": 31,
+      "total_success_time": 435.3084
     },
     "gemini:gemini-2.5-flash:64f603a8c0": {
       "avg_time": 20.1587,
