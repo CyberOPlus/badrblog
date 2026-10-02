@@ -6,6 +6,7 @@ from functools import lru_cache
 from io import BytesIO
 from pathlib import Path
 import re
+import time
 
 import requests
 
@@ -29,7 +30,8 @@ FIRJAR_FONT_URL = (
 )
 _FIRJAR_FONT_BYTES = None
 _FIRJAR_FONT_DOWNLOAD_FAILED = False
-IMAGE_TIMEOUT_SECONDS = 10
+IMAGE_TIMEOUT_SECONDS = 20
+JOB_LOGO_DOWNLOAD_ATTEMPTS = 4
 MAX_JOB_LOGO_BYTES = 3_000_000
 
 
@@ -297,53 +299,76 @@ def _safe_svg_to_rgba(content):
     return Image.open(BytesIO(png)).convert("RGBA")
 
 
+
 def _load_job_logo(image_url):
     from PIL import Image
 
     if not image_url:
         return None
-    try:
-        response = requests.get(
-            image_url,
-            headers={"User-Agent": "Mozilla/5.0"},
-            timeout=IMAGE_TIMEOUT_SECONDS,
-        )
-        response.raise_for_status()
-        length_header = response.headers.get("content-length")
+
+    last_error = None
+    for attempt in range(1, JOB_LOGO_DOWNLOAD_ATTEMPTS + 1):
         try:
-            if length_header and int(length_header) > MAX_JOB_LOGO_BYTES:
-                raise ValueError("employer logo is too large")
-        except ValueError:
-            if length_header and str(length_header).isdigit():
-                raise
-        content = response.content
-        if not content or len(content) > MAX_JOB_LOGO_BYTES:
-            raise ValueError("employer logo is empty or too large")
+            response = requests.get(
+                image_url,
+                headers={"User-Agent": "Mozilla/5.0"},
+                timeout=IMAGE_TIMEOUT_SECONDS,
+            )
+            response.raise_for_status()
+            length_header = response.headers.get("content-length")
+            try:
+                if length_header and int(length_header) > MAX_JOB_LOGO_BYTES:
+                    raise ValueError("employer logo is too large")
+            except ValueError:
+                if length_header and str(length_header).isdigit():
+                    raise
 
-        content_type = (response.headers.get("content-type") or "").casefold()
-        sample = content[:4096].lstrip().lower()
-        is_svg = (
-            "svg" in content_type
-            or str(image_url).casefold().split("?", 1)[0].endswith(".svg")
-            or b"<svg" in sample
-        )
-        if is_svg:
-            image = _safe_svg_to_rgba(content)
-        else:
-            image = Image.open(BytesIO(content)).convert("RGBA")
+            content = response.content
+            if not content or len(content) > MAX_JOB_LOGO_BYTES:
+                raise ValueError("employer logo is empty or too large")
 
-        if image.width < 24 or image.height < 16:
-            raise ValueError("employer logo is too small")
-        if image.width > 12000 or image.height > 12000:
-            raise ValueError("employer logo dimensions are too large")
-        if not _logo_visible_on_white(image):
-            log_event("facebook_job_logo_invisible_on_white")
-            return None
-        return image
-    except Exception as error:
-        log_event("facebook_job_logo_download_failed", error=error.__class__.__name__)
-        return None
+            content_type = (response.headers.get("content-type") or "").casefold()
+            sample = content[:4096].lstrip().lower()
+            is_svg = (
+                "svg" in content_type
+                or str(image_url).casefold().split("?", 1)[0].endswith(".svg")
+                or b"<svg" in sample
+            )
+            if is_svg:
+                image = _safe_svg_to_rgba(content)
+            else:
+                image = Image.open(BytesIO(content)).convert("RGBA")
 
+            if image.width < 24 or image.height < 16:
+                raise ValueError("employer logo is too small")
+            if image.width > 12000 or image.height > 12000:
+                raise ValueError("employer logo dimensions are too large")
+            if not _logo_visible_on_white(image):
+                raise ValueError("employer logo is not visible on white")
+
+            if attempt > 1:
+                log_event(
+                    "facebook_job_logo_download_recovered",
+                    attempt=attempt,
+                )
+            return image
+        except Exception as error:
+            last_error = error
+            log_event(
+                "facebook_job_logo_download_retry",
+                attempt=attempt,
+                attempts=JOB_LOGO_DOWNLOAD_ATTEMPTS,
+                error=error.__class__.__name__,
+            )
+            if attempt < JOB_LOGO_DOWNLOAD_ATTEMPTS:
+                time.sleep(min(8, 2 ** attempt))
+
+    log_event(
+        "facebook_job_logo_download_failed",
+        error=(last_error.__class__.__name__ if last_error else "UnknownError"),
+        attempts=JOB_LOGO_DOWNLOAD_ATTEMPTS,
+    )
+    return None
 
 def _trim_job_logo_padding(image):
     """Crop transparent or obvious near-white canvas padding around a logo."""
@@ -741,14 +766,16 @@ def _generate_job_facebook_image(
     FACEBOOK_IMAGE_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     try:
+        if not str(image_url or "").strip():
+            raise RuntimeError("verified employer logo is required for Jobs Facebook images")
         base, selected_template_key = _load_job_template(template_key=template_key)
         logo_layout = _draw_job_logo_or_fallback(
             base,
             image_url,
-            employer_name,
+            "",
         )
-        if logo_layout.get("kind") == "none":
-            raise RuntimeError("employer logo/text could not be rendered for Facebook")
+        if not logo_layout.get("loaded"):
+            raise RuntimeError("verified employer logo could not be rendered for Facebook")
         title_layout = _draw_job_title(
             base,
             title,
@@ -845,52 +872,31 @@ def generate_job_article_cover(
                 f"article template is too small: {width}x{height}; use at least 800x450"
             )
 
-        # Employer mark: use the verified logo when it loads; otherwise render
-        # the verified employer name so every Jobs article still has a cover.
-        logo = _load_job_logo(image_url) if str(image_url or "").strip() else None
-        if logo is not None:
-            logo = _prepare_article_job_logo(
-                logo,
-                (int(width * 0.40), int(height * 0.18)),
-            )
+        # The Blogger cover must use the exact verified employer logo. Never
+        # replace it with employer-name text. The loader retries patiently before
+        # the article is allowed to publish.
+        if not str(image_url or "").strip():
+            raise RuntimeError("verified employer logo is required for Jobs article covers")
+        logo = _load_job_logo(image_url)
+        if logo is None:
+            raise RuntimeError("verified employer logo could not be loaded for article cover")
+        logo = _prepare_article_job_logo(
+            logo,
+            (int(width * 0.40), int(height * 0.18)),
+        )
+        if logo is None:
+            raise RuntimeError("verified employer logo could not be prepared for article cover")
 
-        logo_loaded = logo is not None
+        logo_loaded = True
         logo_center_x = int(width * 0.50)
         logo_center_y = int(height * 0.32)
-        if logo_loaded:
-            base.alpha_composite(
-                logo,
-                (
-                    logo_center_x - logo.width // 2,
-                    logo_center_y - logo.height // 2,
-                ),
-            )
-        else:
-            fallback = _clean_title_text(employer_name) or "فرصة عمل"
-            employer_draw = ImageDraw.Draw(base)
-            employer_layout = _fit_job_text_layout(
-                employer_draw,
-                fallback,
-                max_width=int(width * 0.62),
-                max_height=int(height * 0.17),
-                max_lines=2,
-                min_size=max(28, int(width * 0.027)),
-                max_size=max(44, int(width * 0.048)),
-                width_axes=(100, 96, 92),
-                line_ratio=1.14,
-            )
-            if not employer_layout:
-                raise RuntimeError("employer name could not fit the article cover")
-            y = logo_center_y - employer_layout["total_height"] // 2
-            for line in employer_layout["lines"]:
-                _draw_text(
-                    employer_draw,
-                    (logo_center_x, y + employer_layout["line_height"] // 2),
-                    line,
-                    employer_layout["font"],
-                    (42, 42, 42, 255),
-                )
-                y += employer_layout["line_height"]
+        base.alpha_composite(
+            logo,
+            (
+                logo_center_x - logo.width // 2,
+                logo_center_y - logo.height // 2,
+            ),
+        )
 
         # Title: lower-middle. Dynamic size handles short/medium/long Arabic,
         # French and mixed titles without touching footer/edge branding.
@@ -960,8 +966,8 @@ def generate_job_article_cover(
             "error": "",
             "width": width,
             "height": height,
-            "logo_loaded": logo_loaded,
-            "used_fallback": not logo_loaded,
+            "logo_loaded": True,
+            "used_fallback": False,
         }
     except Exception as error:
         log_event("job_article_cover_generation_failed", error=error.__class__.__name__)
