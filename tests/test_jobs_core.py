@@ -2008,6 +2008,129 @@ class JobsCoreTests(unittest.TestCase):
 
         self.assertEqual(selected["id"], "technical-older")
 
+    def test_jobs_queue_rotates_to_least_recently_published_source(self):
+        now = datetime(2026, 10, 2, 12, 0, tzinfo=timezone.utc)
+        recent = sample_job(
+            id="recent-source",
+            source_name="Source A",
+            job_title="Analyste Cybersécurité",
+            status="ready",
+            content_fetch_status="success",
+            job_published_at="2026-10-02T11:50:00+00:00",
+        )
+        other = sample_job(
+            id="other-source",
+            source_name="Source B",
+            job_title="Analyste Cybersécurité",
+            status="ready",
+            content_fetch_status="success",
+            job_published_at="2026-10-02T11:40:00+00:00",
+        )
+
+        def fake_prepare(article, now=None):
+            article["job_urgency"] = {"level": "normal"}
+            return (
+                {"score": 80, "status": "publish", "passed": True, "reasons": []},
+                {"action": "new", "reason": "new verified job", "existing": {}},
+            )
+
+        state = {
+            "source_last_publish_at": {
+                "source a": "2026-10-02T11:55:00+00:00",
+                "source b": "2026-10-02T09:00:00+00:00",
+            }
+        }
+        with (
+            patch.object(job_core, "prepare_job_candidate", side_effect=fake_prepare),
+            patch.object(job_core, "can_publish_new_job", return_value=True),
+            patch.object(job_core, "load_job_state", return_value=state),
+        ):
+            selected = job_core.select_best_job_from_queue(
+                {"articles": [recent, other]},
+                now=now,
+            )
+
+        self.assertEqual(selected["id"], "other-source")
+
+    def test_jobs_queue_keeps_urgent_job_ahead_of_source_rotation(self):
+        now = datetime(2026, 10, 2, 12, 0, tzinfo=timezone.utc)
+        urgent = sample_job(
+            id="urgent-recent-source",
+            source_name="Source A",
+            status="ready",
+            content_fetch_status="success",
+        )
+        normal = sample_job(
+            id="normal-old-source",
+            source_name="Source B",
+            status="ready",
+            content_fetch_status="success",
+        )
+
+        def fake_prepare(article, now=None):
+            article["job_urgency"] = {
+                "level": "critical" if article["id"].startswith("urgent") else "normal"
+            }
+            return (
+                {"score": 80, "status": "publish", "passed": True, "reasons": []},
+                {"action": "new", "reason": "new verified job", "existing": {}},
+            )
+
+        state = {
+            "source_last_publish_at": {
+                "source a": "2026-10-02T11:55:00+00:00",
+                "source b": "2026-10-01T09:00:00+00:00",
+            }
+        }
+        with (
+            patch.object(job_core, "prepare_job_candidate", side_effect=fake_prepare),
+            patch.object(job_core, "can_publish_new_job", return_value=True),
+            patch.object(job_core, "load_job_state", return_value=state),
+        ):
+            selected = job_core.select_best_job_from_queue(
+                {"articles": [normal, urgent]},
+                now=now,
+            )
+
+        self.assertEqual(selected["id"], "urgent-recent-source")
+
+    def test_unverified_quality_candidate_gets_retry_cooldown_not_skip(self):
+        now = datetime(2026, 10, 2, 12, 0, tzinfo=timezone.utc)
+        row = sample_job(
+            id="eligibility-wait",
+            status="ready",
+            content_fetch_status="success",
+        )
+
+        with (
+            patch.object(
+                job_core,
+                "prepare_job_candidate",
+                return_value=(
+                    {
+                        "score": 70,
+                        "status": "queue",
+                        "passed": False,
+                        "reasons": ["eligibility must be verified"],
+                    },
+                    {"action": "new", "reason": "new verified job", "existing": {}},
+                ),
+            ),
+            patch.object(job_core, "load_job_state", return_value={"source_last_publish_at": {}}),
+        ):
+            selected = job_core.select_best_job_from_queue(
+                {"articles": [row]},
+                now=now,
+            )
+
+        self.assertIsNone(selected)
+        self.assertEqual(row["status"], "ready")
+        self.assertEqual(row["candidate_failure_stage"], "quality-evidence")
+        self.assertGreater(
+            datetime.fromisoformat(row["candidate_retry_after"]),
+            now,
+        )
+
     def test_large_official_near_deadline_is_urgent(self):
         now = datetime(2026, 9, 28, 9, 0, tzinfo=timezone.utc)
         urgency = job_core.classify_urgency(

@@ -29,6 +29,49 @@ import jobs_adaptive_controller as adaptive
 
 
 class JobsRuntimeTests(unittest.TestCase):
+    def test_pdf_download_retries_transient_timeout_with_longer_budget(self):
+        response = MagicMock()
+        response.status_code = 200
+        response.headers = {"Content-Type": "application/pdf"}
+        response.iter_content.return_value = [b"%PDF-1.4\n", b"payload"]
+        response.raise_for_status.return_value = None
+
+        with (
+            patch.object(
+                job_document_renderer.requests,
+                "get",
+                side_effect=[
+                    job_document_renderer.requests.exceptions.ReadTimeout("slow"),
+                    response,
+                ],
+            ) as get,
+            patch.object(job_document_renderer.time, "sleep"),
+        ):
+            payload = job_document_renderer._download_pdf(
+                "https://example.com/official.pdf",
+                timeout=45,
+                attempts=3,
+            )
+
+        self.assertTrue(payload.startswith(b"%PDF"))
+        self.assertEqual(get.call_count, 2)
+        self.assertEqual(get.call_args_list[0].kwargs["timeout"], (15, 30))
+        self.assertEqual(get.call_args_list[1].kwargs["timeout"], (15, 45))
+
+    def test_retry_candidate_prefers_different_source_when_available(self):
+        rows = [
+            {"id": "same", "source_name": "Source A"},
+            {"id": "other", "source_name": "Source B"},
+        ]
+        preferred = main._prefer_retry_source_candidates(rows, avoid_source="Source A")
+        self.assertEqual([row["id"] for row in preferred], ["other"])
+
+        fallback = main._prefer_retry_source_candidates(
+            [{"id": "same", "source_name": "Source A"}],
+            avoid_source="Source A",
+        )
+        self.assertEqual([row["id"] for row in fallback], ["same"])
+
     def test_blogger_write_boundary_accepts_official_date_only_today(self):
         now = datetime(2026, 10, 1, 14, 36, tzinfo=timezone.utc)
         article = {

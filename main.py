@@ -1555,7 +1555,30 @@ def _selection_blocker_reason(queue):
     return f"{len(ready)} ready job(s) remain but no publishable candidate was selected"
 
 
-def _select_retry_candidate(fetch_stats, attempted_ids):
+def _retry_source_key(article):
+    article = article or {}
+    return str(
+        article.get("source_name")
+        or article.get("source_url")
+        or ""
+    ).strip().casefold()
+
+
+def _prefer_retry_source_candidates(articles, avoid_source=""):
+    """Prefer another source after a candidate-specific failure, if available."""
+    articles = list(articles or [])
+    avoid_key = str(avoid_source or "").strip().casefold()
+    if not avoid_key:
+        return articles
+    different = [
+        article
+        for article in articles
+        if _retry_source_key(article) != avoid_key
+    ]
+    return different or articles
+
+
+def _select_retry_candidate(fetch_stats, attempted_ids, avoid_source=""):
     attempted_ids = {item for item in (attempted_ids or set()) if item}
     selected = None
     resolve_identity_pending_articles()
@@ -1569,8 +1592,14 @@ def _select_retry_candidate(fetch_stats, attempted_ids):
             queue.get("articles", []),
             attempted_ids=attempted_ids,
         )
-    candidates = {"articles": candidate_articles}
+    preferred_articles = _prefer_retry_source_candidates(
+        candidate_articles,
+        avoid_source=avoid_source,
+    )
+    candidates = {"articles": preferred_articles}
     selected = select_best_job_from_queue(candidates)
+    if not selected and preferred_articles is not candidate_articles:
+        selected = select_best_job_from_queue({"articles": candidate_articles})
     save_article_queue(queue)
     if not selected:
         pending_stats = resolve_identity_pending_articles()
@@ -1585,8 +1614,14 @@ def _select_retry_candidate(fetch_stats, attempted_ids):
                     queue.get("articles", []),
                     attempted_ids=attempted_ids,
                 )
-            candidates = {"articles": candidate_articles}
+            preferred_articles = _prefer_retry_source_candidates(
+                candidate_articles,
+                avoid_source=avoid_source,
+            )
+            candidates = {"articles": preferred_articles}
             selected = select_best_job_from_queue(candidates)
+            if not selected and preferred_articles is not candidate_articles:
+                selected = select_best_job_from_queue({"articles": candidate_articles})
             save_article_queue(queue)
     if selected:
         queue = load_article_queue()
@@ -1753,7 +1788,11 @@ def _retry_after_single_candidate_failure(
         )
 
     for _ in range(max(0, max_extra_attempts)):
-        next_selected = _select_retry_candidate(fetch_stats, attempted_ids)
+        next_selected = _select_retry_candidate(
+            fetch_stats,
+            attempted_ids,
+            avoid_source=(last_failed or {}).get("source_name") or (last_failed or {}).get("source_url"),
+        )
         if not next_selected:
             return None, retry_results
         next_id = next_selected.get("id") or next_selected.get("url")

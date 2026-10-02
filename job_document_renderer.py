@@ -3,6 +3,7 @@ from __future__ import annotations
 import hashlib
 import re
 import shutil
+import time
 from pathlib import Path
 from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
@@ -80,7 +81,8 @@ def _document_should_render(item):
     return any(hint in signature for hint in PDF_HINTS)
 
 
-def _download_pdf(url, timeout=20, max_bytes=25 * 1024 * 1024):
+def _download_pdf(url, timeout=45, max_bytes=25 * 1024 * 1024, attempts=3):
+    """Download an official PDF patiently, retrying transient network failures."""
     headers = {
         "User-Agent": (
             "Mozilla/5.0 (compatible; CyberoPlusJobs/1.0; "
@@ -88,22 +90,83 @@ def _download_pdf(url, timeout=20, max_bytes=25 * 1024 * 1024):
         ),
         "Accept": "application/pdf,application/octet-stream;q=0.9,*/*;q=0.5",
     }
-    response = requests.get(url, headers=headers, timeout=timeout, stream=True, allow_redirects=True)
-    response.raise_for_status()
-    chunks = []
-    total = 0
-    for chunk in response.iter_content(chunk_size=256 * 1024):
-        if not chunk:
-            continue
-        total += len(chunk)
-        if total > max_bytes:
-            raise ValueError("official PDF exceeds render size limit")
-        chunks.append(chunk)
-    payload = b"".join(chunks)
-    content_type = str(response.headers.get("Content-Type") or "").casefold()
-    if not payload.startswith(b"%PDF") and "pdf" not in content_type:
-        raise ValueError("official document is not a PDF")
-    return payload
+    attempts = max(1, min(int(attempts or 1), 4))
+    base_timeout = max(20, int(timeout or 45))
+    read_timeouts = (
+        max(30, base_timeout - 15),
+        max(45, base_timeout),
+        max(60, base_timeout + 15),
+        max(75, base_timeout + 30),
+    )
+    last_error = None
+
+    for attempt in range(1, attempts + 1):
+        read_timeout = read_timeouts[min(attempt - 1, len(read_timeouts) - 1)]
+        try:
+            response = requests.get(
+                url,
+                headers=headers,
+                timeout=(15, read_timeout),
+                stream=True,
+                allow_redirects=True,
+            )
+            status_code = int(getattr(response, "status_code", 0) or 0)
+            retryable_status = status_code in {408, 425, 429} or status_code >= 500
+            if retryable_status and attempt < attempts:
+                log_event(
+                    "job_document_download_retry",
+                    url=url,
+                    attempt=attempt,
+                    max_attempts=attempts,
+                    timeout_seconds=read_timeout,
+                    status=status_code,
+                )
+                time.sleep(min(2 ** (attempt - 1), 4))
+                continue
+
+            response.raise_for_status()
+            chunks = []
+            total = 0
+            for chunk in response.iter_content(chunk_size=256 * 1024):
+                if not chunk:
+                    continue
+                total += len(chunk)
+                if total > max_bytes:
+                    raise ValueError("official PDF exceeds render size limit")
+                chunks.append(chunk)
+
+            payload = b"".join(chunks)
+            content_type = str(response.headers.get("Content-Type") or "").casefold()
+            if not payload.startswith(b"%PDF") and "pdf" not in content_type:
+                raise ValueError("official document is not a PDF")
+            return payload
+
+        except requests.exceptions.HTTPError as error:
+            last_error = error
+            status_code = int(
+                getattr(getattr(error, "response", None), "status_code", 0) or 0
+            )
+            retryable = status_code in {408, 425, 429} or status_code >= 500
+            if not retryable or attempt >= attempts:
+                raise
+        except requests.exceptions.RequestException as error:
+            last_error = error
+            if attempt >= attempts:
+                raise
+
+        log_event(
+            "job_document_download_retry",
+            url=url,
+            attempt=attempt,
+            max_attempts=attempts,
+            timeout_seconds=read_timeout,
+            error=last_error.__class__.__name__ if last_error else "request_failed",
+        )
+        time.sleep(min(2 ** (attempt - 1), 4))
+
+    if last_error:
+        raise last_error
+    raise RuntimeError("official PDF download failed")
 
 
 IDENTITY_DOCUMENT_HINTS = (

@@ -1063,7 +1063,12 @@ def desired_slug(article, campaign_id=""):
 
 
 def _state_default():
-    return {"daily_publish_count": {}, "daily_urgent_override_count": {}, "last_publish_at": ""}
+    return {
+        "daily_publish_count": {},
+        "daily_urgent_override_count": {},
+        "last_publish_at": "",
+        "source_last_publish_at": {},
+    }
 
 
 def load_job_state():
@@ -1084,6 +1089,19 @@ def save_job_state(state):
         if isinstance(rows, dict) and len(rows) > 180:
             for day in sorted(rows)[:-180]:
                 rows.pop(day, None)
+
+    # Source fairness only needs recent publication history. Keep this bounded
+    # so a long-running bot never grows state forever when sources are renamed
+    # or retired.
+    source_rows = state.get("source_last_publish_at")
+    if isinstance(source_rows, dict) and len(source_rows) > 200:
+        ordered = sorted(
+            source_rows.items(),
+            key=lambda item: str(item[1] or ""),
+            reverse=True,
+        )
+        state["source_last_publish_at"] = dict(ordered[:200])
+
     atomic_write_json(STATE_PATH, state)
 
 
@@ -1572,8 +1590,97 @@ def prepare_job_candidate(article, now=None):
     return quality, decision
 
 
+def _source_rotation_key(article):
+    """Stable publication-rotation key for a configured source."""
+    article = article or {}
+    source_name = re.sub(
+        r"\s+",
+        " ",
+        str(article.get("source_name") or "").strip().casefold(),
+    )
+    if source_name:
+        return source_name
+
+    source_url = str(article.get("source_url") or "").strip()
+    try:
+        host = urlparse(source_url).netloc.casefold()
+    except Exception:
+        host = ""
+    return host or source_url.casefold()
+
+
+def _source_publish_history_from_memory(limit=500):
+    """Bootstrap source fairness from durable campaign memory after upgrades."""
+    history = {}
+    try:
+        records = list_active_job_campaign_records(limit=limit)
+    except Exception:
+        return history
+
+    for record in records:
+        key = _source_rotation_key(record)
+        if not key:
+            continue
+        anchor = _parse_date(record.get("updated_at") or record.get("published_at"))
+        if not anchor:
+            continue
+        current = _parse_date(history.get(key))
+        if current is None or anchor > current:
+            history[key] = anchor.isoformat()
+    return history
+
+
+def _source_publish_history():
+    state = load_job_state()
+    rows = state.get("source_last_publish_at")
+    history = dict(rows) if isinstance(rows, dict) else {}
+    return history or _source_publish_history_from_memory()
+
+
+def _source_last_publish_epoch(article, history):
+    key = _source_rotation_key(article)
+    if not key:
+        return 0.0
+    parsed = _parse_date((history or {}).get(key))
+    return parsed.timestamp() if parsed else 0.0
+
+
+def _defer_quality_candidate(article, quality, now=None):
+    """Back off incomplete evidence without turning it into a permanent skip."""
+    now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    reasons = sorted({
+        str(reason or "").strip()
+        for reason in (quality or {}).get("reasons", [])
+        if str(reason or "").strip()
+    })
+    reason_text = "; ".join(reasons) or "verified quality evidence incomplete"
+    fingerprint = hashlib.sha256(reason_text.encode("utf-8")).hexdigest()[:16]
+
+    previous_fingerprint = str(article.get("job_quality_wait_fingerprint") or "")
+    previous_count = int(article.get("job_quality_wait_count") or 0)
+    count = previous_count + 1 if previous_fingerprint == fingerprint else 1
+    backoff_minutes = min(120, 10 * (2 ** min(count - 1, 4)))
+    retry_after = now.astimezone(timezone.utc) + timedelta(minutes=backoff_minutes)
+
+    article["job_quality_wait_fingerprint"] = fingerprint
+    article["job_quality_wait_count"] = count
+    article["candidate_failure_stage"] = "quality-evidence"
+    article["candidate_failure_reason"] = reason_text[:500]
+    article["candidate_failure_fingerprint"] = fingerprint
+    article["candidate_failure_repeat_count"] = count
+    article["candidate_failure_backoff_minutes"] = backoff_minutes
+    article["candidate_failed_at"] = now.astimezone(timezone.utc).isoformat(timespec="seconds")
+    article["candidate_retry_after"] = retry_after.isoformat(timespec="seconds")
+    return retry_after
+
+
 def select_best_job_from_queue(queue, now=None):
     now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        now = now.replace(tzinfo=timezone.utc)
+    source_history = _source_publish_history()
     ranked = []
     for article in queue.get("articles", []):
         if article.get("archived") or article.get("status") not in {"ready", "selected"}:
@@ -1600,6 +1707,10 @@ def select_best_job_from_queue(queue, now=None):
             if quality["status"] == "reject":
                 article["status"] = "skipped"
                 article["skip_reason"] = "; ".join(quality["reasons"]) or "hard gate rejected job"
+            else:
+                # Missing eligibility/application evidence is temporary. Do not
+                # let the same unverifiable row consume every minute-long cycle.
+                _defer_quality_candidate(article, quality, now=now)
             continue
 
         article.pop("identity_pending_last_checked_at", None)
@@ -1621,9 +1732,10 @@ def select_best_job_from_queue(queue, now=None):
         article["job_publish_immediately"] = bool(urgency.get("publish_immediately"))
         priority = 2 if urgency.get("level") in {"critical", "high"} else 1 if urgency.get("level") == "elevated" else 0
 
-        # Closing-soon notices stay first. Inside the verified <= freshness
-        # window, preferred cyber/IT/developer/internship roles come before
-        # general jobs; freshness and quality then break remaining ties.
+        # Urgent/closing-soon notices remain first. Otherwise rotate fairly
+        # across sources: a source that has never published (or published least
+        # recently) gets the next turn, while focus/freshness/quality still rank
+        # jobs inside that fair source choice.
         published = _parse_date(
             article.get("job_published_at")
             or article.get("source_published_at")
@@ -1632,9 +1744,12 @@ def select_best_job_from_queue(queue, now=None):
         published_epoch = published.timestamp() if published else 0.0
         discovered_epoch = discovered.timestamp() if discovered else 0.0
         focus_priority = job_focus_priority(article)
+        source_last_epoch = _source_last_publish_epoch(article, source_history)
+        source_fairness = -source_last_epoch
         ranked.append(
             (
                 priority,
+                source_fairness,
                 focus_priority,
                 published_epoch,
                 discovered_epoch,
@@ -1644,10 +1759,10 @@ def select_best_job_from_queue(queue, now=None):
         )
 
     ranked.sort(
-        key=lambda row: (row[0], row[1], row[2], row[3], row[4]),
+        key=lambda row: (row[0], row[1], row[2], row[3], row[4], row[5]),
         reverse=True,
     )
-    return ranked[0][5] if ranked else None
+    return ranked[0][6] if ranked else None
 
 
 def record_job_publish(article, now=None):
@@ -1803,6 +1918,14 @@ def record_job_publish(article, now=None):
         if article.get("job_urgent_override"):
             urgent = state.setdefault("daily_urgent_override_count", {})
             urgent[day] = int(urgent.get(day, 0)) + 1
+
+        source_history = state.setdefault("source_last_publish_at", {})
+        if not source_history:
+            source_history.update(_source_publish_history_from_memory())
+        source_key = _source_rotation_key(article)
+        if source_key:
+            source_history[source_key] = now.astimezone(timezone.utc).isoformat(timespec="seconds")
+
         state["last_publish_at"] = now.isoformat()
         save_job_state(state)
     return record
