@@ -2648,10 +2648,41 @@ def _generate_with_cloudflare(prompt, api_key=None, model_name=None, timeout_sec
             "prompt": prompt,
             "max_tokens": _effective_output_token_limit(CLOUDFLARE_MAX_TOKENS),
             "temperature": 0.20,
-            # Jobs article generation is a JSON contract. Workers AI supports
-            # JSON mode directly, which avoids prose/fence prefixes and malformed
-            # partial objects from small fallback models.
-            "response_format": {"type": "json_object"},
+            # Jobs article generation is a strict JSON contract. Workers AI
+            # supports JSON Schema mode, so require the exact five fields the
+            # downstream Jobs quality gate consumes instead of accepting any
+            # arbitrary JSON object.
+            "response_format": {
+                "type": "json_schema",
+                "json_schema": {
+                    "type": "object",
+                    "properties": {
+                        "title": {"type": "string"},
+                        "description": {"type": "string"},
+                        "slug": {"type": "string"},
+                        "html_content": {"type": "string"},
+                        "notice_type": {
+                            "type": "string",
+                            "enum": [
+                                "vacancy",
+                                "competition",
+                                "candidate_list",
+                                "results",
+                                "final_results",
+                                "update",
+                            ],
+                        },
+                    },
+                    "required": [
+                        "title",
+                        "description",
+                        "slug",
+                        "html_content",
+                        "notice_type",
+                    ],
+                    "additionalProperties": False,
+                },
+            },
         },
     )
     if response.status_code >= 400:
