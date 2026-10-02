@@ -7,6 +7,7 @@ import json
 import re
 from collections import Counter
 from datetime import datetime, timedelta, timezone
+from urllib.parse import urlparse
 
 from config import (
     ARTICLE_QUEUE_PATH,
@@ -112,6 +113,7 @@ def repair_runtime_queue_state(now=None, selected_stale_minutes=30):
         "changed": False,
         "expired_retry_fields_cleared": 0,
         "selected_released": 0,
+        "unicef_details_requeued": 0,
         "articles_touched": 0,
     }
 
@@ -145,6 +147,23 @@ def repair_runtime_queue_state(now=None, selected_stale_minutes=30):
             or article.get("blogger_post_id")
             or article.get("blogger_draft_id")
         )
+        if (
+            not published
+            and article.get("status") == "skipped"
+            and urlparse(str(article.get("url") or "")).hostname == "jobs.unicef.org"
+            and "generic careers/listing page" in str(article.get("skip_reason") or "")
+            and not article.get("unicef_detail_extraction_version")
+            and not article.get("unicef_detail_repair_version")
+            and not is_candidate_in_recent_failure(article, now=current)
+        ):
+            # Retry this known extraction defect once. The normal enrichment,
+            # freshness and eligibility gates still decide whether to publish.
+            article["status"] = "ready"
+            article["unicef_detail_repair_version"] = 1
+            article.pop("content_fetch_status", None)
+            article.pop("content_fetch_error", None)
+            stats["unicef_details_requeued"] += 1
+            touched = True
         if article.get("status") == "selected" and not published:
             selected_at = _as_utc(_parse_iso(article.get("selected_at")))
             stale = (

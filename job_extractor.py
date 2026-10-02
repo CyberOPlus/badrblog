@@ -60,6 +60,71 @@ def _job_node(soup):
     return {}
 
 
+def unicef_job_content(soup, page_url):
+    """Accept only the PageUp detail block matching this official vacancy URL."""
+    parsed = urlparse(page_url)
+    match = re.search(r"/job/(\d+)(?:/|$)", parsed.path)
+    if parsed.hostname != "jobs.unicef.org" or not match:
+        return None
+    content = soup.select_one("#job-content")
+    reference = content.select_one(".job-externalJobNo") if content else None
+    if reference is None or reference.get_text(strip=True) != match.group(1):
+        return None
+    return content if content.select_one("h2") and content.select_one("#job-details") else None
+
+
+def _unicef_job_node(soup, page_url):
+    content = unicef_job_content(soup, page_url)
+    if content is None:
+        return {}
+
+    def text_at(selector):
+        tag = content.select_one(selector)
+        return tag.get_text(" ", strip=True) if tag else ""
+
+    def date_at(selector):
+        tag = content.select_one(selector)
+        return str(tag.get("datetime") or "").strip() if tag else ""
+
+    station = ""
+    label = content.find("b", string=re.compile(r"^\s*Duty Station\s*:\s*$", re.I))
+    if label:
+        parts = []
+        for sibling in label.next_siblings:
+            if getattr(sibling, "name", None) == "br":
+                break
+            parts.append(_text(str(sibling)))
+        station = " ".join(part for part in parts if part)
+
+    title = text_at("h2")
+    description = text_at("#job-details")
+    # An international title is positive evidence; national/local restrictions
+    # take precedence over both that title and generic equal-opportunity copy.
+    restricted = re.search(
+        r"\b(?:national\s+consultant|nationals?\s+only|local\s+candidates?\s+only|"
+        r"only\s+(?:open\s+)?(?:to|for)\s+.{0,70}?nationals?|"
+        r"must\s+be\s+.{0,50}?national|valid\s+work\s+permit|"
+        r"legal\s+right\s+to\s+work)\b",
+        f"{title} {description}", re.I,
+    )
+    international = bool(re.search(r"\binternational\s+consultan(?:t|cy)\b", title, re.I))
+    return {
+        "title": title,
+        "description": description,
+        "identifier": text_at(".job-externalJobNo"),
+        "hiringOrganization": {"name": "UNICEF"},
+        "jobLocation": {"address": {
+            "addressLocality": station,
+            "addressCountry": text_at(".location"),
+        }},
+        "employmentType": text_at(".work-type"),
+        "datePosted": date_at(".open-date time[datetime]"),
+        "validThrough": date_at(".close-date time[datetime]"),
+        "jobLocationType": "TELECOMMUTE" if re.search(r"\b(?:remote|home[ -]based)\b", title, re.I) else "",
+        "_eligibility": "abroad_open" if international and not restricted else "unknown",
+    }
+
+
 def _organization(node):
     org = node.get("hiringOrganization") or {}
     if isinstance(org, list):
@@ -596,7 +661,8 @@ def _notice_status(title, body):
 
 
 def extract_job_fields(soup, article, page_url, full_text=""):
-    node = _job_node(soup)
+    unicef_node = _unicef_job_node(soup, page_url)
+    node = _job_node(soup) or unicef_node
     org = _organization(node)
     location, country = _location(node)
     body = full_text or _text(node.get("description"))
@@ -632,8 +698,12 @@ def extract_job_fields(soup, article, page_url, full_text=""):
     # for Moroccan city names because ordinary words can contain strings such as "fes".
     if not location and is_morocco_source:
         location = _city_from_text(body)
-    country_code = "MA" if is_morocco_source else source_country or structured_country
+    country_code = "MA" if is_morocco_source else (
+        structured_country if source_country == "GLOBAL" else source_country or structured_country
+    )
     eligibility = source_eligibility
+    if unicef_node:
+        eligibility = unicef_node["_eligibility"]
     if not eligibility and country_code == "MA":
         eligibility = "morocco"
 
@@ -765,4 +835,6 @@ def extract_job_fields(soup, article, page_url, full_text=""):
         "company_logo_url": _logo_url(org),
         "job_description": body,
     }
+    if unicef_node:
+        fields["unicef_detail_extraction_version"] = 1
     return {key: value for key, value in fields.items() if value not in (None, "")}

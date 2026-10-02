@@ -32,7 +32,7 @@ from config import (
     JOBS_MAX_PUBLISH_AGE_HOURS,
 )
 from production_logging import elapsed_ms, log_event
-from job_extractor import _deadline_from_text, extract_job_fields
+from job_extractor import _deadline_from_text, extract_job_fields, unicef_job_content
 from job_core import (
     invalidate_identity_evidence,
     job_deadline_time,
@@ -837,6 +837,12 @@ def _fetch_html_with_requests(url):
 def _apply_enrichment_from_html(article, html, url):
     soup = BeautifulSoup(html, "html.parser")
     job_source_soup = (BeautifulSoup(html, "html.parser"))
+    vacancy = unicef_job_content(job_source_soup, url)
+    if vacancy is not None:
+        # PageUp uses generic page metadata and includes other vacancies below
+        # the actual job. Keep title, dates, links and text within this job.
+        job_source_soup = BeautifulSoup(str(vacancy), "html.parser")
+        soup = BeautifulSoup(str(vacancy), "html.parser")
     source_links_removed, affiliate_links_removed = _remove_unwanted_links(
         soup,
         url,
@@ -910,6 +916,8 @@ def _apply_enrichment_from_html(article, html, url):
     article["source_tables_count"] = len(source_tables)
     article["source_tables_truncated"] = bool(source_tables_truncated)
     article.update(extract_job_fields(job_source_soup, article, url, full_text=full_text))
+    if vacancy is not None:
+        article["fetched_title"] = article["job_title"]
     try:
         article.update(resolve_company_logo(job_source_soup, article, url))
     except Exception as error:
