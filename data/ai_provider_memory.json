@@ -8,9 +8,28 @@
       "provider": "groq",
       "reason": "groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y` service tier `on_dem",
       "until": 1790955884.5291348
+    },
+    "openrouter:openrouter/free:1af698c9b3": {
+      "failed_at": "2026-10-02T15:41:54",
+      "key_id": "1af698c9b3",
+      "model": "openrouter/free",
+      "provider": "openrouter",
+      "reason": "OpenRouter returned an empty response.",
+      "until": 1790956014.9147642
     }
   },
   "failure_fingerprints": {
+    "0bfbbde687f6e2ee0b50": {
+      "category": "cooldown",
+      "count": 1,
+      "first_seen_at": "2026-10-02T15:41:54",
+      "last_seen_at": "2026-10-02T15:41:54",
+      "last_seen_epoch": 1790955714.621188,
+      "provider": "cloudflare,gemini,groq,mistral,openrouter",
+      "reason": "all configured AI providers are unavailable or cooling down",
+      "retry_until": 1790959230.7181573,
+      "scope": "global"
+    },
     "16f0cdcebb62d34cab0f": {
       "category": "quota",
       "count": 5,
@@ -134,13 +153,13 @@
     },
     "6a52ff2ce198a0896fe8": {
       "category": "empty",
-      "count": 7,
+      "count": 8,
       "first_seen_at": "2026-10-01T14:46:11",
-      "last_seen_at": "2026-10-02T14:39:44",
-      "last_seen_epoch": 1790951984.0482593,
+      "last_seen_at": "2026-10-02T15:41:54",
+      "last_seen_epoch": 1790955714.6179023,
       "provider": "openrouter",
       "reason": "OpenRouter returned an empty response.",
-      "retry_until": 1790955584.0482593,
+      "retry_until": 1790959314.6179023,
       "scope": "provider"
     },
     "7fc25b239b1f7d4ff3a5": {
@@ -310,13 +329,13 @@
     },
     "dfcd58b89b9a06a1d960": {
       "category": "format",
-      "count": 7,
+      "count": 8,
       "first_seen_at": "2026-10-01T19:27:58",
-      "last_seen_at": "2026-10-02T14:39:34",
-      "last_seen_epoch": 1790951974.0709918,
+      "last_seen_at": "2026-10-02T15:40:30",
+      "last_seen_epoch": 1790955630.7181573,
       "provider": "cloudflare",
       "reason": "AI article response returned incomplete JSON.",
-      "retry_until": 1790955574.0709918,
+      "retry_until": 1790959230.7181573,
       "scope": "provider"
     },
     "e54adca08768c8b77065": {
@@ -366,9 +385,9 @@
   },
   "fastest_success_model": "groq:openai/gpt-oss-20b",
   "global_circuit": {
-    "category": "quota",
-    "fingerprint": "9c566984111dbf1278c7",
-    "opened_at": "2026-10-02T14:59:41",
+    "category": "cooldown",
+    "fingerprint": "0bfbbde687f6e2ee0b50",
+    "opened_at": "2026-10-02T15:41:54",
     "providers": [
       "cloudflare",
       "gemini",
@@ -376,18 +395,18 @@
       "mistral",
       "openrouter"
     ],
-    "reason": "groq provider failed: groq API error 429: {\"error\":{\"message\":\"Rate limit reached for model `openai/gpt-oss-20b` in organization `org_01kqcsv7j3fkmb0f9ry9ctve6y",
-    "until": 1790955574.0709918
+    "reason": "all configured AI providers are unavailable or cooling down",
+    "until": 1790959230.7181573
   },
   "provider_circuits": {
     "cloudflare": {
       "category": "format",
       "fingerprint": "dfcd58b89b9a06a1d960",
       "model": "@cf/meta/llama-3.1-8b-instruct",
-      "opened_at": "2026-10-02T14:39:34",
+      "opened_at": "2026-10-02T15:40:30",
       "provider": "cloudflare",
       "reason": "AI article response returned incomplete JSON.",
-      "until": 1790955574.0709918
+      "until": 1790959230.7181573
     },
     "gemini": {
       "category": "quota",
@@ -416,10 +435,10 @@
     "openrouter": {
       "category": "empty",
       "fingerprint": "6a52ff2ce198a0896fe8",
-      "opened_at": "2026-10-02T14:39:44",
+      "opened_at": "2026-10-02T15:41:54",
       "provider": "openrouter",
       "reason": "OpenRouter returned an empty response.",
-      "until": 1790955584.0482593
+      "until": 1790959314.6179023
     }
   },
   "stats": {
@@ -431,15 +450,15 @@
       "provider": "cloudflare"
     },
     "cloudflare:@cf/meta/llama-3.1-8b-instruct:be6dab2cd8": {
-      "avg_time": 12.7887,
+      "avg_time": 12.8729,
       "failures": 1,
       "key_id": "be6dab2cd8",
       "last_failure_at": "2026-10-01T18:12:20",
-      "last_success_at": "2026-10-02T14:39:34",
+      "last_success_at": "2026-10-02T15:40:30",
       "model": "@cf/meta/llama-3.1-8b-instruct",
       "provider": "cloudflare",
-      "successes": 45,
-      "total_success_time": 575.4913
+      "successes": 46,
+      "total_success_time": 592.1527
     },
     "cloudflare:@cf/meta/llama-3.3-70b-instruct-fp8-fast:be6dab2cd8": {
       "avg_time": 11.5777,
@@ -480,15 +499,15 @@
       "provider": "mistral"
     },
     "openrouter:openrouter/free:1af698c9b3": {
-      "avg_time": 64.7173,
-      "failures": 12,
+      "avg_time": 58.5438,
+      "failures": 13,
       "key_id": "1af698c9b3",
-      "last_failure_at": "2026-10-02T14:39:44",
-      "last_success_at": "2026-10-01T23:43:31",
+      "last_failure_at": "2026-10-02T15:41:54",
+      "last_success_at": "2026-10-02T15:40:58",
       "model": "openrouter/free",
       "provider": "openrouter",
-      "successes": 5,
-      "total_success_time": 323.5866
+      "successes": 6,
+      "total_success_time": 351.2627
     }
   }
 }
